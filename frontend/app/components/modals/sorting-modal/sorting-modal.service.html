@@ -1,5 +1,5 @@
 <div class="ng-modal-window">
-  <div class="ng-modal-inner modal-content">
+  <div class="ng-modal-inner modal-content" tabindex="0">
     <div class="modal-header">
       <a><op-icon icon-classes="icon-close" ng-click="$ctrl.closeMe()" title="{{ ::I18n.t('js.close_popup_title') }}"></op-icon></a></div>
 
@@ -9,7 +9,7 @@
       <div id="modal-sorting"
            class="modal-content-container loading-indicator--location"
            data-indicator-name="sorting-modal">
-        <div class="form--row" ng-repeat="sort in sortationObjects">
+        <div class="form--row modal-sorting-row-{{$index}}" ng-repeat="sort in sortationObjects">
           <div class="form--field -full-width">
             <label
                 for="modal-sorting-attribute-{{$index}}"
@@ -21,6 +21,7 @@
                 <select
                     id="modal-sorting-attribute-{{$index}}"
                     ng-model="sort.column"
+                    ng-change="updatedSelection()"
                     focus="!$index"
                     class="form--select"
                     ng-options="column.name for column in availableColumnsAndCurrent(sort.column) | orderBy:'name' track by column.$href">

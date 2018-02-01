@@ -46,14 +46,14 @@ a
     background-repeat: no-repeat
     &.asc:after
       @include icon-font-common
-      @extend .icon-sort-ascending:before
+      @include icon-mixin-sort-ascending
       margin-left: 5px
       font-size: 1.2em
       vertical-align: text-bottom
 
     &.desc:after
       @include icon-font-common
-      @extend .icon-sort-descending:before
+      @include icon-mixin-sort-descending
       margin-left: 5px
       font-size: 1.2em
       vertical-align: text-bottom
@@ -76,6 +76,14 @@ a.icon, a.icon-context
 
 a.icon:hover, a.icon-context:hover
   text-decoration: none
+
+a.user-mention:before
+  content: '@'
+  color: $gray-dark
+
+a.-inactive
+  pointer-events: none
+  cursor: default
 
 #content table th a.no-decoration-on-hover:hover, a.no-decoration-on-hover:hover
   text-decoration: none

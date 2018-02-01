@@ -37,3 +37,37 @@ namespace 'db:sessions' do
     ActiveRecord::Base.connection.execute "DELETE FROM #{sessions_table} WHERE updated_at < '#{expiration_time}'"
   end
 end
+
+namespace 'openproject' do
+  namespace 'db' do
+    desc 'Expire old sessions from the sessions table'
+    task ensure_database_compatibility: [:environment, 'db:load_config'] do
+
+      override = ActiveModel::Type::Boolean.new.cast ENV['OPENPROJECT_SKIP_DATABASE_VERSION_CHECK']
+      if override
+        warn "Skipping database version check as 'OPENPROJECT_SKIP_DATABASE_VERSION_CHECK' is set. " \
+             "Incompatibilites and errors may occur."
+        next
+      end
+
+      ##
+      # Ensure database server version is compatible
+      override_msg = "If you're sure you want to skip the check, set 'OPENPROJECT_SKIP_DATABASE_VERSION_CHECK' to override"
+      begin
+        OpenProject::Database::check_version!
+      rescue OpenProject::Database::InsufficientVersionError => e
+        warn "#{e.message}. #{override_msg}"
+        Kernel.exit(1)
+      rescue ActiveRecord::ActiveRecordError => e
+        warn "Failed to perform postgres version check: #{e} - #{e.message}. #{override_msg}"
+        raise e
+      end
+    end
+  end
+end
+
+
+Rake::Task["db:migrate"].enhance do
+  Rake::Task["openproject:db:ensure_database_compatibility"].invoke
+end
+

@@ -22,10 +22,11 @@ RUN echo "loglevel=info" >> /usr/local/etc/npmrc
 
 COPY Gemfile ./Gemfile
 COPY Gemfile.* ./
+COPY vendored-plugins ./vendored-plugins
 RUN chown -R app:app /usr/src/app
 
 USER app
-RUN bundle install --jobs 8 --retry 3
+RUN bundle install --jobs 8 --retry 3 --with docker
 
 USER root
 # Then, npm install node modules

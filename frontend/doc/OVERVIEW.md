@@ -21,16 +21,9 @@ This is the general structure (to a depth of 3 folders):
 │   ├── templates
 │   │   ├── components
 │   │   ├── layout
-│   │   ├── timelines
 │   │   └── work_packages
 │   ├── time_entries
 │   │   └── controllers
-│   ├── timelines
-│   │   ├── controllers
-│   │   ├── directives
-│   │   ├── helpers
-│   │   ├── models
-│   │   └── services
 │   ├── ui_components
 │   │   ├── date
 │   │   └── filters

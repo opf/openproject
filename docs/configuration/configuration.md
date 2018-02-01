@@ -50,10 +50,12 @@ storage config above like this:
 * `database_cipher_key`     (default: nil)
 * `scm_git_command` (default: 'git')
 * `scm_subversion_command` (default: 'svn')
+* [`scm_local_checkout_path`](#local-checkout-path) (default: 'repositories')
 * `force_help_link` (default: nil)
 * `session_store`: `active_record_store`, `cache_store`, or `cookie_store` (default: cache_store)
 * `drop_old_sessions_on_logout` (default: true)
 * `drop_old_sessions_on_login` (default: false)
+* [`auth_source_sso`](#auth-source-sso) (default: nil)
 * [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 * [`disable_password_login`](#disable-password-login) (default: false)
 * [`attachments_storage`](#attachments-storage) (default: file)
@@ -100,6 +102,22 @@ provider to take care of authentication instead of the password login.
 
 All username/password forms will be removed and only a list of omniauth providers
 presented to the users.
+
+### auth source sso
+
+*default: nil*
+
+Example:
+
+    auth_source_sso:
+      header: X-Remote-User
+      secret: s3cr3t
+
+Can be used to automatically login a user defined through a custom header
+sent by a load balancer or reverse proxy in front of OpenProject,
+for instance in a Kerberos Single Sign-On (SSO) setup via apache.
+The header with the given name has to be passed to OpenProject containing the logged in
+user and the defined global secret as in `$login:$secret`.
 
 ### omniauth direct login provider
 
@@ -259,6 +277,12 @@ The option to use a string is mostly relevant for when you want to override the 
 ```
 OPENPROJECT_DISABLED__MODULES='backlogs meetings'
 ```
+
+## local checkout path
+
+*default: "repositories"*
+
+Remote git repositories will be checked out here.
 
 ### APIv3 basic auth control
 

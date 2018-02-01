@@ -31,6 +31,12 @@ require 'spec_helper'
 describe 'users/edit', type: :view do
   let(:admin) { FactoryGirl.build :admin }
 
+  before do
+    # The url_for is missing the users id that is usually taken
+    # from request parameters
+    controller.request.path_parameters[:id] = user.id
+  end
+
   context 'authentication provider' do
     let(:user) do
       FactoryGirl.build :user, id: 1, # id is required to create route to edit
@@ -73,7 +79,7 @@ describe 'users/edit', type: :view do
       end
 
       it 'renders the resend invitation button' do
-        expect(rendered).to include I18n.t(:label_resend_invitation)
+        expect(rendered).to include I18n.t(:label_send_invitation)
       end
     end
 
@@ -86,7 +92,7 @@ describe 'users/edit', type: :view do
       end
 
       it 'does not render the resend invitation button' do
-        expect(rendered).not_to include I18n.t(:label_resend_invitation)
+        expect(rendered).not_to include I18n.t(:label_send_invitation)
       end
     end
   end
@@ -103,7 +109,7 @@ describe 'users/edit', type: :view do
     end
 
     it 'also renders the resend invitation button' do
-      expect(rendered).to include I18n.t(:label_resend_invitation)
+      expect(rendered).to include I18n.t(:label_send_invitation)
     end
   end
 

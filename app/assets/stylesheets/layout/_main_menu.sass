@@ -34,6 +34,10 @@ $toggler-width: 40px
   float: left
   left: 0
   border-right: $main-menu-border-width solid $main-menu-border-color
+
+  // min-height is full height minus header and footer.
+  min-height: calc(100vh - 55px - 55px)
+
   @include varprop(background-color, main-menu-bg-color)
   @include default-transition
 
@@ -42,7 +46,9 @@ $toggler-width: 40px
     height: calc(100% - 40px)
   %absolute-layout-mode &
     position: relative
-    height:   100%
+    // In WP list, the footer is just a 5px border:
+    height: calc(100vh - 55px - 5px)
+
     #menu-sidebar
       +allow-vertical-scrolling
       -ms-overflow-style: -ms-autohiding-scrollbar
@@ -109,10 +115,9 @@ $toggler-width: 40px
           a:not(:only-child):first-of-type
             @extend .small-10
 
-
         .open .toggler
           .icon-toggler:before
-            @extend .icon-arrow-up1:before
+            @include icon-mixin-arrow-up1
 
         // padding for placeholder for highlighted left-item-border
         a
@@ -189,20 +194,23 @@ $toggler-width: 40px
     float: left
 
   #toggle-project-menu
-    border: $main-menu-item-border-width solid $main-menu-item-border-color
+    border-width: $main-menu-item-border-width 0 $main-menu-item-border-width $main-menu-item-border-width
+    border-style: solid
+    border-color: $main-menu-item-border-color
     height: $main-menu-item-height
-    width: $main-menu-width
+    width: calc(#{$main-menu-width} - 1px)
+
     @include varprop(background-color, main-menu-bg-color)
     @include default-transition
     &:hover
       @include varprop(background, main-menu-bg-hover-background)
     &.show
-      width: $main-menu-folded-width
+      width: calc(#{$main-menu-folded-width} - 1px)
       a.navigation-toggler
         height: 100%
         padding: 0 10px 0 0
         i:before
-          @extend .icon-double-arrow-right:before
+          @include icon-mixin-double-arrow-right
     a.navigation-toggler
       @include default-transition
       position: relative

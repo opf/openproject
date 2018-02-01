@@ -33,7 +33,7 @@ describe ::API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter, cle
 
   let(:project) { FactoryGirl.build_stubbed(:project) }
   let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
-  let(:filter) { Queries::WorkPackages::Filter::SubprojectFilter.new(context: query) }
+  let(:filter) { Queries::WorkPackages::Filter::SubprojectFilter.create!(context: query) }
   let(:form_embedded) { false }
 
   let(:instance) do
@@ -117,6 +117,15 @@ describe ::API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter, cle
         I18n.with_locale(:de) do
           instance.to_json
         end
+      end
+
+      it 'does not use the project for caching if no project is provided and as such busts the cache' do
+        query.project = nil
+
+        expect(instance)
+          .to receive(:to_hash)
+
+        instance.to_json
       end
     end
   end

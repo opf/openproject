@@ -57,7 +57,10 @@ module API
           spent_hours: 'spentTime',
           subproject: 'subprojectId',
           relation_type: 'type',
-          mail: 'email'
+          mail: 'email',
+          column_names: 'columns',
+          is_public: 'public',
+          sort_criteria: 'sortBy'
         }.freeze
 
         # Converts the attribute name as refered to by ActiveRecord to a corresponding API-conform

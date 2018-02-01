@@ -37,6 +37,8 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     Rails.cache.fetch(cache_key) do
       if OpenProject::Static::Links.help_link_overridden?
         render_menu_node(item)
+        caption, url, selected = extract_node_details(item)
+        content_tag('li', render_single_menu_node(item, caption, url, selected), class: 'help-menu--overridden-link')
       else
         render_help_dropdown
       end
@@ -88,7 +90,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                   title: l('top_menu.help_and_support')
     end
     if EnterpriseToken.show_banners?
-      result << static_link_item(:upsale, href_suffix: "?utm_source=ce-helpmenu")
+      result << static_link_item(:upsale, href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=ee-upsale-help-menu")
     end
     result << static_link_item(:user_guides)
     result << content_tag(:li) {
@@ -109,6 +111,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                   class: 'drop-down--help-headline',
                   title: l('top_menu.additional_resources')
     end
+    result << static_link_item(:newsletter, href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=newsletter-help-menu")
     result << static_link_item(:blog)
     result << static_link_item(:release_notes)
     result << static_link_item(:report_bug)

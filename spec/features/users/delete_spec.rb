@@ -30,21 +30,28 @@ require 'spec_helper'
 require 'features/projects/projects_page'
 
 describe 'user deletion: ', type: :feature, js: true do
+  let(:dialog) { ::Components::PasswordConfirmationDialog.new }
+
   before do
-    page.set_rack_session(user_id: current_user.id)
+    page.set_rack_session(user_id: current_user.id, updated_at: Time.now)
   end
 
   context 'regular user' do
-    let(:current_user) { FactoryGirl.create :user }
+    let(:user_password) {'bob!' * 4}
+    let(:current_user) do
+      FactoryGirl.create(:user,
+                         password: user_password,
+                         password_confirmation: user_password)
+    end
 
-    it 'can delete their own account', selenium: true do
+    it 'can delete their own account', js: true do
       Setting.users_deletable_by_self = 1
       visit delete_my_account_info_path
 
       fill_in 'login_verification', with: current_user.login
       click_on 'Delete'
 
-      page.driver.browser.switch_to.alert.accept
+      dialog.confirm_flow_with user_password
 
       expect(page).to have_content 'Account successfully deleted'
       expect(current_path).to eq '/login'
@@ -62,7 +69,12 @@ describe 'user deletion: ', type: :feature, js: true do
 
   context 'admin user' do
     let!(:user) { FactoryGirl.create :user }
-    let(:current_user) { FactoryGirl.create :admin }
+    let(:user_password) { 'admin! * 4' }
+    let(:current_user) do
+      FactoryGirl.create(:admin,
+                         password: user_password,
+                         password_confirmation: user_password)
+    end
 
     it 'can delete other users if the setting permitts it', selenium: true do
       Setting.users_deletable_by_admins = 1
@@ -74,7 +86,12 @@ describe 'user deletion: ', type: :feature, js: true do
       fill_in 'login_verification', with: user.login
       click_on 'Delete'
 
-      page.driver.browser.switch_to.alert.accept
+      dialog.confirm_flow_with 'wrong', should_fail: true
+      
+      fill_in 'login_verification', with: user.login
+      click_on 'Delete'
+
+      dialog.confirm_flow_with user_password, should_fail: false
 
       expect(page).to have_content 'Account successfully deleted'
       expect(current_path).to eq '/users'

@@ -32,6 +32,7 @@ require 'factory_girl_rails'
 require 'rspec/rails'
 require 'shoulda/matchers'
 require 'rspec/example_disabler'
+require 'test_prof/recipes/rspec/before_all'
 
 ##
 # Start collecting coverage when desired
@@ -73,14 +74,8 @@ RSpec.configure do |config|
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
 
-  # include spec/api for API request specs
-  config.include RSpec::Rails::RequestExampleGroup, type: :request
-
   # Add helpers to parse json-responses
   config.include JsonSpec::Helpers
-
-  # include spec/api for API request specs
-  config.include RSpec::Rails::RequestExampleGroup, type: :request
 
   # TODO test if we can remove this
   config.include ::Angular::DSL

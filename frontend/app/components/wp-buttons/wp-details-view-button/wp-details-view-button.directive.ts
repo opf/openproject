@@ -30,6 +30,8 @@ import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageButtonController, wpButtonDirective} from '../wp-buttons.module';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {States} from '../../states.service';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {StateService} from '@uirouter/angularjs';
 
 
 export class WorkPackageDetailsViewButtonController extends WorkPackageButtonController {
@@ -45,10 +47,11 @@ export class WorkPackageDetailsViewButtonController extends WorkPackageButtonCon
   public deactivateLabel:string;
 
   constructor(
-    public $state:ng.ui.IStateService,
+    public $state:StateService,
     public states:States,
     public I18n:op.I18n,
     public loadingIndicator:any,
+    public wpTableFocus:WorkPackageTableFocusService,
     public keepTab:KeepTabService) {
     'ngInject';
     super(I18n);
@@ -92,7 +95,7 @@ export class WorkPackageDetailsViewButtonController extends WorkPackageButtonCon
 
   public openDetailsView() {
     var params = {
-      workPackageId: this.states.focusedWorkPackage.value,
+      workPackageId: this.wpTableFocus.focusedWorkPackage,
       projectPath: this.projectIdentifier,
     };
 

@@ -43,7 +43,7 @@ class Project < ActiveRecord::Base
   IDENTIFIER_MAX_LENGTH = 100
 
   # reserved identifiers
-  RESERVED_IDENTIFIERS = %w( new level_list )
+  RESERVED_IDENTIFIERS = %w( new )
 
   # Specific overridden Activities
   has_many :time_entry_activities
@@ -84,29 +84,33 @@ class Project < ActiveRecord::Base
       .references(:principals, :roles)
   }, class_name: 'Member'
   # Read only
-  has_many :possible_responsibles, -> (object){
-    # Have to reference members and roles again although
-    # possible_responsible_members does already specify it to be able to use
-    # the Project.possible_principles_condition there
-    #
-    # The .where(members_users: { project_id: object.id })
-    # part is an optimization preventing to have all the members joined
-    includes(members: :roles)
-      .where(members_users: { project_id: object.id })
-      .references(:roles)
-      .merge(Principal.order_by_name)
-  },
-  through: :possible_responsible_members,
-  source: :principal
+  has_many :possible_responsibles,
+           ->(object) {
+             # Have to reference members and roles again although
+             # possible_responsible_members does already specify it to be able to use
+             # the Project.possible_principles_condition there
+             #
+             # The .where(members_users: { project_id: object.id })
+             # part is an optimization preventing to have all the members joined
+             includes(members: :roles)
+               .where(members_users: { project_id: object.id })
+               .references(:roles)
+               .merge(Principal.order_by_name)
+           },
+           through: :possible_responsible_members,
+           source: :principal
   has_many :memberships, class_name: 'Member'
-  has_many :member_principals, -> {
-    includes(:principal)
-      .where("#{Principal.table_name}.type='Group' OR " +
-      "(#{Principal.table_name}.type='User' AND " +
-      "(#{Principal.table_name}.status=#{Principal::STATUSES[:active]} OR " +
-      "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]} OR " +
-      "#{Principal.table_name}.status=#{Principal::STATUSES[:invited]}))")
-  }, class_name: 'Member'
+  has_many :member_principals,
+           -> {
+             includes(:principal)
+               .references(:principals)
+               .where("#{Principal.table_name}.type='Group' OR " +
+               "(#{Principal.table_name}.type='User' AND " +
+               "(#{Principal.table_name}.status=#{Principal::STATUSES[:active]} OR " +
+               "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]} OR " +
+               "#{Principal.table_name}.status=#{Principal::STATUSES[:invited]}))")
+           },
+           class_name: 'Member'
   has_many :users, through: :members
   has_many :principals, through: :member_principals, source: :principal
 
@@ -181,92 +185,8 @@ class Project < ActiveRecord::Base
 
   belongs_to :responsible,  class_name: 'User'
 
-  has_many :timelines,  class_name: '::Timeline',
-                        dependent:  :destroy
-
-  has_many :reportings_via_source, class_name:  '::Reporting',
-                                   foreign_key: 'project_id',
-                                   dependent:   :delete_all
-
-  has_many :reportings_via_target, class_name:  '::Reporting',
-                                   foreign_key: 'reporting_to_project_id',
-                                   dependent:   :delete_all
-
-  has_many :reporting_to_projects, through: :reportings_via_source,
-                                   source:  :reporting_to_project
-
-  has_many :project_a_associations, class_name:  '::ProjectAssociation',
-                                    foreign_key: 'project_a_id',
-                                    dependent:   :delete_all
-
-  has_many :project_b_associations, class_name:  '::ProjectAssociation',
-                                    foreign_key: 'project_b_id',
-                                    dependent:   :delete_all
-
-  has_many :associated_a_projects, through: :project_a_associations,
-                                   source:  :project_b
-
-  has_many :associated_b_projects, through: :project_b_associations,
-                                   source:  :project_a
-
-  include TimelinesCollectionProxy
-
-  collection_proxy :project_associations, for: [:project_a_associations,
-                                                :project_b_associations] do
-    def visible(user = User.current)
-      all.select { |assoc| assoc.visible?(user) }
-    end
-  end
-
-  collection_proxy :associated_projects, for: [:associated_a_projects,
-                                               :associated_b_projects] do
-    def visible(user = User.current)
-      all.select { |other| other.visible?(user) }
-    end
-  end
-
-  collection_proxy :reportings, for: [:reportings_via_source,
-                                      :reportings_via_target],
-                                leave_public: true
-
-  def associated_project_candidates(user = User.current)
-    # TODO: Check if admins shouldn't see all projects here
-    projects = Project.visible(user).to_a
-    projects.delete(self)
-    projects -= associated_projects
-    projects.select(&:allows_association?)
-  end
-
-  def associated_project_candidates_by_type(user = User.current)
-    # TODO: values need sorting by project tree
-    associated_project_candidates(user).group_by(&:project_type)
-  end
-
-  def project_associations_by_type(user = User.current)
-    # TODO: values need sorting by project tree
-    project_associations.visible(user).group_by do |a|
-      a.project(self).project_type
-    end
-  end
-
-  def reporting_to_project_candidates(user = User.current)
-    # TODO: Check if admins shouldn't see all projects here
-    projects = Project.visible(user).to_a
-    projects.delete(self)
-    projects -= reporting_to_projects
-    projects
-  end
-
   def visible?(user = User.current)
     self.active? and (self.is_public? or user.admin? or user.member_of?(self))
-  end
-
-  def allows_association?
-    if project_type.present?
-      project_type.allows_association
-    else
-      true
-    end
   end
 
   def copy_allowed?
@@ -333,12 +253,18 @@ class Project < ActiveRecord::Base
     Authorization.projects(permission, user)
   end
 
+  def reload(*args)
+    @all_work_package_custom_fields = nil
+
+    super
+  end
+
   # Returns the Systemwide and project specific activities
   def activities(include_inactive = false)
     if include_inactive
-      return all_activities
+      all_activities
     else
-      return active_activities
+      active_activities
     end
   end
 
@@ -546,7 +472,7 @@ class Project < ActiveRecord::Base
   # reduce the number of db queries when performing operations including the
   # project's versions.
   def assignable_versions
-    @all_shared_versions ||= shared_versions.open.to_a
+    @all_shared_versions ||= shared_versions.with_status_open.to_a
   end
 
   # Returns a hash of project users grouped by role
@@ -632,14 +558,6 @@ class Project < ActiveRecord::Base
     end
 
     description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
-  end
-
-  def css_classes
-    s = 'project'
-    s << ' root' if root?
-    s << ' child' if child?
-    s << (leaf? ? ' leaf' : ' parent')
-    s
   end
 
   # The earliest start date of a project, based on it's issues and versions

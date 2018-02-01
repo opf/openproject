@@ -179,23 +179,23 @@
     }
   };
 
-  var rowDummyIdCounter = 500;
-
   var duplicateRow = function() {
+    var count = $("#custom-options-table tr.custom-option-row").length;
     var row = $("#custom-options-table tr.custom-option-row:last");
     var dup = row.clone();
 
-    var value = dup.find(".custom-option-value");
+    var value = dup.find(".custom-option-value input");
 
-    rowDummyIdCounter++;
-
-    value.attr("name", "custom_field[custom_options][new-" + rowDummyIdCounter + "][value]");
+    value.attr("name", "custom_field[custom_options_attributes][" + count + "][value]");
+    value.attr("id", "custom_field_custom_options_attributes_" + count + "_value");
     value.val("");
 
     var defaultValue = dup.find(".custom-option-default-value");
 
-    defaultValue.attr("name", "custom_field[custom_options][new-" + rowDummyIdCounter + "][default_value]");
+    defaultValue.attr("name", "custom_field[custom_options_attributes][" + count + "][default_value]");
     defaultValue.prop("checked", false);
+
+    dup.find(".custom-option-id").remove()
 
     dup.find(".move-up-custom-option").click(moveUpRow);
     dup.find(".sort-up-custom-option").click(moveRowToTheTop);
@@ -207,8 +207,6 @@
       .find(".delete-custom-option")
       .attr("href", "#")
       .click(removeOption);
-
-    dup.attr("id", "custom-option-row-" + rowDummyIdCounter);
 
     row.after(dup);
 
@@ -254,42 +252,28 @@
     $(".custom-option-default-value").change(uncheckOtherDefaults);
     $('#custom_field_multi_value').change(checkOnlyOne);
 
-    // prevent draggable interfering with the user's interaction with the input
-    // e.g. c&p
-    $(".custom-option-row input").focus(function() {
-      $(this).closest('.custom-option-row').attr('draggable', false);
+    // Make custom fields draggable
+    var container = document.getElementById('custom-field-dragula-container');
+    dragula([container], {
+      isContainer: function (el) {
+        return false;
+      },
+      moves: function (el, source, handle, sibling) {
+        return $(handle).hasClass('dragula-handle');
+      },
+      accepts: function (el, target, source, sibling) {
+        return true;
+      },
+      invalid: function (el, handle) {
+        return false;
+      },
+      direction: 'vertical',
+      copy: false,
+      copySortSource: false,
+      revertOnSpill: true,
+      removeOnSpill: false,
+      mirrorContainer: container,
+      ignoreInputTextSelection: true
     });
-
-    $(".custom-option-row input").blur(function() {
-      $(this).closest('.custom-option-row').attr('draggable', true);
-    });
-
   });
-
-  window.CustomFields = {
-    allowDrop: function(event) {
-      if ($(event.target).hasClass("custom-option-value-row")) {
-        event.preventDefault();
-      }
-    },
-    drag: function(event) {
-      event.dataTransfer.setData("text", event.target.id);
-    },
-    drop: function(event) {
-      var id = event.dataTransfer.getData("text");
-      var from = $(document.getElementById(id));
-      var to = $(event.target).closest("tr.custom-option-row");
-
-      if (from && to) {
-        var fromIndex = from.parent().children().index(from);
-        var toIndex = from.parent().children().index(to);
-
-        if (fromIndex < toIndex) {
-          to.after(from);
-        } else {
-          to.before(from);
-        }
-      }
-    }
-  };
 }(window, jQuery));

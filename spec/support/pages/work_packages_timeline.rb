@@ -36,7 +36,7 @@ module Pages
     end
 
     def timeline_row_selector(wp_id)
-      "#wp-timeline-row-#{wp_id}"
+      ".wp-row-#{wp_id}-timeline"
     end
 
     def timeline_container
@@ -50,9 +50,11 @@ module Pages
     def expect_work_package_listed(*work_packages)
       super(*work_packages)
 
-      within(table_container) do
-        work_packages.each do |wp|
-          expect(page).to have_selector("#wp-timeline-row-#{wp.id}", visible: true)
+      if page.has_selector?('#work-packages-timeline-toggle-button.-active')
+        within(timeline_container) do
+          work_packages.each do |wp|
+            expect(page).to have_selector(".wp-row-#{wp.id}-timeline", visible: true)
+          end
         end
       end
     end
@@ -60,9 +62,11 @@ module Pages
     def expect_work_package_not_listed(*work_packages)
       super(*work_packages)
 
-      within(table_container) do
-        work_packages.each do |wp|
-          expect(page).to have_no_selector("#wp-timeline-row-#{wp.id}", visible: true)
+      if page.has_selector?('#work-packages-timeline-toggle-button.-active')
+        within(timeline_container) do
+          work_packages.each do |wp|
+            expect(page).to have_no_selector(".wp-row-#{wp.id}-timeline", visible: true)
+          end
         end
       end
     end
@@ -75,6 +79,10 @@ module Pages
         expect(page).to have_no_selector('#work-packages-timeline-toggle-button.-active')
         expect(page).to have_no_selector('.wp-table-timeline--container .wp-timeline-cell', visible: true)
       end
+    end
+
+    def timeline_row(wp_id)
+      ::Components::Timelines::TimelineRow.new  page.find(timeline_row_selector(wp_id))
     end
 
     def zoom_in
@@ -100,13 +108,13 @@ module Pages
 
     def expect_timeline_relation(from, to)
       within(timeline_container) do
-        expect(page).to have_selector(".relation-line.__tl-relation-#{from.id}-#{to.id}", minimum: 1)
+        expect(page).to have_selector(".relation-line.__tl-relation-#{from.id}.__tl-relation-#{to.id}", minimum: 1)
       end
     end
 
     def expect_no_timeline_relation(from, to)
       within(timeline_container) do
-        expect(page).to have_no_selector(".relation-line.__tl-relation-#{from.id}-#{to.id}")
+        expect(page).to have_no_selector(".relation-line.__tl-relation-#{from.id}.__tl-relation-#{to.id}")
       end
     end
 

@@ -31,11 +31,18 @@ import {filtersModule} from '../../../angular-modules';
 import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {
+  QueryFilterInstanceResource
+} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
 import {RootDmService} from '../../api/api-v3/hal-resource-dms/root-dm.service';
 import {RootResource} from '../../api/api-v3/hal-resources/root-resource.service';
+import {PathHelperService} from '../../common/path-helper/path-helper.service';
+import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 
 export class ToggledMultiselectController {
+  // Injected
+  public PathHelper:PathHelperService;
+
   public isMultiselect: boolean;
 
   public filter:QueryFilterInstanceResource;
@@ -47,6 +54,7 @@ export class ToggledMultiselectController {
               private I18n:op.I18n,
               private $q:ng.IQService,
               private RootDm:RootDmService) {
+    $injectFields(this, 'PathHelper');
     this.isMultiselect = this.isValueMulti(true);
 
     this.text = {
@@ -115,7 +123,7 @@ export class ToggledMultiselectController {
         let options = (resources[0] as CollectionResource).elements;
 
         if (isUserResource) {
-          this.addMeValue(options, (resources[1] as RootResource).user)
+          this.addMeValue(options, (resources[1] as RootResource).user);
         }
 
         this.availableOptions = options;
@@ -123,22 +131,25 @@ export class ToggledMultiselectController {
   }
 
   private addMeValue(options:HalResource[], currentUser:UserResource) {
-    let currentUserHref = currentUser.$href;
-
-    let me = _.find(options, user => user.$href === currentUser.$href);
-
-    if (me) {
-      me = angular.copy(me);
-
-      me.name = this.I18n.t('js.label_me');
-
-      options.unshift(me);
+    if (!(currentUser && currentUser.$href)) {
+      return;
     }
+
+    let me:HalResource = new HalResource({
+      _links: {
+        self: {
+          href: this.PathHelper.apiV3UserMePath(),
+          title: this.I18n.t('js.label_me')
+        }
+      }
+    }, true);
+
+    options.unshift(me);
   }
 }
 
-function toggledMultiselect() {
-  return {
+function toggledMultiselect():any {
+    return {
     restrict: 'EA',
     replace: true,
     scope: {

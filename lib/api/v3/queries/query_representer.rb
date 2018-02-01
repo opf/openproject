@@ -37,22 +37,26 @@ module API
       class QueryRepresenter < ::API::Decorators::Single
         self_link
 
-        prepend QuerySerialization
+        include API::Decorators::LinkedResource
 
-        attr_accessor :results,
-                      :params
+        associated_resource :project,
+                            setter: ->(fragment:, **) {
+                              id = id_from_href "projects", fragment['href']
 
-        def initialize(model,
-                       current_user:,
-                       results: nil,
-                       embed_links: false,
-                       params: {})
+                              id = if id.to_i.nonzero?
+                                     id # return numerical ID
+                                   else
+                                     Project.where(identifier: id).pluck(:id).first # lookup Project by identifier
+                                   end
 
-          self.results = results
-          self.params = params
-
-          super(model, current_user: current_user, embed_links: embed_links)
-        end
+                              represented.project_id = id if id
+                            },
+                            skip_link: ->(*) {
+                              false
+                            },
+                            skip_render: ->(*) {
+                              represented.project.nil?
+                            }
 
         link :results do
           path = if represented.project
@@ -86,40 +90,6 @@ module API
             href: api_v3_paths.query_unstar(represented.id),
             method: :patch
           }
-        end
-
-        links :columns do
-          represented.columns.map do |column|
-            {
-              href: api_v3_paths.query_column(convert_attribute(column.name)),
-              title: column.caption
-            }
-          end
-        end
-
-        link :groupBy do
-          column = represented.group_by_column
-
-          if column
-            {
-              href: api_v3_paths.query_group_by(convert_attribute(column.name)),
-              title: column.caption
-            }
-          else
-            {
-              href: nil,
-              title: nil
-            }
-          end
-        end
-
-        links :sortBy do
-          map_with_sort_by_as_decorated(represented.sort_criteria_columns) do |sort_by|
-            {
-              href: api_v3_paths.query_sort_by(sort_by.converted_name, sort_by.direction_name),
-              title: sort_by.name
-            }
-          end
         end
 
         link :schema do
@@ -165,46 +135,91 @@ module API
           }
         end
 
-        linked_property :user
-        linked_property :project
+        associated_resource :user
 
-        property :id
-        property :name
-        property :filters, exec_context: :decorator
+        resources :sortBy,
+                  getter: ->(*) {
+                    if represented.sort_criteria
+                      map_with_sort_by_as_decorated(represented.sort_criteria_columns) do |sort_by|
+                        ::API::V3::Queries::SortBys::QuerySortByRepresenter.new(sort_by)
+                      end
+                    end
+                  },
+                  setter: ->(fragment:, **) {
+                    criteria = Array(fragment).map do |sort_by|
+                      column_direction_from_href(sort_by)
+                    end
 
-        property :is_public, as: :public
+                    represented.sort_criteria = criteria.compact if fragment
+                  },
+                  link: ->(*) {
+                    map_with_sort_by_as_decorated(represented.sort_criteria_columns) do |sort_by|
+                      {
+                        href: api_v3_paths.query_sort_by(sort_by.converted_name, sort_by.direction_name),
+                        title: sort_by.name
+                      }
+                    end
+                  }
 
-        property :sort_by,
-                 exec_context: :decorator,
-                 embedded: true,
-                 if: ->(*) {
-                   embed_links
-                 }
-
-        property :display_sums,
-                 as: :sums
-
-        property :timeline_visible
-        property :timeline_zoom_level
-
-        property :show_hierarchies
-
-        property :starred
-
-        property :columns,
-                 exec_context: :decorator,
-                 embedded: true,
-                 if: ->(*) {
-                   embed_links
-                 }
-
-        property :group_by,
-                 exec_context: :decorator,
-                 embedded: true,
-                 if: ->(*) {
-                   embed_links
+        resource :groupBy,
+                 getter: ->(*) {
+                   if represented.grouped?
+                     column = represented.group_by_column
+                     ::API::V3::Queries::GroupBys::QueryGroupByRepresenter.new(column)
+                   end
                  },
-                 render_nil: true
+                 setter: ->(fragment:, **) {
+                   attr = id_from_href "queries/group_bys", fragment['href']
+
+                   represented.group_by =
+                     if attr.nil?
+                       nil
+                     else
+                       ::API::Utilities::PropertyNameConverter.to_ar_name(attr, context: WorkPackage.new)
+                     end
+                 },
+                 link: ->(*) {
+                   column = represented.group_by_column
+
+                   if column
+                     {
+                       href: api_v3_paths.query_group_by(convert_attribute(column.name)),
+                       title: column.caption
+                     }
+                   else
+                     {
+                       href: nil,
+                       title: nil
+                     }
+                   end
+                 }
+
+        resources :columns,
+                  getter: ->(*) {
+                    represented.columns.map do |column|
+                      ::API::V3::Queries::Columns::QueryColumnsFactory.create(column)
+                    end
+                  },
+                  setter: ->(fragment:, **) {
+                    columns = Array(fragment).map do |column|
+                      name = id_from_href "queries/columns", column['href']
+
+                      ::API::Utilities::PropertyNameConverter.to_ar_name(name, context: WorkPackage.new) if name
+                    end
+
+                    represented.column_names = columns.map(&:to_sym).compact if fragment
+                  },
+                  link: ->(*) {
+                    represented.columns.map do |column|
+                      {
+                        href: api_v3_paths.query_column(convert_attribute(column.name)),
+                        title: column.caption
+                      }
+                    end
+                  }
+
+        property :starred,
+                 writeable: true
 
         property :results,
                  exec_context: :decorator,
@@ -214,12 +229,74 @@ module API
                    results
                  }
 
+        property :id,
+                 writeable: false
+        property :name
+        property :filters,
+                 exec_context: :decorator
+
+        property :display_sums, as: :sums
+        property :is_public, as: :public
+
+        # Timeline properties
+        property :timeline_visible
+
+        property :show_hierarchies
+
+        property :timeline_zoom_level
+
+        property :timeline_labels
+
+        attr_accessor :results,
+                      :params
+
+        def initialize(model,
+                       current_user:,
+                       results: nil,
+                       embed_links: false,
+                       params: {})
+
+          self.results = results
+          self.params = params
+
+          super(model, current_user: current_user, embed_links: embed_links)
+        end
+
         self.to_eager_load = [:query_menu_item,
                               :user,
                               project: :work_package_custom_fields]
 
         def _type
           'Query'
+        end
+
+        def filters
+          # HACK: we currently cannot display the id filter as there could potentially
+          # be too many candidates for the filter to be displayed.
+          # But as it is practical to have the id filter we allow users to type ids into the url. In such
+          # cases, the filter will be applied but it is not displayed as applied.
+          represented.filters.reject { |f| f.name == :id }.map do |filter|
+            ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter
+              .new(filter)
+          end
+        end
+
+        def filters=(filters_hash)
+          represented.filters = []
+
+          filters_hash.each do |filter_attributes|
+            name = get_filter_name filter_attributes
+
+            filter = represented.filter_for name
+            if filter
+              filter_representer = ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter.new(filter)
+
+              filter = filter_representer.from_hash filter_attributes
+              represented.filters << filter
+            else
+              raise API::Errors::InvalidRequestBody, "Could not read filter from: #{filter_attributes}"
+            end
+          end
         end
 
         private
@@ -237,6 +314,49 @@ module API
             api_v3_paths.query_default
           else
             super
+          end
+        end
+
+        def convert_attribute(attribute)
+          ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+        end
+
+        def get_filter_name(filter_attributes)
+          href = filter_attributes.dig("_links", "filter", "href")
+          id = id_from_href "queries/filters", href
+
+          ::API::Utilities::QueryFiltersNameConverter.to_ar_name id, refer_to_ids: true if id
+        end
+
+        def id_from_href(expected_namespace, href)
+          return nil if href.blank?
+
+          ::API::Utilities::ResourceLinkParser.parse_id(
+            href,
+            property: (expected_namespace && expected_namespace.split("/").last) || "filter_value",
+            expected_version: "3",
+            expected_namespace: expected_namespace
+          )
+        end
+
+        def column_direction_from_href(sort_by)
+          if id = id_from_href("queries/sort_bys", sort_by['href'])
+            column, direction = id.split("-") # e.g. ["start_date", "desc"]
+
+            if column && direction
+              column = ::API::Utilities::PropertyNameConverter.to_ar_name(column, context: WorkPackage.new)
+              direction = nil unless ["asc", "desc"].include? direction
+
+              [column, direction]
+            end
+          end
+        end
+
+        def map_with_sort_by_as_decorated(sort_criteria)
+          sort_criteria.reject { |c, o| c.nil? || o.nil? }.map do |column, order|
+            decorated = ::API::V3::Queries::SortBys::SortByDecorator.new(column, order)
+
+            yield decorated
           end
         end
       end

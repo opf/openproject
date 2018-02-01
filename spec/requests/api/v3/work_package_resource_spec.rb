@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Work package resource', type: :request do
+describe 'API v3 Work package resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
@@ -45,7 +45,7 @@ describe 'API v3 Work package resource', type: :request do
     FactoryGirl.create(:project, identifier: 'test_project', is_public: false)
   end
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_work_packages, :view_timelines, :edit_work_packages] }
+  let(:permissions) { [:view_work_packages, :edit_work_packages] }
   let(:current_user) do
     user = FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
 
@@ -133,7 +133,6 @@ describe 'API v3 Work package resource', type: :request do
 
       describe 'response body' do
         subject(:parsed_response) { JSON.parse(last_response.body) }
-        let!(:timeline)    { FactoryGirl.create(:timeline,     project_id: project.id) }
         let!(:other_wp)    {
           FactoryGirl.create(:work_package, project_id: project.id,
                                             status: closed_status)
@@ -163,8 +162,7 @@ describe 'API v3 Work package resource', type: :request do
       * Relaxed
       * Debonaire
 
-      {{timeline(#{timeline.id})}}
-        }}
+      }}
 
         it 'should respond with work package in HAL+JSON format' do
           expect(parsed_response['id']).to eq(work_package.id)
@@ -187,11 +185,6 @@ describe 'API v3 Work package resource', type: :request do
 
         it 'should resolve simple macros' do
           expect(parsed_response['description']).to have_text('Table of Contents')
-        end
-
-        it 'should not resolve/show complex macros' do
-          expect(parsed_response['description'])
-            .to have_text('Macro timeline cannot be displayed.')
         end
       end
 
@@ -918,33 +911,6 @@ describe 'API v3 Work package resource', type: :request do
           include_context 'patch request'
 
           it_behaves_like 'update conflict'
-        end
-
-        context 'invalid work package children' do
-          let(:params) { valid_params.merge(lockVersion: work_package.reload.lock_version) }
-          let!(:child_1) { FactoryGirl.create(:work_package) }
-          let!(:child_2) { FactoryGirl.create(:work_package) }
-
-          before do
-            [child_1, child_2].each do |c|
-              c.parent = work_package
-              c.save!(validate: false)
-            end
-          end
-
-          include_context 'patch request'
-
-          it_behaves_like 'multiple errors', 422, 'Multiple fields violated their constraints.'
-
-          it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
-
-          it_behaves_like 'multiple errors of the same type with messages' do
-            let(:message) do
-              [child_1.id, child_2.id].map do |id|
-                "Child element ##{id}: Parent cannot be in another project."
-              end
-            end
-          end
         end
       end
     end

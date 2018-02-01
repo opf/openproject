@@ -27,17 +27,14 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
-import {
-  ButtonControllerText, WorkPackageButtonController,
-  wpButtonDirective
-} from '../wp-buttons.module';
-import { WorkPackageTableTimelineService } from "../../wp-fast-table/state/wp-table-timeline.service";
-import {zoomLevelOrder} from "../../wp-table/timeline/wp-timeline";
-import {TimelineZoomLevel} from "../../api/api-v3/hal-resources/query-resource.service";
+import {TimelineZoomLevel} from '../../api/api-v3/hal-resources/query-resource.service';
+import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
+import {ButtonControllerText, WorkPackageButtonController, wpButtonDirective} from '../wp-buttons.module';
 
 interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;
   zoomIn:string;
+  zoomAuto:string;
 }
 
 export class WorkPackageTimelineButtonController extends WorkPackageButtonController {
@@ -59,8 +56,10 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
     this.activateLabel = I18n.t('js.timelines.button_activate');
     this.deactivateLabel = I18n.t('js.timelines.button_deactivate');
 
+
     this.text.zoomIn = I18n.t('js.timelines.zoom.in');
     this.text.zoomOut = I18n.t('js.timelines.zoom.out');
+    this.text.zoomAuto = I18n.t('js.timelines.zoom.auto');
   }
 
   public get label():string {
@@ -79,8 +78,12 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
     return this.wpTableTimeline.isVisible;
   }
 
-  public updateZoom(delta:number) {
-    this.wpTableTimeline.updateZoom(delta);
+  public isAutoZoomEnabled():boolean {
+    return this.wpTableTimeline.isAutoZoomEnabled();
+  }
+
+  public updateZoomWithDelta(delta:number) {
+    this.wpTableTimeline.updateZoomWithDelta(delta);
   }
 
   public get currentZoom() {
@@ -94,6 +97,15 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
   public toggleTimeline() {
     this.wpTableTimeline.toggle();
   }
+
+  public toggleAutoZoom() {
+    this.wpTableTimeline.toggleAutoZoom();
+  }
+
+  public getAutoZoomToggleClass():string {
+    return this.isAutoZoomEnabled() ? '-disabled' : '';
+  }
+
 }
 
 function wpTimelineToggleButton():ng.IDirective {

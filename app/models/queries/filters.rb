@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,12 +31,19 @@
 module Queries::Filters
   STRATEGIES = {
     list: Queries::Filters::Strategies::List,
+    list_all: Queries::Filters::Strategies::ListAll,
     list_optional: Queries::Filters::Strategies::ListOptional,
+    integer: Queries::Filters::Strategies::Integer,
     date: Queries::Filters::Strategies::Date,
     datetime_past: Queries::Filters::Strategies::DateTimePast,
     string: Queries::Filters::Strategies::String,
     text: Queries::Filters::Strategies::Text,
-    integer: Queries::Filters::Strategies::Integer,
+    float: Queries::Filters::Strategies::Float,
     inexistent: Queries::Filters::Strategies::Inexistent
   }.freeze
+
+  ##
+  # Wrapper class for invalid filters being created
+  class InvalidError < StandardError; end
+  class MissingError < StandardError; end
 end

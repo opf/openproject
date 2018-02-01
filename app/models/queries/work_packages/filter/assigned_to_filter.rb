@@ -38,7 +38,7 @@ class Queries::WorkPackages::Filter::AssignedToFilter <
         values += principal_loader.group_values
       end
 
-      me_value + values.sort
+      me_allowed_value + values.sort
     end
   end
 
@@ -56,29 +56,5 @@ class Queries::WorkPackages::Filter::AssignedToFilter <
 
   def self.key
     :assigned_to_id
-  end
-
-  private
-
-  def values_replaced
-    vals = super
-    vals += group_members_added(vals)
-    vals + user_groups_added(vals)
-  end
-
-  def group_members_added(vals)
-    User
-      .joins(:groups)
-      .where(groups_users: { id: vals })
-      .pluck(:id)
-      .map(&:to_s)
-  end
-
-  def user_groups_added(vals)
-    Group
-      .joins(:users)
-      .where(users_users: { id: vals })
-      .pluck(:id)
-      .map(&:to_s)
   end
 end

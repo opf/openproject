@@ -59,7 +59,7 @@ export class WorkPackageUploadDirectiveController {
   }
 }
 
-function wpUploadDirective(): IDirective {
+function wpUploadDirective():any {
   function wpUploadDirectiveLink(scope:ng.IScope, element:ng.IAugmentedJQuery) {
     element.click(() => element.children().first().click());
   }
@@ -68,13 +68,13 @@ function wpUploadDirective(): IDirective {
     restrict: 'AE',
     template: `
       <div
-        class="wp-attachment-upload"
+        class="wp-attachment-upload hide-when-print"
         ng-if="$ctrl.workPackage.canAddAttachments"
         ngf-drop
         ngf-select
         ngf-change="$ctrl.uploadFiles($files)"
         ngf-multiple="true"
-        ngf-max-size="{{ ::$ctrl.maxFileSize }}"
+        ngf-validate="{ size: {max: ::$ctrl.maxFileSize} }"
         tabindex="0"
         aria-label="{{ ::$ctrl.text.uploadLabel }}"
         click-on-keypress="[13, 32]"

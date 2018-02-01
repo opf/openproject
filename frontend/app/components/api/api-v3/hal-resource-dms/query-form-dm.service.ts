@@ -41,7 +41,7 @@ export class QueryFormDmService {
     // can check whether form saving is possible.
     // The query needs a name to be valid.
     let payload:any = {
-      'name': query.name || '!!!__O__o__O__!!!'
+      'name': query.name || '!!!__O__o__O__!!!'
     };
 
     if (query.project) {
@@ -49,7 +49,7 @@ export class QueryFormDmService {
         'project': {
           'href': query.project.$href
         }
-      }
+      };
     }
 
     return query.$links.update(payload);
@@ -70,7 +70,7 @@ export class QueryFormDmService {
         'project': {
           'href': this.v3Path.project({project: projectIdentifier})
         }
-      }
+      };
     }
 
     let href:string;

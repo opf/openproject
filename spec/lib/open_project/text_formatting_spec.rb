@@ -42,19 +42,19 @@ describe OpenProject::TextFormatting do
   describe '.format_text' do
     let(:project) { FactoryGirl.create :valid_project }
     let(:identifier) { project.identifier }
-    let(:project_member) {
+    let(:project_member) do
       FactoryGirl.create :user,
                          member_in_project: project,
                          member_through_role: FactoryGirl.create(:role,
                                                                  permissions: [:view_work_packages, :edit_work_packages,
                                                                                :browse_repository, :view_changesets, :view_wiki_pages])
-    }
-    let(:issue) {
+    end
+    let(:issue) do
       FactoryGirl.create :work_package,
                          project: project,
                          author: project_member,
                          type: project.types.first
-    }
+    end
 
     before do
       @project = project
@@ -79,16 +79,16 @@ describe OpenProject::TextFormatting do
                                   repository: repository,
                                   comments: 'This commit fixes #1, #2 and references #1 & #3'
       end
-      let(:changeset_link) {
+      let(:changeset_link) do
         link_to("r#{changeset1.revision}",
                 { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset1.revision },
                 class: 'changeset', title: 'My very first commit')
-      }
-      let(:changeset_link2) {
+      end
+      let(:changeset_link2) do
         link_to("r#{changeset2.revision}",
                 { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset2.revision },
                 class: 'changeset', title: 'This commit fixes #1, #2 and references #1 & #3')
-      }
+      end
 
       before do
         allow(project).to receive(:repository).and_return(repository)
@@ -286,6 +286,73 @@ describe OpenProject::TextFormatting do
         subject { format_text("project:\"#{subproject.name}\"") }
 
         it { is_expected.to be_html_eql("<p>#{link_to(subproject.name, project_url, class: 'project')}</p>") }
+      end
+    end
+
+    context 'User links' do
+      let(:role) do
+        FactoryGirl.create :role,
+                           permissions: [:view_work_packages, :edit_work_packages,
+                                         :browse_repository, :view_changesets, :view_wiki_pages]
+      end
+
+      let(:linked_project_member) do
+        FactoryGirl.create :user,
+                           member_in_project: project,
+                           member_through_role: role
+      end
+
+      context 'User link via ID' do
+        context 'when linked user visible for reader' do
+          subject { format_text("user##{linked_project_member.id}") }
+
+          it {
+            is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>")
+          }
+        end
+
+        context 'when linked user not visible for reader' do
+          let(:role) { FactoryGirl.create(:non_member) }
+
+          subject { format_text("user##{linked_project_member.id}") }
+
+          it {
+            is_expected.to be_html_eql("<p>user##{linked_project_member.id}</p>")
+          }
+        end
+
+      end
+
+      context 'User link via login name' do
+        context 'when linked user visible for reader' do
+          context 'with a common login name' do
+            subject { format_text("user:\"#{linked_project_member.login}\"") }
+
+            it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>") }
+          end
+
+          context "with an email address as login name" do
+            let(:linked_project_member) do
+              FactoryGirl.create :user,
+                                 member_in_project: project,
+                                 member_through_role: role,
+                                 login: "foo@bar.com"
+            end
+            subject { format_text("user:\"#{linked_project_member.login}\"") }
+
+            it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>") }
+          end
+        end
+
+        context 'when linked user not visible for reader' do
+          let(:role) { FactoryGirl.create(:non_member) }
+
+          subject { format_text("user:\"#{linked_project_member.login}\"") }
+
+          it {
+            is_expected.to be_html_eql("<p>user:\"#{linked_project_member.login}\"</p>")
+          }
+        end
       end
     end
 
@@ -607,52 +674,6 @@ WIKI_TEXT
     }
 
     subject(:html) { format_text(wiki_text) }
-
-    context 'w/ request present' do
-      let(:request) {
-        ActionDispatch::TestRequest.new(
-          Rack::MockRequest.env_for('/test',
-            'HTTP_HOST'       => 'test.host',
-            'REMOTE_ADDR'     => '0.0.0.0',
-            'HTTP_USER_AGENT' => 'Rails Testing')
-        )
-      }
-
-      it 'emits a table of contents for headings h1-h4 with links present' do
-        expect(html).to be_html_eql(%{
-          <fieldset class='form--fieldset -collapsible'>
-            <legend class='form--fieldset-legend' title='Show/Hide table of contents' onclick='toggleFieldset(this);'>
-              <a href='javascript:'>Table of Contents</a>
-            </legend>
-            <div>
-              <ul class="toc">
-                <li>
-                  <a href="/test#Orange">Orange</a>
-                  <ul>
-                    <li>
-                      <a href="/test#Varietes">Varietes</a>
-                      <ul>
-                        <li>
-                          <a href="/test#Common-Oranges">Common Oranges</a>
-                          <ul>
-                            <li><a href="/test#Valencia">Valencia</a></li>
-                            <li><a href="/test#Harts-Tardiff-Valencia">Hart's Tardiff Valencia</a></li>
-                          </ul>
-                        </li>
-                        <li><a href="/test#Navel-Oranges">Navel Oranges</a></li>
-                        <li><a href="/test#Blood-Oranges">Blood Oranges</a></li>
-                        <li><a href="/test#Acidless-Oranges">Acidless Oranges</a></li>
-                      </ul>
-                    </li>
-                    <li><a href="/test#Attributes">Attributes</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </fieldset>
-        }).at_path('fieldset')
-      end
-    end
 
     context 'w/o request present' do
       let(:request) { nil }

@@ -25,8 +25,8 @@
  *
  * See doc/COPYRIGHT.rdoc for more details. ++*/
 
-//= require_self
-//= require coderay
+
+@import 'openproject/coderay'
 
 div.changeset-changes ul
   list-style-type: none
@@ -101,6 +101,7 @@ table.filecontent
   border-collapse: collapse
   width: 98%
   background-color: #fafafa
+  line-height: initial
 
   th
     border: 1px solid #ccc
@@ -209,18 +210,18 @@ tr.dir
       @include icon-common
       cursor: pointer
       &:before
-        @extend .icon-plus:before
+        @include icon-mixin-plus
         margin-left: 5px
         padding: 0
   &.loading
     .dir-expander i:before
-      @extend .icon-loading1:before
+      @include icon-mixin-loading1
   &.collapsed
     .dir-expander i:before
-      @extend .icon-plus:before
+      @include icon-mixin-plus
   &.open
     .dir-expander i:before
-      @extend .icon-minus1:before
+      @include icon-mixin-minus1
 
 tr
   &.entry

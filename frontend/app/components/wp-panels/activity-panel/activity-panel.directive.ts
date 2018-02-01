@@ -34,14 +34,26 @@ import {WorkPackageCacheService} from "../../work-packages/work-package-cache.se
 export class ActivityPanelController {
 
   public workPackage:WorkPackageResourceInterface;
+
   public activities:any[] = [];
   public reverse:boolean;
 
+  public onlyComments:boolean = false;
+  public togglerText:string;
+  public text:any;
+
   constructor(public $scope:ng.IScope,
               public wpCacheService:WorkPackageCacheService,
+              public I18n:op.I18n,
               public wpActivity:any) {
 
     this.reverse = wpActivity.order === 'asc';
+
+    this.text = {
+      commentsOnly: I18n.t('js.label_activity_show_only_comments'),
+      showAll: I18n.t('js.label_activity_show_all')
+    };
+    this.togglerText = this.text.commentsOnly;
 
     scopedObservable(
       $scope,
@@ -54,13 +66,44 @@ export class ActivityPanelController {
       });
   }
 
+  public showToggler() {
+    const count_all = this.activities.length;
+    const count_with_comments = this.activitiesWithComments.length;
+
+    return count_all > 1 &&
+      count_with_comments > 0 &&
+      count_with_comments < this.activities.length;
+  }
+
+  public visibleActivities() {
+    if (!this.onlyComments) {
+      return this.activities;
+    } else {
+      return this.activitiesWithComments;
+    }
+  }
+
+  public get activitiesWithComments() {
+    return this.activities.filter((activity:any) => !!_.get(activity, 'comment.html'));
+  }
+
+  public toggleComments() {
+    this.onlyComments = !this.onlyComments;
+
+    if (this.onlyComments) {
+      this.togglerText = this.text.showAll;
+    } else {
+      this.togglerText = this.text.commentsOnly;
+    }
+  }
+
   public info(activity:any, index:any) {
-    return this.wpActivity.info(this.activities, activity, index);
+    return this.wpActivity.info(this.visibleActivities(), activity, index);
   }
 }
 
 
-function activityPanelDirective() {
+function activityPanelDirective():any {
   return {
     restrict: 'E',
     templateUrl: (element:ng.IAugmentedJQuery, attrs:ng.IAttributes) => {

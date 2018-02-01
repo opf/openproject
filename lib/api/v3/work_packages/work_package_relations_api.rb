@@ -37,7 +37,11 @@ module API
           # @todo Redirect to relations endpoint as soon as `list relations` API endpoint
           #       including filters is complete.
           get do
-            relations = @work_package.relations.visible(current_user)
+            relations = @work_package
+                        .relations
+                        .direct
+                        .non_hierarchy
+                        .visible(current_user)
 
             ::API::V3::Relations::RelationCollectionRepresenter.new(
               relations,
@@ -47,15 +51,15 @@ module API
           end
 
           post do
-            rep = representer.new Relation.new, current_user: current_user
+            rep = parse_representer.new Relation.new, current_user: current_user
             relation = rep.from_json request.body.read
-            service = ::CreateRelationService.new user: current_user
+            service = ::Relations::CreateService.new user: current_user
             call = service.call relation, send_notifications: (params[:notify] != 'false')
 
             if call.success?
               representer.new call.result, current_user: current_user, embed_links: true
             else
-              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.all_errors.reject(&:empty?).first)
             end
           end
         end

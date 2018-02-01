@@ -244,7 +244,6 @@ the human readable name of custom fields.*
                 "dueDate": null,
                 "estimatedTime": "PT2H",
                 "percentageDone": 0,
-                "parentId": 1298,
                 "customField1": "Foo",
                 "customField2": 42,
                 "createdAt": "2014-08-29T12:40:53Z",
@@ -295,8 +294,12 @@ The value of `lockVersion` is used to implement [optimistic locking](http://en.w
 
         {
             "lockVersion": 13,
-            "subject": "Lorem"
-            "parentId": "42"
+            "subject": "Lorem",
+            "_links": {
+              "parent": {
+                "href": "/api/v3/work_packages/42"
+              }
+            }
         }
 
 + Response 200 (application/hal+json)
@@ -1253,7 +1256,7 @@ Lists all relations this work package is involved in.
                         "firstName": "John",
                         "lastName": "Sheppard",
                         "mail": "shep@mail.com",
-                        "avatar": "https://gravatar/avatar",
+                        "avatar": "https://example.org/users/1/avatar",
                         "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",
                         "updatedAt": "2014-05-21T08:51:20Z"
@@ -1281,7 +1284,7 @@ Lists all relations this work package is involved in.
                         "firstName": "Jim",
                         "lastName": "Sheppard",
                         "mail": "shep@mail.net",
-                        "avatar": "https://gravatar/avatar",
+                        "avatar": "https://example.org/users/1/avatar",
                         "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",
                         "updatedAt": "2014-05-21T08:51:20Z"
@@ -1591,7 +1594,7 @@ While the endpoint does support the pageSize parameter to limit the number of re
                         "firstName": "John",
                         "lastName": "Sheppard",
                         "email": "shep@mail.com",
-                        "avatar": "https://gravatar/avatar",
+                        "avatar": "https://example.org/users/1/avatar",
                         "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",
                         "updatedAt": "2014-05-21T08:51:20Z"
@@ -1619,7 +1622,7 @@ While the endpoint does support the pageSize parameter to limit the number of re
                         "firstName": "Jim",
                         "lastName": "Sheppard",
                         "email": "shep@mail.net",
-                        "avatar": "https://gravatar/avatar",
+                        "avatar": "https://example.org/users/1/avatar",
                         "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",
                         "updatedAt": "2014-05-21T08:51:20Z"
@@ -2099,7 +2102,7 @@ updated activity.
                         "firstName": "John",
                         "lastName": "Sheppard",
                         "email": "shep@mail.com",
-                        "avatar": "https://gravatar/avatar",
+                        "avatar": "https://example.org/users/1/avatar",
                         "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",
                         "updatedAt": "2014-05-21T08:51:20Z"
@@ -2127,7 +2130,7 @@ updated activity.
                         "firstName": "Jim",
                         "lastName": "Sheppard",
                         "email": "shep@mail.net",
-                        "avatar": "https://gravatar/avatar",
+                        "avatar": "https://example.org/users/1/avatar",
                         "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",
                         "updatedAt": "2014-05-21T08:51:20Z"
@@ -2213,7 +2216,7 @@ Gets a list of users that can be assigned to work packages in the given project.
                         "firstName": "John",
                         "lastName": "Sheppard",
                         "email": "shep@mail.com",
-                        "avatar": "https://gravatar/avatar",
+                        "avatar": "https://example.org/users/1/avatar",
                         "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",
                         "updatedAt": "2014-05-21T08:51:20Z"
@@ -2241,7 +2244,7 @@ Gets a list of users that can be assigned to work packages in the given project.
                         "firstName": "Jim",
                         "lastName": "Sheppard",
                         "email": "shep@mail.net",
-                        "avatar": "https://gravatar/avatar",
+                        "avatar": "https://example.org/users/1/avatar",
                         "status": "active",
                         "createdAt": "2014-05-21T08:51:20Z",
                         "updatedAt": "2014-05-21T08:51:20Z"

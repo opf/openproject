@@ -19,4 +19,14 @@ class CustomStyle < ActiveRecord::Base
   def digest
     updated_at.to_i
   end
+
+  %i(favicon touch_icon logo).each do |name|
+    define_method "#{name}_path" do
+      image = send(name)
+
+      if image.readable?
+        image.local_file.path
+      end
+    end
+  end
 end

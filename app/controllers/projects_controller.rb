@@ -32,9 +32,7 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, only: :roadmap
   menu_item :settings, only: :settings
 
-  helper :timelines
-
-  before_action :disable_api
+  before_action :disable_api, except: :level_list
   before_action :find_project, except: [:index, :level_list, :new, :create]
   before_action :authorize, only: [
     :show, :settings, :edit, :update, :modules, :types, :custom_fields
@@ -48,6 +46,7 @@ class ProjectsController < ApplicationController
   accept_key_auth :index, :level_list, :show, :create, :update, :destroy
 
   include SortHelper
+  include PaginationHelper
   include CustomFieldsHelper
   include QueriesHelper
   include RepositoriesHelper
@@ -55,17 +54,22 @@ class ProjectsController < ApplicationController
 
   # Lists visible projects
   def index
-    @projects = Project.visible
+    query = load_query
+    set_sorting(query)
+
+    unless query.valid?
+      flash[:error] = query.errors.full_messages
+    end
+
+    @projects = load_projects query
+    @custom_fields = ProjectCustomField.visible(User.current)
 
     respond_to do |format|
-      format.html do
-        @projects = @projects.order('lft')
-      end
       format.atom do
-        projects = @projects
-                   .order('created_on DESC')
-                   .limit(Setting.feeds_limit.to_i)
-        render_feed(projects, title: "#{Setting.app_title}: #{l(:label_project_latest)}")
+        head(:gone)
+      end
+      format.html do
+        render action: :index
       end
     end
   end
@@ -117,12 +121,14 @@ class ProjectsController < ApplicationController
 
     cond = @project.project_condition(Setting.display_subprojects_work_packages?)
 
-    @open_issues_by_type = WorkPackage.visible.group(:type)
+    @open_issues_by_type = WorkPackage
+                           .visible.group(:type)
                            .includes(:project, :status, :type)
                            .where(["(#{cond}) AND #{Status.table_name}.is_closed=?", false])
                            .references(:projects, :statuses, :types)
                            .count
-    @total_issues_by_type = WorkPackage.visible.group(:type)
+    @total_issues_by_type = WorkPackage
+                            .visible.group(:type)
                             .includes(:project, :status, :type)
                             .where(cond)
                             .references(:projects, :statuses, :types)
@@ -137,8 +143,7 @@ class ProjectsController < ApplicationController
     @altered_project ||= @project
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @altered_project = Project.find(@project.id)
@@ -186,7 +191,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-
   def types
     if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)
       flash[:notice] = l('notice_successful_update')
@@ -207,10 +211,6 @@ class ProjectsController < ApplicationController
     Project.transaction do
       @project.work_package_custom_field_ids = permitted_params.project[:work_package_custom_field_ids]
       if @project.save
-        @project.work_package_custom_fields.flat_map(&:types).uniq.each do |type|
-          TypesHelper.update_type_attribute_visibility! type
-        end
-
         flash[:notice] = t(:notice_successful_update)
       else
         flash[:error] = t(:notice_project_cannot_update_custom_fields,
@@ -223,12 +223,12 @@ class ProjectsController < ApplicationController
 
   def archive
     flash[:error] = l(:error_can_not_archive_project) unless @project.archive
-    redirect_to(url_for(controller: '/admin', action: 'projects', status: params[:status]))
+    redirect_to(url_for(controller: '/projects', action: 'index', status: params[:status]))
   end
 
   def unarchive
     @project.unarchive if !@project.active?
-    redirect_to(url_for(controller: '/admin', action: 'projects', status: params[:status]))
+    redirect_to(url_for(controller: '/projects', action: 'index', status: params[:status]))
   end
 
   # Delete @project
@@ -240,7 +240,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html do
         flash[:notice] = l(:notice_successful_delete)
-        redirect_to controller: '/admin', action: 'projects'
+        redirect_to controller: 'projects', action: 'index'
       end
     end
 
@@ -251,6 +251,14 @@ class ProjectsController < ApplicationController
     @project_to_destroy = @project
 
     hide_project_in_layout
+  end
+
+  def level_list
+    @projects = Project.project_level_list(Project.visible)
+
+    respond_to do |format|
+      format.api
+    end
   end
 
   private
@@ -300,14 +308,60 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def load_query
+    @query = ParamsToQueryService.new(Project, current_user).call(params)
+
+    # Set default filter on status no filter is provided.
+    if !params[:filters]
+      @query.where('status', '=', Project::STATUS_ACTIVE.to_s)
+    end
+
+    # Order lft if no order is provided.
+    if !params[:sortBy]
+      @query.order(lft: :asc)
+    end
+
+    @query
+  end
+
+  def filter_projects_by_permission(projects)
+    # Cannot simply use .visible here as it would
+    # filter out archived projects for everybody.
+    if User.current.admin?
+      projects
+    else
+      projects.visible
+    end
+  end
+
   protected
 
   def determine_base
-    if params[:project_type_id]
-      @base = ProjectType.find(params[:project_type_id]).projects
-    else
-      @base = Project
-    end
+    @base = if params[:project_type_id]
+              ProjectType.find(params[:project_type_id]).projects
+            else
+              Project
+            end
+  end
+
+  def set_sorting(query)
+    orders = query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
+
+    sort_clear
+    sort_init orders
+    sort_update orders.map(&:first)
+  end
+
+  def load_projects(query)
+    projects = query
+               .results
+               .with_required_storage
+               .with_latest_activity
+               .includes(:custom_values, :enabled_modules)
+               .page(page_param)
+               .per_page(per_page_param)
+
+    filter_projects_by_permission projects
   end
 
   # Validates parent_id param according to user's permissions

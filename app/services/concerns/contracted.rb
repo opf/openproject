@@ -49,5 +49,15 @@ module Concerns::Contracted
         [true, object.errors]
       end
     end
+
+    def validate(object)
+      if !contract.validate
+        [false, contract.errors]
+      elsif !object.valid?
+        [false, object.errors]
+      else
+        [true, object.errors]
+      end
+    end
   end
 end

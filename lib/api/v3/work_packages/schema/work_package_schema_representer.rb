@@ -50,16 +50,6 @@ module API
               create_class(work_package_schema).new(work_package_schema, self_link, context)
             end
 
-            def visibility(property)
-              lambda do
-                if type = represented.type
-                  key = property.to_s.gsub /^customField/, "custom_field_"
-
-                  type.attribute_visibility[key]
-                end
-              end
-            end
-
             def attribute_group(property)
               lambda do
                 key = property.to_s.gsub /^customField/, "custom_field_"
@@ -68,11 +58,9 @@ module API
             end
 
             # override the various schema methods to include
-            # the same visibility lambda for all properties by default
 
             def schema(property, *args)
               opts, = args
-              opts[:visibility] = visibility property
               opts[:attribute_group] = attribute_group property
 
               super property, **opts
@@ -80,7 +68,6 @@ module API
 
             def schema_with_allowed_link(property, *args)
               opts, = args
-              opts[:visibility] = visibility property
               opts[:attribute_group] = attribute_group property
 
               super property, **opts
@@ -88,7 +75,6 @@ module API
 
             def schema_with_allowed_collection(property, *args)
               opts, = args
-              opts[:visibility] = visibility property
               opts[:attribute_group] = attribute_group property
 
               super property, **opts
@@ -173,7 +159,8 @@ module API
                  type: 'DateTime'
 
           schema :author,
-                 type: 'User'
+                 type: 'User',
+                 writable: false
 
           schema_with_allowed_link :project,
                                    type: 'Project',

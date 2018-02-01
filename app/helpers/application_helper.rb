@@ -34,10 +34,12 @@ require 'cgi'
 module ApplicationHelper
   include OpenProject::TextFormatting
   include OpenProject::ObjectLinking
+  include OpenProject::SafeParams
   include I18n
   include Redmine::I18n
   include HookHelper
   include IconsHelper
+  include AdditionalUrlHelpers
 
   extend Forwardable
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
@@ -194,7 +196,9 @@ module ApplicationHelper
 
   # Renders flash messages
   def render_flash_messages
-    flash.map { |k, v| render_flash_message(k, v) }.join.html_safe
+    flash
+      .reject { |k,_| k.start_with? '_' }
+      .map { |k, v| render_flash_message(k, v) }.join.html_safe
   end
 
   def join_flash_messages(messages)
@@ -234,15 +238,6 @@ module ApplicationHelper
     end
   end
 
-  # Renders tabs and their content
-  def render_tabs(tabs)
-    if tabs.any?
-      render partial: 'common/tabs', locals: { tabs: tabs }
-    else
-      content_tag 'p', l(:label_no_data), class: 'nodata'
-    end
-  end
-
   def project_tree_options_for_select(projects, selected: nil, disabled: {}, &_block)
     options = ''.html_safe
     Project.project_level_list(projects).each do |element|
@@ -273,18 +268,6 @@ module ApplicationHelper
   # Wrapper for Project#project_tree
   def project_tree(projects, &block)
     Project.project_tree(projects, &block)
-  end
-
-  # Returns a lft-sorted project hierarchy only when
-  # the sort helper has deemed a non-default sort option to be selected.
-  def project_tree_when_sorted(projects, &block)
-    if default_sort_order?
-      project_tree(projects, &block)
-    else
-      projects.each do |p|
-        yield p, 0
-      end
-    end
   end
 
   def project_nested_ul(projects, &_block)
@@ -420,7 +403,6 @@ module ApplicationHelper
     if args.empty?
       title << h(@project.name) if @project
       title += @html_title if @html_title
-      title << h(Setting.app_title)
     else
       @html_title ||= []
       @html_title += args
@@ -443,6 +425,9 @@ module ApplicationHelper
       css << 'controller-' + params[:controller]
       css << 'action-' + params[:action]
     end
+
+    css << "ee-banners-#{EnterpriseToken.show_banners? ? 'visible' : 'hidden'}"
+
     css.join(' ')
   end
 
@@ -529,13 +514,14 @@ module ApplicationHelper
     done   = (pcts[1] || closed) - closed
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
+    total_progress = options[:hide_total_progress] ? '' : t(:total_progress)
 
     content_tag :span do
       progress = content_tag :span, class: 'progress-bar', style: "width: #{width}" do
         concat content_tag(:span, '', class: 'inner-progress closed', style: "width: #{closed}%")
         concat content_tag(:span, '', class: 'inner-progress done',   style: "width: #{done}%")
       end
-      progress + content_tag(:span, "#{legend}% #{l(:total_progress)}", class: 'progress-bar-legend')
+      progress + content_tag(:span, "#{legend}% #{total_progress}", class: 'progress-bar-legend')
     end
   end
 

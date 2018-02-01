@@ -35,6 +35,8 @@ var autoprefixer = require('autoprefixer');
 var dllManifest = require('./dist/vendors-dll-manifest.json')
 
 var TypeScriptDiscruptorPlugin = require('./webpack/typescript-disruptor.plugin.js');
+var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+var HappyPack = require('happypack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -44,6 +46,7 @@ var debug_output = (!production || !!process.env['OP_FRONTEND_DEBUG_OUTPUT']);
 
 var node_root = path.resolve(__dirname, 'node_modules');
 var output_root = path.resolve(__dirname, '..', 'app', 'assets', 'javascripts');
+var translations_root = path.resolve(__dirname, '..', 'config', 'locales', 'crowdin');
 var bundle_output = path.resolve(output_root, 'bundles');
 
 var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, pluginPath, name) {
@@ -57,9 +60,8 @@ var pluginAliases = _.reduce(pathConfig.pluginNamesPaths, function (entries, plu
 }, {});
 
 /** Extract available locales from openproject-translations plugin */
-var translations = path.resolve(pathConfig.allPluginNamesPaths['openproject-translations'], 'config', 'locales');
 var localeIds = ['en'];
-fs.readdirSync(translations).forEach(function (file) {
+fs.readdirSync(translations_root).forEach(function (file) {
   var matches = file.match( /^js-(.+)\.yml$/);
   if (matches && matches.length > 1) {
     localeIds.push(matches[1]);
@@ -78,19 +80,15 @@ var loaders = [
         loader: 'ng-annotate-loader'
       },
       {
-        loader: 'ts-loader',
-        options: {
-          logLevel: 'info',
-          configFileName: path.resolve(__dirname, 'tsconfig.json')
-        }
+        loader: 'happypack/loader?id=ts'
       }
     ]
   },
   {
     test: /\.css$/,
     use: ExtractTextPlugin.extract({
-      fallbackLoader: 'style-loader',
-      loader: [
+      fallback: 'style-loader',
+      use: [
         'css-loader',
         'postcss-loader'
       ],
@@ -131,7 +129,7 @@ var loaders = [
 for (var k in pathConfig.pluginNamesPaths) {
   if (pathConfig.pluginNamesPaths.hasOwnProperty(k)) {
     loaders.push({
-      test: new RegExp('templates/plugin-' + k.replace(/^openproject\-/, '') + '/.*\.html$'),
+      test: new RegExp('templates\/plugin-' + k.replace(/^openproject\-/, '') + '/.*\.html$'),
       use: [
         {
           loader: 'ngtemplate-loader',
@@ -198,6 +196,7 @@ function getWebpackMainConfig() {
 
       alias: _.merge({
         'locales': './../../config/locales',
+        'core-app': path.resolve(__dirname, 'app'),
         'core-components': path.resolve(__dirname, 'app', 'components'),
 
         'at.js': path.resolve(__dirname, 'vendor', 'at.js'),
@@ -220,10 +219,33 @@ function getWebpackMainConfig() {
       // It is ONLY executed when `ENV[CI]` is set or `--bail` is used.
       TypeScriptDiscruptorPlugin,
 
+      // required for Angular (2+) to avoid error message:
+      // > WARNING in ../node_modules/@angular/core/@angular/core.es5.js
+      // > 5659:15-36 Critical dependency: the request of a dependency is an expression
+      new webpack.ContextReplacementPlugin(
+        /angular([\\\/])core/,
+        path.resolve(__dirname, '../src')
+      ),
+
       // Define modes for debug output
       new webpack.DefinePlugin({
         DEBUG: !!debug_output,
         PRODUCTION: !!production
+      }),
+
+      new HappyPack({
+        id: 'ts',
+        threads: 4,
+        loaders: [
+          {
+            path: 'ts-loader',
+            query: {
+              happyPackMode: true,
+              logLevel: 'info',
+              configFile: path.resolve(__dirname, 'tsconfig.json')
+            }
+          }
+        ]
       }),
 
       // Clean the output directory
@@ -237,6 +259,13 @@ function getWebpackMainConfig() {
       new webpack.DllReferencePlugin({
           context: path.resolve(__dirname),
           manifest: dllManifest
+      }),
+
+      // Parallel type checking for typescript
+      new ForkTsCheckerWebpackPlugin({
+        tsconfig: path.resolve(__dirname, 'tsconfig.json'),
+        // In happyPackMode, ts-loader no longer reports syntactic errors
+        checkSyntacticErrors: true
       }),
 
       // Extract CSS into its own bundle

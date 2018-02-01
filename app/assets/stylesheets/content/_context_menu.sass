@@ -42,3 +42,17 @@
 
 .hascontextmenu
   cursor: context-menu
+
+// Unless mobile
+// hide the context menu until focused/hovered
+html:not(.-browser-mobile)
+  .context-menu--icon
+    opacity: 0
+
+    &:hover, &:focus
+      opacity: 100
+
+.context-menu--reveal
+  &:hover, &:focus
+    .context-menu--icon
+      opacity: 100

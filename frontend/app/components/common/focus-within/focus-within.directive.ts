@@ -40,15 +40,15 @@ function focusWithinDirective($timeout:ng.ITimeoutService) {
       selector: '=focusWithin'
     },
 
-    link: (scope:ng.IScope, element:ng.IAugmentedJQuery) => {
+    link: (scope:any, element:ng.IAugmentedJQuery) => {
       let focusedObservable = new BehaviorSubject(false);
 
       scopedObservable(
           scope,
-          focusedObservable.delay(50)
+          focusedObservable
         )
-        .filter(delayed => delayed === focusedObservable.getValue())
-        .subscribe((focused) => {
+        .auditTime(50)
+        .subscribe(focused => {
            element.toggleClass('-focus', focused);
         });
 

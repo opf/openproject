@@ -29,7 +29,13 @@
 class Queries::BaseQuery
   class << self
     attr_accessor :model
+
+    def i18n_scope
+      :activerecord
+    end
   end
+
+  attr_accessor :filters, :orders
 
   include Queries::AvailableFilters
   include Queries::AvailableOrders
@@ -87,11 +93,17 @@ class Queries::BaseQuery
     self.class.model.all
   end
 
+  def find_active_filter(name)
+    filters.index_by(&:name)[name]
+  end
+
+  def find_available_filter(name)
+    available_filters.detect { |f| f.name == name }
+  end
+
   protected
 
-  attr_accessor :filters,
-                :orders,
-                :user
+  attr_accessor :user
 
   def filters_valid
     filters.each do |filter|
@@ -105,7 +117,7 @@ class Queries::BaseQuery
     orders.each do |order|
       next if order.valid?
 
-      add_error(:orders, order.class.key, order)
+      add_error(:orders, order.name, order)
     end
   end
 

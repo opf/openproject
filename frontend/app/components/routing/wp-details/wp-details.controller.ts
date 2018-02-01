@@ -32,36 +32,45 @@ import {States} from "../../states.service";
 import {WorkPackageTableSelection} from "../../wp-fast-table/state/wp-table-selection.service";
 import {KeepTabService} from "../../wp-panels/keep-tab/keep-tab.service";
 import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller";
+import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+import {FirstRouteService} from "core-components/routing/first-route-service";
+import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageDetailsController extends WorkPackageViewController {
 
-  constructor(public $injector:ng.auto.IInjectorService,
-              public $scope:ng.IScope,
+  constructor(public $scope:ng.IScope,
               public states:States,
+              public firstRoute:FirstRouteService,
               public keepTab:KeepTabService,
               public wpTableSelection:WorkPackageTableSelection,
-              public $state:ng.ui.IStateService) {
-    super($injector, $scope, $state.params['workPackageId']);
+              public wpTableFocus:WorkPackageTableFocusService,
+              public $state:StateService) {
+    super($scope, $state.params['workPackageId']);
     this.observeWorkPackage();
 
     let wpId = $state.params['workPackageId'];
-    let focusState = this.states.focusedWorkPackage;
-    let focusedWP = focusState.value;
+    let focusedWP = this.wpTableFocus.focusedWorkPackage;
 
     if (!focusedWP) {
-      focusState.putValue(wpId);
-      this.wpTableSelection.setRowState(wpId, true);
-    } else if (!this.wpTableSelection.isSelected(wpId)) {
+      // Focus on the work package if we're the first route
+      const isFirstRoute = firstRoute.name === 'work-packages.list.details.overview';
+      const isSameID = firstRoute.params && wpId === firstRoute.params.workPackageI;
+      this.wpTableFocus.updateFocus(wpId, (isFirstRoute && isSameID));
+    } else {
+      this.wpTableFocus.updateFocus(wpId, false);
+    }
+
+    if (this.wpTableSelection.isEmpty) {
       this.wpTableSelection.setRowState(wpId, true);
     }
 
     scopedObservable(
       $scope,
-      this.states.focusedWorkPackage.values$())
-      .map(wpId => wpId.toString())
-      .distinctUntilChanged()
-      .subscribe((newId) => {
-        if (wpId !== newId && $state.includes('work-packages.list.details')) {
+      this.wpTableFocus.whenChanged()
+    ).subscribe(newId => {
+        const idSame = wpId.toString() === newId.toString();
+        if (!idSame && $state.includes('work-packages.list.details')) {
           $state.go(
             ($state.current.name as string),
             {workPackageId: newId, focus: false }

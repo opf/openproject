@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -39,7 +40,7 @@ class Enumeration < ActiveRecord::Base
   before_destroy :check_integrity
 
   validates_presence_of :name
-  validates_uniqueness_of :name, scope: [:type, :project_id]
+  validates_uniqueness_of :name, scope: %i(type project_id)
   validates_length_of :name, maximum: 30
 
   scope :shared, -> { where(project_id: nil) }
@@ -62,7 +63,7 @@ class Enumeration < ActiveRecord::Base
     # Creates a fake default scope so Enumeration.default will check
     # it's type.  STI subclasses will automatically add their own
     # types to the finder.
-    if self.descends_from_active_record?
+    if descends_from_active_record?
       where(is_default: true, type: 'Enumeration').first
     else
       # STI classes are
@@ -103,9 +104,8 @@ class Enumeration < ActiveRecord::Base
     objects_count != 0
   end
 
-  # Is this enumeration overriding a system level enumeration?
-  def is_override?
-    !parent.nil?
+  def shared?
+    parent_id.nil?
   end
 
   alias :destroy_without_reassign :destroy
@@ -127,10 +127,10 @@ class Enumeration < ActiveRecord::Base
 
   # Does the +new+ Hash override the previous Enumeration?
   def self.overridding_change?(new, previous)
-    if (same_active_state?(new['active'], previous.active)) && same_custom_values?(new, previous)
-      return false
+    if same_active_state?(new['active'], previous.active) && same_custom_values?(new, previous)
+      false
     else
-      return true
+      true
     end
   end
 
@@ -151,13 +151,11 @@ class Enumeration < ActiveRecord::Base
     new == previous
   end
 
-  private
-
   # This is not a performant method.
   def self.sort_by_ancestor_last(entries)
     ancestor_relationships = entries.map { |entry| [entry, entry.ancestors] }
 
-    ancestor_relationships.sort { |one, two|
+    ancestor_relationships.sort do |one, two|
       if one.last.include?(two.first)
         -1
       elsif two.last.include?(one.first)
@@ -165,16 +163,17 @@ class Enumeration < ActiveRecord::Base
       else
         0
       end
-    }.map(&:first)
+    end.map(&:first)
   end
 
+  private
+
   def check_integrity
-    raise "Can't delete enumeration" if self.in_use?
+    raise "Can't delete enumeration" if in_use?
   end
 end
 
 # Force load the subclasses in development mode
-['time_entry_activity', 'issue_priority',
- 'reported_project_status'].each do |enum_subclass|
+%w(time_entry_activity issue_priority).each do |enum_subclass|
   require_dependency enum_subclass
 end

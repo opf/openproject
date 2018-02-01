@@ -38,6 +38,7 @@ module OpenProject
     include Redmine::I18n
     include ActionView::Helpers::TextHelper
     include OpenProject::ObjectLinking
+    include OpenProject::SafeParams
     # The WorkPackagesHelper is required to get access to the methods
     # 'work_package_css_classes' and 'work_package_quick_info'.
     include WorkPackagesHelper
@@ -226,7 +227,7 @@ module OpenProject
       # when using an image link, try to use an attachment, if possible
       if options[:attachments] || (obj && obj.respond_to?(:attachments))
         attachments = nil
-        text.gsub!(/src="([^\/"]+\.(bmp|gif|jpg|jpeg|png))"(\s+alt="([^"]*)")?/i) do |m|
+        text.gsub!(/src="([^\/"]+\.(bmp|gif|jpg|jpeg|png|svg))"(\s+alt="([^"]*)")?/i) do |m|
           filename = $1.downcase
           ext = $2
           alt = $3
@@ -334,7 +335,7 @@ module OpenProject
     #     identifier:version:1.0.0
     #     identifier:source:some/file
     def parse_redmine_links(text, project, obj, attr, only_path, options)
-      text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|version|commit|source|export|message|project)?((#+|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |_m|
+      text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|version|commit|source|export|message|project|user)?((#+|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |_m|
         leading = $1
         esc = $2
         project_prefix = $3
@@ -379,6 +380,10 @@ module OpenProject
             when 'project'
               if p = Project.visible.find_by(id: oid)
                 link = link_to_project(p, { only_path: only_path }, class: 'project')
+              end
+            when 'user'
+              if user = User.in_visible_project.find_by(id: oid)
+                link = link_to_user(user, class: 'user-mention')
               end
             end
           elsif sep == '##'
@@ -440,6 +445,10 @@ module OpenProject
                   .first
               if p
                 link = link_to_project(p, { only_path: only_path }, class: 'project')
+              end
+            when 'user'
+              if user = User.in_visible_project.find_by(login: name)
+                link = link_to_user(user, class: 'user-mention')
               end
             end
           end
@@ -516,9 +525,10 @@ module OpenProject
     #
     def full_url(anchor_name = '')
       return "##{anchor_name}" if current_request.nil?
-      current = request.original_fullpath
-      return current if anchor_name.blank?
-      "#{current}##{anchor_name}"
+      url_for pagination_params_whitelist.merge(anchor: anchor_name, only_path: true)
+    rescue ActionController::UrlGenerationError
+      # In a context outside params, we don't know what the relative anchor url is
+      "##{anchor_name}"
     end
 
     def current_request

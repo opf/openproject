@@ -32,6 +32,13 @@ describe UsersController, type: :routing do
   describe 'routing' do
     describe 'users' do
       it {
+        expect(get('/users/1/change_status/foobar'))
+          .to route_to controller: 'users',
+                       action: 'change_status_info',
+                       id: '1',
+                       change_action: 'foobar'
+      }
+      it {
         expect(get('/users/1/deletion_info')).to route_to(controller: 'users',
                                                           action: 'deletion_info',
                                                           id: '1')

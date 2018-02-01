@@ -39,21 +39,8 @@ feature 'resend invitation', type: :feature do
   end
 
   scenario 'admin resends the invitation' do
-    click_on 'Resend invitation'
+    click_on I18n.t(:label_send_invitation)
 
-    expect(page).to have_text 'Another invitation has been sent to holly@openproject.com.'
-  end
-
-  context 'with some error occuring' do
-    before do
-      allow(UserInvitation).to receive(:token_action).and_return(nil)
-    end
-
-    scenario 'resending fails' do
-      click_on 'Resend invitation'
-
-      expect(page).to have_text 'An error occurred'
-      expect(page).to have_text 'You are here: HomeAdministrationUsers'
-    end
+    expect(page).to have_text 'An invitation has been sent to holly@openproject.com.'
   end
 end

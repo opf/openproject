@@ -28,14 +28,11 @@
 #++
 
 class PlanningElementTypeColorsController < ApplicationController
-  helper :timelines
-
   before_action :disable_api
   before_action :require_admin_unless_readonly_api_request
 
   accept_key_auth :index, :show
 
-  helper :timelines
   layout 'admin'
 
   menu_item :colors

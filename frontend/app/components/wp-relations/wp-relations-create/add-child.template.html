@@ -2,7 +2,7 @@
     <div class="wp-relations-create-button -full-width"
          ng-if="!$ctrl.showRelationsCreateForm">
         <div class="grid-block">
-            <div class="grid-content collapse"
+            <div class="grid-content collapse hide-when-print"
                  ng-if="$ctrl.canAddChildren">
                 <a class="wp-inline-create--add-link relation-create"
                    ng-click="$ctrl.createNewChildWorkPackage()"
@@ -12,7 +12,7 @@
                     <span>{{ ::$ctrl.text.addNewChild }}</span>
                 </a>
             </div>
-            <div class="grid-content collapse"
+            <div class="grid-content collapse hide-when-print"
                  ng-if="$ctrl.canLinkChildren">
                 <a class="wp-inline-create--add-link relation-create -focus-after-save"
                    ng-click="$ctrl.toggleRelationsCreateForm()"
@@ -26,7 +26,7 @@
     </div>
     <div class="loading-indicator--location"
              data-indicator-name="relationAddChild">
-      <div class="grid-block v-align wp-relations--child-form" ng-if="$ctrl.showRelationsCreateForm">
+      <div class="v-align wp-relations-create--form wp-relations--child-form" ng-if="$ctrl.showRelationsCreateForm">
           <div class="grid-content medium-10">
               <wp-relations-autocomplete
                       work-package="$ctrl.workPackage"

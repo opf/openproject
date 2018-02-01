@@ -97,7 +97,7 @@ describe ::API::Utilities::PropertyNameConverter do
       context 'requesting ids via refer_to_ids' do
         subject { described_class.to_ar_name(attribute_name, context: context, refer_to_ids: true) }
 
-        context 'for keys refering to a belongs_to association' do
+        context 'for keys referring to a belongs_to association' do
           let(:attribute_name) { 'status' }
 
           it 'adds an id suffix' do
@@ -105,7 +105,7 @@ describe ::API::Utilities::PropertyNameConverter do
           end
         end
 
-        context 'for keys refering to a has_many association' do
+        context 'for keys referring to a has_many association' do
           let(:attribute_name) { 'watcher' }
 
           it 'adds an id suffix' do
@@ -163,7 +163,7 @@ describe ::API::Utilities::PropertyNameConverter do
           is_expected.to eql('updated_at')
         end
 
-        context 'in an apropriate context' do
+        context 'in an appropriate context' do
           let(:context) { FactoryGirl.build_stubbed(:version) }
 
           it 'should be performed' do

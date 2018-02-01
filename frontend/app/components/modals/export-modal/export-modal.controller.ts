@@ -53,6 +53,10 @@ class ExportModalController {
     this.exportOptions = this.buildExportOptions(results);
   }
 
+  public $onInit() {
+    // Created for interface compliance
+  }
+
   private buildExportOptions(results:WorkPackageCollectionResource) {
     return results.representations.map(format => {
       const link = format.$link as ExportLink;

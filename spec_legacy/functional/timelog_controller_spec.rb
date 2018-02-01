@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'timelog_controller'
 
 describe TimelogController, type: :controller do
@@ -37,25 +37,26 @@ describe TimelogController, type: :controller do
 
   it 'should get new' do
     session[:user_id] = 3
-    get :new, project_id: 1
+    get :new, params: { project_id: 1 }
     assert_response :success
     assert_template 'edit'
     # Default activity selected
-    assert_select 'option', attributes: { selected: 'selected' },
-               content: 'Development'
+    assert_select 'option',
+                  attributes: { selected: 'selected' },
+                  content: 'Development'
   end
 
   it 'should get new should only show active time entry activities' do
     session[:user_id] = 3
-    get :new, project_id: 1
+    get :new, params: { project_id: 1 }
     assert_response :success
     assert_template 'edit'
-    assert_select('option', {content: 'Inactive Activity'}, false)
+    assert_select('option', { content: 'Inactive Activity' }, false)
   end
 
   it 'should get edit existing time' do
     session[:user_id] = 2
-    get :edit, id: 2, project_id: nil
+    get :edit, params: { id: 2, project_id: nil }
     assert_response :success
     assert_template 'edit'
     # Default activity selected
@@ -68,7 +69,7 @@ describe TimelogController, type: :controller do
     te.save!
 
     session[:user_id] = 1
-    get :edit, project_id: 1, id: 1
+    get :edit, params: { project_id: 1, id: 1 }
     assert_response :success
     assert_template 'edit'
     # Blank option since nothing is pre-selected
@@ -79,13 +80,13 @@ describe TimelogController, type: :controller do
     # TODO: should POST to issues’ time log instead of project. change form
     # and routing
     session[:user_id] = 3
-    post :create, project_id: 1,
-                  time_entry: { comments: 'Some work on TimelogControllerTest',
-                                # Not the default activity
-                                activity_id: '11',
-                                spent_on: '2008-03-14',
-                                work_package_id: '1',
-                                hours: '7.3' }
+    post :create, params: { project_id: 1,
+                            time_entry: { comments: 'Some work on TimelogControllerTest',
+                                          # Not the default activity
+                                          activity_id: '11',
+                                          spent_on: '2008-03-14',
+                                          work_package_id: '1',
+                                          hours: '7.3' } }
     assert_redirected_to action: 'index', project_id: 'ecookbook'
 
     i = WorkPackage.find(1)
@@ -102,13 +103,13 @@ describe TimelogController, type: :controller do
     # TODO: should POST to issues’ time log instead of project. change form
     # and routing
     session[:user_id] = 3
-    post :create, project_id: 1,
-                  time_entry: { comments: 'Some work on TimelogControllerTest',
-                                # Not the default activity
-                                activity_id: '11',
-                                work_package_id: '',
-                                spent_on: '2008-03-14',
-                                hours: '7.3' }
+    post :create, params: { project_id: 1,
+                            time_entry: { comments: 'Some work on TimelogControllerTest',
+                                          # Not the default activity
+                                          activity_id: '11',
+                                          work_package_id: '',
+                                          spent_on: '2008-03-14',
+                                          hours: '7.3' } }
     assert_redirected_to action: 'index', project_id: 'ecookbook'
 
     t = TimeEntry.find_by(comments: 'Some work on TimelogControllerTest')
@@ -124,9 +125,9 @@ describe TimelogController, type: :controller do
     assert_equal 2, entry.user_id
 
     session[:user_id] = 1
-    put :update, id: 1,
-                 time_entry: { work_package_id: '2',
-                               hours: '8' }
+    put :update, params: { id: 1,
+                           time_entry: { work_package_id: '2',
+                                         hours: '8' } }
     assert_redirected_to action: 'index', project_id: 'ecookbook'
     entry.reload
 
@@ -137,7 +138,7 @@ describe TimelogController, type: :controller do
 
   it 'should destroy' do
     session[:user_id] = 2
-    delete :destroy, id: 1
+    delete :destroy, params: { id: 1 }
     assert_redirected_to action: 'index', project_id: 'ecookbook'
     assert_equal I18n.t(:notice_successful_delete), flash[:notice]
     assert_nil TimeEntry.find_by(id: 1)
@@ -151,7 +152,7 @@ describe TimelogController, type: :controller do
     end
 
     session[:user_id] = 2
-    delete :destroy, id: 1
+    delete :destroy, params: { id: 1 }
     assert_redirected_to action: 'index', project_id: 'ecookbook'
     assert_equal I18n.t(:notice_unable_delete_time_entry), flash[:error]
     refute_nil TimeEntry.find_by(id: 1)
@@ -171,7 +172,7 @@ describe TimelogController, type: :controller do
   end
 
   it 'should index at project level' do
-    get :index, project_id: 'ecookbook'
+    get :index, params: { project_id: 'ecookbook' }
     assert_response :success
     assert_template 'index'
     refute_nil assigns(:entries)
@@ -188,7 +189,7 @@ describe TimelogController, type: :controller do
   end
 
   it 'should index at project level with date range' do
-    get :index, project_id: 'ecookbook', from: '2007-03-20', to: '2007-04-30'
+    get :index, params: { project_id: 'ecookbook', from: '2007-03-20', to: '2007-04-30' }
     assert_response :success
     assert_template 'index'
     refute_nil assigns(:entries)
@@ -202,7 +203,7 @@ describe TimelogController, type: :controller do
   end
 
   it 'should index at project level with period' do
-    get :index, project_id: 'ecookbook', period: '7_days'
+    get :index, params: { project_id: 'ecookbook', period: '7_days' }
     assert_response :success
     assert_template 'index'
     refute_nil assigns(:entries)
@@ -214,7 +215,7 @@ describe TimelogController, type: :controller do
   end
 
   it 'should index one day' do
-    get :index, project_id: 'ecookbook', from: '2007-03-23', to: '2007-03-23'
+    get :index, params: { project_id: 'ecookbook', from: '2007-03-23', to: '2007-03-23' }
     assert_response :success
     assert_template 'index'
     refute_nil assigns(:total_hours)
@@ -224,7 +225,7 @@ describe TimelogController, type: :controller do
   end
 
   it 'should index at issue level' do
-    get :index, work_package_id: 1
+    get :index, params: { work_package_id: 1 }
     assert_response :success
     assert_template 'index'
     refute_nil assigns(:entries)
@@ -241,7 +242,7 @@ describe TimelogController, type: :controller do
   it 'should index atom feed' do
     TimeEntry.all.each(&:recreate_initial_journal!)
 
-    get :index, project_id: 1, format: 'atom'
+    get :index, params: { project_id: 1, format: 'atom' }
     assert_response :success
     assert_equal 'application/atom+xml', response.content_type
     refute_nil assigns(:items)

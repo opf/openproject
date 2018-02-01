@@ -7,6 +7,7 @@ import {WorkPackageTableHierarchies} from "../../wp-table-hierarchies";
 import {indicatorCollapsedClass} from "../../builders/modes/hierarchy/single-hierarchy-row-builder";
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {debugLog} from '../../../../helpers/debug_output';
+import { locateTableRow, scrollTableRowIntoView } from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
 
 export class HierarchyTransformer {
   public wpTableHierarchies:WorkPackageTableHierarchiesService;
@@ -52,6 +53,11 @@ export class HierarchyTransformer {
     return (classNames.match(/__collapsed-group-\d+/g) || []).join(' ');
    });
 
+    // Mark which rows were hidden by some other hierarchy group
+    // (e.g., by a collapsed parent)
+    const collapsed:{[index:number]: boolean} = {};
+
+
    // Hide all collapsed hierarchies
    _.each(state.collapsed, (isCollapsed:boolean, wpId:string) => {
      // Toggle the root style
@@ -69,9 +75,19 @@ export class HierarchyTransformer {
        const index = jQuery(el).index();
 
        // Update the hidden state
-       rendered[index].hidden = isCollapsed;
+       if (collapsed[index] !== true) {
+         rendered[index].hidden = isCollapsed;
+         collapsed[index] = isCollapsed;
+       }
      });
    });
+
+   // Keep focused on the last element, if any.
+   // Based on https://stackoverflow.com/a/3782959
+   if (state.last) {
+    scrollTableRowIntoView(state.last);
+   }
+
 
    this.states.table.rendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
   }

@@ -7,6 +7,7 @@ describe 'Work package table context menu', js: true do
   let(:wp_table) { Pages::WorkPackagesTable.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(work_package.project) }
   let(:menu) { Components::WorkPackages::ContextMenu.new }
+  let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
 
   def goto_context_menu
     # Go to table
@@ -36,13 +37,6 @@ describe 'Work package table context menu', js: true do
     expect(page).to have_selector('.work-packages--show-view .wp-edit-field.subject',
                                   text: work_package.subject)
 
-    # Open edit link
-    goto_context_menu
-    menu.choose('Edit')
-    expect(page).to have_selector('.wp-edit-field.subject input')
-    find('#work-packages--edit-actions-cancel').click
-    expect(page).to have_no_selector('.wp-edit-field.subject input')
-
     # Open log time
     goto_context_menu
     menu.choose('Log time')
@@ -58,22 +52,20 @@ describe 'Work package table context menu', js: true do
     goto_context_menu
     menu.choose('Copy')
     # Split view open in copy state
-    expect(page).to have_selector('.work-packages--details', text: "New #{work_package.type}")
+    expect(page).to have_selector('.wp-new-top-row', text: "#{work_package.status.name.capitalize} #{work_package.type}")
     expect(page).to have_field('wp-new-inline-edit--field-subject', with: work_package.subject)
 
     # Open Delete
     goto_context_menu
     menu.choose('Delete')
-    wp_table.dismiss_alert_dialog!
+    destroy_modal.expect_listed(work_package)
+    destroy_modal.cancel_deletion
 
     # Open create new child
     goto_context_menu
     menu.choose('Create new child')
     expect(page).to have_selector('.wp-edit-field.subject input')
-
-    task_name = work_package.type.name
-    select task_name, from: 'wp-new-inline-edit--field-type'
-    expect(page).to have_selector('.work-packages--details-content h2', text: "New #{task_name} (Child of #{task_name} ##{work_package.id})")
+    expect(page).to have_selector('.wp-edit-field--display-field.type')
 
     find('#work-packages--edit-actions-cancel').click
     expect(page).to have_no_selector('.wp-edit-field.subject input')
@@ -104,13 +96,13 @@ describe 'Work package table context menu', js: true do
       wp_table.expect_work_package_listed(work_package2)
 
       # Select both
-      all('td.checkbox input').each { |el| el.set(true) }
+      find('body').send_keys [:control, 'a']
     end
 
     it 'shows a subset of the available menu items' do
       menu.open_for(work_package)
       menu.expect_options ['Open details view', 'Open fullscreen view',
-                           'Edit', 'Copy', 'Move', 'Delete']
+                           'Bulk edit', 'Bulk copy', 'Bulk move', 'Bulk delete']
     end
   end
 end

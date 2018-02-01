@@ -26,11 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 import * as moment from 'moment';
+import {InputState, MultiInputState} from 'reactivestates';
 import {TimelineZoomLevel} from '../../api/api-v3/hal-resources/query-resource.service';
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
 } from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
+import {RenderedRow} from '../../wp-fast-table/builders/primary-render-pass';
 import Moment = moment.Moment;
 
 export const timelineElementCssClass = 'timeline-element';
@@ -51,6 +54,25 @@ export const zoomLevelOrder:TimelineZoomLevel[] = [
   'days', 'weeks', 'months', 'quarters', 'years'
 ];
 
+export function getPixelPerDayForZoomLevel(zoomLevel:TimelineZoomLevel) {
+  switch (zoomLevel) {
+    case 'days':
+      return 30;
+    case 'weeks':
+      return 15;
+    case 'months':
+      return 6;
+    case 'quarters':
+      return 2;
+    case 'years':
+      return 0.5;
+  }
+}
+
+/**
+ * Number of days to display before the earliest workpackage in view
+ */
+export const timelineLeftSpacingInDays = 3;
 
 /**
  *
@@ -75,18 +97,7 @@ export class TimelineViewParameters {
   visibleViewportAtCalculationTime:[Moment, Moment];
 
   get pixelPerDay():number {
-    switch (this.settings.zoomLevel) {
-      case 'days':
-        return 30;
-      case 'weeks':
-        return 15;
-      case 'months':
-        return 6;
-      case 'quarters':
-        return 2;
-      case 'years':
-        return 0.5;
-    }
+    return getPixelPerDayForZoomLevel(this.settings.zoomLevel);
   }
 
   get maxWidthInPx() {
@@ -105,6 +116,7 @@ export class TimelineViewParameters {
 export interface RenderInfo {
   viewParams:TimelineViewParameters;
   workPackage:WorkPackageResourceInterface;
+  changeset:WorkPackageChangeset;
 }
 
 /**
@@ -162,4 +174,33 @@ export function getTimeSlicesForHeader(vp:TimelineViewParameters,
     rest
   };
 
+}
+
+export function calculateDaySpan(visibleWorkPackages:RenderedRow[],
+                                 loadedWorkPackages:MultiInputState<WorkPackageResourceInterface>):number {
+  let earliest:Moment = moment();
+  let latest:Moment = moment();
+
+  visibleWorkPackages.forEach((renderedRow) => {
+    const wpId = renderedRow.workPackageId;
+
+    if (!wpId) {
+      return;
+    }
+    const workPackageState:InputState<WorkPackageResourceInterface> = loadedWorkPackages.get(wpId);
+    const workPackage:WorkPackageResourceInterface = workPackageState.value!;
+
+    const start = workPackage.startDate ? workPackage.startDate : workPackage.date;
+    if (start && moment(start).isBefore(earliest)) {
+      earliest = moment(start);
+    }
+
+    const due = workPackage.dueDate ? workPackage.dueDate : workPackage.date;
+    if (due && moment(due).isAfter(latest)) {
+      latest = moment(due);
+    }
+  });
+
+  const daysSpan = latest.diff(earliest, 'days') + 1;
+  return daysSpan + timelineLeftSpacingInDays;
 }

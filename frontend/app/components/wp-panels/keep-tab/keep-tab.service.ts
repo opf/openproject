@@ -27,17 +27,19 @@
 // ++
 
 import {ReplaySubject} from "rxjs";
+import {Transition, StateService, TransitionService} from '@uirouter/angularjs';
 export class KeepTabService {
   protected currentTab:string = 'overview';
 
   protected subject = new ReplaySubject<{ [tab: string]: string; }>(1);
 
-  constructor(public $state:ng.ui.IStateService, protected $rootScope:ng.IRootScopeService) {
+  constructor(public $state:StateService,
+              protected $transitions:TransitionService) {
     'ngInject';
 
     this.updateTabs();
-    $rootScope.$on('$stateChangeSuccess', (_event, toState) => {
-      this.updateTabs(toState);
+    $transitions.onSuccess({}, (transition:Transition) => {
+      this.updateTabs(transition.to().name);
     });
   }
 
@@ -108,12 +110,12 @@ export class KeepTabService {
     return false;
   }
 
-  protected updateTabs(toState?:any) {
+  public updateTabs(stateName?:string) {
 
     // Ignore the switch from show#activity to details#activity
     // and show details#overview instead
 
-    if (toState && toState.name === 'work-packages.show.activity') {
+    if (stateName === 'work-packages.show.activity') {
       this.currentTab = 'overview';
       return this.notify();
     }

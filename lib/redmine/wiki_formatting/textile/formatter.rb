@@ -41,6 +41,7 @@ module Redmine
 
         def initialize(*args)
           super
+
           self.hard_breaks = true
           self.no_span_caps = true
           self.filter_styles = true
@@ -74,35 +75,40 @@ module Redmine
           end
         end
 
-        AUTO_LINK_RE = %r{
-                        (                          # leading text
-                          <\w+.*?>|                # leading HTML tag, or
-                          [^=<>!:'"/]|             # leading punctuation, or
-                          \{\{\w+\(|               # inside a macro?
-                          ^                        # beginning of line
-                        )
-                        (
-                          (?:https?://)|           # protocol spec, or
-                          (?:s?ftps?://)|
-                          (?:www\.)                # www.*
-                        )
-                        (
-                          (\S+?)                   # url
-                          (\/)?                    # slash
-                        )
-                        ((?:&gt;)?|[^\w\=\/;\(\)]*?)               # post
-                        (?=<|\s|$)
-                       }x unless const_defined?(:AUTO_LINK_RE)
+
+        def auto_link_regexp
+          @auto_link_regexp ||= begin
+            %r{
+              (                          # leading text
+                <\w+.*?>|                # leading HTML tag, or
+                [^=<>!:'"/]|             # leading punctuation, or
+                \{\{\w+\(|               # inside a macro?
+                ^                        # beginning of line
+              )
+              (
+                (?:https?://)|           # protocol spec, or
+                (?:s?ftps?://)|
+                (?:www\.)                # www.*
+              )
+              (
+                (\S+?)                   # url
+                (\/)?                    # slash
+              )
+              ((?:&gt;)?|[^\w\=\/;\(\)]*?)               # post
+              (?=<|\s|$)
+             }x
+          end
+        end
 
         # Turns all urls into clickable links (code from Rails).
         def inline_auto_link(text)
-          text.gsub!(AUTO_LINK_RE) do
+          text.gsub!(auto_link_regexp) do
             all = $&
             leading = $1
             proto = $2
             url = $3
             post = $6
-            if leading =~ /<a\s/i || leading =~ /![<>=]?/ || leading =~ /\{\{\w+\(/
+            if url.nil? || leading =~ /<a\s/i || leading =~ /![<>=]?/ || leading =~ /\{\{\w+\(/
               # don't replace URLs that are already linked
               # and URLs prefixed with ! !> !< != (textile images)
               all
@@ -124,7 +130,7 @@ module Redmine
 
         # Turns all email addresses into clickable links (code from Rails).
         def inline_auto_mailto(text)
-          text.gsub!(/([\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
+          text.gsub!(/((?<!user:")\b[\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
             mail = $1
             if text.match(/<a\b[^>]*>(.*)(#{Regexp.escape(mail)})(.*)<\/a>/)
               mail

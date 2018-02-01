@@ -28,22 +28,19 @@
 
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 import {ContextMenuService} from '../context-menu.service';
-import {WorkPackageTable} from "../../wp-fast-table/wp-fast-table";
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageRelationsHierarchyService} from "../../wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {States} from '../../states.service';
+import {StateService} from '@uirouter/angularjs';
 
 function wpContextMenuController($scope:any,
                                  $rootScope:ng.IRootScopeService,
-                                 $state:ng.ui.IStateService,
+                                 $state:StateService,
                                  states:States,
                                  WorkPackageContextMenuHelper:any,
                                  WorkPackageService:any,
                                  wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
                                  contextMenu:ContextMenuService,
+                                 wpDestroyModal:any,
                                  I18n:op.I18n,
                                  $window:ng.IWindowService,
                                  wpTableSelection:WorkPackageTableSelection,
@@ -105,9 +102,8 @@ function wpContextMenuController($scope:any,
   }
 
   function deleteSelectedWorkPackages() {
-    let ids = wpTableSelection.getSelectedWorkPackageIds();
-
-    WorkPackageService.performBulkDelete(ids, true);
+    var selected = getSelectedWorkPackages();
+    wpDestroyModal.activate({ workPackages: selected });
   }
 
   function editSelectedWorkPackages(link:any) {
@@ -117,12 +113,6 @@ function wpContextMenuController($scope:any,
       $window.location.href = link;
       return;
     }
-
-    var params = {
-      workPackageId: selected[0].id
-    };
-
-    $state.transitionTo('work-packages.show.edit', params);
   }
 
   function copySelectedWorkPackages(link:any) {
@@ -137,7 +127,7 @@ function wpContextMenuController($scope:any,
       copiedFromWorkPackageId: selected[0].id
     };
 
-    $state.transitionTo('work-packages.list.copy', params);
+    $state.go('work-packages.list.copy', params);
   }
 
   function getSelectedWorkPackages() {

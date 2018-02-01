@@ -69,12 +69,13 @@ module CopyModel
             if respond_to?(:"copy_#{name}") || private_methods.include?(:"copy_#{name}")
               reload
               begin
-                send(:"copy_#{name}", model)
+                send(:"copy_#{name}", model, to_be_copied)
                 # Array(nil) => [], works around nil values of has_one associations
                 (Array(send(name)).map do |instance|
                   compiled_errors << instance.errors unless instance.valid?
                 end)
-              rescue
+              rescue => e
+                Rails.logger.error "Failed to copy association #{name}: #{e}"
                 errors.add(name, :could_not_be_copied)
               end
             end

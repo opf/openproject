@@ -26,8 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Component, ElementRef, Inject, Injectable, Input, OnDestroy, OnInit} from '@angular/core';
+import {downgradeComponent, downgradeInjectable} from '@angular/upgrade/static';
+import {IRootScopeService} from 'angular';
+import {$rootScopeToken, columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
+import {GroupObject} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {Observable} from 'rxjs/Observable';
-import {scopedObservable} from '../../helpers/angular-rx-utils';
+import openprojectModule from '../../angular-modules';
 import {debugLog} from '../../helpers/debug_output';
 import {ContextMenuService} from '../context-menus/context-menu.service';
 import {States} from '../states.service';
@@ -35,75 +42,85 @@ import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-co
 import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackageTableTimelineService} from '../wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
-import {WorkPackageTableColumns} from '../wp-fast-table/wp-table-columns';
-import {KeepTabService} from '../wp-panels/keep-tab/keep-tab.service';
 import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
+import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
 
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpTable', wpTable);
 
-function wpTable(keepTab:KeepTabService,
-                 PathHelper:any,
-                 columnsModal:any,
-                 contextMenu:ContextMenuService) {
-  return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/components/wp-table/wp-table.directive.html',
-    scope: {
-      projectIdentifier: '='
-    },
-
-    controller: WorkPackagesTableController,
-
-    link: function(scope:ng.IScope,
-                   element:ng.IAugmentedJQuery,
-                   attributes:ng.IAttributes) {
-
-      scope.workPackagePath = PathHelper.workPackagePath;
-
-      var topMenuHeight = angular.element('#top-menu').prop('offsetHeight') || 0;
-      scope.adaptVerticalPosition = function(event:JQueryEventObject) {
-        event.pageY -= topMenuHeight;
-      };
-
-      // Set and keep the current details tab state remembered
-      // for the open-in-details button in each WP row.
-      scope.desiredSplitViewState = keepTab.currentDetailsState;
-      scopedObservable(scope, keepTab.observable).subscribe((tabs:any) => {
-        scope.desiredSplitViewState = tabs.details;
-      });
-
-
-      /** Open the settings modal */
-      scope.openColumnsModal = function() {
-        contextMenu.close();
-        columnsModal.activate();
-      };
-    }
-  };
+/**
+ * TODO remove once the transition to Angular4 is completed
+ */
+@Injectable()
+export class WorkPackagesTableControllerHolder {
+  instance:WorkPackagesTableController;
 }
 
-export class WorkPackagesTableController {
+openprojectModule.factory(
+  'workPackagesTableControllerHolder',
+  downgradeInjectable(WorkPackagesTableControllerHolder));
 
-  private readonly scrollSyncUpdate = createScrollSync(this.$element);
 
-  constructor(private $scope:ng.IScope,
-              public $element:ng.IAugmentedJQuery,
-              $rootScope:ng.IRootScopeService,
-              states:States,
-              I18n:op.I18n,
-              wpTableGroupBy:WorkPackageTableGroupByService,
-              wpTableTimeline:WorkPackageTableTimelineService,
-              wpTableColumns:WorkPackageTableColumnsService) {
+@Component({
+  template: require('!!raw-loader!./wp-table.directive.html')
+})
+export class WorkPackagesTableController implements OnInit, OnDestroy {
+
+  @Input() projectIdentifier:string;
+
+  private $element:JQuery;
+
+  private scrollSyncUpdate:(timelineVisible:boolean) => any;
+
+  private wpTableHoverSync:WpTableHoverSync;
+
+  public tableElement:HTMLElement;
+
+  public workPackageTable:WorkPackageTable;
+
+  public tbody:JQuery;
+
+  public timeline:HTMLElement;
+
+  public locale:string;
+
+  public text:any;
+
+  public query:QueryResource;
+
+  public rowcount:number;
+
+  public groupBy:GroupObject[];
+
+  public columns:any;
+
+  public numTableColumns:number;
+
+  public timelineVisible:boolean;
+
+  constructor(private elementRef:ElementRef,
+              @Inject(columnsModalToken) private columnsModal:any,
+              private contextMenu:ContextMenuService,
+              private workPackagesTableControllerHolder:WorkPackagesTableControllerHolder,
+              private states:States,
+              @Inject($rootScopeToken) private $rootScope:IRootScopeService,
+              @Inject(I18nToken) private I18n:op.I18n,
+              private wpTableGroupBy:WorkPackageTableGroupByService,
+              private wpTableTimeline:WorkPackageTableTimelineService,
+              private wpTableColumns:WorkPackageTableColumnsService) {
+
+    workPackagesTableControllerHolder.instance = this;
+  }
+
+  ngOnInit():void {
+    this.$element = jQuery(this.elementRef.nativeElement);
+    this.scrollSyncUpdate = createScrollSync(this.$element);
+
     // Clear any old table subscribers
-    states.table.stopAllSubscriptions.next();
+    this.states.table.stopAllSubscriptions.next();
 
-    $scope.locale = I18n.locale;
+    this.locale = I18n.locale;
 
-    $scope.text = {
+    this.text = {
       cancel: I18n.t('js.button_cancel'),
       noResults: {
         title: I18n.t('js.work_packages.no_results.title'),
@@ -122,79 +139,77 @@ export class WorkPackagesTableController {
       ].join(' ')
     };
 
-    $scope.cancelInlineWorkPackage = function(index:number, row:any) {
-      $rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
-    };
-
     Observable.combineLatest(
-      scopedObservable($scope, states.query.resource.values$()),
-      scopedObservable($scope, states.table.results.values$()),
-      wpTableGroupBy.observeOnScope($scope),
-      wpTableColumns.observeOnScope($scope),
-      wpTableTimeline.observeOnScope($scope)
-    ).subscribe(([query, results, groupBy, columns, timelines]) => {
+      this.states.query.resource.values$(),
+      this.states.table.results.values$(),
+      this.wpTableGroupBy.state.values$(),
+      this.wpTableColumns.state.values$(),
+      this.wpTableTimeline.state.values$()
+    )
+      .takeUntil(componentDestroyed(this))
+      .subscribe(([query, results, groupBy, columns, timelines]) => {
+        this.query = query;
+        this.rowcount = results.count;
 
-      $scope.query = query;
-      $scope.rowcount = results.count;
+        this.groupBy = groupBy.current;
+        this.columns = columns.current;
+        // Total columns = all available columns + id + checkbox
+        this.numTableColumns = this.columns.length + 2;
 
-      $scope.groupBy = groupBy.current;
-      $scope.columns = columns.current;
-      // Total columns = all available columns + id + checkbox
-      $scope.numTableColumns = $scope.columns.length + 2;
+        if (this.timelineVisible !== timelines.current) {
+          this.scrollSyncUpdate(timelines.current);
+        }
+        this.timelineVisible = timelines.current;
+      });
 
-      if ($scope.timelineVisible !== timelines.current) {
-        this.scrollSyncUpdate(timelines.current);
-      }
-      $scope.timelineVisible = timelines.current;
-    });
+    // Locate table and timeline elements
+    const tableAndTimeline = this.getTableAndTimelineElement();
+    this.tableElement = tableAndTimeline[0];
+    this.timeline = tableAndTimeline[1];
 
-    // Subscribe to column changes and calculate how to
-    // partition the width between table and timeline
-    wpTableColumns.observeOnScope($scope)
-      .subscribe(c => this.changeTimelineWidthOnColumnCountChange(c));
+    // sync hover from table to timeline
+    this.wpTableHoverSync = new WpTableHoverSync(this.$element);
+    this.wpTableHoverSync.activate();
   }
 
-  public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
+  public ngOnDestroy():void {
+    this.wpTableHoverSync.deactivate();
+  }
 
+  public cancelInlineWorkPackage(index:number, row:any) {
+    this.$rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
+  };
+
+  public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
     var t0 = performance.now();
 
     const tbody = this.$element.find('.work-package--results-tbody');
-    this.$scope.table = new WorkPackageTable(this.$element[0], tbody[0], body, controller);
-    this.$scope.tbody = tbody;
-    controller.workPackageTable = this.$scope.table;
-
+    this.workPackageTable = new WorkPackageTable(this.$element[0], tbody[0], body, controller);
+    this.tbody = tbody;
+    controller.workPackageTable = this.workPackageTable;
 
     var t1 = performance.now();
     debugLog('Render took ' + (t1 - t0) + ' milliseconds.');
   }
 
-  private changeTimelineWidthOnColumnCountChange(columns:WorkPackageTableColumns) {
-    const $tableSide = this.$element.find('.work-packages-tabletimeline--table-side');
-    const $timelineSide = this.$element.find('.work-packages-tabletimeline--timeline-side');
-    if ($timelineSide.length === 0 || $tableSide.length === 0) {
-      return;
-    }
-
-    const table = $tableSide[0];
-    const timeline = $timelineSide[0];
-    const colCount = columns.current.length;
-
-    let widthTable = 1;
-    let widthTimeline = 1;
-
-    if (colCount <= 2) {
-      widthTable = 1;
-      widthTimeline = 3;
-    } else if (colCount <= 3) {
-      widthTable = 1;
-      widthTimeline = 2;
-    } else if (colCount <= 4) {
-      widthTable = 2;
-      widthTimeline = 3;
-    }
-
-    table.style.flex = `${widthTable} 1`;
-    timeline.style.flex = `${widthTimeline} 1`;
+  public openColumnsModal() {
+    this.contextMenu.close();
+    this.columnsModal.activate();
   }
 
+  private getTableAndTimelineElement():[HTMLElement, HTMLElement] {
+    const $tableSide = this.$element.find('.work-packages-tabletimeline--table-side');
+    const $timelineSide = this.$element.find('.work-packages-tabletimeline--timeline-side');
+
+    if ($timelineSide.length === 0 || $tableSide.length === 0) {
+      throw new Error('invalid state');
+    }
+
+    return [$tableSide[0], $timelineSide[0]];
+  }
 }
+
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpTable',
+    downgradeComponent({component: WorkPackagesTableController}));

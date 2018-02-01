@@ -34,6 +34,7 @@ import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-pac
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {RelatedWorkPackagesGroup} from './wp-relations.interfaces';
 import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.service';
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
@@ -46,13 +47,13 @@ export class WorkPackageRelationsController {
 
   constructor(protected $scope:ng.IScope,
               protected $q:ng.IQService,
-              protected $state:ng.ui.IState,
+              protected $state:StateService,
               protected I18n:op.I18n,
               protected wpRelations:WorkPackageRelationsService,
               protected wpCacheService:WorkPackageCacheService) {
 
     scopedObservable(this.$scope,
-      this.wpRelations.getRelationsForWorkPackage(this.workPackage.id).values$())
+      this.wpRelations.state(this.workPackage.id).values$())
       .subscribe((relations:RelationsStateValue) => {
         this.loadedRelations(relations);
       });
@@ -62,7 +63,6 @@ export class WorkPackageRelationsController {
       this.wpCacheService.loadWorkPackage(this.workPackage.id).values$())
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
-        this.wpRelations.require(wp);
       });
   }
 
@@ -138,7 +138,7 @@ export class WorkPackageRelationsController {
   }
 }
 
-function wpRelationsDirective() {
+function wpRelationsDirective():any {
   return {
     restrict: 'E',
     replace: true,

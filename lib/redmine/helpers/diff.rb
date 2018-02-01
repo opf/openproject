@@ -84,6 +84,18 @@ module Redmine
         end
         words.join(' ')
       end
+
+      def additions
+        added_changes = []
+        if @diff.diffs.try(:first).try(:any?)
+          @diff.diffs.first.each do |change|
+            if change.first == "+"
+              added_changes << change.third
+            end
+          end
+        end
+        added_changes
+      end
     end
   end
 end

@@ -39,6 +39,10 @@ module API
             SUPPORTED_CONTEXT_NAMESPACES = %w(work_packages projects).freeze
             SUPPORTED_MEDIA_TYPE = 'text/plain'
 
+            def allowed_content_types
+              [SUPPORTED_MEDIA_TYPE]
+            end
+
             def check_content_type
               actual = request.content_type
 
@@ -54,7 +58,7 @@ module API
 
             def check_format(format)
               supported_formats = ['plain']
-              supported_formats += Array(::Redmine::WikiFormatting.format_names)
+              supported_formats += ::Redmine::WikiFormatting.format_names.map(&:to_s)
               unless supported_formats.include?(format)
                 fail ::API::Errors::NotFound, I18n.t('api_v3.errors.code_404')
               end

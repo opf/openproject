@@ -128,7 +128,7 @@ describe 'Search' do # FIXME: naming (RSpec-port)
 
   it 'should search_issue_with_multiple_hits_in_journals' do
     i = WorkPackage.find(1)
-    Journal.delete_all journable_id: i.id
+    Journal.where(journable_id: i.id).delete_all
     i.add_journal User.current, 'Journal notes'
     i.save!
     i.add_journal User.current, 'Some notes with Redmine links: #2, r2.'

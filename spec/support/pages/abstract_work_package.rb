@@ -89,8 +89,11 @@ module Pages
     def expect_attributes(attribute_expectations)
       attribute_expectations.each do |label_name, value|
         label = label_name.to_s
-
-        expect(page).to have_selector(".wp-edit-field.#{label.camelize(:lower)}", text: value)
+        if label == 'status'
+          expect(page).to have_selector(".wp-status-button .button", text: value)
+        else
+          expect(page).to have_selector(".wp-edit-field.#{label.camelize(:lower)}", text: value)
+        end
       end
     end
 
@@ -156,6 +159,8 @@ module Pages
         end
       elsif key == :description
         WorkPackageTextAreaField.new page, key
+      elsif key == :status
+        WorkPackageStatusField.new page
       else
         WorkPackageField.new page, key
       end
@@ -175,12 +180,6 @@ module Pages
       page.visit!
 
       page
-    end
-
-    def view_all_attributes
-      # click_link does not work for reasons(TM)
-
-      page.find('a', text: I18n.t('js.label_show_attributes')).click
     end
 
     def trigger_edit_mode

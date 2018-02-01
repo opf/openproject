@@ -34,7 +34,10 @@ module Queries::Filters::Strategies
              to: :filter
 
     def validate
-      if (allowed_values_subset & values).sort != values.sort
+      unique_values = values.uniq
+      allowed_and_desired_values = allowed_values_subset & unique_values
+
+      if allowed_and_desired_values.sort != unique_values.sort
         errors.add(:values, :inclusion)
       end
     end

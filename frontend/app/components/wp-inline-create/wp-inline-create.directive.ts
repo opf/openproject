@@ -26,94 +26,114 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {onClickOrEnter} from "../wp-fast-table/handlers/click-or-enter-handler";
-import {opWorkPackagesModule} from "../../angular-modules";
-import {WorkPackageTableColumnsService} from "../wp-fast-table/state/wp-table-columns.service";
-import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {QueryFilterInstanceResource} from '../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {WorkPackageCreateService} from "../wp-create/wp-create.service";
-import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
-import {
-  InlineCreateRowBuilder, inlineCreateCancelClassName,
-  inlineCreateRowClassName
-} from "./inline-create-row-builder";
-import {scopeDestroyed$, scopedObservable} from "../../helpers/angular-rx-utils";
-import {States} from "../states.service";
-import {WorkPackageEditForm} from "../wp-edit-form/work-package-edit-form";
-import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
-import {WorkPackageTableRow} from "../wp-fast-table/wp-table.interfaces";
-import {WorkPackageTableTimelineService} from "../wp-fast-table/state/wp-table-timeline.service";
+import {Directive, ElementRef, Injector, Input} from '@angular/core';
+import {UpgradeComponent} from '@angular/upgrade/static';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {opWorkPackagesModule} from '../../angular-modules';
+import {scopeDestroyed$, scopedObservable} from '../../helpers/angular-rx-utils';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {States} from '../states.service';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {WorkPackageCreateService} from '../wp-create/wp-create.service';
+import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
+import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
+import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
+import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
+import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-values';
 import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
+import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
+import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
+import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
+import {
+  inlineCreateCancelClassName, InlineCreateRowBuilder,
+  inlineCreateRowClassName
+} from './inline-create-row-builder';
 
 export class WorkPackageInlineCreateController {
 
+  // inputs
+
   public projectIdentifier:string;
-  public table: WorkPackageTable;
+
+  public table:WorkPackageTable;
+
+  // inner state
 
   public isHidden:boolean = false;
+
   public focus:boolean = false;
 
-  public text:{ create: string };
+  public text:{ create:string };
 
-  private currentWorkPackage:WorkPackageResourceInterface|null;
-  private workPackageEditForm:WorkPackageEditForm|undefined;
+  private currentWorkPackage:WorkPackageResourceInterface | null;
+
+  private workPackageEditForm:WorkPackageEditForm | undefined;
+
   private rowBuilder:InlineCreateRowBuilder;
+
   private timelineBuilder:TimelineRowBuilder;
 
-  constructor(
-    public $scope:ng.IScope,
-    public $element:ng.IAugmentedJQuery,
-    public $timeout:ng.ITimeoutService,
-    public FocusHelper:any,
-    public states:States,
-    public wpCacheService:WorkPackageCacheService,
-    public wpCreate:WorkPackageCreateService,
-    public wpTableColumns:WorkPackageTableColumnsService,
-    private wpTableFilters:WorkPackageTableFiltersService,
-    private AuthorisationService:any,
-    private $q:ng.IQService,
-    private I18n:op.I18n
-  ) {
+  constructor(public $scope:ng.IScope,
+              public $element:ng.IAugmentedJQuery,
+              public $timeout:ng.ITimeoutService,
+              public FocusHelper:any,
+              public states:States,
+              public wpCacheService:WorkPackageCacheService,
+              public wpEditing:WorkPackageEditingService,
+              public wpCreate:WorkPackageCreateService,
+              public wpTableColumns:WorkPackageTableColumnsService,
+              private wpTableFilters:WorkPackageTableFiltersService,
+              private wpTableFocus:WorkPackageTableFocusService,
+              private AuthorisationService:any) {
+  }
+
+  // Will be called by Angular
+  // noinspection JSUnusedGlobalSymbols
+  $onChanges() {
+    if (_.isNil(this.table)) {
+      return;
+    }
+
     this.rowBuilder = new InlineCreateRowBuilder(this.table);
     this.timelineBuilder = new TimelineRowBuilder(this.table);
     this.text = {
       create: I18n.t('js.label_create_work_package')
     };
 
-    // Mirror the row in timeline
-    const mirrorRow = jQuery('<div id="wp-timeline-mirror-cell" class="wp-timeline-cell"></div>');
-    $scope.$watch('$ctrl.isHidden', (hidden) => {
-      const container = jQuery('.wp-table-timeline--inline-create-mirror');
-      container.empty();
-      if (!hidden) {
-        jQuery('.wp-table-timeline--inline-create-mirror').empty().append(mirrorRow);
-      }
-    });
+    // Mirror the row height in timeline
+    const container = jQuery('.wp-table-timeline--body');
+    container.addClass('-inline-create-mirror');
 
     // Remove temporary rows on creation of new work package
-    scopedObservable(this.$scope, this.wpCacheService.onNewWorkPackage())
+    scopedObservable(this.$scope, this.wpCreate.onNewWorkPackage())
       .subscribe((wp:WorkPackageResourceInterface) => {
-
-        if (this.currentWorkPackage === wp) {
-          // Remove this row and add another
+        if (this.currentWorkPackage && this.currentWorkPackage === wp) {
+          // Add next row
           this.removeWorkPackageRow();
           this.addWorkPackageRow();
 
           // Focus on the last inserted id
-          this.states.focusedWorkPackage.putValue(wp.id, 'Added in inline create');
+          this.wpTableFocus.updateFocus(wp.id);
+        } else {
+          // Remove current row
+          this.table.editing.stopEditing('new');
+          this.removeWorkPackageRow();
+          this.showRow();
         }
-    });
+      });
 
     // Watch on this scope when the columns change and refresh this row
     this.states.table.columns.values$()
       .filter(() => this.isHidden) // Take only when row is inserted
-      .takeUntil(scopeDestroyed$($scope)).subscribe(() => {
-        const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
+      .takeUntil(scopeDestroyed$(this.$scope)).subscribe(() => {
+      const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
 
-        if (rowElement.length && this.currentWorkPackage) {
-          this.rowBuilder.refreshRow(this.currentWorkPackage, this.workPackageEditForm, rowElement);
-        }
+      if (rowElement.length && this.currentWorkPackage) {
+        this.rowBuilder.refreshRow(this.currentWorkPackage,
+          this.workPackageEditForm!.changeset,
+          rowElement);
+      }
     });
 
     // Cancel edition of current new row
@@ -133,20 +153,25 @@ export class WorkPackageInlineCreateController {
   }
 
   public addWorkPackageRow() {
-    this.wpCreate.createNewWorkPackage(this.projectIdentifier).then(wp => {
-      if (!wp) {
-        throw "No new work package was created";
+    this.wpCreate.createNewWorkPackage(this.projectIdentifier).then((changeset:WorkPackageChangeset) => {
+      if (!changeset) {
+        throw 'No new work package was created';
       }
 
-      this.currentWorkPackage = wp;
-      (this.currentWorkPackage as any).inlineCreated = true;
+      const wp = this.currentWorkPackage = changeset.workPackage;
 
-      this.applyDefaultsFromFilters(this.currentWorkPackage!).then(() => {
+      // Apply filter values
+      const filter = new WorkPackageFilterValues(changeset, this.wpTableFilters.current);
+      filter.applyDefaultsFromFilters().then(() => {
+        this.wpEditing.updateValue('new', changeset);
         this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
 
-        this.workPackageEditForm = new WorkPackageEditForm('new');
+        // Set editing context to table
+        const context = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
+        this.workPackageEditForm = WorkPackageEditForm.createInContext(context, wp, false);
+        this.workPackageEditForm.changeset.clear();
+
         const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
-        this.timelineBuilder.insert('new', this.table.timelineBody);
         this.$element.append(row);
 
         this.$timeout(() => {
@@ -155,31 +180,6 @@ export class WorkPackageInlineCreateController {
         });
       });
     });
-  }
-
-  private applyDefaultsFromFilters(workPackage:WorkPackageResourceInterface) {
-    let filters = this.wpTableFilters.current as QueryFilterInstanceResource[];
-
-    let promises:ng.IPromise<void>[] = [];
-
-    angular.forEach(filters, filter => {
-      // Ignore any filters except =
-      if (filter.operator.id !== '=') {
-        return;
-      }
-
-      // Select the first value
-      var value = filter.values[0];
-
-      // Avoid empty values
-      if (!value) {
-        return;
-      }
-
-      promises.push(workPackage.setAllowedValueFor(filter.id, value));
-    });
-
-    return this.$q.all(promises);
   }
 
   /**
@@ -196,10 +196,9 @@ export class WorkPackageInlineCreateController {
 
   public removeWorkPackageRow() {
     this.currentWorkPackage = null;
-    this.states.editing.get('new').clear();
+    this.table.editing.stopEditing('new');
     this.states.workPackages.get('new').clear();
     this.$element.find('.wp-row-new').remove();
-    jQuery(this.table.timelineBody).find('.wp-row-new-timeline').remove();
   }
 
   public showRow() {
@@ -219,20 +218,35 @@ export class WorkPackageInlineCreateController {
   }
 }
 
-function wpInlineCreate() {
+function wpInlineCreate():any {
   return {
     restrict: 'AE',
     templateUrl: '/components/wp-inline-create/wp-inline-create.directive.html',
 
     scope: {
-      table: "=",
+      table: '=',
       projectIdentifier: '='
     },
 
     bindToController: true,
     controllerAs: '$ctrl',
     controller: WorkPackageInlineCreateController
-  }
+  };
 }
 
 opWorkPackagesModule.directive('wpInlineCreate', wpInlineCreate);
+
+
+@Directive({
+  selector: '[wpInlineCreate]'
+})
+export class WpInlineCreateDirectiveUpgraded extends UpgradeComponent {
+
+  @Input('wp-inline-create--table') table:WorkPackageTable;
+  @Input('wp-inline-create--project-identifier') projectIdentifier:string;
+
+  constructor(elementRef:ElementRef, injector:Injector) {
+    super('wpInlineCreate', elementRef, injector);
+  }
+
+}

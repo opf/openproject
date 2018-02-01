@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,8 +29,6 @@
 #++
 
 class Principal < ActiveRecord::Base
-  extend Pagination::Model
-
   # Account statuses
   # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
   STATUSES = {
@@ -38,14 +37,14 @@ class Principal < ActiveRecord::Base
     registered: 2,
     locked: 3,
     invited: 4
-  }
+  }.freeze
 
   self.table_name = "#{table_name_prefix}users#{table_name_suffix}"
 
   has_one :preference,
-    dependent: :destroy,
-    class_name: 'UserPreference',
-    foreign_key: 'user_id'
+          dependent: :destroy,
+          class_name: 'UserPreference',
+          foreign_key: 'user_id'
   has_many :members, foreign_key: 'user_id', dependent: :destroy
   has_many :memberships, -> {
     includes(:project, :roles)
@@ -84,7 +83,7 @@ class Principal < ActiveRecord::Base
     where("#{Principal.table_name}.status <> #{STATUSES[:builtin]}")
   }
 
-  scope :like, -> (q) {
+  scope :like, ->(q) {
     firstnamelastname = "((firstname || ' ') || lastname)"
     lastnamefirstname = "((lastname || ' ') || firstname)"
 
@@ -120,6 +119,19 @@ class Principal < ActiveRecord::Base
 
   def self.order_by_name
     order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map(&:to_s))
+  end
+
+  def self.me
+    where(id: User.current.id)
+  end
+
+  def self.in_visible_project(user = User.current)
+    in_project(Project.visible(user))
+  end
+
+  def self.in_visible_project_or_me(user = User.current)
+    in_visible_project(user)
+      .or(me)
   end
 
   def status_name
@@ -170,4 +182,7 @@ class Principal < ActiveRecord::Base
     self.mail ||= ''
     true
   end
+
+  extend Pagination::Model
+
 end

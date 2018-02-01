@@ -26,23 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {WikiTextareaEditField} from '../../wp-edit/field-types/wp-edit-wiki-textarea-field.module';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WikiTextareaEditField} from '../../wp-edit/field-types/wp-edit-wiki-textarea-field.module';
+import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
 
 export class WorkPackageCommentField extends WikiTextareaEditField {
+  public _value:any;
+  public isBusy:boolean = false;
 
-  public fieldVal = { raw: '' };
-
-  constructor(workPackage:WorkPackageResourceInterface, protected I18n:op.I18n) {
-    super(workPackage, 'comment', {name: I18n.t('js.label_comment')} as any);
+  constructor(public workPackage:WorkPackageResourceInterface, protected I18n:op.I18n) {
+    super(new WorkPackageChangeset(workPackage), 'comment', {name: I18n.t('js.label_comment')} as any);
 
     this.initializeFieldValue();
-    this.workPackage = workPackage;
   }
 
   public get value() {
-    return this.fieldVal;
+    return this._value;
+  }
+
+  public set value(val:any) {
+    this._value = val;
   }
 
   public get required() {
@@ -51,15 +54,15 @@ export class WorkPackageCommentField extends WikiTextareaEditField {
 
   public initializeFieldValue(withText?:string):void {
     if (!withText) {
-      this.fieldVal.raw = '';
-      return
+      this.rawValue = '';
+      return;
     }
 
-    if (this.fieldVal.raw.length > 0) {
-      this.fieldVal.raw += '\n';
+    if (this.rawValue.length > 0) {
+      this.rawValue += '\n';
     }
 
-    this.fieldVal.raw += withText;
+    this.rawValue += withText;
   }
 
 }

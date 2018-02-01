@@ -48,16 +48,18 @@ module Pages
       within(table_container) do
         work_packages.each do |wp|
           expect(page).to have_selector(".wp-row-#{wp.id} td.subject",
-                                        text: wp.subject)
+                                        text: wp.subject,
+                                        wait: 20)
         end
       end
     end
 
-    def expect_work_package_not_listed(*work_packages)
+    def expect_work_package_not_listed(*work_packages, wait: 3)
       within(table_container) do
         work_packages.each do |wp|
           expect(page).to have_no_selector(".wp-row-#{wp.id} td.subject",
-                                           text: wp.subject)
+                                           text: wp.subject,
+                                           wait: wait)
         end
       end
     end
@@ -79,8 +81,7 @@ module Pages
 
     def expect_title(name)
       expect(page)
-        .to have_selector('.title-container',
-                          text: name)
+        .to have_selector('.title-container', text: name, wait: 20)
     end
 
     def expect_query_in_select_dropdown(name)
@@ -92,8 +93,22 @@ module Pages
     end
 
     def click_inline_create
+
+      ##
+      # When using the inline create on initial page load,
+      # there is a delay on travis where inline create can be clicked.
+      sleep 3
+
       find('.wp-inline-create--add-link').click
-      expect(page).to have_selector('.wp-inline-create-row')
+      expect(page).to have_selector('.wp-inline-create-row', wait: 10)
+    end
+
+    def create_wp_split_screen(type)
+      find('.add-work-package:not([disabled])', text: 'Create').click
+
+      find('#types-context-menu .menu-item', text: type, wait: 10).click
+
+      SplitWorkPackageCreate.new(project: project)
     end
 
     def open_split_view(work_package)
@@ -103,9 +118,14 @@ module Pages
       row_element = row(work_package)
       row_element.hover
 
-      row_element.find('.wp-table--details-link').click
+      scroll_to_and_click(row_element.find('.wp-table--details-link'))
 
       split_page
+    end
+
+    def click_on_row(work_package)
+      loading_indicator_saveguard
+      page.driver.browser.action.click(row(work_package).native).perform
     end
 
     def add_filter(label, operator, value)
@@ -128,11 +148,6 @@ module Pages
       expect(page).to have_select("values-#{filter_name}", selected: value) if value
     end
 
-    def click_on_row(work_package)
-      loading_indicator_saveguard
-      page.driver.browser.action.click(row(work_package).native).perform
-    end
-
     def open_full_screen_by_doubleclick(work_package)
       loading_indicator_saveguard
       # The 'id' column should have enough space to be clicked
@@ -144,6 +159,8 @@ module Pages
 
     def open_full_screen_by_link(work_package)
       row(work_package).click_link(work_package.id)
+
+      FullWorkPackage.new(work_package)
     end
 
     def row(work_package)
@@ -158,12 +175,12 @@ module Pages
           row(work_package)
         end
 
-      ::TableWorkPackageField.new(context, attribute)
+      ::WorkPackageField.new(context, attribute)
     end
 
     def click_setting_item(label)
-      find('#work-packages-settings-button').click
-      find('#settingsDropdown .menu-item', text: label).click
+      ::Components::WorkPackages::SettingsMenu
+        .new.open_and_choose(label)
     end
 
     def save_as(name)

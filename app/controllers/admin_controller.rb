@@ -32,41 +32,15 @@ class AdminController < ApplicationController
 
   before_action :require_admin
 
-  include SortHelper
-  include PaginationHelper
-
-  menu_item :projects, only: [:projects]
   menu_item :plugins, only: [:plugins]
   menu_item :info, only: [:info]
 
   def index
-    redirect_to action: 'projects'
+    redirect_to controller: 'users', action: 'index'
   end
 
   def projects
-    # We need to either clear the session sort
-    # or users can't access the default lft order with subprojects
-    # after once sorting the list
-    sort_clear
-    sort_init 'lft'
-    sort_update %w(lft name is_public created_on required_disk_space latest_activity_at)
-    @status = params[:status] ? params[:status].to_i : 1
-    c = ARCondition.new(@status == 0 ? 'status <> 0' : ['status = ?', @status])
-
-    unless params[:name].blank?
-      name = "%#{params[:name].strip.downcase}%"
-      c << ['LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?', name, name]
-    end
-
-    @projects = Project
-                .with_required_storage
-                .with_latest_activity
-                .order(sort_clause)
-                .where(c.conditions)
-                .page(page_param)
-                .per_page(per_page_param)
-
-    render action: 'projects', layout: false if request.xhr?
+    redirect_to controller: 'projects', action: 'index'
   end
 
   def plugins
@@ -110,8 +84,6 @@ class AdminController < ApplicationController
 
   def default_breadcrumb
     case params[:action]
-    when 'projects'
-      l(:label_project_plural)
     when 'plugins'
       l(:label_plugins)
     when 'info'

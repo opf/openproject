@@ -232,6 +232,7 @@ describe ::Query::Results, type: :model do
     let(:work_package3) { FactoryGirl.create(:work_package, project: project_1) }
     let(:sort_by) { [['parent', 'asc']] }
     let(:columns) { %i(id subject) }
+    let(:group_by) { '' }
 
     let(:query) do
       FactoryGirl.build_stubbed :query,
@@ -382,6 +383,196 @@ describe ::Query::Results, type: :model do
         #   work_package 2
         expect(query_results.sorted_work_packages)
           .to match [work_package1, work_package3, work_package2]
+      end
+    end
+
+    context 'sorting by parent' do
+      let(:work_package1) { FactoryGirl.create(:work_package, project: project_1, subject: '1') }
+      let(:work_package2) { FactoryGirl.create(:work_package, project: project_1, parent: work_package1, subject: '2') }
+      let(:work_package3) { FactoryGirl.create(:work_package, project: project_1, parent: work_package2, subject: '3') }
+      let(:work_package4) { FactoryGirl.create(:work_package, project: project_1, parent: work_package1, subject: '4') }
+      let(:work_package5) { FactoryGirl.create(:work_package, project: project_1, parent: work_package4, subject: '5') }
+      let(:work_package6) { FactoryGirl.create(:work_package, project: project_1, parent: work_package4, subject: '6') }
+      let(:work_package7) { FactoryGirl.create(:work_package, project: project_1, subject: '7') }
+      let(:work_package8) { FactoryGirl.create(:work_package, project: project_1, subject: '8') }
+      let(:work_package9) { FactoryGirl.create(:work_package, project: project_1, parent: work_package8, subject: '9') }
+
+      # While we set a second sort criteria, it will be ignored as the sorting works solely on the id of the ancestors and
+      # the work package itself
+      let(:sort_by) { [['parent', 'asc'], ['subject', 'asc']] }
+
+      before do
+        allow(User).to receive(:current).and_return(user_1)
+
+        # intentionally messing with the id
+        work_package8
+        work_package9
+        work_package1
+        work_package4
+        work_package5
+        work_package3
+        work_package6
+        work_package2
+        work_package7
+      end
+
+      it 'sorts depth first by parent (id) where the second criteria is unfortunately ignored' do
+        expected_order = [work_package8,
+                          work_package9,
+                          work_package1,
+                          work_package4,
+                          work_package5,
+                          work_package6,
+                          work_package2,
+                          work_package3,
+                          work_package7]
+
+        expect(query_results.sorted_work_packages)
+          .to match expected_order
+
+        query.sort_criteria = [['parent', 'desc'], ['subject', 'asc']]
+
+        expect(query_results.sorted_work_packages)
+          .to match expected_order.reverse
+      end
+    end
+
+    context 'filtering by bool cf' do
+      let(:bool_cf) { FactoryGirl.create(:bool_wp_custom_field, is_filter: true) }
+      let(:custom_value) do
+        FactoryGirl.create(:custom_value,
+                           custom_field: bool_cf,
+                           customized: work_package1,
+                           value: value)
+      end
+      let(:value) { 't' }
+      let(:filter_value) { 't' }
+      let(:activate_cf) do
+        work_package1.project.work_package_custom_fields << bool_cf
+        work_package1.type.custom_fields << bool_cf
+
+        work_package1.reload
+        project_1.reload
+      end
+
+      before do
+        allow(User).to receive(:current).and_return(user_1)
+
+        custom_value
+
+        activate_cf
+
+        query.add_filter(:"cf_#{bool_cf.id}", '=', [filter_value])
+      end
+
+      shared_examples_for 'is empty' do
+        it 'is empty' do
+          expect(query.results.work_packages)
+            .to be_empty
+        end
+      end
+
+      shared_examples_for 'returns the wp' do
+        it 'returns the wp' do
+          expect(query.results.work_packages)
+            .to match_array(work_package1)
+        end
+      end
+
+      context 'with the wp having true for the cf
+               and filtering for true' do
+        it_behaves_like 'returns the wp'
+      end
+
+      context 'with the wp having true for the cf
+               and filtering for false' do
+        let(:filter_value) { 'f' }
+
+        it_behaves_like 'is empty'
+      end
+
+      context 'with the wp having false for the cf
+               and filtering for false' do
+        let(:value) { 'f' }
+        let(:filter_value) { 'f' }
+
+        it_behaves_like 'returns the wp'
+      end
+
+      context 'with the wp having false for the cf
+               and filtering for true' do
+        let(:value) { 'f' }
+
+        it_behaves_like 'is empty'
+      end
+
+      context 'with the wp having no value for the cf
+               and filtering for true' do
+        let(:custom_value) { nil }
+
+        it_behaves_like 'is empty'
+      end
+
+      context 'with the wp having no value for the cf
+               and filtering for false' do
+        let(:custom_value) { nil }
+        let(:filter_value) { 'f' }
+
+        it_behaves_like 'returns the wp'
+      end
+
+      context 'with the wp having no value for the cf
+               and filtering for false
+               and the cf not being active in the project' do
+        let(:custom_value) { nil }
+        let(:filter_value) { 'f' }
+
+        let(:activate_cf) do
+          work_package1.type.custom_fields << bool_cf
+
+          work_package1.reload
+          project_1.reload
+        end
+
+        it_behaves_like 'is empty'
+      end
+
+      context 'with the wp having no value for the cf
+               and filtering for false
+               and the cf not being active for the type' do
+        let(:custom_value) { nil }
+        let(:filter_value) { 'f' }
+
+        let(:activate_cf) do
+          work_package1.type.custom_fields << bool_cf
+
+          work_package1.reload
+          project_1.reload
+        end
+
+        it_behaves_like 'is empty'
+      end
+
+      context 'with the wp having no value for the cf
+               and filtering for false
+               and the cf not being active in the project
+               and the cf being for all' do
+        let(:custom_value) { nil }
+        let(:filter_value) { 'f' }
+        let(:bool_cf) do
+          FactoryGirl.create(:bool_wp_custom_field,
+                             is_filter: true,
+                             is_for_all: true)
+        end
+
+        let(:activate_cf) do
+          work_package1.project.work_package_custom_fields << bool_cf
+
+          work_package1.reload
+          project_1.reload
+        end
+
+        it_behaves_like 'is empty'
       end
     end
   end

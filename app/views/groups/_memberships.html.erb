@@ -70,14 +70,25 @@ See doc/COPYRIGHT.rdoc for more details.
                     <td class="project"><%=h membership.project %></td>
                     <td class="roles">
                       <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
-                      <%= form_tag(membership_of_group_path(@group, membership),
-                       method: :put,
-                       remote: true,
-                       id: "member-#{membership.id}-roles-form",
-                       style: 'display:none;') do %>
-                        <p><% roles.each do |role| %>
-                            <label><%= check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role) %> <%=h role %></label>
-                          <% end %></p>
+                      <%= labelled_tabular_form_for(:membership,
+                                                    url: membership_of_group_path(@group, membership),
+                                                    method: :put,
+                                                    remote: true,
+                                                    html: {
+                                                      id: "member-#{membership.id}-roles-form",
+                                                      style: 'display:none;'
+                                                    }) do |f| %>
+                        <% roles.each do |role| %>
+                            <label class="form--label-with-check-box">
+                              <%= f.collection_check_box :role_ids,
+                                                         role.id,
+                                                         membership.roles.include?(role),
+                                                         role.name,
+                                                         no_label: true
+                              %>
+                              <%= role %>
+                            </label>
+                        <% end %>
                         <p class="generic-table--cell-controls">
                           <%= submit_tag l(:button_change), class: 'button -highlight -small' %>
                           <%= link_to_function l(:button_cancel), "jQuery('#member-#{membership.id}-roles').show(); jQuery('#member-#{membership.id}-roles-form').hide();",

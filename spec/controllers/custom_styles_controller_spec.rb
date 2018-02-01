@@ -42,6 +42,7 @@ describe CustomStylesController, type: :controller do
 
       context 'when active token exists' do
         before do
+          allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
           allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
         end
 
@@ -81,6 +82,7 @@ describe CustomStylesController, type: :controller do
       end
 
       before do
+        allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
         allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
 
         expect(CustomStyle).to receive(:create).and_return(custom_style)
@@ -159,8 +161,17 @@ describe CustomStylesController, type: :controller do
         end
       end
 
-      context "when no logo is present" do
+      context "when no custom style is present" do
         let(:custom_style) { nil }
+
+        it 'renders with error' do
+          expect(controller).to_not receive(:send_file)
+          expect(response.status).to eq(404)
+        end
+      end
+
+      context "when no logo is present" do
+        let(:custom_style) { FactoryGirl.build_stubbed(:custom_style) }
 
         it 'renders with error' do
           expect(controller).to_not receive(:send_file)
@@ -217,8 +228,17 @@ describe CustomStylesController, type: :controller do
         end
       end
 
-      context "when no logo is present" do
+      context "when no custom style is present" do
         let(:custom_style) { nil }
+
+        it 'renders with error' do
+          expect(controller).to_not receive(:send_file)
+          expect(response.status).to eq(404)
+        end
+      end
+
+      context "when no favicon is present" do
+        let(:custom_style) { FactoryGirl.build(:custom_style) }
 
         it 'renders with error' do
           expect(controller).to_not receive(:send_file)
@@ -275,8 +295,17 @@ describe CustomStylesController, type: :controller do
         end
       end
 
-      context "when no touch icon is present" do
+      context "when no custom style is present" do
         let(:custom_style) { nil }
+
+        it 'renders with error' do
+          expect(controller).to_not receive(:send_file)
+          expect(response.status).to eq(404)
+        end
+      end
+
+      context "when no touch icon is present" do
+        let(:custom_style) { FactoryGirl.build(:custom_style) }
 
         it 'renders with error' do
           expect(controller).to_not receive(:send_file)

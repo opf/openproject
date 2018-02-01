@@ -59,7 +59,7 @@ describe('lazy service', () => {
       prop: void 0
     };
     lazy(obj, 'prop', () => '');
-    expect(Object.getOwnPropertyDescriptor(obj, 'prop').configurable).to.be.true;
+    expect((Object as any).getOwnPropertyDescriptor(obj!, 'prop').configurable).to.be.true;
   });
 
   it('should set the value of the property provided by the setter', () => {
@@ -87,16 +87,5 @@ describe('lazy service', () => {
     let obj = null;
     lazy(obj, 'prop', () => '');
     expect(obj).to.not.be.ok;
-  });
-
-  it('should call the getter only once', () => {
-    let callback = sinon.spy();
-    let obj:any = {
-      prop: void 0
-    };
-    lazy(obj, 'prop', callback);
-    obj.prop;
-    obj.prop;
-    expect(callback.calledOnce).to.be.true;
   });
 });

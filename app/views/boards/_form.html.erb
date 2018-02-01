@@ -29,10 +29,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'board' %>
 <!--[form:board]-->
 <div class="form--field">
-  <%= f.text_field :name, required: true %>
+  <%= f.text_field :name, required: true, container_class: '-wide' %>
 </div>
 <div class="form--field">
-  <%= f.text_field :description, required: true %>
+  <%= f.text_field :description, required: true, container_class: '-wide' %>
 </div>
 <hr class="form--separator" />
 <!--[eoform:board]-->

@@ -40,13 +40,14 @@ export class WatchersPanelController {
   public autocompleteLoadingPromise: ng.IPromise<any>;
   public autocompleteInput = '';
   public error = false;
+  public allowedToView = false;
   public allowedToAdd = false;
   public allowedToRemove = false;
 
   public watching: any[] = [];
   public text: any;
 
-  constructor(public $scope: ng.IScope,
+  constructor(public $scope: any,
               public $element: ng.IAugmentedJQuery,
               public $q: ng.IQService,
               public I18n: op.I18n,
@@ -77,8 +78,14 @@ export class WatchersPanelController {
 
   public loadCurrentWatchers() {
     this.error = false;
+    this.allowedToView = !!this.workPackage.watchers;
     this.allowedToAdd = !!this.workPackage.addWatcher;
     this.allowedToRemove = !!this.workPackage.removeWatcher;
+
+    if (!this.allowedToView) {
+      this.error = true;
+      return;
+    }
 
     this.workPackage.watchers.$load()
       .then((collection: CollectionResource) => {

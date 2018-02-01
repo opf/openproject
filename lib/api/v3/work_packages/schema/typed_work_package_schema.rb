@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -45,6 +46,22 @@ module API
 
           def available_custom_fields
             project.all_work_package_custom_fields.to_a & type.custom_fields.to_a
+          end
+
+          private
+
+          def contract
+            @contract ||= begin
+              ::WorkPackages::CreateContract
+                .new(work_package,
+                     User.current)
+            end
+          end
+
+          def work_package
+            @work_package ||= WorkPackage
+                              .new(project: project,
+                                   type: type)
           end
         end
       end

@@ -39,21 +39,12 @@ body
 
 #wrapper
   @include default-transition
-  // we need to define the next two lines twice as `varprop` cannot handle this
-  // multiple variables in one line.
-  background: linear-gradient(to bottom, $main-menu-bg-color 0%, $main-menu-bg-color 100%) no-repeat
-  background: linear-gradient(to bottom, var(--main-menu-bg-color) 0%, var(--main-menu-bg-color) 100%) no-repeat
-  background-size: $main-menu-width 100%
   min-height: 100%
   height: auto
   position: relative
-  &.nosidebar, &.nomenus
-    background: none
-  &.hidden-navigation
-    background-size: $main-menu-folded-width 100%
-
 
 #main
+  display: flex
   width:    100%
   z-index:  20
   overflow: auto
@@ -69,40 +60,50 @@ body
     border-bottom-style: solid
     @include varprop(border-bottom-color, footer-bg-color)
 
+    #content-wrapper
+      &.hidden-navigation
+        margin-left: $main-menu-folded-width
+        width: calc(100% - #{$main-menu-folded-width})
+
+      &.nosidebar
+        padding: 0
+        width:    100%
+        margin-left: 0
+
+      &.nomenus
+        top: 0
+        padding: 0
+        width: 100%
+        margin-left: 0
+
   &.nomenus
     padding-bottom: 0
     overflow: hidden
 
-    %absolute-layout-mode &
-      top:    0
 
-#content
+#content-wrapper
   @include default-transition
-  margin: 0 0 0 $main-menu-width
+  margin: 0 0 0 0
   padding: 10px 20px
   width: auto
-  overflow: hidden
   height: auto
   background-color: #fff
-  z-index: 10
+  width: 100%
+  // As this is a flex item we need to set min-width to 0 so that its children's
+  // overflow settings will be respected.
+  min-width: 0
 
   %absolute-layout-mode &
     position:   absolute
-    width:      calc(100% - #{$main-menu-width})
     height:     100%
-
-  &.hidden-navigation
-    margin-left: $main-menu-folded-width
-
-    %absolute-layout-mode &
-      width:    calc(100% - #{$main-menu-folded-width})
+    width: calc(100% - #{$main-menu-width})
+    margin-left: $main-menu-width
+    // Needed for Safari
+    left: 0
 
   &.nosidebar
     margin-left: 0
     padding: 20px 40px
-
-    %absolute-layout-mode &
-      width:    100%
 
   &.nomenus
     margin:     0
@@ -112,12 +113,18 @@ body
       width:    100%
       height:   100%
 
-  &:after
-    content: "."
-    display: block
-    height: 0
-    clear: both
-    visibility: hidden
+
+#content
+  padding: 0
+  margin: 0 0 0 0
+  overflow: hidden
+  width: 100%
+  z-index: 10
+  background-color: $body-background
+
+  %absolute-layout-mode &
+    height: 100%
+
 
 .-draggable
   cursor: move

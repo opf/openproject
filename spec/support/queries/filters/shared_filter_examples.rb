@@ -30,12 +30,9 @@ shared_context 'filter tests' do
   let(:context) { nil }
   let(:values) { ['bogus'] }
   let(:operator) { '=' }
+  let(:instance_key) { described_class.key }
   let(:instance) do
-    filter = described_class.new
-    filter.context = context
-    filter.operator = operator
-    filter.values = values
-    filter
+    described_class.create!(name: instance_key, context: context, operator: operator, values: values)
   end
   let(:name) { model.human_attribute_name((instance_key || class_key).to_s.gsub('_id', '')) }
   let(:model) { WorkPackage }
@@ -46,9 +43,9 @@ shared_examples_for 'basic query filter' do
 
   let(:context) { FactoryGirl.build_stubbed(:query, project: project) }
   let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:instance_key) { nil }
   let(:class_key) { raise 'needs to be defined' }
   let(:type) { raise 'needs to be defined' }
+  let(:human_name) { nil }
   let(:order) { nil }
 
   describe '.key' do
@@ -79,7 +76,7 @@ shared_examples_for 'basic query filter' do
 
   describe '#human_name' do
     it 'is the l10 name for the filter' do
-      expect(instance.human_name).to eql(name)
+      expect(instance.human_name).to eql(human_name.presence || name)
     end
   end
 end
@@ -203,6 +200,89 @@ shared_examples_for 'list_optional query filter' do
 
       it 'is the same as handwriting the query' do
         sql = "#{expected_table_name}.#{attribute} IS NULL"
+        expected = expected_base_scope.where([sql])
+        expect(instance.scope.to_sql).to eql expected.to_sql
+      end
+    end
+  end
+
+  describe '#valid?' do
+    let(:operator) { '=' }
+    let(:values) { valid_values }
+
+    it 'is valid' do
+      expect(instance).to be_valid
+    end
+
+    context 'for an invalid operator' do
+      let(:operator) { '~' }
+
+      it 'is invalid' do
+        expect(instance).to be_invalid
+      end
+    end
+
+    context 'for an invalid value' do
+      let(:values) { ['inexistent'] }
+
+      it 'is invalid' do
+        expect(instance).to be_invalid
+      end
+    end
+  end
+end
+
+shared_examples_for 'list_all query filter' do
+  include_context 'filter tests'
+  let(:attribute) { raise "needs to be defined" }
+  let(:type) { :list_all }
+  let(:joins) { nil }
+  let(:expected_base_scope) do
+    if joins
+      model.joins(joins)
+    else
+      model
+    end
+  end
+  let(:expected_table_name) do
+    if joins
+      joins
+    else
+      model.table_name
+    end
+  end
+
+  describe '#scope' do
+    let(:values) { valid_values }
+
+    context 'for "="' do
+      let(:operator) { '=' }
+
+      it 'is the same as handwriting the query' do
+        expected = expected_base_scope
+                   .where(["#{expected_table_name}.#{attribute} IN (?)", values])
+
+        expect(instance.scope.to_sql).to eql expected.to_sql
+      end
+    end
+
+    context 'for "!"' do
+      let(:operator) { '!' }
+
+      it 'is the same as handwriting the query' do
+        sql = "(#{expected_table_name}.#{attribute} IS NULL
+               OR #{expected_table_name}.#{attribute} NOT IN (?))".squish
+        expected = expected_base_scope.where([sql, values])
+
+        expect(instance.scope.to_sql).to eql expected.to_sql
+      end
+    end
+
+    context 'for "*"' do
+      let(:operator) { '*' }
+
+      it 'is the same as handwriting the query' do
+        sql = "#{expected_table_name}.#{attribute} IS NOT NULL"
         expected = expected_base_scope.where([sql])
 
         expect(instance.scope.to_sql).to eql expected.to_sql

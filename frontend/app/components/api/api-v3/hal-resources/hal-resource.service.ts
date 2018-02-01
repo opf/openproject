@@ -44,6 +44,11 @@ export class HalResource {
   public _type:string;
 
   public static create(element:any, force:boolean = false) {
+    if (_.isNil(element)) {
+      return element;
+    }
+
+
     if (!force && !(element._embedded || element._links)) {
       return element;
     }
@@ -64,7 +69,19 @@ export class HalResource {
   public $embedded:any = {};
   public $self:ng.IPromise<HalResource>;
 
-  private _name:string;
+  public _name:string;
+
+  public static idFromLink(href:string):string {
+    return href.split('/').pop()!;
+  }
+
+  public get idFromLink():string {
+    if (this.$href) {
+      return HalResource.idFromLink(this.$href);
+    }
+
+    return '';
+  }
 
   public get $isHal():boolean {
     return true;
@@ -173,7 +190,7 @@ export class HalResource {
     return new clone(_.cloneDeep(this.$source), this.$loaded);;
   }
 
-  protected $initialize(source:any) {
+  public $initialize(source:any) {
     this.$source = source.$source || source;
     initializeResource(this);
   }

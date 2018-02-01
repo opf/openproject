@@ -38,7 +38,8 @@ a.button
   transition-duration: 0.25s
   transition-timing-function: ease-out
 
-  &:disabled
+  &:disabled,
+  &.-disabled
     @include button-disabled
 
   &:hover
@@ -48,6 +49,15 @@ a.button
     &::before
       padding: 0 $button--text-icon-spacing 0 0
 
+  &.-danger
+    background: $content-form-danger-zone-bg-color
+    color: $content-form-danger-zone-font-color
+    border-color: $content-form-danger-zone-bg-color
+    &.icon:before,
+    &.icon-context:before
+      color: $content-form-danger-zone-font-color
+      padding-left: 0px
+
   &.-highlight
     @include button-style($button--highlight-background-color, $button--highlight-background-hover-color, $button--highlight-font-color, $button-style)
     @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), $button--highlight-font-color, $button-style)
@@ -55,6 +65,12 @@ a.button
 
     &:hover, &:focus
       @include varprop(border-color, button--highlight-background-hover-color)
+
+  &.-highlight-inverted
+    @include button-style($body-background, darken($body-background, 5), $content-link-color, $button-style)
+    @include button-style($body-background, darken($body-background, 5), var(--content-link-color), $button-style)
+    @include varprop(border-color, content-link-color)
+
 
   &.-alt-highlight
     @include button-style($button--alt-highlight-background-color, $button--alt-highlight-background-hover-color, $button--alt-highlight-font-color, $button-style)
@@ -126,3 +142,21 @@ html.-browser-windows.-browser-chrome
   .button[class*='icon-']
     &:before
       margin-right: $button--text-icon-spacing
+
+// Button class to use as a link-like submit button
+.button--link
+  @include varprop(color, content-link-color)
+  background: none
+  border: none
+  padding: 0 1px
+
+  &:visited, &:active
+    @include varprop(color, content-link-color)
+
+  &:hover
+    text-decoration: underline
+
+  &:disabled, &:disabled:hover
+    cursor: not-allowed
+    background: none
+    color: $gray-dark

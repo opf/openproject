@@ -1,0 +1,2593 @@
+---
+id:
+  no_results_title_text: Tidak ada yang ditampilkan saat ini.
+  activities:
+    index:
+      no_results_title_text: Belum ada aktivitas untuk proyek ini.
+  admin:
+    plugins:
+      no_results_title_text: Tidak ada plugin yang tersedia saat ini.
+    custom_styles:
+      custom_colors: Warna kostum
+      customize: 'Sesuaikan instalasi OpenProject anda dengan logo Anda sendiri. Catatan:
+        Logo ini dapat diakses secara publik.'
+      enterprise_notice: Sebagai 'Terima Kasih' spesial untuk finansial konstributor
+        untuk mengembangkan OpenProject, fitur kecil ini hanya akan tersedia untuk
+        Enterprise Edition dukungan pelanggan.
+      manage_colors: Edit warna pilih opsi
+      instructions:
+        alternative_color: Warna cerah, umumnya dipakai sebagai penanda tombol penting
+          pada layar monitor.
+        content_link_color: Warna font sebagian besar tautan.
+        primary_color: Warna utama.
+        primary_color_dark: Warna yang lebih gelap dari warna utama biasanya dipakai
+          sebagai efek lintasan kursor.
+        header_bg_color: Warna latar belakang header (bagian atas halaman / judul)
+        header_item_bg_hover_color: Warna latar belakang "item header" yang bisa di
+          klik ketika ditunjuk dengan mouse.
+        header_item_font_color: Warna font item header yang bisa diklik.
+        header_item_font_hover_color: Warna font "item header" yang bisa di klik ketika
+          ditunjuk dengan mouse.
+        header_border_bottom_color: Garis tipis di bawah header. Biarkan filed ini
+          kosong jika Anda tidak ingin garis apapun.
+        main_menu_bg_color: Warna latar belakang menu sisi kiri.
+    enterprise:
+      upgrade_to_ee: Tingkatkan ke edisi enterprise
+      add_token: Unggah sebuah token bantuan edisi enterprise
+      replace_token: Gantilah token bantuan yang sedang digunakan
+      order: Pesanlah edisi enterprise
+      paste: Tempelkan token pendukung Edisi Perusahaan Anda
+      required_for_feature: Fitur ini hanya tersedia bersama dengan sebuah token pendukung
+        Edisi Perusahaan yang aktif.
+      enterprise_link: Untuk informasi lebih lanjut, klik di sini.
+  announcements:
+    show_until: Show until
+    is_active: currently displayed
+    is_inactive: currently not displayed
+  attribute_help_texts:
+    text_overview: Pada tampilan ini, anda dapat membuat teks-teks bantuan yang dikhususkan
+      untuk tampilan atribut-atribut tersebut. Ketika didefinisikan, teks-teks ini
+      dapat ditampilkan dengan mengklik ikon bantuan pada atribut miliknya.
+    label_plural: Atribut teks bantuan
+    show_preview: Teks pratinjau
+    add_new: Menambahkan teks bantuan
+    edit: Mengedit teks bantuan untuk %{attribute_caption}
+  auth_sources:
+    index:
+      no_results_content_title: Tidak ada mode otentikasi saat ini.
+      no_results_content_text: Buat mode otentikasi baru
+  boards:
+    show:
+      no_results_title_text: Tidak ada pos untuk papan saat ini.
+  custom_fields:
+    text_add_new_custom_field: 'Untuk menambahkan kolom kustom baru untuk sebuah proyek,
+      pertama-tama Anda harus membuatnya, sebelum Anda dapat menambahkannya ke proyek
+      ini.
+
+'
+    is_enabled_globally: Diaktifkan secara global
+    enabled_in_project: Diaktifkan pada proyek
+    contained_in_type: Terkandung dalam jenis
+    confirm_destroy_option: Menghapus sebuah pilihan akan menghapus semua kemunculan
+      yang terjadi (mis. dalam paket pekerjaan). Apakah Anda yakin ingin menghapusnya?
+    tab:
+      no_results_title_text: Tidak ada bidang kustom saat ini.
+      no_results_content_text: Buat bidang kustom baru
+  deprecations:
+    old_timeline:
+      replacement: Modul jadwal in digantikan oleh jadwal interaktiv yang dilekatkan
+        ke dalam paket modul kerja.
+      removal: Modul ini akan dihilangkan dengan OpenProject 8.0. Konfigurasi untuk
+        tampilan ini tidak akan di migrasikan ke tampilan paket kerja.
+      further_information_before: Silahkan lihat di
+      link_name: bagaimana untuk bermigrasi ke jadwal baru.
+      further_information_after: ''
+    calendar:
+      removal: 'Harap dicatat: Modul ini akan dihilangkan dengan OpenProject 8.0.'
+  groups:
+    index:
+      no_results_title_text: Tidak ada grup untuk saat ini.
+      no_results_content_text: Buat grup baru
+    users:
+      no_results_title_text: Tidak ada pengguna yang menjadi anggota grup ini.
+    memberships:
+      no_results_title_text: Saat ini tidak ada proyek yang menjadi bagian grup.
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Tidak ada warna saat ini.
+      no_results_content_text: Buat warna baru
+  projects:
+    index:
+      no_results_title_text: Tidak ada proyek saat ini
+      no_results_content_text: Buat proyek baru
+    settings:
+      activities:
+        no_results_title_text: There are currently no activities available.
+      boards:
+        no_results_title_text: There are currently no boards for the project.
+        no_results_content_text: Create a new board
+      categories:
+        no_results_title_text: There are currently no work package categories.
+        no_results_content_text: Create a new work package category
+      custom_fields:
+        no_results_title_text: There are currently no custom fields available.
+      types:
+        no_results_title_text: There are currently no types available.
+      versions:
+        no_results_title_text: There are currently no versions for the project.
+        no_results_content_text: Create a new version
+  project_types:
+    index:
+      no_results_title_text: There are currently no project types.
+      no_results_content_text: Create a new project type
+  members:
+    index:
+      no_results_title_text: There are currently no members part of this project.
+      no_results_content_text: Add a member to the project
+  my:
+    access_token:
+      failed_to_reset_token: 'Gagal untuk menset ulang akses token: %{error}'
+      notice_reset_token: 'Sebuah token baru %{type} telah dibuat. Token akses Anda
+        adalah:'
+      token_value_warning: 'Catatan: Anda hanya akan melihat token ini satu kali,
+        pastikan untuk membuat salinannya sekarang.'
+      no_results_title_text: There are currently no access tokens available.
+  news:
+    index:
+      no_results_title_text: There is currently no news to report.
+      no_results_content_text: Add a news item
+    my_page:
+      no_results_title_text: Nothing new to report.
+  users:
+    memberships:
+      no_results_title_text: This user is currently not a member of a project.
+  reportings:
+    index:
+      no_results_title_text: There are currently no status reportings.
+      no_results_content_text: Add a status reporting
+  statuses:
+    index:
+      no_results_title_text: There are currently no work package statuses.
+      no_results_content_text: Add a new status
+  types:
+    index:
+      no_results_title_text: There are currently no types.
+      no_results_content_text: Create a new type
+    edit:
+      settings: Pengaturan
+      form_configuration: Form configuration
+      projects: Project
+      enabled_projects: Proyek-proyek yang diaktifkan
+      add_group: Menambah grup
+      reset: Disetel ulang ke kondisi bawaan
+  versions:
+    overview:
+      no_results_title_text: There are currently no work packages assigned to this
+        version.
+  wiki:
+    no_results_title_text: There are currently no wiki pages.
+    index:
+      no_results_content_text: Add a new wiki page
+  work_flows:
+    index:
+      no_results_title_text: There are currently no workflows.
+  work_packages:
+    move:
+      unsupported_for_multiple_projects: Bulk move/copy is not supported for work
+        packages from multiple projects
+    list_simple:
+      assigned:
+        no_results_title_text: There are currently no work packages assigned to me.
+      reported:
+        no_results_title_text: There are currently no work packages that I have reported.
+      responsible:
+        no_results_title_text: There are currently no work packages that I am responsible
+          for.
+      watched:
+        no_results_title_text: There are currently no work packages that I am watching.
+    summary:
+      reports:
+        category:
+          no_results_title_text: There are currently no categories available.
+        assigned_to:
+          no_results_title_text: There are currently no members part of this project.
+        responsible:
+          no_results_title_text: There are currently no members part of this project.
+        author:
+          no_results_title_text: There are currently no members part of this project.
+        priority:
+          no_results_title_text: There are currently no priorities available.
+        type:
+          no_results_title_text: There are currently no types available.
+        version:
+          no_results_title_text: There are currently no versions available.
+  label_invitation: Undangan
+  account:
+    delete: Hapus akun
+    delete_confirmation: Yakin Anda ingin menghapus akun?
+    deleted: Akun telah dihapus
+    deletion_info:
+      data_consequences:
+        other: Data yang dibuat pengguna (seperti email, preferensi, Work Package,
+          entri wiki) akan dihapus. Namun, data seperti Work Package dan entri wiki
+          yang terhubung dengan pengguna lain tidak bisa dihapus. Data seperti ini
+          akan dipindahkan ke sebuah akun bernama "Pengguna Terhapus". Karena data
+          dari setiap akun terhapus dipindahkan ke akun tersebut, maka pembedaan antara
+          data yang dibuat pengguna dengan data dari akun terhapus lainnya tidak akan
+          bisa dilakukan.
+        self: Of the data you created (e.g. email, preferences, work packages, wiki
+          entries) as much as possible will be deleted. Note however, that data like
+          work packages and wiki entries can not be deleted without impeding the work
+          of the other users. Such data is hence reassigned to an account called "Deleted
+          user". As the data of every deleted account is reassigned to this account
+          it will not be possible to distinguish the data you created from the data
+          of another deleted account.
+      heading: Hapus akun %{name}
+      info:
+        other: User yang akan dihapus akan terputus dari alur proses dalam sistem.
+        self: Jika akun dihapus, Anda akan terputus dari alur proses dalam sistem.
+      login_consequences:
+        other: Akun akan dihapus dari sistem. User tidak akan bisa Login kembali.
+        self: Akun Anda akan dihapus dari sistem. Anda tidak akan bisa Login kembali.
+      login_verification:
+        other: Masuk ke login %{name} untuk memeriksa penghapusan. Begitu dikirim,
+          Anda akan diminta untuk mengkonfirmasi password Anda.
+        self: Masuk ke login Anda %{name} untuk memeriksa penghapusan. Begitu dikirim,
+          Anda akan diminta untuk mengkonfirmasi password Anda.
+    error_inactive_activation_by_mail: 'Akun anda belum diaktifkan. Untuk mengaktifkan,
+      klik pada link yang ada di email anda.
+
+'
+    error_inactive_manual_activation: 'Akun Anda belum diaktifkan. Harap menunggu
+      Administrator untuk mengaktifkan akun Anda.
+
+'
+    error_self_registration_disabled: 'Pendaftaran user dinonaktifkan untuk saat ini.
+      Silakan minta Administrator untuk membuatkan akun Anda.
+
+'
+    login_with_auth_provider: atau Login dengan akun yang ada
+    signup_with_auth_provider: or sign up using
+    auth_source_login: Please login as <em>%{login}</em> to activate your account.
+    omniauth_login: Please login to activate your account.
+  actionview_instancetag_blank_option: Silakan pilih
+  activerecord:
+    attributes:
+      announcements:
+        show_until: Display until
+      attachment:
+        downloads: Download
+        file: File
+        filename: File
+        filesize: Size
+      attribute_help_text:
+        attribute_name: Atribut
+        help_text: Teks bantuan
+      auth_source:
+        account: Akun
+        attr_firstname: Atribut nama depan
+        attr_lastname: Atribut nama belakang
+        attr_login: Atribut login
+        attr_mail: Atribut email
+        base_dn: Base DN
+        host: Host
+        onthefly: Pembuatan user on-the-fly
+        port: Port
+      changeset:
+        repository: Repositori
+      comment:
+        commented: Komentar
+      custom_field:
+        default_value: Nilai default
+        editable: Dapat diedit
+        field_format: Format
+        is_filter: Filter
+        is_required: Harus diisi
+        max_length: Panjang maksimum
+        min_length: Panjang minimum
+        multi_value: Membolehkan pilihan majemuk
+        possible_values: Nilai yang mungkin
+        regexp: Regular expression
+        searchable: Dapat dicari
+        visible: Visible
+      custom_value:
+        value: Nilai
+      enterprise_token:
+        starts_at: Valid sejak
+        expires_at: Berakhir masa berlaku pada
+        subscriber: Pelanggan
+        encoded_token: Token pendukung perusahaan
+      relation:
+        delay: Jeda
+        from: Paket-Penugasan
+        to: Work package terkait
+      status:
+        is_closed: Paket-Penugasan telah berakhir
+      journal:
+        notes: Note
+      member:
+        roles: Peran
+      project:
+        identifier: Pengenal
+        latest_activity_at: Latest activity at
+        parent: Sub-Project dari
+        project_type: Tipe Project
+        queries: Query
+        responsible: Penanggung jawab
+        types: Tipe
+        versions: Versi
+        work_packages: Paket-Penugasan
+      query:
+        column_names: Kolom
+        relations_to_type_column: Relasi untuk %{type}
+        relations_of_type_column: Relasi %{type}
+        group_by: Group
+        filters: Filter
+        timeline_labels: Label alur waktu
+      repository:
+        url: URL
+      role:
+        assignable: Paket kerja dapat ditetapkan untuk pengguna-pengguna tunggal dan
+          kelompok-kelompok yang memiliki peran dalam proyek masing-masing
+      time_entry:
+        activity: Activity
+        hours: Jam
+        spent_on: Tanggal
+        type: Tipe
+      type:
+        is_in_roadmap: In roadmap
+        in_aggregation: In aggregation
+        is_milestone: Is milestone
+        color: Warna
+      user:
+        admin: Administrator
+        auth_source: Mode otentikasi
+        current_password: Current password
+        force_password_change: Ubah password saat pertama Login
+        language: Bahasa
+        last_login_on: Login terakhir
+        mail_notification: Notifikasi email
+        new_password: Password baru
+        password_confirmation: Konfirmasi
+      user_preference:
+        comments_sorting: Tampilan komentar
+        hide_mail: Sembunyikan email saya
+        impaired: Mode aksesibel
+        time_zone: Time Zone
+        auto_hide_popups: Pemberitahuan Auto-hide sukses
+        warn_on_leaving_unsaved: Ingatkan saya ketika meninggalkan sebuah paket kerja
+          dengan perubahan yang belum disimpan
+      version:
+        effective_date: Tenggat waktu
+        sharing: Sharing
+      wiki:
+        start_page: Homepage
+      wiki_content:
+        text: Teks
+      wiki_page:
+        parent_title: Halaman induk
+        redirect_existing_links: Redirect link
+      planning_element_type_color:
+        hexcode: Kode Hexa
+      project_type:
+        position: Posisi
+        allows_association: ''
+        reported_project_statuses: ''
+      work_package:
+        begin_insertion: Begin of the insertion
+        begin_deletion: Begin of the deletion
+        done_ratio: Progress (%)
+        end_insertion: End of the insertion
+        end_deletion: End of the deletion
+        fixed_version: Versi
+        parent: Induk
+        parent_issue: Induk
+        parent_work_package: Induk
+        priority: Prioritas
+        progress: Progress (%)
+        responsible: Penanggung jawab
+        spent_hours: Durasi
+        spent_time: Durasi
+        subproject: Sub-Project
+        time_entries: Catatan waktu
+        type: Tipe
+        watcher: Pemantau
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
+    errors:
+      messages:
+        accepted: harus disetujui.
+        blank: harus di isi.
+        cant_link_a_work_package_with_a_descendant: Work package tidak dapat dihubungkan
+          dengan subtask-nya.
+        circular_dependency: Relasi ini menyebabkan dependensi circular.
+        confirmation: tidak sesuai dengan %{attribute}.
+        does_not_exist: tidak ditemukan.
+        empty: harus di isi.
+        even: harus imbang.
+        exclusion: telah dipesan.
+        file_too_large: ukuran maksimum yang diperbolehkan %{count} Bytes.
+        greater_than: harus lebih besar dari %{count}.
+        greater_than_or_equal_to: harus lebih besar atau sama dengan %{count}.
+        smaller_than_or_equal_to_max_length: harus lebih kecil atau sama dengan panjang
+          maksimum.
+        greater_than_start_date: must be greater than the start date.
+        greater_than_or_equal_to_start_date: must be greater than or equal to the
+          start date.
+        inclusion: belum di set dengan nilai yang diperbolehkan.
+        invalid: tidak valid.
+        invalid_url: bukanlah URL yang Valid.
+        invalid_url_scheme: 'bukanlah sebuah protokol yang didukung (diperbolehkan:
+          %{allowed_schemes}).'
+        less_than_or_equal_to: harus kurang dari atau sama dengan %{count}.
+        not_a_date: bukan tanggal yang valid.
+        not_a_datetime: bukan tanggal waktu yang valid.
+        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
+        not_a_number: harus diisi angka.
+        not_an_integer: harus bilangan bulat.
+        not_same_project: harus berasal dari proyek yang sama.
+        odd: harus ganjil.
+        taken: sudah dipakai.
+        too_long: panjang karakter maksimal %{count}.
+        too_short: minimal %{count} karakter.
+        wrong_length: panjang tidak sesuai (harus %{count} karakter).
+        after: harus setelah %{date}.
+        after_or_equal_to: harus setelah atau sama dengan %{date}.
+        before: harus sebelum %{date}.
+        before_or_equal_to: harus sebelum atau maksimal %{date}.
+        could_not_be_copied: sebagian tidak dapat dicopy.
+        regex_invalid: tidak dapat divalidasi dengan ekspresi reguler terkait.
+      models:
+        custom_field:
+          at_least_one_custom_option: Paling tidak, satu pilihan dibutuhkan untuk
+            tersedia.
+        enterprise_token:
+          unreadable: tidak dapat dibaca. Apakah Anda yakin ini adalah token pendukung?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: Operator (simbol operasi matematika) tidak didukung.
+              invalid_values: Nilai tidak valid.
+              id_filter_required: Sebuah pemilah 'id' dibutuhkan.
+        project:
+          attributes:
+            types:
+              in_use_by_work_packages: 'still in use by work packages: %{types}'
+        query:
+          attributes:
+            project:
+              error_not_found: tidak ditemukan
+            public:
+              error_unauthorized: "- Pengguna tidak memiliki izin untuk menciptakan
+                query publik."
+          group_by_hierarchies_exclusive: saling ekslusif bersama kelompok dengan
+            '%{group_by}'. Anda tidak dapat mengaktifkan keduanya.
+          filters:
+            custom_fields:
+              inexistent: There is no custom field for the filter.
+              invalid: The custom field is not valid in the given context.
+        relation:
+          typed_dag:
+            circular_dependency: Relasi menciptakan lingkaran relasi-relasi.
+          attributes:
+            to:
+              error_not_found: work package dalam posisi `to` tidak dapat ditemukan
+                atau tidak terlihat
+              error_readonly: an existing relation's `to` link is immutable
+            from:
+              error_not_found: work package in `from` position not found or not visible
+              error_readonly: an existing relation's `from` link is immutable
+        repository:
+          not_available: Vendor SCM tidak tersedia
+          not_whitelisted: konfigurasi tidak mengijinkan.
+          invalid_url: bukan tempat penyimpanan atau alamat URL yang benar.
+          must_not_be_ssh: tidak boleh sebuah url SSH.
+          no_directory: is not a directory.
+        work_package:
+          is_not_a_valid_target_for_time_entries: 'Paket-Penugasan #%{id} tidak valid
+            untuk reassigning di Time entri.'
+          attributes:
+            due_date:
+              not_start_date: tanggal mulai dan berakhir pada milestone harus sama.
+            parent:
+              cannot_be_milestone: parent dari work package tidak bisa berupa milestone.
+              cannot_be_in_another_project: tidak boleh dari proyek lain.
+              not_a_valid_parent: tidak valid.
+            start_date:
+              violates_relationships: can only be set to %{soonest_start} or later
+                so as not to violate the work package's relationships.
+            status_id:
+              status_transition_invalid: gagal melakukan transisi dari status lama
+                ke status baru untuk role ini.
+            priority_id:
+              only_active_priorities_allowed: prioritas harus aktif.
+            category:
+              only_same_project_categories_allowed: Kategori yang dipilih harus diambil
+                dari kategori yang berlaku pada proyek.
+              does_not_exist: Kategori yang dipilih tidak ada.
+            estimated_hours:
+              only_values_greater_or_equal_zeroes_allowed: must be >= 0.
+        type:
+          attributes:
+            attribute_groups:
+              group_without_name: Kelompok tak bernama tidak dibolehkan.
+              duplicate_group: Nama kelompok %{group} dipakai lebihdari satu kali.
+                Nama kelompok harus unik.
+              attribute_unknown: Atribut paket kerja tidak valid digunakan.
+        user:
+          attributes:
+            password:
+              weak: 'Must contain characters of the following classes (at least %{min_count}
+                of %{all_count}): %{rules}.'
+              lowercase: huruf kecil (spt. 'a')
+              uppercase: huruf besar (spt. 'A')
+              numeric: numerik (spt. ' 1')
+              special: special (spt. ' %')
+              reused:
+                one: has been used before. Please choose one that is different from
+                  your last one.
+                other: has been used before. Please choose one that is different from
+                  your last %{count}.
+              match:
+                confirm: Konfirmasi password baru.
+                description: Isian konfirmasi password tidak sama dengan masukan password.
+            status:
+              invalid_on_create: bukan status yang valid untuk user baru.
+            auth_source:
+              error_not_found: tidak ditemukan
+        member:
+          principal_blank: Silakan pilih setidaknya satu user atau grup.
+          role_blank: Silakan pilih setidaknya satu Role.
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
+      template:
+        body: 'Silakan periksa isian berikut :'
+        header:
+          one: 1 error prohibited this %{model} from being saved
+          other: "%{count} errors prohibited this %{model} from being saved"
+    models:
+      attachment: File
+      attribute_help_text: Atribut teks bantuan
+      board: Forum
+      comment: Komentar
+      custom_field: Isian kustom
+      group: Grup
+      category: Kategori
+      status: Status Work Package
+      member: Member
+      news: News
+      project: Project
+      query: Query kustom
+      role:
+        one: Role
+        other: Roles
+      type: Tipe
+      project_type: Tipe Project
+      user: User
+      version: Versi
+      wiki: Wiki
+      wiki_page: Halaman Wiki
+      workflow: Workflow
+      work_package: Paket-Penugasan
+  errors:
+    header_invalid_fields: 'Eror pada isian berikut :'
+    field_erroneous_label: 'Bidang ini tidak valid: %{full_errors} masukkan nilai
+      yang berlaku.'
+  activity:
+    created: 'Dibuat : %{title}'
+    updated: 'Diupdate : %{title}'
+  attributes:
+    active: Aktif
+    assigned_to: Pelimpahan
+    assignee: Pelimpahan
+    attachments: Lampiran
+    author: Penulis
+    base: 'Error :'
+    blocks_ids: List ID dari work package yang diblokir
+    category: Kategori
+    comment: Komentar
+    comments: Komentar
+    content: Konten
+    created_at: Dibuat
+    created_on: Dibuat
+    custom_options: Nilai yang mungkin
+    custom_values: Isian kustom
+    date: Tanggal
+    default_columns: Kolom default
+    description: Deskripsi
+    display_sums: Tampilkan jumlah
+    due_date: Tenggat waktu
+    estimated_hours: Estimasi Waktu
+    estimated_time: Estimasi Waktu
+    firstname: Nama depan
+    group: Grup
+    groups: Grup
+    groupname: Nama grup
+    id: ID
+    is_default: Nilai default
+    is_for_all: Untuk semua Project
+    is_public: Publik
+    issue: Paket-Penugasan
+    lastname: Nama belakang
+    login: Login
+    mail: Email
+    name: Nama
+    password: Password
+    priority: Prioritas
+    project: Project
+    responsible: Penanggung jawab
+    role: Role
+    roles: Peran
+    start_date: Tanggal start
+    status: Status
+    subject: Perihal
+    summary: Ringkasan
+    title: Judul
+    type: Tipe
+    updated_at: Diperbarui
+    updated_on: Diperbarui
+    user: User
+    version: Versi
+    work_package: Paket-Penugasan
+  button_add: Tambah
+  button_add_member: Add member
+  button_add_watcher: Tambah pemantau
+  button_annotate: Anotasi
+  button_apply: Apply
+  button_archive: Arsip
+  button_back: Kembali
+  button_cancel: Batal
+  button_change: Ubah
+  button_change_parent_page: Ubah halaman induk
+  button_change_password: Ubah password
+  button_check_all: Cek semua
+  button_clear: Clear
+  button_close: Tutup
+  button_collapse_all: Tutup semua
+  button_configure: Konfigurasi
+  button_copy: Salin
+  button_copy_and_follow: Salin dan amati
+  button_create: Buat baru
+  button_create_and_continue: Buat baru dan lanjut
+  button_delete: Hapus
+  button_delete_watcher: Hapus pemantau, %{name}
+  button_download: Download
+  button_duplicate: Duplikasi
+  button_edit: Edit
+  button_edit_associated_wikipage: 'Edit Wiki terkait: %{page_title}'
+  button_expand_all: Buka semua
+  button_filter: Filter
+  button_generate: Generate
+  button_list: List
+  button_lock: Lock
+  button_log_time: Catatan waktu
+  button_login: Login
+  button_move: Pindahkan
+  button_move_and_follow: Pindahkan dan amati
+  button_print: Cetak
+  button_quote: Kutipan
+  button_remove: Remove
+  button_remove_widget: Hapus widget
+  button_rename: Ubah nama
+  button_replace: Ganti
+  button_reply: Balas
+  button_reset: Reset
+  button_rollback: Kembali ke versi ini
+  button_save: Simpan
+  button_save_back: Save and back
+  button_show: Tampilkan
+  button_sort: Urutkan
+  button_submit: Kirim
+  button_test: Test
+  button_unarchive: Batalkan arsip
+  button_uncheck_all: Uncek semua
+  button_unlock: Unlock
+  button_unwatch: Unwatch
+  button_update: Update
+  button_upload: Unggah
+  button_view: Lihat
+  button_watch: Pantau
+  button_manage_menu_entry: Mengkonfigurasi menu item
+  button_add_menu_entry: Tambah menu item
+  button_configure_menu_entry: Mengkonfigurasi menu item
+  button_delete_menu_entry: Hapus menu item
+  copy_project:
+    started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
+      You will be informed by mail as soon as "%{target_project_name}" is available.
+    failed: Tidak dapat meng-copy Project %{source_project_name}
+    succeeded: Project %{target_project_name} telah dibuat
+    errors: Eror
+    project_custom_fields: Field kustom pada proyek
+    text:
+      failed: Tidak dapat meng-copy Project "%{source_project_name}" ke Project "%{target_project_name}".
+      succeeded: Project "%{source_project_name}" ke "%{target_project_name}" telah
+        di-copy.
+  create_new_page: Halaman Wiki
+  date:
+    abbr_day_names:
+    - Min
+    - Sen
+    - Sel
+    - Rab
+    - Kam
+    - Jum
+    - Sab
+    abbr_month_names:
+    - 
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - Mei
+    - Jun
+    - Jul
+    - Agt
+    - Sep
+    - Okt
+    - Nop
+    - Des
+    day_names:
+    - Minggu
+    - Senin
+    - Selasa
+    - Rabu
+    - Kamis
+    - Jumat
+    - Sabtu
+    formats:
+      default: "%m/%d/%Y"
+      long: "%B %d, %Y"
+      short: "%b %d"
+    month_names:
+    - 
+    - Januari
+    - Februari
+    - Maret
+    - April
+    - Mei
+    - Juni
+    - Juli
+    - Agustus
+    - September
+    - Oktober
+    - Nopember
+    - Desember
+    order:
+    - :tahun
+    - :bulan
+    - :hari
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: about 1 hour
+        other: sekitar %{count} jam
+      about_x_months:
+        one: about 1 month
+        other: sekitar %{count} bulan
+      about_x_years:
+        one: about 1 year
+        other: sekitar %{count} tahun
+      almost_x_years:
+        one: almost 1 year
+        other: hampir %{count} tahun
+      half_a_minute: setengah menit
+      less_than_x_minutes:
+        one: less than a minute
+        other: kurang dari %{count} menit
+      less_than_x_seconds:
+        one: less than 1 second
+        other: kurang dari %{count} detik
+      over_x_years:
+        one: over 1 year
+        other: lebih dari %{count} tahun
+      x_days:
+        one: 1 day
+        other: "%{count} hari"
+      x_minutes:
+        one: 1 minute
+        other: "%{count} menit"
+      x_months:
+        one: 1 month
+        other: "%{count} bulan"
+      x_seconds:
+        one: 1 second
+        other: "%{count} detik"
+    units:
+      hour:
+        one: hour
+        other: jam
+  default_activity_development: Pengembangan
+  default_activity_management: Manajemen
+  default_activity_other: Lainnya
+  default_activity_specification: Spesifikasi
+  default_activity_support: Support
+  default_activity_testing: Pengujian
+  default_color_black: Hitam
+  default_color_blue: Biru
+  default_color_blue_dark: Biru (gelap)
+  default_color_blue_light: Biru (terang)
+  default_color_green_dark: Hijau (gelap)
+  default_color_green_light: Hijau (terang)
+  default_color_grey_dark: Abu-abu (gelap)
+  default_color_grey_light: Abu-abu (terang)
+  default_color_grey: Abu-abu
+  default_color_magenta: Magenta
+  default_color_orange: Oranye
+  default_color_red: Merah
+  default_color_white: Putih
+  default_color_yellow: Kuning
+  default_status_closed: Closed
+  default_status_confirmed: Confirmed
+  default_status_developed: Developed
+  default_status_in_development: In development
+  default_status_in_progress: In Progress
+  default_status_in_specification: In specification
+  default_status_in_testing: In testing
+  default_status_new: Baru
+  default_status_on_hold: On hold
+  default_status_rejected: Rejected
+  default_status_scheduled: Scheduled
+  default_status_specified: Specified
+  default_status_tested: Tested
+  default_status_test_failed: Test failed
+  default_status_to_be_scheduled: To be scheduled
+  default_priority_low: Low
+  default_priority_normal: Normal
+  default_priority_high: High
+  default_priority_immediate: Segera
+  default_project_type_scrum: Scrum team
+  default_project_type_standard: Standart project
+  default_reported_project_status_green: Hijau
+  default_reported_project_status_amber: Amber
+  default_reported_project_status_red: Merah
+  default_role_anonymous: Anonimus
+  default_role_developer: Pengembang
+  default_role_project_admin: Project admin
+  default_role_non_member: Non member
+  default_role_reader: Pembaca
+  default_role_member: Member
+  default_type: Work Package
+  default_type_bug: Bug
+  default_type_deliverable: Penyampaian
+  default_type_epic: Epic
+  default_type_feature: Fitur
+  default_type_milestone: Milestone
+  default_type_phase: Fase
+  default_type_task: Tugas
+  default_type_user_story: User story
+  description_active: Aktif?
+  description_attachment_toggle: Tampil/sembunyikan lampiran
+  description_autocomplete: 'Isian Autocomplete. Saat mengetik judul Paket-Penugasan,
+    Anda akan menemui daftar pilihan. Pilih salah satu dengan tombol panah atas dan
+    panah bawah dan tentukan pilihan dengan tombol tab atau enter. Atau Anda dapat
+    memasukkan nomor Paket-Penugasan secara langsung.
+
+'
+  description_available_columns: Kolom tersedia
+  description_choose_project: Project
+  description_compare_from: Bandingkan dari
+  description_compare_to: Bandingkan dengan
+  description_current_position: 'Anda di sini:'
+  description_date_from: Masukkan tanggal start
+  description_date_range_interval: Pilih durasi dengan memilih tanggal start dan finish
+  description_date_range_list: Pilih durasi dari daftar
+  description_date_to: Masukkan tanggal finish
+  description_enter_number: Masukkan nomor
+  description_enter_text: Masukkan teks
+  description_filter: Filter
+  description_filter_toggle: Tampil/sembunyikan Filter
+  description_category_reassign: Pilih kategori
+  description_message_content: Isi pesan
+  description_my_project: Anda adalah member
+  description_notes: Note
+  description_parent_work_package: Induk Paket-Penugasan
+  description_project_scope: Cari Scope
+  description_query_sort_criteria_attribute: Urutkan atribut
+  description_query_sort_criteria_direction: Arah Urutan
+  description_search: Kolom pencarian
+  description_select_work_package: Pilih Paket-Penuagasan
+  description_selected_columns: Kolom dipilih
+  description_sub_work_package: Sub Paket-Penugasan
+  description_toc_toggle: Tampil/sembunyikan daftar isi
+  description_wiki_subpages_reassign: Pilih halaman induk baru
+  direction: ltr
+  ee:
+    upsale:
+      form_configuration:
+        description: 'Kustomisasi konfigurasi formulir dengan fitur-fitur tambahan
+          ini:'
+        add_groups: Menambahkan atribut kelompok-kelompok baru
+        rename_groups: Menamai ulang atribut kelompok-kelompok
+      project_filters:
+        description_html: Tingkatkan ke %{link} untuk menyaring dan mengurutkan menurut
+          field-field kustom
+  enumeration_activities: Activity (pelacakan waktu)
+  enumeration_work_package_priorities: Paket-Penugasan prioritas
+  enumeration_system_activity: Sistem Activity
+  enumeration_reported_project_statuses: Status Project yang di-Report
+  error_auth_source_sso_failed: Single Sign-On (SSO) untuk pengguna '%{value}' gagal
+  error_can_not_archive_project: Project ini tidak bisa diarsip
+  error_can_not_delete_entry: Tidak dapat menghapus isian
+  error_can_not_delete_custom_field: Tidak dapat menghapus isian kustom
+  error_can_not_delete_type: Tipe ini berisi Work Package dan tidak dapat dihapus.
+  error_can_not_delete_standard_type: Tipe standar tidak dapat dihapus.
+  error_can_not_invite_user: Gagal untuk mengirimkan undangan kepada pengguna.
+  error_can_not_remove_role: Role ini sedang dipakai dan tidak dapat dihapus.
+  error_can_not_reopen_work_package_on_closed_version: Paket-Penugasan yang telah
+    berakhir tidak dapat dibuka kembali
+  error_check_user_and_role: Silakan pilih user dan Role.
+  error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
+    are enabled, as this application will not properly function without.
+  error_custom_option_not_found: Pilihan tidak ada.
+  error_failed_to_delete_entry: Gagal untuk menghapus isian ini.
+  error_invalid_group_by: 'Tidak dapat dikelompokkan dengan: %{value}'
+  error_invalid_query_column: 'Permintaan tidak valid kolom: %{value}'
+  error_invalid_sort_criterion: 'Tidak dapat diurutkan dengan kolom: %{value}'
+  error_pdf_export_too_many_columns: Kolom yang dipilih utnuk ekspor PDF terlalu banyak.
+    Mohon kurangi jumlah kolom.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
+  error_work_package_done_ratios_not_updated: Paket-Penugasan selesai, rasio tidak
+    diupdate.
+  error_work_package_not_found_in_project: Paket-Penugasan tidak ditemukan atau tidak
+    termasuk dalam Project ini
+  error_must_be_project_member: harus sbg Project Member
+  error_no_default_work_package_status: Status Paket-Penugasan default tidak didefinisikan.
+    Silakan periksa konfigurasi (ke "Administrasi -> Paket-Penugasan Status").
+  error_no_type_in_project: Tidak ada Tipe terasosiasi dengan Project ini. Silakan
+    cek Pengaturan Project.
+  error_omniauth_registration_timed_out: Timed out. Silakan coba lagi.
+  error_scm_command_failed: 'Error ketika mengakses repositori: %{value}'
+  error_scm_not_found: Entri atau revisi tidak ditemukan dalam repositori.
+  error_unable_delete_status: Work package tidak dapat dihapus karena dipakai oleh
+    work package lain.
+  error_unable_delete_default_status: Status default tidak dapat dihapus. Tentukan
+    nilai default lain sebelum menghapus status yang anda ingin hapus.
+  error_unable_to_connect: Tidak dapat terhubung (%{value})
+  error_unable_delete_wiki: Unable to delete the wiki page.
+  error_unable_update_wiki: Unable to update the wiki page.
+  error_workflow_copy_source: Silakan pilih sumber Tipe atau Role
+  error_workflow_copy_target: Silakan pilih target Tipe dan Role
+  error_menu_item_not_created: Menu item tidak bisa ditambahkan
+  error_menu_item_not_saved: Menu item tidak bisa disimpan
+  error_wiki_root_menu_item_conflict: 'Can''t rename "%{old_name}" to "%{new_name}"
+    due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}"
+    (%{existing_identifier}).
+
+'
+  error_external_authentication_failed: Error selama otentikasi eksternal. Silakan
+    coba lagi.
+  events:
+    project: Project edited
+    changeset: Set-Perubahan telah diedit
+    message: Pesan telah diedit
+    news: News
+    reply: Telah direspon
+    time_entry: Timelog telah diedit
+    wiki_page: Halaman Wiki telah diedit
+    work_package_closed: Paket-Penugasan telah berakhir
+    work_package_edit: Paket-Penugasan telah diedit
+    work_package_note: Catatan Paket-Penugasan telah ditambah
+  export:
+    format:
+      atom: Atom
+      csv: CSV
+      pdf: PDF
+      pdf_with_descriptions: PDF disertai deskripsi
+  general_csv_decimal_separator: "."
+  general_csv_encoding: UTF-8
+  general_csv_separator: ","
+  general_first_day_of_week: '7'
+  general_lang_name: Indonesian
+  general_pdf_encoding: ISO-8859-1
+  general_text_no: 'no'
+  general_text_yes: 'yes'
+  general_text_No: 'No'
+  general_text_Yes: 'Yes'
+  gui_validation_error: 1 error
+  gui_validation_error_plural: "%{count} error"
+  homescreen:
+    additional:
+      projects: Newest visible projects in this instance.
+      users: Newest registered users in this instance.
+    blocks:
+      community: OpenProject community
+      upsale:
+        become_hero: Menjadi seorang pahlawan!
+        title: Tingkatkan ke edisi enterprise
+        description: Tingkatkan produktivitas Anda dengan Edisi Perusahaan
+        more_info: Informasi lebih lanjut
+        additional_features: Tambahan fitur premium yang sangat berdaya guna
+        professional_support: Dukungan profesional dari para ahli OpenProject
+        you_contribute: Pengembang harus membayar tagihan mereka juga. Dengan Edisi
+          Perusahaan, Anda secara substansial menyumbang kepada upaya komunitas Open-Source
+          ini.
+    links:
+      upgrade_enterprise_edition: Tingkatkan ke edisi enterprise
+      user_guides: User guides
+      faq: FAQ
+      glossary: Glossary
+      shortcuts: Shortcuts
+      forums: Forum
+      blog: OpenProject blog
+      boards: Community forum
+      newsletter: Peringatan keamanan / Jurnal berkala
+  links:
+    configuration_guide: Configuration guide
+  instructions_after_registration: Anda dapat login setelah akun Anda diaktifkan,
+    klik %{signin}.
+  instructions_after_logout: Anda dapat login kembali dengan mengklik %{signin}.
+  instructions_after_error: Anda dapat login lagi dengan mengklik %{signin}. Jika
+    masih muncul error, tanyakan admin Anda untuk bantuan.
+  my_account:
+    access_tokens:
+      no_results:
+        title: No access tokens to display
+        description: All of them have been disabled. They can be re-enabled in the
+          administration menu.
+      access_token: Access token
+      headers:
+        action: Action
+        expiration: Expires
+      indefinite_expiration: Never
+  label_accessibility: Kemampuan akses
+  label_account: Akun
+  label_active: Aktif
+  label_activate_user: Pengguna diaktifkan
+  label_active_in_new_projects: Aktif dalam proyek-proyek baru
+  label_activity: Activity
+  label_add_edit_translations: Add and edit translations
+  label_add_another_file: Tambah file lain
+  label_add_columns: Tambahkan kolom terpilih
+  label_add_note: Tambahkan catatan
+  label_add_related_work_packages: Tambahkan Paket-Penugasan terkait
+  label_add_subtask: Tambahkan Sub-Tugas
+  label_added: ditambahkan
+  label_added_time_by: Ditambahkan oleh %{author} %{age} yang lalu
+  label_additional_workflow_transitions_for_assignee: Tambahan transisi diperbolehkan
+    ketika user mendapat penugasan
+  label_additional_workflow_transitions_for_author: Tambahan transisi diperbolehkan
+    ketika user adalah Penulis
+  label_administration: Administrasi
+  label_advanced_settings: Advanced settings
+  label_age: Usia
+  label_ago: hari yang lalu
+  label_all: semua
+  label_all_time: Sepanjang waktu
+  label_all_words: Semua kata
+  label_always_visible: Always displayed
+  label_announcement: Announcement
+  label_and_its_subprojects: "%{value} dan Sub Project yang"
+  label_api_access_key: API access key
+  label_api_access_key_created_on: API access key dibuat %{value} yg lalu
+  label_api_access_key_type: API
+  label_applied_status: Status berjalan
+  label_archive_project: Proyek arsip
+  label_ascending: Askending
+  label_assigned_to_me_work_packages: Paket-Penugasan yang saya kerjakan
+  label_associated_revisions: Revisi terkait
+  label_attachment_delete: Hapus file
+  label_attachment_new: File baru
+  label_attachment_plural: File
+  label_attribute: Atribut
+  label_attribute_plural: Atribut
+  label_auth_source: Mode otentikasi
+  label_auth_source_new: Mode otentikasi baru
+  label_auth_source_plural: Mode otentikasi
+  label_authentication: Otentikasi
+  label_available_project_work_package_categories: Available work package categories
+  label_available_project_boards: Available boards
+  label_available_project_versions: Available versions
+  label_available_project_repositories: Available repositories
+  label_api_documentation: API documentation
+  label_between: antara
+  label_blocked_by: diblokir oleh
+  label_blocks: blok
+  label_blog: Blog
+  label_board_locked: Locked
+  label_board_new: Forum baru
+  label_board_plural: Forum
+  label_board_sticky: Sticky
+  label_boolean: Boolean
+  label_branch: Branch
+  label_browse: Browse
+  label_bulk_edit_selected_work_packages: Edit masal Paket-Penugasan yang dipilih
+  label_calendar: Kalender
+  label_calendar_show: Tampilkan kalender
+  label_category: Kategori
+  label_wiki_menu_item: Wiki menu item
+  label_select_main_menu_item: Pilih item main menu baru
+  label_select_project: Memilih sebuah proyek
+  label_required_disk_storage: Storage yang dibutuhkan
+  label_send_invitation: Kirim undangan
+  label_change_plural: Perubahan
+  label_change_properties: Ubah properti
+  label_change_status: Ubah status
+  label_change_status_of_user: 'Mengganti status #{username}'
+  label_change_view_all: Tampilkan semua perubahan
+  label_changes_details: Rincian semua perubahan
+  label_changeset: Changeset
+  label_changeset_id: Changeset ID
+  label_changeset_plural: Set perubahan
+  label_checked: terpilih
+  label_check_uncheck_all_in_column: Check/Uncheck all in column
+  label_check_uncheck_all_in_row: Check/Uncheck all in row
+  label_child_element: Sub-elemen
+  label_chronological_order: Urutan kronologis
+  label_close_versions: Tutup versi yang sudah komplit
+  label_closed_work_packages: berakhir
+  label_collapse: Tampilkan
+  label_configuration: Konfigurasi
+  label_comment_add: Tambahkan komentar
+  label_comment_added: Komentar telah ditambahkan
+  label_comment_delete: Hapus komentar
+  label_comment_plural: Komentar
+  label_commits_per_author: Komit per Penulis
+  label_commits_per_month: Komit per bulan
+  label_confirmation: Konfirmasi
+  label_contains: berisi
+  label_content: Konten
+  label_copied: copied
+  label_copy_to_clipboard: Copy to clipboard
+  label_copy_same_as_target: Sama seperti target
+  label_copy_source: Source
+  label_copy_target: Target
+  label_copy_workflow_from: Copy Alur-Tugas dari
+  label_copy_project: Copy Project
+  label_core_version: Core versi
+  label_current_status: Status saat ini
+  label_current_version: Versi saat ini
+  label_custom_field_add_no_type: Tambahkan field ini ke sebuah jenis paket kerja
+  label_custom_field_new: Isian kustom baru
+  label_custom_field_plural: Isian kustom
+  label_custom_field_default_type: Tipe kosong
+  label_custom_style: Rancangan
+  label_date: Tanggal
+  label_date_and_time: Tanggal dan waktu
+  label_date_from: Dari
+  label_date_from_to: Dari %{start} ke %{end}
+  label_date_range: Kisaran tanggal
+  label_date_to: Ke
+  label_day_plural: hari
+  label_default: Default
+  label_delete_user: Menghapus pengguna
+  label_delete_project: Hapus proyek
+  label_deleted: dihapus
+  label_deleted_custom_field: "(isian kustom dihapus)"
+  label_descending: Deskending
+  label_details: Detil
+  label_development_roadmap: Development roadmap
+  label_diff: diff
+  label_diff_inline: inline
+  label_diff_side_by_side: berdampingan
+  label_disabled: disabled
+  label_display: Tampilkan
+  label_display_per_page: 'Per halaman: %{value}'
+  label_display_used_statuses_only: Hanya tampilkan status yang digunakan oleh Tipe
+    ini
+  label_download: "%{count} Download"
+  label_download_plural: "%{count} Download"
+  label_downloads_abbr: D/L
+  label_duplicated_by: disalin oleh
+  label_duplicate: duplicate
+  label_duplicates: duplikat
+  label_edit: Edit
+  label_enable_multi_select: Beralih ke multiselect
+  label_enabled_project_custom_fields: Enabled custom fields
+  label_enabled_project_types: Enabled types
+  label_enabled_project_modules: Enabled modules
+  label_enabled_project_activities: Enabled time tracking activities
+  label_end_to_end: finish untuk mengakhiri
+  label_end_to_start: finish ke start
+  label_enumeration_new: Nilai enumerasi baru
+  label_enumeration_value: Enumeration value
+  label_enumerations: Enumerasi
+  label_enterprise: Perusahaan
+  label_enterprise_edition: Edisi Perusahaan
+  label_environment: Environment
+  label_estimates_and_time: Perkiraan dan waktu
+  label_equals: adalah
+  label_example: Contoh
+  label_export_to: 'Juga tersedia dalam:'
+  label_f_hour: "%{value} jam"
+  label_f_hour_plural: "%{value} jam"
+  label_feed_plural: Feed
+  label_feeds_access_key: RSS access key
+  label_feeds_access_key_created_on: RSS access key dibuat %{value} yang lalu
+  label_feeds_access_key_type: RSS
+  label_file_added: File ditambahkan
+  label_file_plural: File
+  label_filter_add: Tambah Filter
+  label_filter_plural: Filter
+  label_filters_toggle: Tampilkan/Sembunyikan penyaringan
+  label_float: Float
+  label_folder: Folder
+  label_follows: Berikut
+  label_force_user_language_to_default: Set bahasa user ke default
+  label_form_configuration: Form configuration
+  label_general: Umum
+  label_generate_key: Generate a key
+  label_git_path: Path to .git directory
+  label_greater_or_equal: ">="
+  label_group_by: Grup oleh
+  label_group_new: Grup baru
+  label_group: Grup
+  label_group_plural: Grup
+  label_help: Support
+  label_here: disini
+  label_hide: Sembunyikan
+  label_history: Histori
+  label_home: Home
+  label_in: dalam
+  label_in_less_than: kurang dari
+  label_in_more_than: lebih dari
+  label_inactive: Tidak aktif
+  label_incoming_emails: Email masuk
+  label_includes: termasuk
+  label_index_by_date: Indeks menurut tanggal
+  label_index_by_title: Indeks menurut judul
+  label_information: Informasi
+  label_information_plural: Informasi
+  label_integer: Integer
+  label_internal: Internal
+  label_invite_user: Invite user
+  label_show_hide: Show/hide
+  label_show_all_registered_users: Menampilkan semua pengguna teregistrasi
+  label_journal: Journal
+  label_journal_diff: Deskripsi perbandingan
+  label_language: Bahasa
+  label_jump_to_a_project: Lompat ke Project...
+  label_language_based: Berdasarkan bahasa user
+  label_last_activity: Aktivitas terakhir
+  label_last_change_on: Last change on
+  label_last_changes: "%{count} perubahan terakhir"
+  label_last_login: Login terakhir
+  label_last_month: bulan lalu
+  label_last_n_days: "%{count} hari terakhir"
+  label_last_week: minggu lalu
+  label_latest_revision: Revisi terbaru
+  label_latest_revision_plural: Revisi terbaru
+  label_ldap_authentication: Otentikasi LDAP
+  label_less_or_equal: "<="
+  label_less_than_ago: kemarin lusa
+  label_list: List
+  label_loading: Loading...
+  label_lock_user: Mengunci pengguna
+  label_logged_as: Login sbg
+  label_login: Login
+  label_custom_logo: Logo khusus
+  label_custom_favicon: Favicon sesuai keinginan
+  label_custom_touch_icon: Ikon sentuh sesuai keinginan
+  label_logout: Logout
+  label_main_menu: Sidemenu
+  label_manage_groups: Manage groups
+  label_managed_repositories_vendor: "%{vendor} repository yang dikelola"
+  label_max_size: Ukuran maks.
+  label_me: saya
+  label_member_new: Member baru
+  label_member_plural: Member
+  label_view_all_members: View all members
+  label_menu_item_name: Nama item menu
+  label_message: Message
+  label_message_last: Pesan terakhir
+  label_message_new: Pesan Baru
+  label_message_plural: Pesan
+  label_message_posted: Pesan ditambahkan
+  label_min_max_length: Panjang Min - Maks
+  label_minute_plural: menit
+  label_missing_api_access_key: Missing API access key
+  label_missing_feeds_access_key: Missing RSS access key
+  label_modification: "%{count} perubahan"
+  label_modified: dimodifikasi
+  label_module_plural: Modul
+  label_modules: Modul
+  label_month: Bulan
+  label_months_from: dari bulan
+  label_more: Lanjut
+  label_more_than_ago: lusa yang lalu
+  label_move_work_package: Pindahkan Paket-Penugasan
+  label_my_account: Akun saya
+  label_my_account_data: Data akun saya
+  label_my_page: My Homepage
+  label_my_page_block: Blok halaman saya
+  label_my_projects: Project saya
+  label_my_queries: Query kustom saya
+  label_new: Baru
+  label_new_statuses_allowed: Status baru yang diijinkan
+  label_news_added: News ditambahkan
+  label_news_comment_added: Komentar ditambahkan ke dalam Berita
+  label_news_latest: Berita terbaru
+  label_news_new: Tambah Berita
+  label_news_edit: Edit Berita
+  label_news_plural: News
+  label_news_view_all: Tampilkan semua berita
+  label_next: Lanjut
+  label_next_week: Minggu depan
+  label_no_change_option: "(tdk berubah)"
+  label_no_data: Tidak ada data untuk ditampilkan
+  label_nothing_display: Tidak ada yang ditampilkan
+  label_nobody: tidak ada
+  label_none: kosong
+  label_none_parentheses: "(kosong)"
+  label_not_contains: tidak berisi
+  label_not_equals: tidak
+  label_notify_member_plural: Email update
+  label_on: pada
+  label_open_menu: Buka menu
+  label_open_work_packages: buka
+  label_open_work_packages_plural: buka
+  label_optional_description: Deskripsi
+  label_options: Opsi
+  label_other: Lainnya
+  label_overall_activity: Keseluruhan Activity
+  label_overall_spent_time: Durasi keseluruhan
+  label_overview: Tinjauan
+  label_part_of: bagian dari
+  label_password_lost: Lupa password?
+  label_password_rule_lowercase: Huruf kecil
+  label_password_rule_numeric: Karakter numerik
+  label_password_rule_special: Karakter spesial
+  label_password_rule_uppercase: Huruf besar
+  label_path_encoding: Path encoding
+  label_pdf_with_descriptions: PDF dengan deskripsi
+  label_per_page: Per halaman
+  label_people: Orang
+  label_permissions: Hak akses
+  label_permissions_report: Laporan
+  label_personalize_page: Personalisasi halaman
+  label_planning: Perencanaan
+  label_please_login: Silakan login
+  label_plugins: Plugin
+  label_precedes: mendahului
+  label_preferences: Preferensi
+  label_preview: Preview
+  label_previous: Sebelumnya
+  label_previous_week: Minggu sebelumnya
+  label_principal_invite_via_email: " or invite new users via email"
+  label_principal_search: Add existing users or groups
+  label_product_version: Product version
+  label_professional_support: Professional support
+  label_profile: Profil
+  label_project_all: Semua Project
+  label_project_count: Jumlah proyek
+  label_project_copy_notifications: Kirim email notifikasi selama meng-copy Project
+  label_project_latest: Project terbaru
+  label_project_default_type: Biarkan kosong pada Tipe
+  label_project_hierarchy: Hirarki proyek
+  label_project_new: Project baru
+  label_project_plural: Project
+  label_project_settings: Projek setting
+  label_projects_storage_information: "%{count} proyek menggunakan %{storage} dari
+    storage"
+  label_project_view_all: Lihat semua Project
+  label_project_show_details: Tampilkan detail proyek
+  label_project_hide_details: Sembunyikan detail proyek
+  label_public_projects: Project untuk publik
+  label_query_new: Queri baru
+  label_query_plural: Kustom queri
+  label_query_menu_item: Queri menu item
+  label_read: Baca...
+  label_register: Buat akun baru
+  label_register_with_developer: Daftar sebagai pengembang
+  label_registered_on: Terdaftar sejak
+  label_registration_activation_by_email: aktivasi akun melalui email
+  label_registration_automatic_activation: aktivasi account otomatis
+  label_registration_manual_activation: aktivasi akun manual
+  label_related_work_packages: Paket-Penugasan terkait
+  label_relates: terkait dengan
+  label_relates_to: terkait dengan
+  label_relation_delete: Hapus keterkaitan
+  label_relation_new: Keterkaitan baru
+  label_release_notes: Release notes
+  label_remove_columns: Hapus kolom terpilih
+  label_renamed: telah diganti nama
+  label_reply_plural: Balasan
+  label_report: Laporan
+  label_report_bug: Report a bug
+  label_report_plural: Laporan
+  label_reported_work_packages: Paket-Penugasan yang sdh saya laporkan
+  label_reporting: Pelaporan
+  label_reporting_plural: Pelaporan
+  label_repository: Repositori
+  label_repository_root: Repository root
+  label_repository_plural: Repositori
+  label_required: dibutuhkan
+  label_requires: dibutuhkan
+  label_responsible_for_work_packages: Paket-Penugasan dibawah tanggung jawab saya
+  label_result_plural: Hasil
+  label_reverse_chronological_order: Urutan kronologi terbalik
+  label_revision: Revisi
+  label_revision_id: Revisi %{value}
+  label_revision_plural: Revisi
+  label_roadmap: Roadmap
+  label_roadmap_edit: Edit roadmap %{name}
+  label_roadmap_due_in: Kadaluwarsa pada %{value}
+  label_roadmap_no_work_packages: Tidak ada Paket-Penugasan di versi ini
+  label_roadmap_overdue: terlambat %{value}
+  label_role_and_permissions: Role dan Izin
+  label_role_new: Role baru
+  label_role_plural: Peran
+  label_role_search: Menetapkan role kepada anggota baru
+  label_scm: SCM
+  label_search: Cari
+  label_search_titles_only: Cari judul
+  label_send_information: Kirim informasi akun ke user
+  label_send_test_email: Kirim test email
+  label_settings: Pengaturan
+  label_system_settings: System settings
+  label_show_completed_versions: Tampilkan versi lengkap
+  label_sort: Urutkan
+  label_sort_by: Urutkan %{value}
+  label_sorted_by: diurutkan berdasarkan %{value}
+  label_sort_higher: Naikkan
+  label_sort_highest: Pindah paling atas
+  label_sort_lower: Pindahkan ke bawah
+  label_sort_lowest: Pindahkan paling bawah
+  label_spent_time: Durasi
+  label_start_to_end: start ke finish
+  label_start_to_start: start untuk memulai
+  label_statistics: Statistik
+  label_status: Status
+  label_status_updated: Status Paket-Penugasan telah diupdate
+  label_stay_logged_in: Tetap login
+  label_storage_free_space: Sisa space di disk
+  label_storage_used_space: Space disk terpakai
+  label_storage_group: Storage filesystem %{identifier}
+  label_storage_for: Storage juga termasuk untuk
+  label_string: Teks
+  label_subproject: Sub-Project
+  label_subproject_new: Sub Project baru
+  label_subproject_plural: Sub Project
+  label_subtask_plural: Sub-Tugas
+  label_summary: Ringkasan
+  label_system: Sistem
+  label_system_storage: Informasi storage
+  label_table_of_contents: Daftar isi
+  label_tag: Tag
+  label_text: Teks panjang
+  label_this_month: bulan ini
+  label_this_week: minggu ini
+  label_this_year: tahun ini
+  label_time_entry_plural: Durasi
+  label_time_sheet_menu: Time sheet
+  label_time_tracking: Time tracking
+  label_today: hari ini
+  label_top_menu: Top Menu
+  label_topic_plural: Topik
+  label_total: Total
+  label_type_new: Tipe baru
+  label_type_plural: Tipe
+  label_type_default_new_projects: Type activated for new projects by default
+  label_ui: Antarmuka user
+  label_update_work_package_done_ratios: Rasio Paket-Penugasan telah diupdate
+  label_updated_time: Diperbarui %{value} yang lalu
+  label_updated_time_at: "%{author} %{age}"
+  label_updated_time_by: Diperbarui oleh %{author} %{age} yang lalu
+  label_used_by: Digunakan oleh
+  label_used_by_types: Digunakan oleh jenis
+  label_used_in_projects: Digunakan dalam proyek-proyek
+  label_user: User
+  label_user_activity: "%{value} aktivitas"
+  label_user_anonymous: Anonimus
+  label_user_mail_option_all: Untuk semua Event pada semua proyek saya
+  label_user_mail_option_none: Tidak ada event
+  label_user_mail_option_only_assigned: Hanya untuk hal-hal yang saya ditugaskan untuk
+  label_user_mail_option_only_my_events: Hanya untuk hal-hal yang saya pantau atau
+    saya terlibat didalamnya
+  label_user_mail_option_only_owner: Hanya untuk hal-hal yang saya sebagai Ownernya
+  label_user_mail_option_selected: For any event on the selected projects only
+  label_user_new: User baru
+  label_user_plural: User
+  label_user_search: Cari user
+  label_version_new: Versi baru
+  label_version_plural: Versi
+  label_version_sharing_descendants: Dengan Sub-Project
+  label_version_sharing_hierarchy: Dengan hirarki Project
+  label_version_sharing_none: Tidak dishare
+  label_version_sharing_system: Dengan semua Project
+  label_version_sharing_tree: Dengan Project tree
+  label_video: Video
+  label_view_all_revisions: Tampilkan semua revisi
+  label_view_diff: Lihat perbedaan
+  label_view_revisions: Lihat revisi
+  label_watched_work_packages: Paket-Penugasan yang telah diakses
+  label_week: Minggu
+  label_wiki_content_added: Halaman Wiki ditambahkan
+  label_wiki_content_updated: Halaman Wiki diupdate
+  label_wiki_toc: Daftar isi
+  label_wiki_dont_show_menu_item: Sembunyikan halaman Wiki ini dalam navigasi Project
+  label_wiki_edit: Edit Wiki
+  label_wiki_edit_plural: Wiki edit
+  label_wiki_page_attachments: Lampiran halaman Wiki
+  label_wiki_page_id: Wiki page ID
+  label_wiki_navigation: Wiki navigasi
+  label_wiki_page: Halaman Wiki
+  label_wiki_page_plural: Halaman Wiki
+  label_wiki_show_index_page_link: Tampilkan item submenu 'Daftar isi'
+  label_wiki_show_menu_item: Tampilkan sebagai item menu navigasi Project
+  label_wiki_show_new_page_link: Tampilkan submenu item 'Buat sub-halaman baru'
+  label_wiki_show_submenu_item: 'Tampilkan sebagai submenu item '
+  label_work_package: Paket-Penugasan
+  label_work_package_added: Paket-Penugasan telah ditambah
+  label_work_package_attachments: Lampiran paket kerja
+  label_work_package_category_new: Kategori Baru
+  label_work_package_category_plural: Kategori Paket-Penugasan
+  label_work_package_hierarchy: Work package hierarchy
+  label_work_package_new: Paket-Penugasan baru
+  label_work_package_note_added: Catatan Paket-Penugasan telah ditambah
+  label_work_package_edit: Edit Paket-Penugasan %{name}
+  label_work_package_plural: Paket-Penugasan
+  label_work_package_priority_updated: Paket-Penugasan prioritas telah diupdate
+  label_work_package_status: Status Work Package
+  label_work_package_status_new: Status baru
+  label_work_package_status_plural: Status Paket-Penugasan
+  label_work_package_types: Work package types
+  label_work_package_updated: Paket-Penugasan telah diupdate
+  label_work_package_tracking: Tracking Paket-Penugasan
+  label_work_package_view_all: Lihat semua Paket-Penugasan
+  label_work_package_view_all_assigned_to_me: Lihat semua Paket-Penugasan yang ditugaskan
+    pada saya
+  label_work_package_view_all_reported_by_me: Lihat semua Paket-Penugasan yang telah
+    saya laporkan
+  label_work_package_view_all_responsible_for: View all work packages that I am responsible
+    for
+  label_work_package_view_all_watched: Lihat semua Paket-Penugasan yang telah diakses
+  label_work_package_watchers: Pemantau
+  label_workflow: Workflow
+  label_workflow_plural: Alur kerja
+  label_workflow_summary: Ringkasan
+  label_x_closed_work_packages_abbr:
+    one: 1 closed
+    other: "%{count} tertutup"
+    zero: 0 closed
+  label_x_comments:
+    one: 1 comment
+    other: "%{count} komentar"
+    zero: no comments
+  label_x_open_work_packages_abbr:
+    one: 1 open
+    other: "%{count} terbuka"
+    zero: 0 open
+  label_x_open_work_packages_abbr_on_total:
+    one: 1 open / %{total}
+    other: "%{count} open / %{total}"
+    zero: 0 open / %{total}
+  label_x_projects:
+    one: 1 project
+    other: "%{count} proyek"
+    zero: no projects
+  label_year: Tahun
+  label_yesterday: kemarin
+  label_keyboard_function: Fungsi
+  label_keyboard_shortcut: Shortcut
+  label_keyboard_accesskey: Accesskey
+  label_keyboard_shortcut_help_heading: Shortcut tersedia
+  label_keyboard_shortcut_within_project: 'Shortcut Project terkait :'
+  label_keyboard_shortcut_global_shortcuts: 'Global shortcut:'
+  label_keyboard_shortcut_some_pages_only: 'Spesial shortcut:'
+  label_keyboard_shortcut_search_global: Pencarian global
+  label_keyboard_shortcut_search_project: Cari Project
+  label_keyboard_shortcut_go_my_page: Go to my page
+  label_keyboard_shortcut_show_help: Tampilkan pesan bantuan ini
+  label_keyboard_shortcut_go_overview: Buka Project overview
+  label_keyboard_shortcut_go_work_package: Buka Paket-Penugasan
+  label_keyboard_shortcut_go_wiki: Buka Project Wiki
+  label_keyboard_shortcut_go_activity: Buka Project Aktifiti
+  label_keyboard_shortcut_go_calendar: Buka kalender Project
+  label_keyboard_shortcut_go_news: Buka Project Berita
+  label_keyboard_shortcut_go_timelines: Buka Timeline
+  label_keyboard_shortcut_new_work_package: Buat Paket-Penugasan baru
+  label_keyboard_shortcut_details_package: Tampilkan panel rician
+  label_keyboard_shortcut_go_edit: Edit item saat ini (hanya di detail halaman)
+  label_keyboard_shortcut_open_more_menu: Buka menu lagi (hanya di halaman detil)
+  label_keyboard_shortcut_go_preview: Preview edit saat ini (hanya halaman yang diedit)
+  label_keyboard_shortcut_focus_previous_item: Fokus daftar elemen sebelumnya (hanya
+    di daftar yang sama)
+  label_keyboard_shortcut_focus_next_item: Fokus daftar elemen berikutnya (hanya di
+    daftar yang sama)
+  label_visible_elements: Element tampak
+  auth_source:
+    using_abstract_auth_source: Can't use an abstract authentication source.
+    ldap_error: 'LDAP-Error: %{error_message}'
+    ldap_auth_failed: Authentikasi pada LDAP-Server gagal.
+  macro_execution_error: ERROR eksekusi makro %{macro_name}
+  macro_unavailable: Makro %{macro_name} tidak dapat ditampilkan.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Paket-Penugasan baru
+      link_name_type: New %{type_name}
+  mail:
+    actions: Tindakan
+  mail_body_account_activation_request: 'User (%{value}) telah terdaftar. Akun Anda
+    menunggu persetujuan Anda:'
+  mail_body_account_information: Info akun Anda
+  mail_body_account_information_external: Anda dapat gunakan akun %{value} untuk login.
+  mail_body_lost_password: 'Untuk mengubah password, klik link berikut :'
+  mail_body_register: 'Untuk mengaktifkan akun Anda, klik link berikut :'
+  mail_body_reminder: "%{count} Paket-Penugasan yang dilimpahkan kepada Anda akan
+    berakhir dalam %{days} hari :"
+  mail_body_wiki_content_added: Halaman Wiki '%{id}' telah ditambahkan oleh %{author}.
+  mail_body_wiki_content_updated: Halaman Wiki '%{id}' telah diupdate oleh %{author}.
+  mail_subject_account_activation_request: Permintaan aktivasi akun %{value}
+  mail_subject_lost_password: Password Anda %{value}
+  mail_subject_register: Kode aktivasi Akun Anda %{value}
+  mail_subject_reminder: "%{count} Paket-Penugasan akan berakhir %{days} hari lagi"
+  mail_subject_wiki_content_added: Halaman Wiki '%{id}' telah ditambahkan
+  mail_subject_wiki_content_updated: Halaman Wiki '%{id}' telah diupdate
+  more_actions: Fungsi lainnya
+  noscript_description: Aktifkan JavaScript di browser Anda untuk menjalankan Software
+    ini!
+  noscript_heading: JavaScript dinonaktifkan
+  noscript_learn_more: Pelajari lebih lanjut
+  notice_accessibility_mode: The accessibility mode can be enabled in your [account
+    settings](url).
+  notice_account_activated: Akun Anda telah diaktifkan. Sekarang Anda bisa Login.
+  notice_account_already_activated: The account has already been activated.
+  notice_account_invalid_token: Invalid activation token
+  notice_account_invalid_credentials: User atau Password tidak valid
+  notice_account_invalid_credentials_or_blocked: User atau password tidak valid. Atau
+    akun sedang diblokir karena beberapa kali gagal login. Jika itu yang terjadi,
+    pemblokiran akan dibuka secara otomatis dalam beberapa menit kedepan.
+  notice_account_lost_email_sent: Email berisi instruksi untuk memilih password baru
+    sudah dikirimkan kepada Anda.
+  notice_account_new_password_forced: Perbarui Password.
+  notice_account_password_expired: Password Anda kadaluwarsa setelah %{days} hari.
+    Silakan set yang baru.
+  notice_account_password_updated: Password berhasil diperbarui.
+  notice_account_pending: Akun Anda telah dibuat, sekarang menunggu persetujuan administrator.
+  notice_account_register_done: Akun berhasil dibuat. Untuk mengaktifkan akun Anda,
+    klik pada link yang ada di email Anda.
+  notice_account_unknown_email: User tak diketahui.
+  notice_account_update_failed: Account setting could not be saved. Please have a
+    look at your account page.
+  notice_account_updated: Akun berhasil diperbarui.
+  notice_account_wrong_password: Password salah
+  notice_account_registered_and_logged_in: Selamat datang, akun Anda telah diaktifkan.
+    Anda sudah login sekarang.
+  notice_activation_failed: The account could not be activated.
+  notice_auth_stage_verification_error: Tidak dapat memeriksa tahap '%{stage}'.
+  notice_auth_stage_wrong_stage: Diharapkan untuk menyelesaikan pembuktian keaslian
+    tahap '%{expected}', namun '%{actual}' dikembalikan.
+  notice_auth_stage_error: Pembuktian keaslian tahap '%{stage}' gagal.
+  notice_can_t_change_password: Akun ini menggunakan otentikasi eksternal. Ubah password
+    tidak bisa dilakukan.
+  notice_custom_options_deleted: Pilihan '%{option_value}' dan kejadian %{num_deleted}
+    ini dihapus.
+  notice_email_error: Error saat mengirim e-mail (%{value})
+  notice_email_sent: Email telah dikirim ke %{value}
+  notice_failed_to_save_work_packages: 'Gagal menyimpan %{count} Paket-Penugasan untuk
+    %{total} yang terpilih: %{ids}.'
+  notice_failed_to_save_members: 'Gagal menyimpan member : %{errors}.'
+  notice_file_not_found: Halaman yang Anda akses sudah dihapus atau dipindahkan.
+  notice_forced_logout: Anda secara otomatis telah Logout setelah %{ttl_time} menit
+    tanpa aktivitas.
+  notice_internal_server_error: Error pada halaman yang Anda akses. Jika Anda tetap
+    mengalami masalah hubungi administrator %{app_title} untuk bantuan.
+  notice_work_package_done_ratios_updated: Paket-Penugasan selesai, rasio telah diupdate.
+  notice_locking_conflict: Informasi telah diperbarui oleh setidaknya satu user lain.
+  notice_locking_conflict_additional_information: Diupdate oleh %{users}.
+  notice_locking_conflict_reload_page: Silahkan reload halaman, tinjau perubahan dan
+    reapply.
+  notice_member_added: Added %{name} to the project.
+  notice_members_added: Added %{number} users to the project.
+  notice_member_removed: Removed %{user} from project.
+  notice_member_deleted: "%{user} has been removed from the project and deleted."
+  notice_no_principals_found: Tidak ada hasil yang ditemukan.
+  notice_bad_request: Bad Request.
+  notice_not_authorized: Anda tidak diizinkan untuk mengakses halaman ini.
+  notice_not_authorized_archived_project: Project yang Anda coba akses telah diarsipkan.
+  notice_password_confirmation_failed: Password Anda tidak tepat. Tidak dapat melanjutkan.
+  notice_principals_found_multiple: "Ada beberapa %{number} hasil yang ditemukan.
+    \n Tab untuk fokus ke hasil pertama."
+  notice_principals_found_single: |-
+    Ada satu hasil.
+     Tab untuk lebih fokus.
+  notice_project_not_deleted: Project tidak dihapus.
+  notice_successful_connection: Sambungan berhasil.
+  notice_successful_create: Berhasil dibuat.
+  notice_successful_delete: Berhasil dihapus.
+  notice_successful_update: Berhasil diperbarui.
+  notice_to_many_principals_to_display: Ada terlalu banyak hasil. Persempit pencarian
+    dengan mengetik nama member baru (atau grup).
+  notice_unable_delete_time_entry: Entri time log tidak bisa dihapus.
+  notice_unable_delete_version: Gagal menghapus versi.
+  notice_user_missing_authentication_method: User has yet to choose a password or
+    another way to sign in.
+  notice_user_invitation_resent: Sebuah undangan telah dikirim ke %{email}.
+  present_access_key_value: 'Your %{key_name} is: %{value}'
+  notice_automatic_set_of_standard_type: Set Tipe standar secara otomatis.
+  notice_logged_out: Anda telah logout.
+  notice_wont_delete_auth_source: The authentication mode cannot be deleted as long
+    as there are still users using it.
+  notice_project_cannot_update_custom_fields: 'You cannot update the project''s available
+    custom fields. The project is invalid: %{errors}'
+  notice_attachment_migration_wiki_page: 'Halaman ini dihasilkan secara otomatis selama
+    pembaharuan OpenProject. Ini berisi semua lampiran yang terkait sebelumnya dengan
+    %{container_type} "%{container_name}".
+
+'
+  number:
+    format:
+      delimiter: ''
+      precision: 3
+      separator: "."
+    human:
+      format:
+        delimiter: ''
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Byte
+          gb: GB
+          kb: kB
+          mb: MB
+          tb: TB
+  onboarding:
+    heading_getting_started: Mendapatkan gambaran
+    text_getting_started_description: Mendapatkan gambaran singkat mengenai manajemen
+      proyek dan tim kolaborasi bersama OpenProject.
+    text_show_again: You can restart this video from the help menu
+    welcome: Welcome to OpenProject
+  permission_add_work_package_notes: Tambahkan catatan
+  permission_add_work_packages: Add work packages (also allows to add attachments
+    to all work packages)
+  permission_add_messages: Kirim pesan
+  permission_add_project: Buat Project
+  permission_add_subprojects: Buat Sub Project
+  permission_add_work_package_watchers: Tambah pemantau
+  permission_browse_repository: Read-only access to repository (browse and checkout)
+  permission_change_wiki_parent_page: Ubah halaman induk Wiki
+  permission_comment_news: Komentar berita
+  permission_commit_access: Read/write access to repository (commit)
+  permission_copy_projects: Copy Project
+  permission_delete_work_package_watchers: Hapus pemantau
+  permission_delete_work_packages: Hapus Paket-Penugasan
+  permission_delete_messages: Hapus pesan
+  permission_delete_own_messages: Hapus pesan
+  permission_delete_reportings: Hapus Laporan
+  permission_delete_timelines: Menghapus Timeline
+  permission_delete_wiki_pages: Hapus halaman Wiki
+  permission_delete_wiki_pages_attachments: Hapus lampiran
+  permission_edit_work_package_notes: Edit catatan
+  permission_edit_work_packages: Edit Paket-Penugasan
+  permission_edit_messages: Edit pesan
+  permission_edit_own_work_package_notes: Edit catatan saya
+  permission_edit_own_messages: Edit pesan
+  permission_edit_own_time_entries: Edit Time log
+  permission_edit_project: Edit Project
+  permission_edit_reportings: Edit pelaporan
+  permission_edit_time_entries: Edit Time log
+  permission_edit_timelines: Edit Timeline
+  permission_edit_wiki_pages: Edit halaman Wiki
+  permission_export_work_packages: Ekspor work packages
+  permission_export_wiki_pages: Ekspor halaman Wiki
+  permission_list_attachments: Daftar lampiran
+  permission_log_time: Catat durasi
+  permission_manage_boards: Kelola Forum
+  permission_manage_categories: Kelola kategori Paket-Penugasan
+  permission_manage_work_package_relations: Kelola relasi Paket-Penugasan
+  permission_manage_members: Kelola member
+  permission_manage_news: Kelola Berita
+  permission_manage_project_activities: Kelola Project Activity
+  permission_manage_public_queries: Atur query publik
+  permission_manage_repository: Kelola repositori
+  permission_manage_subtasks: Kelola Sub-Tugas
+  permission_manage_versions: Kelola Versi
+  permission_manage_wiki: Kelola Wiki
+  permission_manage_wiki_menu: Kelola menu Wiki
+  permission_move_work_packages: Pindahkan Paket-Penugasan
+  permission_protect_wiki_pages: Proteksi halaman Wiki
+  permission_rename_wiki_pages: Rename halaman Wiki
+  permission_save_queries: Simpan permintaan
+  permission_select_project_modules: Pilih modul Project
+  permission_manage_types: Pilih Tipe
+  permission_view_calendar: Lihat kalender
+  permission_view_changesets: View repository revisions in OpenProject
+  permission_view_commit_author_statistics: Lihat commit statistik penulis
+  permission_view_work_package_watchers: Lihat daftar pemantau
+  permission_view_work_packages: View work packages
+  permission_view_messages: Lihat pesan
+  permission_view_members: Tampilkan Anggota
+  permission_view_reportings: Lihat laporan
+  permission_view_time_entries: Lihat durasi
+  permission_view_timelines: Lihat Timeline
+  permission_view_wiki_edits: Lihat Wiki histori
+  permission_view_wiki_pages: Lihat Wiki
+  placeholders:
+    default: Hapus nilai
+  project:
+    destroy:
+      confirmation: If you continue, the project %{identifier} and all related data
+        will be permanently destroyed.
+      info: Deleting the project is an irreversible action.
+      project_verification: Enter the project's name %{name} to verify the deletion.
+      subprojects_confirmation: 'Its subproject(s): %{value} will also be deleted.'
+      title: Delete the project %{name}
+    identifier:
+      warning_one: Members of the project will have to relocate the project's repositories.
+      warning_two: Existing links to the project will no longer work.
+      title: Change the project's identifier
+    archive:
+      are_you_sure: Are you sure you want to archive the project '%{name}'?
+  project_module_activity: Activity
+  project_module_boards: Forum
+  project_module_calendar: Kalender
+  project_module_work_package_tracking: Tracking Paket-Penugasan
+  project_module_news: News
+  project_module_repository: Repositori
+  project_module_time_tracking: Time tracking
+  project_module_timelines: Timeline
+  project_module_wiki: Wiki
+  query:
+    attribute_and_direction: "%{attribute} (%{direction})"
+  query_fields:
+    active_or_archived: Aktif atau arsip
+    assigned_to_role: Ditugaskan untuk Role
+    member_of_group: Ditugaskan untuk Grup
+    assignee_or_group: Penerima atau anggota kelompok
+    subproject_id: Sub-Project
+    name_or_identifier: Nama atau pengenal
+  repositories:
+    at_identifier: at %{identifier}
+    atom_revision_feed: Atom revision feed
+    autofetch_information: Beri centang untuk update otomatis dari repository ketika
+      laman modul repository dibuka. Termasuk juga me-refresh kebutuhan storage disk.
+    checkout:
+      access:
+        readwrite: Read + Write
+        read: Read-only
+        none: No checkout access, you may only view the repository through this application.
+      access_permission: Your permissions on this repository
+      url: Checkout URL
+      base_url_text: 'URL dasar yang digunakan untuk menghasilkan URL target (misalnya,
+        https://myserver.example.org/repos/). Catatan: URL dasar hanya digunakan untuk
+        menulis ulang URL target dalam repositori yang dikelola. Repositori lain tidak
+        berubah.'
+      default_instructions:
+        git: Data yang terdapat dalam repositori ini dapat diunduh ke komputer Anda
+          dengan Git. Silahkan periksa dokumentasi Git jika Anda memerlukan informasi
+          lebih lanjut tentang prosedur target dan klien yang tersedia.
+        subversion: Data yang terdapat dalam repositori ini dapat diunduh ke komputer
+          Anda dengan Git. Silahkan periksa dokumentasi Git jika Anda memerlukan informasi
+          lebih lanjut tentang prosedur target dan klien yang tersedia.
+      enable_instructions_text: Displays checkout instructions defined below on all
+        repository-related pages.
+      instructions: Checkout instructions
+      show_instructions: Display checkout instructions
+      text_instructions: This text is displayed alongside the checkout URL for guidance
+        on how to check out the repository.
+      not_available: Checkout instructions are not defined for this repository. Ask
+        your administrator to enable them for this repository in the system settings.
+    create_managed_delay: 'Catatan: repository dikelola secara asinkron sehingga mungkin
+      belum tampak ketika di-load.'
+    create_successful: Registrasi repository berhasil.
+    delete_sucessful: Repository dihapus.
+    destroy:
+      confirmation: If you continue, this will permanently delete the managed repository.
+      info: Deleting the repository is an irreversible action.
+      info_not_managed: 'Note: This will NOT delete the contents of this repository,
+        as it is not managed by OpenProject.'
+      managed_path_note: 'Berikut direktory yang akan dihapus: %{path}'
+      repository_verification: Enter the project's identifier %{identifier} to verify
+        the deletion of its repository.
+      subtitle: Do you really want to delete the %{repository_type} of the project
+        %{project_name}?
+      subtitle_not_managed: Do you really want to remove the linked %{repository_type}
+        %{url} from the project %{project_name}?
+      title: Delete the %{repository_type}
+      title_not_managed: Remove the linked %{repository_type}?
+    errors:
+      build_failed: Pembuatan repository gagal. %{reason}
+      managed_delete: Unable to delete the managed repository.
+      managed_delete_local: 'Unable to delete the local repository on filesystem at
+        ''%{path}'': %{error_message}'
+      empty_repository: Pada repository yang ditemukan belum terdapat revisi sama
+        sekali.
+      exists_on_filesystem: The repository directory already exists in the filesystem.
+      filesystem_access_failed: 'An error occurred while accessing the repository
+        in the filesystem: %{message}'
+      not_manageable: Repository dari vendor yang anda pilih belum bisa dikelola oleh
+        OpenProject.
+      path_permission_failed: Terjadi error saat membuat %{path}. Pastikan OpenProject
+        memiliki hak akses di folder.
+      unauthorized: Anda tidak memiliki izin untuk mengakses repository, atau terjadi
+        kesalahan data login.
+      unavailable: Repository tidak ditemukan.
+      exception_title: 'Repository tidak dapat diakses: %{message}'
+      disabled_or_unknown_type: Tipe yang anda pilih %{type}, telah di disable atau
+        tidak lagi terdapat pada %{vendor}.
+      disabled_or_unknown_vendor: 'SCM Vendor ini tidak ditemukan: %{vendor}'
+      remote_call_failed: 'Calling the managed remote failed with message ''%{message}''
+        (Code: %{code})'
+      remote_invalid_response: Received an invalid response from the managed remote.
+      remote_save_failed: Could not save the repository with the parameters retrieved
+        from the remote.
+    git:
+      instructions:
+        managed_url: URL ini dikelola dengan Git lokal.
+        path: Menetukan jejak ke tempat penyimpanan lokal Git (mis. %{example_path}
+          ). Anda dapat juga menggunakan tempat penyimpanan jarak jauh yang dikloning
+          ke salinan lokal dengan menggunakan nilai yang dimulai dengan http(s)://
+          atau file://.
+        path_encoding: 'Encoding git (Default: UTF-8)'
+      local_title: Ambil dari Git lokal
+      local_url: Local URL
+      local_introduction: Repository Git lokal yang anda miliki dapat dihubungkan
+        dengan OpenProject untuk dikelola dari dalam.
+      managed_introduction: Perbolehkan Repository Git lokal untuk dikelola secara
+        otomatis oleh OpenProject.
+      managed_title: Repository Git telah terintegrasi
+      managed_url: Managed URL
+      path: Path Git
+      path_encoding: Path encoding
+    go_to_revision: Go to revision
+    managed_remote: Managed repositories for this vendor are handled remotely.
+    managed_remote_note: Information on the URL and path of this repository is not
+      available prior to its creation.
+    managed_url: Managed URL
+    settings:
+      automatic_managed_repos_disabled: Nonaktifkan pembuatan otomatis
+      automatic_managed_repos: Pembuatan otomatis di repository
+      automatic_managed_repos_text: By setting a vendor here, newly created projects
+        will automatically receive a managed repository of this vendor.
+    scm_vendor: Source control management system
+    scm_type: Tipe repositori
+    scm_types:
+      local: Kaitkan dengan repository lokal
+      existing: Kaitkan dengan repository
+      managed: Buat repository baru dalam OpenProject
+    storage:
+      not_available: Storage tidak tersedia untuk repository ini.
+      update_timeout: Pertahankan informasi kebutuhan disk repository selama N menit.
+        Semakin besar nilai N akan mengurangi beban komputasi.
+    subversion:
+      existing_title: Repository Subversion yang sudah ada
+      existing_introduction: Repository Git lokal yang anda miliki dapat dihubungkan
+        dengan OpenProject untuk dikelola dari dalam.
+      existing_url: URL yang ada
+      instructions:
+        managed_url: Ini adalah URL dari repositori Subversion (lokal) yang dikelola.
+        url: |-
+          Masukkan URL dari repository anda. Untuk lokal repository URL dimulai dengan (%{local_proto}).
+          Skema URL yang diterima:
+      managed_title: Repository Subversion telah diintegrasikan ke OpenProject
+      managed_introduction: Ijinkan OpenProject membuat dan mengintegrasikan Subversion
+        lokal secara otomatis.
+      managed_url: Managed URL
+      password: Password Repository
+      username: Username Repository
+    truncated: Maaf, kami harus menyingkat direktori ini ke file %{limit}. Isian %{truncated}
+      dihilangkan dari daftar.
+    named_repository: "%{vendor_name} repository"
+    update_settings_successful: Setting berhasil disimpan.
+    url: URL repositori
+    warnings:
+      cannot_annotate: This file cannot be annotated.
+  search_input_placeholder: Mencari ...
+  setting_email_delivery_method: Email delivery method
+  setting_sendmail_location: Location of the sendmail executable
+  setting_smtp_enable_starttls_auto: Automatically use STARTTLS if available
+  setting_smtp_address: SMTP server
+  setting_smtp_port: SMTP port
+  setting_smtp_authentication: SMTP authentication
+  setting_smtp_domain: SMTP HELLO domain
+  setting_smtp_user_name: SMTP username
+  setting_smtp_password: SMTP password
+  setting_activity_days_default: Hari ditampilkan pada Project aktiviti
+  setting_app_subtitle: Subjudul aplikasi
+  setting_app_title: Judul aplikasi
+  setting_attachment_max_size: Ukuran lampiran maks.
+  setting_autofetch_changesets: Ambil perubahan repository secara otomatis
+  setting_autologin: Autologin
+  setting_available_languages: Bahasa yang tersedia
+  setting_bcc_recipients: Penerima blind carbon copy (bcc)
+  setting_brute_force_block_after_failed_logins: Jumlah percobaan login sebelum diblokir
+  setting_brute_force_block_minutes: Waktu tunggu blokir
+  setting_cache_formatted_text: Cache teks yang diformat
+  setting_column_options: Sesuaikan tampilan daftar Paket-Penugasan
+  setting_commit_fix_keywords: Perbaiki kata kunci
+  setting_commit_logs_encoding: Commit pesan enkoding
+  setting_commit_logtime_activity_id: Aktifitas selama waktu login
+  setting_commit_logtime_enabled: Aktifkan time logging
+  setting_commit_ref_keywords: Referensi kata kunci
+  setting_cross_project_work_package_relations: Mungkinkan relasi cross-project Paket-Penugasan
+  setting_date_format: Format tanggal
+  setting_default_language: Bahasa default
+  setting_default_notification_option: Opsi notifikasi default
+  setting_default_projects_modules: Modul default aktif untuk Project baru
+  setting_default_projects_public: Project baru default untuk publik
+  setting_diff_max_lines_displayed: Maks. tampilan baris diff
+  setting_display_subprojects_work_packages: Tampilkan Paket-Penugasan pada Sub-Project
+    secara default
+  setting_emails_footer: Email footer
+  setting_emails_header: Email header
+  setting_email_login: Login menggunakan e-mail
+  setting_enabled_scm: Aktifkan SCM
+  setting_feeds_enabled: Aktifkan Feed
+  setting_feeds_limit: Batasan konten feed
+  setting_file_max_size_displayed: Ukuran maks. file teks yang ditampilkan inline
+  setting_host_name: Nama host
+  setting_work_package_done_ratio: Hitung Paket-Penugasan dengan Rasio Penyelesaian
+  setting_work_package_done_ratio_field: Gunakan isian Paket-Penugasan
+  setting_work_package_done_ratio_status: Gunakan status Paket-Penugasan
+  setting_work_package_done_ratio_disabled: Nonaktifkan (sembunyikan progress)
+  setting_work_package_list_default_columns: Tampilkan secara default
+  setting_work_package_list_summable_columns: Summable
+  setting_work_package_properties: Properti Paket-Penugasan
+  setting_work_package_startdate_is_adddate: Gunakan tanggal sekarang untuk start
+    Paket-Penugasan
+  setting_work_packages_export_limit: Limit export Paket-Penugasan
+  setting_journal_aggregation_time_minutes: Tampilkan jurnal sebagai gabungan dengan
+    selisih waktu (menit)
+  setting_log_requesting_user: Catat user login, nama dan email untuk semua permintaan
+  setting_login_required: Diperlukan otentikasi
+  setting_mail_from: Emisi alamat email
+  setting_mail_handler_api_enabled: Aktifkan web service untuk email masuk
+  setting_mail_handler_api_description: Email web handler memungkinkan OpenProject
+    untuk mengolah perintah (seperti membuat dan update work packages).
+  setting_mail_handler_api_key: API key
+  setting_mail_handler_body_delimiters: Potong email setelah baris ini
+  setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_new_project_user_role_id: Role yang diberikan kepada user non-admin yang
+    membuat Project
+  setting_password_active_rules: Character classes aktif
+  setting_password_count_former_banned: Jumlah password yang dilarang untuk digunakan
+    kembali
+  setting_password_days_valid: Jumlah hari sebelum perintah penggantian password
+  setting_password_min_length: Panjang minimum
+  setting_password_min_adhered_rules: Jumlah Min. class yang diperlukan
+  setting_per_page_options: Opsi objek per halaman
+  setting_plain_text_mail: Teks (no HTML)
+  setting_protocol: Protocol
+  setting_registration_footer: Footer pendaftaran
+  setting_repositories_automatic_managed_vendor: Automatic repository vendor type
+  setting_repositories_encodings: Encoding repositori
+  setting_repository_authentication_caching_enabled: Hidupkan cache untuk otentikasi
+    permintaan dari version control software
+  setting_repository_storage_cache_minutes: Besar cache pada disk untuk repository
+  setting_repository_checkout_display: Show checkout instructions
+  setting_repository_checkout_base_url: Checkout base URL
+  setting_repository_checkout_text: Checkout instruction text
+  setting_repository_log_display_limit: Jumlah maks. revisi yang ditampilkan di file
+    log
+  setting_repository_truncate_at: Jumlah maksimum file yang ditampilkan dalam browser
+    tempat penyimpanan
+  setting_rest_api_enabled: Aktifkan REST web service
+  setting_self_registration: Registrasi mandiri
+  setting_sequential_project_identifiers: Buat pengenal Project
+  setting_session_ttl: Sesi kadaluwarsa ketika tidak aktif
+  setting_session_ttl_hint: Nilai di bawah 5 akan didisable
+  setting_session_ttl_enabled: Sesi telah berakhir
+  setting_start_of_week: Minggu dimulai pada
+  setting_sys_api_enabled: Aktifkan web service untuk manajemen repository
+  setting_sys_api_description: Repository management web service menyediakan integrasi
+    fungsi dan otorisasi untuk akses repository.
+  setting_text_formatting: Text formatting
+  setting_time_format: Format waktu
+  setting_accessibility_mode_for_anonymous: Aktifkan mode Aksesibilitas untuk user
+    anonim
+  setting_user_format: Format tampilan user
+  setting_users_deletable_by_admins: Akun user dapat dihapus oleh admin
+  setting_users_deletable_by_self: User diijinkan menghapus akun mereka sendiri
+  setting_welcome_text: Welcome block text
+  setting_welcome_title: Welcome block title
+  setting_welcome_on_homescreen: Display welcome block on homescreen
+  setting_welcome_on_projects_page: Display welcome block on project overview
+  setting_wiki_compression: Kompresi Wiki histori
+  setting_work_package_group_assignment: Mungkinkan penugasan ke Grup
+  settings:
+    general: Umum
+    other: Lainnya
+    passwords: Password
+    session: Sesi
+    brute_force_prevention: Pemblokiran otomatis user
+  show_hide_project_menu: Expand/Collapse project menu
+  status_active: aktif
+  status_archived: diarsipkan
+  status_invited: invited
+  status_locked: terkunci
+  status_registered: telah terdaftar
+  support:
+    array:
+      sentence_connector: dan
+      skip_last_comma: 'false'
+  text_accessibility_hint: Modus aksesibilitas dirancang untuk pengguna yang buta,
+    terkendala secara motorik atau memiliki penglihatan yang buruk. Untuk elemen-elemen
+    fokus terakhir secara khusus diperhatikan. Harap diperhatikan, bahwa modul Backlogs
+    tidak tersedia dalam modus ini.
+  text_access_token_hint: Access tokens allow you to grant external applications access
+    to resources in OpenProject.
+  text_analyze: 'Analisa lanjut: %{subject}'
+  text_are_you_sure: Anda yakin?
+  text_are_you_sure_with_children: Hapus Paket-Penugasan dan semua paket turunannya?
+  text_assign_to_project: Tetapkan untuk Project
+  text_form_configuration: 'Anda dapat mengkustom field-field mana yang akan ditampilkan
+    dalam form paket kerja. Anda dapat dengan bebas mengelompokkan field-field untuk
+    mencerminkan kebutuhan-kebutuhan untuk domain Anda.
+
+'
+  text_form_configuration_drag_to_activate: Tarik field dari sini untuk mengaktifkkannya
+  text_form_configuration_required_attribute: Atribut ditandai "diperlukan" dan dengan
+    demikian selalu ditampilkan
+  text_caracters_maximum: maks. %{count} karakter.
+  text_caracters_minimum: Panjang katakter setidaknya %{count} karakter.
+  text_comma_separated: Jika ada beberapa nilai, pisahkan dengan koma.
+  text_comment_wiki_page: 'Comment to wiki page: %{page}'
+  text_custom_field_possible_values_info: Satu baris untuk tiap nilai
+  text_custom_field_hint_activate_per_project: 'Ketika menggunakan filed kustom: Perlu
+    diingat bahwa field kustom perlu diaktifkan per proyek, juga.
+
+'
+  text_custom_field_hint_activate_per_project_and_type: 'Field-field kustom perlu
+    diaktifkan per jenis paket kerja dan per proyek.
+
+'
+  text_custom_logo_instructions: 'Logo putih dalam latar belakang transparan lebih
+    disarankan. Untuk hasil terbaik pada keduanya, konvensional dan tampilan retina,
+    pastikan dimensi gambar Anda adalah 460px kali 110px.
+
+'
+  text_custom_favicon_instructions: 'Ini adalah ikon mungil yang tampak dalam jendela/tab
+    browser Anda disebelah judul halaman. Disyaratkan file gambar dalam format PNG
+    berbentuk kotak ukuran 32 kali 32 pixel dengan latar belakang transparan.
+
+'
+  text_custom_touch_icon_instructions: 'Ini adalah ikon yang tampak dalam handphone
+    atau tablet Anda ketika Anda menempatkan penanda halaman dalam layar depan. Disyaratkan
+    file gambar dalam format PNG berbentuk kotak ukuran 180 kali 180 pixel. Pastikan
+    latar belakang gambar tidak transparan; jika sebaliknya, akan tampak buruk pada
+    iOS.
+
+'
+  text_default_administrator_account_changed: Akun administrator default terlah dirubah
+  text_default_encoding: 'Default: UTF-8'
+  text_destroy: Hapus
+  text_destroy_with_associated: 'Ada tambahan objek terasosiasi dengan Work Package
+    yang akan dihapus. Objek tersebut adalah Tipe :'
+  text_destroy_what_to_do: Apa yang ingin Anda lakukan?
+  text_diff_truncated: "... diff ini telah dipotong karena melebihi batas maks. yang
+    dapat ditampilkan."
+  text_email_delivery_not_configured: Pengiriman email belum dikonfigurasi, dan notifikasi
+    dinonaktifkan. Konfigurasikan SMTP server Anda di config/configuration.yml dan
+    restart aplikasi untuk mengaktifkan.
+  text_enumeration_category_reassign_to: 'Atur kembali ke nilai ini:'
+  text_enumeration_destroy_question: "%{count} objek telah diperuntukkan untuk nilai
+    ini."
+  text_file_repository_writable: Lampiran direktori bisa ditulisi
+  text_git_repo_example: repositori lokal dan polos (spt. /gitrepo, c:\gitrepo)
+  text_hint_date_format: Enter a date in the form of YYYY-MM-DD. Other formats may
+    be changed to an unwanted date.
+  text_hint_disable_with_0: 'Note: Disable dengan 0'
+  text_hours_between: Between %{min} and %{max} hours.
+  text_work_package_added: Paket-Penugasan %{id} telah dilaporkan oleh %{author}.
+  text_work_package_category_destroy_assignments: Hapus kategori penugasan
+  text_work_package_category_destroy_question: Sejumlah Paket-Penugasan (%{count})
+    ditujukan untuk kategori ini. Apa yang ingin Anda lakukan?
+  text_work_package_category_reassign_to: Kembalikan Paker-Penugasan ke kategori ini
+  text_work_package_updated: Paket-Penugasan %{id} telah dilaporkan oleh %{author}.
+  text_work_package_watcher_added: You have been added as a watcher to Work package
+    %{id} by %{watcher_setter}.
+  text_work_packages_destroy_confirmation: Yakin akan menghapus?
+  text_work_packages_ref_in_commit_messages: Referencing & fixing Paket-Penugasan
+    di pesan terkirim
+  text_journal_added: "%{label} %{value} ditambahkan"
+  text_journal_aggregation_time_explanation: Bila selisih umur jurnal lebih kecil
+    dari yang ditentukan, gabungkan jurnal tersebut. Notifikasi mail akan tertunda
+    hingga pengabungan selesai.
+  text_journal_changed: "%{label} telah dirubah dari %{old} menjadi %{new}"
+  text_journal_changed_no_detail: "%{label} telah diupdate"
+  text_journal_changed_with_diff: "%{label} dirubah menjadi (%{link})"
+  text_journal_deleted: "%{label} telah dihapus (%{old})"
+  text_journal_deleted_with_diff: "%{label} telah dihapus menjadi (%{link})"
+  text_journal_set_to: "%{label} diset menjadi %{value}"
+  text_journal_set_with_diff: set %{label} (%{link})
+  text_latest_note: 'The latest comment is: %{note}'
+  text_length_between: Panjang antara %{min} dan %{max} karakter.
+  text_line_separated: Jika ada beberapa nilai, satu baris untuk tiap nilai.
+  text_load_default_configuration: Pakai konfigurasi default
+  text_min_max_length_info: 0 berarti tidak ada pembatasan
+  text_no_roles_defined: There are no roles defined.
+  text_no_access_tokens_configurable: There are no access tokens which can be configured.
+  text_no_configuration_data: Role, Tipe, status Paket-Penugasan dan Alur-Tugas belum
+    dikonfigurasi. Disarankan untuk menggunakan konfigurasi default. Anda bisa mengubahnya
+    setelah konfigurasi dibuat.
+  text_no_notes: There are no comments available for this work package.
+  text_notice_too_many_values_are_inperformant: 'Catatan: Menampilkan lebih dari 100
+    item per halaman dapat meningkatkan delay waktu membuka halaman.'
+  text_own_membership_delete_confirmation: Anda akan menghapus hak akses Anda dan
+    mungkin Anda tidak dapat lagi mengedit Project ini. Apakah Anda yakin Anda ingin
+    melanjutkan?
+  text_plugin_assets_writable: Plugin aset direktori, bisa ditulisi
+  text_powered_by: Didukung oleh %{link}
+  text_project_identifier_info: Hanya huruf kecil (a-z), angka, garis dan garis bawah
+    yang diperbolehkan, harus diawali dengan huruf kecil.
+  text_reassign: 'Reassign to work package:'
+  text_regexp_info: spt. ^[A-Z0-9]+$
+  text_regexp_multiline: The regex is applied in a multi-line mode. e.g., ^---\s+
+  text_repository_usernames_mapping: Pilih atau update user untuk dipetakan ke setiap
+    username yang ditemukan di log repositori. User dengan username dan repositori
+    atau email yang sama otomatis akan dipetakan.
+  text_select_mail_notifications: Select actions for which email notifications should
+    be sent.
+  text_status_changed_by_changeset: Applied in changeset %{value}.
+  text_table_difference_description: In this table the single %{entries} are shown.
+    You can view the difference between any two entries by first selecting the according
+    checkboxes in the table. When clicking on the button below the table the differences
+    are shown.
+  text_time_logged_by_changeset: Applied in changeset %{value}.
+  text_tip_work_package_begin_day: Paket-Penugasan dimulai hari ini
+  text_tip_work_package_begin_end_day: Paket-Penugasan dimulai dan diakhiri hari ini
+  text_tip_work_package_end_day: Paket-Penugasan diakhiri hari ini
+  text_type_no_workflow: Tidak ada alur kerja untuk Tipe ini
+  text_unallowed_characters: Unallowed characters
+  text_user_invited: The user has been invited and is pending registration.
+  text_user_wrote: "%{value} wrote:"
+  text_warn_on_leaving_unsaved: Paket kerja berisi teks yang belum disimpan yang akan
+    hilang jika Anda meninggalkan halaman ini.
+  text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all
+    its content?
+  text_wiki_page_destroy_children: Hapus sub-halaman dan semua turunannya
+  text_wiki_page_destroy_question: Halaman ini memiliki %{descendants} sub-halaman
+    dan turunannya. Apa yang ingin Anda lakukan?
+  text_wiki_page_nullify_children: Tetapkan sub-halaman sebagai halaman utama
+  text_wiki_page_reassign_children: Tetapkan sub halaman ke halaman induk ini
+  text_workflow_edit: Select a role and a type to edit the workflow
+  text_zoom_in: Zoom in
+  text_zoom_out: Zoom out
+  text_setup_mail_configuration: Configure your email provider
+  time:
+    am: am
+    formats:
+      default: "%m/%d/%Y %I:%M %p"
+      long: "%B %d, %Y %H:%M"
+      short: "%d %b %H:%M"
+      time: "%I:%M %p"
+    pm: pm
+  timeframe:
+    show: Tampilkan Timeframe
+    end: untuk
+    start: dari
+  timelines:
+    admin_menu:
+      color: Warna
+      colors: Warna
+      project_type: Tipe Project
+      project_types: Tipe Project
+    project_menu:
+      reportings: Status reporting
+      reports: Laporan Timeline
+      timelines: Timeline
+      project_associations: ''
+    associations: Dependensi
+    board_could_not_be_saved: Board tidak dapat disimpan
+    button_delete_all: Hapus semua
+    change: Perubahan dalam perencanaan
+    children: Sub-elemen
+    color_could_not_be_saved: Warna tidak dapat disimpan
+    current_planning: Perencanaan saat ini
+    dates: Tanggal
+    dates_are_calculated_based_on_sub_elements: Tanggal dihitung berdasarkan pada
+      sub-elemen.
+    delete_all: Hapus semua
+    delete_thing: Hapus
+    duration: Durasi
+    duration_days:
+      one: 1 day
+      other: "%{count} hari"
+    edit_color: Edit warna
+    edit_project_type: Edit Tipe Project
+    edit_thing: Edit
+    edit_timeline: Edit laporan timeline %{timeline}
+    delete_timeline: Hapus laporan Timeline %{timeline}
+    empty: "(kosong)"
+    enable_type_in_project: Aktifkan Tipe "%{type}"
+    end: Finish
+    errors:
+      not_implemented: Timeline tidak bisa dirender karena syarat fitur yang digunakan
+        belum diimplementasikan.
+      report_comparison: Timeline tidak bisa merender komparasi yang dikonfigurasikan.
+        Periksa di bagian konfigurasi, cara resetting mungkin bisa memecahkan masalah
+        ini.
+      report_epicfail: 'Error : Timeline tidak dapat dibuka karena ada kesalahan.'
+      report_timeout: Timeline tidak dapat dibuka untuk sementara waktu.
+    filter:
+      errors:
+        timeframe_start: 'Timeframe start '
+        timeframe_end: 'Timeframe finish '
+        compare_to_relative: 'The value of the relative comparison '
+        compare_to_absolute: 'The value of the absolute comparison '
+        planning_element_time_relative_one: 'Awal untuk Paket-Penugasan dalam jangka
+          waktu tertentu '
+        planning_element_time_relative_two: 'Akhir Paket-Penugasan dalam jangka waktu
+          tertentu '
+        planning_element_time_absolute_one: 'Awal Paket-Penugasan dalam jangka waktu
+          tertentu  '
+        planning_element_time_absolute_two: 'Akhir Paket-Penugasan dalam jangka waktu
+          tertentu  '
+      sort:
+        sortation: Sort by
+        alphabet: alphabet
+        explicit_order: explicit order
+        project_sortation: Sort projects by
+        date: date
+        default: default
+      column:
+        assigned_to: Pelimpahan
+        type: Tipe
+        due_date: Tanggal finish
+        name: Nama
+        status: Status
+        responsible: Penanggung jawab
+        start_date: Tanggal start
+      columns: Kolom
+      comparisons: Komparasi
+      comparison:
+        absolute: Absolut
+        none: Kosong
+        relative: Relatif
+        compare_relative_prefix: Bandingkan dengan
+        compare_relative_suffix: yang lalu
+        compare_absolute: Bandingkan perencanaan saat ini dengan %{date}
+      time_relative:
+        days: hari
+        weeks: minggu
+        months: bulan
+      exclude_own_work_packages: Sembunyikan Paket-Penugasan dari Project ini
+      exclude_reporters: Sembunyikan Project lainnya
+      exclude_empty: Sembunyikan Project yang kosong
+      grouping: Gruping
+      grouping_hide_group: Sembunyikan grup "%{group}"
+      grouping_one: Kriteria gruping pertama
+      grouping_one_phrase: Adalah Sub-Project dari
+      grouping_other: Lainnya
+      hide_chart: Sembunyikan grafik
+      noneElement: "(kosong)"
+      noneSelection: "(kosong)"
+      outline: Outline inisial untuk ekspansi
+      parent: Tampilkan Sub-Project dari
+      work_package_filters: Filter Paket-Penugasan
+      work_package_responsible: Tunjukkan Paket-Penugasan berserta penanggungjawabnya
+      work_package_assignee: Tunjukkan Paket-Penugasan beserta pelimpahannya
+      types: Tunjukka Tipe
+      status: Tunjukkan status
+      project_time_filter: Project dengan Paket-Penugasan Tipe tertentu, dalam jangka
+        waktu tertentu
+      project_time_filter_timeframe: Timeframe
+      project_time_filter_historical_from: dari
+      project_time_filter_historical_to: untuk
+      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
+        %{end_label} %{endspan}%{endspanunit} dari sekarang"
+      project_filters: Filter Project
+      project_responsible: Tampilkan Project dan penanggungjawabnya
+      project_status: Tampilkan status Project
+      project_types: Tampilkan Tipe Project
+      timeframe: Tampilkan Timeframe
+      timeframe_end: untuk
+      timeframe_start: dari
+      timeline: Pengaturan Umum
+      zoom: Zoom faktor
+    history: Histori
+    new_color: Warna baru
+    new_association: Dependensi baru
+    new_work_package: Paket-Penugasan baru
+    new_project_type: Tipe Project baru
+    new_reporting: Pelaporan baru
+    new_timeline: Laporan Timeline baru
+    no_projects_for_reporting_available: Tidak ada Project yang terasosiasi dengan
+      laporan yang akan dibuat.
+    no_right_to_view_timeline: Anda tidak memiliki ijin untuk melihat Timeline terkait.
+    no_timeline_for_id: Tidak ada Timeline dengan ID %{id}.
+    notice_successful_deleted_all_elements: Semua elemen berhasil dihapus
+    outline: Reset Outline
+    outlines:
+      aggregation: Hanya tampilkan agregasi
+      level1: Buka level 1
+      level2: Buka level 2
+      level3: Buka level 3
+      level4: Buka level 4
+      level5: Buka level 5
+      all: Tampilkan semua
+    reporting_for_project:
+      show: 'Status reported to project: %{title}'
+      edit_delete: 'status report for project: %{title}'
+      history: 'History for status for project: %{title}'
+    reporting:
+      delete: 'Delete status: %{comment}'
+      edit: 'Edit status: %{comment}'
+      show: 'Status: %{comment}'
+    planning_element_update: 'Update: %{title}'
+    work_packages_are_displayed_in_aggregations: Paket-Penugasan ditampilkan di agregasi
+    project_type_could_not_be_saved: Tipe Project tidak bisa disimpan
+    type_could_not_be_saved: Tipe tidak bisa disimpan
+    reporting_could_not_be_saved: Pelaporan tidak bisa disimpan
+    properties: Properti
+    really_delete_color: 'Yakin ingin menghapus? Tipe yang menggunakan warna tersebut
+      tidak akan dihapus.
+
+'
+    really_delete_project_type: 'Yakin ingin menghapus? Project yang menggunakan Tipe
+      ini tidak akan dihapus.
+
+'
+    really_delete_timeline: 'Yakin ingin menghapus? Work Package yang ditampilkan
+      dalam laporan Timeline ini tidak akan dihapus.
+
+'
+    really_delete_reporting: 'Status Reporting sebelumnya akan terhapus juga. Yakin
+      ingin menghapus?
+
+'
+    start: Start
+    timeline: Laporan Timeline
+    timelines: Laporan Timeline
+    settings: Timeline
+    vertical_work_package: Paket-Penugasan vertikal
+    without_project_type: Tanpa Tipe Project
+    you_are_viewing_the_selected_timeline: Anda sedang melihat laporan Timeline terpilih
+    zoom:
+      in: Zoom in
+      out: Zoom out
+      days: Hari
+      weeks: Minggu
+      months: Bulan
+      quarters: Kuartal
+      years: Tahun
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
+  title_remove_and_delete_user: Remove the invited user from the project and delete
+    him/her.
+  tooltip_resend_invitation: 'Kirim email undangan lain dengan token yang baru dalam
+    hal yang lama kadaluwarsa atau pengguna tidak mendapat email yang asli. Dapat
+    juga digunakan oleh pengguna aktif untuk memilih metode otentikasi baru. Ketika
+    digunakan bersama pengguna aktif, status mereka akan berganti menjadi ''diundang''.
+
+'
+  tooltip:
+    setting_email_login: 'Jika pengguna diaktifkan maka dapat memilih login saat pendaftaran.
+      Sebaliknya alamat e-mail yang diberikan akan berfungsi sebagai login. Administrator
+      masih dapat mengubah login secara terpisah.
+
+'
+  queries:
+    apply_filter: Terapkan Filter yang telah dikonfigurasikan
+  top_menu:
+    additional_resources: Additional resources
+    getting_started: Getting started
+    help_and_support: Help and support
+  total_progress: Total progress
+  user:
+    all: semua
+    active: aktif
+    activate: Aktifkan
+    activate_and_reset_failed_logins: Aktifkan dan reset gagal login
+    authentication_provider: Otentikasi provider
+    authentication_settings_disabled_due_to_external_authentication: 'User ini mengotentikasi
+      secara eksternal, sehingga tidak ada penggantian password dalam sistem ini.
+
+'
+    authorization_rejected: Anda tidak diijinkan untuk login.
+    assign_random_password: Assign random password (sent to user via email)
+    blocked: dilock sementara
+    blocked_num_failed_logins:
+      one: locked temporarily (one failed login attempt)
+      other: dilock sementara (karena %{count} kali gagal login)
+    confirm_status_change: Anda sedang mengubah status '%{name}'. Apakah Anda yakin
+      ingin melanjutkan?
+    deleted: User telah dihapus
+    error_status_change_failed: 'Mengubah status user gagal karena : %{errors}'
+    invite: Invite user via email
+    invited: invited
+    lock: Lock permanen
+    locked: telah dilock secara permanen
+    no_login: User ini mengotentikasi melalui login dengan password. Selama dinonaktifkan,
+      maka tidak bisa login.
+    password_change_unsupported: Perubahan password tidak didukung.
+    registered: telah terdaftar
+    reset_failed_logins: Reset gagal login
+    settings:
+      mail_notifications: Send email notifications
+      mail_project_explanaition: For unselected projects, you will only receive notifications
+        about things you watch or you're involved in (e.g. work packages you're the
+        author or assignee of).
+      mail_self_notified: I want to be notified of changes that I make myself
+    status_user_and_brute_force: "%{user} dan %{brute_force}"
+    status_change: Perubahan status
+    unlock: Unlock
+    unlock_and_reset_failed_logins: Unlock dan reset gagal login
+  version_status_closed: berakhir
+  version_status_locked: terkunci
+  version_status_open: buka
+  note: Catatan
+  note_password_login_disabled: Password login telah dinonaktifkan (by %{configuration}).
+  warning: Warning
+  warning_attachments_not_saved: "%{count} file tidak akan disimpan."
+  menu_item: Menu item
+  menu_item_setting: Visibilitas
+  wiki_menu_item_for: Menu untuk Halaman Wiki "%{title}"
+  wiki_menu_item_setting: Visibilitas
+  wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
+    item. You now have to choose a wiki page for which a new main item will be generated.
+    To delete the wiki the wiki module can be deactivated by project administrators.
+
+'
+  wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot
+    be deleted.
+  query_menu_item_for: Menu item for query "%{title}"
+  work_package:
+    updated_automatically_by_child_changes: '_Update otomatis dengan merubah nilai
+      dari turunan Paket-Penugasan %{child}_
+
+'
+    destroy:
+      info: Deleting the work package is an irreversible action.
+      title: Delete the work package
+  nothing_to_preview: Tidak ada pre-view
+  api_v3:
+    attributes:
+      lock_version: Lock Version
+    errors:
+      code_401: Anda perlu dikonfirmasi untuk mengakses sumber ini.
+      code_401_wrong_credentials: You did not provide the correct credentials.
+      code_403: Anda tidak diizinkan untuk mengakses sumber ini.
+      code_404: The requested resource could not be found.
+      code_409: Tidak dapat memperbarui sumber karena bertentangan modifikasi.
+      code_500: An internal error has occured.
+      expected:
+        date: YYYY-MM-DD (ISO 8601 date only)
+        duration: ISO 8601 duration
+      invalid_content_type: Diharapkan CONTENT-TYPE untuk menjadi '%{content_type}'
+        tetapi mendapat '%{actual}'.
+      invalid_format: 'Invalid format for property ''%{property}'': Expected format
+        like ''%{expected_format}'', but got ''%{actual}''.'
+      invalid_json: The request could not be parsed as JSON.
+      invalid_relation: The relation is invalid.
+      invalid_resource: For property '%{property}' a link like '%{expected}' is expected,
+        but got '%{actual}'.
+      invalid_user_status_transition: The current user account status does not allow
+        this operation.
+      missing_content_type: not specified
+      missing_request_body: There was no request body.
+      missing_or_malformed_parameter: Parameter query '%{parameter}' hilang atau salah
+        bentuk.
+      multipart_body_error: The request body did not contain the expected multipart
+        parts.
+      multiple_errors: Multiple field constraints have been violated.
+      unable_to_create_attachment: The attachment could not be created
+      render:
+        context_not_parsable: The context provided is not a link to a resource.
+        unsupported_context: The resource given is not supported as context.
+        context_object_not_found: Cannot find the resource given as the context.
+      validation:
+        done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
+          by status or when it is disabled.
+        due_date: Due date cannot be set on parent work packages.
+        estimated_hours: Estimated hours cannot be set on parent work packages.
+        invalid_user_assigned_to_work_package: Pilihan pengguna tidak diperbolehkan
+          untuk menjadi '%{property}' untuk paket pekerjaan ini.
+        start_date: Start date cannot be set on parent work packages.
+      writing_read_only_attributes: Anda tidak harus menulis hanya-baca atribut.
+    resources:
+      schema: Schema
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''

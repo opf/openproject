@@ -37,78 +37,33 @@ OpenProject::Application.routes.draw do
   # see https://github.com/rails/rails/issues/5688
   get '/issues/*rest' => redirect { |params, _req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
+  # Respond with 410 gone for APIV2 calls
+  match '/api/v2(/*unmatched_route)', to: proc { [410, {}, ['']] }, via: :all
+
   # Redirect wp short url for work packages to full URL
   get '/wp(/)'    => redirect("#{rails_relative_url_root}/work_packages")
   get '/wp/*rest' => redirect { |params, _req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
+
+  # Add catch method for Rack OmniAuth to allow route helpers
+  # Note: This renders a 404 in rails but is caught by omniauth in Rack before
+  get '/auth/failure', to: 'account#omniauth_failure'
+  get '/auth/:provider', to: proc { [404, {}, ['']] }, as: 'omniauth_start'
+  match '/auth/:provider/callback', to: 'account#omniauth_login', as: 'omniauth_login', via: [:get, :post]
 
   scope controller: 'account' do
     get '/account/force_password_change', action: 'force_password_change'
     post '/account/change_password', action: 'change_password'
     match '/account/lost_password', action: 'lost_password', via: [:get, :post]
     match '/account/register', action: 'register', via: [:get, :post, :patch]
-
-    # omniauth routes
-    match '/auth/:provider/callback', action: 'omniauth_login',
-                                      as: 'omniauth_login',
-                                      via: [:get, :post]
-    get '/auth/failure', action: 'omniauth_failure'
+    get '/account/activate', action: 'activate'
 
     match '/login', action: 'login',  as: 'signin', via: [:get, :post]
     get '/logout', action: 'logout', as: 'signout'
-  end
 
-  namespace :api do
-    namespace :v2 do
-      resources :authentication
-      resources :users, only: [:index]
-      resources :planning_element_journals
-      resources :statuses
-      resources :colors, controller: 'planning_element_type_colors'
-      resources :planning_element_types
-      resources :planning_elements
-      resources :project_types
-      resources :reported_project_statuses
-      resources :statuses, only: [:index, :show]
-      resources :timelines
-      resources :planning_element_priorities, only: [:index]
+    get '/sso', action: 'auth_source_sso_failed', as: 'sso_failure'
 
-      resources :projects do
-        resources :planning_elements
-        resources :planning_element_types
-        resources :reportings do
-          get :available_projects, on: :collection
-        end
-        resources :project_associations do
-          get :available_projects, on: :collection
-        end
-        resources :statuses, only: [:index, :show]
-        resources :versions, only: [:index]
-        resources :users, only: [:index]
-
-        member do
-          get :planning_element_custom_fields
-        end
-        resources :workflows, only: [:index]
-
-        collection do
-          get :level_list
-        end
-      end
-
-      resources :custom_fields
-
-      namespace :pagination, as: 'paginate' do
-        [:users,
-         :principals,
-         :statuses,
-         :types,
-         :project_types,
-         :reported_project_statuses,
-         :projects].each do |model|
-          resources model, only: [:index]
-        end
-      end
-    end
+    get '/login/:stage/failure', action: 'stage_failure', as: 'stage_failure'
+    get '/login/:stage/:secret', action: 'stage_success', as: 'stage_success'
   end
 
   # Because of https://github.com/intridea/grape/pull/853/files this has to be
@@ -209,6 +164,10 @@ OpenProject::Application.routes.draw do
       get :destroy_info, as: 'confirm_destroy'
     end
 
+    collection do
+      get :level_list
+    end
+
     resource :enumerations, controller: 'project_enumerations', only: [:update, :destroy]
 
     resources :versions, only: [:new, :create] do
@@ -260,19 +219,6 @@ OpenProject::Application.routes.draw do
         post :replace_main_menu_item, to: 'wiki_menu_items#replace_main_menu_item'
         post :preview
       end
-    end
-
-    resources :project_associations, controller: 'project_associations' do
-      get :confirm_destroy, on: :member
-      get :available_projects, on: :collection
-    end
-
-    resources :reportings, controller: 'reportings' do
-      get :confirm_destroy, on: :member
-    end
-
-    resources :timelines, controller: 'timelines' do
-      get :confirm_destroy, on: :member
     end
 
     # as routes for index and show are swapped
@@ -359,7 +305,6 @@ OpenProject::Application.routes.draw do
 
   resources :admin, controller: :admin, only: :index do
     collection do
-      get :projects
       get :plugins
       get :info
       post :force_user_language
@@ -380,6 +325,8 @@ OpenProject::Application.routes.draw do
     get 'design/upsale' => 'custom_styles#upsale', as: 'custom_style_upsale'
     post 'design/colors' => 'custom_styles#update_colors', as: 'update_design_colors'
     resource :custom_style, only: [:update, :show, :create], path: 'design'
+
+    resources :attribute_help_texts, only: %i(index new create edit update destroy)
 
     resources :groups do
       member do
@@ -477,6 +424,7 @@ OpenProject::Application.routes.draw do
 
     member do
       match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
+      match '/change_status/:change_action' => 'users#change_status_info', via: :get, as: 'change_status_info'
       post :change_status
       post :resend_invitation
       get :deletion_info
@@ -531,8 +479,9 @@ OpenProject::Application.routes.draw do
 
   scope controller: 'sys' do
     match '/sys/repo_auth', action: 'repo_auth', via: [:get, :post]
-    match '/sys/projects.:format', action: 'projects', via: :get
-    match '/sys/projects/:id/repository/update_storage', action: 'update_required_storage', via: :get
+    get '/sys/projects', action: 'projects'
+    get '/sys/fetch_changesets', action: 'fetch_changesets'
+    get '/sys/projects/:id/repository/update_storage', action: 'update_required_storage'
   end
 
   # alternate routes for the current user
@@ -551,9 +500,7 @@ OpenProject::Application.routes.draw do
     match '/my/account', action: 'account', via: [:get, :patch]
     match '/my/settings', action: 'settings', via: [:get, :patch]
     match '/my/mail_notifications', action: 'mail_notifications', via: [:get, :patch]
-    post '/my/reset_rss_key', action: 'reset_rss_key'
     post '/my/generate_rss_key', action: 'generate_rss_key'
-    post '/my/reset_api_key', action: 'reset_api_key'
     post '/my/generate_api_key', action: 'generate_api_key'
     get '/my/access_token', action: 'access_token'
   end
@@ -576,10 +523,7 @@ OpenProject::Application.routes.draw do
     end
 
     resources :projects, only: [:index, :show], controller: 'projects'
-    resources :reported_project_statuses, controller: 'reported_project_statuses'
   end
-
-  resources :reported_project_statuses, controller: 'reported_project_statuses'
 
   # This route should probably be removed, but it's used at least by one cuke and we don't
   # want to break it.
@@ -587,8 +531,6 @@ OpenProject::Application.routes.draw do
   # precedence when creating routes (possibly via helpers).
   get 'roles/new' => 'roles#new', as: 'deprecated_roles_new'
 
-  # Install the default route as the lowest priority.
-  get '/:controller(/:action(/:id))'
   get '/robots' => 'homescreen#robots', defaults: { format: :txt }
 
   root to: 'account#login'

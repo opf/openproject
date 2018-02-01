@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Refreshing in inline-create row', js: true do
+describe 'Refreshing in inline-create row', flaky: true, js: true do
   let(:user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create :project }
 
@@ -27,6 +27,7 @@ describe 'Refreshing in inline-create row', js: true do
 
     wp_table.click_inline_create
     expect(page).to have_selector('.wp--row', count: 1)
+
     expect(page).to have_selector('.wp-inline-create-row')
     expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.subject')
     expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.category')

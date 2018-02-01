@@ -27,33 +27,6 @@
 #++
 
 shared_context 'work package table helpers' do
-  def remove_wp_table_column(column_name)
-    click_button('Settings')
-    click_link('Columns ...')
-
-    # This is faster than has_selector but does not wait for anything.
-    # So if problems occur, switch to has_selector?
-    if find('.select2-choices').text.include?(column_name)
-      find('.select2-search-choice', text: column_name)
-        .click_link('select2-search-choice-close')
-    end
-
-    click_button('Apply')
-  end
-
-  def add_wp_table_column(column_name)
-    click_button('Settings')
-    click_link('Columns ...')
-
-    input = find '.select2-search-field input'
-    input.set column_name
-
-    result = find '.select2-result-label'
-    result.click
-
-    click_button('Apply')
-  end
-
   def sort_wp_table_by(column_name, order: :desc)
     click_button('Settings')
     click_link('Sort by ...')

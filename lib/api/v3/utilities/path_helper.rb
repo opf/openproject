@@ -111,6 +111,14 @@ module API
             "#{root}/custom_options/#{id}"
           end
 
+          def self.help_texts
+            "#{root}/help_texts"
+          end
+
+          def self.help_text(id)
+            "#{root}/help_texts/#{id}"
+          end
+
           def self.my_preferences
             "#{root}/my_preferences"
           end
@@ -271,6 +279,18 @@ module API
             "#{root}/string_objects?value=#{val}"
           end
 
+          def self.time_entries
+            "#{root}/time_entries"
+          end
+
+          def self.time_entry(entry_id)
+            "#{root}/time_entries/#{entry_id}"
+          end
+
+          def self.time_entries_activity(activity_id)
+            "#{root}/time_entries/activities/#{activity_id}"
+          end
+
           def self.types
             "#{root}/types"
           end
@@ -330,10 +350,6 @@ module API
 
           def self.work_package_activities(id)
             "#{work_package(id)}/activities"
-          end
-
-          def self.work_package_columns(project_id)
-            "#{work_packages_by_project(project_id)}/columns"
           end
 
           def self.work_package_form(id)

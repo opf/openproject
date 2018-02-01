@@ -55,8 +55,6 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell-td.id")
     loading_indicator_saveguard
     case mouse_button_behavior
-    when :double
-      element.double_click
     when :right
       element.right_click
     else
@@ -78,9 +76,9 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell-td.id")
     loading_indicator_saveguard
 
-    page.driver.browser.action.key_down(:control)
+    page.driver.browser.action.key_down(:meta)
         .click(element.native)
-        .key_up(:control)
+        .key_up(:meta)
         .perform
   end
 
@@ -103,12 +101,12 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
   end
 
   def check_all
-    wp_table.table_container.send_keys [:control, 'a']
+    find('body').send_keys [:control, 'a']
     expect_row_checked(1, 2, 3)
   end
 
   def uncheck_all
-    wp_table.table_container.send_keys [:control, 'd']
+    find('body').send_keys [:control, 'd']
     expect_row_unchecked(1, 2, 3)
   end
 
@@ -198,32 +196,12 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
 
   describe 'opening work package full screen view' do
     before do
-      select_work_package_row(1, :double)
+      wp_table.open_full_screen_by_doubleclick(work_package_1)
     end
 
     it do
       expect(page).to have_selector('.work-packages--details--subject',
                                     text: work_package_1.subject)
-    end
-  end
-
-  describe 'opening work package edit mode' do
-    before do
-      select_work_package_row(1, :right)
-      within '.dropdown-menu' do
-        click_on 'Edit'
-      end
-    end
-
-    it do
-      wp_page = Pages::FullWorkPackage.new(work_package_1)
-      subject_field = wp_page.edit_field :subject
-
-      subject_field.expect_active!
-      expect(subject_field.input_element.value).to eq(work_package_1.subject)
-
-      # Cancel edit
-      find('#work-packages--edit-actions-cancel').click
     end
   end
 
@@ -235,7 +213,6 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
 
     it do
       find('#work-packages-details-view-button').click
-
       split_wp = Pages::SplitWorkPackage.new(work_package_2)
       split_wp.expect_attributes Subject: work_package_2.subject
 

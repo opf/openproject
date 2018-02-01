@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../../../legacy_spec_helper'
 
 describe 'Redmine::Hook::Manager' do # FIXME: naming (RSpec-port)
   fixtures :all
@@ -54,7 +54,7 @@ describe 'Redmine::Hook::Manager' do # FIXME: naming (RSpec-port)
 
   class TestLinkToHook < TestHook
     def view_layouts_base_html_head(_context)
-      link_to('Issues', controller: 'issues')
+      link_to('Issues', controller: '/work_packages')
     end
   end
 
@@ -113,7 +113,7 @@ describe 'Redmine::Hook::Manager' do # FIXME: naming (RSpec-port)
   it 'should call_hook_default_url_options' do
     @hook_module.add_listener(TestLinkToHook)
 
-    assert_equal ['<a href="/issues">Issues</a>'], hook_helper.call_hook(:view_layouts_base_html_head)
+    assert_equal ['<a href="/work_packages">Issues</a>'], hook_helper.call_hook(:view_layouts_base_html_head)
   end
 
   # Context: HookHelper.call_hook

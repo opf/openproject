@@ -29,30 +29,49 @@
 
 module Redmine
   module WikiFormatting
-    @@formatters = {}
-
     class << self
-      def map
-        yield self
+
+      def registered
+        unless defined? @formatters
+          register_default!
+        end
+
+        @formatters
       end
 
-      def register(name, formatter, helper)
-        raise ArgumentError, "format name '#{name}' is already taken" if @@formatters[name.to_s]
-        @@formatters[name.to_s] = { formatter: formatter, helper: helper }
+      def registered?(key)
+        registered.key? key.to_sym
+      end
+
+      def register(namespace:)
+        # Force lookup to avoid const errors later on.
+        key = namespace.to_sym
+        modulename = namespace.to_s.classify
+
+        raise ArgumentError, "format name '#{name}' is already taken" if registered?(key)
+
+        begin
+          formatter = "Redmine::WikiFormatting::#{modulename}::Formatter".constantize
+          helper = "Redmine::WikiFormatting::#{modulename}::Helper".constantize
+          registered[key] = { formatter: formatter, helper: helper }
+        rescue NameError => e
+          Rails.logger.error "Failed to register wiki formatting #{namespace}: #{e}"
+          Rails.logger.debug { e.backtrace }
+        end
       end
 
       def formatter_for(name)
-        entry = @@formatters[name.to_s]
-        (entry && entry[:formatter]) || Redmine::WikiFormatting::NullFormatter::Formatter
+        entry = registered.fetch(name.to_sym) { registered[:null_formatter] }
+        entry[:formatter]
       end
 
       def helper_for(name)
-        entry = @@formatters[name.to_s]
-        (entry && entry[:helper]) || Redmine::WikiFormatting::NullFormatter::Helper
+        entry = registered.fetch(name.to_sym) { registered[:null_formatter] }
+        entry[:helper]
       end
 
       def format_names
-        @@formatters.keys.map
+        registered.keys.map
       end
 
       def to_html(format, text, options = {}, &block)
@@ -79,6 +98,14 @@ module Redmine
       # Returns the cache store used to cache HTML output
       def cache_store
         ActionController::Base.cache_store
+      end
+
+      private
+
+      def register_default!
+        @formatters = {}
+        register namespace: :null_formatter
+        register namespace: :textile
       end
     end
   end

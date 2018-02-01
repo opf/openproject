@@ -59,9 +59,11 @@ class TableCell < RailsCell
   def initialize(rows, opts = {}, &block)
     super
 
-    sort_init *initial_sort.map(&:to_s)
-    sort_update columns.map(&:to_s)
-    @model = sort_and_paginate_collection model
+    if sortable?
+      sort_init *initial_sort.map(&:to_s)
+      sort_update columns.map(&:to_s)
+      @model = sort_and_paginate_collection model
+    end
   end
 
   def sort_and_paginate_collection(ar_collection)
@@ -100,12 +102,24 @@ class TableCell < RailsCell
   end
 
   def render_row(row)
-    prefix = (self.class.namespace || "table").split("::").map(&:downcase).join("/")
+    prefix = (self.class.namespace || "table").underscore
     cell("#{prefix}/row", row, table: self).call
   end
 
   def initial_sort
     [columns.first, :asc]
+  end
+
+  def paginated?
+    rows.respond_to? :total_entries
+  end
+
+  def inline_create_link
+    nil
+  end
+
+  def sortable?
+    true
   end
 
   ##
@@ -114,6 +128,10 @@ class TableCell < RailsCell
   # @return Array<Array>
   def headers
     columns.map { |name| [name.to_s, {}] }
+  end
+
+  def empty_row_message
+    I18n.t :no_results_title_text
   end
 
   # required by the sort helper

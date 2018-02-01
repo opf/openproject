@@ -52,7 +52,7 @@ export class FormattableDisplayField extends DisplayField {
     element.appendChild(span);
   }
 
-  public get isLargeField():boolean {
+  public get isFormattable():boolean {
     return true;
   }
 
@@ -66,6 +66,10 @@ export class FormattableDisplayField extends DisplayField {
   // Escape the given HTML string from the backend, which contains escaped Angular expressions.
   // Since formattable fields are only binded to but never evaluated, we can safely remove these expressions.
   protected unescape(html:string) {
-    return this.ExpressionService.unescape(html);
+    if (html) {
+      return this.ExpressionService.unescape(html);
+    } else {
+      return '';
+    }
   }
 }

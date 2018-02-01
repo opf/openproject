@@ -33,3 +33,9 @@ def scroll_to_element(element)
   JS
   Capybara.current_session.driver.browser.execute_script(script, element.native)
 end
+
+def scroll_to_and_click(element)
+  scroll_to_element(element)
+  sleep 0.2
+  element.native.click
+end

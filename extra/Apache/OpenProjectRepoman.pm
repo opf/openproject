@@ -90,7 +90,8 @@ sub parse_request {
     $content .= $buf;
   }
 
-  return decode_json($content);
+  my $json = JSON->new->allow_blessed->allow_nonref->convert_blessed;
+  return $json->decode($content);
 }
 
 ##
@@ -191,7 +192,8 @@ sub handler {
   };
 
 
-  print encode_json($response);
+  my $json = JSON->new->allow_blessed->allow_nonref->convert_blessed;
+  print $json->encode($response);
   return Apache2::Const::OK;
 }
 

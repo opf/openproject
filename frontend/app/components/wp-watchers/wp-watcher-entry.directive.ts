@@ -57,7 +57,7 @@ export class WatcherEntryController {
   }
 }
 
-function wpWatcher() {
+function wpWatcher():any {
   return {
     templateUrl: '/components/wp-watchers/wp-watcher-entry.directive.html',
     scope: {

@@ -36,13 +36,12 @@ module UsersHelper
   #                     For example: { random: 42 }
   def users_status_options_for_select(selected, extra: {})
     statuses = User::StatusOptions.user_statuses_with_count extra: extra
-    options = statuses.map do |name, values|
-      count, value = values
 
-      ["#{translate_user_status(name)} (#{count})", value]
+    options = statuses.map do |sym, count|
+      ["#{translate_user_status(sym)} (#{count})", sym]
     end
 
-    options_for_select options, selected
+    options_for_select options.sort, selected
   end
 
   def translate_user_status(status_name)
@@ -131,15 +130,5 @@ module UsersHelper
 
   def user_mail_notification_options(user)
     user.valid_notification_options.map { |o| [l(o.last), o.first] }
-  end
-
-  def user_settings_tabs
-    tabs = [{ name: 'general', partial: 'users/general', label: :label_general },
-            { name: 'memberships', partial: 'users/memberships', label: :label_project_plural }
-           ]
-    if Group.all.any?
-      tabs.insert 1, name: 'groups', partial: 'users/groups', label: :label_group_plural
-    end
-    tabs
   end
 end

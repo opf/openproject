@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,7 +31,18 @@
 module Queries::Projects
   register = ::Queries::Register
   filters = ::Queries::Projects::Filters
+  orders = ::Queries::Projects::Orders
   query = ::Queries::Projects::ProjectQuery
 
   register.filter query, filters::AncestorFilter
+  register.filter query, filters::ActiveOrArchivedFilter
+  register.filter query, filters::NameAndIdentifierFilter
+  register.filter query, filters::CustomFieldFilter
+  register.filter query, filters::CreatedOnFilter
+  register.filter query, filters::LatestActivityAtFilter
+
+  register.order query, orders::DefaultOrder
+  register.order query, orders::LatestActivityAtOrder
+  register.order query, orders::RequiredDiskSpaceOrder
+  register.order query, orders::CustomFieldOrder
 end

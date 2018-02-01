@@ -28,8 +28,8 @@ export interface GroupableColumn {
 
 export interface WPTableRowSelectionState {
   // Map of selected rows
-  selected: {[workPackageId: string]: boolean};
+  selected:{[workPackageId:string]:boolean};
   // Index of current selection
   // required for shift-offsets
-  activeRowIndex: number | null;
+  activeRowIndex:number | null;
 }

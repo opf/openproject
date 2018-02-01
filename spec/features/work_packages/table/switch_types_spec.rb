@@ -8,16 +8,16 @@ describe 'Switching types in work package table', js: true do
       FactoryGirl.create(
         :work_package_custom_field,
         field_format: 'string',
-        is_required:  true,
-        is_for_all:   false
+        is_required: true,
+        is_for_all: false
       )
     }
     let(:cf_text) {
       FactoryGirl.create(
         :work_package_custom_field,
         field_format: 'string',
-        is_required:  false,
-        is_for_all:   false
+        is_required: false,
+        is_for_all: false
       )
     }
 
@@ -34,14 +34,14 @@ describe 'Switching types in work package table', js: true do
     let(:work_package) do
       FactoryGirl.create(:work_package,
                          subject: 'Foobar',
-                         type:    type_task,
+                         type: type_task,
                          project: project)
     end
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
     let(:query) do
-      query              = FactoryGirl.build(:query, user: user, project: project)
-      query.column_names = ['subject', 'type', "cf_#{cf_text.id}"]
+      query = FactoryGirl.build(:query, user: user, project: project)
+      query.column_names = ['id', 'subject', 'type', "cf_#{cf_text.id}"]
 
       query.save!
       query
@@ -83,18 +83,15 @@ describe 'Switching types in work package table', js: true do
       type_field.set_value type_bug.name
 
       wp_table.expect_notification(
-        type:    :error,
+        type: :error,
         message: "#{cf_req_text.name} can't be blank."
       )
       # safegurards
       wp_table.dismiss_notification!
       wp_table.expect_no_notification(
-        type:    :error,
+        type: :error,
         message: "#{cf_req_text.name} can't be blank."
       )
-
-      # Old text field should disappear
-      text_field.expect_state_text ''
 
       # Required CF requires activation
       req_text_field.activate!
@@ -110,7 +107,7 @@ describe 'Switching types in work package table', js: true do
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
 
-      expect(text_field).not_to be_editable
+      expect { text_field.display_element }.to raise_error(Capybara::ElementNotFound)
 
       type_field.activate!
       type_field.set_value type_task.name
@@ -124,7 +121,106 @@ describe 'Switching types in work package table', js: true do
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
 
-      req_text_field.expect_state_text ''
+      expect { req_text_field.display_element }.to raise_error(Capybara::ElementNotFound)
+    end
+
+    context 'switching to single view' do
+      let(:wp_split) { wp_table.open_split_view(work_package) }
+      let(:type_field) { wp_split.edit_field(:type) }
+      let(:text_field) { wp_split.edit_field(:customField1) }
+      let(:req_text_field) { wp_split.edit_field(:customField2) }
+
+      it 'allows editing and cancelling the new required fields' do
+        wp_split
+
+        # Switch type
+        type_field.activate!
+        type_field.set_value type_bug.name
+
+        wp_table.expect_notification(
+          type: :error,
+          message: "#{cf_req_text.name} can't be blank."
+        )
+        # safegurards
+        wp_table.dismiss_notification!
+        wp_table.expect_no_notification(
+          type: :error,
+          message: "#{cf_req_text.name} can't be blank."
+        )
+
+        # Required CF requires activation
+        req_text_field.expect_active!
+
+        # Cancel edition now
+        req_text_field.cancel_by_escape
+        req_text_field.expect_state_text '-'
+
+        # Set the value now
+        req_text_field.update 'foobar'
+
+        wp_table.expect_notification(
+          message: 'Successful update. Click here to open this work package in fullscreen view.'
+        )
+        # safegurards
+        wp_table.dismiss_notification!
+        wp_table.expect_no_notification(
+          message: 'Successful update. Click here to open this work package in fullscreen view.'
+        )
+
+        req_text_field.expect_state_text 'foobar'
+      end
+    end
+  end
+
+  describe 'switching to required bool CF with default value' do
+    let(:cf_req_bool) {
+      FactoryGirl.create(
+        :work_package_custom_field,
+        field_format: 'bool',
+        is_required: true,
+        default_value: false
+      )
+    }
+
+    let(:type_task) { FactoryGirl.create(:type_task) }
+    let(:type_bug) { FactoryGirl.create(:type_bug, custom_fields: [cf_req_bool]) }
+
+    let(:project) {
+      FactoryGirl.create(
+        :project,
+        types: [type_task, type_bug],
+        work_package_custom_fields: [cf_req_bool]
+      )
+    }
+    let(:work_package) do
+      FactoryGirl.create(:work_package,
+                         subject: 'Foobar',
+                         type: type_task,
+                         project: project)
+    end
+    let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+    let(:type_field) { wp_page.edit_field :type }
+
+    before do
+      login_as user
+      wp_page.visit!
+      wp_page.ensure_page_loaded
+    end
+
+    it  'can switch to the bug type without errors' do
+      type_field.expect_state_text type_task.name
+      type_field.update type_bug.name
+
+      # safegurards
+      wp_page.expect_notification message: 'Successful update.'
+      wp_page.dismiss_notification!
+      wp_page.expect_no_notification message: 'Successful update.'
+
+      type_field.expect_state_text type_bug.name
+
+      work_package.reload
+      expect(work_package.type_id).to eq(type_bug.id)
+      expect(work_package.send("custom_field_#{cf_req_bool.id}")).to eq(false)
     end
   end
 
@@ -191,12 +287,17 @@ describe 'Switching types in work package table', js: true do
 
       # Switch type
       type_field = wp_page.edit_field :type
+      type_field.activate!
       type_field.set_value type_with_cf.name
 
-      wp_page.view_all_attributes
+      # Scroll to element so it is fully visible
+      scroll_to_element(cf_edit_field.field_container)
 
-      cf_edit_field.element.find('.wp-inline-edit--toggle-multiselect').click
+      cf_edit_field.field_container.find('.wp-inline-edit--toggle-multiselect').click
       sel = cf_edit_field.input_element
+
+      scroll_to_element(sel)
+
       sel.select "pineapple"
       sel.select "mushrooms"
 

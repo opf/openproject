@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,30 +29,5 @@
 #++
 
 class Queries::Users::Filters::StatusFilter < Queries::Users::Filters::UserFilter
-  def allowed_values
-    Principal::STATUSES.keys.map do |key|
-      [I18n.t(:"status_#{key}"), key]
-    end
-  end
-
-  def type
-    :list
-  end
-
-  def self.key
-    :status
-  end
-
-  def status_values
-    values.map { |value| Principal::STATUSES[value.to_sym] }
-  end
-
-  def where
-    case operator
-    when "="
-      ["users.status IN (?)", status_values.join(", ")]
-    when "!"
-      ["users.status NOT IN (?)", status_values.join(", ")]
-    end
-  end
+  include Queries::Filters::Shared::UserStatusFilter
 end

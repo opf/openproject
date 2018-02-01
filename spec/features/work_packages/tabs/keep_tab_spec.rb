@@ -57,7 +57,7 @@ RSpec.feature 'Keep current details tab', js: true, selenium: true do
     wp_split2.visit_tab! :relations
 
     # Open first WP by click on table
-    wp_table.click_on_row(wp1)
+    wp_table.open_split_view(wp1)
     wp_split1.expect_subject
     wp_split1.expect_tab :relations
 
@@ -65,7 +65,7 @@ RSpec.feature 'Keep current details tab', js: true, selenium: true do
     wp_full = wp_split1.switch_to_fullscreen
     wp_full.expect_tab :relations
 
-    page.evaluate_script('window.history.back()')
+    page.execute_script('window.history.back()')
     wp_split1.expect_tab :relations
 
     # Assert that overview tab is mapped to activity in show

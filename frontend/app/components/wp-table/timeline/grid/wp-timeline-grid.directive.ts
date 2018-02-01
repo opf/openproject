@@ -25,8 +25,8 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+import {AfterViewInit, Component, ElementRef} from '@angular/core';
 import * as moment from 'moment';
-import {openprojectModule} from '../../../../angular-modules';
 import {TimelineZoomLevel} from '../../../api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {
@@ -38,19 +38,33 @@ import {
 } from '../wp-timeline';
 import Moment = moment.Moment;
 
-export class WorkPackageTableTimelineGrid {
+function checkForWeekendHighlight(date:Moment, cell:HTMLElement) {
+  const day = date.day();
 
-  public wpTimeline:WorkPackageTimelineTableController;
+  // Sunday = 0
+  // Monday = 6
+  if (day === 0 || day === 6) {
+    cell.classList.add('grid-weekend');
+  }
+}
+
+@Component({
+  selector: 'wp-timeline-grid',
+  template: '<div class="wp-table-timeline--grid"></div>'
+})
+export class WorkPackageTableTimelineGrid implements AfterViewInit {
 
   private activeZoomLevel:TimelineZoomLevel;
 
   private gridContainer:ng.IAugmentedJQuery;
 
-  constructor(public $element:ng.IAugmentedJQuery) {
+  constructor(private elementRef:ElementRef,
+              public wpTimeline:WorkPackageTimelineTableController) {
   }
 
-  $onInit() {
-    this.gridContainer = this.$element.find('.wp-table-timeline--grid');
+  ngAfterViewInit() {
+    const $element = jQuery(this.elementRef.nativeElement);
+    this.gridContainer = $element.find('.wp-table-timeline--grid');
     this.wpTimeline.onRefreshRequested('grid', (vp:TimelineViewParameters) => this.refreshView(vp));
   }
 
@@ -84,15 +98,27 @@ export class WorkPackageTableTimelineGrid {
   private renderLabelsDays(vp:TimelineViewParameters) {
     this.renderTimeSlices(vp, 'day', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.style.paddingTop = '1px';
+      checkForWeekendHighlight(start, cell);
+    });
+
+    this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
+      cell.style.zIndex = '2';
     });
   }
 
   private renderLabelsWeeks(vp:TimelineViewParameters) {
     this.renderTimeSlices(vp, 'day', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      checkForWeekendHighlight(start, cell);
     });
 
     this.renderTimeSlices(vp, 'week', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.classList.add('-grid-highlight');
+    });
+
+    this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
+      cell.style.zIndex = '2';
     });
   }
 
@@ -103,6 +129,11 @@ export class WorkPackageTableTimelineGrid {
     this.renderTimeSlices(vp, 'month', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.classList.add('-grid-highlight');
     });
+
+    this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
+      cell.style.zIndex = '2';
+    });
   }
 
   private renderLabelsQuarters(vp:TimelineViewParameters) {
@@ -111,6 +142,11 @@ export class WorkPackageTableTimelineGrid {
 
     this.renderTimeSlices(vp, 'quarter', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.classList.add('-grid-highlight');
+    });
+
+    this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
+      cell.style.zIndex = '2';
     });
   }
 
@@ -151,11 +187,3 @@ export class WorkPackageTableTimelineGrid {
     }, 0);
   }
 }
-
-openprojectModule.component('wpTimelineGrid', {
-  template: '<div class="wp-table-timeline--grid"></div>',
-  controller: WorkPackageTableTimelineGrid,
-  require: {
-    wpTimeline: '^wpTimelineContainer'
-  }
-});

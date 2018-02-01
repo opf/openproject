@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -29,6 +30,6 @@
 
 module Queries::Filters::Strategies
   class IntegerList < ::Queries::Filters::Strategies::Integer
-    supported_operator_list ['!', '=']
+    self.supported_operators = ['!', '=']
   end
 end

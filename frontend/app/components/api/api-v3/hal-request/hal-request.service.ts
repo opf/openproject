@@ -26,12 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {Inject, Injectable} from '@angular/core';
+import {$httpToken, $qToken, halResourceFactoryToken} from 'core-app/angular4-transition-utils';
 import {opApiModule} from '../../../../angular-modules';
 import {HalResource} from '../hal-resources/hal-resource.service';
 import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
 import IPromise = angular.IPromise;
 import {CollectionResource} from '../hal-resources/collection-resource.service';
 
+@Injectable()
 export class HalRequestService {
   /**
    * Default headers sent with every request.
@@ -39,23 +42,24 @@ export class HalRequestService {
   public defaultHeaders = {
     caching: {
       enabled: true
-    }
+    },
+    'Content-Type': 'application/json'
   };
 
-  constructor(protected $q:ng.IQService,
-              protected $http:ng.IHttpService,
-              protected halResourceFactory:HalResourceFactoryService) {
+  constructor(@Inject($qToken) protected $q:ng.IQService,
+              @Inject($httpToken) protected $http:ng.IHttpService,
+              @Inject(halResourceFactoryToken) protected halResourceFactory:HalResourceFactoryService) {
   }
 
   /**
    * Perform a HTTP request and return a HalResource promise.
    */
-  public request(method:string, href:string, data?:any, headers:any = {}):IPromise<HalResource> {
+  public request<T extends HalResource>(method:string, href:string, data?:any, headers:any = {}):IPromise<T> {
     if (!href) {
       return this.$q.reject();
     }
 
-    if (method === 'post') {
+    if (method.toUpperCase() !== 'GET') {
       data = data || {};
     }
 
@@ -83,7 +87,7 @@ export class HalRequestService {
 
     return this.$http(config)
       .then(createResource)
-      .catch(response => this.$q.reject(createResource(response)));
+      .catch(response => this.$q.reject(createResource(response) as T)) as ng.IPromise<T>;
   }
 
   /**
@@ -94,7 +98,7 @@ export class HalRequestService {
    * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public get(href:string, params?:any, headers?:any):IPromise<HalResource> {
+  public get<T extends HalResource>(href:string, params?:any, headers?:any):IPromise<T> {
     return this.request('get', href, params, headers);
   }
 
@@ -143,7 +147,7 @@ export class HalRequestService {
    * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public put(href:string, data?:any, headers?:any):IPromise<HalResource> {
+  public put<T extends HalResource>(href:string, data?:any, headers?:any):IPromise<T> {
     return this.request('put', href, data, headers);
   }
 
@@ -155,7 +159,7 @@ export class HalRequestService {
    * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public post(href:string, data?:any, headers?:any):IPromise<HalResource> {
+  public post<T extends HalResource>(href:string, data?:any, headers?:any):IPromise<T> {
     return this.request('post', href, data, headers);
   }
 
@@ -167,7 +171,7 @@ export class HalRequestService {
    * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public patch(href:string, data?:any, headers?:any):IPromise<HalResource> {
+  public patch<T extends HalResource>(href:string, data?:any, headers?:any):IPromise<T> {
     return this.request('patch', href, data, headers);
   }
 
@@ -179,7 +183,7 @@ export class HalRequestService {
    * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public delete(href:string, data?:any, headers?:any):IPromise<HalResource> {
+  public delete<T extends HalResource>(href:string, data?:any, headers?:any):IPromise<T> {
     return this.request('delete', href, data, headers);
   }
 }

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -39,13 +40,7 @@ module API
         def self.parse_date(value, property_name, allow_nil: false)
           return nil if value.nil? && allow_nil
 
-          begin
-            date_and_time = DateTime.iso8601(value)
-          rescue ArgumentError
-            raise API::Errors::PropertyFormatError.new(property_name,
-                                                       I18n.t('api_v3.errors.expected.date'),
-                                                       value)
-          end
+          date_and_time = parse_datetime(value, property_name, allow_nil: allow_nil)
 
           date_only = date_and_time.to_date
 
@@ -61,6 +56,20 @@ module API
           date_only
         end
 
+        def self.parse_datetime(value, property_name, allow_nil: false)
+          return nil if value.nil? && allow_nil
+
+          begin
+            date_and_time = DateTime.iso8601(value)
+          rescue ArgumentError
+            raise API::Errors::PropertyFormatError.new(property_name,
+                                                       I18n.t('api_v3.errors.expected.date'),
+                                                       value)
+          end
+
+          date_and_time
+        end
+
         def self.format_datetime(datetime, allow_nil: false)
           return nil if datetime.nil? && allow_nil
           datetime.to_datetime.utc.iso8601
@@ -69,7 +78,7 @@ module API
         def self.format_duration_from_hours(hours, allow_nil: false)
           return nil if hours.nil? && allow_nil
 
-          Duration.new(hours_and_minutes(hours)).iso8601
+          Duration.new(seconds: hours * 3600).iso8601
         end
 
         def self.parse_duration_to_hours(duration, property_name, allow_nil: false)
@@ -84,15 +93,6 @@ module API
                                                        duration)
           end
         end
-
-        def self.hours_and_minutes(hours)
-          hours = hours.to_f
-          minutes = (hours - hours.to_i) * 60
-
-          { hours: hours.to_i, minutes: minutes }
-        end
-
-        private_class_method :hours_and_minutes
       end
     end
   end

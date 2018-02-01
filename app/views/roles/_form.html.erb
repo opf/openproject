@@ -30,15 +30,16 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'role' %>
 
 <% unless @role.builtin? %>
-  <div class="form--field"><%= f.text_field :name, required: true %></div>
+  <div class="form--field"><%= f.text_field :name, required: true, container_class: '-middle' %></div>
   <div class="form--field"><%= f.check_box :assignable %></div>
   <% if @role.new_record? && @roles.any? %>
     <div id="member_attributes">
       <div class="form--field">
-        <%= styled_label_tag 'copy_workflow_from', l(:label_copy_workflow_from) %>
+        <%= styled_label_tag 'copy_workflow_from', t(:label_copy_workflow_from) %>
         <div class="form--field-container">
           <%= styled_select_tag(:copy_workflow_from,
-                content_tag("option") + options_from_collection_for_select(@roles, :id, :name)) %>
+                content_tag("option") + options_from_collection_for_select(@roles, :id, :name),
+                container_class: '-middle') %>
         </div>
       </div>
     </div>

@@ -23,11 +23,12 @@ describe "multi select custom values", js: true do
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
   let(:wp_table) { Pages::WorkPackagesTable.new project }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
+  let(:columns) { ::Components::WorkPackages::Columns.new }
   let(:user) { FactoryGirl.create :admin }
 
   context "with existing custom values" do
     let(:work_package) do
-      wp = FactoryGirl.create :work_package, project: project, type: type
+      wp = FactoryGirl.build :work_package, project: project, type: type
 
       wp.custom_field_values = {
         custom_field.id => ["ham", "pineapple", "onions"].map { |s| custom_value_for(s) }
@@ -38,7 +39,7 @@ describe "multi select custom values", js: true do
     end
 
     let(:work_package2) do
-      wp = FactoryGirl.create :work_package, project: project, type: type
+      wp = FactoryGirl.build :work_package, project: project, type: type
 
       wp.custom_field_values = {
         custom_field.id => ["ham"].map { |s| custom_value_for(s) }
@@ -88,12 +89,11 @@ describe "multi select custom values", js: true do
     end
 
     describe 'in the WP table' do
-      let(:edit_field) do
+      let(:table_edit_field) do
         field = wp_table.edit_field work_package, "customField#{custom_field.id}"
         field.field_type = 'select'
         field
       end
-      include_context 'work package table helpers'
 
       before do
         work_package
@@ -104,10 +104,11 @@ describe "multi select custom values", js: true do
         wp_table.visit!
         wp_table.expect_work_package_listed(work_package)
         wp_table.expect_work_package_listed(work_package2)
-        add_wp_table_column(custom_field.name)
+
+        columns.add custom_field.name
       end
 
-      it 'should be usable in the table context' do
+      it 'should be usable in the table and split view context' do
         # Disable hierarchies
         hierarchy.disable_hierarchy
         hierarchy.expect_no_hierarchies
@@ -128,17 +129,61 @@ describe "multi select custom values", js: true do
         expect(page).to have_selector('.group--value', text: 'ham, onions, pineapple (1)')
         expect(page).to have_selector('.group--value', text: 'ham (1)')
 
-        edit_field.activate!
-        sel = edit_field.input_element
+        table_edit_field.activate!
+        sel = table_edit_field.input_element
 
         sel.unselect "pineapple"
         sel.unselect "onions"
 
-        edit_field.submit_by_dashboard
+        table_edit_field.submit_by_dashboard
 
         # Expect changed groups
         expect(page).to have_selector('.group--value .count', count: 1)
         expect(page).to have_selector('.group--value', text: 'ham (2)')
+
+        # Open split view
+        split_view = wp_table.open_split_view work_package
+        field = WorkPackageMultiSelectField.new(split_view.container, "customField#{custom_field.id}")
+
+        field.activate!
+        sel = field.input_element
+        expect(field).not_to be_multiselect
+
+        field.toggle_multiselect
+        expect(field).to be_multiselect
+        sel.unselect "ham"
+        field.submit_by_dashboard
+
+        # Expect none selected in split and table
+        field.expect_state_text '-'
+        table_edit_field.expect_state_text '-'
+
+        # Activate again
+        field.activate!
+        field.toggle_multiselect
+        expect(field).to be_multiselect
+        sel.select "ham"
+        sel.select "onions"
+
+        field.submit_by_dashboard
+
+        expect(field.display_element).to have_text('ham')
+        expect(field.display_element).to have_text('onions')
+        table_edit_field.expect_state_text 'ham, onions'
+
+        field.activate!
+        # Is now multiselect from the start, since multiple values enabled
+        expect(field).to be_multiselect
+        sel.select "pineapple"
+        sel.select "mushrooms"
+
+        field.submit_by_dashboard
+        expect(field.display_element).to have_text('ham')
+        expect(field.display_element).to have_text('onions')
+        expect(field.display_element).to have_text('pineapple')
+        expect(field.display_element).to have_text('mushrooms')
+
+        table_edit_field.expect_state_text ', ... 4'
       end
     end
   end

@@ -36,13 +36,15 @@ describe 'attachments routes', type: :request do
     it 'redirects /attachments/download with filename to attachments#download' do
       get '/attachments/download/42/foo.png'
 
-      expect(response).to redirect_to('/attachments/42/foo.png')
+      expect(last_response).to be_redirect
+      expect(last_response.location).to end_with '/attachments/42/foo.png'
     end
 
     it 'redirects /attachments/download without filename to attachments#download' do
       get '/attachments/download/42'
 
-      expect(response).to redirect_to('/attachments/42')
+      expect(last_response).to be_redirect
+      expect(last_response.location).to end_with '/attachments/42'
     end
   end
 end

@@ -26,7 +26,7 @@ running the `openproject configure` command.
 
 ## Re-configuring the application
 
-Using `openproject configure`, the wizard will display new steps that you weren't available or configured in previous installations.
+Using `openproject configure`, the wizard will display new steps that weren't available yet or had not been configured in previous installations.
 If you want to perform changes to your configuration or are unsure what steps are available, you can safely run `openproject reconfigure` to walk through the entire configuration process again.
 
 Note that this still takes previous values into consideration. Values that should not change from your previous configurations can be skipped by pressing `<Return>`. This also applies for steps with passwords, which are shown as empty even though they may have a value. Skipping those steps equals to re-use the existing value.

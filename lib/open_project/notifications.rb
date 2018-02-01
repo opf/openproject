@@ -27,7 +27,13 @@
 #++
 
 module OpenProject
-  class Notifications
+  ##
+  # Notifications about Events in OpenProject (e.g. created work packages)
+  #
+  # @see OpenProject::Events
+  module Notifications
+    module_function
+
     # Subscribe to a specific event with name
     # Contrary to ActiveSupport::Notifications, we don't support regexps here, but only
     # single events specified as string.
@@ -35,9 +41,9 @@ module OpenProject
     # @param name [String] The name of the event to subscribe to.
     # @param clear_subscriptions [Boolean] Clears all previous subscriptions to this
     #                                      event if true. Use with care!
-    # @return nil
+    # @return [Int] Subscription ID
     # @raises ArgumentError if no block is given.
-    def self.subscribe(name, clear_subscriptions: false, &block)
+    def subscribe(name, clear_subscriptions: false, &block)
       # if no block is given, raise an error
       raise ArgumentError, 'please provide a block as a callback' unless block_given?
 
@@ -54,22 +60,23 @@ module OpenProject
       subs = clear_subscriptions ? [] : Array(subscriptions[name])
       subscriptions[name] = subs + [sub]
 
-      # Don't return a subscription object as it's an implementation detail.
-      nil
+      subscriptions[name].size - 1
+    end
+
+    def unsubscribe(name, id)
+      subscriptions[name].delete_at id
     end
 
     # Send a notification
     # payload should be a Hash and might be marshalled and unmarshalled before being
     # delivered (although it is not at the moment), so don't count on object equality
     # for the payload.
-    def self.send(name, payload)
+    def send(name, payload)
       ActiveSupport::Notifications.instrument(name, payload)
     end
 
-    def self.subscriptions
+    def subscriptions
       @subscriptions ||= {}
     end
-
-    private_class_method :subscriptions
   end
 end

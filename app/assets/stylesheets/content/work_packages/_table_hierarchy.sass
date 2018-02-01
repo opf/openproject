@@ -9,6 +9,11 @@
   &:hover
     text-decoration: none
 
+  // On edge, pointer-events only work on
+  // block or inline-block elements
+  html.-browser-edge &
+    display: inline-block !important
+
 // Toggle the indicator accessibility texts
 // accordingly
 .wp-table--hierarchy-indicator-collapsed
@@ -47,6 +52,7 @@
   min-width: 0px !important
 
 .hierarchy-header--outer-span
+  white-space: nowrap
   & > .dropdown-indicator
     width: 1em
     text-align: right
@@ -58,9 +64,6 @@
     visibility: visible
 
 // Style hierarchy column differently
-.hierarchy-header--sort-title
-  width: calc(100% - 48px)
-  display: inline-block
 
 // Padding for the hierarchy mode
 .wp-table--cell-td.subject:not(.-with-hierarchy)
@@ -72,13 +75,15 @@
 
 // Highlight additional hierarchy table rows
 // that are not part of the normal result list
-body:not(.accessibility-mode )
-  .wp-table--hierarchy-aditional-row
-    background: $table-row-additional-row-color
+body:not(.accessibility-mode)
+  .wp-table--hierarchy-aditional-row,
+  .wp-table--hierarchy-aditional-row .wp-table--hierarchy-indicator-icon
+    color: $table-row-hierarchies-row-font-color
 
 .hierarchy-header--icon
   cursor: pointer
   display: inline-block
+  flex: 0 0 0
   width: 20px
 
   i:before

@@ -43,6 +43,7 @@ class ApplicationController < ActionController::Base
   include Redmine::I18n
   include HookHelper
   include ::OpenProject::Authentication::SessionExpiry
+  include AdditionalUrlHelpers
 
   layout 'base'
 
@@ -105,7 +106,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from ActionController::ParameterMissing do |exception|
-    render text:   "Required parameter missing: #{exception.param}",
+    render body:   "Required parameter missing: #{exception.param}",
            status: :bad_request
   end
 
@@ -187,11 +188,6 @@ class ApplicationController < ActionController::Base
       if (key = api_key_from_request) && accept_key_auth_actions.include?(params[:action])
         # Use API key
         User.find_by_api_key(key)
-      elsif OpenProject::Configuration.apiv2_enable_basic_auth?
-        # HTTP Basic, either username/password or API key/random
-        authenticate_with_http_basic do |username, password|
-          User.try_to_login(username, password) || User.find_by_api_key(username)
-        end
       end
     end
   end
@@ -709,4 +705,6 @@ class ApplicationController < ActionController::Base
   # callbacks when the core application controller is fully loaded. Good explanation of load hooks:
   # http://simonecarletti.com/blog/2011/04/understanding-ruby-and-rails-lazy-load-hooks/
   ActiveSupport.run_load_hooks(:application_controller, self)
+
+  prepend Concerns::AuthSourceSSO
 end

@@ -31,9 +31,17 @@
   padding: rem-calc(10px)
   max-height: 50vh
   overflow-y: auto
+  position: relative
 
   &.collapsed
     display: none
+
+  .advanced-filters--close
+    position: absolute
+    top: 0.75rem
+    right: 0.75rem
+    width: 1rem
+    z-index: 2
 
 @mixin advanced-filters--sizing()
   @include grid-block()
@@ -67,18 +75,22 @@
 // The type="text" is required to be more specific
 .advanced-filters--text-field[type="text"],
 .advanced-filters--date-field[type="text"]
-  @extend .form--text-field, .form--text-field.-small
+  @extend .form--text-field
+  @include form--input-field-mixin--small
 
   &:required
     box-shadow: none
 
 .advanced-filters--select
-  @extend .form--select, .form--select.-small, .form--select.-narrow
+  @extend .form--select
+  @include form--input-field-mixin--small
+  @include form--input-field-mixin--narrow
   margin-bottom: 0
 
 // The type="number" is required to be more specific
 .advanced-filters--number-field[type="number"]
-  @extend .form--text-field, .form--text-field.-small
+  @extend .form--text-field
+  @include form--input-field-mixin--small
 
 .advanced-filters--filter-name
   @include grid-content(2)
@@ -86,6 +98,8 @@
   white-space: nowrap
   text-overflow: ellipsis
   font-size: 0.9rem
+  min-width: 156px
+  padding-right: 0
 
 .advanced-filters--filter-operator
   @include grid-content()
@@ -101,7 +115,8 @@
     flex: 1
 
 .advanced-filters--affix
-  @extend .form--field-affix, .form--field-affix.-transparent
+  @extend .form--field-affix
+  @include form--field-affix-mixin--transparent
   font-size: 0.9rem
 
 .advanced-filters--tooltip-trigger[data-tooltip]
@@ -114,6 +129,9 @@
 
   a
     display: block
+    &:hover
+      text-decoration: none
+
 
 .advanced-filters--remove-filter-icon
   @extend .icon-close, .icon4
@@ -126,19 +144,32 @@
   padding:          0.25rem 0
 
 .advanced-filters--add-filter-label
-  @include grid-content(shrink)
-  font-size: 0.9rem
+  @extend .advanced-filters--filter-name
 
 .advanced-filters--add-filter-label-icon
   @extend .icon-add, .icon4
 
 .advanced-filters--add-filter-value
-  @include grid-content(3)
+  @include grid-content()
+  @include grid-visible-overflow
+  min-width: 120px
+  max-width: 200px
+
+.advanced-filters--add-filter-info
+  @include grid-content()
+  @include grid-visible-overflow
+
 
 .advanced-filters--spacer
   border-top:   1px solid $filters--border-color
   height: 1px
   margin:          0.75rem 1rem
+
+.advanced-filters--spacer,
+.advanced-filters--filter
+  &.hidden
+    display: none
+
 
 
 fieldset#date-range p

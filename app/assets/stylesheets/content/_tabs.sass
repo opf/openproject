@@ -39,6 +39,7 @@
 
   ul
     position: relative
+    white-space: nowrap
     margin-top: 0.75rem
     margin-left: 0
     bottom: 0
@@ -46,10 +47,10 @@
     border-bottom: 1px solid #bbbbbb
     overflow: hidden
     li
-      float: left
+      display: inline-block
       list-style-type: none
       white-space: nowrap
-      margin-right: 8px
+      margin-right: 4px
       background: #fff
       margin-bottom: -1px
       a
@@ -59,7 +60,6 @@
         line-height: 1.3em
         padding: 4px 6px 4px 6px
         border: 1px solid #ccc
-        border-bottom: 1px solid #bbbbbb
         background-color: #eeeeee
         color: #333
         font-weight: bold
@@ -68,14 +68,11 @@
           text-decoration: none
         &.selected
           background-color: #fff
-          border: 1px solid #bbbbbb
-          border-bottom: 1px solid #fff
-          &:hover
-            background-color: #fff
 
 #content .tab-content
   overflow-x: auto
   overflow-y: hidden
+  min-height: 0 // overflows in a flexbox layout want that.
 
 div.tabs-buttons
   position: absolute

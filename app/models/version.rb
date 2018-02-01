@@ -51,7 +51,6 @@ class Version < ActiveRecord::Base
   validates_inclusion_of :sharing, in: VERSION_SHARINGS
   validate :validate_start_date_before_effective_date
 
-  scope :open, -> { where(status: 'open') }
   scope :visible, ->(*args) {
     joins(:project)
       .merge(Project.allowed_to(args.first || User.current, :view_work_packages))
@@ -60,6 +59,10 @@ class Version < ActiveRecord::Base
   scope :systemwide, -> { where(sharing: 'system') }
 
   scope :order_by_name, -> { order("LOWER(#{Version.table_name}.name)") }
+
+  def self.with_status_open
+    where(status: 'open')
+  end
 
   # Returns true if +user+ or current user is allowed to view the version
   def visible?(user = User.current)
@@ -84,7 +87,7 @@ class Version < ActiveRecord::Base
   # Returns the total estimated time for this version
   # (sum of leaves estimated_hours)
   def estimated_hours
-    @estimated_hours ||= fixed_issues.leaves.sum(:estimated_hours).to_f
+    @estimated_hours ||= fixed_issues.hierarchy_leaves.sum(:estimated_hours).to_f
   end
 
   # Returns the total reported time for this version
@@ -155,12 +158,12 @@ class Version < ActiveRecord::Base
 
   # Returns the total amount of open issues for this version.
   def open_issues_count
-    @open_issues_count ||= work_packages.merge(WorkPackage.open).size
+    @open_issues_count ||= work_packages.merge(WorkPackage.with_status_open).size
   end
 
   # Returns the total amount of closed issues for this version.
   def closed_issues_count
-    @closed_issues_count ||= work_packages.merge(WorkPackage.closed).size
+    @closed_issues_count ||= work_packages.merge(WorkPackage.with_status_closed).size
   end
 
   def wiki_page

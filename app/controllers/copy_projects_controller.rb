@@ -28,42 +28,31 @@
 #++
 
 class CopyProjectsController < ApplicationController
-  helper :timelines
-
   before_action :disable_api
   before_action :find_project
   before_action :authorize
-  before_action :prepare_for_copy_project
 
   def copy
     @copy_project = project_copy
 
     if @copy_project.valid?
-      target_project_params = @copy_project.attributes.compact
+      enqueue_copy_job
 
-      copy_project_job = CopyProjectJob.new(user_id: User.current.id,
-                                            source_project_id: @project.id,
-                                            target_project_params: target_project_params,
-                                            associations_to_copy: params[:only],
-                                            send_mails: params[:notifications] == '1')
-
-      Delayed::Job.enqueue copy_project_job
       flash[:notice] = I18n.t('copy_project.started',
                               source_project_name: @project.name,
                               target_project_name: permitted_params.project[:name])
       redirect_to origin
     else
-      from = (['admin', 'settings'].include?(params[:coming_from]) ? params[:coming_from] : 'settings')
-      render action: "copy_from_#{from}"
+      render action: copy_action
     end
   end
 
   def copy_project
-    from = (['admin', 'settings'].include?(params[:coming_from]) ? params[:coming_from] : 'settings')
     @copy_project = Project.copy_attributes(@project)
     if @copy_project
       @copy_project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
-      render action: "copy_from_#{from}"
+
+      render action: copy_action
     else
       redirect_to :back
     end
@@ -72,6 +61,12 @@ class CopyProjectsController < ApplicationController
   end
 
   private
+
+  def copy_action
+    from = (%w(admin settings).include?(params[:coming_from]) ? params[:coming_from] : 'settings')
+
+    "copy_from_#{from}"
+  end
 
   def project_copy
     copy_project = Project.new
@@ -86,13 +81,24 @@ class CopyProjectsController < ApplicationController
   end
 
   def origin
-    params[:coming_from] == 'admin' ? projects_admin_index_path : settings_project_path(@project.id)
+    params[:coming_from] == 'admin' ? projects_path : settings_project_path(@project.id)
   end
 
-  def prepare_for_copy_project
-    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
-    @types = ::Type.all
-    @root_projects = Project.where("parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}")
-                     .order('name')
+  def enqueue_copy_job
+    copy_project_job = CopyProjectJob.new(user_id: User.current.id,
+                                          source_project_id: @project.id,
+                                          target_project_params: target_project_params,
+                                          associations_to_copy: params[:only],
+                                          send_mails: params[:notifications] == '1')
+
+    Delayed::Job.enqueue copy_project_job
+  end
+
+  def target_project_params
+    @copy_project
+      .attributes
+      .compact
+      .with_indifferent_access
+      .merge(custom_field_values: @copy_project.custom_value_attributes)
   end
 end

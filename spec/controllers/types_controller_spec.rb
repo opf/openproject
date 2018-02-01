@@ -67,7 +67,7 @@ describe TypesController, type: :controller do
 
     describe 'GET edit' do
       describe 'the access should be restricted' do
-        before { get 'edit' }
+        before { get 'edit', params: { id: '123' } }
 
         it { expect(response.status).to eq(403) }
       end
@@ -83,7 +83,7 @@ describe TypesController, type: :controller do
 
     describe 'DELETE destroy' do
       describe 'the access should be restricted' do
-        before { delete 'destroy' }
+        before { delete 'destroy', params: { id: '123' } }
 
         it { expect(response.status).to eq(403) }
       end
@@ -91,7 +91,7 @@ describe TypesController, type: :controller do
 
     describe 'POST update' do
       describe 'the access should be restricted' do
-        before { post 'update' }
+        before { post 'update', params: { id: '123' } }
 
         it { expect(response.status).to eq(403) }
       end
@@ -99,7 +99,7 @@ describe TypesController, type: :controller do
 
     describe 'POST move' do
       describe 'the access should be restricted' do
-        before { post 'move' }
+        before { post 'move', params: { id: '123' } }
 
         it { expect(response.status).to eq(403) }
       end

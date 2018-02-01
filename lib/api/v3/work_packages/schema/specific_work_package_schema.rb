@@ -72,19 +72,15 @@ module API
             end
           end
 
-          def writable?(property)
-            if [:percentage_done,
-                :estimated_time,
-                :start_date,
-                :due_date,
-                :date].include? property
-              return false unless @work_package.leaf?
-            end
-
-            super
-          end
-
           private
+
+          def contract
+            @contract ||= begin
+              ::WorkPackages::UpdateContract
+                .new(work_package,
+                     User.current)
+            end
+          end
 
           def assignable_statuses_for(user)
             status_origin = @work_package

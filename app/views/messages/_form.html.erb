@@ -29,23 +29,23 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'message' %>
 <% replying ||= false %>
 <div class="form--field">
-  <%= f.text_field :subject, required: true %>
+  <%= f.text_field :subject, required: true, container_class: '-wide' %>
 </div>
 <% unless replying %>
   <div class="form--field">
-    <%= f.check_box :sticky, label: l(:label_board_sticky) %>
+    <%= f.check_box :sticky, label: t(:label_board_sticky) %>
   </div>
   <div class="form--field">
-    <%= f.check_box :locked, label: l(:label_board_locked) %>
+    <%= f.check_box :locked, label: t(:label_board_locked) %>
   </div>
 <% end %>
 <% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
   <div class="form--field">
-    <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]}, label: Board.name.humanize %>
+    <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]}, label: Board.name.humanize, container_class: '-wide' %>
   </div>
 <% end %>
 <div class="form--field -required">
-  <%= f.text_area :content, required: true, label: l(:description_message_content), class: 'wiki-edit' %>
+  <%= f.text_area :content, required: true, label: t(:description_message_content), class: 'wiki-edit', container_class: '-wide' %>
   <%= wikitoolbar_for("#{f.object_name}_content") %>
 </div>
 <%= render partial: 'attachments/form' %>

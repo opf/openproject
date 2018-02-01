@@ -26,7 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= breadcrumb_toolbar link_to(l(:label_role_plural), roles_path), l(:label_permissions_report) %>
+<%= breadcrumb_toolbar l(:label_permissions_report) %>
+<% local_assigns[:additional_breadcrumb] = l(:label_permissions_report) %>
+<% html_title l(:label_administration), l(:label_permissions_report) %>
 <%= form_tag(roles_path, method: :put, id: 'permissions_form') do %>
   <%= hidden_field_tag 'permissions[0]', '', id: nil %>
 
@@ -42,67 +44,66 @@ See doc/COPYRIGHT.rdoc for more details.
           (<%= check_all_links module_name %>)
         </span>
       </div>
-      <div class="autoscroll">
-        <div class="generic-table--container">
-          <div class="generic-table--results-container">
-            <table class="generic-table">
-              <colgroup>
-                <col highlight-col>
-                <col highlight-col>
-                <col highlight-col>
-                <col highlight-col>
-                <col highlight-col>
-                <col highlight-col>
-              </colgroup>
-              <thead>
-                <tr>
+    
+      <div class="generic-table--container">
+        <div class="generic-table--results-container">
+          <table class="generic-table">
+            <colgroup>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%=l(:label_permissions)%>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <% @roles.each do |role| %>
                   <th>
                     <div class="generic-table--sort-header-outer">
                       <div class="generic-table--sort-header">
                         <span>
-                          <%=l(:label_permissions)%>
+                          <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
+                          <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('input.role-#{role.id}')",
+                                                                        class: 'no-decoration-on-hover',
+                                                                        title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
                         </span>
                       </div>
                     </div>
                   </th>
+                <% end %>
+              </tr>
+            </thead>
+            <tbody>
+              <% perms_by_module[mod].each do |permission| %>
+                <tr class="permission-<%= permission.name %>">
+                  <td>
+                    <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
+                                                                    class: 'no-decoration-on-hover',
+                                                                    title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+                    <%= l_or_humanize(permission.name, prefix: 'permission_') %>
+                  </td>
                   <% @roles.each do |role| %>
-                    <th>
-                      <div class="generic-table--sort-header-outer">
-                        <div class="generic-table--sort-header">
-                          <span>
-                            <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
-                            <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('input.role-#{role.id}')",
-                                                                          class: 'no-decoration-on-hover',
-                                                                          title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-                          </span>
-                        </div>
-                      </div>
-                    </th>
+                    <td>
+                      <% if role.setable_permissions.include? permission %>
+                        <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name), id: nil, class: "role-#{role.id}" %>
+                      <% end %>
+                    </td>
                   <% end %>
                 </tr>
-              </thead>
-              <tbody>
-                <% perms_by_module[mod].each do |permission| %>
-                  <tr class="permission-<%= permission.name %>">
-                    <td>
-                      <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
-                                                                      class: 'no-decoration-on-hover',
-                                                                      title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-                      <%= l_or_humanize(permission.name, prefix: 'permission_') %>
-                    </td>
-                    <% @roles.each do |role| %>
-                      <td>
-                        <% if role.setable_permissions.include? permission %>
-                          <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name), id: nil, class: "role-#{role.id}" %>
-                        <% end %>
-                      </td>
-                    <% end %>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-            
-          </div>
+              <% end %>
+            </tbody>
+          </table>
+
         </div>
       </div>
     </fieldset>

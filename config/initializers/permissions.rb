@@ -94,12 +94,7 @@ Redmine::AccessControl.map do |map|
                    journals: [:index, :diff],
                    work_packages: [:show, :index],
                    work_packages_api: [:get],
-                   :'work_packages/reports' => [:report, :report_details],
-                   planning_elements: [:index, :all, :show, :recycle_bin],
-                   planning_element_journals: [:index],
-                   # This is api/v2/planning_element_types
-                   planning_element_types: [:index,
-                                               :show]
+                   :'work_packages/reports' => [:report, :report_details]
 
     wpt.permission :export_work_packages,
                    work_packages: [:index, :all]
@@ -107,7 +102,8 @@ Redmine::AccessControl.map do |map|
     wpt.permission :add_work_packages,
                    issues: [:new, :create],
                    :'issues/previews' => :create,
-                   work_packages: [:new, :new_type, :preview, :create]
+                   work_packages: [:new, :new_type, :preview, :create],
+                   planning_elements: [:create]
 
     wpt.permission :move_work_packages,
                    { :'work_packages/moves' => [:new, :create] },
@@ -118,9 +114,7 @@ Redmine::AccessControl.map do |map|
                      :'work_packages/bulk' => [:edit, :update],
                      work_packages: [:edit, :update, :new_type,
                                      :preview, :quoted],
-                     journals: :preview,
-                     planning_elements: [:new, :create, :edit, :update],
-                     planning_element_journals: [:create] },
+                     journals: :preview },
                    require: :member
 
     wpt.permission :add_work_package_notes,
@@ -138,11 +132,7 @@ Redmine::AccessControl.map do |map|
     wpt.permission :delete_work_packages,
                    { issues: :destroy,
                      work_packages: :destroy,
-                     :'work_packages/bulk' => :destroy,
-                     planning_elements: [:confirm_destroy,
-                                         :destroy,
-                                         :destroy_all,
-                                         :confirm_destroy_all] },
+                     :'work_packages/bulk' => :destroy },
                    require: :member
 
     wpt.permission :manage_work_package_relations,
@@ -309,42 +299,4 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :activity
-
-  map.project_module :timelines do |timelines|
-    timelines.permission :view_project_associations,
-                         project_associations: [:index, :show]
-
-    timelines.permission :edit_project_associations,
-                         { project_associations: [:edit, :update, :new,
-                                                  :create,
-                                                  :available_projects] },
-                         require: :member
-
-    timelines.permission :delete_project_associations,
-                         { project_associations: [:confirm_destroy, :destroy] },
-                         require: :member
-
-    timelines.permission :view_timelines,
-                         timelines: [:index, :show]
-
-    timelines.permission :edit_timelines,
-                         { timelines: [:edit, :update, :new, :create] },
-                         require: :member
-
-    timelines.permission :delete_timelines,
-                         { timelines: [:confirm_destroy, :destroy] },
-                         require: :member
-
-    timelines.permission :view_reportings,
-                         reportings: [:index, :all, :show]
-
-    timelines.permission :edit_reportings,
-                         { reportings: [:new, :create, :edit,
-                                        :update, :available_projects] },
-                         require: :member
-
-    timelines.permission :delete_reportings,
-                         { reportings: [:confirm_destroy, :destroy] },
-                         require: :member
-  end
 end

@@ -2,12 +2,14 @@
   <div id="work-package-comment-container">
 
     <ng-transclude ng-if="!vm.showAbove"></ng-transclude>
-    <div class="work-package--details--long-field work-packages--activity--add-comment" ng-if="vm.canAddComment">
+    <div class="work-package--details--long-field work-packages--activity--add-comment hide-when-print" ng-if="vm.canAddComment">
       <div class="wp-edit-field inplace-edit" ng-switch="vm.active">
         <form ng-switch-when="true"
               name="wp-edit-form-coment"
               ng-submit="vm.handleUserSubmit()"
               role="form"
+              field-name="'comment'"
+              wp-attachments-formattable
               tabindex="-1">
 
           <label for="{{::vm.htmlId}}"
@@ -20,11 +22,10 @@
         <div class="inplace-edit--read" ng-switch-when="false">
           <accessible-by-keyboard
             class="inplace-editing--trigger-container"
-            span-class="inplace-editing--container"
+            span-class="inplace-editing--container wp-edit-field--display-field"
             link-class="inplace-editing--trigger-link"
             link-aria-label="{{ ::vm.text.editTitle }}"
-            execute="vm.activate()"
-            focus="vm.shouldFocus()">
+            execute="vm.activate()">
             <span class="inplace-edit--read-value -default">
               <span ng-bind="::vm.text.placeholder"></span>
             </span>

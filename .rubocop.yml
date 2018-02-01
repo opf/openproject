@@ -157,9 +157,6 @@ NumericLiterals:
 OneLineConditional:
   Enabled: false
 
-OpMethod:
-  Enabled: false
-
 ParameterLists:
   Enabled: false
 

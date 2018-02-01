@@ -80,9 +80,9 @@ describe RepositoriesController, type: :controller do
 
     context 'with #edit' do
       before do
-        xhr :get,
-            :edit,
-            params: { scm_vendor: 'subversion' }
+        get :edit,
+            params: { project_id: project.id, scm_vendor: 'subversion' },
+            xhr: true
       end
 
       it_behaves_like 'successful settings response'
@@ -91,7 +91,7 @@ describe RepositoriesController, type: :controller do
     context 'with #destroy' do
       before do
         allow(repository).to receive(:destroy).and_return(true)
-        xhr :delete, :destroy
+        delete :destroy, params: { project_id: project.id }, xhr: true
       end
 
       it 'redirects to settings' do
@@ -101,7 +101,7 @@ describe RepositoriesController, type: :controller do
 
     context 'with #update' do
       before do
-        xhr :put, :update
+        put :update, params: { project_id: project.id }, xhr: true
       end
 
       it_behaves_like 'successful settings response'
@@ -109,13 +109,14 @@ describe RepositoriesController, type: :controller do
 
     context 'with #create' do
       before do
-        xhr :post,
-            :create,
-            params: {
-              scm_vendor: 'subversion',
-              scm_type: 'local',
-              url: 'file:///tmp/repo.svn/'
-            }
+        post :create,
+             params: {
+               project_id: project.id,
+               scm_vendor: 'subversion',
+               scm_type: 'local',
+               url: 'file:///tmp/repo.svn/'
+             },
+             xhr: true
       end
 
       it 'renders a JS redirect' do
@@ -211,7 +212,7 @@ describe RepositoriesController, type: :controller do
 
         describe '#get' do
           before do
-            get :committers
+            get :committers, params: { project_id: project.id }
           end
 
           it 'should be successful' do
@@ -223,7 +224,7 @@ describe RepositoriesController, type: :controller do
         describe '#post' do
           before do
             repository.fetch_changesets
-            post :committers, params: { committers: { '0' => ['oliver', user.id] },
+            post :committers, params: { project_id: project.id, committers: { '0' => ['oliver', user.id] },
                                         commit: 'Update' }
           end
 

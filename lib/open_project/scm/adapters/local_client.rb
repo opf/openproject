@@ -156,12 +156,16 @@ module OpenProject
         # If the operation throws an exception or the operation yields a non-zero exit code
         # we rethrow a +CommandFailed+ with a meaningful error message
         def capture_out(args, opts = {})
-          output, err, code = Open3.capture3(client_command, *args, binmode: opts[:binmode])
+          output, err, code = Open3.capture3(client_command, *args, opts.slice(:binmode, :chdir))
           if code != 0
             error_msg = "SCM command failed: Non-zero exit code (#{code}) for `#{client_command}`"
             logger.error(error_msg)
             logger.debug("Error output is #{err}")
-            raise Exceptions::CommandFailed.new(client_command, error_msg, err)
+            raise Exceptions::CommandFailed.new(
+              client_command,
+              opts[:error_message] || error_msg,
+              err
+            )
           end
 
           output

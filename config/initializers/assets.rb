@@ -19,13 +19,11 @@ OpenProject::Application.configure do
     members_select_boxes.js
     new_user.js
     project/responsible_attribute.js
+    project/description_handling.js
+    project/filters.js
     repository_navigation.js
     select_list_move.js
-    timelines.css
-    timelines_modal.js
-    timelines_select_boxes.js
     types_checkboxes.js
     work_packages.js
-    type_form.js
   )
 end

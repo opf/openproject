@@ -29,12 +29,17 @@
 import {WorkPackageEditForm} from './work-package-edit-form';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageEditContext} from './work-package-edit-context';
-import {injectorBridge} from '../angular/angular-injector-bridge.functions';
-import {cellClassName} from '../wp-fast-table/builders/cell-builder';
+import {$injectFields} from '../angular/angular-injector-bridge.functions';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {keyCodes} from '../common/keyCodes.enum';
 
 export class WorkPackageEditFieldHandler {
   // Injections
   public FocusHelper:any;
+  public ConfigurationService:any;
   public I18n:op.I18n;
 
   // Scope the field has been rendered in
@@ -42,28 +47,25 @@ export class WorkPackageEditFieldHandler {
 
   // Other fields
   public editContext:WorkPackageEditContext;
-  public fieldName:string;
+  public schemaName:string;
+
 
   // Current errors of the field
   public errors:string[];
 
   constructor(public form:WorkPackageEditForm,
+              public fieldName:string,
               public field:EditField,
               public element:JQuery,
-              public withErrors: string[]) {
-    injectorBridge(this);
+              public withErrors:string[]) {
+    $injectFields(this, 'I18n', 'ConfigurationService', 'FocusHelper');
 
     this.editContext = form.editContext;
-    this.fieldName = field.name;
+    this.schemaName = field.name;
 
     if (withErrors !== undefined) {
       this.setErrors(withErrors);
     }
-
-    Mousetrap(element[0]).bind('escape', () => {
-      this.reset();
-      return false;
-    });
   }
 
   /**
@@ -74,13 +76,8 @@ export class WorkPackageEditFieldHandler {
     return false;
   }
 
-  // Can we remove this?
-  public shouldFocus() {
-    return true;
-  }
-
   public get inEditMode() {
-    return false;
+    return this.form.editMode;
   }
 
   public get active() {
@@ -88,7 +85,7 @@ export class WorkPackageEditFieldHandler {
   }
 
   public focus() {
-    this.FocusHelper.focusElement(this.element.find('.wp-inline-edit--field'), 2);
+    this.element.find('.wp-inline-edit--field').focus();
   }
 
   public setErrors(newErrors:string[]) {
@@ -100,11 +97,42 @@ export class WorkPackageEditFieldHandler {
    * Handle a user submitting the field (e.g, ng-change)
    */
   public handleUserSubmit() {
-    this.form.submit();
+    if (!this.form.editMode) {
+      this.form.submit();
+    }
   }
 
-  public handleUserSubmitOnEnter() {
-    // This does nothing on the table since the form submit event is handled.
+  /**
+   * Handle users pressing enter inside an edit mode.
+   * Outside an edit mode, the regular save event is captured by handleUserSubmit (submit event).
+   * In an edit mode, we can't derive from a submit event wheteher the user pressed enter
+   * (and on what field he did that).
+   */
+  public handleUserKeydown(event:JQueryEventObject, onlyCancel:boolean = false) {
+    // Only handle submission in edit mode
+    if (this.inEditMode && !onlyCancel) {
+      if (event.which === keyCodes.ENTER) {
+        this.form.submit();
+        return false;
+      }
+      return true;
+    }
+
+    // Escape editing when not in edit mode
+    if (event.which === keyCodes.ESCAPE) {
+      this.handleUserCancel();
+      return false;
+    }
+
+    // If enter is pressed here, it will continue to handleUserSubmit()
+    // due to the form submission event.
+    return true;
+  }
+
+  public onlyInAccessibilityMode(callback:Function) {
+    if (this.ConfigurationService.accessibilityModeEnabled()) {
+      callback.apply(this);
+    }
   }
 
   /**
@@ -118,8 +146,7 @@ export class WorkPackageEditFieldHandler {
    * Cancel any pending changes
    */
   public reset() {
-    this.workPackage.restoreFromPristine(this.fieldName);
-    delete this.workPackage.$pristine[this.fieldName];
+    this.form.changeset.reset(this.fieldName);
     this.deactivate(true);
   }
 
@@ -135,7 +162,7 @@ export class WorkPackageEditFieldHandler {
   /**
    * Returns whether the work package is submittable.
    */
-  public get isSubmittable(): boolean {
+  public get isSubmittable():boolean {
     return !(this.form.editMode ||
     (this.field.required && this.field.isEmpty()) ||
     (this.isErrorenous && !this.isChanged()) ||
@@ -145,15 +172,15 @@ export class WorkPackageEditFieldHandler {
   /**
    * Returns whether the field has any errors set.
    */
-  public get isErrorenous(): boolean {
+  public get isErrorenous():boolean {
     return this.errors.length > 0;
   }
 
   /**
    * Returns whether the field has been changed
    */
-  public isChanged(): boolean {
-    return this.workPackage.$pristine[this.fieldName] !== this.workPackage[this.fieldName];
+  public isChanged():boolean {
+    return this.form.changeset.isOverridden(this.schemaName);
   }
 
   /**
@@ -161,6 +188,14 @@ export class WorkPackageEditFieldHandler {
    */
   public get workPackage() {
     return this.form.workPackage;
+  }
+
+  /**
+   * Reference the current set project
+   */
+  public get project() {
+    const changeset = this.form.changeset;
+    return changeset.value('project');
   }
 
   /**
@@ -174,7 +209,7 @@ export class WorkPackageEditFieldHandler {
    * Return the field label
    */
   public get fieldLabel() {
-    return this.fieldName; // TOOD overridden fields labels?
+    return this.field.displayName;
   }
 
   public get errorMessageOnLabel() {
@@ -183,9 +218,7 @@ export class WorkPackageEditFieldHandler {
     }
     else {
       return this.I18n.t('js.inplace.errors.messages_on_field',
-        { messages: this.errors.join(' ') });
+        {messages: this.errors.join(' ')});
     }
   }
 }
-
-WorkPackageEditFieldHandler.$inject = ['I18n', 'FocusHelper'];

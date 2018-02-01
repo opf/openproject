@@ -28,11 +28,12 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 (function($) {
-  var memberships = $("<%= escape_javascript(render(partial: 'users/memberships')) %>");
+  <% content = escape_javascript render(partial: 'users/memberships') %>
 
-  $('#tab-content-memberships').html(memberships);
+  var compiledContent = OpenProject.Helpers.Angular.compile('<%= content %>');
+  jQuery('#tab-content-memberships').html(compiledContent);
 
-  <% if @membership.valid? %>
+  <% if @membership.errors.empty? %>
     var notice = $("<%= escape_javascript(render(partial: 'members/common_notice',
                                                  locals: { message: l(:notice_successful_update) })) %>");
     $('#tab-content-memberships').prepend(notice);

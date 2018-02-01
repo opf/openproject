@@ -23,12 +23,12 @@ worker: &ruby
     - "RAILS_ENV=production"
     - "HEROKU=true"
     - "OP_ADMIN_USER_SEEDER_FORCE_PASSWORD_CHANGE=off"
-  command: "./docker/wait-for-it.sh -t 60 -h db -p 5432 --strict -- bundle exec rake db:migrate db:seed jobs:work"
+  command: "bundle exec rake db:migrate db:seed jobs:work"
   memory: 384
 
 web:
   <<: *ruby
   ports:
     - "80:8080"
-  command: "./docker/wait-for-it.sh -t 60 -h db -p 5432 --strict -- ./docker/web"
+  command: "./docker/web"
   memory: 1024

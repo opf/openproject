@@ -44,7 +44,16 @@
       }
 
       func = function () {
-        preview.css('background-color', input.val());
+        var previewColor = '';
+
+        if(input.val() && input.val().length > 0) {
+          previewColor = input.val();
+        } else if (input.attr('placeholder') &&
+                   input.attr('placeholder').length > 0) {
+          previewColor = input.attr('placeholder')
+        }
+
+        preview.css('background-color', previewColor);
       };
 
       input.keyup(func).change(func).focus(func);

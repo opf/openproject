@@ -74,6 +74,11 @@ interface Function {
   _type:string;
 }
 
+interface JQuery {
+  topShelf: any;
+  atwho: any;
+}
+
 declare var Factory:any;
 
 declare namespace op {
@@ -102,7 +107,6 @@ declare namespace op {
     writable:boolean;
     allowedValues:any;
     required?:boolean;
-    visibility?:string;
     hasDefault:boolean;
     name?:string;
   }

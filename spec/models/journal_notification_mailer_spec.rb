@@ -210,7 +210,7 @@ describe JournalNotificationMailer do
     let(:journal_3) { work_package.journals[3] }
 
     def update_by(author, attributes)
-      UpdateWorkPackageService
+      WorkPackages::UpdateService
         .new(user: author, work_package: work_package)
         .call(attributes: attributes)
     end
@@ -290,7 +290,7 @@ describe JournalNotificationMailer do
     end
 
     context 'journal 3 created after timeout of 1 and 2' do
-      # This is a normal case again, ensuring Journal 3 takes no responsiblity when not neccessary.
+      # This is a normal case again, ensuring Journal 3 takes no responsibility when not necessary.
 
       describe 'Journal 3' do
         include_context 'updated until Journal 3'

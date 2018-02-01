@@ -32,6 +32,9 @@ window.openProject = {
   environment: 'dev'
 };
 
+jQuery(document).ready(function () {
+});
+
 angular.element(document).ready(function() {
   angular.bootstrap(document, ['openproject']);
 });

@@ -1,0 +1,2602 @@
+---
+tr:
+  no_results_title_text: Şu anda gösterilecek bir şey yok.
+  activities:
+    index:
+      no_results_title_text: Projede herhangi bir etkinlik olmamıştır.
+  admin:
+    plugins:
+      no_results_title_text: Şu anda kullanılabilir eklenti mevcut değil.
+    custom_styles:
+      custom_colors: Özel renkler
+      customize: 'Kendi logonuuz ile OpenProject yüklemenizi özelleştirin. Not: Bu
+        logo genel olarak erişilebilir olacaktır.'
+      enterprise_notice: OpenProject'in geliştirilmesine finansal destek verenlere
+        özel olarak 'Teşekkür ederiz!'. Bu küçük özellik sadece Enterprise Sürüm alan
+        destekçilerimize özeldir.
+      manage_colors: Renk seçim seçeneklerini düzenle
+      instructions:
+        alternative_color: Yüksek vurgulu renk, genellikle ekrandaki önemli tuşlarda
+          kullanılır.
+        content_link_color: Bir çok bağlantının yazı tipi rengi.
+        primary_color: Ana renk.
+        primary_color_dark: Daha etkili efektler için ana renklerin koyu versiyonu.
+        header_bg_color: Başlığın arkaplan rengi.
+        header_item_bg_hover_color: Tıklanabilir başlık bileşenleri nin üzerine gelindiğinde
+          kullanılacak arka plan rengi.
+        header_item_font_color: Tıklanabilir başlık bileşenleri için yazı rengi.
+        header_item_font_hover_color: Tıklanabilir başlık bileşenleri nin üzerine
+          gelindiğinde kullanılacak yazı rengi.
+        header_border_bottom_color: Başlığının altında ince bir çizgi. Bu alanda herhangi
+          bir hat istemiyorsanız boş bırakın.
+        main_menu_bg_color: Sol taraftaki menünün arka plan rengi.
+    enterprise:
+      upgrade_to_ee: Enterprise Edition sürümüne yükseltme
+      add_token: Enterprise Editon versiyonu destek anahtarını yükleyin
+      replace_token: Geçerli destek anahtarını değiştirin
+      order: Enterprise Edition versiyonunu sipariş edin
+      paste: Enterprise Editon versiyonu destek anahtarını yapıştırın
+      required_for_feature: Bu özellik yalnızca bir etkin Enterprise Edition destek
+        anahtarı ile kullanılabilir.
+      enterprise_link: Daha fazla bilgi için burayı tıklatın.
+  announcements:
+    show_until: Son görüntülenme tarihi
+    is_active: şu an görüntüleniyor
+    is_inactive: şu an görüntülenmiyor
+  attribute_help_texts:
+    text_overview: Bu görünümde, öznitelikleri görünüm için özel yardım metinler oluşturabilirsiniz.
+      Tanımladığınızda, bu metinler, aidiyet öznitelik yanındaki Yardım simgesini
+      tıklayarak gösterilebilir.
+    label_plural: Öznitelik yardım metinleri
+    show_preview: Önizleme metni
+    add_new: Yardım metni ekle
+    edit: "%{attribute_caption} için Yardım metni Düzenle"
+  auth_sources:
+    index:
+      no_results_content_title: Şu anda bir doğrulama modu bulunmamakta.
+      no_results_content_text: Yeni bir doğrulama modu oluştur
+  boards:
+    show:
+      no_results_title_text: Şu anda panoda gösterilebilecek gönderi bulunmamakta.
+  custom_fields:
+    text_add_new_custom_field: 'Bir projeye yeni özel alanlar eklemeden önce onları
+      oluşturmalısınız.
+
+'
+    is_enabled_globally: Genel için etkinleştirildi
+    enabled_in_project: Projede etkin
+    contained_in_type: Türünün kapsadığı
+    confirm_destroy_option: Bir seçeneğin silinmesi, kullanıldığı her yerden (örneğin
+      iş paketleri) silinmesine neden olur. Silmek istediğinizden emin misiniz?
+    tab:
+      no_results_title_text: Şu anda özel bir alan bulunmamakta.
+      no_results_content_text: Yeni bir özel alan oluştur
+  deprecations:
+    old_timeline:
+      replacement: Bu zaman akışı modülü iş paketleri modülüyle birleşik etkileşimli
+        zaman akışı modülüyle değiştirilecektir.
+      removal: Bu modül OpenProject 8.0 ile kaldırılacak. Bu görünümün ayarları iş
+        paketleri görünümüne taşınmayacak.
+      further_information_before: Lütfen bir göz atın
+      link_name: yeni zaman akışına nasıl geçerilir.
+      further_information_after: ''
+    calendar:
+      removal: 'Lütfen dikkat: Bu modül OpenProject 8.0 ile kaldırılacak.'
+  groups:
+    index:
+      no_results_title_text: Şu anda hiç grup bulunmamakta.
+      no_results_content_text: Yeni bir grup oluştur
+    users:
+      no_results_title_text: Şu anda bu gruba kayıtlı kullanıcı bulunmamakta.
+    memberships:
+      no_results_title_text: Şu anda bu grubun bir parçası olan, bir proje bulunmamakta.
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Şu anda hiç renk bulunmamakta.
+      no_results_content_text: Yeni bir renk oluştur
+  projects:
+    index:
+      no_results_title_text: Şu anda hiç proje bulunmamakta
+      no_results_content_text: Yeni bir proje oluşturun
+    settings:
+      activities:
+        no_results_title_text: Şu anda hiç bir etkinlik mevcut değil.
+      boards:
+        no_results_title_text: Şu anda proje için bir pano mevcut değil.
+        no_results_content_text: Yeni bir pano oluştur
+      categories:
+        no_results_title_text: Şu anda hiç iş paketi kategorisi bulunmamakta.
+        no_results_content_text: Yeni bir iş paketi kategorisi oluştur
+      custom_fields:
+        no_results_title_text: Şu anda kullanılabilir özel alan bulunmamakta.
+      types:
+        no_results_title_text: Şu anda hiçbir tip mevcut değil.
+      versions:
+        no_results_title_text: Şu anda proje için versiyon mevcut değil.
+        no_results_content_text: Yeni bir versiyon oluştur
+  project_types:
+    index:
+      no_results_title_text: Hiç proje tipi bulunmamakta.
+      no_results_content_text: Yeni bir proje tipi mevcut
+  members:
+    index:
+      no_results_title_text: Bu projenini parçası olan mevcut bir üye bulunmamakta.
+      no_results_content_text: Projeye üye ekle
+  my:
+    access_token:
+      failed_to_reset_token: 'Erişim anahtarı sıfırlaması başarısız oldu: %{error}'
+      notice_reset_token: 'Yeni bir %{type} anahtar üretildi. Erişim anahtarınız:'
+      token_value_warning: 'Not: Bu anahtarı görebileceğiniz tek an bu, kopyaladığınıza
+        emin olun.'
+      no_results_title_text: Şu anda hiçbir erişim anahtarı mevcut değil.
+  news:
+    index:
+      no_results_title_text: Şu anda rapor edilecek bir haber yok.
+      no_results_content_text: Haber öğesi ekle
+    my_page:
+      no_results_title_text: Rapor için yeni birşey bulunamadı.
+  users:
+    memberships:
+      no_results_title_text: Bu kullanıcı şuan için bir proje üyesi değil.
+  reportings:
+    index:
+      no_results_title_text: Halen durum bildirimleri yok.
+      no_results_content_text: Durum bildirme ekleme
+  statuses:
+    index:
+      no_results_title_text: Şu anda çalışma paketi durumu yok.
+      no_results_content_text: Yeni durum ekle
+  types:
+    index:
+      no_results_title_text: Şu anda hiç tip yok.
+      no_results_content_text: Yeni tip oluştur
+    edit:
+      settings: Ayarlar
+      form_configuration: Formu yapılandırma
+      projects: Projeler
+      enabled_projects: Etkin projeler
+      add_group: Grup ekle
+      reset: Varsayılanlara geri yükle
+  versions:
+    overview:
+      no_results_title_text: Bu sürüme atadığım iş paketi bulunmuyor.
+  wiki:
+    no_results_title_text: Şu anda wiki sayfası bulunmuyor.
+    index:
+      no_results_content_text: Yeni wiki sayfası Ekle
+  work_flows:
+    index:
+      no_results_title_text: Sitemizde şuan iş akışı yok.
+  work_packages:
+    move:
+      unsupported_for_multiple_projects: Birden çok projeden iş paketi için toplu
+        taşıma / kopyalama desteklenmiyor
+    list_simple:
+      assigned:
+        no_results_title_text: Bana atanan iş paketi bulunmuyor.
+      reported:
+        no_results_title_text: Raporladığım iş paketi bulunmuyor.
+      responsible:
+        no_results_title_text: Sorumlusu olduğum iş paketi bulunmuyor.
+      watched:
+        no_results_title_text: İzlediğim iş paketi bulunmuyor.
+    summary:
+      reports:
+        category:
+          no_results_title_text: Şu anda kategori bulunmuyor.
+        assigned_to:
+          no_results_title_text: Bu projenini parçası olan mevcut bir üye bulunmamakta.
+        responsible:
+          no_results_title_text: Bu projenini parçası olan mevcut bir üye bulunmamakta.
+        author:
+          no_results_title_text: Bu projenini parçası olan mevcut bir üye bulunmamakta.
+        priority:
+          no_results_title_text: Şu anda öncelik bulunmuyor.
+        type:
+          no_results_title_text: Şu anda hiçbir tip mevcut değil.
+        version:
+          no_results_title_text: Şu anda sürüm bulunmuyor.
+  label_invitation: Davet
+  account:
+    delete: Hesabı sil
+    delete_confirmation: Hesabını silmek istediğinden emin misin?
+    deleted: Hesap başarıyla silindi
+    deletion_info:
+      data_consequences:
+        other: Kullanıcının oluşturduğu (ör. E-posta, tercihler, iş paketleri, wiki
+          girdileri) mümkün olduğunca silinen verilerden. Bununla birlikte, iş paketleri
+          ve wiki girdileri gibi veriler, diğer kullanıcıların çalışmalarını engellemeden
+          silinemez. Bu tür veriler, "Silinmiş kullanıcı" adı verilen bir hesaba yeniden
+          atanır. Her silinen hesabın verileri bu hesaba yeniden atandığından, kullanıcının
+          oluşturduğu verileri başka bir silinen hesabın verilerinden ayırt etmek
+          mümkün olmayacaktır.
+        self: Oluşturduğunuz verilerin (ör. E-posta, tercihler, iş paketleri, wiki
+          girdileri) mümkün olduğunca silinir. Bununla birlikte, iş paketleri ve wiki
+          girdileri gibi veriler, diğer kullanıcıların çalışmalarını engellemeden
+          silinemez. Bu tür veriler, "Silinmiş kullanıcı" adı verilen bir hesaba yeniden
+          atanır. Her silinen hesabın verileri bu hesaba yeniden atandığından, oluşturduğunuz
+          verileri başka bir silinen hesabın verilerinden ayırmanız mümkün olmayacaktır.
+      heading: Hesap silmek %{name}
+      info:
+        other: Kullanıcı hesabının silinmesi geri alınamaz bir eylemdir.
+        self: Kullanıcı hesabınızın silinmesi geri alınamaz bir eylemdir.
+      login_consequences:
+        other: Hesap sistemden silinir. Bu nedenle, artık kullanıcının geçerli kimlik
+          bilgileriyle oturum açması mümkün olmaz. O kişi, bu uygulamaya tekrar üye
+          olabilir.
+        self: Hesabınız sistemden silinir. Bu nedenle, artık geçerli kimlik bilgileriyle
+          oturum açmanız mümkün olmaz. Eğer bu uygulamaya tekrar üye olmak isterseniz.
+          uygulamanın izin verdiği yollarla bunu gerçekleştirebilirsiniz.
+      login_verification:
+        other: Silme işlemini doğrulamak için %{name} giriniz. Gönderildikten sonra,
+          şifrenizi onaylamanız istenecektir.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+    error_inactive_activation_by_mail: 'Hesabınız henüz etkinleştirilmedi. Hesabınızı
+      etkinleştirmek için size gönderilen e-posta bağlantısını tıklatın.
+
+'
+    error_inactive_manual_activation: 'Hesabınız henüz aktif değil. Lütfen bir yöneticinin
+      hesabınızı aktive etmesi için  bekleyin.
+
+'
+    error_self_registration_disabled: 'Bu sistemde kullanıcı kaydı yapılması devre
+      dışı bırakılmıştır. Lütfen bir yöneticiden sizin için bir hesap oluşturmasını
+      isteyin.
+
+'
+    login_with_auth_provider: veya varolan hesabınızı kullanarak oturum açın
+    signup_with_auth_provider: veya kullanarak kaydolun
+    auth_source_login: Hesabınızı aktifleştirmek için lütfen <em>%{login}</em> olarak
+      giriş yapın.
+    omniauth_login: Hesabınızı aktifleştirmek için lütfen giriş yapın.
+  actionview_instancetag_blank_option: Lütfen seçin
+  activerecord:
+    attributes:
+      announcements:
+        show_until: Son yayın tarihi
+      attachment:
+        downloads: İndirmeler
+        file: Dosya
+        filename: Dosya
+        filesize: Boyutu
+      attribute_help_text:
+        attribute_name: Özellik
+        help_text: Yardım metni
+      auth_source:
+        account: Hesap
+        attr_firstname: Ad özniteliği
+        attr_lastname: Soyad özniteliği
+        attr_login: Giriş özniteliği
+        attr_mail: E-posta özniteliği
+        base_dn: Temel DN
+        host: Sunucu
+        onthefly: Anında kullanıcı oluşturma
+        port: Port
+      changeset:
+        repository: Depo
+      comment:
+        commented: Yorumlananlar
+      custom_field:
+        default_value: Varsayılan değer
+        editable: Düzenlenebilir
+        field_format: Biçim
+        is_filter: Filtre olarak kullanılan
+        is_required: Gerekli
+        max_length: Maksimum uzunluk
+        min_length: Minimum uzunluk
+        multi_value: Çoklu seçime izin ver
+        possible_values: Olası değerler
+        regexp: Düzenli ifade
+        searchable: Aranabilir
+        visible: Görünür
+      custom_value:
+        value: Değer
+      enterprise_token:
+        starts_at: Beri geçerli
+        expires_at: Süre sonu: 
+        subscriber: Abone
+        encoded_token: Kurumsal Destek anahtarı
+      relation:
+        delay: Gecikme
+        from: İş paketi
+        to: İlgili iş paketi
+      status:
+        is_closed: İş paketi kapalı
+      journal:
+        notes: Notlar
+      member:
+        roles: Roller
+      project:
+        identifier: Tanımlayıcı
+        latest_activity_at: Son etkinlik zamanı
+        parent: Alt Proje
+        project_type: Proje türü
+        queries: Sorgular
+        responsible: Sorumlu
+        types: Türler
+        versions: Sürümler
+        work_packages: İş Paketleri
+      query:
+        column_names: Sütunlar
+        relations_to_type_column: "%{type} ile ilişkileri"
+        relations_of_type_column: "%{type} ilişkiler"
+        group_by: Sonuçları grupla
+        filters: Filtreler
+        timeline_labels: Zaman çizelgesi etiketleri
+      repository:
+        url: URL
+      role:
+        assignable: İşpaketleri bağlı projedeki rollere göre kullanıcı ve gruplara
+          atanabilir
+      time_entry:
+        activity: Etkinlik
+        hours: Saat
+        spent_on: Tarih
+        type: Tür
+      type:
+        is_in_roadmap: Yol haritasında
+        in_aggregation: Kümelenme
+        is_milestone: Kilometre taşı
+        color: Renk
+      user:
+        admin: Yönetici
+        auth_source: Kimlik doğrulama modu
+        current_password: Mevcut şifre
+        force_password_change: Sonraki oturum açma işleminde şifre değişikliğine zorla
+        language: Dil
+        last_login_on: Son giriş
+        mail_notification: E-posta bildirimleri
+        new_password: Yeni parola
+        password_confirmation: Onay
+      user_preference:
+        comments_sorting: Yorumları görüntüle
+        hide_mail: E-mail adresimi gizle
+        impaired: Erişilebilirlik modu
+        time_zone: Zaman dilimi
+        auto_hide_popups: Başarılı bildirimleri otomatik olarak gizle
+        warn_on_leaving_unsaved: İş paketlerinden ayrılırken kaydedilmemiş değişiklik
+          olduğunda beni uyar
+      version:
+        effective_date: Teslim tarihi
+        sharing: Paylaşım
+      wiki:
+        start_page: Başlangıç sayfası
+      wiki_content:
+        text: Metin
+      wiki_page:
+        parent_title: Üst sayfa
+        redirect_existing_links: Varolan bağlantıları yönlendirme
+      planning_element_type_color:
+        hexcode: Hex kodu
+      project_type:
+        position: Pozisyon
+        allows_association: ''
+        reported_project_statuses: ''
+      work_package:
+        begin_insertion: Eklemeye başlama
+        begin_deletion: Silme işleminin başlangıcı
+        done_ratio: İlerleme (%)
+        end_insertion: Ekleme işlemi bitti
+        end_deletion: Silme işlemi bitti
+        fixed_version: Sürüm
+        parent: Kaynak
+        parent_issue: Kaynak
+        parent_work_package: Kaynak
+        priority: Öncelik
+        progress: İlerleme (%)
+        responsible: Sorumlu
+        spent_hours: Harcanan zaman
+        spent_time: Harcanan zaman
+        subproject: Alt proje
+        time_entries: Günlük süresi
+        type: Tür
+        watcher: Takipçi
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
+    errors:
+      messages:
+        accepted: kabul edilmelidir.
+        blank: boş bırakılamaz.
+        cant_link_a_work_package_with_a_descendant: İş paketi alt görevlerinden birine
+          bağlanamaz.
+        circular_dependency: Bu ilişki döngüsel bağımlılık oluşturacak.
+        confirmation: "%{attribute} eşleşmiyor."
+        does_not_exist: mevcut değil.
+        empty: boş olamaz.
+        even: çift olmalı.
+        exclusion: ayrılmıştır.
+        file_too_large: çok büyük (en büyük boyut %{count} bayt).
+        greater_than: "%{count}'ten büyük olması gerekir."
+        greater_than_or_equal_to: "%{count} ya da daha büyük olması gerekir."
+        smaller_than_or_equal_to_max_length: en fazla uzunluğa eşit veya daha küçük
+          olmalıdır.
+        greater_than_start_date: başlangıç tarihinden daha büyük olması gerekir.
+        greater_than_or_equal_to_start_date: başlangıç tarihi ile aynı ya da daha
+          büyük olması gerekir.
+        inclusion: izin verilen değerlerden birine ayarlanmamış.
+        invalid: geçersizdir.
+        invalid_url: geçerli bir adres değil.
+        invalid_url_scheme: 'bu protokol desteklenmiyor (izin: %{allowed_schemes}).'
+        less_than_or_equal_to: "%{count} 'ten küçük veya bu değere eşit olmalıdır."
+        not_a_date: geçerli bir tarih değil.
+        not_a_datetime: geçerli bir zaman değil.
+        not_an_iso_date: 'geçerli bir tarih değil. Gerekli biçim:: YYYY-AA-GG.'
+        not_a_number: bir sayı değil.
+        not_an_integer: bir tamsayı değil.
+        not_same_project: aynı projeye ait değil.
+        odd: tek sayı olmalı.
+        taken: zaten alınmıştır.
+        too_long: çok uzun (en fazla %{count} karakterdir).
+        too_short: çok kısa (en az %{count} karakterdir).
+        wrong_length: uzunluğu yanlıştır (%{count} karakter olmalıdır).
+        after: "%{date} sonra olması gerekir."
+        after_or_equal_to: "%{date} için eşit veya sonra olmalı."
+        before: "%{date}'dan daha önce olması gerekir."
+        before_or_equal_to: "%{date}} tarihinden önce veya ona eşit olmalıdır."
+        could_not_be_copied: "(tamamen) kopyalanamadı."
+        regex_invalid: atanmış düzenli ifadeler ile doğrulanamadı.
+      models:
+        custom_field:
+          at_least_one_custom_option: En az bir seçeneğin uygun olması gerekir.
+        enterprise_token:
+          unreadable: okunamıyor. Desteklenen bir destek anahtarı olduğuna emin misiniz?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: Biçim desteklenmiyor.
+              invalid_values: Bir değeri geçerli değil.
+              id_filter_required: Bir 'id' süzgeç gereklidir.
+        project:
+          attributes:
+            types:
+              in_use_by_work_packages: hala iş paketleri tarafından kullanılmaktadır:%{types}
+        query:
+          attributes:
+            project:
+              error_not_found: bulunamadı
+            public:
+              error_unauthorized: "- Kullanıcı genel sorgular oluşturma iznine sahip
+                değil."
+          group_by_hierarchies_exclusive: grubu tarafından '%{group_by}' ile birlikte
+            kullanılamaz. Her ikisi de etkinleştiremezsiniz.
+          filters:
+            custom_fields:
+              inexistent: Hiçbir özel alan filtresi yok.
+              invalid: Verilen içerikteki özel alan filitresi geçerli değil.
+        relation:
+          typed_dag:
+            circular_dependency: İlişki, bir ilişki çemberi oluşturur.
+          attributes:
+            to:
+              error_not_found: çalışma paketinde `to` konum bulunamadı veya görünür
+                değil
+              error_readonly: "`to` ilişkisi olduğundan bağlantı değiştirilemez"
+            from:
+              error_not_found: iş paketi içerisinde `from` pozisyonu bulunamayor ya
+                da görünür değil
+              error_readonly: "`from` ilişkisi olduğundan bağlantı değiştirilemez"
+        repository:
+          not_available: SCM satıcısı yok
+          not_whitelisted: yapılandırmasına izin verilmiyor.
+          invalid_url: geçerli bir depo URL veya yol değil.
+          must_not_be_ssh: bir SSH url olmamalı.
+          no_directory: bir dizin değil.
+        work_package:
+          is_not_a_valid_target_for_time_entries: 'İş paketi #%{id} zaman girdilerini
+            yeniden atama için geçerli bir hedef değil.'
+          attributes:
+            due_date:
+              not_start_date: kilometre taşları için gerekli olmasına rağmen başlangıç
+                tarihi değil.
+            parent:
+              cannot_be_milestone: kilometre taşı olamaz.
+              cannot_be_in_another_project: başka bir projede olamaz.
+              not_a_valid_parent: geçersizdir.
+            start_date:
+              violates_relationships: yalnızca %{soonest_start} veya daha sonra iş
+                paketi üst bağımlılık ilişkilerini ihlal etmediğinde ayarlanabilir.
+            status_id:
+              status_transition_invalid: geçerli kullanıcının rolleri için eski durumdan
+                yeni duruma geçerli bir geçiş mevcut olmadığından geçersiz.
+            priority_id:
+              only_active_priorities_allowed: etkin olması gerekir.
+            category:
+              only_same_project_categories_allowed: Bir iş paketinin kategorisi iş
+                paketi ile aynı proje içinde olmalıdır.
+              does_not_exist: Belirtilen kategori yok.
+            estimated_hours:
+              only_values_greater_or_equal_zeroes_allowed: "> = 0 olmalıdır."
+        type:
+          attributes:
+            attribute_groups:
+              group_without_name: Adsız gruplara izin verilmez.
+              duplicate_group: "%{group} grup ismi birden fazla kullanıldı. Grup isimleri
+                eşsiz olmalıdır."
+              attribute_unknown: Geçersiz iş paketi özniteliği kullanıldı.
+        user:
+          attributes:
+            password:
+              weak: Aşağıdaki sınıfların karakterlerini içermelidir (en az% {min_count}
+                /% {all_count}):% {rules}. %{min_count} %{all_count} %{rules}
+              lowercase: küçük harf (örneğin 'a')
+              uppercase: büyük harf (örneğin 'A')
+              numeric: rakam (örneğin '1')
+              special: özel (örneğin '%')
+              reused:
+                one: daha önce kullanılmıştır. Son parolanızdan farklı birini seçiniz.
+                other: daha önce kullanılmıştır. Son %{count} parolanızdan farklı
+                  birini seçiniz.
+              match:
+                confirm: Yeni parolayı doğrulayın.
+                description: '"Parola onayı" ''yeni şifre'' alanı girişi aynı olmalıdır.'
+            status:
+              invalid_on_create: yeni kullanıcılar için geçerli bir durum değil.
+            auth_source:
+              error_not_found: bulunamadı
+        member:
+          principal_blank: Lütfen en az bir kullanıcı veya grup seçin.
+          role_blank: Lütfen en az bir rol seçin.
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
+      template:
+        body: 'Lütfen aşağıdaki alanları kontrol edin:'
+        header:
+          one: "%{model} kaydı 1 hatadan dolayı engellendi"
+          other: "%{model} kaydı %{count} hatadan dolayı engellendi"
+    models:
+      attachment: Dosya
+      attribute_help_text: Öznitelik Yardım metni
+      board: Forum
+      comment: Yorum
+      custom_field: Özel alan
+      group: Grup
+      category: Kategori
+      status: İş paketi durumu
+      member: Üye
+      news: Haberler
+      project: Proje
+      query: Özel sorgu
+      role:
+        one: Rol
+        other: Yetkiler
+      type: Tür
+      project_type: Proje türü
+      user: Kullanıcı
+      version: Sürüm
+      wiki: Viki
+      wiki_page: Viki sayfası
+      workflow: İş akışı
+      work_package: İş paketi
+  errors:
+    header_invalid_fields: 'Aşağıdaki alanları ile ilgili sorunlar oluştu:'
+    field_erroneous_label: |-
+      Bu alan geçersiz:% {full_errors}
+      Lütfen geçerli bir değer girin. %{full_errors}.
+  activity:
+    created: 'Oluşturuldu: %{title}'
+    updated: 'Güncellendi: %{title}'
+  attributes:
+    active: Aktif
+    assigned_to: Atanan
+    assignee: Atanan
+    attachments: Ekler
+    author: Sahibi
+    base: 'Genel Hata:'
+    blocks_ids: Engellenen iş paketlerinin ID'leri
+    category: Kategori
+    comment: Yorum
+    comments: Yorum
+    content: İçerik
+    created_at: Oluşturma tarihi
+    created_on: Oluşturma tarihi
+    custom_options: Olası değerler
+    custom_values: Özel alanlar
+    date: Tarih
+    default_columns: Varsayılan sütunlar
+    description: Açıklama
+    display_sums: Toplamları görüntüle
+    due_date: Teslim tarihi
+    estimated_hours: Tahmini süre
+    estimated_time: Tahmini süre
+    firstname: İsim
+    group: Grup
+    groups: Gruplar
+    groupname: Grup adı
+    id: ID
+    is_default: Varsayılan değer
+    is_for_all: Tüm projeler için
+    is_public: Herkese Açık
+    issue: İş paketi
+    lastname: Soyisim
+    login: Oturum aç
+    mail: Eposta
+    name: İsim
+    password: Parola
+    priority: Öncelik
+    project: Proje
+    responsible: Sorumlu
+    role: Rol
+    roles: Roller
+    start_date: Başlangıç tarihi
+    status: Durum
+    subject: Konu
+    summary: Özet
+    title: Başlık
+    type: Tür
+    updated_at: Güncelleme tarihi
+    updated_on: Güncelleme tarihi
+    user: Kullanıcı
+    version: Sürüm
+    work_package: İş paketi
+  button_add: Ekle
+  button_add_member: Üye ekle
+  button_add_watcher: Takipçi ekle
+  button_annotate: Atanan
+  button_apply: Uygula
+  button_archive: Arşivle
+  button_back: Geri
+  button_cancel: İptal
+  button_change: Değiştir
+  button_change_parent_page: Üst sayfayı değiştir
+  button_change_password: Parolayı değiştir
+  button_check_all: Tümünü işaretle
+  button_clear: Temizle
+  button_close: Kapat
+  button_collapse_all: Tümünü daralt
+  button_configure: Düzenle
+  button_copy: Kopyala
+  button_copy_and_follow: Kopyala ve takip et
+  button_create: Oluştur
+  button_create_and_continue: Oluştur ve devam et
+  button_delete: Sil
+  button_delete_watcher: "%{name} isimli takipçiyi sil"
+  button_download: İndir
+  button_duplicate: Çoğalt
+  button_edit: Düzenle
+  button_edit_associated_wikipage: 'İlişkili Wiki sayfasını düzenle: %{page_title}'
+  button_expand_all: Tümünü genişlet
+  button_filter: Filtre
+  button_generate: Üretmek
+  button_list: Listele
+  button_lock: Kilitle
+  button_log_time: Günlük süresi
+  button_login: Oturum aç
+  button_move: Taşı
+  button_move_and_follow: Taşı ve takip et
+  button_print: Yazdır
+  button_quote: Alıntı
+  button_remove: Kaldır
+  button_remove_widget: Widgetleri kaldır
+  button_rename: Yeniden adlandır
+  button_replace: Değiştir
+  button_reply: Yanıt
+  button_reset: Sıfırla
+  button_rollback: Bu sürüme geri al
+  button_save: Kaydet
+  button_save_back: Kaydet ve geri
+  button_show: Göster
+  button_sort: Sırala
+  button_submit: Gönder
+  button_test: Test et
+  button_unarchive: Arşivden çıkar
+  button_uncheck_all: Tüm işaretleri kaldır
+  button_unlock: Kilidi kaldır
+  button_unwatch: İzleme
+  button_update: Güncelle
+  button_upload: Yükle
+  button_view: Göster
+  button_watch: İzle
+  button_manage_menu_entry: Menü öğesini düzenle
+  button_add_menu_entry: Menü öğesi ekle
+  button_configure_menu_entry: Menü öğesini düzenle
+  button_delete_menu_entry: Menü öğesini sil
+  copy_project:
+    started: '"%{source_project_name}" adlı proje "%{target_project_name}" adlı yeni
+      bir projeye kopyalanmaya başladı. "%{target_project_name}" projesi hazır olduğunda
+      e-posta ile bilgilendirileceksiniz.'
+    failed: "%{source_project_name} project kopyalanamadı"
+    succeeded: "%{target_project_name} project oluşturuldu"
+    errors: Hata
+    project_custom_fields: Projedeki özel alanlar
+    text:
+      failed: '"%{source_project_name}" project "%{target_project_name}" projesine
+        kopyalanamadı.'
+      succeeded: '"%{source_project_name}" projesini "%{target_project_name}" dosyasına
+        kopyaladı.'
+  create_new_page: Viki sayfası
+  date:
+    abbr_day_names:
+    - Pzr
+    - Pzt
+    - Sal
+    - Çar
+    - Per
+    - Cum
+    - Cmt
+    abbr_month_names:
+    - 
+    - Oca
+    - Şub
+    - Mar
+    - Nis
+    - May
+    - Haz
+    - Tem
+    - Ağu
+    - Eyl
+    - Eki
+    - Kas
+    - Ara
+    day_names:
+    - Pazar
+    - Pazartesi
+    - Salı
+    - Çarşamba
+    - Perşembe
+    - Cuma
+    - Cumartesi
+    formats:
+      default: "%m/%d/%Y"
+      long: "%B %d, %Y"
+      short: "%b %d"
+    month_names:
+    - 
+    - Ocak
+    - Şubat
+    - Mart
+    - Nisan
+    - May
+    - Haziran
+    - Temmuz
+    - Ağustos
+    - Eylül
+    - Ekim
+    - Kasım
+    - Aralık
+    order:
+    - ":yıl"
+    - :ay
+    - ":gün"
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: Yaklaşık 1 saat
+        other: yaklaşık %{count} saat
+      about_x_months:
+        one: yaklaşık 1 ay
+        other: yaklaşık %{count} ay
+      about_x_years:
+        one: yaklaşık 1 yıl
+        other: yaklaşık %{count} yıl
+      almost_x_years:
+        one: neredeyse 1 yıl
+        other: neredeyse %{count} yıl
+      half_a_minute: yarım dakika
+      less_than_x_minutes:
+        one: bir dakikadan az
+        other: "%{count} dakikadan az"
+      less_than_x_seconds:
+        one: 1 saniyeden az
+        other: "%{count} saniyeden az"
+      over_x_years:
+        one: 1 yıldan uzun süre
+        other: "%{count} yıldan uzun süre"
+      x_days:
+        one: 1 gün
+        other: "%{count} gün"
+      x_minutes:
+        one: 1 dakika
+        other: "%{count} dakika"
+      x_months:
+        one: 1 ay
+        other: "%{count} ay"
+      x_seconds:
+        one: 1 saniye
+        other: "%{count} saniye"
+    units:
+      hour:
+        one: saat
+        other: saat
+  default_activity_development: Geliştirme
+  default_activity_management: Yönetim
+  default_activity_other: Diğer
+  default_activity_specification: Özellik
+  default_activity_support: Destek
+  default_activity_testing: Deneme
+  default_color_black: Siyah
+  default_color_blue: Mavi
+  default_color_blue_dark: Mavi (koyu)
+  default_color_blue_light: Mavi (açık)
+  default_color_green_dark: Yeşil (koyu)
+  default_color_green_light: Yeşil (açık)
+  default_color_grey_dark: Gri (koyu)
+  default_color_grey_light: Gri (açık)
+  default_color_grey: Gri
+  default_color_magenta: Eflatun
+  default_color_orange: Turuncu
+  default_color_red: Kırmızı
+  default_color_white: Beyaz
+  default_color_yellow: Sarı
+  default_status_closed: Kapalı
+  default_status_confirmed: Onaylandı
+  default_status_developed: Geliştirilen
+  default_status_in_development: Geliştiriliyor
+  default_status_in_progress: Devam eden
+  default_status_in_specification: Şartname
+  default_status_in_testing: Test ediliyor
+  default_status_new: Yeni
+  default_status_on_hold: Beklemede
+  default_status_rejected: Reddedildi
+  default_status_scheduled: Zamanlandı
+  default_status_specified: Belirtildi
+  default_status_tested: Test edildi
+  default_status_test_failed: Test başarısız oldu
+  default_status_to_be_scheduled: Zamanlanacak
+  default_priority_low: Düşük
+  default_priority_normal: Normal
+  default_priority_high: Yüksek
+  default_priority_immediate: Acil
+  default_project_type_scrum: Scrum takımı
+  default_project_type_standard: Standart proje
+  default_reported_project_status_green: Yeşil
+  default_reported_project_status_amber: Kehribar
+  default_reported_project_status_red: Kırmızı
+  default_role_anonymous: Anonim
+  default_role_developer: Geliştirici
+  default_role_project_admin: Proje yöneticisi
+  default_role_non_member: Üye Değil
+  default_role_reader: Okuyucu
+  default_role_member: Üye
+  default_type: İş Paketi
+  default_type_bug: Hata
+  default_type_deliverable: Teslim edilebilir
+  default_type_epic: Epik
+  default_type_feature: Özellik
+  default_type_milestone: Kilometre taşı
+  default_type_phase: Aşama
+  default_type_task: Görev
+  default_type_user_story: Kullanıcı hikayesi
+  description_active: Aktif?
+  description_attachment_toggle: Ekleri göster/gizle
+  description_autocomplete: 'Bu alan, otomatik tamamla''yı kullanır. Bir iş paket
+    başlığı yazarken olası aday listesini alırsınız. Bir oku kullanarak ve ok tuşu
+    aşağı ve sekmesini seçin seçin veya girin. Ayrıca doğrudan iş paketi numarasını
+    girebilirsiniz.
+
+'
+  description_available_columns: Kullanılabilir sütunlar
+  description_choose_project: Projeler
+  description_compare_from: Karşılaştır (kaynak)
+  description_compare_to: Karşılaştır (hedef)
+  description_current_position: 'Buradasınız:'
+  description_date_from: Başlangıç tarihini girin
+  description_date_range_interval: Başlangıç ​​ve bitiş tarihini seçerek aralık seçin
+  description_date_range_list: Listeden tarih aralığını seçin
+  description_date_to: Bitiş tarihini girin
+  description_enter_number: Numara girin
+  description_enter_text: Metin girin
+  description_filter: Filtre
+  description_filter_toggle: Filtreyi göster/gizle
+  description_category_reassign: Kategori seçin
+  description_message_content: Mesaj içeriği
+  description_my_project: Üyesiniz
+  description_notes: Notlar
+  description_parent_work_package: Mevcut çalışan çalışma paketi
+  description_project_scope: Arama kapsamı
+  description_query_sort_criteria_attribute: Sıralama ölçütü
+  description_query_sort_criteria_direction: Sıralama yönü
+  description_search: Arama alanı
+  description_select_work_package: İş paketi seçin
+  description_selected_columns: Seçili Sütunlar
+  description_sub_work_package: Mevcut alt iş paketi
+  description_toc_toggle: İçeriği göster/gizle
+  description_wiki_subpages_reassign: Yeni üst sayfa seç
+  direction: soldan sağa
+  ee:
+    upsale:
+      form_configuration:
+        description: 'Form yapılandırmasını bu ek özelliklerle kullanın:'
+        add_groups: Yeni öznitelik grubu ekleyin
+        rename_groups: Öznitelik grubunun adını değiştirin
+      project_filters:
+        description_html: Özel alanları filtrelemek ve sıralamak için %{link}} sayfasına
+          geçin
+  enumeration_activities: Aktiviteler (zaman izleme)
+  enumeration_work_package_priorities: İş paketi öncelikleri
+  enumeration_system_activity: Sistem Etkinliği
+  enumeration_reported_project_statuses: Bildirilen proje durumları
+  error_auth_source_sso_failed: Çoklu oturum açma (SSO) için kullanıcı '%{value}'
+    başarısız oldu
+  error_can_not_archive_project: Bu proje arşivlenemez
+  error_can_not_delete_entry: Girdi silinemiyor
+  error_can_not_delete_custom_field: Özel alan silinemiyor
+  error_can_not_delete_type: Bu tür iş paketleri içeriyor ve silinemez.
+  error_can_not_delete_standard_type: Standart türler silinemez.
+  error_can_not_invite_user: Kullanıcı daveti gönderemedi.
+  error_can_not_remove_role: Bu rol kullanımda ve silinemez.
+  error_can_not_reopen_work_package_on_closed_version: Kapalı bir sürüme atanan bir
+    iş paketi yeniden açılamaz
+  error_check_user_and_role: Lütfen bir kullanıcı ve bir rol seçin.
+  error_cookie_missing: OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi
+    için, tarayıcınızda çerezlere izin verildiğine emin olun.
+  error_custom_option_not_found: Seçenek yok.
+  error_failed_to_delete_entry: Girdi silinemedi.
+  error_invalid_group_by: "%{value} ya göre guplandırılamadı"
+  error_invalid_query_column: 'Geçersiz sorgu sütunu: %{value}'
+  error_invalid_sort_criterion: 'Sütuna göre sıralama yapamazsınız: %{value}'
+  error_pdf_export_too_many_columns: PDF Dışa Aktarma için çok fazla sütun seçili.
+    Sütun sayısını azaltın.
+  error_token_authenticity: Siteler arası sahte istek belirteci doğrulaması yapılamadı.
+  error_work_package_done_ratios_not_updated: İş tamamlanma oranları güncellenmedi.
+  error_work_package_not_found_in_project: Iş paketi bulunamadı veya bu projeye ait
+    değil
+  error_must_be_project_member: projesi üyesi olmalıdır
+  error_no_default_work_package_status: Varsayılan iş paketi durumu tanımlanmadı.
+    Lütfen yapılandırmanızı kontrol edin ("Yönetim -> İş paketi durumu " na gidin).
+  error_no_type_in_project: Bu proje ile ilişkili bir tür yok. Lütfen Proje ayarlarını
+    kontrol edin.
+  error_omniauth_registration_timed_out: Harici bir kimlik doğrulama sağlayıcısı aracılığıyla
+    kayıt zaman aşımına uğradı. Lütfen tekrar deneyin.
+  error_scm_command_failed: Depoya erişmeye çalışılırken bir hata oluştu:%{value}
+  error_scm_not_found: Depoda girme veya düzeltme bulunamadı.
+  error_unable_delete_status: İş paketi durumu en az bir tarafından kullanılır beri
+    silinemez iş paketi.
+  error_unable_delete_default_status: Varsayılan iş paketi durumu silinemiyor. Mevcut
+    bir silmeden önce lütfen başka bir varsayılan iş paketi durumu seçin.
+  error_unable_to_connect: Bağlanma başarısız (%{value})
+  error_unable_delete_wiki: Wiki sayfası silinemedi.
+  error_unable_update_wiki: Wiki sayfası güncelleştirilemiyor.
+  error_workflow_copy_source: Lütfen kaynak türü veya rolü seçin
+  error_workflow_copy_target: Lütfen kaynak tür(leri) veya rol(leri) seçin
+  error_menu_item_not_created: Menü öğesini eklenemez
+  error_menu_item_not_saved: Menü öğesi kaydedilemez
+  error_wiki_root_menu_item_conflict: 'Var olan menü üyesi "%{existing_caption}" (%{existing_identifier})
+    ile çakıştığından, "%{old_name}" adı "%{new_name}" olarak değiştirilemiyor.
+
+'
+  error_external_authentication_failed: Harici doğrulama sırasında bir hata oluştu.
+    Lütfen tekrar deneyin.
+  events:
+    project: Proje düzenlendi
+    changeset: Değişiklikler düzenlendi
+    message: Mesaj düzenlendi
+    news: Haberler
+    reply: Yanıtlandı
+    time_entry: Timelog düzenlendi
+    wiki_page: Viki sayfası düzenlendi
+    work_package_closed: İş Paketi kapandı
+    work_package_edit: İş Paketi düzenlendi
+    work_package_note: İk Paketi notu eklendi
+  export:
+    format:
+      atom: Atom
+      csv: CSV
+      pdf: PDF
+      pdf_with_descriptions: Açıklamalı PDF
+  general_csv_decimal_separator: "."
+  general_csv_encoding: UTF-8
+  general_csv_separator: ","
+  general_first_day_of_week: '7'
+  general_lang_name: Türkçe
+  general_pdf_encoding: ISO-8859-1
+  general_text_no: hayır
+  general_text_yes: evet
+  general_text_No: Hayır
+  general_text_Yes: Evet
+  gui_validation_error: 1 hata
+  gui_validation_error_plural: "%{count} hata"
+  homescreen:
+    additional:
+      projects: Bu bölümdeki görülebilir en yeni projeler.
+      users: Bu bölümdeki kaydolan en son kullanıcılar.
+    blocks:
+      community: OpenProject topluluğu
+      upsale:
+        become_hero: Kahraman olun!
+        title: Enterprise Edition sürümüne yükseltme
+        description: Enterprise Edition ile verimliliğinizi artırın
+        more_info: Daha fazla bilgi
+        additional_features: Ek güçlü premium özellikler
+        professional_support: OpenProject uzmanlarından profesyonel destek
+        you_contribute: Geliştiricilerin faturalarını da ödemesi gerekiyor. Enterprise
+          Edition ile Açık-Kaynak topluluğu çalışmalarına küçük bir katkı yapabilirsiniz.
+    links:
+      upgrade_enterprise_edition: Enterprise Edition sürümüne yükseltme
+      user_guides: Kullanıcı rehberleri
+      faq: SSS
+      glossary: Terimler Sözlüğü
+      shortcuts: Kısayollar
+      forums: Forumlar
+      blog: OpenProject blog
+      boards: Toplum Forumu
+      newsletter: Güvenlik uyarıları / haber bülteni
+  links:
+    configuration_guide: Configuration guide
+  instructions_after_registration: "%{signin} düğmesini tıklayarak hesabınız etkinleştirildiğinde
+    hemen oturum açabilirsiniz."
+  instructions_after_logout: "%{signin} düğmesini tıklayarak tekrar oturum açabilirsiniz."
+  instructions_after_error: "%{signin} düğmesini tıklayarak tekrar oturum açmayı deneyebilirsiniz.
+    Hata devam ederse, yöneticinizden yardım isteyin."
+  my_account:
+    access_tokens:
+      no_results:
+        title: Görüntülenecek hiçbir erişim izni yok
+        description: Hepsi de engellendi. Yönetim menüsünden yeniden etkinleştirilebilirler.
+      access_token: Erişim simgesi
+      headers:
+        action: Eylem
+        expiration: Bitiş tarihi
+      indefinite_expiration: Hiçbir zaman
+  label_accessibility: Erişilebilirlik
+  label_account: Hesap
+  label_active: Aktif
+  label_activate_user: Aktif kullanıcı
+  label_active_in_new_projects: Yeni projelerde etkin
+  label_activity: Etkinlik
+  label_add_edit_translations: Ekle ve çevirileri düzenle
+  label_add_another_file: Başka bir dosya ekle
+  label_add_columns: Seçilen sütunları ekle
+  label_add_note: Not ekle
+  label_add_related_work_packages: İlgili çalışma paketleri ekle
+  label_add_subtask: Alt görev ekle
+  label_added: eklendi
+  label_added_time_by: "%{author} tarafından %{age} önce eklendi"
+  label_additional_workflow_transitions_for_assignee: Kullanıcı yaratan olduğu zaman
+    tanınacak ek yetkiler
+  label_additional_workflow_transitions_for_author: Kullanıcı yazar olduğunda izin
+    verilen ek geçişler
+  label_administration: Yönetim
+  label_advanced_settings: Gelişmiş ayarlar
+  label_age: Yaş
+  label_ago: gün önce
+  label_all: tüm
+  label_all_time: her zaman
+  label_all_words: Bütün kelimeler
+  label_always_visible: Her zaman görüntüle
+  label_announcement: Duyuru
+  label_and_its_subprojects: "%{value} ve onun alt projeler"
+  label_api_access_key: API erişim anahtarı
+  label_api_access_key_created_on: API erişim anahtarı %{value} önce oluşturuldu
+  label_api_access_key_type: API
+  label_applied_status: Uygulanan statü
+  label_archive_project: Projeyi arşivle
+  label_ascending: Azalan
+  label_assigned_to_me_work_packages: Bana atanan iş paketleri
+  label_associated_revisions: İlişkili sürümler
+  label_attachment_delete: Dosya sil
+  label_attachment_new: Yeni dosya
+  label_attachment_plural: Dosyalar
+  label_attribute: Özellik
+  label_attribute_plural: Özellikler
+  label_auth_source: Kimlik doğrulama modu
+  label_auth_source_new: Yeni kimlik doğrulama modu
+  label_auth_source_plural: Kimlik doğrulama modları
+  label_authentication: Kimlik Doğrulaması
+  label_available_project_work_package_categories: Uygun iş paketi kategorileri
+  label_available_project_boards: Uygun panolar
+  label_available_project_versions: Uygun sürümler
+  label_available_project_repositories: Uygun depolar
+  label_api_documentation: API dökümantasyonu
+  label_between: arasında
+  label_blocked_by: tarafından engellendi
+  label_blocks: bloklar
+  label_blog: Blog
+  label_board_locked: Kilitlendi
+  label_board_new: Yeni forum
+  label_board_plural: Forumlar
+  label_board_sticky: Sabit
+  label_boolean: Boole değeri
+  label_branch: Dal
+  label_browse: Gözat
+  label_bulk_edit_selected_work_packages: Seçilen çalışma paketlerini toplu halde
+    düzenle
+  label_calendar: Takvim
+  label_calendar_show: Takvimi Göster
+  label_category: Kategori
+  label_wiki_menu_item: Viki menü öğesi
+  label_select_main_menu_item: Yeni ana menü öğesi seç
+  label_select_project: Bir proje seçin
+  label_required_disk_storage: Gerekli disk alanı
+  label_send_invitation: Davet gönder
+  label_change_plural: Değişiklikler
+  label_change_properties: Özellikleri değiştir
+  label_change_status: Durumu değiştir
+  label_change_status_of_user: "#{username} durumunu değiştir"
+  label_change_view_all: Tüm değişiklikleri gör
+  label_changes_details: Tüm değişikliklerin detayları
+  label_changeset: Değişiklik kümesi
+  label_changeset_id: Değişiklik kümesi kimliği
+  label_changeset_plural: Değişiklik Listeleri
+  label_checked: kontrol
+  label_check_uncheck_all_in_column: Sütunundaki tümü işaretle / işaretini kaldır
+  label_check_uncheck_all_in_row: Sıralı tümü işaretle / işaretini kaldır
+  label_child_element: Alt eleman
+  label_chronological_order: Tarih sırasına göre
+  label_close_versions: Tamamlanmış sürümleri kapat
+  label_closed_work_packages: kapalı
+  label_collapse: Daralt
+  label_configuration: konfigürasyon
+  label_comment_add: Yorum ekle
+  label_comment_added: Yorum eklendi
+  label_comment_delete: Yorumları sil
+  label_comment_plural: Yorumlar
+  label_commits_per_author: Kişi başı katkı
+  label_commits_per_month: Ay başı katkı
+  label_confirmation: Onay
+  label_contains: içerir
+  label_content: İçerik
+  label_copied: kopyalandı
+  label_copy_to_clipboard: Panoya kopyala
+  label_copy_same_as_target: Hedefle aynı
+  label_copy_source: Kaynak
+  label_copy_target: Hedef
+  label_copy_workflow_from: İş akışı kopyala
+  label_copy_project: Projeyi kopyala
+  label_core_version: Çekirdek sürümü
+  label_current_status: Mevcut durum
+  label_current_version: Mevcut sürüm
+  label_custom_field_add_no_type: Bu alanı bir iş paketi türüne ekleyin
+  label_custom_field_new: Yeni özel alan
+  label_custom_field_plural: Özel alanlar
+  label_custom_field_default_type: Boş tür
+  label_custom_style: Tasarım
+  label_date: Tarih
+  label_date_and_time: Tarih ve zaman
+  label_date_from: Başlangıç
+  label_date_from_to: "%{start} tarihinden %{end} tarihine"
+  label_date_range: Tarih aralığı
+  label_date_to: Bitiş
+  label_day_plural: gün
+  label_default: Varsayılan
+  label_delete_user: Kullanıcıyı sil
+  label_delete_project: Projeyi sil
+  label_deleted: silindi
+  label_deleted_custom_field: "(özel alan silindi)"
+  label_descending: Azalan
+  label_details: Detaylar
+  label_development_roadmap: Geliştirme yol haritası
+  label_diff: fark
+  label_diff_inline: satır içi
+  label_diff_side_by_side: yan yana
+  label_disabled: devre dışı
+  label_display: Göster
+  label_display_per_page: 'Sayfa başına: %{value}'
+  label_display_used_statuses_only: Yalnızca bu tür tarafından kullanılan durumları
+    görüntüle
+  label_download: "%{count} indirme"
+  label_download_plural: "%{count} indirme"
+  label_downloads_abbr: D/L
+  label_duplicated_by: yineleyen
+  label_duplicate: kopya
+  label_duplicates: Çoğalt
+  label_edit: Düzenle
+  label_enable_multi_select: Çoklu seçimi etkinleştir
+  label_enabled_project_custom_fields: Etkin özel alanlar
+  label_enabled_project_types: Etkin türler
+  label_enabled_project_modules: Aktif modüller
+  label_enabled_project_activities: Etkin zaman izleme etkinlikleri
+  label_end_to_end: uçtan uca
+  label_end_to_start: başlamak için bitmek
+  label_enumeration_new: Yeni numaralandırma değeri
+  label_enumeration_value: Numaralandırma değeri
+  label_enumerations: Sayım Listesi
+  label_enterprise: Kurumsal
+  label_enterprise_edition: Kurumsal Sürüm
+  label_environment: Ortam
+  label_estimates_and_time: Tahminler & zaman
+  label_equals: şuysa
+  label_example: Örnek
+  label_export_to: 'Ayrıca şu adreste bulunabilir:'
+  label_f_hour: "%{value} saat"
+  label_f_hour_plural: "%{value} saat"
+  label_feed_plural: Akışlar
+  label_feeds_access_key: RSS erişim anahtarı
+  label_feeds_access_key_created_on: RSS erişim anahtarı %{value} önce oluşturuldu
+  label_feeds_access_key_type: RSS
+  label_file_added: Dosya eklendi
+  label_file_plural: Dosyalar
+  label_filter_add: Filtre ekle
+  label_filter_plural: Filtreler
+  label_filters_toggle: Filtreleri göster / gizle
+  label_float: Yüzdür
+  label_folder: Klasör
+  label_follows: şu
+  label_force_user_language_to_default: Varsayılan olmayan izin verildi bir dil olan
+    kullanıcı dilini ayarlama
+  label_form_configuration: Formu yapılandırma
+  label_general: Genel
+  label_generate_key: Anahtar oluştur
+  label_git_path: ".git dizininin yolu"
+  label_greater_or_equal: ">="
+  label_group_by: Grupla
+  label_group_new: Yeni grup
+  label_group: Grup
+  label_group_plural: Gruplar
+  label_help: Yardım
+  label_here: buraya
+  label_hide: Gizle
+  label_history: Geçmiş
+  label_home: Ana sayfa
+  label_in: şurada
+  label_in_less_than: daha azdır
+  label_in_more_than: daha fazla
+  label_inactive: Etkin değil
+  label_incoming_emails: Gelen e-postalar
+  label_includes: içerir
+  label_index_by_date: Tarihe göre diz
+  label_index_by_title: Başlığa göre dizin
+  label_information: Bilgi
+  label_information_plural: Bilgi
+  label_integer: Tamsayı
+  label_internal: Dahili
+  label_invite_user: Kullanıcı davet et
+  label_show_hide: Göster/gizle
+  label_show_all_registered_users: Tüm kayıtlı kullanıcıları göster
+  label_journal: Günlük
+  label_journal_diff: Açıklama Karşılaştırması
+  label_language: Dil
+  label_jump_to_a_project: Projeye git...
+  label_language_based: Kullanıcının dili tabanlı
+  label_last_activity: Son Aktivite
+  label_last_change_on: Son değişiklik
+  label_last_changes: son %{count} değişiklik
+  label_last_login: Son giriş
+  label_last_month: geçen ay
+  label_last_n_days: son %{count} gün
+  label_last_week: geçen hafta
+  label_latest_revision: En son gözden geçirim
+  label_latest_revision_plural: En son gözden geçirimler
+  label_ldap_authentication: LDAP yetkilendirmesi
+  label_less_or_equal: "<="
+  label_less_than_ago: bir haftadan kısa bir süre önce
+  label_list: Listele
+  label_loading: Yükleniyor...
+  label_lock_user: Kullanıcıyı kilitle
+  label_logged_as: Giriş yapılan kullanıcı
+  label_login: Oturum aç
+  label_custom_logo: Özel logo
+  label_custom_favicon: Özel favicon
+  label_custom_touch_icon: Özel dokunma simgesi
+  label_logout: Oturumu kapat
+  label_main_menu: Yan menü
+  label_manage_groups: Grupları yönet
+  label_managed_repositories_vendor: Yönetilen% {satıcı} depoları %{vendor}
+  label_max_size: Maksimum boyut
+  label_me: ben
+  label_member_new: Yeni Üye
+  label_member_plural: Üyeler
+  label_view_all_members: Tüm üyeleri göster
+  label_menu_item_name: Menü öğesinin ismi
+  label_message: İleti
+  label_message_last: Son mesaj
+  label_message_new: Yeni mesaj
+  label_message_plural: Mesajlar
+  label_message_posted: Mesaj eklendi
+  label_min_max_length: En az - En çok uzunluk
+  label_minute_plural: dakika
+  label_missing_api_access_key: Eksik API erişim anahtarı
+  label_missing_feeds_access_key: Eksik RSS erişim anahtarı
+  label_modification: "%{count} değişim"
+  label_modified: değiştirildi
+  label_module_plural: Modüller
+  label_modules: Modüller
+  label_month: Ay
+  label_months_from: aydan itibaren
+  label_more: Fazlası
+  label_more_than_ago: günler önce
+  label_move_work_package: İş paketini taşı
+  label_my_account: Hesabım
+  label_my_account_data: Hesap verilerim
+  label_my_page: Benim sayfam
+  label_my_page_block: Sayfa bloğum
+  label_my_projects: Projelerim
+  label_my_queries: Özel sorgularım
+  label_new: Yeni
+  label_new_statuses_allowed: Yeni durumlara izin verildi
+  label_news_added: Haberler eklendi
+  label_news_comment_added: Yorum bir haberlere eklendi
+  label_news_latest: En son haberler
+  label_news_new: Haber ekle
+  label_news_edit: Haber düzenle
+  label_news_plural: Haberler
+  label_news_view_all: Tüm haberleri gör
+  label_next: Sonraki
+  label_next_week: Gelecek hafta
+  label_no_change_option: "(Değişiklik yok)"
+  label_no_data: Görüntülenecek veri yok
+  label_nothing_display: Görüntülenecek bir şey yok
+  label_nobody: hiçkimse
+  label_none: hiçbiri
+  label_none_parentheses: "(yok)"
+  label_not_contains: içermiyor
+  label_not_equals: değildir
+  label_notify_member_plural: Eposta güncellemeleri
+  label_on: açık
+  label_open_menu: Menüyü Aç
+  label_open_work_packages: açık
+  label_open_work_packages_plural: açık
+  label_optional_description: Açıklama
+  label_options: Ayarlar
+  label_other: Diğer
+  label_overall_activity: Genel etkinlik
+  label_overall_spent_time: Genel harcanan zaman
+  label_overview: Genel Bakış
+  label_part_of: parçası
+  label_password_lost: Parolanızı mı unuttunuz?
+  label_password_rule_lowercase: Küçük harf
+  label_password_rule_numeric: Sayısal karakterler
+  label_password_rule_special: Özel karakterler
+  label_password_rule_uppercase: Büyük harf
+  label_path_encoding: Yol kodlaması
+  label_pdf_with_descriptions: PDF ile açıklamaları
+  label_per_page: Sayfa başına
+  label_people: Kişiler
+  label_permissions: İzinler
+  label_permissions_report: İzin raporu
+  label_personalize_page: Bu sayfayı kişiselleştir
+  label_planning: Planlanıyor
+  label_please_login: Lütfen giriş yapın
+  label_plugins: Eklentiler
+  label_precedes: ilerlettiği
+  label_preferences: Seçenekler
+  label_preview: Ön İzleme
+  label_previous: Önceki
+  label_previous_week: Geçen Hafta
+  label_principal_invite_via_email: " veya yeni kullanıcılar e-posta ile davet et"
+  label_principal_search: Mevcut kullanıcıları veya grupları ekle
+  label_product_version: Ürün sürümü
+  label_professional_support: Profesyonel destek
+  label_profile: Profil
+  label_project_all: Tüm Projeler
+  label_project_count: Toplam proje sayısı
+  label_project_copy_notifications: Proje kopyalaması esnasında bilgilendirme e-postaları
+    gönder
+  label_project_latest: Son projeler
+  label_project_default_type: Boş türe izin ver
+  label_project_hierarchy: Proje hiyerarşisi
+  label_project_new: Yeni proje
+  label_project_plural: Projeler
+  label_project_settings: Proje Ayarları
+  label_projects_storage_information: "%{count} proje %{storage} disk alanı kullanıyor"
+  label_project_view_all: Tüm projeleri görüntüle
+  label_project_show_details: Proje detaylarını göster
+  label_project_hide_details: Proje detaylarını gizle
+  label_public_projects: Genel Projeler
+  label_query_new: Yeni Sorgu
+  label_query_plural: Özel Sorgular
+  label_query_menu_item: Sorgu menü öğesi
+  label_read: Oku...
+  label_register: Yeni hesap oluştur
+  label_register_with_developer: Geliştirici olarak kayıt ol
+  label_registered_on: Kayıt tarihi
+  label_registration_activation_by_email: e-posta ile hesap etkinleştirme
+  label_registration_automatic_activation: otomatik hesap etkinleştirme
+  label_registration_manual_activation: elle hesap etkinleştirme
+  label_related_work_packages: İlgili iş paketi
+  label_relates: ile ilişkili
+  label_relates_to: ile ilişkili
+  label_relation_delete: İlişkiyi sil
+  label_relation_new: Yeni ilişki
+  label_release_notes: Sürüm notları
+  label_remove_columns: Seçili sütunları sil
+  label_renamed: yeniden adlandırıldı
+  label_reply_plural: Yanıtlar
+  label_report: Rapor
+  label_report_bug: Hata bildir
+  label_report_plural: Raporlar
+  label_reported_work_packages: Raporlanmış iş paketleri
+  label_reporting: Raporlama
+  label_reporting_plural: Raporlamalar
+  label_repository: Depo
+  label_repository_root: Depo kökü
+  label_repository_plural: Depolar
+  label_required: gerekli
+  label_requires: gerektirir
+  label_responsible_for_work_packages: Benim sorumlu olduğum iş paketleri
+  label_result_plural: Sonuçlar
+  label_reverse_chronological_order: Ters tarih sırasına göre
+  label_revision: Gözden geçirme
+  label_revision_id: Düzeltme %{value}
+  label_revision_plural: Düzeltmeler
+  label_roadmap: Yol haritası
+  label_roadmap_edit: "%{name} yol haritasını düzenle"
+  label_roadmap_due_in: "%{value} Nedeniyle"
+  label_roadmap_no_work_packages: Bu sürüm için iş paketi yok
+  label_roadmap_overdue: "%{value} late"
+  label_role_and_permissions: Roller ve izinler
+  label_role_new: Yeni rol
+  label_role_plural: Roller
+  label_role_search: Yeni üyelere rol atama
+  label_scm: YKM
+  label_search: Ara
+  label_search_titles_only: Sadece başlıkları ara
+  label_send_information: Hesap bilgilerini kullanıcıya gönder
+  label_send_test_email: Deneme e-postası gönder
+  label_settings: Ayarlar
+  label_system_settings: Sistem ayarları
+  label_show_completed_versions: Tamamlanmış sürümleri göster
+  label_sort: Sırala
+  label_sort_by: "%{value} ile sırala"
+  label_sorted_by: "%{value} göre sıralandı"
+  label_sort_higher: Yukarı taşı
+  label_sort_highest: En üste taşı
+  label_sort_lower: Aşağı taşı
+  label_sort_lowest: En alta taşı
+  label_spent_time: Harcanan zaman
+  label_start_to_end: baştan sona
+  label_start_to_start: baştan başa
+  label_statistics: İstatistikler
+  label_status: Durum
+  label_status_updated: İş paketi durumu güncellendi
+  label_stay_logged_in: Oturum açık kalsın
+  label_storage_free_space: Kalan disk alanı
+  label_storage_used_space: Kullanışmış disk alanı
+  label_storage_group: Depolama dosya sistemi% {tanımlayıcı} %{identifier}
+  label_storage_for: Için depolama alanını kapsar
+  label_string: Metin
+  label_subproject: Alt proje
+  label_subproject_new: Yeni alt proje
+  label_subproject_plural: Alt Projeler
+  label_subtask_plural: Alt görevler
+  label_summary: Özet
+  label_system: Sistem
+  label_system_storage: Depolama bilgisi
+  label_table_of_contents: İçindekiler Tablosu
+  label_tag: Etiket
+  label_text: Uzun metin
+  label_this_month: bu ay
+  label_this_week: bu hafta
+  label_this_year: bu yıl
+  label_time_entry_plural: Harcanan zaman
+  label_time_sheet_menu: Zaman tablosu
+  label_time_tracking: Zaman takibi
+  label_today: bugün
+  label_top_menu: Üst Menü
+  label_topic_plural: Konular
+  label_total: Toplam
+  label_type_new: Yeni tür
+  label_type_plural: Türler
+  label_type_default_new_projects: Yeni projeler için varsayılan olarak etkinleştirildi
+    yazın
+  label_ui: Kullanıcı Arayüzü
+  label_update_work_package_done_ratios: İş paketi bitirme oranlarını güncelle
+  label_updated_time: "%{value} önce güncellendi"
+  label_updated_time_at: "%{author} %{age}"
+  label_updated_time_by: "%{author} tarafından %{age} önce güncellendi"
+  label_used_by: Kullanan
+  label_used_by_types: Türleri tarafından kullanılan
+  label_used_in_projects: Projede kullanılan
+  label_user: Kullanıcı
+  label_user_activity: "%{value}'ın faaliyet"
+  label_user_anonymous: Anonim
+  label_user_mail_option_all: Tüm projelerimdeki herhangi bir olay için
+  label_user_mail_option_none: Etkinlik yok
+  label_user_mail_option_only_assigned: Sadece bana atanan şeyler için
+  label_user_mail_option_only_my_events: Sadece takip ettiğim ya da dahil olduklarım
+    için
+  label_user_mail_option_only_owner: Sadece sahibi olduğum şeyler için
+  label_user_mail_option_selected: Yalnızca seçilen projelerdeki herhangi bir etkinlik
+    için
+  label_user_new: Yeni kullanıcı
+  label_user_plural: Kullanıcılar
+  label_user_search: Kullanıcı ara
+  label_version_new: Yeni sürüm
+  label_version_plural: Sürümler
+  label_version_sharing_descendants: Alt projeler ile
+  label_version_sharing_hierarchy: Proje hiyerarşisi ile
+  label_version_sharing_none: Paylaşılmamış
+  label_version_sharing_system: Tüm projeler ile
+  label_version_sharing_tree: Proje ağacı ile
+  label_video: Video
+  label_view_all_revisions: Tüm revizyonları görüntüle
+  label_view_diff: Farklılıkları gör
+  label_view_revisions: Düzeltmeleri izle
+  label_watched_work_packages: İzlenmiş iş paketleri
+  label_week: Hafta
+  label_wiki_content_added: Viki sayfası eklendi
+  label_wiki_content_updated: Viki sayfası güncellendi
+  label_wiki_toc: İçindekiler Tablosu
+  label_wiki_dont_show_menu_item: Bu wiki sayfasını proje gezinme bölümünde gösterme
+  label_wiki_edit: Wiki Düzenle
+  label_wiki_edit_plural: Wiki Düzenle
+  label_wiki_page_attachments: Wiki sayfası ekleri
+  label_wiki_page_id: Wiki sayfa kimliği
+  label_wiki_navigation: Wiki'de gezinme
+  label_wiki_page: Viki sayfası
+  label_wiki_page_plural: Viki sayfaları
+  label_wiki_show_index_page_link: Alt menü öğesini göster 'İçindekiler tablosu'
+  label_wiki_show_menu_item: Proje gezintisinde menü öğesi olarak göster
+  label_wiki_show_new_page_link: Alt menü öğesini göster 'Yeni alt sayfa oluştur'
+  label_wiki_show_submenu_item: 'Alt menü öğesi olarak göster '
+  label_work_package: İş paketi
+  label_work_package_added: İş paketi eklendi
+  label_work_package_attachments: İş paketi ekleri
+  label_work_package_category_new: Yeni kategori
+  label_work_package_category_plural: İş paketi kategorileri
+  label_work_package_hierarchy: İş paketi hiyerarşisi
+  label_work_package_new: Yeni iş paketi
+  label_work_package_note_added: İk Paketi notu eklendi
+  label_work_package_edit: "%{name} iş paketini düzenle"
+  label_work_package_plural: İş paketleri
+  label_work_package_priority_updated: İş paketi önceliği güncellendi
+  label_work_package_status: İş paketi durumu
+  label_work_package_status_new: Yeni durum
+  label_work_package_status_plural: İş paketi durumları
+  label_work_package_types: İş paketi türleri
+  label_work_package_updated: İş paketi güncellendi
+  label_work_package_tracking: İş paketi takibi
+  label_work_package_view_all: Tüm iş paketleri görüntüle
+  label_work_package_view_all_assigned_to_me: Bana atanan tüm iş paketlerini göster
+  label_work_package_view_all_reported_by_me: Bildirdiğim tüm iş paketleri
+  label_work_package_view_all_responsible_for: Benim sorumlu olduğum tüm iş paketlerini
+    görüntüle
+  label_work_package_view_all_watched: Takip edilen tüm iş paketlerini göster
+  label_work_package_watchers: Takip Edenler
+  label_workflow: İş akışı
+  label_workflow_plural: İş Akışları
+  label_workflow_summary: Özet
+  label_x_closed_work_packages_abbr:
+    one: 1 kapatıldı
+    other: "%{count} kapatıldı"
+    zero: 0 closed
+  label_x_comments:
+    one: 1 yorum
+    other: "%{count} yorum"
+    zero: no comments
+  label_x_open_work_packages_abbr:
+    one: 1 açık
+    other: "%{count} açık"
+    zero: 0 open
+  label_x_open_work_packages_abbr_on_total:
+    one: 1 açık / %{total}
+    other: "%{count} açık / %{total}"
+    zero: 0 open / %{total}
+  label_x_projects:
+    one: 1 proje
+    other: "%{count} proje"
+    zero: no projects
+  label_year: Yıl
+  label_yesterday: dün
+  label_keyboard_function: İşlev
+  label_keyboard_shortcut: Kısayol
+  label_keyboard_accesskey: Erişim anahtarı
+  label_keyboard_shortcut_help_heading: Kullanılabilir klavye kısayolları
+  label_keyboard_shortcut_within_project: 'Proje ile ilgili kısayollar:'
+  label_keyboard_shortcut_global_shortcuts: 'Genel Kısayollar:'
+  label_keyboard_shortcut_some_pages_only: 'Özel kısayollar:'
+  label_keyboard_shortcut_search_global: Global arama
+  label_keyboard_shortcut_search_project: Proje bul
+  label_keyboard_shortcut_go_my_page: Benim sayfama git
+  label_keyboard_shortcut_show_help: Bu yardım iletisini göster
+  label_keyboard_shortcut_go_overview: Proje genel görünümüne gidin
+  label_keyboard_shortcut_go_work_package: Proje çalışma paketlerine git
+  label_keyboard_shortcut_go_wiki: Proje vikisine git
+  label_keyboard_shortcut_go_activity: Proje etkinliklerine git
+  label_keyboard_shortcut_go_calendar: Proje takvimine git
+  label_keyboard_shortcut_go_news: Proje haberlerine git
+  label_keyboard_shortcut_go_timelines: Proje zaman akışına git
+  label_keyboard_shortcut_new_work_package: Yeni iş paketi oluştur
+  label_keyboard_shortcut_details_package: İş paketi detay panelini göster
+  label_keyboard_shortcut_go_edit: Geçerli öğeyi düzenlemek için git (yalnızca ayrıntılı
+    sayfalarda)
+  label_keyboard_shortcut_open_more_menu: Diğer menüsünü aç (yalnızca ayrıntılı sayfalarda)
+  label_keyboard_shortcut_go_preview: Geçerli düzenlemeyi önizlemek için git (yalnızca
+    düzenleme sayfalarında)
+  label_keyboard_shortcut_focus_previous_item: Önceki liste öğesine odaklanma (yalnızca
+    bazı listelerde)
+  label_keyboard_shortcut_focus_next_item: Sonraki liste öğesine odakla (yalnızca
+    bazı listelerde)
+  label_visible_elements: Görünür öğeler
+  auth_source:
+    using_abstract_auth_source: Özet kimlik doğrulama kaynağı kullanılamıyor.
+    ldap_error: 'LDAP-Hatası: %{error_message}'
+    ldap_auth_failed: LDAP sunucusunda kimlik doğrulaması yapılamadı.
+  macro_execution_error: Makroyu çalıştırırken hata oluştu %{macro_name}
+  macro_unavailable: Makro %{macro_name} görüntülenemiyor.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Yeni iş paketi
+      link_name_type: New %{type_name}
+  mail:
+    actions: Eylemler
+  mail_body_account_activation_request: 'Yeni bir kullanıcı ( %{value}) kaydoldu.
+    Hesap onayınızı bekliyor:'
+  mail_body_account_information: Hesap bilgilerinizi giriniz
+  mail_body_account_information_external: Giriş yapmak için %{value} hesabınızı kullanabilirsiniz.
+  mail_body_lost_password: 'Şifrenizi değiştirmek için aşağıdaki bağlantıyı tıklayın:'
+  mail_body_register: 'Hesabınızı etkinleştirmek için aşağıdaki bağlantıyı tıklayın:'
+  mail_body_reminder: 'Size tahsis edilen(ler) %{count} iş paketinin bir sonraki %{days}
+    gün içinde ödemesi gerekiyor:'
+  mail_body_wiki_content_added: "' %{id} ' wiki sayfası %{author} tarafından eklendi."
+  mail_body_wiki_content_updated: "'%{id}' wiki sayfası, %{author} tarafından güncellendi."
+  mail_subject_account_activation_request: "%{value} hesap etkinleştirme isteği"
+  mail_subject_lost_password: Sizin %{value} şifre
+  mail_subject_register: İşletme %{value} hesap etkinleştirme
+  mail_subject_reminder: "%{days} günde %{count} iş paketi(ler) geçecek"
+  mail_subject_wiki_content_added: "'%{id}' viki sayfası eklendi"
+  mail_subject_wiki_content_updated: "'%{id}' viki sayfası güncellendi"
+  more_actions: Daha fazla işlev
+  noscript_description: OpenProject'i kullanmak için JavaScript'i etkinleştirmeniz
+    gerekiyor!
+  noscript_heading: JavaScript kapalı
+  noscript_learn_more: Daha fazla bilgi edin
+  notice_accessibility_mode: Erişilebilirlik modu, [hesap settings](url). altından
+    etkinleştirilebilir.
+  notice_account_activated: Hesabınız etkinleştirildi. Şimdi giriş yapabilirsiniz.
+  notice_account_already_activated: Hesap zaten etkinleştirildi.
+  notice_account_invalid_token: Geçersiz etkinleştirme belirteci
+  notice_account_invalid_credentials: Geçersiz kullanıcı ya da parola
+  notice_account_invalid_credentials_or_blocked: Geçersiz kullanıcı, parola ya da
+    hesap birden fazla başarısız giriş denemesinden dolayı engellendi. Eğer öyleyse
+    kısa bir zaman sonra otomatik olarak engel kaldırılacaktır.
+  notice_account_lost_email_sent: Yeni bir şifre seçme talimatlarını içeren bir E-Posta
+    size göndermiştir.
+  notice_account_new_password_forced: Yeni bir parola gerekli.
+  notice_account_password_expired: Şifrenizin yüzdesi %{days} günün sonunda doldu.
+    Lütfen yenisini ayarla.
+  notice_account_password_updated: Şifreniz başarıyla güncellendi.
+  notice_account_pending: Hesabınız oluşturuldu ve şimdi yönetici onayını bekliyor.
+  notice_account_register_done: Hesap başarıyla oluşturuldu. Hesabınızı etkinleştirmek
+    için size e-postayla gönderilen bağlantıyı tıklayın.
+  notice_account_unknown_email: Bilinmeyen kullanıcı.
+  notice_account_update_failed: Hesabı ayarları kaydedilemedi. Lütfen hesap sayfanızın
+    bir göz atın.
+  notice_account_updated: Hesap başarıyla güncellendi.
+  notice_account_wrong_password: Hatalı parola
+  notice_account_registered_and_logged_in: Hoş geldiniz, hesabınız etkinleştirildi.
+    Şimdi giriş yaptınız.
+  notice_activation_failed: Hesap etkinleştirilemedi.
+  notice_auth_stage_verification_error: "'%{stage}' aşması doğrulanamadı."
+  notice_auth_stage_wrong_stage: "'%{expected}' kimlik doğrulama aşamasının bitmesi
+    bekleniyordu ama '%{actual}' ile karşılaşıldı."
+  notice_auth_stage_error: "'%{stage}' kimlik doğrulama aşaması başarısız oldu."
+  notice_can_t_change_password: Bu hesap harici bir kimlik doğrulama kaynağı kullanıyor.
+    Parolayı değiştirmek imkansız.
+  notice_custom_options_deleted: "%{option_value} ayarı ve bunun %{num_deleted} tekrarı
+    silindi."
+  notice_email_error: Posta gönderilirken bir hata oluştu ( %{value})
+  notice_email_sent: "%{value} adresine bir e-posta gönderildi"
+  notice_failed_to_save_work_packages: 'Seçilen %{total} %{count} iş paketini(ler)
+    kaydettirilemedi: %{ids}.'
+  notice_failed_to_save_members: 'Üye(ler) kaydedilemedi: %{errors}.'
+  notice_file_not_found: Erişmeye çalıştığınız sayfa mevcut değil veya kaldırıldı.
+  notice_forced_logout: "%{ttl_time} dakika hareketsizlikten sonra hesabınızdan otomatik
+    çıkış yapılmıştır."
+  notice_internal_server_error: Erişmeye çalıştığınız sayfada bir hata oluştu. Sorun
+    yaşamaya devam ederseniz, lütfen yardım için %{app_title} yöneticinize başvurun.
+  notice_work_package_done_ratios_updated: İş paketi yapılan oranlar güncellendi.
+  notice_locking_conflict: Bu arada, bilgi en az bir başka kullanıcı tarafından güncellendi.
+  notice_locking_conflict_additional_information: Güncelleme(ler) %{users} tarafından
+    yapıldı.
+  notice_locking_conflict_reload_page: Lütfen sayfayı yeniden yükleyin, değişiklikleri
+    inceleyin ve güncellemelerinizi yeniden uygulayın.
+  notice_member_added: "%{name} projeye dahil edildi."
+  notice_members_added: "%{number} kişi projeye dahil edildi."
+  notice_member_removed: "% {Kullanıcı} adlı projeden kaldırıldı. %{user}"
+  notice_member_deleted: "% {user}, projeden kaldırıldı ve silindi. %{user}"
+  notice_no_principals_found: Sonuç bulunamadı.
+  notice_bad_request: Hatalı istek.
+  notice_not_authorized: Bu sayfaya erişme yetkiniz yok.
+  notice_not_authorized_archived_project: Erişmeye çalıştığınız proje arşive kaldırılmış.
+  notice_password_confirmation_failed: Şifreniz doğru değil. Devam edilemez.
+  notice_principals_found_multiple: |-
+    %{number} sonuç bulundu.
+    İlk sonuç için TABa basın.
+  notice_principals_found_single: "Bir sonuç bulundu. \n Ona gitmek için TABa basın."
+  notice_project_not_deleted: Proje silinemedi.
+  notice_successful_connection: Bağlantı başarılı.
+  notice_successful_create: Oluşturma başarılı.
+  notice_successful_delete: Silme başarılı.
+  notice_successful_update: Güncelleme başarılı.
+  notice_to_many_principals_to_display: Çok fazla sonuç var. Yeni üyenin (veya grubun)
+    adını yazarak aramayı daraltın.
+  notice_unable_delete_time_entry: Zaman kaydı girişi silinemiyor.
+  notice_unable_delete_version: Sürüm açılamadı.
+  notice_user_missing_authentication_method: Kullanıcı henüz şifre veya oturum açmak
+    için başka bir yol seçmemiştir.
+  notice_user_invitation_resent: "%{email} adresine bir davet gönderildi."
+  present_access_key_value: "% {Key_name}, şu:% {value} %{key_name} %{value}"
+  notice_automatic_set_of_standard_type: Standart türün otomatik olarak ayarlanması.
+  notice_logged_out: Oturumunuz kapatıldı.
+  notice_wont_delete_auth_source: Kimlik doğrulama modunu kullanan kullanıcılar olduğu
+    sürece silinemez.
+  notice_project_cannot_update_custom_fields: 'Projenin kullanılabilir özel alanları
+    güncelleştirilemiyor. Proje geçersiz: %{errors}'
+  notice_attachment_migration_wiki_page: 'Bu sayfa OpenProject güncelleme sırasında
+    otomatik olarak yaratılır. Daha önce %{container_type} "%{container_name}" ile
+    ilişkili tüm ekleri içerir.
+
+'
+  number:
+    format:
+      delimiter: ''
+      precision: 3
+      separator: "."
+    human:
+      format:
+        delimiter: ''
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Bayt
+            other: Bayt
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
+  onboarding:
+    heading_getting_started: Genel görünümü al
+    text_getting_started_description: OpenProject ile takım çalışması ve proje yönetimi
+      konusuna genel bir bakış.
+    text_show_again: Bu videoyu Yardım menüsünden yeniden başlatabilirsiniz
+    welcome: OpenProject'e hoş geldiniz
+  permission_add_work_package_notes: Not eklemek
+  permission_add_work_packages: İş paketleri ekleyin (ayrıca tüm iş paketlerine ek
+    eklemenizi sağlar)
+  permission_add_messages: İleti göndermek
+  permission_add_project: Proje oluşturmak
+  permission_add_subprojects: Alt proje oluşturmak
+  permission_add_work_package_watchers: Takipçi ekle
+  permission_browse_repository: Depoya salt okunur erişim (göz atma ve ödeme)
+  permission_change_wiki_parent_page: Üst Wiki sayfasını değiştirmek
+  permission_comment_news: Haberlere yorum yazmak
+  permission_commit_access: Depoya okuma / yazma erişimi (tamamlama)
+  permission_copy_projects: Proje kopyalamak
+  permission_delete_work_package_watchers: Takipçi sil
+  permission_delete_work_packages: İş paketi silmek
+  permission_delete_messages: İleti silmek
+  permission_delete_own_messages: Kendi iletilerini silmek
+  permission_delete_reportings: Raporları silmek
+  permission_delete_timelines: Zaman akışını silmek
+  permission_delete_wiki_pages: Wiki sayfalarını silmek
+  permission_delete_wiki_pages_attachments: Ekleri silmek
+  permission_edit_work_package_notes: Notları düzenle
+  permission_edit_work_packages: İş paketlerini düzenlemek
+  permission_edit_messages: İletileri düzenlemek
+  permission_edit_own_work_package_notes: Kendi notlarını düzenlemek
+  permission_edit_own_messages: Kendi iletilerini düzenlemek
+  permission_edit_own_time_entries: Kendi zaman kayıtlarını düzenlemek
+  permission_edit_project: Proje düzenlemek
+  permission_edit_reportings: Raporlamayı düzenlemek
+  permission_edit_time_entries: Zaman kayıtlarını düzenlemek
+  permission_edit_timelines: Zaman akışını düzenlemek
+  permission_edit_wiki_pages: Wiki sayfalarını düzenlemek
+  permission_export_work_packages: İş paketlerini dışarı aktar
+  permission_export_wiki_pages: Wiki sayfalarını dışarı aktar
+  permission_list_attachments: Ekleri listele
+  permission_log_time: Harcanan zaman kayıtları
+  permission_manage_boards: Forumları yönet
+  permission_manage_categories: İş paket kategorilerini yönet
+  permission_manage_work_package_relations: İş paketi ilişkilerini yönet
+  permission_manage_members: Üyeleri yönet
+  permission_manage_news: Haberleri yönet
+  permission_manage_project_activities: Proje aktivitilerini yönet
+  permission_manage_public_queries: Herkese açık sorguları yönetin
+  permission_manage_repository: Depo yönetimi
+  permission_manage_subtasks: Alt görevleri yönet
+  permission_manage_versions: Sürümleri Yönet
+  permission_manage_wiki: Wiki'yi yönet
+  permission_manage_wiki_menu: Wiki menüsünü yönet
+  permission_move_work_packages: İş paketini taşı
+  permission_protect_wiki_pages: Wiki sayfalarını koruma
+  permission_rename_wiki_pages: Wiki sayfalarını yeniden adlandır
+  permission_save_queries: Sorguları kaydet
+  permission_select_project_modules: Proje modüllerini seçin
+  permission_manage_types: Türleri seç
+  permission_view_calendar: Takvimi görüntüle
+  permission_view_changesets: OpenProject'de depo revizyonlarını görüntüle
+  permission_view_commit_author_statistics: Yazar istatistiklerini inceleyin
+  permission_view_work_package_watchers: Takipçi listesini göster
+  permission_view_work_packages: İş paketlerini görüntüle
+  permission_view_messages: İletileri görüntüle
+  permission_view_members: Üyeleri gör
+  permission_view_reportings: Raporları görüntüle
+  permission_view_time_entries: Harcanan süreyi görüntüleme
+  permission_view_timelines: Zaman çizelgelerini görüntüle
+  permission_view_wiki_edits: Wiki geçmişini görüntüle
+  permission_view_wiki_pages: Wiki'yi görüntüle
+  placeholders:
+    default: "-"
+  project:
+    destroy:
+      confirmation: Devam ederseniz,% {identifier} projesi ve ilgili tüm veriler kalıcı
+        olarak yokedilecektir. %{identifier}
+      info: Projeyi silme işlemi geri dönüşü olmayan bir işlemdir.
+      project_verification: Silme işlemini doğrulamak için projenin adını% {name}
+        girin. %{name}
+      subprojects_confirmation: Alt projeleri:% {value} de silinecek. %{value}
+      title: "% {Name} adlı projeyi sil %{name}"
+    identifier:
+      warning_one: Projenin üyeleri, projenin depoları yeniden yerleştirmek zorunda
+        kalacaklardır.
+      warning_two: Projeye mevcut bağlantılar artık çalışmayacaktır.
+      title: Projenin tanımlayıcısını değiştirme
+    archive:
+      are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
+  project_module_activity: Etkinlik
+  project_module_boards: Forumlar
+  project_module_calendar: Takvim
+  project_module_work_package_tracking: İş paketi takibi
+  project_module_news: Haberler
+  project_module_repository: Depo
+  project_module_time_tracking: Zaman takibi
+  project_module_timelines: Zaman çizelgeleri
+  project_module_wiki: Viki
+  query:
+    attribute_and_direction: "%{attribute} (%{direction})"
+  query_fields:
+    active_or_archived: Etkin veya arşivlenmiş
+    assigned_to_role: Görev alanının rolü
+    member_of_group: Atama grubunun grubu
+    assignee_or_group: Atanan veya ait olunan grup
+    subproject_id: Alt proje
+    name_or_identifier: İsim veya tanımlayıcı
+  repositories:
+    at_identifier: at% {tanıtıcı} %{identifier}
+    atom_revision_feed: Atom düzeltme feed'i
+    autofetch_information: |-
+      Depolar modülü sayfasına erişirken depoların otomatik olarak güncellenmesini istiyorsanız bunu işaretleyin.
+      Bu, depodaki taahhütlerin alınmasını ve gerekli disk depolama birimini yenilemeyi kapsar.
+    checkout:
+      access:
+        readwrite: Okuma / yazma
+        read: Salt okunur
+        none: Ödeme erişimi yok, sadece depoyu bu uygulama aracılığıyla görüntüleyebilirsiniz.
+      access_permission: Bu depoda izinleriniz
+      url: Ödeme URL'si
+      base_url_text: |-
+        Kontrol URL'leri oluşturmak için kullanılacak taban URL (ör. Https://myserver.example.org/repos/).
+        Not: Temel URL, yalnızca yönetilen depoların ödeme URL'lerini yeniden yazmak için kullanılır. Diğer depolar değiştirilmemiştir.
+      default_instructions:
+        git: |-
+          Bu depoda bulunan veriler Git ile bilgisayarınıza indirilebilir.
+          Ödeme prosedürü ve mevcut müşteriler hakkında daha fazla bilgiye ihtiyacınız varsa, lütfen Git belgelerine bakın.
+        subversion: |-
+          Bu depoda bulunan veriler Subversion ile bilgisayarınıza indirilebilir.
+          Ödeme prosedürü ve mevcut müşteriler hakkında daha fazla bilgiye ihtiyacınız varsa, lütfen Subversion'un belgelerine bakın.
+      enable_instructions_text: Depoda ilgili tüm sayfalarda aşağıda tanımlanan ödeme
+        talimatlarını görüntüler.
+      instructions: Ödeme talimatları
+      show_instructions: Ödeme talimatlarını göster
+      text_instructions: Bu metin, depoyu nasıl kontrol edeceğiniz konusunda rehberlik
+        amacıyla, ödeme URL'sinin yanında görüntülenir.
+      not_available: Satın alma talimatları bu depo için tanımlanmamıştır. Yöneticinizden
+        bunları sistem ayarlarında bu depo için etkinleştirmelerini isteyin.
+    create_managed_delay: 'Lütfen dikkat: Depo yönetilir, diskteki eşzamansız olarak
+      oluşturulur ve kısa süre içinde kullanıma sunulacaktır.'
+    create_successful: Depo kaydedildi.
+    delete_sucessful: Depo silindi.
+    destroy:
+      confirmation: Devam ederseniz, yönetilen depoyu kalıcı olarak silecektir.
+      info: Deponun silinmesi geri döndürülemez bir işlemdir.
+      info_not_managed: 'Not: Bu, OpenProject tarafından yönetilmediğinden, bu deponun
+        içeriğini Silmeyecektir.'
+      managed_path_note: Aşağıdaki dizin silinir:% {path} %{path}
+      repository_verification: Deponun silinmesini doğrulamak için projenin tanımlayıcı%
+        {identifier} 'yi girin. %{identifier}
+      subtitle: "% {Project_name} projesinin% {repository_type} dosyasını gerçekten
+        silmek istiyor musunuz? %{repository_type} %{project_name}"
+      subtitle_not_managed: "% {Repository_type}% {url} bağlantılı projeyi% {project_name}
+        projesinden gerçekten kaldırmak istiyor musunuz? %{repository_type} %{url}
+        %{project_name}"
+      title: "% {Repository_type} öğesini sil %{repository_type}"
+      title_not_managed: Bağlantılı% {repository_type} 'yi kaldırın? %{repository_type}?
+    errors:
+      build_failed: Seçili yapılandırmayla havuz oluşturulamadı. %{reason}
+      managed_delete: Yönetilen depo açılamadı.
+      managed_delete_local: "'% {Path}' adresindeki dosya deposundaki yerel depoyu
+        silemedi:% {error_message} %{path} %{error_message}"
+      empty_repository: Depo var, ancak boş. Henüz düzeltme içermiyor.
+      exists_on_filesystem: Depo dizini zaten dosya sisteminde var.
+      filesystem_access_failed: Dosya sistemindeki havuza erişirken bir hata oluştu:%
+        {message} %{message}
+      not_manageable: Bu depo satıcısı OpenProject tarafından yönetilemez.
+      path_permission_failed: Aşağıdaki yolu oluşturmaya çalışırken bir hata oluştu:%
+        {path}. Lütfen OpenProject'in bu klasöre yazabileceğinden emin olun. %{path}.
+      unauthorized: Depolama alanına erişim yetkiniz yok ya da kimlik bilgileri geçersiz.
+      unavailable: Depo kullanılamaz.
+      exception_title: Depoya erişilemiyor:% {message} %{message}
+      disabled_or_unknown_type: Seçilen% {type} türü devre dışı veya artık SCM satıcısı%
+        {satıcı} için kullanılamıyor. %{type}  %{vendor}
+      disabled_or_unknown_vendor: SCM satıcısı% {satıcı} devre dışı bırakıldı veya
+        artık mevcut değil. %{vendor}.
+      remote_call_failed: Yönetilen uzaktan çağırma işlemi '% {message}' mesajıyla
+        başarısız oldu (Kod:% {code}) %{message} %{code}
+      remote_invalid_response: Yönetilen uzaktan kumandadan geçersiz bir yanıt alındı.
+      remote_save_failed: Uzaktan kumandadan alınan parametrelerle depoyu kaydedemedim.
+    git:
+      instructions:
+        managed_url: Bu yönetilen (yerel) Git deponunun URL'si.
+        path: Yerel Git depo (örneğin, %{example_path}) yolunu belirtin. Yerel kopya
+          için bir http (s) ile başlayan :// değeri veya file:// kullanarak klonlanır
+          uzak depoları da kullanabilirsiniz.
+        path_encoding: 'Git yol kodlamasını geçersiz kıl (Varsayılan: UTF-8)'
+      local_title: Mevcut yerel Git deponuzu bağlayın
+      local_url: Yerel adres
+      local_introduction: Mevcut bir yerel Git deponuz varsa, uygulamadan erişmek
+        için onu OpenProject ile bağlayabilirsiniz.
+      managed_introduction: OpenProject yerel bir Git deposunu otomatik olarak oluşturup
+        entegre edin.
+      managed_title: Git deposu OpenProject'e entegredir
+      managed_url: Yönetilen URL
+      path: Git deposunun yolu
+      path_encoding: Yol kodlaması
+    go_to_revision: Revizyona git
+    managed_remote: Bu satıcı için yönetilen depolar uzaktan ele alınır.
+    managed_remote_note: Bu havuzun URL'si ve yolu hakkındaki bilgileri, oluşturulmadan
+      önce mevcut değildir.
+    managed_url: Yönetilen URL
+    settings:
+      automatic_managed_repos_disabled: Otomatik oluşturulmayı devre dışı bırak
+      automatic_managed_repos: Yönetilen depoların otomatik oluşturulması
+      automatic_managed_repos_text: Burada bir satıcı ayarlayarak, yeni oluşturulan
+        projeler otomatik olarak bu satıcının yönetilen bir deposunu alacaktır.
+    scm_vendor: Sürüm kontrol yönetim sistemi
+    scm_type: Depo türü
+    scm_types:
+      local: Varolan yerel depoyu bağla
+      existing: Varolan depoyu bağla
+      managed: OpenProject'de yeni depo oluşturun
+    storage:
+      not_available: Bu depo için disk depolama tüketimi yok.
+      update_timeout: |-
+        Bir depo için N dakika boyunca gereken son disk alanı bilgilerini saklayın.
+        Deponun gerekli disk alanını saymak maliyetli olabileceğinden performans etkisini azaltmak için bu değeri yükseltin.
+    subversion:
+      existing_title: Mevcut Subversion deposu
+      existing_introduction: Varolan bir Subversion havuzunuz varsa, uygulamanın içinden
+        erişmek için onu OpenProject ile bağlayabilirsiniz.
+      existing_url: Varolan Adres
+      instructions:
+        managed_url: Bu, yönetilen (yerel) Subversion havuzunun URL'si.
+        url: |-
+          Depo URL'sini girin. Bu, yerel bir depoyu (% {local_proto} ile başlayan) veya uzak bir depoyu hedefleyebilir.
+          Aşağıdaki URL şemaları desteklenmektedir: %{local_proto}
+      managed_title: OpenProject'e entegre edilen Subversion deposu
+      managed_introduction: OpenProject yerel bir Subversion havuzunu otomatik olarak
+        oluşturup entegre edin.
+      managed_url: Yönetilen URL
+      password: Depo şifre
+      username: Depo kullanıcı adı
+    truncated: Üzgünüz, dosyaları %{limit} ile limitlemek zorunda kaldık. %{truncated}
+      girdileri listeden göz ardı edildi.
+    named_repository: "%{vendor_name} deposu"
+    update_settings_successful: Ayarlar başarıyla kaydedildi.
+    url: Depo URL'si
+    warnings:
+      cannot_annotate: Bu dosyaya açıklama yapılamaz.
+  search_input_placeholder: Ara ...
+  setting_email_delivery_method: E-posta teslim yöntemi
+  setting_sendmail_location: Çalıştırılabilir sendmail aracının yolu
+  setting_smtp_enable_starttls_auto: STARTTLS varsa otomatik olarak kullan
+  setting_smtp_address: SMTP Sunucusu
+  setting_smtp_port: SMTP port
+  setting_smtp_authentication: SMTP kimlik doğrulaması
+  setting_smtp_domain: SMTP HELLO alan adı
+  setting_smtp_user_name: SMTP Kullanıcı Adı
+  setting_smtp_password: SMTP Parolası
+  setting_activity_days_default: Proje faaliyetin de gösterilen gün sayısı istinaden
+  setting_app_subtitle: Uygulama alt başlığı
+  setting_app_title: Uygulama başlığı
+  setting_attachment_max_size: En büyük ek boyutu
+  setting_autofetch_changesets: Autofetch depo değişiklikleri
+  setting_autologin: Otomatik Giriş
+  setting_available_languages: Mevcut diller
+  setting_bcc_recipients: Kör karbon kopya alıcıları (bcc)
+  setting_brute_force_block_after_failed_logins: Bu başarısız giriş denemesinden sonra
+    kullanıcıyı engelle
+  setting_brute_force_block_minutes: Kullanıcının engellediği süre
+  setting_cache_formatted_text: Biçimlendirilmiş metni önbelleğe al
+  setting_column_options: İş paketi listelerinin görünümünü özelleştirme
+  setting_commit_fix_keywords: Anahtar kelimeleri düzeltme
+  setting_commit_logs_encoding: İleti kodlamayı tamamla
+  setting_commit_logtime_activity_id: Kaydedilen zaman için faaliyet
+  setting_commit_logtime_enabled: Zaman kaydını etkinleştir
+  setting_commit_ref_keywords: Anahtar kelimeleri referansla
+  setting_cross_project_work_package_relations: Projeler arası iş paketi ilişkilerine
+    izin ver
+  setting_date_format: Tarih formatı
+  setting_default_language: Varsayılan dil
+  setting_default_notification_option: Varsayılan bildirim seçeneği
+  setting_default_projects_modules: Yeni projeler için varsayılan etkin modüller
+  setting_default_projects_public: Yeni projeler varsayılan olarak herkese açık
+  setting_diff_max_lines_displayed: Görüntülenen fark satırlarının maksimum sayısı
+  setting_display_subprojects_work_packages: Varsayılan olarak ana projenin iş listesinde
+    alt proje iş paketlerini göster
+  setting_emails_footer: E-posta altbilgi
+  setting_emails_header: E-posta üstbilgisi
+  setting_email_login: E-posta giriş kullanın
+  setting_enabled_scm: Etkinleştirilmiş SCM
+  setting_feeds_enabled: Yayınları Etkinleştir
+  setting_feeds_limit: Besleme içeriği sınırı
+  setting_file_max_size_displayed: Satır içi görüntülenen maksimum metin dosyası boyutu
+  setting_host_name: Ana bilgisayar adı
+  setting_work_package_done_ratio: İş tamamlanma oranını hesapla yöntemi
+  setting_work_package_done_ratio_field: İş paketi alanını kullan
+  setting_work_package_done_ratio_status: İş paketi durumunu kullan
+  setting_work_package_done_ratio_disabled: Kapalı (ilerlemeyi gizle)
+  setting_work_package_list_default_columns: Varsayılan olarak kapalı
+  setting_work_package_list_summable_columns: Toplanabirliği
+  setting_work_package_properties: İş paketi özellikleri
+  setting_work_package_startdate_is_adddate: Yeni iş paketlerinde şu anki tarihi başlangıç
+    tarihi olarak kullan
+  setting_work_packages_export_limit: İş paketi dışarı aktarma sınırı
+  setting_journal_aggregation_time_minutes: Dergileri içinde toplamış olarak görüntüle
+  setting_log_requesting_user: Tüm istekler için kullanıcı oturum açma, ad ve posta
+    adresini girme
+  setting_login_required: Kimlik doğrulaması gerekli
+  setting_mail_from: Gönderici e-posta adresi
+  setting_mail_handler_api_enabled: Gelen e-posta web hizmetini etkinleştir
+  setting_mail_handler_api_description: E-posta web işleyici, OpenProject'in belirli
+    komutları enstrümantasyon mekanizması olarak (örneğin iş paketleri oluşturmak
+    ve güncellemek için) içeren e-postaları almasını sağlar.
+  setting_mail_handler_api_key: API anahtarı
+  setting_mail_handler_body_delimiters: Bu satırlardan birinden sonra e-postaları
+    kısaltın
+  setting_mail_handler_body_delimiter_regex: Bu düzenli ifade ile uyuşan e-postaları
+    kırp
+  setting_new_project_user_role_id: Bir proje oluşturan yönetici olmayan bir kullanıcıya
+    verilen rolü
+  setting_password_active_rules: Aktif karakter sınıfları
+  setting_password_count_former_banned: Yeniden kullanım için yasaklanan en son kullanılan
+    şifre sayısı
+  setting_password_days_valid: Ardından, bir şifre değişikliğinin uygulanması için
+    gereken gün sayısı
+  setting_password_min_length: Minimum uzunluk
+  setting_password_min_adhered_rules: Minimum zorunlu ders sayısı
+  setting_per_page_options: Sayfa başı nesne seçenekleri
+  setting_plain_text_mail: Düz metin postası (HTML yok)
+  setting_protocol: Protokol
+  setting_registration_footer: Kayıt alt bilgisi
+  setting_repositories_automatic_managed_vendor: Otomatik depo satıcısı türü
+  setting_repositories_encodings: Depolar kodlamaları
+  setting_repository_authentication_caching_enabled: Sürüm denetimi yazılımının kimlik
+    doğrulama isteği için ön belleği etkinleştir
+  setting_repository_storage_cache_minutes: Depo disk boyutu önbelleği
+  setting_repository_checkout_display: Ödeme talimatlarını göster
+  setting_repository_checkout_base_url: Satın alma tabanı URL'si
+  setting_repository_checkout_text: Ödeme talimat metni
+  setting_repository_log_display_limit: Dosya günlüğünde görüntülenen revizyonların
+    maksimum sayısı
+  setting_repository_truncate_at: Depo tarayıcıda görüntülenen dosya sayısı üst sınırı
+  setting_rest_api_enabled: REST web hizmetini etkinleştir
+  setting_self_registration: Kendi kendine kayıt
+  setting_sequential_project_identifiers: Sıralı proje tanımlayıcıları oluştur
+  setting_session_ttl: Hareketsizlikten sonra oturum son kullanma süresi
+  setting_session_ttl_hint: 5'in altındaki değer, devre dışı gibi
+  setting_session_ttl_enabled: Oturum sona eriyor
+  setting_start_of_week: Hafta Başlangıcı
+  setting_sys_api_enabled: Depo yönetimi web hizmetini etkinleştir
+  setting_sys_api_description: Depo yönetimi web servisi depolara erişmek için entegrasyon
+    ve kullanıcı yetkilendirmesi sağlar.
+  setting_text_formatting: Metin biçimi
+  setting_time_format: Zaman Biçimi
+  setting_accessibility_mode_for_anonymous: İsimsiz kullanıcılar için erişilebilirlik
+    modunu etkinleştir
+  setting_user_format: Kullanıcılar biçimi görüntüler
+  setting_users_deletable_by_admins: Yöneticiler kullanıcı hesaplarını silebilsin
+  setting_users_deletable_by_self: Kullanıcılar kendi hesaplarını silebilsin
+  setting_welcome_text: Hoş geldiniz blok metini
+  setting_welcome_title: Hoş geldiniz blok başlığı
+  setting_welcome_on_homescreen: Hoşgeldiniz bloğunu ana ekranda göster
+  setting_welcome_on_projects_page: Projeye genel bakış için karşılama blokunu gösterin
+  setting_wiki_compression: Wiki geçmişini sıkıştır
+  setting_work_package_group_assignment: Gruplara iş atanmasına izin ver
+  settings:
+    general: Genel
+    other: Diğer
+    passwords: Parolalar
+    session: Oturum
+    brute_force_prevention: Otomatik kullanıcı engelleme
+  show_hide_project_menu: Genişlet/Daralt proje menüsü
+  status_active: etkin
+  status_archived: arşivlendi
+  status_invited: davet
+  status_locked: kilitli
+  status_registered: kayıtlı
+  support:
+    array:
+      sentence_connector: ve
+      skip_last_comma: yanlış
+  text_accessibility_hint: Erişilebilirlik modu, kör, engelli ve ya ciddi görme güçlüğü
+    çeken kullanıcılar için tasarlandı. Bu modda yazı odaklı bileşenler özellikle
+    vurgulanır. Backlogs modülünde bu özelliği henüz kullanamayacağınızı da belirtelim.
+  text_access_token_hint: Erişim belirteçleri, OpenProject içindeki kaynaklara harici
+    uygulamalar erişimi vermenizi sağlar.
+  text_analyze: 'Daha fazla analiz: %{subject}'
+  text_are_you_sure: Emin misiniz?
+  text_are_you_sure_with_children: Sil iş paketi ve tüm alt çalışma paketlerini?
+  text_assign_to_project: Projeye ata
+  text_form_configuration: 'İş paketi formunda görüntülenecek alanları özelleştirebilirsiniz.
+    Tüm işlerinizde kullanabileceğiniz şekilde bunları gruplayabilirsiniz.
+
+'
+  text_form_configuration_drag_to_activate: Alanları buraya sürükleyerek aktifleştirebilirsiniz
+  text_form_configuration_required_attribute: Öznitelik gerekli olarak işaretlendiği
+    için her zaman gösterilir
+  text_caracters_maximum: En çok %{count} karakter.
+  text_caracters_minimum: En az %{count} karakter uzunluğunda olmalı.
+  text_comma_separated: Birden fazla değer kullanılabilir (virgülle ayrılmış).
+  text_comment_wiki_page: 'Yorum için wiki sayfası: %{page}'
+  text_custom_field_possible_values_info: Her değer için bir satır
+  text_custom_field_hint_activate_per_project: 'Özel alanları kullanırken: Özel alanların
+    her proje için aktif yapılması gerektiğini unutmayın.
+
+'
+  text_custom_field_hint_activate_per_project_and_type: 'Özel alanların iş paketi
+    türü ve proje bazında aktive edilmesi gerekiyor.
+
+'
+  text_custom_logo_instructions: 'Saydam arka plan üzerinde beyaz bir logo önerilir.
+    Hem geleneksel en iyi sonuçları almak ve retina görüntüler için resm boyutlarının
+    60px ye 460px olduğundan emin olun.
+
+'
+  text_custom_favicon_instructions: 'Bu küçük ikon tarayıcı penceresinin/sekmesinin
+    yanında gözükür. Kare, 32x32 piksel boyoutlarında PNG formatında ve arka planı
+    transparan olmak zorundadır.
+
+'
+  text_custom_touch_icon_instructions: 'Bu ikon mobil araçlarda ya da tabletlerde
+    yerimleri bölümünde anasayfanızda görünür. Kare, 180x180 piksel boyutlarında,
+    PNG formatında olmak zorundadır. Arka planının transparan olmasına özen gösterin.
+    Aksi halde iOS üzerinde çok kötü gözükür.
+
+'
+  text_default_administrator_account_changed: Varsayılan yönetici hesabı değişti
+  text_default_encoding: 'Varsayılan: UTF-8'
+  text_destroy: Sil
+  text_destroy_with_associated: 'Silinecek iş paketleri ile birlikte ek nesne(ler)
+    vardır. Bu nesneler aşağıdaki türdedir:'
+  text_destroy_what_to_do: Ne yapmak istiyorsun?
+  text_diff_truncated: "... Bu fark, görüntülenebilecek maksimum boyutu aştığı için
+    kesildi."
+  text_email_delivery_not_configured: E-posta dağıtımı yapılandırılmadı ve bildirimler
+    devre dışı bırakıldı. SMTP sunucunuzu config / configuration.yml dosyasında yapılandırın
+    ve bunları etkinleştirmek için uygulamayı yeniden başlatın.
+  text_enumeration_category_reassign_to: 'Onları şu değere yeniden atayın:'
+  text_enumeration_destroy_question: Bu değere %{count} nesneler atandı.
+  text_file_repository_writable: Ekler dizini yazılabilir
+  text_git_repo_example: 'çıplak ve yerel bir depo (örneğin / gitrepo, c: \ gitrepo)'
+  text_hint_date_format: YYYY-AA-GG şeklinde bir tarih girin. Diğer formatlar istenmeyen
+    bir tarihe değişebilir.
+  text_hint_disable_with_0: 'Not: 0 ile devre dışı bırak'
+  text_hours_between: "%{min} ve %{max} saat arasında."
+  text_work_package_added: "%{author} tarafından %{id} çalışma paketi bildirildi."
+  text_work_package_category_destroy_assignments: Kategori ödevlerini kaldır
+  text_work_package_category_destroy_question: Bu kategoriye bazı iş paketleri ( %{count})
+    atanmıştır. Ne yapmak istiyorsun?
+  text_work_package_category_reassign_to: İş paketlerini bu kategoriye yeniden ata
+  text_work_package_updated: "%{id} iş paketi %{author} tarafından güncellendi."
+  text_work_package_watcher_added: İş Paketi %{id} takiplerine için %{watcher_setter}
+    tarafından eklendiniz.
+  text_work_packages_destroy_confirmation: Seçilen çalışma paket(ler) ini silmek istediğinizden
+    emin misiniz?
+  text_work_packages_ref_in_commit_messages: İş paketlerini taahhüt mesajlarında referans
+    ve sabitleme
+  text_journal_added: "%{value} %{label} eklendi"
+  text_journal_aggregation_time_explanation: Yaş farkı belirtilen zaman aralığından
+    azsa dergileri görüntü için birleştirin. Bu aynı zamanda posta bildirimlerini
+    aynı süreyle erteleyecektir.
+  text_journal_changed: "%{label} %{old} idi %{new} oldu"
+  text_journal_changed_no_detail: "%{label} güncellendi"
+  text_journal_changed_with_diff: "%{label} değişti ( %{link})"
+  text_journal_deleted: "%{label}, ( %{old}) silindi"
+  text_journal_deleted_with_diff: "%{label}, ( %{link}) silindi"
+  text_journal_set_to: "%{label} %{value} yapıldı"
+  text_journal_set_with_diff: "%{label} ayarla ( %{link})"
+  text_latest_note: En yeni yorum:% {note} %{note}
+  text_length_between: "%{min} ve %{max} karakter arası uzunluk."
+  text_line_separated: Birden fazla değer kullanılabilir (her değer için bir satır).
+  text_load_default_configuration: Varsayılan yapılandırmayı yükle
+  text_min_max_length_info: 0 sınırlama yok demektir
+  text_no_roles_defined: Hiçbir rol tanımlanmadı.
+  text_no_access_tokens_configurable: Yapılandırılacak erişim belirteçleri yok.
+  text_no_configuration_data: Roller, türleri, çalışma paketi durumu ve iş akışı henüz
+    yapılandırılmadı. Varsayılan yapılandırmayı yüklemeniz kesinlikle önerilir. Yüklendikten
+    sonra onu değiştirebileceksiniz.
+  text_no_notes: Bu çalışma paketi için bir yorum bulunmuyor.
+  text_notice_too_many_values_are_inperformant: 'Not: Her sayfada 100''den fazla öğe
+    gösterildiğinde, sayfa yükleme süresi artabilir.'
+  text_own_membership_delete_confirmation: İzinlerinizden bazılarını veya tümünü kaldırmak
+    üzeresiniz ve bundan sonra bu projeyi düzenleyemeyebilirsiniz. Devam etmek istediğine
+    emin misin?
+  text_plugin_assets_writable: Plugin assets dizini yazılabilir
+  text_powered_by: "%{link} tarafından destekleniyor"
+  text_project_identifier_info: Yalnızca küçük harfler (a-z), sayılar, tire ve alt
+    tire kullanılabilir ve mutlaka küçük harfle başlamalıdır.
+  text_reassign: 'İş paketine yeniden atama:'
+  text_regexp_info: ör ^[A-Z0-9]+$
+  text_regexp_multiline: Regex (düzenli ifade) birden çok satırlı modda uygulanır.
+    Örneğin, ^---\s+
+  text_repository_usernames_mapping: Depo günlüklerinde bulunan her kullanıcı adına
+    eşlenen OpenProject kullanıcısını seçin veya güncelleyin. Aynı OpenProject ve
+    depo kullanıcı adına veya e-postasına sahip kullanıcılar otomatik olarak eşleştirilir.
+  text_select_mail_notifications: E-posta bildirimlerinin gönderilmesini istediğiniz
+    eylemleri seçin.
+  text_status_changed_by_changeset: Uygulanan Değişiklik listesi %{value}.
+  text_table_difference_description: Bu tabloda tek %{entries} girdisi gösteriliyor.
+    İki girdi arasındaki farkı görmek için, tablodaki ilgili alanların üzerindeki
+    seçim kutularını işaretlemelisiniz. Seçiminizden sonra tablonun altındakı tuşa
+    tıklayarak farkları görebilirsiniz.
+  text_time_logged_by_changeset: Uygulanan Değişiklik listesi %{value}.
+  text_tip_work_package_begin_day: bu gün başlayan iş paketleri
+  text_tip_work_package_begin_end_day: bugün başlayıp biten iş paketleri
+  text_tip_work_package_end_day: bugün biten iş paketleri
+  text_type_no_workflow: Bu tür için tanımlanmış bir iş akışı yok
+  text_unallowed_characters: Yasaklı karakterler
+  text_user_invited: Kullanıcı davet edildi ve kayıt bekliyor.
+  text_user_wrote: "%{value} demiş ki:"
+  text_warn_on_leaving_unsaved: İş paketi bu sayfadan ayrıldığınızda kaybolabilecek
+    kaydedilmemiş metinler içeriyor.
+  text_wiki_destroy_confirmation: Bu wiki'yi ve içeriğini silmek istediğinizden emin
+    misiniz?
+  text_wiki_page_destroy_children: Çocuk sayfalarını ve tüm torunlarını sil
+  text_wiki_page_destroy_question: Bu sayfada %{descendants} çocuk sayfası (ları)
+    ve torunları (lar) var. Ne yapmak istiyorsun?
+  text_wiki_page_nullify_children: Çocuk sayfalarını kök sayfalar olarak sakla
+  text_wiki_page_reassign_children: Alt sayfaları bu üst sayfaya yeniden ata
+  text_workflow_edit: İş akışını düzenlemek için bir rol ve iş tipi seçin
+  text_zoom_in: Yakınlaştır
+  text_zoom_out: Uzaklaştır
+  text_setup_mail_configuration: E-posta sağlayıcısını yapılandır
+  time:
+    am: öö
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      long: "%B %d, %Y %H:%M"
+      short: "%d %b %H:%M"
+      time: "%I:%M %p"
+    pm: ös
+  timeframe:
+    show: Zaman aralığını göster
+    end: bitiş
+    start: başlangıç
+  timelines:
+    admin_menu:
+      color: Renk
+      colors: Renkler
+      project_type: Proje türü
+      project_types: Proje türü
+    project_menu:
+      reportings: Durum raporları
+      reports: Zaman çizelgesi raporu
+      timelines: Zaman çizelgeleri
+      project_associations: ''
+    associations: Bağımlılıklar
+    board_could_not_be_saved: Kurul kaydedilemedi
+    button_delete_all: Tümünü sil
+    change: Planlama değişikliği
+    children: Çocuk elemanları
+    color_could_not_be_saved: Renk kaydedilemedi
+    current_planning: Mevcut planlama
+    dates: Tarih
+    dates_are_calculated_based_on_sub_elements: Tarihler, alt öğeler temel alınarak
+      hesaplanır.
+    delete_all: Tümünü sil
+    delete_thing: Sil
+    duration: Süre
+    duration_days:
+      one: 1 gün
+      other: "%{count} gün"
+    edit_color: Renk Düzenle
+    edit_project_type: Proje türünü düzenle
+    edit_thing: Düzenle
+    edit_timeline: Zaman çizelgesi raporunu düzenle %{timeline}
+    delete_timeline: Zaman çizelgesi raporunu sil %{timeline}
+    empty: "(boş)"
+    enable_type_in_project: '" %{type} " türünü etkinleştir'
+    end: Son
+    errors:
+      not_implemented: Zaman çizelgesi, henüz uygulanmayan bir özellik kullandığından
+        oluşturulamadı.
+      report_comparison: Zaman çizelgesi, yapılandırılmış karşılaştırmaları işleyemedi.
+        Lütfen konfigürasyonda uygun bölümü kontrol edin, bu sorunu sıfırlamak, bu
+        sorunu çözmenize yardımcı olabilir.
+      report_epicfail: Beklenmeyen bir hata nedeniyle zaman çizelgesi yüklenemedi.
+      report_timeout: Zaman çizelgesi makul bir süre içinde yüklenemedi.
+    filter:
+      errors:
+        timeframe_start: 'Zaman çerçevesi başlıyor '
+        timeframe_end: 'Zaman çerçevesi sonu '
+        compare_to_relative: 'Göreceli karşılaştırma değeri '
+        compare_to_absolute: 'Mutlak karşılaştırma değeri '
+        planning_element_time_relative_one: 'Belli bir zaman aralığında iş paketlerine
+          başlama '
+        planning_element_time_relative_two: 'Belli bir zaman aralığında iş paketlerinin
+          sonu '
+        planning_element_time_absolute_one: 'Belli bir zaman aralığında iş paketlerine
+          başlama  '
+        planning_element_time_absolute_two: 'Belli bir zaman aralığında iş paketlerinin
+          sonu  '
+      sort:
+        sortation: Sıralama şekli
+        alphabet: alfabe
+        explicit_order: açık sipariş
+        project_sortation: Projeleri sırala
+        date: tarih
+        default: varsayılan
+      column:
+        assigned_to: Atanan
+        type: Tür
+        due_date: Bitiş tarihi
+        name: İsim
+        status: Durum
+        responsible: Sorumlu
+        start_date: Başlangıç tarihi
+      columns: Sütunlar
+      comparisons: Karşılaştırmalar
+      comparison:
+        absolute: Mutlak
+        none: Hiçbiri
+        relative: Göreceli
+        compare_relative_prefix: Mevcut planlama ile kıyasla
+        compare_relative_suffix: önce
+        compare_absolute: Mevcut planlamayı %{date} ile karşılaştır
+      time_relative:
+        days: gün
+        weeks: hafta
+        months: ay
+      exclude_own_work_packages: İş paketlerini bu projeden gizle
+      exclude_reporters: Diğer projeleri gizle
+      exclude_empty: Boş projeleri gizle
+      grouping: Gruplama
+      grouping_hide_group: '"%{group}" grubunu gizle'
+      grouping_one: İlk gruplama ölçütü
+      grouping_one_phrase: Is a subproject of
+      grouping_other: Diğer
+      hide_chart: Grafiği gizle
+      noneElement: "(yok)"
+      noneSelection: "(yok)"
+      outline: Initial outline expansion
+      parent: Show subprojects of
+      work_package_filters: Filter work packages
+      work_package_responsible: Show work packages with responsible
+      work_package_assignee: Show work packages with assignee
+      types: Türleri göster
+      status: Durumu göster
+      project_time_filter: Projects with a work package of a certain type in a certain
+        timeframe
+      project_time_filter_timeframe: Zaman çerçevesi
+      project_time_filter_historical_from: başlangıç
+      project_time_filter_historical_to: bitiş
+      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
+        %{end_label} %{endspan}%{endspanunit} from now"
+      project_filters: Projeleri filtrele
+      project_responsible: Show projects with responsible
+      project_status: Show project status
+      project_types: Proje türlerini göster
+      timeframe: Zaman aralığını göster
+      timeframe_end: bitiş
+      timeframe_start: başlangıç
+      timeline: Genel Ayarlar
+      zoom: Yakınlaştırma faktörü
+    history: Geçmiş
+    new_color: Yeni renk
+    new_association: Yeni bağımlılık
+    new_work_package: Yeni iş paketi
+    new_project_type: Yeni proje türü
+    new_reporting: Yeni raporlama
+    new_timeline: Yeni zaman çizelgesi raporu
+    no_projects_for_reporting_available: There are no projects to which a reporting
+      association can be created.
+    no_right_to_view_timeline: You do not have the necessary permission to view the
+      linked timeline.
+    no_timeline_for_id: "%{id} kimlik numaralı bir zaman akışı yok."
+    notice_successful_deleted_all_elements: Tüm elementler başarıyla silindi
+    outline: Reset Outline
+    outlines:
+      aggregation: Show aggregations only
+      level1: Expand level 1
+      level2: Expand level 2
+      level3: Expand level 3
+      level4: Expand level 4
+      level5: Expand level 5
+      all: Tümünü göster
+    reporting_for_project:
+      show: 'Status reported to project: %{title}'
+      edit_delete: 'status report for project: %{title}'
+      history: 'History for status for project: %{title}'
+    reporting:
+      delete: 'Silinme durumu: %{comment}'
+      edit: 'Düzenleme durumu: %{comment}'
+      show: 'Durum: %{comment}'
+    planning_element_update: 'Güncelleme: %{title}'
+    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
+    project_type_could_not_be_saved: Proje türü kaydedilemedi
+    type_could_not_be_saved: Type kaydedilemedi
+    reporting_could_not_be_saved: Raporlama kaydedilemedi
+    properties: Özellikler
+    really_delete_color: 'Aşağıdaki rengi silmek istediğinizden emin misiniz? Bu rengi
+      kullanan türler silinmeyecek.
+
+'
+    really_delete_project_type: 'Aşağıdaki proje türünü silmek istediğinizden emin
+      misiniz? Bu türü kullanan projeler silinmeyecek.
+
+'
+    really_delete_timeline: 'Aşağıdaki zaman akışı raporunu silmek istediğinizden
+      emin misiniz? Zaman akışı raporunda görünen iş paketleri silinmeyecek.
+
+'
+    really_delete_reporting: 'Are you sure, you want to delete the following reporting?
+      Previous reporting statuses will be deleted, too.
+
+'
+    start: Başla
+    timeline: Zaman çizelgesi raporu
+    timelines: Zaman çizelgesi raporu
+    settings: Zaman çizelgeleri
+    vertical_work_package: Dikey iş paketleri
+    without_project_type: Proje türü olmadan
+    you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
+    zoom:
+      in: Yakınlaştır
+      out: Uzaklaştır
+      days: Gün
+      weeks: Hafta
+      months: Ay
+      quarters: Üç aylık
+      years: Yıl
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
+  title_remove_and_delete_user: Davet edilen kullanıcıyı projeden çıkarın ve onu silin.
+  tooltip_resend_invitation: 'Eskisi geçersiz olduysa ya da orjinal e-posta alınamadıysa
+    yeni bir davet anahtarı gönderir. Aynı zamanda bu işlevi aktif kullanıcıların
+    farkli bir kimlik doğrulama yöntemine geçişi için de kullanabilirsiniz. Aktif
+    kullanıcılar için kullandığınızda onların durumu ''davet edildi'' olarak değişir.
+
+'
+  tooltip:
+    setting_email_login: 'Eğer aktive edilirse, kullanıcıya kayıt esnasında giriş
+      seçimi sunulmaz. Login adı olarak e-posta adresi kullanılacak. Yönetici istediği
+      zaman giriş bilgisini ayrıca belirleyebilir.
+
+'
+  queries:
+    apply_filter: Önceden yapılandırılmış filtre uygula
+  top_menu:
+    additional_resources: Ek Kaynaklar
+    getting_started: Başlarken
+    help_and_support: Yardım ve Destek
+  total_progress: Toplam ilerleme
+  user:
+    all: tüm
+    active: etkin
+    activate: Etkinleştir
+    activate_and_reset_failed_logins: Activate and reset failed logins
+    authentication_provider: Kimlik doğrulama sağlayıcısı
+    authentication_settings_disabled_due_to_external_authentication: 'This user authenticates
+      via an external authentication provider, so there is no password in OpenProject
+      to be changed.
+
+'
+    authorization_rejected: Oturum açma izniniz yok.
+    assign_random_password: Rastgele şifre atayın (kullanıcıya e-posta ile gönderilir)
+    blocked: geçici olarak kilitlendi
+    blocked_num_failed_logins:
+      one: geçici olarak kilitlenmiştir (bir başarısız giriş denemesi)
+      other: geçici olarak kilitlenmiştir (%{count} başarısız giriş denemeleri)
+    confirm_status_change: "'%{name}' durumunu değiştirmek üzeresiniz. Devam etmek
+      istediğinizden emin misiniz?"
+    deleted: Kullanıcı silindi
+    error_status_change_failed: 'Changing the user status failed due to the following
+      errors: %{errors}'
+    invite: Kullanıcı e-posta ile davet
+    invited: davet
+    lock: Kalıcı olarak kilit
+    locked: kalıcı olarak kilitli
+    no_login: Bu kullanıcı, giriş yoluyla şifreyle kimlik doğrulaması yapar. Devre
+      dışı olduğundan, oturum açamazlar.
+    password_change_unsupported: Parola değişikliği desteklenmiyor.
+    registered: kayıtlı
+    reset_failed_logins: Başarısız oturumları sıfırlayın
+    settings:
+      mail_notifications: E-posta bildirimleri gönder
+      mail_project_explanaition: 'Seçili olmayan projeler için, sadece dahil olduğunuz
+        (oluşturan veya atanan) ya da izlediğiniz öğeler hakkında uyarılar alacaksınız
+        (Ör: Yazarı olduğunuz ya da atandığınız iş paketleri).'
+      mail_self_notified: Yaptığım değişiklikleri kendim bildirmek istiyorum
+    status_user_and_brute_force: "%{user} ve %{brute_force}"
+    status_change: Durum değişikliği
+    unlock: Kilidi kaldır
+    unlock_and_reset_failed_logins: Başarısız oturum açma işlemlerinin kilidini aç
+      ve sıfırla
+  version_status_closed: kapalı
+  version_status_locked: kilitli
+  version_status_open: açık
+  note: Not
+  note_password_login_disabled: Şifre girişi %{configuration} tarafından devre dışı
+    bırakıldı.
+  warning: Uyarı
+  warning_attachments_not_saved: "%{count} dosya (lar) kaydedilemedi."
+  menu_item: Menü seçeneği
+  menu_item_setting: Görünürlük
+  wiki_menu_item_for: Wikipage için menü öğesi " %{title} "
+  wiki_menu_item_setting: Görünürlük
+  wiki_menu_item_new_main_item_explanation: 'Sadece ana wiki menü öğesini silmektesiniz.
+    Artık yeni bir ana öğenin oluşturulacağı bir wiki sayfası seçmelisiniz. Wiki''yi
+    silmek için, wiki modülü proje yöneticileri tarafından devre dışı bırakılabilir.
+
+'
+  wiki_menu_item_delete_not_permitted: Yalnızca wiki sayfasının wiki menü öğesi silinemez.
+  query_menu_item_for: '" %{title} " sorgusu için menü öğesi'
+  work_package:
+    updated_automatically_by_child_changes: '_Çocuk iş paketi %{child} _ içindeki
+      değerler değiştirilerek otomatik olarak güncellendi _
+
+'
+    destroy:
+      info: İş paketinin silinmesi geri döndürülemez bir işlemdir.
+      title: İş paketini sil
+  nothing_to_preview: Önizlenecek bir şey yok
+  api_v3:
+    attributes:
+      lock_version: Sürümü Kilitle
+    errors:
+      code_401: Bu kaynağa erişim sağlayabilmeniz için yetkilendirilmiş olmalısınız
+      code_401_wrong_credentials: Doğru kimlik bilgilerini sağlamadınız.
+      code_403: Bu kaynağa erişim için yetkiniz yoktur.
+      code_404: İstenen kaynak bulunamadı.
+      code_409: Çakışan geliştirmeler sebebiyle kaynak güncellenememiştir.
+      code_500: İç hata oluştur.
+      expected:
+        date: YYYY-AA-GG (ISO 8601 sadece tarih)
+        duration: ISO 8601 süre
+      invalid_content_type: Beklenen içerik tipi '%{content_type}' ancak gerçekte
+        olan '%{actual}.
+      invalid_format: 'Özelliği özelliği özelliği'' %{property} '' özelliği için geçersiz
+        biçim: '' %{expected_format} '' gibi beklenen biçim, ancak '' %{actual} ''
+        var.'
+      invalid_json: İstek JSON olarak ayrıştırılamadı.
+      invalid_relation: İlişki geçersiz.
+      invalid_resource: Özellik ' %{property} ' için ' %{expected} ' gibi bir bağlantı
+        bekleniyor, ancak ' %{actual} ' var.
+      invalid_user_status_transition: Geçerli kullanıcı hesabı durumu bu işleme izin
+        vermiyor.
+      missing_content_type: belirtilmemiş
+      missing_request_body: İstek gövdesi yoktu.
+      missing_or_malformed_parameter: Sorgu parametresi '%{parameter}' eksik veya
+        hatalı biçimlendirilmiş.
+      multipart_body_error: İstek gövdesi, beklenen çok parçalı parçaları içeriyordu.
+      multiple_errors: Çoklu alan kısıtlamaları ihlal edilmiştir.
+      unable_to_create_attachment: The attachment could not be created
+      render:
+        context_not_parsable: Sağlanan bağlam, bir kaynağa bağ değildir.
+        unsupported_context: Verilen kaynak bağlam olarak desteklenmiyor.
+        context_object_not_found: Bağlam olarak verilen kaynağı bulamıyor.
+      validation:
+        done_ratio: Bitirme oranı, ebeveyn çalışma paketleri durumunda durumuyla veya
+          devre dışı olduğunda belirlenemez.
+        due_date: Vade tarihi, ebeveyn çalışma paketlerinde ayarlanamaz.
+        estimated_hours: Tahmini saatler, ebeveyn çalışma paketlerinde ayarlanamaz.
+        invalid_user_assigned_to_work_package: Seçilen kullanıcının bu çalışma paketi
+          için ' %{property} ' olması için izin verilmiyor.
+        start_date: Başlangıç ​​tarihi, üst çalışma paketlerinde ayarlanamaz.
+      writing_read_only_attributes: Salt okunur bir nitelik yazmamalısınız.
+    resources:
+      schema: Şema
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''

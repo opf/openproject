@@ -15,8 +15,6 @@ export class WorkPackageTableSelection {
     if (this.selectionState.isPristine()) {
       this.reset();
     }
-
-    this.observeToUpdateFocused();
   }
 
   public isSelected(workPackageId:string) {
@@ -73,22 +71,15 @@ export class WorkPackageTableSelection {
     return this.selectionState.value as WPTableRowSelectionState;
   }
 
+  public get isEmpty() {
+    return this.selectionCount === 0;
+  }
+
   /**
    * Return the number of selected rows.
    */
   public get selectionCount():number {
     return _.size(this.currentState.selected);
-  }
-
-  /**
-   * Switch the current focused work package to the given id,
-   * setting selection and focus on this WP.
-   */
-  public focusOn(workPackgeId:string) {
-    let newState = this._emptyState;
-    newState.selected[workPackgeId] = true;
-    this.selectionState.putValue(newState);
-    this.states.focusedWorkPackage.putValue(workPackgeId);
   }
 
   /**
@@ -132,15 +123,19 @@ export class WorkPackageTableSelection {
   public setMultiSelectionFrom(rows:RenderedRow[], wpId:string, position:number) {
     let state = this.currentState;
 
-    if (this.selectionCount === 0) {
+    // If there are no other selections, it does not matter what the index is
+    if (this.selectionCount === 0 || state.activeRowIndex === null) {
+      console.warn(`Selection count is empty, setting ${wpId} to selected.`);
       state.selected[wpId] = true;
       state.activeRowIndex = position;
-    } else if (state.activeRowIndex !== null) {
+    } else {
+      console.warn(`Active index is ${state.activeRowIndex}`);
       let start = Math.min(position, state.activeRowIndex);
       let end = Math.max(position, state.activeRowIndex);
 
       rows.forEach((row, i) => {
         if (row.workPackageId) {
+          console.warn(`Setting ${row.workPackageId} ? ${i >= start && i <= end}`);
           state.selected[row.workPackageId] = i >= start && i <= end;
         }
       });
@@ -155,21 +150,6 @@ export class WorkPackageTableSelection {
       selected: {},
       activeRowIndex: null
     };
-  }
-
-  /**
-   * Put the first row that is eligible to be displayed in the details view into
-   * the focused state if no manual selection has been made yet.
-   */
-  private observeToUpdateFocused() {
-    this
-      .states.table.rendered
-      .values$()
-      .map(state => _.find(state, row => row.workPackageId))
-      .filter(fullRow => !!fullRow && _.isEmpty(this.currentState.selected))
-      .subscribe(fullRow => {
-        this.states.focusedWorkPackage.putValue(fullRow!.workPackageId!);
-      });
   }
 }
 

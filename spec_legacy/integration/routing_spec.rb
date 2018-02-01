@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 
 describe 'routing', type: :routing do
   before do
@@ -412,22 +412,6 @@ describe 'routing', type: :routing do
     }
   end
 
-  context 'project_enumerations' do
-    context 'project_scoped' do
-      it {
-        is_expected.to route(:put, '/projects/64/enumerations').to(controller: 'project_enumerations',
-                                                                   action: 'update',
-                                                                   project_id: '64')
-      }
-
-      it {
-        is_expected.to route(:delete, '/projects/64/enumerations').to(controller: 'project_enumerations',
-                                                                      action: 'destroy',
-                                                                      project_id: '64')
-      }
-    end
-  end
-
   context 'timelogs' do
     it {
       is_expected.to route(:get, '/time_entries').to(controller: 'timelog',
@@ -811,7 +795,7 @@ describe 'routing', type: :routing do
   end
 
   context 'administration panel' do
-    it { is_expected.to route(:get, '/admin/projects').to(controller: 'admin', action: 'projects') }
+    it { is_expected.to route(:get, '/projects').to(controller: 'projects', action: 'index') }
   end
 
   context 'groups' do

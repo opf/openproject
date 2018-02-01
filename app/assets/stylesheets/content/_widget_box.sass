@@ -100,7 +100,7 @@ $widget-box--enumeration-width: 20px
       li:before
         @include icon-font-common
         @extend .icon-context
-        @extend .icon-arrow-right2:before
+        @include icon-mixin-arrow-right2
         display: inline-block
         font-size: 0.6rem
         color: $content-icon-link-color
@@ -130,8 +130,8 @@ $widget-box--enumeration-width: 20px
 
       li:before
         @include icon-common
-        @extend .icon-notice
-        @extend .icon-notice:before
+        @extend .icon-yes
+        @include icon-mixin-yes
         display: inline-block
         font-size: 0.6rem
         color: $alternative-color
@@ -140,7 +140,8 @@ $widget-box--enumeration-width: 20px
 
 
     .widget-box--teaser-image
-      height: 100px
+      max-width: 30%
+      max-height: 100px
       margin-left: auto
       margin-right: auto
 

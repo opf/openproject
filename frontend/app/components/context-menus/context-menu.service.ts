@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {TransitionService} from '@uirouter/angularjs';
+
 interface ContextMenu {
   close(disableFocus?:boolean):Promise<void>;
   open(nextTo:JQuery,locals:Object):Promise<JQuery>;
@@ -38,15 +40,20 @@ export class ContextMenuService {
   private active_menu:ContextMenu|null;
   private repositionCurrentElement:Function|null;
 
+  // RR: Ugly flag to avoid bug in Firefox:
+  // right-click immediately triggered $window.click -> close() event
+  private tempDisableGlobalClose = false;
+
   constructor(public $window:ng.IWindowService,
               public $injector:ng.auto.IInjectorService,
               public $q:ng.IQService,
+              public $transitions:TransitionService,
               public $timeout:ng.ITimeoutService,
               public $rootScope:ng.IRootScopeService) {
     "ngInject";
 
     // Close context menus on state change
-    $rootScope.$on('$stateChangeStart', () => this.close());
+    $transitions.onStart({}, () => this.close());
 
     $rootScope.$on('repositionDropdown', () => {
       this.repositionCurrentElement && this.repositionCurrentElement();
@@ -56,7 +63,11 @@ export class ContextMenuService {
     Mousetrap.bind('escape', () => this.close());
 
     // Listen to any click and close the active context menu
-    jQuery($window).click(() => this.close());
+    jQuery($window).click(() => {
+      if (!this.tempDisableGlobalClose) {
+        this.close();
+      }
+    });
 
   }
 
@@ -76,6 +87,8 @@ export class ContextMenuService {
   }
 
   public activate(contextMenuName:string, event:Event, locals:Object, positionArgs?:any) {
+    this.tempDisableGlobalClose = true;
+
     let deferred = this.$q.defer();
     let target = jQuery(event.target);
     let contextMenu:ContextMenu = <ContextMenu> this.$injector.get(contextMenuName);
@@ -103,6 +116,8 @@ export class ContextMenuService {
         this.repositionCurrentElement!();
         menuElement.css('visibility', 'visible');
         deferred.resolve(menuElement);
+
+        this.tempDisableGlobalClose = false;
       });
     });
 

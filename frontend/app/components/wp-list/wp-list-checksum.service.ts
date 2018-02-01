@@ -28,10 +28,12 @@
 
 import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageTablePagination} from '../wp-fast-table/wp-table-pagination';
+import {StateService} from '@uirouter/angularjs';
+
 
 export class WorkPackagesListChecksumService {
   constructor(protected UrlParamsHelper:any,
-              protected $state:ng.ui.IStateService) {
+              protected $state:StateService) {
   }
 
   public id:number | null;
@@ -46,12 +48,12 @@ export class WorkPackagesListChecksumService {
     if (this.isUninitialized()) {
       // Do nothing
     } else if (this.isIdDifferent(query.id)) {
-      this.maintainUrlQueryState(query.id, null)
+      this.maintainUrlQueryState(query.id, null);
 
       this.clear();
 
     } else if (this.isChecksumDifferent(newQueryChecksum)) {
-      this.maintainUrlQueryState(query.id, newQueryChecksum)
+      this.maintainUrlQueryState(query.id, newQueryChecksum);
     }
 
     this.set(query.id, newQueryChecksum);
@@ -62,7 +64,15 @@ export class WorkPackagesListChecksumService {
 
     this.set(query.id, newQueryChecksum);
 
-    this.maintainUrlQueryState(query.id, newQueryChecksum)
+    this.maintainUrlQueryState(query.id, newQueryChecksum);
+  }
+
+  public setToQuery(query:QueryResource, pagination:WorkPackageTablePagination) {
+    let newQueryChecksum = this.getNewChecksum(query, pagination);
+
+    this.set(query.id, newQueryChecksum);
+
+    this.maintainUrlQueryState(query.id, null);
   }
 
   public isQueryOutdated(query:QueryResource,
@@ -120,7 +130,7 @@ export class WorkPackagesListChecksumService {
         // Query ID changed
         idChanged ||
         // Query ID same + query props changed
-        (!idChanged && checksumChanged) ||
+        (!idChanged && checksumChanged && (otherChecksum || this.visibleChecksum)) ||
         // No query ID set
         (!hasCurrentQueryID && visibleChecksumChanged)
       )
@@ -135,7 +145,7 @@ export class WorkPackagesListChecksumService {
     this.visibleChecksum = checksum;
 
     this.$state.go('.', {query_props: checksum, query_id: id}, {notify: false});
-  };
+  }
 }
 
 angular

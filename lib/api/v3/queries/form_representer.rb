@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -71,7 +72,8 @@ module API
         end
 
         def payload_representer
-          QueryPayloadRepresenter.new(represented, current_user: current_user)
+          QueryPayloadRepresenter
+            .new(represented, current_user: current_user)
         end
 
         def schema_representer

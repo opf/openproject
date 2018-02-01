@@ -41,7 +41,11 @@ export class SchemaResource extends HalResource {
     return states.schemas.get(this.href as string);
   }
 
-  protected $initialize(source:any) {
+  public get availableAttributes() {
+    return _.keys(this.$source).filter(name => name.indexOf('_') !== 0);
+  }
+
+  public $initialize(source:any) {
     super.$initialize(source);
 
     initializeSchemaResource(this);

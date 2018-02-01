@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 User resource', type: :request do
+describe 'API v3 User resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -180,6 +180,15 @@ describe 'API v3 User resource', type: :request do
           let(:type) { 'User' }
         end
       end
+
+      context 'requesting current user' do
+        let(:get_path) { api_v3_paths.user 'me' }
+
+        it 'should response with 200' do
+          expect(subject.status).to eq(200)
+          expect(subject.body).to be_json_eql(user.name.to_json).at_path('name')
+        end
+      end
     end
 
     context 'get with login' do
@@ -296,6 +305,14 @@ describe 'API v3 User resource', type: :request do
       let(:current_user) { FactoryGirl.create :anonymous }
 
       it_behaves_like 'deletion is not allowed'
+
+      context 'requesting current user' do
+        let(:get_path) { api_v3_paths.user 'me' }
+
+        it 'should response with 403' do
+          expect(subject.status).to eq(403)
+        end
+      end
     end
   end
 end

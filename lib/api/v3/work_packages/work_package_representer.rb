@@ -28,24 +28,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module V3
     module WorkPackages
       class WorkPackageRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+
         class << self
-          def create_class(work_package, embed_links: false)
+          def create_class(work_package)
             injector_class = ::API::V3::Utilities::CustomFieldInjector
             injector_class.create_value_representer(work_package,
-                                                    WorkPackageRepresenter,
-                                                    embed_links: embed_links)
+                                                    self)
           end
 
           def create(work_package, current_user:, embed_links: false)
-            create_class(work_package,
-                         embed_links: embed_links)
+            create_class(work_package)
               .new(work_package,
                    current_user: current_user,
                    embed_links: embed_links)
@@ -64,74 +61,91 @@ module API
         self_link title_getter: ->(*) { represented.subject }
 
         link :update do
+          next unless current_user_allowed_to(:edit_work_packages, context: represented.project)
           {
             href: api_v3_paths.work_package_form(represented.id),
             method: :post
-          } if current_user_allowed_to(:edit_work_packages, context: represented.project)
+          }
         end
 
         link :schema do
           {
-            href: api_v3_paths.work_package_schema(represented.project.id, represented.type.id)
+            href: api_v3_paths.work_package_schema(represented.project_id, represented.type_id)
           }
         end
 
         link :updateImmediately do
+          next unless current_user_allowed_to(:edit_work_packages, context: represented.project)
           {
             href: api_v3_paths.work_package(represented.id),
             method: :patch
-          } if current_user_allowed_to(:edit_work_packages, context: represented.project)
+          }
         end
 
         link :delete do
+          next unless current_user_allowed_to(:delete_work_packages, context: represented.project)
           {
             href: api_v3_paths.work_package(represented.id),
             method: :delete
-          } if current_user_allowed_to(:delete_work_packages, context: represented.project)
+          }
         end
 
         link :logTime do
+          next unless current_user_allowed_to(:log_time, context: represented.project) &&
+                      represented.id
           {
             href: new_work_package_time_entry_path(represented),
             type: 'text/html',
             title: "Log time on #{represented.subject}"
-          } if current_user_allowed_to(:log_time, context: represented.project)
+          }
         end
 
         link :move do
+          next unless current_user_allowed_to(:move_work_packages, context: represented.project) &&
+                      represented.id
+
           {
             href: new_work_package_move_path(represented),
             type: 'text/html',
             title: "Move #{represented.subject}"
-          } if current_user_allowed_to(:move_work_packages, context: represented.project)
+          }
         end
 
         link :copy do
+          next unless current_user_allowed_to(:move_work_packages, context: represented.project) &&
+                      represented.id
           {
             href: new_work_package_move_path(represented, copy: true, ids: [represented.id]),
             type: 'text/html',
             title: "Copy #{represented.subject}"
-          } if current_user_allowed_to(:move_work_packages, context: represented.project)
+          }
         end
 
         link :pdf do
+          next unless current_user_allowed_to(:export_work_packages, context: represented.project) &&
+                      represented.id
+
           {
             href: work_package_path(id: represented.id, format: :pdf),
             type: 'application/pdf',
             title: 'Export as PDF'
-          } if current_user_allowed_to(:export_work_packages, context: represented.project)
+          }
         end
 
         link :atom do
+          next unless Setting.feeds_enabled? &&
+                      current_user_allowed_to(:export_work_packages, context: represented.project) &&
+                      represented.id
           {
             href: work_package_path(id: represented.id, format: :atom),
             type: 'application/rss+xml',
             title: 'Atom feed'
-          } if Setting.feeds_enabled? &&
-               current_user_allowed_to(:export_work_packages, context: represented.project)
+          }
         end
 
         link :available_relation_candidates do
+          next unless represented.id
+
           {
             href: "/api/v3/work_packages/#{represented.id}/available_relation_candidates",
             title: "Potential work packages to relate to"
@@ -139,27 +153,22 @@ module API
         end
 
         link :customFields do
+          next unless current_user_allowed_to(:edit_project, context: represented.project)
           {
             href: settings_project_path(represented.project.identifier, tab: 'custom_fields'),
             type: 'text/html',
             title: "Custom fields"
-          } if current_user_allowed_to(:edit_project, context: represented.project)
+          }
         end
 
         link :configureForm do
+          next unless current_user.admin? && represented.type_id
           {
             href: edit_type_path(represented.type_id, tab: 'form_configuration'),
             type: 'text/html',
             title: "Configure form"
-          } if current_user.admin?
+          }
         end
-
-        linked_property :type, embed_as: ::API::V3::Types::TypeRepresenter
-        linked_property :status, embed_as: ::API::V3::Statuses::StatusRepresenter
-
-        linked_property :author, path: :user, embed_as: ::API::V3::Users::UserRepresenter
-        linked_property :responsible, path: :user, embed_as: ::API::V3::Users::UserRepresenter
-        linked_property :assigned_to, path: :user, embed_as: ::API::V3::Users::UserRepresenter
 
         link :activities do
           {
@@ -174,17 +183,19 @@ module API
         end
 
         link :addAttachment do
+          next unless current_user_allowed_to(:edit_work_packages, context: represented.project) ||
+                      current_user_allowed_to(:add_work_packages, context: represented.project)
           {
             href: api_v3_paths.attachments_by_work_package(represented.id),
             method: :post
-          } if current_user_allowed_to(:edit_work_packages, context: represented.project) ||
-               current_user_allowed_to(:add_work_packages, context: represented.project)
+          }
         end
 
         link :availableWatchers do
+          next unless current_user_allowed_to(:add_work_package_watchers, context: represented.project)
           {
             href: api_v3_paths.available_watchers(represented.id)
-          } if current_user_allowed_to(:add_work_package_watchers, context: represented.project)
+          }
         end
 
         link :relations do
@@ -200,74 +211,83 @@ module API
         end
 
         link :watch do
+          next if current_user.anonymous? || represented.watcher_users.include?(current_user)
           {
             href: api_v3_paths.work_package_watchers(represented.id),
             method: :post,
             payload: { user: { href: api_v3_paths.user(current_user.id) } }
-          } unless current_user.anonymous? || represented.watcher_users.include?(current_user)
+          }
         end
 
         link :unwatch do
+          next unless represented.watcher_users.include?(current_user)
           {
             href: api_v3_paths.watcher(current_user.id, represented.id),
             method: :delete
-          } if represented.watcher_users.include?(current_user)
+          }
         end
 
         link :watchers do
+          next unless  current_user_allowed_to(:view_work_package_watchers, context: represented.project)
           {
             href: api_v3_paths.work_package_watchers(represented.id)
-          } if current_user_allowed_to(:view_work_package_watchers, context: represented.project)
+          }
         end
 
         link :addWatcher do
+          next unless current_user_allowed_to(:add_work_package_watchers, context: represented.project)
           {
             href: api_v3_paths.work_package_watchers(represented.id),
             method: :post,
             payload: { user: { href: api_v3_paths.user('{user_id}') } },
             templated: true
-          } if current_user_allowed_to(:add_work_package_watchers, context: represented.project)
+          }
         end
 
         link :removeWatcher do
+          next unless current_user_allowed_to(:delete_work_package_watchers, context: represented.project)
           {
             href: api_v3_paths.watcher('{user_id}', represented.id),
             method: :delete,
             templated: true
-          } if current_user_allowed_to(:delete_work_package_watchers, context: represented.project)
+          }
         end
 
         link :addRelation do
+          next unless current_user_allowed_to(:manage_work_package_relations,
+                                              context: represented.project)
           {
             href: api_v3_paths.work_package_relations(represented.id),
             method: :post,
             title: 'Add relation'
-          } if current_user_allowed_to(:manage_work_package_relations,
-                                       context: represented.project)
+          }
         end
 
         link :addChild do
+          next unless current_user_allowed_to(:add_work_packages, context: represented.project)
           {
             href: api_v3_paths.work_packages_by_project(represented.project.identifier),
             method: :post,
             title: "Add child of #{represented.subject}"
-          } if current_user_allowed_to(:add_work_packages, context: represented.project)
+          }
         end
 
         link :changeParent do
+          next unless current_user_allowed_to(:manage_subtasks, context: represented.project)
           {
             href: api_v3_paths.work_package(represented.id),
             method: :patch,
             title: "Change parent of #{represented.subject}"
-          } if current_user_allowed_to(:manage_subtasks, context: represented.project)
+          }
         end
 
         link :addComment do
+          next unless current_user_allowed_to(:add_work_package_notes, context: represented.project)
           {
             href: api_v3_paths.work_package_activities(represented.id),
             method: :post,
             title: 'Add comment'
-          } if current_user_allowed_to(:add_work_package_notes, context: represented.project)
+          }
         end
 
         link :previewMarkup do
@@ -277,37 +297,25 @@ module API
           }
         end
 
-        linked_property :parent,
-                        path: :work_package,
-                        title_getter: ->(*) { represented.parent.subject },
-                        show_if: ->(*) { represented.parent.nil? || represented.parent.visible? }
-
         link :timeEntries do
+          next unless current_user_allowed_to(:view_time_entries, context: represented.project) &&
+                      represented.id
           {
             href: work_package_time_entries_path(represented.id),
             type: 'text/html',
             title: 'Time entries'
-          } if current_user_allowed_to(:view_time_entries, context: represented.project)
+          }
         end
 
-        linked_property :category, embed_as: ::API::V3::Categories::CategoryRepresenter
-        linked_property :priority, embed_as: ::API::V3::Priorities::PriorityRepresenter
-        linked_property :project, embed_as: ::API::V3::Projects::ProjectRepresenter
-
-        linked_property :version,
-                        getter: :fixed_version,
-                        title_getter: ->(*) {
-                          represented.fixed_version.to_s
-                        },
-                        embed_as: ::API::V3::Versions::VersionRepresenter
-
         links :children do
+          next if visible_children.empty?
+
           visible_children.map do |child|
             {
               href: api_v3_paths.work_package(child.id),
               title: child.subject
             }
-          end unless visible_children.empty?
+          end
         end
 
         links :ancestors do
@@ -319,15 +327,26 @@ module API
           end
         end
 
-        property :id, render_nil: true
-        property :lock_version
-        property :subject, render_nil: true
+        property :id,
+                 render_nil: true
+
+        property :lock_version,
+                 render_nil: true,
+                 getter: ->(*) {
+                   lock_version.to_i
+                 }
+
+        property :subject,
+                 render_nil: true
+
         property :description,
                  exec_context: :decorator,
                  getter: ->(*) {
                    ::API::Decorators::Formattable.new(represented.description, object: represented)
                  },
-                 setter: ->(value, *) { represented.description = value['raw'] },
+                 setter: ->(fragment:, **) {
+                   represented.description = fragment['raw']
+                 },
                  render_nil: true
 
         property :start_date,
@@ -337,8 +356,9 @@ module API
                  end,
                  render_nil: true,
                  if: ->(_) {
-                   !represented.is_milestone?
+                   !represented.milestone?
                  }
+
         property :due_date,
                  exec_context: :decorator,
                  getter: ->(*) do
@@ -346,45 +366,54 @@ module API
                  end,
                  render_nil: true,
                  if: ->(_) {
-                   !represented.is_milestone?
+                   !represented.milestone?
                  }
+
         property :date,
                  exec_context: :decorator,
                  getter: ->(*) do
                    datetime_formatter.format_date(represented.due_date, allow_nil: true)
                  end,
                  render_nil: true,
-                 if: ->(_) {
-                   represented.is_milestone?
+                 if: ->(*) {
+                   represented.milestone?
                  }
+
         property :estimated_time,
                  exec_context: :decorator,
                  getter: ->(*) do
                    datetime_formatter.format_duration_from_hours(represented.estimated_hours,
                                                                  allow_nil: true)
                  end,
-                 render_nil: true,
-                 writeable: false
+                 render_nil: true
+
         property :spent_time,
                  exec_context: :decorator,
                  getter: ->(*) do
                    datetime_formatter.format_duration_from_hours(represented.spent_hours)
                  end,
-                 writeable: false,
                  if: ->(_) {
                    current_user_allowed_to(:view_time_entries, context: represented.project)
                  }
+
         property :done_ratio,
                  as: :percentageDone,
                  render_nil: true,
-                 writeable: false,
                  if: ->(*) { Setting.work_package_done_ratio != 'disabled' }
+
         property :created_at,
                  exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_at) }
+                 getter: ->(*) {
+                   next unless represented.created_at
+                   datetime_formatter.format_datetime(represented.created_at)
+                 }
+
         property :updated_at,
                  exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_at) }
+                 getter: ->(*) {
+                   next unless represented.updated_at
+                   datetime_formatter.format_datetime(represented.updated_at)
+                 }
 
         property :watchers,
                  embedded: true,
@@ -404,6 +433,73 @@ module API
                  embedded: true,
                  exec_context: :decorator,
                  if: ->(*) { embed_links }
+
+        associated_resource :category
+
+        associated_resource :type
+
+        associated_resource :priority
+
+        associated_resource :project
+
+        associated_resource :status
+
+        associated_resource :author,
+                            v3_path: :user,
+                            representer: ::API::V3::Users::UserRepresenter
+
+        associated_resource :responsible,
+                            v3_path: :user,
+                            representer: ::API::V3::Users::UserRepresenter
+
+        associated_resource :assigned_to,
+                            as: :assignee,
+                            v3_path: :user,
+                            representer: ::API::V3::Users::UserRepresenter
+
+        associated_resource :fixed_version,
+                            as: :version,
+                            v3_path: :version,
+                            representer: ::API::V3::Versions::VersionRepresenter
+
+        associated_resource :parent,
+                            v3_path: :work_package,
+                            representer: ::API::V3::WorkPackages::WorkPackageRepresenter,
+                            skip_render: ->(*) { represented.parent && !represented.parent.visible? },
+                            link_title_attribute: :subject,
+                            link: ->(*) {
+                              next if represented.parent && !represented.parent.visible?
+
+                              if represented.parent
+                                {
+                                  href: api_v3_paths.work_package(represented.parent.id),
+                                  title: represented.parent.subject
+                                }
+                              else
+                                {
+                                  href: nil,
+                                  title: nil
+                                }
+                              end
+                            },
+                            setter: ->(fragment:, **) do
+                              next if fragment.empty?
+
+                              href = fragment['href']
+
+                              new_parent = if href
+                                             id = ::API::Utilities::ResourceLinkParser
+                                                  .parse_id href,
+                                                            property: 'parent',
+                                                            expected_version: '3',
+                                                            expected_namespace: 'work_packages'
+
+                                             WorkPackage.find_by(id: id) ||
+                                               ::WorkPackage::InexistentWorkPackage.new(id: id)
+                                           end
+
+                              represented.parent = new_parent
+                            end
 
         def _type
           'WorkPackage'
@@ -429,10 +525,7 @@ module API
 
         def relations
           self_path = api_v3_paths.work_package_relations(represented.id)
-          relations = represented.relations
-          visible_relations = relations.select do |relation|
-            relation.other_work_package(represented).visible?
-          end
+          visible_relations = represented.relations.visible.non_hierarchy
 
           ::API::V3::Relations::RelationCollectionRepresenter.new(visible_relations,
                                                                   self_path,
@@ -441,6 +534,48 @@ module API
 
         def visible_children
           @visible_children ||= represented.children.select(&:visible?)
+        end
+
+        def date=(value)
+          new_date = datetime_formatter.parse_date(value,
+                                                   'date',
+                                                   allow_nil: true)
+
+          represented.due_date = represented.start_date = new_date
+        end
+
+        def due_date=(value)
+          represented.due_date = datetime_formatter.parse_date(value,
+                                                               'dueDate',
+                                                               allow_nil: true)
+        end
+
+        def start_date=(value)
+          represented.start_date = datetime_formatter.parse_date(value,
+                                                                 'startDate',
+                                                                 allow_nil: true)
+        end
+
+        def estimated_time=(value)
+          represented.estimated_hours = datetime_formatter.parse_duration_to_hours(value,
+                                                                                   'estimatedTime',
+                                                                                   allow_nil: true)
+        end
+
+        def created_at=(value)
+          represented.created_at = datetime_formatter.parse_datetime(value,
+                                                                     'createdAt',
+                                                                     allow_nil: true)
+        end
+
+        def updated_at=(value)
+          represented.updated_at = datetime_formatter.parse_datetime(value,
+                                                                     'updatedAt',
+                                                                     allow_nil: true)
+        end
+
+        def spent_time=(value)
+          # noop
         end
 
         self.to_eager_load = [{ children: { project: :enabled_modules } },

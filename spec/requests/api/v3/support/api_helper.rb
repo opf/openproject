@@ -27,7 +27,7 @@
 #++
 
 shared_examples_for 'safeguarded API' do
-  it { expect(response.response_code).to eq(404) }
+  it { expect(last_response.status).to eq(404) }
 end
 
 shared_examples_for 'valid activity request' do
@@ -38,10 +38,10 @@ shared_examples_for 'valid activity request' do
     allow(User).to receive(:current).and_return(admin)
   end
 
-  it { expect(response.response_code).to eq(status_code) }
+  it { expect(last_response.status).to eq(status_code) }
 
   describe 'response body' do
-    subject { response.body }
+    subject { last_response.body }
 
     it { is_expected.to be_json_eql('Activity::Comment'.to_json).at_path('_type') }
 
@@ -55,5 +55,5 @@ shared_examples_for 'invalid activity request' do
     allow(User).to receive(:current).and_return(admin)
   end
 
-  it { expect(response.response_code).to eq(422) }
+  it { expect(last_response.status).to eq(422) }
 end

@@ -26,16 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  WorkPackageResourceInterface,
-  WorkPackageResource
-} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
 import {wpServicesModule} from '../../angular-modules';
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageNotificationService {
   constructor(protected I18n:op.I18n,
-              protected $state:ng.ui.IStateService,
+              protected $state:StateService,
               protected NotificationsService:any,
               protected loadingIndicator:any) {
   }
@@ -59,12 +57,12 @@ export class WorkPackageNotificationService {
       return this.handleErrorResponse(resource, workPackage);
     }
 
-    this.showGeneralError();
+    this.showGeneralError(response);
   }
 
   public handleErrorResponse(errorResource:any, workPackage?:WorkPackageResourceInterface) {
     if (!(errorResource instanceof ErrorResource)) {
-      return this.showGeneralError();
+      return this.showGeneralError(errorResource);
     }
 
     if (workPackage) {
@@ -78,8 +76,14 @@ export class WorkPackageNotificationService {
     this.showCustomError(errorResource, workPackage) || this.showApiErrorMessages(errorResource);
   }
 
-  public showGeneralError() {
-    this.NotificationsService.addError(this.I18n.t('js.error.internal'));
+  public showGeneralError(message?:string) {
+    let error = this.I18n.t('js.error.internal');
+
+    if (message) {
+      error += ' ' + message;
+    }
+
+    this.NotificationsService.addError(error);
   }
 
   public showEditingBlockedError(attribute:string) {

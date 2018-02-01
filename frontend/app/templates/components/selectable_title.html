@@ -5,7 +5,9 @@
             target="wpQuerySelectService"
             collision-container="#content"
             locals="selectedTitle">
-        <accessible-by-keyboard link-title="{{ I18n.t('js.toolbar.search_query_title') }}" >
+        <accessible-by-keyboard
+                link-class="wp-table--query-menu-link"
+                link-title="{{ I18n.t('js.toolbar.search_query_title') }}" >
           <op-icon icon-classes="icon-pulldown icon-button icon-small hide-when-print"></op-icon>
           {{ selectedTitle | characters:50 }}
         </accessible-by-keyboard>

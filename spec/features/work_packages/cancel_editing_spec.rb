@@ -53,7 +53,8 @@ describe 'Cancel editing work package', js: true do
   def expect_active_edit(path)
     visit path
     loading_indicator_saveguard
-    expect(page).to have_selector('.wp-edit-field.subject.-active')
+
+    expect(page).to have_selector('#wp-new-inline-edit--field-subject')
   end
 
   def expect_subject(val)
@@ -92,7 +93,7 @@ describe 'Cancel editing work package', js: true do
     wp_table.open_split_view(work_package2)
     page.driver.browser.switch_to.alert.dismiss
 
-    expect(page).to have_selector('.wp-edit-field.subject.-active')
+    expect(page).to have_selector('#wp-new-inline-edit--field-subject')
     expect(wp_page).not_to have_alert_dialog
   end
 
@@ -115,14 +116,14 @@ describe 'Cancel editing work package', js: true do
     find('.work-packages-show-view-button').click
 
     expect(wp_page).not_to have_alert_dialog
-    expect(page).to have_selector('.wp-edit-field.subject.-active')
+    expect(page).to have_selector('#wp-new-inline-edit--field-subject')
     expect_subject('foobar')
 
     # Moving back also works
-    page.evaluate_script('window.history.back()')
+    page.execute_script('window.history.back()')
 
     expect(wp_page).not_to have_alert_dialog
-    expect(page).to have_selector('.wp-edit-field.subject.-active')
+    expect(page).to have_selector('#wp-new-inline-edit--field-subject')
     expect_subject('foobar')
 
     # Cancel edition
@@ -147,7 +148,7 @@ describe 'Cancel editing work package', js: true do
       wp_table.open_split_view(work_package2)
       expect(wp_page).not_to have_alert_dialog
 
-      expect(page).to have_no_selector('.wp-edit-field.subject.-active')
+      expect(page).to have_no_selector('#wp-new-inline-edit--field-subject')
       expect(page).to have_selector('.work-packages--details--subject', text: work_package2.subject)
 
       # Moving somewhere else

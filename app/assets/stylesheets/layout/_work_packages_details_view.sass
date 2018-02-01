@@ -39,28 +39,34 @@ body.action-create
     border-top: 2px solid #eee
     padding: 0
 
+    // Will eventually be overridden by the resizer
+    flex-basis: 580px
+
+    &.-columns-2
+      .-columns-2
+        column-count: 2
+        column-gap: 4rem
+
+        .attributes-key-value
+          -webkit-column-break-inside: avoid
+          page-break-inside: avoid
+          break-inside: avoid
+          overflow: hidden
+          backface-visibility: visible
+
 .work-packages--details
   height: 100%
   position: relative
+  width: 100%
+  min-width: 480px
 
   @media only screen and (max-width: 1280px)
-    // display: none
-    width: 480px
-
     @at-root
       .detailsViewMenuItem
         display: none
-  @media only screen and (min-width: 1281px)
-    width: 480px
-
-  @media only screen and (min-width: 1440px)
-    width: 580px
 
   .tabrow
-    padding-left: 15px
-
-.work-packages--create--title
-  margin-bottom: 1em
+    padding-left: 20px
 
 .work-packages--details-toolbar-container
   position:   absolute
@@ -82,11 +88,7 @@ body.action-create
   bottom:     55px
   width:      100%
   +allow-vertical-scrolling
-  padding:    0 15px
-  &.-create-mode
-    top: 0
-    h2
-      margin-top: 0.375em
+  padding:    0 15px 0 20px
 
 .work-packages--details
 

@@ -73,11 +73,12 @@ module OpenProject
           root_url.sub('file://', '')
         end
 
-        def initialize(url, root_url = nil, login = nil, password = nil, _path_encoding = nil)
+        def initialize(url, root_url = nil, login = nil, password = nil, _path_encoding = nil, identifier = nil)
           super(url, root_url)
 
           @login = login
           @password = password
+          @identifier = identifier
         end
 
         def checkout_command
@@ -301,7 +302,7 @@ module OpenProject
           cmd = ['log', '--xml', '-r', "#{identifier_from}:#{identifier_to}"]
           cmd << '--verbose' if options[:with_paths]
           cmd << '--limit' << options[:limit].to_s if options[:limit]
-          cmd << target(path)
+          cmd << target(path, peg: identifier_from)
           xml_capture(cmd, force_encoding: true) do |doc|
             doc.xpath('/log/logentry').each &block
           end
@@ -320,6 +321,20 @@ module OpenProject
 
           output
         end
+
+        ##
+        # Target path with optional peg revision
+        # http://svnbook.red-bean.com/en/1.7/svn.advanced.pegrevs.html
+        def target(path = '', peg: nil)
+          path = super(path)
+
+          if peg
+            path + "@#{peg}"
+          else
+            path
+          end
+        end
+
 
         ##
         # Builds the full git arguments from the parameters

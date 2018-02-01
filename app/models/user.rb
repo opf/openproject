@@ -78,18 +78,9 @@ class User < Principal
   }, class_name: 'UserPassword',
      dependent: :destroy,
      inverse_of: :user
-  has_one :rss_token, -> {
-    where("action='feeds'")
-  }, dependent: :destroy, class_name: 'Token'
-  has_one :api_token, -> {
-    where("action='api'")
-  }, dependent: :destroy, class_name: 'Token'
+  has_one :rss_token, class_name: '::Token::Rss', dependent: :destroy
+  has_one :api_token, class_name: '::Token::Api', dependent: :destroy
   belongs_to :auth_source
-
-  # Active non-anonymous users scope
-  scope :not_builtin, -> {
-    where("#{User.table_name}.status <> #{STATUSES[:builtin]}")
-  }
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -97,14 +88,17 @@ class User < Principal
   scope :not_blocked, -> { create_blocked_scope(self, false) }
 
   def self.create_blocked_scope(scope, blocked)
+    scope.where(blocked_condition(blocked))
+  end
+
+  def self.blocked_condition(blocked)
     block_duration = Setting.brute_force_block_minutes.to_i.minutes
     blocked_if_login_since = Time.now - block_duration
     negation = blocked ? '' : 'NOT'
-    scope.where(
-      "#{negation} (failed_login_count >= ? AND last_failed_login_on > ?)",
-      Setting.brute_force_block_after_failed_logins.to_i,
-      blocked_if_login_since
-    )
+
+    ["#{negation} (users.failed_login_count >= ? AND users.last_failed_login_on > ?)",
+     Setting.brute_force_block_after_failed_logins.to_i,
+     blocked_if_login_since]
   end
 
   acts_as_customizable
@@ -129,13 +123,13 @@ class User < Principal
   validates_confirmation_of :password, allow_nil: true
   validates_inclusion_of :mail_notification, in: MAIL_NOTIFICATION_OPTIONS.map(&:first), allow_blank: true
 
+  validate :login_is_not_special_value
   validate :password_meets_requirements
 
   after_save :update_password
   before_create :sanitize_mail_notification_setting
   before_destroy :delete_associated_private_queries
   before_destroy :reassign_associated
-  before_destroy :remove_from_filter
 
   scope :in_group, -> (group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
@@ -235,12 +229,12 @@ class User < Principal
 
   def self.activate_user!(user, session)
     if session[:invitation_token]
-      token = Token.find_by_value session[:invitation_token]
+      token = Token::Invitation.find_by_plaintext_value session[:invitation_token]
       invited_id = token && token.user.id
 
       if user.id == invited_id
         user.activate!
-        token.destroy!
+        token.destroy
         session.delete :invitation_token
       end
     end
@@ -268,10 +262,9 @@ class User < Principal
 
   # Returns the user who matches the given autologin +key+ or nil
   def self.try_to_autologin(key)
-    tokens = Token.where(action: 'autologin', value: key)
+    token = Token::AutoLogin.find_by_plaintext_value(key)
     # Make sure there's only 1 token that matches the key
-    if tokens.size == 1
-      token = tokens.first
+    if token
       if (token.created_on > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
         token.user.log_successful_login
         token.user
@@ -445,18 +438,6 @@ class User < Principal
     pref.comments_in_reverse_order?
   end
 
-  # Return user's RSS key (a 40 chars long string), used to access feeds
-  def rss_key
-    token = rss_token || Token.create(user: self, action: 'feeds')
-    token.value
-  end
-
-  # Return user's API key (a 40 chars long string), used to access the API
-  def api_key
-    token = api_token || create_api_token(action: 'api')
-    token.value
-  end
-
   # Return an array of project ids for which the user has explicitly turned mail notifications on
   def notified_projects_ids
     @notified_projects_ids ||= memberships.select(&:mail_notification?).map(&:project_id)
@@ -498,18 +479,31 @@ class User < Principal
   end
 
   def self.find_by_rss_key(key)
-    token = Token.find_by(value: key)
-    token && token.user.active? && Setting.feeds_enabled? ? token.user : nil
+    return nil unless Setting.feeds_enabled?
+    token = Token::Rss.find_by(value: key)
+
+    if token && token.user.active?
+      token.user
+    end
   end
 
   def self.find_by_api_key(key)
-    token = Token.find_by(action: 'api', value: key)
-    token && token.user.active? ? token.user : nil
+    return nil unless Setting.rest_api_enabled?
+    token = Token::Api.find_by_plaintext_value(key)
+
+    if token && token.user.active?
+      token.user
+    end
   end
 
   # Makes find_by_mail case-insensitive
   def self.find_by_mail(mail)
     where(['LOWER(mail) = ?', mail.to_s.downcase]).first
+  end
+
+  def rss_key
+    token = rss_token || ::Token::Rss.create(user: self)
+    token.value
   end
 
   def to_s
@@ -702,6 +696,13 @@ class User < Principal
 
   protected
 
+  # Login must not be special value 'me'
+  def login_is_not_special_value
+    if login.present? && login == 'me'
+      errors.add(:login, :invalid)
+    end
+  end
+
   # Password requirement validation based on settings
   def password_meets_requirements
     # Passwords are stored hashed as UserPasswords,
@@ -743,25 +744,6 @@ class User < Principal
     # minimum 1 to keep the actual user password
     keep_count = [1, Setting[:password_count_former_banned].to_i].max
     (passwords[keep_count..-1] || []).each(&:destroy)
-  end
-
-  def remove_from_filter
-    timelines_filter = ['planning_element_responsibles', 'planning_element_assignee', 'project_responsibles']
-    substitute = DeletedUser.first
-
-    timelines = Timeline.where(['options LIKE ?', "%#{id}%"])
-
-    timelines.each do |timeline|
-      timelines_filter.each do |field|
-        fieldOptions = timeline.options[field]
-        if fieldOptions && index = fieldOptions.index(id.to_s)
-          timeline.options_will_change!
-          fieldOptions[index] = substitute.id.to_s
-        end
-      end
-
-      timeline.save!
-    end
   end
 
   def reassign_associated

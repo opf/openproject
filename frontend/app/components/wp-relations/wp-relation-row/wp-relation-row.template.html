@@ -5,7 +5,7 @@
 
         <div class="grid-content medium-3 collapse">
             <span class="relation-row--type"
-                  ng-click="$ctrl.userInputs.showRelationTypesForm = true"
+                  ng-click="$ctrl.activateRelationTypeEdit()"
                   tabindex="0"
                   ng-if="!$ctrl.userInputs.showRelationTypesForm">
 
@@ -22,7 +22,8 @@
                         ng-model="$ctrl.selectedRelationType"
                         role="listbox"
                         focus
-                        ng-options="relationType.name for relationType in $ctrl.availableRelationTypes"
+                        ng-keydown="$ctrl.cancelRelationTypeEditOnEscape($event)"
+                        ng-options="relationType as relationType.label for relationType in $ctrl.availableRelationTypes track by relationType.name"
                         ng-change="$ctrl.saveRelationType()"></select>
             </div>
         </div>
@@ -37,9 +38,13 @@
         </div>
 
         <div class="grid-content medium-2 collapse wp-relations-status-field">
-            <div wp-edit-form="$ctrl.relatedWorkPackage" ng-if="$ctrl.relatedWorkPackage">
-                <div wp-edit-field="'status'"></div>
-            </div>
+            <wp-edit-field-group work-package="$ctrl.relatedWorkPackage">
+              <div wp-edit-form="$ctrl.relatedWorkPackage" ng-if="$ctrl.relatedWorkPackage">
+                  <wp-edit-field work-package-id="$ctrl.relatedWorkPackage.id"
+                                 field-name="'status'">
+                  </wp-edit-field>
+              </div>
+            </wp-edit-field-group>
         </div>
 
         <div class="grid-content medium-2 collapse wp-relations-controls-section"

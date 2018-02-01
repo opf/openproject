@@ -66,6 +66,10 @@ $version-summary-width: 380px
 .message .contextual
   margin-top: 0
 
+.message.reply h4
+  min-height: 42px
+  line-height: 2
+
 form
   display: inline
 
@@ -199,11 +203,6 @@ div
       white-space: normal
       overflow: visible
       float: left
-
-  &.messages-wrapper
-    @include clearfix
-    .toolbar-container
-      float: right
 
   ul
     margin: 0
@@ -450,12 +449,6 @@ label
 
 #query_form_content
   padding-top: 10px
-
-#lower-title-bar
-  div.contextual
-    margin-top: -8px
-  margin-top: 30px
-  margin-left: 10px
 
 #watchers .contextual
   margin-top: 0

@@ -26,14 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from './hal-resource.service';
-import {WorkPackageCollectionResourceInterface} from './wp-collection-resource.service';
-import {QueryFilterInstanceResource} from './query-filter-instance-resource.service';
-import {QuerySortByResource} from './query-sort-by-resource.service';
-import {QueryGroupByResource} from './query-group-by-resource.service';
-import {ProjectResource} from './project-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 import {QueryColumn} from '../../../wp-query/query-column';
+import {HalResource} from './hal-resource.service';
+import {ProjectResource} from './project-resource.service';
+import {QueryFilterInstanceResource} from './query-filter-instance-resource.service';
+import {QueryGroupByResource} from './query-group-by-resource.service';
+import {QuerySortByResource} from './query-sort-by-resource.service';
+import {WorkPackageCollectionResourceInterface} from './wp-collection-resource.service';
 
 interface QueryResourceEmbedded {
   results:WorkPackageCollectionResourceInterface;
@@ -45,6 +45,13 @@ interface QueryResourceEmbedded {
 }
 
 export type TimelineZoomLevel = 'days' | 'weeks' | 'months' | 'quarters' | 'years';
+
+export interface TimelineLabels {
+  left:string|null;
+  right:string|null;
+  farRight:string|null;
+}
+
 
 export class QueryResource extends HalResource {
   public $embedded:QueryResourceEmbedded;
@@ -58,11 +65,12 @@ export class QueryResource extends HalResource {
   public sums:boolean;
   public timelineVisible:boolean;
   public timelineZoomLevel:TimelineZoomLevel;
+  public timelineLabels:TimelineLabels;
   public showHierarchies:boolean;
   public public:boolean;
   public project:ProjectResource;
 
-  protected $initialize(source:any) {
+  public $initialize(source:any) {
     super.$initialize(source);
 
     this.filters = source.filters.map((filter:Object) => new QueryFilterInstanceResource(filter));

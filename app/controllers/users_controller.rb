@@ -35,6 +35,7 @@ class UsersController < ApplicationController
   before_action :find_user, only: [:show,
                                    :edit,
                                    :update,
+                                   :change_status_info,
                                    :change_status,
                                    :destroy,
                                    :deletion_info,
@@ -45,6 +46,10 @@ class UsersController < ApplicationController
   before_action :check_if_deletion_allowed, only: [:deletion_info,
                                                    :destroy]
 
+  # Password confirmation helpers and actions
+  include Concerns::PasswordConfirmation
+  before_action :check_password_confirmation, only: [:destroy]
+
   accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper
@@ -54,7 +59,7 @@ class UsersController < ApplicationController
   def index
     @groups = Group.all.sort
     @status = Users::UserFilterCell.status_param params
-    @users = Users::UserFilterCell.filter User.all, params
+    @users = Users::UserFilterCell.filter params
 
     respond_to do |format|
       format.html do
@@ -166,7 +171,7 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_update)
-          redirect_to :back
+          redirect_back(fallback_location: edit_user_path(@user))
         end
       end
     else
@@ -176,11 +181,19 @@ class UsersController < ApplicationController
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html do render action: :edit end
+        format.html do
+          render action: :edit
+        end
       end
     end
   rescue ::ActionController::RedirectBackError
     redirect_to controller: '/users', action: 'edit', id: @user
+  end
+
+  def change_status_info
+    @status_change = params[:change_action].to_sym
+
+    return render_400 unless %i(activate lock unlock).include? @status_change
   end
 
   def change_status

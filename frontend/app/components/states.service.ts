@@ -37,6 +37,7 @@ import {QuerySortByResource} from './api/api-v3/hal-resources/query-sort-by-reso
 import {QueryGroupByResource} from './api/api-v3/hal-resources/query-group-by-resource.service';
 import {WPTableRowSelectionState} from './wp-fast-table/wp-table.interfaces';
 import {WorkPackageTableRelationColumns} from './wp-fast-table/wp-table-relation-columns';
+import {WPFocusState} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 
 export class States extends StatesGroup {
 
@@ -62,10 +63,7 @@ export class States extends StatesGroup {
   updates = new UserUpdaterStates(this);
 
   // Current focused work package (e.g, row preselected for details button)
-  focusedWorkPackage = input<string>();
-
-  // Open editing forms
-  editing = multiInput<WorkPackageEditForm>();
+  focusedWorkPackage = input<WPFocusState>();
 
 }
 
@@ -95,21 +93,25 @@ export class TableState extends StatesGroup {
   // Table row selection state
   selection = input<WPTableRowSelectionState>();
   // Current state of collapsed groups (if any)
-  collapsedGroups = input<{[identifier:string]: boolean}>();
+  collapsedGroups = input<{[identifier:string]:boolean}>();
   // Hierarchies of table
   hierarchies = input<WorkPackageTableHierarchies>();
   // State to be updated when the table is up to date
   rendered = input<RenderedRow[]>();
 
-  renderedWorkPackages: State<RenderedRow[]> = derive(this.rendered, $ => $
+  renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $
     .map(rows => rows.filter(row => !!row.workPackageId)));
 
   // State to determine timeline visibility
   timelineVisible = input<WorkPackageTableTimelineState>();
+
+  // auto zoom toggle
+  timelineAutoZoom = input<boolean>(true);
+
   // Subject used to unregister all listeners of states above.
   stopAllSubscriptions = new Subject();
   // Fire when table refresh is required
-  refreshRequired = input<boolean>();
+  refreshRequired = input<boolean[]>();
 
   // Expanded relation columns
   relationColumns = input<WorkPackageTableRelationColumns>();
@@ -179,6 +181,6 @@ export class UserUpdaterStates {
 
 
 const ctx = createNewContext();
-const states = ctx.create(States);
+const states = ctx.create(States as any);
 
 opServicesModule.value('states', states);

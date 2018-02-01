@@ -29,12 +29,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= styled_form_tag({action: 'edit', tab: 'mail_handler'}) do %>
   <section class="form--section">
     <div class="form--field">
-      <%= setting_text_area :mail_handler_body_delimiters, rows: 5 %>
-      <div class="form--field-instructions"><%= l(:text_line_separated) %></div>
+      <%= setting_text_area :mail_handler_body_delimiters, rows: 5, container_class: '-wide' %>
+      <div class="form--field-instructions"><%= t(:text_line_separated) %></div>
     </div>
     <div class="form--field">
-      <%= setting_text_field :mail_handler_body_delimiter_regex %>
-      <div class="form--field-instructions"><%= l(:text_regexp_multiline) %></div>
+      <%= setting_text_field :mail_handler_body_delimiter_regex, container_class: '-wide' %>
+      <div class="form--field-instructions"><%= t(:text_regexp_multiline) %></div>
   </section>
   <section class="form--section">
     <div class="form--field">
@@ -42,20 +42,9 @@ See doc/COPYRIGHT.rdoc for more details.
                             onclick: "jQuery('#settings_mail_handler_api_key').prop('disabled', !this.checked );"
       %>
       <div class="form--field-instructions">
-        <%= l(:setting_mail_handler_api_description) %>
+        <%= t(:setting_mail_handler_api_description) %>
       </div>
     </div>
-    <div class="form--field"><%= setting_text_field :mail_handler_api_key, size: 30,
-                                                 id: 'settings_mail_handler_api_key',
-                                                 disabled: !Setting.mail_handler_api_enabled? %>
-      <span class="form--field-extra-actions">
-        <%= link_to_function l(:label_generate_key),
-                             %{ if (!jQuery('#settings_mail_handler_api_key').prop('disabled')) {
-                                  jQuery('#settings_mail_handler_api_key').val(randomKey(20))
-                                }
-                             } %>
-      </span>
-    </div>
   </section>
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

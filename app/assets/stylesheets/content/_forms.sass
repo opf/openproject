@@ -232,6 +232,9 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
   padding:        1rem 0 0
   margin-bottom:  1rem
   border:         0
+  // Flexbox needs that parents of children with overflow set to have a width:
+  min-width: 0
+
 
 %form--fieldset-legend-or-section-title
   color:          lighten($body-font-color, 10)
@@ -259,12 +262,12 @@ fieldset.form--fieldset
     font-size: 0.75rem
 
     .form--fieldset.-collapsible > &
-      @extend .icon-arrow-up1:before
+      @include icon-mixin-arrow-up1
       padding:   0.625rem 0.25rem 0 0.25rem
 
     .form--fieldset.-collapsible.-collapsed > &,
     .form--fieldset.-collapsible.collapsed  > &
-      @extend .icon-arrow-down1:before
+      @include icon-mixin-arrow-down1
       padding:   0.625rem 0.25rem 0 0.25rem
 
 #sidebar .form--fieldset-legend
@@ -448,6 +451,7 @@ fieldset.form--fieldset
 .form--field-instructions
   @extend %form--field-after-container
   font-style: italic
+  max-width: 500px // improve readability
 
   &.-no-italic
     font-style: normal
@@ -523,6 +527,11 @@ select
   &:hover, &:focus, &:active
     border-color: #999
 
+select
+  &[disabled=disabled]
+    background-color: $inplace-edit--bg-color--disabled
+    cursor: not-allowed
+
 input[readonly].-clickable
   cursor: pointer
   background: white
@@ -557,17 +566,16 @@ input[readonly].-clickable
 .form--text-field,
 .form--select
   &.-tiny
-    font-size: 0.7rem
+    @include form--input-field-mixin--tiny
 
   &.-small
-    font-size: 0.8rem
+    @include form--input-field-mixin--small
 
   &.-large
-    font-size: 1.3rem
+    @include form--input-field-mixin--large
 
   &.-narrow
-    width: auto
-    max-width: 100%
+    @include form--input-field-mixin--narrow
 
   .form &
     margin-bottom: 0rem
@@ -720,8 +728,7 @@ input[readonly].-clickable
     border-left:  0
 
   &.-transparent
-    background: none
-    border: none
+    @include form--field-affix-mixin--transparent
 
 .form--tooltip-container
   flex: 0 0 auto
@@ -748,6 +755,11 @@ input[readonly].-clickable
 textarea
   text-rendering: optimizeLegibility
 
+.color-preview
+  margin-left: -34px
+  margin-top: auto
+  margin-bottom: auto
+
 
 // Overwriting Foundation color variables.
 // Unfortunatel I do not know how to get it DRY.
@@ -768,3 +780,11 @@ input[type=range]::-webkit-slider-thumb:hover
 
 input[type=range]::-ms-thumb:hover
   @include varprop(background, primary-color-dark)
+
+// Special handling for the permissions_form of Admin/Roles --> permission report
+// Since FF ESR is not able to handle the overflow of fieldsets correctly, a workaround is needed.
+@supports(-moz-appearance: none)
+  #permissions_form
+    display: inline-block
+    width: 100%
+    overflow: auto

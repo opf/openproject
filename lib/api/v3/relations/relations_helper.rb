@@ -32,13 +32,18 @@ module API
       module RelationsHelper
         def filter_attributes(relation)
           relation
-            .attributes
+            .changes
+            .map { |k, v| [k, v.last] }
+            .to_h
             .with_indifferent_access
-            .reject { |_key, value| value.blank? }
         end
 
         def representer
           ::API::V3::Relations::RelationRepresenter
+        end
+
+        def parse_representer
+          ::API::V3::Relations::RelationPayloadRepresenter
         end
 
         def project_id_for_relation(id)
@@ -50,10 +55,6 @@ module API
             .where("#{relations}.id" => id)
             .pluck("#{work_packages}.project_id")
             .first
-        end
-
-        def to_i_or_nil(string)
-          string ? string.to_i : nil
         end
       end
     end

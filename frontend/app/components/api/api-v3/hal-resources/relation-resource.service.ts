@@ -106,6 +106,15 @@ export class RelationResource extends HalResource {
   }
 
   /**
+   * Return whether the given work package id is involved in this relation.
+   * @param wpId
+   * @return {boolean}
+   */
+  public isInvolved(wpId:string) {
+    return _.values(this.ids).indexOf(wpId.toString()) >= 0;
+  }
+
+  /**
    * Get the involved IDs, returning an object to the ids.
    */
   public get ids() {

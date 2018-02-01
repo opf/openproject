@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCommentField} from './wp-comment-field.module';
 import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.service';
@@ -43,14 +42,14 @@ export class CommentFieldDirectiveController {
   protected editing = false;
   protected canAddComment:boolean;
   protected showAbove:boolean;
-  protected _forceFocus: boolean = false;
+  protected _forceFocus:boolean = false;
 
   constructor(protected $scope:ng.IScope,
               protected $rootScope:ng.IRootScopeService,
               protected $timeout:ng.ITimeoutService,
               protected $q:ng.IQService,
               protected $element:ng.IAugmentedJQuery,
-              protected ActivityService:any,
+              protected wpActivityService:any,
               protected ConfigurationService:any,
               protected loadingIndicator:LoadingIndicatorService,
               protected wpCacheService:WorkPackageCacheService,
@@ -65,13 +64,11 @@ export class CommentFieldDirectiveController {
       placeholder: I18n.t('js.label_add_comment_title')
     };
 
-    this.field = new WorkPackageCommentField(this.workPackage, I18n);
-
     this.canAddComment = !!this.workPackage.addComment;
     this.showAbove = ConfigurationService.commentsSortedInDescendingOrder();
 
     $scope.$on('workPackage.comment.quoteThis', (evt, quote) => {
-      this.field.initializeFieldValue(quote);
+      this.resetField(quote);
       this.editing = true;
       this.$element.find('.work-packages--activity--add-comment')[0].scrollIntoView();
     });
@@ -95,18 +92,29 @@ export class CommentFieldDirectiveController {
 
   public activate(withText?:string) {
     this._forceFocus = true;
+    this.resetField(withText);
+    this.editing = true;
+
+    this.$timeout(() => this.$element.find('.wp-inline-edit--field').focus());
+  }
+
+  public get project() {
+    return this.workPackage.project;
+  }
+
+  public resetField(withText?:string) {
+    this.field = new WorkPackageCommentField(this.workPackage, I18n);
     this.field.initializeFieldValue(withText);
-    return this.editing = true;
   }
 
   public handleUserSubmit() {
-    if (this.field.isEmpty()) {
+    if (this.field.isBusy || this.field.isEmpty()) {
       return;
     }
 
     this.field.isBusy = true;
     let indicator = this.loadingIndicator.wpDetails;
-    indicator.promise = this.ActivityService.createComment(this.workPackage, this.field.value)
+    indicator.promise = this.wpActivityService.createComment(this.workPackage, this.field.value)
       .then(() => {
         this.editing = false;
         this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
@@ -136,13 +144,12 @@ export class CommentFieldDirectiveController {
   }
 }
 
-function workPackageComment() {
+function workPackageComment():any {
   return {
     restrict: 'E',
     replace: true,
     transclude: true,
-    templateUrl: '/components/work-packages/work-package-comment/' +
-    'work-package-comment.directive.html',
+    templateUrl: '/components/work-packages/work-package-comment/work-package-comment.directive.html',
     scope: {
       workPackage: '=',
       activities: '='

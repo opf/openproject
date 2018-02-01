@@ -29,8 +29,9 @@
 
 import {opWorkPackagesModule} from '../../angular-modules';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {StateService} from '@uirouter/angularjs';
 
-var $state:ng.ui.IStateService;
+var $state:StateService;
 var PathHelper:any;
 
 export class WorkPackageAuthorization {

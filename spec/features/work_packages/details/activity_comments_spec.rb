@@ -15,18 +15,17 @@ describe 'activity comments', js: true, selenium: true do
   let(:comment_field) {
     WorkPackageTextAreaField.new wp_page,
                                  'comment',
-                                 selector: selector,
-                                 trigger: '.inplace-editing--trigger-container'
+                                 selector: selector
   }
   let(:initial_comment) { 'the first comment in this WP' }
 
   before do
-    login_as(user)
-    allow(user.pref).to receive(:warn_on_leaving_unsaved?).and_return(false)
+    login_as(current_user)
+    allow(current_user.pref).to receive(:warn_on_leaving_unsaved?).and_return(false)
   end
 
   context 'with permission' do
-    let(:user) { FactoryGirl.create :admin }
+    let(:current_user) { FactoryGirl.create :admin }
 
     before do
       wp_page.visit!
@@ -107,11 +106,11 @@ describe 'activity comments', js: true, selenium: true do
 
       it 'saves while in preview mode' do
         comment_field.input_element.set '*Highlight*'
-        preview = comment_field.element.find('.jstb_preview')
+        preview = comment_field.field_container.find('.jstb_preview')
 
         # Enable preview
         preview.click
-        expect(comment_field.element).to have_selector('strong', text: 'Highlight')
+        expect(comment_field.field_container).to have_selector('strong', text: 'Highlight')
 
         comment_field.submit_by_click
         expect(page).to have_selector('.user-comment .message', text: 'Highlight')
@@ -124,6 +123,10 @@ describe 'activity comments', js: true, selenium: true do
           comment_field.input_element.send_keys("##{wp2.id}")
           expect(page).to have_selector('.atwho-view-ul li', text: wp2.to_s.strip)
         end
+      end
+
+      it_behaves_like 'a principal autocomplete field' do
+        let(:field) { comment_field }
       end
 
       describe 'quoting' do
@@ -195,7 +198,7 @@ describe 'activity comments', js: true, selenium: true do
   end
 
   context 'with no permission' do
-    let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+    let(:current_user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
     let(:role) { FactoryGirl.create :role, permissions: %i(view_work_packages) }
 
     before do

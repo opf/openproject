@@ -26,15 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// Subject field
 @mixin details-pane--form-field
   @include grid-visible-overflow
   padding: 0
 
+// Subject field
+.work-package--single-view
+  .wp-inline-edit--active-field.subject
+    .wp-inline-edit--field
+      height: 40px
+      font-size: 16px
+      line-height: 1
+
 .work-packages--info-row
-  font-size: 0.8rem
-  line-height: 1.1rem
-  padding: 5px 0
+  font-size: 12px
+  padding-top: 1px
 
 .work-packages--details--title
   @include grid-block
@@ -61,27 +67,19 @@
     textarea
       overflow: hidden
 
+
 .work-package--single-view
   // Make elements in split and full view span the entire width
-  .wp-edit-field
+  // Style the edit field element when the full width is required
+  .wp-edit-formattable-field
     width: 100%
+
+    // Allow only vertical resizing of the textarea
+    textarea
+      resize: vertical
 
   .panel-toggler .button
     margin-right: 0
-
-div[class*='work-packages--details--']
-  width: calc(100% + 0.375rem)
-  .inplace-edit--read
-    &>span:first-of-type
-      width: 100%
-  .inplace-edit--read-value
-    width: 100%
-    .dynamic-attribute
-      width: 100%
-
-    .version-wrapper,
-    .spent-time-wrapper
-      width: 100%
 
 .report-category-actions
   margin-top: -28px
@@ -136,6 +134,19 @@ i
     padding: 0
     text-align: center
     cursor: pointer
+
+    .wp-relations-count
+      border-radius: 0.5rem
+      min-width: 1rem
+      display: inline-block
+      font-size: 0.7rem
+      line-height: 1rem
+      min-height: 1rem
+      vertical-align: 0.1rem
+      padding: 0 0.15rem 0 0.15rem
+      background: $light-gray
+      font-weight: bold
+
   a
     color: #333
     text-decoration: none
@@ -154,6 +165,10 @@ i
     @include varprop(border-bottom-color, content-link-color)
     a
       @include varprop(color, content-link-color)
+    .wp-relations-count
+      @include varprop(color, content-link-color)
+      &:hover
+        @include varprop(color, content-link-color)
 
 .work-packages--details-close-icon span,
 .work-packages--details-fullscreen-icon span
@@ -162,31 +177,67 @@ i
   font-size: 0.9rem
 
   &:before
-    @include varprop(color, $body-font-color)
+    @include varprop(color, body-font-color)
 
+// Special styling for project context area
+.attributes-group.-project-context
+  background: rgba(227, 245, 255, 0.3)
+  border-radius: 5px
+  padding: 10px 10px 0 10px
+  margin: 10px 0 0 0
+  border: 1px solid rgb(227, 245, 255)
+
+// Avoid top border and spacing for special projects/select attribute group
+.attributes-group.-special-fields
+  margin-top: 0.5em
+
+  .attributes-group--header,
+  .attributes-group--header-container
+    border: 0
+    padding: 0
+    margin: 0
+
+// Increase label width
+.action-show .attributes-group,
+.full-create .attributes-group
+  // We have to find a middle way between
+  // (a) avoiding label wrap and
+  // (b) ugly content wrap (e.g. in the label)
+  // These values are what matches best at the moment. So be careful when changing them.
+  .attributes-key-value--key
+    flex: 0 0 45%
+    max-width: 45%
+  .attributes-key-value--value-container
+    flex: 0 0 55%
+    max-width: 55%
 
 // Implement two column layout for WP full screen view
-@media screen and (min-width: 90rem)
+@media screen and (min-width: 92rem), print
   .action-show .attributes-group,
   .full-create .attributes-group
     .-columns-2
       column-count: 2
-      column-gap: 4rem
+      column-gap: 3rem
 
       .attributes-key-value
         -webkit-column-break-inside: avoid
         page-break-inside: avoid
         break-inside: avoid
+        overflow: hidden
+        // For some reason chrome seems to treat a two column layout
+        // as if it would result in showing the backside of this element.
+        // This leads to input and select elements not showing their values.
+        backface-visibility: visible
 
       @supports (column-span: all)
         // Let some elements still span both columns
         .attributes-key-value.-span-all-columns
           column-span: all
           .attributes-key-value--key
-            flex-basis: calc(16.65% - (4rem / 6))
+            flex-basis: calc(22.5% - (4rem / 6))
           .attributes-key-value--value-container
-            flex-basis: calc(83.35% + (4rem / 6))
-            max-width: calc(83.35% + (4rem / 6))
+            flex-basis: calc(77.5% + (4rem / 6))
+            max-width: calc(77.5% + (4rem / 6))
 
   @supports (column-span: all)
     // Remove the outline on focus since that breaks the column in chrome
@@ -195,3 +246,31 @@ i
       .attributes-key-value--value-container
         *:focus
           outline: 1px solid $gray
+
+.wp-info-wrapper
+  display: flex
+  align-items: center
+  .wp-status-button .button
+    padding: 5px
+    margin-bottom: 0
+    @include varprop(background-color, status-selector-bg-color)
+    border: none
+    color: white
+    white-space: nowrap
+
+    &:hover
+      @include varprop(background-color, status-selector-bg-hover-color)
+
+    .button--text
+      margin: 0 5px
+
+  attribute-help-text .help-text--entry
+    line-height: 25px
+    margin: 0 10px 0 -10px
+    .icon:before
+      padding: 0
+
+.work-packages--new .wp-status-button
+  padding: 3px
+  .button
+    height: 40px

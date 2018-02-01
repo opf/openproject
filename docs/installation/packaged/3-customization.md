@@ -21,8 +21,12 @@ If you have a plugin you wish to add to your packaged OpenProject installation,
 create a separate Gemfile with the Gem dependencies, such as the following:
 
 ```
-gem 'openproject-emoji', git: 'https://github.com/tessi/openproject-emoji.git', :branch => 'op-5-stable'
+group :opf_plugins do
+  gem 'openproject-emoji', git: 'https://github.com/tessi/openproject-emoji.git', :branch => 'op-5-stable'
+end
 ```
+
+The `group :opf_plugins` is generally recommended, but only required for plugins with custom frontend code that is picked up by webpack and output into their respective bundles.
 
 We suggest to store the Gemfile under `/etc/openproject/Gemfile.custom`, but
 the choice is up to you, just make sure the `openproject` user is able to read

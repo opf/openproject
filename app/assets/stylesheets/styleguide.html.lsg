@@ -40,6 +40,10 @@
   .livingstyleguide--example
     overflow: visible
 
+  .lsg-search-box
+    width: 40%
+    margin: 0 auto
+
   .icon-list
     display: flex
     flex-flow: row wrap
@@ -57,10 +61,6 @@
     span
       display: block
       font-size: 30px
-
-
-@head
-  <base href="/assets/styleguide.html"/>
 
 
 @header
@@ -87,6 +87,8 @@
   </section>
 
 @javascript-before /assets/styleguide.js
+
+@search-box
 
 @footer
   <footer class="livingstyleguide--footer">

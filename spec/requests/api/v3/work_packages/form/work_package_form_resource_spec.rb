@@ -34,10 +34,10 @@ describe 'API v3 Work package form resource', type: :request do
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-  let(:authorized_user) { FactoryGirl.create(:user, member_in_project: project) }
-  let(:unauthorized_user) { FactoryGirl.create(:user) }
+  shared_let(:project) { FactoryGirl.create(:project, is_public: false) }
+  shared_let(:work_package, reload: true) { FactoryGirl.create(:work_package, project: @project) }
+  shared_let(:authorized_user) { FactoryGirl.create(:user, member_in_project: @project) }
+  shared_let(:unauthorized_user) { FactoryGirl.create(:user) }
 
   describe '#post' do
     let(:post_path) { api_v3_paths.work_package_form work_package.id }
@@ -58,7 +58,6 @@ describe 'API v3 Work package form resource', type: :request do
     end
 
     context 'user without needed permissions' do
-      let(:work_package) { FactoryGirl.create(:work_package, id: 42, project: project) }
       let(:params) { {} }
 
       include_context 'post request' do
@@ -85,9 +84,9 @@ describe 'API v3 Work package form resource', type: :request do
 
       context 'existing work package' do
         shared_examples_for 'valid payload' do
-          subject { response.body }
+          subject { last_response.body }
 
-          it { expect(response.status).to eq(200) }
+          it { expect(last_response.status).to eq(200) }
 
           it { is_expected.to have_json_path('_embedded/payload') }
 
@@ -129,9 +128,7 @@ describe 'API v3 Work package form resource', type: :request do
           describe 'error body' do
             let(:error_id) { 'urn:openproject-org:api:v3:errors:PropertyConstraintViolation' }
 
-            let(:error_body) {
-              parse_json(subject.body)['_embedded']['validationErrors'][property]
-            }
+            let(:error_body) { parse_json(subject.body)['_embedded']['validationErrors'][property] }
 
             it { expect(error_body['errorIdentifier']).to eq(error_id) }
           end
@@ -201,7 +198,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                 include_context 'post request'
 
-                it { expect(response.status).to eq(409) }
+                it { expect(last_response.status).to eq(409) }
 
                 it_behaves_like 'update conflict'
               end

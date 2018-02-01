@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -57,7 +58,7 @@ describe Queries::Users::Filters::NameFilter, type: :model do
       let(:operator) { '=' }
 
       it 'is the same as handwriting the query' do
-        expected = model.where("LOWER(firstname) IN ('#{values.first.downcase}')")
+        expected = model.where("LOWER(users.firstname) IN ('#{values.first.downcase}')")
 
         expect(instance.scope.to_sql).to eql expected.to_sql
       end
@@ -67,7 +68,7 @@ describe Queries::Users::Filters::NameFilter, type: :model do
       let(:operator) { '!' }
 
       it 'is the same as handwriting the query' do
-        expected = model.where("LOWER(firstname) NOT IN ('#{values.first.downcase}')")
+        expected = model.where("LOWER(users.firstname) NOT IN ('#{values.first.downcase}')")
 
         expect(instance.scope.to_sql).to eql expected.to_sql
       end
@@ -77,7 +78,7 @@ describe Queries::Users::Filters::NameFilter, type: :model do
       let(:operator) { '~' }
 
       it 'is the same as handwriting the query' do
-        expected = model.where("LOWER(firstname) LIKE '%#{values.first.downcase}%'")
+        expected = model.where("LOWER(users.firstname) LIKE '%#{values.first.downcase}%'")
 
         expect(instance.scope.to_sql).to eql expected.to_sql
       end
@@ -87,7 +88,7 @@ describe Queries::Users::Filters::NameFilter, type: :model do
       let(:operator) { '!~' }
 
       it 'is the same as handwriting the query' do
-        expected = model.where("LOWER(firstname) NOT LIKE '%#{values.first.downcase}%'")
+        expected = model.where("LOWER(users.firstname) NOT LIKE '%#{values.first.downcase}%'")
 
         expect(instance.scope.to_sql).to eql expected.to_sql
       end

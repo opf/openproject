@@ -80,10 +80,10 @@ div.autocomplete
     word-break: break-word
     padding: 10px 5px
 
-    &.ui-state-active, &.ui-state-active a
+    &.ui-state-active
       border: none
-      @include varprop(background, main-menu-bg-hover-background)
-      @include varprop(color, main-menu-hover-font-color)
+      @include varprop(background, drop-down-selected-bg-color)
+      @include varprop(color, drop-down-selected-font-color)
 
   &.-inplace
     position: relative
@@ -103,6 +103,24 @@ div.autocomplete
   &.-error, &.-error:hover, &.-error:focus
     background: $nm-color-error-background
     border-color: $nm-color-error-border
+
+mark.ui-autocomplete-match
+  background: none
+  @include varprop(color, primary-color)
+  text-decoration: underline
+  font-weight: bold !important
+
+// Loading indicator
+.ui-autocomplete--loading
+  background: white
+  z-index: 200
+  border: 1px solid #ccc
+  border-top: none
+  padding: 5px
+  // Position bottom of input
+  position: absolute
+  // With same width as input
+  width: 100%
 
 .ui-autocomplete--category
   padding: 0

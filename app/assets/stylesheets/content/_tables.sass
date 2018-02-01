@@ -26,14 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$project-table--start-indentation: 0.5em
-$project-table--child-indentation: 1.1em
-$project-table--icon-distance: 5px
-
-@mixin calc-indentation($indentation)
-  // This does not work for big font-sizes
-  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} - #{$project-table--icon-distance})
-
 table
   td
     padding: 3px 6px
@@ -65,7 +57,7 @@ table
     .hours-dec
       font-size: 0.9em
 
-  &.workflow-table
+  &.workflow-table.generic-table
     margin-bottom: 16px
     overflow-x: hidden
     tbody
@@ -128,10 +120,6 @@ table
       background: none
 
 tr
-  &.project
-    td.name a
-      white-space: nowrap
-
   &.issue
     white-space: nowrap
     &.sum
@@ -199,3 +187,8 @@ tr.-checked
     width: calc(100% - 5rem)
   .icon-toggle:before
     vertical-align: middle
+
+// Exceptions for summary reports where multiple tables are used in one view.
+body.action-report
+  .generic-table--container
+    height: auto

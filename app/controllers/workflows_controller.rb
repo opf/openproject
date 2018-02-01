@@ -43,7 +43,7 @@ class WorkflowsController < ApplicationController
     @type = ::Type.find_by(id: params[:type_id])
 
     if request.post?
-      Workflow.destroy_all(['role_id=? and type_id=?', @role.id, @type.id])
+      Workflow.where(role_id: @role.id, type_id: @type.id).delete_all
       (params[:status] || []).each do |status_id, transitions|
         transitions.each { |new_status_id, options|
           author = options.is_a?(Array) && options.include?('author') && !options.include?('always')

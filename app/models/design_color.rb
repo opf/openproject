@@ -47,7 +47,7 @@ class DesignColor < ActiveRecord::Base
 
   class << self
     def defaults
-      OpenProject::Design.variables
+      OpenProject::Design.resolved_variables
     end
 
     def setables

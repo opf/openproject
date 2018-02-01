@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -57,7 +58,8 @@ class Status < ActiveRecord::Base
   def self.update_work_package_done_ratios
     if WorkPackage.use_status_for_done_ratio?
       Status.where(['default_done_ratio >= 0']).each do |status|
-        WorkPackage.where(['status_id = ?', status.id])
+        WorkPackage
+          .where(['status_id = ?', status.id])
           .update_all(['done_ratio = ?', status.default_done_ratio])
       end
     end
@@ -66,36 +68,29 @@ class Status < ActiveRecord::Base
   end
 
   # Returns an array of all statuses the given role can switch to
-  # Uses association cache when called more than one time
   def new_statuses_allowed_to(roles, type, author = false, assignee = false)
-    if roles && type
-      role_ids = roles.map(&:id)
-      transitions = workflows.select { |w|
-        role_ids.include?(w.role_id) &&
-        w.type_id == type.id &&
-        (author || !w.author) &&
-        (assignee || !w.assignee)
-      }
-      transitions.map(&:new_status).uniq.compact.sort
+    self.class.new_statuses_allowed(self, roles, type, author, assignee)
+  end
+
+  def self.new_statuses_allowed(status, roles, type, author = false, assignee = false)
+    if roles.present? && type.present?
+      status_id = status.try(:id) || 0
+
+      workflows = Workflow
+                  .from_status(status_id,
+                               type.id,
+                               roles.map(&:id),
+                               author,
+                               assignee)
+
+      Status.where(id: workflows.select(:new_status_id))
     else
-      []
+      Status.where('1 = 0')
     end
   end
 
-  # Same thing as above but uses a database query
-  # More efficient than the previous method if called just once
-  def find_new_statuses_allowed_to(roles, type, author = false, assignee = false)
-    if roles && type
-      conditions = { role_id: roles.map(&:id), type_id: type.id }
-      conditions[:author] = false unless author
-      conditions[:assignee] = false unless assignee
-
-      workflows.includes(:new_status)
-        .where(conditions)
-        .map(&:new_status).compact.sort
-    else
-      []
-    end
+  def self.order_by_position
+    order(:position)
   end
 
   def <=>(status)
@@ -107,11 +102,14 @@ class Status < ActiveRecord::Base
   private
 
   def check_integrity
-    raise "Can't delete status" if WorkPackage.where(['status_id=?', id]).any?
+    raise "Can't delete status" if WorkPackage.where(status_id: id).exists?
   end
 
   # Deletes associated workflows
   def delete_workflows
-    Workflow.delete_all(['old_status_id = :id OR new_status_id = :id', { id: id }])
+    Workflow
+      .where(old_status_id: id)
+      .or(Workflow.where(new_status_id: id))
+      .delete_all
   end
 end

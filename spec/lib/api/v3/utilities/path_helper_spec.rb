@@ -454,6 +454,26 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  context 'time_entry paths' do
+    describe '.time_entries' do
+      subject { helper.time_entries }
+
+      it_behaves_like 'api v3 path', '/time_entries'
+    end
+
+    describe '.time_entry' do
+      subject { helper.time_entry 42 }
+
+      it_behaves_like 'api v3 path', '/time_entries/42'
+    end
+
+    describe '.time_entries_activity' do
+      subject { helper.time_entries_activity 42 }
+
+      it_behaves_like 'api v3 path', '/time_entries/activities/42'
+    end
+  end
+
   describe 'types paths' do
     describe '#types' do
       subject { helper.types }
@@ -535,12 +555,6 @@ describe ::API::V3::Utilities::PathHelper do
       subject { helper.work_package_activities 42 }
 
       it_behaves_like 'api v3 path', '/work_packages/42/activities'
-    end
-
-    describe '#work_package_columns' do
-      subject { helper.work_package_columns 23 }
-
-      it_behaves_like 'api v3 path', '/projects/23/work_packages/columns'
     end
 
     describe '#work_package_relations' do

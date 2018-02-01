@@ -30,6 +30,8 @@ import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {States} from '../../states.service';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageViewButtonController extends WorkPackageNavigationButtonController {
   public workPackageId:number;
@@ -40,9 +42,10 @@ export class WorkPackageViewButtonController extends WorkPackageNavigationButton
   public iconClass:string = 'icon-view-fullscreen';
 
   constructor(
-    public $state:ng.ui.IStateService,
-              public states:States,
+    public $state:StateService,
+    public states:States,
     public I18n:op.I18n,
+    public wpTableFocus:WorkPackageTableFocusService,
     public keepTab:KeepTabService) {
     'ngInject';
 
@@ -58,8 +61,8 @@ export class WorkPackageViewButtonController extends WorkPackageNavigationButton
   }
 
   public openWorkPackageShowView() {
-    let args = ['work-packages.new', this.$state.params];
-    let id = this.$state.params['workPackageId'] || this.workPackageId || this.states.focusedWorkPackage.value;
+    let args:any = ['work-packages.new', this.$state.params];
+    let id = this.$state.params['workPackageId'] || this.workPackageId || this.wpTableFocus.focusedWorkPackage;
 
     if (!this.$state.is('work-packages.list.new')) {
       let params = {

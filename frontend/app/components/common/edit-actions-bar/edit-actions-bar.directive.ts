@@ -27,8 +27,10 @@
 // ++
 
 import {wpDirectivesModule} from "../../../angular-modules";
+import {WorkPackageEditFieldGroupController} from '../../wp-edit/wp-edit-field/wp-edit-field-group.directive';
 
 export class EditActionsBarController {
+  public wpEditFieldGroup:WorkPackageEditFieldGroupController;
   public text:any;
   public onSave:Function;
   public onCancel:Function;
@@ -38,7 +40,7 @@ export class EditActionsBarController {
     this.text = {
       save: I18n.t('js.button_save'),
       cancel: I18n.t('js.button_cancel')
-    }
+    };
   }
 
   public save():void {
@@ -47,20 +49,31 @@ export class EditActionsBarController {
     }
 
     this.saving = true;
-    this.onSave().finally(() => {
-      this.saving = false;
-    });
+    this.wpEditFieldGroup
+      .saveWorkPackage()
+      .finally(() => {
+        this.saving = false;
+        this.onSave();
+      });
   }
 
   public cancel():void {
+    this.wpEditFieldGroup.inEditMode = false;
     this.onCancel();
   }
 }
 
-function editActionsBar() {
+function editActionsBar():any {
   return {
     restrict: 'E',
     templateUrl: '/components/common/edit-actions-bar/edit-actions-bar.directive.html',
+    require: '^wpEditFieldGroup',
+    link: function (scope:any,
+                    element:ng.IAugmentedJQuery,
+                    attrs:ng.IAttributes,
+                    controller:WorkPackageEditFieldGroupController) {
+      scope.$ctrl.wpEditFieldGroup = controller;
+    },
 
     scope: {
       onSave: '&',

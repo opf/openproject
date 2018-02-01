@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,12 +32,23 @@ class CustomField < ActiveRecord::Base
   include CustomField::OrderStatements
 
   has_many :custom_values, dependent: :delete_all
-  has_many :custom_options, -> { order(position: :asc) }, dependent: :delete_all
+  # WARNING: the inverse_of option is also required in order
+  # for the 'touch: true' option on the custom_field association in CustomOption
+  # to work as desired.
+  # Without it, the after_commit callbacks of acts_as_list will prevent the touch to happen.
+  # https://github.com/rails/rails/issues/26726
+  has_many :custom_options,
+           -> { order(position: :asc) },
+           dependent: :delete_all,
+           inverse_of: 'custom_field'
+  accepts_nested_attributes_for :custom_options
 
   acts_as_list scope: 'type = \'#{self.class}\''
 
-  validates_presence_of :field_format
-
+  validates :field_format, presence: true
+  validates :custom_options,
+            presence: { message: I18n.t(:'activerecord.errors.models.custom_field.at_least_one_custom_option') },
+            if: ->(*) { field_format == 'list' }
   validates :name, presence: true, length: { maximum: 30 }
 
   validate :uniqueness_of_name_with_scope
@@ -52,10 +64,12 @@ class CustomField < ActiveRecord::Base
   validates_inclusion_of :field_format, in: OpenProject::CustomFieldFormat.available_formats
 
   validate :validate_default_value
+  validate :validate_regex
 
   validates :min_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :max_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :min_length, numericality: { less_than_or_equal_to: :max_length, message: :smaller_than_or_equal_to_max_length }, unless: Proc.new { |cf| cf.max_length.blank? }
+  validates :min_length, numericality: { less_than_or_equal_to: :max_length, message: :smaller_than_or_equal_to_max_length },
+                         unless: Proc.new { |cf| cf.max_length.blank? }
 
   before_validation :check_searchability
 
@@ -75,7 +89,8 @@ class CustomField < ActiveRecord::Base
         ids.first
       end
     else
-      read_attribute :default_value
+      val = read_attribute :default_value
+      cast_value val
     end
   end
 
@@ -96,22 +111,29 @@ class CustomField < ActiveRecord::Base
     end
   end
 
+  def validate_regex
+    Regexp.new(regexp) if has_regexp?
+    true
+  rescue RegexpError
+    errors.add(:regexp, :invalid)
+  end
+
+  def has_regexp?
+    regexp.present?
+  end
+
   def required?
     is_required?
   end
 
   def possible_values_options(obj = nil)
     case field_format
-    when 'user', 'version'
-      if obj.is_a?(Project)
-        possible_values_options_in_project(obj)
-      elsif obj.try(:project)
-        possible_values_options_in_project(obj.project)
-      else
-        []
-      end
+    when 'user'
+      possible_user_values_options(obj)
+    when 'version'
+      possible_version_values_options(obj)
     when 'list'
-      possible_values.map { |option| [option.value, option.id.to_s] }
+      possible_list_values_options
     else
       possible_values
     end
@@ -182,7 +204,11 @@ class CustomField < ActiveRecord::Base
 
   def self.customized_class
     name =~ /\A(.+)CustomField\z/
-    begin; $1.constantize; rescue nil; end
+    begin
+      $1.constantize
+    rescue
+      nil
+    end
   end
 
   # to move in project_custom_field
@@ -222,20 +248,34 @@ class CustomField < ActiveRecord::Base
   def cache_key
     tag = multi_value? ? "mv" : "sv"
 
-    ["work_package_custom_fields", id, tag].join("/")
+    super + '/' + tag
   end
 
   private
 
-  def possible_values_options_in_project(project)
-    case field_format
-    when 'user'
-      project.users
-    when 'version'
-      project.versions
-    else
-      []
-    end.sort.map { |u| [u.to_s, u.id.to_s] }
+  def possible_version_values_options(obj)
+    mapped_with_deduced_project(obj) do |project|
+      if project
+        project.versions
+      else
+        Version.systemwide
+      end
+    end
+  end
+
+  def possible_user_values_options(obj)
+    mapped_with_deduced_project(obj) do |project|
+      if project
+        project.users
+      else
+        Principal
+          .in_visible_project_or_me(User.current)
+      end
+    end
+  end
+
+  def possible_list_values_options
+    possible_values.map { |option| [option.value, option.id.to_s] }
   end
 
   def possible_values_from_arg(arg)
@@ -244,5 +284,19 @@ class CustomField < ActiveRecord::Base
     else
       arg.to_s.split(/[\n\r]+/).map(&:strip).reject(&:blank?)
     end
+  end
+
+  def mapped_with_deduced_project(project)
+    project = if project.is_a?(Project)
+                project
+              elsif project.respond_to?(:project)
+                project.project
+              end
+
+    result = yield project
+
+    result
+      .sort
+      .map { |u| [u.name, u.id.to_s] }
   end
 end

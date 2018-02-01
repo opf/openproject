@@ -15,10 +15,11 @@ import {PrimaryRenderPass, RowRenderInfo} from '../../primary-render-pass';
 import {States} from '../../../../states.service';
 import {$injectFields} from '../../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTableHierarchies} from '../../../wp-table-hierarchies';
-import {RenderInfo} from '../../../../wp-table/timeline/wp-timeline';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
   public states:States;
+  public wpCacheService:WorkPackageCacheService;
 
   // Remember which rows were already rendered
   public rendered:{[workPackageId:string]: boolean};
@@ -36,7 +37,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
               public rowBuilder:SingleHierarchyRowBuilder) {
     super(workPackageTable, rowBuilder);
 
-    $injectFields(this, 'states');
+    $injectFields(this, 'states', 'wpCacheService');
   }
 
   protected prepare() {
@@ -78,31 +79,55 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   }
 
   /**
-   * If the given work package has a visible parent in the table, return true
-   * and remember the work package until the parent is rendered.
+   * If the given work package has a visible ancestor in the table, return true
+   * and remember the work package until the ancestor is rendered.
    * @param workPackage
    * @returns {boolean}
    */
   public deferInsertion(workPackage:WorkPackageResourceInterface):boolean {
-    const parent = workPackage.parent;
+    const ancestors = workPackage.ancestors;
 
-    // Will only defer if parent exists
-    if (!parent) {
+    // Will only defer if at least one ancestor exists
+    if (ancestors.length === 0) {
       return false;
     }
 
-    // Will only defer is parent is
-    // 1. existent in the table results
-    // 1. yet to be rendered
-    if (this.workPackageTable.originalRowIndex[parent.id] === undefined || this.rendered[parent.id]) {
-      return false;
+    // Cases for wp
+    // 1. No wp.ancestors in table -> Render them immediately (defer=false)
+    // 2. Parent in table -> deffered[parent] = wp
+    // 3. Parent not in table BUT a ancestor in table
+    // -> deferred[a ancestor] = parent
+    // -> deferred[parent] = wp
+    // 4. Any ancestor already rendered -> Render normally (don't defer)
+    var ancestorChain = ancestors.concat([workPackage]);
+    for (let i = ancestorChain.length - 2; i >= 0; --i) {
+      const parent = ancestorChain[i];
+      const child = ancestorChain[i + 1];
+
+      const inTable = this.workPackageTable.originalRowIndex[parent.id];
+      const alreadyRendered = this.rendered[parent.id];
+
+      if (alreadyRendered) {
+        // parent is already rendered.
+        // Don't defer, but render all intermediate parents below it
+        return false;
+      }
+
+      if (inTable) {
+        // Get the current elements
+        const elements = this.deferred[parent.id] || [];
+        // Append to them the child and all children below
+        let newElements = ancestorChain.slice(i + 1, ancestorChain.length);
+        newElements = newElements.map(child => this.wpCacheService.state(child.id).value!);
+        this.deferred[parent.id] = elements.concat(newElements);
+        return true;
+      }
+      // Otherwise, continue the chain upwards
     }
 
-    const elements = this.deferred[parent.id] || [];
-    this.deferred[parent.id] = elements.concat([workPackage]);
-
-    return true;
+    return false;
   }
+
 
   /**
    * Render any deferred children of the given work package. If recursive children were
@@ -116,13 +141,21 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     // If the work package has deferred children to render,
     // run them through the callback
     deferredChildren.forEach((child:WorkPackageResourceInterface) => {
-      // Callback on the child itself
-      const row:WorkPackageTableRow = this.workPackageTable.originalRowIndex[child.id];
-      this.insertUnderParent(row, child.parent);
+      this.insertUnderParent(this.getOrBuildRow(child), child.parent);
 
       // Descend into any children the child WP might have and callback
       this.renderAllDeferredChildren(child);
     });
+  }
+
+  private getOrBuildRow(workPackage:WorkPackageResourceInterface) {
+    let row:WorkPackageTableRow = this.workPackageTable.originalRowIndex[workPackage.id];
+
+    if (!row) {
+      row = { object: workPackage } as WorkPackageTableRow;
+    }
+
+    return row;
   }
 
   private buildWithHierarchy(row:WorkPackageTableRow) {

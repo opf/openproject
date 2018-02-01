@@ -27,6 +27,7 @@
 // ++
 
 import {WorkPackageViewButtonController} from './wp-view-button.directive';
+import {StateService} from '@uirouter/angularjs';
 
 var expect = chai.expect;
 
@@ -38,7 +39,7 @@ describe('wpViewButton directive', () => {
     'openproject.wpButtons', 'openproject.templates', 'openproject.config'));
 
   beforeEach(angular.mock.inject(($compile:ng.ICompileService, $rootScope:ng.IRootScopeService,
-      _$state_:ng.ui.IStateService) => {
+      _$state_:StateService) => {
 
     var html = '<wp-view-button next-wp-func-="nextWp"' +
       ' work-package-id="workPackageId"></wp-view-button>';

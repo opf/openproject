@@ -1,5 +1,7 @@
-/***** Media print specific styles *****/
+// -------------------- Media print specific styles --------------------
 @media print
+  // -------------------- ALL pages --------------------
+  .hide-when-print,
   #top-menu,
   #header,
   #main-menu,
@@ -7,13 +9,17 @@
   #footer,
   #breadcrumb,
   .contextual,
-  .other-formats
-    display: none
+  .other-formats,
+  #wiki_add_attachment
+    display: none !important
+
+  .notification-box:not(.show-when-print)
+    display: none !important
 
   #main
     background: #fff
 
-  #content
+  #content-wrapper
     width: 99%
     margin: 0
     padding: 0
@@ -21,11 +27,10 @@
     background: #fff
     overflow: visible !important
 
-  #wiki_add_attachment
-    display:none
-
-  .hide-when-print
-    display: none
+  #content-wrapper.hidden-navigation,
+  #content.hidden-navigation
+    width: 99% !important
+    margin-left: 0 !important
 
   .autoscroll
     overflow-x: visible
@@ -43,28 +48,3 @@
     font-size: 1.5em
   h3
     font-size: 1.17em
-
-  //
-  // WORK PACKAGE table
-  //
-  .controller-work_packages.action-index,
-  .controller-work_packages.action-show,
-  .controller-work_packages.full-create
-    .wp-timeline--slider-wrapper
-      display: none !important
-    #content
-      margin: 0
-      width: 100%
-      height: 100%
-      padding: 10px
-    #main
-      top: 0
-      padding: 0
-      border: none
-    .work-packages--list-table-area
-      height: 100%
-    .work-package-table--container,
-    .generic-table--results-container
-      overflow: hidden
-    .wp-timeline--scroll-wrapper
-      border-left-width: 3px

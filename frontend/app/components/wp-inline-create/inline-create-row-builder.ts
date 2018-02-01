@@ -1,3 +1,4 @@
+import {wpCellTdClassName} from './../wp-fast-table/builders/cell-builder';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
@@ -10,7 +11,7 @@ import {States} from '../states.service';
 import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {
-  internalDetailsColumn,
+  internalContextMenuColumn,
   tableRowClassName,
   SingleRowBuilder, commonRowClassName
 } from '../wp-fast-table/builders/rows/single-row-builder';
@@ -41,7 +42,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
 
   public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement {
     switch (column.id) {
-      case internalDetailsColumn.id:
+      case internalContextMenuColumn.id:
         return this.buildCancelButton();
       default:
         return super.buildCell(workPackage, column);
@@ -52,9 +53,6 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     // Get any existing edit state for this work package
     const [row, hidden] = this.buildEmpty(workPackage);
 
-    // Set editing context to table
-    form.editContext = new TableRowEditContext(workPackage.id, this.classIdentifier(workPackage));
-    this.states.editing.get(workPackage.id).putValue(form);
 
     return [row, hidden];
   }
@@ -81,7 +79,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
 
   protected buildCancelButton() {
     const td = document.createElement('td');
-    td.classList.add('wp-table--cancel-create-td');
+    td.classList.add(wpCellTdClassName, 'wp-table--cancel-create-td');
 
    td.innerHTML = `
     <a

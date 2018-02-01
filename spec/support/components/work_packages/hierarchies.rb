@@ -33,8 +33,13 @@ module Components
       include RSpec::Matchers
 
       def enable_hierarchy
-        find('#work-packages-settings-button').click
-        page.find('#settingsDropdown a.menu-item', text: 'Display hierarchy').click
+        SettingsMenu.new.open_and_choose('Display hierarchy')
+      end
+
+      alias_method :enable_via_menu, :enable_hierarchy
+
+      def enable_via_header
+        page.find('.wp-table--table-header .icon-no-hierarchy').click
       end
 
       def disable_hierarchy
@@ -45,6 +50,16 @@ module Components
 
       def expect_no_hierarchies
         expect(page).to have_no_selector('.wp-table--hierarchy-span')
+      end
+
+      alias_method :expect_mode_disabled, :expect_no_hierarchies
+
+      def expect_mode_enabled
+        expect(page).to have_selector('.wp-table--table-header .icon-hierarchy')
+      end
+
+      def expect_mode_disabled
+        expect(page).to have_selector('.wp-table--table-header .icon-no-hierarchy')
       end
 
       def expect_leaf_at(*work_packages)

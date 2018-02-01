@@ -1,24 +1,22 @@
 .timeline-element.milestone
   position: relative
-  z-index: 50
+  z-index: 0
 
   .diamond
     position: absolute
     transform: rotate(45deg)
     transform-origin: center center
 
-  .rightDateDisplay
-    position: absolute
-    background-color: #f4f4f4
-    border: 1px solid #d4d4d4
-    border-radius: 5px
-    top: -5px
-    right: -85px
-    padding: 0 5px 0 5px
-    font-size: 10px
-
   &.-editable
     cursor: ew-resize
+
+  // Fix top position
+  .labelLeft
+    top: 1px
+
+  // Add more margin to hover right
+  .labelHoverRight
+    transform: translateX(calc(100% + 20px))
 
 .active-selection-mode
 
@@ -31,7 +29,6 @@
     .diamond
       cursor: pointer !important
       border: 1px solid orange !important
-      outline: 1px solid orange !important
 
       background: linear-gradient(270deg, #eeeeee, #bbbbbb)
       background-size: 400% 400%

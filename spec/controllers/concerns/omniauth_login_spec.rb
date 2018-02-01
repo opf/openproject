@@ -57,7 +57,7 @@ describe AccountController, type: :controller do
         before do
           request.env['omniauth.auth'] = omniauth_hash
           request.env['omniauth.origin'] = 'https://example.net/some_back_url'
-          post :omniauth_login
+          post :omniauth_login, params: { provider: :google }
         end
 
         it 'registers the user on-the-fly' do
@@ -113,7 +113,7 @@ describe AccountController, type: :controller do
 
             expect(omniauth_strategy).to receive(:omniauth_hash_to_user_attributes)
 
-            post :omniauth_login
+            post :omniauth_login, params: { provider: :google }
 
             user = User.find_by_login('bar@example.org')
             expect(user).to be_an_instance_of(User)
@@ -124,7 +124,7 @@ describe AccountController, type: :controller do
 
         context 'unavailable' do
           it 'keeps the default mapping' do
-            post :omniauth_login
+            post :omniauth_login, params: { provider: :google }
 
             user = User.find_by_login('whattheheck@example.com')
             expect(user).to be_an_instance_of(User)
@@ -146,7 +146,7 @@ describe AccountController, type: :controller do
 
         it 'renders user form' do
           request.env['omniauth.auth'] = omniauth_hash
-          post :omniauth_login
+          post :omniauth_login, params: { provider: :google }
           expect(response).to render_template :register
           expect(assigns(:user).mail).to eql('foo@bar.com')
         end
@@ -238,7 +238,7 @@ describe AccountController, type: :controller do
           request.env['omniauth.auth'] = omniauth_hash
           request.env['omniauth.origin'] = 'https://example.net/some_back_url'
 
-          post :omniauth_login
+          post :omniauth_login, params: { provider: :google }
         end
 
         it 'redirects to signin_path' do
@@ -278,14 +278,14 @@ describe AccountController, type: :controller do
         end
 
         it 'should sign in the user after successful external authentication' do
-          post :omniauth_login
+          post :omniauth_login, params: { provider: :google }
 
           expect(response).to redirect_to my_page_path
         end
 
         it 'should log a successful login' do
           post_at = Time.now.utc
-          post :omniauth_login
+          post :omniauth_login, params: { provider: :google }
 
           user.reload
           expect(user.last_login_on.utc.to_i).to be >= post_at.utc.to_i
@@ -339,7 +339,7 @@ describe AccountController, type: :controller do
               expect(auth).to eq omniauth_hash
             end
 
-            post :omniauth_login
+            post :omniauth_login, params: { provider: :google }
 
             expect(response).to redirect_to my_page_path
           end
@@ -352,7 +352,7 @@ describe AccountController, type: :controller do
             it 'is rejected against google' do
               expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
 
-              post :omniauth_login
+              post :omniauth_login, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
               expect(flash[:error]).to eq 'I only want to see other@mail.com here.'
@@ -362,7 +362,7 @@ describe AccountController, type: :controller do
               expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
 
               omniauth_hash.provider = 'any other'
-              post :omniauth_login
+              post :omniauth_login, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
               expect(flash[:error]).to eq 'I only want to see other@mail.com here.'
@@ -379,7 +379,7 @@ describe AccountController, type: :controller do
             it 'is rejected against google' do
               expect(OpenProject::OmniAuth::Authorization).not_to receive(:after_login!).with(user)
 
-              post :omniauth_login
+              post :omniauth_login, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
               expect(flash[:error]).to eq 'foo can fuck right off'
@@ -394,7 +394,7 @@ describe AccountController, type: :controller do
 
               omniauth_hash.provider = 'some other'
 
-              post :omniauth_login
+              post :omniauth_login, params: { provider: :google }
 
               expect(response).to redirect_to home_url(first_time_user: true)
               # authorization is successful which results in the registration
@@ -409,7 +409,7 @@ describe AccountController, type: :controller do
               omniauth_hash.provider = 'yet another'
               config.global_email = 'yarrrr@joro.es'
 
-              post :omniauth_login
+              post :omniauth_login, params: { provider: :google }
 
               expect(response).to redirect_to signin_path
               expect(flash[:error]).to eq 'I only want to see yarrrr@joro.es here.'
@@ -424,7 +424,7 @@ describe AccountController, type: :controller do
           user.register
           user.save!
 
-          post :omniauth_login
+          post :omniauth_login, params: { provider: :google }
         end
 
         it 'should show an error about a not activated account' do
@@ -442,7 +442,7 @@ describe AccountController, type: :controller do
           user.lock
           user.save!
 
-          post :omniauth_login
+          post :omniauth_login, params: { provider: :google }
         end
 
         it 'should show an error indicating a failed login' do
@@ -469,7 +469,7 @@ describe AccountController, type: :controller do
       before do
         request.env['omniauth.auth'] = omniauth_hash
 
-        post :omniauth_login
+        post :omniauth_login, params: { provider: :google }
       end
 
       it 'should respond with a 400' do

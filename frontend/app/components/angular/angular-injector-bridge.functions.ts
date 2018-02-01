@@ -4,7 +4,7 @@
    * Not applicable until after the application bootstrapping is done.
    */
   export function $currentInjector() {
-    return angular.element(document.body).injector();
+    return (window as any).ngInjector || angular.element(document.body).injector();
   }
 
   export function $injectNow(dep:string) {
@@ -17,6 +17,7 @@
    * factory.
    *
    * @param injectable The target to inject into
+   * @deprecated Use $injectFields instead
    */
   export function injectorBridge(injectable:any) {
     let $injector = $currentInjector();

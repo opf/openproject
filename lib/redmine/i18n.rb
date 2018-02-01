@@ -33,6 +33,15 @@ module Redmine
       base.extend Redmine::I18n
     end
 
+    def self.all_languages
+      @@all_languages ||= begin
+        Dir.glob(Rails.root.join('config/locales/**/*.yml'))
+          .map { |f| File.basename(f).split('.').first }
+          .reject! { |l| /\Ajs-/.match(l.to_s) }
+          .map(&:to_sym)
+      end
+    end
+
     def l(*args)
       case args.size
       when 1
@@ -142,19 +151,19 @@ module Redmine
     end
 
     def all_languages
-      @@all_languages ||= begin
-        Dir.glob(Rails.root.join('config/locales/*.yml'))
-        .map { |f| File.basename(f).split('.').first }
-        .reject! { |l| /\Ajs-/.match(l.to_s) }
-        .map(&:to_sym)
-      end
+      Redmine::I18n.all_languages
     end
 
     ##
     # Returns the given language if it is valid or nil otherwise.
     def find_language(lang)
-      return nil unless lang =~ /[a-z-]+/i
-      valid_languages.detect { |l| l =~ /#{lang}/i } if lang.present?
+      return nil unless (lang.present? && lang =~ /[a-z-]+/i)
+
+      # Direct match
+      direct_match = valid_languages.detect { |l| l =~ /^#{lang}$/i }
+      parent_match = valid_languages.detect { |l| l =~ /#{lang}/i }
+
+      direct_match || parent_match
     end
 
     def set_language_if_valid(lang)

@@ -9,6 +9,7 @@ describe 'Work Package table relations', js: true do
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:relations) { ::Components::WorkPackages::Relations.new(relations) }
+  let(:columns) { ::Components::WorkPackages::Columns.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
 
   let!(:wp_from) { FactoryGirl.create(:work_package, project: project, type: type2) }
@@ -27,33 +28,42 @@ describe 'Work Package table relations', js: true do
                        to: wp_to2,
                        relation_type: Relation::TYPE_FOLLOWS)
   end
+  let!(:query) do
+    query              = FactoryGirl.build(:query, user: user, project: project)
+    query.column_names = ['subject']
+    query.filters.clear
+
+    query.save!
+    query
+  end
+
+  let(:type_column_id) { "relationsToType#{type.id}" }
+  let(:type_column_follows) { 'relationsOfTypeFollows' }
+  let(:relation_columns_allowed) { true }
 
   before do
+    # There does not seem to appear a way to generate a valid token
+    # for testing purposes
+    allow(EnterpriseToken)
+      .to receive(:allows_to?)
+      .and_return(false)
+
+    allow(EnterpriseToken)
+      .to receive(:allows_to?)
+      .with(:work_package_query_relation_columns)
+      .and_return(relation_columns_allowed)
+
     login_as(user)
   end
 
-  describe 'relations can be displayed and expanded' do
-    include_context 'work package table helpers'
-
-    let!(:query) do
-      query              = FactoryGirl.build(:query, user: user, project: project)
-      query.column_names = ['subject']
-      query.filters.clear
-
-      query.save!
-      query
-    end
-
-    let(:type_column_id) { "relationsToType#{type.id}" }
-    let(:type_column_follows) { 'relationsOfTypeFollows' }
-
-    it do
+  describe 'with relation columns allowed by the enterprise token' do
+    it 'displays expandable relation columns' do
       # Now visiting the query for category
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(wp_from, wp_to, wp_to2)
 
-      add_wp_table_column "Relations to #{type.name}"
-      add_wp_table_column "follows relations"
+      columns.add("Relations to #{type.name}")
+      columns.add("follows relations")
 
       wp_from_row = wp_table.row(wp_from)
       wp_from_to = wp_table.row(wp_to)
@@ -90,14 +100,26 @@ describe 'Work Package table relations', js: true do
       wp_timeline.toggle_timeline
       wp_timeline.expect_timeline!(open: true)
 
-      # 3 WPs + 2 expanded relations + inline create
-      wp_timeline.expect_row_count(6)
+      # 3 WPs + 2 expanded relations
+      wp_timeline.expect_row_count(5)
 
       # Collapse
       wp_from_row.find(".#{type_column_follows} .wp-table--relation-indicator").click
       expect(page).to have_no_selector(".__relations-expanded-from-#{wp_from.id}")
 
-      wp_timeline.expect_row_count(4)
+      wp_timeline.expect_row_count(3)
+    end
+  end
+
+  describe 'with relation columns disallowed by the enterprise token' do
+    let(:relation_columns_allowed) { false }
+
+    it 'has no relation columns available for selection' do
+      # Now visiting the query for category
+      wp_table.visit_query(query)
+
+      columns.expect_column_not_available 'follows relations'
+      columns.expect_column_not_available "Relations to #{type.name}"
     end
   end
 end

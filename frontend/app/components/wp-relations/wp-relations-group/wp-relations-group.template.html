@@ -7,7 +7,7 @@
         </div>
         <div class="attributes-group--header-toggle" ng-if="$ctrl.firstGroup">
           <div id="wp-relation-group-by-toggle"
-               class="panel-toggler ng-scope ng-isolate-scope">
+               class="panel-toggler ng-scope ng-isolate-scope hide-when-print">
               <accessible-by-keyboard link-class="icon-context icon-small icon-group-by button -transparent"
                                       execute="$ctrl.toggleButton()">
                   <span ng-if="!$ctrl.groupByWorkPackageType" ng-bind="::$ctrl.text.groupByType"></span>

@@ -33,9 +33,9 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:recipient) {
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryGirl.create(:user, member_in_project: project, member_through_role: role, login: "johndoe")
   }
-  let(:author) { FactoryGirl.create(:user) }
+  let(:author) { FactoryGirl.create(:user, login: "marktwain") }
   let(:work_package) {
     FactoryGirl.create(:work_package,
                        project: project,
@@ -72,8 +72,9 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     end
 
     it 'sends a mail' do
-      expect(Delayed::Job).to receive(:enqueue)
-                                .with(an_instance_of DeliverWorkPackageNotificationJob)
+      expect(Delayed::Job)
+        .to receive(:enqueue)
+        .with(an_instance_of(DeliverWorkPackageNotificationJob))
       subject.perform
     end
   end
@@ -114,8 +115,8 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       change = { subject: 'new subject' }
       note = { journal_notes: 'a comment' }
 
-      allow(UpdateWorkPackageService).to receive(:contract).and_return(NoopContract)
-      service = UpdateWorkPackageService.new(user: author, work_package: work_package)
+      allow(WorkPackages::UpdateContract).to receive(:new).and_return(NoopContract.new)
+      service = WorkPackages::UpdateService.new(user: author, work_package: work_package)
 
       expect(service.call(attributes: note)).to be_success
       expect(service.call(attributes: change)).to be_success
@@ -133,9 +134,10 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       #  -> no special behaviour required
 
       it 'Job 1 sends one mail for journal 1' do
-        expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of DeliverWorkPackageNotificationJob)
-                                  .once
+        expect(Delayed::Job)
+          .to receive(:enqueue)
+          .with(an_instance_of(DeliverWorkPackageNotificationJob))
+          .once
         described_class.new(journal_1.id, author.id).perform
       end
 
@@ -185,7 +187,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     end
 
     context 'journal 3 created after timeout of 1 and 2' do
-      # This is a normal case again, ensuring nobody takes responsiblity when not neccessary.
+      # This is a normal case again, ensuring nobody takes responsibility when not necessary.
 
       before do
         journal_2.created_at = journal_1.created_at + (timeout / 2)
@@ -211,6 +213,120 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
                                   .with(an_instance_of DeliverWorkPackageNotificationJob)
                                   .once
         described_class.new(journal_3.id, author.id).perform
+      end
+    end
+  end
+
+  describe "#text_for_mentions" do
+    it "returns a text" do
+      subject.perform
+      expect(subject.send(:text_for_mentions)).to be_a String
+    end
+
+    context "subject and description changed" do
+      let(:title) { 'New subject' }
+      let(:description) { 'New description' }
+      let(:notes) { 'Nice notes!' }
+
+      subject { described_class.new(work_package.journals.last.id, author.id) }
+
+      before do
+        work_package.subject = title
+        work_package.description = description
+        work_package.save!
+
+        work_package.journals.last.notes = notes
+        work_package.journals.last.save
+
+        subject.perform
+      end
+
+      it "returns notes, subject and description" do
+        expect(subject.send(:text_for_mentions)).not_to be_blank
+        expect(subject.send(:text_for_mentions)).to match title
+        expect(subject.send(:text_for_mentions)).to match description
+        expect(subject.send(:text_for_mentions)).to match notes
+      end
+    end
+  end
+
+  describe "#mentioned" do
+    before do
+      subject.perform
+      allow(subject).to receive(:text_for_mentions).and_return(added_text)
+    end
+
+    context "recipient is allowed to view the work package" do
+      let(:author) do
+        FactoryGirl.create(:user,
+                           member_in_project: project,
+                           member_through_role: role)
+      end
+
+      context "The added text contains a login name" do
+        let(:added_text) { "Hello user:\"#{recipient.login}\"" }
+
+        context "that is pretty normal word" do
+          it "detects the user" do
+            expect(subject.send(:mentioned)).to be_an Array
+            expect(subject.send(:mentioned).length).to eq 1
+            expect(subject.send(:mentioned).first).to eq recipient
+          end
+        end
+
+        context "that is an email address" do
+          let(:recipient) do
+            FactoryGirl.create(:user,
+                               member_in_project: project,
+                               member_through_role: role,
+                               login: "foo@bar.com")
+          end
+
+          it "detects the user" do
+            expect(subject.send(:mentioned).first).to eq recipient
+          end
+        end
+      end
+
+      context "The added text contains a user ID" do
+        let(:added_text) { "Hello user##{recipient.id}" }
+
+        it "detects the user" do
+          expect(subject.send(:mentioned).first).to eq recipient
+        end
+      end
+
+      context "the recipient turned off all mail notifications" do
+        let(:recipient) do
+          FactoryGirl.create(:user,
+                             member_in_project: project,
+                             member_through_role: role,
+                             mail_notification: 'none')
+        end
+
+        let(:added_text) do
+          "Hello user:\"#{recipient.login}\", hey user##{recipient.id}"
+        end
+
+        it "no user gets detected" do
+          expect(subject.send(:mentioned)).to be_an Array
+          expect(subject.send(:mentioned).length).to eq 0
+        end
+      end
+    end
+
+    context "mentioned user is not allowed to view the work package" do
+      let(:recipient) do
+        FactoryGirl.create(:user,
+                           login: "foo@bar.com")
+      end
+      let(:added_text) do
+        "Hello user:#{recipient.login}, hey user##{recipient.id}"
+      end
+
+      it "no user gets detected" do
+        expect(subject.send(:mentioned)).to be_an Array
+        expect(subject.send(:mentioned).length).to eq 0
       end
     end
   end

@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
           title: t(:label_type_new)} do %>
       <%= op_icon('button--icon icon-add') %>
       <span class="button--text">
-        <%= t('activerecord.attributes.workpackage.type') %>
+        <%= t('activerecord.attributes.work_package.type') %>
       </button>
     <% end %>
   </li>
@@ -82,7 +82,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
                   <span>
-                    <%= Type.human_attribute_name(:is_default) %>
+                    <%= t(:label_active_in_new_projects) %>
                   </span>
                 </div>
               </div>
@@ -163,7 +163,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% end %>
         </tbody>
       </table>
-      
+
     </div>
   </div>
   <%= pagination_links_full @types %>

@@ -35,7 +35,7 @@ declare const I18n:op.I18n;
     // As we don't support ANY version of msie, so treat 11 (last ie before edge) as unsupported
     const unsupported = {
       msie: '12',
-      firefox: '45'
+      firefox: '52'
     };
     let additionalMessage = I18n.t("js.unsupported_browser.update_message");
 

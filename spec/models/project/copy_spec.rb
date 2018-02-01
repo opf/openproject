@@ -125,41 +125,81 @@ describe Project::Copy, type: :model do
     describe '#copy_work_packages' do
       let(:work_package) { FactoryGirl.create(:work_package, project: project) }
       let(:work_package2) { FactoryGirl.create(:work_package, project: project) }
+      let(:work_package3) { FactoryGirl.create(:work_package, project: project) }
       let(:version) { FactoryGirl.create(:version, project: project) }
+      let(:user) { FactoryGirl.create(:admin) }
+
+      before do
+        login_as(user)
+      end
+
+      describe '#attachments' do
+        let!(:attachment) { FactoryGirl.create(:attachment, container: work_package) }
+
+        before do
+          copy.send :copy_work_packages, project, only
+        end
+
+        context 'when requested' do
+          let(:only) { [:work_package_attachments] }
+          it 'copies them' do
+            expect(copy.work_packages.count).to eq(1)
+
+            wp = copy.work_packages.first
+            expect(wp.attachments.count).to eq(1)
+          end
+        end
+
+        context 'when not requested' do
+          let(:only) { [] }
+          it 'ignores them' do
+            expect(copy.work_packages.count).to eq(1)
+
+            wp = copy.work_packages.first
+            expect(wp.attachments.count).to eq(0)
+          end
+        end
+      end
 
       describe '#relation' do
         before do
-          wp = work_package
-          wp2 = work_package2
-          FactoryGirl.create(:relation, from: wp, to: wp2)
-          [wp, wp2].each do |wp| project.work_packages << wp end
+          FactoryGirl.create(:relation, from: work_package, to: work_package2)
+          [work_package, work_package2].each { |wp| project.work_packages << wp }
 
           copy.send :copy_work_packages, project
           copy.save
         end
 
         it do
-          copy.work_packages.each do |wp| expect(wp).to(be_valid) end
+          copy.work_packages.each { |wp| expect(wp).to(be_valid) }
           expect(copy.work_packages.count).to eq(project.work_packages.count)
         end
       end
 
       describe '#parent' do
         before do
-          wp = work_package
-          wp2 = work_package2
-          wp.parent = wp2
-          wp.save
-
-          [wp, wp2].each do |wp| project.work_packages << wp end
+          work_package.parent = work_package2
+          work_package.save!
+          work_package2.parent = work_package3
+          work_package2.save!
 
           copy.send :copy_work_packages, project
           copy.save
         end
 
         it do
-          expect(parent_wp = copy.work_packages.detect(&:parent)).not_to eq(nil)
-          expect(parent_wp.parent.project).to eq(copy)
+          grandparent_wp_copy = copy.work_packages.find_by(subject: work_package3.subject)
+          parent_wp_copy = copy.work_packages.find_by(subject: work_package2.subject)
+          child_wp_copy = copy.work_packages.find_by(subject: work_package.subject)
+
+          [grandparent_wp_copy,
+           parent_wp_copy,
+           child_wp_copy].each do |wp|
+            expect(wp).to be_present
+          end
+
+          expect(child_wp_copy.parent).to eq(parent_wp_copy)
+          expect(parent_wp_copy.parent).to eq(grandparent_wp_copy)
         end
       end
 
@@ -227,24 +267,11 @@ describe Project::Copy, type: :model do
       end
     end
 
-    describe '#copy_timelines' do
-      before do
-        timeline = FactoryGirl.create(:timeline, project: project)
-        # set options to nil, is known to have been buggy
-        timeline.send :write_attribute, :options, nil
-
-        copy.send(:copy_timelines, project)
-        copy.save
-      end
-
-      subject { copy.timelines.count }
-
-      it { is_expected.to eq(project.timelines.count) }
-    end
-
     describe '#copy_queries' do
+      let(:query) { FactoryGirl.create(:query, project: project) }
+
       before do
-        FactoryGirl.create(:query, project: project)
+        query
 
         copy.send(:copy_queries, project)
         copy.save
@@ -253,6 +280,43 @@ describe Project::Copy, type: :model do
       subject { copy.queries.count }
 
       it { is_expected.to eq(project.queries.count) }
+
+      context 'with a filter' do
+        let(:query) {
+          query = FactoryGirl.build(:query, project: project)
+          query.add_filter('subject', '~', ['bogus'])
+          query.save!
+        }
+
+        subject { copy.queries }
+
+        it 'produces a valid query in the new project' do
+          expect(subject.all?(&:valid?)).to eq(true)
+          expect(subject.count).to eq(1)
+        end
+      end
+
+      context 'with a query menu item' do
+        let(:query) {
+          query = FactoryGirl.build(:query, project: project)
+          query.add_filter('subject', '~', ['bogus'])
+          query.save!
+
+          MenuItems::QueryMenuItem.create(
+            navigatable_id: query.id,
+            name: 'some-uuid',
+            title: 'My query title'
+          )
+
+          query
+        }
+        subject { copy.queries.first}
+
+        it 'copies the menu item' do
+          expect(subject).to be_valid
+          expect(subject.query_menu_item.title).to eq('My query title')
+        end
+      end
     end
 
     describe '#copy_members' do
@@ -379,36 +443,6 @@ describe Project::Copy, type: :model do
       subject { copy.versions.count }
 
       it { is_expected.to eq(project.versions.count) }
-    end
-
-    describe '#copy_project_associations' do
-      let(:project2) { FactoryGirl.create(:project_with_types) }
-
-      describe '#project_a_associations' do
-        before do
-          FactoryGirl.create(:project_association, project_a: project, project_b: project2)
-
-          copy.send(:copy_project_associations, project)
-          copy.save
-        end
-
-        subject { copy.send(:project_a_associations).count }
-
-        it { is_expected.to eq(project.send(:project_a_associations).count) }
-      end
-
-      describe '#project_b_associations' do
-        before do
-          FactoryGirl.create(:project_association, project_a: project2, project_b: project)
-
-          copy.send(:copy_project_associations, project)
-          copy.save
-        end
-
-        subject { copy.send(:project_b_associations).count }
-
-        it { is_expected.to eq(project.send(:project_b_associations).count) }
-      end
     end
 
     describe '#copy_categories' do

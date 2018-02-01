@@ -66,7 +66,7 @@ describe CopyProjectsController, type: :controller do
   end
 
   describe 'copy_from_settings without valid project' do
-    before { get 'copy_project' }
+    before { get 'copy_project', params: { id: 'invalid' } }
 
     it { expect(response.code).to eq('404') }
   end

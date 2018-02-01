@@ -43,8 +43,15 @@ class CustomValue::BoolStrategy < CustomValue::FormatStrategy
   end
 
   def formatted_value
-    is_true = ActiveRecord::Type::Boolean.new.cast(value)
-    I18n.t(is_true ? :general_text_Yes : :general_text_No)
+    if checked?
+      I18n.t(:general_text_Yes)
+    else
+      I18n.t(:general_text_No)
+    end
+  end
+
+  def checked?
+    ActiveRecord::Type::Boolean.new.cast(value)
   end
 
   def parse_value(val)

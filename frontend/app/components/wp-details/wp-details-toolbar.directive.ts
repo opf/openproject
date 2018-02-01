@@ -25,15 +25,14 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
+import {WorkPackageMoreMenuService} from '../work-packages/work-package-more-menu.service';
 
-import {WorkPackageEditModeStateService} from '../wp-edit/wp-edit-mode-state.service';
-import {WorkPackageMoreMenuService} from '../work-packages/work-package-more-menu.service'
-
-import {openprojectModule} from "../../angular-modules";
+import {openprojectModule} from '../../angular-modules';
+import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 function wpDetailsToolbar(
   I18n:op.I18n,
-  wpEditModeState:WorkPackageEditModeStateService,
-  wpMoreMenuService:WorkPackageMoreMenuService) {
+  wpEditing:WorkPackageEditingService,
+  wpMoreMenuService:WorkPackageMoreMenuService):any {
 
   return {
     restrict: 'E',
@@ -57,8 +56,6 @@ function wpDetailsToolbar(
         scope.workPackage.hasOwnProperty('watch');
 
       scope.I18n = I18n;
-
-      scope.wpEditModeState = wpEditModeState;
     }
   };
 }

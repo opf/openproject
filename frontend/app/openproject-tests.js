@@ -32,16 +32,10 @@ require('jquery-mockjax')(jQuery, window);
 
 var requireComponent;
 
-require('../tests/unit/tests/timeline_stubs.js');
-require('../tests/unit/tests/test-helper.js');
-
-requireComponent = require.context('../tests/unit/factories/');
-requireComponent.keys().forEach(requireComponent);
+window.$injector = angular.injector(['ng', 'ngMock', 'openproject.uiComponents', 'openproject.models', 'openproject.services']);
 
 requireComponent = require.context('../tests/unit/tests/', true, /test\.(js|ts)$/);
 requireComponent.keys().forEach(requireComponent);
-
-require('../tests/unit/tests/legacy-tests.js');
 
 requireComponent = require.context('./components/', true, /^.*\.test\.(js|ts)$/);
 requireComponent.keys().forEach(requireComponent);

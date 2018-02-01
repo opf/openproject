@@ -76,6 +76,130 @@ module OpenProject
       end
     end
 
+    module Stage
+      class Entry
+        include OpenProject::StaticRouting::UrlHelpers
+
+        attr_reader :identifier
+
+        def initialize(identifier, path, run_after_activation, active)
+          @identifier = identifier
+          @path = path
+          @run_after_activation = run_after_activation
+          @active = active
+        end
+
+        def path
+          if @path.respond_to?(:call)
+            instance_exec &@path
+          else
+            @path
+          end
+        end
+
+        def run_after_activation?
+          @run_after_activation
+        end
+
+        def active?
+          @active.call
+        end
+      end
+
+      class << self
+        include OpenProject::StaticRouting::UrlHelpers
+
+        ##
+        # Registers a new authentication stage which will be triggered after the
+        # user has been authenticated through the core and before they are actually logged in.
+        #
+        # With a plugin registering an extra stage the login flow would look as follows:
+        #
+        #     :|--------------------|>-------------------|>----------------|:
+        #           Password Auth      Extra Stage (2FA)    Complete Login
+        #
+        #      {       core         }{     2FA plugin    }{      core      }
+        #
+        # Only in the final complete login stage will the user's session be reset and
+        # the current_user set to the successfully authenticated user. Until then the
+        # initially authenticated user will be stored in the intermediate session
+        # as `authenticated_user_id`.
+        #
+        # Any stage has to be completed by redirecting back to `Stage.complete_path`.
+        # If the stage fails it may handle displaying the failure itself. If not it can
+        # redirect to `Stage.failure_path` to show a generic failure page which will show
+        # any flash errors.
+        #
+        # Example calls:
+        #
+        #     OpenProject::Authentication::Stage
+        #       .register :security_question, '/users/security_question'
+        #
+        #     OpenProject::Authentication::Stage
+        #       .register(:security_question) { security_question_path } # using url helper
+        #
+        # @param identifier [Symbol] Used to tell the stages apart.
+        # @param path [String] Path to redirect to for the stage to start.
+        # @param run_after_activation [Boolean] If true the stage will also be run just after
+        #                                       a user was registered and activated. This only
+        #                                       makes sense if the extra stage is possible at
+        #                                       that point yet.
+        # @param active [Block] A block returning true (default) if this stage is active.
+        # @param before [Symbol] Identifier before which to insert this stage. Stage will be
+        #                        appended to the end if no such identifier is registered.
+        #                        Cannot be used with `after`.
+        # @param after [Symbol] Identifier after which to insert this stage. The stage will be
+        #                       appended to the end if no such identifier is registered.
+        #                       Cannot be used with `before`.
+        #
+        # @yield [path_provider] A block returning a path to redirect to. Is evaluated in the
+        #                        context of a controller giving access to URL helpers.
+        def register(
+          identifier,
+          path = nil,
+          run_after_activation: false,
+          active: ->() { true },
+          before: nil,
+          after: nil,
+          &block
+        )
+          stage = Entry.new identifier, path || block, run_after_activation, active
+          i = stages.index { |s| s.identifier == (before || after) }
+
+          if i
+            stages.insert i + (after ? 1 : 0), stage
+          else
+            stages << stage
+          end
+        end
+
+        def deregister(identifier)
+          stages.reject! { |s| s.identifier == identifier }
+        end
+
+        ##
+        # Contains 3-tuples of stage identifier, run-after-activation flag and
+        # the block to be executed to start the stage.
+        def stages
+          @stages ||= []
+        end
+
+        def find_all(identifiers)
+          identifiers
+            .map { |ident| self.stages.find { |st| st.identifier == ident } }
+            .compact
+        end
+
+        def complete_path(identifier, session:, back_url:nil)
+          stage_success_path stage: identifier, secret: Hash(session[:stage_secrets])[identifier]
+        end
+
+        def failure_path(identifier)
+          stage_failure_path stage: identifier
+        end
+      end
+    end
+
     ##
     # Options used in the WWW-Authenticate header returned to the user
     # in case authentication failed (401).

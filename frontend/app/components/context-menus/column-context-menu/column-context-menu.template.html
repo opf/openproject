@@ -5,55 +5,52 @@
     <li ng-if="isSortable">
       <a class="menu-item" focus href="" ng-click="sortAscending()">
         <op-icon icon-classes="icon-action-menu icon-sort-ascending"></op-icon>
-        <span ng-bind="I18n.t('js.work_packages.query.sort_ascending')"/>
+        <span ng-bind="text.sortAscending"/>
       </a>
     </li>
 
     <li ng-if="isSortable">
       <a class="menu-item" href="" ng-click="sortDescending()">
         <op-icon icon-classes="icon-action-menu icon-sort-descending"></op-icon>
-        <span ng-bind="I18n.t('js.work_packages.query.sort_descending')"/>
+        <span ng-bind="text.sortDescending"/>
       </a>
     </li>
 
     <li ng-if="isGroupable">
       <a class="menu-item"
-         ng-class="{'inactive': isGroupableDisabled }"
          focus="focusFeature('group')"
          href=""
-         ng-attr-title="{{ isGroupableDisabled ? text.group_by_disabled_by_hierarchy : text.group_by }}"
-         ng-disabled="isGroupableDisabled"
-         ng-click="isGroupableDisabled || groupBy()">
+         ng-click="groupBy()">
         <op-icon icon-classes="icon-action-menu icon-group-by"></op-icon>
-        <span ng-bind="text.group_by"/>
+        <span ng-bind="text.groupBy"/>
       </a>
     </li>
 
     <li ng-if="canMoveLeft()">
       <a class="menu-item" focus="focusFeature('moveLeft')" href="" ng-click="moveLeft()">
         <op-icon icon-classes="icon-action-menu icon-column-left"></op-icon>
-        <span ng-bind="I18n.t('js.work_packages.query.move_column_left')"/>
+        <span ng-bind="text.moveLeft"/>
       </a>
     </li>
 
     <li ng-if="canMoveRight()">
       <a class="menu-item" focus="focusFeature('moveRight')" href="" ng-click="moveRight()">
         <op-icon icon-classes="icon-action-menu icon-column-right"></op-icon>
-        <span ng-bind="I18n.t('js.work_packages.query.move_column_right')"/>
+        <span ng-bind="text.moveRight"/>
       </a>
     </li>
 
     <li ng-if="canBeHidden()">
       <a class="menu-item" focus="focusFeature('hide')" href="" ng-click="hideColumn()">
         <op-icon icon-classes="icon-action-menu icon-delete"></op-icon>
-        <span ng-bind="I18n.t('js.work_packages.query.hide_column')"/>
+        <span ng-bind="text.hide"/>
       </a>
     </li>
 
     <li>
       <a class="menu-item" focus="focusFeature('insert')" href="" ng-click="insertColumns()">
         <op-icon icon-classes="icon-action-menu icon-columns"></op-icon>
-        <span ng-bind="I18n.t('js.work_packages.query.insert_columns')"/>
+        <span ng-bind="text.insert"/>
       </a>
     </li>
   </ul>

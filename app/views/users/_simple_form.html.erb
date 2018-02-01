@@ -33,18 +33,18 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <!--[form:user]-->
 <section class="form--section">
-  <div class="form--field"><%= f.text_field :mail, required: true, autofocus: true %></div>
-  <div class="form--field"><%= f.text_field :firstname, required: true %></div>
-  <div class="form--field"><%= f.text_field :lastname, required: true %></div>
+  <div class="form--field"><%= f.text_field :mail, required: true, autofocus: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field :firstname, required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field :lastname, required: true, container_class: '-middle' %></div>
 
   <%= render partial:     'customizable/field',
              collection:  @user.custom_field_values,
              as:          :value,
-             locals:      { form: f } %>
+             locals:      { form: f, input_size: "middle" } %>
 
   <% unless @auth_sources.empty? || OpenProject::Configuration.disable_password_login? %>
       <div class="form--field">
-        <% sources = ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }) %>
+        <% sources = ([[t(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }) %>
         <%= f.select :auth_source_id, sources, label: :'activerecord.attributes.user.auth_source'  %>
       </div>
 

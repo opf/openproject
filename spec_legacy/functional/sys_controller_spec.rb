@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'sys_controller'
 
 describe SysController, type: :controller do
@@ -44,7 +44,7 @@ describe SysController, type: :controller do
       get :projects
       assert_response :success
       assert_equal 'application/xml', response.content_type
-      assert_select 'projects', children: { count:  Project.active.has_module(:repository).count }
+      assert_select 'projects', children: { count: Project.active.has_module(:repository).count }
     end
 
     it 'should fetch changesets' do
@@ -55,31 +55,19 @@ describe SysController, type: :controller do
 
     it 'should fetch changesets one project' do
       expect_any_instance_of(Repository::Subversion).to receive(:fetch_changesets).and_return(true)
-      get :fetch_changesets, id: 'ecookbook'
+      get :fetch_changesets, params: { id: 'ecookbook' }
       assert_response :success
     end
 
     it 'should fetch changesets unknown project' do
-      get :fetch_changesets, id: 'unknown'
+      get :fetch_changesets, params: { id: 'unknown' }
       assert_response 404
-    end
-
-    describe 'api key', with_settings: { sys_api_key: 'my_secret_key' } do
-      it 'should api key' do
-        get :projects, key: 'my_secret_key'
-        assert_response :success
-      end
-
-      it 'should wrong key should respond with 403 error' do
-        get :projects, key: 'wrong_key'
-        assert_response 403
-      end
     end
   end
 
   describe 'when disabled', with_settings: { sys_api_enabled?: false } do
     it 'should disabled ws should respond with 403 error' do
-      get :projects
+      get :fetch_changesets, params: { id: 'unknown' }
       assert_response 403
     end
   end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,19 +29,5 @@
 #++
 
 class Queries::Queries::Filters::ProjectFilter < Queries::Queries::Filters::QueryFilter
-  def type
-    :list_optional
-  end
-
-  def self.key
-    :project_id
-  end
-
-  def type_strategy
-    # Instead of getting the IDs of all the projects a user is allowed
-    # to see we only check that the value is an integer.  Non valid ids
-    # will then simply create an empty result but will not cause any
-    # harm.
-    @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
-  end
+  include Queries::Filters::Shared::ProjectFilter
 end

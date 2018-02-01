@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for project %>
+<%= error_messages_for project unless local_assigns[:no_error_messages] %>
 
 <!--[form:project]-->
 

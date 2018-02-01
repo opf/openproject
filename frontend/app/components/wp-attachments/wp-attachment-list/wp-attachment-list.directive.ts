@@ -51,7 +51,7 @@ export class WorkPackageAttachmentListController {
   }
 }
 
-function wpAttachmentListDirective() {
+function wpAttachmentListDirective():any {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-attachments/wp-attachment-list/wp-attachment-list.directive.html',

@@ -161,6 +161,79 @@ describe ProjectsController, type: :controller do
     end
   end
 
+  describe 'index.html' do
+    let(:project_a) { FactoryGirl.create(:project, name: 'Project A', is_public: false, status: true) }
+    let(:project_b) { FactoryGirl.create(:project, name: 'Project B', is_public: false, status: true) }
+    let(:project_c) { FactoryGirl.create(:project, name: 'Project C', is_public: true, status: true)  }
+    let(:project_d) { FactoryGirl.create(:project, name: 'Project D', is_public: true, status: false) }
+
+    let(:projects) { [project_a, project_b, project_c, project_d] }
+
+    before do
+      Role.anonymous
+      projects
+      login_as(user)
+      get 'index'
+    end
+
+    shared_examples_for 'successful index' do
+      it 'is success' do
+        expect(response).to be_success
+      end
+
+      it 'renders the index template' do
+        expect(response).to render_template 'index'
+      end
+    end
+
+    context 'as admin' do
+      let(:user) { FactoryGirl.build(:admin) }
+
+      it_behaves_like 'successful index'
+
+      it "shows all active projects" do
+        expect(assigns[:projects])
+          .to match_array [project_a, project_b, project_c]
+      end
+    end
+
+    context 'as anonymous user' do
+      let(:user) { User.anonymous }
+
+      it_behaves_like 'successful index'
+
+      it "shows only (active) public projects" do
+        expect(assigns[:projects])
+          .to match_array [project_c]
+      end
+    end
+
+    context 'as user' do
+      let(:user) { FactoryGirl.build(:user, member_in_project: project_b) }
+
+      it_behaves_like 'successful index'
+
+      it "shows (active) public projects and those in which the user is member of" do
+        expect(assigns[:projects])
+          .to match_array [project_b, project_c]
+      end
+    end
+  end
+
+  describe 'index.html' do
+    let(:user) { FactoryGirl.build(:admin) }
+
+    before do
+      login_as(user)
+      get 'index', format: 'atom'
+    end
+
+    it 'is 410 GONE' do
+      expect(response.response_code)
+        .to eql 410
+    end
+  end
+
   describe 'settings' do
     render_views
 
@@ -237,25 +310,6 @@ describe ProjectsController, type: :controller do
       end
 
       let(:request) { put :custom_fields, params: params }
-
-      describe 'attribute visibility' do
-        let(:type) { FactoryGirl.create :type }
-        let(:custom_field_1) do
-          FactoryGirl.create :work_package_custom_field, types: [type]
-        end
-
-        before do
-          expect(type.attribute_visibility.keys).not_to include "custom_field_#{custom_field_1.id}"
-          RequestStore.clear!
-
-          request
-        end
-
-        it 'should be updated when a custom field was activated for the project' do
-          expect(type.reload.attribute_visibility["custom_field_#{custom_field_1.id}"])
-            .to eq("default")
-        end
-      end
 
       context 'with valid project' do
         before do

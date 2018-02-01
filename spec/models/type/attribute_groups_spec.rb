@@ -89,10 +89,10 @@ describe ::Type, type: :model do
     it 'raises an exception for invalid structure' do
       # Exampel for invalid structure:
       type.attribute_groups = ['foo']
-      expect { type.save }.to raise_exception
+      expect { type.save }.to raise_exception(NoMethodError)
       # Exampel for invalid structure:
       type.attribute_groups = [[]]
-      expect { type.save }.to raise_exception
+      expect { type.save }.to raise_exception(NoMethodError)
       # Exampel for invalid group name:
       type.attribute_groups = [['', ['date']]]
       expect(type).not_to be_valid
@@ -160,7 +160,6 @@ describe ::Type, type: :model do
         expect(subject.first.second).to be_an Array
         expect(subject.first.second.first[:key]).to eq "date"
         expect(subject.first.second.first[:translation]).to eq "Date"
-        expect(subject.first.second.first[:always_visible]).to be_falsey
       end
     end
   end
@@ -177,6 +176,9 @@ describe ::Type, type: :model do
     end
 
     it 'can be put into attribute groups' do
+      # Enforce fresh lookup of groups
+      OpenProject::Cache.clear
+
       # Is in inactive group
       form = type.form_configuration_groups
       expect(form[:inactives][0][:key]).to eq(cf_identifier.to_s)

@@ -28,8 +28,6 @@
 #++
 
 class AuthenticationController < ApplicationController
-  helper :timelines
-
   before_action :disable_api
   before_action :require_login
 

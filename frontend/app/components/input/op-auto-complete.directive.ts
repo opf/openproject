@@ -27,13 +27,28 @@
 // ++
 
 import {openprojectModule} from "../../angular-modules";
-function opAutoComplete(AutoCompleteHelper:any) {
+import {CurrentProjectService} from '../projects/current-project.service';
+import {AutoCompleteHelperService} from 'core-components/common/autocomplete/auto-complete-helper.service';
+
+function opAutoComplete(AutoCompleteHelper:AutoCompleteHelperService, currentProject: CurrentProjectService) {
   return {
     restrict: 'AC',
     scope: false,
-    link: function(scope:ng.IScope, element:ng.IAugmentedJQuery) {
-      AutoCompleteHelper.enableTextareaAutoCompletion(element);
-    },
+    link: function(scope:any, element:ng.IAugmentedJQuery, attrs:any) {
+      let projectId:string|null = attrs['opAutoCompleteProjectId'] || currentProject.id;
+      // Ensure the autocompleter gets enabled at least once.
+      AutoCompleteHelper.enableTextareaAutoCompletion(element, projectId);
+
+      // The project id might change at a later point in time. Then re-enable the autocompleter.
+      scope.$watch(
+        () => attrs['opAutoCompleteProjectId'] || currentProject.id,
+        (newVal:string, oldVal:string) => {
+          if (newVal !== oldVal) {
+            AutoCompleteHelper.enableTextareaAutoCompletion(element, newVal);
+          }
+        }
+      );
+    }
   };
 }
 

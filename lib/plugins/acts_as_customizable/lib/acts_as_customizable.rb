@@ -146,6 +146,12 @@ module Redmine
           end
         end
 
+        def custom_value_attributes
+          custom_field_values
+            .map { |cv| [cv.custom_field_id, cv.value] }
+            .to_h
+        end
+
         def visible_custom_field_values
           custom_field_values.select(&:visible?)
         end
@@ -156,7 +162,7 @@ module Redmine
 
         def custom_value_for(c)
           field_id = (c.is_a?(CustomField) ? c.id : c.to_i)
-          values = custom_values.select { |v| v.custom_field_id == field_id }
+          values = custom_field_values.select { |v| v.custom_field_id == field_id }
 
           if values.size > 1
             values.sort_by { |v| v.id.to_i } # need to cope with nil

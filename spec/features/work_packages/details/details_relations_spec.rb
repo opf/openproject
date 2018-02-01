@@ -92,25 +92,27 @@ describe 'Work package relations tab', js: true, selenium: true do
       FactoryGirl.create :relation,
                          from: work_package,
                          to: to_1,
-                         relation_type: :follows
+                         relation_type: Relation::TYPE_FOLLOWS
     end
     let!(:relation_2) do
       FactoryGirl.create :relation,
                          from: work_package,
                          to: to_2,
-                         relation_type: :relates
+                         relation_type: Relation::TYPE_RELATES
     end
 
     let(:toggle_btn_selector) { '#wp-relation-group-by-toggle' }
     let(:visit) { false }
 
-    it 'allows to toggle how relations are grouped' do
+    before do
       visit_relations
 
       work_packages_page.visit_tab!('relations')
       work_packages_page.expect_subject
       loading_indicator_saveguard
+    end
 
+    it 'allows to toggle how relations are grouped' do
       # Expect to be grouped by relation type by default
       expect(page).to have_selector(toggle_btn_selector,
                                     text: 'Group by work package type', wait: 10)
@@ -129,6 +131,37 @@ describe 'Work package relations tab', js: true, selenium: true do
 
       expect(page).to have_selector('.relation-row--type', text: 'Follows')
       expect(page).to have_selector('.relation-row--type', text: 'Related To')
+    end
+
+    it 'allows to edit relation types when toggled' do
+      find(toggle_btn_selector).click
+      expect(page).to have_selector(toggle_btn_selector, text: 'Group by relation type', wait: 10)
+
+      # Expect current to be follows and other one related
+      expect(page).to have_selector('.relation-row--type', text: 'Follows')
+      expect(page).to have_selector('.relation-row--type', text: 'Related To')
+
+      # edit to blocks
+      relations.edit_relation_type(to_1, to_type: 'Blocks')
+
+      # the other one should not be altered
+      expect(page).to have_selector('.relation-row--type', text: 'Blocks')
+      expect(page).to have_selector('.relation-row--type', text: 'Related To')
+
+      updated_relation = Relation.find(relation_1.id)
+      expect(updated_relation.relation_type).to eq('blocks')
+      expect(updated_relation.from_id).to eq(work_package.id)
+      expect(updated_relation.to_id).to eq(to_1.id)
+
+      relations.edit_relation_type(to_1, to_type: 'Blocked by')
+
+      expect(page).to have_selector('.relation-row--type', text: 'Blocked by')
+      expect(page).to have_selector('.relation-row--type', text: 'Related To')
+
+      updated_relation = Relation.find(relation_1.id)
+      expect(updated_relation.relation_type).to eq('blocks')
+      expect(updated_relation.from_id).to eq(to_1.id)
+      expect(updated_relation.to_id).to eq(work_package.id)
     end
   end
 
@@ -209,7 +242,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
 
         work_package.reload
-        expect(work_package.relations).to be_empty
+        expect(work_package.relations.direct).to be_empty
       end
 
       it 'should allow to move between split and full view (Regression #24194)' do
@@ -225,11 +258,35 @@ describe 'Work package relations tab', js: true, selenium: true do
         expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
 
         # Back to split view
-        page.evaluate_script('window.history.back()')
+        page.execute_script('window.history.back()')
         work_packages_page.expect_subject
 
         expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
         expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
+      end
+
+      it 'should follow the relation links (Regression #26794)' do
+        relations.add_relation(type: 'follows', to: relatable)
+
+        relations.click_relation(relatable)
+        subject = work_packages_page.edit_field(:subject)
+        subject.expect_state_text relatable.subject
+
+        relations.click_relation(work_package)
+        subject = work_packages_page.edit_field(:subject)
+        subject.expect_state_text work_package.subject
+
+        # Switch to full view
+        find('.work-packages--details-fullscreen-icon').click
+        full_page = ::Pages::FullWorkPackage.new(work_package)
+
+        relations.click_relation(relatable)
+        subject = full_page.edit_field(:subject)
+        subject.expect_state_text relatable.subject
+
+        relations.click_relation(work_package)
+        subject = full_page.edit_field(:subject)
+        subject.expect_state_text work_package.subject
       end
 
       it 'should allow to change relation descriptions' do
@@ -250,6 +307,8 @@ describe 'Work package relations tab', js: true, selenium: true do
         # Save description
         created_row.find('.inplace-edit--control--save a').click
 
+        loading_indicator_saveguard
+
         ## Toggle description again
         relations.hover_action(relatable, :info)
         created_row = relations.find_row(relatable)
@@ -262,7 +321,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         created_row.find('.wp-relation--description-read-value',
                          text: 'my description!').click
 
-        relation = work_package.relations.first
+        relation = work_package.relations.direct.first
         relation.reload
         expect(relation.description).to eq('my description!')
 

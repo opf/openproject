@@ -1,6 +1,6 @@
 <div class="ng-modal-window columns-modal loading-indicator--location"
      data-indicator-name="modal">
-  <div class="ng-modal-inner">
+  <div class="ng-modal-inner" tabindex="0">
     <div class="modal-header">
       <a>
         <i
@@ -72,6 +72,10 @@
           {{column.name}}
         </label>
       </div>
+    </div>
+    <div ng-if="$ctrl.eeShowBanners" class="ee-relation-columns-upsale">
+      {{$ctrl.text.upsaleRelationColumns}}
+      <a href="https://www.openproject.org/enterprise-edition/?op_edtion=community-edition&op_referrer=wp-list-columns#relations" target='blank' ng-bind="$ctrl.text.upsaleRelationColumnsLink"></a>
     </div>
     <div>
       <button class="button -highlight" ng-click="$ctrl.updateSelectedColumns()">

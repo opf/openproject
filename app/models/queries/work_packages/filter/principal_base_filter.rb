@@ -30,17 +30,18 @@
 
 class Queries::WorkPackages::Filter::PrincipalBaseFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
+
+  include MeValueFilterMixin
+
   def available?
     User.current.logged? || allowed_values.any?
   end
 
-  def value_objects
-    prepared_values = values.map { |value| value == 'me' ? User.current.id : value }
-
-    Principal.where(id: prepared_values)
+  def ar_object_filter?
+    true
   end
 
-  def ar_object_filter?
+  def principal_resource?
     true
   end
 
@@ -50,27 +51,7 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
 
   private
 
-  def me_value
-    values = []
-    values << [I18n.t(:label_me), 'me'] if User.current.logged?
-    values
-  end
-
   def principal_loader
     @principal_loader ||= ::Queries::WorkPackages::Filter::PrincipalLoader.new(project)
-  end
-
-  def values_replaced
-    vals = values.clone
-
-    if vals.delete('me')
-      if User.current.logged?
-        vals.push(User.current.id.to_s)
-      else
-        vals.push('0')
-      end
-    end
-
-    vals
   end
 end

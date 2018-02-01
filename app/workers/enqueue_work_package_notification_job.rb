@@ -39,17 +39,19 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
     # and our job here is done
     return nil unless raw_journal
 
-    journal = find_aggregated_journal
+    @journal = find_aggregated_journal
 
     # If we can't find the aggregated journal, it was superseded by a journal that aggregated ours.
     # In that case a job for the new journal will have been enqueued that is now responsible for
     # sending the notification. Our job here is done.
-    return nil unless journal
+    return nil unless @journal
+
+    @author = User.find_by(id: @author_id) || DeletedUser.first
 
     # Do not deliver notifications if a follow-up journal will already have sent a notification
     # on behalf of this job.
-    unless Journal::AggregatedJournal.hides_notifications?(journal.successor, journal)
-      deliver_notifications_for(journal)
+    unless Journal::AggregatedJournal.hides_notifications?(@journal.successor, @journal)
+      deliver_notifications_for(@journal)
     end
   end
 
@@ -65,6 +67,12 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
       job = DeliverWorkPackageNotificationJob.new(journal.id, recipient.id, @author_id)
       Delayed::Job.enqueue job
     end
+
+    OpenProject::Notifications.send(
+      OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
+      journal_id: journal.id,
+      initial: journal.initial?
+    )
   end
 
   def raw_journal
@@ -76,6 +84,46 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
   end
 
   def notification_receivers(work_package)
-    (work_package.recipients + work_package.watcher_recipients).uniq
+    (work_package.recipients + work_package.watcher_recipients + mentioned).uniq
   end
+
+  def mentioned
+    mentioned_people = []
+
+    text = text_for_mentions
+    user_ids = text.scan(/\buser#([\d]+)\b/).first.to_a
+    user_login_names = text.scan(/\buser:"(.+?)"/).first.to_a
+
+    user_ids.each do |user_id|
+      if user = User.find_by(id: user_id)
+        if @work_package.visible? user
+          mentioned_people << user unless user.mail_notification == 'none'
+        end
+      end
+    end
+
+    user_login_names.each do |name|
+      if user = User.find_by(login: name)
+        if @work_package.visible? user
+          mentioned_people << user unless user.mail_notification == 'none'
+        end
+      end
+    end
+    mentioned_people
+  end
+
+  def text_for_mentions
+    potential_text = ""
+    potential_text << @journal.notes if @journal.try(:notes)
+
+    [:description, :subject].each do |field|
+      if @journal.details[field].try(:any?)
+        from = @journal.details[field].first
+        to = @journal.details[field].second
+        potential_text << "\n" + Redmine::Helpers::Diff.new(to, from).additions.join(' ')
+      end
+    end
+    potential_text
+  end
+
 end

@@ -90,22 +90,22 @@ function wpRelationsAutocompleteDirective(
       };
 
       function autocompleteWorkPackages(query:string):Promise<WorkPackageResourceInterface[]> {
-        const deferred = $q.defer();
-        loadingIndicator.indicator(scope.loadingPromiseName).promise = deferred.promise;
-
-        scope.workPackage.available_relation_candidates.$link.$fetch({
+        element.find('.ui-autocomplete--loading').show();
+        return scope.workPackage.available_relation_candidates.$link.$fetch({
             query: query,
-            type: scope.filterCandidatesFor
+            type: scope.filterCandidatesFor || scope.selectedRelationType
           }, {
             'caching': {
               enabled: false
             }
           }).then((collection:CollectionResource) => {
             scope.noResults = collection.count === 0;
-            deferred.resolve(collection.elements);
-          }).catch(() => deferred.reject());
-
-        return deferred.promise;
+            return collection.elements || [];
+          }).catch(() => {
+            return [];
+          }).finally(() => {
+           element.find('.ui-autocomplete--loading').hide();
+        });
       };
 
       scope.$watch('noResults', (noResults:boolean) => {

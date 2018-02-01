@@ -45,20 +45,21 @@ describe API::V3, type: :request do
 
     strategies = OpenProject::Authentication::Strategies::Warden
 
-    def basic_auth(user, password)
+    def set_basic_auth_header(user, password)
       credentials = ActionController::HttpAuthentication::Basic.encode_credentials user, password
-      { 'Authorization' => credentials }
+      header 'Authorization', credentials
     end
 
     shared_examples 'it is basic auth protected' do
       context 'when not allowed', with_config: { apiv3_enable_basic_auth: false } do
         context 'with valid credentials' do
           before do
-            get resource, params: {}, headers: basic_auth(username, password)
+            set_basic_auth_header(username, password)
+            get resource
           end
 
           it 'should return 401 unauthorized' do
-            expect(response.status).to eq 401
+            expect(last_response.status).to eq 401
           end
         end
       end
@@ -69,15 +70,15 @@ describe API::V3, type: :request do
           end
 
           it 'should return 401 unauthorized' do
-            expect(response.status).to eq 401
+            expect(last_response.status).to eq 401
           end
 
           it 'should return the correct JSON response' do
-            expect(JSON.parse(response.body)).to eq response_401
+            expect(JSON.parse(last_response.body)).to eq response_401
           end
 
           it 'should return the WWW-Authenticate header' do
-            expect(response.header['WWW-Authenticate'])
+            expect(last_response.header['WWW-Authenticate'])
               .to include 'Basic realm="OpenProject API"'
           end
         end
@@ -86,64 +87,63 @@ describe API::V3, type: :request do
           let(:expected_message) { 'You did not provide the correct credentials.' }
 
           before do
-            get resource, params: {}, headers: basic_auth(username, password.reverse)
+            set_basic_auth_header(username, password.reverse)
+            get resource
           end
 
           it 'should return 401 unauthorized' do
-            expect(response.status).to eq 401
+            expect(last_response.status).to eq 401
           end
 
           it 'should return the correct JSON response' do
-            expect(JSON.parse(response.body)).to eq response_401
+            expect(JSON.parse(last_response.body)).to eq response_401
           end
 
           it 'should return the correct content type header' do
-            expect(response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
+            expect(last_response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
           end
 
           it 'should return the WWW-Authenticate header' do
-            expect(response.header['WWW-Authenticate'])
+            expect(last_response.header['WWW-Authenticate'])
               .to include 'Basic realm="OpenProject API"'
           end
         end
 
         context 'with invalid credentials an X-Authentication-Scheme "Session"' do
           let(:expected_message) { 'You did not provide the correct credentials.' }
-          let(:headers) do
-            auth = basic_auth(username, password.reverse)
-
-            auth.merge('X-Authentication-Scheme' => 'Session')
-          end
 
           before do
-            get resource, params: {}, headers: headers
+            set_basic_auth_header(username, password.reverse)
+            header 'X-Authentication-Scheme', 'Session'
+            get resource
           end
 
           it 'should return 401 unauthorized' do
-            expect(response.status).to eq 401
+            expect(last_response.status).to eq 401
           end
 
           it 'should return the correct JSON response' do
-            expect(JSON.parse(response.body)).to eq response_401
+            expect(JSON.parse(last_response.body)).to eq response_401
           end
 
           it 'should return the correct content type header' do
-            expect(response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
+            expect(last_response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
           end
 
           it 'should return the WWW-Authenticate header' do
-            expect(response.header['WWW-Authenticate'])
+            expect(last_response.header['WWW-Authenticate'])
               .to include 'Session realm="OpenProject API"'
           end
         end
 
         context 'with valid credentials' do
           before do
-            get resource, params: {}, headers: basic_auth(username, password)
+            set_basic_auth_header(username, password)
+            get resource
           end
 
           it 'should return 200 OK' do
-            expect(response.status).to eq 200
+            expect(last_response.status).to eq 200
           end
         end
       end
@@ -166,10 +166,10 @@ describe API::V3, type: :request do
         it_behaves_like 'it is basic auth protected'
 
         describe 'user basic auth' do
-          let(:api_key) { FactoryGirl.create :api_key }
+          let(:api_key) { FactoryGirl.create :api_token }
 
           let(:username) { 'apikey' }
-          let(:password) { api_key.value }
+          let(:password) { api_key.plain_value }
 
           # check that user basic auth is tried when global basic auth fails
           it_behaves_like 'it is basic auth protected'
@@ -177,10 +177,10 @@ describe API::V3, type: :request do
       end
 
       describe 'user basic auth' do
-        let(:api_key) { FactoryGirl.create :api_key }
+        let(:api_key) { FactoryGirl.create :api_token }
 
         let(:username) { 'apikey' }
-        let(:password) { api_key.value }
+        let(:password) { api_key.plain_value }
 
         # check that user basic auth works on its own too
         it_behaves_like 'it is basic auth protected'
@@ -199,7 +199,7 @@ describe API::V3, type: :request do
           let(:password) { 'olooleol' }
 
           let(:api_user) { FactoryGirl.create :user, login: 'user_account' }
-          let(:api_key)  { FactoryGirl.create :api_key, user: api_user }
+          let(:api_key)  { FactoryGirl.create :api_token, user: api_user }
 
           before do
             config = { user: 'global_account', password: 'global_password' }
@@ -212,7 +212,7 @@ describe API::V3, type: :request do
             end
 
             it 'should return 200 OK' do
-              expect(response.status).to eq 200
+              expect(last_response.status).to eq 200
             end
 
             it 'should "login" the anonymous user' do
@@ -222,21 +222,23 @@ describe API::V3, type: :request do
 
           context 'with invalid credentials' do
             before do
-              get resource, params: {}, headers: basic_auth(username, password)
+              set_basic_auth_header(username, password)
+              get resource
             end
 
             it 'should return 401 unauthorized' do
-              expect(response.status).to eq 401
+              expect(last_response.status).to eq 401
             end
           end
 
           context 'with valid global credentials' do
             before do
-              get resource, params: {}, headers: basic_auth('global_account', 'global_password')
+              set_basic_auth_header('global_account', 'global_password')
+              get resource
             end
 
             it 'should return 200 OK' do
-              expect(response.status).to eq 200
+              expect(last_response.status).to eq 200
             end
 
             it 'should login an admin system user' do
@@ -247,11 +249,12 @@ describe API::V3, type: :request do
 
           context 'with valid user credentials' do
             before do
-              get resource, params: {}, headers: basic_auth('apikey', api_key.value)
+              set_basic_auth_header('apikey', api_key.plain_value)
+              get resource
             end
 
             it 'should return 200 OK' do
-              expect(response.status).to eq 200
+              expect(last_response.status).to eq 200
             end
 
             it 'should login user' do

@@ -27,6 +27,7 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
+import {StateService} from '@uirouter/angularjs';
 
 export default class WorkPackageCreateButtonController {
   public projectIdentifier:string;
@@ -36,13 +37,17 @@ export default class WorkPackageCreateButtonController {
 
   public allowed:boolean;
 
-  constructor(protected $state:ng.ui.IStateService,
+  constructor(protected $state:StateService,
               protected I18n:op.I18n) {
     this.text = {
       createWithDropdown: I18n.t('js.work_packages.create.button'),
       createButton: I18n.t('js.label_work_package'),
       explanation: I18n.t('js.label_create_work_package')
     };
+  }
+
+  public $onInit() {
+    // Created for interface compliance
   }
 
   public createWorkPackage() {

@@ -3,7 +3,16 @@
   height: 1em
   border-radius: 2px
   float: left
-  z-index: 50
+  z-index: 0
+
+  &:hover:not(.-clamp-style)
+    .leftHandle, .rightHandle
+      background-color: rgba(1, 1, 1, 0.2)
+
+  .bar-label
+    overflow: hidden
+    padding: 0 0 0 5px
+    white-space: nowrap
 
   .leftHandle
     position: absolute
@@ -21,22 +30,6 @@
     max-width: 20%
     height: 100%
 
-  .leftDateDisplay,
-  .rightDateDisplay
-    position: absolute
-    background-color: #f4f4f4
-    border: 1px solid #d4d4d4
-    border-radius: 5px
-    padding: 2px 5px
-    top: 0px
-    font-size: 10px
-
-  .leftDateDisplay
-    left: -85px
-
-  .rightDateDisplay
-    right: -85px
-
   &.-readonly
     cursor: not-allowed !important
 
@@ -50,10 +43,10 @@
     cursor: ew-resize
 
     .leftHandle
-      cursor: w-resize
+      cursor: col-resize
 
     .rightHandle
-      cursor: e-resize
+      cursor: col-resize
 
 .active-selection-mode
 
@@ -66,7 +59,6 @@
 
   .timeline-element.bar
     border: 1px solid orange !important
-    outline: 1px solid orange !important
     cursor: pointer !important
 
     background: linear-gradient(270deg, #eeeeee, #bbbbbb)

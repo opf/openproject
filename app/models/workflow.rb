@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,12 +32,14 @@ class Workflow < ActiveRecord::Base
   belongs_to :role
   belongs_to :old_status, class_name: 'Status', foreign_key: 'old_status_id'
   belongs_to :new_status, class_name: 'Status', foreign_key: 'new_status_id'
+  belongs_to :type, inverse_of: 'workflows'
 
   validates_presence_of :role, :old_status, :new_status
 
   # Returns workflow transitions count by type and role
   def self.count_by_type_and_role
-    counts = connection.select_all("SELECT role_id, type_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, type_id")
+    counts = connection
+             .select_all("SELECT role_id, type_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, type_id")
     roles = Role.order('builtin, position')
     types = ::Type.order('position')
 
@@ -53,9 +56,33 @@ class Workflow < ActiveRecord::Base
     result
   end
 
+  # Gets all work flows originating from the provided status
+  # that:
+  #   * are defined for the type
+  #   * are defined for any of the roles
+  #
+  # Workflows specific to author or assignee are ignored unless author and/or assignee are set to true. In
+  # such a case, those work flows are additionally returned.
+  def self.from_status(old_status_id, type_id, role_ids, author = false, assignee = false)
+    workflows = Workflow
+                .where(old_status_id: old_status_id, type_id: type_id, role_id: role_ids)
+
+    if author && assignee
+      workflows
+    elsif author || assignee
+      workflows
+        .merge(Workflow.where(author: author).or(Workflow.where(assignee: assignee)))
+    else
+      workflows
+        .where(author: author)
+        .where(assignee: assignee)
+    end
+  end
+
   # Find potential statuses the user could be allowed to switch issues to
   def self.available_statuses(project, user = User.current)
-    Workflow.includes(:new_status)
+    Workflow
+      .includes(:new_status)
       .where(role_id: user.roles_for_project(project).map(&:id))
       .map(&:new_status)
       .compact

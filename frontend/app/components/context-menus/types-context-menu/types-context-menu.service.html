@@ -1,8 +1,11 @@
-<div class="dropdown dropdown-relative dropdown-anchor-right dropdownToolbar"
+<div class="dropdown dropdown-relative dropdown-anchor-right dropdownToolbar -overflow-in-view"
      id="types-context-menu">
   <ul class="dropdown-menu" ng-class="{'-empty': $ctrl.types.length === 0 }">
     <li ng-repeat="type in $ctrl.types">
-      <a class="menu-item" ui-sref="{{$ctrl.stateName}}({type: type.id})">
+      <a class="menu-item" ui-sref="{{$ctrl.stateName}}({type: type.id})" href ng-if="!$ctrl.isMobile">
+        {{ type.name }}
+      </a>
+      <a class="menu-item" ui-sref="work-packages.new({type: type.id})" href ng-if="$ctrl.isMobile">
         {{ type.name }}
       </a>
     </li>

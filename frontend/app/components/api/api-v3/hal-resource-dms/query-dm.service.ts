@@ -86,6 +86,27 @@ export class QueryDmService {
     return this.halRequest.get(url, queryData, {caching: {enabled: false} });
   }
 
+  public loadIdsUpdatedSince(ids:any, timestamp:any):ng.IPromise<WorkPackageCollectionResource> {
+    const filters = [
+      {
+        id: {
+          operator: '=',
+          values: ids.filter((n:String|null) => n) // no null values
+        },
+      },
+      {
+        updatedAt: {
+          operator: '<>d',
+          values: [timestamp, '']
+        }
+      }
+    ];
+
+    return this.halRequest.get(this.v3Path.wps(),
+                               {filters: JSON.stringify(filters)},
+                               {caching: {enabled: false} });
+  }
+
   public save(query:QueryResource, form:FormResource) {
     return this.extractPayload(query, form).then(payload => {
       return query.updateImmediately(payload);
@@ -96,8 +117,7 @@ export class QueryDmService {
     return this.extractPayload(query, form).then(payload => {
       let path = this.v3Path.queries();
 
-      return this.halRequest.post(path,
-                                  payload);
+      return this.halRequest.post(path, payload);
     });
   }
 
@@ -107,9 +127,9 @@ export class QueryDmService {
 
   public toggleStarred(query:QueryResource) {
     if (query.starred) {
-      return query.unstar() as ng.IPromise<QueryResource>;
+      return query.unstar();
     } else {
-      return query.star() as ng.IPromise<QueryResource>;
+      return query.star();
     }
   }
 

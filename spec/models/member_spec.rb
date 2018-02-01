@@ -102,7 +102,7 @@ describe Member, type: :model do
       end
 
       it('member should be destroyed') { expect(member.destroyed?).to eq(true) }
-      context(:roles) { it { expect(member.roles(true)).to be_empty } }
+      context(:roles) { it { expect(member.roles.reload).to be_empty } }
     end
   end
 
@@ -114,7 +114,7 @@ describe Member, type: :model do
         member.reload
         # Use member_roles(true) to make sure that all member roles are loaded,
         # otherwise ActiveRecord doesn't notice mark_for_destruction.
-        member_role = member.member_roles(true).first
+        member_role = member.member_roles.reload.first
         member.mark_member_role_for_destruction(member_role)
         member.save!
         member.reload
@@ -126,7 +126,7 @@ describe Member, type: :model do
 
     context 'before saving the member when removing the last role' do
       before do
-        member_role = member.member_roles(true).first
+        member_role = member.member_roles.reload.first
         member.mark_member_role_for_destruction(member_role)
       end
 
@@ -143,7 +143,7 @@ describe Member, type: :model do
         #
         # Order is important here to ensure we destroy the existing
         # member_role and not the one added by adding second_role.
-        member_role = member.member_roles(true).first
+        member_role = member.member_roles.reload.first
 
         member.add_and_save_role(second_role)
 
@@ -152,18 +152,18 @@ describe Member, type: :model do
 
       it('member should not be destroyed') { expect(member.destroyed?).to eq(false) }
       context(:roles) do
-        it { expect(member.roles(true)).to eq [second_role] }
+        it { expect(member.roles.reload).to eq [second_role] }
       end
     end
 
     context 'when removing the last member role' do
       before do
-        member_role = member.member_roles(true).first
+        member_role = member.member_roles.reload.first
         member.remove_member_role_and_destroy_member_if_last(member_role)
       end
 
       it('member should be destroyed') { expect(member.destroyed?).to eq(true) }
-      context(:roles) { it { expect(member.roles(true)).to be_empty } }
+      context(:roles) { it { expect(member.roles.reload).to be_empty } }
     end
   end
 end

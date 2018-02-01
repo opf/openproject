@@ -30,6 +30,11 @@
 //
 // dependencies required by classic (Rails) and Angular application.
 
+// Angular 4 deps. Must be loaded early!
+require('reflect-metadata');
+require('zone.js');
+require('@angular/core');
+
 // NOTE: currently needed for PhantomJS to support Webpack's style-loader.
 // See: https://github.com/webpack/style-loader/issues/31
 require('phantomjs-polyfill');
@@ -54,9 +59,7 @@ require('angular-elastic');
 require('angular-modal/modal.min.js');
 require('angular-sanitize/angular-sanitize.min.js');
 require('angular-truncate/src/truncate.js');
-require('angular-ui-router/release/angular-ui-router.min.js');
-// Load the deprecated stateChange* events
-require('angular-ui-router/release/stateEvents.min.js');
+require('@uirouter/angularjs/release/angular-ui-router.min.js');
 require('ng-file-upload/dist/ng-file-upload.min.js');
 
 // Jquery UI
@@ -78,6 +81,11 @@ require('moment/locale/en-gb.js');
 require('moment/locale/de.js');
 
 require('jquery.caret');
+// Text highlight for autocompleter
+require('mark.js/dist/jquery.mark.min.js');
+// Micro Text fuzzy search library
+require('fuse.js');
+
 require('at.js/jquery.atwho.min.js');
 
 

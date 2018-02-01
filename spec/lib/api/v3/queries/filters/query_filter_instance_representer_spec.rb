@@ -37,7 +37,11 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
   let(:status) { FactoryGirl.build_stubbed(:status) }
 
   let(:filter) do
-    Queries::WorkPackages::Filter::StatusFilter.new(operator: operator, values: values)
+    f = Queries::WorkPackages::Filter::StatusFilter.create!
+    f.operator = operator
+    f.values = values
+
+    f
   end
 
   let(:representer) { described_class.new(filter) }
@@ -93,10 +97,42 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
         .at_path('name')
     end
 
+    context 'with an invalid value_objects' do
+      let(:filter) do
+        f = Queries::WorkPackages::Filter::AssignedToFilter.create!
+        f.operator = operator
+        f.values = values
+
+        f
+      end
+      let(:values) { ['1'] }
+
+      before do
+        allow(filter)
+          .to receive(:value_objects)
+                .and_return([User.anonymous])
+      end
+
+      it "has a 'values' collection" do
+        expected = {
+          href: nil,
+          title: 'Anonymous'
+        }
+
+        is_expected
+          .to be_json_eql([expected].to_json)
+                .at_path('_links/values')
+      end
+    end
+
     context 'with a non ar object filter' do
       let(:values) { ['lorem ipsum'] }
       let(:filter) do
-        Queries::WorkPackages::Filter::SubjectFilter.new(operator: operator, values: values)
+        f = Queries::WorkPackages::Filter::SubjectFilter.create!
+        f.operator = operator
+        f.values = values
+
+        f
       end
 
       describe '_links' do
@@ -114,11 +150,9 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
     end
 
     context 'with a bool custom field filter' do
-      let(:bool_cf) { FactoryGirl.build_stubbed(:bool_wp_custom_field) }
+      let(:bool_cf) { FactoryGirl.create(:bool_wp_custom_field) }
       let(:filter) do
-        filter = Queries::WorkPackages::Filter::CustomFieldFilter.new(operator: operator, values: values)
-        filter.custom_field = bool_cf
-        filter
+        Queries::WorkPackages::Filter::CustomFieldFilter.create!(name: "cf_#{bool_cf.id}", operator: operator, values: values)
       end
 
       context "with 't' as filter value" do

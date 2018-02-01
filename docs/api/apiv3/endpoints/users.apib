@@ -90,7 +90,7 @@ Please note that custom fields are not yet supported by the api although the bac
                 "lastName": "Sheppard",
                 "email": "shep@mail.com",
                 "admin": true,
-                "avatar": "https://gravatar/avatar",
+                "avatar": "https://example.org/users/1/avatar",
                 "status": "active",
                 "language": "en",
                 "createdAt": "2014-05-21T08:51:20Z",
@@ -100,7 +100,7 @@ Please note that custom fields are not yet supported by the api although the bac
 ## View user [GET]
 
 + Parameters
-    + id (required, integer, `1`) ... User id
+    + id (required, integer or `me`, `1`) ... User id. Use `me` to reference current user, if any.
 
 + Response 200 (application/hal+json)
 
@@ -396,7 +396,7 @@ Permanently deletes the specified user account.
                             "lastName": "Sheppard",
                             "email": "shep@mail.com",
                             "admin": true,
-                            "avatar": "https://gravatar/avatar",
+                            "avatar": "https://example.org/users/1/avatar",
                             "status": "active",
                             "language": "en",
                             "createdAt": "2014-05-21T08:51:20Z",

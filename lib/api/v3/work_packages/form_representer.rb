@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -40,7 +41,9 @@ module API
         attr_accessor :action
 
         def payload_representer
-          WorkPackagePayloadRepresenter.create_class(represented).new(represented)
+          WorkPackagePayloadRepresenter
+            .create_class(represented)
+            .new(represented, current_user: current_user)
         end
 
         def schema_representer

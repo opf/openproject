@@ -50,6 +50,10 @@ module OpenProject
               href: 'https://www.openproject.org/help/',
               label: 'homescreen.links.user_guides'
             },
+            configuration_guide: {
+              href: 'https://www.openproject.org/operations/configuration/',
+              label: 'links.configuration_guide'
+            },
             glossary: {
               href: 'https://www.openproject.org/help/glossary/',
               label: 'homescreen.links.glossary'
@@ -65,6 +69,10 @@ module OpenProject
             professional_support: {
               href: 'https://www.openproject.org/enterprise-edition/',
               label: :label_professional_support
+            },
+            newsletter: {
+              href: 'https://www.openproject.org/newsletter',
+              label: 'homescreen.links.newsletter'
             },
             blog: {
               href: 'https://www.openproject.org/blog',

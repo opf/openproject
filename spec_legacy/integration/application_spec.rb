@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -42,13 +43,13 @@ describe 'Application', with_settings: { login_required?: false } do
     allow(Setting).to receive(:default_language).and_return 'en'
 
     # a french user
-    get '/projects', {},  'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
+    get '/projects', params: {}, headers: { 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3' }
     assert_response :success
     assert_select 'h2', content: 'Projekte'
     assert_equal :de, current_language
 
     # not a supported language: default language should be used
-    get '/projects', {}, 'HTTP_ACCEPT_LANGUAGE' => 'zz'
+    get '/projects', params: {}, headers: { 'HTTP_ACCEPT_LANGUAGE' => 'zz' }
     assert_response :success
     assert_select 'h2', content: 'Projects'
   end

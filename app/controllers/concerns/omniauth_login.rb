@@ -56,7 +56,7 @@ module Concerns::OmniauthLogin
 
     user =
       if session.include? :invitation_token
-        tok = Token.find_by value: session[:invitation_token]
+        tok = Token::Invitation.find_by value: session[:invitation_token]
         u = tok.user
         u.identity_url = identity_url_from_omniauth(auth_hash)
         tok.destroy
@@ -80,7 +80,7 @@ module Concerns::OmniauthLogin
   end
 
   def direct_login_provider_url(params = {})
-    url_for params.merge(controller: '/auth', action: direct_login_provider)
+    omniauth_start_url(direct_login_provider, params)
   end
 
   private
@@ -116,7 +116,7 @@ module Concerns::OmniauthLogin
     fill_user_fields_from_omniauth user, auth_hash
 
     opts = {
-      after_login: ->(u) { OpenProject::OmniAuth::Authorization.after_login! u, auth_hash, self }
+      omni_auth_hash: auth_hash
     }
 
     # Create on the fly
@@ -140,7 +140,7 @@ module Concerns::OmniauthLogin
     user.update_attributes(permitted_params.user_register_via_omniauth)
 
     opts = {
-      after_login: ->(u) { OpenProject::OmniAuth::Authorization.after_login! u, auth, self }
+      omni_auth_hash: auth
     }
     register_user_according_to_setting user, opts
   end

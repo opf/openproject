@@ -7,13 +7,20 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "noEmitOnError": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     // Increase strictness
     "noImplicitAny": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "core-app/*": ["./app/*"],
+      "core-components/*": ["./app/components/*"]
+    }
   },
   "compileOnSave": false,
   "exclude": [

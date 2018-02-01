@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../../../legacy_spec_helper'
 
 describe 'MenuManager', with_settings: { login_required: 0 } do
   include Redmine::I18n
@@ -39,7 +40,7 @@ describe 'MenuManager', with_settings: { login_required: 0 } do
 
   it 'project menu with specific locale' do
     Setting.available_languages = [:de, :en]
-    get '/projects/ecookbook', {}, 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
+    get '/projects/ecookbook', params: {}, headers: { 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3' }
 
     assert_select 'div', attributes: { id: 'main-menu' },
                      descendant: { tag: 'li', child: { tag: 'a', content: ll('de', :label_activity),

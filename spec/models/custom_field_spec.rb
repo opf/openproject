@@ -136,6 +136,45 @@ describe CustomField, type: :model do
       end
       it { expect(field).not_to be_valid }
     end
+
+    describe "WITH a text field
+              WITH an invalid regexp" do
+
+      before do
+        field.field_format = 'text'
+        field.regexp = '[0-9}'
+      end
+
+      it 'is not valid' do
+        expect(field).not_to be_valid
+        expect(field.errors[:regexp].size).to eq(1)
+      end
+    end
+
+    describe "WITH a list field
+              WITHOUT a custom option" do
+      before do
+        field.field_format = 'list'
+      end
+
+      it 'is not valid' do
+        expect(field)
+          .to be_invalid
+      end
+    end
+
+    describe "WITH a list field
+              WITH a custom option" do
+      before do
+        field.field_format = 'list'
+        field.custom_options.build(value: 'some value')
+      end
+
+      it 'is valid' do
+        expect(field)
+          .to be_valid
+      end
+    end
   end
 
   describe '#accessor_name' do
@@ -157,6 +196,10 @@ describe CustomField, type: :model do
         allow(project)
           .to receive(:users)
           .and_return([user1, user2])
+
+        allow(Principal)
+          .to receive(:in_visible_project_or_me)
+          .and_return([user2])
       end
 
       context 'for a project' do
@@ -177,12 +220,10 @@ describe CustomField, type: :model do
         end
       end
 
-      context 'for anything else' do
-        it 'is empty' do
-          object = OpenStruct.new
-
-          expect(field.possible_values_options(object))
-            .to be_empty
+      context 'for nil' do
+        it 'returns all principles visible to me' do
+          expect(field.possible_values_options)
+            .to match_array [[user2.name, user2.id.to_s]]
         end
       end
     end
@@ -202,6 +243,45 @@ describe CustomField, type: :model do
           .to match_array [[option1.value, option1.id.to_s],
                            [option2.value, option2.id.to_s]]
       end
+    end
+  end
+
+  describe 'nested attributes for custom options' do
+    let(:option) { FactoryGirl.build(:custom_option) }
+    let(:options) { [option] }
+    let(:field) { FactoryGirl.build :custom_field, field_format: 'list', custom_options: options }
+
+    before do
+      field.save!
+    end
+
+    shared_examples_for 'saving updates field\'s updated_at' do
+      it 'updates updated_at' do
+        # mysql does not store milliseconds so we have to slow down the tests by orders of magnitude
+        timestamp_before = field.updated_at
+        sleep 1
+        field.save
+        expect(field.updated_at).not_to eql(timestamp_before)
+      end
+    end
+
+    context 'after adding a custom option' do
+      before do
+        field.attributes = { 'custom_options_attributes' => { '0' => option.attributes,
+                                                              '1' => { value: 'blubs' } } }
+      end
+
+      it_behaves_like 'saving updates field\'s updated_at'
+    end
+
+    context 'after changing a custom option' do
+      before do
+        attributes = option.attributes.merge(value: 'new_value')
+
+        field.attributes = { 'custom_options_attributes' => { '0' => attributes } }
+      end
+
+      it_behaves_like 'saving updates field\'s updated_at'
     end
   end
 end

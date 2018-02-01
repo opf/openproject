@@ -261,6 +261,7 @@ describe('UrlParamsHelper', function() {
         filters: [filter1],
         sortBy: [],
         columns: [],
+        groupBy: '',
         sums: false
       };
 
@@ -278,6 +279,7 @@ describe('UrlParamsHelper', function() {
             }
           }
         ]),
+        groupBy: '',
         showSums: false,
         sortBy: '[]'
       };

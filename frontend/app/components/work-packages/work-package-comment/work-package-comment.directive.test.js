@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('workPackageCommentDirectiveTest', function() {
-  var I18n, ActivityService, compile, scope, element, stateParams, q, commentCreation;
+  var I18n, wpActivityService, compile, scope, element, stateParams, q, commentCreation;
   var workPackageFieldService = {};
   var html = "<work-package-comment work-package='workPackage' activities='activities'></work-package-comment>";
   stateParams = {};
@@ -60,7 +60,7 @@ describe('workPackageCommentDirectiveTest', function() {
     $provide.constant('WorkPackageService', {});
   }));
 
-  beforeEach(inject(function($rootScope, $compile, $q, _I18n_, _ActivityService_) {
+  beforeEach(inject(function($rootScope, $compile, $q, _I18n_, _wpActivityService_) {
     I18n = _I18n_;
     q = $q;
     scope = $rootScope.$new();
@@ -73,8 +73,8 @@ describe('workPackageCommentDirectiveTest', function() {
 
     workPackageFieldService.isEmpty = sinon.stub().returns(true);
 
-    ActivityService = _ActivityService_;
-    var createComments = sinon.stub(ActivityService, 'createComment');
+    wpActivityService = _wpActivityService_;
+    var createComments = sinon.stub(wpActivityService, 'createComment');
     commentCreation = q.defer();
     createComments.returns(commentCreation.promise);
 
@@ -86,7 +86,7 @@ describe('workPackageCommentDirectiveTest', function() {
 
   afterEach(function() {
     I18n.t.restore();
-    ActivityService.createComment.restore();
+    wpActivityService.createComment.restore();
   });
 
   beforeEach(function() {
@@ -95,7 +95,8 @@ describe('workPackageCommentDirectiveTest', function() {
         $link: {
           href: 'addComment'
         }
-      }
+      },
+      $plain: function() { return {}; }
     };
 
     scope.workPackage = workPackage;

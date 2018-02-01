@@ -59,7 +59,7 @@ describe 'Inline editing work packages', js: true do
 
       subject_field.set_value('New subject!')
 
-      expect(UpdateWorkPackageService).to receive(:new).and_call_original
+      expect(WorkPackages::UpdateService).to receive(:new).and_call_original
       subject_field.save!
       subject_field.expect_text('New subject!')
 
@@ -110,7 +110,7 @@ describe 'Inline editing work packages', js: true do
       subject_field.set_value('')
       subject_field.expect_invalid
 
-      expect(UpdateWorkPackageService).not_to receive(:new)
+      expect(WorkPackages::UpdateService).not_to receive(:new)
       subject_field.save!
     end
   end
@@ -178,7 +178,7 @@ describe 'Inline editing work packages', js: true do
       expect(wp_table.row(work_package)).to have_selector('.wp-table--cell-container.-error', count: 2)
 
       cf_text = wp_table.edit_field(work_package, :customField2)
-      cf_text.update('my custom text')
+      cf_text.update('my custom text', expect_failure: true)
 
       cf_list            = wp_table.edit_field(work_package, :customField1)
       cf_list.field_type = 'select'

@@ -51,37 +51,35 @@ export class WorkPackageRelationsHierarchyController {
       this.wpCacheService.loadWorkPackage(this.workPackage.id).values$())
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
-        this.loadParent();
-        this.loadChildren();
+
+        let toLoad:string[] = [];
+
+        if (this.workPackage.parent) {
+          toLoad.push(this.workPackage.parent.id);
+
+          scopedObservable(
+            this.$scope,
+            this.wpCacheService.loadWorkPackage(this.workPackage.parent.id).values$())
+            .take(1)
+            .subscribe((parent:WorkPackageResourceInterface) => {
+              this.workPackage.parent = parent;
+            });
+        }
+
+        if (this.workPackage.children) {
+          toLoad.push(...this.workPackage.children.map(child => child.id));
+        }
+
+        this.wpCacheService.requireAll(toLoad);
       });
   }
 
   public text = {
     hierarchyHeadline: this.I18n.t('js.relations_hierarchy.hierarchy_headline')
   };
-
-  protected loadChildren() {
-    if (this.workPackage.children) {
-      this.workPackage.children.map(child => child.$load());
-    }
-  }
-
-  protected loadParent() {
-    if (!this.workPackage.parent) {
-      return;
-    }
-
-    scopedObservable(
-      this.$scope,
-      this.wpCacheService.loadWorkPackage(this.workPackage.parent.id).values$())
-      .take(1)
-      .subscribe((parent:WorkPackageResourceInterface) => {
-        this.workPackage.parent = parent;
-      });
-  }
 }
 
-function wpRelationsDirective() {
+function wpRelationsDirective():any {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.template.html',
@@ -97,4 +95,5 @@ function wpRelationsDirective() {
   };
 }
 
-wpDirectivesModule.directive('wpRelationsHierarchy', wpRelationsDirective);
+wpDirectivesModule
+  .directive('wpRelationsHierarchy', wpRelationsDirective);

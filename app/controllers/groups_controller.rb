@@ -143,8 +143,11 @@ class GroupsController < ApplicationController
 
   def create_memberships
     membership_params = permitted_params.group_membership
-    @membership = Member.edit_membership(membership_params[:membership_id], membership_params[:membership], @group)
-    @membership.save
+    membership_id = membership_params[:membership_id]
+    @membership = membership_id.present? ? Member.find(membership_id) : Member.new(principal: @group)
+
+    service = ::Members::EditMembershipService.new(@membership, save: true, current_user: current_user)
+    service.call(attributes: membership_params[:membership])
 
     respond_to do |format|
       format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' end

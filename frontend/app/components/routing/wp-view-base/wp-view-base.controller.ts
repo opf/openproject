@@ -26,28 +26,32 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpControllersModule} from "../../../angular-modules";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {States} from "../../states.service";
-import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
-import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
-import {KeepTabService} from "../../wp-panels/keep-tab/keep-tab.service";
+import {wpControllersModule} from '../../../angular-modules';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {States} from '../../states.service';
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
+import {$injectFields} from '../../angular/angular-injector-bridge.functions';
+import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageViewController {
 
   protected $q:ng.IQService;
-  protected $state:ng.ui.IStateService;
+  protected $state:StateService;
   protected states:States;
   protected $rootScope:ng.IRootScopeService;
   protected keepTab:KeepTabService;
   protected wpCacheService:WorkPackageCacheService;
-  protected wpEditModeState:WorkPackageEditModeStateService;
   protected WorkPackageService:any;
   protected PathHelper:op.PathHelper;
   protected I18n:op.I18n;
   protected wpTableRefresh:WorkPackageTableRefreshService;
+  protected wpEditing:WorkPackageEditingService;
+  protected wpTableFocus:WorkPackageTableFocusService;
 
   // Helper promise to detect when the controller has been initialized
   // (when a WP has loaded).
@@ -63,15 +67,17 @@ export class WorkPackageViewController {
   protected focusAnchorLabel:string;
   public showStaticPagePath:string;
 
-  constructor(
-    public $injector:ng.auto.IInjectorService,
-    public $scope:ng.IScope,
-    protected workPackageId:string) {
-    this.$inject('$q', '$state', 'keepTab', 'wpCacheService', 'WorkPackageService',
-                 'states', 'wpEditModeState', 'PathHelper', 'I18n', 'wpTableRefresh');
+  constructor(public $scope:ng.IScope,
+              protected workPackageId:string) {
+    $injectFields(this, '$q', '$state', 'keepTab', 'wpCacheService', 'WorkPackageService',
+      'states', 'wpEditing', 'PathHelper', 'I18n', 'wpTableRefresh', 'wpTableFocus');
 
     this.initialized = this.$q.defer();
     this.initializeTexts();
+  }
+
+  public $onInit() {
+    // Created for interface compliance
   }
 
   /**
@@ -80,17 +86,11 @@ export class WorkPackageViewController {
    */
   protected observeWorkPackage() {
     scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(this.workPackageId).values$())
-      .subscribe((wp: WorkPackageResourceInterface) => {
+      .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.init();
         this.initialized.resolve();
       });
-  }
-
-  protected $inject(...args:string[]) {
-    args.forEach(field => {
-      (this as any)[field] = this.$injector.get(field);
-    });
   }
 
   /**
@@ -114,7 +114,6 @@ export class WorkPackageViewController {
 
     // Preselect this work package for future list operations
     this.showStaticPagePath = this.PathHelper.workPackagePath(this.workPackage);
-    this.states.focusedWorkPackage.putValue(this.workPackage.id);
 
     // Listen to tab changes to update the tab label
     scopedObservable(this.$scope, this.keepTab.observable).subscribe((tabs:any) => {
@@ -139,8 +138,8 @@ export class WorkPackageViewController {
     return !!(this.workPackage && this.workPackage.watchers);
   }
 
-  public onWorkPackageSave() {
-    this.wpTableRefresh.request(false, `Work package ${this.workPackage.id} saved by user.`);
+  public get isEditable() {
+    return this.workPackage.isEditable;
   }
 }
 

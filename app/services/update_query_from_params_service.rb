@@ -60,7 +60,7 @@ class UpdateQueryFromParamsService
   private
 
   def apply_group_by(params)
-    query.group_by = params[:group_by] if params[:group_by]
+    query.group_by = params[:group_by] if params.key?(:group_by)
   end
 
   def apply_sort_by(params)
@@ -87,6 +87,7 @@ class UpdateQueryFromParamsService
   def apply_timeline(params)
     query.timeline_visible = params[:timeline_visible] if params.key?(:timeline_visible)
     query.timeline_zoom_level = params[:timeline_zoom_level] if params.key?(:timeline_zoom_level)
+    query.timeline_labels = params[:timeline_labels] if params.key?(:timeline_labels)
   end
 
   def apply_hierarchy(params)

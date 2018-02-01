@@ -52,7 +52,7 @@ export class ModalWrapperController {
 
     // Find activation link
     var activationLink = $element.find('.modal-wrapper--activation-link');
-    if(this.activationLinkId) {
+    if (this.activationLinkId) {
       activationLink = jQuery(this.activationLinkId);
     }
 
@@ -81,7 +81,7 @@ export class ModalWrapperController {
 
   private appendIframe(url:string) {
     let subdom = angular.element(this.modalBody);
-    let iframe = angular.element('<iframe frameborder="0" height="282" allowfullscreen>></iframe>');
+    let iframe = angular.element('<iframe frameborder="0" height="305" allowfullscreen>></iframe>');
     iframe.attr('src', url);
 
     subdom.find(this.iframeSelector).append(iframe);;
@@ -90,7 +90,7 @@ export class ModalWrapperController {
   }
 }
 
-function modalWrapper() {
+function modalWrapper():any {
   return {
     restrict: 'E',
     scope: {

@@ -10,9 +10,10 @@
       </a>
     </div>
 
-    <h3>{{ ::I18n.t('js.label_save_as') }}</h3>
 
     <form name="modalSaveForm" class="form">
+
+      <h3>{{ ::I18n.t('js.label_save_as') }}</h3>
       <div class="form--field -required">
         <label class="form--label">
           {{ ::I18n.t('js.modals.label_name') }}
@@ -23,15 +24,27 @@
                 class="form--text-field"
                 type="text"
                 name="save_query_name"
+                autofocus
                 id="save-query-name"
-                ng-model="queryName" focus required />
+                ng-model="queryName" required />
           </div>
         </div>
       </div>
+
+      <section class="form--section">
+        <h3>{{ ::I18n.t('js.label_visibility_settings') }}</h3>
+        <query-sharing-form
+          is-save="true"
+          on-change="setValues(isStarred, isPublic)"
+          is-starred="isStarred"
+          is-public="isPublic">
+        </query-sharing-form>
+      </section>
+
       <div class="form--space">
         <button class="button -highlight -with-icon icon-checkmark"
                 ng-click="saveQueryAs(queryName)"
-                ng-disabled="modalSaveForm.$invalid">
+                ng-disabled="isBusy || modalSaveForm.$invalid">
           {{ ::I18n.t('js.modals.button_save') }}
         </button>
         <button class="button" ng-click="$ctrl.closeMe()">

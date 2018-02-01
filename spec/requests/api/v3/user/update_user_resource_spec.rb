@@ -43,16 +43,17 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   def send_request
-    patch path, params: parameters.to_json, headers: { 'Content-Type' => 'application/json' }
+    header "Content-Type",  "application/json"
+    patch path, parameters.to_json
   end
 
   shared_context 'successful update' do |expected_attributes|
     it 'responds with the represented updated user' do
       send_request
 
-      expect(response.status).to eq(200)
-      expect(response.body).to have_json_type(Object).at_path('_links')
-      expect(response.body)
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to have_json_type(Object).at_path('_links')
+      expect(last_response.body)
         .to be_json_eql('User'.to_json)
         .at_path('_type')
 
@@ -78,7 +79,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
     it 'updates the users password correctly' do
       send_request
-      expect(response.status).to eq(200)
+      expect(last_response.status).to eq(200)
 
       updated_user = User.find(user.id)
       matches = updated_user.check_password?(password)
@@ -96,13 +97,13 @@ describe ::API::V3::Users::UsersAPI, type: :request do
     it 'returns an erroneous response' do
       send_request
 
-      expect(response.status).to eq(422)
+      expect(last_response.status).to eq(422)
 
-      expect(response.body)
+      expect(last_response.body)
         .to be_json_eql('email'.to_json)
         .at_path('_embedded/details/attribute')
 
-      expect(response.body)
+      expect(last_response.body)
         .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyConstraintViolation'.to_json)
         .at_path('errorIdentifier')
     end
@@ -114,7 +115,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
     it 'responds with 404' do
       send_request
-      expect(response.status).to eql(404)
+      expect(last_response.status).to eql(404)
     end
   end
 
@@ -124,7 +125,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
     it 'returns an erroneous response' do
       send_request
-      expect(response.status).to eq(403)
+      expect(last_response.status).to eq(403)
     end
   end
 end

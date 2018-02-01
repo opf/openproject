@@ -41,8 +41,11 @@ import {States} from '../../../states.service';
 import {SchemaResource} from './schema-resource.service';
 import {TypeResource} from './type-resource.service';
 import {RelationResourceInterface} from './relation-resource.service';
+import {WorkPackageCreateService} from '../../../wp-create/wp-create.service';
+import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
+import {debugLog} from '../../../../helpers/debug_output';
 
-interface WorkPackageResourceEmbedded {
+export interface WorkPackageResourceEmbedded {
   activities:CollectionResourceInterface;
   ancestors:WorkPackageResourceInterface[];
   assignee:HalResource | any;
@@ -70,10 +73,10 @@ interface WorkPackageResourceEmbedded {
   relatedBy:RelationResourceInterface | null;
 }
 
-interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
+export interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
   addAttachment(attachment:HalResource):ng.IPromise<any>;
   addChild(child:HalResource):ng.IPromise<any>;
-  addComment(comment:HalResource):ng.IPromise<any>;
+  addComment(comment:{comment:string}, headers?:any):ng.IPromise<any>;
   addRelation(relation:any):ng.IPromise<any>;
   addWatcher(watcher:HalResource):ng.IPromise<any>;
   changeParent(params:any):ng.IPromise<any>;
@@ -101,7 +104,8 @@ var apiWorkPackages:ApiWorkPackagesService;
 var wpCacheService:WorkPackageCacheService;
 var schemaCacheService:SchemaCacheService;
 var NotificationsService:any;
-var wpNotificationsService:any;
+var wpNotificationsService:WorkPackageNotificationService;
+var wpCreate:WorkPackageCreateService;
 var AttachmentCollectionResource:any;
 var v3Path:any;
 
@@ -109,32 +113,8 @@ export class WorkPackageResource extends HalResource {
   // Add index signature for getter this[attr]
   [attribute:string]:any;
 
-  public static fromCreateForm(form:any) {
-    var wp = new WorkPackageResource(form.payload.$plain(), true);
-
-    wp.initializeNewResource(form);
-    return wp;
-  }
-
-  /**
-   * Create a copy resource from other and the new work package form
-   * @param otherForm The work package form of another work package
-   * @param form Work Package create form
-   */
-  public static copyFrom(otherForm:any, form:any) {
-    var wp = new WorkPackageResource(otherForm.payload.$plain(), true);
-
-    // Override values from form payload
-    wp.lockVersion = form.payload.lockVersion;
-
-    wp.initializeNewResource(form);
-
-    return wp;
-  }
-
   public $embedded:WorkPackageResourceEmbedded;
   public $links:WorkPackageLinksObject;
-  public $pristine:{ [attribute:string]:any } = {};
   public subject:string;
   public updatedAt:Date;
   public lockVersion:number;
@@ -144,26 +124,10 @@ export class WorkPackageResource extends HalResource {
   public attachments:AttachmentCollectionResourceInterface;
 
   public pendingAttachments:UploadFile[] = [];
-
-  private form:any;
-  // Keep a reference to an embedded form schema,
-  // if this work package currently has one.
-  private overriddenSchema:SchemaResource | null;
+  public overriddenSchema?:SchemaResource;
 
   public get id():string {
     return this.$source.id || this.idFromLink;
-  }
-
-  public static idFromLink(href:string):string {
-    return href.split('/').pop()!;
-  }
-
-  public get idFromLink():string {
-    if (this.href) {
-      return WorkPackageResource.idFromLink(this.href);
-    }
-
-    return '';
   }
 
   /**
@@ -193,34 +157,6 @@ export class WorkPackageResource extends HalResource {
     return this.schema.hasOwnProperty('date');
   }
 
-  /**
-   * Returns true if any field is in edition in this resource.
-   */
-  public get dirty():boolean {
-    return this.modifiedFields.length > 0;
-  }
-
-  /**
-   * Returns all modified fields by comparing open $pristine fields.
-   */
-  public get modifiedFields():string[] {
-    var modified:string[] = [];
-
-    angular.forEach(this.$pristine, (value, key) => {
-      var args = [this[key], value];
-
-      if ((this as any)[key] instanceof HalResource) {
-        args = args.map(arg => (arg ? arg.$source : arg));
-      }
-
-      if (!_.isEqual(args[0], args[1])) {
-        modified.push(key);
-      }
-    });
-
-    return modified;
-  }
-
   public get isLeaf():boolean {
     var children = this.$links.children;
     return !(children && children.length > 0);
@@ -246,7 +182,7 @@ export class WorkPackageResource extends HalResource {
    * Make the attachments an `AttachmentCollectionResource`. This should actually
    * be done automatically, but the backend does not provide typed collections yet.
    */
-  protected $initialize(source:any) {
+  public $initialize(source:any) {
     super.$initialize(source);
 
     var attachments:{ $source:any, $loaded:boolean } = this.attachments || {
@@ -273,7 +209,7 @@ export class WorkPackageResource extends HalResource {
           this.updateAttachments();
         })
         .catch((error:any) => {
-          wpNotificationsService.handleErrorResponse(error, this);
+          wpNotificationsService.handleErrorResponse(error, this as any);
           this.attachments.elements.push(attachment);
         });
     }
@@ -311,229 +247,36 @@ export class WorkPackageResource extends HalResource {
         return this.updateAttachments();
       })
       .catch(error => {
-        wpNotificationsService.handleRawError(error, this);
+        wpNotificationsService.handleRawError(error, this as any);
       });
   }
 
-  public allowedValuesFor(field:string):ng.IPromise<HalResource[]> {
-    var deferred = $q.defer();
+  /**
+   * Uploads the attachments and reloads the work package when done
+   * Reloading is skipped if no attachment is added
+   */
+  public uploadAttachmentsAndReload() {
+    const attachmentUpload = this.uploadPendingAttachments();
 
-    this.getForm().then((form:any) => {
-      const fieldSchema = form.$embedded.schema[field];
-
-      if (!fieldSchema) {
-        deferred.resolve([]);
-      } else if (fieldSchema.allowedValues && fieldSchema.allowedValues['$load']) {
-        let allowedValues = fieldSchema.allowedValues;
-
-        return allowedValues.$load().then((loadedValues:CollectionResource) => {
-          deferred.resolve(loadedValues.elements);
-        });
-      } else {
-        deferred.resolve(fieldSchema.allowedValues);
-      }
-    });
-
-    return deferred.promise;
-  }
-
-  public setAllowedValueFor(field:string, value:string | HalResource) {
-    return this.allowedValuesFor(field).then(allowedValues => {
-      let newValue;
-
-      if ((value as HalResource)['$href']) {
-        newValue = _.find(allowedValues,
-          (entry:any) => entry.$href === (value as HalResource).$href);
-      } else if (allowedValues) {
-        newValue = _.find(allowedValues, (entry:any) => entry === value);
-      } else {
-        newValue = value;
-      }
-
-      if (newValue) {
-        (this as any)[field] = newValue;
-      }
-
-      wpCacheService.updateWorkPackage(this as any);
-    });
-  }
-
-  public getForm() {
-    if (!this.form) {
-      this.updateForm(this.$source).catch(error => {
-        NotificationsService.addError(error.message);
-      });
-    }
-
-    return this.form;
-  }
-
-  public updateForm(payload:{ [attribute:string]:any }) {
-    // Always resolve form to the latest form
-    // This way, we won't have to actively reset it.
-    // But store the existing form in case of an error.
-    // Because if we get an error, the object returned is not a form
-    // and thus lacks the links the implementation depends upon.
-    var oldForm = this.form;
-    this.form = this.$links.update(payload);
-    var deferred = $q.defer();
-
-    this.form
-      .then((form:any) => {
-        // Override the current schema with
-        // the changes from API
-        this.overriddenSchema = form.$embedded.schema;
-
-        // Take over new values from the form
-        // this resource doesn't know yet.
-        _.defaultsDeep(this.$source, form.$source._embedded.payload);
-        this.$initialize(this.$source);
-
-        deferred.resolve(form);
-      })
-      .catch((error:any) => {
-        this.form = oldForm;
-        deferred.reject(error);
-      });
-
-    return deferred.promise;
-  }
-
-  public loadFormSchema() {
-    return this.getForm().then((form:any) => {
-      this.overriddenSchema = form.$embedded.schema;
-
-      angular.forEach(this.schema, (field, name) => {
-        // Assign only links from schema when an href is set
-        // and field is writable.
-        // (exclude plain properties and null values)
-        const isHalField = field.writable && this[name] && this[name].href;
-
-        // Assign only values from embedded schema that have an expanded
-        // allowedValues set (type, status, custom field lists, etc.)
-        const hasAllowedValues = Array.isArray(field.allowedValues) && field.allowedValues.length > 0;
-
-        if (isHalField && hasAllowedValues) {
-          this[name] = _.find(field.allowedValues, {href: this[name].href}) || this[name];
+    if (attachmentUpload) {
+      attachmentUpload.then((attachmentsResource) => {
+        if (attachmentsResource.count > 0) {
+          wpCacheService.loadWorkPackage(this.id, true);
         }
       });
-
-      return this.schema;
-    });
-  }
-
-  public save() {
-    var deferred = $q.defer();
-    this.inFlight = true;
-    const wasNew = this.isNew;
-    this.updateForm(this.$source)
-      .then(form => {
-        const payload = this.mergeWithForm(form);
-        const sentValues = Object.keys(this.$pristine);
-
-        this.$links.updateImmediately(payload)
-          .then((workPackage:WorkPackageResource) => {
-            // Remove the current form and schema, otherwise old form data
-            // might still be used for the next edit field to be edited
-            this.form = null;
-            this.overriddenSchema = null;
-
-            // Initialize any potentially new HAL values
-            this.$initialize(workPackage);
-
-            // Ensure the schema is loaded before updating
-            schemaCacheService.ensureLoaded(this).then(() => {
-              this.updateActivities();
-
-              if (wasNew) {
-                this.uploadPendingAttachments();
-                wpCacheService.newWorkPackageCreated(this as any);
-              }
-
-              // Remove only those pristine values that were submitted
-              angular.forEach(sentValues, (key) => {
-                delete this.$pristine[key];
-              });
-
-              deferred.resolve(this);
-            });
-          })
-          .catch(error => {
-            deferred.reject(error);
-            wpCacheService.updateWorkPackage(this as any);
-          })
-          .finally(() => {
-            this.inFlight = false;
-          });
-      })
-      .catch(() => {
-        this.inFlight = false;
-        deferred.reject();
-      });
-
-    return deferred.promise;
-  }
-
-  public storePristine(attribute:string) {
-    if (this.$pristine.hasOwnProperty(attribute)) {
-      return;
     }
-
-    this.$pristine[attribute] = angular.copy(this[attribute]);
   }
 
-  public restoreFromPristine(attribute:string) {
-    if (this.$pristine.hasOwnProperty(attribute)) {
-      this[attribute] = this.$pristine[attribute];
-      delete this.$pristine[attribute];
+  public getSchemaName(name:string):string {
+    if (this.isMilestone && (name === 'startDate' || name === 'dueDate')) {
+      return 'date';
+    } else {
+      return name;
     }
   }
 
   public isParentOf(otherWorkPackage:WorkPackageResourceInterface) {
     return otherWorkPackage.parent.$links.self.$link.href === this.$links.self.$link.href;
-  }
-
-  private mergeWithForm(form:any) {
-    var plainPayload = form.payload.$plain();
-    var schema = form.$embedded.schema;
-
-    // Merge embedded properties from form payload
-    // Do not use properties on this, since they may be incomplete
-    // e.g., when switching to a type that requires a custom field.
-    Object.keys(plainPayload).forEach(key => {
-      if (typeof(schema[key]) === 'object' && schema[key].writable === true) {
-        plainPayload[key] = this[key];
-      }
-    });
-
-    // Merged linked properties from form payload
-    Object.keys(plainPayload._links).forEach(key => {
-      if (typeof(schema[key]) === 'object' && schema[key].writable === true) {
-        var isArray = (schema[key].type || '').startsWith('[]');
-
-        if (isArray) {
-          var links:{ href:string }[] = [];
-          var val = this[key];
-
-          if (val) {
-            var elements = (val.forEach && val) || val.elements;
-
-            elements.forEach((link:{ href:string }) => {
-              if (link.href) {
-                links.push({href: link.href});
-              }
-            });
-          }
-
-          plainPayload._links[key] = links;
-        } else {
-          var value = this[key] ? this[key].href : null;
-          plainPayload._links[key] = {href: value};
-        }
-      }
-    });
-
-    return plainPayload;
   }
 
   /**
@@ -551,9 +294,9 @@ export class WorkPackageResource extends HalResource {
       resources[name] = linked ? linked.$update() : $q.reject();
     });
 
-    const promise = $q.all(resources)
+    const promise = $q.all(resources);
     promise.then(() => {
-      wpCacheService.updateWorkPackage(this as any);
+      wpCacheService.touch(this.id);
     });
 
     return promise;
@@ -600,16 +343,6 @@ export class WorkPackageResource extends HalResource {
     this['updateImmediately'] = this.$links.updateImmediately = (payload) => {
       return apiWorkPackages.createWorkPackage(payload);
     };
-
-    if (this.parent) {
-      this.$source._links['parent'] = {
-        href: this.parent.href
-      };
-    } else if ($stateParams.parent_id) {
-      this.$source._links['parent'] = {
-        href: v3Path.wp({wp: $stateParams.parent_id})
-      };
-    }
   }
 
   /**
@@ -657,6 +390,7 @@ function wpResource(...args:any[]) {
     states,
     apiWorkPackages,
     wpCacheService,
+    wpCreate,
     schemaCacheService,
     NotificationsService,
     wpNotificationsService,
@@ -673,6 +407,7 @@ wpResource.$inject = [
   'states',
   'apiWorkPackages',
   'wpCacheService',
+  'wpCreate',
   'schemaCacheService',
   'NotificationsService',
   'wpNotificationsService',

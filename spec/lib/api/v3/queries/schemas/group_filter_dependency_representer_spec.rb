@@ -33,7 +33,7 @@ describe ::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter, clear_ca
 
   let(:project) { FactoryGirl.build_stubbed(:project) }
   let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
-  let(:filter) { Queries::WorkPackages::Filter::GroupFilter.new(context: query) }
+  let(:filter) { Queries::WorkPackages::Filter::GroupFilter.create!(context: query) }
   let(:form_embedded) { false }
 
   let(:instance) do
@@ -50,7 +50,7 @@ describe ::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter, clear_ca
         let(:path) { 'values' }
         let(:type) { '[]User' }
         let(:href) do
-          "#{api_v3_paths.principals}?filters=#{CGI.escape(JSON.dump(filter_query))}"
+          "#{api_v3_paths.principals}?filters=#{CGI.escape(JSON.dump(filter_query))}&pageSize=0"
         end
 
         context "for operator 'Queries::Operators::All'" do

@@ -33,10 +33,12 @@ import {QueryFilterResource} from '../../api/api-v3/hal-resources/query-filter-r
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service'
 import {FormResource} from '../../api/api-v3/hal-resources/form-resource.service'
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
+import WorkPackageFiltersService from "../../filters/wp-filters/wp-filters.service";
 
 function queryFiltersDirective($timeout:ng.ITimeoutService,
                                I18n:op.I18n,
                                wpTableFilters:WorkPackageTableFiltersService,
+                               wpFiltersService:WorkPackageFiltersService,
                                ADD_FILTER_SELECT_INDEX:any) {
 
   return {
@@ -67,6 +69,10 @@ function queryFiltersDirective($timeout:ng.ITimeoutService,
               wpTableFilters.replaceIfComplete(scope.filters);
             }
           });
+
+          scope.closeFilter = function() {
+            wpFiltersService.toggleVisibility();
+          }
 
           scope.deactivateFilter = function (removedFilter:QueryFilterInstanceResource) {
             let index = scope.filters.current.indexOf(removedFilter);

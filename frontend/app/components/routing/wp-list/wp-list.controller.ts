@@ -46,9 +46,10 @@ import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-re
 import {debugLog} from '../../../helpers/debug_output';
 import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/wp-table-relation-columns.service';
 import {combine} from 'reactivestates';
+import {StateService} from '@uirouter/angularjs';
 
 function WorkPackagesListController($scope:any,
-                                    $state:ng.ui.IStateService,
+                                    $state:StateService,
                                     AuthorisationService:any,
                                     states:States,
                                     wpTableRefresh:WorkPackageTableRefreshService,
@@ -101,18 +102,28 @@ function WorkPackagesListController($scope:any,
       .take(1)
       .subscribe(() => $scope.tableInformationLoaded = true);
 
-
-    // Update the title whenever the query
+    // Update the title whenever the query changes
     states.query.resource.values$()
       .takeUntil(scopeDestroyed$($scope))
-      .subscribe((query) => updateTitle(query));
+      .subscribe((query) => {
+        updateTitle(query);
+      });
+
+    // Update the checksum and url query params whenever a new query is loaded
+    states.query.resource
+      .values$()
+      .takeUntil(scopeDestroyed$($scope))
+      .distinctUntilChanged((query, formerQuery) => query.id === formerQuery.id)
+      .withLatestFrom(wpTablePagination.state.values$())
+      .subscribe(([query, pagination]) => {
+        wpListChecksumService.setToQuery(query, pagination);
+      });
 
     states.query.context.fireOnStateChange(wpTablePagination.state, 'Query loaded')
       .values$()
       .withLatestFrom(states.query.resource.values$())
       .takeUntil(scopeDestroyed$($scope))
       .subscribe(([pagination, query]) => {
-        updateTitle(query);
         if (wpListChecksumService.isQueryOutdated(query, pagination)) {
           wpListChecksumService.update(query, pagination);
 
@@ -120,17 +131,16 @@ function WorkPackagesListController($scope:any,
         }
     });
 
-    setupChangeObserver(wpTableFilters);
+    setupChangeObserver(wpTableFilters, true);
     setupChangeObserver(wpTableGroupBy);
     setupChangeObserver(wpTableSortBy);
     setupChangeObserver(wpTableSum);
-    setupChangeObserver(wpTableTimeline);
     setupChangeObserver(wpTableTimeline);
     setupChangeObserver(wpTableHierarchies);
     setupChangeObserver(wpTableColumns);
   }
 
-  function setupChangeObserver(service:WorkPackageQueryStateService) {
+  function setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {
     const queryState = states.query.resource;
 
     states.query.context.fireOnStateChange(service.state, 'Query loaded')
@@ -147,7 +157,7 @@ function WorkPackagesListController($scope:any,
 
         // Update the page, if the change requires it
         if (triggerUpdate) {
-          updateResultsVisibly(true);
+          wpTableRefresh.request('Query updated by user', true, firstPage);
         }
       });
   }
@@ -160,12 +170,13 @@ function WorkPackagesListController($scope:any,
     wpTableRefresh.state
       .values$('Refresh listener in wp-list.controller')
       .takeUntil(scopeDestroyed$($scope))
-      .subscribe((refreshVisibly:boolean) => {
+      .auditTime(20)
+      .subscribe(([refreshVisibly, firstPage]) => {
         if (refreshVisibly) {
-          debugLog("Refreshing work package results visibly.");
-          updateResultsVisibly();
+          debugLog('Refreshing work package results visibly.');
+          updateResultsVisibly(firstPage);
         } else {
-          debugLog("Refreshing work package results in the background.");
+          debugLog('Refreshing work package results in the background.');
           updateResults();
         }
       });
@@ -189,7 +200,7 @@ function WorkPackagesListController($scope:any,
     if (visibleLink.length) {
       visibleLink.focus();
     }
-  }
+  };
 
   function updateResults() {
     return wpListService.reloadCurrentResultsList();

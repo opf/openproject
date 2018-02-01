@@ -40,12 +40,19 @@ module PaginationHelper
                             class: 'pagination--pages')
 
       if pagination_options[:per_page_links]
-        content << content_tag(:div, pagination_settings(paginator, pagination_options[:params]),
-                               class: 'pagination--options')
+        content << pagination_option_links(paginator, pagination_options)
       end
 
       content.html_safe
     end
+  end
+
+  def pagination_option_links(paginator, pagination_options)
+    option_links = pagination_settings(paginator,
+                                       pagination_options[:params]
+                                        .merge(safe_query_params(%w{filters sortBy expand})))
+
+    content_tag(:div, option_links, class: 'pagination--options')
   end
 
   ##
@@ -151,7 +158,7 @@ module PaginationHelper
   class LinkRenderer < ::WillPaginate::ActionView::LinkRenderer
     def to_html
       pagination.inject('') { |html, item|
-        html + (item.is_a?(Fixnum) ? page_number(item) : send(item))
+        html + (item.is_a?(Integer) ? page_number(item) : send(item))
       }.html_safe
     end
 

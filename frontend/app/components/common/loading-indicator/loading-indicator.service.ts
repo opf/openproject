@@ -32,22 +32,26 @@ export const indicatorBackgroundSelector = '.loading-indicator--background';
 
 export class LoadingIndicator {
 
-  constructor(public indicator:JQuery, public element:JQuery) {}
+  constructor(public indicator:JQuery, public template:string) {}
 
-  public set promise(promise:ng.IPromise<any>) {
+  public set promise(promise:Promise<any>) {
     this.start();
-    promise.finally(() => {
-      // Delay hiding the indicator a little bit.
+
+    const stop = () => {
       setTimeout(() => this.stop(), 25);
-    });
+    };
+
+    promise
+      .then(stop)
+      .catch(stop);
   }
 
   public start() {
-    this.indicator.prepend(this.element);
+    this.indicator.prepend(this.template);
   }
 
   public stop() {
-    this.element.remove();
+    this.indicator.find('.loading-indicator--background').remove();
 
   }
 }
@@ -74,7 +78,7 @@ export class LoadingIndicatorService {
   // Return an indicator by name
   public indicator(name:string):LoadingIndicator {
     let indicator = this.getIndicatorAt(name);
-    return new LoadingIndicator(indicator, jQuery(this.indicatorTemplate));
+    return new LoadingIndicator(indicator, this.indicatorTemplate);
   }
 
   private getIndicatorAt(name:string):JQuery {

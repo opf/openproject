@@ -36,7 +36,11 @@ module API
           FilterDependencyRepresenter
 
           def json_cache_key
-            super + [filter.project.id]
+            if filter.project
+              super + [filter.project.id]
+            else
+              super
+            end
           end
 
           def href_callback

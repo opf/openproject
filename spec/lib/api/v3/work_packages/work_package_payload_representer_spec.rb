@@ -32,13 +32,22 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:work_package) do
-    FactoryGirl.build(:work_package,
-                      start_date: Date.today.to_datetime,
-                      due_date: Date.today.to_datetime,
-                      created_at: DateTime.now,
-                      updated_at: DateTime.now)
+    FactoryGirl.build_stubbed(:work_package,
+                              start_date: Date.today.to_datetime,
+                              due_date: Date.today.to_datetime,
+                              created_at: DateTime.now,
+                              updated_at: DateTime.now,
+                              type: FactoryGirl.build_stubbed(:type))
   end
-  let(:representer) { described_class.create(work_package) }
+
+  let(:user) do
+    FactoryGirl.build_stubbed(:user)
+  end
+
+  let(:representer) do
+    ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
+      .create(work_package, current_user: user)
+  end
 
   before do
     allow(work_package).to receive(:lock_version).and_return(1)
@@ -79,6 +88,12 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'estimated hours' do
+        before do
+          allow(work_package)
+            .to receive(:leaf?)
+            .and_return(true)
+        end
+
         it { is_expected.to have_json_path('estimatedTime') }
         it do
           is_expected.to be_json_eql(work_package.estimated_hours.to_json)
@@ -97,6 +112,12 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'percentage done' do
+        before do
+          allow(work_package)
+            .to receive(:leaf?)
+            .and_return(true)
+        end
+
         context 'percentage done enabled' do
           it { is_expected.to have_json_path('percentageDone') }
           it { is_expected.to have_json_type(Integer).at_path('percentageDone') }
@@ -123,6 +144,10 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           allow(work_package)
             .to receive(:milestone?)
             .and_return(false)
+
+          allow(work_package)
+            .to receive(:leaf?)
+            .and_return(true)
         end
 
         it_behaves_like 'has ISO 8601 date only' do
@@ -156,6 +181,10 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           allow(work_package)
             .to receive(:milestone?)
             .and_return(false)
+
+          allow(work_package)
+            .to receive(:leaf?)
+            .and_return(true)
         end
 
         it_behaves_like 'has ISO 8601 date only' do
@@ -189,6 +218,10 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           allow(work_package)
             .to receive(:milestone?)
             .and_return(true)
+
+          allow(work_package)
+            .to receive(:leaf?)
+            .and_return(true)
         end
 
         it_behaves_like 'has ISO 8601 date only' do
@@ -197,7 +230,11 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
 
         context 'no due date' do
-          let(:work_package) { FactoryGirl.build(:work_package, due_date: nil) }
+          let(:work_package) do
+            FactoryGirl.build_stubbed(:work_package,
+                                      type: FactoryGirl.build_stubbed(:type),
+                                      due_date: nil)
+          end
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('date')
@@ -249,7 +286,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       describe 'status' do
         let(:status) { FactoryGirl.build_stubbed(:status) }
 
-        before do work_package.status = status end
+        before do
+          work_package.status = status
+        end
 
         it_behaves_like 'linked property' do
           let(:property) { 'status' }
@@ -264,7 +303,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         let(:link) { "/api/v3/users/#{user.id}" }
 
         describe 'assignee' do
-          before do work_package.assigned_to = user end
+          before do
+            work_package.assigned_to = user
+          end
 
           it_behaves_like 'linked property' do
             let(:property) { 'assignee' }
@@ -274,7 +315,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
 
         describe 'responsible' do
-          before do work_package.responsible = user end
+          before do
+            work_package.responsible = user
+          end
 
           it_behaves_like 'linked property' do
             let(:property) { 'responsible' }
@@ -287,7 +330,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       describe 'version' do
         let(:version) { FactoryGirl.build_stubbed(:version) }
 
-        before do work_package.fixed_version = version end
+        before do
+          work_package.fixed_version = version
+        end
 
         it_behaves_like 'linked property' do
           let(:property) { 'version' }
@@ -300,7 +345,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       describe 'category' do
         let(:category) { FactoryGirl.build_stubbed(:category) }
 
-        before do work_package.category = category end
+        before do
+          work_package.category = category
+        end
 
         it_behaves_like 'linked property' do
           let(:property) { 'category' }
@@ -313,7 +360,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       describe 'priority' do
         let(:priority) { FactoryGirl.build_stubbed(:priority) }
 
-        before do work_package.priority = priority end
+        before do
+          work_package.priority = priority
+        end
 
         it_behaves_like 'linked property' do
           let(:property) { 'priority' }
@@ -324,22 +373,34 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'parent' do
-        let(:parent) { FactoryGirl.build_stubbed(:work_package) }
+        context 'with a parent' do
+          let(:parent) { FactoryGirl.build_stubbed(:work_package) }
 
-        before do work_package.parent = parent end
+          before do
+            work_package.parent = parent
+            allow(parent)
+              .to receive(:visible?)
+              .and_return(true)
+          end
 
-        it_behaves_like 'linked property' do
-          let(:property) { 'parent' }
-          let(:link) { "/api/v3/work_packages/#{parent.id}" }
+          it_behaves_like 'linked property' do
+            let(:property) { 'parent' }
+            let(:link) { "/api/v3/work_packages/#{parent.id}" }
+          end
         end
 
-        it_behaves_like 'linked property with 0 value', :parent
+        context 'without a parent' do
+          it_behaves_like 'linked property' do
+            let(:property) { :parent }
+            let(:link) { nil }
+          end
+        end
       end
     end
 
     describe 'custom fields' do
       it 'uses a CustomFieldInjector' do
-        expected_method = :create_value_representer_for_property_patching
+        expected_method = :create_value_representer
         expect(::API::V3::Utilities::CustomFieldInjector).to receive(expected_method)
           .and_call_original
         representer.to_json
@@ -438,11 +499,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       let(:path) { api_v3_paths.send(attribute_name, id) }
       let(:association_name) { attribute_name + '_id' }
       let(:id) { work_package.send(association_name) + 1 }
-      let(:links) {
-        Hash.new.tap do |h|
-          h[attribute_name] = href
-        end
-      }
+      let(:links) do
+        { attribute_name => href }
+      end
       let(:representer_attribute) { subject.send(association_name) }
 
       describe 'with a valid href' do
@@ -534,13 +593,46 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     end
 
     describe 'parent' do
-      before do
-        work_package.parent_id = 1
+      let(:parent) { FactoryGirl.build_stubbed :work_package }
+      let(:new_parent) do
+        wp = FactoryGirl.build_stubbed :work_package
+        allow(WorkPackage)
+          .to receive(:find_by)
+          .with(id: wp.id.to_s)
+          .and_return(wp)
+        wp
+      end
+      let(:path) { api_v3_paths.work_package(new_parent.id) }
+      let(:links) do
+        { parent: href }
       end
 
-      it_behaves_like 'linked resource' do
-        let(:path) { api_v3_paths.work_package(id) }
-        let(:attribute_name) { 'parent' }
+      before do
+        work_package.parent = parent
+      end
+
+      describe 'with a valid href' do
+        let(:href) { { href: path } }
+
+        it 'sets attribute to the specified id' do
+          expect(subject.parent).to eql(new_parent)
+        end
+      end
+
+      describe 'with a null href' do
+        let(:href) { { href: nil } }
+
+        it 'sets attribute to nil' do
+          expect(subject.parent).to eql(nil)
+        end
+      end
+
+      describe 'with an invalid link' do
+        let(:href) { {} }
+
+        it 'leaves attribute unchanged' do
+          expect(subject.parent).to eql(parent)
+        end
       end
     end
   end

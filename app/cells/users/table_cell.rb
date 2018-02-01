@@ -4,7 +4,7 @@ module Users
     columns :login, :firstname, :lastname, :mail, :admin, :created_on, :last_login_on
 
     def initial_sort
-      [:login, :asc]
+      [:id, :asc]
     end
 
     def headers

@@ -36,6 +36,7 @@ function apiPathsProviderConfig(apiPathsProvider:ApiPathsServiceProvider) {
   }];
   const workPackages = ['work_packages{/wp}', {
     form: 'form',
+    relations: 'relations',
     availableProjects: 'available_projects'
   }, {
     project: projects
@@ -50,6 +51,8 @@ function apiPathsProviderConfig(apiPathsProvider:ApiPathsServiceProvider) {
   }];
   const root = [''];
 
+  const helpTexts = ['help_texts{/id}'];
+
   const config = {
     wp: workPackages,
     wps: workPackages,
@@ -58,6 +61,7 @@ function apiPathsProviderConfig(apiPathsProvider:ApiPathsServiceProvider) {
     types,
     queries,
     configuration,
+    help_texts: helpTexts,
     root
   };
 

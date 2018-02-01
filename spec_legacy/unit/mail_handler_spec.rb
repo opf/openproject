@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 
 describe MailHandler, type: :model do
   fixtures :all
@@ -55,7 +55,7 @@ describe MailHandler, type: :model do
     assert_equal Version.find_by(name: 'alpha'), issue.fixed_version
     assert_equal 2.5, issue.estimated_hours
     assert_equal 30, issue.done_ratio
-    assert_equal issue.id, issue.root_id
+    assert issue.root?
     assert issue.leaf?
     # keywords should be removed from the email body
     assert !issue.description.match(/^Project:/i)
@@ -223,11 +223,14 @@ describe MailHandler, type: :model do
   it 'should add work package by anonymous user on private project without permission check' do
     assert_no_difference 'User.count' do
       assert_difference 'WorkPackage.count' do
-        issue = submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, no_permission_check: '1', unknown_user: 'accept')
+        issue = submit_email('ticket_by_unknown_user.eml',
+                             issue: { project: 'onlinestore' },
+                             no_permission_check: '1',
+                             unknown_user: 'accept')
         assert issue.is_a?(WorkPackage)
         assert issue.author.anonymous?
         assert !issue.project.is_public?
-        assert_equal issue.id, issue.root_id
+        assert issue.root?
         assert issue.leaf?
       end
     end

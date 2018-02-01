@@ -34,9 +34,6 @@ en:
       no_results_title_text: There has not been any activity for the project.
 
   admin:
-    projects:
-      no_results_title_text: There are currently no projects.
-      no_results_content_text: Create a new project
     plugins:
       no_results_title_text: There are currently no plugins available.
     custom_styles:
@@ -69,6 +66,13 @@ en:
     is_active: currently displayed
     is_inactive: currently not displayed
 
+  attribute_help_texts:
+    text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
+    label_plural: 'Attribute help texts'
+    show_preview: 'Preview text'
+    add_new: 'Add help text'
+    edit: "Edit help text for %{attribute_caption}"
+
   auth_sources:
     index:
       no_results_content_title: There are currently no authentication modes.
@@ -85,6 +89,7 @@ en:
     is_enabled_globally: 'Is enabled globally'
     enabled_in_project: 'Enabled in project'
     contained_in_type: 'Contained in type'
+    confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
@@ -116,6 +121,7 @@ en:
   projects:
     index:
       no_results_title_text: There are currently no projects
+      no_results_content_text: Create a new project
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
@@ -144,6 +150,9 @@ en:
 
   my:
     access_token:
+      failed_to_reset_token: "Failed to reset access token: %{error}"
+      notice_reset_token: "A new %{type} token has been generated. Your access token is:"
+      token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
 
   news:
@@ -241,8 +250,8 @@ en:
         other: "The account will be deleted from the system. Therefore, the user will no longer be able to log in with his current credentials. He/she can choose to become a user of this application again by the means this application grants."
         self: "Your account will be deleted from the system. Therefore, you will no longer be able to log in with your current credentials. If you choose to become a user of this application again, you can do so by using the means this application grants."
       login_verification:
-        other: "Enter the login %{name} to verify the deletion."
-        self: "Enter your login %{name} to verify the deletion."
+        other: "Enter the login %{name} to verify the deletion. Once submitted, you will be ask to confirm your password."
+        self: "Enter your login %{name} to verify the deletion. Once submitted, you will be ask to confirm your password."
     error_inactive_activation_by_mail: >
       Your account has not yet been activated.
       To activate your account, click on the link that was emailed to you.
@@ -259,35 +268,6 @@ en:
 
   actionview_instancetag_blank_option: "Please select"
 
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: "not found"
-            public:
-              error_unauthorized: "- The user has no permission to create public queries."
-        relation:
-          attributes:
-            to:
-              error_not_found: "work package in `to` position not found or not visible"
-              error_readonly: "an existing relation's `to` link is immutable"
-            from:
-              error_not_found: "work package in `from` position not found or not visible"
-              error_readonly: "an existing relation's `from` link is immutable"
-        user:
-          attributes:
-            status:
-              invalid_on_create: "is not a valid status for new users."
-            auth_source:
-              error_not_found: "not found"
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: "The operator is not supported."
-              invalid_values: "A value is invalid."
-              id_filter_required: "An 'id' filter is required."
   activerecord:
     attributes:
       announcements:
@@ -297,6 +277,9 @@ en:
         file: "File"
         filename: "File"
         filesize: "Size"
+      attribute_help_text:
+        attribute_name: 'Attribute'
+        help_text: 'Help text'
       auth_source:
         account: "Account"
         attr_firstname: "Firstname attribute"
@@ -333,7 +316,7 @@ en:
         encoded_token: "Enterprise support token"
       relation:
         delay: "Delay"
-        from: "Work Package"
+        from: "Work package"
         to: "Related work package"
       status:
         is_closed: "Work package closed"
@@ -357,6 +340,7 @@ en:
         relations_of_type_column: "%{type} relations"
         group_by: "Group results by"
         filters: "Filters"
+        timeline_labels: "Timeline labels"
       repository:
         url: "URL"
       role:
@@ -400,20 +384,8 @@ en:
         redirect_existing_links: "Redirect existing links"
       planning_element_type_color:
         hexcode: Hex code
-      project_association:
-        description: Cause
-        project_b: 'Dependent project'
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
         position: Position
-      timeline:
-        options: ""
-      reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
@@ -452,6 +424,8 @@ en:
         greater_than_or_equal_to_start_date: "must be greater than or equal to the start date."
         inclusion: "is not set to one of the allowed values."
         invalid: "is invalid."
+        invalid_url: 'is not a valid URL.'
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "must be less than or equal to %{count}."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."
@@ -470,38 +444,60 @@ en:
         before: "must be before %{date}."
         before_or_equal_to: "must be before or equal to %{date}."
         could_not_be_copied: "could not be (fully) copied."
+        regex_invalid: "could not be validated with the associated regular expression."
       models:
+        custom_field:
+          at_least_one_custom_option: "At least one option needs to be available."
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: "The operator is not supported."
+              invalid_values: "A value is invalid."
+              id_filter_required: "An 'id' filter is required."
         project:
           attributes:
             types:
               in_use_by_work_packages: "still in use by work packages: %{types}"
-        project_association:
-          identical_projects: "Dependency cannot be created between one project and itself."
-          project_association_not_allowed: "does not allow associations."
         query:
+          attributes:
+            project:
+              error_not_found: "not found"
+            public:
+              error_unauthorized: "- The user has no permission to create public queries."
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
               invalid: "The custom field is not valid in the given context."
+        relation:
+          typed_dag:
+            circular_dependency: "The relationship creates a circle of relationships."
+          attributes:
+            to:
+              error_not_found: "work package in `to` position not found or not visible"
+              error_readonly: "an existing relation's `to` link is immutable"
+            from:
+              error_not_found: "work package in `from` position not found or not visible"
+              error_readonly: "an existing relation's `from` link is immutable"
         repository:
           not_available: "SCM vendor is not available"
           not_whitelisted: "is not allowed by the configuration."
+          invalid_url: "is not a valid repository URL or path."
+          must_not_be_ssh: "must not be an SSH url."
           no_directory: "is not a directory."
         work_package:
           is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
           attributes:
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
-            parent_id:
+            parent:
               cannot_be_milestone: "cannot be a milestone."
               cannot_be_in_another_project: "cannot be in another project."
               not_a_valid_parent: "is invalid."
             start_date:
               violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
-              violates_parent_relationships: "can only be set to %{soonest_start} or later so as not to violate the relationships of the work_package's ancestors."
             status_id:
               status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
             priority_id:
@@ -532,6 +528,10 @@ en:
               match:
                 confirm: "Confirm new password."
                 description: "'Password confirmation' should match the input in the 'New password' field."
+            status:
+              invalid_on_create: "is not a valid status for new users."
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Please choose at least one user or group."
           role_blank: "Please choose at least one role."
@@ -543,6 +543,7 @@ en:
 
     models:
       attachment: "File"
+      attribute_help_text: "Attribute help text"
       board: "Forum"
       comment: "Comment"
       custom_field: "Custom field"
@@ -588,6 +589,7 @@ en:
     content: "Content"
     created_at: "Created on"
     created_on: "Created on"
+    custom_options: "Possible values"
     custom_values: "Custom fields"
     date: "Date"
     default_columns: "Default columns"
@@ -598,6 +600,7 @@ en:
     estimated_time: "Estimated time"
     firstname: "First name"
     group: "Group"
+    groups: "Groups"
     groupname: "Group name"
     id: "ID"
     is_default: "Default value"
@@ -614,6 +617,7 @@ en:
     project: "Project"
     responsible: "Responsible"
     role: "Role"
+    roles: "Roles"
     start_date: "Start date"
     status: "Status"
     subject: "Subject"
@@ -639,6 +643,7 @@ en:
   button_change_password: "Change password"
   button_check_all: "Check all"
   button_clear: "Clear"
+  button_close: 'Close'
   button_collapse_all: "Collapse all"
   button_configure: "Configure"
   button_copy: "Copy"
@@ -652,6 +657,7 @@ en:
   button_edit: "Edit"
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   button_expand_all: "Expand all"
+  button_filter: "Filter"
   button_generate: "Generate"
   button_list: "List"
   button_lock: "Lock"
@@ -659,6 +665,7 @@ en:
   button_login: "Sign in"
   button_move: "Move"
   button_move_and_follow: "Move and follow"
+  button_print: "Print"
   button_quote: "Quote"
   button_remove: Remove
   button_remove_widget: "Remove widget"
@@ -691,6 +698,7 @@ en:
     failed: "Cannot copy project %{source_project_name}"
     succeeded: "Created project %{target_project_name}"
     errors: "Error"
+    project_custom_fields: 'Custom fields on project'
     text:
       failed: "Could not copy project \"%{source_project_name}\" to project \"%{target_project_name}\"."
       succeeded: "Copied project \"%{source_project_name}\" to \"%{target_project_name}\"."
@@ -861,13 +869,17 @@ en:
         description: "Customize the form configuration with these additional features:"
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
+      project_filters:
+        description_html: "Upgrade to %{link} to filter and sort on custom fields"
 
   enumeration_activities: "Activities (time tracking)"
   enumeration_work_package_priorities: "Work package priorities"
   enumeration_system_activity: "System Activity"
   enumeration_reported_project_statuses: "Reported project status"
 
+  error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
   error_can_not_archive_project: "This project cannot be archived"
+  error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Unable to delete custom field"
   error_can_not_delete_type: "This type contains work packages and cannot be deleted."
   error_can_not_delete_standard_type: "Standard types cannot be deleted."
@@ -962,7 +974,10 @@ en:
       forums: "Forums"
       blog: "OpenProject blog"
       boards: "Community forum"
+      newsletter: "Security alerts / Newsletter"
 
+  links:
+    configuration_guide: 'Configuration guide'
 
   instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
   instructions_after_logout: "You can sign in again by clicking %{signin}."
@@ -982,6 +997,8 @@ en:
   label_accessibility: "Accessibility"
   label_account: "Account"
   label_active: "Active"
+  label_activate_user: 'Activate user'
+  label_active_in_new_projects: "Active in new projects"
   label_activity: "Activity"
   label_add_edit_translations: "Add and edit translations"
   label_add_another_file: "Add another file"
@@ -1044,10 +1061,11 @@ en:
   label_select_main_menu_item: Select new main menu item
   label_select_project: "Select a project"
   label_required_disk_storage: "Required disk storage"
-  label_resend_invitation: Resend invitation
+  label_send_invitation: Send invitation
   label_change_plural: "Changes"
   label_change_properties: "Change properties"
   label_change_status: "Change status"
+  label_change_status_of_user: "Change status of #{username}"
   label_change_view_all: "View all changes"
   label_changes_details: "Details of all changes"
   label_changeset: "Changeset"
@@ -1094,6 +1112,7 @@ en:
   label_date_to: "To"
   label_day_plural: "days"
   label_default: "Default"
+  label_delete_user: "Delete user"
   label_delete_project: "Delete project"
   label_deleted: "deleted"
   label_deleted_custom_field: "(deleted custom field)"
@@ -1141,6 +1160,7 @@ en:
   label_file_plural: "Files"
   label_filter_add: "Add filter"
   label_filter_plural: "Filters"
+  label_filters_toggle: "Show/hide filters"
   label_float: "Float"
   label_folder: "Folder"
   label_follows: "follows"
@@ -1152,6 +1172,7 @@ en:
   label_greater_or_equal: ">="
   label_group_by: "Group by"
   label_group_new: "New group"
+  label_group: "Group"
   label_group_plural: "Groups"
   label_help: "Help"
   label_here: here
@@ -1172,6 +1193,7 @@ en:
   label_internal: "Internal"
   label_invite_user: "Invite user"
   label_show_hide: "Show/hide"
+  label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
   label_journal_diff: "Description Comparison"
   label_language: "Language"
@@ -1191,6 +1213,7 @@ en:
   label_less_than_ago: "less than days ago"
   label_list: "List"
   label_loading: "Loading..."
+  label_lock_user: 'Lock user'
   label_logged_as: "Logged in as"
   label_login: "Sign in"
   label_custom_logo: "Custom logo"
@@ -1297,6 +1320,8 @@ en:
   label_project_settings: "Project settings"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "View all projects"
+  label_project_show_details: "Show project details"
+  label_project_hide_details: "Hide project details"
   label_public_projects: "Public projects"
   label_query_new: "New query"
   label_query_plural: "Custom queries"
@@ -1432,6 +1457,7 @@ en:
   label_wiki_dont_show_menu_item: "Do not show this wikipage in project navigation"
   label_wiki_edit: "Wiki edit"
   label_wiki_edit_plural: "Wiki edits"
+  label_wiki_page_attachments: "Wiki page attachments"
   label_wiki_page_id: "Wiki page ID"
   label_wiki_navigation: "Wiki navigation"
   label_wiki_page: "Wiki page"
@@ -1442,6 +1468,7 @@ en:
   label_wiki_show_submenu_item: "Show as submenu item of "
   label_work_package: "Work package"
   label_work_package_added: "Work package added"
+  label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "New category"
   label_work_package_category_plural: "Work package categories"
   label_work_package_hierarchy: "Work package hierarchy"
@@ -1521,6 +1548,16 @@ en:
 
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: 'Calling create_work_package_link macro from outside project context.'
+        invalid_type: "No type found with name '%{type}' in project '%{project}'."
+      link_name: 'New work package'
+      link_name_type: 'New %{type_name}'
+
+  mail:
+    actions: 'Actions'
 
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
@@ -1561,16 +1598,15 @@ en:
   notice_account_wrong_password: "Wrong password"
   notice_account_registered_and_logged_in: "Welcome, your account has been activated. You are logged in now."
   notice_activation_failed: The account could not be activated.
-  notice_api_access_key_reseted: "Your API access key was reset."
-  notice_api_access_key_generated: "Your API access key was generated."
+  notice_auth_stage_verification_error: "Could not verify stage '%{stage}'."
+  notice_auth_stage_wrong_stage: "Expected to finish authentication stage '%{expected}', but '%{actual}' returned."
+  notice_auth_stage_error: "Authentication stage '%{stage}' failed."
   notice_can_t_change_password: "This account uses an external authentication source. Impossible to change the password."
   notice_custom_options_deleted: "Option '%{option_value}' and its %{num_deleted} occurrences were deleted."
   notice_email_error: "An error occurred while sending mail (%{value})"
   notice_email_sent: "An email was sent to %{value}"
   notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
-  notice_feeds_access_key_reseted: "Your RSS access key was reset."
-  notice_feeds_access_key_generated: "Your RSS access key was generated."
 
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
@@ -1587,7 +1623,7 @@ en:
   notice_bad_request: "Bad Request."
   notice_not_authorized: "You are not authorized to access this page."
   notice_not_authorized_archived_project: "The project you're trying to access has been archived."
-  notice_password_confirmation_failed: "Your password is not correct. The changes were not saved."
+  notice_password_confirmation_failed: "Your password is not correct. Cannot continue."
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
   notice_project_not_deleted: "The project wasn't deleted."
@@ -1599,7 +1635,7 @@ en:
   notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_unable_delete_version: "Unable to delete version."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
-  notice_user_invitation_resent: Another invitation has been sent to %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "Your %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "Set standard type automatically."
   notice_logged_out: "You have been logged out."
@@ -1651,7 +1687,6 @@ en:
   permission_delete_work_packages: "Delete work packages"
   permission_delete_messages: "Delete messages"
   permission_delete_own_messages: "Delete own messages"
-  permission_delete_project_associations: "Delete project dependencies"
   permission_delete_reportings: "Delete reportings"
   permission_delete_timelines: "Delete timelines"
   permission_delete_wiki_pages: "Delete wiki pages"
@@ -1663,7 +1698,6 @@ en:
   permission_edit_own_messages: "Edit own messages"
   permission_edit_own_time_entries: "Edit own time logs"
   permission_edit_project: "Edit project"
-  permission_edit_project_associations: "Edit project dependencies"
   permission_edit_reportings: "Edit reportings"
   permission_edit_time_entries: "Edit time logs"
   permission_edit_timelines: "Edit timelines"
@@ -1697,7 +1731,6 @@ en:
   permission_view_work_packages: "View work packages"
   permission_view_messages: "View messages"
   permission_view_members: "View members"
-  permission_view_project_associations: "View project dependencies"
   permission_view_reportings: "View reportings"
   permission_view_time_entries: "View spent time"
   permission_view_timelines: "View timelines"
@@ -1737,9 +1770,12 @@ en:
   # possible query parameters (e.g. issue queries),
   # which are not attributes of an AR-Model.
   query_fields:
+    active_or_archived: "Active or archived"
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
+    assignee_or_group: "Assignee or belonging group"
     subproject_id: "Subproject"
+    name_or_identifier: "Name or identifier"
 
   repositories:
     at_identifier: 'at %{identifier}'
@@ -1798,7 +1834,10 @@ en:
     git:
       instructions:
         managed_url: "This is the URL of the managed (local) Git repository."
-        path: "Specify the path to your local Git repository ( e.g., %{example_path} )."
+        path: >-
+          Specify the path to your local Git repository ( e.g., %{example_path} ).
+          You can also use remote repositories which are cloned to a local copy by
+          using a value starting with http(s):// or file://.
         path_encoding: "Override Git path encoding (Default: UTF-8)"
       local_title: "Link existing local Git repository"
       local_url: "Local URL"
@@ -1888,8 +1927,6 @@ en:
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
-  setting_gravatar_default: "Default Gravatar image"
-  setting_gravatar_enabled: "Use Gravatar user icons"
   setting_host_name: "Host name"
   setting_work_package_done_ratio: "Calculate the work package done ratio with"
   setting_work_package_done_ratio_field: "Use the work package field"
@@ -1934,7 +1971,7 @@ en:
   setting_session_ttl: "Session expiry time after inactivity"
   setting_session_ttl_hint: "Value below 5 works like disabled"
   setting_session_ttl_enabled: "Session expires"
-  setting_start_of_week: "Start calendars on"
+  setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_text_formatting: "Text formatting"
@@ -1960,7 +1997,9 @@ en:
   show_hide_project_menu: "Expand/Collapse project menu"
 
   status_active: "active"
+  status_archived: "archived"
   status_invited: invited
+  status_locked: locked
   status_registered: registered
 
   # Used in array.to_sentence.
@@ -1976,14 +2015,8 @@ en:
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
   text_assign_to_project: "Assign to the project"
   text_form_configuration: >
-    You can customize which fields will be displayed
-    in work package forms. You can freely group the
-    fields to reflect the needs for your domain.
-
-    By default fields will only be shown in
-    the collapsed work package view if they have a value.
-    Fields that are 'Always displayed' will be visibile even
-    if they don't have a value.
+    You can customize which fields will be displayed in work package forms.
+    You can freely group the fields to reflect the needs for your domain.
   text_form_configuration_drag_to_activate: "Drag fields from here to activate them"
   text_form_configuration_required_attribute: "Attribute is marked required and thus always shown"
   text_caracters_maximum: "%{count} characters maximum."
@@ -2103,11 +2136,9 @@ en:
       project_type: "Project type"
       project_types: "Project types"
     project_menu:
-      project_associations: "Dependencies"
       reportings: "Status reportings"
       reports: "Timeline reports"
       timelines: "Timelines"
-    add_project_association: "Add dependency"
     associations: "Dependencies"
     board_could_not_be_saved: "Board could not be saved"
     button_delete_all: "Delete all"
@@ -2239,10 +2270,6 @@ en:
 
     planning_element_update: "Update: %{title}"
     work_packages_are_displayed_in_aggregations: "Work packages are displayed in aggregations"
-    project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: "Project dependency between “%{project_a}” and “%{project_b}”"
-    project_association_of_type: "Dependency to project of type “%{type}”"
     project_type_could_not_be_saved: "Project type could not be saved"
     type_could_not_be_saved: "Type could not be saved"
     reporting_could_not_be_saved: "Reporting could not be saved"
@@ -2250,9 +2277,6 @@ en:
     really_delete_color: >
       Are you sure, you want to delete the following color?
       Types using this color will not be deleted.
-    really_delete_project_association_between_project_a_and_project_b: >
-      Are you sure, you want to delete the dependency between “%{project_a}” and
-      “%{project_b}”?
     really_delete_project_type: >
       Are you sure, you want to delete the following project type?
       Projects using this type will not be deleted.
@@ -2288,10 +2312,6 @@ en:
     When used with active users their status will be changed to 'invited'.
 
   tooltip:
-    attribute_visibility:
-      default: Show if not empty
-      visible: Show even if empty
-      hidden: Hide by default
     setting_email_login: >
       If enabled a user will be unable to chose a login during registration.
       Instead their given e-mail address will serve as the login.
@@ -2322,6 +2342,7 @@ en:
     blocked_num_failed_logins:
       one: "locked temporarily (one failed login attempt)"
       other: "locked temporarily (%{count} failed login attempts)"
+    confirm_status_change: "You are about to change the status of '%{name}'. Are you sure you want to continue?"
     deleted: "Deleted user"
     error_status_change_failed: "Changing the user status failed due to the following errors: %{errors}"
     invite: Invite user via email
@@ -2337,6 +2358,7 @@ en:
       mail_project_explanaition: "For unselected projects, you will only receive notifications about things you watch or you're involved in (e.g. work packages you're the author or assignee of)."
       mail_self_notified: "I want to be notified of changes that I make myself"
     status_user_and_brute_force: "%{user} and %{brute_force}"
+    status_change: "Status change"
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
 
@@ -2394,6 +2416,7 @@ en:
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "The request body did not contain the expected multipart parts."
       multiple_errors: "Multiple field constraints have been violated."
+      unable_to_create_attachment: "The attachment could not be created"
       render:
         context_not_parsable: "The context provided is not a link to a resource."
         unsupported_context: "The resource given is not supported as context."

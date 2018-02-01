@@ -43,6 +43,6 @@ class DeliverInvitationJob < ApplicationJob
   end
 
   def token
-    @token ||= Token.find_by(id: @token_id)
+    @token ||= Token::Invitation.find_by(id: @token_id)
   end
 end

@@ -1,17 +1,25 @@
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
+import {$injectFields, injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {TableEventHandler} from '../table-handler-registry';
 import {KeepTabService} from '../../../wp-panels/keep-tab/keep-tab.service';
 import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
+import {tableRowClassName} from "../../builders/rows/single-row-builder";
+import {States} from "../../../states.service";
+import {WorkPackageTableSelection} from "../../state/wp-table-selection.service";
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {
   // Injections
-  public $state:ng.ui.IStateService;
+  public $state:StateService;
   public keepTab:KeepTabService;
+  public states:States;
+  public wpTableSelection:WorkPackageTableSelection;
+  public wpTableFocus:WorkPackageTableFocusService;
 
   constructor(table: WorkPackageTable) {
-    injectorBridge(this);
+    $injectFields(this, '$state', 'keepTab', 'states', 'wpTableSelection', 'wpTableFocus');
   }
 
   public get EVENT() {
@@ -34,11 +42,27 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
       return true;
     }
 
-    // Locate the row from event
+    // Locate the details link from event
     const target = jQuery(evt.target);
     const element = target.closest(this.SELECTOR);
     const state = element.data('wpState');
     const workPackageId = element.data('workPackageId');
+
+    // Blur the target to avoid focus being kept there
+    target.closest('a').blur();
+
+    // The current row is the last selected work package
+    // not matter what other rows are (de-)selected below.
+    // Thus save that row for the details view button.
+    // Locate the row from event
+    let row = target.closest(`.${tableRowClassName}`);
+    let classIdentifier = row.data('classIdentifier');
+    let [index, _] = table.findRenderedRow(classIdentifier);
+
+    this.wpTableFocus.updateFocus(workPackageId);
+
+    // Update single selection if no modifier present
+    this.wpTableSelection.setSelection(workPackageId, index);
 
     this.$state.go(
       (this.keepTab as any)[state],
@@ -50,5 +74,3 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     return false;
   }
 }
-
-WorkPackageStateLinksHandler.$inject = ['$state', 'keepTab'];

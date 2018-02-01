@@ -32,6 +32,7 @@ class AccountController < ApplicationController
   include OmniauthHelper
   include Concerns::OmniauthLogin
   include Concerns::RedirectAfterLogin
+  include Concerns::AuthenticationStages
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required
@@ -39,6 +40,8 @@ class AccountController < ApplicationController
   # This prevents login CSRF
   # See AccountController#handle_unverified_request for more information.
   before_action :disable_api
+
+  before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
 
   # Login request and validation
   def login
@@ -69,7 +72,7 @@ class AccountController < ApplicationController
     return redirect_to(home_url) unless allow_lost_password_recovery?
 
     if params[:token]
-      @token = Token.find_by(action: 'recovery', value: params[:token].to_s)
+      @token = ::Token::Recovery.find_by_plaintext_value(params[:token])
       redirect_to(home_url) && return unless @token and !@token.expired?
       @user = @token.user
       if request.post?
@@ -87,20 +90,27 @@ class AccountController < ApplicationController
       return
     else
       if request.post?
-        user = User.find_by_mail(params[:mail])
+        mail = params[:mail]
+        user = User.find_by_mail(mail)
+
+        # Ensure the same request is sent regardless of which email is entered
+        # to avoid detecability of mails
+        flash[:notice] = l(:notice_account_lost_email_sent)
 
         unless user
           # user not found in db
-          (flash.now[:error] = l(:notice_account_unknown_email); return)
+          Rails.logger.error "Lost password unknown email input: #{mail}"
+          return
         end
 
         unless user.change_password_allowed?
           # user uses an external authentification
-          (flash.now[:error] = l(:notice_can_t_change_password); return)
+          Rails.logger.error "Password cannot be changed for user: #{mail}"
+          return
         end
 
         # create a new token for password recovery
-        token = Token.new(user_id: user.id, action: 'recovery')
+        token = Token::Recovery.new(user_id: user.id)
         if token.save
           UserMailer.password_lost(token).deliver_now
           flash[:notice] = l(:notice_account_lost_email_sent)
@@ -144,12 +154,21 @@ class AccountController < ApplicationController
 
   # Token based account activation
   def activate
-    token = Token.find_by value: params[:token].to_s
+    token = ::Token::Invitation.find_by_plaintext_value(params[:token])
 
-    if token && token.action == 'register' && Setting.self_registration?
+    if token.nil? || token.expired?
+      flash[:error] = I18n.t(:notice_account_invalid_token)
+      redirect_to home_url
+      return
+    end
+
+    if token.user.invited?
+      activate_by_invite_token token
+    elsif Setting.self_registration?
       activate_self_registered token
     else
-      activate_by_invite_token token
+      flash[:error] = I18n.t(:notice_account_invalid_token)
+      redirect_to home_url
     end
   end
 
@@ -255,7 +274,35 @@ class AccountController < ApplicationController
     render 'my/password', locals: { show_user_name: @user.force_password_change_was }
   end
 
+  def auth_source_sso_failed
+    failure = session.delete :auth_source_sso_failure
+    user = failure[:user]
+
+    if user.try(:new_record?)
+      return onthefly_creation_failed user, login: user.login, auth_source_id: user.auth_source_id
+    end
+
+    show_sso_error_for user
+
+    flash.now[:error] = I18n.t(:error_auth_source_sso_failed, value: failure[:login]) +
+      ": " + String(flash.now[:error])
+
+    render action: 'login', back_url: failure[:back_url]
+  end
+
   private
+
+  def check_auth_source_sso_failure
+    redirect_to home_url unless session[:auth_source_sso_failure].present?
+  end
+
+  def show_sso_error_for(user)
+    if user.nil?
+      invalid_credentials
+    elsif not user.active?
+      account_inactive user, flash_now: true
+    end
+  end
 
   def registration_through_invitation!
     session[:auth_source_registration] = nil
@@ -284,8 +331,14 @@ class AccountController < ApplicationController
         register_and_login_via_authsource(@user, session, permitted_params)
       end
     else
-      @user.attributes = permitted_params.user
-      @user.login = params[:user][:login] if params[:user][:login].present?
+      @user.attributes = permitted_params.user.transform_values do |val|
+        if val.is_a? String
+          val.strip!
+        end
+
+        val
+      end
+      @user.login = params[:user][:login].strip if params[:user][:login].present?
       @user.password = params[:user][:password]
       @user.password_confirmation = params[:user][:password_confirmation]
 
@@ -317,7 +370,7 @@ class AccountController < ApplicationController
   def logout_user
     if User.current.logged?
       cookies.delete OpenProject::Configuration['autologin_cookie_name']
-      Token.where(user_id: User.current.id, action: 'autologin').delete_all
+      Token::AutoLogin.where(user_id: current_user.id).delete_all
       self.logged_user = nil
     end
   end
@@ -363,7 +416,28 @@ class AccountController < ApplicationController
     end
   end
 
-  def successful_authentication(user)
+  def successful_authentication(user, reset_stages: true)
+    stages = authentication_stages reset: reset_stages
+
+    if stages.empty?
+      # setting params back_url to be used by redirect_after_login
+      params[:back_url] = session.delete :back_url if session.include?(:back_url)
+
+      if session[:finish_registration]
+        finish_registration! user
+      else
+        login_user! user
+      end
+    else
+      stage = stages.first
+
+      session[:authenticated_user_id] = user.id
+
+      redirect_to stage.path
+    end
+  end
+
+  def login_user!(user)
     # Valid user
     self.logged_user = user
     # generate a key and set cookie if autologin
@@ -377,9 +451,9 @@ class AccountController < ApplicationController
   end
 
   def set_autologin_cookie(user)
-    token = Token.create(user: user, action: 'autologin')
+    token = Token::AutoLogin.create(user: user)
     cookie_options = {
-      value: token.value,
+      value: token.plain_value,
       expires: 1.year.from_now,
       path: OpenProject::Configuration['autologin_cookie_path'],
       secure: OpenProject::Configuration['autologin_cookie_secure'],
@@ -464,7 +538,7 @@ class AccountController < ApplicationController
   #
   # Pass a block for behavior when a user fails to save
   def register_by_email_activation(user, _opts = {})
-    token = Token.new(user: user, action: 'register')
+    token = Token::Invitation.new(user: user)
     if user.save and token.save
       UserMailer.user_signed_up(token).deliver_now
       flash[:notice] = l(:notice_account_register_done)
@@ -480,18 +554,40 @@ class AccountController < ApplicationController
   def register_automatically(user, opts = {})
     # Automatic activation
     user.activate
-    user.last_login_on = Time.now
 
     if user.save
-      self.logged_user = user
-      opts[:after_login].call user if opts[:after_login]
+      stages = authentication_stages after_activation: true
 
-      flash[:notice] = with_accessibility_notice :notice_account_registered_and_logged_in,
-                                                 locale: user.language
-      redirect_after_login(user)
+      run_registration_stages stages, user, opts
     else
       yield if block_given?
     end
+  end
+
+  def run_registration_stages(stages, user, opts)
+    if stages.empty?
+      finish_registration! user, opts
+    else
+      stage = stages.first
+
+      session[:authenticated_user_id] = user.id
+      session[:finish_registration] = opts
+
+      redirect_to stage.path
+    end
+  end
+
+  def finish_registration!(user, opts = Hash(session.delete(:finish_registration)))
+    self.logged_user = user
+    user.update last_login_on: Time.now
+
+    if auth_hash = opts[:omni_auth_hash]
+      OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, self
+    end
+
+    flash[:notice] = with_accessibility_notice :notice_account_registered_and_logged_in,
+                                               locale: user.language
+    redirect_after_login user
   end
 
   # Manual activation by the administrator
@@ -570,7 +666,7 @@ class AccountController < ApplicationController
 
   def invited_user
     if session.include? :invitation_token
-      token = Token.find_by(value: session[:invitation_token])
+      token = Token::Invitation.find_by_plaintext_value session[:invitation_token]
 
       token.user
     end

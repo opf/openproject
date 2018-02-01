@@ -27,7 +27,7 @@
 //++
 
 jQuery(function() {
-  if (bowser.chrome && bowser.version >= '58') {
+  if (bowser.chrome && bowser.version >= '58' || bowser.firefox && bowser.version >= '59') {
     document.documentElement.classList.add('-browser-chrome', '-supports-sticky-headers');
   }
 
@@ -35,7 +35,23 @@ jQuery(function() {
     document.documentElement.classList.add('-browser-safari');
   }
 
+  if (bowser.msedge) {
+    document.documentElement.classList.add('-browser-edge');
+  }
+
+  if (bowser.firefox) {
+    document.documentElement.classList.add('-browser-firefox');
+  }
+
   if (bowser.windows) {
     document.documentElement.classList.add('-browser-windows');
+  }
+
+  if (bowser.ios) {
+    document.documentElement.classList.add('-browser-ios');
+  }
+
+  if (bowser.mobile || bowser.ios || bowser.android) {
+    document.documentElement.classList.add('-browser-mobile');
   }
 });

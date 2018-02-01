@@ -25,8 +25,7 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-
-@include breakpoint(1248px down)
+@media screen and (max-width: 1248px), print
   body.controller-work_packages
 
     // ------------- FULL SCREEN -------------------
@@ -35,19 +34,39 @@
       overflow-y: scroll !important
 
       #main,
+      #content-wrapper,
       #content
         position: relative !important
+        width: 100%
+        margin-left: 0
 
-      #main
-        padding-bottom: 0
 
+      #content-wrapper,
       #content
         height: 100% !important
         overflow: visible
 
-      .work-packages--show-view
-        padding: 0 0 0 5px
+      #main
+        padding-bottom: 0
 
+        #content-wrapper
+          &.hidden-navigation
+            margin-left: 0
+            width: 100%
+
+          &.nosidebar
+            padding: 0
+            width:    100%
+            margin-left: 0
+
+          &.nomenus
+            top: 0
+            padding: 0
+            width: 100%
+            margin-left: 0
+
+
+      .work-packages--show-view
         &.edit-all-mode
           .work-packages-full-view--split-right
             display: none
@@ -60,10 +79,12 @@
         // Safari
         height: initial
         .work-packages-full-view--split-left
-          padding-left: 15px
           margin: 0
           width: initial
           border: none
+
+          .work-packages--panel-inner
+            padding: 5px 0 20px 0
 
         .work-packages-full-view--split-right
           width: initial
@@ -72,14 +93,15 @@
             margin: 0.75rem 0 2.5rem 0
 
           .work-packages--panel-inner
-            padding: 0 20px 0 15px
+            padding-left: 0
 
+@include breakpoint(1248px down)
+  body.controller-work_packages
     // --------------- ALL WP VIEWS ---------------
     .work-packages-tabletimeline--table-side
       contain: none
 
     .toolbar-container
-      margin-bottom: 1em
       min-height: 36px
 
     .attributes-key-value--key,
@@ -128,3 +150,34 @@
       margin: 0 !important
       padding: 8px 0 !important
       font-size: 1rem
+
+    @include breakpoint(680px up)
+      &.action-show,
+      &.full-create
+        #main
+          #main-menu
+            height: initial
+            min-height: calc(100vh - 55px - 5px)
+
+@include breakpoint(680px down)
+  body.controller-work_packages.action-show
+    .work-packages--show-view
+      padding: 0
+
+    #main-menu
+      display: none
+      &~ #content-wrapper
+        padding-top: 0 !important
+
+    #toolbar-items
+      position: absolute
+      top: 10px
+      justify-content: flex-end
+      .toolbar-item
+        flex-grow: 0
+    .work-packages-full-view--split-container
+      border-top: none
+
+  body.controller-work_packages.action-details
+    .work-packages-split-view--details-side
+      overflow-x: auto

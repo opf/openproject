@@ -33,7 +33,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
   let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
   let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:user) { double('current_user') }
+  let(:user) { double('current_user', allowed_to?: true, admin: true, admin?: true) }
   let(:representer) do
     described_class.new(query, current_user: user, embed_links: true)
   end
@@ -395,7 +395,7 @@ describe ::API::V3::Queries::QueryRepresenter do
       end
 
       context 'when not starred' do
-        let(:permissions) { [:star, :unstar] }
+        let(:permissions) { %i(star unstar) }
         before do
           allow(query)
             .to receive(:starred)
@@ -423,7 +423,7 @@ describe ::API::V3::Queries::QueryRepresenter do
       end
 
       context 'when starred' do
-        let(:permissions) { [:star, :unstar] }
+        let(:permissions) { %i(star unstar) }
         before do
           allow(query)
             .to receive(:starred)
@@ -451,206 +451,226 @@ describe ::API::V3::Queries::QueryRepresenter do
       end
     end
 
-    it 'should show an id' do
-      is_expected.to be_json_eql(query.id).at_path('id')
-    end
-
-    it 'should show the query name' do
-      is_expected.to be_json_eql(query.name.to_json).at_path('name')
-    end
-
-    it 'should indicate whether sums are shown' do
-      is_expected.to be_json_eql(query.display_sums.to_json).at_path('sums')
-    end
-
-    it 'should indicate whether timeline is shown' do
-      is_expected.to be_json_eql(query.timeline_visible.to_json).at_path('timelineVisible')
-    end
-
-    it 'should show the current zoom level' do
-      is_expected.to be_json_eql(query.timeline_zoom_level.to_json).at_path('timelineZoomLevel')
-    end
-
-    it 'should indicate whether hierarchy is shown' do
-      is_expected.to be_json_eql(query.show_hierarchies.to_json).at_path('showHierarchies')
-    end
-
-    it 'should indicate whether the query is publicly visible' do
-      is_expected.to be_json_eql(query.is_public.to_json).at_path('public')
-    end
-
-    describe 'with filters' do
-      let(:query) do
-        query = FactoryGirl.build_stubbed(:query)
-        query.add_filter('status_id', '=', [filter_status.id.to_s])
-        allow(query.filters.last)
-          .to receive(:value_objects)
-          .and_return([filter_status])
-        query.add_filter('assigned_to_id', '!', [filter_user.id.to_s])
-        allow(query.filters.last)
-          .to receive(:value_objects)
-          .and_return([filter_user])
-        query
+    context 'properties' do
+      it 'should show an id' do
+        is_expected.to be_json_eql(query.id).at_path('id')
       end
 
-      let(:filter_status) { FactoryGirl.build_stubbed(:status) }
-      let(:filter_user) { FactoryGirl.build_stubbed(:user) }
-
-      it 'should render the filters' do
-        expected_status = {
-          "_type": "StatusQueryFilter",
-          "name": "Status",
-          "_links": {
-            "filter": {
-              "href": "/api/v3/queries/filters/status",
-              "title": "Status"
-            },
-            "operator": {
-              "href": api_v3_paths.query_operator(CGI.escape('=')),
-              "title": "is"
-            },
-            "values": [
-              {
-                "href": api_v3_paths.status(filter_status.id),
-                "title": filter_status.name
-              }
-            ],
-            "schema": {
-              "href": api_v3_paths.query_filter_instance_schema('status')
-            }
-          }
-        }
-        expected_assignee = {
-          "_type": "AssigneeQueryFilter",
-          "name": "Assignee",
-          "_links": {
-            "filter": {
-              "href": "/api/v3/queries/filters/assignee",
-              "title": "Assignee"
-            },
-            "operator": {
-              "href": api_v3_paths.query_operator(CGI.escape('!')),
-              "title": "is not"
-            },
-            "values": [
-              {
-                "href": api_v3_paths.user(filter_user.id),
-                "title": filter_user.name
-              }
-            ],
-            "schema": {
-              "href": api_v3_paths.query_filter_instance_schema('assignee')
-            }
-          }
-        }
-
-        expected = [expected_status, expected_assignee]
-
-        is_expected.to be_json_eql(expected.to_json).at_path('filters')
-      end
-    end
-
-    describe 'with sort criteria' do
-      let(:query) do
-        FactoryGirl.build_stubbed(:query,
-                                  sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
+      it 'should show the query name' do
+        is_expected.to be_json_eql(query.name.to_json).at_path('name')
       end
 
-      it 'has the sort criteria embedded' do
-        is_expected
-          .to be_json_eql('/api/v3/queries/sort_bys/subject-asc'.to_json)
-          .at_path('_embedded/sortBy/0/_links/self/href')
-
-        is_expected
-          .to be_json_eql('/api/v3/queries/sort_bys/assignee-desc'.to_json)
-          .at_path('_embedded/sortBy/1/_links/self/href')
-      end
-    end
-
-    describe 'with columns' do
-      let(:query) do
-        query = FactoryGirl.build_stubbed(:query, project: project)
-
-        query.column_names = ['status', 'assigned_to', 'updated_at']
-
-        query
+      it 'should indicate whether sums are shown' do
+        is_expected.to be_json_eql(query.display_sums.to_json).at_path('sums')
       end
 
-      it 'has the columns embedded' do
-        is_expected
-          .to be_json_eql('/api/v3/queries/columns/status'.to_json)
-          .at_path('_embedded/columns/0/_links/self/href')
+      it 'should indicate whether timeline is shown' do
+        is_expected.to be_json_eql(query.timeline_visible.to_json).at_path('timelineVisible')
       end
 
-      context 'when not embedding' do
-        let(:representer) do
-          described_class.new(query, current_user: user, embed_links: false)
+      it 'should show the current zoom level' do
+        is_expected.to be_json_eql(query.timeline_zoom_level.to_json).at_path('timelineZoomLevel')
+      end
+
+      it 'should show the default timelineLabels' do
+        is_expected.to be_json_eql(query.timeline_labels.to_json).at_path('timelineLabels')
+      end
+
+      it 'should indicate whether the query is publicly visible' do
+        is_expected.to be_json_eql(query.is_public.to_json).at_path('public')
+      end
+
+      context 'showHierarchies' do
+        it 'is true if query.show_hierarchies is true' do
+          query.show_hierarchies = true
+
+          is_expected.to be_json_eql(true.to_json).at_path('showHierarchies')
         end
 
-        it 'has no columns embedded' do
-          is_expected
-            .not_to have_json_path('_embedded/columns')
-        end
-      end
-    end
-
-    describe 'with group by' do
-      let(:query) do
-        query = FactoryGirl.build_stubbed(:query, project: project)
-
-        query.group_by = 'status'
-
-        query
-      end
-
-      it 'has the group by embedded' do
-        is_expected
-          .to be_json_eql('/api/v3/queries/group_bys/status'.to_json)
-          .at_path('_embedded/groupBy/_links/self/href')
-      end
-
-      context 'when not embedding' do
-        let(:representer) do
-          described_class.new(query, current_user: user, embed_links: false)
-        end
-
-        it 'has no group bys embedded' do
-          is_expected
-            .not_to have_json_path('_embedded/groupBy')
-        end
-      end
-    end
-
-    describe 'when timeline is visible' do
-      let(:query) do
-        FactoryGirl.build_stubbed(:query, project: project).tap do |query|
-          query.timeline_visible = true
-        end
-      end
-      it do
-        is_expected.to be_json_eql('true').at_path('timelineVisible')
-      end
-    end
-
-    describe 'when timeline zoom level is changed' do
-      let(:query) do
-        FactoryGirl.build_stubbed(:query, project: project).tap do |query|
-          query.timeline_zoom_level = :weeks
-        end
-      end
-      it do
-        is_expected.to be_json_eql('weeks'.to_json).at_path('timelineZoomLevel')
-      end
-    end
-
-    describe 'when hierarchies are disabled' do
-      let(:query) do
-        FactoryGirl.build_stubbed(:query, project: project).tap do |query|
+        it 'is false if query.show_hierarchies is false' do
           query.show_hierarchies = false
+
+          is_expected.to be_json_eql(false.to_json).at_path('showHierarchies')
         end
       end
-      it do
-        is_expected.to be_json_eql('false').at_path('showHierarchies')
+
+      describe 'with filters' do
+        let(:query) do
+          query = FactoryGirl.build_stubbed(:query)
+          query.add_filter('status_id', '=', [filter_status.id.to_s])
+          allow(query.filters.last)
+            .to receive(:value_objects)
+            .and_return([filter_status])
+          query.add_filter('assigned_to_id', '!', [filter_user.id.to_s])
+          allow(query.filters.last)
+            .to receive(:value_objects)
+            .and_return([filter_user])
+          query
+        end
+
+        let(:filter_status) { FactoryGirl.build_stubbed(:status) }
+        let(:filter_user) { FactoryGirl.build_stubbed(:user) }
+
+        it 'should render the filters' do
+          expected_status = {
+            "_type": "StatusQueryFilter",
+            "name": "Status",
+            "_links": {
+              "filter": {
+                "href": "/api/v3/queries/filters/status",
+                "title": "Status"
+              },
+              "operator": {
+                "href": api_v3_paths.query_operator(CGI.escape('=')),
+                "title": "is"
+              },
+              "values": [
+                {
+                  "href": api_v3_paths.status(filter_status.id),
+                  "title": filter_status.name
+                }
+              ],
+              "schema": {
+                "href": api_v3_paths.query_filter_instance_schema('status')
+              }
+            }
+          }
+          expected_assignee = {
+            "_type": "AssigneeQueryFilter",
+            "name": "Assignee",
+            "_links": {
+              "filter": {
+                "href": "/api/v3/queries/filters/assignee",
+                "title": "Assignee"
+              },
+              "operator": {
+                "href": api_v3_paths.query_operator(CGI.escape('!')),
+                "title": "is not"
+              },
+              "values": [
+                {
+                  "href": api_v3_paths.user(filter_user.id),
+                  "title": filter_user.name
+                }
+              ],
+              "schema": {
+                "href": api_v3_paths.query_filter_instance_schema('assignee')
+              }
+            }
+          }
+
+          expected = [expected_status, expected_assignee]
+
+          is_expected.to be_json_eql(expected.to_json).at_path('filters')
+        end
+      end
+
+      describe 'with sort criteria' do
+        let(:query) do
+          FactoryGirl.build_stubbed(:query,
+                                    sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
+        end
+
+        it 'has the sort criteria embedded' do
+          is_expected
+            .to be_json_eql('/api/v3/queries/sort_bys/subject-asc'.to_json)
+            .at_path('_embedded/sortBy/0/_links/self/href')
+
+          is_expected
+            .to be_json_eql('/api/v3/queries/sort_bys/assignee-desc'.to_json)
+            .at_path('_embedded/sortBy/1/_links/self/href')
+        end
+      end
+
+      describe 'with columns' do
+        let(:query) do
+          query = FactoryGirl.build_stubbed(:query, project: project)
+
+          query.column_names = ['status', 'assigned_to', 'updated_at']
+
+          query
+        end
+
+        it 'has the columns embedded' do
+          is_expected
+            .to be_json_eql('/api/v3/queries/columns/status'.to_json)
+            .at_path('_embedded/columns/0/_links/self/href')
+        end
+
+        context 'when not embedding' do
+          let(:representer) do
+            described_class.new(query, current_user: user, embed_links: false)
+          end
+
+          it 'has no columns embedded' do
+            is_expected
+              .not_to have_json_path('_embedded/columns')
+          end
+        end
+      end
+
+      describe 'with group by' do
+        let(:query) do
+          query = FactoryGirl.build_stubbed(:query, project: project)
+
+          query.group_by = 'status'
+
+          query
+        end
+
+        it 'has the group by embedded' do
+          is_expected
+            .to be_json_eql('/api/v3/queries/group_bys/status'.to_json)
+            .at_path('_embedded/groupBy/_links/self/href')
+        end
+
+        context 'when not embedding' do
+          let(:representer) do
+            described_class.new(query, current_user: user, embed_links: false)
+          end
+
+          it 'has no group bys embedded' do
+            is_expected
+              .not_to have_json_path('_embedded/groupBy')
+          end
+        end
+      end
+
+      describe 'when timeline is visible' do
+        let(:query) do
+          FactoryGirl.build_stubbed(:query, project: project).tap do |query|
+            query.timeline_visible = true
+          end
+        end
+        it do
+          is_expected.to be_json_eql('true').at_path('timelineVisible')
+        end
+      end
+
+      describe 'when labels are overridden' do
+        let(:query) do
+          FactoryGirl.build_stubbed(:query, project: project).tap do |query|
+            query.timeline_labels = expected
+          end
+        end
+        let(:expected) do
+          { 'left' => 'assignee', 'right' => 'status', 'farRight' => 'type' }
+        end
+
+        it do
+          is_expected.to be_json_eql(expected.to_json).at_path('timelineLabels')
+        end
+      end
+
+      describe 'when timeline zoom level is changed' do
+        let(:query) do
+          FactoryGirl.build_stubbed(:query, project: project).tap do |query|
+            query.timeline_zoom_level = :weeks
+          end
+        end
+        it do
+          is_expected.to be_json_eql('weeks'.to_json).at_path('timelineZoomLevel')
+        end
       end
     end
 

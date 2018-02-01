@@ -79,13 +79,13 @@ describe MembersController, type: :controller do
     let(:project_2) { FactoryGirl.create(:project) }
     let(:role_1) { FactoryGirl.create(:role) }
     let(:role_2) { FactoryGirl.create(:role) }
-    let(:member_2) {
+    let(:member_2) do
       FactoryGirl.create(
         :member,
         project: project_2,
         user: admin,
         roles: [role_1])
-    }
+    end
 
     before do
       allow(User).to receive(:current).and_return(admin)
@@ -107,7 +107,7 @@ describe MembersController, type: :controller do
   end
 
   describe '#autocomplete_for_member' do
-    let(:params) { ActionController::Parameters.new('project_id' => project.identifier.to_s) }
+    let(:params) { { 'project_id' => project.identifier.to_s } }
 
     before do
       login_as(user)
@@ -152,7 +152,7 @@ describe MembersController, type: :controller do
 
         it 'should add a member' do
           expect { action }.to change { Member.count }.by(1)
-          expect(response).to redirect_to '/projects/pet_project/members'
+          expect(response).to redirect_to '/projects/pet_project/members?status=all'
           expect(user2).to be_member_of(project)
         end
       end
@@ -168,7 +168,7 @@ describe MembersController, type: :controller do
 
         it 'should add all members' do
           expect { action }.to change { Member.count }.by(3)
-          expect(response).to redirect_to '/projects/pet_project/members'
+          expect(response).to redirect_to '/projects/pet_project/members?status=all'
           expect(user2).to be_member_of(project)
           expect(user3).to be_member_of(project)
           expect(user4).to be_member_of(project)
@@ -177,11 +177,11 @@ describe MembersController, type: :controller do
     end
 
     context 'with a failed save' do
-      let(:invalid_params) {
+      let(:invalid_params) do
         { project_id: project.id,
           member: { role_ids: [],
                     user_ids: [user2.id, user3.id, user4.id] } }
-      }
+      end
 
       before do
         post :create, params: invalid_params

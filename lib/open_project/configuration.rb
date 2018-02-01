@@ -46,6 +46,7 @@ module OpenProject
       'force_help_link'         => nil,
       'scm_git_command'         => nil,
       'scm_subversion_command'  => nil,
+      'scm_local_checkout_path' => 'repositories', # relative to OpenProject directory
       'disable_browser_cache'   => true,
       # default cache_store is :file_store in production and :memory_store in development
       'rails_cache_store'       => nil,
@@ -65,6 +66,9 @@ module OpenProject
       'rails_force_ssl' => false,
       'rails_asset_host' => nil,
 
+      # user configuration
+      'default_comment_sort_order' => 'asc',
+
       # email configuration
       'email_delivery_configuration' => 'inapp',
       'email_delivery_method' => nil,
@@ -80,6 +84,7 @@ module OpenProject
       'sendmail_arguments' => '-i',
 
       'disable_password_login' => false,
+      'auth_source_sso' => nil,
       'omniauth_direct_login_provider' => nil,
       'internal_password_confirmation' => true,
 
@@ -90,7 +95,6 @@ module OpenProject
       'hidden_menu_items' => {},
       'blacklisted_routes' => [],
 
-      'apiv2_enable_basic_auth' => true,
       'apiv3_enable_basic_auth' => true,
 
       'onboarding_video_url' => 'https://player.vimeo.com/video/163426858?autoplay=1',
@@ -105,6 +109,9 @@ module OpenProject
       'health_checks_jobs_queue_count_threshold' => 50,
       # Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
       'health_checks_jobs_never_ran_minutes_ago' => 5,
+
+      'after_login_default_redirect_url' => nil,
+      'after_first_login_redirect_url' => nil
     }
 
     @config = nil
@@ -128,7 +135,7 @@ module OpenProject
 
         define_config_methods
 
-        @config
+        @config = @config.with_indifferent_access
       end
 
       # Replace config values for which an environment variable with the same key in upper case
@@ -344,10 +351,10 @@ module OpenProject
       def load_config_from_file(filename, env, config)
         if File.file?(filename)
           file_config = YAML::load(ERB.new(File.read(filename)).result)
-          unless file_config.is_a? Hash
-            warn "#{filename} is not a valid OpenProject configuration file, ignoring."
-          else
+          if file_config.is_a? Hash
             config.merge!(load_env_from_config(file_config, env))
+          else
+            warn "#{filename} is not a valid OpenProject configuration file, ignoring."
           end
         end
       end

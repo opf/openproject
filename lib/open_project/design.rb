@@ -57,7 +57,7 @@ module OpenProject
       'h4-font-size'                                         => "calc($h3-font-size * 0.75)",
       'h4-font-color'                                        => "$body-font-color",
       'header-height'                                        => "55px",
-      'header-height-mobile'                                 => "45px",
+      'header-height-mobile'                                 => "55px",
       'header-bg-color'                                      => "$primary-color",
       'header-home-link-bg'                                  => '#{image-url("logo_openproject_white_big.png") no-repeat 20px 0}',
       'header-border-bottom-color'                           => "$primary-color",
@@ -92,8 +92,8 @@ module OpenProject
       'main-menu-item-border-width'                          => "1px",
       'main-menu-enable-toggle-highlighting'                 => "false",
       'main-menu-bg-color'                                   => "#F8F8F8",
-      'main-menu-bg-selected-background'                     => "rgba(0, 0, 0, 0.15)",
-      'main-menu-bg-hover-background'                        => "rgba(0, 0, 0, 0.075)",
+      'main-menu-bg-selected-background'                     => "rgba(0, 0, 0, 0.06)",
+      'main-menu-bg-hover-background'                        => "rgba(0, 0, 0, 0.03)",
       'main-menu-font-color'                                 => "#333333",
       'main-menu-hover-font-color'                           => "$main-menu-font-color",
       'main-menu-selected-font-color'                        => "$content-link-color",
@@ -188,7 +188,8 @@ module OpenProject
       'relations-save-button--disabled-color'                => "$gray-dark",
       'table-row-border-color'                               => "#E7E7E7",
       'table-row-highlighting-color'                         => "#e4f7fb",
-      'table-row-additional-row-color'                       => '#dcebf4',
+      'table-row-relations-row-background-color'             => "rgba(220,235,244, 0.6)",
+      'table-row-hierarchies-row-font-color'                 => "#6C7A89",
       'table-header-border-color'                            => "#D7D7D7",
       'table-header-shadow-color'                            => "#DDDDDD",
       'loading-indicator-bg-color'                           => "$body-background",
@@ -215,8 +216,13 @@ module OpenProject
       'timeline--header-border-color'                        => '#aaaaaa',
       'timeline--grid-color'                                 => '#dddddd',
       'timeline--separator'                                  => '3px solid #E7E7E7',
-      'table-timeline--row-height'                           => '41px'
+      'table-timeline--row-height'                           => '41px',
+      'status-selector-bg-color'                             => '#F99601',
+      'status-selector-bg-hover-color'                       => '#E08600'
     }.freeze
+
+    # Regular expression for references of other variables.
+    VARIABLE_NAME_RGX = /\$([\w-]+)/
 
     ##
     # Returns the name of the color scheme.
@@ -244,6 +250,21 @@ module OpenProject
     # To be used in the sass variable definition file
     def self.variables
       DEFAULTS
+    end
+
+    ##
+    # Return the value after resolving all variables to values.
+    def self.resolved_variables
+      resolved_variables = DEFAULTS.dup
+
+      DEFAULTS.each do |var_name, value|
+        resolved_variables[var_name] = resolve_value(value)
+      end
+      resolved_variables
+    end
+
+    def self.resolve_value(variable_value)
+      variable_value.gsub(VARIABLE_NAME_RGX) { resolve_value(DEFAULTS[$1]) }
     end
 
     ##

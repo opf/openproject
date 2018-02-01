@@ -208,6 +208,10 @@ default:
   # possible values are :cookie_store, :cache_store, :active_record_store
   session_store: :cache_store
 
+  # Default comment sorting for new users
+  # Note, does not change saved preferences of existing users
+  # default_comment_sort_order: 'asc'
+
   # If the session store is :active_record_store, the following configuration settings
   # are available
 
@@ -336,13 +340,13 @@ default:
   #     password: admin
 
 
-  # By default, the legacy APIv2 allows authentication through basic auth.
-  # Uncomment the following line to restrict APIv2 access to API tokens
-  # apiv2_enable_basic_auth: false
-
   # By default, the APIv3 allows authentication through basic auth.
   # Uncomment the following line to restrict APIv3 access to session.
   # apiv3_enable_basic_auth: false
+
+  # You can configure where users should be sent after the login
+  # after_login_default_redirect_url: '/my/page'
+  # after_first_login_redirect_url: '/projects/demo'
 
 
 # specific configuration options for production environment

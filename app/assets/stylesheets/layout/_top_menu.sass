@@ -56,16 +56,18 @@
 
   ::-webkit-input-placeholder
     color: $header-search-field-font-color
-  :-moz-placeholder
+  ::-moz-placeholder
     color: $header-search-field-font-color
-  ul
+  .menu_root
     margin: 0
     padding: 0
     float: left
     height: $header-height
     border-top: 0
     position: relative
-  li
+  li.drop-down,
+  li.help-menu--overridden-link,
+  .accessibility-mode & #account-nav-left li
     float: left
     list-style-type: none
     white-space: nowrap
@@ -78,47 +80,27 @@
       zoom: 1
       @include varprop(color, header-item-font-color)
       @include varprop(font-size, header-item-font-size)
-      font-weight: normal
       text-decoration: none
-      padding: 0 15px 0 15px
+      padding: 0 15px
 
     > a:hover
       @include varprop(background, header-item-bg-hover-color)
       @include varprop(color, header-item-font-hover-color)
 
     > ul
-      top: $header-height + $header-border-bottom-width
-      display: none
-      position: absolute
-      height: auto
       min-width: 270px
-      left: -1px
-      z-index: 20
+      padding: 6px 0
       border: 2px solid $header-drop-down-border-color
       border-top: 0
       background-color: $header-drop-down-bg-color
       li
         float: none
-        white-space: nowrap
-        a
-          height: 32px
-          line-height: 32px
-          font-size: 1rem
-  li.open > a
-    position: relative
-    top: 0
-    z-index: 21
+    > ul.drop-down--projects
+      width: 400px
+      left: 0
+      box-shadow: none
 
   li.drop-down
-    select
-      width: 100%
-
-    .button--dropdown-indicator
-      &:before
-        @include icon-font-common
-        font-size: 10px
-        padding: 0 0 0 9px
-        @extend .icon-pulldown:before
     &:hover
       @include varprop(background-color, header-item-bg-hover-color)
       > a
@@ -135,18 +117,14 @@
 
       .button--dropdown-indicator
         &:before
-          @extend .icon-pulldown-up:before
+          @include icon-mixin-pulldown-up
 
     li
       > a
         color: $header-drop-down-item-font-color
-        padding: 0 15px
         &:hover
           @include varprop(background, drop-down-hover-bg-color)
           @include varprop(color, drop-down-hover-font-color)
-
-    > ul
-      padding: 6px 0
 
   li.last-child > ul,
   .drop-down--help,
@@ -256,50 +234,6 @@ input.top-menu-search--input
   padding-top: 0
   .top-menu-items-right
     float: right
-#top-menu.open
-  z-index: 5
-
-#select2-drop.project-search-results
-  margin: 0 0 0 -2px
-  border: 2px solid $header-drop-down-border-color
-  border-top: 0
-  @include default-font($header-drop-down-projects-search-font-color, 13px)
-  li
-    padding: 0 10px
-    font-size: 15px
-
-  .select2-search
-    margin: 1px 0 0 0
-    color: #b3b3b3
-    border-top: 1px solid #D9D9D9
-    border-bottom: 1px solid #D9D9D9
-
-    &:before
-      color: #b3b3b3
-      top: 21px
-      right: 25px
-      font-size: 14px
-
-  .select2-search input.select2-input
-    margin: 12px 10px
-    padding: 0px 32px 0px 10px
-    border: 1px solid #D9D9D9
-    box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.1)
-    width: 92%
-    background: $header-drop-down-projects-search-input-bg-color
-
-  .select2-results
-    margin: 6px 0
-    padding: 0
-
-    .select2-highlighted
-      @include varprop(background, drop-down-selected-bg-color, !important)
-      border-radius: 0 !important
-      font-weight: normal !important
-      @include varprop(color, drop-down-selected-font-color)
-      &:hover
-        @include varprop(background, drop-down-hover-bg-color, !important)
-        @include varprop(color, drop-down-hover-font-color, !important)
 
 #header
   min-width: 840px
@@ -317,7 +251,8 @@ input.top-menu-search--input
 
 #account-nav-left
   .drop-down
-    max-width: 230px
+    // Half viewport width minus half logo.
+    max-width: calc((100vW/2) - 115px)
 
   #projects-menu
     padding-right: 34px
@@ -325,7 +260,8 @@ input.top-menu-search--input
 
     .button--dropdown-text
       float: left
-      max-width: 180px // 230px from sidebar minus margins
+      // Half viewport width minus half logo minus margins.
+      max-width: calc((100vW/2) - 115px - 50px)
       text-overflow: ellipsis
       overflow: hidden
 
@@ -337,7 +273,7 @@ input.top-menu-search--input
 #account-nav-right
   .drop-down.last-child
     .avatar
-      // To accommodate the padding of the help icon which exisits because of the circle
+      // To accommodate the padding of the help icon which exists because of the circle
       margin-top: -5px
   .icon-help:before
     border-width: 2px

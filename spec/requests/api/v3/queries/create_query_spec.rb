@@ -97,17 +97,16 @@ describe "POST /api/v3/queries", type: :request do
 
   describe "creating a query" do
     before do
-      post "/api/v3/queries",
-           params: params.to_json,
-           headers: { "Content-Type": "application/json" }
+      header "Content-Type",  "application/json"
+      post "/api/v3/queries", params.to_json
     end
 
     it 'should return 201 (created)' do
-      expect(response.status).to eq(201)
+      expect(last_response.status).to eq(201)
     end
 
     it 'should render the created query' do
-      json = JSON.parse(response.body)
+      json = JSON.parse(last_response.body)
 
       expect(json["_type"]).to eq "Query"
       expect(json["name"]).to eq "Dummy Query"
@@ -133,13 +132,12 @@ describe "POST /api/v3/queries", type: :request do
 
   context "with invalid parameters" do
     def post!
-      post "/api/v3/queries",
-           params: params.to_json,
-           headers: { "Content-Type": "application/json" }
+      header "Content-Type",  "application/json"
+      post "/api/v3/queries", params.to_json
     end
 
     def json
-      JSON.parse response.body
+      JSON.parse last_response.body
     end
 
     it "yields a 422 error given an unknown project" do
@@ -147,7 +145,7 @@ describe "POST /api/v3/queries", type: :request do
 
       post!
 
-      expect(response.status).to eq 422
+      expect(last_response.status).to eq 422
       expect(json["message"]).to eq "Project not found"
     end
 
@@ -156,8 +154,8 @@ describe "POST /api/v3/queries", type: :request do
 
       post!
 
-      expect(response.status).to eq 422
-      expect(json["message"]).to eq "Status Operator is not included in the list"
+      expect(last_response.status).to eq 422
+      expect(json["message"]).to eq "Status Operator is not set to one of the allowed values."
     end
 
     it "yields a 422 error given an unknown filter" do
@@ -165,7 +163,7 @@ describe "POST /api/v3/queries", type: :request do
 
       post!
 
-      expect(response.status).to eq 422
+      expect(last_response.status).to eq 422
       expect(json["message"]).to eq "Statuz does not exist."
     end
   end

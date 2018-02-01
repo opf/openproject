@@ -38,18 +38,23 @@ export class ProgressDisplayField extends DisplayField {
     }
   }
 
-  public render(element:HTMLElement, displayText:string): void {
-    const progressInPercent = Math.round(Number(this.value)) || 0;
-    const label = this.I18n.t('js.label_total_progress', { percent: progressInPercent });
+  public get percentLabel() {
+    return this.roundedProgress + '%';
+  }
 
+  public get roundedProgress() {
+    return Math.round(Number(this.value)) || 0;
+  }
+
+  public render(element:HTMLElement, displayText:string): void {
     element.setAttribute('title', displayText);
     element.innerHTML = `
       <span>
         <span style="width: 80px" class="progress-bar">
-          <span style="width: ${progressInPercent}%" class="inner-progress closed"></span>
+          <span style="width: ${this.roundedProgress}%" class="inner-progress closed"></span>
           <span style="width: 0%" class="inner-progress done"></span>
         </span>
-        <span class="progress-bar-legend">${label}</span>
+        <span class="progress-bar-legend">${this.percentLabel}</span>
       </span>
     `;
   }

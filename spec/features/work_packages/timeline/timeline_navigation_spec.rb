@@ -31,6 +31,7 @@ require 'spec_helper'
 RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
+  let(:query_menu) { Components::WorkPackages::QueryMenu.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
 
@@ -44,6 +45,71 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
   before do
     work_package
     login_as(user)
+  end
+
+  describe 'with multiple queries' do
+    let(:type) { FactoryGirl.create :type }
+    let(:type2) { FactoryGirl.create :type }
+    let(:project) { FactoryGirl.create(:project, types: [type, type2]) }
+
+    let!(:work_package) do
+      FactoryGirl.create :work_package,
+                         project: project,
+                         type: type
+    end
+
+    let!(:work_package2) do
+      FactoryGirl.create :work_package,
+                         project: project,
+                         type: type2
+    end
+
+
+    let!(:query) do
+      query              = FactoryGirl.build(:query, user: user, project: project)
+      query.column_names = ['id', 'type', 'subject']
+      query.filters.clear
+      query.timeline_visible = false
+      query.add_filter('type_id', '=', [type.id])
+      query.name = 'Query without Timeline'
+
+      query.save!
+      query
+    end
+
+    let!(:query_tl) do
+      query              = FactoryGirl.build(:query, user: user, project: project)
+      query.column_names = ['id', 'type', 'subject']
+      query.filters.clear
+      query.add_filter('type_id', '=', [type2.id])
+      query.timeline_visible = true
+      query.name = 'Query with Timeline'
+
+      query.save!
+      query
+    end
+
+    it 'can move from and to the timeline query (Regression test #26086)' do
+      # Visit timeline query
+      wp_timeline.visit_query query_tl
+
+      wp_timeline.expect_timeline!(open: true)
+      wp_timeline.expect_work_package_listed work_package2
+      wp_timeline.expect_work_package_not_listed work_package
+
+      # Select other query
+      query_menu.select query
+      wp_timeline.expect_timeline!(open: false)
+      wp_timeline.expect_work_package_listed work_package
+      wp_timeline.expect_work_package_not_listed work_package2
+
+      # Select first query again
+      query_menu.select query_tl
+
+      wp_timeline.expect_timeline!(open: true)
+      wp_timeline.expect_work_package_listed work_package2
+      wp_timeline.expect_work_package_not_listed work_package
+    end
   end
 
   it 'can save the open state and zoom of timeline' do
@@ -80,9 +146,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
     wp_timeline.expect_timeline_element(work_package)
 
     # Expect zoom at days
-    wp_timeline.expect_zoom_at :weeks
-    wp_timeline.zoom_in
-    wp_timeline.expect_zoom_at :days
+    expect(page).to have_selector('#work-packages-timeline-zoom-auto-button.-disabled')
   end
 
   describe 'with a hierarchy being shown' do
@@ -156,7 +220,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
     let!(:query) do
       query              = FactoryGirl.build(:query, user: user, project: project)
-      query.column_names = ['subject', 'category']
+      query.column_names = ['id', 'subject', 'category']
       query.show_hierarchies = false
       query.timeline_visible = true
 
@@ -168,7 +232,6 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(wp_cat1, wp_cat2, wp_none)
 
-      # Group by category
       wp_table.click_setting_item 'Group by ...'
       select 'Category', from: 'selected_columns_new'
       click_button 'Apply'
@@ -179,8 +242,9 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       # Expect timeline to have relation between first and second group
       wp_timeline.expect_timeline_relation(wp_cat1, wp_cat2)
 
-      # Collapse first section
-      find('#wp-table-rowgroup-0').click
+      # Collapse Foo section
+      header = find('.wp-table--group-header', text: 'Foo (1)')
+      header.find('.expander').click
       wp_timeline.expect_work_package_not_listed(wp_cat1)
 
       # Relation should be hidden

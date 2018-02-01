@@ -52,7 +52,9 @@ function ColumnsModalController(this:any,
     selectedColumns: I18n.t('js.description_selected_columns'),
     multiSelectLabel: I18n.t('js.work_packages.label_column_multiselect'),
     applyButton: I18n.t('js.modals.button_apply'),
-    cancelButton: I18n.t('js.modals.button_cancel')
+    cancelButton: I18n.t('js.modals.button_cancel'),
+    upsaleRelationColumns: I18n.t('js.modals.upsale_relation_columns'),
+    upsaleRelationColumnsLink: I18n.t('js.modals.upsale_relation_columns_link')
   };
 
   vm.availableColumns = wpTableColumns.all;
@@ -61,6 +63,8 @@ function ColumnsModalController(this:any,
 
   vm.impaired = ConfigurationService.accessibilityModeEnabled();
   vm.selectedColumnMap = {};
+
+  vm.eeShowBanners = angular.element('body').hasClass('ee-banners-visible');
 
   if (vm.impaired) {
     vm.selectedColumns.forEach((column:QueryColumn) => {

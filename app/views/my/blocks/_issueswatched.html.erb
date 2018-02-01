@@ -27,9 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% watched = WorkPackage.visible.open.on_active_project.watched_by(user.id).recently_updated.with_limit(10) %>
+<% watched = WorkPackage.visible.with_status_open.on_active_project.watched_by(user.id).recently_updated.with_limit(10) %>
 
-<% watched_count = WorkPackage.visible.open.watched_by(user.id).count %>
+<% watched_count = WorkPackage.visible.with_status_open.watched_by(user.id).count %>
 
 <% if defined? block_name %>
   <%= content_for "#{block_name}-remove-block" %>
@@ -50,6 +50,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="generic-table--action-buttons">
     <%= link_to l(:label_work_package_view_all_watched),
                 work_packages_watched_path,
-                class: 'button -highlight' %>
+                class: 'button -highlight-inverted' %>
   </div>
 <% end %>

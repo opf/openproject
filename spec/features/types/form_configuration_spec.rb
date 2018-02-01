@@ -70,27 +70,11 @@ describe 'form configuration', type: :feature, js: true do
     page.find("#{attribute_selector(attribute)} .attribute-handle")
   end
 
-  def set_visibility(attribute, checked:)
-    attribute = page.find(attribute_selector(attribute))
-    checkbox = attribute.find('input[type=checkbox]')
-    checkbox.set checked
-  end
-
-  def expect_attribute(key:, checked: nil, translation: nil, required: nil)
+  def expect_attribute(key:, translation: nil)
     attribute = page.find(attribute_selector(key))
 
     unless translation.nil?
       expect(attribute).to have_selector('.attribute-name', text: translation)
-    end
-
-    unless required.nil?
-      expect(attribute).to have_no_selector('input[type=checkbox]')
-      expect(attribute).to have_selector('.visibility-check span', text: I18n.t(:label_always_visible))
-    end
-
-    unless checked.nil?
-      checkbox = attribute.find('input[type=checkbox]')
-      expect(checkbox.checked?).to eq(checked)
     end
   end
 
@@ -110,14 +94,18 @@ describe 'form configuration', type: :feature, js: true do
     target = group.find('.attributes')
 
     scroll_to_element(group)
-    page.driver.browser
+    page
+      .driver
+      .browser
       .action
       .move_to(handle.native)
       .click_and_hold(handle.native)
       .perform
 
     scroll_to_element(group)
-    page.driver.browser
+    page
+      .driver
+      .browser
       .action
       .move_to(target.native)
       .release
@@ -164,8 +152,8 @@ describe 'form configuration', type: :feature, js: true do
 
   describe "with EE token" do
     before do
+      allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
       allow(EnterpriseToken).to receive(:allows_to?).with(:edit_attribute_groups).and_return(true)
-      allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
     end
 
     describe 'default configuration' do
@@ -177,8 +165,7 @@ describe 'form configuration', type: :feature, js: true do
 
       it 'resets the form properly after changes' do
         rename_group('Details', 'Whatever')
-        set_visibility(:assignee, checked: true)
-        expect_attribute(key: :assignee, checked: true)
+        expect_attribute(key: :assignee)
 
         # Reset and cancel
         reset_button.click
@@ -186,14 +173,22 @@ describe 'form configuration', type: :feature, js: true do
         dialog.cancel
         expect(page).to have_selector(group_selector('Whatever'))
 
+        # Click the dialog again after some time
+        # Otherwise this may cause issues due to the animation,
+        # which is why sleep is okay.
+        sleep 1
+
         # Reset and confirm
         reset_button.click
         dialog.expect_open
         dialog.confirm
 
+        # Wait for page reload
+        sleep 1
+
         expect(page).to have_no_selector(group_selector('Whatever'))
         expect_group('details', 'Details')
-        expect_attribute(key: :assignee, checked: false)
+        expect_attribute(key: :assignee)
       end
 
       it 'detects errors for duplicate group names' do
@@ -209,20 +204,20 @@ describe 'form configuration', type: :feature, js: true do
         #
         expect_group 'people',
                      'People',
-                     { key: :responsible, checked: false, translation: 'Responsible' }
+                     key: :responsible, translation: 'Responsible'
 
         expect_group 'estimates_and_time',
                      'Estimates and time',
-                     { key: :estimated_time, checked: false, translation: 'Estimated time' },
-                     { key: :spent_time, checked: false, translation: 'Spent time' }
+                     { key: :estimated_time, translation: 'Estimated time' },
+                     { key: :spent_time, translation: 'Spent time' }
 
         expect_group 'details',
                      'Details',
-                     { key: :category, checked: false, translation: 'Category' },
-                     { key: :date, checked: false, translation: 'Date' },
-                     { key: :percentage_done, checked: false, translation: 'Progress (%)' },
-                     { key: :priority, checked: false, translation: 'Priority' },
-                     { key: :version, checked: false, translation: 'Version' }
+                     { key: :category, translation: 'Category' },
+                     { key: :date, translation: 'Date' },
+                     { key: :percentage_done, translation: 'Progress (%)' },
+                     { key: :priority, translation: 'Priority' },
+                     { key: :version, translation: 'Version' }
 
         #
         # Modify configuration
@@ -231,10 +226,6 @@ describe 'form configuration', type: :feature, js: true do
         # Disable version
         drag_and_drop(find_attribute_handle(:version), inactive_group)
         expect_inactive(:version)
-
-        # Toggle responsible to be always visible
-        set_visibility(:responsible, checked: true)
-        expect_attribute(key: :responsible, checked: true)
 
         # Rename group
         rename_group('Details', 'Whatever')
@@ -265,22 +256,22 @@ describe 'form configuration', type: :feature, js: true do
 
         expect_group 'Cool Stuff',
                     'Cool Stuff',
-                    { key: :responsible, checked: true, translation: 'Responsible' }
+                    { key: :responsible, translation: 'Responsible' }
 
         expect_group 'estimates_and_time',
                     'Estimates and time',
-                    { key: :estimated_time, checked: false, translation: 'Estimated time' },
-                    { key: :spent_time, checked: false, translation: 'Spent time' }
+                    { key: :estimated_time, translation: 'Estimated time' },
+                    { key: :spent_time, translation: 'Spent time' }
 
 
         expect_group 'Whatever',
                     'Whatever',
-                    { key: :date, checked: false, translation: 'Date' },
-                    { key: :percentage_done, checked: false, translation: 'Progress (%)' }
+                    { key: :date, translation: 'Date' },
+                    { key: :percentage_done, translation: 'Progress (%)' }
 
         expect_group 'New Group',
                     'New Group',
-                    { key: :category, checked: false, translation: 'Category' }
+                    { key: :category, translation: 'Category' }
 
         expect_inactive(:version)
 
@@ -309,21 +300,8 @@ describe 'form configuration', type: :feature, js: true do
         end
 
         # Empty attributes should be shown on toggle
-        expected_attributes = ->() do
-          wp_page.expect_hidden_field(:assignee)
-          wp_page.expect_hidden_field(:estimated_time)
-          wp_page.expect_hidden_field(:spent_time)
-
-          wp_page.expect_group('Cool Stuff') do
-            wp_page.expect_attributes responsible: '-'
-          end
-        end
-
-        # Should match on edit view
-        expected_attributes.call
-
-        # Read values for estimates and time
-        wp_page.view_all_attributes
+        wp_page.expect_hidden_field(:assignee)
+        wp_page.expect_hidden_field(:spent_time)
 
         wp_page.expect_group('Estimates and time') do
           wp_page.expect_attributes estimated_time: '-'
@@ -331,15 +309,12 @@ describe 'form configuration', type: :feature, js: true do
         end
 
         # New work package has the same configuration
+        wp_page.expect_hidden_field(:assignee)
+        wp_page.expect_hidden_field(:spent_time)
         wp_page.click_create_wp_button(type)
-        expected_attributes.call
-
-        # Write values for estimates and time
-        wp_page.view_all_attributes
 
         wp_page.expect_group('Estimates and time') do
           expect(page).to have_selector('.wp-edit-field.estimatedTime')
-          expect(page).to have_selector('.wp-edit-field.spentTime')
         end
 
         find('#work-packages--edit-actions-cancel').click
@@ -362,16 +337,14 @@ describe 'form configuration', type: :feature, js: true do
         visit edit_type_tab_path(id: type.id, tab: "form_configuration")
       end
 
-      it 'shows the field without a checkbox' do
+      it 'shows the field' do
         # Should be initially disabled
         expect_inactive(cf_identifier)
 
         # Add into new group
         add_group('New Group')
         move_to(cf_identifier, 'New Group')
-
-        # Make visible
-        expect_attribute(key: cf_identifier, required: true)
+        expect_attribute(key: cf_identifier)
 
         page.execute_script('jQuery(".form-configuration--save").click()')
         expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
@@ -402,8 +375,7 @@ describe 'form configuration', type: :feature, js: true do
         move_to(cf_identifier, 'New Group')
 
         # Make visible
-        set_visibility(cf_identifier, checked: true)
-        expect_attribute(key: cf_identifier, checked: true)
+        expect_attribute(key: cf_identifier)
 
         page.execute_script('jQuery(".form-configuration--save").click()')
         expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
@@ -416,7 +388,6 @@ describe 'form configuration', type: :feature, js: true do
           wp_page.ensure_page_loaded
 
           # CF should be hidden
-          wp_page.view_all_attributes
           wp_page.expect_no_group('New Group')
           wp_page.expect_attribute_hidden(cf_identifier_api)
 
@@ -473,8 +444,8 @@ describe 'form configuration', type: :feature, js: true do
     let(:dialog) { ::NgConfirmationDialog.new }
 
     it "should disable adding and renaming groups" do
+      allow(EnterpriseToken).to receive(:allows_to?).and_return(true)
       allow(EnterpriseToken).to receive(:allows_to?).with(:edit_attribute_groups).and_return(false)
-      allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(false)
       login_as(admin)
       visit edit_type_tab_path(id: type.id, tab: "form_configuration")
 

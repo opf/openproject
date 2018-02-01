@@ -1,0 +1,102 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% entries = @texts_by_type[tab[:name]] || [] %>
+<% if entries.any? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= AttributeHelpText.human_attribute_name(:attribute_name) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= AttributeHelpText.human_attribute_name(:help_text) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--empty-header"></div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% entries.each do |attribute_help_text| -%>
+            <tr class="attribute-help-text--entry">
+              <td>
+                <%= link_to h(attribute_help_text.attribute_caption),
+                            edit_attribute_help_text_path(attribute_help_text) %>
+              </td>
+              <td>
+                <attribute-help-text
+                  help-text-id="<%= attribute_help_text.id %>"
+                  attribute="'<%= attribute_help_text.attribute_name %>'"
+                  attribute-scope="<%= attribute_help_text.attribute_scope %>"
+                  additional-label="<%= t(:'attribute_help_texts.show_preview') %>">
+                </attribute-help-text>
+              </td>
+              <td class="buttons">
+                <%= delete_link attribute_help_text_path(attribute_help_text) %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% else %>
+  <%= no_results_box %>
+<% end %>
+
+<div class="generic-table--action-buttons">
+  <%= link_to new_attribute_help_text_path(name: tab[:name]),
+              { class: 'attribute-help-texts--create-button button -alt-highlight',
+                aria: {label: t(:'attribute_help_texts.add_new')},
+                title: t(:'attribute_help_texts.add_new')} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('activerecord.models.attribute_help_text') %></span>
+  <% end %>
+</div>

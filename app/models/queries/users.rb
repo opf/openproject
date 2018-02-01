@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -29,9 +30,11 @@
 
 module Queries::Users
   Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::NameFilter
+  Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::AnyNameAttributeFilter
   Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::GroupFilter
   Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::StatusFilter
   Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::LoginFilter
+  Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::BlockedFilter
 
   Queries::Register.order Queries::Users::UserQuery, Queries::Users::Orders::DefaultOrder
   Queries::Register.order Queries::Users::UserQuery, Queries::Users::Orders::NameOrder

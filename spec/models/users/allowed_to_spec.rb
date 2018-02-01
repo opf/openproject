@@ -300,7 +300,7 @@ describe User, 'allowed_to?' do
 
     context 'w/ the user being anonymous
              w/ requesting a controller and action allowed by multiple permissions
-             w/ the project beeing public
+             w/ the project being public
              w/ anonymous being allowed the action' do
       let(:permission) { { controller: 'projects', action: 'settings' } }
 

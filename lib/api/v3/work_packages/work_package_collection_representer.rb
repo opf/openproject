@@ -28,15 +28,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json'
-require 'roar/json/collection'
-require 'roar/json/hal'
-
 module API
   module V3
     module WorkPackages
       class WorkPackageCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        include ::API::V3::WorkPackages::WorkPackageCollectionEagerLoading
         element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
 
         def initialize(models,
@@ -78,34 +74,38 @@ module API
         end
 
         link :sumsSchema do
+          next unless total_sums || groups && groups.any?(&:has_sums?)
           {
             href: api_v3_paths.work_package_sums_schema
-          } if total_sums || groups && groups.any?(&:has_sums?)
+          }
         end
 
         link :createWorkPackage do
+          next unless current_user_allowed_to_add_work_packages?
           {
             href: api_v3_paths.create_work_package_form,
             method: :post
-          } if current_user_allowed_to_add_work_packages?
+          }
         end
 
         link :createWorkPackageImmediate do
+          next unless current_user_allowed_to_add_work_packages?
           {
             href: api_v3_paths.work_packages,
             method: :post
-          } if current_user_allowed_to_add_work_packages?
+          }
         end
 
         link :schemas do
+          next if represented.empty?
           {
             href: schemas_path
-          } if represented.any?
+          }
         end
 
         link :customFields do
           if project.present? &&
-              (current_user.try(:admin?) || current_user_allowed_to(:edit_project, context: project))
+             (current_user.try(:admin?) || current_user_allowed_to(:edit_project, context: project))
             {
               href: settings_project_path(project.identifier, tab: 'custom_fields'),
               type: 'text/html',
@@ -119,7 +119,7 @@ module API
         end
 
         collection :elements,
-                   getter: -> (*) {
+                   getter: ->(*) {
                      generated_classes = ::Hash.new do |hash, work_package|
                        hit = hash.values.find do |klass|
                          klass.customizable.type_id == work_package.type_id &&
@@ -183,71 +183,8 @@ module API
             .uniq
         end
 
-        def add_eager_loading(scope, current_user)
-          scope
-            .includes(element_decorator.to_eager_load)
-            .include_spent_hours(current_user)
-            .select('work_packages.*')
-        end
-
         def paged_models(models)
           models.page(@page).per_page(@per_page).pluck(:id)
-        end
-
-        def full_work_packages(ids_in_order)
-          wps = add_eager_loading(WorkPackage.where(id: ids_in_order), current_user).to_a
-
-          eager_load_ancestry(wps, ids_in_order)
-          eager_load_user_custom_values(wps)
-          eager_load_version_custom_values(wps)
-          eager_load_list_custom_values(wps)
-
-          wps.sort_by { |wp| ids_in_order.index(wp.id) }
-        end
-
-        def eager_load_ancestry(work_packages, ids_in_order)
-          grouped = WorkPackage.aggregate_ancestors(ids_in_order, current_user)
-
-          work_packages.each do |wp|
-            wp.work_package_ancestors = grouped[wp.id] || []
-          end
-        end
-
-        def eager_load_user_custom_values(work_packages)
-          eager_load_custom_values work_packages, 'user', User.includes(:preference)
-        end
-
-        def eager_load_version_custom_values(work_packages)
-          eager_load_custom_values work_packages, 'version', Version
-        end
-
-        def eager_load_list_custom_values(work_packages)
-          eager_load_custom_values work_packages, 'list', CustomOption
-        end
-
-        def eager_load_custom_values(work_packages, field_format, scope)
-          cvs = custom_values_of(work_packages, field_format)
-
-          ids_of_values = cvs.map(&:value).select { |v| v =~ /\A\d+\z/ }
-
-          values_by_id = scope.find(ids_of_values).group_by(&:id)
-
-          cvs.each do |cv|
-            next unless values_by_id[cv.value.to_i]
-            cv.value = values_by_id[cv.value.to_i].first
-          end
-        end
-
-        def custom_values_of(work_packages, field_format)
-          cvs = []
-
-          work_packages.each do |wp|
-            wp.custom_values.each do |cv|
-              cvs << cv if cv.custom_field.field_format == field_format && cv.value.present?
-            end
-          end
-
-          cvs
         end
 
         def _type

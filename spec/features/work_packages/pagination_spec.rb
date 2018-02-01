@@ -56,7 +56,7 @@ RSpec.feature 'Work package pagination', js: true do
       end
 
       within('.pagination--pages') do
-        click_link '2'
+        find('.pagination--item a', text: '2').click
       end
 
       within('.work-packages-list-view--container') do
@@ -65,7 +65,7 @@ RSpec.feature 'Work package pagination', js: true do
       end
 
       within('.pagination--options') do
-        click_link '50'
+        find('.pagination--item a', text: '50').click
       end
 
       within('.work-packages-list-view--container') do

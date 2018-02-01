@@ -28,10 +28,11 @@
 
 import {QuerySortByResource} from "../api/api-v3/hal-resources/query-sort-by-resource.service";
 import {QueryResource} from "../api/api-v3/hal-resources/query-resource.service";
+import {PathHelperService} from '../common/path-helper/path-helper.service';
 
 export class UrlParamsHelperService {
 
-  public constructor(public PaginationService:any) {
+  public constructor(public paginationService:any, public PathHelper:PathHelperService) {
 
   }
 
@@ -70,12 +71,13 @@ export class UrlParamsHelperService {
       paramsData.tv = query.timelineVisible;
     }
 
+    if (!_.isEmpty(query.timelineLabels)) {
+      paramsData.tll = JSON.stringify(query.timelineLabels);
+    }
+
     paramsData.tzl = query.timelineZoomLevel;
     paramsData.hi = !!query.showHierarchies;
-
-    if (query.groupBy) {
-      paramsData.g = query.groupBy.id;
-    }
+    paramsData.g = _.get(query.groupBy, 'id', '');
     if (query.sortBy) {
       paramsData.t = query
         .sortBy
@@ -110,7 +112,7 @@ export class UrlParamsHelperService {
 
   public buildV3GetQueryFromJsonParams(updateJson:any) {
     var queryData:any = {
-      pageSize: this.PaginationService.getPerPage()
+      pageSize: this.paginationService.getPerPage()
     }
 
     if (!updateJson) {
@@ -128,6 +130,9 @@ export class UrlParamsHelperService {
     if (!!properties.tv) {
       queryData.timelineVisible = properties.tv;
     }
+    if (!!properties.tll) {
+      queryData.timelineLabels = properties.tll;
+    }
 
     if (properties.tzl) {
       queryData.timelineZoomLevel = properties.tzl;
@@ -137,9 +142,7 @@ export class UrlParamsHelperService {
       queryData.showHierarchies = properties.hi;
     }
 
-    if (properties.g) {
-      queryData.groupBy = properties.g;
-    }
+    queryData.groupBy = _.get(properties, 'g', '');
 
     // Filters
     if (properties.f) {
@@ -187,10 +190,7 @@ export class UrlParamsHelperService {
     queryData.timelineVisible = query.timelineVisible;
     queryData.timelineZoomLevel = query.timelineZoomLevel;
     queryData.showHierarchies = query.showHierarchies;
-
-    if (query.groupBy) {
-      queryData.groupBy = query.groupBy.id;
-    }
+    queryData.groupBy = _.get(query.groupBy, 'id', '');
 
     // Filters
     const filters = query.filters.map((filter:any) => {

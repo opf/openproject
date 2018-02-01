@@ -67,19 +67,19 @@ $nm-upload-file-status-icon-size: rem-calc(12)
 $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 %nm-icon-error
-  @extend .icon-error:before
+  @include icon-mixin-error
   color: $nm-color-error-icon
 
 %nm-icon-success
-  @extend .icon-checkmark:before
+  @include icon-mixin-checkmark
   color: $nm-color-success-icon
 
 %nm-icon-warning
-  @extend .icon-attention:before
+  @include icon-mixin-attention
   color: $nm-color-warning-icon
 
 %nm-icon-info
-  @extend .icon-info1:before
+  @include icon-mixin-info1
   color: $nm-color-info-icon
 
 %error-placeholder
@@ -129,7 +129,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     width: 1rem
     height: 1rem
     text-align: center
-    font-size: 1rem
     line-height: rem-calc(20px)
     &:hover
       text-decoration: none
@@ -189,7 +188,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   width: $nm-notification-width
   margin-left: -($nm-notification-width / 2)
   left: 50%
-  z-index: 200
+  z-index: 901 // Higher than loading indicator!
 
   .notification-box--casing
     position: relative
@@ -297,6 +296,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   ul
     font-size: $nm-font-size
     margin: 0 0 0 30px
+    display: inline-block
 
   h2, p
     @extend .hidden-for-sighted
@@ -304,9 +304,8 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   .close-handler
     float: none
     position: absolute
-    top: rem-calc(11)
     right: rem-calc(11)
-    font-size: 1rem
+    top: rem-calc(11)
     cursor: pointer
 
   &::before

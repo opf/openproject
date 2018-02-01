@@ -2,20 +2,23 @@
   <textarea
           wiki-toolbar
           op-auto-complete
+          op-auto-complete-project-id="{{vm.project.id}}"
           msd-elastic="\n"
           preview-toggle="vm.field.togglePreview()"
           style="min-height: 114px"
           class="focus-input wp-inline-edit--field inplace-edit--textarea -animated"
           name="value"
-          focus="vm.shouldFocus()"
-          focus-priority="vm.shouldFocus()"
           ng-hide="vm.field.isPreview"
           ng-required="vm.field.required"
-          ng-disabled="vm.field.isBusy || vm.workPackage.inFlight"
-          ng-model="vm.field.fieldVal.raw"
+          ng-disabled="vm.field.isBusy || vm.field.inFlight"
+          ng-model="vm.field.rawValue"
           ng-attr-id="{{vm.htmlId}}">  </textarea>
     <div class="inplace-edit--preview" ng-show="vm.field.isPreview && !vm.field.isBusy">
         <span bind-unescaped-html="vm.field.previewHtml"></span>
+    </div>
+    <div ng-if="vm.field.isFormattable && !vm.field.isPreview"
+         class="wp-edit-field-attachment-label">
+      <span ng-bind="vm.field.text.attachmentLabel"></span>
     </div>
     <wp-edit-field-controls ng-show="!vm.inEditMode"
                             field-controller="vm"

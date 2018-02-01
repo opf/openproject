@@ -38,6 +38,10 @@ require('jquery-ui/themes/base/core.css');
 require('jquery-ui/themes/base/datepicker.css');
 require('jquery-ui/themes/base/dialog.css');
 
+// Global scripts previously part of the application.js
+var requireGlobals = require.context('./globals/', true, /\.ts$/);
+requireGlobals.keys().forEach(requireGlobals);
+
 // load I18n, depending on the html element having a 'lang' attribute
 var documentLang = (angular.element('html').attr('lang') || 'en').toLowerCase();
 require('angular-i18n/angular-locale_' + documentLang + '.js');
@@ -45,6 +49,10 @@ require('angular-i18n/angular-locale_' + documentLang + '.js');
 var opApp = require('./angular-modules.ts').default;
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
+
+const meta = jQuery('meta[name=openproject_initializer]');
+I18n.locale = meta.data('defaultLocale');
+I18n.locale = meta.data('locale');
 
 opApp
     .config([
@@ -54,9 +62,13 @@ opApp
       function($compileProvider, $locationProvider, $httpProvider) {
 
         // Disable debugInfo outside development mode
-        $compileProvider.debugInfoEnabled(window.openProject.environment === 'development');
+        $compileProvider.debugInfoEnabled(window.OpenProject.environment === 'development');
 
-        $locationProvider.html5Mode(true);
+        $locationProvider.html5Mode({
+          enabled: true,
+          requireBase: false
+        });
+
         $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery(
             'meta[name=csrf-token]').attr('content');
         $httpProvider.defaults.headers.common['X-Authentication-Scheme'] = 'Session';
@@ -107,15 +119,21 @@ opApp
         // See https://github.com/opf/rails-angular-xss for more information.
         $rootScope.DOUBLE_LEFT_CURLY_BRACE = ExpressionService.UNESCAPED_EXPRESSION;
 
-        $rootScope.showNavigation =
-            $window.sessionStorage.getItem('openproject:navigation-toggle') !==
-            'collapsed';
+        if ($window.innerWidth < 680) {
+          // On mobile sized screens navigation shall allways be callapsed when
+          // window loads.
+          $rootScope.showNavigation = false
+        } else {
+          $rootScope.showNavigation =
+              $window.sessionStorage.getItem('openproject:navigation-toggle') !==
+              'collapsed';
+        }
 
         TimezoneService.setupLocale();
         KeyboardShortcutService.activate();
 
         // Disable the CacheService for test environment
-        if ($window.openProject.environment === 'test') {
+        if (window.OpenProject.environment === 'test') {
           CacheService.disableCaching();
         }
 
@@ -130,20 +148,13 @@ opApp
 
 require('./helpers');
 require('./layout');
-require('./messages');
 require('./models');
 require('./services');
-require('./time_entries');
-require('./timelines');
 require('./ui_components');
 require('./work_packages');
 
 // Run the browser detection
 require('expose-loader?bowser!bowser');
-
-// Global scripts previously part of the application.js
-var requireGlobals = require.context('./globals/', true, /\.ts$/);
-requireGlobals.keys().forEach(requireGlobals);
 
 var requireTemplate = require.context('./templates', true, /\.html$/);
 requireTemplate.keys().forEach(requireTemplate);
@@ -157,3 +168,8 @@ debugOutput.whenDebugging(function () {
   const reactivestates = require("reactivestates");
   reactivestates.enableReactiveStatesLogging();
 });
+
+
+// load Angular 4 modules
+require("./angular4-modules");
+

@@ -33,8 +33,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <% local_assigns[:additional_breadcrumb] = t(:label_type_new) %>
 <%= breadcrumb_toolbar t(:label_type_new) %>
 
-<%= javascript_include_tag "type_form.js" %>
-
 <%= error_messages_for 'type' %>
 
 <%= form_for controller.type, builder: TabularFormBuilder, lang: current_language  do |f| %>

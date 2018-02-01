@@ -214,18 +214,86 @@ describe MyController, type: :controller do
     end
   end
 
-  describe 'index' do
+  describe 'page' do
     render_views
 
     before do
       allow_any_instance_of(User).to receive(:reported_work_package_count).and_return(42)
-      get :index
+      get :page
     end
 
     it 'should show the number of reported packages' do
       label = Regexp.escape(I18n.t(:label_reported_work_packages))
 
       expect(response.body).to have_selector('h3', text: /#{label}.*42/)
+    end
+  end
+
+  describe 'access_tokens' do
+    describe 'rss' do
+      it 'creates a key' do
+        expect(user.rss_token).to eq(nil)
+
+        post :generate_rss_key
+        expect(user.reload.rss_token).to be_present
+        expect(flash[:notice]).to be_present
+        expect(flash[:error]).not_to be_present
+
+        expect(response).to redirect_to action: :access_token
+      end
+
+      context 'with existing key' do
+        let!(:key) { ::Token::Rss.create user: user }
+
+        it 'replaces the key' do
+          expect(user.rss_token).to eq(key)
+
+          post :generate_rss_key
+          new_token = user.reload.rss_token
+          expect(new_token).not_to eq(key)
+          expect(new_token.value).not_to eq(key.value)
+          expect(new_token.value).to eq(user.rss_key)
+
+          expect(flash[:notice]).to be_present
+          expect(flash[:error]).not_to be_present
+          expect(response).to redirect_to action: :access_token
+        end
+      end
+    end
+
+    describe 'api' do
+      context 'with no existing key' do
+        it 'creates a key' do
+          expect(user.api_token).to eq(nil)
+
+          post :generate_api_key
+          new_token = user.reload.api_token
+          expect(new_token).to be_present
+
+          expect(flash[:notice]).to be_present
+          expect(flash[:error]).not_to be_present
+
+          expect(response).to redirect_to action: :access_token
+        end
+      end
+
+      context 'with existing key' do
+        let!(:key) { ::Token::Api.create user: user }
+
+        it 'replaces the key' do
+          expect(user.reload.api_token).to eq(key)
+
+          post :generate_api_key
+
+          new_token = user.reload.api_token
+          expect(new_token).not_to eq(key)
+          expect(new_token.value).not_to eq(key.value)
+          expect(flash[:notice]).to be_present
+          expect(flash[:error]).not_to be_present
+
+          expect(response).to redirect_to action: :access_token
+        end
+      end
     end
   end
 end

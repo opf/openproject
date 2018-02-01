@@ -38,7 +38,14 @@ describe UsersController, type: :controller do
     User.current = nil
   end
 
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user_password) {'bob!' * 4}
+  let(:user) do
+    FactoryGirl.create(:user,
+                       login: 'bob',
+                       password: user_password,
+                       password_confirmation: user_password,
+                       )
+  end
   let(:admin) { FactoryGirl.create(:admin) }
   let(:anonymous) { FactoryGirl.create(:anonymous) }
 
@@ -159,7 +166,7 @@ describe UsersController, type: :controller do
 
       it 'sends another activation email' do
         mail = ActionMailer::Base.deliveries.first.body.parts.first.body.to_s
-        token = Token.find_by user_id: invited_user.id, action: UserInvitation.token_action
+        token = Token::Invitation.find_by user_id: invited_user.id
 
         expect(mail).to include 'activate your account'
         expect(mail).to include token.value
@@ -168,89 +175,181 @@ describe UsersController, type: :controller do
   end
 
   describe 'POST destroy' do
-    describe "WHEN the current user is the requested one
-              WHEN the setting users_deletable_by_self is set to true" do
-      let(:params) { { 'id' => user.id.to_s } }
-
+    let(:base_params) { { 'id' => user.id.to_s, back_url: my_account_path } }
+    context 'WHEN the password confirmation is missing' do
       before do
         disable_flash_sweep
         allow(Setting).to receive(:users_deletable_by_self?).and_return(true)
 
         as_logged_in_user user do
-          post :destroy, params: params
+          post :destroy, params: base_params
         end
       end
 
-      it do expect(response).to redirect_to(controller: 'account', action: 'login') end
-      it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
+      it do expect(response).to redirect_to(controller: 'my', action: 'account') end
+      it { expect(flash[:error]).to eq(I18n.t(:notice_password_confirmation_failed)) }
     end
 
-    describe "WHEN the current user is the requested one
-              WHEN the setting users_deletable_by_self is set to false" do
-      let(:params) { { 'id' => user.id.to_s } }
 
-      before do
-        disable_flash_sweep
-        allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
+    context 'WHEN password confirmation is present' do
+      let(:base_params) do
+        { 'id' => user.id.to_s, :'_password_confirmation' => user_password, back_url: my_account_path }
+      end
 
-        as_logged_in_user user do
-          post :destroy, params: params
+      describe "WHEN the current user is the requested one
+                WHEN the setting users_deletable_by_self is set to true" do
+        before do
+          disable_flash_sweep
+          allow(Setting).to receive(:users_deletable_by_self?).and_return(true)
+
+          as_logged_in_user user do
+            post :destroy, params: base_params
+          end
+        end
+
+        it do expect(response).to redirect_to(controller: 'account', action: 'login') end
+        it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
+      end
+
+      describe "WHEN the current user is the requested one
+                WHEN the setting users_deletable_by_self is set to false" do
+
+        before do
+          disable_flash_sweep
+          allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
+
+          as_logged_in_user user do
+            post :destroy, params: base_params
+          end
+        end
+
+        it { expect(response.response_code).to eq(404) }
+      end
+
+      describe "WHEN the current user is the anonymous user
+                EVEN when the setting login_required is set to false" do
+
+        before do
+          allow(@controller).to receive(:find_current_user).and_return(anonymous)
+          allow(Setting).to receive(:login_required?).and_return(false)
+
+          as_logged_in_user anonymous do
+            post :destroy, params: base_params.merge(id: anonymous.id.to_s)
+          end
+        end
+
+        # redirecting post is not possible for now
+        it { expect(response.response_code).to eq(403) }
+      end
+
+      describe "WHEN the current user is the admin
+                WHEN the given password does not match
+                WHEN the setting users_deletable_by_admins is set to true" do
+        let(:admin) { FactoryGirl.create(:admin) }
+
+        before do
+          disable_flash_sweep
+          allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
+
+          as_logged_in_user admin do
+            post :destroy, params: base_params
+          end
+        end
+
+        it 'redirects with error' do
+          expect(response).to redirect_to(controller: 'my', action: 'account')
+          expect(flash[:notice]).to eq(nil)
+          expect(flash[:error]).to eq(I18n.t(:notice_password_confirmation_failed))
         end
       end
 
-      it { expect(response.response_code).to eq(404) }
+      describe "WHEN the current user is the admin
+                WHEN the given password does match
+                WHEN the setting users_deletable_by_admins is set to true" do
+
+        let(:admin_password) {'admin!' * 4}
+        let(:admin) do
+          FactoryGirl.create(:admin,
+                             password: admin_password,
+                             password_confirmation: admin_password)
+        end
+
+        before do
+          disable_flash_sweep
+          allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
+
+          as_logged_in_user admin do
+            post :destroy, params: base_params.merge(:'_password_confirmation' => admin_password)
+          end
+        end
+
+        it do expect(response).to redirect_to(controller: 'users', action: 'index') end
+        it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
+      end
+
+      describe "WHEN the current user is the admin
+                WHEN the setting users_deletable_by_admins is set to false" do
+        let(:admin) { FactoryGirl.create(:admin) }
+
+        before do
+          disable_flash_sweep
+          allow(Setting).to receive(:users_deletable_by_admins).and_return(false)
+
+          as_logged_in_user admin do
+            post :destroy, params: base_params
+          end
+        end
+
+        it { expect(response.response_code).to eq(404) }
+      end
+    end
+  end
+
+  describe '#change_status_info' do
+    let!(:registered_user) do
+      FactoryGirl.create(:user, status: User::STATUSES[:registered])
     end
 
-    describe "WHEN the current user is the anonymous user
-              EVEN when the setting login_required is set to false" do
-      let(:params) { { 'id' => anonymous.id.to_s } }
-
-      before do
-        allow(@controller).to receive(:find_current_user).and_return(anonymous)
-        allow(Setting).to receive(:login_required?).and_return(false)
-
-        as_logged_in_user anonymous do
-          post :destroy, params: params
-        end
+    before do
+      as_logged_in_user admin do
+        get :change_status_info,
+            params: {
+              id: registered_user.id,
+              change_action: change_action
+            }
       end
-
-      # redirecting post is not possible for now
-      it { expect(response.response_code).to eq(403) }
     end
 
-    describe "WHEN the current user is the admin
-              WHEN the setting users_deletable_by_admins is set to true" do
-      let(:admin) { FactoryGirl.create(:admin) }
-      let(:params) { { 'id' => user.id.to_s } }
-
-      before do
-        disable_flash_sweep
-        allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
-
-        as_logged_in_user admin do
-          post :destroy, params: params
-        end
+    shared_examples 'valid status info' do
+      it 'renders the status info' do
+        expect(response).to be_success
+        expect(response).to render_template 'users/change_status_info'
+        expect(assigns(:user)).to eq(registered_user)
+        expect(assigns(:status_change)).to eq(change_action)
       end
-
-      it do expect(response).to redirect_to(controller: 'users', action: 'index') end
-      it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
     end
 
-    describe "WHEN the current user is the admin
-              WHEN the setting users_deletable_by_admins is set to false" do
-      let(:admin) { FactoryGirl.create(:admin) }
-      let(:params) { { 'id' => user.id.to_s } }
+    describe 'with valid activate' do
+      let(:change_action) { :activate }
+      it_behaves_like 'valid status info'
+    end
 
-      before do
-        disable_flash_sweep
-        allow(Setting).to receive(:users_deletable_by_admins).and_return(false)
+    describe 'with valid unlock' do
+      let(:change_action) { :unlock }
+      it_behaves_like 'valid status info'
+    end
 
-        as_logged_in_user admin do
-          post :destroy, params: params
-        end
+    describe 'with valid lock' do
+      let(:change_action) { :lock }
+      it_behaves_like 'valid status info'
+    end
+
+    describe 'bogus status' do
+      let(:change_action) { :wtf }
+      it 'renders 400' do
+        expect(response.status).to eq(400)
+        expect(response).not_to render_template 'users/change_status_info'
       end
-
-      it { expect(response.response_code).to eq(404) }
     end
   end
 

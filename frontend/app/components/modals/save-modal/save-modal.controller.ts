@@ -28,21 +28,52 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
+import {States} from '../../states.service';
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {QueryDmService} from '../../api/api-v3/hal-resource-dms/query-dm.service';
 
 function SaveModalController(this:any,
                              $scope:any,
                              saveModal:any,
+                             states:States,
                              wpListService:WorkPackagesListService,
+                             wpNotificationsService:WorkPackageNotificationService,
+                             $q:ng.IQService,
                              NotificationsService:any) {
   this.name = 'Save';
   this.closeMe = saveModal.deactivate;
 
+  $scope.isStarred = false;
+  $scope.isPublic = false;
+  $scope.isBusy = false;
+
+  $scope.setValues = (isStarred:boolean, isPublic:boolean) => {
+    $scope.isStarred = isStarred;
+    $scope.isPublic = isPublic;
+  };
+
   $scope.saveQueryAs = (name:string) => {
+    if ($scope.isBusy) {
+      return console.warn('Skipping additional save ');
+    }
+
+    $scope.isBusy = true;
+    const query = states.query.resource.value!;
+    query.public = $scope.isPublic;
+
     wpListService
-      .create(name)
-      .then(() => {
+      .create(query, name)
+      .then((savedQuery:QueryResource) => {
+        if ($scope.isStarred && !savedQuery.starred) {
+          return wpListService.toggleStarred(savedQuery).then(() => saveModal.deactivate());
+        }
+
         saveModal.deactivate();
-      });
+        return $q.when(true);
+      })
+      .catch((error:any) => wpNotificationsService.handleErrorResponse(error))
+      .finally(() => this.isBusy = false);
   };
 }
 

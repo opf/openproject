@@ -28,6 +28,8 @@
 
 import {opApiModule} from '../../../../angular-modules';
 import {HalResource} from '../hal-resources/hal-resource.service';
+import  './hal-changeset-proxy';
+
 
 interface HalResourceFactoryConfigInterface {
   cls?:typeof HalResource;

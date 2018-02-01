@@ -35,15 +35,15 @@ module API
                      property_name:,
                      path: :"#{property_name}",
                      namespace: path.to_s.pluralize,
+                     title_attribute: :name,
                      getter: :"#{property_name}_id",
-                     title_getter: ->(*) { model.send(property_name).name },
                      setter: :"#{getter}=")
         @property_name = property_name
         @path = path
         @namespace = namespace
         @getter = getter
-        @title_getter = title_getter
         @setter = setter
+        @title_attribute = title_attribute
 
         super(model, current_user: nil)
       end
@@ -82,7 +82,7 @@ module API
           context: represented
         )
 
-        represented.try(attribute).try(:name)
+        represented.try(attribute).try(@title_attribute)
       end
     end
   end
