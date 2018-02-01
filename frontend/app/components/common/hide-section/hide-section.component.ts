@@ -27,26 +27,42 @@
 // ++
 
 import {opUiComponentsModule} from '../../../angular-modules';
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {OnInit, Input} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {HideSectionService} from 'core-components/common/hide-section/hide-section.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'hide-section',
-  template: '<span *ngIf="isDisplayed()"><ng-content></ng-content></span>'
+  template: '<span *ngIf="displayed"><ng-content></ng-content></span>'
 
 })
-export class HideSectionComponent {
-  displayed:boolean = true;
+export class HideSectionComponent implements OnInit, OnDestroy {
+  displayed:boolean = false;
 
-  @Input('sectionName') sectionName:string;
+  private displayedSubscription:Subscription;
 
-  constructor(protected hideSection:HideSectionService) {
+  @Input() sectionName:string;
+  @Input() onDisplayed:Function;
+
+  constructor(protected hideSection:HideSectionService) { }
+
+  ngOnInit() {
+    this.displayedSubscription = this.hideSection.displayed$
+      .map(all_displayed => _.some(all_displayed, candidate => candidate.key === this.sectionName))
+      .distinctUntilChanged()
+      .subscribe(show => {
+        this.displayed = show;
+
+        if (this.displayed && this.onDisplayed !== undefined) {
+          setTimeout(this.onDisplayed());
+        }
+      });
   }
 
-  isDisplayed() {
-    return this.hideSection.isDisplayed(this.sectionName);
+  ngOnDestroy() {
+    this.displayedSubscription.unsubscribe();
   }
 }
 

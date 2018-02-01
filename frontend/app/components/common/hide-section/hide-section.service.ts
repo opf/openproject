@@ -27,6 +27,7 @@
 
 import {Injectable} from '@angular/core';
 import {GonRef} from 'core-components/common/gon-ref/gon-ref';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 export interface HideSectionDefinition {
   key:string;
@@ -35,39 +36,24 @@ export interface HideSectionDefinition {
 
 @Injectable()
 export class HideSectionService {
-  protected availableSections:HideSectionDefinition[] = [];
-  protected displayedSections:HideSectionDefinition[] = [];
+  private displayed = new BehaviorSubject<HideSectionDefinition[]>([]);
+  private all = new BehaviorSubject<HideSectionDefinition[]>([]);
+
+  public displayed$ = this.displayed.asObservable();
+  public all$ = this.all.asObservable();
 
   constructor(protected gonRef:GonRef) {
-    let allSections = gonRef.get('hideSections').all;
-
-    this.displayedSections = gonRef.get('hideSections').active;
-    this.availableSections = _.without(allSections, ...this.displayedSections);
-    this.availableSections.sort((a:HideSectionDefinition, b:HideSectionDefinition) => a.label.localeCompare(b.label));
-  }
-
-  isDisplayed(key:string) {
-    return _.some(this.displayedSections, (candidate) => candidate.key === key);
+    this.all.next(gonRef.get('hideSections').all);
+    this.displayed.next(gonRef.get('hideSections').active);
   }
 
   hide(key:string) {
-    let section = _.remove(this.displayedSections, (candidate) => candidate.key === key);
-    this.availableSections.push(_.first(section));
-    this.availableSections.sort((a, b) => a.label.localeCompare(b.label));
+    let newDisplayed = _.filter(this.displayed.getValue(), (candidate) => candidate.key !== key);
+    this.displayed.next(newDisplayed);
   }
 
   show(section:HideSectionDefinition) {
-    _.remove(this.availableSections, (candidate) => candidate === section);
-    this.displayedSections.push(section);
-  }
-
-  get available() {
-    return this.availableSections;
-  }
-
-  hideByName(sectionName:string) {
-    let section = _.remove(this.displayedSections, (candidate) => candidate.key === sectionName);
-    this.availableSections.push(_.first(section));
-    this.availableSections.sort((a, b) => a.label.localeCompare(b.label));
+    let newDisplayed = _.concat(this.displayed.getValue(), section);
+    this.displayed.next(newDisplayed);
   }
 }

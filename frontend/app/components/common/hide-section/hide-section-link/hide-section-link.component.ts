@@ -44,7 +44,7 @@ export class HideSectionLinkComponent {
   constructor(protected hideSections:HideSectionService) {}
 
   hideSection() {
-    this.hideSections.hideByName(this.sectionName);
+    this.hideSections.hide(this.sectionName);
     return false;
   }
 }

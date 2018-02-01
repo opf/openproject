@@ -27,19 +27,23 @@
 // ++
 
 import {opUiComponentsModule} from '../../../../angular-modules';
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {HideSectionDefinition, HideSectionService} from 'core-components/common/hide-section/hide-section.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {Subscription} from 'rxjs/Subscription';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'add-section-dropdown',
   template: require('!!raw-loader!./add-section-dropdown.component.html')
 })
-export class AddSectionDropdownComponent implements OnInit {
+export class AddSectionDropdownComponent implements OnInit, OnDestroy {
   selectable:HideSectionDefinition[] = [];
   turnedActive:HideSectionDefinition|null = null;
   texts:{ [key:string]:string } = {};
+
+  private allSubscription:Subscription;
 
   constructor(protected hideSections:HideSectionService,
               @Inject(I18nToken) protected I18n:op.I18n) {
@@ -50,7 +54,17 @@ export class AddSectionDropdownComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectable = this.hideSections.available;
+    this.allSubscription = Observable.combineLatest(this.hideSections.all$,
+                                                    this.hideSections.displayed$)
+                                     .subscribe(([all, displayed]) => {
+      this.selectable = _.filter(all, all_candidate =>
+        !_.some(displayed, displayed_candidate => all_candidate.key === displayed_candidate.key)
+      );
+    });
+  }
+
+  ngOnDestroy() {
+    this.allSubscription.unsubscribe();
   }
 
   show() {
