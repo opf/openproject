@@ -91,3 +91,4 @@ npm-debug.log*
 /frontend/tests/*.gif
 node_modules/
 text_extractor.yml
+structure.sql
