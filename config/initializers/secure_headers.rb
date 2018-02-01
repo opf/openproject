@@ -32,9 +32,10 @@ SecureHeaders::Configuration.default do |config|
     frame_src: %w(https://*.vimeo.com),
     frame_ancestors: %w('self'),
     # Allow images from anywhere
-    img_src: %w(*),
+    img_src: %w(* data:),
     # Allow scripts from self (not inline, but)
-    script_src: %w('self'),
+    # for now require unsafe-eval for Angular JIT
+    script_src: %w('self' 'unsafe-eval'),
     # Allow unsafe-inline styles
     style_src: assets_src + %w('unsafe-inline'),
   }
