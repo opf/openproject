@@ -47,6 +47,10 @@ module SimpleBenchmark
 end
 
 require 'rails/all'
+require 'active_support'
+require 'active_support/dependencies'
+
+ActiveSupport::Deprecation.silenced = Rails.env.production? && !ENV['OPENPROJECT_SHOW_DEPRECATIONS']
 
 if defined?(Bundler)
   # lib directory has to be added to the load path so that
