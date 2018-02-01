@@ -32,7 +32,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= hidden_field_tag('project_id', @project.to_param) if @project %>
   <%= hidden_field_tag('set_filter', 1) %>
   <fieldset id="filters" class="form--fieldset -collapsible <%= @query.valid? ? 'collapsed' : '' %>">
-    <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
+    <legend class="form--fieldset-legend" >
       <a href="#"><%= l(:label_filter_plural) %></a>
     </legend>
     <div>

@@ -54,7 +54,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <% module_name = mod.blank? ? "form--" + I18n.t('attributes.project') : "form--" + l_or_humanize(mod, prefix: 'project_module_').gsub(' ','_') %>
       <div class="grid-section">
         <fieldset class="form--fieldset -collapsible" id= "<%= module_name %>">
-          <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><%= mod.blank? ? Project.model_name.human : l_or_humanize(mod, prefix: 'project_module_') %></legend>
+          <legend class="form--fieldset-legend" ><%= mod.blank? ? Project.model_name.human : l_or_humanize(mod, prefix: 'project_module_') %></legend>
           <div class="form--fieldset-control">
             <span class="form--fieldset-control-container">
               (<%= check_all_links module_name %>)

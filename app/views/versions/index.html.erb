@@ -40,7 +40,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
       <form>
         <fieldset class="form--fieldset -collapsible">
-          <legend class="form--fieldset-legend" onClick="toggleFieldset(this);"><%= l(:label_related_work_packages) %></legend>
+          <legend class="form--fieldset-legend" ><%= l(:label_related_work_packages) %></legend>
           <div>
             <ul>
               <%- issues.each do |issue| -%>

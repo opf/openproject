@@ -33,7 +33,7 @@ function createFieldsetToggleStateLabel(legend, text) {
 
   if (toggleLabel.length === 0) {
     toggleLabel = jQuery("<span />").addClass(labelClass)
-                                    .addClass("hidden-for-sighted");
+      .addClass("hidden-for-sighted");
 
     legendLink.append(toggleLabel);
   }
@@ -75,14 +75,21 @@ function toggleFieldset(el) {
 }
 
 jQuery(document).ready(function() {
-  jQuery('fieldset.form--fieldset.-collapsible').each(function() {
-    var fieldset = getFieldset(this);
+  const fieldsets = jQuery('fieldset.form--fieldset.-collapsible');
 
-    var contentArea = fieldset.find('> div');
-    if (fieldset.hasClass('collapsed')) {
-      contentArea.hide();
-    }
+  // Toggle on click
+  fieldsets.on('click', '.form--fieldset-legend', function() { toggleFieldset(this); });
 
-    setFieldsetToggleState(fieldset);
-  });
+  // Set initial state
+  fieldsets
+    .each(function() {
+      var fieldset = getFieldset(this);
+
+      var contentArea = fieldset.find('> div');
+      if (fieldset.hasClass('collapsed')) {
+        contentArea.hide();
+      }
+
+      setFieldsetToggleState(fieldset);
+    });
 });

@@ -713,7 +713,7 @@ WIKI_TEXT
       it 'emits a table of contents for headings h1-h4 with anchors' do
         expect(html).to be_html_eql(%{
           <fieldset class='form--fieldset -collapsible'>
-            <legend class='form--fieldset-legend' title='Show/Hide table of contents' onclick='toggleFieldset(this);'>
+            <legend class='form--fieldset-legend' title='Show/Hide table of contents'>
               <a href='javascript:'>Table of Contents</a>
             </legend>
             <div>

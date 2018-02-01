@@ -42,7 +42,7 @@ an attachments_attributes= and not every model supports this we build a nested f
 <% open ||= false %>
 
 <fieldset id="attachments" class="form--fieldset -collapsible<%= open ? '' : ' collapsed' %>">
-  <legend class="form--fieldset-legend" title="<%=l(:description_attachment_toggle)%>" onclick="toggleFieldset(this);">
+  <legend class="form--fieldset-legend" title="<%=l(:description_attachment_toggle)%>" >
     <a href="#"><%=l(:label_attachment_plural)%></a>
   </legend>
   <div <%= "style=\"display: none;\"".html_safe unless open %>>
