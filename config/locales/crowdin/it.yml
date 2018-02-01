@@ -42,6 +42,21 @@ it:
       enter_backup_code_title: Immettere il codice di backup
       enter_backup_code_text: Inserisci un codice valido di backup dall'elenco dei codici nel caso in cui non è possibile accedere i dispositivi registrati 2FA.
       other_device: 'Usi un altro dispositivo o backup codice'
+    settings:
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
+      text_configuration: |
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_remember: |
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
     admin:
       self_edit_path: 'Per aggiungere o modificare i propri dispositivi di 2FA, visitare il sito %{self_edit_link}'
       self_edit_link_name: 'Two-factor authentication sulla pagina del suo account'
@@ -111,6 +126,10 @@ it:
       delivery_failed: 'SNS non recapitato:'
     restdt:
       delivery_failed_with_code: 'Token non recapitato. (Errore codice %{code})'
+    strategies:
+      totp: 'Authenticator application'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
     mobile_transmit_notification: "Un password monouso è stato inviato al suo telefono cellulare."
     label_two_factor_authentication: 'Two-factor authentication'
     forced_registration:

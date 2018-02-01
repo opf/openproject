@@ -42,6 +42,21 @@ tr:
       enter_backup_code_title: Yedekleme kodunuzu girin
       enter_backup_code_text: Kayıtlı 2FA cihazlarınıza erişemediğiniz taktirde lütfen kod listenizden geçerli bir yedek kod girin.
       other_device: 'Başka bir aygıt veya yedek kodu kullanın'
+    settings:
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
+      text_configuration: |
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_remember: |
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
     admin:
       self_edit_path: 'Kendi 2FA cihazlarınızı eklemek veya değiştirmek için lütfen %{self_edit_link} adresine gidin'
       self_edit_link_name: 'Hesap sayfanızdaki iki faktörlü kimlik doğrulama'
@@ -113,6 +128,10 @@ tr:
       delivery_failed: 'SNS teslim başarısız oldu:'
     restdt:
       delivery_failed_with_code: 'Token teslimatı başarısız oldu. (Hata kodu %{code})'
+    strategies:
+      totp: 'Authenticator application'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
     mobile_transmit_notification: "Cep telefonunuza bir kerelik bir şifre gönderildi."
     label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
     forced_registration:

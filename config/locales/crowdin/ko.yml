@@ -42,6 +42,21 @@ ko:
       enter_backup_code_title: 백업 코드 입력
       enter_backup_code_text: 등록된 2FA 장치에 더 이상 액세스할 수 없는 경우 코드 목록에서 유효한 백업 코드를 입력하세요.
       other_device: '다른 장치 또는 백업 코드 사용'
+    settings:
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
+      text_configuration: |
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_remember: |
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
     admin:
       self_edit_path: '고유한 2FA 장치를 추가하거나 수정하려면 %{self_edit_link}(으)로 이동하세요.'
       self_edit_link_name: '계정 페이지의 2단계 인증'
@@ -114,6 +129,10 @@ ko:
       delivery_failed: 'SNS 배달 실패:'
     restdt:
       delivery_failed_with_code: '토큰 배달이 실패했습니다(오류 코드 %{code}).'
+    strategies:
+      totp: 'Authenticator application'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
     mobile_transmit_notification: "일회용 암호가 휴대폰으로 전송되었습니다."
     label_two_factor_authentication: '2단계 인증'
     forced_registration:

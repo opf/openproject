@@ -42,6 +42,21 @@ id:
       enter_backup_code_title: Enter backup code
       enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
       other_device: 'Use another device or backup code'
+    settings:
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
+      text_configuration: |
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_remember: |
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
     admin:
       self_edit_path: 'Untuk menambah atau memodifikasi perangkat 2FA Anda sendiri, silahkan pergi ke %{self_edit_link}'
       self_edit_link_name: 'Dua faktor otentikasi tidak aktif'
@@ -112,6 +127,10 @@ id:
       delivery_failed: 'SNS pengiriman gagal:'
     restdt:
       delivery_failed_with_code: 'Token pengiriman yang gagal. (Kesalahan kode %{code})'
+    strategies:
+      totp: 'Authenticator application'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
     mobile_transmit_notification: "One-time password telah dikirim ke ponsel Anda."
     label_two_factor_authentication: 'Autentikasi dua faktor'
     forced_registration:

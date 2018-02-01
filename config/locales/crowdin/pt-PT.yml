@@ -42,6 +42,21 @@ pt:
       enter_backup_code_title: Digite o código de backup
       enter_backup_code_text: Digite um código de backup válido da sua lista de códigos caso não possa mais acessar seus dispositivos registrados 2FA. Digite um código de backup válido da sua lista de códigos caso não possa mais acessar seus dispositivos registrados 2FA.
       other_device: 'Use outro dispositivo ou código de backup'
+    settings:
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
+      text_configuration: |
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_remember: |
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
     admin:
       self_edit_path: 'Para adicionar ou modificar seus próprios dispositivos 2FA, vá para %{self_edit_link}'
       self_edit_link_name: 'Autenticação de dois fatores na página da sua conta'
@@ -114,6 +129,10 @@ pt:
       delivery_failed: 'Falha na entrega do SNS:'
     restdt:
       delivery_failed_with_code: 'A entrega de token falhou. (Código de erro %{code})'
+    strategies:
+      totp: 'Authenticator application'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
     mobile_transmit_notification: "Uma senha única foi enviada para o seu celular."
     label_two_factor_authentication: 'Autenticação de dois fatores'
     forced_registration:

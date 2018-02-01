@@ -42,6 +42,21 @@ es:
       enter_backup_code_title: Escriba el código de seguridad
       enter_backup_code_text: Si ya no tiene acceso a sus dispositivos de 2FA registrados, escriba un código de seguridad válido de la lista de códigos.
       other_device: 'Usar otro dispositivo o un código de seguridad'
+    settings:
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
+      text_configuration: |
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_remember: |
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
     admin:
       self_edit_path: 'Para añadir o modificar sus propios dispositivos 2FA, vaya a %{self_edit_link}'
       self_edit_link_name: 'Autenticación de dos factores en su página de cuenta'
@@ -112,6 +127,10 @@ es:
       delivery_failed: 'Error en la entrega SNS:'
     restdt:
       delivery_failed_with_code: 'Falló entrega de token. (Código de error %{code})'
+    strategies:
+      totp: 'Authenticator application'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
     mobile_transmit_notification: "Se ha enviado una contraseña de un solo uso a su teléfono celular."
     label_two_factor_authentication: 'Autenticación de dos factores'
     forced_registration:
