@@ -42,6 +42,21 @@ de:
       enter_backup_code_title: 2FA Backup-Code eingeben
       enter_backup_code_text: Bitte geben Sie einen 2FA Backup-Code von der zuvor gespeicherten Liste ein, falls Sie keinen Zugang zu Ihrem 2FA-Geräten mehr haben.
       other_device: 'Verwenden Sie ein anderes 2FA-Gerät oder Backup-Code'
+    settings:
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
+      text_configuration: |
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_remember: |
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
     admin:
       self_edit_path: 'Bitte besuchen Sie %{self_edit_link} zum hinzufügen oder bearbeiten Ihrer eigenen 2FA-Geräte'
       self_edit_link_name: 'Zwei-Faktor-Authentifizierung auf Ihrer Kontoseite'
@@ -112,6 +127,10 @@ de:
       delivery_failed: 'Zustellung über Amazon SNS fehlgeschlagen:'
     restdt:
       delivery_failed_with_code: 'Einmalpasswort-Zustellung fehlgeschlagen. (Fehler %{code})'
+    strategies:
+      totp: 'Authenticator application'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
     mobile_transmit_notification: "Ein Einmalpasswort wurde an Ihr Mobiltelefon gesendet."
     label_two_factor_authentication: 'Zwei-Faktor-Authentifizierung'
     forced_registration:

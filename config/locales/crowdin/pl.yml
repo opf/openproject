@@ -42,6 +42,21 @@ pl:
       enter_backup_code_title: Wprowadź kod zapasowy
       enter_backup_code_text: Wprowadź prawidłowy kod zapasowy z listy kodów, na wypadek, gdyby nie było już dostępu do zarejestrowanych urządzeń 2FA.
       other_device: 'Użyj innego urządzenia lub kodu zapasowego'
+    settings:
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
+      text_configuration: |
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_remember: |
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
     admin:
       self_edit_path: 'Aby dodać lub zmodyfikować własne urządzenia 2FA, przejdź do %{self_edit_link}'
       self_edit_link_name: 'Uwierzytelnianie dwuskładnikowe na stronie konta'
@@ -114,6 +129,10 @@ pl:
       delivery_failed: 'Nie udało się dostarczyć SNS:'
     restdt:
       delivery_failed_with_code: 'Błąd dostarczania tokenu. (Kod błędu %{code})'
+    strategies:
+      totp: 'Authenticator application'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
     mobile_transmit_notification: "Hasło jednorazowe zostało wysłane na Twój telefon komórkowy."
     label_two_factor_authentication: 'Uwierzytelnianie dwuskładnikowe'
     forced_registration:

@@ -42,6 +42,21 @@ nl:
       enter_backup_code_title: Back-up code invoeren
       enter_backup_code_text: Voer een geldige back-up code in uit uw codelijst voor het geval dat u geen toegang meer heeft tot uw geregistreerde 2FA-apparaten.
       other_device: 'Gebruik een ander 2FA-apparaat of een back-up code'
+    settings:
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
+      text_configuration: |
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_remember: |
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
     admin:
       self_edit_path: 'Om uw eigen 2FA-apparaten toe te voegen of te wijzigen, gaat u naar %{self_edit_link}'
       self_edit_link_name: 'Twee-factor-authenticatie op uw accountpagina'
@@ -112,6 +127,10 @@ nl:
       delivery_failed: 'SNS levering mislukt:'
     restdt:
       delivery_failed_with_code: 'Token levering mislukt. (Error code %{code})'
+    strategies:
+      totp: 'Authenticator application'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
     mobile_transmit_notification: "Een eenmalig wachtwoord is verzonden naar uw mobiele telefoon."
     label_two_factor_authentication: 'Twee-factor-authenticatie'
     forced_registration:
