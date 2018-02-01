@@ -62,7 +62,6 @@ https://www.postgresql.org/download/
  apt-get remove postgres postgresql-9.3
  ```
  
- 
  ### Upgrade OpenProject
  
 You can now continue with the regular upgrading guide as detailed on these pages:
