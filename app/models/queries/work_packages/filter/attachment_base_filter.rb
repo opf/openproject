@@ -28,7 +28,7 @@
 #++
 
 class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  DISALLOWED_CHARACTERS = /['?\\:()&|]/
+  DISALLOWED_CHARACTERS = /['?\\:()&|!*]/
 
   def type
     :text
@@ -67,7 +67,7 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
   private
 
   def tokenize
-    terms = normalize_text(clean_terms).split /\s/
+    terms = normalize_text(clean_terms).split(/[\s]+/).reject(&:blank?)
 
     case operator
       when '~'
