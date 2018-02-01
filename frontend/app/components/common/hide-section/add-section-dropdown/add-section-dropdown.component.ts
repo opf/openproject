@@ -39,7 +39,7 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
 export class AddSectionDropdownComponent implements OnInit {
   selectable:HideSectionDefinition[] = [];
   turnedActive:HideSectionDefinition|null = null;
-  texts: { [key:string]:string } = {};
+  texts:{ [key:string]:string } = {};
 
   constructor(protected hideSections:HideSectionService,
               @Inject(I18nToken) protected I18n:op.I18n) {

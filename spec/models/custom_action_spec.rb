@@ -84,35 +84,65 @@ describe CustomAction, type: :model do
     end
 
     it 'can be set and read' do
-      stubbed_instance.add_action(:assigned_to, nil)
+      stubbed_instance.actions = [CustomActions::Actions::AssignedTo.new(1)]
 
-      expect(stubbed_instance.actions.map { |a| [a.key, a.value] })
-        .to match_array [[:assigned_to, nil]]
+      expect(stubbed_instance.actions.map { |a| [a.key, a.values] })
+        .to match_array [[:assigned_to, [1]]]
     end
 
     it 'can be persisted' do
-      instance.add_action(:assigned_to, 1)
+      instance.actions = [CustomActions::Actions::AssignedTo.new(1)]
 
       instance.save!
 
-      expect(CustomAction.find(instance.id).actions.map { |a| [a.key, a.value]})
-        .to match_array [[:assigned_to, 1]]
+      expect(CustomAction.find(instance.id).actions.map { |a| [a.key, a.values] })
+        .to match_array [[:assigned_to, [1]]]
     end
   end
 
   describe '.all_actions' do
     it 'returns all available actions with the default value initialized' do
-      expect(stubbed_instance.all_actions.map { |a| [a.key, a.value] })
-        .to match_array [[:assigned_to, nil],
-                               [:status, nil]]
+      expect(stubbed_instance.all_actions.map { |a| [a.key, a.values] })
+        .to include([:assigned_to, []], [:status, []])
     end
 
     it 'returns the activated actions with their selected value and all other with the default value' do
-      stubbed_instance.add_action(:assigned_to, 1)
+      stubbed_instance.actions = [CustomActions::Actions::AssignedTo.new(1)]
 
-      expect(stubbed_instance.all_actions.map { |a| [a.key, a.value] })
-        .to match_array [[:assigned_to, 1],
-                         [:status, nil]]
+      expect(stubbed_instance.all_actions.map { |a| [a.key, a.values] })
+        .to include([:assigned_to, [1]], [:status, []])
+    end
+  end
+
+  describe '.conditions' do
+    let(:status) { FactoryGirl.create(:status) }
+
+    it 'is empty initially' do
+      expect(stubbed_instance.conditions)
+        .to be_empty
+    end
+
+    it 'can be set and read' do
+      stubbed_instance.conditions = [CustomActions::Conditions::Status.new(status.id)]
+
+      expect(stubbed_instance.conditions.map { |a| [a.key, a.values] })
+        .to match_array [[:status, [status.id]]]
+    end
+
+    it 'can be persisted' do
+      instance.conditions = [CustomActions::Conditions::Status.new(status.id)]
+
+      instance.save!
+
+      expect(CustomAction.find(instance.id).conditions.map { |a| [a.key, a.values] })
+        .to match_array [[:status, [status.id]]]
+    end
+  end
+
+  describe '.all_conditions' do
+    it 'returns all available conditions with the default value initialized' do
+      expect(stubbed_instance.all_conditions.map { |a| [a.key, a.values] })
+        .to match_array [[:status, []]]
     end
   end
 end

@@ -84,6 +84,7 @@ en:
 
   custom_actions:
     actions: 'Actions'
+    conditions: 'Conditions'
     plural: 'Custom actions'
     new: 'New custom action'
     edit: 'Edit custom action %{name}'

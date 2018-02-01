@@ -28,61 +28,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActionsController < ApplicationController
-  before_action :require_admin
+class CustomActions::Actions::Priority < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Associated
 
-  self._model_object = CustomAction
-  before_action :find_model_object, only: %i(edit update destroy)
-
-  layout 'admin'
-
-  helper_method :gon
-
-  def index
-    @custom_actions = CustomAction.order_by_name
+  def associated
+    IssuePriority
+      .select(:id, :name)
+      .order(:name)
+      .map { |p| [p.id, p.name] }
   end
 
-  def new
-    @custom_action = CustomAction.new
+  def required?
+    true
   end
 
-  def create
-    CustomActions::CreateService
-      .new(user: current_user)
-      .call(attributes: permitted_params.custom_action.to_h) do |call|
-
-      call.on_success do
-        redirect_to custom_actions_path
-      end
-
-      call.on_failure do
-        @custom_action = call.result
-        render action: :new
-      end
-    end
-  end
-
-  def edit; end
-
-  def update
-    CustomActions::UpdateService
-      .new(action: @custom_action, user: current_user)
-      .call(attributes: permitted_params.custom_action.to_h) do |call|
-
-      call.on_success do
-        redirect_to custom_actions_path
-      end
-
-      call.on_failure do
-        @custom_action = call.result
-        render action: :edit
-      end
-    end
-  end
-
-  def destroy
-    @custom_action.destroy
-
-    redirect_to custom_actions_path
+  def self.key
+    :priority
   end
 end

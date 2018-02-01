@@ -28,8 +28,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Strategies::Date
-  def type
-    :date_property
+class CustomActions::Actions::Serializer
+  def self.load(value)
+    return [] unless value
+    YAML
+      .safe_load(value, [Symbol])
+      .map do |key, values|
+      klass = nil
+
+      CustomActions::Register
+        .actions
+        .detect do |a|
+        klass = a.for(key)
+      end
+
+      klass.new(values) if klass
+    end.compact
+  end
+
+  def self.dump(actions)
+    YAML::dump(actions.map { |a| [a.key, a.values] })
   end
 end

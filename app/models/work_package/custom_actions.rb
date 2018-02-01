@@ -33,7 +33,12 @@ module WorkPackage::CustomActions
 
   included do
     def custom_actions
-      CustomAction.all
+      # TODO adapt selector from registered custom action conditions
+      has_current_status = CustomAction.includes(:statuses).where(custom_actions_statuses: { status_id: status_id })
+      has_no_status = CustomAction.includes(:statuses).where(custom_actions_statuses: { status_id: nil })
+
+      has_current_status
+        .or(has_no_status)
     end
   end
 end

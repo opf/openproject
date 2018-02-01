@@ -28,7 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::CustomFieldAction < CustomActions::Base
+class CustomActions::Actions::CustomField < CustomActions::Actions::Base
   def self.key
     :"custom_field_#{custom_field.id}"
   end
@@ -62,7 +62,7 @@ class CustomActions::CustomFieldAction < CustomActions::Base
   end
 
   def self.create_subclass(custom_field)
-    klass = Class.new(CustomActions::CustomFieldAction)
+    klass = Class.new(CustomActions::Actions::CustomField)
     klass.define_singleton_method(:custom_field) do
       custom_field
     end
@@ -75,19 +75,19 @@ class CustomActions::CustomFieldAction < CustomActions::Base
   def self.strategy(custom_field)
     case custom_field.field_format
     when 'string'
-      CustomActions::Strategies::String
+      CustomActions::Actions::Strategies::String
     when 'text'
-      CustomActions::Strategies::Text
+      CustomActions::Actions::Strategies::Text
     when 'int'
-      CustomActions::Strategies::Integer
+      CustomActions::Actions::Strategies::Integer
     when 'float'
-      CustomActions::Strategies::Float
+      CustomActions::Actions::Strategies::Float
     when 'date'
-      CustomActions::Strategies::Date
+      CustomActions::Actions::Strategies::Date
     when 'bool'
-      CustomActions::Strategies::Boolean
+      CustomActions::Actions::Strategies::Boolean
     when 'list', 'version', 'user'
-      CustomActions::Strategies::AssociatedCustomField
+      CustomActions::Actions::Strategies::AssociatedCustomField
     end
   end
 

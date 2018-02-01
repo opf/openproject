@@ -57,7 +57,7 @@ export class WpWorkflowButtonComponent {
   public update() {
     let payload = {
       lockVersion: this.workPackage.lockVersion
-    }
+    };
 
     this.halRequest.post(this.link.href, payload)
       .then((savedWp:WorkPackageResourceInterface) => {

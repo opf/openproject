@@ -47,14 +47,20 @@ class CustomActions::BaseService
   private
 
   def set_attributes(action, attributes)
-    actions = (attributes.delete(:actions) || {}).symbolize_keys
+    actions_attributes = (attributes.delete(:actions) || {}).symbolize_keys
+    conditions_attributes = (attributes.delete(:conditions) || {}).symbolize_keys
     action.attributes = attributes
 
+    set_actions(action, actions_attributes)
+    set_conditions(action, conditions_attributes)
+  end
+
+  def set_actions(action, actions_attributes)
     existing_action_keys = action.actions.map(&:key)
 
-    remove_actions(action, existing_action_keys - actions.keys)
-    update_actions(action, actions.slice(*existing_action_keys))
-    add_actions(action, actions.slice(*(actions.keys - existing_action_keys)))
+    remove_actions(action, existing_action_keys - actions_attributes.keys)
+    update_actions(action, actions_attributes.slice(*existing_action_keys))
+    add_actions(action, actions_attributes.slice(*(actions_attributes.keys - existing_action_keys)))
   end
 
   def remove_actions(action, keys)
@@ -64,28 +70,33 @@ class CustomActions::BaseService
   end
 
   def update_actions(action, key_values)
-    key_values.each do |key, value|
-      update_action(action, key, value)
+    key_values.each do |key, values|
+      update_action(action, key, values)
     end
   end
 
   def add_actions(action, key_values)
-    key_values.each do |key, value|
-      add_action(action, key, value)
+    key_values.each do |key, values|
+      add_action(action, key, values)
     end
   end
 
-  def update_action(action, key, value)
-    # TODO handle unknown key
-    action.actions.detect { |a| a.key == key }.value = value
+  def update_action(action, key, values)
+    action.actions.detect { |a| a.key == key }.values = values
   end
 
-  def add_action(action, key, value)
+  def add_action(action, key, values)
     # TODO handle unknown key
-    action.actions << action.available_actions.detect { |a| a.key == key }.new(value)
+    action.actions << action.available_actions.detect { |a| a.key == key }.new(values)
   end
 
   def remove_action(action, key)
     action.actions.reject! { |a| a.key == key }
+  end
+
+  def set_conditions(action, conditions_attributes)
+    action.conditions = conditions_attributes.map do |key, values|
+      action.available_conditions.detect { |a| a.key == key }.new(values)
+    end
   end
 end

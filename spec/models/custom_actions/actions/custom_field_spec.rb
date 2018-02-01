@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe CustomActions::CustomFieldAction, type: :model do
+describe CustomActions::Actions::CustomField, type: :model do
   let(:list_custom_field) do
     FactoryGirl.build_stubbed(:list_wp_custom_field)
   end
@@ -119,15 +119,15 @@ describe CustomActions::CustomFieldAction, type: :model do
     it 'can be provided on initialization' do
       i = klass.new(1)
 
-      expect(i.value)
-        .to eql 1
+      expect(i.values)
+        .to eql [1]
     end
 
     it 'can be set and read' do
-      instance.value = 1
+      instance.values = [1]
 
-      expect(instance.value)
-        .to eql 1
+      expect(instance.values)
+        .to eql [1]
     end
   end
 

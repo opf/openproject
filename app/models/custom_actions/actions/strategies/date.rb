@@ -28,8 +28,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Strategies::Text
+module CustomActions::Actions::Strategies::Date
   def type
-    :text_property
+    :date_property
   end
 end

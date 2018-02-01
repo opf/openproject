@@ -28,30 +28,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::AssignedToAction < CustomActions::Base
-  include CustomActions::Strategies::Associated
-
-  def associated
-    # TODO handle groups
-    User
-      .not_builtin
-      .select(:id, :firstname, :lastname)
-      .order_by_name
-      .map { |u| [u.id, u.name] }
-      #values = principal_loader.user_values
-
-      #if Setting.work_package_group_assignment?
-      #  values += principal_loader.group_values
-      #end
-
-      #me_allowed_value + values.sort
-  end
-
-  def required?
-    false
-  end
-
-  def self.key
-    :assigned_to
+module CustomActions::Actions::Strategies::Text
+  def type
+    :text_property
   end
 end

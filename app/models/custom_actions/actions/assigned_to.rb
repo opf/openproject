@@ -28,21 +28,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Strategies::AssociatedCustomField
-  include CustomActions::Strategies::Associated
-  include CustomActions::Strategies::CustomField
-
-  def type
-    if custom_field.multi_value?
-      :associated_property_multi
-    else
-      super
-    end
-  end
+class CustomActions::Actions::AssignedTo < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Associated
 
   def associated
-    custom_field
-      .possible_values_options
-      .map { |label, value| [value.empty? ? nil : value.to_i, label] }
+    # TODO handle groups
+    User
+      .not_builtin
+      .select(:id, :firstname, :lastname)
+      .order_by_name
+      .map { |u| [u.id, u.name] }
+  end
+
+  def required?
+    false
+  end
+
+  def self.key
+    :assigned_to
   end
 end

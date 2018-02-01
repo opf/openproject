@@ -91,17 +91,33 @@ describe CustomActions::UpdateService do
     end
 
     it 'updates the actions' do
-      action.actions = [CustomActions::AssignedToAction.new('1'),
-                        CustomActions::StatusAction.new('3')]
+      action.actions = [CustomActions::Actions::AssignedTo.new('1'),
+                        CustomActions::Actions::Status.new('3')]
 
       new_actions = instance
-                      .call(attributes: { actions: { assigned_to: '2', priority: '3' } })
+                      .call(attributes: { actions: { assigned_to: ['2'], priority: ['3'] } })
                       .result
                       .actions
-                      .map { |a| [a.key, a.value] }
+                      .map { |a| [a.key, a.values] }
 
       expect(new_actions)
-        .to match_array [[:assigned_to, '2'], [:priority, '3']]
+        .to match_array [[:assigned_to, ['2']], [:priority, ['3']]]
+    end
+
+    it 'updates the conditions' do
+      old_status = FactoryGirl.create(:status)
+      new_status = FactoryGirl.create(:status)
+
+      action.conditions = [CustomActions::Conditions::Status.new(old_status.id)]
+
+      new_conditions = instance
+                       .call(attributes: { conditions: { status: new_status.id } })
+                       .result
+                       .conditions
+                       .map { |a| [a.key, a.values] }
+
+      expect(new_conditions)
+        .to match_array [[:status, [new_status.id]]]
     end
   end
 end

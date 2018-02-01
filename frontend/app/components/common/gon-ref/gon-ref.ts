@@ -29,7 +29,7 @@
 import { Injectable } from '@angular/core';
 
 interface GonWindow extends Window {
-  gon:{}
+  gon:{};
 }
 
 function _gon():any {

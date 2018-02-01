@@ -62,6 +62,12 @@ module Pages
         rescue Capybara::ElementNotFound
           add_action(name, value)
         end
+
+        def set_condition(name, value)
+          within '#custom-actions-form--conditions' do
+            select value, from: name
+          end
+        end
       end
     end
   end

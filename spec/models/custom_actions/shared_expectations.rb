@@ -53,25 +53,25 @@ shared_examples_for 'associated custom action' do
   end
 
   describe '#key' do
-    it 'is :status' do
+    it 'is the expected key' do
       expect(instance.key)
         .to eql(expected_key)
     end
   end
 
-  describe '#value' do
+  describe '#values' do
     it 'can be provided on initialization' do
       i = described_class.new(1)
 
-      expect(i.value)
-        .to eql 1
+      expect(i.values)
+        .to eql [1]
     end
 
     it 'can be set and read' do
-      instance.value = 1
+      instance.values = 1
 
-      expect(instance.value)
-        .to eql 1
+      expect(instance.values)
+        .to eql [1]
     end
   end
 
@@ -86,6 +86,56 @@ shared_examples_for 'associated custom action' do
     it 'is :associated_property' do
       expect(instance.type)
         .to eql(:associated_property)
+    end
+  end
+end
+
+shared_examples_for 'associated custom condition' do
+  let(:instance) do
+    described_class.new
+  end
+  let(:expected_key) do
+    if defined?(key)
+      key
+    else
+      raise ":key needs to be defined"
+    end
+  end
+
+  describe '.key' do
+    it 'is the expected key' do
+      expect(described_class.key)
+        .to eql(expected_key)
+    end
+  end
+
+  describe '#key' do
+    it 'is the expected key' do
+      expect(instance.key)
+        .to eql(expected_key)
+    end
+  end
+
+  describe '#values' do
+    it 'can be provided on initialization' do
+      i = described_class.new(1)
+
+      expect(i.values)
+        .to eql [1]
+    end
+
+    it 'can be set and read' do
+      instance.values = 1
+
+      expect(instance.values)
+        .to eql [1]
+    end
+  end
+
+  describe '#human_name' do
+    it 'is the human_attribute_name' do
+      expect(instance.human_name)
+        .to eql(WorkPackage.human_attribute_name(expected_key))
     end
   end
 end

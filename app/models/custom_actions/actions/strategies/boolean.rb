@@ -19,7 +19,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Strategies::Boolean
+module CustomActions::Actions::Strategies::Boolean
   def allowed_values
     [
       { label: I18n.t(:general_text_yes), value: CustomValue::BoolStrategy::DB_VALUE_TRUE },

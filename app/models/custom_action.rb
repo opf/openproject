@@ -29,7 +29,8 @@
 
 class CustomAction < ActiveRecord::Base
   validates :name, length: { maximum: 255, minimum: 1 }
-  serialize :actions, CustomActions::ActionSerializer
+  serialize :actions, CustomActions::Actions::Serializer
+  has_and_belongs_to_many :statuses
 
   def initialize(*args)
     ret = super
@@ -46,23 +47,56 @@ class CustomAction < ActiveRecord::Base
   end
 
   def all_actions
-    available_actions.map do |action|
-      existing_action = actions.detect { |a| a.key == action.key }
-
-      if existing_action
-        existing_action
-      else
-        action.new
-      end
-    end
+    all_of(available_actions, actions)
   end
 
   def available_actions
     ::CustomActions::Register.actions.map(&:all).flatten
   end
+
+  def all_conditions
+    all_of(available_conditions, conditions)
+  end
+
+  def available_conditions
+    ::CustomActions::Register.conditions
+  end
+
+  def conditions
+    # TODO generalize and move into condition
+    if statuses.any?
+      [CustomActions::Conditions::Status.new(statuses.map(&:id))]
+    else
+      []
+    end
+  end
+
+  def conditions=(new_conditions)
+    # TODO place in after save hook so that validations can take place before
+    # TODO generalize and move into condition
+    new_conditions.each do |new_condition|
+      self.status_ids = Array(new_condition.values)
+    end
+  end
+
+  private
+
+  def all_of(availables, actual)
+    availables.map do |available|
+      existing = actual.detect { |a| a.key == available.key }
+
+      if existing
+        existing
+      else
+        available.new
+      end
+    end
+  end
 end
 
-CustomActions::Register.action(CustomActions::AssignedToAction)
-CustomActions::Register.action(CustomActions::StatusAction)
-CustomActions::Register.action(CustomActions::PriorityAction)
-CustomActions::Register.action(CustomActions::CustomFieldAction)
+CustomActions::Register.action(CustomActions::Actions::AssignedTo)
+CustomActions::Register.action(CustomActions::Actions::Status)
+CustomActions::Register.action(CustomActions::Actions::Priority)
+CustomActions::Register.action(CustomActions::Actions::CustomField)
+
+CustomActions::Register.condition(CustomActions::Conditions::Status)

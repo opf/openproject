@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,24 +25,26 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'spec_helper'
+require_relative '../shared_expectations'
 
-class CustomActions::StatusAction < CustomActions::Base
-  include CustomActions::Strategies::Associated
+describe CustomActions::Actions::AssignedTo, type: :model do
+  it_behaves_like 'associated custom action' do
+    let(:key) { :assigned_to }
 
-  private
+    describe '#allowed_values' do
+      it 'is the list of all users' do
+        users = [FactoryGirl.build_stubbed(:user),
+                 FactoryGirl.build_stubbed(:user)]
+        allow(User)
+          .to receive_message_chain(:not_builtin, :select, :order_by_name)
+          .and_return(users)
 
-  def associated
-    Status
-      .select(:id, :name)
-      .order(:name)
-      .map { |u| [u.id, u.name] }
-  end
-
-  def required?
-    true
-  end
-
-  def self.key
-    :status
+        expect(instance.allowed_values)
+          .to eql([{ value: nil, label: '-' },
+                   { value: users.first.id, label: users.first.name },
+                   { value: users.last.id, label: users.last.name }])
+      end
+    end
   end
 end

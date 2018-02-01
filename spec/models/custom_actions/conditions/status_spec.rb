@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,22 +25,26 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'spec_helper'
+require_relative '../shared_expectations'
 
-class CustomActions::PriorityAction < CustomActions::Base
-  include CustomActions::Strategies::Associated
+describe CustomActions::Conditions::Status, type: :model do
+  it_behaves_like 'associated custom condition' do
+    let(:key) { :status }
 
-  def associated
-    IssuePriority
-      .select(:id, :name)
-      .order(:name)
-      .map { |p| [p.id, p.name] }
-  end
+    describe '#allowed_values' do
+      it 'is the list of all status' do
+        statuses = [FactoryGirl.build_stubbed(:status),
+                    FactoryGirl.build_stubbed(:status)]
+        allow(Status)
+          .to receive_message_chain(:select, :order)
+                .and_return(statuses)
 
-  def required?
-    true
-  end
-
-  def self.key
-    :priority
+        expect(instance.allowed_values)
+          .to eql([{ value: nil, label: '-' },
+                   { value: statuses.first.id, label: statuses.first.name },
+                   { value: statuses.last.id, label: statuses.last.name }])
+      end
+    end
   end
 end

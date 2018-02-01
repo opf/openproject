@@ -28,7 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Strategies::Associated
+module CustomActions::Actions::Strategies::Associated
   def allowed_values
     @allowed_values ||= begin
       options = associated
@@ -37,7 +37,7 @@ module CustomActions::Strategies::Associated
       if required?
         options
       else
-        options.unshift(value: nil, label: '-')
+        options.unshift(value: nil, label: I18n.t('placeholders.default'))
       end
     end
   end

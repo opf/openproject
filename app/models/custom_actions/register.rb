@@ -34,6 +34,13 @@ module CustomActions::Register
       @actions << action
     end
 
-    attr_accessor :actions
+    def condition(condition)
+      @conditions ||= []
+
+      @conditions << condition
+    end
+
+    attr_accessor :actions,
+                  :conditions
   end
 end

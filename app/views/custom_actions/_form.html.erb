@@ -14,6 +14,25 @@ gon.push({
   <%= f.text_field :name, required: true, container_class: '-middle', label: 'Name' %>
 </div>
 
+<fieldset class="form--fieldset" id="custom-actions-form--conditions">
+  <legend class="form--fieldset-legend">
+    <%= t('custom_actions.conditions') %>
+  </legend>
+
+  <% @custom_action.all_conditions.each do |condition| %>
+    <div class="form--field">
+      <%= styled_label_tag("custom_action_conditions_#{condition.key}", condition.human_name) %>
+      <% input_name = "custom_action[conditions][#{condition.key}]" %>
+      <% selected_values = condition.values
+         select_options = options_for_select(condition.allowed_values.map { |v| [v[:label], v[:value]] },
+                                             selected: selected_values) %>
+      <%= styled_select_tag input_name,
+                            select_options,
+                            container_class: '-middle' %>
+    </div>
+  <% end %>
+</fieldset>
+
 <fieldset class="form--fieldset" id="custom-actions-form--actions">
   <legend class="form--fieldset-legend">
     <%= t('custom_actions.actions') %>
@@ -24,34 +43,35 @@ gon.push({
       <hide-section section-name="<%= action.key %>">
         <div class="form--field">
           <%= styled_label_tag("custom_action_actions_#{action.key}", action.human_name) %>
-            <% input_name = "custom_action[actions][#{action.key}]" %>
-            <% if %i(associated_property boolean associated_property_multi).include?(action.type) %>
-              <% selected_values = action.value
-                 select_options = options_for_select(action.allowed_values.map { |v| [v[:label], v[:value]] },
-                                                     selected: selected_values) %>
-              <%= styled_select_tag input_name,
-                                    select_options,
-                                    multiple: action.type == :associated_property_multi,
-                                    container_class: '-middle' %>
-            <% elsif %i(date_property).include?(action.type) %>
-              <%= styled_text_field_tag input_name,
-                                        action.value,
-                                        id: "on-date-value-#{action.key}",
-                                        container_class: '-slim',
-                                        size: '10' %>
-              <%= calendar_for("on-date-value-#{action.key}") %>
-            <% elsif %i(string_property text_property).include?(action.type) %>
-              <%= styled_text_field_tag input_name,
-                                        action.value,
+
+          <% input_name = "custom_action[actions][#{action.key}]" %>
+          <% if %i(associated_property boolean associated_property_multi).include?(action.type) %>
+            <% selected_values = action.values
+               select_options = options_for_select(action.allowed_values.map { |v| [v[:label], v[:value]] },
+                                                   selected: selected_values) %>
+            <%= styled_select_tag input_name,
+                                  select_options,
+                                  multiple: action.type == :associated_property_multi,
+                                  container_class: '-middle' %>
+          <% elsif %i(date_property).include?(action.type) %>
+            <%= styled_text_field_tag input_name,
+                                      action.values,
+                                      id: "on-date-value-#{action.key}",
+                                      container_class: '-slim',
+                                      size: '10' %>
+            <%= calendar_for("on-date-value-#{action.key}") %>
+          <% elsif %i(string_property text_property).include?(action.type) %>
+            <%= styled_text_field_tag input_name,
+                                      action.values,
+                                      container_class: '-slim',
+                                      step: 'any' %>
+          <% elsif %i(integer_property float_property).include?(action.type) %>
+            <%= styled_number_field_tag input_name,
+                                        action.values,
                                         container_class: '-slim',
                                         step: 'any' %>
-            <% elsif %i(integer_property float_property).include?(action.type) %>
-              <%= styled_number_field_tag input_name,
-                                          action.value,
-                                          container_class: '-slim',
-                                          step: 'any' %>
-            <% end %>
-         <hide-section-link section-name="<%= action.key %>"></hide-section-link>
+          <% end %>
+          <hide-section-link section-name="<%= action.key %>"></hide-section-link>
         </div>
       </hide-section>
     <% end %>

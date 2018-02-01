@@ -28,8 +28,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Strategies::CustomField
-  def required?
-    custom_field.required?
+class CustomActions::Conditions::Status < CustomActions::Conditions::Base
+  def self.key
+    :status
+  end
+
+  private
+
+  def associated
+    Status
+      .select(:id, :name)
+      .order(:name)
+      .map { |u| [u.id, u.name] }
   end
 end

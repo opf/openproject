@@ -28,8 +28,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Strategies::Integer
-  def type
-    :integer_property
+class CustomActions::Actions::Status < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Associated
+
+  private
+
+  def associated
+    Status
+      .select(:id, :name)
+      .order(:name)
+      .map { |u| [u.id, u.name] }
+  end
+
+  def required?
+    true
+  end
+
+  def self.key
+    :status
   end
 end

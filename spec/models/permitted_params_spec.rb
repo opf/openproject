@@ -358,7 +358,11 @@ describe PermittedParams, type: :model do
   describe '#custom_action' do
     let(:attribute) { :custom_action }
     let(:hash) do
-      { 'name' => 'blubs', 'actions' => { 'assigned_to' => '1' } }
+      {
+        'name' => 'blubs',
+        'actions' => { 'assigned_to' => '1' },
+        'conditions' => { 'status' => '42' }
+      }
     end
 
     it_behaves_like 'allows params'

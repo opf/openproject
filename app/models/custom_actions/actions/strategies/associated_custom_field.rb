@@ -28,40 +28,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::Base
-  attr_accessor :value
-
-  def initialize(value = nil)
-    self.value = value
-  end
-
-  def allowed_values
-    raise NotImplementedError
-  end
+module CustomActions::Actions::Strategies::AssociatedCustomField
+  include CustomActions::Actions::Strategies::Associated
+  include CustomActions::Actions::Strategies::CustomField
 
   def type
-    raise NotImplementedError
-  end
-
-  def human_name
-    WorkPackage.human_attribute_name(self.class.key)
-  end
-
-  def self.key
-    raise NotImplementedError
-  end
-
-  def self.all
-    [self]
-  end
-
-  def self.for(key)
-    if key == self.key
-      self
+    if custom_field.multi_value?
+      :associated_property_multi
+    else
+      super
     end
   end
 
-  def key
-    self.class.key
+  def associated
+    custom_field
+      .possible_values_options
+      .map { |label, value| [value.empty? ? nil : value.to_i, label] }
   end
 end

@@ -28,7 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Strategies::String
+module CustomActions::Actions::Strategies::String
   def type
     :string_property
   end

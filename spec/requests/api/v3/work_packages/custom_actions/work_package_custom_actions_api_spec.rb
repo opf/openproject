@@ -48,8 +48,7 @@ describe 'API::V3::WorkPackages::CustomActions::CustomActionsAPI', type: :reques
                        member_through_role: role)
   end
   let(:action) do
-    # TODO: stub for the action
-    OpenStruct.new(id: 1)
+    FactoryGirl.create(:custom_action, actions: [CustomActions::Actions::AssignedTo.new(nil)])
   end
   let(:parameters) do
     {

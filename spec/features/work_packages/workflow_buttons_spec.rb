@@ -133,6 +133,7 @@ describe 'Workflow buttons', type: :feature, js: true do
     new_ca_page.add_action('Priority', default_priority.name)
     new_ca_page.add_action('Status', default_status.name)
     new_ca_page.add_action('Assignee', user.name)
+    new_ca_page.set_condition('Status', closed_status.name)
     new_ca_page.create
 
     index_ca_page.expect_current_path
@@ -150,7 +151,7 @@ describe 'Workflow buttons', type: :feature, js: true do
     expect(page)
       .to have_selector('.workflow-button', text: 'Escalate')
     expect(page)
-      .to have_selector('.workflow-button', text: 'Reset')
+      .to have_no_selector('.workflow-button', text: 'Reset')
 
     within('.workflow-buttons') do
       click_button('Unassign')
@@ -190,6 +191,9 @@ describe 'Workflow buttons', type: :feature, js: true do
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 
+    expect(page)
+      .to have_selector('.workflow-button', text: 'Reset')
+
     within('.workflow-buttons') do
       click_button('Reset')
     end
@@ -210,6 +214,7 @@ describe 'Workflow buttons', type: :feature, js: true do
     edit_ca_page.remove_action 'Priority'
     edit_ca_page.set_action 'Assignee', '-'
     edit_ca_page.set_action 'Status', rejected_status.name
+    edit_ca_page.set_condition 'Status', default_status.name
     edit_ca_page.save
 
     index_ca_page.expect_current_path
@@ -241,22 +246,25 @@ describe 'Workflow buttons', type: :feature, js: true do
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 
+    expect(page)
+      .to have_no_selector('.workflow-button', text: 'Reject')
+
     # Delete 'Reject' from list of actions
     login_as(admin)
 
     index_ca_page.visit!
 
-    index_ca_page.delete('Reject')
+    index_ca_page.delete('Unassign')
 
     index_ca_page.expect_current_path
-    index_ca_page.expect_listed('Unassign', 'Close', 'Escalate')
+    index_ca_page.expect_listed('Close', 'Escalate', 'Reject')
 
     login_as(user)
 
     wp_page.visit!
 
     expect(page)
-      .to have_selector('.workflow-button', text: 'Unassign')
+      .to have_no_selector('.workflow-button', text: 'Unassign')
     expect(page)
       .to have_selector('.workflow-button', text: 'Close')
     expect(page)

@@ -39,12 +39,15 @@ module API
               post do
                 # TODO: check how this can be merged with work_packages_shared_helpers
                 @work_package.lock_version = nil
-                payload = ::API::V3::WorkPackages::WorkPackageLockVersionPayloadRepresenter.new(@work_package, current_user: current_user)
+                payload = ::API::V3::WorkPackages::WorkPackageLockVersionPayloadRepresenter.new(@work_package,
+                                                                                                current_user: current_user)
                 @work_package = payload.from_hash(Hash(request_body))
 
                 custom_action = CustomAction.find(params[:action_id])
 
-                attributes = custom_action.actions.map { |a| [a.key.to_s.gsub(/(_id)?$/, '_id'), a.value] }.to_h
+                # TODO move into each action
+                # TODO handle having multiple values
+                attributes = custom_action.actions.map { |a| [a.key.to_s.gsub(/(_id)?$/, '_id'), a.values.first] }.to_h
 
                 call = ::WorkPackages::UpdateService
                        .new(

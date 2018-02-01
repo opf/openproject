@@ -26,9 +26,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
-require_relative 'shared_expectations'
+require_relative '../shared_expectations'
 
-describe CustomActions::PriorityAction, type: :model do
+describe CustomActions::Actions::Priority, type: :model do
   it_behaves_like 'associated custom action' do
     let(:key) { :priority }
 

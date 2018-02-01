@@ -28,8 +28,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Strategies::Float
-  def type
-    :float_property
+class CustomActions::Conditions::Base
+  attr_reader :values
+
+  def initialize(values = nil)
+    self.values = values
+  end
+
+  def values=(values)
+    @values = Array(values)
+  end
+
+  def allowed_values
+    associated
+      .map { |value, label| { value: value, label: label } }
+      .unshift(value: nil, label: I18n.t('placeholders.default'))
+  end
+
+  def human_name
+    WorkPackage.human_attribute_name(self.class.key)
+  end
+
+  def self.key
+    raise NotImplementedError
+  end
+
+  def key
+    self.class.key
   end
 end

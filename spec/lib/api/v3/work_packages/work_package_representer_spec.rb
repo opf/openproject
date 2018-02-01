@@ -903,7 +903,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'customActions' do
         it 'has a collection of customActions' do
           unassign_action = FactoryGirl.build_stubbed(:custom_action,
-                                                      actions: [CustomActions::AssignedToAction.new(value: nil)],
+                                                      actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
                                                       name: 'Unassign')
           allow(work_package)
             .to receive(:custom_actions)

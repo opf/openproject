@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,20 +28,44 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::ActionSerializer
-  def self.load(value)
-    return [] unless value
-    YAML
-      .load(value)
-      .map do |key, value|
-      klass = CustomActions::Register
-              .actions
-              .detect { |a| a.for(key) }
-      klass.new(value) if klass
-    end.compact
+class CustomActions::Actions::Base
+  attr_reader :values
+
+  def initialize(values = [])
+    self.values = values
   end
 
-  def self.dump(actions)
-    YAML::dump(actions.map { |a| [a.key, a.value] })
+  def values=(values)
+    @values = Array(values)
+  end
+
+  def allowed_values
+    raise NotImplementedError
+  end
+
+  def type
+    raise NotImplementedError
+  end
+
+  def human_name
+    WorkPackage.human_attribute_name(self.class.key)
+  end
+
+  def self.key
+    raise NotImplementedError
+  end
+
+  def self.all
+    [self]
+  end
+
+  def self.for(key)
+    if key == self.key
+      self
+    end
+  end
+
+  def key
+    self.class.key
   end
 end
