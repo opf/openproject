@@ -48,6 +48,6 @@ RUN chown -R app:app /usr/src/app
 USER app
 # Run the npm postinstall manually after it was copied
 RUN cd frontend && npm run postinstall
-RUN DATABASE_URL=sqlite3:///tmp/db.sqlite3 SECRET_TOKEN=foobar RAILS_ENV=production bundle exec rake assets:precompile
+RUN DATABASE_URL=sqlite3:///tmp/db.sqlite3 SECRET_TOKEN=foobar RAILS_ENV=production bundle --with docker exec rake assets:precompile
 
 CMD ["./docker/web"]
