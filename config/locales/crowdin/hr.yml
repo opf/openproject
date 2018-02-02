@@ -1026,6 +1026,8 @@ hr:
       blog: OpenProject blog
       boards: Forum Zajednice
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Nakon uspješne aktivacije, kliknite %{signin} za
     prijavu u sustav.
   instructions_after_logout: Prijaviti se možete tako da kliknete %{signin}.
@@ -1223,6 +1225,7 @@ hr:
   label_greater_or_equal: ">="
   label_group_by: Grupiraj po
   label_group_new: Nova grupa
+  label_group: Grupa
   label_group_plural: Grupe
   label_help: Pomoć
   label_here: ovdje

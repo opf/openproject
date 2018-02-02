@@ -37,7 +37,7 @@ af:
     button_open_fullscreen: Maak volkermmodus oop
     button_quote: Haal aan
     button_save: Stoor
-    button_settings: Settings
+    button_settings: Instellings
     button_uncheck_all: Ontmerk almal
     button_update: Opdateer
     button_export-pdf: Download PDF
@@ -130,7 +130,7 @@ af:
     label_menu_collapse: collapse
     label_menu_expand: expand
     label_more_than_ago: meer as dae gelede
-    label_next: Next
+    label_next: Volgende
     label_no_data: Geen data om te wys
     label_no_due_date: no end date
     label_no_start_date: no start date
@@ -156,12 +156,12 @@ af:
     label_sort_by: Sort by
     label_sorted_by: sorted by
     label_sort_higher: Move up
-    label_sort_lower: Move down
+    label_sort_lower: Skuif af
     label_sorting: Sorting
     label_sum_for: Sum for
     label_subject: Onderwerp
-    label_this_week: this week
-    label_today: today
+    label_this_week: vandeesweek
+    label_today: vandag
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Total progress"

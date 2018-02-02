@@ -247,8 +247,8 @@ es:
       login_verification:
         other: Escriba el %{name} de inicio de sesión para verificar la eliminación.
           Después del envío, se le pedirá que confirme la contraseña.
-        self: Escriba su %{name} de inicio de sesión para verificar la eliminación.
-          Después del envío, se le pedirá que confirme la contraseña.
+        self: Introducir el %{name} de inicio de sesión para verificar la eliminación.
+          Una vez que se envíe, se le pedirá confirmar la contraseña.
     error_inactive_activation_by_mail: 'Su cuenta aún no está activada. Para activar
       su cuenta, haga clic en el enlace que fue enviado por correo electrónico.
 
@@ -481,7 +481,7 @@ es:
               invalid: El campo personalizado no es válido en el contexto válido.
         relation:
           typed_dag:
-            circular_dependency: La relación crea un círculo de relaciones.
+            circular_dependency: La relación crea un bucle de relaciones.
           attributes:
             to:
               error_not_found: el paquete de trabajo en posición 'a' no se ha encontrado
@@ -496,8 +496,8 @@ es:
         repository:
           not_available: El proveedor SMC no está disponible
           not_whitelisted: no está permitido por la configuración.
-          invalid_url: no es una dirección URL o ruta de acceso válida a un repositorio.
-          must_not_be_ssh: no debe ser una dirección URL para SSH.
+          invalid_url: no es una dirección URL o ruta válida para un repositorio.
+          must_not_be_ssh: no debe usarse una URL de SSH.
           no_directory: no es un directorio.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Paquete de trabajo #%{id} no es
@@ -715,7 +715,7 @@ es:
     failed: No se puede copiar proyecto %{source_project_name}
     succeeded: Proyecto creado %{target_project_name}
     errors: Error
-    project_custom_fields: Campos personalizados en el proyecto
+    project_custom_fields: Campos personalizados del proyecto
     text:
       failed: No se pudo copiar el proyecto "%{source_project_name}" al proyecto "%{target_project_name}".
       succeeded: Proyecto copiado de "%{source_project_name}" a "%{target_project_name}".
@@ -923,8 +923,8 @@ es:
   enumeration_work_package_priorities: Prioridades del paquete de trabajo
   enumeration_system_activity: Actividad del sistema
   enumeration_reported_project_statuses: Estatus del proyecto reportado
-  error_auth_source_sso_failed: El inicio de sesión único (SSO) del usuario “%{value}”
-    produjo errores
+  error_auth_source_sso_failed: El intento de inicio de sesión único (SSO) para el
+    usuario “%{value}” falló
   error_can_not_archive_project: El proyecto no se puede archivar
   error_can_not_delete_entry: No se puede eliminar la entrada
   error_can_not_delete_custom_field: Imposible eliminar el campo seleccionado
@@ -1036,7 +1036,9 @@ es:
       forums: Foros
       blog: Blog de OpenProject
       boards: Foro de la comunidad
-      newsletter: Alertas de seguridad/boletín
+      newsletter: Alertas de seguridad / boletín
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Podras entrar tan pronto como tu cuenta halla sido
     activada haciendo clic sobre %{signin}.
   instructions_after_logout: Puedes entrar nuevamente haciendo clic sobre  %{signin}.
@@ -1222,7 +1224,7 @@ es:
   label_file_plural: Archivos
   label_filter_add: Añadir filtro
   label_filter_plural: Filtros
-  label_filters_toggle: Mostrar/Ocultar filtro
+  label_filters_toggle: Mostrar/Ocultar filtros
   label_float: Desprender
   label_folder: Carpeta
   label_follows: sigue
@@ -1235,6 +1237,7 @@ es:
   label_greater_or_equal: ">="
   label_group_by: Agrupar por
   label_group_new: Nuevo grupo
+  label_group: Grupo
   label_group_plural: Grupos
   label_help: Ayuda
   label_here: aqui
@@ -1627,12 +1630,12 @@ es:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
+        no_project_context: Invocando la macro create_work_package_link desde el contexto
+          del proyecto externo.
         invalid_type: No se ha encontrado ningún tipo con nombre '%{type}' en el proyecto
           '%{project}'.
       link_name: Nuevo paquete de trabajo
-      link_name_type: New %{type_name}
+      link_name_type: "%{type_name} nuevo"
   mail:
     actions: Acciones
   mail_body_account_activation_request: 'Ha registrado un nuevo usuario (%{value}).
@@ -2639,7 +2642,7 @@ es:
       multipart_body_error: El cuerpo de la solicitud no contiene las partes multiparts
         previstas.
       multiple_errors: Múltiples limitaciones de campo han sido violadas.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: No se pudo crear el adjunto
       render:
         context_not_parsable: El contexto proporcionado no es un enlace a un recurso.
         unsupported_context: El recurso dado no es soportado como contexto.

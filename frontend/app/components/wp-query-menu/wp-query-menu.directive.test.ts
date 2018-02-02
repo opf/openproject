@@ -29,25 +29,28 @@
 /*jshint expr: true*/
 
 
+import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
+
 describe('queryMenuItemFactory', function() {
-  var menuContainer, document, menuItemPath = '/templates/layout/menu_item.html',
-      $rootScope, scope,
-      queryMenuItemFactory, state = {}, stateParams = {};
+  var menuContainer:any, element:any, document:any,
+      $rootScope:ng.IRootScopeService, scope:ng.IScope,
+      queryMenu:QueryMenuService, state:any = {}, stateParams:any = {};
 
   beforeEach(angular.mock.module('openproject.layout'));
   beforeEach(angular.mock.module('openproject.templates',
                     'openproject.services',
+                    'openproject.uiComponents',
                     'openproject.models',
                     'openproject.api',
-                    function($provide) {
-    var configurationService = {};
+                    function($provide:ng.auto.IProvideService) {
+    var configurationService:any = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
 
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(angular.mock.module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function($provide:ng.auto.IProvideService) {
     // Mock check whether we are on a work_packages page
     state = { includes: function() { return true; } };
     $provide.value('$state', state);
@@ -55,38 +58,46 @@ describe('queryMenuItemFactory', function() {
     $provide.value('$stateParams', stateParams);
   }));
 
-  beforeEach(inject(function(_$rootScope_, $document, $templateCache) {
+  beforeEach(inject(function(_$rootScope_:ng.IRootScopeService,
+                             $compile:ng.ICompileService,
+                             $document:ng.IDocumentService) {
     $rootScope = _$rootScope_;
 
     // set up html body
-    var template = '<div id="main-menu-work-packages-wrapper"></div>' +
-                   '<ul class="menu-children"></ul>';
-    menuContainer = angular.element(template);
+    const template = `
+      <div id="main-menu-work-packages-wrapper">
+        <a id="main-menu-work-packages" wp-query-menu>Work packages</a>
+        <ul class="menu-children"></ul>'
+      </div>
+    `;
+    element = angular.element(template);
+    $compile(element)($rootScope);
+
     document = $document[0];
     var body = angular.element(document.body);
-    body.append(menuContainer);
+    body.append(element);
+    menuContainer = element.find('ul.menu-children');
   }));
 
-  beforeEach(inject(function(_queryMenuItemFactory_) {
-    queryMenuItemFactory = _queryMenuItemFactory_;
+  beforeEach(inject(function(_queryMenu_:QueryMenuService) {
+    queryMenu = _queryMenu_;
   }));
 
-  afterEach(inject(function($document) {
+  afterEach(inject(function() {
     // The document does not seem to be cleaned up after each test instead each
     // test leaves additional DOM. Thus the tests are not independent.
     // Therefore we clean it by hand.
-    menuContainer.remove();
+    element.remove();
   }));
 
-  describe('#generateMenuItem for a query', function() {
-    var menuItem, itemLink;
+  describe('#add for a query', function() {
+    var menuItem:any, itemLink:any;
     var path = '/work_packages?query_id=1',
         title = 'Query',
-        objectId = 1;
+        objectId = '1';
 
     var generateMenuItem = function() {
-      queryMenuItemFactory.generateMenuItem(title, path, objectId);
-      $rootScope.$apply();
+      queryMenu.add(title, path, objectId);
 
       menuItem = menuContainer.children('li');
       itemLink = menuItem.children('a');
@@ -103,10 +114,6 @@ describe('queryMenuItemFactory', function() {
       expect(itemLink.hasClass('query-menu-item')).to.be.true;
     });
 
-    it('applies the query menu item link function', function() {
-      expect(scope.objectId).to.equal(objectId);
-    });
-
     describe('when the query id matches the query id of the state params', function() {
       beforeEach(inject(function() {
         stateParams['query_id'] = objectId;
@@ -114,14 +121,12 @@ describe('queryMenuItemFactory', function() {
       }));
 
       it('marks the new item as selected', function() {
-        $rootScope.$broadcast('openproject.layout.activateMenuItem');
         expect(itemLink.hasClass('selected')).to.be.true;
       });
 
       it('toggles the selected state on state change', function() {
         stateParams['query_id'] = null;
-        $rootScope.$broadcast('openproject.layout.activateMenuItem');
-
+        $rootScope.$apply();
         expect(itemLink.hasClass('selected')).to.be.false;
       });
     });
@@ -138,7 +143,7 @@ describe('queryMenuItemFactory', function() {
 
       it('toggles the selected state on state change', function() {
         stateParams['query_id'] = objectId;
-        $rootScope.$broadcast('openproject.layout.activateMenuItem');
+        $rootScope.$apply();
 
         expect(itemLink.hasClass('selected')).to.be.true;
       });
@@ -146,13 +151,13 @@ describe('queryMenuItemFactory', function() {
   });
 
   describe('#generateMenuItem for the work package index item', function() {
-    var menuItem, itemLink;
+    var menuItem:any, itemLink:any;
     var path = '/work_packages',
         title = 'Work Packages',
-        objectId = undefined;
+        objectId:any = undefined;
 
     beforeEach(function() {
-      queryMenuItemFactory.generateMenuItem(title, path, objectId);
+      queryMenu.add(title, path, objectId);
       $rootScope.$apply();
 
       menuItem = menuContainer.children('li');
@@ -169,8 +174,7 @@ describe('queryMenuItemFactory', function() {
         }));
 
         it('marks the item as selected', function() {
-          $rootScope.$broadcast('openproject.layout.activateMenuItem');
-          expect(itemLink.hasClass('selected')).to.be.true;
+          expect(itemLink.hasClass('selected')).to.be.false;
         });
       });
 
@@ -181,8 +185,7 @@ describe('queryMenuItemFactory', function() {
         }));
 
         it('marks the item as selected', function() {
-          $rootScope.$broadcast('openproject.layout.activateMenuItem');
-          expect(itemLink.hasClass('selected')).to.be.true;
+          expect(itemLink.hasClass('selected')).to.be.false;
         });
       });
 

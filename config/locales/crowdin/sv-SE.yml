@@ -1006,6 +1006,8 @@ sv-SE:
       blog: OpenProject blogg
       boards: Community forum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Du kan logga in så snart ditt konto har aktiverats
     genom att klicka på %{signin}.
   instructions_after_logout: Du kan logga in igen genom att klicka på %{signin}.
@@ -1203,6 +1205,7 @@ sv-SE:
   label_greater_or_equal: ">="
   label_group_by: Gruppera efter
   label_group_new: Ny grupp
+  label_group: Grupp
   label_group_plural: Grupper
   label_help: Hjälp
   label_here: här

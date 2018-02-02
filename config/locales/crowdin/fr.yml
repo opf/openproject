@@ -1033,6 +1033,8 @@ fr:
       blog: Blog OpenProject
       boards: Forum de la communauté
       newsletter: Alertes de sécurité / Lettre d'information
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Vous pouvez vous authentifier tant que votre compte
     a été activé en cliquant sur %{signin}.
   instructions_after_logout: Vous pouvez vous ré-authentifier en cliquant sur %{signin}.
@@ -1231,6 +1233,7 @@ fr:
   label_greater_or_equal: ">="
   label_group_by: Grouper par
   label_group_new: Nouveau groupe
+  label_group: Groupe
   label_group_plural: Groupes
   label_help: Aide
   label_here: ici

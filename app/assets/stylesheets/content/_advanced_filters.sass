@@ -75,18 +75,22 @@
 // The type="text" is required to be more specific
 .advanced-filters--text-field[type="text"],
 .advanced-filters--date-field[type="text"]
-  @extend .form--text-field, .form--text-field.-small
+  @extend .form--text-field
+  @include form--input-field-mixin--small
 
   &:required
     box-shadow: none
 
 .advanced-filters--select
-  @extend .form--select, .form--select.-small, .form--select.-narrow
+  @extend .form--select
+  @include form--input-field-mixin--small
+  @include form--input-field-mixin--narrow
   margin-bottom: 0
 
 // The type="number" is required to be more specific
 .advanced-filters--number-field[type="number"]
-  @extend .form--text-field, .form--text-field.-small
+  @extend .form--text-field
+  @include form--input-field-mixin--small
 
 .advanced-filters--filter-name
   @include grid-content(2)
@@ -111,7 +115,8 @@
     flex: 1
 
 .advanced-filters--affix
-  @extend .form--field-affix, .form--field-affix.-transparent
+  @extend .form--field-affix
+  @include form--field-affix-mixin--transparent
   font-size: 0.9rem
 
 .advanced-filters--tooltip-trigger[data-tooltip]

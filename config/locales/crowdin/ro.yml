@@ -1032,6 +1032,8 @@ ro:
       blog: Blog-ul OpenProject
       boards: Forum comunitate
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Vă puteţi autentifica de îndată ce contul a fost
     activat dând click pe %{signin}.
   instructions_after_logout: Vă puteţi autentifica din nou dând click pe %{signin}.
@@ -1228,6 +1230,7 @@ ro:
   label_greater_or_equal: ">="
   label_group_by: Grupare după
   label_group_new: Grupare nouă
+  label_group: Grup
   label_group_plural: Grupuri
   label_help: Asistenţă
   label_here: aici

@@ -1032,6 +1032,8 @@ de:
       blog: OpenProject Blog
       boards: Community Forum
       newsletter: Sicherheitswarnungen / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Sie können sich anmelden, sobald Ihr Konto aktiviert
     wurde, indem Sie auf %{signin} klicken.
   instructions_after_logout: Sie können wieder anmelden indem Sie auf %{signin} klicken.
@@ -1231,6 +1233,7 @@ de:
   label_greater_or_equal: ">="
   label_group_by: Gruppieren nach
   label_group_new: Neue Gruppe
+  label_group: Gruppe
   label_group_plural: Gruppen
   label_help: Hilfe
   label_here: hier

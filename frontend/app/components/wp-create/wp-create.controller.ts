@@ -39,13 +39,14 @@ import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-se
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-values';
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageCreateController {
   public newWorkPackage:WorkPackageResourceInterface;
   public parentWorkPackage:WorkPackageResourceInterface;
   public changeset:WorkPackageChangeset;
 
-  constructor(protected $state:ng.ui.IStateService,
+  constructor(protected $state:StateService,
               protected $scope:ng.IScope,
               protected $q:ng.IQService,
               protected I18n:op.I18n,

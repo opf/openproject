@@ -1025,6 +1025,8 @@ uk:
       blog: OpenProject blog
       boards: Community forum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: You can sign in as soon as your account has been
     activated by clicking %{signin}.
   instructions_after_logout: You can sign in again by clicking %{signin}.
@@ -1222,6 +1224,7 @@ uk:
   label_greater_or_equal: ">="
   label_group_by: Group by
   label_group_new: New group
+  label_group: Group
   label_group_plural: Groups
   label_help: Help
   label_here: here

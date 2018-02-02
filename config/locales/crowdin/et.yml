@@ -1007,6 +1007,8 @@ et:
       blog: OpenProject blog
       boards: Community forum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: You can sign in as soon as your account has been
     activated by clicking %{signin}.
   instructions_after_logout: You can sign in again by clicking %{signin}.
@@ -1205,6 +1207,7 @@ et:
   label_greater_or_equal: ">="
   label_group_by: Group by
   label_group_new: Uus rühm
+  label_group: Grupp
   label_group_plural: Rühmad
   label_help: Abi
   label_here: here

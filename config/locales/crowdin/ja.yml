@@ -933,6 +933,8 @@ ja:
       blog: OpenProject ブログ
       boards: コミュニティ フォーラム
       newsletter: セキュリティアラート / ニュースレター
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: "%{signin}をクリックして、アカウントが有効された後にログインできます。"
   instructions_after_logout: "%{signin}をクリックして再びログインできます。"
   instructions_after_error: "%{signin} をクリックして再びログインを試行できます。エラーが解決しない場合は、管理者にお問い合わせください。"
@@ -1124,6 +1126,7 @@ ja:
   label_greater_or_equal: ">="
   label_group_by: グループ化
   label_group_new: 新規グループ
+  label_group: グループ
   label_group_plural: グループ
   label_help: ヘルプ
   label_here: こちら

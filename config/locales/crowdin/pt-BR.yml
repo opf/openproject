@@ -1013,6 +1013,8 @@ pt-BR:
       blog: Blog do OpenProject
       boards: Fórum da Comunidade
       newsletter: Alertas de segurança / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Você pode entrar assim que sua conta for ativada
     clicando %{signin}.
   instructions_after_logout: Você pode entrar novamente clicando %{signin}.
@@ -1211,6 +1213,7 @@ pt-BR:
   label_greater_or_equal: ">="
   label_group_by: Agrupar por
   label_group_new: Novo grupo
+  label_group: Grupo
   label_group_plural: Grupos
   label_help: Ajuda
   label_here: aqui
@@ -1599,8 +1602,8 @@ pt-BR:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
+        no_project_context: Chamando macro create_work_package_link fora do contexto
+          do projeto.
         invalid_type: Nenhum tipo com o nome '%{type}' encontrado no projeto '%{project}'.
       link_name: Novo pacote de trabalho
       link_name_type: Novo %{type_name}

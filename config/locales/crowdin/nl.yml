@@ -1020,6 +1020,8 @@ nl:
       blog: OpenProject blog
       boards: Gemeenschapsforum
       newsletter: Beveiligingswaarschuwingen / nieuwsbrief
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: U kan inloggen zodra uw account geactiveerd is
     door te klikken op %{signin}.
   instructions_after_logout: U kan terug inloggen door op %{signin} te klikken.
@@ -1218,6 +1220,7 @@ nl:
   label_greater_or_equal: ">="
   label_group_by: Groeperen op
   label_group_new: Nieuwe groep
+  label_group: Groep
   label_group_plural: Groepen
   label_help: Help
   label_here: hier

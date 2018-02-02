@@ -28,6 +28,7 @@
 
 import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageListViewButtonController extends WorkPackageNavigationButtonController {
   public projectIdentifier:number;
@@ -37,7 +38,7 @@ export class WorkPackageListViewButtonController extends WorkPackageNavigationBu
   public buttonId:string = 'work-packages-list-view-button';
   public iconClass:string = 'icon-view-list';
 
-  constructor(public $state:ng.ui.IStateService,
+  constructor(public $state:StateService,
               public I18n:op.I18n) {
     'ngInject';
 

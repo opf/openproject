@@ -1026,6 +1026,8 @@ he:
       blog: OpenProject blog
       boards: Community forum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: באפשרותך להיכנס ברגע חשבונך הופעל על-ידי לחיצה
     על %{signin}.
   instructions_after_logout: אתה יכול להיכנס שוב על ידי לחיצה על %{signin}.
@@ -1223,6 +1225,7 @@ he:
   label_greater_or_equal: ">="
   label_group_by: קבץ לפי
   label_group_new: קבוצה חדשה
+  label_group: קבוצה
   label_group_plural: קבוצות
   label_help: עזרה
   label_here: here

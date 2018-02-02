@@ -34,6 +34,8 @@ module OpenProject
   # syntax differences.
 
   module Database
+    class InsufficientVersionError < StandardError; end
+
     # This method returns a hash which maps the identifier of the supported
     # adapter to a regex matching the adapter_name.
     def self.supported_adapters
@@ -41,6 +43,53 @@ module OpenProject
         mysql: /mysql/i,
         postgresql: /postgres/i
       })
+    end
+
+    ##
+    # Get the database system requirements
+    def self.required_versions
+      {
+        postgresql: {
+          numeric: 90500, # PG_VERSION_NUM
+          string: '9.5.0',
+          enforced: true
+        },
+        mysql: {
+          string: '5.6.0',
+          enforced: false
+        }
+      }
+    end
+
+    ##
+    # Check the database version compatibility.
+    # Raises an +InsufficientVersionError+ when the version is incompatible
+    def self.check_version!
+      required = required_versions[name]
+      current = version
+
+      return if version_matches?
+      message = "Database server version mismatch: Required version is #{required[:string]}, " \
+                "but current version is #{current}"
+
+      if required[:enforced]
+        raise InsufficientVersionError.new message
+      else
+        warn "#{message}. Version is not enforced for this database however, so continuing with this version."
+      end
+    end
+
+    ##
+    # Return +true+ if the required version is matched by the current connection.
+    def self.version_matches?
+      required = required_versions[name]
+
+      case name
+      when :mysql
+        Gem::Version.new(version) >= Gem::Version.new(required[:string])
+      when :postgresql
+        numeric_version >= required[:numeric]
+      end
     end
 
     # Get the raw name of the currently used database adapter.
@@ -75,10 +124,19 @@ module OpenProject
     def self.version(raw = false)
       case name
       when :mysql
-        version = ActiveRecord::Base.connection.select_value('SELECT VERSION()')
+        ActiveRecord::Base.connection.select_value('SELECT VERSION()')
       when :postgresql
         version = ActiveRecord::Base.connection.select_value('SELECT version()')
         raw ? version : version.match(/\APostgreSQL (\S+)/i)[1]
+      end
+    end
+
+    def self.numeric_version
+      case name
+      when :mysql
+        raise ArgumentError, "Can't get numeric version of MySQL"
+      when :postgresql
+        ActiveRecord::Base.connection.select_value('SHOW server_version_num;').to_i
       end
     end
   end

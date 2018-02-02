@@ -1004,6 +1004,8 @@ fi:
       blog: OpenProject blogi
       boards: Keskustelupalsta
       newsletter: Suojausvaroitukset / uutiskirje
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Heti kun tilisi on aktivoitu voit kirjatua painamalla
     %{signin}.
   instructions_after_logout: Voit kirjautua sisään uudelleen napsauttamalla %{signin}.
@@ -1201,6 +1203,7 @@ fi:
   label_greater_or_equal: ">="
   label_group_by: Ryhmittely
   label_group_new: Uusi ryhmä
+  label_group: Ryhmä
   label_group_plural: Ryhmät
   label_help: Ohjeet
   label_here: tässä

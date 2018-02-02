@@ -1005,6 +1005,8 @@ id:
       blog: OpenProject blog
       boards: Community forum
       newsletter: Peringatan keamanan / Jurnal berkala
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Anda dapat login setelah akun Anda diaktifkan,
     klik %{signin}.
   instructions_after_logout: Anda dapat login kembali dengan mengklik %{signin}.
@@ -1202,6 +1204,7 @@ id:
   label_greater_or_equal: ">="
   label_group_by: Grup oleh
   label_group_new: Grup baru
+  label_group: Grup
   label_group_plural: Grup
   label_help: Support
   label_here: disini

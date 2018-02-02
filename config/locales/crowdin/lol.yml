@@ -927,6 +927,8 @@ lol:
       blog: crwdns93021:0crwdne93021:0
       boards: crwdns93022:0crwdne93022:0
       newsletter: crwdns93023:0crwdne93023:0
+  links:
+    configuration_guide: crwdns95570:0crwdne95570:0
   instructions_after_registration: crwdns93024:0%{signin}crwdne93024:0
   instructions_after_logout: crwdns93025:0%{signin}crwdne93025:0
   instructions_after_error: crwdns93026:0%{signin}crwdne93026:0
@@ -1118,6 +1120,7 @@ lol:
   label_greater_or_equal: crwdns93207:0crwdne93207:0
   label_group_by: crwdns93208:0crwdne93208:0
   label_group_new: crwdns93209:0crwdne93209:0
+  label_group: crwdns95522:0crwdne95522:0
   label_group_plural: crwdns93210:0crwdne93210:0
   label_help: crwdns93211:0crwdne93211:0
   label_here: crwdns93212:0crwdne93212:0

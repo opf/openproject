@@ -35,12 +35,12 @@ export class FirstRouteService {
 
   constructor() {}
 
-  public setIfFirst(state:ng.ui.IState, params:any) {
-    if (this.name) {
+  public setIfFirst(stateName:string|undefined, params:any) {
+    if (this.name || !stateName) {
       return;
     }
 
-    this.name = state.name!;
+    this.name = stateName;
     this.params = params;
   }
 }

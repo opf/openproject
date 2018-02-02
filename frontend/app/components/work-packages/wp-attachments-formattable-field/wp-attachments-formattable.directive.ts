@@ -12,6 +12,7 @@ import {SingleAttachmentModel} from './models/single-attachment';
 import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.directive';
 import {CommentFieldDirectiveController} from '../work-package-comment/work-package-comment.directive';
 import {UploadFile} from '../../api/op-file-upload/op-file-upload.service';
+import {StateService} from '@uirouter/angularjs';
 
 export class WpAttachmentsFormattableController {
   constructor(protected $scope:any,
@@ -21,7 +22,7 @@ export class WpAttachmentsFormattableController {
               protected wpCacheService:WorkPackageCacheService,
               protected $timeout:ng.ITimeoutService,
               protected $q:ng.IQService,
-              protected $state:ng.ui.IStateService,
+              protected $state:StateService,
               protected loadingIndicator:any,
               protected keepTab:KeepTabService) {
 

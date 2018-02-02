@@ -32,9 +32,10 @@ import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {States} from '../../states.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageRelationsHierarchyService {
-  constructor(protected $state:ng.ui.IStateService,
+  constructor(protected $state:StateService,
               protected $q:ng.IQService,
               protected states:States,
               protected wpTableRefresh:WorkPackageTableRefreshService,
@@ -100,8 +101,7 @@ export class WorkPackageRelationsHierarchyService {
         const args = [
           'work-packages.list.new',
           {
-            parent_id: workPackage.id,
-            projectPath: workPackage.project.identifier
+            parent_id: workPackage.id
           }
         ];
 

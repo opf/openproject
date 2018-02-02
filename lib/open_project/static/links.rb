@@ -50,6 +50,10 @@ module OpenProject
               href: 'https://www.openproject.org/help/',
               label: 'homescreen.links.user_guides'
             },
+            configuration_guide: {
+              href: 'https://www.openproject.org/operations/configuration/',
+              label: 'links.configuration_guide'
+            },
             glossary: {
               href: 'https://www.openproject.org/help/glossary/',
               label: 'homescreen.links.glossary'

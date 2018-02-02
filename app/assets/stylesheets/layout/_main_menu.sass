@@ -115,10 +115,9 @@ $toggler-width: 40px
           a:not(:only-child):first-of-type
             @extend .small-10
 
-
         .open .toggler
           .icon-toggler:before
-            @extend .icon-arrow-up1:before
+            @include icon-mixin-arrow-up1
 
         // padding for placeholder for highlighted left-item-border
         a
@@ -211,7 +210,7 @@ $toggler-width: 40px
         height: 100%
         padding: 0 10px 0 0
         i:before
-          @extend .icon-double-arrow-right:before
+          @include icon-mixin-double-arrow-right
     a.navigation-toggler
       @include default-transition
       position: relative

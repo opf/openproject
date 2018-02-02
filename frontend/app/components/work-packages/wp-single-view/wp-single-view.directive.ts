@@ -39,6 +39,7 @@ import {
 } from '../../wp-edit-form/work-package-editing-service';
 import {States} from '../../states.service';
 import {CurrentProjectService} from '../../projects/current-project.service';
+import {StateParams} from '@uirouter/angularjs';
 
 interface FieldDescriptor {
   name:string;
@@ -72,7 +73,7 @@ export class WorkPackageSingleViewController {
 
   constructor(protected $scope:ng.IScope,
               protected $rootScope:ng.IRootScopeService,
-              protected $stateParams:ng.ui.IStateParamsService,
+              protected $stateParams:StateParams,
               protected I18n:op.I18n,
               protected currentProject:CurrentProjectService,
               protected PathHelper:any,

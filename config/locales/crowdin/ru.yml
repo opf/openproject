@@ -1028,6 +1028,8 @@ ru:
       blog: Openproject блог
       boards: Форум сообщества
       newsletter: Оповещения системы безопасности / Новости
+  links:
+    configuration_guide: Руководство по конфигурации
   instructions_after_registration: Вы сможете войти как только ваша учетная запись
     будет активирована, нажав %{signin}.
   instructions_after_logout: Вы можете войти в снова, нажав %{signin}.
@@ -1225,6 +1227,7 @@ ru:
   label_greater_or_equal: ">="
   label_group_by: Группировать по
   label_group_new: Новая группа
+  label_group: Группа
   label_group_plural: Группы
   label_help: Справка
   label_here: здесь

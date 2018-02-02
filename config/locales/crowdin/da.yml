@@ -1007,6 +1007,8 @@ da:
       blog: OpenProject blog
       boards: Community forum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Du kan logge ind så snart din konto er blevet aktiveret
     ved at klikke %{signin}.
   instructions_after_logout: Du kan logge ind igen ved at klikke %{signin}.
@@ -1203,6 +1205,7 @@ da:
   label_greater_or_equal: ">="
   label_group_by: Gruppér efter
   label_group_new: Ny gruppe
+  label_group: Gruppe
   label_group_plural: Grupper
   label_help: Hjælp
   label_here: her

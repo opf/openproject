@@ -513,8 +513,8 @@ tr:
         user:
           attributes:
             password:
-              weak: Aşağıdaki sınıfların karakterlerini içermelidir (en az% {min_count}
-                /% {all_count}):% {rules}. %{min_count} %{all_count} %{rules}
+              weak: 'Aşağıdaki sınıfların karakterlerini içermelidir (en az% {min_count}
+                /% {all_count}):% {rules}. %{min_count} %{all_count} %{rules} '
               lowercase: küçük harf (örneğin 'a')
               uppercase: büyük harf (örneğin 'A')
               numeric: rakam (örneğin '1')
@@ -1005,6 +1005,8 @@ tr:
       blog: OpenProject blog
       boards: Toplum Forumu
       newsletter: Güvenlik uyarıları / haber bülteni
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: "%{signin} düğmesini tıklayarak hesabınız etkinleştirildiğinde
     hemen oturum açabilirsiniz."
   instructions_after_logout: "%{signin} düğmesini tıklayarak tekrar oturum açabilirsiniz."
@@ -1203,6 +1205,7 @@ tr:
   label_greater_or_equal: ">="
   label_group_by: Grupla
   label_group_new: Yeni grup
+  label_group: Grup
   label_group_plural: Gruplar
   label_help: Yardım
   label_here: buraya

@@ -1,14 +1,14 @@
-import {Injector} from '@angular/core';
-import {$stateToken} from 'core-app/angular4-transition-utils';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {debugLog} from '../../../../helpers/debug_output';
-import {States} from '../../../states.service';
-import {KeepTabService} from '../../../wp-panels/keep-tab/keep-tab.service';
-import {tdClassName} from '../../builders/cell-builder';
-import {tableRowClassName} from '../../builders/rows/single-row-builder';
-import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
+import {$injectFields, injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
+import {States} from '../../../states.service';
 import {TableEventHandler} from '../table-handler-registry';
+import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
+import {tableRowClassName} from '../../builders/rows/single-row-builder';
+import {tdClassName} from '../../builders/cell-builder';
+import {KeepTabService} from "../../../wp-panels/keep-tab/keep-tab.service";
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {StateService} from '@uirouter/angularjs';
 
 export class RowClickHandler implements TableEventHandler {
 

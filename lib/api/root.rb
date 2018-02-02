@@ -108,8 +108,6 @@ module API
         content_type = request.content_type
         error!('Missing content-type header', 406) unless content_type.present?
 
-
-
         # Allow JSON and JSON+HAL per default
         # and anything that each endpoint may optionally add to that
         if content_type.present?

@@ -1022,6 +1022,8 @@ lt:
       blog: OpenProject blogas
       boards: Bendruomenės forumas
       newsletter: Saugos įspėjimai / Naujienos
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Galėsite prisijungti, kai tik jūsų paskyra bus
     aktyvuota paspaudžiant %{signin}.
   instructions_after_logout: Galite vėl prisijungti paspausdami %{signin}.
@@ -1219,6 +1221,7 @@ lt:
   label_greater_or_equal: ">="
   label_group_by: Grupuoti pagal
   label_group_new: Nauja grupė
+  label_group: Grupė
   label_group_plural: Grupės
   label_help: Pagalba
   label_here: čia

@@ -1030,6 +1030,8 @@ it:
       blog: Blog OpenProject
       boards: Forum della Comunità
       newsletter: Avvisi di sicurezza / Notizie
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Puoi accedere non appena il tuo account è stato
     attivato cliccando %{signin}.
   instructions_after_logout: Può accedere nuovamente cliccando %{signin}.
@@ -1228,6 +1230,7 @@ it:
   label_greater_or_equal: ">="
   label_group_by: Raggruppa per
   label_group_new: Nuovo gruppo
+  label_group: Gruppo
   label_group_plural: Gruppi
   label_help: Aiuto
   label_here: qui
@@ -1624,11 +1627,10 @@ it:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: Chiamando dal contesto progettuale esterno la macro crea_lavoro_pacchetto_link.
+        invalid_type: Nessun tipo trovato con nome '%{type}' nel progetto '%{project}'.
       link_name: Nuova macro-attività (work package)
-      link_name_type: New %{type_name}
+      link_name_type: Nuovo %{type_name}
   mail:
     actions: Azioni
   mail_body_account_activation_request: 'Un nuovo utente (%{value}) si è registrato.
@@ -2646,7 +2648,7 @@ it:
         o non valido.
       multipart_body_error: Il corpo della richiesta non contiene le multipart previste.
       multiple_errors: Più vincoli di campo sono stati violati.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Il tema potrebbe non essere creato
       render:
         context_not_parsable: Il contesto fornito non è un collegamento a una risorsa.
         unsupported_context: La risorsa non è supportata come contesto.

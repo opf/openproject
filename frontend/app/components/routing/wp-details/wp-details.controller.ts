@@ -35,6 +35,7 @@ import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {FirstRouteService} from "core-components/routing/first-route-service";
 import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageDetailsController extends WorkPackageViewController {
 
@@ -44,7 +45,7 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
               public keepTab:KeepTabService,
               public wpTableSelection:WorkPackageTableSelection,
               public wpTableFocus:WorkPackageTableFocusService,
-              public $state:ng.ui.IStateService) {
+              public $state:StateService) {
     super($scope, $state.params['workPackageId']);
     this.observeWorkPackage();
 

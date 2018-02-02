@@ -26,16 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  WorkPackageResourceInterface,
-  WorkPackageResource
-} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
 import {wpServicesModule} from '../../angular-modules';
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageNotificationService {
   constructor(protected I18n:op.I18n,
-              protected $state:ng.ui.IStateService,
+              protected $state:StateService,
               protected NotificationsService:any,
               protected loadingIndicator:any) {
   }

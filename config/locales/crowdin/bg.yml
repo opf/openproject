@@ -1010,6 +1010,8 @@ bg:
       blog: OpenProject блог
       boards: Форум на Общността
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Можете да влезете веднага след като вашият акаунт
     е бил активиран като щракнете %{signin}.
   instructions_after_logout: Можете да влезете в отново като щракнете %{signin}.
@@ -1209,6 +1211,7 @@ bg:
   label_greater_or_equal: ">="
   label_group_by: Групиране по
   label_group_new: Нова група
+  label_group: Група
   label_group_plural: Групи
   label_help: Помощ
   label_here: тук
