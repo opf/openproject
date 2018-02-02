@@ -209,7 +209,7 @@ class ::Query::Results
   # Returns the columns that need to be included to allow:
   # * sorting
   # * grouping
-  def include_columns
+  def include_columns # rubocop:disable Metrics/AbcSize
     columns = query.sort_criteria_columns.map { |column, _direction| column.association }
 
     if query.group_by_column
