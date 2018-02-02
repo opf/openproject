@@ -230,7 +230,7 @@ To make sure that all work package attachments are indexed, so that their conten
 run:
 
 ```bash
-[openproject@debian]# RAILS_ENV="production" rake extract_fulltext_where_missing
+[openproject@debian]# RAILS_ENV="production" rake attachments:extract_fulltext_where_missing
 ```
 
 
