@@ -111,6 +111,15 @@
           ng-options="filter.name for filter in remainingFilters | orderBy: 'name'" />
         </select>
       </div>
+
+      <div class="advanced-filters--add-filter-info" ng-if="eeShowBanners">
+        <div class="notification-box">
+          <div class="notification-box--content">
+            {{ I18n.t('js.filter.upsale_for_more') }}
+            <a href="https://www.openproject.org/enterprise-edition/?op_edtion=community-edition&op_referrer=wp-filter#filters" target='blank' ng-bind="I18n.t('js.filter.upsale_link')"></a>
+          </div>
+        </div>
+      </div>
     </li>
   </ul>
 </fieldset>
