@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,8 +35,7 @@ class Role < ActiveRecord::Base
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2
 
-
-  scope :builtin, -> (*args) {
+  scope :builtin, ->(*args) {
     compare = 'not' if args.first == true
     where("#{compare} builtin = 0")
   }
@@ -56,8 +56,6 @@ class Role < ActiveRecord::Base
   }
 
   acts_as_list
-
-  # serialize :permissions, Array
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -103,8 +101,8 @@ class Role < ActiveRecord::Base
     !permissions.nil? && permissions.include?(perm.to_sym)
   end
 
-  def <=>(role)
-    role ? position <=> role.position : -1
+  def <=>(other)
+    other ? position <=> other.position : -1
   end
 
   def to_s
@@ -118,7 +116,7 @@ class Role < ActiveRecord::Base
 
   # Return true if the role is a project member role
   def member?
-    !self.builtin?
+    !builtin?
   end
 
   # Return true if role is allowed to do the specified action
@@ -189,7 +187,9 @@ class Role < ActiveRecord::Base
   end
 
   def allowed_actions
-    @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
+    @actions_allowed ||= allowed_permissions.map do |permission|
+      Redmine::AccessControl.allowed_actions(permission)
+    end.flatten
   end
 
   def check_deletable
