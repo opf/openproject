@@ -41,7 +41,8 @@ module OpenProject::LdapGroups
       remove_memberships!(no_longer_present, sync)
 
       # Add new memberships
-      new_members = ldap_member_ids - set_by_us
+      group_members = sync.group.users.pluck(:id)
+      new_members = ldap_member_ids - set_by_us - group_members
       new_users = User.where(id: new_members)
       add_memberships!(new_users, sync)
     end
@@ -83,10 +84,8 @@ module OpenProject::LdapGroups
         return
       end
 
-      user_ids = memberships.pluck(:user_id)
-      puts "Removing users #{user_ids} from #{sync.entry}"
-      sync.group.users.delete(*user_ids)
-      memberships.delete_all
+      puts "Removing users #{memberships.pluck(:user_id)} from #{sync.entry}"
+      sync.remove_members!(memberships)
     end
   end
 end

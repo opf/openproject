@@ -17,5 +17,7 @@ module OpenProject::LdapGroups
            parent: :ldap_authentication,
            caption: ->(*) { I18n.t('ldap_groups.label_menu_item') }
     end
+
+    patches %i[AuthSource Group]
   end
 end
