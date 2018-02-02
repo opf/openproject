@@ -9,11 +9,12 @@ import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {TableEventHandler} from '../table-handler-registry';
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {
 
   // Injections
-  public $state:ng.ui.IStateService = this.injector.get($stateToken);
+  public $state:StateService = this.injector.get($stateToken);
   public keepTab:KeepTabService = this.injector.get(KeepTabService);
   public states:States = this.injector.get(States);
   public wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);

@@ -1,11 +1,12 @@
 import {KeepTabService} from 'core-components/wp-panels/keep-tab/keep-tab.service';
+import {StateService} from '@uirouter/angularjs';
 
 export const uiStateLinkClass = '__ui-state-link';
 export const checkedClassName = '-checked';
 
 export class UiStateLinkBuilder {
 
-  constructor(public readonly $state:ng.ui.IStateService,
+  constructor(public readonly $state:StateService,
               public readonly keepTab:KeepTabService) {
   }
 

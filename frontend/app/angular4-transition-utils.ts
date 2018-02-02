@@ -28,11 +28,12 @@
 
 import {InjectionToken} from '@angular/core';
 import {IQService, IRootScopeService, ITimeoutService} from 'angular';
+import {StateService} from '@uirouter/angularjs';
 
 export const $rootScopeToken = new InjectionToken<IRootScopeService>('$rootScope');
 export const $qToken = new InjectionToken<IQService>('$q');
 export const $timeoutToken = new InjectionToken<ITimeoutService>('$timeout');
-export const $stateToken = new InjectionToken<ng.ui.IStateService>('$state');
+export const $stateToken = new InjectionToken<StateService>('$state');
 
 export const I18nToken = new InjectionToken<op.I18n>('I18n');
 export const columnsModalToken = new InjectionToken<any>('columnsModal');

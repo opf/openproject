@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "../wp-display-field/wp-display-field.module";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-builder';
+import {DisplayField} from '../wp-display-field/wp-display-field.module';
 
 export class WorkPackageDisplayField extends DisplayField {
 
-  public text:{ linkTitle:string };
+  public text:{ linkTitle:string, none:string };
   private uiStateBuilder:UiStateLinkBuilder;
 
   constructor(public resource:WorkPackageResource,
@@ -47,7 +47,7 @@ export class WorkPackageDisplayField extends DisplayField {
     };
   }
 
-  public render(element:HTMLElement, displayText:string): void {
+  public render(element:HTMLElement, displayText:string):void {
     if (this.isEmpty()) {
       element.innerText = this.placeholder;
       return;
@@ -93,10 +93,10 @@ export class WorkPackageDisplayField extends DisplayField {
   }
 
   public get valueString() {
-    return "#" + this.wpId;
+    return '#' + this.wpId;
   }
 
-  public isEmpty(): boolean {
+  public isEmpty():boolean {
     return !this.value;
   }
 
