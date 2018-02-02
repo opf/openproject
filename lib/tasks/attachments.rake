@@ -113,7 +113,7 @@ namespace :attachments do
   end
 
   desc 'Extracts fulltext of all attachments and provide it for attachment filter even if that attachment has been \
-extracted before.'
+        extracted before.'
   task force_extract_fulltext: :environment do
     Attachment.force_extract_fulltext
   end

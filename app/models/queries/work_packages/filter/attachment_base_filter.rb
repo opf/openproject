@@ -40,7 +40,7 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
   end
 
   def available?
-    EnterpriseToken.allows_to?(:attachment_filters)
+    EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
   end
 
   def search_column
@@ -58,10 +58,6 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
                               language,
                               query]
       )
-
-    else
-      # Fallback when No TSVECTOR is available
-      operator_strategy.sql_for_field(values, 'attachments', search_column)
     end
   end
 

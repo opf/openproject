@@ -183,6 +183,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def extract_fulltext
+    return unless OpenProject::Database.allows_tsv?
     job = ExtractFulltextJob.new(id)
     Delayed::Job::enqueue job
   end
@@ -190,6 +191,7 @@ class Attachment < ActiveRecord::Base
   # Extract the fulltext of any attachments where fulltext is still nil.
   # This runs inline and not in a asynchronous worker.
   def self.extract_fulltext_where_missing
+    return unless OpenProject::Database.allows_tsv?
     Attachment.where(fulltext: nil).pluck(:id).each do |id|
       job = ExtractFulltextJob.new(id)
       job.perform
@@ -197,6 +199,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def self.force_extract_fulltext
+    return unless OpenProject::Database.allows_tsv?
     Attachment.pluck(:id).each do |id|
       job = ExtractFulltextJob.new(id)
       job.perform
