@@ -32,7 +32,7 @@ module CustomActions::Actions::Strategies::Associated
   def allowed_values
     @allowed_values ||= begin
       options = associated
-                  .map { |value, label| { value: value, label: label } }
+                .map { |value, label| { value: value, label: label } }
 
       if required?
         options
@@ -40,6 +40,10 @@ module CustomActions::Actions::Strategies::Associated
         options.unshift(value: nil, label: I18n.t('placeholders.default'))
       end
     end
+  end
+
+  def apply(work_package)
+    work_package.send(:"#{key}_id=", values.first)
   end
 
   def type

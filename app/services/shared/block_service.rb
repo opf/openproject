@@ -28,14 +28,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::CreateService < CustomActions::BaseService
-  def initialize(user:)
-    self.user = user
+module Shared::BlockService
+  def block_result(success, result, &block)
+    result = ServiceResult.new(success: success,
+                               result: result)
+    block_with_result(result, &block)
   end
 
-  def call(attributes:,
-           action: CustomAction.new,
-           &block)
-    super
+  def block_with_result(result, &_block)
+    if block_given?
+      yield result
+    else
+      result
+    end
   end
 end

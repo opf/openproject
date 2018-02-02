@@ -29,6 +29,10 @@
 #++
 
 module CustomActions::Actions::Strategies::CustomField
+  def apply(work_package)
+    work_package.send(:"#{custom_field.accessor_name}=", values)
+  end
+
   def required?
     custom_field.required?
   end

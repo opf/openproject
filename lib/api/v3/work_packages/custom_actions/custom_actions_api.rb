@@ -37,7 +37,6 @@ module API
             end
             route_param :action_id do
               post do
-                # TODO: check how this can be merged with work_packages_shared_helpers
                 @work_package.lock_version = nil
                 payload = ::API::V3::WorkPackages::WorkPackageLockVersionPayloadRepresenter.new(@work_package,
                                                                                                 current_user: current_user)
@@ -45,25 +44,21 @@ module API
 
                 custom_action = CustomAction.find(params[:action_id])
 
-                # TODO move into each action
-                # TODO handle having multiple values
-                attributes = custom_action.actions.map { |a| [a.key.to_s.gsub(/(_id)?$/, '_id'), a.values.first] }.to_h
+                ::CustomActions::UpdateWorkPackageService
+                  .new(user: current_user,
+                       action: custom_action)
+                  .call(work_package: @work_package) do |call|
 
-                call = ::WorkPackages::UpdateService
-                       .new(
-                         user: current_user,
-                         work_package: @work_package
-                       )
-                       .call(attributes: attributes,
-                             send_notifications: notify_according_to_params)
+                  call.on_success do
+                    @work_package.reload
 
-                if call.success?
-                  @work_package.reload
+                    status 200
+                    body work_package_representer
+                  end
 
-                  status 200
-                  work_package_representer
-                else
-                  fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+                  call.on_failure do
+                    fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+                  end
                 end
               end
             end

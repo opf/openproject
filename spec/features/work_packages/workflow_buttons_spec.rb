@@ -84,6 +84,17 @@ describe 'Workflow buttons', type: :feature, js: true do
                        role: role,
                        type: work_package.type)
   end
+  let(:list_custom_field) do
+    cf = FactoryGirl.create(:list_wp_custom_field, multi_value: true)
+
+    project.work_package_custom_fields = [cf]
+    work_package.type.custom_fields = [cf]
+
+    cf
+  end
+  let(:selected_list_custom_field_options) do
+    [list_custom_field.custom_options.first, list_custom_field.custom_options.last]
+  end
   let(:index_ca_page) { Pages::Admin::CustomActions::Index.new }
 
   before do
@@ -92,6 +103,7 @@ describe 'Workflow buttons', type: :feature, js: true do
     work_package
     immediate_priority
     workflows
+    list_custom_field
   end
 
   scenario 'viewing workflow buttons' do
@@ -120,6 +132,7 @@ describe 'Workflow buttons', type: :feature, js: true do
     new_ca_page = index_ca_page.new
     new_ca_page.set_name('Escalate')
     new_ca_page.add_action('Priority', immediate_priority.name)
+    new_ca_page.add_action(list_custom_field.name, selected_list_custom_field_options.map(&:name))
     new_ca_page.create
 
     index_ca_page.expect_current_path
@@ -178,7 +191,8 @@ describe 'Workflow buttons', type: :feature, js: true do
 
     wp_page.expect_attributes priority: immediate_priority.name,
                               status: default_status.name,
-                              assignee: '-'
+                              assignee: '-',
+                              "customField#{list_custom_field.id}" => selected_list_custom_field_options.map(&:name).join(' ')
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 

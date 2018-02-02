@@ -40,7 +40,9 @@ module Pages
           within '#custom-actions-form--actions' do
             select name, from: 'Add'
 
-            select value, from: name
+            Array(value).each do |val|
+              select val, from: name
+            end
           end
         end
 

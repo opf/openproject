@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,14 +27,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::CreateService < CustomActions::BaseService
-  def initialize(user:)
-    self.user = user
-  end
+module HideSectionsHelper
+  def initialize_hide_sections_with(all, active)
+    gon.push(
+      hide_sections: {
+        all: all,
+        active: active
+      }
+    )
 
-  def call(attributes:,
-           action: CustomAction.new,
-           &block)
-    super
+    include_gon(camel_case: true, camel_depth: 15)
   end
 end

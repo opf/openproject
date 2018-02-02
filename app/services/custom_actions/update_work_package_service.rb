@@ -28,14 +28,33 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::CreateService < CustomActions::BaseService
-  def initialize(user:)
+class CustomActions::UpdateWorkPackageService
+  include Shared::BlockService
+
+  attr_accessor :user,
+                :action
+
+  def initialize(action:, user:)
+    self.action = action
     self.user = user
   end
 
-  def call(attributes:,
-           action: CustomAction.new,
-           &block)
-    super
+  def call(work_package:, &block)
+    result = apply_actions(work_package)
+
+    block_with_result(result, &block)
+  end
+
+  private
+
+  def apply_actions(work_package)
+    action
+      .actions
+      .each { |a| a.apply(work_package) }
+
+    ::WorkPackages::UpdateService
+      .new(user: user,
+           work_package: work_package)
+      .call
   end
 end

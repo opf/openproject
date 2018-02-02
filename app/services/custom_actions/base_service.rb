@@ -29,19 +29,16 @@
 #++
 
 class CustomActions::BaseService
+  include Shared::BlockService
+
   attr_accessor :user
 
   def call(attributes:,
-           action:)
+           action:,
+           &block)
     set_attributes(action, attributes)
 
-    result = ServiceResult.new(success: action.save,
-                               result: action)
-    if block_given?
-      yield result
-    end
-
-    result
+    block_result(action.save, action, &block)
   end
 
   private

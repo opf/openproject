@@ -45,6 +45,10 @@ class CustomActions::Actions::CustomField < CustomActions::Actions::Base
     custom_field.name
   end
 
+  def apply(work_package)
+    work_package.send(:"#{custom_field.accessor_name}=", values)
+  end
+
   def self.all
     WorkPackageCustomField
       .order(:name)
@@ -67,7 +71,7 @@ class CustomActions::Actions::CustomField < CustomActions::Actions::Base
       custom_field
     end
 
-    klass.prepend(strategy(custom_field))
+    klass.include(strategy(custom_field))
     klass
   end
   private_class_method :create_subclass

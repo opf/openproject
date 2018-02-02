@@ -31,6 +31,9 @@ describe CustomActions::Actions::CustomField, type: :model do
   let(:list_custom_field) do
     FactoryGirl.build_stubbed(:list_wp_custom_field)
   end
+  let(:list_multi_custom_field) do
+    FactoryGirl.build_stubbed(:list_wp_custom_field, multi_value: true)
+  end
   let(:version_custom_field) do
     FactoryGirl.build_stubbed(:version_wp_custom_field)
   end
@@ -147,9 +150,7 @@ describe CustomActions::Actions::CustomField, type: :model do
     end
 
     context 'for a list custom field allowing multiple values' do
-      let(:custom_field) do
-        FactoryGirl.build_stubbed(:list_wp_custom_field, multi_value: true)
-      end
+      let(:custom_field) { list_multi_custom_field }
 
       it 'is :associated_property_multi' do
         expect(instance.type)
@@ -344,6 +345,33 @@ describe CustomActions::Actions::CustomField, type: :model do
       it 'is the list of options' do
         expect(instance.allowed_values)
           .to eql(expected)
+      end
+    end
+  end
+
+  describe '#apply' do
+    %i[list
+       version
+       bool
+       user
+       int
+       float
+       text
+       string
+       date
+       list_multi].each do |type|
+
+      let(:custom_field) { send(:"#{type}_custom_field") }
+      let(:work_package) { double('work_package') }
+
+      it "sets the value for #{type} custom fields" do
+        expect(work_package)
+          .to receive(:"custom_field_#{custom_field.id}=")
+          .with([42])
+
+        instance.values = 42
+
+        instance.apply(work_package)
       end
     end
   end

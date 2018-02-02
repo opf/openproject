@@ -88,6 +88,20 @@ shared_examples_for 'associated custom action' do
         .to eql(:associated_property)
     end
   end
+
+  describe '#apply' do
+    let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
+
+    it 'sets the associated_id in the work package to the action\'s value' do
+      expect(work_package)
+        .to receive(:"#{key}_id=")
+        .with(42)
+
+      instance.values = 42
+
+      instance.apply(work_package)
+    end
+  end
 end
 
 shared_examples_for 'associated custom condition' do

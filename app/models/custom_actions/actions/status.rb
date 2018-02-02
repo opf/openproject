@@ -31,6 +31,10 @@
 class CustomActions::Actions::Status < CustomActions::Actions::Base
   include CustomActions::Actions::Strategies::Associated
 
+  def self.key
+    :status
+  end
+
   private
 
   def associated
@@ -42,9 +46,5 @@ class CustomActions::Actions::Status < CustomActions::Actions::Base
 
   def required?
     true
-  end
-
-  def self.key
-    :status
   end
 end
