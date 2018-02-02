@@ -33,6 +33,22 @@ class CustomActions::Conditions::Role < CustomActions::Conditions::Base
     :role
   end
 
+  def self.custom_action_scope(work_package, user)
+    roles_in_project = Role.joins(:members).where(members: { project_id: work_package.project_id, user_id: user.id }).select(:id)
+
+    has_current_role = CustomAction.includes(:roles).where(custom_actions_roles: { role_id: roles_in_project })
+    has_no_role = CustomAction.includes(:roles).where(custom_actions_roles: { role_id: nil })
+
+    has_current_role
+      .or(has_no_role)
+  end
+
+  def self.getter(custom_action)
+    ids = custom_action.role_ids
+
+    new(ids) if ids.any?
+  end
+
   private
 
   def associated

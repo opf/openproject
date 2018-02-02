@@ -34,6 +34,9 @@ class CustomAction < ActiveRecord::Base
   has_and_belongs_to_many :statuses
   has_and_belongs_to_many :roles
 
+  attr_writer :conditions
+  after_save :persist_conditions
+
   def initialize(*args)
     ret = super
 
@@ -42,6 +45,12 @@ class CustomAction < ActiveRecord::Base
     end
 
     ret
+  end
+
+  def reload
+    @conditions = nil
+
+    super
   end
 
   def self.order_by_name
@@ -61,30 +70,17 @@ class CustomAction < ActiveRecord::Base
   end
 
   def available_conditions
-    ::CustomActions::Register.conditions
+    self.class.available_conditions
   end
 
   def conditions
-    # TODO generalize and move into condition
-    return_conditions = []
-
-    if statuses.any?
-      return_conditions << CustomActions::Conditions::Status.new(statuses.map(&:id))
-    end
-
-    if roles.any?
-      return_conditions << CustomActions::Conditions::Role.new(statuses.map(&:id))
-    end
-
-    return_conditions
+    @conditions ||= available_conditions.map do |condition_class|
+      condition_class.getter(self)
+    end.compact
   end
 
-  def conditions=(new_conditions)
-    # TODO place in after save hook so that validations can take place before
-    # TODO generalize and move into condition
-    new_conditions.each do |new_condition|
-      send(:"#{new_condition.key}_ids=", new_condition.values)
-    end
+  def self.available_conditions
+    ::CustomActions::Register.conditions
   end
 
   private
@@ -98,6 +94,12 @@ class CustomAction < ActiveRecord::Base
       else
         available.new
       end
+    end
+  end
+
+  def persist_conditions
+    conditions.each do |new_condition|
+      new_condition.persist(self)
     end
   end
 end

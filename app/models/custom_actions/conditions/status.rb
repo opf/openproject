@@ -33,6 +33,20 @@ class CustomActions::Conditions::Status < CustomActions::Conditions::Base
     :status
   end
 
+  def self.custom_action_scope(work_package, _user)
+    has_current_status = CustomAction.includes(:statuses).where(custom_actions_statuses: { status_id: work_package.status_id })
+    has_no_status = CustomAction.includes(:statuses).where(custom_actions_statuses: { status_id: nil })
+
+    has_current_status
+      .or(has_no_status)
+  end
+
+  def self.getter(custom_action)
+    ids = custom_action.status_ids
+
+    new(ids) if ids.any?
+  end
+
   private
 
   def associated

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Workflow buttons', type: :feature, js: true do
+describe 'Custom actions', type: :feature, js: true do
   let(:permissions) { %i(view_work_packages edit_work_packages) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let!(:other_role) { FactoryGirl.create(:role, permissions: permissions) }

@@ -33,22 +33,9 @@ module WorkPackage::CustomActions
 
   included do
     def custom_actions(user)
-      # TODO adapt selector from registered custom action conditions
-      has_current_status = CustomAction.includes(:statuses).where(custom_actions_statuses: { status_id: status_id })
-      has_no_status = CustomAction.includes(:statuses).where(custom_actions_statuses: { status_id: nil })
-
-      status_scope = has_current_status
-                     .or(has_no_status)
-
-      roles_in_project = Role.joins(:members).where(members: { project_id: project_id, user_id: user.id }).select(:id)
-
-      has_current_role = CustomAction.includes(:roles).where(custom_actions_roles: { role_id: roles_in_project })
-      has_no_role = CustomAction.includes(:roles).where(custom_actions_roles: { role_id: nil })
-
-      role_scope = has_current_role
-                   .or(has_no_role)
-
-      status_scope.merge(role_scope)
+      CustomAction.available_conditions.inject(CustomAction.all) do |scope, condition|
+        scope.merge(condition.custom_action_scope(self, user))
+      end
     end
   end
 end

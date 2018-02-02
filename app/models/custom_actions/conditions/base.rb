@@ -49,11 +49,15 @@ class CustomActions::Conditions::Base
     WorkPackage.human_attribute_name(self.class.key)
   end
 
-  def self.key
-    raise NotImplementedError
+  def persist(custom_action)
+    custom_action.send(:"#{key}_ids=", values)
   end
 
   def key
     self.class.key
+  end
+
+  def self.key
+    raise NotImplementedError
   end
 end
