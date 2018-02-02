@@ -528,8 +528,8 @@ tr:
         user:
           attributes:
             password:
-              weak: Aşağıdaki sınıfların karakterlerini içermelidir (en az% {min_count}
-                /% {all_count}):% {rules}. %{min_count} %{all_count} %{rules}
+              weak: 'Aşağıdaki sınıfların karakterlerini içermelidir (en az% {min_count}
+                /% {all_count}):% {rules}. %{min_count} %{all_count} %{rules} '
               lowercase: küçük harf (örneğin 'a')
               uppercase: büyük harf (örneğin 'A')
               numeric: rakam (örneğin '1')
