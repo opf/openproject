@@ -31,7 +31,6 @@ import {opApiModule} from '../../../../angular-modules';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import {SchemaCacheService} from './../../../schemas/schema-cache.service';
 import {ApiWorkPackagesService} from '../../api-work-packages/api-work-packages.service';
-import {CollectionResource, CollectionResourceInterface} from './collection-resource.service';
 import {AttachmentCollectionResourceInterface} from './attachment-collection-resource.service';
 import {UploadFile} from '../../op-file-upload/op-file-upload.service';
 import IQService = angular.IQService;
@@ -44,9 +43,10 @@ import {RelationResourceInterface} from './relation-resource.service';
 import {WorkPackageCreateService} from '../../../wp-create/wp-create.service';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
 import {debugLog} from '../../../../helpers/debug_output';
+import {CollectionResource} from "core-components/api/api-v3/hal-resources/collection-resource.service";
 
 export interface WorkPackageResourceEmbedded {
-  activities:CollectionResourceInterface;
+  activities:CollectionResource;
   ancestors:WorkPackageResourceInterface[];
   assignee:HalResource | any;
   attachments:AttachmentCollectionResourceInterface;
@@ -57,14 +57,14 @@ export interface WorkPackageResourceEmbedded {
   parent:HalResource | any;
   priority:HalResource | any;
   project:HalResource | any;
-  relations:CollectionResourceInterface;
+  relations:CollectionResource;
   responsible:HalResource | any;
-  revisions:CollectionResourceInterface | any;
+  revisions:CollectionResource | any;
   status:HalResource | any;
   timeEntries:HalResource[] | any[];
   type:TypeResource;
   version:HalResource | any;
-  watchers:CollectionResourceInterface;
+  watchers:CollectionResource;
   // For regular work packages
   startDate:string;
   dueDate:string;
@@ -120,7 +120,7 @@ export class WorkPackageResource extends HalResource {
   public lockVersion:number;
   public description:any;
   public inFlight:boolean;
-  public activities:CollectionResourceInterface;
+  public activities:CollectionResource;
   public attachments:AttachmentCollectionResourceInterface;
 
   public pendingAttachments:UploadFile[] = [];
@@ -364,7 +364,7 @@ export class WorkPackageResource extends HalResource {
       return this.overriddenSchema!;
     }
 
-    const state = schemaCacheService.state(this);
+    const state = schemaCacheService.state(this as any);
 
     if (!state.hasValue()) {
       throw `Accessing schema of ${this.id} without it being loaded.`;

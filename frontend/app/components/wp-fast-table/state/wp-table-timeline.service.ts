@@ -97,7 +97,9 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   public getNormalizedLabels(workPackage:WorkPackageResourceInterface) {
     let labels:TimelineLabels = _.clone(this.current.defaultLabels);
 
-    _.each(this.current.labels, (attribute:string, position:keyof TimelineLabels) => {
+    // @ts-ignore TS2345: Argument of type '(value: any, index: number) => void'
+    // is not assignable to parameter of type 'ObjectIterator<string[] | HalResource[], any> | undefined'.
+    _.each(this.current.labels, (attribute:string|null, position:keyof TimelineLabels) => {
       // Set to null to explicitly disable
       if (attribute === '') {
         labels[position] = null;

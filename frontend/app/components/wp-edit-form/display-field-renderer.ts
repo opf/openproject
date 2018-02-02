@@ -80,12 +80,12 @@ export class DisplayFieldRenderer {
     // We handle multi value fields differently in the single view context
     const isMultiLinesField = ['[]CustomOption', '[]User'].indexOf(fieldSchema.type) >= 0;
     if (this.context === 'single-view' && isMultiLinesField) {
-      return new MultipleLinesStringObjectsDisplayField(workPackage, name, fieldSchema) as DisplayField;
+      return new MultipleLinesStringObjectsDisplayField(workPackage as any, name, fieldSchema) as DisplayField;
     }
 
     // We handle progress differently in the timeline
     if (this.context === 'timeline' && name === 'percentageDone') {
-      return new ProgressTextDisplayField(workPackage, name, fieldSchema);
+      return new ProgressTextDisplayField(workPackage as any, name, fieldSchema);
     }
 
     return this.wpDisplayField.getField(workPackage, name, fieldSchema) as DisplayField;

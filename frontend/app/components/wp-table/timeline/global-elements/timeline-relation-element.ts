@@ -1,4 +1,4 @@
-import {RelationResource} from "../../../api/api-v3/hal-resources/relation-resource.service";
+import {RelationResourceInterface} from "core-components/api/api-v3/hal-resources/relation-resource.service";
 
 export function workPackagePrefix(workPackageId: string) {
   return `__tl-relation-${workPackageId}`;
@@ -6,7 +6,7 @@ export function workPackagePrefix(workPackageId: string) {
 
 export class TimelineRelationElement {
 
-  constructor(public belongsToId: string, public relation: RelationResource) {
+  constructor(public belongsToId: string, public relation: RelationResourceInterface) {
   }
 
   public get classNames(): string[] {

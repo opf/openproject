@@ -2,7 +2,7 @@ import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-pac
 import {RelationResourceInterface} from '../api/api-v3/hal-resources/relation-resource.service';
 
 export interface RelatedWorkPackagesGroup {
-  [key: string] : WorkPackageResourceInterface[];
+  [key: string] : any;
 }
 
 export interface RelationTitle {

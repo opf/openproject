@@ -32,7 +32,7 @@ import {HalResource} from '../hal-resources/hal-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 
 export class PayloadDmService {
-  public extract(resource:HalResource, schema:SchemaResource) {
+  public extract<T extends HalResource=HalResource>(resource:T, schema:SchemaResource) {
     let payload:any = {
       '_links': {}
     }

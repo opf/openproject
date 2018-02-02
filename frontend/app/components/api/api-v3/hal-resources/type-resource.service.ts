@@ -31,6 +31,7 @@ import {States} from "../../../states.service";
 import {HalRequestService} from "../hal-request/hal-request.service";
 import {CollectionResource} from "./collection-resource.service";
 import {HalResource} from "./hal-resource.service";
+import {InputState, State} from "reactivestates";
 
 var states: States;
 var halRequest: HalRequestService;
@@ -43,13 +44,16 @@ export class TypeResource extends HalResource {
     const types = states.types;
     const typeUrl = v3Path.types();
 
-    return halRequest.get(typeUrl).then((result:CollectionResource) => {
+    return halRequest.get<CollectionResource<TypeResource>>(typeUrl)
+      .then((result:CollectionResource<TypeResource>) => {
       result.elements.forEach((value:TypeResource) => {
         types.get(value.href as string).putValue(value);
       });
     });
   }
 
+  // @ts-ignore
+  // TS2416: Property 'state' in type 'TypeResource' is not assignable to the same property in base type 'HalResource'.
   public get state() {
     return states.types.get(this.href as string);
   }

@@ -86,7 +86,7 @@ export class WorkPackageCreateController {
             });
         }
       })
-      .catch(error => {
+      .catch((error:any) => {
         if (error.errorIdentifier === 'urn:openproject-org:api:v3:errors:MissingPermission') {
           this.RootDm.load().then((root:RootResource) => {
             if (!root.user) {
@@ -110,7 +110,7 @@ export class WorkPackageCreateController {
     this.$state.go('work-packages.new', this.$state.params);
   }
 
-  protected newWorkPackageFromParams(stateParams:any) {
+  protected newWorkPackageFromParams(stateParams:any):Promise<WorkPackageChangeset> {
     const type = parseInt(stateParams.type);
 
     // If there is an open edit for this type, continue it

@@ -34,6 +34,7 @@ import {opApiModule} from '../../../../angular-modules';
 import {HalRequestService} from '../hal-request/hal-request.service';
 import {PayloadDmService} from './payload-dm.service';
 import {ApiV3FilterBuilder} from '../api-v3-filter-builder';
+import {QueryFormResource} from "core-components/api/api-v3/hal-resources/query-form-resource.service";
 
 export interface PaginationObject {
   pageSize:number;
@@ -107,13 +108,13 @@ export class QueryDmService {
                                {caching: {enabled: false} });
   }
 
-  public save(query:QueryResource, form:FormResource) {
+  public save(query:QueryResource, form:QueryFormResource) {
     return this.extractPayload(query, form).then(payload => {
       return query.updateImmediately(payload);
     });
   }
 
-  public create(query:QueryResource, form:FormResource):ng.IPromise<QueryResource> {
+  public create(query:QueryResource, form:QueryFormResource):ng.IPromise<QueryResource> {
     return this.extractPayload(query, form).then(payload => {
       let path = this.v3Path.queries();
 
@@ -152,11 +153,11 @@ export class QueryDmService {
                                caching);
   }
 
-  private extractPayload(query:QueryResource, form:FormResource) {
+  private extractPayload(query:QueryResource, form:QueryFormResource) {
     // Extracting requires having the filter schemas loaded as the dependencies
     // need to be present. This should be handled within the cached information however, so it is fast.
     return this.$q.all(_.map(query.filters, filter => filter.schema.$load())).then(() => {
-      return this.PayloadDm.extract(query, form.schema);
+      return this.PayloadDm.extract<QueryResource>(query, form.schema);
     });
   }
 }

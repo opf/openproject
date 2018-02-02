@@ -27,7 +27,10 @@
 // ++
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-builder';
 
 export class IdDisplayField extends DisplayField {
@@ -35,10 +38,10 @@ export class IdDisplayField extends DisplayField {
   private uiStateBuilder:UiStateLinkBuilder;
 
 
-  constructor(public resource:WorkPackageResource,
+  constructor(public workPackage:WorkPackageResourceInterface,
               public name:string,
               public schema:op.FieldSchema) {
-    super(resource, name, schema);
+    super(workPackage as any, name, schema);
 
     this.uiStateBuilder = new UiStateLinkBuilder();
 
@@ -48,11 +51,11 @@ export class IdDisplayField extends DisplayField {
   }
 
   public get value() {
-    if (this.resource.isNew) {
+    if (this.workPackage.isNew) {
       return null;
     }
     else {
-      return this.resource[this.name];
+      return this.workPackage[this.name];
     }
   }
 

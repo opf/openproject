@@ -26,11 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-interface wpEditFieldScope extends ng.IScope {
-  schema: any;
-}
-
-function wpEditFieldRequirementsLink(scope:wpEditFieldScope,
+function wpEditFieldRequirementsLink(scope:any,
                          element:ng.IAugmentedJQuery,
                          attrs:ng.IAttributes) {
 

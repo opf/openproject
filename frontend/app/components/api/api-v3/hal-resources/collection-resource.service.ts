@@ -29,12 +29,8 @@
 import {HalResource} from './hal-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 
-interface CollectionResourceEmbedded {
-  elements: HalResource[];
-}
-
-export class CollectionResource extends HalResource {
-  public elements: HalResource[];
+export class CollectionResource<T=HalResource> extends HalResource {
+  public elements: T[];
   public count: number;
   public total: number;
   public pageSize: number;
@@ -45,11 +41,8 @@ export class CollectionResource extends HalResource {
    * This is useful, as angular does not recognize update made by $load.
    */
   public updateElements() {
-    return this.$load().then((collection:CollectionResource) =>  this.elements = collection.elements);
+    return this.$load().then((collection:this) =>  this.elements = collection.elements);
   }
-}
-
-export interface CollectionResourceInterface extends CollectionResourceEmbedded, CollectionResource {
 }
 
 function collectionResource() {

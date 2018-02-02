@@ -31,6 +31,7 @@ import {HalRequestService} from '../hal-request/hal-request.service';
 import {CollectionResource} from '../hal-resources/collection-resource.service';
 import {RelationResource} from '../hal-resources/relation-resource.service';
 import {buildApiV3Filter} from '../api-v3-filter-builder';
+import {RelationResourceInterface} from "core-components/api/api-v3/hal-resources/relation-resource.service";
 
 export class RelationsDmService {
 
@@ -40,18 +41,18 @@ export class RelationsDmService {
 
   }
 
-  public load(workPackageId:string):ng.IPromise<RelationResource[]> {
+  public load(workPackageId:string):ng.IPromise<RelationResourceInterface[]> {
     return this.halRequest.get(
       this.v3Path.wp.relations({wp: workPackageId}),
       {},
       {
         caching: {enabled: false}
-      }).then((collection:CollectionResource) => {
+      }).then((collection:any) => {
         return collection.elements;
-    }) as ng.IPromise<RelationResource[]>;
+    }) as ng.IPromise<RelationResourceInterface[]>;
   }
 
-  public loadInvolved(workPackageIds:string[]):ng.IPromise<RelationResource[]> {
+  public loadInvolved(workPackageIds:string[]):ng.IPromise<RelationResourceInterface[]> {
     let validIds = _.filter(workPackageIds, id => /\d+/.test(id));
 
     if (validIds.length === 0) {
@@ -65,9 +66,9 @@ export class RelationsDmService {
       },
       {
         caching: {enabled: false}
-      }).then((collection:CollectionResource) => {
+      }).then((collection:any) => {
       return collection.elements;
-    }) as ng.IPromise<RelationResource[]>;
+    }) as ng.IPromise<RelationResourceInterface[]>;
   }
 }
 

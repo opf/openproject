@@ -29,7 +29,10 @@
 import {HalResource} from '../api-v3/hal-resources/hal-resource.service';
 import {opApiModule} from '../../../angular-modules';
 import {HalRequestService} from '../api-v3/hal-request/hal-request.service';
-import {WorkPackageResource, } from '../api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface,
+} from '../api-v3/hal-resources/work-package-resource.service';
 import {
   WorkPackageCollectionResource,
   WorkPackageCollectionResourceInterface,
@@ -60,7 +63,7 @@ export class ApiWorkPackagesService {
       caching: {
         enabled: !force
       }
-    });
+    }) as Promise<WorkPackageResourceInterface>;
   }
 
   /**
@@ -79,7 +82,7 @@ export class ApiWorkPackagesService {
       },
       {
         caching: { enabled: false }
-      });
+      }) as any;
   }
 
   /**
