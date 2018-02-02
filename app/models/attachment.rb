@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -48,7 +49,7 @@ class Attachment < ActiveRecord::Base
 
   mount_uploader :file, OpenProject::Configuration.file_uploader
 
-  after_commit :extract_fulltext, :on => :create
+  after_commit :extract_fulltext, on: :create
 
   def filesize_below_allowed_maximum
     if filesize > Setting.attachment_max_size.to_i.kilobytes
@@ -185,7 +186,6 @@ class Attachment < ActiveRecord::Base
     job = ExtractFulltextJob.new(id)
     Delayed::Job::enqueue job
   end
-
 
   # Extract the fulltext of any attachments where fulltext is still nil.
   # This runs inline and not in a asynchronous worker.

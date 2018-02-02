@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -70,10 +71,10 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
     terms = normalize_text(clean_terms).split(/[\s]+/).reject(&:blank?)
 
     case operator
-      when '~'
-        terms.join ' & '
-      when '!~'
-        '! ' + terms.join(' & ! ')
+    when '~'
+      terms.join ' & '
+    when '!~'
+      '! ' + terms.join(' & ! ')
     end
   end
 
