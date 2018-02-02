@@ -328,7 +328,7 @@ module API
         end
 
         links :customActions do
-          represented.custom_actions.map do |action|
+          represented.custom_actions(current_user).map do |action|
             {
               href: api_v3_paths.work_package_custom_action_execute(represented.id, action.id),
               title: action.name,

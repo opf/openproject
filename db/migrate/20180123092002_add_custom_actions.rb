@@ -9,5 +9,10 @@ class AddCustomActions < ActiveRecord::Migration[5.0]
       t.belongs_to :status
       t.belongs_to :custom_action
     end
+
+    create_table :custom_actions_roles do |t|
+      t.belongs_to :role
+      t.belongs_to :custom_action
+    end
   end
 end

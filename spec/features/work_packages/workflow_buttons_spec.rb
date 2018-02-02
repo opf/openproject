@@ -30,7 +30,8 @@ require 'spec_helper'
 
 describe 'Workflow buttons', type: :feature, js: true do
   let(:permissions) { %i(view_work_packages edit_work_packages) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions ) }
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let!(:other_role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:admin) { FactoryGirl.create(:admin) }
   let(:user) do
     FactoryGirl.create(:user,
@@ -40,7 +41,7 @@ describe 'Workflow buttons', type: :feature, js: true do
                        member_in_project: project)
   end
   let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) do
+  let!(:work_package) do
     FactoryGirl.create(:work_package,
                        project: project,
                        assigned_to: user,
@@ -52,7 +53,7 @@ describe 'Workflow buttons', type: :feature, js: true do
   let(:default_priority) do
     FactoryGirl.create(:default_priority, name: 'Normal')
   end
-  let(:immediate_priority) do
+  let!(:immediate_priority) do
     FactoryGirl.create(:issue_priority,
                        name: 'At once',
                        position: IssuePriority.maximum(:position) + 1)
@@ -66,7 +67,7 @@ describe 'Workflow buttons', type: :feature, js: true do
   let(:rejected_status) do
     FactoryGirl.create(:closed_status, name: 'Rejected')
   end
-  let(:workflows) do
+  let!(:workflows) do
     FactoryGirl.create(:workflow,
                        old_status: work_package.status,
                        new_status: closed_status,
@@ -84,7 +85,7 @@ describe 'Workflow buttons', type: :feature, js: true do
                        role: role,
                        type: work_package.type)
   end
-  let(:list_custom_field) do
+  let!(:list_custom_field) do
     cf = FactoryGirl.create(:list_wp_custom_field, multi_value: true)
 
     project.work_package_custom_fields = [cf]
@@ -99,11 +100,6 @@ describe 'Workflow buttons', type: :feature, js: true do
 
   before do
     login_as(admin)
-
-    work_package
-    immediate_priority
-    workflows
-    list_custom_field
   end
 
   scenario 'viewing workflow buttons' do
@@ -123,6 +119,7 @@ describe 'Workflow buttons', type: :feature, js: true do
     new_ca_page = index_ca_page.new
     new_ca_page.set_name('Close')
     new_ca_page.add_action('Status', 'Close')
+    new_ca_page.set_condition('Role', role.name)
     new_ca_page.create
 
     index_ca_page.expect_current_path
@@ -152,6 +149,18 @@ describe 'Workflow buttons', type: :feature, js: true do
     index_ca_page.expect_current_path
     index_ca_page.expect_listed('Unassign', 'Close', 'Escalate', 'Reset')
 
+    # create custom action 'Other roles action'
+
+    new_ca_page = index_ca_page.new
+
+    new_ca_page.set_name('Other roles action')
+    new_ca_page.add_action('Status', default_status.name)
+    new_ca_page.set_condition('Role', other_role.name)
+    new_ca_page.create
+
+    index_ca_page.expect_current_path
+    index_ca_page.expect_listed('Unassign', 'Close', 'Escalate', 'Reset', 'Other roles action')
+
     # use custom actions
     login_as(user)
 
@@ -165,6 +174,8 @@ describe 'Workflow buttons', type: :feature, js: true do
       .to have_selector('.workflow-button', text: 'Escalate')
     expect(page)
       .to have_no_selector('.workflow-button', text: 'Reset')
+    expect(page)
+      .to have_no_selector('.workflow-button', text: 'Other roles action')
 
     within('.workflow-buttons') do
       click_button('Unassign')

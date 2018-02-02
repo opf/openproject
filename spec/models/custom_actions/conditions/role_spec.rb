@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,28 +25,27 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'spec_helper'
+require_relative '../shared_expectations'
 
-module WorkPackage::CustomActions
-  extend ActiveSupport::Concern
+describe CustomActions::Conditions::Role, type: :model do
+  it_behaves_like 'associated custom condition' do
+    let(:key) { :role }
 
-  included do
-    def custom_actions(user)
-      # TODO adapt selector from registered custom action conditions
-      has_current_status = CustomAction.includes(:statuses).where(custom_actions_statuses: { status_id: status_id })
-      has_no_status = CustomAction.includes(:statuses).where(custom_actions_statuses: { status_id: nil })
+    describe '#allowed_values' do
+      it 'is the list of all roles' do
+        roles = [FactoryGirl.build_stubbed(:role),
+                 FactoryGirl.build_stubbed(:role)]
 
-      status_scope = has_current_status
-                     .or(has_no_status)
+        allow(Role)
+          .to receive_message_chain(:givable, :select)
+          .and_return(roles)
 
-      roles_in_project = Role.joins(:members).where(members: { project_id: project_id, user_id: user.id }).select(:id)
-
-      has_current_role = CustomAction.includes(:roles).where(custom_actions_roles: { role_id: roles_in_project })
-      has_no_role = CustomAction.includes(:roles).where(custom_actions_roles: { role_id: nil })
-
-      role_scope = has_current_role
-                   .or(has_no_role)
-
-      status_scope.merge(role_scope)
+        expect(instance.allowed_values)
+          .to eql([{ value: nil, label: '-' },
+                   { value: roles.first.id, label: roles.first.name },
+                   { value: roles.last.id, label: roles.last.name }])
+      end
     end
   end
 end

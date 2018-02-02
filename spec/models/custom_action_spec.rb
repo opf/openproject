@@ -116,6 +116,7 @@ describe CustomAction, type: :model do
 
   describe '.conditions' do
     let(:status) { FactoryGirl.create(:status) }
+    let(:role) { FactoryGirl.create(:role) }
 
     it 'is empty initially' do
       expect(stubbed_instance.conditions)
@@ -123,26 +124,31 @@ describe CustomAction, type: :model do
     end
 
     it 'can be set and read' do
-      stubbed_instance.conditions = [CustomActions::Conditions::Status.new(status.id)]
+      stubbed_instance.conditions = [CustomActions::Conditions::Status.new(status.id),
+                                     CustomActions::Conditions::Role.new(role.id)]
 
       expect(stubbed_instance.conditions.map { |a| [a.key, a.values] })
-        .to match_array [[:status, [status.id]]]
+        .to match_array [[:status, [status.id]],
+                         [:role, [role.id]]]
     end
 
     it 'can be persisted' do
-      instance.conditions = [CustomActions::Conditions::Status.new(status.id)]
+      instance.conditions = [CustomActions::Conditions::Status.new(status.id),
+                             CustomActions::Conditions::Role.new(role.id)]
 
       instance.save!
 
       expect(CustomAction.find(instance.id).conditions.map { |a| [a.key, a.values] })
-        .to match_array [[:status, [status.id]]]
+        .to match_array [[:status, [status.id]],
+                         [:role, [role.id]]]
     end
   end
 
   describe '.all_conditions' do
     it 'returns all available conditions with the default value initialized' do
       expect(stubbed_instance.all_conditions.map { |a| [a.key, a.values] })
-        .to match_array [[:status, []]]
+        .to match_array [[:status, []],
+                         [:role, []]]
     end
   end
 end

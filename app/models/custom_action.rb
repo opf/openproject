@@ -32,6 +32,7 @@ class CustomAction < ActiveRecord::Base
   validates :name, length: { maximum: 255, minimum: 1 }
   serialize :actions, CustomActions::Actions::Serializer
   has_and_belongs_to_many :statuses
+  has_and_belongs_to_many :roles
 
   def initialize(*args)
     ret = super
@@ -65,18 +66,24 @@ class CustomAction < ActiveRecord::Base
 
   def conditions
     # TODO generalize and move into condition
+    return_conditions = []
+
     if statuses.any?
-      [CustomActions::Conditions::Status.new(statuses.map(&:id))]
-    else
-      []
+      return_conditions << CustomActions::Conditions::Status.new(statuses.map(&:id))
     end
+
+    if roles.any?
+      return_conditions << CustomActions::Conditions::Role.new(statuses.map(&:id))
+    end
+
+    return_conditions
   end
 
   def conditions=(new_conditions)
     # TODO place in after save hook so that validations can take place before
     # TODO generalize and move into condition
     new_conditions.each do |new_condition|
-      self.status_ids = Array(new_condition.values)
+      send(:"#{new_condition.key}_ids=", new_condition.values)
     end
   end
 
@@ -101,3 +108,4 @@ CustomActions::Register.action(CustomActions::Actions::Priority)
 CustomActions::Register.action(CustomActions::Actions::CustomField)
 
 CustomActions::Register.condition(CustomActions::Conditions::Status)
+CustomActions::Register.condition(CustomActions::Conditions::Role)
