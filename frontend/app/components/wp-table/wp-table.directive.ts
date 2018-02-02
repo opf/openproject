@@ -31,6 +31,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 import {columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {GroupObject} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
+import {TableState, TableStateHolder} from 'core-components/wp-table/TableState';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {Observable} from 'rxjs/Observable';
 import {debugLog} from '../../helpers/debug_output';
@@ -47,11 +48,13 @@ import {createScrollSync} from './wp-table-scroll-sync';
 
 @Component({
   template: require('!!raw-loader!./wp-table.directive.html'),
-  providers: []
+  providers: [TableStateHolder]
 })
 export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   @Input() projectIdentifier:string;
+
+  @Input() tableState:TableState;
 
   private $element:JQuery;
 
@@ -85,10 +88,10 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   constructor(private elementRef:ElementRef,
               public injector:Injector,
+              private readonly tableStateHolder:TableStateHolder,
               @Inject(columnsModalToken) private columnsModal:any,
               private contextMenu:ContextMenuService,
               private states:States,
-              // @Inject($rootScopeToken) private $rootScope:IRootScopeService,
               @Inject(I18nToken) private I18n:op.I18n,
               private wpTableGroupBy:WorkPackageTableGroupByService,
               private wpTableTimeline:WorkPackageTableTimelineService,
@@ -96,6 +99,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   }
 
   ngOnInit():void {
+    this.tableStateHolder.set(this.tableState);
     this.$element = jQuery(this.elementRef.nativeElement);
     this.scrollSyncUpdate = createScrollSync(this.$element);
 

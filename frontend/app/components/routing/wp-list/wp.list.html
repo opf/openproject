@@ -47,9 +47,9 @@
   <filter-container></filter-container>
 
   <accessible-by-keyboard
-    link-class="hidden-for-sighted skip-navigation-link"
-    link-aria-label="{{ ::text.text_jump_to_pagination }}"
-    execute="setAnchorToNextElement()">
+      link-class="hidden-for-sighted skip-navigation-link"
+      link-aria-label="{{ ::text.text_jump_to_pagination }}"
+      execute="setAnchorToNextElement()">
     <span ng-bind="::text.jump_to_pagination"></span>
   </accessible-by-keyboard>
 
@@ -60,8 +60,9 @@
     <div class="work-packages-split-view--tabletimeline-side loading-indicator--location" data-indicator-name="table">
 
       <!-- TABLE + TIMELINE horizontal split -->
-      <wp-table [project-identifier]="projectIdentifier"
-                ng-if="tableInformationLoaded"
+      <wp-table ng-if="tableInformationLoaded"
+                [project-identifier]="projectIdentifier"
+                [table-state]="tableState"
                 class="work-packages-split-view--tabletimeline-content"></wp-table>
 
       <!-- Footer -->

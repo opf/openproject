@@ -1,47 +1,21 @@
-import {
-  combine,
-  createNewContext,
-  derive,
-  input,
-  multiInput,
-  State,
-  StatesGroup
-} from 'reactivestates';
-import {Subject} from 'rxjs';
+import {WPFocusState} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {TableState} from 'core-components/wp-table/TableState';
+import {combine, createNewContext, derive, input, multiInput, StatesGroup} from 'reactivestates';
 import {opServicesModule} from '../angular-modules';
 import {QueryFormResource} from './api/api-v3/hal-resources/query-form-resource.service';
+import {QueryGroupByResource} from './api/api-v3/hal-resources/query-group-by-resource.service';
 import {QueryResource} from './api/api-v3/hal-resources/query-resource.service';
+import {QuerySortByResource} from './api/api-v3/hal-resources/query-sort-by-resource.service';
 import {SchemaResource} from './api/api-v3/hal-resources/schema-resource.service';
 import {TypeResource} from './api/api-v3/hal-resources/type-resource.service';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from './api/api-v3/hal-resources/work-package-resource.service';
-import {
-  GroupObject,
-  WorkPackageCollectionResource
-} from './api/api-v3/hal-resources/wp-collection-resource.service';
-import {WorkPackageEditForm} from './wp-edit-form/work-package-edit-form';
-import {WorkPackageTableColumns} from './wp-fast-table/wp-table-columns';
-import {WorkPackageTableFilters} from './wp-fast-table/wp-table-filters';
-import {WorkPackageTableGroupBy} from './wp-fast-table/wp-table-group-by';
-import {WorkPackageTableHierarchies} from './wp-fast-table/wp-table-hierarchies';
-import {WorkPackageTablePagination} from './wp-fast-table/wp-table-pagination';
-import {WorkPackageTableSortBy} from './wp-fast-table/wp-table-sort-by';
-import {WorkPackageTableSum} from './wp-fast-table/wp-table-sum';
-import {WorkPackageTableTimelineState} from './wp-fast-table/wp-table-timeline';
-import {RenderedRow} from './wp-fast-table/builders/primary-render-pass';
+import {WorkPackageResourceInterface} from './api/api-v3/hal-resources/work-package-resource.service';
 import {SwitchState} from './states/switch-state';
 import {QueryColumn} from './wp-query/query-column';
-import {QuerySortByResource} from './api/api-v3/hal-resources/query-sort-by-resource.service';
-import {QueryGroupByResource} from './api/api-v3/hal-resources/query-group-by-resource.service';
-import {WPTableRowSelectionState} from './wp-fast-table/wp-table.interfaces';
-import {WorkPackageTableRelationColumns} from './wp-fast-table/wp-table-relation-columns';
-import {WPFocusState} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 
 export class States extends StatesGroup {
 
-  name = "MainStore";
+  name = 'MainStore';
+
   /* /api/v3/work_packages */
   workPackages = multiInput<WorkPackageResourceInterface>();
 
@@ -51,11 +25,11 @@ export class States extends StatesGroup {
   /* /api/v3/types */
   types = multiInput<TypeResource>();
 
-  // Work package table states
-  table = new TableState();
-
   // Work Package query states
   query = new QueryStates();
+
+  // Work package table states
+  table = new TableState();
 
   tableRendering = new TableRenderingStates(this);
 
@@ -65,59 +39,6 @@ export class States extends StatesGroup {
   // Current focused work package (e.g, row preselected for details button)
   focusedWorkPackage = input<WPFocusState>();
 
-}
-
-export class TableState extends StatesGroup {
-
-  name = "TableStore";
-
-  // the results associated with the table
-  results = input<WorkPackageCollectionResource>();
-  // Set of work package IDs in strict order of appearance
-  rows = input<WorkPackageResource[]>();
-  // all groups returned as results
-  groups = input<GroupObject[]>();
-  // Set of columns in strict order of appearance
-  columns = input<WorkPackageTableColumns>();
-
-  // Set of filters
-  filters = input<WorkPackageTableFilters>();
-  // Active and available sort by
-  sortBy = input<WorkPackageTableSortBy>();
-  // Active and available group by
-  groupBy = input<WorkPackageTableGroupBy>();
-  // is query summed
-  sum = input<WorkPackageTableSum>();
-  // pagination information
-  pagination = input<WorkPackageTablePagination>();
-  // Table row selection state
-  selection = input<WPTableRowSelectionState>();
-  // Current state of collapsed groups (if any)
-  collapsedGroups = input<{[identifier:string]:boolean}>();
-  // Hierarchies of table
-  hierarchies = input<WorkPackageTableHierarchies>();
-  // State to be updated when the table is up to date
-  rendered = input<RenderedRow[]>();
-
-  renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $
-    .map(rows => rows.filter(row => !!row.workPackageId)));
-
-  // State to determine timeline visibility
-  timelineVisible = input<WorkPackageTableTimelineState>();
-
-  // auto zoom toggle
-  timelineAutoZoom = input<boolean>(true);
-
-  // Subject used to unregister all listeners of states above.
-  stopAllSubscriptions = new Subject();
-  // Fire when table refresh is required
-  refreshRequired = input<boolean[]>();
-
-  // Expanded relation columns
-  relationColumns = input<WorkPackageTableRelationColumns>();
-
-  // Required work packages to be rendered by hierarchy mode + relation columns
-  additionalRequiredWorkPackages = input<null>();
 }
 
 export class QueryStates {

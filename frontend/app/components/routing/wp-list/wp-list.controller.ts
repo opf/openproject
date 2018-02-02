@@ -26,27 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {StateService} from '@uirouter/angularjs';
 import {scopeDestroyed$, scopedObservable} from '../../../helpers/angular-rx-utils';
+import {debugLog} from '../../../helpers/debug_output';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 import {States} from '../../states.service';
+import {WorkPackageQueryStateService} from '../../wp-fast-table/state/wp-table-base.service';
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
+import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/wp-table-relation-columns.service';
 import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableSumService} from '../../wp-fast-table/state/wp-table-sum.service';
-import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
-import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
+import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.service';
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
-import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
-import {WorkPackageQueryStateService} from '../../wp-fast-table/state/wp-table-base.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
-import {debugLog} from '../../../helpers/debug_output';
-import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/wp-table-relation-columns.service';
-import {combine} from 'reactivestates';
-import {StateService} from '@uirouter/angularjs';
+import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
 
 function WorkPackagesListController($scope:any,
                                     $state:StateService,
@@ -66,6 +64,8 @@ function WorkPackagesListController($scope:any,
                                     wpListChecksumService:WorkPackagesListChecksumService,
                                     loadingIndicator:LoadingIndicatorService,
                                     I18n:op.I18n) {
+
+  $scope.tableState = states.table;
 
   $scope.projectIdentifier = $state.params['projectPath'] || null;
   $scope.I18n = I18n;
@@ -129,7 +129,7 @@ function WorkPackagesListController($scope:any,
 
           updateResultsVisibly();
         }
-    });
+      });
 
     setupChangeObserver(wpTableFilters, true);
     setupChangeObserver(wpTableGroupBy);
@@ -190,7 +190,7 @@ function WorkPackagesListController($scope:any,
       });
   }
 
-  $scope.setAnchorToNextElement = function () {
+  $scope.setAnchorToNextElement = function() {
     // Skip to next when visible, otherwise skip to previous
     const selectors = '#pagination--next-link, #pagination--prev-link, #pagination-empty-text';
     const visibleLink = jQuery(selectors)
@@ -218,7 +218,7 @@ function WorkPackagesListController($scope:any,
     }
   }
 
-  $scope.allowed = function (model:string, permission:string) {
+  $scope.allowed = function(model:string, permission:string) {
     return AuthorisationService.can(model, permission);
   };
 
