@@ -32,10 +32,9 @@ class CustomActions::Actions::AssignedTo < CustomActions::Actions::Base
   include CustomActions::Actions::Strategies::Associated
 
   def associated
-    # TODO handle groups
-    User
-      .not_builtin
-      .select(:id, :firstname, :lastname)
+    principal_class
+      .active_or_registered
+      .select(:id, :firstname, :lastname, :type)
       .order_by_name
       .map { |u| [u.id, u.name] }
   end
@@ -46,5 +45,15 @@ class CustomActions::Actions::AssignedTo < CustomActions::Actions::Base
 
   def self.key
     :assigned_to
+  end
+
+  private
+
+  def principal_class
+    if Setting.work_package_group_assignment?
+      Principal
+    else
+      User
+    end
   end
 end

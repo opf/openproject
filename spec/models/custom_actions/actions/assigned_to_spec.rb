@@ -33,17 +33,34 @@ describe CustomActions::Actions::AssignedTo, type: :model do
     let(:key) { :assigned_to }
 
     describe '#allowed_values' do
-      it 'is the list of all users' do
-        users = [FactoryGirl.build_stubbed(:user),
-                 FactoryGirl.build_stubbed(:user)]
-        allow(User)
-          .to receive_message_chain(:not_builtin, :select, :order_by_name)
-          .and_return(users)
+      context 'group assignment disabled', with_settings: { work_package_group_assignment?: false } do
+        it 'is the list of all users' do
+          users = [FactoryGirl.build_stubbed(:user),
+                   FactoryGirl.build_stubbed(:user)]
+          allow(User)
+            .to receive_message_chain(:active_or_registered, :select, :order_by_name)
+            .and_return(users)
 
-        expect(instance.allowed_values)
-          .to eql([{ value: nil, label: '-' },
-                   { value: users.first.id, label: users.first.name },
-                   { value: users.last.id, label: users.last.name }])
+          expect(instance.allowed_values)
+            .to eql([{ value: nil, label: '-' },
+                     { value: users.first.id, label: users.first.name },
+                     { value: users.last.id, label: users.last.name }])
+        end
+      end
+
+      context 'group assignment enabled', with_settings: { work_package_group_assignment?: true } do
+        it 'is the list of all users' do
+          users = [FactoryGirl.build_stubbed(:user),
+                   FactoryGirl.build_stubbed(:group)]
+          allow(Principal)
+            .to receive_message_chain(:active_or_registered, :select, :order_by_name)
+            .and_return(users)
+
+          expect(instance.allowed_values)
+            .to eql([{ value: nil, label: '-' },
+                     { value: users.first.id, label: users.first.name },
+                     { value: users.last.id, label: users.last.name }])
+        end
       end
     end
   end
