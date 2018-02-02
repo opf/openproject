@@ -330,7 +330,7 @@ module API
         links :customActions do
           represented.custom_actions.map do |action|
             {
-              href: api_v3_paths.work_package_custom_action(represented.id, action.id),
+              href: api_v3_paths.work_package_custom_action_execute(represented.id, action.id),
               title: action.name,
               method: 'POST'
             }

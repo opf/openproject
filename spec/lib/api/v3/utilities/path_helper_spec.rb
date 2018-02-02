@@ -551,10 +551,10 @@ describe ::API::V3::Utilities::PathHelper do
       it_behaves_like 'api v3 path', '/work_packages/1'
     end
 
-    describe '#work_package_custom_action' do
-      subject { helper.work_package_custom_action 42, 23 }
+    describe '#work_package_custom_action_execute' do
+      subject { helper.work_package_custom_action_execute 42, 23 }
 
-      it_behaves_like 'api v3 path', '/work_packages/42/custom_actions/23'
+      it_behaves_like 'api v3 path', '/work_packages/42/custom_actions/23/execute'
     end
 
     describe '#work_package_activities' do

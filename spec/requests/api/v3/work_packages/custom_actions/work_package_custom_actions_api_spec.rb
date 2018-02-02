@@ -62,7 +62,7 @@ describe 'API::V3::WorkPackages::CustomActions::CustomActionsAPI', type: :reques
 
   shared_context 'post request' do
     before do
-      post api_v3_paths.work_package_custom_action(work_package.id, action.id),
+      post api_v3_paths.work_package_custom_action_execute(work_package.id, action.id),
            parameters.to_json,
            'CONTENT_TYPE' => 'application/json'
     end

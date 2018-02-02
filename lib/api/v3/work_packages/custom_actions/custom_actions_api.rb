@@ -36,28 +36,30 @@ module API
               requires :action_id, desc: 'Custom action id', type: Integer
             end
             route_param :action_id do
-              post do
-                @work_package.lock_version = nil
-                payload = ::API::V3::WorkPackages::WorkPackageLockVersionPayloadRepresenter.new(@work_package,
-                                                                                                current_user: current_user)
-                @work_package = payload.from_hash(Hash(request_body))
+              namespace 'execute' do
+                post do
+                  @work_package.lock_version = nil
+                  payload = ::API::V3::WorkPackages::WorkPackageLockVersionPayloadRepresenter.new(@work_package,
+                                                                                                  current_user: current_user)
+                  @work_package = payload.from_hash(Hash(request_body))
 
-                custom_action = CustomAction.find(params[:action_id])
+                  custom_action = CustomAction.find(params[:action_id])
 
-                ::CustomActions::UpdateWorkPackageService
-                  .new(user: current_user,
-                       action: custom_action)
-                  .call(work_package: @work_package) do |call|
+                  ::CustomActions::UpdateWorkPackageService
+                    .new(user: current_user,
+                         action: custom_action)
+                    .call(work_package: @work_package) do |call|
 
-                  call.on_success do
-                    @work_package.reload
+                    call.on_success do
+                      @work_package.reload
 
-                    status 200
-                    body work_package_representer
-                  end
+                      status 200
+                      body work_package_representer
+                    end
 
-                  call.on_failure do
-                    fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+                    call.on_failure do
+                      fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+                    end
                   end
                 end
               end

@@ -911,7 +911,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
           expected = [
             {
-              href: api_v3_paths.work_package_custom_action(work_package.id, unassign_action.id),
+              href: api_v3_paths.work_package_custom_action_execute(work_package.id, unassign_action.id),
               method: 'POST',
               title: unassign_action.name
             }
