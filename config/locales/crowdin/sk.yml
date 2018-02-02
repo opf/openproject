@@ -380,8 +380,6 @@ sk:
         hexcode: Hex kód
       project_type:
         position: Pozícia
-        allows_association: ''
-        reported_project_statuses: ''
       work_package:
         begin_insertion: Začiatok vkladania
         begin_deletion: Začiatok odstraňovania
@@ -401,16 +399,6 @@ sk:
         time_entries: Zaprotokoluj čas
         type: Typ
         watcher: Pozorovateľ
-      project_association:
-        description: ''
-        project_b: ''
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: ''
-        reporting_to_project: ''
-        reported_project_status: ''
-        created_at: ''
     errors:
       messages:
         accepted: musí byť akceptovaný.
@@ -559,9 +547,6 @@ sk:
         member:
           principal_blank: Vyberte aspoň jedného používateľa alebo skupinu.
           role_blank: Vyberte aspoň jednu rolu.
-        project_association:
-          identical_projects: ''
-          project_association_not_allowed: ''
       template:
         body: 'Skontrolujte nasledujúce polia:'
         header:
@@ -2315,7 +2300,6 @@ sk:
       reportings: Status reportings
       reports: Timeline reports
       timelines: Timelines
-      project_associations: ''
     associations: Závislosti
     board_could_not_be_saved: Panel sa nepodarilo uložiť
     button_delete_all: Odstrániť všetky
@@ -2493,12 +2477,6 @@ sk:
       months: Mesiace
       quarters: Kvartály
       years: Roky
-    add_project_association: ''
-    project_association_new: ''
-    project_association_new_for_with: ''
-    project_association_with_other: ''
-    project_association_of_type: ''
-    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
@@ -2640,6 +2618,3 @@ sk:
         na čítanie.
     resources:
       schema: Schéma
-  permission_delete_project_associations: ''
-  permission_edit_project_associations: ''
-  permission_view_project_associations: ''

@@ -374,8 +374,6 @@ sv-SE:
         hexcode: Hex-kod
       project_type:
         position: Position
-        allows_association: ''
-        reported_project_statuses: ''
       work_package:
         begin_insertion: Början av införandet
         begin_deletion: Början av raderingen
@@ -395,16 +393,6 @@ sv-SE:
         time_entries: Logga tid
         type: Typ
         watcher: Bevakare
-      project_association:
-        description: ''
-        project_b: ''
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: ''
-        reporting_to_project: ''
-        reported_project_status: ''
-        created_at: ''
     errors:
       messages:
         accepted: måste accepteras.
@@ -548,9 +536,6 @@ sv-SE:
         member:
           principal_blank: Välj minst en användare eller grupp.
           role_blank: Välj minst en roll.
-        project_association:
-          identical_projects: ''
-          project_association_not_allowed: ''
       template:
         body: 'Kontrollera följande fält:'
         header:
@@ -2271,7 +2256,6 @@ sv-SE:
       reportings: Statusrapporter
       reports: Tidslinjerapporter
       timelines: Tidslinjer
-      project_associations: ''
     associations: Beroenden
     board_could_not_be_saved: Anslagstavlan kunde inte sparas
     button_delete_all: Ta bort alla
@@ -2447,12 +2431,6 @@ sv-SE:
       months: Månader
       quarters: Kvartal
       years: År
-    add_project_association: ''
-    project_association_new: ''
-    project_association_new_for_with: ''
-    project_association_with_other: ''
-    project_association_of_type: ''
-    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Ta bort den inbjudna medlemmen från projektet och
     radera honom/henne.
   tooltip_resend_invitation: 'Skickar en ny nyckel om den gamla löpt ut eller användaren
@@ -2588,6 +2566,3 @@ sv-SE:
       writing_read_only_attributes: Du får inte skriva till ett skrivskyddat attribut.
     resources:
       schema: Schema
-  permission_delete_project_associations: ''
-  permission_edit_project_associations: ''
-  permission_view_project_associations: ''

@@ -377,8 +377,6 @@ hr:
         hexcode: Heksadecimalni kod
       project_type:
         position: Pozicija
-        allows_association: ''
-        reported_project_statuses: ''
       work_package:
         begin_insertion: Početak umetanja
         begin_deletion: Početak brisanja
@@ -398,16 +396,6 @@ hr:
         time_entries: Vrijeme pristupa
         type: Tip
         watcher: Nadglednik
-      project_association:
-        description: ''
-        project_b: ''
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: ''
-        reporting_to_project: ''
-        reported_project_status: ''
-        created_at: ''
     errors:
       messages:
         accepted: mora biti prihvaćeno.
@@ -553,9 +541,6 @@ hr:
         member:
           principal_blank: Molim vas odaberite najamnje jednog korisnika ili grupu.
           role_blank: Molim vas odaberite najmanje jednu rolu.
-        project_association:
-          identical_projects: ''
-          project_association_not_allowed: ''
       template:
         body: 'Molim vas provjerite sljedeća polja:'
         header:
@@ -2316,7 +2301,6 @@ hr:
       reportings: Izvješća statusa
       reports: Izvješća vremenskog tijeka
       timelines: Kronologija
-      project_associations: ''
     associations: Ovisnosti
     board_could_not_be_saved: Forum nije moguće spremiti
     button_delete_all: Obriši sve
@@ -2493,12 +2477,6 @@ hr:
       months: Mjeseci
       quarters: Kvartali
       years: Godine
-    add_project_association: ''
-    project_association_new: ''
-    project_association_new_for_with: ''
-    project_association_with_other: ''
-    project_association_of_type: ''
-    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Uklonite pozvanog korinsika iz projekta i izbrište
     njega/nju.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
@@ -2639,6 +2617,3 @@ hr:
         je dopušteno samo čitanje.
     resources:
       schema: Shema
-  permission_delete_project_associations: ''
-  permission_edit_project_associations: ''
-  permission_view_project_associations: ''

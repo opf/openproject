@@ -381,8 +381,6 @@ it:
         hexcode: Codice esadecimale
       project_type:
         position: Posizione
-        allows_association: ''
-        reported_project_statuses: ''
       work_package:
         begin_insertion: Inizio inserimento
         begin_deletion: Inizio cancellazione
@@ -402,16 +400,6 @@ it:
         time_entries: Registra l'orario effettuato
         type: Tipo
         watcher: Osservatore
-      project_association:
-        description: ''
-        project_b: ''
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: ''
-        reporting_to_project: ''
-        reported_project_status: ''
-        created_at: ''
     errors:
       messages:
         accepted: deve essere accettato.
@@ -562,9 +550,6 @@ it:
         member:
           principal_blank: Si prega di scegliere almeno un utente o un gruppo.
           role_blank: Si prega di scegliere almeno un ruolo.
-        project_association:
-          identical_projects: ''
-          project_association_not_allowed: ''
       template:
         body: 'Perfavore controlla i seguenti campi:'
         header:
@@ -2358,7 +2343,6 @@ it:
       reportings: Prospetti sullo stato
       reports: Rapporti tempistiche
       timelines: Tempistiche
-      project_associations: ''
     associations: Dipendenze
     board_could_not_be_saved: Il quadro non può essere salvato
     button_delete_all: Cancella tutti
@@ -2543,12 +2527,6 @@ it:
       months: Mesi
       quarters: Trimestri
       years: Anni
-    add_project_association: ''
-    project_association_new: ''
-    project_association_new_for_with: ''
-    project_association_with_other: ''
-    project_association_of_type: ''
-    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Rimuovi l'utente invitato dal progetto ed eliminalo/a.
   tooltip_resend_invitation: 'Invia un''altra email di invito con un token nuovo nel
     caso in cui quello vecchio sia scaduto o l''utente non abbia ricevuto la prima
@@ -2690,6 +2668,3 @@ it:
       writing_read_only_attributes: Non puoi scrivere un attributo di sola lettura.
     resources:
       schema: Schema
-  permission_delete_project_associations: ''
-  permission_edit_project_associations: ''
-  permission_view_project_associations: ''

@@ -375,8 +375,6 @@
         hexcode: Hexadesimalkode
       project_type:
         position: Plassering
-        allows_association: ''
-        reported_project_statuses: ''
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -396,16 +394,6 @@
         time_entries: Logg tid
         type: Type
         watcher: Overvåker
-      project_association:
-        description: ''
-        project_b: ''
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: ''
-        reporting_to_project: ''
-        reported_project_status: ''
-        created_at: ''
     errors:
       messages:
         accepted: must be accepted.
@@ -547,9 +535,6 @@
         member:
           principal_blank: Velg minst én bruker eller gruppe.
           role_blank: Velg minst én rolle.
-        project_association:
-          identical_projects: ''
-          project_association_not_allowed: ''
       template:
         body: 'Kontroller følgende felter:'
         header:
@@ -2275,7 +2260,6 @@
       reportings: Statusrapporteringer
       reports: Tidslinjerapporter
       timelines: Tidslinjer
-      project_associations: ''
     associations: Avhengigheter
     board_could_not_be_saved: Forum kunne ikke lagres
     button_delete_all: Slett alle
@@ -2451,12 +2435,6 @@
       months: Måneder
       quarters: Kvartaler
       years: År
-    add_project_association: ''
-    project_association_new: ''
-    project_association_new_for_with: ''
-    project_association_with_other: ''
-    project_association_of_type: ''
-    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
@@ -2594,6 +2572,3 @@
       writing_read_only_attributes: Du kan ikke skrive til et skrivebeskyttet attributt.
     resources:
       schema: Skjema
-  permission_delete_project_associations: ''
-  permission_edit_project_associations: ''
-  permission_view_project_associations: ''

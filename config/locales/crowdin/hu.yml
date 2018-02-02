@@ -371,8 +371,6 @@ hu:
         hexcode: Hexa kód
       project_type:
         position: Pozició
-        allows_association: ''
-        reported_project_statuses: ''
       work_package:
         begin_insertion: Beillesztés kezdete
         begin_deletion: Törlés kezdete
@@ -392,16 +390,6 @@ hu:
         time_entries: Eltöltött idő rögzítése
         type: Típus
         watcher: Megfigyelő
-      project_association:
-        description: ''
-        project_b: ''
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: ''
-        reporting_to_project: ''
-        reported_project_status: ''
-        created_at: ''
     errors:
       messages:
         accepted: el kell fogadni.
@@ -546,9 +534,6 @@ hu:
         member:
           principal_blank: Kérem, válasszon legalább egy felhasználót vagy csoportot.
           role_blank: kérem, válasszon legalább egy szerepkört.
-        project_association:
-          identical_projects: ''
-          project_association_not_allowed: ''
       template:
         body: 'Kérjük, ellenőrizze az alábbi mezőket:'
         header:
@@ -2290,7 +2275,6 @@ hu:
       reportings: Állapot jelentés
       reports: Jelentések az idővonalakról
       timelines: Idővonalak
-      project_associations: ''
     associations: Szükséges összetevők
     board_could_not_be_saved: A tábla nem menthető
     button_delete_all: Összes törlése
@@ -2468,12 +2452,6 @@ hu:
       months: Hónap
       quarters: Negyedek
       years: Évek
-    add_project_association: ''
-    project_association_new: ''
-    project_association_new_for_with: ''
-    project_association_with_other: ''
-    project_association_of_type: ''
-    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Távolítsa el a meghívott felhasználót a projektből,
     és törölje őt.
   tooltip_resend_invitation: 'Új meghívó e-mail küldése egy új tokennel. Ez abban
@@ -2613,6 +2591,3 @@ hu:
       writing_read_only_attributes: Nem írhat egy csak olvasható tulajdonságot.
     resources:
       schema: Séma
-  permission_delete_project_associations: ''
-  permission_edit_project_associations: ''
-  permission_view_project_associations: ''
