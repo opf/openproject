@@ -27,7 +27,7 @@
 // ++
 
 import {opUiComponentsModule} from '../../../../angular-modules';
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {HideSectionDefinition, HideSectionService} from 'core-components/common/hide-section/hide-section.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
@@ -43,13 +43,15 @@ export class AddSectionDropdownComponent implements OnInit, OnDestroy {
   turnedActive:HideSectionDefinition|null = null;
   texts:{ [key:string]:string } = {};
 
+  @Input()
+  htmlId:string;
+
   private allSubscription:Subscription;
 
   constructor(protected hideSections:HideSectionService,
               @Inject(I18nToken) protected I18n:op.I18n) {
     this.texts = {
-      placeholder: I18n.t('js.placeholders.default'),
-      add: I18n.t('js.custom_actions.add')
+      placeholder: I18n.t('js.placeholders.selection')
     };
   }
 

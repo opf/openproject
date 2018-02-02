@@ -83,7 +83,9 @@ en:
       no_results_title_text: There are currently no posts for the board.
 
   custom_actions:
-    actions: 'Actions'
+    actions:
+      name: 'Actions'
+      add: 'Add action'
     conditions: 'Conditions'
     plural: 'Custom actions'
     new: 'New custom action'

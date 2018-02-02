@@ -1,12 +1,5 @@
-<div class="form--field">
-  <label class="form--label" for="add-section">{{texts.add}}</label>
-  <span class="form--field-container">
-    <span class="form--text-field-container -middle">
-      <select id="add-section" [(ngModel)]="turnedActive" (ngModelChange)="show()">
-        <option [ngValue]="null">{{texts.placeholder}}</option>
-        <option *ngFor="let n of selectable" [ngValue]="n">{{n.label}}</option>
-      </select>
-    </span>
-  </span>
-</div>
+<select [attr.id]="htmlId" class="form-field--select" [(ngModel)]="turnedActive" (ngModelChange)="show()">
+  <option [ngValue]="null">{{texts.placeholder}}</option>
+  <option *ngFor="let n of selectable" [ngValue]="n">{{n.label}}</option>
+</select>
 

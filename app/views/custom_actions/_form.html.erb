@@ -26,7 +26,7 @@
 
 <fieldset class="form--fieldset" id="custom-actions-form--actions">
   <legend class="form--fieldset-legend">
-    <%= t('custom_actions.actions') %>
+    <%= t('custom_actions.actions.name') %>
   </legend>
 
   <div id="custom-actions-form--active-actions">
@@ -69,5 +69,21 @@
     <% end %>
   </div>
 
-  <add-section-dropdown id="custom-actions-form--selectable-actions"></add-section-dropdown>
+  <div class="form--space"></div>
+
+  <div class="form--field">
+    <label class="form--label" for="custom-actions-form--add-action">
+      <op-icon icon-classes="icon-add icon4" class="op-icon--wrapper">
+        <i class="icon-add icon4" aria-hidden="true"></i>
+      </op-icon>
+      <%= I18n.t(:'custom_actions.actions.add') %>
+    </label>
+    <span class="form--field-container">
+      <span class="form--text-field-container -middle">
+        <add-section-dropdown html-id="custom-actions-form--add-action"
+                              id="custom-actions-form--selectable-actions">
+        </add-section-dropdown>
+      </span>
+    </span>
+  </div>
 </fieldset>
