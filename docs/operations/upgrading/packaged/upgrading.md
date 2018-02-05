@@ -6,6 +6,20 @@ packages.
 Upgrading OpenProject is as easy as installing a newer OpenProject package and
 running the `openproject configure` command.
 
+## Backup
+
+We try to ensure your upgrade path is as smooth as possible. This means that the below update + configure step should be the only change needed to get up to date with our packaged installation.
+
+In the event of an error during the migrations, you will still want to have a recent backup you can restore to before reaching out to us. This is especially important for MySQL installations, since it does not support transactional migrations with changes to the table schema and you will have to rollback these changes manually. For PostgreSQL, if the Rails migrations fail, all previous changes will be rolled back for you to try again, or to install the older packages.
+
+To perform a backup, run the following command
+
+```bash
+sudo openproject run backup
+```
+
+This will store the current database dump, attachments and config to `/var/db/openproject/backup`. For more information on the backup and restore mechanisms, [check our detailed backup guide](https://www.openproject.org/operations/backup/backup-guide-packaged-installation/).
+
 ## Debian / Ubuntu
 
     sudo apt-get update
