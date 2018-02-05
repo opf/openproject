@@ -15,7 +15,7 @@
 module OpenProject::GithubIntegration
   class HookHandler
     # List of the github events we can handle.
-    KNOWN_EVENTS = %w{ ping pull_request issue_comment }
+    KNOWN_EVENTS = %w[ping pull_request issue_comment].freeze
 
     # A github webhook happened.
     # We need to check validity of the data and send a Notification
@@ -29,11 +29,12 @@ module OpenProject::GithubIntegration
       return 404 unless KNOWN_EVENTS.include?(event_type) && event_delivery
       return 403 unless user.present?
 
-      payload = Hash.new
-      payload.merge! params.require('webhook')
-      payload.merge! 'user_id' => user.id,
-                     'github_event' => event_type,
-                     'github_delivery' => event_delivery
+      payload = params
+                .permit!
+                .to_h
+                .merge('user_id' => user.id,
+                       'github_event' => event_type,
+                       'github_delivery' => event_delivery)
 
       OpenProject::Notifications.send(event_name(event_type), payload)
 

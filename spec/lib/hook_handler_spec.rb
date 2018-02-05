@@ -32,7 +32,7 @@ describe OpenProject::GithubIntegration::HookHandler do
   describe '#process' do
     let(:handler) { OpenProject::GithubIntegration::HookHandler.new }
     let(:hook) { 'fake hook' }
-    let(:params) { ActionController::Parameters.new({ 'webhook' => {'fake' => 'value'} }) }
+    let(:params) { ActionController::Parameters.new({ 'fake' => 'value' }) }
     let(:environment) { { 'HTTP_X_GITHUB_EVENT' => 'pull_request' ,
                           'HTTP_X_GITHUB_DELIVERY' => 'veryuniqueid' } }
     let(:user) do
