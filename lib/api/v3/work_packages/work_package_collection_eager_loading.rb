@@ -40,6 +40,8 @@ module API
           eager_load_version_custom_values(wps)
           eager_load_list_custom_values(wps)
 
+          wps = ::API::V3::WorkPackages::CustomActions::CustomActionsWrapper.wrap(wps, current_user)
+
           wps.sort_by { |wp| ids_in_order.index(wp.id) }
         end
 

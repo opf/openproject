@@ -26,49 +26,43 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
-#++
+#++require 'rspec'
 
-class CustomActions::Conditions::Role < CustomActions::Conditions::Base
-  def self.key
-    :role
+require 'spec_helper'
+
+describe ::API::V3::WorkPackages::CustomActions::CustomActionsWrapper do
+  let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
+  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:custom_action) { FactoryGirl.build_stubbed(:custom_action) }
+
+  let(:instance) do
+    described_class.send(:new, work_package, [custom_action])
   end
 
-  def self.custom_action_scope(work_packages, user)
-    has_current_role = CustomAction
-                       .includes(:roles)
-                       .where(custom_actions_roles: { role_id: roles_in_project(work_packages, user) })
-    has_no_role = CustomAction
-                  .includes(:roles)
-                  .where(custom_actions_roles: { role_id: nil })
-
-    has_current_role
-      .or(has_no_role)
+  describe '.new' do
+    it 'raises a private method called error' do
+      expect{ described_class.new(work_package, user) }
+        .to raise_error(NoMethodError)
+    end
   end
 
-  def self.getter(custom_action)
-    ids = custom_action.role_ids
-
-    new(ids) if ids.any?
+  describe '#custom_actions' do
+    it 'returns the preloaded actions' do
+      expect(instance.custom_actions(user))
+        .to match_array [custom_action]
+    end
   end
 
-  def fulfilled_by?(work_package, user)
-    values.empty? ||
-      (self.class.roles_in_project(work_package, user).map(&:id) & values).any?
-  end
+  %i(id subject description status_id comment author_id assigned_to_id).each do |attribute|
+    describe "#{attribute}" do
+      it 'delegates to work_package' do
+        expect(work_package)
+          .to receive(attribute)
+          .and_return(123)
 
-  def self.roles_in_project(work_packages, user)
-    ::Role
-      .joins(:members)
-      .where(members: { project_id: Array(work_packages).map(&:project_id).uniq, user_id: user.id })
-      .select(:id)
-  end
-
-  private
-
-  def associated
-    ::Role
-      .givable
-      .select(:id, :name)
-      .map { |u| [u.id, u.name] }
+        expect(instance.send(attribute))
+          .to eql 123
+      end
+    end
   end
 end

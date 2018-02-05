@@ -47,5 +47,50 @@ describe CustomActions::Conditions::Role, type: :model do
                    { value: roles.last.id, label: roles.last.name }])
       end
     end
+
+    describe '#fulfilled_by?' do
+      let(:work_package) { double('work_package', project_id: 1) }
+      let(:user) { double('user', id: 3) }
+
+      before do
+        role1 = double('role', id: 1)
+        role2 = double('role', id: 2)
+        roles = [role1, role2]
+
+        allow(Role)
+          .to receive(:joins)
+          .with(:members)
+          .and_return(roles)
+        allow(roles)
+          .to receive(:where)
+          .with(members: { project_id: [work_package.project_id],
+                           user_id: user.id })
+          .and_return(roles)
+        allow(roles)
+          .to receive(:select)
+          .and_return(roles)
+      end
+
+      it 'is true if values are empty' do
+        instance.values = []
+
+        expect(instance.fulfilled_by?(work_package, user))
+          .to be_truthy
+      end
+
+      it "is true if values the id of roles the user has in the work package's project" do
+        instance.values = [1]
+
+        expect(instance.fulfilled_by?(work_package, user))
+          .to be_truthy
+      end
+
+      it "is false if values do not include work package's status_id" do
+        instance.values = [5]
+
+        expect(instance.fulfilled_by?(work_package, user))
+          .to be_falsey
+      end
+    end
   end
 end

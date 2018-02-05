@@ -53,6 +53,11 @@ class CustomActions::Conditions::Base
     custom_action.send(:"#{key}_ids=", values)
   end
 
+  def fulfilled_by?(work_package, _user)
+    work_package.respond_to?(:"#{key}_id") && values.include?(work_package.send(:"#{key}_id")) ||
+      values.empty?
+  end
+
   def key
     self.class.key
   end

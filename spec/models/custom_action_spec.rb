@@ -144,6 +144,52 @@ describe CustomAction, type: :model do
     end
   end
 
+  describe '#conditions_fulfilled?' do
+    let(:work_package) { double('work_package') }
+    let(:user) { double('user') }
+
+    let(:stubbed_condition1) do
+      condition = double('condition1')
+      allow(condition)
+        .to receive(:fulfilled_by?)
+        .with(work_package, user)
+        .and_return(condition1_fulfilled)
+      condition
+    end
+    let(:stubbed_condition2) do
+      condition = double('condition2')
+      allow(condition)
+        .to receive(:fulfilled_by?)
+        .with(work_package, user)
+        .and_return(condition2_fulfilled)
+      condition
+    end
+    let(:condition1_fulfilled) { true }
+    let(:condition2_fulfilled) { true }
+
+    before do
+      allow(stubbed_instance)
+        .to receive(:conditions)
+        .and_return [stubbed_condition1, stubbed_condition2]
+    end
+
+    context 'all conditions fulfilled' do
+      it 'is true' do
+        expect(stubbed_instance.conditions_fulfilled?(work_package, user))
+          .to be_truthy
+      end
+    end
+
+    context 'but one condition not fulfilled' do
+      let(:condition1_fulfilled) { false }
+
+      it 'is false' do
+        expect(stubbed_instance.conditions_fulfilled?(work_package, user))
+          .to be_falsey
+      end
+    end
+  end
+
   describe '.all_conditions' do
     it 'returns all available conditions with the default value initialized' do
       expect(stubbed_instance.all_conditions.map { |a| [a.key, a.values] })

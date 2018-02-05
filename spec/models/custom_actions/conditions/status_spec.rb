@@ -46,5 +46,31 @@ describe CustomActions::Conditions::Status, type: :model do
                    { value: statuses.last.id, label: statuses.last.name }])
       end
     end
+
+    describe '#fulfilled_by?' do
+      let(:work_package) { double('work_package', status_id: 1) }
+      let(:user) { double('not relevant') }
+
+      it 'is true if values are empty' do
+        instance.values = []
+
+        expect(instance.fulfilled_by?(work_package, user))
+          .to be_truthy
+      end
+
+      it "is true if values include work package's status_id" do
+        instance.values = [1]
+
+        expect(instance.fulfilled_by?(work_package, user))
+          .to be_truthy
+      end
+
+      it "is false if values do not include work package's status_id" do
+        instance.values = [5]
+
+        expect(instance.fulfilled_by?(work_package, user))
+          .to be_falsey
+      end
+    end
   end
 end

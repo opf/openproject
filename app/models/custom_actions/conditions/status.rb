@@ -33,9 +33,13 @@ class CustomActions::Conditions::Status < CustomActions::Conditions::Base
     :status
   end
 
-  def self.custom_action_scope(work_package, _user)
-    has_current_status = CustomAction.includes(:statuses).where(custom_actions_statuses: { status_id: work_package.status_id })
-    has_no_status = CustomAction.includes(:statuses).where(custom_actions_statuses: { status_id: nil })
+  def self.custom_action_scope(work_packages, _user)
+    has_current_status = CustomAction
+                         .includes(:statuses)
+                         .where(custom_actions_statuses: { status_id: Array(work_packages).map(&:status_id).uniq })
+    has_no_status = CustomAction
+                    .includes(:statuses)
+                    .where(custom_actions_statuses: { status_id: nil })
 
     has_current_status
       .or(has_no_status)

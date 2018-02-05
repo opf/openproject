@@ -28,47 +28,45 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::Conditions::Role < CustomActions::Conditions::Base
-  def self.key
-    :role
-  end
+module API
+  module V3
+    module WorkPackages
+      module CustomActions
+        class CustomActionsWrapper < SimpleDelegator
+          attr_writer :custom_actions
+          attr_accessor :work_package
 
-  def self.custom_action_scope(work_packages, user)
-    has_current_role = CustomAction
-                       .includes(:roles)
-                       .where(custom_actions_roles: { role_id: roles_in_project(work_packages, user) })
-    has_no_role = CustomAction
-                  .includes(:roles)
-                  .where(custom_actions_roles: { role_id: nil })
+          def initialize(work_package, actions)
+            super(work_package)
+            self.work_package = work_package
+            self.custom_actions = actions
+          end
+          private_class_method :new
 
-    has_current_role
-      .or(has_no_role)
-  end
+          # Hiding the work_package's own custom_actions method
+          # to profit from the eager loaded actions
+          def custom_actions(_user)
+            @custom_actions
+          end
 
-  def self.getter(custom_action)
-    ids = custom_action.role_ids
+          def self.wrap(work_packages, user)
+            actions = CustomAction
+                      .available_conditions
+                      .inject(CustomAction.all) do |scope, condition|
 
-    new(ids) if ids.any?
-  end
+              scope.merge(condition.custom_action_scope(work_packages, user))
+            end
 
-  def fulfilled_by?(work_package, user)
-    values.empty? ||
-      (self.class.roles_in_project(work_package, user).map(&:id) & values).any?
-  end
+            work_packages.map do |work_package|
+              applicable_actions = actions.select do |action|
+                action.conditions_fulfilled?(work_package, user)
+              end
 
-  def self.roles_in_project(work_packages, user)
-    ::Role
-      .joins(:members)
-      .where(members: { project_id: Array(work_packages).map(&:project_id).uniq, user_id: user.id })
-      .select(:id)
-  end
-
-  private
-
-  def associated
-    ::Role
-      .givable
-      .select(:id, :name)
-      .map { |u| [u.id, u.name] }
+              new(work_package, applicable_actions)
+            end
+          end
+        end
+      end
+    end
   end
 end

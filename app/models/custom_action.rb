@@ -79,6 +79,10 @@ class CustomAction < ActiveRecord::Base
     end.compact
   end
 
+  def conditions_fulfilled?(work_package, user)
+    conditions.all? { |c| c.fulfilled_by?(work_package, user) }
+  end
+
   def self.available_conditions
     ::CustomActions::Register.conditions
   end
