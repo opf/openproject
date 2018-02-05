@@ -62,6 +62,29 @@ export class OpenProject {
     return jQuery('meta[name=openproject_initializer]').data('environment');
   }
 
+  /**
+   * Guard access to reads and writes to the localstorage due to corrupted local databases
+   * in Firefox happening in one larger client.
+   *
+   * NS_ERROR_FILE_CORRUPTED
+   *
+   * @param {string} key
+   * @param {string} newValue
+   * @returns {string | undefined}
+   */
+  public guardedLocalStorage(key:string, newValue?:string):string|void {
+    try {
+      if (newValue !== undefined) {
+        window.localStorage.setItem(key, newValue);
+      } else {
+        const value = window.localStorage.getItem(key)
+        return value === null ? undefined : value;
+      }
+    } catch (e) {
+      console.error('Failed to access your browsers local storage. Is your local database corrupted?');
+    }
+  }
+
   public get Helpers() {
     return {
       Angular: new OpenProjectAngularHelpers()
@@ -69,5 +92,5 @@ export class OpenProject {
   }
 }
 
+window.OpenProject = new OpenProject();
 
-(window as any).OpenProject = new OpenProject();

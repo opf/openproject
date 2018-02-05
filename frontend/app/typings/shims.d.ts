@@ -9,6 +9,7 @@ import * as TLodash from 'lodash';
 import * as TAngular from 'angular';
 import * as TSinon from 'sinon';
 import * as TMoment from 'moment';
+import {OpenProject} from 'core-app/globals/openproject';
 
 declare global {
   const _:typeof TLodash;
@@ -16,6 +17,12 @@ declare global {
   const sinon:typeof TSinon;
   const moment:typeof TMoment;
   const bowser:any;
+}
+
+declare global {
+  interface Window {
+    OpenProject:OpenProject;
+  }
 }
 
 export {};

@@ -35,13 +35,13 @@ jQuery(document).ready(function($) {
   });
 
   // Show/Hide content when page is loaded
-  if (localStorage.getItem("showFilter") === "true") {
+  if (window.OpenProject.guardedLocalStorage("showFilter") === "true") {
     showFilter(filter = findFilter());
   }
   else {
     hideFilter(filter = findFilter());
     // In case showFilter is not set yet
-    localStorage.setItem("showFilter", 'false')
+    window.OpenProject.guardedLocalStorage("showFilter", 'false')
   }
 
   // show member form only when there's an error
@@ -55,13 +55,13 @@ jQuery(document).ready(function($) {
 });
 
 function toggleMemberFilter() {
-  if (localStorage.getItem("showFilter") === "true") {
-    localStorage.setItem("showFilter", 'false');
+  if (window.OpenProject.guardedLocalStorage("showFilter") === "true") {
+    window.OpenProject.guardedLocalStorage("showFilter", 'false');
     hideFilter(filter);
     jQuery('#filter-member-button').removeClass('-active');
   }
   else {
-    localStorage.setItem("showFilter", 'true');
+    window.OpenProject.guardedLocalStorage("showFilter", 'true');
     showFilter(filter);
     jQuery('#filter-member-button').addClass('-active');
     hideAddMemberForm();
@@ -74,7 +74,7 @@ function showAddMemberForm() {
   jQuery('#members_add_form #principal_search').focus();
   hideFilter(filter = findFilter());
   jQuery('#filter-member-button').removeClass('-active');
-  localStorage.setItem("showFilter", 'false');
+  window.OpenProject.guardedLocalStorage("showFilter", 'false');
   jQuery('#add-member-button').prop('disabled', true);
 }
 
