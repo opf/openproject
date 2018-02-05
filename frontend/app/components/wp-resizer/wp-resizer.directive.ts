@@ -46,7 +46,7 @@ export class WorkPackageResizerController {
     this.resizingElement = <HTMLElement>document.getElementsByClassName(this.elementClass)[0];
 
     // Get inital width from local storage and apply
-    let localStorageValue = localStorage.getItem(this.localStorageKey);
+    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
     this.elementFlex = localStorageValue ? parseInt(localStorageValue, 10) : this.resizingElement.offsetWidth;
 
     // This case only happens when the timeline is loaded but not displayed.
@@ -96,7 +96,7 @@ export class WorkPackageResizerController {
     // Take care at the end that the elemntFlex-Value is the same as the acutal value
     // When the mouseup is outside the container these values will differ
     // which will cause problems at the next movement start
-    let localStorageValue = localStorage.getItem(this.localStorageKey);
+    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
     if (localStorageValue) {
       this.elementFlex = parseInt(localStorageValue, 10);
     }
@@ -120,7 +120,7 @@ export class WorkPackageResizerController {
     let newValue = this.elementFlex < 480 ? 480 : this.elementFlex;
 
     // Store item in local storage
-    localStorage.setItem(this.localStorageKey, String(newValue));
+    window.OpenProject.guardedLocalStorage(this.localStorageKey, String(newValue));
 
     // Apply two column layout
     element.classList.toggle('-columns-2', newValue > 700);
