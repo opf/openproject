@@ -19,7 +19,7 @@
       <op-date-time date-time-value="$ctrl.workPackage.updatedAt"></op-date-time>.
     </div>
 
-    <wp-workflow-buttons [work-package]="$ctrl.workPackage" class="workflow-buttons"></wp-workflow-buttons>
+    <wp-custom-actions [work-package]="$ctrl.workPackage" class="custom-actions"></wp-custom-actions>
   </div>
 
   <div class="attributes-group -project-context" ng-if="$ctrl.projectContext.field">

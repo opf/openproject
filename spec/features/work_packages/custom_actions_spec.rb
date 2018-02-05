@@ -167,17 +167,17 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.visit!
 
     expect(page)
-      .to have_selector('.workflow-button', text: 'Unassign')
+      .to have_selector('.custom-action', text: 'Unassign')
     expect(page)
-      .to have_selector('.workflow-button', text: 'Close')
+      .to have_selector('.custom-action', text: 'Close')
     expect(page)
-      .to have_selector('.workflow-button', text: 'Escalate')
+      .to have_selector('.custom-action', text: 'Escalate')
     expect(page)
-      .to have_no_selector('.workflow-button', text: 'Reset')
+      .to have_no_selector('.custom-action', text: 'Reset')
     expect(page)
-      .to have_no_selector('.workflow-button', text: 'Other roles action')
+      .to have_no_selector('.custom-action', text: 'Other roles action')
 
-    within('.workflow-buttons') do
+    within('.custom-actions') do
       click_button('Unassign')
     end
 
@@ -188,7 +188,7 @@ describe 'Custom actions', type: :feature, js: true do
     ## Bump the lockVersion and by that force a conflict.
     WorkPackage.where(id: work_package.id).update_all(lock_version: 10)
 
-    within('.workflow-buttons') do
+    within('.custom-actions') do
       click_button('Escalate')
     end
 
@@ -196,7 +196,7 @@ describe 'Custom actions', type: :feature, js: true do
 
     wp_page.visit!
 
-    within('.workflow-buttons') do
+    within('.custom-actions') do
       click_button('Escalate')
     end
 
@@ -207,7 +207,7 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 
-    within('.workflow-buttons') do
+    within('.custom-actions') do
       click_button('Close')
     end
 
@@ -217,9 +217,9 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.dismiss_notification!
 
     expect(page)
-      .to have_selector('.workflow-button', text: 'Reset')
+      .to have_selector('.custom-action', text: 'Reset')
 
-    within('.workflow-buttons') do
+    within('.custom-actions') do
       click_button('Reset')
     end
 
@@ -251,17 +251,17 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.visit!
 
     expect(page)
-      .to have_selector('.workflow-button', text: 'Unassign')
+      .to have_selector('.custom-action', text: 'Unassign')
     expect(page)
-      .to have_selector('.workflow-button', text: 'Close')
+      .to have_selector('.custom-action', text: 'Close')
     expect(page)
-      .to have_selector('.workflow-button', text: 'Escalate')
+      .to have_selector('.custom-action', text: 'Escalate')
     expect(page)
-      .to have_selector('.workflow-button', text: 'Reject')
+      .to have_selector('.custom-action', text: 'Reject')
     expect(page)
-      .to have_no_selector('.workflow-button', text: 'Reset')
+      .to have_no_selector('.custom-action', text: 'Reset')
 
-    within('.workflow-buttons') do
+    within('.custom-actions') do
       click_button('Reject')
     end
 
@@ -272,7 +272,7 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.dismiss_notification!
 
     expect(page)
-      .to have_no_selector('.workflow-button', text: 'Reject')
+      .to have_no_selector('.custom-action', text: 'Reject')
 
     # Delete 'Reject' from list of actions
     login_as(admin)
@@ -289,12 +289,12 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.visit!
 
     expect(page)
-      .to have_no_selector('.workflow-button', text: 'Unassign')
+      .to have_no_selector('.custom-action', text: 'Unassign')
     expect(page)
-      .to have_selector('.workflow-button', text: 'Close')
+      .to have_selector('.custom-action', text: 'Close')
     expect(page)
-      .to have_selector('.workflow-button', text: 'Escalate')
+      .to have_selector('.custom-action', text: 'Escalate')
     expect(page)
-      .to have_no_selector('.workflow-button', text: 'Reject')
+      .to have_no_selector('.custom-action', text: 'Reject')
   end
 end

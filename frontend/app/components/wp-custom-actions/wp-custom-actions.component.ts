@@ -33,10 +33,10 @@ import {downgradeComponent} from '@angular/upgrade/static';
 import {WorkPackageResource} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 
 @Component({
-  selector: 'wp-workflow-buttons',
-  template: require('!!raw-loader!./wp-workflow-buttons.component.html')
+  selector: 'wp-custom-actions',
+  template: require('!!raw-loader!./wp-custom-actions.component.html')
 })
-export class WpWorkflowButtonsComponent {
+export class WpCustomActionsComponent {
 
   @Input() workPackage:WorkPackageResource;
 
@@ -46,6 +46,6 @@ export class WpWorkflowButtonsComponent {
 }
 
 opUiComponentsModule.directive(
-  'wpWorkflowButtons',
-  downgradeComponent({component:WpWorkflowButtonsComponent})
+  'wpCustomActions',
+  downgradeComponent({component:WpCustomActionsComponent})
 );

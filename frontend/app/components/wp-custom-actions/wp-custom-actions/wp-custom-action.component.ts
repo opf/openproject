@@ -42,10 +42,10 @@ interface CustomActionLink {
 }
 
 @Component({
-  selector: 'wp-workflow-button',
-  template: require('!!raw-loader!./wp-workflow-button.component.html')
+  selector: 'wp-custom-action',
+  template: require('!!raw-loader!./wp-custom-action.component.html')
 })
-export class WpWorkflowButtonComponent {
+export class WpCustomActionComponent {
 
   @Input() workPackage:WorkPackageResourceInterface;
   @Input() link:CustomActionLink;
@@ -71,6 +71,6 @@ export class WpWorkflowButtonComponent {
 }
 
 opUiComponentsModule.directive(
-  'wpWorkflowButton',
-  downgradeComponent({component: WpWorkflowButtonComponent})
+  'wpCustomAction',
+  downgradeComponent({component: WpCustomActionComponent})
 );

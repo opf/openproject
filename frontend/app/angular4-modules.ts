@@ -65,8 +65,12 @@ import {
   $rootScopeToken, columnsModalToken, focusHelperToken, I18nToken, NotificationsServiceToken, upgradeService,
   upgradeServiceWithToken
 } from './angular4-transition-utils';
-import {WpWorkflowButtonComponent} from 'core-components/wp-workflow-buttons/wp-workflow-button/wp-workflow-button.component';
-import {WpWorkflowButtonsComponent} from 'core-components/wp-workflow-buttons/wp-workflow-buttons.component';
+import {
+  WpCustomActionComponent
+} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
+import {
+  WpCustomActionsComponent
+} from 'core-components/wp-custom-actions/wp-custom-actions.component';
 import {HalRequestService} from 'core-components/api/api-v3/hal-request/hal-request.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {HideSectionComponent} from 'core-components/common/hide-section/hide-section.component';
@@ -118,8 +122,8 @@ import {GonRef} from 'core-components/common/gon-ref/gon-ref';
     WorkPackageTimelineTableController,
     WorkPackagesTableController,
     WpResizerDirectiveUpgraded,
-    WpWorkflowButtonComponent,
-    WpWorkflowButtonsComponent,
+    WpCustomActionComponent,
+    WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
     SortHeaderDirective,
     HasDropdownMenuDirective,
@@ -132,7 +136,7 @@ import {GonRef} from 'core-components/common/gon-ref/gon-ref';
     WorkPackageTablePaginationComponent,
     WorkPackagesTableController,
     TablePaginationComponent,
-    WpWorkflowButtonsComponent,
+    WpCustomActionsComponent,
     HideSectionComponent,
     HideSectionLinkComponent,
     AddSectionDropdownComponent
