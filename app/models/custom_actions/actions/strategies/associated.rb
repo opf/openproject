@@ -29,7 +29,7 @@
 #++
 
 module CustomActions::Actions::Strategies::Associated
-  include CustomActions::Actions::Strategies::ValidateAllowedValue
+  include CustomActions::ValidateAllowedValue
   include CustomActions::ValuesToInteger
 
   def allowed_values
@@ -55,5 +55,10 @@ module CustomActions::Actions::Strategies::Associated
 
   def associated
     raise 'Not implemented error'
+  end
+
+  def validate(errors)
+    validate_allowed_value(errors, :actions)
+    super
   end
 end

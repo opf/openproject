@@ -19,18 +19,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Actions::Strategies::ValidateAllowedValue
-  def validate(errors)
-    validate_allowed_value(errors)
-    super
-  end
-
+module CustomActions::ValidateAllowedValue
   private
 
-  def validate_allowed_value(errors)
+  def validate_allowed_value(errors, attribute)
     if values.any? &&
        (allowed_values.map { |v| v[:value] } & values) != values
-      errors.add :actions,
+      errors.add attribute,
                  I18n.t(:'activerecord.errors.models.custom_actions.inclusion', name: human_name),
                  error_symbol: :inclusion
     end

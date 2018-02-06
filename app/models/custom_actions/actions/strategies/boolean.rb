@@ -20,7 +20,7 @@
 #++
 
 module CustomActions::Actions::Strategies::Boolean
-  include CustomActions::Actions::Strategies::ValidateAllowedValue
+  include CustomActions::ValidateAllowedValue
 
   def allowed_values
     [
@@ -31,5 +31,10 @@ module CustomActions::Actions::Strategies::Boolean
 
   def type
     :boolean
+  end
+
+  def validate(errors)
+    validate_allowed_value(errors, :actions)
+    super
   end
 end

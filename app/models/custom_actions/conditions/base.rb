@@ -31,6 +31,7 @@
 class CustomActions::Conditions::Base
   attr_reader :values
   prepend CustomActions::ValuesToInteger
+  include CustomActions::ValidateAllowedValue
 
   def initialize(values = nil)
     self.values = values
@@ -68,17 +69,6 @@ class CustomActions::Conditions::Base
   end
 
   def validate(errors)
-    validate_allowed_value(errors)
-  end
-
-  private
-
-  def validate_allowed_value(errors)
-    if values.any? &&
-       (allowed_values.map { |v| v[:value] } & values) != values
-      errors.add :conditions,
-                 I18n.t(:'activerecord.errors.models.custom_actions.inclusion', name: human_name),
-                 error_symbol: :inclusion
-    end
+    validate_allowed_value(errors, :conditions)
   end
 end
