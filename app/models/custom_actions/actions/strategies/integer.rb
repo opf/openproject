@@ -29,7 +29,7 @@
 #++
 
 module CustomActions::Actions::Strategies::Integer
-  include CustomActions::Actions::Strategies::ValuesToInteger
+  include CustomActions::ValuesToInteger
 
   def type
     :integer_property

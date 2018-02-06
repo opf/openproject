@@ -30,7 +30,7 @@
 
 module CustomActions::Actions::Strategies::Associated
   include CustomActions::Actions::Strategies::ValidateAllowedValue
-  include CustomActions::Actions::Strategies::ValuesToInteger
+  include CustomActions::ValuesToInteger
 
   def allowed_values
     @allowed_values ||= begin

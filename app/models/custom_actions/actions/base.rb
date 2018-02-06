@@ -91,7 +91,7 @@ class CustomActions::Actions::Base
   def validate_value_required(errors)
     if required? && values.empty?
       errors.add :actions,
-                 I18n.t(:'activerecord.errors.models.custom_actions.actions.empty', name: human_name),
+                 I18n.t(:'activerecord.errors.models.custom_actions.empty', name: human_name),
                  error_symbol: :empty
     end
   end
@@ -99,7 +99,7 @@ class CustomActions::Actions::Base
   def validate_only_one_value(errors)
     if !multi_value? && values.length > 1
       errors.add :actions,
-                 I18n.t(:'activerecord.errors.models.custom_actions.actions.only_one_allowed', name: human_name),
+                 I18n.t(:'activerecord.errors.models.custom_actions.only_one_allowed', name: human_name),
                  error_symbol: :only_one_allowed
     end
   end

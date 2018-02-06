@@ -443,12 +443,29 @@ shared_examples_for 'associated custom condition' do
       expect(instance.values)
         .to eql [1]
     end
+
+    it_behaves_like 'associated values transformation'
   end
 
   describe '#human_name' do
     it 'is the human_attribute_name' do
       expect(instance.human_name)
         .to eql(WorkPackage.human_attribute_name(expected_key))
+    end
+  end
+
+  describe '#validate' do
+    let(:errors) do
+      FactoryGirl.build_stubbed(:custom_action).errors
+    end
+
+    it 'adds an error on conditions if values not from list of allowed values' do
+      instance.values = [0]
+
+      instance.validate(errors)
+
+      expect(errors.symbols_for(:conditions))
+        .to eql [:inclusion]
     end
   end
 end

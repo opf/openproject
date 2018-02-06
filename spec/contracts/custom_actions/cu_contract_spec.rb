@@ -108,10 +108,34 @@ describe CustomActions::CUContract do
 
   describe 'conditions' do
     it 'is writable' do
-      action.conditions = [double('some bogus condition', key: 'some', values: 'bogus')]
+      action.conditions = [double('some bogus condition', key: 'some', values: 'bogus', validate: true)]
 
       expect(instance.validate)
         .to be_truthy
+    end
+
+    it 'allows only the allowed values' do
+      status_condition = CustomActions::Conditions::Status.new([0])
+      allow(status_condition)
+        .to receive(:allowed_values)
+        .and_return([{ value: nil, label: '-' },
+                     { value: 1, label: 'some status'}])
+
+      action.conditions = [status_condition]
+
+      instance.validate
+
+      expect(instance.errors.symbols_for(:conditions))
+        .to eql [:inclusion]
+    end
+
+    it 'is not allowed to have an inexistent condition' do
+      action.conditions = [CustomActions::Conditions::Inexistent.new]
+
+      instance.validate
+
+      expect(instance.errors.symbols_for(:conditions))
+        .to eql [:does_not_exist]
     end
   end
 end

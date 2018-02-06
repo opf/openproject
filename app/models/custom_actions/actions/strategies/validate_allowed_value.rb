@@ -31,7 +31,7 @@ module CustomActions::Actions::Strategies::ValidateAllowedValue
     if values.any? &&
        (allowed_values.map { |v| v[:value] } & values) != values
       errors.add :actions,
-                 I18n.t(:'activerecord.errors.models.custom_actions.actions.inclusion', name: human_name),
+                 I18n.t(:'activerecord.errors.models.custom_actions.inclusion', name: human_name),
                  error_symbol: :inclusion
     end
   end

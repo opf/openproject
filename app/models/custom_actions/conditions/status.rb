@@ -54,7 +54,7 @@ class CustomActions::Conditions::Status < CustomActions::Conditions::Base
   private
 
   def associated
-    Status
+    ::Status
       .select(:id, :name)
       .order(:name)
       .map { |u| [u.id, u.name] }

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Actions::Strategies::ValuesToInteger
+module CustomActions::ValuesToInteger
   def values=(values)
     super(Array(values).map { |v| to_integer_or_nil(v) }.uniq)
   end

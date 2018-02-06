@@ -48,6 +48,10 @@ module CustomActions
       end
     end
 
-    attribute :conditions
+    attribute :conditions do
+      model.conditions.each do |condition|
+        condition.validate(errors)
+      end
+    end
   end
 end
