@@ -68,7 +68,7 @@ module WorkPackages
     attribute :assigned_to_id do
       next unless model.project
 
-      validate_people_visible :assignee,
+      validate_people_visible :assigned_to,
                               'assigned_to_id',
                               model.project.possible_assignee_members
     end
