@@ -38,7 +38,12 @@ class CustomActions::BaseService
            &block)
     set_attributes(action, attributes)
 
-    block_result(action.save, action, &block)
+    contract = CustomActions::CUContract.new(action)
+    result = ServiceResult.new(success: contract.validate && action.save,
+                               result: action,
+                               errors: contract.errors)
+
+    block_with_result(result, &block)
   end
 
   private

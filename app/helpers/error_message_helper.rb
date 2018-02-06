@@ -28,27 +28,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'base'
+module ErrorMessageHelper
+  def error_messages_for(*params)
+    objects, options = extract_objects_from_params(params)
 
-module Queries::Filters::Shared
-  module CustomFields
-    class Bool < Base
-      def allowed_values
-        [
-          [I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
-          [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]
-        ]
-      end
+    error_messages = objects.map { |o| o.errors.full_messages }.flatten
 
-      def type
-        :list
-      end
+    render_error_messages_partial(error_messages, options[:object])
+  end
 
-      protected
+  def error_messages_for_contract(object, errors)
+    return unless errors
 
-      def type_strategy_class
-        ::Queries::Filters::Strategies::BooleanList
-      end
+    error_messages = errors.full_messages
+
+    render_error_messages_partial(error_messages, object)
+  end
+
+  def extract_objects_from_params(params)
+    options = params.extract_options!.symbolize_keys
+
+    objects = Array.wrap(options.delete(:object) || params).map do |object|
+      object = instance_variable_get("@#{object}") unless object.respond_to?(:to_model)
+      object = convert_to_model(object)
+      options[:object] ||= object
+
+      object
+    end
+
+    [objects.compact, options]
+  end
+
+  def render_error_messages_partial(messages, object)
+    unless messages.empty?
+      render partial: 'common/validation_error',
+             locals: { error_messages: messages,
+                       object_name:  object.class.model_name.human }
     end
   end
 end

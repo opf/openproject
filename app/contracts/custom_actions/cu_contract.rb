@@ -28,27 +28,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'base'
+require 'model_contract'
 
-module Queries::Filters::Shared
-  module CustomFields
-    class Bool < Base
-      def allowed_values
-        [
-          [I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
-          [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]
-        ]
+# Contract for create (c) and update (u)
+module CustomActions
+  class CUContract < ::ModelContract
+    def self.model
+      CustomAction
+    end
+
+    attribute :name
+
+    attribute :actions do
+      if model.actions.empty?
+        errors.add :actions, :empty
       end
-
-      def type
-        :list
-      end
-
-      protected
-
-      def type_strategy_class
-        ::Queries::Filters::Strategies::BooleanList
+      model.actions.each do |action|
+        action.validate(errors)
       end
     end
+
+    attribute :conditions
   end
 end

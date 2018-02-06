@@ -26,13 +26,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
+require_relative '../shared_expectations'
 
 describe CustomActions::Actions::CustomField, type: :model do
   let(:list_custom_field) do
-    FactoryGirl.build_stubbed(:list_wp_custom_field)
+    FactoryGirl.build_stubbed(:list_wp_custom_field,
+                              custom_options: [FactoryGirl.build_stubbed(:custom_option, value: 'A'),
+                                               FactoryGirl.build_stubbed(:custom_option, value: 'B')])
   end
   let(:list_multi_custom_field) do
-    FactoryGirl.build_stubbed(:list_wp_custom_field, multi_value: true)
+    FactoryGirl.build_stubbed(:list_wp_custom_field,
+                              custom_options: [FactoryGirl.build_stubbed(:custom_option, value: 'A'),
+                                               FactoryGirl.build_stubbed(:custom_option, value: 'B')],
+                              multi_value: true)
   end
   let(:version_custom_field) do
     FactoryGirl.build_stubbed(:version_wp_custom_field)
@@ -132,6 +138,42 @@ describe CustomActions::Actions::CustomField, type: :model do
       expect(instance.values)
         .to eql [1]
     end
+
+    context 'for an list custom field' do
+      let(:custom_field) { list_custom_field }
+
+      it_behaves_like 'associated values transformation'
+    end
+
+    context 'for an int custom field' do
+      let(:custom_field) { int_custom_field }
+
+      it_behaves_like 'int values transformation'
+    end
+
+    context 'for a float custom field' do
+      let(:custom_field) { float_custom_field }
+
+      it_behaves_like 'float values transformation'
+    end
+
+    context 'for a string custom field' do
+      let(:custom_field) { string_custom_field }
+
+      it_behaves_like 'string values transformation'
+    end
+
+    context 'for a text custom field' do
+      let(:custom_field) { text_custom_field }
+
+      it_behaves_like 'text values transformation'
+    end
+
+    context 'for a date custom field' do
+      let(:custom_field) { date_custom_field }
+
+      it_behaves_like 'date values transformation'
+    end
   end
 
   describe '#human_name' do
@@ -154,7 +196,7 @@ describe CustomActions::Actions::CustomField, type: :model do
 
       it 'is :associated_property_multi' do
         expect(instance.type)
-          .to eql(:associated_property_multi)
+          .to eql(:associated_property)
       end
     end
 
@@ -231,10 +273,29 @@ describe CustomActions::Actions::CustomField, type: :model do
     end
   end
 
+  describe '#multi_value?' do
+    context 'for a non multi value field' do
+      it 'is false' do
+        expect(instance)
+          .not_to be_multi_value
+      end
+    end
+
+    context 'for a non multi value field' do
+      let(:custom_field) { list_multi_custom_field }
+
+      it 'is true' do
+        expect(instance)
+          .to be_multi_value
+      end
+    end
+  end
+
   describe '#allowed_values' do
     context 'for a list custom field' do
       let(:expected) do
-        custom_field.custom_options
+        custom_field
+          .custom_options
           .map { |o| { value: o.id, label: o.value } }
       end
 
@@ -259,10 +320,11 @@ describe CustomActions::Actions::CustomField, type: :model do
 
     context 'for a version custom field' do
       let(:custom_field) { version_custom_field }
+      let(:project) { FactoryGirl.build_stubbed(:project) }
       let(:versions) do
-        [FactoryGirl.build_stubbed(:version),
-         FactoryGirl.build_stubbed(:version),
-         FactoryGirl.build_stubbed(:version)]
+        [FactoryGirl.build_stubbed(:version, project: project),
+         FactoryGirl.build_stubbed(:version, project: project),
+         FactoryGirl.build_stubbed(:version, project: project)]
       end
 
       before do
@@ -337,8 +399,8 @@ describe CustomActions::Actions::CustomField, type: :model do
 
       let(:expected) do
         [
-          { label: I18n.t(:general_text_yes), value: CustomValue::BoolStrategy::DB_VALUE_TRUE },
-          { label: I18n.t(:general_text_no), value: CustomValue::BoolStrategy::DB_VALUE_FALSE }
+          { label: I18n.t(:general_text_yes), value: OpenProject::Database::DB_VALUE_TRUE },
+          { label: I18n.t(:general_text_no), value: OpenProject::Database::DB_VALUE_FALSE }
         ]
       end
 
@@ -346,6 +408,104 @@ describe CustomActions::Actions::CustomField, type: :model do
         expect(instance.allowed_values)
           .to eql(expected)
       end
+    end
+  end
+
+  describe '#validate' do
+    context 'for a list custom field' do
+      it_behaves_like 'associated custom action validations' do
+        let(:allowed_values) do
+          custom_field
+            .custom_options
+            .map { |o| { value: o.id, label: o.value } }
+        end
+      end
+    end
+
+    context 'for a multi list custom field' do
+      it_behaves_like 'associated custom action validations' do
+        let(:allowed_values) do
+          custom_field
+            .custom_options
+            .map { |o| { value: o.id, label: o.value } }
+        end
+      end
+    end
+
+    context 'for a user custom field' do
+      let(:custom_field) { user_custom_field }
+      let(:users) do
+        [FactoryGirl.build_stubbed(:user),
+         FactoryGirl.build_stubbed(:user),
+         FactoryGirl.build_stubbed(:user)]
+      end
+
+      before do
+        allow(Principal)
+          .to receive(:in_visible_project_or_me)
+          .with(User.current)
+          .and_return(users)
+      end
+
+      it_behaves_like 'associated custom action validations' do
+        let(:allowed_values) do
+          users
+            .map { |u| { value: u.id, label: u.name } }
+        end
+      end
+    end
+
+    context 'for a version custom field' do
+      let(:custom_field) { version_custom_field }
+      let(:project) { FactoryGirl.build_stubbed(:project) }
+      let(:versions) do
+        [FactoryGirl.build_stubbed(:version, project: project),
+         FactoryGirl.build_stubbed(:version, project: project),
+         FactoryGirl.build_stubbed(:version, project: project)]
+      end
+
+      before do
+        allow(Version)
+          .to receive(:systemwide)
+          .and_return(versions)
+      end
+      it_behaves_like 'associated custom action validations' do
+        let(:allowed_values) do
+          versions
+            .map { |o| { value: o.id, label: o.name } }
+        end
+      end
+    end
+
+    context 'for a bool custom field' do
+      let(:custom_field) { bool_custom_field }
+
+      it_behaves_like 'bool custom action validations' do
+        let(:allowed_values) do
+          [
+            { true: OpenProject::Database::DB_VALUE_TRUE },
+            { false: OpenProject::Database::DB_VALUE_FALSE }
+          ]
+        end
+      end
+    end
+
+    context 'for an int custom field' do
+      let(:custom_field) { int_custom_field }
+
+      it_behaves_like 'int custom action validations'
+    end
+
+    context 'for a float custom field' do
+      let(:custom_field) { float_custom_field }
+
+      it_behaves_like 'float custom action validations'
+    end
+
+    context 'for a string custom field' do
+      let(:custom_field) { string_custom_field }
+
+      it_behaves_like 'string custom action validations'
     end
   end
 

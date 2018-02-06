@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,27 +25,42 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'spec_helper'
+require_relative '../shared_expectations'
 
-require_relative 'base'
+describe CustomActions::Actions::Responsible, type: :model do
+  it_behaves_like 'associated custom action' do
+    let(:key) { :responsible }
+    let(:allowed_values) do
+      users = [FactoryGirl.build_stubbed(:user),
+               FactoryGirl.build_stubbed(:user)]
 
-module Queries::Filters::Shared
-  module CustomFields
-    class Bool < Base
-      def allowed_values
-        [
-          [I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
-          [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]
-        ]
+      allow(User)
+        .to receive_message_chain(:active_or_registered, :select, :order_by_name)
+        .and_return(users)
+
+      [{ value: nil, label: '-' },
+       { value: users.first.id, label: users.first.name },
+       { value: users.last.id, label: users.last.name }]
+    end
+
+    describe '#allowed_values' do
+      context 'group assignment disabled', with_settings: { work_package_group_assignment?: false } do
+        it 'is the list of all users' do
+          allowed_values
+
+          expect(instance.allowed_values)
+            .to eql(allowed_values)
+        end
       end
 
-      def type
-        :list
-      end
+      context 'group assignment enabled', with_settings: { work_package_group_assignment?: true } do
+        it 'is the list of all users' do
+          allowed_values
 
-      protected
-
-      def type_strategy_class
-        ::Queries::Filters::Strategies::BooleanList
+          expect(instance.allowed_values)
+            .to eql(allowed_values)
+        end
       end
     end
   end

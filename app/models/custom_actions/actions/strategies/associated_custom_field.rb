@@ -32,14 +32,6 @@ module CustomActions::Actions::Strategies::AssociatedCustomField
   include CustomActions::Actions::Strategies::Associated
   include CustomActions::Actions::Strategies::CustomField
 
-  def type
-    if custom_field.multi_value?
-      :associated_property_multi
-    else
-      super
-    end
-  end
-
   def associated
     custom_field
       .possible_values_options

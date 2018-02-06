@@ -36,13 +36,13 @@
           <%= styled_label_tag("custom_action_actions_#{action.key}", action.human_name) %>
 
           <% input_name = "custom_action[actions][#{action.key}]" %>
-          <% if %i(associated_property boolean associated_property_multi).include?(action.type) %>
+          <% if %i(associated_property boolean).include?(action.type) %>
             <% selected_values = action.values
                select_options = options_for_select(action.allowed_values.map { |v| [v[:label], v[:value]] },
                                                    selected: selected_values) %>
             <%= styled_select_tag input_name,
                                   select_options,
-                                  multiple: action.type == :associated_property_multi,
+                                  multiple: action.multi_value?,
                                   container_class: '-middle' %>
           <% elsif %i(date_property).include?(action.type) %>
             <op-date-picker>

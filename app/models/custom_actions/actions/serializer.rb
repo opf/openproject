@@ -42,7 +42,9 @@ class CustomActions::Actions::Serializer
         klass = a.for(key)
       end
 
-      klass.new(values) if klass
+      klass = CustomActions::Actions::Inexistent unless klass
+
+      klass.new(values)
     end.compact
   end
 

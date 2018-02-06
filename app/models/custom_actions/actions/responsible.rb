@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,27 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'base'
+class CustomActions::Actions::Responsible < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Associated
 
-module Queries::Filters::Shared
-  module CustomFields
-    class Bool < Base
-      def allowed_values
-        [
-          [I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
-          [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]
-        ]
-      end
+  def associated
+    User
+      .active_or_registered
+      .select(:id, :firstname, :lastname, :type)
+      .order_by_name
+      .map { |u| [u.id, u.name] }
+  end
 
-      def type
-        :list
-      end
+  def required?
+    false
+  end
 
-      protected
-
-      def type_strategy_class
-        ::Queries::Filters::Strategies::BooleanList
-      end
-    end
+  def self.key
+    :responsible
   end
 end

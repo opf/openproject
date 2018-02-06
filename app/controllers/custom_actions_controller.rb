@@ -49,17 +49,8 @@ class CustomActionsController < ApplicationController
   def create
     CustomActions::CreateService
       .new(user: current_user)
-      .call(attributes: permitted_params.custom_action.to_h) do |call|
-
-      call.on_success do
-        redirect_to custom_actions_path
-      end
-
-      call.on_failure do
-        @custom_action = call.result
-        render action: :new
-      end
-    end
+      .call(attributes: permitted_params.custom_action.to_h,
+            &index_or_render(:new))
   end
 
   def edit; end
@@ -67,22 +58,29 @@ class CustomActionsController < ApplicationController
   def update
     CustomActions::UpdateService
       .new(action: @custom_action, user: current_user)
-      .call(attributes: permitted_params.custom_action.to_h) do |call|
-
-      call.on_success do
-        redirect_to custom_actions_path
-      end
-
-      call.on_failure do
-        @custom_action = call.result
-        render action: :edit
-      end
-    end
+      .call(attributes: permitted_params.custom_action.to_h,
+            &index_or_render(:edit))
   end
 
   def destroy
     @custom_action.destroy
 
     redirect_to custom_actions_path
+  end
+
+  private
+
+  def index_or_render(render_action)
+    ->(call) {
+      call.on_success do
+        redirect_to custom_actions_path
+      end
+
+      call.on_failure do
+        @custom_action = call.result
+        @errors = call.errors
+        render action: render_action
+      end
+    }
   end
 end

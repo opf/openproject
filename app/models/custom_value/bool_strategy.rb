@@ -29,9 +29,6 @@
 #++
 
 class CustomValue::BoolStrategy < CustomValue::FormatStrategy
-  DB_VALUE_FALSE = 'f'.freeze
-  DB_VALUE_TRUE = 't'.freeze
-
   def value_present?
     present?(value)
   end
@@ -58,9 +55,9 @@ class CustomValue::BoolStrategy < CustomValue::FormatStrategy
     parsed_val = if !present?(val)
                    nil
                  elsif ActiveRecord::Type::Boolean::FALSE_VALUES.include?(val)
-                   DB_VALUE_FALSE
+                   OpenProject::Database::DB_VALUE_FALSE
                  else
-                   DB_VALUE_TRUE
+                   OpenProject::Database::DB_VALUE_TRUE
                  end
 
     super(parsed_val)

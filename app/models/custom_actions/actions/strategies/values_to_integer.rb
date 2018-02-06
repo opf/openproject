@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,27 +26,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'base'
+module CustomActions::Actions::Strategies::ValuesToInteger
+  def values=(values)
+    super(Array(values).map { |v| to_integer_or_nil(v) }.uniq)
+  end
 
-module Queries::Filters::Shared
-  module CustomFields
-    class Bool < Base
-      def allowed_values
-        [
-          [I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
-          [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]
-        ]
-      end
+  private
 
-      def type
-        :list
-      end
+  def to_integer_or_nil(value)
+    return nil if value.nil?
 
-      protected
-
-      def type_strategy_class
-        ::Queries::Filters::Strategies::BooleanList
-      end
-    end
+    Integer(value)
+  rescue TypeError, ArgumentError
+    nil
   end
 end

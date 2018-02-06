@@ -29,7 +29,19 @@
 #++
 
 module CustomActions::Actions::Strategies::Date
+  def values=(values)
+    super(Array(values).map { |v| to_date_or_nil(v) }.uniq)
+  end
+
   def type
     :date_property
+  end
+
+  def to_date_or_nil(value)
+    return nil if value.nil?
+
+    value.to_date
+  rescue TypeError, ArgumentError
+    nil
   end
 end

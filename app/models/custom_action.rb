@@ -34,8 +34,9 @@ class CustomAction < ActiveRecord::Base
   has_and_belongs_to_many :statuses
   has_and_belongs_to_many :roles
 
-  attr_writer :conditions
   after_save :persist_conditions
+
+  define_attribute_method 'conditions'
 
   def initialize(*args)
     ret = super
@@ -50,6 +51,11 @@ class CustomAction < ActiveRecord::Base
   def reload
     @conditions = nil
 
+    super
+  end
+
+  def actions=(values)
+    actions_will_change!
     super
   end
 
@@ -77,6 +83,11 @@ class CustomAction < ActiveRecord::Base
     @conditions ||= available_conditions.map do |condition_class|
       condition_class.getter(self)
     end.compact
+  end
+
+  def conditions=(new_conditions)
+    conditions_will_change!
+    @conditions = new_conditions
   end
 
   def conditions_fulfilled?(work_package, user)
@@ -109,6 +120,7 @@ class CustomAction < ActiveRecord::Base
 end
 
 CustomActions::Register.action(CustomActions::Actions::AssignedTo)
+CustomActions::Register.action(CustomActions::Actions::Responsible)
 CustomActions::Register.action(CustomActions::Actions::Status)
 CustomActions::Register.action(CustomActions::Actions::Priority)
 CustomActions::Register.action(CustomActions::Actions::CustomField)

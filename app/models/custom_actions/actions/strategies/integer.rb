@@ -29,6 +29,8 @@
 #++
 
 module CustomActions::Actions::Strategies::Integer
+  include CustomActions::Actions::Strategies::ValuesToInteger
+
   def type
     :integer_property
   end

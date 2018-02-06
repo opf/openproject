@@ -177,6 +177,11 @@ describe CustomActionsController, type: :controller do
           expect(assigns[:custom_action])
             .to eql action
         end
+
+        it 'assigns errors' do
+          expect(assigns[:errors])
+            .to eql service_result.errors
+        end
       end
     end
 
@@ -326,6 +331,11 @@ describe CustomActionsController, type: :controller do
         it 'assigns the action' do
           expect(assigns[:custom_action])
             .to eql(action)
+        end
+
+        it 'assigns errors' do
+          expect(assigns[:errors])
+            .to eql service_result.errors
         end
       end
     end

@@ -365,8 +365,8 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
 
       it 'is list for a bool' do
         expect(instance.allowed_values)
-          .to match_array [[I18n.t(:general_text_yes), CustomValue::BoolStrategy::DB_VALUE_TRUE],
-                           [I18n.t(:general_text_no), CustomValue::BoolStrategy::DB_VALUE_FALSE]]
+          .to match_array [[I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
+                           [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]]
       end
     end
 

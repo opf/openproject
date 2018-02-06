@@ -29,12 +29,6 @@
 #++
 
 module Shared::BlockService
-  def block_result(success, result, &block)
-    result = ServiceResult.new(success: success,
-                               result: result)
-    block_with_result(result, &block)
-  end
-
   def block_with_result(result, &_block)
     if block_given?
       yield result

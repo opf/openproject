@@ -31,18 +31,23 @@ require_relative '../shared_expectations'
 describe CustomActions::Actions::Priority, type: :model do
   it_behaves_like 'associated custom action' do
     let(:key) { :priority }
+    let(:allowed_values) do
+      priorities = [FactoryGirl.build_stubbed(:issue_priority),
+                    FactoryGirl.build_stubbed(:issue_priority)]
+      allow(IssuePriority)
+        .to receive_message_chain(:select, :order)
+        .and_return(priorities)
+
+      [{ value: priorities.first.id, label: priorities.first.name },
+       { value: priorities.last.id, label: priorities.last.name }]
+    end
 
     describe '#allowed_values' do
       it 'is the list of all priorities' do
-        priorities = [FactoryGirl.build_stubbed(:issue_priority),
-                      FactoryGirl.build_stubbed(:issue_priority)]
-        allow(IssuePriority)
-          .to receive_message_chain(:select, :order)
-          .and_return(priorities)
+        allowed_values
 
         expect(instance.allowed_values)
-          .to eql([{ value: priorities.first.id, label: priorities.first.name },
-                   { value: priorities.last.id, label: priorities.last.name }])
+          .to eql(allowed_values)
       end
     end
   end

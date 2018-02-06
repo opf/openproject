@@ -29,6 +29,9 @@
 #++
 
 module CustomActions::Actions::Strategies::Associated
+  include CustomActions::Actions::Strategies::ValidateAllowedValue
+  include CustomActions::Actions::Strategies::ValuesToInteger
+
   def allowed_values
     @allowed_values ||= begin
       options = associated
@@ -48,10 +51,6 @@ module CustomActions::Actions::Strategies::Associated
 
   def type
     :associated_property
-  end
-
-  def required?
-    raise 'Not implemented error'
   end
 
   def associated

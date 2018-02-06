@@ -457,6 +457,12 @@ en:
       models:
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
+        custom_actions:
+          actions:
+            only_one_allowed: "(%{name}) only one value is allowed."
+            empty: "(%{name}) value can't be empty."
+            inclusion: "(%{name}) value is not set to one of the allowed values."
+            not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         parse_schema_filter_params_service:

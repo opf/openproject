@@ -102,6 +102,305 @@ shared_examples_for 'associated custom action' do
       instance.apply(work_package)
     end
   end
+
+  it_behaves_like 'associated custom action validations'
+end
+
+shared_examples_for 'associated custom action validations' do
+  describe '#validate' do
+    let(:errors) do
+      FactoryGirl.build_stubbed(:custom_action).errors
+    end
+
+    it 'adds an error on actions if values is blank (depending on required?)' do
+      instance.values = []
+
+      instance.validate(errors)
+
+      if instance.required?
+        expect(errors.symbols_for(:actions))
+          .to eql [:empty]
+      else
+        expect(errors.symbols_for(:actions))
+          .to be_empty
+      end
+    end
+
+    it 'adds an error on actions if values not from list of allowed values' do
+      instance.values = [0]
+
+      instance.validate(errors)
+
+      expect(errors.symbols_for(:actions))
+        .to eql [:inclusion]
+    end
+
+    it 'adds an error on actions if there are more values than one (depending on multi_value?)' do
+      instance.values = allowed_values.map { |a| a[:value] }
+
+      instance.validate(errors)
+
+      if instance.multi_value?
+        expect(errors.symbols_for(:actions))
+          .to be_empty
+      else
+        expect(errors.symbols_for(:actions))
+          .to eql [:only_one_allowed]
+      end
+    end
+  end
+end
+
+shared_examples_for 'bool custom action validations' do
+  describe '#validate' do
+    let(:errors) do
+      FactoryGirl.build_stubbed(:custom_action).errors
+    end
+
+    it 'adds an error on actions if values is blank (depending on required?)' do
+      instance.values = []
+
+      instance.validate(errors)
+
+      if instance.required?
+        expect(errors.symbols_for(:actions))
+          .to eql [:empty]
+      else
+        expect(errors.symbols_for(:actions))
+          .to be_empty
+      end
+    end
+
+    it 'adds an error on actions if values not true or false' do
+      instance.values = ['some bogus']
+
+      instance.validate(errors)
+
+      expect(errors.symbols_for(:actions))
+        .to eql [:inclusion]
+    end
+
+    it 'adds an error on actions if there are more values than one (depending on multi_value?)' do
+      instance.values = allowed_values.map(&:values).flatten
+
+      instance.validate(errors)
+
+      if instance.multi_value?
+        expect(errors.symbols_for(:actions))
+          .to be_empty
+      else
+        expect(errors.symbols_for(:actions))
+          .to eql [:only_one_allowed]
+      end
+    end
+  end
+end
+
+shared_examples_for 'int custom action validations' do
+  describe '#validate' do
+    let(:errors) do
+      FactoryGirl.build_stubbed(:custom_action).errors
+    end
+
+    it 'adds an error on actions if values is blank (depending on required?)' do
+      instance.values = []
+
+      instance.validate(errors)
+
+      if instance.required?
+        expect(errors.symbols_for(:actions))
+          .to eql [:empty]
+      else
+        expect(errors.symbols_for(:actions))
+          .to be_empty
+      end
+    end
+
+    it 'adds an error on actions if there are more values than one (depending on multi_value?)' do
+      instance.values = [1, 2]
+
+      instance.validate(errors)
+
+      if instance.multi_value?
+        expect(errors.symbols_for(:actions))
+          .to be_empty
+      else
+        expect(errors.symbols_for(:actions))
+          .to eql [:only_one_allowed]
+      end
+    end
+  end
+end
+
+shared_examples_for 'float custom action validations' do
+  describe '#validate' do
+    let(:errors) do
+      FactoryGirl.build_stubbed(:custom_action).errors
+    end
+
+    it 'adds an error on actions if values is blank (depending on required?)' do
+      instance.values = []
+
+      instance.validate(errors)
+
+      if instance.required?
+        expect(errors.symbols_for(:actions))
+          .to eql [:empty]
+      else
+        expect(errors.symbols_for(:actions))
+          .to be_empty
+      end
+    end
+
+    it 'adds an error on actions if there are more values than one (depending on multi_value?)' do
+      instance.values = [1.252, 2.123]
+
+      instance.validate(errors)
+
+      if instance.multi_value?
+        expect(errors.symbols_for(:actions))
+          .to be_empty
+      else
+        expect(errors.symbols_for(:actions))
+          .to eql [:only_one_allowed]
+      end
+    end
+  end
+end
+
+shared_examples_for 'string custom action validations' do
+  describe '#validate' do
+    let(:errors) do
+      FactoryGirl.build_stubbed(:custom_action).errors
+    end
+
+    it 'adds an error on actions if values is blank (depending on required?)' do
+      instance.values = []
+
+      instance.validate(errors)
+
+      if instance.required?
+        expect(errors.symbols_for(:actions))
+          .to eql [:empty]
+      else
+        expect(errors.symbols_for(:actions))
+          .to be_empty
+      end
+    end
+
+    it 'adds an error on actions if there are more values than one (depending on multi_value?)' do
+      instance.values = %w(some values)
+
+      instance.validate(errors)
+
+      if instance.multi_value?
+        expect(errors.symbols_for(:actions))
+          .to be_empty
+      else
+        expect(errors.symbols_for(:actions))
+          .to eql [:only_one_allowed]
+      end
+    end
+  end
+end
+
+shared_examples_for 'text custom action validations' do
+  it_behaves_like 'string custom action validations'
+end
+
+shared_examples_for 'date custom action validations' do
+  describe '#validate' do
+    let(:errors) do
+      FactoryGirl.build_stubbed(:custom_action).errors
+    end
+
+    it 'adds an error on actions if values is blank (depending on required?)' do
+      instance.values = []
+
+      instance.validate(errors)
+
+      if instance.required?
+        expect(errors.symbols_for(:actions))
+          .to eql [:empty]
+      else
+        expect(errors.symbols_for(:actions))
+          .to be_empty
+      end
+    end
+
+    it 'adds an error on actions if there are more values than one (depending on multi_value?)' do
+      instance.values = [Date.today + 4.days, Date.today - 5.days]
+
+      instance.validate(errors)
+
+      if instance.multi_value?
+        expect(errors.symbols_for(:actions))
+          .to be_empty
+      else
+        expect(errors.symbols_for(:actions))
+          .to eql [:only_one_allowed]
+      end
+    end
+  end
+end
+
+shared_examples_for 'associated values transformation' do
+  it_behaves_like 'int values transformation'
+end
+
+shared_examples_for 'int values transformation' do
+  describe '#values' do
+    it 'transforms the values to integers' do
+      instance.values = [42, nil, '23', 'some bogus', '12.34234', '42a34e324r32']
+
+      expect(instance.values)
+        .to match_array [42, nil, 23]
+    end
+  end
+end
+
+shared_examples_for 'float values transformation' do
+  describe '#values' do
+    it 'transforms the values to integers' do
+      instance.values = [42, nil, '23', 'some bogus', '12.34234', '42a34e324r32']
+
+      expect(instance.values)
+        .to match_array [42, nil, 23, 12.34234]
+    end
+  end
+end
+
+shared_examples_for 'string values transformation' do
+  describe '#values' do
+    it 'transforms the values to integers' do
+      instance.values = [42, nil, '23', 'some bogus', '12.34234', '42a34e324r32']
+
+      expect(instance.values)
+        .to match_array ['42', nil, '23', 'some bogus', '12.34234', '42a34e324r32']
+    end
+  end
+end
+
+shared_examples_for 'text values transformation' do
+  describe '#values' do
+    it 'transforms the values to integers' do
+      instance.values = [42, nil, '23', 'some bogus', '12.34234', '42a34e324r32']
+
+      expect(instance.values)
+        .to match_array ['42', nil, '23', 'some bogus', '12.34234', '42a34e324r32']
+    end
+  end
+end
+
+shared_examples_for 'date values transformation' do
+  describe '#values' do
+    it 'transforms the values to integers' do
+      instance.values = ["2015-03-29", Date.today, nil, (Date.today - 1.day).to_datetime, 'bogus']
+
+      expect(instance.values)
+        .to match_array [Date.parse("2015-03-29"), Date.today, nil, Date.today - 1.day]
+    end
+  end
 end
 
 shared_examples_for 'associated custom condition' do

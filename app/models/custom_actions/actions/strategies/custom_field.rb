@@ -36,4 +36,8 @@ module CustomActions::Actions::Strategies::CustomField
   def required?
     custom_field.required?
   end
+
+  def multi_value?
+    custom_field.multi_value?
+  end
 end

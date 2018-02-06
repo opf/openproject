@@ -31,18 +31,23 @@ require_relative '../shared_expectations'
 describe CustomActions::Actions::Status, type: :model do
   it_behaves_like 'associated custom action' do
     let(:key) { :status }
+    let(:allowed_values) do
+      statuses = [FactoryGirl.build_stubbed(:status),
+                  FactoryGirl.build_stubbed(:status)]
+      allow(Status)
+        .to receive_message_chain(:select, :order)
+        .and_return(statuses)
+
+      [{ value: statuses.first.id, label: statuses.first.name },
+       { value: statuses.last.id, label: statuses.last.name }]
+    end
 
     describe '#allowed_values' do
       it 'is the list of all status' do
-        statuses = [FactoryGirl.build_stubbed(:status),
-                    FactoryGirl.build_stubbed(:status)]
-        allow(Status)
-          .to receive_message_chain(:select, :order)
-          .and_return(statuses)
+        allowed_values
 
         expect(instance.allowed_values)
-          .to eql([{ value: statuses.first.id, label: statuses.first.name },
-                   { value: statuses.last.id, label: statuses.last.name }])
+          .to eql(allowed_values)
       end
     end
   end

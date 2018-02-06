@@ -35,6 +35,10 @@ class CustomActions::Actions::Status < CustomActions::Actions::Base
     :status
   end
 
+  def required?
+    true
+  end
+
   private
 
   def associated
@@ -42,9 +46,5 @@ class CustomActions::Actions::Status < CustomActions::Actions::Base
       .select(:id, :name)
       .order(:name)
       .map { |u| [u.id, u.name] }
-  end
-
-  def required?
-    true
   end
 end
