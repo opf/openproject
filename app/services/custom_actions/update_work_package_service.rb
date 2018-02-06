@@ -40,21 +40,40 @@ class CustomActions::UpdateWorkPackageService
   end
 
   def call(work_package:, &block)
-    result = apply_actions(work_package)
+    apply_actions(work_package, action.actions)
+
+    result = ::WorkPackages::UpdateService
+             .new(user: user,
+                  work_package: work_package)
+             .call
 
     block_with_result(result, &block)
   end
 
   private
 
-  def apply_actions(work_package)
-    action
-      .actions
+  def apply_actions(work_package, actions)
+    changes_before = work_package.changes.dup
+
+    actions
       .each { |a| a.apply(work_package) }
 
-    ::WorkPackages::UpdateService
-      .new(user: user,
-           work_package: work_package)
-      .call
+    contract = WorkPackages::UpdateContract.new(work_package, user)
+
+    unless contract.validate
+      work_package.restore_attributes(work_package.changes.keys - changes_before.keys)
+
+      retry_apply_actions(work_package, actions, contract.errors)
+    end
+  end
+
+  def retry_apply_actions(work_package, actions, errors)
+    invalid_keys = errors.keys.map { |k| k.to_s.gsub(/(_id)?$/, '_id') }
+
+    new_actions = actions.reject { |a| invalid_keys.include?(a.key.to_s.gsub(/(_id)?$/, '_id')) }
+
+    if new_actions.any? && actions.length != new_actions.length
+      apply_actions(work_package, new_actions)
+    end
   end
 end

@@ -40,8 +40,12 @@ module Pages
           within '#custom-actions-form--actions' do
             select name, from: 'Add'
 
-            Array(value).each do |val|
-              select val, from: name
+            if page.has_select?(name)
+              Array(value).each do |val|
+                select val, from: name
+              end
+            else
+              fill_in name, with: value
             end
           end
         end

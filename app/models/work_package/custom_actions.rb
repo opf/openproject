@@ -34,8 +34,8 @@ module WorkPackage::CustomActions
   included do
     def custom_actions(user)
       @custom_actions = CustomAction
-        .available_conditions
-        .inject(CustomAction.all) do |scope, condition|
+                        .available_conditions
+                        .inject(CustomAction.all) do |scope, condition|
         scope.merge(condition.custom_action_scope(self, user))
       end
     end

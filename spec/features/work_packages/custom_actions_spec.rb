@@ -93,6 +93,9 @@ describe 'Custom actions', type: :feature, js: true do
 
     cf
   end
+  let!(:int_custom_field) do
+    FactoryGirl.create(:int_wp_custom_field)
+  end
   let(:selected_list_custom_field_options) do
     [list_custom_field.custom_options.first, list_custom_field.custom_options.last]
   end
@@ -143,6 +146,8 @@ describe 'Custom actions', type: :feature, js: true do
     new_ca_page.add_action('Priority', default_priority.name)
     new_ca_page.add_action('Status', default_status.name)
     new_ca_page.add_action('Assignee', user.name)
+    # This custom field is not applicable
+    new_ca_page.add_action(int_custom_field.name, '1')
     new_ca_page.set_condition('Status', closed_status.name)
     new_ca_page.create
 
@@ -226,6 +231,7 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.expect_attributes priority: default_priority.name,
                               status: default_status.name,
                               assignee: user.name
+    wp_page.expect_no_attribute "customField#{int_custom_field.id}"
     wp_page.expect_notification message: 'Successful update'
 
     # edit 'Reset' to now be named 'Reject' which sets the status to 'Rejected'

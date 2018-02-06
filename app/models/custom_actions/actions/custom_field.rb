@@ -46,7 +46,7 @@ class CustomActions::Actions::CustomField < CustomActions::Actions::Base
   end
 
   def apply(work_package)
-    work_package.send(:"#{custom_field.accessor_name}=", values)
+    work_package.send(:"#{custom_field.accessor_name}=", values) if work_package.respond_to?(:"#{custom_field.accessor_name}=")
   end
 
   def self.all

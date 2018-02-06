@@ -47,6 +47,10 @@ class CustomActions::Actions::Base
     raise NotImplementedError
   end
 
+  def apply(_work_package)
+    raise NotImplementedError
+  end
+
   def human_name
     WorkPackage.human_attribute_name(self.class.key)
   end

@@ -41,7 +41,7 @@ describe CustomActions::UpdateWorkPackageService do
     action
   end
   let(:alter_action1) do
-    action = double('custom actions action 1')
+    action = double('custom actions action 1', key: 'abc')
 
     allow(action)
       .to receive(:apply)
@@ -50,7 +50,7 @@ describe CustomActions::UpdateWorkPackageService do
     action
   end
   let(:alter_action2) do
-    action = double('custom actions action 2')
+    action = double('custom actions action 2', key: 'def')
 
     allow(action)
       .to receive(:apply)
@@ -77,6 +77,21 @@ describe CustomActions::UpdateWorkPackageService do
   let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
   let(:result) do
     ServiceResult.new(result: work_package, success: true)
+  end
+  let(:validation_result) { true }
+  let!(:contract) do
+    contract = double('contract')
+
+    allow(WorkPackages::UpdateContract)
+      .to receive(:new)
+      .with(work_package, user)
+      .and_return(contract)
+
+    allow(contract)
+      .to receive(:validate)
+      .and_return(validation_result)
+
+    contract
   end
 
   describe '#call' do
@@ -110,6 +125,51 @@ describe CustomActions::UpdateWorkPackageService do
       end
 
       call
+    end
+
+    context 'on validation error' do
+      before do
+        allow(contract)
+          .to receive(:validate) do
+          !work_package.subject.blank?
+        end
+
+        allow(contract)
+          .to receive(:errors)
+          .once
+          .and_return(alter_action1.key => ['invalid'])
+
+        allow(alter_action1)
+          .to receive(:apply)
+          .with(work_package) do
+          work_package.subject = ''
+        end
+
+        allow(alter_action2)
+          .to receive(:apply)
+          .with(work_package) do
+          work_package.status_id = 100
+        end
+
+        work_package.lock_version = 200
+
+        call
+      end
+
+      it 'applies only the action not causing an error' do
+        expect(work_package.status_id)
+          .to eql 100
+      end
+
+      it 'rejects the aciton causing an error' do
+        expect(work_package.subject)
+          .not_to eql ''
+      end
+
+      it 'keeps the lock version' do
+        expect(work_package.lock_version)
+          .to eql 200
+      end
     end
   end
 end
