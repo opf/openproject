@@ -95,13 +95,24 @@ describe CustomActions::UpdateService do
                         CustomActions::Actions::Status.new('3')]
 
       new_actions = instance
-                      .call(attributes: { actions: { assigned_to: ['2'], priority: ['3'] } })
-                      .result
-                      .actions
-                      .map { |a| [a.key, a.values] }
+                    .call(attributes: { actions: { assigned_to: ['2'], priority: ['3'] } })
+                    .result
+                    .actions
+                    .map { |a| [a.key, a.values] }
 
       expect(new_actions)
         .to match_array [[:assigned_to, ['2']], [:priority, ['3']]]
+    end
+
+    it 'handles unknown actions' do
+      new_actions = instance
+                    .call(attributes: { actions: { some_bogus_name: ['3'] } })
+                    .result
+                    .actions
+                    .map { |a| [a.key, a.values] }
+
+      expect(new_actions)
+        .to match_array [[:inexistent, ['3']]]
     end
 
     it 'updates the conditions' do
@@ -118,6 +129,17 @@ describe CustomActions::UpdateService do
 
       expect(new_conditions)
         .to match_array [[:status, [new_status.id]]]
+    end
+
+    it 'handles unknown conditions' do
+      new_conditions = instance
+                       .call(attributes: { conditions: { some_bogus_name: ['3'] } })
+                       .result
+                       .conditions
+                       .map { |a| [a.key, a.values] }
+
+      expect(new_conditions)
+        .to match_array [[:inexistent, ['3']]]
     end
   end
 end

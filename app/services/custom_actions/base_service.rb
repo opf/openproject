@@ -83,8 +83,7 @@ class CustomActions::BaseService
   end
 
   def add_action(action, key, values)
-    # TODO handle unknown key
-    action.actions << action.available_actions.detect { |a| a.key == key }.new(values)
+    action.actions << available_action_for(action, key).new(values)
   end
 
   def remove_action(action, key)
@@ -93,7 +92,15 @@ class CustomActions::BaseService
 
   def set_conditions(action, conditions_attributes)
     action.conditions = conditions_attributes.map do |key, values|
-      action.available_conditions.detect { |a| a.key == key }.new(values)
+      available_condition_for(action, key).new(values)
     end
+  end
+
+  def available_action_for(action, key)
+    action.available_actions.detect { |a| a.key == key } || CustomActions::Actions::Inexistent
+  end
+
+  def available_condition_for(action, key)
+    action.available_conditions.detect { |a| a.key == key } || CustomActions::Conditions::Inexistent
   end
 end
