@@ -123,6 +123,7 @@ describe 'Custom actions', type: :feature, js: true do
     new_ca_page.set_name('Close')
     new_ca_page.add_action('Status', 'Close')
     new_ca_page.set_condition('Role', role.name)
+    new_ca_page.set_condition('Status', [default_status.name, rejected_status.name])
     new_ca_page.create
 
     index_ca_page.expect_current_path
@@ -223,6 +224,8 @@ describe 'Custom actions', type: :feature, js: true do
 
     expect(page)
       .to have_selector('.custom-action', text: 'Reset')
+    expect(page)
+      .to have_no_selector('.custom-action', text: 'Close')
 
     within('.custom-actions') do
       click_button('Reset')
@@ -277,6 +280,8 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 
+    expect(page)
+      .to have_selector('.custom-action', text: 'Close')
     expect(page)
       .to have_no_selector('.custom-action', text: 'Reject')
 

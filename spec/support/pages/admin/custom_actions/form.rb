@@ -71,7 +71,9 @@ module Pages
 
         def set_condition(name, value)
           within '#custom-actions-form--conditions' do
-            select value, from: name
+            Array(value).each do |val|
+              select val, from: name
+            end
           end
         end
       end
