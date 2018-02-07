@@ -46,3 +46,8 @@ end
 Then /^I should not see the "([^"]*)" type$/ do |name|
   page.all(:css, '.timelines-pet-name', text: name).should be_empty
 end
+
+Then /^I should see the "([^"]*)" type$/ do |name|
+  expect(page)
+    .to have_selector(:css, '.timelines-pet-name', text: name)
+end

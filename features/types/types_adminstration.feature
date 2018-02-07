@@ -43,22 +43,14 @@ Feature: Type Administration
           | Standard        | true         | false          | true        |
       And I am already admin
 
-  Scenario: The admin may see all types within the admin UI
-     When I go to the global index page of types
-     Then I should see that "Phase" is not a milestone and shown in aggregation
-      And I should see that "Milestone" is a milestone and shown in aggregation
-      And I should see that "Minor Phase" is not a milestone and not shown in aggregation
-      And I should see that "Minor Milestone" is a milestone and not shown in aggregation
-
   Scenario: The admin may create a type
      When I go to the global index page of types
       And I follow "New type"
       And I fill in "New Phase" for "Name"
       And I press "Create"
-     Then I should see a notice flash stating "Successful creation."
+     Then the flash message should contain "Successful creation."
      When I go to the global index page of types
-      And I should see that "New Phase" is not a milestone and shown in aggregation
-      And "New Phase" should be the last element in the list
+      And I should see the "New Phase" type
 
   Scenario: Nice error messages help fixing them
      When I go to the global index page of types
@@ -71,25 +63,12 @@ Feature: Type Administration
      When I go to the edit page of the type called "Phase"
       And I fill in "Updated Phase" for "Name"
       And I press "Save"
-     Then I should see a notice flash stating "Successful update."
+     Then the flash message should contain "Successful update."
      When I go to the global index page of types
-     Then I should see that "Updated Phase" is not a milestone and shown in aggregation
+     Then I should see the "Updated Phase" type
 
   Scenario: The admin may delete a type
      When I go to the global index page of types
       And I follow "Delete Minor Phase"
-     Then I should see a notice flash stating "Successful deletion."
+     Then the flash message should contain "Successful deletion."
       And I should not see the "Minor Phase" type
-
-  Scenario: The admin may reorder types
-     When I go to the global index page of types
-      And I move "Minor Phase" to the top
-     Then "Minor Phase" should be the first element in the list
-
-     When I move "Minor Phase" down by one
-     Then "Phase" should be the first element in the list
-
-  Scenario: A standard type cannot be deleted
-     When I go to the global index page of types
-     Then "Standard" should be the last element in the list
-      And I should not see "Delete" in the same table row as "Standard"
