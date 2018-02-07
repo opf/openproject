@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'text_extractor'
 
 describe 'filter work packages', js: true do
   let(:user) { FactoryGirl.create :admin }

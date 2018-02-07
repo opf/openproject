@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,25 +31,19 @@
 require 'spec_helper'
 
 describe ExtractFulltextJob, type: :job do
-  let(:text) { 'lorem ipsum' }
-  let(:attachment) { FactoryGirl.create(:attachment) }
-
-  before do
-    allow_any_instance_of(TextExtractor::Resolver).to receive(:text).and_return(text)
-  end
-
-  # This context can only be tested if we actually have Postgres with TSV support in our test environment.
+  # These jobs only get created when TSVector is supported by the DB.
   if OpenProject::Database.allows_tsv?
-    context 'Postgres TSVECTOR available' do
+    let(:text) { 'lorem ipsum' }
+    let(:attachment) { FactoryGirl.create(:attachment) }
+
+    context "with successful text extraction" do
       before do
-        allow(attachment).to receive(:readable?).and_return(is_readable)
+        allow_any_instance_of(TextExtractor::Resolver).to receive(:text).and_return(text)
       end
 
       context 'attachment is readable' do
-        let(:is_readable) { true }
-
         before do
-          described_class.new(attachment.id).perform
+          allow(attachment).to receive(:readable?).and_return(true)
           attachment.reload
         end
 
@@ -58,9 +53,13 @@ describe ExtractFulltextJob, type: :job do
           expect(attachment.file_tsv.size).to be > 0
         end
 
+        # shared_examples 'no fulltext but file name saved as TSV' do
+        # end
+
         context 'No content was extracted' do
           let(:text) { nil }
 
+          # include_examples 'no fulltext but file name saved as TSV'
           it 'updates the attachment\'s DB record with file_tsv' do
             expect(attachment.fulltext).to be_blank
             expect(attachment.fulltext_tsv).to be_blank
@@ -68,38 +67,40 @@ describe ExtractFulltextJob, type: :job do
           end
         end
       end
+    end
 
-      context 'file not readable' do
-        let(:is_readable) { false }
-
-        before do
-          allow_any_instance_of(Attachment).to receive(:readable?).and_return(false)
-          allow(OpenProject::Database).to receive(:allows_tsv?).and_return(true)
-          described_class.new(attachment.id).perform
-          attachment.reload
-        end
-
-        it 'updates the attachment\'s DB record with file_tsv' do
-          expect(attachment.readable?).to be_falsey
-          expect(attachment.fulltext).to be_blank
-          expect(attachment.fulltext_tsv).to be_blank
-          expect(attachment.file_tsv.size).to be > 0
-        end
+    shared_examples 'only file name indexed' do
+      it 'updates the attachment\'s DB record with file_tsv' do
+        expect(attachment.fulltext).to be_blank
+        expect(attachment.fulltext_tsv).to be_blank
+        expect(attachment.file_tsv.size).to be > 0
       end
     end
-  end
 
-  context 'No Postgres TSVECTOR available' do
-    before do
-      allow(OpenProject::Database).to receive(:allows_tsv?).and_return(false)
-      described_class.new(attachment.id).perform
-      attachment.reload
+    context 'file not readable' do
+      before do
+        allow(attachment).to receive(:readable?).and_return(false)
+        attachment.reload
+      end
+
+      include_examples 'only file name indexed'
     end
 
-    it 'updates the attachment\'s DB record with fulltext only' do
-      expect(attachment.fulltext).to eq(text)
-      expect(attachment.fulltext_tsv).to be_nil
-      expect(attachment.file_tsv).to be_nil
+    context 'with exception in extraction' do
+      let(:exception_message) { 'boom' }
+      let(:logger) { Rails.logger }
+
+      before do
+        allow_any_instance_of(TextExtractor::Resolver).to receive(:text).and_raise(exception_message)
+
+        # This line is actually part of the test. `expect` call needs to go so far up here, as we want to verify that a message gets logged.
+        expect(logger).to receive(:error).with(exception_message)
+
+        allow(attachment).to receive(:readable?).and_return(true)
+        attachment.reload
+      end
+
+      include_examples 'only file name indexed'
     end
   end
 end

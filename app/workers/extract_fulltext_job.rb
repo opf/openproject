@@ -28,8 +28,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'text_extractor'
-
 class ExtractFulltextJob < ApplicationJob
   def initialize(attachment_id)
     @attachment_id = attachment_id
@@ -58,7 +56,14 @@ class ExtractFulltextJob < ApplicationJob
     carrierwave_uploader = @attachment.file
     @file = carrierwave_uploader.local_file
     @filename = carrierwave_uploader.file.filename
-    @text = TextExtractor::Resolver.new(@file, @attachment.content_type).text if @attachment.readable?
+
+    begin
+      if @attachment.readable?
+        @text = TextExtractor::Resolver.new(@file, @attachment.content_type).text
+      end
+    rescue => e
+      Rails.logger.error e.message
+    end
   end
 
   def update
