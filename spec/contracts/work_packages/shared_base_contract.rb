@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -74,7 +75,7 @@ shared_examples_for 'work package contract' do
     end
 
     context 'if the assigned user is a possible assignee' do
-      it_behaves_like 'has no error on', :assignee
+      it_behaves_like 'has no error on', :assigned_to
     end
 
     context 'if the assigned user is not a possible assignee' do
@@ -88,7 +89,7 @@ shared_examples_for 'work package contract' do
       it 'is not a valid assignee' do
         error = I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                        property: I18n.t('attributes.assignee'))
-        expect(validated_contract.errors[:assignee]).to match_array [error]
+        expect(validated_contract.errors[:assigned_to]).to match_array [error]
       end
     end
 
@@ -99,7 +100,7 @@ shared_examples_for 'work package contract' do
           .and_return(nil)
       end
 
-      it_behaves_like 'has no error on', :assignee
+      it_behaves_like 'has no error on', :assigned_to
     end
   end
 

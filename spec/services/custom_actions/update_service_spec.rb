@@ -42,7 +42,29 @@ describe CustomActions::UpdateService do
   end
   let(:user) { FactoryGirl.build_stubbed(:user) }
   let(:save_success) { true }
-  let(:instance) { described_class.new(action: action, user: user) }
+  let(:contract_success) { true }
+  let(:contract_errors) { double('contract errors') }
+  let(:instance) do
+    contract
+    described_class.new(action: action, user: user)
+  end
+  let(:contract) do
+    contract_instance = double('contract instance')
+
+    allow(CustomActions::CUContract)
+      .to receive(:new)
+      .with(action)
+      .and_return(contract_instance)
+
+    allow(contract_instance)
+      .to receive(:validate)
+      .and_return(contract_success)
+    allow(contract_instance)
+      .to receive(:errors)
+      .and_return(contract_errors)
+
+    contract_instance
+  end
 
   describe '#call' do
     it 'is successful' do
@@ -85,6 +107,23 @@ describe CustomActions::UpdateService do
       end
     end
 
+    context 'unsuccessful contract' do
+      let(:contract_success) { false }
+
+      it 'yields the result' do
+        yielded = false
+
+        proc = Proc.new do |call|
+          yielded = call
+        end
+
+        instance.call(attributes: {}, &proc)
+
+        expect(yielded)
+          .to be_failure
+      end
+    end
+
     it 'sets the name of the action' do
       expect(instance.call(attributes: { name: 'new name' }).result.name)
         .to eql 'new name'
@@ -101,7 +140,7 @@ describe CustomActions::UpdateService do
                     .map { |a| [a.key, a.values] }
 
       expect(new_actions)
-        .to match_array [[:assigned_to, ['2']], [:priority, ['3']]]
+        .to match_array [[:assigned_to, [2]], [:priority, [3]]]
     end
 
     it 'handles unknown actions' do
@@ -139,7 +178,7 @@ describe CustomActions::UpdateService do
                        .map { |a| [a.key, a.values] }
 
       expect(new_conditions)
-        .to match_array [[:inexistent, ['3']]]
+        .to match_array [[:inexistent, [3]]]
     end
   end
 end
