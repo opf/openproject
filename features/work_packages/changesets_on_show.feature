@@ -37,7 +37,7 @@ Feature: A work packages changesets are displayed on the work package show page
     And the project uses the following modules:
         | timelines |
     And the user "manager" is a "manager"
-    And there are the following work packages in project "ecookbook":
+    And there are the following issues in project "ecookbook":
       | subject | start_date | due_date   |
       | wp1     | 2013-01-01 | 2013-12-31 |
     And the work package "wp1" has the following changesets:
