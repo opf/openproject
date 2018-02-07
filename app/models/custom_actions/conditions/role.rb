@@ -33,23 +33,12 @@ class CustomActions::Conditions::Role < CustomActions::Conditions::Base
     :role
   end
 
-  def self.custom_action_scope(work_packages, user)
-    has_current_role = CustomAction
-                       .includes(:roles)
-                       .where(custom_actions_roles: { role_id: roles_in_project(work_packages, user) })
-    has_no_role = CustomAction
-                  .includes(:roles)
-                  .where(custom_actions_roles: { role_id: nil })
-
-    has_current_role
-      .or(has_no_role)
+  def self.custom_action_scope_has_current(work_packages, user)
+    CustomAction
+      .includes(:roles)
+      .where(custom_actions_roles: { role_id: roles_in_project(work_packages, user) })
   end
-
-  def self.getter(custom_action)
-    ids = custom_action.role_ids
-
-    new(ids) if ids.any?
-  end
+  private_class_method :custom_action_scope_has_current
 
   def fulfilled_by?(work_package, user)
     values.empty? ||

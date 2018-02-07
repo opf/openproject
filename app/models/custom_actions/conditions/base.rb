@@ -71,4 +71,44 @@ class CustomActions::Conditions::Base
   def validate(errors)
     validate_allowed_value(errors, :conditions)
   end
+
+  def self.getter(custom_action)
+    ids = custom_action.send(:"#{key}_ids")
+
+    new(ids) if ids.any?
+  end
+
+  def self.custom_action_scope(work_packages, user)
+    custom_action_scope_has_current(work_packages, user)
+      .or(custom_action_scope_has_no)
+  end
+
+  def self.custom_action_scope_has_current(work_packages, _user)
+    CustomAction
+      .includes(pluralized_key)
+      .where(habtm_table => { key_id => Array(work_packages).map { |w| w.send(key_id) }.uniq })
+  end
+  private_class_method :custom_action_scope_has_current
+
+  def self.custom_action_scope_has_no
+    CustomAction
+      .includes(pluralized_key)
+      .where(habtm_table => { key_id => nil })
+  end
+  private_class_method :custom_action_scope_has_no
+
+  def self.pluralized_key
+    key.to_s.pluralize.to_sym
+  end
+  private_class_method :pluralized_key
+
+  def self.habtm_table
+    :"custom_actions_#{pluralized_key}"
+  end
+  private_class_method :habtm_table
+
+  def self.key_id
+    "#{key}_id".to_sym
+  end
+  private_class_method :key_id
 end

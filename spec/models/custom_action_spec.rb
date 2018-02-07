@@ -194,7 +194,9 @@ describe CustomAction, type: :model do
     it 'returns all available conditions with the default value initialized' do
       expect(stubbed_instance.all_conditions.map { |a| [a.key, a.values] })
         .to match_array [[:status, []],
-                         [:role, []]]
+                         [:role, []],
+                         [:type, []],
+                         [:project, []]]
     end
   end
 end

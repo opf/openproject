@@ -38,24 +38,6 @@ class CustomActions::Conditions::Project < CustomActions::Conditions::Base
     :project
   end
 
-  def self.custom_action_scope(work_packages, _user)
-    has_current_project = CustomAction
-                          .includes(:projects)
-                          .where(custom_actions_projects: { project_id: Array(work_packages).map(&:project_id).uniq })
-    has_no_project = CustomAction
-                     .includes(:projects)
-                     .where(custom_actions_projects: { project_id: nil })
-
-    has_current_project
-      .or(has_no_project)
-  end
-
-  def self.getter(custom_action)
-    ids = custom_action.project_ids
-
-    new(ids) if ids.any?
-  end
-
   private
 
   def associated

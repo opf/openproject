@@ -33,24 +33,6 @@ class CustomActions::Conditions::Type < CustomActions::Conditions::Base
     :type
   end
 
-  def self.custom_action_scope(work_packages, _user)
-    has_current_type = CustomAction
-                       .includes(:types)
-                       .where(custom_actions_types: { type_id: Array(work_packages).map(&:type_id).uniq })
-    has_no_type = CustomAction
-                  .includes(:types)
-                  .where(custom_actions_types: { type_id: nil })
-
-    has_current_type
-      .or(has_no_type)
-  end
-
-  def self.getter(custom_action)
-    ids = custom_action.type_ids
-
-    new(ids) if ids.any?
-  end
-
   private
 
   def associated
