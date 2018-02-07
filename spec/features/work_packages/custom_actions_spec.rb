@@ -102,6 +102,7 @@ describe 'Custom actions', type: :feature, js: true do
   let(:index_ca_page) { Pages::Admin::CustomActions::Index.new }
 
   before do
+    with_enterprise_token(:custom_actions)
     login_as(admin)
   end
 

@@ -30,6 +30,7 @@
 
 class CustomActionsController < ApplicationController
   before_action :require_admin
+  before_action :require_enterprise_token
 
   self._model_object = CustomAction
   before_action :find_model_object, only: %i(edit update destroy)
@@ -82,5 +83,15 @@ class CustomActionsController < ApplicationController
         render action: render_action
       end
     }
+  end
+
+  def require_enterprise_token
+    return if EnterpriseToken.allows_to?(:custom_actions)
+
+    if request.get?
+      render :enterprise_token
+    else
+      render_403
+    end
   end
 end

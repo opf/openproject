@@ -36,8 +36,65 @@ describe CustomActionsController, type: :controller do
     { custom_action: { name: 'blubs',
                        actions: { assigned_to: 1 } } }
   end
+  let(:enterprise_token) { true }
+
+  before do
+    if enterprise_token
+      with_enterprise_token :custom_actions
+    end
+  end
+
+  shared_examples_for 'read requires enterprise token' do
+    context 'without an enterprise token' do
+      let(:enterprise_token) { false }
+
+      before do
+        login_as(admin)
+
+        call
+      end
+
+      it 'renders enterprise_token' do
+        expect(response)
+          .to render_template :enterprise_token
+      end
+    end
+  end
+
+  shared_examples_for 'write requires enterprise token' do
+    context 'without an enterprise token' do
+      let(:enterprise_token) { false }
+
+      before do
+        login_as(admin)
+
+        call
+      end
+
+      it 'renders enterprise_token' do
+        expect(response.response_code)
+          .to eql 403
+      end
+    end
+  end
+
+  shared_examples_for '403 for non admins' do
+    context 'for non admins' do
+      before do
+        login_as(non_admin)
+
+        call
+      end
+
+      it 'returns 403' do
+        expect(response.response_code)
+          .to eql 403
+      end
+    end
+  end
 
   describe '#index' do
+    let(:call) { get :index }
     before do
       allow(CustomAction)
         .to receive(:order_by_name)
@@ -48,7 +105,7 @@ describe CustomActionsController, type: :controller do
       before do
         login_as(admin)
 
-        get :index
+        call
       end
 
       it 'returns 200' do
@@ -67,20 +124,13 @@ describe CustomActionsController, type: :controller do
       end
     end
 
-    context 'for non admins' do
-      before do
-        login_as(non_admin)
-        get :index
-      end
-
-      it 'returns 403' do
-        expect(response.response_code)
-          .to eql 403
-      end
-    end
+    it_behaves_like '403 for non admins'
+    it_behaves_like 'read requires enterprise token'
   end
 
   describe '#new' do
+    let(:call) { get(:new) }
+
     context 'for admins' do
       before do
         login_as(admin)
@@ -89,7 +139,7 @@ describe CustomActionsController, type: :controller do
           .to receive(:new)
           .and_return(action)
 
-        get :new
+        call
       end
 
       it 'returns 200' do
@@ -108,20 +158,12 @@ describe CustomActionsController, type: :controller do
       end
     end
 
-    context 'for non admins' do
-      before do
-        login_as(non_admin)
-        get :new
-      end
-
-      it 'returns 403' do
-        expect(response.response_code)
-          .to eql 403
-      end
-    end
+    it_behaves_like '403 for non admins'
+    it_behaves_like 'read requires enterprise token'
   end
 
   describe '#create' do
+    let(:call) { post :create, params: params }
     let(:current_user) { admin }
     let(:service_success) { true }
     let(:permitted_params) do
@@ -155,7 +197,7 @@ describe CustomActionsController, type: :controller do
       before do
         login_as(current_user)
 
-        post :create, params: params
+        call
       end
 
       context 'on success' do
@@ -185,22 +227,16 @@ describe CustomActionsController, type: :controller do
       end
     end
 
-    context 'for non admins' do
-      before do
-        login_as(non_admin)
-        post :create, params: params
-      end
-
-      it 'returns 403' do
-        expect(response.response_code)
-          .to eql 403
-      end
-    end
+    it_behaves_like '403 for non admins'
+    it_behaves_like 'write requires enterprise token'
   end
 
   describe '#edit' do
     let(:params) do
       { id: "42" }
+    end
+    let(:call) do
+      get :edit, params: params
     end
 
     before do
@@ -214,7 +250,7 @@ describe CustomActionsController, type: :controller do
       before do
         login_as(admin)
 
-        get :edit, params: params
+        call
       end
 
       it 'returns 200' do
@@ -242,7 +278,7 @@ describe CustomActionsController, type: :controller do
 
         login_as(admin)
 
-        get :edit, params: params
+        call
       end
 
       it 'returns 404 NOT FOUND' do
@@ -251,20 +287,12 @@ describe CustomActionsController, type: :controller do
       end
     end
 
-    context 'for non admins' do
-      before do
-        login_as(non_admin)
-        get :edit, params: params
-      end
-
-      it 'returns 403' do
-        expect(response.response_code)
-          .to eql 403
-      end
-    end
+    it_behaves_like '403 for non admins'
+    it_behaves_like 'read requires enterprise token'
   end
 
   describe '#update' do
+    let(:call) { patch :update, params: params }
     let(:current_user) { admin }
     let(:service_success) { true }
     let(:permitted_params) do
@@ -310,7 +338,7 @@ describe CustomActionsController, type: :controller do
       before do
         login_as(current_user)
 
-        patch :update, params: params
+        call
       end
 
       context 'on success' do
@@ -349,7 +377,7 @@ describe CustomActionsController, type: :controller do
 
         login_as(current_user)
 
-        patch :update, params: params
+        call
       end
 
       it 'returns 404 NOT FOUND' do
@@ -358,20 +386,12 @@ describe CustomActionsController, type: :controller do
       end
     end
 
-    context 'for non admins' do
-      before do
-        login_as(non_admin)
-        patch :update, params: params
-      end
-
-      it 'returns 403' do
-        expect(response.response_code)
-          .to eql 403
-      end
-    end
+    it_behaves_like '403 for non admins'
+    it_behaves_like 'write requires enterprise token'
   end
 
   describe '#destroy' do
+    let(:call) { delete :destroy, params: params }
     let(:current_user) { admin }
     let(:params) do
       { id: "42" }
@@ -380,8 +400,8 @@ describe CustomActionsController, type: :controller do
     before do
       allow(CustomAction)
         .to receive(:find)
-              .with(params[:id])
-              .and_return(action)
+        .with(params[:id])
+        .and_return(action)
     end
 
     context 'for admins' do
@@ -392,7 +412,7 @@ describe CustomActionsController, type: :controller do
 
         login_as(current_user)
 
-        delete :destroy, params: params
+        call
       end
 
       it 'redirects to index' do
@@ -405,12 +425,12 @@ describe CustomActionsController, type: :controller do
       before do
         allow(CustomAction)
           .to receive(:find)
-                .with(params[:id])
-                .and_raise(ActiveRecord::RecordNotFound)
+          .with(params[:id])
+          .and_raise(ActiveRecord::RecordNotFound)
 
         login_as(current_user)
 
-        delete :destroy, params: params
+        call
       end
 
       it 'returns 404 NOT FOUND' do
@@ -419,16 +439,7 @@ describe CustomActionsController, type: :controller do
       end
     end
 
-    context 'for non admins' do
-      before do
-        login_as(non_admin)
-        delete :destroy, params: params
-      end
-
-      it 'returns 403' do
-        expect(response.response_code)
-          .to eql 403
-      end
-    end
+    it_behaves_like '403 for non admins'
+    it_behaves_like 'write requires enterprise token'
   end
 end

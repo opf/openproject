@@ -160,7 +160,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :custom_actions,
             { controller: '/custom_actions' },
             caption: :'custom_actions.plural',
-            icon: 'icon2 icon-custom-fields'
+            icon: 'icon2 icon-play'
 
   menu.push :attribute_help_texts,
             { controller: '/attribute_help_texts' },

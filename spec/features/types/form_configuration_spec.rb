@@ -152,8 +152,7 @@ describe 'form configuration', type: :feature, js: true do
 
   describe "with EE token" do
     before do
-      allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
-      allow(EnterpriseToken).to receive(:allows_to?).with(:edit_attribute_groups).and_return(true)
+      with_enterprise_token(:edit_attribute_groups)
     end
 
     describe 'default configuration' do
@@ -262,7 +261,6 @@ describe 'form configuration', type: :feature, js: true do
                     'Estimates and time',
                     { key: :estimated_time, translation: 'Estimated time' },
                     { key: :spent_time, translation: 'Spent time' }
-
 
         expect_group 'Whatever',
                     'Whatever',
@@ -444,8 +442,7 @@ describe 'form configuration', type: :feature, js: true do
     let(:dialog) { ::NgConfirmationDialog.new }
 
     it "should disable adding and renaming groups" do
-      allow(EnterpriseToken).to receive(:allows_to?).and_return(true)
-      allow(EnterpriseToken).to receive(:allows_to?).with(:edit_attribute_groups).and_return(false)
+      with_enterprise_token(nil)
       login_as(admin)
       visit edit_type_tab_path(id: type.id, tab: "form_configuration")
 
