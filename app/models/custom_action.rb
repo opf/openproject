@@ -33,6 +33,7 @@ class CustomAction < ActiveRecord::Base
   serialize :actions, CustomActions::Actions::Serializer
   has_and_belongs_to_many :statuses
   has_and_belongs_to_many :roles
+  has_and_belongs_to_many :types
 
   after_save :persist_conditions
 
@@ -127,3 +128,4 @@ CustomActions::Register.action(CustomActions::Actions::CustomField)
 
 CustomActions::Register.condition(CustomActions::Conditions::Status)
 CustomActions::Register.condition(CustomActions::Conditions::Role)
+CustomActions::Register.condition(CustomActions::Conditions::Type)
