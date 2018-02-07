@@ -86,7 +86,7 @@ module OpenProject
 
       case name
       when :mysql
-        Gem::Version.new(version) >= Gem::Version.new(required[:string])
+        true
       when :postgresql
         numeric_version >= required[:numeric]
       end

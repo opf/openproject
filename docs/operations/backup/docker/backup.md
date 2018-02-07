@@ -10,10 +10,10 @@ with Docker:
     sudo mkdir -p /var/lib/openproject/{pgdata,logs,static}
 
     docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
-      -v /var/lib/openproject/pgdata:/var/lib/postgresql/9.4/main \
+      -v /var/lib/openproject/pgdata:/var/lib/postgresql/9.6/main \
       -v /var/lib/openproject/logs:/var/log/supervisor \
       -v /var/lib/openproject/static:/var/db/openproject \
-      openproject/community:5.0
+      openproject/community:7.0
 
 If you're using the same local directories than the above command, then you
 just need to backup your local `/var/lib/openproject` folder (for instance to

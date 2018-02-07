@@ -1,4 +1,4 @@
-FROM ruby:2.4
+FROM ruby:2.4-stretch
 
 ENV NODE_VERSION="7.7.2"
 ENV BUNDLER_VERSION="1.11.2"

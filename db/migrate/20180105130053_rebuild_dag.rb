@@ -44,7 +44,7 @@ class RebuildDag < ActiveRecord::Migration[5.0]
               name: 'index_relations_on_type_columns',
               unique: true
 
-    WorkPackage.rebuild_dag!
+    WorkPackage.rebuild_dag! 1000
 
     add_count_index
 

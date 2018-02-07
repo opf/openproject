@@ -80,6 +80,9 @@ div.autocomplete
     word-break: break-word
     padding: 10px 5px
 
+    // Necessary for iOS to recognize as clickable
+    cursor: pointer
+
     &.ui-state-active
       border: none
       @include varprop(background, drop-down-selected-bg-color)
