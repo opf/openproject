@@ -257,8 +257,8 @@ hu:
         show_until: Megjelenít eddig
       attachment:
         downloads: Letöltés
-        file: File
-        filename: File
+        file: Fájl
+        filename: Fájl
         filesize: Méret
       attribute_help_text:
         attribute_name: Attribútum
@@ -556,7 +556,7 @@ hu:
           one: '1 hiba miatt nem menthető a következő: %{model}'
           other: "%{count} hiba miatt nem menthető a következő: %{model}"
     models:
-      attachment: File
+      attachment: Fájl
       attribute_help_text: Attribútum-súgószöveg
       board: Fórum
       comment: Vélemény
@@ -1014,7 +1014,7 @@ hu:
         additional_features: További erőteljes prémium funkciók
         professional_support: Professzionális támogatás az OpenProject szakértőktől
         you_contribute: A fejlesztőknek is fizetni kell a számláikat. A vállalati
-          verzióval jelentősen hozzájárulsz a nyílt forráskódú közösség erőfesszítéseihez.
+          verzióval jelentősen hozzájárulsz a nyílt forráskódú közösség erőfeszítéseihez.
     links:
       upgrade_enterprise_edition: Frissítés a Vállalati Verzióra
       user_guides: Felhasználói útmutató
