@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,28 +25,31 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'spec_helper'
+require_relative '../shared_expectations'
 
-class CustomActions::Actions::Serializer
-  def self.load(value)
-    return [] unless value
-    YAML
-      .safe_load(value, [Symbol])
-      .map do |key, values|
-      klass = nil
+describe CustomActions::Actions::Type, type: :model do
+  it_behaves_like 'associated custom action' do
+    let(:key) { :type }
+    let(:priority) { 20 }
+    let(:allowed_values) do
+      types = [FactoryGirl.build_stubbed(:type),
+               FactoryGirl.build_stubbed(:type)]
+      allow(Type)
+        .to receive_message_chain(:select, :order)
+        .and_return(types)
 
-      CustomActions::Register
-        .actions
-        .detect do |a|
-        klass = a.for(key)
+      [{ value: types.first.id, label: types.first.name },
+       { value: types.last.id, label: types.last.name }]
+    end
+
+    describe '#allowed_values' do
+      it 'is the list of all type' do
+        allowed_values
+
+        expect(instance.allowed_values)
+          .to eql(allowed_values)
       end
-
-      klass ||= CustomActions::Actions::Inexistent
-
-      klass.new(values)
-    end.compact
-  end
-
-  def self.dump(actions)
-    YAML::dump(actions.map { |a| [a.key, a.values.map(&:to_s)] })
+    end
   end
 end

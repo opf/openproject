@@ -41,7 +41,7 @@ describe CustomActions::UpdateWorkPackageService do
     action
   end
   let(:alter_action1) do
-    action = double('custom actions action 1', key: 'abc')
+    action = double('custom actions action 1', key: 'abc', priority: 100)
 
     allow(action)
       .to receive(:apply)
@@ -50,7 +50,7 @@ describe CustomActions::UpdateWorkPackageService do
     action
   end
   let(:alter_action2) do
-    action = double('custom actions action 2', key: 'def')
+    action = double('custom actions action 2', key: 'def', priority: 10)
 
     allow(action)
       .to receive(:apply)
@@ -127,6 +127,23 @@ describe CustomActions::UpdateWorkPackageService do
       call
     end
 
+    it 'calls the registered actions based on their priority' do
+      call_order = []
+
+      [alter_action1, alter_action2].each do |alter_action|
+        allow(alter_action)
+          .to receive(:apply)
+          .with(work_package) do
+          call_order << alter_action
+        end
+      end
+
+      call
+
+      expect(call_order)
+        .to eql [alter_action2, alter_action1]
+    end
+
     context 'on validation error' do
       before do
         allow(contract)
@@ -161,7 +178,7 @@ describe CustomActions::UpdateWorkPackageService do
           .to eql 100
       end
 
-      it 'rejects the aciton causing an error' do
+      it 'rejects the action causing an error' do
         expect(work_package.subject)
           .not_to eql ''
       end

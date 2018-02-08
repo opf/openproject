@@ -29,18 +29,28 @@
 require 'spec_helper'
 
 describe 'Custom actions', type: :feature, js: true do
-  let(:permissions) { %i(view_work_packages edit_work_packages) }
+  let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let!(:other_role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:admin) { FactoryGirl.create(:admin) }
   let(:user) do
-    FactoryGirl.create(:user,
-                       firstname: 'A',
-                       lastname: 'User',
-                       member_through_role: role,
-                       member_in_project: project)
+    user = FactoryGirl.create(:user,
+                              firstname: 'A',
+                              lastname: 'User')
+
+    FactoryGirl.create(:member,
+                       project: project,
+                       roles: [role],
+                       user: user)
+
+    FactoryGirl.create(:member,
+                       project: other_project,
+                       roles: [role],
+                       user: user)
+    user
   end
   let(:project) { FactoryGirl.create(:project) }
+  let(:other_project) { FactoryGirl.create(:project) }
   let!(:work_package) do
     FactoryGirl.create(:work_package,
                        project: project,
@@ -66,6 +76,13 @@ describe 'Custom actions', type: :feature, js: true do
   end
   let(:rejected_status) do
     FactoryGirl.create(:closed_status, name: 'Rejected')
+  end
+  let(:other_type) do
+    type = FactoryGirl.create(:type)
+
+    other_project.types << type
+
+    type
   end
   let!(:workflows) do
     FactoryGirl.create(:workflow,
@@ -98,6 +115,14 @@ describe 'Custom actions', type: :feature, js: true do
   end
   let(:selected_list_custom_field_options) do
     [list_custom_field.custom_options.first, list_custom_field.custom_options.last]
+  end
+  let!(:date_custom_field) do
+    cf = FactoryGirl.create(:date_wp_custom_field)
+
+    other_project.work_package_custom_fields = [cf]
+    other_type.custom_fields = [cf]
+
+    cf
   end
   let(:index_ca_page) { Pages::Admin::CustomActions::Index.new }
 
@@ -168,6 +193,17 @@ describe 'Custom actions', type: :feature, js: true do
     index_ca_page.expect_current_path
     index_ca_page.expect_listed('Unassign', 'Close', 'Escalate', 'Reset', 'Other roles action')
 
+    # create custom action 'Move project'
+
+    new_ca_page = index_ca_page.new
+
+    new_ca_page.set_name('Move project')
+    new_ca_page.add_action(date_custom_field.name, (Date.today + 5.days).to_s)
+    new_ca_page.add_action('Type', other_type.name)
+    new_ca_page.add_action('Project', other_project.name)
+    new_ca_page.set_condition('Project', project.name)
+    new_ca_page.create
+
     # use custom actions
     login_as(user)
 
@@ -179,6 +215,8 @@ describe 'Custom actions', type: :feature, js: true do
       .to have_selector('.custom-action', text: 'Close')
     expect(page)
       .to have_selector('.custom-action', text: 'Escalate')
+    expect(page)
+      .to have_selector('.custom-action', text: 'Move project')
     expect(page)
       .to have_no_selector('.custom-action', text: 'Reset')
     expect(page)
@@ -269,6 +307,8 @@ describe 'Custom actions', type: :feature, js: true do
     expect(page)
       .to have_selector('.custom-action', text: 'Reject')
     expect(page)
+      .to have_selector('.custom-action', text: 'Move project')
+    expect(page)
       .to have_no_selector('.custom-action', text: 'Reset')
 
     within('.custom-actions') do
@@ -308,5 +348,16 @@ describe 'Custom actions', type: :feature, js: true do
       .to have_selector('.custom-action', text: 'Escalate')
     expect(page)
       .to have_no_selector('.custom-action', text: 'Reject')
+
+    # Move project
+    within('.custom-actions') do
+      click_button('Move project')
+    end
+
+    # TODO: check project
+    wp_page.expect_attributes assignee: '-',
+                              status: rejected_status.name,
+                              type: other_type.name,
+                              "customField#{date_custom_field.id}" => (Date.today + 5.days).strftime('%m/%d/%Y')
   end
 end

@@ -31,6 +31,8 @@
 class CustomActions::Actions::Base
   attr_reader :values
 
+  DEFAULT_PRIORITY = 100
+
   def initialize(values = [])
     self.values = values
   end
@@ -84,6 +86,10 @@ class CustomActions::Actions::Base
   def validate(errors)
     validate_value_required(errors)
     validate_only_one_value(errors)
+  end
+
+  def priority
+    DEFAULT_PRIORITY
   end
 
   private

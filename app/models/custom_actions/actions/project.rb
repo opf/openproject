@@ -28,27 +28,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::Actions::Serializer
-  def self.load(value)
-    return [] unless value
-    YAML
-      .safe_load(value, [Symbol])
-      .map do |key, values|
-      klass = nil
+class CustomActions::Actions::Project < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Associated
 
-      CustomActions::Register
-        .actions
-        .detect do |a|
-        klass = a.for(key)
-      end
+  PRIORITY = 10
 
-      klass ||= CustomActions::Actions::Inexistent
-
-      klass.new(values)
-    end.compact
+  def self.key
+    :project
   end
 
-  def self.dump(actions)
-    YAML::dump(actions.map { |a| [a.key, a.values.map(&:to_s)] })
+  def required?
+    true
+  end
+
+  def priority
+    PRIORITY
+  end
+
+  private
+
+  def associated
+    ::Project
+      .select(:id, :name)
+      .order('LOWER(name)')
+      .map { |u| [u.id, u.name] }
   end
 end

@@ -37,6 +37,13 @@ shared_examples_for 'associated custom action' do
       raise ":key needs to be defined"
     end
   end
+  let(:expected_priority) do
+    if defined?(priority)
+      priority
+    else
+      100
+    end
+  end
 
   describe '.all' do
     it 'is an array with the class itself' do
@@ -100,6 +107,13 @@ shared_examples_for 'associated custom action' do
       instance.values = 42
 
       instance.apply(work_package)
+    end
+  end
+
+  describe '#priority' do
+    it 'is the expected level' do
+      expect(instance.priority)
+        .to eql(expected_priority)
     end
   end
 

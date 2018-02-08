@@ -55,8 +55,7 @@ class CustomActions::UpdateWorkPackageService
   def apply_actions(work_package, actions)
     changes_before = work_package.changes.dup
 
-    actions
-      .each { |a| a.apply(work_package) }
+    apply_actions_sorted(work_package, actions)
 
     contract = WorkPackages::UpdateContract.new(work_package, user)
 
@@ -75,5 +74,11 @@ class CustomActions::UpdateWorkPackageService
     if new_actions.any? && actions.length != new_actions.length
       apply_actions(work_package, new_actions)
     end
+  end
+
+  def apply_actions_sorted(work_package, actions)
+    actions
+      .sort_by(&:priority)
+      .each { |a| a.apply(work_package) }
   end
 end
