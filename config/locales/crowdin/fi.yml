@@ -147,8 +147,8 @@ fi:
   field_otp: "One-time password"
   notice_account_otp_invalid: "Invalid one-time password."
   notice_account_otp_expired: "The one-time password you entered expired."
-  notice_otp_sms_text: 'Your one-time password: %{token}'
-  notice_developer_strategy_otp: 'Developer strategy generated the following one-time password: %{token} (Channel: %{channel})'
+  notice_otp_sms_text: "Your one-time password: %{token}"
+  notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
   notice_account_otp_send_failed: "Your one-time password could not be sent."
   notice_account_has_no_phone: "No cell phone number is associated with your account."
   label_expiration_hint: "%{date} or on logout"
@@ -158,7 +158,7 @@ fi:
   button_make_default: 'Merkitse oletusarvo'
   label_unverified_phone: "Cell phone not yet verified"
   message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: 'Anna numero seuraavalla tavalla: + XX XXXXXXXX.'
+  notice_phone_number_format: "Anna numero seuraavalla tavalla: + XX XXXXXXXX."
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
   text_otp_not_receive: "Muut vahvistusmenetelmät"

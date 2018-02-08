@@ -148,8 +148,8 @@ pl:
   field_otp: "Jednorazowe hasło"
   notice_account_otp_invalid: "Nieprawidłowe hasło jednorazowe."
   notice_account_otp_expired: "Wprowadzone hasło jednorazowe wygasło."
-  notice_otp_sms_text: 'Twoje jednorazowe hasło: %{token}'
-  notice_developer_strategy_otp: 'Strategia programisty wygenerowała następujące jednorazowe hasło: %{token} (kanał:%{channel})'
+  notice_otp_sms_text: "Twoje jednorazowe hasło: %{token}"
+  notice_developer_strategy_otp: "Strategia programisty wygenerowała następujące jednorazowe hasło: %{token} (kanał:%{channel})"
   notice_account_otp_send_failed: "Twoje jednorazowe hasło nie mogło zostać wysłane."
   notice_account_has_no_phone: "Żaden numer telefonu komórkowego nie jest powiązany z Twoim kontem."
   label_expiration_hint: "%{date} lub wylogowania"
@@ -159,7 +159,7 @@ pl:
   button_make_default: 'Oznacz jako domyślny'
   label_unverified_phone: "Cell phone not yet verified"
   message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: 'Wprowadź numer w następującym formacie: + XX XXXXXXXX.'
+  notice_phone_number_format: "Wprowadź numer w następującym formacie: + XX XXXXXXXX."
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
   text_otp_not_receive: "Inne metody weryfikacji"

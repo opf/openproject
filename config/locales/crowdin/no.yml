@@ -1,4 +1,4 @@
-no:
+"no":
   activerecord:
     attributes:
       two_factor_authentication/device:
@@ -148,8 +148,8 @@ no:
   field_otp: "Engangspassord"
   notice_account_otp_invalid: "Ugyldig engangspassord."
   notice_account_otp_expired: "Engangs-passordet du skrev inn, utløp."
-  notice_otp_sms_text: 'Din engangspassord: %{token}'
-  notice_developer_strategy_otp: 'Utvikler strategi generert av følgende engangspassord: %{token} (kanal: %{channel})'
+  notice_otp_sms_text: "Din engangspassord: %{token}"
+  notice_developer_strategy_otp: "Utvikler strategi generert av følgende engangspassord: %{token} (kanal: %{channel})"
   notice_account_otp_send_failed: "Ditt engangspassord kunne ikke sendes."
   notice_account_has_no_phone: "Ingen mobilnummer er knyttet til kontoen din."
   label_expiration_hint: "%{date} eller på logg ut"
@@ -159,7 +159,7 @@ no:
   button_make_default: 'Merk som standard'
   label_unverified_phone: "Cell phone not yet verified"
   message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: 'Vennligst skriv inn nummeret i følgende format: + XX XXXXXXXX.'
+  notice_phone_number_format: "Vennligst skriv inn nummeret i følgende format: + XX XXXXXXXX."
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
   text_otp_not_receive: "Andre verifikasjonsmetoder"

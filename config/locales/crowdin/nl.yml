@@ -146,8 +146,8 @@ nl:
   field_otp: "Eenmalig wachtwoord"
   notice_account_otp_invalid: "Ongeldig éénmalig wachtwoord."
   notice_account_otp_expired: "Het eenmalige wachtwoord dat je hebt ingevoerd, is verlopen."
-  notice_otp_sms_text: 'Uw eenmalige wachtwoord: %{token}'
-  notice_developer_strategy_otp: 'Ontwikkelaarsstrategie heeft het volgende eenmalige wachtwoord gegenereerd: %{token} (kanaal: %{channel})'
+  notice_otp_sms_text: "Uw eenmalige wachtwoord: %{token}"
+  notice_developer_strategy_otp: "Ontwikkelaarsstrategie heeft het volgende eenmalige wachtwoord gegenereerd: %{token} (kanaal: %{channel})"
   notice_account_otp_send_failed: "Uw eenmalige wachtwoord kan niet worden verzonden."
   notice_account_has_no_phone: "Er is geen mobiel nummer gekoppeld aan uw account."
   label_expiration_hint: "%{date} of bij het afmelden"
@@ -157,7 +157,7 @@ nl:
   button_make_default: 'Markeren als standaard'
   label_unverified_phone: "Cell phone not yet verified"
   message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: 'Voer het nummer alstublieft in de volgende indeling in: + XX XXXXXXXX.'
+  notice_phone_number_format: "Voer het nummer alstublieft in de volgende indeling in: + XX XXXXXXXX."
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
   text_otp_not_receive: "Andere verificatiemethoden"
