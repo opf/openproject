@@ -38,13 +38,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <tr class="cost_entry <%= classes %>" id="<%= id_prefix %>">
   <td class="units">
     <div class="form--field-container">
-        <div class="form--text-field-container">
+        <div class="form--text-field-container -xslim">
            <label class="hidden-for-sighted" for="<%= id_prefix %>_units"><%= MaterialBudgetItem.human_attribute_name(:units) %></label>
-          <%= cost_form.text_field :units,
-                                   index: id_or_index,
-                                   size: 3,
-                                   class: 'budget-item-value',
-                                   data: { :'request-key' => 'units' } %>
+          <%= cost_form.number_field :units,
+                                     index: id_or_index,
+                                     min: 0,
+                                     step: 0.01,
+                                     class: 'budget-item-value form--text-field',
+                                     data: { :'request-key' => 'units' } %>
         </div>
       </div>
   </td>
