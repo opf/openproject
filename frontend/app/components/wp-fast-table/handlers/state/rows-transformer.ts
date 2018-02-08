@@ -13,9 +13,9 @@ export class RowsTransformer {
               public table:WorkPackageTable) {
 
     // Redraw table if the current row state changed
-    this.states.query.context.fireOnTransition(this.states.table.rows, 'Query loaded')
+    this.states.query.context.fireOnTransition(this.states.globalTable.rows, 'Query loaded')
       .values$('Initializing table after query was initialized')
-      .takeUntil(this.states.table.stopAllSubscriptions)
+      .takeUntil(this.states.globalTable.stopAllSubscriptions)
       .subscribe((rows:WorkPackageResourceInterface[]) => {
         var t0 = performance.now();
 
@@ -27,7 +27,7 @@ export class RowsTransformer {
 
     // Refresh a single row if it exists
     this.states.workPackages.observeChange()
-      .takeUntil(this.states.table.stopAllSubscriptions.asObservable())
+      .takeUntil(this.states.globalTable.stopAllSubscriptions.asObservable())
       .filter(() => this.states.query.context.current === 'Query loaded')
       .subscribe(([changedId, wp]) => {
         if (wp === undefined) {

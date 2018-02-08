@@ -65,7 +65,7 @@ function WorkPackagesListController($scope:any,
                                     loadingIndicator:LoadingIndicatorService,
                                     I18n:op.I18n) {
 
-  $scope.tableState = states.table;
+  $scope.tableState = states.globalTable;
 
   $scope.projectIdentifier = $state.params['projectPath'] || null;
   $scope.I18n = I18n;
@@ -186,7 +186,7 @@ function WorkPackagesListController($scope:any,
     wpListChecksumService.clear();
     loadingIndicator.table.promise =
       wpListService.fromQueryParams($state.params, $scope.projectIdentifier).then(() => {
-        return states.table.rendered.valuesPromise();
+        return states.globalTable.rendered.valuesPromise();
       });
   }
 

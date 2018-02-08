@@ -20,8 +20,8 @@ export class SelectionTransformer {
               table:WorkPackageTable) {
 
     // Focus a single selection when active
-    this.states.table.rendered.values$()
-      .takeUntil(this.states.table.stopAllSubscriptions)
+    this.states.globalTable.rendered.values$()
+      .takeUntil(this.states.globalTable.stopAllSubscriptions)
       .subscribe(() => {
 
         this.wpTableFocus.ifShouldFocus((wpId:string) => {
@@ -36,7 +36,7 @@ export class SelectionTransformer {
 
     // Update selection state
     this.wpTableSelection.selectionState.values$()
-      .takeUntil(this.states.table.stopAllSubscriptions)
+      .takeUntil(this.states.globalTable.stopAllSubscriptions)
       .subscribe((state:WPTableRowSelectionState) => {
         this.renderSelectionState(state);
       });

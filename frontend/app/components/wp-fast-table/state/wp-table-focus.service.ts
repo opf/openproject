@@ -67,7 +67,7 @@ export class WorkPackageTableFocusService {
    */
   private observeToUpdateFocused() {
     this
-      .states.table.rendered
+      .states.globalTable.rendered
       .values$()
       .map(state => _.find(state, (row:any) => row.workPackageId))
       .filter(fullRow => !!fullRow && this.wpTableSelection.isEmpty)

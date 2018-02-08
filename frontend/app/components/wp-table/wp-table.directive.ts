@@ -104,7 +104,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     this.scrollSyncUpdate = createScrollSync(this.$element);
 
     // Clear any old table subscribers
-    this.states.table.stopAllSubscriptions.next();
+    this.tableState.stopAllSubscriptions.next();
 
     this.locale = I18n.locale;
 
@@ -129,7 +129,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
     Observable.combineLatest(
       this.states.query.resource.values$(),
-      this.states.table.results.values$(),
+      this.tableState.results.values$(),
       this.wpTableGroupBy.state.values$(),
       this.wpTableColumns.state.values$(),
       this.wpTableTimeline.state.values$()
@@ -173,7 +173,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     let t0 = performance.now();
 
     const tbody = this.$element.find('.work-package--results-tbody');
-    this.workPackageTable = new WorkPackageTable(this.injector, this.$element[0], tbody[0], body, controller);
+    this.workPackageTable = new WorkPackageTable(this.injector, this.tableStateHolder, this.$element[0], tbody[0], body, controller);
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
 

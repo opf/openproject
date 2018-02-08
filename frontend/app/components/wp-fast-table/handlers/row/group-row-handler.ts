@@ -47,6 +47,6 @@ export class GroupRowHandler implements TableEventHandler {
   }
 
   private get collapsedState() {
-    return this.states.table.collapsedGroups;
+    return this.states.globalTable.collapsedGroups;
   }
 }

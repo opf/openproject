@@ -24,7 +24,7 @@ export class WorkPackageTableRefreshService {
   }
 
   public get state():InputState<boolean[]> {
-    return this.states.table.refreshRequired;
+    return this.states.globalTable.refreshRequired;
   }
 }
 

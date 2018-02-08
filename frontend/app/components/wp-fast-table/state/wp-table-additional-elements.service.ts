@@ -72,10 +72,10 @@ export class WorkPackageTableAdditionalElementsService {
   private loadAdditional(wpIds:string[]) {
     this.wpCacheService.requireAll(wpIds)
       .then(() => {
-        this.states.table.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
+        this.states.globalTable.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
       })
       .catch((e) => {
-        this.states.table.additionalRequiredWorkPackages.putValue(null, 'Failure loading required work packages');
+        this.states.globalTable.additionalRequiredWorkPackages.putValue(null, 'Failure loading required work packages');
         this.wpNotificationsService.handleErrorResponse(e);
       });
   }

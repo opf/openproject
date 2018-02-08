@@ -10,8 +10,8 @@ export class TimelineTransformer {
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
 
-    this.states.table.timelineVisible.values$()
-      .takeUntil(this.states.table.stopAllSubscriptions).subscribe((state:WorkPackageTableTimelineState) => {
+    this.states.globalTable.timelineVisible.values$()
+      .takeUntil(this.states.globalTable.stopAllSubscriptions).subscribe((state:WorkPackageTableTimelineState) => {
       this.renderVisibility(state.isVisible);
     });
   }

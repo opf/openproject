@@ -29,7 +29,7 @@ export class States extends StatesGroup {
   query = new QueryStates();
 
   // Work package table states
-  table = new TableState();
+  globalTable = new TableState();
 
   tableRendering = new TableRenderingStates(this);
 
@@ -76,12 +76,12 @@ export class TableRenderingStates {
 
   // State when all required input states for the current query are ready
   private combinedTableStates = combine(
-    this.states.table.rows,
-    this.states.table.columns,
-    this.states.table.sum,
-    this.states.table.groupBy,
-    this.states.table.sortBy,
-    this.states.table.additionalRequiredWorkPackages
+    this.states.globalTable.rows,
+    this.states.globalTable.columns,
+    this.states.globalTable.sum,
+    this.states.globalTable.groupBy,
+    this.states.globalTable.sortBy,
+    this.states.globalTable.additionalRequiredWorkPackages
   );
 
   onQueryUpdated = derive(this.combinedTableStates, ($, input) => $.mapTo(null));
@@ -93,11 +93,11 @@ export class UserUpdaterStates {
   constructor(private states:States) {
   }
 
-  columnsUpdates = this.states.query.context.fireOnStateChange(this.states.table.columns, 'Query loaded');
+  columnsUpdates = this.states.query.context.fireOnStateChange(this.states.globalTable.columns, 'Query loaded');
 
-  hierarchyUpdates = this.states.query.context.fireOnStateChange(this.states.table.hierarchies, 'Query loaded');
+  hierarchyUpdates = this.states.query.context.fireOnStateChange(this.states.globalTable.hierarchies, 'Query loaded');
 
-  relationUpdates = this.states.query.context.fireOnStateChange(this.states.table.relationColumns, 'Query loaded');
+  relationUpdates = this.states.query.context.fireOnStateChange(this.states.globalTable.relationColumns, 'Query loaded');
 }
 
 

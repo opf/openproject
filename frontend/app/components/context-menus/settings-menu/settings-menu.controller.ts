@@ -113,7 +113,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
     .query
     .resource
     .values$()
-    .takeUntil(states.table.stopAllSubscriptions)
+    .takeUntil(states.globalTable.stopAllSubscriptions)
     .subscribe(queryUpdate => {
 
     $scope.loading = true;
@@ -125,7 +125,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
     .query
     .form
     .values$()
-    .takeUntil(states.table.stopAllSubscriptions)
+    .takeUntil(states.globalTable.stopAllSubscriptions)
     .subscribe(formUpdate => {
 
     form = formUpdate;

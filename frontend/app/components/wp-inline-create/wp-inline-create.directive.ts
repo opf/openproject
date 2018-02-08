@@ -127,7 +127,7 @@ export class WorkPackageInlineCreateController {
       });
 
     // Watch on this scope when the columns change and refresh this row
-    this.states.table.columns.values$()
+    this.states.globalTable.columns.values$()
       .filter(() => this.isHidden) // Take only when row is inserted
       .takeUntil(scopeDestroyed$(this.$scope)).subscribe(() => {
       const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);

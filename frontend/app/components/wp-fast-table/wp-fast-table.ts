@@ -1,5 +1,6 @@
 import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {TableStateHolder} from 'core-components/wp-table/TableState';
 import {debugLog} from '../../helpers/debug_output';
 import {
   WorkPackageResource,
@@ -44,6 +45,7 @@ export class WorkPackageTable {
   public editing:WorkPackageTableEditingContext = new WorkPackageTableEditingContext(this.injector);
 
   constructor(public readonly injector:Injector,
+              private readonly tableStateHolder:TableStateHolder,
               public container:HTMLElement,
               public tbody:HTMLElement,
               public timelineBody:HTMLElement,
@@ -54,7 +56,7 @@ export class WorkPackageTable {
   }
 
   public get renderedRows() {
-    return this.states.table.rendered.getValueOr([]);
+    return this.tableStateHolder.get().rendered.getValueOr([]);
   }
 
   public findRenderedRow(classIdentifier:string):[number, RenderedRow] {
@@ -107,7 +109,7 @@ export class WorkPackageTable {
     this.timelineBody.innerHTML = '';
     this.timelineBody.appendChild(renderPass.timeline.timelineBody);
 
-    this.states.table.rendered.putValue(renderPass.result);
+    this.tableStateHolder.get().rendered.putValue(renderPass.result);
   }
 
   /**
@@ -120,7 +122,7 @@ export class WorkPackageTable {
     this.tbody.innerHTML = '';
     this.tbody.appendChild(renderPass.tableBody);
 
-    this.states.table.rendered.putValue(renderPass.result);
+    this.tableStateHolder.get().rendered.putValue(renderPass.result);
   }
 
   /**

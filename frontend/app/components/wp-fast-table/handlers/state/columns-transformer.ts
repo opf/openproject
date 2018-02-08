@@ -15,7 +15,7 @@ export class ColumnsTransformer {
     this.states.updates.columnsUpdates
       .values$('Refreshing columns on user request')
       .filter(() => this.wpTableColumns.hasRelationColumns() === false)
-      .takeUntil(this.states.table.stopAllSubscriptions)
+      .takeUntil(this.states.globalTable.stopAllSubscriptions)
       .subscribe(() => {
         if (table.originalRows.length > 0) {
 

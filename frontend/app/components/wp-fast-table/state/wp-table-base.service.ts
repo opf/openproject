@@ -50,7 +50,7 @@ export abstract class WorkPackageTableBaseService {
   }
 
   public get state():InputState<any> {
-    return this.states.table[this.stateName];
+    return this.states.globalTable[this.stateName];
   }
 
   public clear(reason:string) {

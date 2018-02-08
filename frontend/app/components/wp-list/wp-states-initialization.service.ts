@@ -73,7 +73,7 @@ export class WorkPackageStatesInitializationService {
 
   public updateFromResults(results:WorkPackageCollectionResource) {
     // Clear table required data states
-    this.states.table.additionalRequiredWorkPackages.clear('Clearing additional WPs before updating rows');
+    this.states.globalTable.additionalRequiredWorkPackages.clear('Clearing additional WPs before updating rows');
 
     if (results.schemas) {
       _.each(results.schemas.elements, (schema:SchemaResource) => {
@@ -81,13 +81,13 @@ export class WorkPackageStatesInitializationService {
       });
     }
 
-    this.states.table.rows.putValue(results.elements);
+    this.states.globalTable.rows.putValue(results.elements);
 
     this.wpCacheService.updateWorkPackageList(results.elements);
 
-    this.states.table.results.putValue(results);
+    this.states.globalTable.results.putValue(results);
 
-    this.states.table.groups.putValue(angular.copy(results.groups));
+    this.states.globalTable.groups.putValue(angular.copy(results.groups));
 
     this.wpTablePagination.initialize(results);
 
@@ -117,17 +117,17 @@ export class WorkPackageStatesInitializationService {
     const reason = 'Clearing states before re-initialization.';
 
     // Clear immediate input states
-    this.states.table.rows.clear(reason);
-    this.states.table.columns.clear(reason);
-    this.states.table.sortBy.clear(reason);
-    this.states.table.groupBy.clear(reason);
-    this.states.table.sum.clear(reason);
-    this.states.table.results.clear(reason);
-    this.states.table.groups.clear(reason);
-    this.states.table.additionalRequiredWorkPackages.clear(reason);
+    this.states.globalTable.rows.clear(reason);
+    this.states.globalTable.columns.clear(reason);
+    this.states.globalTable.sortBy.clear(reason);
+    this.states.globalTable.groupBy.clear(reason);
+    this.states.globalTable.sum.clear(reason);
+    this.states.globalTable.results.clear(reason);
+    this.states.globalTable.groups.clear(reason);
+    this.states.globalTable.additionalRequiredWorkPackages.clear(reason);
 
     // Clear rendered state
-    this.states.table.rendered.clear(reason);
+    this.states.globalTable.rendered.clear(reason);
   }
 }
 

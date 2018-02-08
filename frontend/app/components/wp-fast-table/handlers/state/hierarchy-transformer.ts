@@ -17,7 +17,7 @@ export class HierarchyTransformer {
               table:WorkPackageTable) {
     this.states.updates.hierarchyUpdates
       .values$('Refreshing hierarchies on user request')
-      .takeUntil(this.states.table.stopAllSubscriptions)
+      .takeUntil(this.states.globalTable.stopAllSubscriptions)
       .map((state) => state.isEnabled)
       .distinctUntilChanged()
       .subscribe(() => {
@@ -30,7 +30,7 @@ export class HierarchyTransformer {
     let lastValue = this.wpTableHierarchies.isEnabled;
 
     this.wpTableHierarchies
-      .observeUntil(this.states.table.stopAllSubscriptions)
+      .observeUntil(this.states.globalTable.stopAllSubscriptions)
       .subscribe((state) => {
 
         if (state.isEnabled === lastValue) {
@@ -45,7 +45,7 @@ export class HierarchyTransformer {
    * Update all currently visible rows to match the selection state.
    */
   private renderHierarchyState(state:WorkPackageTableHierarchies) {
-    const rendered = this.states.table.rendered.value!;
+    const rendered = this.states.globalTable.rendered.value!;
 
     // Show all hierarchies
     jQuery('[class^="__hierarchy-group-"]').removeClass((i:number, classNames:string):string => {
@@ -88,6 +88,6 @@ export class HierarchyTransformer {
     }
 
 
-    this.states.table.rendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
+    this.states.globalTable.rendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
   }
 }
