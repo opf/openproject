@@ -1,7 +1,10 @@
 import {States} from '../../states.service';
 import {opServicesModule} from '../../../angular-modules';
 import {WPTableRowSelectionState} from '../wp-table.interfaces';
-import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {RenderedRow} from '../builders/primary-render-pass';
 import {InputState} from 'reactivestates';
 
@@ -39,9 +42,9 @@ export class WorkPackageTableSelection {
   /**
    * Get the current work package resource form the selection state.
    */
-  public getSelectedWorkPackages():WorkPackageResource[] {
+  public getSelectedWorkPackages():WorkPackageResourceInterface[] {
     let wpState = this.states.workPackages;
-    return this.getSelectedWorkPackageIds().map(id => wpState.get(id).value as WorkPackageResource);
+    return this.getSelectedWorkPackageIds().map(id => wpState.get(id).value!);
   }
 
   public getSelectedWorkPackageIds():string[] {

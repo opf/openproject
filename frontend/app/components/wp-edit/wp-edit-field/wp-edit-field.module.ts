@@ -37,7 +37,7 @@ export class EditField extends Field {
   constructor(public changeset:WorkPackageChangeset,
               public name:string,
               public schema:op.FieldSchema) {
-    super(changeset.workPackage, name, schema);
+    super(changeset.workPackage as any, name, schema);
     $injectFields(this, 'I18n');
     this.initialize();
   }

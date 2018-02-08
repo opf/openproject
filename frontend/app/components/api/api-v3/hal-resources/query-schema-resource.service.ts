@@ -31,10 +31,11 @@ import {CollectionResource} from './collection-resource.service';
 import {QueryColumn} from '../../../wp-query/query-column';
 import {QuerySortByResource} from './query-sort-by-resource.service';
 import {QueryGroupByResource} from './query-group-by-resource.service';
+import {QueryFilterInstanceSchemaResource} from "core-components/api/api-v3/hal-resources/query-filter-instance-schema-resource.service";
 
 export interface QuerySchemaResourceInterface extends SchemaResource {
   columns:{ allowedValues: QueryColumn[] };
-  filtersSchemas: CollectionResource;
+  filtersSchemas: CollectionResource<QueryFilterInstanceSchemaResource>;
   sortBy:{ allowedValues: QuerySortByResource[] };
   groupBy:{ allowedValues: QueryGroupByResource[] };
 }

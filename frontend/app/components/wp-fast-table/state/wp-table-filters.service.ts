@@ -59,7 +59,7 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService 
   }
 
   public hasChanged(query:QueryResource) {
-    const comparer = (filter:HalResource[]) => filter.map(el => el.$plain());
+    const comparer = (filter:QueryFilterInstanceResource[]) => filter.map(el => el.$plain());
 
     return !_.isEqual(
       comparer(query.filters),
@@ -125,7 +125,7 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService 
   }
 
   private setLoadedValues(filter:QueryFilterInstanceResource, options:CollectionResource) {
-    _.each(filter.values, (value:any, index:number) => {
+    _.each(filter.values, (value:any, index:any) => {
       let loadedHalResource = _.find(options.elements,
                                      option => option.$href === value.$href);
 

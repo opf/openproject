@@ -9,7 +9,7 @@ import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-reque
 import {opServicesModule} from '../../angular-modules';
 import {StateCacheService} from '../states/state-cache.service';
 
-export type RelationsStateValue = { [relationId:number]:RelationResource };
+export type RelationsStateValue = { [relationId:number]:RelationResourceInterface };
 
 class RelationStateGroup extends StatesGroup {
   name = 'WP-Relations';
@@ -60,7 +60,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
 
     this.relationsDm
       .loadInvolved(ids)
-      .then((elements:RelationResource[]) => {
+      .then((elements:RelationResourceInterface[]) => {
         this.clearSome(...ids);
         this.accumulateRelationsFromInvolved(ids, elements);
         deferred.resolve();
@@ -134,7 +134,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * Merges a single relation
    * @param relation
    */
-  private insertIntoStates(relation:RelationResource) {
+  private insertIntoStates(relation:RelationResourceInterface) {
     _.values(relation.ids).forEach(wpId => {
       this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
         value[relation.id] = relation;
@@ -151,7 +151,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * Remove the given relation from the from/to states
    * @param relation
    */
-  private removeFromStates(relation:RelationResource) {
+  private removeFromStates(relation:RelationResourceInterface) {
     _.values(relation.ids).forEach(wpId => {
       this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
         delete value[relation.id];
@@ -167,7 +167,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * @param wpId The wpId the relations belong to
    * @param relations The relation resource array.
    */
-  private updateRelationsStateTo(wpId:string, relations:RelationResource[]) {
+  private updateRelationsStateTo(wpId:string, relations:RelationResourceInterface[]) {
     const state = this.multiState.get(wpId);
     const relationsToInsert = _.keyBy(relations, r => r.id);
 
@@ -181,7 +181,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    *
    * We need to group relevant relations for work packages based on their to/from filter.
    */
-  private accumulateRelationsFromInvolved(involved:string[], relations:RelationResource[]) {
+  private accumulateRelationsFromInvolved(involved:string[], relations:RelationResourceInterface[]) {
     involved.forEach(id => {
       const relevant = relations.filter(r => r.isInvolved(id));
       this.updateRelationsStateTo(id, relevant);

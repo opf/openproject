@@ -35,6 +35,7 @@ import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.se
 import {WorkPackageMoreMenuService} from '../../work-packages/work-package-more-menu.service'
 import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
 import {StateService} from '@uirouter/angularjs';
+import {TypeResource} from "core-components/api/api-v3/hal-resources/type-resource.service";
 
 export class WorkPackageShowController extends WorkPackageViewController {
 
@@ -44,7 +45,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
   public watchers:any;
 
   // Properties
-  public type:HalResource;
+  public type:TypeResource;
   public author:UserResource;
   public authorPath:string;
   public authorActive:boolean;

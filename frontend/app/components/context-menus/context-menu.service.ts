@@ -76,13 +76,13 @@ export class ContextMenuService {
     return this.active_menu;
   }
 
-  public close(disableFocus:boolean = false):Promise<void> {
+  public close(disableFocus:boolean = false):Promise<undefined> {
     this.repositionCurrentElement = null;
 
     if (!this.active) {
       return this.$q.when(undefined);
     } else {
-      return this.active.close(disableFocus);
+      return this.active.close(disableFocus) as any;
     }
   }
 

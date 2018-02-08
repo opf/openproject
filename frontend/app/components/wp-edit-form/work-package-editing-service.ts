@@ -100,10 +100,10 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     const combined = combine(this.wpCacheService.state(id), this.state(id));
 
     return deriveRaw(combined,
-      ($:Observable<[WorkPackageResourceInterface, WorkPackageChangeset]>) =>
+      ($) =>
         $.map(([wp, changeset]) => {
           if (wp && changeset && changeset.resource) {
-            return changeset.resource;
+            return changeset.resource!;
           } else {
             return wp;
           }
@@ -118,7 +118,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     }
   }
 
-  public saveChanges(workPackageId:string):Promise<WorkPackageResourceInterface | void> {
+  public saveChanges(workPackageId:string):Promise<WorkPackageResourceInterface> {
     const state = this.state(workPackageId);
 
     if (state.hasValue()) {
@@ -126,7 +126,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
       return new WorkPackageEditForm(changeset.workPackage).submit();
     }
 
-    return Promise.reject("No changeset present");
+    return Promise.reject("No changeset present") as any;
   }
 
   protected load(id:string) {

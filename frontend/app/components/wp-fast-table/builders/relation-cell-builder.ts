@@ -4,7 +4,7 @@ import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 import {States} from '../../states.service';
 import {tdClassName} from './cell-builder';
 import {WorkPackageTableRelationColumnsService} from '../state/wp-table-relation-columns.service';
-import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
+import {RelationResourceInterface} from '../../api/api-v3/hal-resources/relation-resource.service';
 import {QueryColumn} from '../../wp-query/query-column';
 import {WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
 
@@ -58,7 +58,7 @@ export class RelationCellbuilder {
     return indicator;
   }
 
-  private renderBadge(relations:RelationResource[]) {
+  private renderBadge(relations:RelationResourceInterface[]) {
     const badge = document.createElement('span');
     badge.classList.add('wp-table--relation-count');
 

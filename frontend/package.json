@@ -41,7 +41,7 @@
     "@types/es6-shim": "^0.31.32",
     "@types/jquery": "^2.0.40",
     "@types/jqueryui": "^1.11.32",
-    "@types/lodash": "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.52.tgz",
+    "@types/lodash": "^4.14.100",
     "@types/mocha": "^2.2.39",
     "@types/mousetrap": "^1.5.33",
     "@types/ng-dialog": "^0.6.0",
@@ -120,11 +120,11 @@
     "shelljs": "^0.3.0",
     "style-loader": "^0.8.2",
     "ticky": "^1.0.1",
-    "ts-loader": "^2.3.6",
-    "typescript": "^2.5.2",
+    "ts-loader": "^2.3.7",
+    "typescript": "^2.7.1",
     "ui-select": "~0.19.6",
     "url-loader": "^0.5.7",
-    "webpack": "^3.5.6",
+    "webpack": "^3.10.0",
     "zone.js": "^0.8.18"
   },
   "scripts": {

@@ -52,7 +52,7 @@ export interface WorkPackageEditContext {
   /**
    * Reset the field and re-render the current WPs value.
    */
-  reset(workPackage:WorkPackageResource, fieldName:string, focus?:boolean):void;
+  reset(workPackage:WorkPackageResourceInterface, fieldName:string, focus?:boolean):void;
 
   /**
    * Return the first relevant field from the given list of attributes.

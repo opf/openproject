@@ -67,9 +67,9 @@ export class WorkPackageTable {
    * Build the row index and positions from the given set of ordered work packages.
    * @param rows
    */
-  private buildIndex(rows:WorkPackageResource[]) {
+  private buildIndex(rows:WorkPackageResourceInterface[]) {
     this.originalRowIndex = {};
-    this.originalRows = rows.map((wp:WorkPackageResource, i:number) => {
+    this.originalRows = rows.map((wp:WorkPackageResourceInterface, i:number) => {
       let wpId = wp.id;
       this.originalRowIndex[wpId] = <WorkPackageTableRow> { object: wp, workPackageId: wpId, position: i };
       return wpId;
@@ -79,7 +79,7 @@ export class WorkPackageTable {
    *
    * @param rows
    */
-  public initialSetup(rows:WorkPackageResource[]) {
+  public initialSetup(rows:WorkPackageResourceInterface[]) {
     // Build the row representation
     this.buildIndex(rows);
 

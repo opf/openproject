@@ -91,7 +91,7 @@ export class WatchersPanelController {
       .then((collection: CollectionResource) => {
         this.watching = collection.elements;
       })
-      .catch((error) => {
+      .catch((error:any) => {
         this.wpNotificationsService.showError(error, this.workPackage);
       });
 
@@ -116,7 +116,9 @@ export class WatchersPanelController {
         return false; // Avoid setting the value after selection
       },
       minLength: 0
-    }).focus(() => input.autocomplete('search', input.val()));
+    } as any);
+
+    input.focus(() => input.autocomplete('search', input.val()));
     (input.autocomplete("instance")as any)._renderItem = (ul: any, item: any) => this.renderWatcherItem(ul, item);
   }
 

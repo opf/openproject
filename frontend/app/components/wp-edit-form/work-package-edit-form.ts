@@ -120,6 +120,8 @@ export class WorkPackageEditForm {
    * @param noWarnings Ignore warnings if the field cannot be opened
    */
   public activate(fieldName:string, noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
+    // @ts-ignore
+    // Type 'IPromise<never> | Promise<WorkPackageEditFieldHandler>' is not assignable to type 'WorkPackageEditFieldHandler | PromiseLike<WorkPackageEditFieldHandler>'.
     return this.buildField(fieldName).then((field:EditField) => {
       if (!field.writable && !noWarnings) {
         this.wpNotificationsService.showEditingBlockedError(field.displayName);

@@ -32,7 +32,10 @@ import {WorkPackageTableRelationColumns} from '../wp-table-relation-columns';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableColumnsService} from './wp-table-columns.service';
 import {TableStateStates, WorkPackageTableBaseService} from './wp-table-base.service';
-import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
+import {
+  RelationResource,
+  RelationResourceInterface
+} from '../../api/api-v3/hal-resources/relation-resource.service';
 import {
   QueryColumn, queryColumnTypes, RelationQueryColumn,
   TypeRelationQueryColumn
@@ -115,7 +118,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     if (type === 'toType') {
       const typeHref = (column as TypeRelationQueryColumn).type.href;
 
-      return _.filter(relations, (relation:RelationResource) => {
+      return _.filter(relations, (relation:RelationResourceInterface) => {
         const denormalized = relation.denormalized(workPackage);
         const target = this.states.workPackages.get(denormalized.targetId).value;
 
@@ -127,7 +130,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     if (type === 'ofType') {
       const relationType = (column as RelationQueryColumn).relationType;
 
-      return _.filter(relations, (relation:RelationResource) => {
+      return _.filter(relations, (relation:RelationResourceInterface) => {
         return relation.denormalized(workPackage).relationType === relationType;
       });
     }

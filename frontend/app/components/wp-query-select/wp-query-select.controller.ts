@@ -83,7 +83,7 @@ export class WorkPackageQuerySelectController {
   private setup() {
     this.loadQueries().then(collection => {
       let sortedQueries = _.reverse(_.sortBy(collection.elements, 'public'));
-      let autocompleteValues = _.map(sortedQueries, query => { return { label: query.name, query: query }; } );
+      let autocompleteValues = _.map(sortedQueries, (query:any) => { return { label: query.name, query: query }; } );
 
       this.setupAutoCompletion(autocompleteValues);
 

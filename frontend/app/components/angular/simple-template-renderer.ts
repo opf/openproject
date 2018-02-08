@@ -60,9 +60,9 @@ export class SimpleTemplateRenderer {
     _.assign(scope, scopeValues);
 
     const templateEl = angular.element(this.$templateCache.get(template) as string);
-    this.$compile(templateEl)(scope, (clonedElement:ng.IAugmentedJQuery) => {
+    this.$compile(templateEl)(scope, (clonedElement?:ng.IAugmentedJQuery) => {
       element[0].innerHTML = '';
-      element.append(clonedElement);
+      element.append(clonedElement!);
 
       deferred.resolve(element);
     });
