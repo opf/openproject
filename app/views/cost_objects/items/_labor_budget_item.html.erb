@@ -37,12 +37,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <%= fields_for prefix, labor_budget_item do |cost_form| %>
   <tr class="cost_entry <%= classes %>" id="<%= id_prefix %>">
     <td class="units">
-      <label class="hidden-for-sighted" for="<%= id_prefix %>_units"><%= LaborBudgetItem.human_attribute_name(:hours) %></label>
-      <%= cost_form.text_field :hours,
-                               index: id_or_index,
-                               size: 3,
-                               class: 'budget-item-value',
-                               data: { :'request-key' => 'hours' } %>
+      <div class="form--field-container">
+        <div class="form--text-field-container -xslim">
+          <label class="hidden-for-sighted" for="<%= id_prefix %>_units"><%= LaborBudgetItem.human_attribute_name(:hours) %></label>
+          <%= cost_form.number_field :hours,
+                                     index: id_or_index,
+                                     min: 0,
+                                     step: 0.01,
+                                     class: 'budget-item-value form--text-field',
+                                     data: { :'request-key' => 'hours' } %>
+        </div>
+      </div>
     </td>
     <td class="user">
       <label class="hidden-for-sighted" for="<%= id_prefix %>_user_id"><%= t(:label_user) %></label>
