@@ -146,8 +146,8 @@ es:
   field_otp: "Contraseña de un solo uso"
   notice_account_otp_invalid: "Contraseña de un solo uso no válida."
   notice_account_otp_expired: "La contraseña de un solo uso que haz introducido a caducado."
-  notice_otp_sms_text: 'Su contraseña de un solo uso: %{token}'
-  notice_developer_strategy_otp: 'Estrategia de desarrollador generó la siguiente contraseña de un solo uso: %{token} (Canal: %{channel})'
+  notice_otp_sms_text: "Su contraseña de un solo uso: %{token}"
+  notice_developer_strategy_otp: "Estrategia de desarrollador generó la siguiente contraseña de un solo uso: %{token} (Canal: %{channel})"
   notice_account_otp_send_failed: "Su contraseña de un solo uso no pudo ser enviada."
   notice_account_has_no_phone: "Ningún número de teléfono móvil está asociado con su cuenta."
   label_expiration_hint: "%{date} o al salir"
@@ -157,7 +157,7 @@ es:
   button_make_default: 'Marcar como predeterminado'
   label_unverified_phone: "Cell phone not yet verified"
   message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: 'Introduzca el número en el siguiente formato: + XX XXXXXXXX.'
+  notice_phone_number_format: "Introduzca el número en el siguiente formato: + XX XXXXXXXX."
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
   text_otp_not_receive: "Otros métodos de verificación"

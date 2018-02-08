@@ -148,8 +148,8 @@ ru:
   field_otp: "Одноразовый пароль"
   notice_account_otp_invalid: "Неправильный одноразовый пароль."
   notice_account_otp_expired: "Срок действия введенного одноразового пароля истек."
-  notice_otp_sms_text: 'Ваш одноразовый пароль: %{token}'
-  notice_developer_strategy_otp: 'Стратегия разработчика сформировала следующий одноразовый пароль: %{token} (канал: %{channel})'
+  notice_otp_sms_text: "Ваш одноразовый пароль: %{token}"
+  notice_developer_strategy_otp: "Стратегия разработчика сформировала следующий одноразовый пароль: %{token} (канал: %{channel})"
   notice_account_otp_send_failed: "Не удается отправить одноразовый пароль."
   notice_account_has_no_phone: "К вашей учетной записи не привязан номер сотового телефона."
   label_expiration_hint: "%{date} или при выходе из системы"
@@ -159,7 +159,7 @@ ru:
   button_make_default: 'Задать по умолчанию'
   label_unverified_phone: "Cell phone not yet verified"
   message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: 'Введите номер в следующем формате: +XX XXXXXXXX.'
+  notice_phone_number_format: "Введите номер в следующем формате: +XX XXXXXXXX."
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
   text_otp_not_receive: "Другие способы проверки"

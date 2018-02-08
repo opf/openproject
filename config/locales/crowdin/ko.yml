@@ -148,8 +148,8 @@ ko:
   field_otp: "일회용 암호"
   notice_account_otp_invalid: "일회용 암호가 잘못되었습니다 ."
   notice_account_otp_expired: "입력한 일회용 암호가 만료되었습니다."
-  notice_otp_sms_text: '일회용 암호: %{token}'
-  notice_developer_strategy_otp: '개발자 전략에서 다음 일회용 암호를 생성함: %{token}(채널: %{channel})'
+  notice_otp_sms_text: "일회용 암호: %{token}"
+  notice_developer_strategy_otp: "개발자 전략에서 다음 일회용 암호를 생성함: %{token}(채널: %{channel})"
   notice_account_otp_send_failed: "일회용 암호를 보낼 수 없습니다."
   notice_account_has_no_phone: "휴대폰 번호가 계정과 연결되지 않았습니다."
   label_expiration_hint: "%{date} 또는 로그아웃 시"
@@ -159,7 +159,7 @@ ko:
   button_make_default: '기본값으로 표시'
   label_unverified_phone: "Cell phone not yet verified"
   message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: '다음과 같은 형식으로 번호를 입력하세요: + XX XXXXXXXX.'
+  notice_phone_number_format: "다음과 같은 형식으로 번호를 입력하세요: + XX XXXXXXXX."
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
   text_otp_not_receive: "기타 확인 방법"

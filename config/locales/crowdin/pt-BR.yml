@@ -148,8 +148,8 @@ pt-BR:
   field_otp: "Senha de uso único"
   notice_account_otp_invalid: "Senha de uso único inválida."
   notice_account_otp_expired: "A senha de uso único que você inseriu expirou."
-  notice_otp_sms_text: 'Sua senha de uso único: %{token}'
-  notice_developer_strategy_otp: 'A estratégia do desenvolvedor gerou a seguinte senha única: %{token} (Canal: %{channel})'
+  notice_otp_sms_text: "Sua senha de uso único: %{token}"
+  notice_developer_strategy_otp: "A estratégia do desenvolvedor gerou a seguinte senha única: %{token} (Canal: %{channel})"
   notice_account_otp_send_failed: "Sua senha de uso único não pôde ser enviada."
   notice_account_has_no_phone: "Nenhum número de telefone celular está associado à sua conta."
   label_expiration_hint: "%{date} ou no fim da sessão"
@@ -159,7 +159,7 @@ pt-BR:
   button_make_default: 'Marque como padrão'
   label_unverified_phone: "Cell phone not yet verified"
   message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: 'Digite o número no seguinte formato: +XX XXXXXXXX.'
+  notice_phone_number_format: "Digite o número no seguinte formato: +XX XXXXXXXX."
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
   text_otp_not_receive: "Outros métodos de verificação"

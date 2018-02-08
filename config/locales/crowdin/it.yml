@@ -145,8 +145,8 @@ it:
   field_otp: "Password monouso"
   notice_account_otp_invalid: "One-Time Password non valido."
   notice_account_otp_expired: "Il password monouso immesso è scaduto."
-  notice_otp_sms_text: 'Il suo password monouso: %{token}'
-  notice_developer_strategy_otp: 'La strategia dello sviluppatore ha generato la seguente password monouso: %{token} (canale: %{channel})'
+  notice_otp_sms_text: "Il suo password monouso: %{token}"
+  notice_developer_strategy_otp: "La strategia dello sviluppatore ha generato la seguente password monouso: %{token} (canale: %{channel})"
   notice_account_otp_send_failed: "Il suo password monouso potrebbe non essere inviato."
   notice_account_has_no_phone: "Nessun numero di telefono cellulare è associato con il suo account."
   label_expiration_hint: "%{date} o il logout"
@@ -156,7 +156,7 @@ it:
   button_make_default: 'Segna come predefinito'
   label_unverified_phone: "Cell phone not yet verified"
   message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: 'Inserisci il numero nel formato seguente: + XX XXXXXXXX.'
+  notice_phone_number_format: "Inserisci il numero nel formato seguente: + XX XXXXXXXX."
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
   text_otp_not_receive: "Altri metodi di verifica"

@@ -23,7 +23,7 @@ id:
     error_no_device: "Tidak ada perangkat 2FA terdaftar yang ditemukan untuk pengguna ini, meskipun yang diperlukan untuk contoh ini."
     error_no_matching_strategy: "Tidak ada 2FA strategi yang cocok tersedia untuk pengguna ini. Silahkan hubungi administratior Anda."
     error_is_enforced_not_active: 'Kesalahan konfigurasi: dua faktor otentikasi yang telah diberlakukan, tapi ada tidak ada strategi yang aktif.'
-    error_invalid_backup_code: 'Invalid 2FA backup code'
+    error_invalid_backup_code: 'Kode cadangan 2FA tidak valid'
     channel_unavailable: "%{channel} saluran pengiriman tidak tersedia."
     no_valid_phone_number: "Nomor telepon tidak ada."
     label_pwd_confirmation: "sandi"
@@ -39,11 +39,11 @@ id:
     text_2fa_enabled: 'Setelah setiap login, Anda akan diminta untuk memasukkan tanda OTP dari perangkat 2FA default Anda.'
     text_2fa_disabled: 'Untuk mengaktifkan otentikasi dua faktor, gunakan tombol di atas untuk mendaftar perangkat 2FA baru. Jika Anda sudah memiliki perangkat, Anda perlu untuk membuatnya default.'
     login:
-      enter_backup_code_title: Enter backup code
+      enter_backup_code_title: Masukkan Kode Cadangan
       enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
-      other_device: 'Use another device or backup code'
+      other_device: 'Gunakan perangkat yang lain atau kode cadangan'
     settings:
-      title: '2FA settings'
+      title: 'Pengaturan 2FA'
       current_configuration: 'Current configuration'
       label_active_strategies: 'Active 2FA strategies'
       label_enforced: 'Enforce 2FA'
@@ -69,9 +69,9 @@ id:
       text_2fa_enabled: 'Setelah setiap login, user ini akan diminta untuk memasukkan tanda OTP dari perangkat nya 2FA default.'
       text_2fa_disabled: "Pengguna tidak mengatur perangkat 2FA melalui 'Halaman account saya'"
     backup_codes:
-      none_found: No backup codes exist for this account.
-      singular: Backup code
-      plural: Backup codes
+      none_found: Tidak ada cadangan yang ada untuk akun ini
+      singular: kode cadangan
+      plural: Kode kode cadangan
       your_codes: for your %{app_name} account %{login}
       overview_description: |
         If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
@@ -138,16 +138,16 @@ id:
     remember:
       active_session_notice: >
         Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
-      label: 'Remember'
-      clear_cookie: 'Click here to remove this cookie'
+      label: 'ingat'
+      clear_cookie: 'tekan disini untuk menghapus cookie '
       cookie_removed: 'The remember cookie has been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Ponsel"
   field_otp: "One-time password"
   notice_account_otp_invalid: "Sandi sekali pakai yang tidak valid."
   notice_account_otp_expired: "Kedaluwarsa one-time password yang Anda masukkan."
-  notice_otp_sms_text: 'Sandi satu kali: %{token}'
-  notice_developer_strategy_otp: 'Pengembang strategi dihasilkan one-time password berikut: %{token} (saluran: %{channel})'
+  notice_otp_sms_text: "Sandi satu kali: %{token}"
+  notice_developer_strategy_otp: "Pengembang strategi dihasilkan one-time password berikut: %{token} (saluran: %{channel})"
   notice_account_otp_send_failed: "Sandi satu kali tidak akan dikirim."
   notice_account_has_no_phone: "Tidak ada nomor ponsel ini dikaitkan dengan akun Anda."
   label_expiration_hint: "%{date} atau logout"
@@ -157,10 +157,10 @@ id:
   button_make_default: 'Tandai sebagai default'
   label_unverified_phone: "Cell phone not yet verified"
   message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: 'Masukkan nomor dalam format berikut: + XX XXXXXXXX.'
+  notice_phone_number_format: "Masukkan nomor dalam format berikut: + XX XXXXXXXX."
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
-  text_otp_not_receive: "Other verification methods"
+  text_otp_not_receive: "Verifikasi metode lain"
   text_send_otp_again: "Kirim kembali one-time password oleh:"
   button_resend_otp_form: "Kirim kembali"
   button_otp_by_voice: "Panggilan suara"

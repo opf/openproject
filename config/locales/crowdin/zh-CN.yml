@@ -22,7 +22,7 @@ zh-CN:
     error_2fa_disabled: "2FA 传送已禁用。"
     error_no_device: "尽管此实例需要，但没有为该用户找到注册的 2FA 设备。"
     error_no_matching_strategy: "没有匹配的 2FA 策略可供此用户使用。请联系您的管理员。"
-    error_is_enforced_not_active: 配置错误：已强制执行双重身份验证，但不存在活动策略。
+    error_is_enforced_not_active: '配置错误：已强制执行双重身份验证，但不存在活动策略。'
     error_invalid_backup_code: '2FA 备份代码无效'
     channel_unavailable: "传送通道 %{channel} 不可用。"
     no_valid_phone_number: "不存在有效的电话号码。"
@@ -80,7 +80,7 @@ zh-CN:
         title: 生成备份代码
         keep_safe_as_password: '重要！将这些代码视为密码。'
         keep_safe_warning: '请将它们保存在您的密码管理器中，或者打印本页并置于安全的地方。'
-        regenerate_warning: 警告：如果您以前创建过备份代码，它们将失效并且不再工作。
+        regenerate_warning: '警告：如果您以前创建过备份代码，它们将失效并且不再工作。'
     devices:
       add_new: '添加新的 2FA 设备'
       register: '注册设备'
@@ -148,8 +148,8 @@ zh-CN:
   field_otp: "一次性密码"
   notice_account_otp_invalid: "一次性密码无效。"
   notice_account_otp_expired: "您输入的一次性密码已过期。"
-  notice_otp_sms_text: 您的一次性密码：%{token}
-  notice_developer_strategy_otp: 开发人员策略生成了以下一次性密码：%{token}（通道：%{channel}）
+  notice_otp_sms_text: "您的一次性密码：%{token}"
+  notice_developer_strategy_otp: "开发人员策略生成了以下一次性密码：%{token}（通道：%{channel}）"
   notice_account_otp_send_failed: "无法发送您的一次性密码。"
   notice_account_has_no_phone: "您的帐户没有关联任何手机号码。"
   label_expiration_hint: "%{date} 或注销时"
@@ -159,7 +159,7 @@ zh-CN:
   button_make_default: '标记为默认'
   label_unverified_phone: "Cell phone not yet verified"
   message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: 请按以下格式输入号码：+XX XXXXXXXX。
+  notice_phone_number_format: "请按以下格式输入号码：+XX XXXXXXXX。"
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
   text_otp_not_receive: "其他验证方法"

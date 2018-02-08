@@ -147,8 +147,8 @@ tr:
   field_otp: "Tek-kullanımlık Şifre"
   notice_account_otp_invalid: "Geçersiz tek kullanımlık şifre."
   notice_account_otp_expired: "Girdiğiniz tek kullanımlık şifrenin süresi doldu."
-  notice_otp_sms_text: 'Tek Kullanımlık Şifreniz: %{token}'
-  notice_developer_strategy_otp: 'Geliştirici stratejisi, aşağıdaki tek seferlik şifreyi oluşturdu: %{token} (kanal: %{channel})'
+  notice_otp_sms_text: "Tek Kullanımlık Şifreniz: %{token}"
+  notice_developer_strategy_otp: "Geliştirici stratejisi, aşağıdaki tek seferlik şifreyi oluşturdu: %{token} (kanal: %{channel})"
   notice_account_otp_send_failed: "Tek kullanımlık şifreniz gönderilemedi."
   notice_account_has_no_phone: "Hesabınızla ilişkili cep telefonu numarası yok."
   label_expiration_hint: "%{date} veya oturum kapatma"
@@ -158,7 +158,7 @@ tr:
   button_make_default: 'Varsayılan olarak kullanın'
   label_unverified_phone: "Cell phone not yet verified"
   message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: 'Lütfen numarasını yandaki biçimde girin: + XX XXXXXXXX.'
+  notice_phone_number_format: "Lütfen numarasını yandaki biçimde girin: + XX XXXXXXXX."
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
   text_otp_not_receive: "Diğer doğrulama yöntemleri"
