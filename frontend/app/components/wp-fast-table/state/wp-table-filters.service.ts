@@ -125,7 +125,6 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService 
   }
 
   private setLoadedValues(filter:QueryFilterInstanceResource, options:CollectionResource) {
-    // @ts-ignore TS2345
     _.each(filter.values, (value:any, index:any) => {
       let loadedHalResource = _.find(options.elements,
                                      option => option.$href === value.$href);

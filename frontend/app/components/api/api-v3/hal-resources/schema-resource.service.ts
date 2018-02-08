@@ -26,13 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from './hal-resource.service';
-import {CollectionResource} from './collection-resource.service';
 import {opApiModule} from '../../../../angular-modules';
-import {WorkPackageResource} from './work-package-resource.service';
 import {States} from '../../../states.service';
+import {CollectionResource} from './collection-resource.service';
+import {HalResource} from './hal-resource.service';
 
-var states: States;
+var states:States;
 
 export class SchemaResource extends HalResource {
   [attribute:string]:any;
@@ -60,7 +59,7 @@ export class SchemaAttributeObject {
   public required:boolean;
   public hasDefault:boolean;
   public writable:boolean;
-  public allowedValues:HalResource[]|CollectionResource;
+  public allowedValues:HalResource[] | CollectionResource;
 }
 
 function initializeSchemaResource(halResource:SchemaResource) {
