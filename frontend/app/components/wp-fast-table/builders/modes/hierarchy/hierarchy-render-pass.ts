@@ -1,5 +1,6 @@
 import {Injector} from '@angular/core';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {TableStateHolder} from 'core-components/wp-table/TableState';
 import {WorkPackageResourceInterface} from '../../../../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../../../../states.service';
 import {
@@ -15,6 +16,8 @@ import {PrimaryRenderPass, RowRenderInfo} from '../../primary-render-pass';
 import {additionalHierarchyRowClassName, SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
+
+  private readonly tableState = this.injector.get(TableStateHolder).get();
 
   public states = this.injector.get(States);
   public wpCacheService = this.injector.get(WorkPackageCacheService);
@@ -40,7 +43,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   protected prepare() {
     super.prepare();
 
-    this.hierarchies = this.states.table.hierarchies.value!;
+    this.hierarchies = this.tableState.hierarchies.value!;
     this.rendered = {};
     this.additionalParents = {};
     this.deferred = {};

@@ -1,5 +1,6 @@
 import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {TableStateHolder} from 'core-components/wp-table/TableState';
 import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
 import {States} from '../../../../states.service';
 import {WorkPackageTableColumnsService} from '../../../state/wp-table-columns.service';
@@ -16,6 +17,7 @@ export const collapsedRowClass = '-collapsed';
 export class GroupedRowsBuilder extends RowsBuilder {
 
   // Injections
+  private readonly tableState = this.injector.get(TableStateHolder).get();
   public states:States = this.injector.get(States);
   public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
   public I18n:op.I18n = this.injector.get(I18nToken);
@@ -38,14 +40,14 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * Returns the reference to the last table.groups state value
    */
   public get groups() {
-    return this.states.table.groups.value || [];
+    return this.tableState.groups.value || [];
   }
 
   /**
    * Returns the reference to the last table.collapesedGroups state value
    */
   public get collapsedGroups() {
-    return this.states.table.collapsedGroups.value || {};
+    return this.tableState.collapsedGroups.value || {};
   }
 
   public get colspan() {
@@ -68,7 +70,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
   public refreshExpansionState() {
     const groups = this.getGroupData();
     const colspan = this.wpTableColumns.columnCount + 1;
-    const rendered = this.states.table.rendered.value!;
+    const rendered = this.tableState.rendered.value!;
 
     jQuery(`.${rowGroupClassName}`).each((i:number, oldRow:HTMLElement) => {
       let groupIndex = jQuery(oldRow).data('groupIndex');
@@ -95,7 +97,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       });
     });
 
-    this.states.table.rendered.putValue(rendered, 'Updated hidden state of rows after group change.');
+    this.tableState.rendered.putValue(rendered, 'Updated hidden state of rows after group change.');
   }
 
   /**

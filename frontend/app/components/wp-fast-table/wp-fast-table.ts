@@ -22,6 +22,8 @@ import {WorkPackageTableRow} from './wp-table.interfaces';
 
 export class WorkPackageTable {
 
+  private readonly tableState = this.injector.get(TableStateHolder).get();
+
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   public states:States = this.injector.get(States);
   public I18n:op.I18n = this.injector.get(I18nToken);
@@ -45,7 +47,6 @@ export class WorkPackageTable {
   public editing:WorkPackageTableEditingContext = new WorkPackageTableEditingContext(this.injector);
 
   constructor(public readonly injector:Injector,
-              private readonly tableStateHolder:TableStateHolder,
               public container:HTMLElement,
               public tbody:HTMLElement,
               public timelineBody:HTMLElement,
@@ -56,7 +57,7 @@ export class WorkPackageTable {
   }
 
   public get renderedRows() {
-    return this.tableStateHolder.get().rendered.getValueOr([]);
+    return this.tableState.rendered.getValueOr([]);
   }
 
   public findRenderedRow(classIdentifier:string):[number, RenderedRow] {
@@ -109,7 +110,7 @@ export class WorkPackageTable {
     this.timelineBody.innerHTML = '';
     this.timelineBody.appendChild(renderPass.timeline.timelineBody);
 
-    this.tableStateHolder.get().rendered.putValue(renderPass.result);
+    this.tableState.rendered.putValue(renderPass.result);
   }
 
   /**
@@ -122,7 +123,7 @@ export class WorkPackageTable {
     this.tbody.innerHTML = '';
     this.tbody.appendChild(renderPass.tableBody);
 
-    this.tableStateHolder.get().rendered.putValue(renderPass.result);
+    this.tableState.rendered.putValue(renderPass.result);
   }
 
   /**

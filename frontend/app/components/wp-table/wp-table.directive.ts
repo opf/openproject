@@ -164,16 +164,11 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     this.wpTableHoverSync.deactivate();
   }
 
-  // RR: seems to be unused. Delete once valided.
-  // public cancelInlineWorkPackage(index:number, row:any) {
-  //   this.$rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
-  // }
-
   public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
     let t0 = performance.now();
 
     const tbody = this.$element.find('.work-package--results-tbody');
-    this.workPackageTable = new WorkPackageTable(this.injector, this.tableStateHolder, this.$element[0], tbody[0], body, controller);
+    this.workPackageTable = new WorkPackageTable(this.injector, this.$element[0], tbody[0], body, controller);
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
 

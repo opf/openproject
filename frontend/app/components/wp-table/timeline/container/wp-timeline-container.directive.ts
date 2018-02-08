@@ -26,7 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AfterViewInit, Component, ElementRef, Inject, OnDestroy} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Inject, Injector, OnDestroy} from '@angular/core';
+import {TableStateHolder} from 'core-components/wp-table/TableState';
 import {Moment} from 'moment';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nToken, NotificationsServiceToken} from '../../../../angular4-transition-utils';
@@ -62,6 +63,8 @@ import moment = require('moment');
 })
 export class WorkPackageTimelineTableController implements AfterViewInit, OnDestroy {
 
+  private readonly tableState = this.injector.get(TableStateHolder).get();
+
   private $element:JQuery;
 
   public workPackageTable:WorkPackageTable;
@@ -74,7 +77,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   private renderers:{ [name:string]:(vp:TimelineViewParameters) => void } = {};
 
-  private cellsRenderer = new WorkPackageTimelineCellsRenderer(this);
+  private cellsRenderer = new WorkPackageTimelineCellsRenderer(this.injector, this);
 
   public outerContainer:JQuery;
 
@@ -88,7 +91,8 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   private debouncedRefresh:() => any;
 
-  constructor(private elementRef:ElementRef,
+  constructor(public readonly injector:Injector,
+              private elementRef:ElementRef,
               private states:States,
               public wpTableDirective:WorkPackagesTableController,
               @Inject(NotificationsServiceToken) private NotificationsService:any,
@@ -131,8 +135,8 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     window.addEventListener('wp-resize.timeline', this.debouncedRefresh.bind(this));
 
     // Refresh timeline view after table rendered
-    this.states.table.rendered.values$()
-      .takeUntil(this.states.table.stopAllSubscriptions)
+    this.tableState.rendered.values$()
+      .takeUntil(this.tableState.stopAllSubscriptions)
       .filter(() => this.initialized)
       .subscribe((orderedRows) => {
         // Remember all visible rows in their order of appearance.
@@ -140,8 +144,8 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         this.refreshView();
       });
 
-    this.states.table.timelineAutoZoom.values$()
-      .takeUntil(this.states.table.stopAllSubscriptions)
+    this.tableState.timelineAutoZoom.values$()
+      .takeUntil(this.tableState.stopAllSubscriptions)
       .filter(() => this.initialized)
       .filter((enabled:boolean) => enabled)
       .subscribe(() => {
@@ -149,7 +153,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       });
 
     // Refresh timeline view when becoming visible
-    this.states.table.timelineVisible.values$()
+    this.tableState.timelineVisible.values$()
       .filter((timelineState:WorkPackageTableTimelineState) => timelineState.isVisible)
       .takeUntil(componentDestroyed(this))
       .subscribe((timelineState:WorkPackageTableTimelineState) => {
@@ -159,7 +163,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
     // Load the types whenever the timeline is first visible
     // TODO: Load only necessary types from API
-    this.states.table.timelineVisible.values$()
+    this.tableState.timelineVisible.values$()
       .filter((timelineState) => timelineState.isVisible)
       .take(1)
       .subscribe(() => {
@@ -209,7 +213,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   get initialized():boolean {
-    return this.workPackageTable && this.states.table.rendered.hasValue();
+    return this.workPackageTable && this.tableState.rendered.hasValue();
   }
 
   refreshView() {
@@ -222,7 +226,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       // Reset the width of the outer container if its content shrinks
       this.outerContainer.css('width', 'auto');
 
-      if (this.states.table.timelineAutoZoom.value!) {
+      if (this.tableState.timelineAutoZoom.value!) {
         this.applyAutoZoomLevel();
       }
 
@@ -245,7 +249,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   updateOnWorkPackageChanges() {
     this.states.workPackages.observeChange()
-      .withLatestFrom(this.states.table.timelineVisible.values$())
+      .withLatestFrom(this.tableState.timelineVisible.values$())
       .takeUntil(componentDestroyed(this))
       .filter(([, timelineState]) => this.initialized && timelineState.isVisible)
       .map(([[wpId]]) => wpId)
