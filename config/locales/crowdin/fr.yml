@@ -846,7 +846,7 @@ fr:
   default_status_tested: Testé
   default_status_test_failed: Test échoué
   default_status_to_be_scheduled: À planifier
-  default_priority_low: Faible
+  default_priority_low: Basse
   default_priority_normal: Normal
   default_priority_high: Haut
   default_priority_immediate: Immédiat
@@ -870,7 +870,7 @@ fr:
   default_type_phase: Phase
   default_type_task: Tâche
   default_type_user_story: Récit utilisateur
-  description_active: Actif?
+  description_active: Actif ?
   description_attachment_toggle: Afficher/Masquer les pièces jointes
   description_autocomplete: 'Ce champ utilise la saisie semi-automatique. Lorsque
     vous tapez le titre d''un Lot de Travaux, vous recevrez une liste de choix possibles.
