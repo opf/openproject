@@ -272,7 +272,7 @@ fr:
         filesize: Taille
       attribute_help_text:
         attribute_name: Attribut
-        help_text: Texte d'aide
+        help_text: Texte d’aide
       auth_source:
         account: Compte
         attr_firstname: Attribut Prénom
@@ -442,7 +442,7 @@ fr:
         before: doit être antérieur(e) à %{date}.
         before_or_equal_to: doit être antérieur(e) ou égal(e) à %{date}.
         could_not_be_copied: n'a pas pu être copié (entièrement).
-        regex_invalid: n'a pas pu être validé avec l’expression régulière associée.
+        regex_invalid: n’a pas pu être validé avec l’expression régulière associée.
       models:
         custom_field:
           at_least_one_custom_option: Au moins une option doit être disponible.
@@ -923,7 +923,7 @@ fr:
   error_auth_source_sso_failed: Single Sign-On (SSO) pour l’utilisateur '%{value}'
     a échoué
   error_can_not_archive_project: Ce projet ne peut être archivé
-  error_can_not_delete_entry: Impossible de supprimer l'élément
+  error_can_not_delete_entry: Impossible de supprimer l’élément
   error_can_not_delete_custom_field: Impossible de supprimer le champ personnalisé
   error_can_not_delete_type: Ce type contient des Lots de Travaux et ne peut être
     supprimé.
@@ -1032,7 +1032,7 @@ fr:
       forums: Forums
       blog: Blog OpenProject
       boards: Forum de la communauté
-      newsletter: Alertes de sécurité / Lettre d'information
+      newsletter: Alertes de sécurité / Lettre d’information
   links:
     configuration_guide: Guide de configuration
   instructions_after_registration: Vous pouvez vous authentifier tant que votre compte
@@ -1054,7 +1054,7 @@ fr:
   label_accessibility: Accessibilité
   label_account: Compte
   label_active: Actif
-  label_activate_user: Activer l'utilisateur
+  label_activate_user: Activer l’utilisateur
   label_active_in_new_projects: Activer dans de nouveaux projets
   label_activity: Activité
   label_add_edit_translations: Ajouter et modifier des traductions
@@ -1171,7 +1171,7 @@ fr:
   label_date_to: À
   label_day_plural: jours
   label_default: Défaut
-  label_delete_user: Supprimer l'utilisateur
+  label_delete_user: Supprimer l’utilisateur
   label_delete_project: Supprimer le projet
   label_deleted: supprimé
   label_deleted_custom_field: "(champs personnalisés supprimés)"
@@ -1274,7 +1274,7 @@ fr:
   label_less_than_ago: il y a moins de quelques jours
   label_list: Liste
   label_loading: Chargement…
-  label_lock_user: Verrouiller l'utilisateur
+  label_lock_user: Verrouiller l’utilisateur
   label_logged_as: Connecté en tant que
   label_login: Connexion
   label_custom_logo: Logo personnalisé
@@ -1871,7 +1871,7 @@ fr:
     active_or_archived: Actif ou archivé
     assigned_to_role: Rôle du Destinataire
     member_of_group: Groupe du Destinataire
-    assignee_or_group: Cessionnaire ou groupe d'appartenance
+    assignee_or_group: Cessionnaire ou groupe d’appartenance
     subproject_id: Sous-projet
     name_or_identifier: Nom ou identifiant
   repositories:
@@ -2548,7 +2548,7 @@ fr:
       one: verrouillé temporairement (une tentative de connexion échouée)
       other: verrouillé temporairement (%{count} tentatives de connexion échouées)
     confirm_status_change: Vous êtes sur le point de changer le statut de '%{name}'.
-      Êtes-vous sûr de vouloir continuer?
+      Voulez-vous vraiment continuer ?
     deleted: Utilisateur supprimé
     error_status_change_failed: 'Le changement du statut de l''utilisateur a échoué
       dû aux erreurs suivantes: %{errors}'

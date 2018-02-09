@@ -328,7 +328,7 @@ fr:
         left: Gauche
         right: Droite
         farRight: Extrême droite
-        showNone: "--Aucune étiquette--"
+        showNone: "-- Aucune étiquette --"
         description: 'Sélectionnez les attributs que vous voulez afficher à tout moment
           dans les positions respectives du diagramme de Gantt. Notez que, quand vous
           passez le curseur sur un élément, ses libellés de date seront affichés à
