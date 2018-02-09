@@ -44,7 +44,9 @@ class RebuildDag < ActiveRecord::Migration[5.0]
               name: 'index_relations_on_type_columns',
               unique: true
 
-    WorkPackage.rebuild_dag! 1000
+    say_with_time 'Building the directed acyclic graph of all relations. This might take a while.' do
+      WorkPackage.rebuild_dag! 1000
+    end
 
     add_count_index
 
