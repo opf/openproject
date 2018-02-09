@@ -59,7 +59,8 @@ class ExtractFulltextJob < ApplicationJob
 
     begin
       if @attachment.readable?
-        @text = TextExtractor::Resolver.new(@file, @attachment.content_type).text
+        resolver = TextExtractor::Resolver.new(@file, @attachment.content_type)
+        @text = resolver.text
       end
     rescue => e
       Rails.logger.error e.message

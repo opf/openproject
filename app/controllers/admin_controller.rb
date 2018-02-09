@@ -81,7 +81,8 @@ class AdminController < ApplicationController
       [:'extraction.available.unrtf',     TextExtractor::RtfHandler.available?],
       [:'extraction.available.catdoc',    TextExtractor::DocHandler.available?],
       [:'extraction.available.xls2csv',   TextExtractor::XlsHandler.available?],
-      [:'extraction.available.catppt',    TextExtractor::PptHandler.available?]
+      [:'extraction.available.catppt',    TextExtractor::PptHandler.available?],
+      [:'extraction.available.tesseract', TextExtractor::ImageHandler.available?]
     ]
 
     @storage_information = OpenProject::Storage.mount_information

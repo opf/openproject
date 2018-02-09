@@ -963,6 +963,7 @@ en:
       catdoc: "Catdoc available (optional)"
       xls2csv: "Xls2csv available (optional)"
       catppt: "Catppt available (optional)"
+      tesseract: "Tesseract available (optional)"
 
   general_csv_decimal_separator: "."
   general_csv_encoding: "UTF-8"
