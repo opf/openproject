@@ -1,6 +1,6 @@
 ar:
   button_edit_this_page: "تعديل هذه الصفحة"
-  error_saving_changes: 'تعذّر حفظ التغييرات: %{errors}'
+  error_saving_changes: "تعذّر حفظ التغييرات: %{errors}"
   error_textile_not_saved: "The textile block could not be saved."
   label_hidden_elements: "العناصر المخفية"
   label_visible_elements: "العناصر المرئية"

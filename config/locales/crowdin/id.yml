@@ -1,6 +1,6 @@
 id:
   button_edit_this_page: "Sunting Halaman ini"
-  error_saving_changes: 'Perubahan tidak akan disimpan: %{errors}'
+  error_saving_changes: "Perubahan tidak akan disimpan: %{errors}"
   error_textile_not_saved: "Kriteria tidak dapat disimpan."
   label_hidden_elements: "Elemen tersembunyi"
   label_visible_elements: "Elemen terlihat"

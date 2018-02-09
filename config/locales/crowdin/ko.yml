@@ -1,6 +1,6 @@
 ko:
   button_edit_this_page: "이 페이지 편집"
-  error_saving_changes: '변경 내용을 저장할 수 없습니다: %{errors}'
+  error_saving_changes: "변경 내용을 저장할 수 없습니다: %{errors}"
   error_textile_not_saved: "텍스타일 블록을 저장할 수 없습니다."
   label_hidden_elements: "숨겨진 요소"
   label_visible_elements: "표시되는 요소"

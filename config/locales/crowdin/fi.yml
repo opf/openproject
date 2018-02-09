@@ -1,6 +1,6 @@
 fi:
   button_edit_this_page: "Muokkaa tätä sivua"
-  error_saving_changes: 'Muutoksia ei voitu tallentaa: %{errors}'
+  error_saving_changes: "Muutoksia ei voitu tallentaa: %{errors}"
   error_textile_not_saved: "The textile block could not be saved."
   label_hidden_elements: "Piilotetut elementit"
   label_visible_elements: "Näkyvät elementit"

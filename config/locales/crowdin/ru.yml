@@ -1,6 +1,6 @@
 ru:
   button_edit_this_page: "Редактировать эту страницу"
-  error_saving_changes: 'Не удалось сохранить изменения: %{errors}'
+  error_saving_changes: "Не удалось сохранить изменения: %{errors}"
   error_textile_not_saved: "Не удалось сохранить textile-блок."
   label_hidden_elements: "Скрытые элементы"
   label_visible_elements: "Видимые элементы"

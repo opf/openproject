@@ -1,6 +1,6 @@
 sv:
   button_edit_this_page: "Redigera sidan"
-  error_saving_changes: 'Ändringarna kunde inte sparas: %{errors}'
+  error_saving_changes: "Ändringarna kunde inte sparas: %{errors}"
   error_textile_not_saved: "Textblocket kunde inte sparas."
   label_hidden_elements: "Dolda element"
   label_visible_elements: "Synliga element"

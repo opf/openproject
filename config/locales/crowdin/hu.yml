@@ -1,6 +1,6 @@
 hu:
   button_edit_this_page: "Oldal szerkesztése"
-  error_saving_changes: 'A módosításokat nem lehetett menteni: %{errors}'
+  error_saving_changes: "A módosításokat nem lehetett menteni: %{errors}"
   error_textile_not_saved: "A formázott szöveg blokk nem menthető."
   label_hidden_elements: "Rejtett elemek"
   label_visible_elements: "Látható elemek"

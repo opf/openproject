@@ -1,6 +1,6 @@
 lt:
   button_edit_this_page: "Redaguoti šį puslapį"
-  error_saving_changes: 'Pakeitimai negali būti išsaugoti: %{errors}'
+  error_saving_changes: "Pakeitimai negali būti išsaugoti: %{errors}"
   error_textile_not_saved: "Teksto tipo bloko nepavyko išsaugoti."
   label_hidden_elements: "Paslėpti elementai"
   label_visible_elements: "Matomi elementai"

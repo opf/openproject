@@ -1,6 +1,6 @@
 zh-CN:
   button_edit_this_page: "编辑此页面"
-  error_saving_changes: 无法保存所做更改：%{errors}
+  error_saving_changes: "无法保存所做更改：%{errors}"
   error_textile_not_saved: "无法保存标记块。"
   label_hidden_elements: "隐藏元素"
   label_visible_elements: "可见元素"
