@@ -48,7 +48,7 @@ class AccountController < ApplicationController
     user = User.current
 
     if user.logged?
-      redirect_to home_url
+      redirect_after_login(user)
     elsif omniauth_direct_login?
       direct_login(user)
     elsif request.post?
