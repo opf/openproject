@@ -101,7 +101,7 @@ sv:
   label_cost_object_plural: "Budgetar"
   label_cost_plural: "Kostnader"
   label_cost_report: "Kostnadsrapport"
-  label_cost_type_specific: 'Budget #%{id}: %{name}'
+  label_cost_type_specific: "Budget #%{id}: %{name}"
   label_costs_per_page: "Kostnader per sida"
   label_currency: "Valuta"
   label_currency_format: "Formatet för valuta"

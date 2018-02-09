@@ -100,7 +100,7 @@ zh-CN:
   label_cost_object_plural: "预算"
   label_cost_plural: "成本"
   label_cost_report: "成本报告"
-  label_cost_type_specific: '预算 #%{id}：%{name}'
+  label_cost_type_specific: "预算 #%{id}：%{name}"
   label_costs_per_page: "每页的成本"
   label_currency: "货币"
   label_currency_format: "货币格式"

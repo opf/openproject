@@ -101,7 +101,7 @@ de:
   label_cost_object_plural: "Budgets"
   label_cost_plural: "Kosten"
   label_cost_report: "Report"
-  label_cost_type_specific: 'Kostentyp #%{id}: %{name}'
+  label_cost_type_specific: "Kostentyp #%{id}: %{name}"
   label_costs_per_page: "Kosten dieser Seite"
   label_currency: "Währung"
   label_currency_format: "Währungsformat"

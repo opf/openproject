@@ -101,7 +101,7 @@ it:
   label_cost_object_plural: "Bilanci"
   label_cost_plural: "Costi"
   label_cost_report: "Relazione sui costi"
-  label_cost_type_specific: 'Budget #%{id}: %{name}'
+  label_cost_type_specific: "Budget #%{id}: %{name}"
   label_costs_per_page: "Costi per pagina"
   label_currency: "Valuta"
   label_currency_format: "Formato della valuta"

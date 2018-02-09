@@ -101,7 +101,7 @@ hu:
   label_cost_object_plural: "Költségvetések"
   label_cost_plural: "Költségek"
   label_cost_report: "Költség jelentés"
-  label_cost_type_specific: 'Költségvetés #%{id}: %{name}'
+  label_cost_type_specific: "Költségvetés #%{id}: %{name}"
   label_costs_per_page: "Költések oldalanként"
   label_currency: "Pénznem"
   label_currency_format: "Pénznem formátuma"
