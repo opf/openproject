@@ -33,7 +33,7 @@ class Version < ActiveRecord::Base
 
   include Version::ProjectSharing
 
-  after_update :update_issues_from_sharing_change
+  after_update :update_issues_from_sharing_change, if: :saved_change_to_sharing?
   belongs_to :project
   has_many :fixed_issues, class_name: 'WorkPackage', foreign_key: 'fixed_version_id', dependent: :nullify
   has_many :work_packages, foreign_key: :fixed_version_id
@@ -228,12 +228,10 @@ class Version < ActiveRecord::Base
 
   # Update the issue's fixed versions. Used if a version's sharing changes.
   def update_issues_from_sharing_change
-    if sharing_changed?
-      if VERSION_SHARINGS.index(sharing_was).nil? ||
-         VERSION_SHARINGS.index(sharing).nil? ||
-         VERSION_SHARINGS.index(sharing_was) > VERSION_SHARINGS.index(sharing)
-        WorkPackage.update_versions_from_sharing_change self
-      end
+    if VERSION_SHARINGS.index(sharing_was).nil? ||
+       VERSION_SHARINGS.index(sharing).nil? ||
+       VERSION_SHARINGS.index(sharing_was) > VERSION_SHARINGS.index(sharing)
+      WorkPackage.update_versions_from_sharing_change self
     end
   end
 

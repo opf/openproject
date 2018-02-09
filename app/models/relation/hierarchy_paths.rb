@@ -63,20 +63,20 @@ module Relation::HierarchyPaths
         remove_hierarchy_path
       elsif now_hierarchy_relation_or_former_id_changed?
         add_hierarchy_path
-      elsif hierarchy_relatin_and_to_id_changed?
+      elsif hierarchy_relation_and_to_id_changed?
         alter_hierarchy_path
       end
     end
 
     def was_hierarchy_relation?
-      relation_type_changed? && relation_type_was == Relation::TYPE_HIERARCHY
+      saved_change_to_relation_type? && relation_type_before_last_save == Relation::TYPE_HIERARCHY
     end
 
     def now_hierarchy_relation_or_former_id_changed?
-      (relation_type_changed? || from_id_changed?) && hierarchy?
+      (saved_change_to_relation_type? || saved_change_to_from_id?) && hierarchy?
     end
 
-    def hierarchy_relatin_and_to_id_changed?
+    def hierarchy_relation_and_to_id_changed?
       hierarchy? && to_id_changed?
     end
 
