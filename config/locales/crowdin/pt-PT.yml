@@ -11,7 +11,7 @@ pt:
         start_time_hour: "Horário de início"
     errors:
       messages:
-        invalid_time_format: 'não é uma hora válida. Formato exigido: HH:MM'
+        invalid_time_format: "não é uma hora válida. Formato exigido: HH:MM"
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutos"
@@ -24,7 +24,7 @@ pt:
     meeting_agenda_opened: Agenda de reunião aberta
     meeting_minutes: Minutos de reunião editados
     meeting_minutes_created: Minutos de reunião criados
-  error_notification_with_errors: 'Falha ao enviar a notificação. Os seguintes destinatários não podem ser notificados: %{recipients}'
+  error_notification_with_errors: "Falha ao enviar a notificação. Os seguintes destinatários não podem ser notificados: %{recipients}"
   label_meeting: "Reunião"
   label_meeting_plural: "Reuniões"
   label_meeting_new: "Nova reunião"

@@ -11,7 +11,7 @@ zh-CN:
         start_time_hour: "开始时间"
     errors:
       messages:
-        invalid_time_format: 不是有效时间。所需格式：HH:MM
+        invalid_time_format: "不是有效时间。所需格式：HH:MM"
     models:
       meeting_agenda: "议程"
       meeting_minutes: "会议记录"
@@ -24,7 +24,7 @@ zh-CN:
     meeting_agenda_opened: 会议议程已开启
     meeting_minutes: 会议记录已编辑
     meeting_minutes_created: 会议记录已建立
-  error_notification_with_errors: 发送通知失败。无法通知下列收件人：%{recipients}
+  error_notification_with_errors: "发送通知失败。无法通知下列收件人：%{recipients}"
   label_meeting: "会议"
   label_meeting_plural: "会议"
   label_meeting_new: "新增会议"

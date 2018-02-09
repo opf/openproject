@@ -11,7 +11,7 @@ tr:
         start_time_hour: "Başlangıç saati"
     errors:
       messages:
-        invalid_time_format: 'geçerli bir zaman değil. Gerekli format: SS:DD'
+        invalid_time_format: "geçerli bir zaman değil. Gerekli format: SS:DD"
     models:
       meeting_agenda: "Ajanda"
       meeting_minutes: "Dakika"
@@ -24,7 +24,7 @@ tr:
     meeting_agenda_opened: Toplantı gündemi açıldı
     meeting_minutes: Toplantı dakikaları düzenlendi
     meeting_minutes_created: Toplantı tutanakları oluşturuldu
-  error_notification_with_errors: 'Bildirim hatalı. Aşağıdaki alıcılar bilgilendirilemedi: %{recipients}'
+  error_notification_with_errors: "Bildirim hatalı. Aşağıdaki alıcılar bilgilendirilemedi: %{recipients}"
   label_meeting: "Toplantı"
   label_meeting_plural: "Toplantılar"
   label_meeting_new: "Yeni Toplantı"

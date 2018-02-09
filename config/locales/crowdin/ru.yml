@@ -11,7 +11,7 @@ ru:
         start_time_hour: "Время начала"
     errors:
       messages:
-        invalid_time_format: 'недопустимое время. Требуемый формат: ЧЧ:ММ'
+        invalid_time_format: "недопустимое время. Требуемый формат: ЧЧ:ММ"
     models:
       meeting_agenda: "Повестка дня"
       meeting_minutes: "Протокол(-ы)"
@@ -24,7 +24,7 @@ ru:
     meeting_agenda_opened: Повестка дня встречи открыта
     meeting_minutes: Править  протокол заседания
     meeting_minutes_created: Создан протокол заседания
-  error_notification_with_errors: 'Не удалось отправить уведомление. Следующие получатели не могут быть уведомлены: %{recipients}'
+  error_notification_with_errors: "Не удалось отправить уведомление. Следующие получатели не могут быть уведомлены: %{recipients}"
   label_meeting: "Совещание"
   label_meeting_plural: "Совещания"
   label_meeting_new: "Новое совещание"

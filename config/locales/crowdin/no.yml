@@ -11,7 +11,7 @@
         start_time_hour: "Starting time"
     errors:
       messages:
-        invalid_time_format: 'is not a valid time. Required format: HH:MM'
+        invalid_time_format: "is not a valid time. Required format: HH:MM"
     models:
       meeting_agenda: "Saksliste"
       meeting_minutes: "Referat"
@@ -24,7 +24,7 @@
     meeting_agenda_opened: Saksliste opprettet
     meeting_minutes: Møtereferater endret
     meeting_minutes_created: Møtereferater opprettet
-  error_notification_with_errors: 'Kan ikke sende påminning. Følgende mottakere kan ikke varsles: %{recipients}'
+  error_notification_with_errors: "Kan ikke sende påminning. Følgende mottakere kan ikke varsles: %{recipients}"
   label_meeting: "Møte"
   label_meeting_plural: "Møter"
   label_meeting_new: "Nytt møte"
