@@ -176,6 +176,7 @@ describe "POST /api/v3/queries/form", type: :request do
 
         # There does not seem to appear a way to generate a valid token
         # for testing purposes
+        allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
         allow(EnterpriseToken)
           .to receive(:allows_to?)
           .with(:work_package_query_relation_columns)
@@ -268,6 +269,7 @@ describe "POST /api/v3/queries/form", type: :request do
 
         # There does not seem to appear a way to generate a valid token
         # for testing purposes
+        allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
         allow(EnterpriseToken)
           .to receive(:allows_to?)
           .with(:work_package_query_relation_columns)
