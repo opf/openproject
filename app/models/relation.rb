@@ -107,7 +107,6 @@ class Relation < ActiveRecord::Base
     }
   }.freeze
 
-  validates_inclusion_of :relation_type, in: TYPES.keys + [TYPE_HIERARCHY]
   validates_numericality_of :delay, allow_nil: true
 
   validate :validate_sanity_of_relation

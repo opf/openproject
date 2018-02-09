@@ -42,6 +42,7 @@ module Relations
     validate :validate_from_exists
     validate :validate_to_exists
     validate :validate_only_one_follow_direction_between_hierarchies
+    validate :validate_accepted_type
 
     attr_reader :user
 
@@ -77,6 +78,12 @@ module Relations
       if follow_relations_in_opposite_direction.exists?
         errors.add :base, I18n.t(:'activerecord.errors.messages.circular_dependency')
       end
+    end
+
+    def validate_accepted_type
+      return if (Relation::TYPES.keys + [Relation::TYPE_HIERARCHY]).include?(model.relation_type)
+
+      errors.add :relation_type, :inclusion
     end
 
     def manage_relations_permission?
