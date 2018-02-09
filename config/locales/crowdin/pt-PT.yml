@@ -15,7 +15,7 @@ pt:
               can_only_contain_work_packages_of_current_sprint: "pode conter somente os IDs dos pacotes de trabalho no sprint atual."
               must_block_at_least_one_work_package: "deve conter a identificação de pelo menos um bilhete."
             parent_id:
-              type_must_be_one_of_the_following: 'O tipo deve ser um dos seguintes: %{type_names}.'
+              type_must_be_one_of_the_following: "O tipo deve ser um dos seguintes: %{type_names}."
         sprint:
           cannot_end_before_it_starts: "Sprint não pode terminar antes de começar."
   activemodel:
@@ -88,7 +88,7 @@ pt:
   error_intro_singular: "Foi encontrado o seguinte erro:"
   error_outro: "Por favor, corrija os erros acima antes de enviar novamente."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "ideal"
   inclusion: "não está incluído na lista"
   label_back_to_project: "Voltar à página do projeto"
@@ -136,7 +136,7 @@ pt:
   required_burn_rate_hours: "taxa de queimadura necessária (horas)"
   required_burn_rate_points: "taxa de queimadura necessários (pontos)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Coluna no repositório"
   version_settings_display_option_left: "esquerda"
   version_settings_display_option_none: "nenhum"

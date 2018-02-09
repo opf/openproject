@@ -15,7 +15,7 @@ ko:
               can_only_contain_work_packages_of_current_sprint: "은(는) 현재 스프린트에서 작업 패키지의 ID만 포함할 수 있습니다."
               must_block_at_least_one_work_package: "은(는) 티켓 하나 이상의 ID를 포함해야 합니다."
             parent_id:
-              type_must_be_one_of_the_following: 유형은 다음 중 하나여야 합니다. %{type_names}.
+              type_must_be_one_of_the_following: "유형은 다음 중 하나여야 합니다. %{type_names}."
         sprint:
           cannot_end_before_it_starts: "스프린트는 시작되기 전에 끝날 수 없습니다."
   activemodel:
@@ -88,7 +88,7 @@ ko:
   error_intro_singular: "다음 오류가 발생했습니다."
   error_outro: "다시 제출하기 전에 위의 오류를 수정하세요."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "적합함"
   inclusion: "은(는) 목록에 포함되어 있지 않습니다."
   label_back_to_project: "프로젝트 페이지로 돌아가기"
@@ -136,7 +136,7 @@ ko:
   required_burn_rate_hours: "필요한 진행 속도(시간)"
   required_burn_rate_points: "필요한 진행 속도(포인트)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "백로그의 열"
   version_settings_display_option_left: "왼쪽"
   version_settings_display_option_none: "없음"

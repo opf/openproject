@@ -15,7 +15,7 @@ pl:
               can_only_contain_work_packages_of_current_sprint: "może zawierać tylko identyfikatory pakietów pracy w bieżącym sprincie."
               must_block_at_least_one_work_package: "musi zawierać ID co najmniej dla jednego biletu."
             parent_id:
-              type_must_be_one_of_the_following: 'Musi być jeden z następujących typów: %{type_names}.'
+              type_must_be_one_of_the_following: "Musi być jeden z następujących typów: %{type_names}."
         sprint:
           cannot_end_before_it_starts: "Sprint nie może się skończyć przed swoim rozpoczęciem."
   activemodel:
@@ -88,7 +88,7 @@ pl:
   error_intro_singular: "Wystąpił następujący błąd:"
   error_outro: "Popraw błędy powyżej przed ponownym złożeniem."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "idealne"
   inclusion: "nie znajduje się na liście"
   label_back_to_project: "Przejdź do strony projektu"
@@ -136,7 +136,7 @@ pl:
   required_burn_rate_hours: "wskaźnik wymaganego czasu nagrywania (godziny)"
   required_burn_rate_points: "wskaźnik wymaganego czasu nagrywania (punkty)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Kolumna w backlogu"
   version_settings_display_option_left: "w lewo"
   version_settings_display_option_none: "żaden"

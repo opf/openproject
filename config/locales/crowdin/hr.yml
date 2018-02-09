@@ -15,7 +15,7 @@ hr:
               can_only_contain_work_packages_of_current_sprint: "može sadržavati samo ID-ove radnih paketa u aktualnom periodu razvoja."
               must_block_at_least_one_work_package: "mora sadržavati najamanje jedan ID tiketa za postupak blokiranja radnog paketa."
             parent_id:
-              type_must_be_one_of_the_following: 'Tip mora biti jedan od sljedećih: %{type_names}.'
+              type_must_be_one_of_the_following: "Tip mora biti jedan od sljedećih: %{type_names}."
         sprint:
           cannot_end_before_it_starts: "Period razvoja ne može završiti prije nego li je započeo."
   activemodel:
@@ -88,7 +88,7 @@ hr:
   error_intro_singular: "Nastupila je sljedeća pogreška:"
   error_outro: "Molim Vas ispravite gore navedene greške prije nego opet potvrdite unose."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "idealno"
   inclusion: "nije uključeno u popis"
   label_back_to_project: "Povratak na stranicu projekta"
@@ -136,7 +136,7 @@ hr:
   required_burn_rate_hours: "potrebni burn omjer (sati)"
   required_burn_rate_points: "potrebni burn omjer (točke)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Stupac u backlogu"
   version_settings_display_option_left: "lijevo"
   version_settings_display_option_none: "nijedan"

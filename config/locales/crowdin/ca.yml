@@ -15,7 +15,7 @@ ca:
               can_only_contain_work_packages_of_current_sprint: "només pot contenir els IDs dels paquets de treball de l'esprint actual."
               must_block_at_least_one_work_package: "ha de contenir l'ID d'almenys un tiquet."
             parent_id:
-              type_must_be_one_of_the_following: 'Tipus ha de ser un dels següents: %{type_names}.'
+              type_must_be_one_of_the_following: "Tipus ha de ser un dels següents: %{type_names}."
         sprint:
           cannot_end_before_it_starts: "L'sprint no pot acabar abans de que comenci."
   activemodel:
@@ -87,8 +87,8 @@ ca:
   error_intro_plural: "S'han produït els següents errors:"
   error_intro_singular: "S'ha produït el següent error:"
   error_outro: "Corregiu els errors anteriors abans d'enviar-lo una altra vegada."
-  event_sprint_description: '%{summary}: %{url}%{description}'
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_description: "%{summary}: %{url}%{description}"
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "ideal"
   inclusion: "no està inclòs a la llista"
   label_back_to_project: "Tornar a la pàgina del projecte"
@@ -135,8 +135,8 @@ ca:
   remaining_hours: "hores restants"
   required_burn_rate_hours: "ritme de progrés necessari (hores)"
   required_burn_rate_points: "ritme de progrés necessari (punts)"
-  todo_work_package_description: '%{summary}: %{url}%{description}'
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_description: "%{summary}: %{url}%{description}"
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Columna a la llista de pendents"
   version_settings_display_option_left: "esquerra"
   version_settings_display_option_none: "cap"

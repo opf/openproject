@@ -15,7 +15,7 @@ sv:
               can_only_contain_work_packages_of_current_sprint: "kan endast innehålla ID:n för arbetspaket i den aktuella sprinten."
               must_block_at_least_one_work_package: "måste innehålla ID för minst ett arbetspaket."
             parent_id:
-              type_must_be_one_of_the_following: 'Typen måste vara en av följande: %{type_names}.'
+              type_must_be_one_of_the_following: "Typen måste vara en av följande: %{type_names}."
         sprint:
           cannot_end_before_it_starts: "En sprint kan inte avslutas innan den startar."
   activemodel:
@@ -88,7 +88,7 @@ sv:
   error_intro_singular: "Följande fel uppstod:"
   error_outro: "Vänligen korrigera ovanstående fel innan du skickar in igen."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "ideala"
   inclusion: "ingår inte i listan"
   label_back_to_project: "Tillbaka till projektsidan"
@@ -136,7 +136,7 @@ sv:
   required_burn_rate_hours: "tempo som krävs (timmar)"
   required_burn_rate_points: "tempo som krävs (poäng)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Kolumn i backlog"
   version_settings_display_option_left: "vänster"
   version_settings_display_option_none: "inga"

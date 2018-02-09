@@ -15,7 +15,7 @@ nl:
               can_only_contain_work_packages_of_current_sprint: "kan alleen ID's bevatten van werkpakketten in de huidige sprint."
               must_block_at_least_one_work_package: "het moet de ID bevatten van ten minste één ticket."
             parent_id:
-              type_must_be_one_of_the_following: 'Het type moet een van de volgende zijn: %{type_names}.'
+              type_must_be_one_of_the_following: "Het type moet een van de volgende zijn: %{type_names}."
         sprint:
           cannot_end_before_it_starts: "De sprint kan niet eindigen voordat het start."
   activemodel:
@@ -88,7 +88,7 @@ nl:
   error_intro_singular: "De volgende fout is opgetreden:"
   error_outro: "Los de bovenstaande fouten op voordat u opnieuw verzendt."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "ideaal"
   inclusion: "is niet opgenomen in de lijst"
   label_back_to_project: "Terug naar projectpagina"
@@ -136,7 +136,7 @@ nl:
   required_burn_rate_hours: "vereiste burn rate (uren)"
   required_burn_rate_points: "vereiste burn rate (punten)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Kolom in achterstand"
   version_settings_display_option_left: "links"
   version_settings_display_option_none: "geen"

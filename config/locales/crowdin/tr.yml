@@ -15,7 +15,7 @@ tr:
               can_only_contain_work_packages_of_current_sprint: "yalnızca geçerli sprintteki iş paketlerinin kimliklerini içerebilir."
               must_block_at_least_one_work_package: "en az bir biletin kimliğini içermelidir."
             parent_id:
-              type_must_be_one_of_the_following: 'Tür, aşağıdakilerden biri olmalıdır: %{type_names}.'
+              type_must_be_one_of_the_following: "Tür, aşağıdakilerden biri olmalıdır: %{type_names}."
         sprint:
           cannot_end_before_it_starts: "Sprint başlamadan önce bitemez."
   activemodel:
@@ -88,7 +88,7 @@ tr:
   error_intro_singular: "Aşağıdaki hatalar algılandı:"
   error_outro: "Lütfen yukarıdaki hataları tekrar göndermeden önce düzeltin."
   event_sprint_description: "%{summary}:%{url}\n%{description}"
-  event_sprint_summary: '%{project}:%{summary}'
+  event_sprint_summary: "%{project}:%{summary}"
   ideal: "ideal"
   inclusion: "listeye dahil değil"
   label_back_to_project: "Proje sayfasına geri dön"
@@ -136,7 +136,7 @@ tr:
   required_burn_rate_hours: "gerekli yanma oranı (saat)"
   required_burn_rate_points: "gerekli yanma oranı (puan)"
   todo_work_package_description: "%{summary}:%{url}\n%{description}"
-  todo_work_package_summary: '%{type}:%{summary}'
+  todo_work_package_summary: "%{type}:%{summary}"
   version_settings_display_label: "Sütununda birikim var"
   version_settings_display_option_left: "sol"
   version_settings_display_option_none: "hiçbiri"

@@ -15,7 +15,7 @@ ar:
               can_only_contain_work_packages_of_current_sprint: "يمكن أن تحتوي فقط على الهويات المعرّفة لمجموعات العمل في السباق الحالي."
               must_block_at_least_one_work_package: "يجب أن يحتوي على الأقل على الهوية المعرّفة لبطاقة واحدة."
             parent_id:
-              type_must_be_one_of_the_following: 'النوع يجب أن يكون أحد الأنواع التالية: %{type_names}.'
+              type_must_be_one_of_the_following: "النوع يجب أن يكون أحد الأنواع التالية: %{type_names}."
         sprint:
           cannot_end_before_it_starts: "لا يمكن أن ينتهي السباق قبل أن يبدأ."
   activemodel:
@@ -88,7 +88,7 @@ ar:
   error_intro_singular: "تمت مصادفة الخطأ التالي:"
   error_outro: "من فضلك صحح الأخطاء في الأعلى قبل التقديم مرة أخرى."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "مثالي"
   inclusion: "لم يتم تضمينه في القائمة"
   label_back_to_project: "العودة إلى صفحة المنتج"
@@ -136,7 +136,7 @@ ar:
   required_burn_rate_hours: "معدّل الاستهلاك المطلوب (الساعات)"
   required_burn_rate_points: "معدّل الاستهلاك المطلوب (النقاط)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "عمود في العمل المتراكم غير المنجز"
   version_settings_display_option_left: "اليسار"
   version_settings_display_option_none: "لا شيء"
