@@ -31,7 +31,7 @@ module Concerns
     extend ActiveSupport::Concern
 
     class_methods do
-      def virtual_attribute(attribute, cast_type: nil, &block)
+      def virtual_attribute(attribute, cast_type: :string, &block)
         attribute attribute, cast_type
         define_attribute_method attribute
 
