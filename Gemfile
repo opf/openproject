@@ -163,7 +163,7 @@ gem 'aws-sdk', '~> 2.10.1'
 
 gem 'openproject-token', '~> 1.0.1'
 
-gem 'text-extractor', git: 'https://github.com/planio-gmbh/text-extractor', ref: '12bc854'
+gem 'text-extractor', git: 'https://github.com/planio-gmbh/text-extractor', ref: '8e8de12'
 
 
 group :test do
