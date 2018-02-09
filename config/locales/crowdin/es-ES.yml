@@ -15,7 +15,7 @@ es:
               can_only_contain_work_packages_of_current_sprint: "solo puede conter IDs de paquetes de trabajo en el sprint actual."
               must_block_at_least_one_work_package: "debe contener el ID de por lo menos un ticket."
             parent_id:
-              type_must_be_one_of_the_following: 'El tipo debe ser uno de lo siguientes: %{type_names}.'
+              type_must_be_one_of_the_following: "El tipo debe ser uno de lo siguientes: %{type_names}."
         sprint:
           cannot_end_before_it_starts: "El sprint no puede terminar antes del inicio."
   activemodel:
@@ -88,7 +88,7 @@ es:
   error_intro_singular: "Se ha encontrado el siguiente error:"
   error_outro: "Por favor, corrija los errores anteriores antes de volver a enviarlo."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "ideal"
   inclusion: "no está incluido en la lista"
   label_back_to_project: "Volver a la página de proyecto"
@@ -136,7 +136,7 @@ es:
   required_burn_rate_hours: "tasa de gasto necesaria (horas)"
   required_burn_rate_points: "tasa de gasto necesaria (puntos)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Columna en backlog"
   version_settings_display_option_left: "izquierda"
   version_settings_display_option_none: "ninguno"

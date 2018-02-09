@@ -15,7 +15,7 @@ ru:
               can_only_contain_work_packages_of_current_sprint: "может содержать только идентификаторы рабочих пакетов в текущем спринте."
               must_block_at_least_one_work_package: "должен содержаться идентификатор по крайней мере одного билета."
             parent_id:
-              type_must_be_one_of_the_following: 'Тип должен быть одним из следующих: %{type_names}.'
+              type_must_be_one_of_the_following: "Тип должен быть одним из следующих: %{type_names}."
         sprint:
           cannot_end_before_it_starts: "Спринт не может заканчиваться до того, как начнется."
   activemodel:
@@ -88,7 +88,7 @@ ru:
   error_intro_singular: "Найдена следующая ошибка:"
   error_outro: "Исправьте вышеуказанные ошибки перед повторной отправкой."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "идеал"
   inclusion: "не входит в список"
   label_back_to_project: "Назад к странице проекта"
@@ -136,7 +136,7 @@ ru:
   required_burn_rate_hours: "требуемая скорость сгорания (часы)"
   required_burn_rate_points: "требуемая скорость сгорания (точки)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Колонка в невыполненной работе"
   version_settings_display_option_left: "влево"
   version_settings_display_option_none: "нет"

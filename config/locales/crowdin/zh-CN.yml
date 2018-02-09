@@ -15,7 +15,7 @@ zh-CN:
               can_only_contain_work_packages_of_current_sprint: "只可以包含当前冲刺 (sprint) 中的工作包 ID。"
               must_block_at_least_one_work_package: "必须包含至少一个票证的 ID。"
             parent_id:
-              type_must_be_one_of_the_following: 类型必须为以下其中一种：%{type_names}。
+              type_must_be_one_of_the_following: "类型必须为以下其中一种：%{type_names}。"
         sprint:
           cannot_end_before_it_starts: "冲刺 (Sprint) 不可以在开始前结束。"
   activemodel:
@@ -88,7 +88,7 @@ zh-CN:
   error_intro_singular: "发生以下错误："
   error_outro: "请在再次提交前更正上面的错误。"
   event_sprint_description: "%{summary}：%{url}\n%{description}"
-  event_sprint_summary: '%{project}：%{summary}'
+  event_sprint_summary: "%{project}：%{summary}"
   ideal: "理想"
   inclusion: "不包含在列表中"
   label_back_to_project: "返回至项目页面"
@@ -136,7 +136,7 @@ zh-CN:
   required_burn_rate_hours: "所需燃尽率（小时）"
   required_burn_rate_points: "所需燃尽率（点数）"
   todo_work_package_description: "%{summary}：%{url}\n%{description}"
-  todo_work_package_summary: '%{type}：%{summary}'
+  todo_work_package_summary: "%{type}：%{summary}"
   version_settings_display_label: "待办清单中的列"
   version_settings_display_option_left: "左"
   version_settings_display_option_none: "无"

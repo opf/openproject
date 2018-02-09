@@ -15,7 +15,7 @@ de:
               can_only_contain_work_packages_of_current_sprint: "kann nur die IDs von Arbeitspaketen des aktuellen Sprints enthalten."
               must_block_at_least_one_work_package: "muss die ID von mindestens einem Arbeitspaket enthalten."
             parent_id:
-              type_must_be_one_of_the_following: 'muss einer der folgenden Typen sein: %{type_names}.'
+              type_must_be_one_of_the_following: "muss einer der folgenden Typen sein: %{type_names}."
         sprint:
           cannot_end_before_it_starts: "Sprint kann nicht enden, bevor er begonnen hat."
   activemodel:
@@ -88,7 +88,7 @@ de:
   error_intro_singular: "Der folgende Fehler ist aufgetreten:"
   error_outro: "Bitte beheben Sie die obigen Fehler bevor Sie erneut abschicken."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "Ideal"
   inclusion: "ist nicht in der Liste enthalten"
   label_back_to_project: "Zurück zur Projektseite"
@@ -136,7 +136,7 @@ de:
   required_burn_rate_hours: "benötigte Burn-Rate (Stunden)"
   required_burn_rate_points: "benötigte Burn-Rate (Punkte)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Spalte im Backlog"
   version_settings_display_option_left: "links"
   version_settings_display_option_none: "keine"

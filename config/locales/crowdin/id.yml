@@ -15,7 +15,7 @@ id:
               can_only_contain_work_packages_of_current_sprint: "hanya bisa berisi ID paket kerja dalam sprint saat ini."
               must_block_at_least_one_work_package: "harus berisi ID minimal satu tiket."
             parent_id:
-              type_must_be_one_of_the_following: Jenis harus menjadi salah satu dari berikut ini:%{type_names}.
+              type_must_be_one_of_the_following: "Jenis harus menjadi salah satu dari berikut ini:%{type_names}."
         sprint:
           cannot_end_before_it_starts: "Sprint tidak bisa berakhir sebelum mulai."
   activemodel:
@@ -88,7 +88,7 @@ id:
   error_intro_singular: "Kesalahan berikut ini ditemui:"
   error_outro: "Perbaiki kesalahan di atas sebelum mengirimkannya lagi."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "ideal"
   inclusion: "tidak termasuk dalam daftar"
   label_back_to_project: "Kembali ke halaman proyek"
@@ -136,7 +136,7 @@ id:
   required_burn_rate_hours: "tingkat pembakaran yang dibutuhkan (jam)"
   required_burn_rate_points: "tingkat pembakaran yang dibutuhkan (poin)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Kolom di backlog"
   version_settings_display_option_left: "kiri"
   version_settings_display_option_none: "tidak ada"

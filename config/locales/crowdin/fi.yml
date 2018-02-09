@@ -15,7 +15,7 @@ fi:
               can_only_contain_work_packages_of_current_sprint: "voi sisältää vain tässä sprintissä mukana olevia typaketteja."
               must_block_at_least_one_work_package: "vähintään yhden työpaketin tunnuksen tulee olla mainittuna."
             parent_id:
-              type_must_be_one_of_the_following: 'Tyypin on oltava jokin seuraavista: %{type_names}.'
+              type_must_be_one_of_the_following: "Tyypin on oltava jokin seuraavista: %{type_names}."
         sprint:
           cannot_end_before_it_starts: "Sprintti ei voi päättyä, ennen kuin se alkaa."
   activemodel:
@@ -88,7 +88,7 @@ fi:
   error_intro_singular: "Ilmeni seuraava virhe:"
   error_outro: "Korjaa edellä mainitut virheet ennen uudelleenlähettämistä."
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "ihanteellinen"
   inclusion: "ei sisälly luetteloon"
   label_back_to_project: "Takaisin projektisivulle"
@@ -136,7 +136,7 @@ fi:
   required_burn_rate_hours: "tarvittava eistymisnopeus (tuntia)"
   required_burn_rate_points: "tarvittava eistymisnopeus (pistettä)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Sarake työjonossa"
   version_settings_display_option_left: "vasen"
   version_settings_display_option_none: "ei mitään"

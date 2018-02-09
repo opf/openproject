@@ -15,7 +15,7 @@ zh-TW:
               can_only_contain_work_packages_of_current_sprint: "只可以在現在進度中包含工作項目的 IDs"
               must_block_at_least_one_work_package: "必須包含至少一個項目的 ID"
             parent_id:
-              type_must_be_one_of_the_following: '類型必須是以下其中一種: %{type_names}'
+              type_must_be_one_of_the_following: "類型必須是以下其中一種: %{type_names}"
         sprint:
           cannot_end_before_it_starts: "進度不可以在開始前結束"
   activemodel:
@@ -88,7 +88,7 @@ zh-TW:
   error_intro_singular: "發生以下的錯誤:"
   error_outro: "請在再次送出前更正前面的錯誤。"
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "理想"
   inclusion: "沒有包含在這個清單"
   label_back_to_project: "返回專案頁面"
@@ -136,7 +136,7 @@ zh-TW:
   required_burn_rate_hours: "必須的完成率 (小時)"
   required_burn_rate_points: "必須的完成率 (點數)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "待辦事項的欄位"
   version_settings_display_option_left: "左"
   version_settings_display_option_none: "無"

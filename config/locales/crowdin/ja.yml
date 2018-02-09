@@ -15,7 +15,7 @@ ja:
               can_only_contain_work_packages_of_current_sprint: "では現在のスプリント内の作業項目IDのみを含めることができます。"
               must_block_at_least_one_work_package: "は少なくとも 1つのチケットIDを含める必要があります。"
             parent_id:
-              type_must_be_one_of_the_following: '型は次のいずれかである必要があります: %{type_names}'
+              type_must_be_one_of_the_following: "型は次のいずれかである必要があります: %{type_names}"
         sprint:
           cannot_end_before_it_starts: "スプリントは開始する前に終了できません。"
   activemodel:
@@ -88,7 +88,7 @@ ja:
   error_intro_singular: "次のエラーが発生しました："
   error_outro: "送信する前に上記のエラーを修正してください。"
   event_sprint_description: "%{summary}: %{url}\n%{description}"
-  event_sprint_summary: '%{project}: %{summary}'
+  event_sprint_summary: "%{project}: %{summary}"
   ideal: "理想時間"
   inclusion: "はリストに含まれていません。"
   label_back_to_project: "プロジェクトページに戻る"
@@ -136,7 +136,7 @@ ja:
   required_burn_rate_hours: "必要なバーンレート(時間)"
   required_burn_rate_points: "必要なバーンレート(ポイント)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
-  todo_work_package_summary: '%{type}: %{summary}'
+  todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "バックログの列"
   version_settings_display_option_left: "左へ"
   version_settings_display_option_none: "なし"
