@@ -1,6 +1,6 @@
 fr:
   button_edit_this_page: "Modifier cette page"
-  error_saving_changes: 'Les modifications n’ont pas pu être enregistrées : %{errors}'
+  error_saving_changes: "Les modifications n’ont pas pu être enregistrées : %{errors}"
   error_textile_not_saved: "Le bloc textile n'a pas pu être enregistré."
   label_hidden_elements: "Éléments masqués"
   label_visible_elements: "Éléments visibles"

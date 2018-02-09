@@ -1,6 +1,6 @@
 it:
   button_edit_this_page: "Modifica la pagina"
-  error_saving_changes: 'Impossibile salvare le modifiche: %{errors}'
+  error_saving_changes: "Impossibile salvare le modifiche: %{errors}"
   error_textile_not_saved: "Non è stato possibile salvare il blocco Textile."
   label_hidden_elements: "Elementi nascosti"
   label_visible_elements: "Elementi visibili"

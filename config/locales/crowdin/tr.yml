@@ -1,6 +1,6 @@
 tr:
   button_edit_this_page: "Sayfayı düzenle"
-  error_saving_changes: 'Değişiklikler kaydedilemedi: %{errors}'
+  error_saving_changes: "Değişiklikler kaydedilemedi: %{errors}"
   error_textile_not_saved: "Tekstil bloğu kaydedilemedi."
   label_hidden_elements: "Gizli öğeler"
   label_visible_elements: "Görünür öğeler"

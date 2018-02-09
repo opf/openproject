@@ -1,6 +1,6 @@
 da:
   button_edit_this_page: "Edit this page"
-  error_saving_changes: 'The changes could not be saved: %{errors}'
+  error_saving_changes: "The changes could not be saved: %{errors}"
   error_textile_not_saved: "The textile block could not be saved."
   label_hidden_elements: "Gemte elementer"
   label_visible_elements: "Synlige elementer"

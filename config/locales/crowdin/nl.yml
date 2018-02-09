@@ -1,6 +1,6 @@
 nl:
   button_edit_this_page: "Deze pagina bewerken"
-  error_saving_changes: 'Wijzigingen kunnen niet worden opgeslagen: %{errors}'
+  error_saving_changes: "Wijzigingen kunnen niet worden opgeslagen: %{errors}"
   error_textile_not_saved: "Textielblok kan niet worden opgeslagen."
   label_hidden_elements: "Verborgen elementen"
   label_visible_elements: "Zichtbare elementen"
