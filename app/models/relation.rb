@@ -32,6 +32,8 @@ class Relation < ActiveRecord::Base
   scope :of_work_package,
         ->(work_package) { where('from_id = ? OR to_id = ?', work_package, work_package) }
 
+  attribute :relation_type
+
   TYPE_RELATES      = 'relates'.freeze
   TYPE_DUPLICATES   = 'duplicates'.freeze
   TYPE_DUPLICATED   = 'duplicated'.freeze
