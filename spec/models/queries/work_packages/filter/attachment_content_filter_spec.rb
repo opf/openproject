@@ -30,39 +30,41 @@
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::AttachmentContentFilter, type: :model do
-  before do
-    allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
-    allow(EnterpriseToken).to receive(:allows_to?).with(:attachment_filters).and_return(true)
-  end
-
-  it_behaves_like 'basic query filter' do
-    let(:order) { 8 }
-    let(:type) { :text }
-    let(:class_key) { :attachment_content }
-
-    describe '#available?' do
-      it 'is available' do
-        expect(instance).to be_available
-      end
+  if OpenProject::Database.allows_tsv?
+    before do
+      allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
+      allow(EnterpriseToken).to receive(:allows_to?).with(:attachment_filters).and_return(true)
     end
 
-    describe '#allowed_values' do
-      it 'is nil' do
-        expect(instance.allowed_values).to be_nil
+    it_behaves_like 'basic query filter' do
+      let(:order) { 8 }
+      let(:type) { :text }
+      let(:class_key) { :attachment_content }
+
+      describe '#available?' do
+        it 'is available' do
+          expect(instance).to be_available
+        end
       end
-    end
 
-    describe '#valid_values!' do
-      it 'is a noop' do
-        instance.values = ['none', 'is', 'changed']
-
-        instance.valid_values!
-
-        expect(instance.values)
-          .to match_array ['none', 'is', 'changed']
+      describe '#allowed_values' do
+        it 'is nil' do
+          expect(instance.allowed_values).to be_nil
+        end
       end
-    end
 
-    it_behaves_like 'non ar filter'
+      describe '#valid_values!' do
+        it 'is a noop' do
+          instance.values = ['none', 'is', 'changed']
+
+          instance.valid_values!
+
+          expect(instance.values)
+            .to match_array ['none', 'is', 'changed']
+        end
+      end
+
+      it_behaves_like 'non ar filter'
+    end
   end
 end
