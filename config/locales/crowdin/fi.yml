@@ -101,7 +101,7 @@ fi:
   label_cost_object_plural: "Budjetit"
   label_cost_plural: "Kustannukset"
   label_cost_report: "Kustannusraportti"
-  label_cost_type_specific: 'Budjetti #%{id}: %{name}'
+  label_cost_type_specific: "Budjetti #%{id}: %{name}"
   label_costs_per_page: "Kustannuksia sivulla"
   label_currency: "Valuutta"
   label_currency_format: "Valuuttamuotoilu"

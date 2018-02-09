@@ -100,7 +100,7 @@ ko:
   label_cost_object_plural: "예산"
   label_cost_plural: "비용"
   label_cost_report: "비용 보고서"
-  label_cost_type_specific: '예산 #%{id}: %{name}'
+  label_cost_type_specific: "예산 #%{id}: %{name}"
   label_costs_per_page: "페이지당 비용"
   label_currency: "통화"
   label_currency_format: "통화 형식"

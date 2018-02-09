@@ -101,7 +101,7 @@ tr:
   label_cost_object_plural: "Bütçeler"
   label_cost_plural: "Ücretler"
   label_cost_report: "Maliyet raporu"
-  label_cost_type_specific: 'Bütçe #% {id}:% {name}%{id}%{name}'
+  label_cost_type_specific: "Bütçe #% {id}:% {name}%{id}%{name}"
   label_costs_per_page: "Her sayfa için maliyet"
   label_currency: "Kur"
   label_currency_format: "Para biriminin biçimi"

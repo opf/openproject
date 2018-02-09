@@ -100,7 +100,7 @@ id:
   label_cost_object_plural: "Budget"
   label_cost_plural: "Biaya"
   label_cost_report: "Laporan biaya"
-  label_cost_type_specific: 'Budget #%{id}: %{name}'
+  label_cost_type_specific: "Budget #%{id}: %{name}"
   label_costs_per_page: "Tampilan biaya perhalaman"
   label_currency: "Mata Uang"
   label_currency_format: "Format mata uang"

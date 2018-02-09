@@ -101,7 +101,7 @@ da:
   label_cost_object_plural: "Budgetter"
   label_cost_plural: "Omkostninger"
   label_cost_report: "Omkostningsrapport"
-  label_cost_type_specific: 'Budget #%{id}: %{name}'
+  label_cost_type_specific: "Budget #%{id}: %{name}"
   label_costs_per_page: "Omkostninger pr. side"
   label_currency: "Valuta"
   label_currency_format: "Valutaformat"

@@ -102,7 +102,7 @@ ru:
   label_cost_object_plural: "Бюджеты"
   label_cost_plural: "Расходы"
   label_cost_report: "Отчет по расходам"
-  label_cost_type_specific: 'Бюджет #%{id}: %{name}'
+  label_cost_type_specific: "Бюджет #%{id}: %{name}"
   label_costs_per_page: "Расходов на странице"
   label_currency: "Валюта"
   label_currency_format: "Формат валюты"

@@ -101,7 +101,7 @@ pt-BR:
   label_cost_object_plural: "Orçamentos"
   label_cost_plural: "Custos"
   label_cost_report: "Relatório de custos"
-  label_cost_type_specific: 'Orçamento #%{id}: %{name}'
+  label_cost_type_specific: "Orçamento #%{id}: %{name}"
   label_costs_per_page: "Custos por página"
   label_currency: "Moeda"
   label_currency_format: "Formato de moeda"

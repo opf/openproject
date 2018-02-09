@@ -102,7 +102,7 @@ lt:
   label_cost_object_plural: "Biudžetai"
   label_cost_plural: "Kaštai"
   label_cost_report: "Kaštų ataskaita"
-  label_cost_type_specific: 'Biudžetas Ę%{id}: %{name}'
+  label_cost_type_specific: "Biudžetas Ę%{id}: %{name}"
   label_costs_per_page: "Kaštų puslapyje"
   label_currency: "Valiuta"
   label_currency_format: "Valiutos formatas"
