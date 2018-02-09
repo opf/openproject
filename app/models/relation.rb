@@ -29,10 +29,25 @@
 #++
 
 class Relation < ActiveRecord::Base
+  include Concerns::VirtualAttribute
+
   scope :of_work_package,
         ->(work_package) { where('from_id = ? OR to_id = ?', work_package, work_package) }
 
-  attribute :relation_type
+  virtual_attribute :relation_type do
+    types = ((TYPES.keys + [TYPE_HIERARCHY]) & Relation.column_names).select do |name|
+      send(name) > 0
+    end
+
+    case types.length
+    when 1
+      types[0]
+    when 0
+      nil
+    else
+      TYPE_MIXED
+    end
+  end
 
   TYPE_RELATES      = 'relates'.freeze
   TYPE_DUPLICATES   = 'duplicates'.freeze
@@ -170,42 +185,6 @@ class Relation < ActiveRecord::Base
       .where(from_id: work_package.parent_id)
   end
 
-  def relation_type=(type)
-    attribute_will_change!('relation_type') if relation_type != type
-    @relation_type = type
-  end
-
-  def relation_type_changed?
-    changed.include?('relation_type')
-  end
-
-  def relation_type_was
-    if changes['relation_type']
-      changes['relation_type'].first
-    else
-      relation_type
-    end
-  end
-
-  def relation_type
-    if @relation_type.present?
-      @relation_type
-    else
-      types = ((TYPES.keys + [TYPE_HIERARCHY]) & Relation.column_names).select do |name|
-        send(name) > 0
-      end
-
-      @relation_type = case types.length
-                       when 1
-                         types[0]
-                       when 0
-                         nil
-                       else
-                         TYPE_MIXED
-                       end
-    end
-  end
-
   def other_work_package(work_package)
     from_id == work_package.id ? to : from
   end
@@ -290,7 +269,7 @@ class Relation < ActiveRecord::Base
     return unless relation_type
     new_column = self.class.relation_column(relation_type)
 
-    send("#{new_column}=", 1)
+    send("#{new_column}=", 1) if new_column
   end
 
   # Reverses the relation if needed so that it gets stored in the proper way
