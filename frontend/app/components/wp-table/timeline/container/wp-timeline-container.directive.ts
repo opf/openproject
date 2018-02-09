@@ -63,7 +63,7 @@ import moment = require('moment');
 })
 export class WorkPackageTimelineTableController implements AfterViewInit, OnDestroy {
 
-  private readonly tableState = this.injector.get(TableStateHolder).get();
+  private readonly tableState = this.injector.get(TableStateHolder);
 
   private $element:JQuery;
 
@@ -135,8 +135,8 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     window.addEventListener('wp-resize.timeline', this.debouncedRefresh.bind(this));
 
     // Refresh timeline view after table rendered
-    this.tableState.rendered.values$()
-      .takeUntil(this.tableState.stopAllSubscriptions)
+    this.tableState.get().rendered.values$()
+      .takeUntil(this.tableState.get().stopAllSubscriptions)
       .filter(() => this.initialized)
       .subscribe((orderedRows) => {
         // Remember all visible rows in their order of appearance.
@@ -144,8 +144,8 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         this.refreshView();
       });
 
-    this.tableState.timelineAutoZoom.values$()
-      .takeUntil(this.tableState.stopAllSubscriptions)
+    this.tableState.get().timelineAutoZoom.values$()
+      .takeUntil(this.tableState.get().stopAllSubscriptions)
       .filter(() => this.initialized)
       .filter((enabled:boolean) => enabled)
       .subscribe(() => {
@@ -153,7 +153,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       });
 
     // Refresh timeline view when becoming visible
-    this.tableState.timelineVisible.values$()
+    this.tableState.get().timelineVisible.values$()
       .filter((timelineState:WorkPackageTableTimelineState) => timelineState.isVisible)
       .takeUntil(componentDestroyed(this))
       .subscribe((timelineState:WorkPackageTableTimelineState) => {
@@ -163,7 +163,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
     // Load the types whenever the timeline is first visible
     // TODO: Load only necessary types from API
-    this.tableState.timelineVisible.values$()
+    this.tableState.get().timelineVisible.values$()
       .filter((timelineState) => timelineState.isVisible)
       .take(1)
       .subscribe(() => {
@@ -213,7 +213,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
   get initialized():boolean {
-    return this.workPackageTable && this.tableState.rendered.hasValue();
+    return this.workPackageTable && this.tableState.get().rendered.hasValue();
   }
 
   refreshView() {
@@ -226,7 +226,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       // Reset the width of the outer container if its content shrinks
       this.outerContainer.css('width', 'auto');
 
-      if (this.tableState.timelineAutoZoom.value!) {
+      if (this.tableState.get().timelineAutoZoom.value!) {
         this.applyAutoZoomLevel();
       }
 
@@ -249,7 +249,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   updateOnWorkPackageChanges() {
     this.states.workPackages.observeChange()
-      .withLatestFrom(this.tableState.timelineVisible.values$())
+      .withLatestFrom(this.tableState.get().timelineVisible.values$())
       .takeUntil(componentDestroyed(this))
       .filter(([, timelineState]) => this.initialized && timelineState.isVisible)
       .map(([[wpId]]) => wpId)

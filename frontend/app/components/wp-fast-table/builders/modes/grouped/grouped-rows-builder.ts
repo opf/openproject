@@ -17,7 +17,7 @@ export const collapsedRowClass = '-collapsed';
 export class GroupedRowsBuilder extends RowsBuilder {
 
   // Injections
-  private readonly tableState = this.injector.get(TableStateHolder).get();
+  private readonly tableState = this.injector.get(TableStateHolder);
   public states:States = this.injector.get(States);
   public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
   public I18n:op.I18n = this.injector.get(I18nToken);
@@ -40,14 +40,14 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * Returns the reference to the last table.groups state value
    */
   public get groups() {
-    return this.tableState.groups.value || [];
+    return this.tableState.get().groups.value || [];
   }
 
   /**
    * Returns the reference to the last table.collapesedGroups state value
    */
   public get collapsedGroups() {
-    return this.tableState.collapsedGroups.value || {};
+    return this.tableState.get().collapsedGroups.value || {};
   }
 
   public get colspan() {
@@ -70,7 +70,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
   public refreshExpansionState() {
     const groups = this.getGroupData();
     const colspan = this.wpTableColumns.columnCount + 1;
-    const rendered = this.tableState.rendered.value!;
+    const rendered = this.tableState.get().rendered.value!;
 
     jQuery(`.${rowGroupClassName}`).each((i:number, oldRow:HTMLElement) => {
       let groupIndex = jQuery(oldRow).data('groupIndex');
@@ -97,7 +97,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       });
     });
 
-    this.tableState.rendered.putValue(rendered, 'Updated hidden state of rows after group change.');
+    this.tableState.get().rendered.putValue(rendered, 'Updated hidden state of rows after group change.');
   }
 
   /**

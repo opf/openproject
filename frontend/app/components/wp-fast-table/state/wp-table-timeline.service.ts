@@ -129,7 +129,7 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   }
 
   public toggleAutoZoom() {
-    this.states.globalTable.timelineAutoZoom.putValue(!this.states.table.timelineAutoZoom.value);
+    this.states.globalTable.timelineAutoZoom.putValue(!this.states.globalTable.timelineAutoZoom.value);
   }
 
   public isAutoZoomEnabled():boolean {

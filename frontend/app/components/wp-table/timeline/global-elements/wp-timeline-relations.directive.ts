@@ -79,7 +79,7 @@ function newSegment(vp:TimelineViewParameters,
 })
 export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
 
-  private readonly tableState = this.injector.get(TableStateHolder).get();
+  private readonly tableState = this.injector.get(TableStateHolder);
 
   private container:JQuery;
 
@@ -90,6 +90,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
               public states:States,
               public workPackageTimelineTableController:WorkPackageTimelineTableController,
               public wpRelations:WorkPackageRelationsService) {
+
   }
 
   ngOnInit() {
@@ -119,8 +120,8 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
   private setupRelationSubscription() {
     // for all visible WorkPackage rows...
     Observable.combineLatest(
-      this.tableState.renderedWorkPackages.values$(),
-      this.tableState.timelineVisible.values$()
+      this.tableState.get().renderedWorkPackages.values$(),
+      this.tableState.get().timelineVisible.values$()
     )
       .filter(([rendered, timeline]) => timeline.isVisible)
       .takeUntil(componentDestroyed(this))
@@ -146,7 +147,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
     // When a WorkPackage changes, redraw the corresponding relations
     this.states.workPackages.observeChange()
       .takeUntil(componentDestroyed(this))
-      .filter(() => this.tableState.timelineVisible.mapOr(v => v.visible, false))
+      .filter(() => this.tableState.get().timelineVisible.mapOr(v => v.visible, false))
       .subscribe(([workPackageId]) => {
         this.renderWorkPackagesRelations([workPackageId]);
       });

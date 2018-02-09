@@ -17,7 +17,7 @@ import {additionalHierarchyRowClassName, SingleHierarchyRowBuilder} from './sing
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
 
-  private readonly tableState = this.injector.get(TableStateHolder).get();
+  private readonly tableState = this.injector.get(TableStateHolder);
 
   public states = this.injector.get(States);
   public wpCacheService = this.injector.get(WorkPackageCacheService);
@@ -43,7 +43,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   protected prepare() {
     super.prepare();
 
-    this.hierarchies = this.tableState.hierarchies.value!;
+    this.hierarchies = this.tableState.get().hierarchies.value!;
     this.rendered = {};
     this.additionalParents = {};
     this.deferred = {};

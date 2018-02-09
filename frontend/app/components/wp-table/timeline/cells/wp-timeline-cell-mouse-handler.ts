@@ -64,7 +64,7 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 renderer:TimelineCellRenderer,
                                                 renderInfo:RenderInfo) {
 
-  const tableState = injector.get(TableStateHolder).get();
+  const tableState = injector.get(TableStateHolder);
 
   let mouseDownStartDay:number | null = null; // also flag to signal active drag'n'drop
   renderInfo.changeset = new WorkPackageChangeset(renderInfo.workPackage);
@@ -247,7 +247,7 @@ export function registerWorkPackageMouseHandler(this:void,
     return loadingIndicator.table.promise = changeset.save()
       .then((wp) => {
         wpNotificationsService.showSave(wp);
-        const ids = _.map(tableState.rendered.value!, row => row.workPackageId);
+        const ids = _.map(tableState.get().rendered.value!, row => row.workPackageId);
         loadingIndicator.table.promise =
           queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
             wpCacheService.updateWorkPackageList(workPackageCollection.elements);

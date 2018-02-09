@@ -42,7 +42,7 @@ import {WorkPackageTableColumns} from '../../wp-fast-table/wp-table-columns';
 })
 export class WorkPackageTableSumsRowController implements AfterViewInit {
 
-  private readonly tableState = this.injector.get(TableStateHolder).get();
+  private readonly tableState = this.injector.get(TableStateHolder);
 
   private text:{ sumFor:string, allWorkPackages:string };
 
@@ -64,12 +64,12 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
     this.$element = jQuery(this.elementRef.nativeElement);
 
     combine(
-      this.tableState.columns,
-      this.tableState.results,
-      this.tableState.sum
+      this.tableState.get().columns,
+      this.tableState.get().results,
+      this.tableState.get().sum
     )
       .values$()
-      .takeUntil(this.tableState.stopAllSubscriptions)
+      .takeUntil(this.tableState.get().stopAllSubscriptions)
       .subscribe(([columns, resource, sum]) => {
         if (sum.isEnabled && resource.sumsSchema) {
           resource.sumsSchema.$load().then((schema:SchemaResource) => {
