@@ -126,9 +126,9 @@ cs:
       no_results_content_text: Přidání člena do projektu
   my:
     access_token:
-      failed_to_reset_token: 'Failed to reset access token: %{error}'
-      notice_reset_token: 'A new %{type} token has been generated. Your access token
-        is:'
+      failed_to_reset_token: 'Selhal reset přístupového tokenu: %{error}'
+      notice_reset_token: 'Byl vygenerován nový %{type} token. Váš přístupový token
+        je:'
       token_value_warning: 'Note: This is the only time you will see this token, make
         sure to copy it now.'
       no_results_title_text: V současné době nejsou k dispozici žádné přístupové tokeny.

@@ -75,7 +75,8 @@ cs:
       comment.
     label_add_columns: Add columns
     label_add_comment: Přidat komentář
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Zadejte komentář a napište @ pro upozornění ostatních
+      lidí
     label_add_selected_columns: Přidat vybrané sloupce
     label_added_by: přidal
     label_added_time_by: Přidal %{author} %{age}
@@ -106,7 +107,7 @@ cs:
     label_contains: obsahuje
     label_created_on: vytvořeno
     label_edit_comment: Upravit komentář
-    label_edit_status: Edit the status of the work package
+    label_edit_status: Úprava stavu pracovního balíčku
     label_equals: is
     label_expand: Rozbalit
     label_expanded: expanded
@@ -223,7 +224,7 @@ cs:
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
       autocompleter:
-        label: Project autocompletion
+        label: Automatické doplňování projektu
     text_are_you_sure: Are you sure?
     types:
       attribute_groups:
