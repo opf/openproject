@@ -115,6 +115,20 @@ class Relation < ActiveRecord::Base
 
   before_save :set_type_column
 
+  [TYPE_RELATES,
+   TYPE_DUPLICATES,
+   TYPE_BLOCKS,
+   TYPE_PRECEDES,
+   TYPE_FOLLOWS,
+   TYPE_INCLUDES,
+   TYPE_REQUIRES,
+   TYPE_HIERARCHY].each do |type|
+    define_method "#{type}=" do |value|
+      instance_variable_set(:"@relation_type_set", nil)
+      super(value)
+    end
+  end
+
   def self.relation_column(type)
     if TYPES.key?(type) && TYPES[type][:reverse]
       TYPES[type][:reverse]
@@ -262,7 +276,7 @@ class Relation < ActiveRecord::Base
   def set_type_column
     if relation_type_changed? && relation_type_was
       was_column = self.class.relation_column(relation_type_was)
-      send("#{was_column}=", 0)
+      write_attribute was_column, 0
     end
 
     return unless relation_type

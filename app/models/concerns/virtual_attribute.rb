@@ -37,23 +37,41 @@ module Concerns
 
         include InstanceMethods
 
+        _define_virtual_attribute_setter(attribute)
+        _define_virtual_attribute_getter(attribute, &block)
+        _define_virtual_attribute_reload(attribute)
+      end
+
+      private
+
+      def _define_virtual_attribute_setter(attribute)
         define_method "#{attribute}=" do |value|
           set_virtual_attribute(attribute, value) if send(attribute) != value
+          instance_variable_set(:"@#{attribute}_set", true)
           instance_variable_set(:"@#{attribute}", value)
         end
+      end
 
-        if block_given?
-          define_method attribute do
-            if instance_variable_get(:"@#{attribute}").present?
-              instance_variable_get(:"@#{attribute}")
-            else
-              value = instance_eval(&block)
+      def _define_virtual_attribute_getter(attribute, &block)
+        define_method attribute do
+          if instance_variable_get(:"@#{attribute}_set")
+            instance_variable_get(:"@#{attribute}")
+          else
+            value = instance_eval(&block)
 
-              set_virtual_attribute_was(attribute, value)
+            set_virtual_attribute_was(attribute, value)
 
-              instance_variable_set(:"@#{attribute}", value)
-            end
+            instance_variable_set(:"@#{attribute}", value)
           end
+        end
+      end
+
+      def _define_virtual_attribute_reload(attribute)
+        define_method :reload do |*args|
+          instance_variable_set(:"@#{attribute}", nil)
+          instance_variable_set(:"@#{attribute}_set", nil)
+
+          super(*args)
         end
       end
     end
