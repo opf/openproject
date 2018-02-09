@@ -11,7 +11,7 @@ da:
         start_time_hour: "Starting time"
     errors:
       messages:
-        invalid_time_format: 'is not a valid time. Required format: HH:MM'
+        invalid_time_format: "is not a valid time. Required format: HH:MM"
     models:
       meeting_agenda: "Dagsorden"
       meeting_minutes: "Referat"
@@ -24,7 +24,7 @@ da:
     meeting_agenda_opened: Mødedagsorden er påbegyndt
     meeting_minutes: Mødereferat er ændret
     meeting_minutes_created: Mødereferat er udfærdiget
-  error_notification_with_errors: 'Kunne ikke sende påmindelse. Følgende modtagere blev ikke nået: %{recipients}'
+  error_notification_with_errors: "Kunne ikke sende påmindelse. Følgende modtagere blev ikke nået: %{recipients}"
   label_meeting: "Møde"
   label_meeting_plural: "Møder"
   label_meeting_new: "Nyt møde"

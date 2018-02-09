@@ -11,7 +11,7 @@ zh-TW:
         start_time_hour: "Starting time"
     errors:
       messages:
-        invalid_time_format: 'is not a valid time. Required format: HH:MM'
+        invalid_time_format: "is not a valid time. Required format: HH:MM"
     models:
       meeting_agenda: "會議大綱"
       meeting_minutes: "會議記錄"
@@ -24,7 +24,7 @@ zh-TW:
     meeting_agenda_opened: 會議大綱開啟
     meeting_minutes: 會議記錄已編輯
     meeting_minutes_created: 會議記錄已建立
-  error_notification_with_errors: '傳送通知失敗。以下的收件者將不會被通知到: %{recipients}'
+  error_notification_with_errors: "傳送通知失敗。以下的收件者將不會被通知到: %{recipients}"
   label_meeting: "會議"
   label_meeting_plural: "會議"
   label_meeting_new: "新增會議"

@@ -11,7 +11,7 @@ ar:
         start_time_hour: "وقت البدء"
     errors:
       messages:
-        invalid_time_format: 'ليس وقتًا صالحًا. التصميم المطلوب: HH:MM'
+        invalid_time_format: "ليس وقتًا صالحًا. التصميم المطلوب: HH:MM"
     models:
       meeting_agenda: "جدول الأعمال"
       meeting_minutes: "محضر الجلسة"
@@ -24,7 +24,7 @@ ar:
     meeting_agenda_opened: فُتِح جدول أعمال الاجتماع
     meeting_minutes: تحرير محضر الجلسة
     meeting_minutes_created: إنشاء محضر الجلسة
-  error_notification_with_errors: 'فشِل في إرسال الإشعار. لم يتم إشعار المستلمين التالية أسماؤهم: %{recipients}'
+  error_notification_with_errors: "فشِل في إرسال الإشعار. لم يتم إشعار المستلمين التالية أسماؤهم: %{recipients}"
   label_meeting: "الاجتماع"
   label_meeting_plural: "الاجتماعات"
   label_meeting_new: "اجتماع جديد"

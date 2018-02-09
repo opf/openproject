@@ -11,7 +11,7 @@ id:
         start_time_hour: "Waktu mulai"
     errors:
       messages:
-        invalid_time_format: bukanlah waktu yang valid. Format seharusnya; JJ:MM
+        invalid_time_format: "bukanlah waktu yang valid. Format seharusnya; JJ:MM"
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Laporan"
@@ -24,7 +24,7 @@ id:
     meeting_agenda_opened: Agenda rapat dibuka
     meeting_minutes: Laporan rapat diedit
     meeting_minutes_created: Laporan rapat dibuat
-  error_notification_with_errors: 'Gagal mengirim notifikasi. Berikut penerima yang tidak terkirim: %{recipients}'
+  error_notification_with_errors: "Gagal mengirim notifikasi. Berikut penerima yang tidak terkirim: %{recipients}"
   label_meeting: "Rapat"
   label_meeting_plural: "Rapat"
   label_meeting_new: "Rapat Baru"

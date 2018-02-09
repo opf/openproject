@@ -11,7 +11,7 @@ de:
         start_time_hour: "Beginn"
     errors:
       messages:
-        invalid_time_format: 'ist keine gültige Zeit. Erforderliches Format: 15:12'
+        invalid_time_format: "ist keine gültige Zeit. Erforderliches Format: 15:12"
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Protokoll"
@@ -24,7 +24,7 @@ de:
     meeting_agenda_opened: Agenda geöffnet
     meeting_minutes: Protokoll bearbeitet
     meeting_minutes_created: Protokoll erstellt
-  error_notification_with_errors: 'Benachrichtigungversenden fehlgeschlagen. Folgende Empfänger konnten nicht benachrichtigt werden: %{recipients}'
+  error_notification_with_errors: "Benachrichtigungversenden fehlgeschlagen. Folgende Empfänger konnten nicht benachrichtigt werden: %{recipients}"
   label_meeting: "Besprechung"
   label_meeting_plural: "Besprechungen"
   label_meeting_new: "Neue Besprechung"

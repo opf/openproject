@@ -11,7 +11,7 @@ hu:
         start_time_hour: "Kezdési időpont"
     errors:
       messages:
-        invalid_time_format: 'nem egy érvényes időpont. Előírt formátum: óó:pp'
+        invalid_time_format: "nem egy érvényes időpont. Előírt formátum: óó:pp"
     models:
       meeting_agenda: "Napirend"
       meeting_minutes: "Jegyzőkönyv"
@@ -24,7 +24,7 @@ hu:
     meeting_agenda_opened: Esemény napirendje megnyitva
     meeting_minutes: Jegyzőkönyv szerkesztve
     meeting_minutes_created: Jegyzőkönyv létrehozva
-  error_notification_with_errors: 'Nem sikerült elküldeni az értesítőt. A következő címzettek nem lettek értesítve: %{recipients}'
+  error_notification_with_errors: "Nem sikerült elküldeni az értesítőt. A következő címzettek nem lettek értesítve: %{recipients}"
   label_meeting: "Megbeszélés"
   label_meeting_plural: "Megbeszélések"
   label_meeting_new: "Új megbeszélés"

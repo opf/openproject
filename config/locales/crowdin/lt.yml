@@ -11,7 +11,7 @@ lt:
         start_time_hour: "Pradžios laikas"
     errors:
       messages:
-        invalid_time_format: 'netinkamas laikas. Reikalingas formatas: HH:MM (pvz.: 10:30)'
+        invalid_time_format: "netinkamas laikas. Reikalingas formatas: HH:MM (pvz.: 10:30)"
     models:
       meeting_agenda: "Dienotvarkė"
       meeting_minutes: "Minutės"
@@ -24,7 +24,7 @@ lt:
     meeting_agenda_opened: Susitikimo darbotvarkė atidaryta
     meeting_minutes: Pasitarimo minutės redaguotos
     meeting_minutes_created: Pasitarimo minutės sukurtos
-  error_notification_with_errors: 'Nepavyko išsiųsti pranešimo. Toliau išvardinti adresatai nebuvo įspėti: %{recipients}'
+  error_notification_with_errors: "Nepavyko išsiųsti pranešimo. Toliau išvardinti adresatai nebuvo įspėti: %{recipients}"
   label_meeting: "Pasitarimas"
   label_meeting_plural: "Pasitarimai"
   label_meeting_new: "Naujas pasitarimas"

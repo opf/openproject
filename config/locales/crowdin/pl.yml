@@ -11,7 +11,7 @@ pl:
         start_time_hour: "Czas rozpoczęcia"
     errors:
       messages:
-        invalid_time_format: 'nie jest prawidłowy. Wymagany format to: GG:MM'
+        invalid_time_format: "nie jest prawidłowy. Wymagany format to: GG:MM"
     models:
       meeting_agenda: "Plan spotkania"
       meeting_minutes: "Protokół ze spotkania"
@@ -24,7 +24,7 @@ pl:
     meeting_agenda_opened: Otwarto plan spotkania
     meeting_minutes: Protokół ze spotkania edytowany
     meeting_minutes_created: Protokół ze spotkania utworzony
-  error_notification_with_errors: 'Nie udało się wysłać powiadomienie do adresatów: %{recipients}'
+  error_notification_with_errors: "Nie udało się wysłać powiadomienie do adresatów: %{recipients}"
   label_meeting: "Spotkanie"
   label_meeting_plural: "Spotkania"
   label_meeting_new: "Nowe spotkanie"
