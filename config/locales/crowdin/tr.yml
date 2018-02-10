@@ -46,7 +46,7 @@ tr:
   permission_create_meetings: "Toplantı oluşturma"
   permission_edit_meetings: "Toplantıları düzenleme"
   permission_delete_meetings: "Toplantıları silme"
-  permission_view_meetings: "Toplantıları görüntüleme"
+  permission_view_meetings: "Toplantıları görüntüle"
   permission_create_meeting_agendas: "Acentaları yönetme"
   permission_close_meeting_agendas: "Acenta kapat"
   permission_send_meeting_agendas_notification: "Acentalar için inceleme bildirimi gönder"
