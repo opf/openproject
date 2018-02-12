@@ -41,7 +41,6 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
       .with(id: custom_field.id)
       .and_return(custom_field)
 
-
     filter
   end
   let(:custom_field) { FactoryGirl.build_stubbed(:list_wp_custom_field) }

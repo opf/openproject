@@ -188,13 +188,13 @@ class Version < ActiveRecord::Base
   end
 
   # Versions are sorted by "Project Name - Version name"
-  def <=>(version)
+  def <=>(other)
     # using string interpolation for comparison is not efficient
     # (see to_s_with_project's implementation) but I wanted to
     # tie the comparison to the presentation as sorting is mostly
     # used within sorted tables.
     # Thus, when the representation changes, the sorting will change as well.
-    to_s_with_project.downcase <=> version.to_s_with_project.downcase
+    to_s_with_project.downcase <=> other.to_s_with_project.downcase
   end
 
   # Returns the sharings that +user+ can set the version to

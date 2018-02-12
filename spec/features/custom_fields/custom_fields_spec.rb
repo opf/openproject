@@ -75,7 +75,7 @@ describe 'custom fields', js: true do
     end
 
     before do
-      allow(EnterpriseToken).to receive(:allows_to?).and_return(true)
+      with_enterprise_token(:multiselect_custom_fields)
 
       cf_page.visit!
 

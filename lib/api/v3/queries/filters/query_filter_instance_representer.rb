@@ -104,11 +104,7 @@ module API
                       if represented.respond_to?(:custom_field) &&
                          represented.custom_field.field_format == 'bool'
                         represented.values.map do |value|
-                          if value == CustomValue::BoolStrategy::DB_VALUE_TRUE
-                            true
-                          else
-                            false
-                          end
+                          value == OpenProject::Database::DB_VALUE_TRUE
                         end
                       else
                         represented.values
@@ -140,9 +136,9 @@ module API
                                     represented.custom_field.field_format == 'bool'
                                    vals.map do |value|
                                      if value
-                                       CustomValue::BoolStrategy::DB_VALUE_TRUE
+                                       OpenProject::Database::DB_VALUE_TRUE
                                      else
-                                       CustomValue::BoolStrategy::DB_VALUE_FALSE
+                                       OpenProject::Database::DB_VALUE_FALSE
                                      end
                                    end
                                  else

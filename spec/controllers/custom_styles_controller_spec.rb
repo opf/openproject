@@ -42,8 +42,7 @@ describe CustomStylesController, type: :controller do
 
       context 'when active token exists' do
         before do
-          allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
-          allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+          with_enterprise_token(:define_custom_style)
         end
 
         it 'renders show' do
@@ -82,8 +81,7 @@ describe CustomStylesController, type: :controller do
       end
 
       before do
-        allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
-        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        with_enterprise_token(:define_custom_style)
 
         expect(CustomStyle).to receive(:create).and_return(custom_style)
         expect(custom_style).to receive(:valid?).and_return(valid)
@@ -118,7 +116,7 @@ describe CustomStylesController, type: :controller do
       end
 
       before do
-        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        with_enterprise_token(:define_custom_style)
 
         expect(CustomStyle).to receive(:current).and_return(custom_style)
         expect(custom_style).to receive(:update_attributes).and_return(valid)
@@ -184,7 +182,7 @@ describe CustomStylesController, type: :controller do
       let(:custom_style) { FactoryGirl.build(:custom_style_with_logo) }
 
       before do
-        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        with_enterprise_token(:define_custom_style)
       end
 
       context 'if it exists' do
@@ -251,7 +249,7 @@ describe CustomStylesController, type: :controller do
       let(:custom_style) { FactoryGirl.build(:custom_style_with_favicon) }
 
       before do
-        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        with_enterprise_token(:define_custom_style)
       end
 
       context 'if it exists' do
@@ -318,7 +316,7 @@ describe CustomStylesController, type: :controller do
       let(:custom_style) { FactoryGirl.build(:custom_style_with_touch_icon) }
 
       before do
-        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        with_enterprise_token(:define_custom_style)
       end
 
       context 'if it exists' do
@@ -353,7 +351,7 @@ describe CustomStylesController, type: :controller do
       end
 
       before do
-        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        with_enterprise_token(:define_custom_style)
 
         post :update_colors, params: params
       end

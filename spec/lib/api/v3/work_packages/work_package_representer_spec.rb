@@ -899,6 +899,29 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
       end
+
+      describe 'customActions' do
+        it 'has a collection of customActions' do
+          unassign_action = FactoryGirl.build_stubbed(:custom_action,
+                                                      actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+                                                      name: 'Unassign')
+          allow(work_package)
+            .to receive(:custom_actions)
+            .and_return([unassign_action])
+
+          expected = [
+            {
+              href: api_v3_paths.work_package_custom_action_execute(work_package.id, unassign_action.id),
+              method: 'POST',
+              title: unassign_action.name
+            }
+          ]
+
+          is_expected
+            .to be_json_eql(expected.to_json)
+            .at_path('_links/customActions')
+        end
+      end
     end
 
     describe '_embedded' do

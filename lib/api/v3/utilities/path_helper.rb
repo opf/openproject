@@ -348,6 +348,10 @@ module API
             "#{work_packages}/#{id}"
           end
 
+          def self.work_package_custom_action_execute(work_package_id, action_id)
+            "#{work_package(work_package_id)}/custom_actions/#{action_id}/execute"
+          end
+
           def self.work_package_activities(id)
             "#{work_package(id)}/activities"
           end

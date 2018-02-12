@@ -30,6 +30,7 @@
     "@angular/common": "^4.4.5",
     "@angular/compiler": "^4.4.5",
     "@angular/core": "^4.4.5",
+    "@angular/forms": "^4.4.5",
     "@angular/platform-browser": "^4.4.5",
     "@angular/platform-browser-dynamic": "^4.4.5",
     "@angular/upgrade": "^4.4.5",

@@ -35,8 +35,8 @@ module Queries::Filters::Shared
     class Bool < Base
       def allowed_values
         [
-          [I18n.t(:general_text_yes), CustomValue::BoolStrategy::DB_VALUE_TRUE],
-          [I18n.t(:general_text_no), CustomValue::BoolStrategy::DB_VALUE_FALSE]
+          [I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
+          [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]
         ]
       end
 

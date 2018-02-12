@@ -124,13 +124,7 @@ describe 'Projects index page',
   end
 
   def allow_enterprise_edition
-    allow(EnterpriseToken)
-      .to receive(:allows_to?)
-      .and_return(false)
-    allow(EnterpriseToken)
-      .to receive(:allows_to?)
-      .with(:custom_fields_in_projects_list)
-      .and_return(true)
+    with_enterprise_token(:custom_fields_in_projects_list)
   end
 
   def remove_filter(name)

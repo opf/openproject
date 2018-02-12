@@ -34,15 +34,20 @@ module OpenProject
   # syntax differences.
 
   module Database
+    DB_VALUE_FALSE = 'f'.freeze
+    DB_VALUE_TRUE = 't'.freeze
+
     class InsufficientVersionError < StandardError; end
 
     # This method returns a hash which maps the identifier of the supported
     # adapter to a regex matching the adapter_name.
     def self.supported_adapters
-      @adapters ||= ({
-        mysql: /mysql/i,
-        postgresql: /postgres/i
-      })
+      @adapters ||= begin
+        {
+          mysql: /mysql/i,
+          postgresql: /postgres/i
+        }
+      end
     end
 
     ##

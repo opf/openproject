@@ -82,6 +82,23 @@ en:
     show:
       no_results_title_text: There are currently no posts for the board.
 
+  custom_actions:
+    actions:
+      name: 'Actions'
+      add: 'Add action'
+    conditions: 'Conditions'
+    plural: 'Custom actions'
+    new: 'New custom action'
+    edit: 'Edit custom action %{name}'
+    enterprise_edition: '<h2>Custom actions is an enterprise edition feature</h2>
+                         <p>
+                         Custom actions streamline everyday work by combining a set of individual steps into one button.
+                         </p>
+                         <p>
+                         Apart from custom actions, purchase of the enterprise edition offers
+                         <a href="https://www.openproject.org/enterprise-edition">a set of premium features, support and additional benefits</a>.
+                         </p>'
+
   custom_fields:
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before
@@ -448,6 +465,11 @@ en:
       models:
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         parse_schema_filter_params_service:
@@ -546,6 +568,7 @@ en:
       attribute_help_text: "Attribute help text"
       board: "Forum"
       comment: "Comment"
+      custom_action: "Custom action"
       custom_field: "Custom field"
       group: "Group"
       category: "Category"

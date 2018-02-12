@@ -38,14 +38,7 @@ describe 'Attribute help texts' do
 
   describe 'Work package help texts' do
     before do
-      allow(EnterpriseToken)
-        .to receive(:allows_to?)
-        .and_return(false)
-
-      allow(EnterpriseToken)
-        .to receive(:allows_to?)
-        .with(:attribute_help_texts)
-        .and_return(relation_columns_allowed)
+      with_enterprise_token(relation_columns_allowed ? :attribute_help_texts : nil)
 
       login_as(admin)
       visit attribute_help_texts_path

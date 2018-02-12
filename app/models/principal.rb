@@ -163,12 +163,12 @@ class Principal < ActiveRecord::Base
     false
   end
 
-  def <=>(principal)
-    if self.class.name == principal.class.name
-      to_s.downcase <=> principal.to_s.downcase
+  def <=>(other)
+    if self.class.name == other.class.name
+      to_s.downcase <=> other.to_s.downcase
     else
       # groups after users
-      principal.class.name <=> self.class.name
+      other.class.name <=> self.class.name
     end
   end
 
@@ -184,5 +184,4 @@ class Principal < ActiveRecord::Base
   end
 
   extend Pagination::Model
-
 end

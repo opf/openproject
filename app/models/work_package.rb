@@ -37,6 +37,7 @@ class WorkPackage < ActiveRecord::Base
   include WorkPackage::Ancestors
   prepend WorkPackage::Parent
   include WorkPackage::TypedDagDefaults
+  include WorkPackage::CustomActions
 
   include OpenProject::Journal::AttachmentHelper
 

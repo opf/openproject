@@ -97,9 +97,10 @@ module Pages
       end
     end
 
-    def expect_attribute_hidden(label)
+    def expect_no_attribute(label)
       expect(page).not_to have_selector(".wp-edit-field.#{label.downcase}")
     end
+    alias :expect_attribute_hidden :expect_no_attribute
 
     def expect_activity(user, number: nil)
       container = '#work-package-activites-container'

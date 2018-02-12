@@ -41,7 +41,6 @@ module BreadcrumbHelper
 
   def breadcrumb_list(*args)
     elements = args.flatten
-    cutme_elements = []
     breadcrumb_elements = [content_tag(:li, elements.shift.to_s, class: 'first-breadcrumb-element', style: 'list-style-image:none;')]
 
     breadcrumb_elements += elements.map { |element|

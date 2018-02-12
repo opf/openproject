@@ -2,18 +2,19 @@
 
 ## Actions
 
-| Link                | Description                                                          | Condition                              |
-|:-------------------:|----------------------------------------------------------------------| ---------------------------------------|
-| update              | Form endpoint that aids in preparing and performing edits on a WP    | **Permission**: edit work package      |
-| updateImmediately   | Directly perform edits on a work package                             | **Permission**: edit work package      |
-| watch               | Add current user to WP watchers                                      | logged in; not watching                |
-| unwatch             | Remove current user from WP watchers                                 | logged in; watching                    |
-| addRelation         | Adds a relation to this work package.                                | **Permission**: manage wp relations    |
-| addWatcher          | Add any user to WP watchers                                          | **Permission**: add watcher            |
-| previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response |                                        |
-| addComment          | Post comment to WP                                                   | **Permission**: add work package notes |
-| removeWatcher       | Remove any user from WP watchers                                     | **Permission**: delete watcher         |
-| addAttachment       | Attach a file to the WP                                              | **Permission**: edit work package      |
+| Link                | Description                                                              | Condition                              |
+|:-------------------:|--------------------------------------------------------------------------| ---------------------------------------|
+| addAttachment       | Attach a file to the WP                                                  | **Permission**: edit work package      |
+| addComment          | Post comment to WP                                                       | **Permission**: add work package notes |
+| addRelation         | Adds a relation to this work package.                                    | **Permission**: manage wp relations    |
+| addWatcher          | Add any user to WP watchers                                              | **Permission**: add watcher            |
+| customActions       | Collection of predefined changes that can be applied to the work package |                                        |
+| previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response     |                                        |
+| removeWatcher       | Remove any user from WP watchers                                         | **Permission**: delete watcher         |
+| unwatch             | Remove current user from WP watchers                                     | logged in; watching                    |
+| update              | Form endpoint that aids in preparing and performing edits on a WP        | **Permission**: edit work package      |
+| updateImmediately   | Directly perform edits on a work package                                 | **Permission**: edit work package      |
+| watch               | Add current user to WP watchers                                          | logged in; not watching                |
 
 ## Linked Properties
 
@@ -120,6 +121,18 @@ the human readable name of custom fields.*
                         "href": "/api/v3/users/1",
                         "title": "OpenProject Admin - admin"
                     },
+                    "customActions": [
+                        {
+                            "href":"/api/v3/work_packages/1528/custom_actions/153/execute",
+                            "method": "post",
+                            "title": "Reset"
+                        },
+                        {
+                            "href":"/api/v3/work_packages/1528/custom_actions/94/execute",
+                            "method": "post",
+                            "title": "Forward to accounting"
+                        }
+                    ]
                     "responsible": {
                         "href": "/api/v3/users/23",
                         "title": "Laron Leuschke - Alaina5788"
@@ -1027,7 +1040,7 @@ Note that it is only allowed to provide properties or links supporting the write
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:UpdateConflict",
-                "message": "A relation of that type between the work packages either already exists or is not allowed."
+                "message": "Couldn't update the resource because of conflicting modifications."
             }
 
 + Response 422 (application/hal+json)
@@ -2291,4 +2304,84 @@ Gets a list of users that can be assigned as the responsible of a work package i
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified project does not exist."
+            }
+
+## Custom actions [/api/v3/work_packages/{work_package_id}/custom_actions/{custom_action_id}/execute]
+
+## Execute custom action [POST]
+
+Custom actions are a preconfigured set of changes that are applied to a work package.
+
+A POST to this end point executes the custom action on the work package. The altered work package will be returned. In order to avoid executing
+ the custom action unbeknown to a change that has already taken place, the client has to provide the current lockVersion.
+
++ Parameters
+    + work_package_id (required, integer, `1`) ... The work package the custom action is to be executed on
+    + custom_action_id (required, integer, `1`) ... The custom action to be executed on the work package
+
++ Request Execute custom action (application/json)
+
+    + Body
+
+            {
+                "lockVersion": "3"
+            }
+
++ Response 200 (application/hal+json)
+
+    [Work Package][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** edit work packages - Additional permissions might be required based on the custom action.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 409 (application/hal+json)
+
+    Returned if the client provided an outdated lockVersion or no lockVersion at all.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:UpdateConflict",
+                "message": "Couldn't update the resource because of conflicting modifications."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if the custom action was not executed successfully e.g. when a constraint on a work package property was violated.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Delay must be a number greater than or equal to 0",
+                "_embedded": {
+                    "details": {
+                        "attribute": "delay"
+                    }
+                }
             }

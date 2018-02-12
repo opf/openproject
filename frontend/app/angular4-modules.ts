@@ -29,6 +29,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
+import { FormsModule } from '@angular/forms';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
 import {AccessibleByKeyboardDirectiveUpgraded} from 'core-app/ui_components/accessible-by-keyboard-directive-upgraded';
 import {OpIcon} from 'core-components/common/icon/op-icon';
@@ -64,13 +65,29 @@ import {
   $rootScopeToken, columnsModalToken, focusHelperToken, I18nToken, NotificationsServiceToken, upgradeService,
   upgradeServiceWithToken
 } from './angular4-transition-utils';
+import {
+  WpCustomActionComponent
+} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
+import {
+  WpCustomActionsComponent
+} from 'core-components/wp-custom-actions/wp-custom-actions.component';
+import {HalRequestService} from 'core-components/api/api-v3/hal-request/hal-request.service';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {HideSectionComponent} from 'core-components/common/hide-section/hide-section.component';
+import {HideSectionService} from 'core-components/common/hide-section/hide-section.service';
+import {AddSectionDropdownComponent} from 'core-components/common/hide-section/add-section-dropdown/add-section-dropdown.component';
+import {HideSectionLinkComponent} from 'core-components/common/hide-section/hide-section-link/hide-section-link.component';
+import {GonRef} from 'core-components/common/gon-ref/gon-ref';
 
 @NgModule({
   imports: [
     BrowserModule,
-    UpgradeModule
+    UpgradeModule,
+    FormsModule
   ],
   providers: [
+    GonRef,
+    HideSectionService,
     WorkPackagesTableControllerHolder,
     upgradeService('wpRelations', WorkPackageRelationsService),
     upgradeService('states', States),
@@ -85,6 +102,8 @@ import {
     upgradeService('wpTableGroupBy', WorkPackageTableGroupByService),
     upgradeService('wpTableColumns', WorkPackageTableColumnsService),
     upgradeService('contextMenu', ContextMenuService),
+    upgradeService('halRequest', HalRequestService),
+    upgradeService('wpCacheService', WorkPackageCacheService),
     upgradeServiceWithToken('$rootScope', $rootScopeToken),
     upgradeServiceWithToken('I18n', I18nToken),
     upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
@@ -103,15 +122,24 @@ import {
     WorkPackageTimelineTableController,
     WorkPackagesTableController,
     WpResizerDirectiveUpgraded,
+    WpCustomActionComponent,
+    WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
     SortHeaderDirective,
     HasDropdownMenuDirective,
-    WpInlineCreateDirectiveUpgraded
+    WpInlineCreateDirectiveUpgraded,
+    HideSectionComponent,
+    HideSectionLinkComponent,
+    AddSectionDropdownComponent
   ],
   entryComponents: [
     WorkPackageTablePaginationComponent,
     WorkPackagesTableController,
-    TablePaginationComponent
+    TablePaginationComponent,
+    WpCustomActionsComponent,
+    HideSectionComponent,
+    HideSectionLinkComponent,
+    AddSectionDropdownComponent
   ]
 })
 export class OpenProjectModule {

@@ -1,0 +1,51 @@
+<% html_title l(:label_administration), t('custom_actions.plural') -%>
+<%= toolbar title: t('custom_actions.plural') do %>
+  <li class="toolbar-item">
+    <%= link_to new_custom_action_path,
+                { class: 'button -alt-highlight',
+                  aria: { label: t('custom_actions.new') },
+                  title: t('custom_actions.new') } do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= CustomAction.model_name.human %></span>
+    <% end %>
+  </li>
+<% end %>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col>
+      </colgroup>
+      <thead>
+      <tr>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= CustomAction.human_attribute_name(:name) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th><div class="generic-table--empty-header"></div></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% for action in @custom_actions %>
+        <tr>
+          <td>
+            <%= action.name %>
+          </td>
+          <td class="buttons">
+            <%= link_to l(:button_edit),
+                        edit_custom_action_path(action),
+                        class: 'icon icon-edit' %>
+            <%= delete_link custom_action_path(action) %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

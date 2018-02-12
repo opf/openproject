@@ -1,0 +1,5 @@
+<select [attr.id]="htmlId" class="form-field--select" [(ngModel)]="turnedActive" (ngModelChange)="show()">
+  <option [ngValue]="null">{{texts.placeholder}}</option>
+  <option *ngFor="let n of selectable" [ngValue]="n">{{n.label}}</option>
+</select>
+
