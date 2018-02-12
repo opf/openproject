@@ -128,6 +128,7 @@ CustomActions::Register.action(CustomActions::Actions::Priority)
 CustomActions::Register.action(CustomActions::Actions::CustomField)
 CustomActions::Register.action(CustomActions::Actions::Type)
 CustomActions::Register.action(CustomActions::Actions::Project)
+CustomActions::Register.action(CustomActions::Actions::Notify)
 
 CustomActions::Register.condition(CustomActions::Conditions::Status)
 CustomActions::Register.condition(CustomActions::Conditions::Role)

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-shared_examples_for 'associated custom action' do
+shared_context 'custom actions action' do
   let(:instance) do
     described_class.new
   end
@@ -37,6 +37,10 @@ shared_examples_for 'associated custom action' do
       raise ":key needs to be defined"
     end
   end
+end
+
+shared_examples_for 'base custom action' do
+  include_context 'custom actions action'
   let(:expected_priority) do
     if defined?(priority)
       priority
@@ -96,28 +100,32 @@ shared_examples_for 'associated custom action' do
     end
   end
 
-  describe '#apply' do
-    let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
-
-    it 'sets the associated_id in the work package to the action\'s value' do
-      expect(work_package)
-        .to receive(:"#{key}_id=")
-        .with(42)
-
-      instance.values = 42
-
-      instance.apply(work_package)
-    end
-  end
-
   describe '#priority' do
     it 'is the expected level' do
       expect(instance.priority)
         .to eql(expected_priority)
     end
   end
+end
 
-  it_behaves_like 'associated custom action validations'
+shared_examples_for 'associated custom action' do
+  include_context 'custom actions action' do
+    describe '#apply' do
+      let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
+
+      it 'sets the associated_id in the work package to the action\'s value' do
+        expect(work_package)
+          .to receive(:"#{key}_id=")
+          .with(42)
+
+        instance.values = 42
+
+        instance.apply(work_package)
+      end
+    end
+
+    it_behaves_like 'associated custom action validations'
+  end
 end
 
 shared_examples_for 'associated custom action validations' do

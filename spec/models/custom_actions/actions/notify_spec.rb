@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,28 +28,51 @@
 require 'spec_helper'
 require_relative '../shared_expectations'
 
-describe CustomActions::Actions::Type, type: :model do
-  let(:key) { :type }
-  let(:priority) { 20 }
+describe CustomActions::Actions::Notify, type: :model do
+  let(:key) { :notify }
   let(:allowed_values) do
-    types = [FactoryGirl.build_stubbed(:type),
-             FactoryGirl.build_stubbed(:type)]
-    allow(Type)
-      .to receive_message_chain(:select, :order)
-            .and_return(types)
+    users = [FactoryGirl.build_stubbed(:user),
+             FactoryGirl.build_stubbed(:group)]
 
-    [{ value: types.first.id, label: types.first.name },
-     { value: types.last.id, label: types.last.name }]
+    allow(Principal)
+      .to receive_message_chain(:active_or_registered, :select, :order_by_name)
+            .and_return(users)
+
+    [{ value: nil, label: '-' },
+     { value: users.first.id, label: users.first.name },
+     { value: users.last.id, label: users.last.name }]
   end
 
-  it_behaves_like 'base custom action'
-  it_behaves_like 'associated custom action' do
+  it_behaves_like 'base custom action' do
     describe '#allowed_values' do
-      it 'is the list of all type' do
+      it 'is the list of all users' do
         allowed_values
 
         expect(instance.allowed_values)
           .to eql(allowed_values)
+      end
+    end
+
+    it_behaves_like 'associated custom action validations'
+
+    describe '#apply' do
+      let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
+
+      it 'adds a note with all values' do
+        instance.values = [1, 2, 3]
+
+        expect(work_package)
+          .to receive(:journal_notes=)
+          .with('user#1, user#2, user#3')
+
+        instance.apply(work_package)
+      end
+    end
+
+    describe '#multi_value?' do
+      it 'is true' do
+        expect(instance)
+          .to be_multi_value
       end
     end
   end
