@@ -69,8 +69,8 @@ GIT
 
 GIT
   remote: https://github.com/planio-gmbh/text-extractor
-  revision: 8e8de122d9e54b29a876ad848baf369d9b153e7f
-  ref: 8e8de12
+  revision: 2467d49bb50656eccfc2373051860f93f1a82c77
+  ref: 2467d49bb50656e
   specs:
     text-extractor (0.1.0)
       activesupport (> 2.2.1)
