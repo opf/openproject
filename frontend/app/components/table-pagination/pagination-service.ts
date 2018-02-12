@@ -61,7 +61,7 @@ export class PaginationService {
     try {
       return (window as any).gon.settings.pagination.per_page_options;
     } catch(e) {
-      console.error("Can't load initial page options from gon: " + e);
+      console.log("Can't load initial page options from gon: " + e);
       return [];
     }
   }

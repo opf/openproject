@@ -210,7 +210,7 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.visit!
 
     expect(page)
-      .to have_selector('.custom-action', text: 'Unassign')
+      .to have_selector('.custom-action', text: 'Unassign', wait: 10)
     expect(page)
       .to have_selector('.custom-action', text: 'Close')
     expect(page)

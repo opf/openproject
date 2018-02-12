@@ -28,7 +28,8 @@
 
 /*jshint expr: true*/
 
-import {TableState} from '../../../../../../app/components/wp-table/table-state/table-state';
+
+import {TableState} from '../../wp-table/table-state/table-state';
 
 var reactivestates = require("reactivestates");
 
@@ -101,7 +102,6 @@ describe('optionsDropdown Directive', function() {
     };
 
     states = {
-      globalTable: new TableState(),
       query: {
         resource: {
           values$: function() {
@@ -115,7 +115,7 @@ describe('optionsDropdown Directive', function() {
         }
 
       },
-      table: {
+      globalTable: {
         timelineVisible: {
           value: {}
         },
@@ -172,7 +172,7 @@ describe('optionsDropdown Directive', function() {
   });
 
   describe('element', function() {
-    var getMenuItem = function(name) {
+    var getMenuItem = function(name:any) {
       var menuLinks = element.find('a.menu-item');
 
       return _.find(menuLinks, function(item) {
