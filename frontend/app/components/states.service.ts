@@ -26,11 +26,12 @@ import {WorkPackageTableSum} from './wp-fast-table/wp-table-sum';
 import {WorkPackageTableTimelineState} from './wp-fast-table/wp-table-timeline';
 import {WPTableRowSelectionState} from './wp-fast-table/wp-table.interfaces';
 import {QueryColumn} from './wp-query/query-column';
+import {map} from 'rxjs/operators';
 
 export class States extends StatesGroup {
 
   name = 'MainStore';
-  
+
   /* /api/v3/work_packages */
   workPackages = multiInput<WorkPackageResourceInterface>();
 
@@ -88,8 +89,8 @@ export class TableState extends StatesGroup {
   // State to be updated when the table is up to date
   rendered = input<RenderedRow[]>();
 
-  renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $
-    .map(rows => rows.filter(row => !!row.workPackageId)));
+  renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $.pipe(
+    map(rows => rows.filter(row => !!row.workPackageId))));
 
   // State to determine timeline visibility
   timelineVisible = input<WorkPackageTableTimelineState>();
