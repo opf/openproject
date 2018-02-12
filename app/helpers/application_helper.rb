@@ -104,11 +104,11 @@ module ApplicationHelper
   def delete_link(url, options = {})
     options = {
       method: :delete,
-      data: { confirm: l(:text_are_you_sure) },
+      data: { confirm: I18n.t(:text_are_you_sure) },
       class: 'icon icon-delete'
     }.merge(options)
 
-    link_to l(:button_delete), url, options
+    link_to I18n.t(:button_delete), url, options
   end
 
   def image_to_function(name, function, html_options = {})
