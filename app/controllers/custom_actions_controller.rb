@@ -89,7 +89,12 @@ class CustomActionsController < ApplicationController
     return if EnterpriseToken.allows_to?(:custom_actions)
 
     if request.get?
-      render :enterprise_token
+      render template: 'common/upsale',
+             locals: {
+                 feature_title: I18n.t('custom_actions.upsale.title'),
+                 feature_description: I18n.t('custom_actions.upsale.description'),
+                 feature_reference: 'custom_actions_admin'
+             }
     else
       render_403
     end
