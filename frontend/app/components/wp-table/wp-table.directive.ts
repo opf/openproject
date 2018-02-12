@@ -31,7 +31,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 import {columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {GroupObject} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
-import {TableState, TableStateHolder} from 'core-components/wp-table/TableState';
+import {TableState, TableStateHolder} from 'core-components/wp-table/table-state/table-state';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {Observable} from 'rxjs/Observable';
 import {debugLog} from '../../helpers/debug_output';
@@ -44,7 +44,8 @@ import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
 import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
-
+import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
+import {QueryGroupByResource} from 'core-components/api/api-v3/hal-resources/query-group-by-resource.service';
 
 @Component({
   template: require('!!raw-loader!./wp-table.directive.html'),
@@ -78,7 +79,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public rowcount:number;
 
-  public groupBy:GroupObject[];
+  public groupBy:QueryGroupByResource|undefined;
 
   public columns:any;
 
@@ -171,6 +172,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     this.workPackageTable = new WorkPackageTable(this.injector, this.$element[0], tbody[0], body, controller);
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
+    new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);
 
     let t1 = performance.now();
     debugLog('Render took ' + (t1 - t0) + ' milliseconds.');

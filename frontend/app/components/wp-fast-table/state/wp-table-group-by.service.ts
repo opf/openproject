@@ -27,38 +27,27 @@
 // ++
 
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
 import {QueryGroupByResource} from '../../api/api-v3/hal-resources/query-group-by-resource.service';
 import {opServicesModule} from '../../../angular-modules';
-import {States} from '../../states.service';
 import {WorkPackageTableGroupBy} from '../wp-table-group-by';
-import {
-  TableStateStates,
-  WorkPackageQueryStateService,
-  WorkPackageTableBaseService
-} from './wp-table-base.service';
+import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {QueryColumn} from '../../wp-query/query-column';
+import {InputState} from 'reactivestates';
+import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
+import {States} from 'core-components/states.service';
 
-export class WorkPackageTableGroupByService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
-  protected stateName = 'groupBy' as TableStateStates;
-
-  constructor(protected states:States) {
+export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<WorkPackageTableGroupBy> implements WorkPackageQueryStateService {
+  public constructor(states:States) {
     super(states);
   }
 
-  public initialize(query:QueryResource) {
-    this.state.putValue(new WorkPackageTableGroupBy(query));
+
+  public get state():InputState<WorkPackageTableGroupBy> {
+    return this.tableState.groupBy;
   }
 
-  public update(query:QueryResource) {
-    let currentState = this.currentState;
-
-    if (currentState) {
-      currentState.update(query);
-      this.state.putValue(currentState);
-    } else {
-      this.initialize(query);
-    }
+  valueFromQuery(query:QueryResource) {
+    return new WorkPackageTableGroupBy(query);
   }
 
   public hasChanged(query:QueryResource) {

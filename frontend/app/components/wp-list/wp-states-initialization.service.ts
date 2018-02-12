@@ -45,9 +45,9 @@ export class WorkPackageStatesInitializationService {
   public initialize(query:QueryResource, results:WorkPackageCollectionResource) {
     this.clearStates();
 
-    this.initializeFromQuery(query);
+    this.initializeFromQuery(query, results);
 
-    this.updateFromResults(results);
+    this.updateFromResults(query, results);
   }
 
   /**
@@ -63,7 +63,7 @@ export class WorkPackageStatesInitializationService {
       this.states.schemas.get(schema.href as string).putValue(schema);
     });
 
-    this.wpTableFilters.initialize(query, schema);
+    this.wpTableFilters.initializeFilters(query, schema);
     this.states.query.form.putValue(form);
 
     this.states.query.available.columns.putValue(schema.columns.allowedValues);
@@ -71,7 +71,7 @@ export class WorkPackageStatesInitializationService {
     this.states.query.available.groupBy.putValue(schema.groupBy.allowedValues);
   }
 
-  public updateFromResults(results:WorkPackageCollectionResource) {
+  public updateFromResults(query:QueryResource, results:WorkPackageCollectionResource) {
     // Clear table required data states
     this.states.globalTable.additionalRequiredWorkPackages.clear('Clearing additional WPs before updating rows');
 
@@ -89,26 +89,26 @@ export class WorkPackageStatesInitializationService {
 
     this.states.globalTable.groups.putValue(angular.copy(results.groups));
 
-    this.wpTablePagination.initialize(results);
+    this.wpTablePagination.initialize(query, results);
 
     this.wpListChecksumService.updateIfDifferent(this.states.query.resource.value!, this.wpTablePagination.current);
 
-    this.wpTableRelationColumns.initialize(results.elements);
+    this.wpTableRelationColumns.initialize();
 
     this.wpTableAdditionalElements.initialize(results.elements);
 
     this.AuthorisationService.initModelAuth('work_packages', results.$links);
   }
 
-  private initializeFromQuery(query:QueryResource) {
+  private initializeFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
     this.states.query.resource.putValue(query);
 
     this.wpTableSum.initialize(query);
-    this.wpTableColumns.initialize(query);
-    this.wpTableSortBy.initialize(query);
-    this.wpTableGroupBy.initialize(query);
-    this.wpTableTimeline.initialize(query);
-    this.wpTableHierarchies.initialize(query);
+    this.wpTableColumns.initialize(query, results);
+    this.wpTableSortBy.initialize(query, results);
+    this.wpTableGroupBy.initialize(query, results);
+    this.wpTableTimeline.initialize(query, results);
+    this.wpTableHierarchies.initialize(query, results);
 
     this.AuthorisationService.initModelAuth('query', query.$links);
   }

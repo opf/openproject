@@ -1,19 +1,19 @@
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from 'app/components/api/api-v3/hal-resources/work-package-resource.service';
 import {
   GroupObject,
   WorkPackageCollectionResource
-} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
-import {RenderedRow} from 'core-components/wp-fast-table/builders/primary-render-pass';
-import {WorkPackageTableColumns} from 'core-components/wp-fast-table/wp-table-columns';
-import {WorkPackageTableFilters} from 'core-components/wp-fast-table/wp-table-filters';
-import {WorkPackageTableGroupBy} from 'core-components/wp-fast-table/wp-table-group-by';
-import {WorkPackageTableHierarchies} from 'core-components/wp-fast-table/wp-table-hierarchies';
-import {WorkPackageTablePagination} from 'core-components/wp-fast-table/wp-table-pagination';
-import {WorkPackageTableRelationColumns} from 'core-components/wp-fast-table/wp-table-relation-columns';
-import {WorkPackageTableSortBy} from 'core-components/wp-fast-table/wp-table-sort-by';
-import {WorkPackageTableSum} from 'core-components/wp-fast-table/wp-table-sum';
-import {WorkPackageTableTimelineState} from 'core-components/wp-fast-table/wp-table-timeline';
-import {WPTableRowSelectionState} from 'core-components/wp-fast-table/wp-table.interfaces';
+} from 'app/components/api/api-v3/hal-resources/wp-collection-resource.service';
+import {RenderedRow} from 'app/components/wp-fast-table/builders/primary-render-pass';
+import {WorkPackageTableColumns} from 'app/components/wp-fast-table/wp-table-columns';
+import {WorkPackageTableFilters} from 'app/components/wp-fast-table/wp-table-filters';
+import {WorkPackageTableGroupBy} from 'app/components/wp-fast-table/wp-table-group-by';
+import {WorkPackageTableHierarchies} from 'app/components/wp-fast-table/wp-table-hierarchies';
+import {WorkPackageTablePagination} from 'app/components/wp-fast-table/wp-table-pagination';
+import {WorkPackageTableRelationColumns} from 'app/components/wp-fast-table/wp-table-relation-columns';
+import {WorkPackageTableSortBy} from 'app/components/wp-fast-table/wp-table-sort-by';
+import {WorkPackageTableSum} from 'app/components/wp-fast-table/wp-table-sum';
+import {WorkPackageTableTimelineState} from 'app/components/wp-fast-table/wp-table-timeline';
+import {WPTableRowSelectionState} from 'app/components/wp-fast-table/wp-table.interfaces';
 import {derive, input, State, StatesGroup} from 'reactivestates';
 import {Subject} from 'rxjs/Rx';
 

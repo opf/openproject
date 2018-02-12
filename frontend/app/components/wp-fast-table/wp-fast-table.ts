@@ -1,11 +1,8 @@
 import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {TableStateHolder} from 'core-components/wp-table/TableState';
+import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
 import {debugLog} from '../../helpers/debug_output';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 
 import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
@@ -15,7 +12,6 @@ import {HierarchyRowsBuilder} from './builders/modes/hierarchy/hierarchy-rows-bu
 import {PlainRowsBuilder} from './builders/modes/plain/plain-rows-builder';
 import {RowsBuilder} from './builders/modes/rows-builder';
 import {PrimaryRenderPass, RenderedRow} from './builders/primary-render-pass';
-import {TableHandlerRegistry} from './handlers/table-handler-registry';
 import {WorkPackageTableEditingContext} from './wp-table-editing';
 
 import {WorkPackageTableRow} from './wp-table.interfaces';
@@ -52,8 +48,6 @@ export class WorkPackageTable {
               public timelineBody:HTMLElement,
               public timelineController:WorkPackageTimelineTableController) {
 
-    new TableHandlerRegistry(this.injector).attachTo(this);
-    // TableHandlerRegistry.attachTo(this);
   }
 
   public get renderedRows() {

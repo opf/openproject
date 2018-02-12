@@ -27,7 +27,7 @@
 // ++
 
 import {Component, ElementRef, Injector, OnDestroy, OnInit} from '@angular/core';
-import {TableStateHolder} from 'core-components/wp-table/TableState';
+import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {State} from 'reactivestates';
 import {Observable} from 'rxjs/Observable';

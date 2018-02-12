@@ -27,7 +27,7 @@
 // ++
 
 import {Injector} from '@angular/core';
-import {TableStateHolder} from 'core-components/wp-table/TableState';
+import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
 import * as moment from 'moment';
 import {$injectNow} from '../../../angular/angular-injector-bridge.functions';
 import {QueryDmService} from '../../../api/api-v3/hal-resource-dms/query-dm.service';

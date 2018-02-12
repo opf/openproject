@@ -1,5 +1,5 @@
 import {WPFocusState} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {TableState} from 'core-components/wp-table/TableState';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {combine, createNewContext, derive, input, multiInput, StatesGroup} from 'reactivestates';
 import {opServicesModule} from '../angular-modules';
 import {QueryFormResource} from './api/api-v3/hal-resources/query-form-resource.service';

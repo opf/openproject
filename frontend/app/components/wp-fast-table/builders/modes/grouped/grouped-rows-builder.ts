@@ -1,6 +1,6 @@
 import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {TableStateHolder} from 'core-components/wp-table/TableState';
+import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
 import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
 import {States} from '../../../../states.service';
 import {WorkPackageTableColumnsService} from '../../../state/wp-table-columns.service';

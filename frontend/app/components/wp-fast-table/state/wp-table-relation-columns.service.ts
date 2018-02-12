@@ -31,13 +31,15 @@ import {States} from '../../states.service';
 import {WorkPackageTableRelationColumns} from '../wp-table-relation-columns';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableColumnsService} from './wp-table-columns.service';
-import {TableStateStates, WorkPackageTableBaseService} from './wp-table-base.service';
+import {WorkPackageTableBaseService} from './wp-table-base.service';
 import {
   RelationResource,
   RelationResourceInterface
 } from '../../api/api-v3/hal-resources/relation-resource.service';
 import {
-  QueryColumn, queryColumnTypes, RelationQueryColumn,
+  QueryColumn,
+  queryColumnTypes,
+  RelationQueryColumn,
   TypeRelationQueryColumn
 } from '../../wp-query/query-column';
 import {IQService} from 'angular';
@@ -47,12 +49,12 @@ import {
   RelationsStateValue,
   WorkPackageRelationsService
 } from '../../wp-relations/wp-relations.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 
 export type RelationColumnType = 'toType' | 'ofType';
 
-export class WorkPackageTableRelationColumnsService extends WorkPackageTableBaseService {
-  protected stateName = 'relationColumns' as TableStateStates;
-
+export class WorkPackageTableRelationColumnsService extends WorkPackageTableBaseService<WorkPackageTableRelationColumns> {
   constructor(public states:States,
               public wpTableColumns:WorkPackageTableColumnsService,
               public $q:IQService,
@@ -62,7 +64,15 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     super(states);
   }
 
-  public initialize(workPackages:WorkPackageResourceInterface[]) {
+  public get state() {
+    return this.tableState.relationColumns;
+  }
+
+  public valueFromQuery(query:QueryResource) {
+    return undefined;
+  }
+
+  public initialize() {
     this.initializeState();
   }
 

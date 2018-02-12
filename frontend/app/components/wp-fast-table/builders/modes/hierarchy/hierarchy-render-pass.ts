@@ -1,6 +1,6 @@
 import {Injector} from '@angular/core';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {TableStateHolder} from 'core-components/wp-table/TableState';
+import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
 import {WorkPackageResourceInterface} from '../../../../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../../../../states.service';
 import {

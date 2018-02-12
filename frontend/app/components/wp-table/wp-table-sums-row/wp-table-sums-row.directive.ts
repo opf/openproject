@@ -27,7 +27,7 @@
 // ++
 
 import {AfterViewInit, Directive, ElementRef, Inject, Injector} from '@angular/core';
-import {TableStateHolder} from 'core-components/wp-table/TableState';
+import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
 import {combine} from 'reactivestates';
 import {I18nToken} from '../../../angular4-transition-utils';
 import {SchemaResource} from '../../api/api-v3/hal-resources/schema-resource.service';
@@ -36,7 +36,6 @@ import {States} from '../../states.service';
 import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
 import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageTableColumns} from '../../wp-fast-table/wp-table-columns';
-import {HalResource} from "core-components/api/api-v3/hal-resources/hal-resource.service";
 
 @Directive({
   selector: '[wpTableSumsRow]'

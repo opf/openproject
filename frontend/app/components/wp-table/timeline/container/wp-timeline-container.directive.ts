@@ -27,7 +27,7 @@
 // ++
 
 import {AfterViewInit, Component, ElementRef, Inject, Injector, OnDestroy} from '@angular/core';
-import {TableStateHolder} from 'core-components/wp-table/TableState';
+import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
 import {Moment} from 'moment';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nToken, NotificationsServiceToken} from '../../../../angular4-transition-utils';

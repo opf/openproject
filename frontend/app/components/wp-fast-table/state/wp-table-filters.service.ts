@@ -27,7 +27,6 @@
 // ++
 
 import {
-  TableStateStates,
   WorkPackageQueryStateService,
   WorkPackageTableBaseService
 } from './wp-table-base.service';
@@ -38,17 +37,26 @@ import {CollectionResource} from '../../api/api-v3/hal-resources/collection-reso
 import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageTableFilters} from '../wp-table-filters';
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {InputState} from 'reactivestates';
+import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
 
-export class WorkPackageTableFiltersService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
-  protected stateName = 'filters' as TableStateStates;
+export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<WorkPackageTableFilters> implements WorkPackageQueryStateService {
 
-  constructor(public states: States,
-              private $q: ng.IQService) {
+  constructor(public states:States,
+              private $q:ng.IQService) {
     super(states);
   }
 
-  public initialize(query:QueryResource, schema:QuerySchemaResourceInterface) {
+  public get state():InputState<WorkPackageTableFilters> {
+    return this.tableState.filters;
+  }
+
+  public valueFromQuery(query:QueryResource):WorkPackageTableFilters|undefined {
+    return undefined;
+  }
+
+  public initializeFilters(query:QueryResource, schema:QuerySchemaResourceInterface) {
     let filters = _.map(query.filters, filter => filter.$copy());
 
     this.loadCurrentFiltersSchemas(filters).then(() => {

@@ -1,25 +1,22 @@
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
-import {
-  TableStateStates,
-  WorkPackageQueryStateService,
-  WorkPackageTableBaseService
-} from './wp-table-base.service';
+import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {WorkPackageTableHierarchies} from '../wp-table-hierarchies';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 
-export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
-  protected stateName = 'hierarchies' as TableStateStates;
-
+export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseService<WorkPackageTableHierarchies> implements WorkPackageQueryStateService {
   constructor(public states:States,
               public wpCacheService:WorkPackageCacheService) {
     super(states);
   }
 
-  public initialize(query:QueryResource) {
-    let current = new WorkPackageTableHierarchies(query.showHierarchies);
-    this.state.putValue(current);
+  public get state() {
+    return this.tableState.hierarchies;
+  }
+
+  public valueFromQuery(query:QueryResource):WorkPackageTableHierarchies|undefined {
+    return new WorkPackageTableHierarchies(query.showHierarchies);
   }
 
   public hasChanged(query:QueryResource) {
