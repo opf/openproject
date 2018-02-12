@@ -56,7 +56,7 @@ describe CustomActionsController, type: :controller do
 
       it 'renders enterprise_token' do
         expect(response)
-          .to render_template :enterprise_token
+          .to render_template 'common/upsale'
       end
     end
   end
