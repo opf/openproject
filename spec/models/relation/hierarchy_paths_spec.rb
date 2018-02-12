@@ -226,7 +226,7 @@ describe Relation, 'hierarchy_paths', type: :model do
     let!(:parent_child_relation) { Relation.create relation_type: 'hierarchy', from: parent, to: child }
 
     before do
-      ActiveRecord::Base.connection.select_rows <<-SQL
+      ActiveRecord::Base.connection.execute <<-SQL
         DELETE FROM hierarchy_paths
       SQL
       ActiveRecord::Base.connection.execute <<-SQL
