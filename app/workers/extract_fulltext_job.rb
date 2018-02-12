@@ -39,15 +39,11 @@ class ExtractFulltextJob < ApplicationJob
   end
 
   def perform
+    return unless OpenProject::Database.allows_tsv?
     return unless @attachment = find_attachment(@attachment_id)
 
     init
-
-    if OpenProject::Database.allows_tsv?
-      update
-    else
-      attachment.update(fulltext: @text)
-    end
+    update
   end
 
   private
