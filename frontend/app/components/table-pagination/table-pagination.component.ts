@@ -124,18 +124,19 @@ export class TablePaginationComponent implements OnInit {
     var pageNumbers = [];
 
     const perPage = this.pagination.perPage;
+    const currentPage = this.pagination.page;
     if (perPage) {
       for (var i = 1; i <= Math.ceil(this.pagination.total / perPage); i++) {
         pageNumbers.push(i);
       }
 
       // This avoids a truncation when there are not enough elements to truncate for the first elements
-      var startingDiff = perPage - 2 * truncSize;
+      var startingDiff = currentPage - 2 * truncSize;
       if ( 0 <= startingDiff && startingDiff <= 1 ) {
         this.postPageNumbers = this.truncatePageNums(pageNumbers, pageNumbers.length >= maxVisible + (truncSize * 2), maxVisible + truncSize, pageNumbers.length, 0);
       }
       else {
-        this.prePageNumbers = this.truncatePageNums(pageNumbers, perPage >= maxVisible, 0, Math.min(perPage - Math.ceil(maxVisible / 2), pageNumbers.length - maxVisible), truncSize);
+        this.prePageNumbers = this.truncatePageNums(pageNumbers, currentPage >= maxVisible, 0, Math.min(currentPage - Math.ceil(maxVisible / 2), pageNumbers.length - maxVisible), truncSize);
         this.postPageNumbers = this.truncatePageNums(pageNumbers, pageNumbers.length >= maxVisible + (truncSize * 2), maxVisible, pageNumbers.length, 0);
       }
     }
