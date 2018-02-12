@@ -198,7 +198,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     // Insert this row to parent
     const parent = _.last(ancestors);
-    this.insertUnderParent(row, parent);
+    this.insertUnderParent(row, parent!);
   }
 
   /**

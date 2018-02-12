@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module OpenProject
@@ -113,9 +113,9 @@ module OpenProject
       'main-menu-child-font-size'                            => "12px",
       'main-menu-child-hover-font-color'                     => "$main-menu-hover-font-color",
       'main-menu-child-selected-font-color'                  => "$main-menu-selected-font-color",
-      'main-menu-sidebar-font-color'                         => "#333333",
-      'main-menu-sidebar-h3-color'                           => "#333333",
-      'main-menu-sidebar-link-color'                         => "#333333",
+      'main-menu-sidebar-font-color'                         => "$main-menu-font-color",
+      'main-menu-sidebar-h3-color'                           => "$main-menu-font-color",
+      'main-menu-sidebar-link-color'                         => "$main-menu-font-color",
       'main-menu-sidebar-h3-border-top-color'                => "#1F4654",
       'main-menu-sidebar-h3-font-size'                       => "15px",
       'toolbar-title-color'                                  => "#5F5F5F",
@@ -279,7 +279,8 @@ module OpenProject
           header-item-bg-hover-color
           header-border-bottom-color
           content-link-color
-          main-menu-bg-color )
+          main-menu-bg-color
+          main-menu-font-color )
     end
   end
 end

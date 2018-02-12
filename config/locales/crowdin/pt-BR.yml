@@ -130,7 +130,7 @@ pt-BR:
         é:'
       token_value_warning: 'Nota: Esta é a única vez que você verá este token, certifique-se
         de copiá-lo agora.'
-      no_results_title_text: Atualmente não há tokens de acesso disponíveis.
+      no_results_title_text: Atualmente, não há tokens de acesso disponíveis.
   news:
     index:
       no_results_title_text: Atualmente, não há notícias para reportar.
@@ -1014,7 +1014,7 @@ pt-BR:
       boards: Fórum da Comunidade
       newsletter: Alertas de segurança / Newsletter
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Guia de configuração
   instructions_after_registration: Você pode entrar assim que sua conta for ativada
     clicando %{signin}.
   instructions_after_logout: Você pode entrar novamente clicando %{signin}.
@@ -1233,7 +1233,7 @@ pt-BR:
   label_integer: Número inteiro
   label_internal: Interno
   label_invite_user: Convidar usuário
-  label_show_hide: Mostrar/ocultar
+  label_show_hide: Exibir/ocultar
   label_show_all_registered_users: Mostrar todos usuários registrados
   label_journal: Diário
   label_journal_diff: Comparação de Descrição

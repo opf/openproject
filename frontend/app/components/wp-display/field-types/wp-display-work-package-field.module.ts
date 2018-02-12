@@ -29,13 +29,14 @@
 import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-builder';
 import {DisplayField} from '../wp-display-field/wp-display-field.module';
+import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
 
 export class WorkPackageDisplayField extends DisplayField {
 
   public text:{ linkTitle:string, none:string };
   private uiStateBuilder:UiStateLinkBuilder;
 
-  constructor(public resource:WorkPackageResource,
+  constructor(public resource:HalResource,
               public name:string,
               public schema:op.FieldSchema) {
     super(resource, name, schema);

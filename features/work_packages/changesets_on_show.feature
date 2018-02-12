@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 Feature: A work packages changesets are displayed on the work package show page
@@ -37,7 +37,7 @@ Feature: A work packages changesets are displayed on the work package show page
     And the project uses the following modules:
         | timelines |
     And the user "manager" is a "manager"
-    And there are the following work packages in project "ecookbook":
+    And there are the following issues in project "ecookbook":
       | subject | start_date | due_date   |
       | wp1     | 2013-01-01 | 2013-12-31 |
     And the work package "wp1" has the following changesets:

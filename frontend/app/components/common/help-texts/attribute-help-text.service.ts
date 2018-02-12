@@ -26,12 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import IAugmentedJQuery = angular.IAugmentedJQuery;
 import {opUiComponentsModule} from '../../../angular-modules';
 import {HelpTextResourceInterface} from '../../api/api-v3/hal-resources/help-text-resource.service';
 import {HelpTextDmService} from '../../api/api-v3/hal-resource-dms/help-text-dm.service';
 import {input} from 'reactivestates';
-import {CollectionResourceInterface} from '../../api/api-v3/hal-resources/collection-resource.service';
+import {CollectionResource} from "core-components/api/api-v3/hal-resources/collection-resource.service";
 
 export class AttributeHelpTextsService {
   private helpTexts = input<HelpTextResourceInterface[]>();
@@ -51,7 +50,7 @@ export class AttributeHelpTextsService {
 
     if (this.helpTexts.isPristine()) {
       this.helpTextDm.loadAll()
-        .then((resources:CollectionResourceInterface) => {
+        .then((resources:CollectionResource<HelpTextResourceInterface>) => {
           this.helpTexts.putValue(resources.elements as any);
           deferred.resolve(this.find(attribute, scope));
         });

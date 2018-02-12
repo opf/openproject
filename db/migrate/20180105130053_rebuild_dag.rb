@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 class RebuildDag < ActiveRecord::Migration[5.0]
@@ -44,7 +44,9 @@ class RebuildDag < ActiveRecord::Migration[5.0]
               name: 'index_relations_on_type_columns',
               unique: true
 
-    WorkPackage.rebuild_dag!
+    say_with_time 'Building the directed acyclic graph of all relations. This might take a while.' do
+      WorkPackage.rebuild_dag! 1000
+    end
 
     add_count_index
 

@@ -28,6 +28,8 @@
 
 
 
+import {OpenProject} from 'core-app/globals/openproject';
+
 (function($:JQueryStatic) {
 
   function mergeOptions(options:any) {
@@ -43,13 +45,13 @@
     var topShelf = $("<div/>").addClass(opts.className);
     var link = $("<a/>").append(' ' + opts.link).attr({"href": opts.url});
 
-    if (window.localStorage.getItem(opts.id)) {
+    if (window.OpenProject.guardedLocalStorage(opts.id)) {
       return;
     }
 
     var closeLink = $("<a/>").append(opts.close);
     closeLink.click(function() {
-      window.localStorage.setItem(opts.id, '1');
+      window.OpenProject.guardedLocalStorage(opts.id, '1');
       topShelf.remove();
     });
 

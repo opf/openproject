@@ -27,17 +27,19 @@
 //++
 
 import {opApiModule} from '../../../../angular-modules';
-import {RootResource} from '../hal-resources/root-resource.service';
 import {HalRequestService} from '../hal-request/hal-request.service';
-import {HelpTextResourceInterface} from '../hal-resources/help-text-resource.service';
-import {CollectionResourceInterface} from '../hal-resources/collection-resource.service';
+import {
+  HelpTextResource,
+  HelpTextResourceInterface
+} from '../hal-resources/help-text-resource.service';
+import {CollectionResource} from "core-components/api/api-v3/hal-resources/collection-resource.service";
 
 export class HelpTextDmService {
   constructor(protected halRequest:HalRequestService,
               protected v3Path:any) {
   }
 
-  public loadAll():ng.IPromise<CollectionResourceInterface> {
+  public loadAll():ng.IPromise<CollectionResource<HelpTextResourceInterface>> {
     return this.halRequest.get(this.v3Path.help_texts());
   }
 

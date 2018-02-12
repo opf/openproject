@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'api/v3/work_packages/work_package_representer'
@@ -36,7 +36,7 @@ module API
         resources :work_packages do
           helpers ::API::V3::WorkPackages::CreateWorkPackages
 
-          # The enpoint needs to be mounted before the GET :work_packages/:id.
+          # The endpoint needs to be mounted before the GET :work_packages/:id.
           # Otherwise, the matcher for the :id also seems to match available_projects.
           # This is also true when the :id param is declared to be of type: Integer.
           mount ::API::V3::WorkPackages::AvailableProjectsOnCreateAPI
@@ -136,6 +136,7 @@ module API
             mount ::API::V3::WorkPackages::AvailableProjectsOnEditAPI
             mount ::API::V3::WorkPackages::AvailableRelationCandidatesAPI
             mount ::API::V3::WorkPackages::WorkPackageRelationsAPI
+            mount ::API::V3::WorkPackages::CustomActions::CustomActionsAPI
           end
 
           mount ::API::V3::WorkPackages::CreateFormAPI

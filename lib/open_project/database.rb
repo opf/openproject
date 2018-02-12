@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module OpenProject
@@ -34,15 +34,20 @@ module OpenProject
   # syntax differences.
 
   module Database
+    DB_VALUE_FALSE = 'f'.freeze
+    DB_VALUE_TRUE = 't'.freeze
+
     class InsufficientVersionError < StandardError; end
 
     # This method returns a hash which maps the identifier of the supported
     # adapter to a regex matching the adapter_name.
     def self.supported_adapters
-      @adapters ||= ({
-        mysql: /mysql/i,
-        postgresql: /postgres/i
-      })
+      @adapters ||= begin
+        {
+          mysql: /mysql/i,
+          postgresql: /postgres/i
+        }
+      end
     end
 
     ##
@@ -86,7 +91,7 @@ module OpenProject
 
       case name
       when :mysql
-        Gem::Version.new(version) >= Gem::Version.new(required[:string])
+        true
       when :postgresql
         numeric_version >= required[:numeric]
       end

@@ -44,14 +44,9 @@ describe 'Work Package table relations', js: true do
   before do
     # There does not seem to appear a way to generate a valid token
     # for testing purposes
-    allow(EnterpriseToken)
-      .to receive(:allows_to?)
-      .and_return(false)
-
-    allow(EnterpriseToken)
-      .to receive(:allows_to?)
-      .with(:work_package_query_relation_columns)
-      .and_return(relation_columns_allowed)
+    if relation_columns_allowed
+      with_enterprise_token :work_package_query_relation_columns
+    end
 
     login_as(user)
   end

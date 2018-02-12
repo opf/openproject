@@ -36,6 +36,7 @@ import {States} from '../../states.service';
 import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
 import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageTableColumns} from '../../wp-fast-table/wp-table-columns';
+import {HalResource} from "core-components/api/api-v3/hal-resources/hal-resource.service";
 
 @Directive({
   selector: '[wpTableSumsRow]'

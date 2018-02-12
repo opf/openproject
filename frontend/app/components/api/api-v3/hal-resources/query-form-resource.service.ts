@@ -33,7 +33,7 @@ import {QueryFilterInstanceSchemaResource} from './query-filter-instance-schema-
 import {opApiModule} from '../../../../angular-modules';
 
 interface QueryFormResourceEmbedded {
-  filtersSchemas:CollectionResource;
+  filtersSchemas:CollectionResource<QueryFilterInstanceSchemaResource>;
   schema:SchemaResource;
 }
 
@@ -44,7 +44,7 @@ export class QueryFormResource extends FormResource {
   public schema:SchemaResource;
 
   public get filtersSchemas():QueryFilterInstanceSchemaResource[] {
-    return this.$embedded.filtersSchemas.elements as QueryFilterInstanceSchemaResource[];
+    return this.$embedded.filtersSchemas.elements;
   }
 }
 

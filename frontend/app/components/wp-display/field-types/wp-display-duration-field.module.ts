@@ -28,13 +28,14 @@
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {HalResource} from "core-components/api/api-v3/hal-resources/hal-resource.service";
 
 export class DurationDisplayField extends DisplayField {
 
   private WorkPackagesHelper:any;
   private TimezoneService:any;
 
-  constructor(public resource:WorkPackageResource,
+  constructor(public resource:HalResource,
               public name:string,
               public schema:op.FieldSchema) {
     super(resource, name, schema);

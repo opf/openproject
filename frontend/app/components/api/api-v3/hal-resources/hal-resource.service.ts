@@ -67,7 +67,7 @@ export class HalResource {
 
   public $links:any = {};
   public $embedded:any = {};
-  public $self:ng.IPromise<HalResource>;
+  public $self:ng.IPromise<this>;
 
   public _name:string;
 
@@ -121,11 +121,11 @@ export class HalResource {
   /**
    * Return the associated state to this HAL resource, if any.
    */
-  public get state(): InputState<HalResource> | null {
+  public get state(): InputState<this> | null {
     return null;
   }
 
-  public $load(force = false):ng.IPromise<HalResource> {
+  public $load(force = false):ng.IPromise<this> {
     if (!this.state) {
       return this.$loadResource(force);
     }
@@ -140,14 +140,14 @@ export class HalResource {
     // Otherwise, we risk returning a promise, that will never be resolved.
     state.putFromPromiseIfPristine(() => this.$loadResource(force));
 
-    return <ng.IPromise<HalResource>> state.valuesPromise().then(source => {
+    return <ng.IPromise<this>> state.valuesPromise().then(source => {
       this.$initialize(source);
       this.$loaded = true;
       return this;
     });
   }
 
-  protected $loadResource(force = false):ng.IPromise<HalResource> {
+  protected $loadResource(force = false):ng.IPromise<this> {
     if (!force) {
       if (this.$loaded) {
         return $q.when(this);

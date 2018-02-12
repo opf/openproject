@@ -159,7 +159,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
     const url = this.PathHelper.projectLevelListPath();
     return this.$http
       .get(url)
-      .then((result:{ data:{ projects:IProjectMenuEntry[] } }) => {
+      .then((result:any) => {
         return this.results = this.augmentWithParents(result.data.projects);
       });
   }

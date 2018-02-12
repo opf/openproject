@@ -1,7 +1,7 @@
-import {WorkPackageResource} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 import {
-    GroupObject,
-    WorkPackageCollectionResource
+  GroupObject,
+  WorkPackageCollectionResource
 } from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
 import {RenderedRow} from 'core-components/wp-fast-table/builders/primary-render-pass';
 import {WorkPackageTableColumns} from 'core-components/wp-fast-table/wp-table-columns';
@@ -17,7 +17,6 @@ import {WPTableRowSelectionState} from 'core-components/wp-fast-table/wp-table.i
 import {derive, input, State, StatesGroup} from 'reactivestates';
 import {Subject} from 'rxjs/Rx';
 
-
 export class TableState extends StatesGroup {
 
     name = 'TableStore';
@@ -25,7 +24,7 @@ export class TableState extends StatesGroup {
     // the results associated with the table
     results = input<WorkPackageCollectionResource>();
     // Set of work package IDs in strict order of appearance
-    rows = input<WorkPackageResource[]>();
+    rows = input<WorkPackageResourceInterface[]>();
     // all groups returned as results
     groups = input<GroupObject[]>();
     // Set of columns in strict order of appearance

@@ -28,6 +28,7 @@
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {WorkPackageResourceInterface} from "core-components/api/api-v3/hal-resources/work-package-resource.service";
 
 export const cssClassCustomOption = 'custom-option';
 

@@ -75,7 +75,8 @@ fa:
       comment.
     label_add_columns: Add columns
     label_add_comment: افزودن دیدگاه
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: کامنت بگذارید و برای اطلاع دادن به دیگران از @ استفاده
+      کنید
     label_add_selected_columns: Add selected columns
     label_added_by: اضافه شده توسط
     label_added_time_by: اضافه شده توسط %{author} %{age}
@@ -224,7 +225,7 @@ fa:
       work_package_belongs_to: این بسته کاری به %{projectname} پروژه تعلق دارد.
       click_to_switch_context: این بسته کاری را در آن پروژه باز کنید.
       autocompleter:
-        label: Project autocompletion
+        label: تکمیل خودکار پروژه
     text_are_you_sure: Are you sure?
     types:
       attribute_groups:

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 namespace :copyright do
@@ -50,10 +50,10 @@ namespace :copyright do
   end
 
   def copyright_file(options = {})
-    path = 'doc/COPYRIGHT_short.rdoc'
+    path = 'docs/COPYRIGHT_short.rdoc'
     if options[:path]
-      path = File.join(options[:path], 'doc/COPYRIGHT_short.rdoc') if File.exists?(File.join(options[:path], 'doc/COPYRIGHT_short.rdoc'))
-      path = File.join(options[:path], 'doc/COPYRIGHT_short.md')   if File.exists?(File.join(options[:path], 'doc/COPYRIGHT_short.md'))
+      path = File.join(options[:path], 'docs/COPYRIGHT_short.rdoc') if File.exists?(File.join(options[:path], 'docs/COPYRIGHT_short.rdoc'))
+      path = File.join(options[:path], 'docs/COPYRIGHT_short.md')   if File.exists?(File.join(options[:path], 'docs/COPYRIGHT_short.md'))
     end
     path
   end
@@ -228,9 +228,9 @@ namespace :copyright do
   desc 'Update the copyright on .rdoc source files'
   task :update_rdoc, :arg1 do |_task, args|
     excluded = ['README.rdoc',
-                'doc/COPYRIGHT.rdoc',
-                'doc/COPYING.rdoc',
-                'doc/COPYRIGHT_short.rdoc']
+                'docs/COPYRIGHT.rdoc',
+                'docs/COPYING.rdoc',
+                'docs/COPYRIGHT_short.rdoc']
 
     rewrite_copyright('rdoc', excluded, :rdoc, args[:arg1], position: :bottom)
   end
@@ -259,7 +259,7 @@ namespace :copyright do
   task :update, :arg1 do |_task, args|
     %w{
       css rb js js_erb css_erb html_erb json_erb text_erb atom_builder rake
-      feature rdoc rjs sql html yml yml_example rb_example special_files sass
+      feature rdoc rjs sql yml yml_example rb_example special_files sass
     }.each do |t|
       Rake::Task['copyright:update_' + t.to_s].invoke(args[:arg1])
     end

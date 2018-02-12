@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -350,6 +350,19 @@ describe PermittedParams, type: :model do
 
     let(:hash) do
       { 'editable' => '0', 'visible' => '0' }
+    end
+
+    it_behaves_like 'allows params'
+  end
+
+  describe '#custom_action' do
+    let(:attribute) { :custom_action }
+    let(:hash) do
+      {
+        'name' => 'blubs',
+        'actions' => { 'assigned_to' => '1' },
+        'conditions' => { 'status' => '42' }
+      }
     end
 
     it_behaves_like 'allows params'

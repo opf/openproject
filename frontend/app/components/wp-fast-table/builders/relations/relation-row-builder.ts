@@ -70,7 +70,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
    * @param workPackage
    * @returns {any}
    */
-  public createEmptyRelationRow(from:WorkPackageResource, to:WorkPackageResource) {
+  public createEmptyRelationRow(from:WorkPackageResourceInterface, to:WorkPackageResourceInterface) {
     const identifier = this.relationClassIdentifier(from, to);
     let tr = document.createElement('tr');
     tr.dataset['workPackageId'] = to.id;
@@ -87,7 +87,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
     return tr;
   }
 
-  public relationClassIdentifier(from:WorkPackageResource, to:WorkPackageResource) {
+  public relationClassIdentifier(from:WorkPackageResourceInterface, to:WorkPackageResourceInterface) {
     return relationIdentifier(to.id, from.id);
   }
 

@@ -20,9 +20,9 @@ RUN apt-get update -qq && \
 
 RUN a2enmod proxy proxy_http && rm -f /etc/apache2/sites-enabled/000-default.conf
 
-RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.4/main/pg_hba.conf
-RUN echo "listen_addresses='*'" >> /etc/postgresql/9.4/main/postgresql.conf
-RUN rm -rf /var/lib/postgresql/9.4/main && mkdir -p /var/lib/postgresql/9.4/main && chown -R postgres:postgres /var/lib/postgresql/9.4
+RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.6/main/pg_hba.conf
+RUN echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
+RUN rm -rf /var/lib/postgresql/9.6/main && mkdir -p /var/lib/postgresql/9.6/main && chown -R postgres:postgres /var/lib/postgresql/9.6
 RUN mkdir -p /var/db/openproject/{files,git,svn} && chown -R app:app /var/db/openproject
 
 COPY docker /usr/src/app/docker
@@ -32,6 +32,6 @@ COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 EXPOSE 80 5432
 
 # volumes to export
-VOLUME ["/var/lib/postgresql/9.4/main", "/var/db/openproject"]
+VOLUME ["/var/lib/postgresql/9.6/main", "/var/db/openproject"]
 
 CMD ["/usr/src/app/docker/entrypoint"]

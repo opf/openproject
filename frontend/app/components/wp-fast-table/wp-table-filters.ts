@@ -40,9 +40,7 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
   constructor(filters:QueryFilterInstanceResource[], schema:QuerySchemaResourceInterface) {
     super();
     this.current = filters;
-    this.availableSchemas = schema
-                            .filtersSchemas
-                            .elements as QueryFilterInstanceSchemaResource[];
+    this.availableSchemas = schema.filtersSchemas.elements as any;
   }
 
   public add(filter:QueryFilterResource) {

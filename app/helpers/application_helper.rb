@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'forwardable'
@@ -160,38 +160,6 @@ module ApplicationHelper
         end
       }.join.html_safe
     end
-  end
-
-  def error_messages_for(*params)
-    objects, options = extract_objects_from_params(params)
-
-    error_messages = objects.map { |o| o.errors.full_messages }.flatten
-
-    unless error_messages.empty?
-      render partial: 'common/validation_error',
-             locals: { error_messages: error_messages,
-                       object_name: options[:object_name].to_s.gsub('_', '') }
-    end
-  end
-
-  # Taken from Dynamic Form
-  #
-  # lib/action_view/helpers/dynamic_form.rb:187-198
-  def extract_objects_from_params(params)
-    options = params.extract_options!.symbolize_keys
-
-    objects = Array.wrap(options.delete(:object) || params).map { |object|
-      object = instance_variable_get("@#{object}") unless object.respond_to?(:to_model)
-      object = convert_to_model(object)
-
-      if object.class.respond_to?(:model_name)
-        options[:object_name] ||= object.class.model_name.human.downcase
-      end
-
-      object
-    }
-
-    [objects.compact, options]
   end
 
   # Renders flash messages

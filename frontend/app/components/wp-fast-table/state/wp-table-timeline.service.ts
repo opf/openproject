@@ -97,7 +97,11 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   public getNormalizedLabels(workPackage:WorkPackageResourceInterface) {
     let labels:TimelineLabels = _.clone(this.current.defaultLabels);
 
-    _.each(this.current.labels, (attribute:string, position:keyof TimelineLabels) => {
+    _.each(this.current.labels, (attribute:string | null, positionAsString:string) => {
+      // RR: Lodash typings declare the position as string. However, it is save to cast
+      // to `keyof TimelineLabels` because `this.current.labels` is of type TimelineLabels.
+      const position:keyof TimelineLabels = positionAsString as keyof TimelineLabels;
+
       // Set to null to explicitly disable
       if (attribute === '') {
         labels[position] = null;

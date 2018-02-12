@@ -35,6 +35,7 @@ import { WorkPackageNotificationService } from "./../wp-edit/wp-notification.ser
 import { SchemaResource } from "../api/api-v3/hal-resources/schema-resource.service";
 import IScope = angular.IScope;
 import IPromise = angular.IPromise;
+import {WorkPackageResourceInterface} from "core-components/api/api-v3/hal-resources/work-package-resource.service";
 
 export class SchemaCacheService {
 
@@ -47,7 +48,7 @@ export class SchemaCacheService {
    * @param href The schema's href.
    * @return A promise with the loaded schema.
    */
-  ensureLoaded(workPackage:WorkPackageResource):PromiseLike<any> {
+  ensureLoaded(workPackage:WorkPackageResourceInterface):PromiseLike<any> {
     const state = this.state(workPackage);
 
     if (state.hasValue()) {
@@ -61,7 +62,7 @@ export class SchemaCacheService {
    * Get the associated schema state of the work package
    *  without initializing a new resource.
   */
-  state(workPackage:WorkPackageResource) {
+  state(workPackage:WorkPackageResourceInterface) {
     const schema = workPackage.$links.schema;
     return this.states.schemas.get(schema.href!);
   }
@@ -69,7 +70,7 @@ export class SchemaCacheService {
   /**
    * Load the associated schema for the given work package, if needed.
    */
-  load(workPackage:WorkPackageResource, forceUpdate = false):State<SchemaResource> {
+  load(workPackage:WorkPackageResourceInterface, forceUpdate = false):State<SchemaResource> {
     const state = this.state(workPackage);
 
     if (forceUpdate) {
@@ -78,7 +79,7 @@ export class SchemaCacheService {
 
     state.putFromPromiseIfPristine(() => {
       const resource = workPackage.createLinkedResource('schema', workPackage.$links.schema.$link);
-      return resource.$load();
+      return resource.$load() as any;
     });
 
     return state;

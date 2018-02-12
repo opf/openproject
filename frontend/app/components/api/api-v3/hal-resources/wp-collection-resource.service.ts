@@ -30,20 +30,20 @@ import {CollectionResource} from './collection-resource.service';
 import {WorkPackageResourceInterface} from './work-package-resource.service';
 import {HalResource} from './hal-resource.service';
 import {opApiModule} from '../../../../angular-modules';
+import {SchemaResource} from "core-components/api/api-v3/hal-resources/schema-resource.service";
 
 interface WorkPackageCollectionResourceEmbedded {
-  schemas: CollectionResource;
   elements: WorkPackageResourceInterface[];
   groups: GroupObject[];
 }
 
-export class WorkPackageCollectionResource extends CollectionResource {
-  public schemas: CollectionResource;
+export class WorkPackageCollectionResource extends CollectionResource<WorkPackageResourceInterface> {
+  public schemas: CollectionResource<SchemaResource>;
   public createWorkPackage:any;
   public elements: WorkPackageResourceInterface[];
   public groups: GroupObject[];
   public totalSums?: Object;
-  public sumsSchema?: HalResource;
+  public sumsSchema?: SchemaResource;
   public representations: Array<HalResource>;
 }
 

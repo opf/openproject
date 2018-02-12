@@ -1,12 +1,12 @@
 import {Injector} from '@angular/core';
-import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
 import {States} from '../../states.service';
-import {QueryColumn} from '../../wp-query/query-column';
-import {WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
-import {WorkPackageTableRelationColumnsService} from '../state/wp-table-relation-columns.service';
 import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageDisplayFieldService} from './../../wp-display/wp-display-field/wp-display-field.service';
 import {tdClassName} from './cell-builder';
+import {WorkPackageTableRelationColumnsService} from '../state/wp-table-relation-columns.service';
+import {RelationResourceInterface} from '../../api/api-v3/hal-resources/relation-resource.service';
+import {QueryColumn} from '../../wp-query/query-column';
+import {WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
 
 export const relationCellTdClassName = 'wp-table--relation-cell-td';
 export const relationCellIndicatorClassName = 'wp-table--relation-indicator';
@@ -58,7 +58,7 @@ export class RelationCellbuilder {
     return indicator;
   }
 
-  private renderBadge(relations:RelationResource[]) {
+  private renderBadge(relations:RelationResourceInterface[]) {
     const badge = document.createElement('span');
     badge.classList.add('wp-table--relation-count');
 

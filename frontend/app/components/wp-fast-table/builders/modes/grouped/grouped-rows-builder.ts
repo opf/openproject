@@ -72,7 +72,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
     const colspan = this.wpTableColumns.columnCount + 1;
     const rendered = this.tableState.get().rendered.value!;
 
-    jQuery(`.${rowGroupClassName}`).each((i:number, oldRow:HTMLElement) => {
+    jQuery(`.${rowGroupClassName}`).each((i:number, oldRow:Element) => {
       let groupIndex = jQuery(oldRow).data('groupIndex');
       let group = groups[groupIndex];
 

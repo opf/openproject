@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 require 'spec_helper'
@@ -897,6 +897,29 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             let(:href) { edit_type_path(work_package.type_id, tab: 'form_configuration') }
             let(:title) { 'Configure form' }
           end
+        end
+      end
+
+      describe 'customActions' do
+        it 'has a collection of customActions' do
+          unassign_action = FactoryGirl.build_stubbed(:custom_action,
+                                                      actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+                                                      name: 'Unassign')
+          allow(work_package)
+            .to receive(:custom_actions)
+            .and_return([unassign_action])
+
+          expected = [
+            {
+              href: api_v3_paths.work_package_custom_action_execute(work_package.id, unassign_action.id),
+              method: 'POST',
+              title: unassign_action.name
+            }
+          ]
+
+          is_expected
+            .to be_json_eql(expected.to_json)
+            .at_path('_links/customActions')
         end
       end
     end
