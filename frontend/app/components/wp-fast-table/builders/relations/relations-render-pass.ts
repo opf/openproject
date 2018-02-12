@@ -11,6 +11,7 @@ import {
 import {WorkPackageTable} from '../../wp-fast-table';
 import {PrimaryRenderPass, RowRenderInfo} from '../primary-render-pass';
 import {relationGroupClass, RelationRowBuilder} from './relation-row-builder';
+import {QueryColumn} from 'core-components/wp-query/query-column';
 
 export interface RelationRenderInfo extends RowRenderInfo {
   data:{
@@ -60,7 +61,7 @@ export class RelationsRenderPass {
 
       this.wpTableRelationColumns.relationsToExtendFor(workPackage,
         state.value!,
-        (relation, column, type) => {
+        (relation:RelationResource, column:QueryColumn, type:any) => {
 
           // Build each relation row (currently sorted by order defined in API)
           const [relationRow, target] = this.relationRowBuilder.buildEmptyRelationRow(

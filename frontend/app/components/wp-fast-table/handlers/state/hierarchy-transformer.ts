@@ -31,7 +31,7 @@ export class HierarchyTransformer {
 
     this.wpTableHierarchies
       .observeUntil(this.states.globalTable.stopAllSubscriptions)
-      .subscribe((state) => {
+      .subscribe((state:WorkPackageTableHierarchies) => {
 
         if (state.isEnabled === lastValue) {
           this.renderHierarchyState(state);

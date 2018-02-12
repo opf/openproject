@@ -29,7 +29,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
-import { FormsModule } from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
 import {AccessibleByKeyboardDirectiveUpgraded} from 'core-app/ui_components/accessible-by-keyboard-directive-upgraded';
 import {SimpleTemplateRenderer} from 'core-components/angular/simple-template-renderer';
@@ -38,7 +38,6 @@ import {ContextMenuService} from 'core-components/context-menus/context-menu.ser
 import {HasDropdownMenuDirective} from 'core-components/context-menus/has-dropdown-menu/has-dropdown-menu-directive';
 import {States} from 'core-components/states.service';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
-import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageDisplayFieldService} from 'core-components/wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
@@ -67,21 +66,20 @@ import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-tab
 import {WorkPackagesTableController,} from 'core-components/wp-table/wp-table.directive';
 import {
   $qToken,
-  $rootScopeToken, $stateToken, $timeoutToken,
+  $rootScopeToken,
+  $stateToken,
+  $timeoutToken,
   columnsModalToken,
-  FocusHelperToken, halRequestToken,
+  FocusHelperToken,
+  halRequestToken,
   I18nToken,
-  NotificationsServiceToken, PathHelperToken,
+  NotificationsServiceToken,
+  PathHelperToken,
   upgradeService,
   upgradeServiceWithToken
 } from './angular4-transition-utils';
-import {
-  WpCustomActionComponent
-} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
-import {
-  WpCustomActionsComponent
-} from 'core-components/wp-custom-actions/wp-custom-actions.component';
-import {HalRequestService} from 'core-components/api/api-v3/hal-request/hal-request.service';
+import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
+import {WpCustomActionsComponent} from 'core-components/wp-custom-actions/wp-custom-actions.component';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {HideSectionComponent} from 'core-components/common/hide-section/hide-section.component';
 import {HideSectionService} from 'core-components/common/hide-section/hide-section.service';
