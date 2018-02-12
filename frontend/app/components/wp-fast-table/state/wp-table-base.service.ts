@@ -27,11 +27,12 @@
 // ++
 
 import {InputState, State} from "reactivestates";
-import {States} from "../../states.service";
-import {WorkPackageTableBaseState} from "../wp-table-base";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {Observable} from 'rxjs';
+import {States} from '../../states.service';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {takeUntil} from 'rxjs/operators';
+import {ng} from 'angular-ui-router/lib/angular';
+import {Observable} from 'rxjs/Observable';
 
 export type TableStateStates =
   'columns' |
@@ -62,7 +63,7 @@ export abstract class WorkPackageTableBaseService {
   }
 
   public observeUntil(unsubscribe:Observable<any>) {
-    return this.state.values$().takeUntil(unsubscribe);
+    return this.state.values$().pipe(takeUntil(unsubscribe));
   }
 
   public onReady(scope:ng.IScope) {
