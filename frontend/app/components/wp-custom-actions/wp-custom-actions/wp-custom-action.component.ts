@@ -59,7 +59,7 @@ export class WpCustomActionComponent {
       lockVersion: this.workPackage.lockVersion
     };
 
-    this.halRequest.post(this.link.href, payload)
+    this.halRequest.post<WorkPackageResourceInterface>(this.link.href, payload)
       .then((savedWp:WorkPackageResourceInterface) => {
         this.wpNotificationsService.showSave(savedWp, false);
         this.workPackage = savedWp;

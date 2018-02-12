@@ -37,7 +37,6 @@ export class SchemaResource extends HalResource {
   [attribute:string]:any;
 
   // @ts-ignore
-  // TS2416: Property 'state' in type 'SchemaResource' is not assignable to the same property in base type 'HalResource'.
   public get state() {
     return states.schemas.get(this.href as string);
   }
