@@ -43,6 +43,11 @@ Available arguments that change how the work packages are handled:
 | `tracker` | name of the target tracker |
 | `category` | name of the target category |
 | `priority` | name of the target priority |
+| `status` | name of the target status |
+| `fixed_version` | name of the target version |
+| `type` | name of the target type |
+| `priority` | name of the target priority |
+| `unknown_user` ignore: email is ignored (default), accept: accept as anonymous user,                           create: create a user account |
 | `allow_override` | specifies which attributes may be overwritten though specified by previous options. Comma separated list |
 
 
@@ -84,7 +89,7 @@ Available arguments that change how the work packages are handled:
 
 If you set a default value it will be used when creating a work package.
 
-But then no other value is possible (even when you update the work package) unless you specify this with the use of `allow_override`. Some attributes (like `type, status, priority`) are only changeable if you specify this via `allow_override`. But notice: Some attributes have to specified in another format here, e.g. Assignee can be allowed to be overriden with `allow_override=assigned_to`.
+But then no other value is possible (even when you update the work package) unless you specify this with the use of `allow_override`. Some attributes (like `type, status, priority`) are only changeable if you specify this via `allow_override`. But notice: Some attributes have to specified in another format here, e.g. Assignee can be allowed to be overriden with `allow_override=assigned_to` and version can be overriden with `allow_override=fixed_version`
 
 
 ## Format of the emails
@@ -97,7 +102,7 @@ The address the mail is sent from must match an existing account in order to map
 If a matching account is found, the mail handler impersonates the user to create the ticket.
 
 If no matching account is found, the mail is rejected. To override this behavior and allow unknown mail address
-to create work packages, set the option `no_permission_check=1`.
+to create work packages, set the option `no_permission_check=1` and specify with `unknown_user=ACTION`
 
 **Note**: This feature only provides a mapping of mail to user account, it does not authenticate the user based on the mail.
 Since you can easily spoof mail addresses, you should not rely on the authenticity of work packages created that way.
