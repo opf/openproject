@@ -124,8 +124,28 @@ shared_examples 'a workpackage autocomplete field' do
 end
 
 shared_examples 'a principal autocomplete field' do
-  let!(:user) { FactoryGirl.create :user, member_in_project: project, firstname: 'John' }
-  let!(:mentioned_user) { FactoryGirl.create :user, member_in_project: project, firstname: 'Laura', lastname: 'Foobar' }
+  let(:role) { FactoryGirl.create(:role, permissions: %i[view_work_packages edit_work_packages]) }
+  let!(:user) do
+    FactoryGirl.create :user,
+                       member_in_project: project,
+                       member_through_role: role,
+                       firstname: 'John'
+  end
+  let!(:mentioned_user) do
+    FactoryGirl.create :user,
+                       member_in_project: project,
+                       member_through_role: role,
+                       firstname: 'Laura',
+                       lastname: 'Foobar'
+  end
+  let!(:mentioned_group) do
+    FactoryGirl.create(:group, lastname: 'Laudators').tap do |group|
+      FactoryGirl.create :member,
+                         principal: group,
+                         project: project,
+                         roles: [role]
+    end
+  end
 
   shared_examples 'principal autocomplete on field' do
     before do
@@ -136,10 +156,14 @@ shared_examples 'a principal autocomplete field' do
     it 'autocompletes links to user profiles' do
       field.activate!
       field.input_element.send_keys(" @lau")
-      expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_user.name)
+      expect(page).to have_selector('.atwho-view-ul li', text: mentioned_user.name)
+      expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_group.name)
+      expect(page).not_to have_selector('.atwho-view-ul li', text: user.name)
 
       field.input_element.send_keys(" @Laura Fo")
       expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_user.name)
+      expect(page).not_to have_selector('.atwho-view-ul li', text: mentioned_group.name)
+      expect(page).not_to have_selector('.atwho-view-ul li', text: user.name)
     end
   end
 

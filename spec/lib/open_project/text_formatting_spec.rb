@@ -46,8 +46,9 @@ describe OpenProject::TextFormatting do
       FactoryGirl.create :user,
                          member_in_project: project,
                          member_through_role: FactoryGirl.create(:role,
-                                                                 permissions: [:view_work_packages, :edit_work_packages,
-                                                                               :browse_repository, :view_changesets, :view_wiki_pages])
+                                                                 permissions: %i[view_work_packages edit_work_packages
+                                                                                 browse_repository view_changesets
+                                                                                 view_wiki_pages])
     end
     let(:issue) do
       FactoryGirl.create :work_package,
@@ -292,8 +293,8 @@ describe OpenProject::TextFormatting do
     context 'User links' do
       let(:role) do
         FactoryGirl.create :role,
-                           permissions: [:view_work_packages, :edit_work_packages,
-                                         :browse_repository, :view_changesets, :view_wiki_pages]
+                           permissions: %i[view_work_packages edit_work_packages
+                                           browse_repository view_changesets view_wiki_pages]
       end
 
       let(:linked_project_member) do
@@ -320,7 +321,6 @@ describe OpenProject::TextFormatting do
             is_expected.to be_html_eql("<p>user##{linked_project_member.id}</p>")
           }
         end
-
       end
 
       context 'User link via login name' do
@@ -352,6 +352,38 @@ describe OpenProject::TextFormatting do
           it {
             is_expected.to be_html_eql("<p>user:\"#{linked_project_member.login}\"</p>")
           }
+        end
+      end
+    end
+
+    context 'Group reference' do
+      let(:role) do
+        FactoryGirl.create :role,
+                           permissions: []
+      end
+
+      let(:linked_project_member_group) do
+        FactoryGirl.create(:group).tap do |group|
+          FactoryGirl.create(:member,
+                             principal: group,
+                             project: project,
+                             roles: [role])
+        end
+      end
+
+      context 'group exists' do
+        subject { format_text("group##{linked_project_member_group.id}") }
+
+        it 'produces the expected html' do
+          is_expected.to be_html_eql("<p><span class='user-mention'>#{linked_project_member_group.name}</span></p>")
+        end
+      end
+
+      context 'group does not exist' do
+        subject { format_text("group#000000") }
+
+        it 'leaves the text unchangd' do
+          is_expected.to be_html_eql("<p>group#000000</p>")
         end
       end
     end
