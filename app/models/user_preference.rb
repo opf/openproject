@@ -64,6 +64,14 @@ class UserPreference < ActiveRecord::Base
     others[:no_self_notified] = !value
   end
 
+  def auto_hide_popups=(value)
+    others[:auto_hide_popups] = to_boolean(value)
+  end
+
+  def auto_hide_popups?
+    others[:auto_hide_popups] || false
+  end
+
   def warn_on_leaving_unsaved?
     # Need to cast here as previous values were '0' / '1'
     to_boolean(others.fetch(:warn_on_leaving_unsaved) { true })
@@ -71,14 +79,6 @@ class UserPreference < ActiveRecord::Base
 
   def warn_on_leaving_unsaved=(value)
     others[:warn_on_leaving_unsaved] = to_boolean(value)
-  end
-
-  def auto_hide_popups=(value)
-    others[:auto_hide_popups] = to_boolean(value)
-  end
-
-  def auto_hide_popups?
-    others[:auto_hide_popups] || false
   end
 
   # Provide an alias to form builders
@@ -101,19 +101,6 @@ class UserPreference < ActiveRecord::Base
 
   def impaired?
     !!impaired
-  end
-
-  def warn_on_leaving_unsaved?
-    # Need to cast here as previous values were '0' / '1'
-    to_boolean(others.fetch(:warn_on_leaving_unsaved) { true })
-  end
-
-  def warn_on_leaving_unsaved
-    warn_on_leaving_unsaved?
-  end
-
-  def warn_on_leaving_unsaved=(value)
-    others[:warn_on_leaving_unsaved] = to_boolean(value)
   end
 
   private
