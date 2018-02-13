@@ -274,83 +274,84 @@ describe 'filter work packages', js: true do
       wp_table.visit!
     end
 
-    it 'allows filtering and retrieving and altering the saved filter' do
-      return unless OpenProject::Database::allows_tsv?
+    if OpenProject::Database::allows_tsv?
+      it 'allows filtering and retrieving and altering the saved filter' do
+        filters.open
 
-      filters.open
+        # content contains with multiple hits
+        filters.add_filter_by('Attachment content',
+                              'contains',
+                              ['text'],
+                              'attachmentContent')
 
-      # content contains with multiple hits
-      filters.add_filter_by('Attachment content',
-                            'contains',
-                            ['text'],
-                            'attachmentContent')
+        loading_indicator_saveguard
+        expect(wp_table).to have_work_packages_listed [wp_with_attachment_a, wp_with_attachment_b]
+        expect(wp_table).not_to have_work_packages_listed [wp_without_attachment]
 
-      loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [wp_with_attachment_a, wp_with_attachment_b]
-      expect(wp_table).not_to have_work_packages_listed [wp_without_attachment]
+        # content contains single hit with numbers
+        filters.remove_filter 'attachmentContent'
 
-      # content contains single hit with numbers
-      filters.remove_filter 'attachmentContent'
+        filters.add_filter_by('Attachment content',
+                              'contains',
+                              ['first 1.99'],
+                              'attachmentContent')
 
-      filters.add_filter_by('Attachment content',
-                            'contains',
-                            ['first 1.99'],
-                            'attachmentContent')
+        loading_indicator_saveguard
+        expect(wp_table).to have_work_packages_listed [wp_with_attachment_a]
+        expect(wp_table).not_to have_work_packages_listed [wp_without_attachment, wp_with_attachment_b]
 
-      loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [wp_with_attachment_a]
-      expect(wp_table).not_to have_work_packages_listed [wp_without_attachment, wp_with_attachment_b]
+        filters.remove_filter 'attachmentContent'
 
-      filters.remove_filter 'attachmentContent'
+        # content does not contain
+        filters.add_filter_by('Attachment content',
+                              'doesn\'t contain',
+                              ['first'],
+                              'attachmentContent')
 
-      # content does not contain
-      filters.add_filter_by('Attachment content',
-                            'doesn\'t contain',
-                            ['first'],
-                            'attachmentContent')
+        loading_indicator_saveguard
+        expect(wp_table).to have_work_packages_listed [wp_with_attachment_b]
+        expect(wp_table).not_to have_work_packages_listed [wp_without_attachment, wp_with_attachment_a]
 
-      loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [wp_with_attachment_b]
-      expect(wp_table).not_to have_work_packages_listed [wp_without_attachment, wp_with_attachment_a]
+        filters.remove_filter 'attachmentContent'
 
-      filters.remove_filter 'attachmentContent'
+        # ignores special characters
+        filters.add_filter_by('Attachment content',
+                              'contains',
+                              ['! first:* \')'],
+                              'attachmentContent')
 
-      # ignores special characters
-      filters.add_filter_by('Attachment content',
-                            'contains',
-                            ['! first:* \')'],
-                            'attachmentContent')
+        loading_indicator_saveguard
+        expect(wp_table).to have_work_packages_listed [wp_with_attachment_a]
+        expect(wp_table).not_to have_work_packages_listed [wp_without_attachment, wp_with_attachment_b]
 
-      loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [wp_with_attachment_a]
-      expect(wp_table).not_to have_work_packages_listed [wp_without_attachment, wp_with_attachment_b]
+        filters.remove_filter 'attachmentContent'
 
-      filters.remove_filter 'attachmentContent'
+        # file name contains
+        filters.add_filter_by('Attachment file name',
+                              'contains',
+                              ['first'],
+                              'attachmentFileName')
 
-      # file name contains
-      filters.add_filter_by('Attachment file name',
-                            'contains',
-                            ['first'],
-                            'attachmentFileName')
+        loading_indicator_saveguard
+        expect(wp_table).to have_work_packages_listed [wp_with_attachment_a]
+        expect(wp_table).not_to have_work_packages_listed [wp_without_attachment, wp_with_attachment_b]
 
-      loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [wp_with_attachment_a]
-      expect(wp_table).not_to have_work_packages_listed [wp_without_attachment, wp_with_attachment_b]
+        filters.remove_filter 'attachmentFileName'
 
-      filters.remove_filter 'attachmentFileName'
+        # file name does not contain
+        filters.add_filter_by('Attachment file name',
+                              'doesn\'t contain',
+                              ['first'],
+                              'attachmentFileName')
 
-      # file name does not contain
-      filters.add_filter_by('Attachment file name',
-                            'doesn\'t contain',
-                            ['first'],
-                            'attachmentFileName')
-
-      loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [wp_with_attachment_b]
-      expect(wp_table).not_to have_work_packages_listed [wp_with_attachment_a]
+        loading_indicator_saveguard
+        expect(wp_table).to have_work_packages_listed [wp_with_attachment_b]
+        expect(wp_table).not_to have_work_packages_listed [wp_with_attachment_a]
+      end
     end
 
   end
+
   context 'DB does not offer TSVector support' do
     before do
       allow(OpenProject::Database).to receive(:allows_tsv?).and_return(false)
