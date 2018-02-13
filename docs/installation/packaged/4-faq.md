@@ -51,7 +51,7 @@ If you use the docker images, you need to be familiar with Docker and Docker vol
 
 Ruby support on Windows is notoriously difficult, however you might be able to run the Docker image, or use the unofficial Windows stack provided by [Bitnami](https://bitnami.com/stack/openproject/installer).
 
-### How to backup and restore my OpenProject instalallation?
+### How to backup and restore my OpenProject installation?
 
 Please refer to the documentation at https://www.openproject.org/operations/backup/
 
