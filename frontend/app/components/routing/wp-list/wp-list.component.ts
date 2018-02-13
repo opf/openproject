@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StateService} from '@uirouter/angularjs';
 import {scopeDestroyed$, scopedObservable} from '../../../helpers/angular-rx-utils';
 import {debugLog} from '../../../helpers/debug_output';
@@ -46,59 +47,60 @@ import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
 
-function WorkPackagesListController($scope:any,
-                                    $state:StateService,
-                                    AuthorisationService:any,
-                                    states:States,
-                                    wpTableRefresh:WorkPackageTableRefreshService,
-                                    wpTableColumns:WorkPackageTableColumnsService,
-                                    wpTableSortBy:WorkPackageTableSortByService,
-                                    wpTableGroupBy:WorkPackageTableGroupByService,
-                                    wpTableFilters:WorkPackageTableFiltersService,
-                                    wpTableSum:WorkPackageTableSumService,
-                                    wpTableTimeline:WorkPackageTableTimelineService,
-                                    wpTableHierarchies:WorkPackageTableHierarchiesService,
-                                    wpTableRelationColumns:WorkPackageTableRelationColumnsService,
-                                    wpTablePagination:WorkPackageTablePaginationService,
-                                    wpListService:WorkPackagesListService,
-                                    wpListChecksumService:WorkPackagesListChecksumService,
-                                    loadingIndicator:LoadingIndicatorService,
-                                    I18n:op.I18n) {
 
-  $scope.tableState = states.globalTable;
+@Component({
+  selector: 'wp-list'
+})
+export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
-  $scope.projectIdentifier = $state.params['projectPath'] || null;
-  $scope.I18n = I18n;
-  $scope.text = {
-    'jump_to_pagination': I18n.t('js.work_packages.jump_marks.pagination'),
-    'text_jump_to_pagination': I18n.t('js.work_packages.jump_marks.label_pagination')
+  projectIdentifier = this.$state.params['projectPath'] || null;
+  text = {
+    'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
+    'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination')
   };
 
-  // Setup
-  function initialSetup() {
-    const loadingRequired = wpListChecksumService.isUninitialized();
+  constructor(readonly $scope:any,
+              readonly $state:StateService,
+              readonly AuthorisationService:any,
+              readonly states:States,
+              readonly wpTableRefresh:WorkPackageTableRefreshService,
+              readonly wpTableColumns:WorkPackageTableColumnsService,
+              readonly wpTableSortBy:WorkPackageTableSortByService,
+              readonly wpTableGroupBy:WorkPackageTableGroupByService,
+              readonly wpTableFilters:WorkPackageTableFiltersService,
+              readonly wpTableSum:WorkPackageTableSumService,
+              readonly wpTableTimeline:WorkPackageTableTimelineService,
+              readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
+              readonly wpTableRelationColumns:WorkPackageTableRelationColumnsService,
+              readonly wpTablePagination:WorkPackageTablePaginationService,
+              readonly wpListService:WorkPackagesListService,
+              readonly wpListChecksumService:WorkPackagesListChecksumService,
+              readonly loadingIndicator:LoadingIndicatorService,
+              readonly I18n:op.I18n) {
+  }
+
+  ngOnInit() {
+    const loadingRequired = this.wpListChecksumService.isUninitialized();
 
     // Listen to changes on the query state objects
-    setupQueryObservers();
+    this.setupQueryObservers();
 
     //  Require initial loading of the list if not yet done
     if (loadingRequired) {
-      wpTableRefresh.clear('Impending query loading.');
-      loadQuery();
+      this.wpTableRefresh.clear('Impending query loading.');
+      this.loadQuery();
     }
 
     // Listen for refresh changes
-    setupRefreshObserver();
+    this.setupRefreshObserver();
   }
 
-  // Teardown
-  $scope.$on('$destroy', () => {
+  ngOnDestroy():void {
     wpTableRefresh.clear('Table controller scope destroyed.');
-  });
+  }
 
-  function setupQueryObservers() {
-
-    scopedObservable($scope, states.tableRendering.onQueryUpdated.values$())
+  private setupQueryObservers() {
+    states.tableRendering.onQueryUpdated.values$().pipe()
       .take(1)
       .subscribe(() => $scope.tableInformationLoaded = true);
 
@@ -139,6 +141,16 @@ function WorkPackagesListController($scope:any,
     setupChangeObserver(wpTableHierarchies);
     setupChangeObserver(wpTableColumns);
   }
+
+
+}
+
+/////////////////////////
+// convert below to above
+/////////////////////////
+
+function WorkPackagesListController() {
+
 
   function setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {
     const queryState = states.query.resource;
@@ -221,8 +233,6 @@ function WorkPackagesListController($scope:any,
   $scope.allowed = function(model:string, permission:string) {
     return AuthorisationService.can(model, permission);
   };
-
-  initialSetup();
 
   function updateTitle(query:QueryResource) {
     if (query.id) {
