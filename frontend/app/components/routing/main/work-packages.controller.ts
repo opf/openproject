@@ -32,7 +32,7 @@ angular
   .module('openproject.workPackages.controllers')
   .controller('WorkPackagesController', WorkPackagesController);
 
-function WorkPackagesController($scope:ng.IScope,
+function WorkPackagesController($scope:any,
                                 $state:StateService,
                                 $stateParams:StateParams) {
 

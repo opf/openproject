@@ -28,6 +28,14 @@
         "tslib": "1.9.0"
       }
     },
+    "@angular/forms": {
+      "version": "4.4.5",
+      "resolved": "https://registry.npmjs.org/@angular/forms/-/forms-4.4.5.tgz",
+      "integrity": "sha1-6VUghiMqqyzh0I7xmLYiBOoTxDs=",
+      "requires": {
+        "tslib": "1.9.0"
+      }
+    },
     "@angular/platform-browser": {
       "version": "4.4.6",
       "resolved": "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-4.4.6.tgz",
@@ -53,7 +61,7 @@
       }
     },
     "@openproject/commonmark-ckeditor-build": {
-      "version": "git+https://github.com/opf/commonmark-ckeditor-build.git#2c776a29eaa01fa14bfb9053c019c5a9b78927ae"
+      "version": "git+https://github.com/opf/commonmark-ckeditor-build.git#8ee9228d038744f5461f71df350f456a112cdbca"
     },
     "@types/angular": {
       "version": "1.6.42",
@@ -109,8 +117,9 @@
       }
     },
     "@types/lodash": {
-      "version": "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.52.tgz",
-      "integrity": "sha512-i7U/y/J3of/RrZP+oUHLD1ksPk+e7FJ+sKZcJ/rkHYA4CKP4D6ofZ36f+3lXY4oZHWY6ZIFRXXZ349VIqwhIbQ=="
+      "version": "4.14.100",
+      "resolved": "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.100.tgz",
+      "integrity": "sha512-RdmitCjynsHc+U09x9LEmMrxNz2lgmeK3jMrfZFO38WZ/wTqojrpe4nRCLzLMLnL+s+8apNofGmQ9KdMxPcfCA=="
     },
     "@types/mocha": {
       "version": "2.2.48",
@@ -466,7 +475,7 @@
       "resolved": "https://registry.npmjs.org/async/-/async-2.6.0.tgz",
       "integrity": "sha512-xAfGg1/NTLBBKlHFmnd7PlmUW9KhVQIUuSrYem9xzFUZy13ScvtyGGejaae9iAVRiRq9+Cx7DPFaAAhCpyxyPw==",
       "requires": {
-        "lodash": "4.17.5"
+        "lodash": "4.17.4"
       }
     },
     "async-each": {
@@ -506,7 +515,7 @@
         "colors": "1.1.2",
         "enhanced-resolve": "2.3.0",
         "loader-utils": "0.2.17",
-        "lodash": "4.17.5",
+        "lodash": "4.17.4",
         "object-assign": "4.1.1",
         "source-map-support": "0.4.18"
       }
@@ -1006,7 +1015,7 @@
       "resolved": "https://registry.npmjs.org/combine-lists/-/combine-lists-1.0.1.tgz",
       "integrity": "sha1-RYwH4J4NkA/Ci3Cj/sLazR0st/Y=",
       "requires": {
-        "lodash": "4.17.5"
+        "lodash": "4.17.4"
       }
     },
     "combined-stream": {
@@ -3678,7 +3687,7 @@
       "requires": {
         "http-proxy": "1.16.2",
         "is-glob": "3.1.0",
-        "lodash": "4.17.5",
+        "lodash": "4.17.4",
         "micromatch": "2.3.11"
       },
       "dependencies": {
@@ -3948,6 +3957,12 @@
         "jquery": "3.3.1"
       }
     },
+    "jquery-ui": {
+      "version": "git+https://github.com/jquery/jquery-ui.git#74f8a0ac952f6f45f773312292baef1c26d81300",
+      "requires": {
+        "jquery": "3.3.1"
+      }
+    },
     "jquery-ujs": {
       "version": "1.2.2",
       "resolved": "https://registry.npmjs.org/jquery-ujs/-/jquery-ujs-1.2.2.tgz",
@@ -4164,7 +4179,7 @@
       "integrity": "sha1-0jyjSAG9qYY60xjju0vUBisTrNI=",
       "dev": true,
       "requires": {
-        "lodash": "4.17.5",
+        "lodash": "4.17.4",
         "phantomjs-prebuilt": "2.1.16"
       }
     },
@@ -4248,9 +4263,9 @@
       }
     },
     "lodash": {
-      "version": "4.17.5",
-      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.5.tgz",
-      "integrity": "sha512-svL3uiZf1RwhH+cWrfZn3A4+U58wbP0tGVTLQPbjplZxZ8ROD9VLuNgsRniTlLe7OlSqR79RUehXgpBW/s0IQw=="
+      "version": "4.17.4",
+      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.4.tgz",
+      "integrity": "sha1-eCA6TRwyiuHYbcpkYONptX9AVa4="
     },
     "lodash._baseassign": {
       "version": "3.2.0",

@@ -85,7 +85,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
   }
 
   public close() {
-    this.input.projectMenuAutocomplete('destroy');
+    (this.input as any).projectMenuAutocomplete('destroy');
     this.$element.find('.project-search-results').css('visibility', 'hidden');
   }
 
@@ -227,7 +227,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
     this.input.keydown((evt:JQueryKeyEventObject) => {
       if (evt.which === keyCodes.ESCAPE) {
         this.input.val('');
-        this.input[this.widgetName].call(this.input, 'search', '');
+        (this.input as any)[this.widgetName].call(this.input, 'search', '');
         return false;
       }
 

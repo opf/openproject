@@ -110,7 +110,8 @@ export class WorkPackageCreateController {
     this.$state.go('work-packages.new', this.$state.params);
   }
 
-  protected newWorkPackageFromParams(stateParams:any):Promise<WorkPackageChangeset> {
+  protected newWorkPackageFromParams(stateParams:any):ng.IPromise<WorkPackageChangeset> {
+    const deferred = this.$q.defer();
     const type = parseInt(stateParams.type);
 
     // If there is an open edit for this type, continue it
@@ -129,7 +130,7 @@ export class WorkPackageCreateController {
 
     return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type).then(changeset => {
       const filter = new WorkPackageFilterValues(changeset, this.wpTableFilters.current, ['type']);
-      return filter.applyDefaultsFromFilters().then(() => changeset);
+      return filter.applyDefaultsFromFilters().then(() => changeset) as ng.IPromise<WorkPackageChangeset>;;
     });
   }
 

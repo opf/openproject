@@ -36,7 +36,7 @@ class WpStatusContextMenuController {
   public status:CollectionResource[] = [];
 
   constructor(protected $timeout:ng.ITimeoutService,
-              protected $scope:ng.IScope,
+              protected $scope:any,
               protected wpEditing:WorkPackageEditingService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpTableRefresh:WorkPackageTableRefreshService) {
