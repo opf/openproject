@@ -274,7 +274,9 @@ describe 'filter work packages', js: true do
       wp_table.visit!
     end
 
-    it 'allows filtering, saving and retrieving and altering the saved filter' do
+    it 'allows filtering and retrieving and altering the saved filter' do
+      return unless OpenProject::Database::allows_tsv?
+
       filters.open
 
       # content contains with multiple hits
@@ -346,6 +348,16 @@ describe 'filter work packages', js: true do
       loading_indicator_saveguard
       expect(wp_table).to have_work_packages_listed [wp_with_attachment_b]
       expect(wp_table).not_to have_work_packages_listed [wp_with_attachment_a]
+    end
+
+  end
+  context 'DB does not offer TSVector support' do
+    before do
+      allow(OpenProject::Database).to receive(:allows_tsv?).and_return(false)
+    end
+
+    it "does not offer attachment filters" do
+      expect(page).to_not have_select 'add_filter_select', with_options: ['Attachment content', 'Attachment file name']
     end
   end
 end
