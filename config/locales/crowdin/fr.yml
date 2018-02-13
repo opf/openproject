@@ -59,6 +59,18 @@ fr:
   boards:
     show:
       no_results_title_text: Il n'y a actuellement aucun message pour le forum.
+  custom_actions:
+    actions:
+      name: Actions
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'Pour ajouter de nouveaux champs personnalisés à un
       projet, vous devez d’abord les créer avant de pouvoir les ajouter à ce projet.
@@ -446,6 +458,11 @@ fr:
       models:
         custom_field:
           at_least_one_custom_option: Au moins une option doit être disponible.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: ne peut être lu. Êtes-vous sûr qu'il s'agisse d'une licence
             Entreprise ?
@@ -562,6 +579,7 @@ fr:
       attribute_help_text: Attribut d’aide de texte
       board: Forum
       comment: Commentaire
+      custom_action: Custom action
       custom_field: Champ personnalisé
       group: Groupe
       category: Catégorie

@@ -57,6 +57,18 @@ hu:
   boards:
     show:
       no_results_title_text: Jelenleg nincs hozzászólás a fórumon.
+  custom_actions:
+    actions:
+      name: Műveletek
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'Új egyéni mezők hozzáadásához először létre kell hozni
       őket, még mielőtt felvenné azokat a projekthez.
@@ -435,6 +447,11 @@ hu:
       models:
         custom_field:
           at_least_one_custom_option: Minimum egy opciónak elérhetőnek kell lennie.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: nem olvasható. Biztos vagy benne, hogy ez támogatási token?
         parse_schema_filter_params_service:
@@ -544,6 +561,7 @@ hu:
       attribute_help_text: Attribútum-súgószöveg
       board: Fórum
       comment: Vélemény
+      custom_action: Custom action
       custom_field: Választható mező
       group: Csoport
       category: Kategória

@@ -59,6 +59,18 @@ de:
   boards:
     show:
       no_results_title_text: Zur Zeit existieren keine Forumseinträge für dieses Forum.
+  custom_actions:
+    actions:
+      name: Aktionen
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'Um neue benutzerdefinierte Felder einem Projekt zuzuweisen,
       müssen Sie diese erst global erstellen, um Sie dann an dieser Stelle aktivieren
@@ -449,6 +461,11 @@ de:
       models:
         custom_field:
           at_least_one_custom_option: Mindestens ein Wert muss verfügbar sein.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: kann nicht gelesen werden. Ist dies ein Enterprise-Edition Support
             Token?
@@ -563,6 +580,7 @@ de:
       attribute_help_text: Hilfe-Text für Attribute
       board: Forum
       comment: Kommentar
+      custom_action: Custom action
       custom_field: Benutzerdefiniertes Feld
       group: Gruppe
       category: Kategorie

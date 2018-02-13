@@ -48,6 +48,18 @@ ja:
   boards:
     show:
       no_results_title_text: 現在、掲示板の投稿はありません。
+  custom_actions:
+    actions:
+      name: 操作
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: '新しいカスタムフィールドをプロジェクトに追加するには、それをこのプロジェクトに追加する前に、まず作成する必要があります。
 
@@ -394,6 +406,11 @@ ja:
       models:
         custom_field:
           at_least_one_custom_option: 少なくとも 1 つオプションが有効である必要があります。
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: 読み取りできません。サポート トークンですか?
         parse_schema_filter_params_service:
@@ -491,6 +508,7 @@ ja:
       attribute_help_text: 属性のヘルプ テキスト
       board: フォーラム
       comment: コメント
+      custom_action: Custom action
       custom_field: カスタムフィールド
       group: グループ
       category: カテゴリ
