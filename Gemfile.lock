@@ -68,16 +68,6 @@ GIT
       rails (>= 5.0.0, < 5.1)
 
 GIT
-  remote: https://github.com/planio-gmbh/text-extractor
-  revision: 2467d49bb50656eccfc2373051860f93f1a82c77
-  ref: 2467d49bb50656e
-  specs:
-    text-extractor (0.1.0)
-      activesupport (> 2.2.1)
-      nokogiri (~> 1.8.1)
-      rubyzip (~> 1.2.1)
-
-GIT
   remote: https://github.com/rspec/rspec-activemodel-mocks
   revision: 5cd4c9d552bcc75d60ea4b7dda96e7377197ab8d
   specs:
@@ -569,6 +559,10 @@ GEM
     sys-filesystem (1.1.8)
       ffi
     test-prof (0.1.0)
+    text-extractor (0.1.0)
+      activesupport (> 2.2.1)
+      nokogiri (~> 1.8.1)
+      rubyzip (~> 1.2.1)
     thin (1.7.2)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -726,7 +720,7 @@ DEPENDENCIES
   syck (~> 1.3.0)
   sys-filesystem (~> 1.1.4)
   test-prof
-  text-extractor!
+  text-extractor (= 0.1.0)
   thin (~> 1.7.2)
   timecop (~> 0.9.0)
   transactional_lock!
