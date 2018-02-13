@@ -126,7 +126,7 @@ cs:
       no_results_content_text: Přidání člena do projektu
   my:
     access_token:
-      failed_to_reset_token: 'Selhal reset přístupového tokenu: %{error}'
+      failed_to_reset_token: 'Nepodařilo se obnovit přístupový token: %{error}'
       notice_reset_token: 'Byl vygenerován nový %{type} token. Váš přístupový token
         je:'
       token_value_warning: 'Note: This is the only time you will see this token, make
@@ -236,10 +236,10 @@ cs:
           become a user of this application again, you can do so by using the means
           this application grants.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        other: Zadejte přihlašovací jméno %{name} k potvrzení odstranění. Poté budete
+          požádáni o potvrzení Vaším heslem.
+        self: Zadejte Vaše přihlašovací jméno %{name} k potvrzení odstranění. Poté
+          budete požádáni o potvrzení Vaším heslem.
     error_inactive_activation_by_mail: 'Váš účet nebyl dosud aktivován. Chcete-li
       aktivovat váš účet, klepněte na odkaz, který vám byl zaslán e-mailem.
 
@@ -430,8 +430,8 @@ cs:
           start date.
         inclusion: is not set to one of the allowed values.
         invalid: is invalid.
-        invalid_url: is not a valid URL.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: není platná adresa URL.
+        invalid_url_scheme: 'není podporovaný protokol (povoleny: %{allowed_schemes}).'
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -683,7 +683,7 @@ cs:
   button_login: Přihlášení
   button_move: Přesunout
   button_move_and_follow: Move and follow
-  button_print: Print
+  button_print: Tisk
   button_quote: Citovat
   button_remove: Remove
   button_remove_widget: Odstranit widget
@@ -716,7 +716,7 @@ cs:
     failed: Cannot copy project %{source_project_name}
     succeeded: Created project %{target_project_name}
     errors: Chyba
-    project_custom_fields: Custom fields on project
+    project_custom_fields: Vlastní pole projektu
     text:
       failed: Could not copy project "%{source_project_name}" to project "%{target_project_name}".
       succeeded: Copied project "%{source_project_name}" to "%{target_project_name}".
@@ -1041,7 +1041,7 @@ cs:
       boards: Community forum
       newsletter: Security alerts / Newsletter
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Konfigurační manuál
   instructions_after_registration: You can sign in as soon as your account has been
     activated by clicking %{signin}.
   instructions_after_logout: You can sign in again by clicking %{signin}.
@@ -1127,7 +1127,7 @@ cs:
   label_select_main_menu_item: Select new main menu item
   label_select_project: Zvolit projekt
   label_required_disk_storage: Required disk storage
-  label_send_invitation: Send invitation
+  label_send_invitation: Odeslat pozvánku
   label_change_plural: Změny
   label_change_properties: Change properties
   label_change_status: Change status
@@ -1226,7 +1226,7 @@ cs:
   label_file_plural: Soubory
   label_filter_add: Add filter
   label_filter_plural: Filtry
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: Zobrazit/skrýt filtry
   label_float: Float
   label_folder: Folder
   label_follows: follows
@@ -1387,8 +1387,8 @@ cs:
   label_project_settings: Nastavení projektu
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: Zobrazit všechny projekty
-  label_project_show_details: Show project details
-  label_project_hide_details: Hide project details
+  label_project_show_details: Zobrazit detail projektu
+  label_project_hide_details: Skrýt detail projektu
   label_public_projects: Veřejné projekty
   label_query_new: Nový dotaz
   label_query_plural: Vlastní dotazy
@@ -1630,9 +1630,9 @@ cs:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
           context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        invalid_type: Nenalezen typ s názvem '%{type}' v projektu '%{project}".
       link_name: New work package
-      link_name_type: New %{type_name}
+      link_name_type: Nový %{type_name}
   mail:
     actions: Actions
   mail_body_account_activation_request: 'A new user (%{value}) has registered. The
@@ -1682,7 +1682,7 @@ cs:
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
     You are logged in now.
   notice_activation_failed: The account could not be activated.
-  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
+  notice_auth_stage_verification_error: Nelze ověřit fázi '%{stage}".
   notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
     but '%{actual}' returned.
   notice_auth_stage_error: Authentication stage '%{stage}' failed.
@@ -1717,7 +1717,7 @@ cs:
   notice_not_authorized: Nemáte oprávnění k přístupu na tuto stránku.
   notice_not_authorized_archived_project: Projekt, na který se pokoušíte přistoupit
     byl archivován.
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: Heslo není správné. Nelze pokračovat.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
@@ -1733,7 +1733,7 @@ cs:
   notice_unable_delete_version: Nelze odstranit verzi.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: Pozvánka byla odeslána na %{email}.
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Set standard type automatically.
   notice_logged_out: You have been logged out.
@@ -1868,12 +1868,12 @@ cs:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: Aktivní nebo archivované
     assigned_to_role: Řešitelova role
     member_of_group: Řešitelova skupina
     assignee_or_group: Assignee or belonging group
     subproject_id: Dílčí projekt
-    name_or_identifier: Name or identifier
+    name_or_identifier: Jméno nebo identifikátor
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2130,7 +2130,7 @@ cs:
     brute_force_prevention: Automated user blocking
   show_hide_project_menu: Rozbalit/sbalit nabídku projektu
   status_active: active
-  status_archived: archived
+  status_archived: archivováno
   status_invited: invited
   status_locked: uzamčeno
   status_registered: registrován
@@ -2611,7 +2611,7 @@ cs:
       multipart_body_error: The request body did not contain the expected multipart
         parts.
       multiple_errors: Multiple field constraints have been violated.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Přílohu nelze vytvořit
       render:
         context_not_parsable: The context provided is not a link to a resource.
         unsupported_context: The resource given is not supported as context.
