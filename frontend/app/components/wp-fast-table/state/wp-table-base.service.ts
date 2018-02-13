@@ -26,13 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {InputState, State} from "reactivestates";
-import {States} from '../../states.service';
+import {InputState, State} from 'reactivestates';
+import {Observable} from 'rxjs/Observable';
+import {takeUntil} from 'rxjs/operators';
 import {scopedObservable} from '../../../helpers/angular-rx-utils';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {takeUntil} from 'rxjs/operators';
-import {ng} from 'angular-ui-router/lib/angular';
-import {Observable} from 'rxjs/Observable';
+import {States} from '../../states.service';
 
 export type TableStateStates =
   'columns' |
