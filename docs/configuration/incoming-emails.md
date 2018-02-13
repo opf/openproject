@@ -47,7 +47,7 @@ Available arguments that change how the work packages are handled:
 | `fixed_version` | name of the target version |
 | `type` | name of the target type |
 | `priority` | name of the target priority |
-| `unknown_user` ignore: email is ignored (default), accept: accept as anonymous user,                           create: create a user account |
+| `unknown_user`| ignore: email is ignored (default), accept: accept as anonymous user,                           create: create a user account |
 | `allow_override` | specifies which attributes may be overwritten though specified by previous options. Comma separated list |
 
 
