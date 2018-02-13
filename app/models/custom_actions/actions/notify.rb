@@ -32,16 +32,21 @@ class CustomActions::Actions::Notify < CustomActions::Actions::Base
   include CustomActions::Actions::Strategies::Associated
 
   def apply(work_package)
-    comment = values.map { |id| "user##{id}" }.join(', ')
+    comment = principals.where(id: values).map do |p|
+      prefix = if p.is_a?(User)
+                 'user'
+               else
+                 'group'
+               end
+
+      "#{prefix}##{p.id}"
+    end.join(', ')
 
     work_package.journal_notes = comment
   end
 
   def associated
-    Principal
-      .active_or_registered
-      .select(:id, :firstname, :lastname, :type)
-      .order_by_name
+    principals
       .map { |u| [u.id, u.name] }
   end
 
@@ -51,5 +56,14 @@ class CustomActions::Actions::Notify < CustomActions::Actions::Base
 
   def multi_value?
     true
+  end
+
+  private
+
+  def principals
+    Principal
+      .active_or_registered
+      .select(:id, :firstname, :lastname, :type)
+      .order_by_name
   end
 end

@@ -58,12 +58,20 @@ describe CustomActions::Actions::Notify, type: :model do
     describe '#apply' do
       let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
 
-      it 'adds a note with all values' do
-        instance.values = [1, 2, 3]
+      it 'adds a note with all values distinguised by type' do
+        principals = [FactoryGirl.build_stubbed(:user),
+                      FactoryGirl.build_stubbed(:group),
+                      FactoryGirl.build_stubbed(:user)]
+
+        allow(Principal)
+          .to receive_message_chain(:active_or_registered, :select, :order_by_name, :where)
+          .and_return(principals)
+
+        instance.values = principals.map(&:id)
 
         expect(work_package)
           .to receive(:journal_notes=)
-          .with('user#1, user#2, user#3')
+          .with("user##{principals[0].id}, group##{principals[1].id}, user##{principals[2].id}")
 
         instance.apply(work_package)
       end
