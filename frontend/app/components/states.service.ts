@@ -1,47 +1,37 @@
-import {
-  combine,
-  createNewContext,
-  derive,
-  input,
-  multiInput,
-  State,
-  StatesGroup
-} from 'reactivestates';
+import {WPFocusState} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {combine, derive, input, multiInput, State, StatesGroup} from 'reactivestates';
 import {Subject} from 'rxjs';
 import {opServicesModule} from '../angular-modules';
 import {QueryFormResource} from './api/api-v3/hal-resources/query-form-resource.service';
+import {QueryGroupByResource} from './api/api-v3/hal-resources/query-group-by-resource.service';
 import {QueryResource} from './api/api-v3/hal-resources/query-resource.service';
+import {QuerySortByResource} from './api/api-v3/hal-resources/query-sort-by-resource.service';
 import {SchemaResource} from './api/api-v3/hal-resources/schema-resource.service';
 import {TypeResource} from './api/api-v3/hal-resources/type-resource.service';
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
 } from './api/api-v3/hal-resources/work-package-resource.service';
-import {
-  GroupObject,
-  WorkPackageCollectionResource
-} from './api/api-v3/hal-resources/wp-collection-resource.service';
-import {WorkPackageEditForm} from './wp-edit-form/work-package-edit-form';
+import {GroupObject, WorkPackageCollectionResource} from './api/api-v3/hal-resources/wp-collection-resource.service';
+import {SwitchState} from './states/switch-state';
+import {RenderedRow} from './wp-fast-table/builders/primary-render-pass';
 import {WorkPackageTableColumns} from './wp-fast-table/wp-table-columns';
 import {WorkPackageTableFilters} from './wp-fast-table/wp-table-filters';
 import {WorkPackageTableGroupBy} from './wp-fast-table/wp-table-group-by';
 import {WorkPackageTableHierarchies} from './wp-fast-table/wp-table-hierarchies';
 import {WorkPackageTablePagination} from './wp-fast-table/wp-table-pagination';
+import {WorkPackageTableRelationColumns} from './wp-fast-table/wp-table-relation-columns';
 import {WorkPackageTableSortBy} from './wp-fast-table/wp-table-sort-by';
 import {WorkPackageTableSum} from './wp-fast-table/wp-table-sum';
 import {WorkPackageTableTimelineState} from './wp-fast-table/wp-table-timeline';
-import {RenderedRow} from './wp-fast-table/builders/primary-render-pass';
-import {SwitchState} from './states/switch-state';
-import {QueryColumn} from './wp-query/query-column';
-import {QuerySortByResource} from './api/api-v3/hal-resources/query-sort-by-resource.service';
-import {QueryGroupByResource} from './api/api-v3/hal-resources/query-group-by-resource.service';
 import {WPTableRowSelectionState} from './wp-fast-table/wp-table.interfaces';
-import {WorkPackageTableRelationColumns} from './wp-fast-table/wp-table-relation-columns';
-import {WPFocusState} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {QueryColumn} from './wp-query/query-column';
+import {map} from 'rxjs/operators';
 
 export class States extends StatesGroup {
 
-  name = "MainStore";
+  name = 'MainStore';
+
   /* /api/v3/work_packages */
   workPackages = multiInput<WorkPackageResourceInterface>();
 
@@ -93,14 +83,14 @@ export class TableState extends StatesGroup {
   // Table row selection state
   selection = input<WPTableRowSelectionState>();
   // Current state of collapsed groups (if any)
-  collapsedGroups = input<{[identifier:string]:boolean}>();
+  collapsedGroups = input<{ [identifier:string]:boolean }>();
   // Hierarchies of table
   hierarchies = input<WorkPackageTableHierarchies>();
   // State to be updated when the table is up to date
   rendered = input<RenderedRow[]>();
 
-  renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $
-    .map(rows => rows.filter(row => !!row.workPackageId)));
+  renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $.pipe(
+    map(rows => rows.filter(row => !!row.workPackageId))));
 
   // State to determine timeline visibility
   timelineVisible = input<WorkPackageTableTimelineState>();
@@ -180,7 +170,4 @@ export class UserUpdaterStates {
 }
 
 
-const ctx = createNewContext();
-const states = ctx.create(States as any);
-
-opServicesModule.value('states', states);
+opServicesModule.value('states', new States());

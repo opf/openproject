@@ -33,7 +33,6 @@ import {$rootScopeToken, columnsModalToken, I18nToken} from 'core-app/angular4-t
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {GroupObject} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {Observable} from 'rxjs/Observable';
 import openprojectModule from '../../angular-modules';
 import {debugLog} from '../../helpers/debug_output';
 import {ContextMenuService} from '../context-menus/context-menu.service';
@@ -45,6 +44,8 @@ import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
 import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
+import {takeUntil} from 'rxjs/operators';
+import {combineLatest} from 'rxjs/observable/combineLatest';
 
 
 /**
@@ -139,14 +140,15 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       ].join(' ')
     };
 
-    Observable.combineLatest(
+    let statesCombined = combineLatest(
       this.states.query.resource.values$(),
       this.states.table.results.values$(),
       this.wpTableGroupBy.state.values$(),
       this.wpTableColumns.state.values$(),
-      this.wpTableTimeline.state.values$()
-    )
-      .takeUntil(componentDestroyed(this))
+      this.wpTableTimeline.state.values$());
+
+    statesCombined.pipe(
+      takeUntil(componentDestroyed(this)))
       .subscribe(([query, results, groupBy, columns, timelines]) => {
         this.query = query;
         this.rowcount = results.count;

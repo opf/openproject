@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {InputState, State} from "reactivestates";
-import {States} from "../../states.service";
-import {WorkPackageTableBaseState} from "../wp-table-base";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {Observable} from 'rxjs';
+import {InputState, State} from 'reactivestates';
+import {Observable} from 'rxjs/Observable';
+import {takeUntil} from 'rxjs/operators';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {States} from '../../states.service';
 
 export type TableStateStates =
   'columns' |
@@ -62,7 +62,7 @@ export abstract class WorkPackageTableBaseService {
   }
 
   public observeUntil(unsubscribe:Observable<any>) {
-    return this.state.values$().takeUntil(unsubscribe);
+    return this.state.values$().pipe(takeUntil(unsubscribe));
   }
 
   public onReady(scope:ng.IScope) {
