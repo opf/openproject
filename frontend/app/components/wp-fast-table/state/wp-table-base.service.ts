@@ -77,7 +77,7 @@ export abstract class WorkPackageTableBaseService<T> {
   }
 
   public observeUntil(unsubscribe:Observable<any>) {
-    return this.state.values$().takeUntil(unsubscribe);
+    return this.state.values$().pipe(takeUntil(unsubscribe));
   }
 
   public onReady(scope:ng.IScope) {

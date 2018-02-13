@@ -101,7 +101,4 @@ export class UserUpdaterStates {
 }
 
 
-const ctx = createNewContext();
-const states = ctx.create(States as any);
-
-opServicesModule.value('states', states);
+opServicesModule.value('states', new States());

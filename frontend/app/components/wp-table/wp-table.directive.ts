@@ -128,14 +128,15 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       ].join(' ')
     };
 
-    Observable.combineLatest(
+    let statesCombined = combineLatest(
       this.states.query.resource.values$(),
       this.tableState.results.values$(),
       this.wpTableGroupBy.state.values$(),
       this.wpTableColumns.state.values$(),
-      this.wpTableTimeline.state.values$()
-    )
-      .takeUntil(componentDestroyed(this))
+      this.wpTableTimeline.state.values$());
+
+    statesCombined.pipe(
+      takeUntil(componentDestroyed(this)))
       .subscribe(([query, results, groupBy, columns, timelines]) => {
         this.query = query;
         this.rowcount = results.count;

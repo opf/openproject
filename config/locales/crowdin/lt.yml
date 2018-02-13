@@ -58,6 +58,18 @@ lt:
   boards:
     show:
       no_results_title_text: Nėra jokių įrašų pranešimų lentoje.
+  custom_actions:
+    actions:
+      name: Veiksmai
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'Norėdami pridėti naujus pritaikytus laukelius prie
       projekto, pirmiausia reikia juos sukurti. Tik tada yra galimybė juos pridėti
@@ -437,6 +449,11 @@ lt:
       models:
         custom_field:
           at_least_one_custom_option: Turi būti prieinama bent viena savybė.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: neįmanoma perskaityti. Ar tai tikrai yra paramos raktas?
         parse_schema_filter_params_service:
@@ -546,6 +563,7 @@ lt:
       attribute_help_text: Atributo pagalbos tekstas
       board: Forumas
       comment: Komentaras
+      custom_action: Custom action
       custom_field: Kliento laukelis
       group: Grupė
       category: Kategorija

@@ -48,6 +48,17 @@ lol:
   boards:
     show:
       no_results_title_text: crwdns96402:0crwdne96402:0
+  custom_actions:
+    actions:
+      name: crwdns98840:0crwdne98840:0
+      add: crwdns98841:0crwdne98841:0
+    conditions: crwdns98842:0crwdne98842:0
+    plural: crwdns98843:0crwdne98843:0
+    new: crwdns98844:0crwdne98844:0
+    edit: crwdns98845:0%{name}crwdne98845:0
+    upsale:
+      title: crwdns98846:0crwdne98846:0
+      description: crwdns98847:0crwdne98847:0
   custom_fields:
     text_add_new_custom_field: 'crwdns96403:0crwdne96403:0
 
@@ -392,6 +403,11 @@ lol:
       models:
         custom_field:
           at_least_one_custom_option: crwdns96638:0crwdne96638:0
+        custom_actions:
+          only_one_allowed: crwdns98848:0%{name}crwdne98848:0
+          empty: crwdns98849:0%{name}crwdne98849:0
+          inclusion: crwdns98850:0%{name}crwdne98850:0
+          not_an_integer: crwdns98851:0%{name}crwdne98851:0
         enterprise_token:
           unreadable: crwdns96639:0crwdne96639:0
         parse_schema_filter_params_service:
@@ -488,6 +504,7 @@ lol:
       attribute_help_text: crwdns96688:0crwdne96688:0
       board: crwdns96689:0crwdne96689:0
       comment: crwdns96690:0crwdne96690:0
+      custom_action: crwdns98852:0crwdne98852:0
       custom_field: crwdns96691:0crwdne96691:0
       group: crwdns96692:0crwdne96692:0
       category: crwdns96693:0crwdne96693:0

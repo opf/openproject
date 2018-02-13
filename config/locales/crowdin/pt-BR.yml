@@ -59,6 +59,18 @@ pt-BR:
   boards:
     show:
       no_results_title_text: Atualmente, não há mensagens para o quadro.
+  custom_actions:
+    actions:
+      name: Ações
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'Para adicionar campos personalizados a um projeto
       é necessário criá-los primeiro para depois adicioná-los a este projeto.
@@ -436,6 +448,11 @@ pt-BR:
       models:
         custom_field:
           at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: não pode ser lido. Tem certeza que é um token de suporte?
         parse_schema_filter_params_service:
@@ -546,6 +563,7 @@ pt-BR:
       attribute_help_text: Texto de ajuda do atributo
       board: Fórum
       comment: Comentário
+      custom_action: Custom action
       custom_field: Campo personalizado
       group: Grupo
       category: Categoria

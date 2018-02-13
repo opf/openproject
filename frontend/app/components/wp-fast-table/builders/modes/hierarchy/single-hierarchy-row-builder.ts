@@ -90,18 +90,21 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
    * @param level
    */
   private appendHierarchyIndicator(workPackage:WorkPackageResourceInterface, jRow:JQuery, level?:number):void {
-    const hierarchyElement = this.buildHierarchyIndicator(workPackage, jRow, level);
+    const hierarchyLevel = level === undefined || null ? workPackage.ancestors.length : level;
+    const hierarchyElement = this.buildHierarchyIndicator(workPackage, jRow, hierarchyLevel);
 
     jRow.find('td.subject')
       .addClass('-with-hierarchy')
       .prepend(hierarchyElement);
+
+    // Assure that the content is still visble when the hierarchy indentation is very large
+    jRow.find('td.subject')[0].style.minWidth =  125 + (20 * hierarchyLevel) + 'px';
   }
 
   /**
    * Build the hierarchy indicator at the given indentation level.
    */
-  private buildHierarchyIndicator(workPackage:WorkPackageResourceInterface, jRow:JQuery | null, index:number | null = null):HTMLElement {
-    const level = index === null ? workPackage.ancestors.length : index;
+  private buildHierarchyIndicator(workPackage:WorkPackageResourceInterface, jRow:JQuery | null, level:number):HTMLElement {
     const hierarchyIndicator = document.createElement('span');
     const collapsed = this.wpTableHierarchies.collapsed(workPackage.id);
     const indicatorWidth = 25 + (20 * level) + 'px';
