@@ -57,6 +57,8 @@ OpenProject::Application.routes.draw do
 
         resources :stories,          controller: :rb_stories,          only: [:create, :update]
       end
+
+      resource :query, controller: :rb_queries, only: :show
     end
   end
 

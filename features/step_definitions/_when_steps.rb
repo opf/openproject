@@ -154,13 +154,13 @@ end
 # WARN: Depends on deprecated behavior of path_for('the task board for
 #       "sprint name"')
 When /^I view the sprint notes$/ do
-  visit url_for(controller: '/rb_wikis', action: 'show', sprint_id: @sprint)
+  visit url_for(controller: '/rb_wikis', action: 'show', sprint_id: @sprint, project_id: @project)
 end
 
 # WARN: Depends on deprecated behavior of path_for('the task board for
 #       "sprint name"')
 When /^I edit the sprint notes$/ do
-  visit url_for(controller: '/rb_wikis', action: 'edit', sprint_id: @sprint)
+  visit url_for(controller: '/rb_wikis', action: 'edit', sprint_id: @sprint, project_id: @project)
 end
 
 When /^I follow "(.+?)" of the "(.+?)" (?:backlogs )?menu$/ do |link, backlog_name|
