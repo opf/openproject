@@ -272,7 +272,7 @@ fr:
         filesize: Taille
       attribute_help_text:
         attribute_name: Attribut
-        help_text: Texte d'aide
+        help_text: Texte d’aide
       auth_source:
         account: Compte
         attr_firstname: Attribut Prénom
@@ -454,7 +454,7 @@ fr:
         before: doit être antérieur(e) à %{date}.
         before_or_equal_to: doit être antérieur(e) ou égal(e) à %{date}.
         could_not_be_copied: n'a pas pu être copié (entièrement).
-        regex_invalid: n'a pas pu être validé avec l’expression régulière associée.
+        regex_invalid: n’a pas pu être validé avec l’expression régulière associée.
       models:
         custom_field:
           at_least_one_custom_option: Au moins une option doit être disponible.
@@ -862,7 +862,7 @@ fr:
   default_status_tested: Testé
   default_status_test_failed: Test échoué
   default_status_to_be_scheduled: À planifier
-  default_priority_low: Faible
+  default_priority_low: Basse
   default_priority_normal: Normal
   default_priority_high: Haut
   default_priority_immediate: Immédiat
@@ -886,7 +886,7 @@ fr:
   default_type_phase: Phase
   default_type_task: Tâche
   default_type_user_story: Récit utilisateur
-  description_active: Actif?
+  description_active: Actif ?
   description_attachment_toggle: Afficher/Masquer les pièces jointes
   description_autocomplete: 'Ce champ utilise la saisie semi-automatique. Lorsque
     vous tapez le titre d''un Lot de Travaux, vous recevrez une liste de choix possibles.
@@ -900,7 +900,7 @@ fr:
   description_compare_to: Comparer avec
   description_current_position: 'Vous êtes ici :'
   description_date_from: Saisir date de début
-  description_date_range_interval: Choisir la pèriode en sélectionnant la date de
+  description_date_range_interval: Choisir la période en sélectionnant la date de
     début et de fin
   description_date_range_list: Choisir la pèriode depuis la liste
   description_date_to: Saisir échéance
@@ -939,7 +939,7 @@ fr:
   error_auth_source_sso_failed: Single Sign-On (SSO) pour l’utilisateur '%{value}'
     a échoué
   error_can_not_archive_project: Ce projet ne peut être archivé
-  error_can_not_delete_entry: Impossible de supprimer l'élément
+  error_can_not_delete_entry: Impossible de supprimer l’élément
   error_can_not_delete_custom_field: Impossible de supprimer le champ personnalisé
   error_can_not_delete_type: Ce type contient des Lots de Travaux et ne peut être
     supprimé.
@@ -1048,9 +1048,9 @@ fr:
       forums: Forums
       blog: Blog OpenProject
       boards: Forum de la communauté
-      newsletter: Alertes de sécurité / Lettre d'information
+      newsletter: Alertes de sécurité / Lettre d’information
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Guide de configuration
   instructions_after_registration: Vous pouvez vous authentifier tant que votre compte
     a été activé en cliquant sur %{signin}.
   instructions_after_logout: Vous pouvez vous ré-authentifier en cliquant sur %{signin}.
@@ -1070,7 +1070,7 @@ fr:
   label_accessibility: Accessibilité
   label_account: Compte
   label_active: Actif
-  label_activate_user: Activer l'utilisateur
+  label_activate_user: Activer l’utilisateur
   label_active_in_new_projects: Activer dans de nouveaux projets
   label_activity: Activité
   label_add_edit_translations: Ajouter et modifier des traductions
@@ -1187,7 +1187,7 @@ fr:
   label_date_to: À
   label_day_plural: jours
   label_default: Défaut
-  label_delete_user: Supprimer l'utilisateur
+  label_delete_user: Supprimer l’utilisateur
   label_delete_project: Supprimer le projet
   label_deleted: supprimé
   label_deleted_custom_field: "(champs personnalisés supprimés)"
@@ -1290,7 +1290,7 @@ fr:
   label_less_than_ago: il y a moins de quelques jours
   label_list: Liste
   label_loading: Chargement…
-  label_lock_user: Verrouiller l'utilisateur
+  label_lock_user: Verrouiller l’utilisateur
   label_logged_as: Connecté en tant que
   label_login: Connexion
   label_custom_logo: Logo personnalisé
@@ -1480,8 +1480,8 @@ fr:
   label_summary: Résumé
   label_system: Système
   label_system_storage: Informations de stockage
-  label_table_of_contents: Table des Matières
-  label_tag: Etiquette
+  label_table_of_contents: Table des matières
+  label_tag: Étiquette
   label_text: Long texte
   label_this_month: ce mois
   label_this_week: cette semaine
@@ -1534,7 +1534,7 @@ fr:
   label_week: Semaine
   label_wiki_content_added: Page wiki ajoutée
   label_wiki_content_updated: Page wiki mise à jour
-  label_wiki_toc: Table des Matières
+  label_wiki_toc: Table des matières
   label_wiki_dont_show_menu_item: Ne pas montrer cette page wiki dans la navigation
     du projet
   label_wiki_edit: Modification wiki
@@ -1642,11 +1642,11 @@ fr:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: Appel de la macro create_work_package_link depuis un contexte
+          de projet externe.
+        invalid_type: Aucun type trouvé avec le nom '%{type}' dans le projet '%{project}'.
       link_name: Nouveau Lot de Travaux
-      link_name_type: New %{type_name}
+      link_name_type: Nouveau %{type_name}
   mail:
     actions: Actions
   mail_body_account_activation_request: 'Un nouvel utilisateur (%{value}) s''est enregistré.
@@ -1890,7 +1890,7 @@ fr:
     active_or_archived: Actif ou archivé
     assigned_to_role: Rôle du Destinataire
     member_of_group: Groupe du Destinataire
-    assignee_or_group: Cessionnaire ou groupe d'appartenance
+    assignee_or_group: Cessionnaire ou groupe d’appartenance
     subproject_id: Sous-projet
     name_or_identifier: Nom ou identifiant
   repositories:
@@ -2477,8 +2477,8 @@ fr:
     outline: Réinitialiser le contour
     outlines:
       aggregation: Ne montrer que les agrégations
-      level1: Etendre niveau 1
-      level2: Etendre niveau 2
+      level1: Déplier 1 niveau
+      level2: Déplier 2 niveaux
       level3: Déplier 3 niveaux
       level4: Déplier 4 niveaux
       level5: Déplier 5 niveaux
@@ -2579,7 +2579,7 @@ fr:
       one: verrouillé temporairement (une tentative de connexion échouée)
       other: verrouillé temporairement (%{count} tentatives de connexion échouées)
     confirm_status_change: Vous êtes sur le point de changer le statut de '%{name}'.
-      Êtes-vous sûr de vouloir continuer?
+      Voulez-vous vraiment continuer ?
     deleted: Utilisateur supprimé
     error_status_change_failed: 'Le changement du statut de l''utilisateur a échoué
       dû aux erreurs suivantes: %{errors}'
@@ -2666,7 +2666,7 @@ fr:
       multipart_body_error: Le corps de la requête ne contenait pas les pièces multiparts
         attendus.
       multiple_errors: Plusieurs contraintes de champ n'ont pas été respectées.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: La pièce jointe n’a pas pu être créée
       render:
         context_not_parsable: Le contexte fourni n'est pas un lien vers une ressource.
         unsupported_context: La ressource donnée n'est pas prise en charge comme contexte.

@@ -1044,7 +1044,7 @@ ru:
       boards: Форум сообщества
       newsletter: Оповещения системы безопасности / Новости
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Руководство по конфигурации
   instructions_after_registration: Вы сможете войти как только ваша учетная запись
     будет активирована, нажав %{signin}.
   instructions_after_logout: Вы можете войти в снова, нажав %{signin}.

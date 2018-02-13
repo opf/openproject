@@ -233,10 +233,10 @@ fa:
           با اعتبار فعلی خود نخواهد بود. شما می توانید دوباره به وسیله امکاناتی که
           نرم ازار در اختیار او قرار می دهد به عضویت این نرم افزار در آیید.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        other: نام کاربری '%{name}' را جهت تایید حذف وارد کنید، در مرحله بعد باید
+          رمز عبور خود را وارد کنید.
+        self: نام کاربری '%{name}' را جهت تایید حذف وارد کنید، در مرحله بعد باید رمز
+          عبور خود را وارد کنید.
     error_inactive_activation_by_mail: 'حساب شما هنوز فعال نشده است. برای فعال سازی
       حساب خود ، بر روی لینکی که به شما ایمیل شده کلیک کنید.
 
@@ -427,8 +427,8 @@ fa:
           start date.
         inclusion: is not set to one of the allowed values.
         invalid: is invalid.
-        invalid_url: is not a valid URL.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: ساختار آدرس صحیح نیست.
+        invalid_url_scheme: 'این پروتکل مجاز نیست (موارد مجاز: %{allowed_schemes}).'
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -1022,7 +1022,7 @@ fa:
       boards: Community forum
       newsletter: هشدارهای امنیتی / عضویت در خبرنامه
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: راهنمای پیکربندی
   instructions_after_registration: You can sign in as soon as your account has been
     activated by clicking %{signin}.
   instructions_after_logout: You can sign in again by clicking %{signin}.
@@ -1601,11 +1601,11 @@ fa:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: فراخوانی ماکرو create_work_package_link خارج از فضای کاری
+          پروژه.
+        invalid_type: در پروژه '%{project}' هیچ نوع با عنوان '%{type}' یافت نشد.
       link_name: New work package
-      link_name_type: New %{type_name}
+      link_name_type: "%{type_name} جدید"
   mail:
     actions: اقدامات
   mail_body_account_activation_request: 'A new user (%{value}) has registered. The
@@ -2582,7 +2582,7 @@ fa:
         or malformed.
       multipart_body_error: متن درخواست شامل بخشهای مورد انتظار نمی باشد.
       multiple_errors: Multiple field constraints have been violated.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: امکان افزودن فایل پیوست وجود ندارد
       render:
         context_not_parsable: The context provided is not a link to a resource.
         unsupported_context: The resource given is not supported as context.

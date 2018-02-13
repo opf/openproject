@@ -949,7 +949,7 @@ ja:
       boards: コミュニティ フォーラム
       newsletter: セキュリティアラート / ニュースレター
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: 設定ガイド
   instructions_after_registration: "%{signin}をクリックして、アカウントが有効された後にログインできます。"
   instructions_after_logout: "%{signin}をクリックして再びログインできます。"
   instructions_after_error: "%{signin} をクリックして再びログインを試行できます。エラーが解決しない場合は、管理者にお問い合わせください。"

@@ -1030,7 +1030,7 @@ pt-BR:
       boards: Fórum da Comunidade
       newsletter: Alertas de segurança / Newsletter
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Guia de configuração
   instructions_after_registration: Você pode entrar assim que sua conta for ativada
     clicando %{signin}.
   instructions_after_logout: Você pode entrar novamente clicando %{signin}.

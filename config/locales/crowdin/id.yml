@@ -1022,7 +1022,7 @@ id:
       boards: Community forum
       newsletter: Peringatan keamanan / Jurnal berkala
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Petunjuk Konfigurasi
   instructions_after_registration: Anda dapat login setelah akun Anda diaktifkan,
     klik %{signin}.
   instructions_after_logout: Anda dapat login kembali dengan mengklik %{signin}.
@@ -1604,11 +1604,11 @@ id:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: Pemanggilan makro create_work_package_link dari paket
+          diluar konteks.
+        invalid_type: Tidak ditemukan tipe '%{type}' dalam paket '%{project}'.
       link_name: Paket-Penugasan baru
-      link_name_type: New %{type_name}
+      link_name_type: Sesuatu yang baru %{type_name}
   mail:
     actions: Tindakan
   mail_body_account_activation_request: 'User (%{value}) telah terdaftar. Akun Anda
@@ -2579,7 +2579,7 @@ id:
       multipart_body_error: The request body did not contain the expected multipart
         parts.
       multiple_errors: Multiple field constraints have been violated.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Unduhan tidak bisa dibuat
       render:
         context_not_parsable: The context provided is not a link to a resource.
         unsupported_context: The resource given is not supported as context.

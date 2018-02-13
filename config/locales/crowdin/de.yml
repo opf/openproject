@@ -1049,7 +1049,7 @@ de:
       boards: Community Forum
       newsletter: Sicherheitswarnungen / Newsletter
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Konfigurationsanleitung
   instructions_after_registration: Sie können sich anmelden, sobald Ihr Konto aktiviert
     wurde, indem Sie auf %{signin} klicken.
   instructions_after_logout: Sie können wieder anmelden indem Sie auf %{signin} klicken.
@@ -1636,11 +1636,11 @@ de:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: Rufe create_work_link Makro aus externen Projekt auf.
+        invalid_type: Es konnte kein Typ namens '%{type}' im Projekt '%{project}'
+          gefunden werden.
       link_name: Neues Arbeitspaket
-      link_name_type: New %{type_name}
+      link_name_type: Neu %{type_name}
   mail:
     actions: Aktionen
   mail_body_account_activation_request: 'Ein neuer Benutzer (%{value}) hat sich registriert.
@@ -2664,7 +2664,7 @@ de:
       multipart_body_error: Die Anfrage enthielt nicht die erwarteten mehrteiligen
         Abschnitte.
       multiple_errors: Einschränkungen für mehrere Felder wurden verletzt.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Der Anhang konnte nicht erstellt werden
       render:
         context_not_parsable: Der übergebene Kontext ist kein Link zu einer Ressource.
         unsupported_context: Die übergebene Ressource wird nicht als Kontext unterstützt.

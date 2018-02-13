@@ -76,7 +76,7 @@ fr:
       utilisateur.
     label_add_columns: Ajouter des colonnes
     label_add_comment: Ajouter un commentaire
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Commentez et utilisez @ pour informer d’autres personnes.
     label_add_selected_columns: Ajouter les colonnes sélectionnées
     label_added_by: Ajouté par
     label_added_time_by: Ajouté par %{author} %{age}
@@ -228,7 +228,7 @@ fr:
       work_package_belongs_to: Ce lot de travaux appartient au projet %{projectname}.
       click_to_switch_context: Ouvrir ce lot de travaux dans ce projet.
       autocompleter:
-        label: Project autocompletion
+        label: Remplissage automatique du projet
     text_are_you_sure: Êtes-vous sûr ?
     types:
       attribute_groups:
@@ -328,7 +328,7 @@ fr:
         left: Gauche
         right: Droite
         farRight: Extrême droite
-        showNone: "--Aucune étiquette--"
+        showNone: "-- Aucune étiquette --"
         description: 'Sélectionnez les attributs que vous voulez afficher à tout moment
           dans les positions respectives du diagramme de Gantt. Notez que, quand vous
           passez le curseur sur un élément, ses libellés de date seront affichés à
@@ -368,8 +368,8 @@ fr:
       outline: Réinitialiser le contour
       outlines:
         aggregation: Ne montrer que les agrégations
-        level1: Etendre niveau 1
-        level2: Etendre niveau 2
+        level1: Déplier 1 niveau
+        level2: Déplier 2 niveaux
         level3: Déplier 3 niveaux
         level4: Déplier 4 niveaux
         level5: Déplier 5 niveaux

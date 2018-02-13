@@ -75,7 +75,8 @@ id:
       comment.
     label_add_columns: Tambah kolom
     label_add_comment: Tambah komentar
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Beri komentar dan tuliskan @ untuk memberi tahu orang
+      lain
     label_add_selected_columns: Tambahkan kolom terpilih
     label_added_by: ditambahkan oleh
     label_added_time_by: Ditambahkan oleh %{author} %{age}
@@ -223,7 +224,7 @@ id:
       work_package_belongs_to: Paket kerja ini menjadi milik proyek %{projectname}.
       click_to_switch_context: Buka paket kerja ini dalam proyek tersebut.
       autocompleter:
-        label: Project autocompletion
+        label: Penyelesaian Proyek secara otomatis
     text_are_you_sure: Anda yakin?
     types:
       attribute_groups:

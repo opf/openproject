@@ -48,7 +48,7 @@ class AccountController < ApplicationController
     user = User.current
 
     if user.logged?
-      redirect_to home_url
+      redirect_after_login(user)
     elsif omniauth_direct_login?
       direct_login(user)
     elsif request.post?
@@ -87,36 +87,33 @@ class AccountController < ApplicationController
         end
       end
       render template: 'account/password_recovery'
-      return
-    else
-      if request.post?
-        mail = params[:mail]
-        user = User.find_by_mail(mail)
+    elsif request.post?
+      mail = params[:mail]
+      user = User.find_by_mail(mail)
 
-        # Ensure the same request is sent regardless of which email is entered
-        # to avoid detecability of mails
+      # Ensure the same request is sent regardless of which email is entered
+      # to avoid detecability of mails
+      flash[:notice] = l(:notice_account_lost_email_sent)
+
+      unless user
+        # user not found in db
+        Rails.logger.error "Lost password unknown email input: #{mail}"
+        return
+      end
+
+      unless user.change_password_allowed?
+        # user uses an external authentification
+        Rails.logger.error "Password cannot be changed for user: #{mail}"
+        return
+      end
+
+      # create a new token for password recovery
+      token = Token::Recovery.new(user_id: user.id)
+      if token.save
+        UserMailer.password_lost(token).deliver_now
         flash[:notice] = l(:notice_account_lost_email_sent)
-
-        unless user
-          # user not found in db
-          Rails.logger.error "Lost password unknown email input: #{mail}"
-          return
-        end
-
-        unless user.change_password_allowed?
-          # user uses an external authentification
-          Rails.logger.error "Password cannot be changed for user: #{mail}"
-          return
-        end
-
-        # create a new token for password recovery
-        token = Token::Recovery.new(user_id: user.id)
-        if token.save
-          UserMailer.password_lost(token).deliver_now
-          flash[:notice] = l(:notice_account_lost_email_sent)
-          redirect_to action: 'login', back_url: home_url
-          return
-        end
+        redirect_to action: 'login', back_url: home_url
+        return
       end
     end
   end
@@ -622,38 +619,42 @@ class AccountController < ApplicationController
 
   # Log an attempt to log in to an account in "registered" state and show a flash message.
   def account_not_activated(flash_now: true)
-    flash_hash = flash_now ? flash.now : flash
-
-    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
-                " at #{Time.now.utc} (NOT ACTIVATED)"
-
-    if Setting.self_registration == '1'
-      flash_hash[:error] = I18n.t('account.error_inactive_activation_by_mail')
-    else
-      flash_hash[:error] = I18n.t('account.error_inactive_manual_activation')
+    flash_error_message(log_reason: 'NOT ACTIVATED', flash_now: flash_now) do
+      if Setting.self_registration == '1'
+        'account.error_inactive_activation_by_mail'
+      else
+        'account.error_inactive_manual_activation'
+      end
     end
   end
 
   def invited_account_not_activated(user)
-    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
-                " at #{Time.now.utc} (invited, NOT ACTIVATED)"
-
-    flash[:error] = I18n.t('account.error_inactive_activation_by_mail')
+    flash_error_message(log_reason: 'invited, NOT ACTIVATED', flash_now: false) do
+      'account.error_inactive_activation_by_mail'
+    end
   end
 
   # Log an attempt to log in to a locked account or with invalid credentials
   # and show a flash message.
   def invalid_credentials(flash_now: true)
+    flash_error_message(log_reason: 'invalid credentials', flash_now: flash_now) do
+      if Setting.brute_force_block_after_failed_logins?
+        :notice_account_invalid_credentials_or_blocked
+      else
+        :notice_account_invalid_credentials
+      end
+    end
+  end
+
+  def flash_error_message(log_reason: '', flash_now: true)
     flash_hash = flash_now ? flash.now : flash
 
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
-                " at #{Time.now.utc}"
+                " at #{Time.now.utc}: #{log_reason}"
 
-    if Setting.brute_force_block_after_failed_logins.to_i == 0
-      flash_hash[:error] = I18n.t(:notice_account_invalid_credentials)
-    else
-      flash_hash[:error] = I18n.t(:notice_account_invalid_credentials_or_blocked)
-    end
+    flash_message = yield
+
+    flash_hash[:error] = I18n.t(flash_message)
   end
 
   def account_pending

@@ -113,7 +113,7 @@ hu:
     label_expanded: kibontott
     label_expand_all: Az összes kibontása
     label_export: Exportálás
-    label_filename: File
+    label_filename: Fájl
     label_filesize: Méret
     label_greater_or_equal: ">="
     label_group_by: Csoportosítás a következők szerint
