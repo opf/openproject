@@ -28,7 +28,8 @@
 
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StateService} from '@uirouter/angularjs';
-import {scopeDestroyed$, scopedObservable} from '../../../helpers/angular-rx-utils';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {auditTime, distinctUntilChanged, filter, withLatestFrom} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
@@ -48,15 +49,42 @@ import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-re
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
 
 
+// TODO:
+// - migrate $watchCollection block
+// - migrate HTML file
+
 @Component({
-  selector: 'wp-list'
+  selector: 'wp-list',
+  template: require('!!raw-loader!./wp-list.component.html'),
+  providers: []
 })
 export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
   projectIdentifier = this.$state.params['projectPath'] || null;
+
   text = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
     'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination')
+  };
+
+  tableInformationLoaded = false;
+
+  selectedTitle?:string;
+
+  readonly setAnchorToNextElement = () => {
+    // Skip to next when visible, otherwise skip to previous
+    const selectors = '#pagination--next-link, #pagination--prev-link, #pagination-empty-text';
+    const visibleLink = jQuery(selectors)
+      .not(':hidden')
+      .first();
+
+    if (visibleLink.length) {
+      visibleLink.focus();
+    }
+  };
+
+  readonly allowed = (model:string, permission:string) => {
+    return this.AuthorisationService.can(model, permission);
   };
 
   constructor(readonly $scope:any,
@@ -93,172 +121,146 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
     // Listen for refresh changes
     this.setupRefreshObserver();
+
+    ///////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
+    // TODO
+    // $scope.$watchCollection(
+    //   () => {
+    //     return {
+    //       query_id: $state.params['query_id'],
+    //       query_props: $state.params['query_props']
+    //     };
+    //   },
+    //   (params:any) => {
+    //     let newChecksum = params.query_props;
+    //     let newId = params.query_id && parseInt(params.query_id);
+    //
+    //     wpListChecksumService.executeIfOutdated(newId,
+    //       newChecksum,
+    //       loadQuery);
+    //   });
+    ///////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
   }
 
   ngOnDestroy():void {
-    wpTableRefresh.clear('Table controller scope destroyed.');
+    this.wpTableRefresh.clear('Table controller scope destroyed.');
   }
 
   private setupQueryObservers() {
-    states.tableRendering.onQueryUpdated.values$().pipe()
+    this.states.tableRendering.onQueryUpdated.values$().pipe()
       .take(1)
-      .subscribe(() => $scope.tableInformationLoaded = true);
+      .subscribe(() => this.tableInformationLoaded = true);
 
     // Update the title whenever the query changes
-    states.query.resource.values$()
-      .takeUntil(scopeDestroyed$($scope))
-      .subscribe((query) => {
-        updateTitle(query);
-      });
+    this.states.query.resource.values$().pipe(
+      untilComponentDestroyed(this)
+    ).subscribe((query) => {
+      this.updateTitle(query);
+    });
 
     // Update the checksum and url query params whenever a new query is loaded
-    states.query.resource
-      .values$()
-      .takeUntil(scopeDestroyed$($scope))
-      .distinctUntilChanged((query, formerQuery) => query.id === formerQuery.id)
-      .withLatestFrom(wpTablePagination.state.values$())
-      .subscribe(([query, pagination]) => {
-        wpListChecksumService.setToQuery(query, pagination);
-      });
+    this.states.query.resource.values$().pipe(
+      untilComponentDestroyed(this),
+      distinctUntilChanged((query, formerQuery) => query.id === formerQuery.id),
+      withLatestFrom(this.wpTablePagination.state.values$())
+    ).subscribe(([query, pagination]) => {
+      this.wpListChecksumService.setToQuery(query, pagination);
+    });
 
-    states.query.context.fireOnStateChange(wpTablePagination.state, 'Query loaded')
-      .values$()
-      .withLatestFrom(states.query.resource.values$())
-      .takeUntil(scopeDestroyed$($scope))
-      .subscribe(([pagination, query]) => {
-        if (wpListChecksumService.isQueryOutdated(query, pagination)) {
-          wpListChecksumService.update(query, pagination);
+    this.states.query.context.fireOnStateChange(this.wpTablePagination.state, 'Query loaded').values$().pipe(
+      untilComponentDestroyed(this),
+      withLatestFrom(this.states.query.resource.values$())
+    ).subscribe(([pagination, query]) => {
+      if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
+        this.wpListChecksumService.update(query, pagination);
+        this.updateResultsVisibly();
+      }
+    });
 
-          updateResultsVisibly();
-        }
-      });
-
-    setupChangeObserver(wpTableFilters, true);
-    setupChangeObserver(wpTableGroupBy);
-    setupChangeObserver(wpTableSortBy);
-    setupChangeObserver(wpTableSum);
-    setupChangeObserver(wpTableTimeline);
-    setupChangeObserver(wpTableHierarchies);
-    setupChangeObserver(wpTableColumns);
+    this.setupChangeObserver(this.wpTableFilters, true);
+    this.setupChangeObserver(this.wpTableGroupBy);
+    this.setupChangeObserver(this.wpTableSortBy);
+    this.setupChangeObserver(this.wpTableSum);
+    this.setupChangeObserver(this.wpTableTimeline);
+    this.setupChangeObserver(this.wpTableHierarchies);
+    this.setupChangeObserver(this.wpTableColumns);
   }
 
+  setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {
+    const queryState = this.states.query.resource;
 
-}
+    this.states.query.context.fireOnStateChange(service.state, 'Query loaded').values$().pipe(
+      untilComponentDestroyed(this),
+      filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
+    ).subscribe(() => {
+      const newQuery = queryState.value!;
+      const triggerUpdate = service.applyToQuery(newQuery);
+      this.states.query.resource.putValue(newQuery);
 
-/////////////////////////
-// convert below to above
-/////////////////////////
+      // Update the current checksum
+      this.wpListChecksumService.updateIfDifferent(newQuery, this.wpTablePagination.current);
 
-function WorkPackagesListController() {
-
-
-  function setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {
-    const queryState = states.query.resource;
-
-    states.query.context.fireOnStateChange(service.state, 'Query loaded')
-      .values$()
-      .takeUntil(scopeDestroyed$($scope))
-      .filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
-      .subscribe(() => {
-        const newQuery = queryState.value!;
-        const triggerUpdate = service.applyToQuery(newQuery);
-        states.query.resource.putValue(newQuery);
-
-        // Update the current checksum
-        wpListChecksumService.updateIfDifferent(newQuery, wpTablePagination.current);
-
-        // Update the page, if the change requires it
-        if (triggerUpdate) {
-          wpTableRefresh.request('Query updated by user', true, firstPage);
-        }
-      });
+      // Update the page, if the change requires it
+      if (triggerUpdate) {
+        this.wpTableRefresh.request('Query updated by user', true, firstPage);
+      }
+    });
   }
 
   /**
    * Setup the listener for members of the table to request a refresh of the entire table
    * through the refresh service.
    */
-  function setupRefreshObserver() {
-    wpTableRefresh.state
-      .values$('Refresh listener in wp-list.controller')
-      .takeUntil(scopeDestroyed$($scope))
-      .auditTime(20)
-      .subscribe(([refreshVisibly, firstPage]) => {
-        if (refreshVisibly) {
-          debugLog('Refreshing work package results visibly.');
-          updateResultsVisibly(firstPage);
-        } else {
-          debugLog('Refreshing work package results in the background.');
-          updateResults();
-        }
-      });
-  }
-
-  function loadQuery() {
-    wpListChecksumService.clear();
-    loadingIndicator.table.promise =
-      wpListService.fromQueryParams($state.params, $scope.projectIdentifier).then(() => {
-        return states.globalTable.rendered.valuesPromise();
-      });
-  }
-
-  $scope.setAnchorToNextElement = function() {
-    // Skip to next when visible, otherwise skip to previous
-    const selectors = '#pagination--next-link, #pagination--prev-link, #pagination-empty-text';
-    const visibleLink = jQuery(selectors)
-      .not(':hidden')
-      .first();
-
-    if (visibleLink.length) {
-      visibleLink.focus();
-    }
-  };
-
-  function updateResults() {
-    return wpListService.reloadCurrentResultsList();
-  }
-
-  function updateToFirstResultsPage() {
-    return wpListService.loadCurrentResultsListFirstPage();
-  }
-
-  function updateResultsVisibly(firstPage:boolean = false) {
-    if (firstPage) {
-      loadingIndicator.table.promise = updateToFirstResultsPage();
-    } else {
-      loadingIndicator.table.promise = updateResults();
-    }
-  }
-
-  $scope.allowed = function(model:string, permission:string) {
-    return AuthorisationService.can(model, permission);
-  };
-
-  function updateTitle(query:QueryResource) {
-    if (query.id) {
-      $scope.selectedTitle = query.name;
-    } else {
-      $scope.selectedTitle = I18n.t('js.label_work_package_plural');
-    }
-  }
-
-  $scope.$watchCollection(
-    () => {
-      return {
-        query_id: $state.params['query_id'],
-        query_props: $state.params['query_props']
-      };
-    },
-    (params:any) => {
-      let newChecksum = params.query_props;
-      let newId = params.query_id && parseInt(params.query_id);
-
-      wpListChecksumService.executeIfOutdated(newId,
-        newChecksum,
-        loadQuery);
+  setupRefreshObserver() {
+    this.wpTableRefresh.state.values$('Refresh listener in wp-list.controller').pipe(
+      untilComponentDestroyed(this),
+      auditTime(20)
+    ).subscribe(([refreshVisibly, firstPage]) => {
+      if (refreshVisibly) {
+        debugLog('Refreshing work package results visibly.');
+        this.updateResultsVisibly(firstPage);
+      } else {
+        debugLog('Refreshing work package results in the background.');
+        this.updateResults();
+      }
     });
-}
+  }
 
-angular
-  .module('openproject.workPackages.controllers')
-  .controller('WorkPackagesListController', WorkPackagesListController);
+  loadQuery() {
+    this.wpListChecksumService.clear();
+    this.loadingIndicator.table.promise =
+      this.wpListService.fromQueryParams(this.$state.params, this.projectIdentifier).then(() => {
+        return this.states.globalTable.rendered.valuesPromise();
+      });
+  }
+
+  updateResults() {
+    return this.wpListService.reloadCurrentResultsList();
+  }
+
+  updateToFirstResultsPage() {
+    return this.wpListService.loadCurrentResultsListFirstPage();
+  }
+
+  updateResultsVisibly(firstPage:boolean = false) {
+    if (firstPage) {
+      this.loadingIndicator.table.promise = this.updateToFirstResultsPage();
+    } else {
+      this.loadingIndicator.table.promise = this.updateResults();
+    }
+  }
+
+
+  updateTitle(query:QueryResource) {
+    if (query.id) {
+      this.selectedTitle = query.name;
+    } else {
+      this.selectedTitle = I18n.t('js.label_work_package_plural');
+    }
+  }
+
+}

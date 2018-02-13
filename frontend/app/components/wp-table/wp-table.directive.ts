@@ -29,11 +29,14 @@
 import {Component, ElementRef, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {QueryGroupByResource} from 'core-components/api/api-v3/hal-resources/query-group-by-resource.service';
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
-import {GroupObject} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
+import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
 import {TableState, TableStateHolder} from 'core-components/wp-table/table-state/table-state';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {Observable} from 'rxjs/Observable';
+import {combineLatest} from 'rxjs/observable/combineLatest';
+import {takeUntil} from 'rxjs/operators';
 import {debugLog} from '../../helpers/debug_output';
 import {ContextMenuService} from '../context-menus/context-menu.service';
 import {States} from '../states.service';
@@ -44,8 +47,6 @@ import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
 import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
-import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
-import {QueryGroupByResource} from 'core-components/api/api-v3/hal-resources/query-group-by-resource.service';
 
 @Component({
   template: require('!!raw-loader!./wp-table.directive.html'),
@@ -79,7 +80,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public rowcount:number;
 
-  public groupBy:QueryGroupByResource|undefined;
+  public groupBy:QueryGroupByResource | undefined;
 
   public columns:any;
 
@@ -136,21 +137,21 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
       this.wpTableTimeline.state.values$());
 
     statesCombined.pipe(
-      takeUntil(componentDestroyed(this)))
-      .subscribe(([query, results, groupBy, columns, timelines]) => {
-        this.query = query;
-        this.rowcount = results.count;
+      untilComponentDestroyed(this)
+    ).subscribe(([query, results, groupBy, columns, timelines]) => {
+      this.query = query;
+      this.rowcount = results.count;
 
-        this.groupBy = groupBy.current;
-        this.columns = columns.current;
-        // Total columns = all available columns + id + checkbox
-        this.numTableColumns = this.columns.length + 2;
+      this.groupBy = groupBy.current;
+      this.columns = columns.current;
+      // Total columns = all available columns + id + checkbox
+      this.numTableColumns = this.columns.length + 2;
 
-        if (this.timelineVisible !== timelines.current) {
-          this.scrollSyncUpdate(timelines.current);
-        }
-        this.timelineVisible = timelines.current;
-      });
+      if (this.timelineVisible !== timelines.current) {
+        this.scrollSyncUpdate(timelines.current);
+      }
+      this.timelineVisible = timelines.current;
+    });
 
     // Locate table and timeline elements
     const tableAndTimeline = this.getTableAndTimelineElement();

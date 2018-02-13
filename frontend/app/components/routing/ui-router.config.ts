@@ -147,7 +147,7 @@ openprojectModule
       .state('work-packages.list', {
         url: '',
         controller: 'WorkPackagesListController',
-        templateUrl: '/components/routing/wp-list/wp.list.html',
+        templateUrl: '/components/routing/wp-list/wp.list.component.html',
         reloadOnSearch: false,
         onEnter: () => angular.element('body').addClass('action-index'),
         onExit: () => angular.element('body').removeClass('action-index')

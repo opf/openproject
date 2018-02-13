@@ -3860,9 +3860,9 @@
       "integrity": "sha1-AYAPOHLlJvlTEPhHfpnk8S0NjRQ="
     },
     "ng2-rx-componentdestroyed": {
-      "version": "1.1.2",
-      "resolved": "https://registry.npmjs.org/ng2-rx-componentdestroyed/-/ng2-rx-componentdestroyed-1.1.2.tgz",
-      "integrity": "sha512-BT8oCYfdkpG4e8ZPeyrLWlWhxqOFFKAA3KvKmrLN9/vqW7LKohqp0ojdYBN38vc4+WUwCUCIbkE8m966D0eiSg==",
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/ng2-rx-componentdestroyed/-/ng2-rx-componentdestroyed-2.0.1.tgz",
+      "integrity": "sha512-YWLWhhI82cY6+c7/cjsCu8WVJvrIvTdUSbGLEdHuJMbmocF6n5aL/uiaSa73ymp9LX6xOw0JYLetMFNG551HGg==",
       "requires": {
         "rxjs": "5.5.6"
       }

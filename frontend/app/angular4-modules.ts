@@ -36,6 +36,7 @@ import {SimpleTemplateRenderer} from 'core-components/angular/simple-template-re
 import {OpIcon} from 'core-components/common/icon/op-icon';
 import {ContextMenuService} from 'core-components/context-menus/context-menu.service';
 import {HasDropdownMenuDirective} from 'core-components/context-menus/has-dropdown-menu/has-dropdown-menu-directive';
+import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {States} from 'core-components/states.service';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {WorkPackageDisplayFieldService} from 'core-components/wp-display/wp-display-field/wp-display-field.service';
@@ -128,6 +129,7 @@ import {GonRef} from 'core-components/common/gon-ref/gon-ref';
     upgradeService('contextMenu', ContextMenuService),
   ],
   declarations: [
+    WorkPackagesListComponent,
     OpIcon,
     AccessibleByKeyboardDirectiveUpgraded,
     TablePaginationComponent,
@@ -150,6 +152,7 @@ import {GonRef} from 'core-components/common/gon-ref/gon-ref';
     AddSectionDropdownComponent
   ],
   entryComponents: [
+    WorkPackagesListComponent,
     WorkPackageTablePaginationComponent,
     WorkPackagesTableController,
     TablePaginationComponent,
