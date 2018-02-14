@@ -26,29 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+
+type ModelLinks = {[action:string]:any};
+
+export class AuthorisationService {
+  private links:{[model:string]:ModelLinks} = {};
+
+  constructor(readonly $rootScope:ng.IRootScopeService) {
+  }
+
+  public initModelAuth(modelName:string, modelLinks:ModelLinks) {
+    this.links[modelName] = modelLinks;
+
+    this.$rootScope.$broadcast('modelAuthUpdate.' + modelName);
+  }
+
+  public can(modelName:string, action:string) {
+    return this.links[modelName] && (action in this.links[modelName]);
+  }
+
+  public cannot(modelName:string, action:string) {
+    return !this.can(modelName, action);
+  }
+}
+
 angular
   .module('openproject.services')
-  .factory('AuthorisationService', AuthorisationService);
-
-function AuthorisationService($rootScope) {
-  var links = {};
-
-  var AuthorisationService = {
-
-    initModelAuth: function(modelName, modelLinks) {
-      links[modelName] = modelLinks;
-
-      $rootScope.$broadcast('modelAuthUpdate.' + modelName)
-    },
-
-    can: function(modelName, action) {
-      return links[modelName] && (action in links[modelName]);
-    },
-
-    cannot: function(modelName, action) {
-      return !AuthorisationService.can(modelName, action);
-    }
-  };
-
-  return AuthorisationService;
-}
+  .service('authorisationService', AuthorisationService);

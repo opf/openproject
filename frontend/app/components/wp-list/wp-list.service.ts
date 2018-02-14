@@ -37,11 +37,12 @@ import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table
 import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
 import {WorkPackageStatesInitializationService} from './wp-states-initialization.service';
 import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 
 export class WorkPackagesListService {
   constructor(protected NotificationsService:any,
               protected UrlParamsHelper:any,
-              protected AuthorisationService:any,
+              protected authorisationService:AuthorisationService,
               protected $q:ng.IQService,
               protected $state:any,
               protected QueryDm:QueryDmService,

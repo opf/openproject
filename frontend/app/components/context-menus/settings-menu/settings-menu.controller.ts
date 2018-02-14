@@ -36,6 +36,7 @@ import {QueryFormResource} from '../../api/api-v3/hal-resources/query-form-resou
 
 import {States} from '../../states.service';
 import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 
 interface IMyScope extends ng.IScope {
   text:any;
@@ -85,7 +86,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
                                         wpTableTimeline:WorkPackageTableTimelineService,
                                         wpListService:WorkPackagesListService,
                                         states:States,
-                                        AuthorisationService:any,
+                                        authorisationService:AuthorisationService,
                                         NotificationsService:any) {
 
   let query:QueryResource;
@@ -232,28 +233,28 @@ function SettingsDropdownMenuController($scope:IMyScope,
   };
 
   $scope.showSettingsModalInvalid = function () {
-    return !query.id || AuthorisationService.cannot('query', 'update');
+    return !query.id || authorisationService.cannot('query', 'update');
   };
 
   $scope.showShareModalInvalid = function () {
-    return (AuthorisationService.cannot('query', 'unstar') &&
-    AuthorisationService.cannot('query', 'star'));
+    return (authorisationService.cannot('query', 'unstar') &&
+    authorisationService.cannot('query', 'star'));
   };
 
   $scope.showExportModalInvalid = function () {
-    return AuthorisationService.cannot('work_packages', 'representations');
+    return authorisationService.cannot('work_packages', 'representations');
   };
 
   $scope.deleteQueryInvalid = function () {
-    return AuthorisationService.cannot('query', 'delete');
+    return authorisationService.cannot('query', 'delete');
   };
 
   $scope.showSaveModalInvalid = function () {
-    return AuthorisationService.cannot('query', 'updateImmediately');
+    return authorisationService.cannot('query', 'updateImmediately');
   };
 
   $scope.saveQueryInvalid = function () {
-    return AuthorisationService.cannot('query', 'updateImmediately');
+    return authorisationService.cannot('query', 'updateImmediately');
   };
 
   $scope.showTimelinesModal = function (event:JQueryEventObject) {
@@ -289,7 +290,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
   }
 
   function allowAction(event:JQueryEventObject, modelName:string, action:any) {
-    if (AuthorisationService.can(modelName, action)) {
+    if (authorisationService.can(modelName, action)) {
       return true;
     } else {
       event.stopPropagation();

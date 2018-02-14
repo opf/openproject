@@ -33,10 +33,8 @@ import {QueryGroupByResource} from 'core-components/api/api-v3/hal-resources/que
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
 import {TableState, TableStateHolder} from 'core-components/wp-table/table-state/table-state';
-import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {Observable} from 'rxjs/Observable';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs/observable/combineLatest';
-import {takeUntil} from 'rxjs/operators';
 import {debugLog} from '../../helpers/debug_output';
 import {ContextMenuService} from '../context-menus/context-menu.service';
 import {States} from '../states.service';
@@ -50,6 +48,7 @@ import {createScrollSync} from './wp-table-scroll-sync';
 
 @Component({
   template: require('!!raw-loader!./wp-table.directive.html'),
+  selector: 'wp-table',
   providers: [TableStateHolder]
 })
 export class WorkPackagesTableController implements OnInit, OnDestroy {

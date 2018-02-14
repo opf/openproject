@@ -34,6 +34,7 @@ import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {QuerySchemaResourceInterface} from 'core-components/api/api-v3/hal-resources/query-schema-resource.service';
 import {States} from 'core-components/states.service';
 import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
+import {takeUntil} from 'rxjs/operators';
 
 export abstract class WorkPackageTableBaseService<T> {
   protected tableState:TableState;

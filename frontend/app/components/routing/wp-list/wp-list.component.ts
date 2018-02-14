@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {StateService} from '@uirouter/angularjs';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {auditTime, distinctUntilChanged, filter, withLatestFrom} from 'rxjs/operators';
@@ -47,15 +47,13 @@ import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.se
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
+import {TransitionService} from '@uirouter/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 
-
-// TODO:
-// - migrate $watchCollection block
-// - migrate HTML file
 
 @Component({
   selector: 'wp-list',
-  template: require('!!raw-loader!./wp-list.component.html'),
+  template: require('!!raw-loader!./wp.list.component.html'),
   providers: []
 })
 export class WorkPackagesListComponent implements OnInit, OnDestroy {
@@ -84,13 +82,14 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   };
 
   readonly allowed = (model:string, permission:string) => {
-    return this.AuthorisationService.can(model, permission);
+    // TODO
+    return true || this.AuthorisationService.can(model, permission);
   };
 
-  constructor(readonly $scope:any,
-              readonly $state:StateService,
-              readonly AuthorisationService:any,
+  constructor(readonly $state:StateService,
+              readonly $transitions:TransitionService,
               readonly states:States,
+              readonly AuthorisationService:any,
               readonly wpTableRefresh:WorkPackageTableRefreshService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
               readonly wpTableSortBy:WorkPackageTableSortByService,
@@ -104,7 +103,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
               readonly wpListService:WorkPackagesListService,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
               readonly loadingIndicator:LoadingIndicatorService,
-              readonly I18n:op.I18n) {
+              @Inject(I18nToken) readonly I18n:op.I18n) {
   }
 
   ngOnInit() {
@@ -122,28 +121,16 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     // Listen for refresh changes
     this.setupRefreshObserver();
 
-    ///////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////
-    // TODO
-    // $scope.$watchCollection(
-    //   () => {
-    //     return {
-    //       query_id: $state.params['query_id'],
-    //       query_props: $state.params['query_props']
-    //     };
-    //   },
-    //   (params:any) => {
-    //     let newChecksum = params.query_props;
-    //     let newId = params.query_id && parseInt(params.query_id);
-    //
-    //     wpListChecksumService.executeIfOutdated(newId,
-    //       newChecksum,
-    //       loadQuery);
-    //   });
-    ///////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////
+    this.$transitions.onSuccess({}, (transition) => {
+      console.log('Updating params!' + transition.to().name);
+
+      const params = transition.params('to');
+      let newChecksum = params.query_props;
+      let newId = params.query_id && parseInt(params.query_id);
+
+      this.wpListChecksumService
+        .executeIfOutdated(newId, newChecksum, this.loadQuery.bind(this));
+    });
   }
 
   ngOnDestroy():void {

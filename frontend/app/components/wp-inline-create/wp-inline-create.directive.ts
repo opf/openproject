@@ -50,6 +50,7 @@ import {
   InlineCreateRowBuilder,
   inlineCreateRowClassName
 } from './inline-create-row-builder';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 
 export class WorkPackageInlineCreateController {
 
@@ -88,7 +89,7 @@ export class WorkPackageInlineCreateController {
               public wpTableColumns:WorkPackageTableColumnsService,
               private wpTableFilters:WorkPackageTableFiltersService,
               private wpTableFocus:WorkPackageTableFocusService,
-              private AuthorisationService:any) {
+              private authorisationService:AuthorisationService) {
   }
 
   // Will be called by Angular
@@ -218,7 +219,7 @@ export class WorkPackageInlineCreateController {
   }
 
   public get isAllowed():boolean {
-    return this.AuthorisationService.can('work_packages', 'createWorkPackage');
+    return this.authorisationService.can('work_packages', 'createWorkPackage');
   }
 }
 

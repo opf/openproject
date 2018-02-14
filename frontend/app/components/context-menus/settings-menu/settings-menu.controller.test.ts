@@ -28,8 +28,7 @@
 
 /*jshint expr: true*/
 
-
-import {TableState} from '../../wp-table/table-state/table-state';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 
 var reactivestates = require("reactivestates");
 
@@ -39,7 +38,7 @@ describe('optionsDropdown Directive', function() {
       rootScope:any,
       scope:any,
       I18n:any,
-      AuthorisationService:any,
+      authorisationService:AuthorisationService,
       wpTableSum:any,
       wpTableGroupBy:any,
       columnsModal:any,
@@ -148,8 +147,8 @@ describe('optionsDropdown Directive', function() {
     };
   }));
 
-  beforeEach(inject(function(_AuthorisationService_:any, _I18n_:any){
-    AuthorisationService = _AuthorisationService_;
+  beforeEach(inject(function(_authorisationService_:AuthorisationService, _I18n_:any){
+    authorisationService = _authorisationService_;
 
     I18n = _I18n_;
 
@@ -370,12 +369,12 @@ describe('optionsDropdown Directive', function() {
       var authorisation:any;
 
       beforeEach(function() {
-        authorisation = sinon.stub(AuthorisationService, 'can');
+        authorisation = sinon.stub(authorisationService, 'can');
         authorisation.returns(false);
       });
 
       afterEach(function() {
-        AuthorisationService.can.restore();
+        (authorisationService.can as any).restore();
       });
 
       it('has a "Export" menu item', function() {

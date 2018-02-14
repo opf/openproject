@@ -87,6 +87,7 @@ import {HideSectionService} from 'core-components/common/hide-section/hide-secti
 import {AddSectionDropdownComponent} from 'core-components/common/hide-section/add-section-dropdown/add-section-dropdown.component';
 import {HideSectionLinkComponent} from 'core-components/common/hide-section/hide-section-link/hide-section-link.component';
 import {GonRef} from 'core-components/common/gon-ref/gon-ref';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 
 @NgModule({
   imports: [
@@ -127,6 +128,7 @@ import {GonRef} from 'core-components/common/gon-ref/gon-ref';
     upgradeService('wpTableGroupBy', WorkPackageTableGroupByService),
     upgradeService('wpTableColumns', WorkPackageTableColumnsService),
     upgradeService('contextMenu', ContextMenuService),
+    upgradeService('authorisationService', AuthorisationService),
   ],
   declarations: [
     WorkPackagesListComponent,
