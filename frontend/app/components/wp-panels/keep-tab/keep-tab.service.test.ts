@@ -27,7 +27,7 @@
 // ++
 
 import {KeepTabService} from './keep-tab.service';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 var expect = chai.expect;
 

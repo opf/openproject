@@ -27,6 +27,8 @@
 // ++
 
 // Globally exposed dependencies
+import {getUIRouter} from '@uirouter/angular-hybrid/lib/index';
+
 require('./vendors');
 
 // Styles for global dependencies
@@ -58,8 +60,13 @@ opApp
     .config([
       '$compileProvider',
       '$locationProvider',
+      '$urlServiceProvider',
       '$httpProvider',
-      function($compileProvider, $locationProvider, $httpProvider) {
+      function($compileProvider, $locationProvider, $urlServiceProvider, $httpProvider) {
+
+        // Tell UI-Router to wait to synchronize the URL (until all bootstrapping is complete)
+        console.error("DEFERRED HERE");
+        $urlServiceProvider.deferIntercept();
 
         // Disable debugInfo outside development mode
         $compileProvider.debugInfoEnabled(window.OpenProject.environment === 'development');
@@ -99,20 +106,30 @@ opApp
     ])
     .run([
       '$http',
+      'injector',
       '$rootScope',
       '$window',
       'TimezoneService',
       'ExpressionService',
       'CacheService',
       'KeyboardShortcutService',
+      '$$angularInjector',
       function($http,
                $rootScope,
                $window,
                TimezoneService,
                ExpressionService,
                CacheService,
-               KeyboardShortcutService) {
+               KeyboardShortcutService,
+               $$angularInjector) {
         $http.defaults.headers.common.Accept = 'application/json';
+
+        console.error("Log URL service");
+        const urlService = getUIRouter($$angularInjector).urlService;
+
+        // Instruct UIRouter to listen to URL changes
+        urlService.listen();
+        urlService.sync();
 
         // Set the escaping target of opening double curly braces
         // This is what returned by rails-angular-xss when it discoveres double open curly braces

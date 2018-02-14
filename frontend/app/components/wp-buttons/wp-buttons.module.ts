@@ -27,7 +27,7 @@
 // ++
 
 import {opDirective} from '../open-project.module';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 export interface ButtonControllerText {
   activate:string;

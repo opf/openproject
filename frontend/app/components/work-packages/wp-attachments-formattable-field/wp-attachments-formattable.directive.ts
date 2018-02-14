@@ -12,7 +12,7 @@ import {SingleAttachmentModel} from './models/single-attachment';
 import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.directive';
 import {CommentFieldDirectiveController} from '../work-package-comment/work-package-comment.directive';
 import {UploadFile} from '../../api/op-file-upload/op-file-upload.service';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 export class WpAttachmentsFormattableController {
   constructor(protected $scope:any,

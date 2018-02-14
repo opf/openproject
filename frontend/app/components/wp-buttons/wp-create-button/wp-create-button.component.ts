@@ -27,7 +27,7 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 import {downgradeComponent} from '@angular/upgrade/static'
 import {Component, Inject, Input} from '@angular/core';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';

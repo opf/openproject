@@ -12,7 +12,7 @@ export abstract class ILazyAutocompleterBridge<T> {
   public currentPage:number;
 
   // Input autocomplete element
-  public input:JQuery;
+  public input:any;
 
   // Fuzzy instance for the results
   public fuseInstance:any;
@@ -225,7 +225,7 @@ export namespace LazyLoadedAutocompleter {
           .appendTo(ul);
 
         if (term !== '') {
-          element.mark(term, {className: 'ui-autocomplete-match'});
+          (element as any).mark(term, {className: 'ui-autocomplete-match'});
         }
 
         return element;

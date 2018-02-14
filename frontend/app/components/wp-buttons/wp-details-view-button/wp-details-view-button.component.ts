@@ -30,7 +30,7 @@ import {wpButtonsModule} from '../../../angular-modules';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {States} from '../../states.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 import {Component, Inject} from '@angular/core';
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';

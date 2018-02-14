@@ -39,7 +39,7 @@ import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-se
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-values';
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 export class WorkPackageCreateController {
   public newWorkPackage:WorkPackageResourceInterface;
@@ -129,7 +129,7 @@ export class WorkPackageCreateController {
 
     return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type).then(changeset => {
       const filter = new WorkPackageFilterValues(changeset, this.wpTableFilters.current, ['type']);
-      return filter.applyDefaultsFromFilters().then(() => changeset);
+      return filter.applyDefaultsFromFilters().then(() => changeset) as ng.IPromise<WorkPackageChangeset>;
     });
   }
 

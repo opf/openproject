@@ -1,5 +1,5 @@
 import {KeepTabService} from 'core-components/wp-panels/keep-tab/keep-tab.service';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 export const uiStateLinkClass = '__ui-state-link';
 export const checkedClassName = '-checked';

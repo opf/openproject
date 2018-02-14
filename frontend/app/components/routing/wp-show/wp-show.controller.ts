@@ -34,7 +34,7 @@ import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller
 import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.service";
 import {WorkPackageMoreMenuService} from '../../work-packages/work-package-more-menu.service'
 import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 import {TypeResource} from "core-components/api/api-v3/hal-resources/type-resource.service";
 
 export class WorkPackageShowController extends WorkPackageViewController {

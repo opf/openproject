@@ -28,7 +28,7 @@
 
 import {InjectionToken} from '@angular/core';
 import {IQService, IRootScopeService, ITimeoutService} from 'angular';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 export const $rootScopeToken = new InjectionToken<IRootScopeService>('$rootScope');
 export const $qToken = new InjectionToken<IQService>('$q');

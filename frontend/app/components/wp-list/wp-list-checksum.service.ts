@@ -28,7 +28,7 @@
 
 import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageTablePagination} from '../wp-fast-table/wp-table-pagination';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 
 export class WorkPackagesListChecksumService {

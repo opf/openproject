@@ -33,7 +33,7 @@ import {
   WorkPackageResourceInterface
 } from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageCacheService} from "../work-package-cache.service";
-import {StateParams} from '@uirouter/angularjs';
+import {StateParams} from '@uirouter/core';
 
 export class WorkPackageSubjectController {
 

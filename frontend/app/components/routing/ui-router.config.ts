@@ -28,8 +28,7 @@
 
 import {openprojectModule} from '../../angular-modules';
 import {FirstRouteService} from 'app/components/routing/first-route-service';
-import {Transition, TransitionService} from '@uirouter/core';
-import {StateProvider, UrlMatcherFactory, UrlRouterProvider} from '@uirouter/angularjs';
+import {Transition, TransitionService, UrlMatcherFactory, UrlService} from '@uirouter/core';
 
 const panels = {
   get overview() {
@@ -76,10 +75,13 @@ const panels = {
 };
 
 openprojectModule
-  .config(($stateProvider:StateProvider,
-           $urlRouterProvider:UrlRouterProvider,
+  .config(($stateProvider:any,
+           $urlRouterProvider:any,
            $urlMatcherFactoryProvider:UrlMatcherFactory) => {
+
     $urlMatcherFactoryProvider.strictMode(false);
+
+    console.error("Config ui-router.config");
 
     // Prepend the baseurl to the route to avoid using a base tag
     // For more information, see
@@ -98,6 +100,7 @@ openprojectModule
           query_id: { dynamic: true },
           query_props: { dynamic: true }
         },
+        onEnter: () => console.error("ENTERING!"),
         templateUrl: '/components/routing/main/work-packages.html',
         controller: 'WorkPackagesController'
       })
@@ -145,7 +148,6 @@ openprojectModule
       .state('work-packages.show.watchers', panels.watchers)
 
       .state('work-packages.list', {
-        url: '',
         controller: 'WorkPackagesListRouter',
         template: '<wp-list></wp-list>',
         reloadOnSearch: false,
@@ -204,8 +206,12 @@ openprojectModule
         firstRoute:FirstRouteService,
         $timeout:ng.ITimeoutService,
         $rootScope:ng.IRootScopeService,
+        $trace:any,
         $transitions:TransitionService,
         $window:ng.IWindowService) => {
+
+      console.error("RUN ui-router config");
+      $trace.enable(1);
 
       // Our application is still a hybrid one, meaning most routes are still
       // handled by Rails. As such, we disable the default link-hijacking that

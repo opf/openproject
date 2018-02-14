@@ -35,7 +35,7 @@ import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {FirstRouteService} from "core-components/routing/first-route-service";
 import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 export class WorkPackageDetailsController extends WorkPackageViewController {
 

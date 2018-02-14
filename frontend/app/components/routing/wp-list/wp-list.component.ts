@@ -27,7 +27,7 @@
 // ++
 
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {auditTime, distinctUntilChanged, filter, withLatestFrom} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';

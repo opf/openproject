@@ -34,7 +34,7 @@ import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-pac
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {RelatedWorkPackagesGroup} from './wp-relations.interfaces';
 import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.service';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;

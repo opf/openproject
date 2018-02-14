@@ -9,7 +9,7 @@ import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {TableEventHandler} from '../table-handler-registry';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {
 

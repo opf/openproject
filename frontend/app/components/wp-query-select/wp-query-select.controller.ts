@@ -33,7 +33,7 @@ import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {ContextMenuService} from '../context-menus/context-menu.service';
 import {LoadingIndicatorService} from '../common/loading-indicator/loading-indicator.service';
 import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 interface IAutocompleteItem {
   label:string;

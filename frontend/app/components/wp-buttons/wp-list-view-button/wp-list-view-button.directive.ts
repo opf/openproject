@@ -28,7 +28,7 @@
 
 import {wpButtonsModule} from '../../../angular-modules';
 import {wpButtonDirective} from '../wp-buttons.module';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 import {WorkPackageNavigationButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
 
 export class WorkPackageListViewButtonController extends WorkPackageNavigationButtonComponent {

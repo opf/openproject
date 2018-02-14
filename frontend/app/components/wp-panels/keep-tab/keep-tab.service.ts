@@ -27,7 +27,7 @@
 // ++
 
 import {ReplaySubject} from "rxjs";
-import {Transition, StateService, TransitionService} from '@uirouter/angularjs';
+import {Transition, StateService, TransitionService} from '@uirouter/core';
 export class KeepTabService {
   protected currentTab:string = 'overview';
 

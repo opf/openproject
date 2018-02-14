@@ -1,5 +1,5 @@
 import {Injector} from '@angular/core';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 import {$stateToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {debugLog} from '../../../../helpers/debug_output';

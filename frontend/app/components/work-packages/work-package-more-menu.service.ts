@@ -30,7 +30,7 @@ import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-reso
 import {States} from '../states.service';
 import {$injectFields} from '../angular/angular-injector-bridge.functions';
 import {PathHelperFunctions} from 'core-components/common/path-helper/path-helper.functions';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 
 var $state:StateService;

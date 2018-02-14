@@ -29,7 +29,7 @@
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
 import {wpServicesModule} from '../../angular-modules';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 export class WorkPackageNotificationService {
   constructor(protected I18n:op.I18n,

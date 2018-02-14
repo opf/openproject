@@ -42,7 +42,7 @@ import {WorkPackageEditFieldController} from '../wp-edit/wp-edit-field/wp-edit-f
 import {WorkPackageEditFieldGroupController} from '../wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 export class SingleViewEditContext implements WorkPackageEditContext {
 

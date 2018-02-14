@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {NgModule} from '@angular/core';
+import {Injector, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -100,12 +100,16 @@ import {WorkPackageZenModeButtonComponent} from 'core-components/wp-buttons/wp-z
 import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
 import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
 import {Ng1QueryFiltersComponentWrapper} from 'core-components/filters/query-filters/query-filters-ng1-wrapper.component';
+import {getUIRouter, UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
+import {UIRouter, UrlService} from '@uirouter/core';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
 @NgModule({
   imports: [
     BrowserModule,
     UpgradeModule,
-    FormsModule
+    FormsModule,
+    UIRouterUpgradeModule
   ],
   providers: [
     GonRef,
@@ -190,7 +194,7 @@ import {Ng1QueryFiltersComponentWrapper} from 'core-components/filters/query-fil
   ]
 })
 export class OpenProjectModule {
-  constructor(private upgrade:UpgradeModule) {
+  constructor(private upgrade:UpgradeModule, private injector:Injector) {
   }
 
   // noinspection JSUnusedGlobalSymbols
@@ -198,3 +202,5 @@ export class OpenProjectModule {
     this.upgrade.bootstrap(document.body, ['openproject'], {strictDi: false});
   }
 }
+
+

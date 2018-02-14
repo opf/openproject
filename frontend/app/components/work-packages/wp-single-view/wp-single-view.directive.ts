@@ -39,7 +39,7 @@ import {
 } from '../../wp-edit-form/work-package-editing-service';
 import {States} from '../../states.service';
 import {CurrentProjectService} from '../../projects/current-project.service';
-import {StateParams} from '@uirouter/angularjs';
+import {StateParams} from '@uirouter/core';
 
 interface FieldDescriptor {
   name:string;
