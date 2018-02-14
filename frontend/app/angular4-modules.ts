@@ -75,7 +75,7 @@ import {
   halRequestToken,
   I18nToken,
   NotificationsServiceToken,
-  PathHelperToken,
+  PathHelperToken, StateToken,
   upgradeService,
   upgradeServiceWithToken
 } from './angular4-transition-utils';
@@ -88,6 +88,11 @@ import {AddSectionDropdownComponent} from 'core-components/common/hide-section/a
 import {HideSectionLinkComponent} from 'core-components/common/hide-section/hide-section-link/hide-section-link.component';
 import {GonRef} from 'core-components/common/gon-ref/gon-ref';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
+import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
+import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
+import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
+import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
 
 @NgModule({
   imports: [
@@ -100,9 +105,9 @@ import {AuthorisationService} from 'core-components/common/model-auth/model-auth
     HideSectionService,
     upgradeServiceWithToken('$rootScope', $rootScopeToken),
     upgradeServiceWithToken('I18n', I18nToken),
+    upgradeServiceWithToken('$state', StateToken),
     upgradeServiceWithToken('$q', $qToken),
     upgradeServiceWithToken('$timeout', $timeoutToken),
-    upgradeServiceWithToken('$state', $stateToken),
     upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
     upgradeServiceWithToken('columnsModal', columnsModalToken),
     upgradeServiceWithToken('FocusHelper', FocusHelperToken),
@@ -124,6 +129,11 @@ import {AuthorisationService} from 'core-components/common/model-auth/model-auth
     upgradeService('wpNotificationsService', WorkPackageNotificationService),
     upgradeService('wpTableHierarchies', WorkPackageTableHierarchiesService),
     upgradeService('wpTableSortBy', WorkPackageTableSortByService),
+    upgradeService('wpTableFilters', WorkPackageTableFiltersService),
+    upgradeService('wpTableSum', WorkPackageTableSumService),
+    upgradeService('wpListService', WorkPackagesListService),
+    upgradeService('wpListChecksumService', WorkPackagesListChecksumService),
+    upgradeService('loadingIndicator', LoadingIndicatorService),
     upgradeService('wpTableRelationColumns', WorkPackageTableRelationColumnsService),
     upgradeService('wpTableGroupBy', WorkPackageTableGroupByService),
     upgradeService('wpTableColumns', WorkPackageTableColumnsService),

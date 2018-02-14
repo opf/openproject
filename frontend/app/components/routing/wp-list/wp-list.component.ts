@@ -47,9 +47,10 @@ import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.se
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
-import {TransitionService} from '@uirouter/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
-
+import {I18nToken, StateToken} from 'core-app/angular4-transition-utils';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 @Component({
   selector: 'wp-list',
@@ -68,6 +69,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   tableInformationLoaded = false;
 
   selectedTitle?:string;
+  tableState:TableState;
 
   readonly setAnchorToNextElement = () => {
     // Skip to next when visible, otherwise skip to previous
@@ -83,13 +85,11 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
   readonly allowed = (model:string, permission:string) => {
     // TODO
-    return true || this.AuthorisationService.can(model, permission);
+    return true || this.authorisationService.can(model, permission);
   };
 
-  constructor(readonly $state:StateService,
-              readonly $transitions:TransitionService,
-              readonly states:States,
-              readonly AuthorisationService:any,
+  constructor(readonly states:States,
+              readonly authorisationService:AuthorisationService,
               readonly wpTableRefresh:WorkPackageTableRefreshService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
               readonly wpTableSortBy:WorkPackageTableSortByService,
@@ -103,7 +103,10 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
               readonly wpListService:WorkPackagesListService,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
               readonly loadingIndicator:LoadingIndicatorService,
+              @Inject(StateToken) readonly $state:StateService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
+
+    this.tableState = this.states.globalTable;
   }
 
   ngOnInit() {
@@ -115,22 +118,11 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     //  Require initial loading of the list if not yet done
     if (loadingRequired) {
       this.wpTableRefresh.clear('Impending query loading.');
-      this.loadQuery();
+      this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
     }
 
     // Listen for refresh changes
     this.setupRefreshObserver();
-
-    this.$transitions.onSuccess({}, (transition) => {
-      console.log('Updating params!' + transition.to().name);
-
-      const params = transition.params('to');
-      let newChecksum = params.query_props;
-      let newId = params.query_id && parseInt(params.query_id);
-
-      this.wpListChecksumService
-        .executeIfOutdated(newId, newChecksum, this.loadQuery.bind(this));
-    });
   }
 
   ngOnDestroy():void {
@@ -217,14 +209,6 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadQuery() {
-    this.wpListChecksumService.clear();
-    this.loadingIndicator.table.promise =
-      this.wpListService.fromQueryParams(this.$state.params, this.projectIdentifier).then(() => {
-        return this.states.globalTable.rendered.valuesPromise();
-      });
-  }
-
   updateResults() {
     return this.wpListService.reloadCurrentResultsList();
   }
@@ -251,3 +235,8 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   }
 
 }
+
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpList',
+    downgradeComponent({component: WorkPackagesListComponent}));

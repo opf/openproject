@@ -17,6 +17,7 @@ import {WorkPackageTableRelationColumnsService} from '../wp-fast-table/state/wp-
 import {WorkPackagesListChecksumService} from './wp-list-checksum.service';
 import {WorkPackageTableSortByService} from '../wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableAdditionalElementsService} from '../wp-fast-table/state/wp-table-additional-elements.service';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 
 export class WorkPackageStatesInitializationService {
   constructor(protected states:States,
@@ -32,7 +33,7 @@ export class WorkPackageStatesInitializationService {
               protected wpTableAdditionalElements:WorkPackageTableAdditionalElementsService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpListChecksumService:WorkPackagesListChecksumService,
-              protected AuthorisationService:any) {
+              protected authorisationService:AuthorisationService) {
   }
 
   /**
@@ -97,7 +98,7 @@ export class WorkPackageStatesInitializationService {
 
     this.wpTableAdditionalElements.initialize(results.elements);
 
-    this.AuthorisationService.initModelAuth('work_packages', results.$links);
+    this.authorisationService.initModelAuth('work_packages', results.$links);
   }
 
   private initializeFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
@@ -110,7 +111,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableTimeline.initialize(query, results);
     this.wpTableHierarchies.initialize(query, results);
 
-    this.AuthorisationService.initModelAuth('query', query.$links);
+    this.authorisationService.initModelAuth('query', query.$links);
   }
 
   private clearStates() {
