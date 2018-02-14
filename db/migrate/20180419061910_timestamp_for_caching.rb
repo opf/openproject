@@ -1,7 +1,6 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,25 +23,26 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
 
-describe IssuePriority do
-  fixtures :all
-
-  it 'should be an enumeration' do
-    assert IssuePriority.ancestors.include?(Enumeration)
+class TimestampForCaching < ActiveRecord::Migration[5.1]
+  def change
+    [Enumeration, Status, Category, AuthSource].each do |model|
+      add_timestamps(model)
+    end
   end
 
-  it 'should objects_count' do
-    # low priority
-    assert_equal 6, IssuePriority.find(4).objects_count
-    # urgent
-    assert_equal 0, IssuePriority.find(7).objects_count
-  end
+  def add_timestamps(model)
+    table = model.table_name
 
-  it 'should option_name' do
-    assert_equal :enumeration_work_package_priorities, IssuePriority.new.option_name
+    change_table table do |t|
+      t.timestamps null: true
+    end
+
+    model.update_all(updated_at: Time.now, created_at: Time.now)
+
+    change_column_null table, :created_at, false
+    change_column_null table, :updated_at, false
   end
 end

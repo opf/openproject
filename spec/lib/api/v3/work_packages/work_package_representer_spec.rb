@@ -31,24 +31,24 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:member) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+  let(:member) { FactoryGirl.build_stubbed(:user) }
   let(:current_user) { member }
   let(:embed_links) { true }
   let(:representer) do
     described_class.create(work_package, current_user: current_user, embed_links: embed_links)
   end
-
+  let(:parent) { nil }
   let(:work_package) do
-    FactoryGirl.build(:work_package,
-                      id: 42,
-                      start_date: Date.today.to_datetime,
-                      due_date: Date.today.to_datetime,
-                      created_at: DateTime.now,
-                      updated_at: DateTime.now,
-                      done_ratio: 50,
-                      estimated_hours: 6.0)
+    FactoryGirl.build_stubbed(:stubbed_work_package,
+                              id: 42,
+                              start_date: Date.today.to_datetime,
+                              due_date: Date.today.to_datetime,
+                              done_ratio: 50,
+                              estimated_hours: 6.0,
+                              parent: parent,
+                              type: type,
+                              project: project)
   end
-  let(:project) { work_package.project }
   let(:all_permissions) do
     %i[
       view_work_packages
@@ -65,10 +65,16 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     ]
   end
   let(:permissions) { all_permissions }
-  let(:role) { FactoryGirl.create :role, permissions: permissions }
+  let(:project) { FactoryGirl.build_stubbed(:project_with_types) }
+  let(:type) { project.types.first }
 
   before(:each) do
     allow(User).to receive(:current).and_return current_user
+
+    allow(current_user)
+      .to receive(:allowed_to?) do |permission, context|
+      permissions.include?(permission)
+    end
   end
 
   context 'generation' do
@@ -84,8 +90,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:raw) { work_package.description }
         let(:html) { '<p>' + work_package.description + '</p>' }
       end
-
-      it { is_expected.to have_json_path('percentageDone') }
 
       describe 'startDate' do
         it_behaves_like 'has ISO 8601 date only' do
@@ -215,11 +219,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
     describe 'estimatedTime' do
       let(:work_package) do
-        FactoryGirl.build(:work_package,
-                          id: 42,
-                          created_at: DateTime.now,
-                          updated_at: DateTime.now,
-                          estimated_hours: 6.5)
+        FactoryGirl.build_stubbed(:work_package,
+                                  id: 42,
+                                  created_at: DateTime.now,
+                                  updated_at: DateTime.now,
+                                  estimated_hours: 6.5)
       end
 
       it { is_expected.to be_json_eql('PT6H30M'.to_json).at_path('estimatedTime') }
@@ -239,10 +243,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'time entry with single hour' do
           before do
-            FactoryGirl.create(:time_entry,
-                               project: work_package.project,
-                               work_package: work_package,
-                               hours: 1.0)
+            allow(work_package)
+              .to receive(:spent_hours)
+              .and_return(1.0)
           end
 
           it { is_expected.to be_json_eql('PT1H'.to_json).at_path('spentTime') }
@@ -250,10 +253,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'time entry with multiple hours' do
           before do
-            FactoryGirl.create(:time_entry,
-                               project: work_package.project,
-                               work_package: work_package,
-                               hours: 42.5)
+            allow(work_package)
+              .to receive(:spent_hours)
+                    .and_return(42.5)
           end
 
           it { is_expected.to be_json_eql('P1DT18H30M'.to_json).at_path('spentTime') }
@@ -460,7 +462,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'category set' do
-          let!(:category) { FactoryGirl.create :category, project: project }
+          let!(:category) { FactoryGirl.build_stubbed :category }
 
           before do
             work_package.category = category
@@ -552,8 +554,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       context 'when the user is not watching the work package' do
         it 'should have a link to watch' do
-          expect(subject).to be_json_eql(
-                               api_v3_paths.work_package_watchers(work_package.id).to_json)
+          expect(subject)
+            .to be_json_eql(api_v3_paths.work_package_watchers(work_package.id).to_json)
             .at_path('_links/watch/href')
         end
 
@@ -563,13 +565,20 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       context 'when the user is watching the work package' do
+        let(:watchers) { [current_user] }
+
         before do
-          work_package.watcher_users << current_user
+          allow(work_package)
+            .to receive(:watcher_users)
+            .and_return(watchers)
+          allow(watchers)
+            .to receive(:order)
+            .and_return(watchers)
         end
 
         it 'should have a link to unwatch' do
-          expect(subject).to be_json_eql(
-                               api_v3_paths.watcher(current_user.id, work_package.id).to_json)
+          expect(subject)
+            .to be_json_eql(api_v3_paths.watcher(current_user.id, work_package.id).to_json)
             .at_path('_links/unwatch/href')
         end
 
@@ -704,9 +713,20 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         describe 'parent' do
-          let(:visible_parent) { FactoryGirl.create(:work_package, project: project) }
-          let(:invisible_parent) { FactoryGirl.create(:work_package, project: forbidden_project) }
-          let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+          let(:visible_parent) do
+            FactoryGirl.build_stubbed(:stubbed_work_package) do |wp|
+              allow(wp)
+                .to receive(:visible?)
+                .and_return(true)
+            end
+          end
+          let(:invisible_parent) do
+            FactoryGirl.build_stubbed(:stubbed_work_package) do |wp|
+              allow(wp)
+                .to receive(:visible?)
+                      .and_return(false)
+            end
+          end
 
           context 'no parent' do
             it_behaves_like 'has an empty link' do
@@ -715,36 +735,20 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           context 'parent is visible' do
-            let(:work_package) do
-              FactoryGirl.create(:work_package,
-                                 project: project,
-                                 parent: visible_parent)
-            end
+            let(:parent) { visible_parent }
 
             it_behaves_like 'has a titled link' do
               let(:link) { 'parent' }
               let(:href) { api_v3_paths.work_package(visible_parent.id) }
               let(:title) { visible_parent.subject }
             end
-
-            it 'renders it as the ancestors' do
-              expect(subject).to have_json_size(1).at_path('_links/ancestors')
-            end
           end
 
           context 'parent not visible' do
-            let(:work_package) do
-              FactoryGirl.create(:work_package,
-                                 project: project,
-                                 parent: invisible_parent)
-            end
+            let(:parent) { invisible_parent }
 
-            it_behaves_like 'has no link' do
+            it_behaves_like 'has an empty link' do
               let(:link) { 'parent' }
-            end
-
-            it 'renders empty ancestors' do
-              expect(subject).to have_json_size(0).at_path('_links/ancestors')
             end
           end
         end
@@ -776,7 +780,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                 .and_return([])
             end
 
-            it 'renders the root node in ancestors' do
+            it 'renders empty ancestors' do
               expect(subject).to have_json_size(0).at_path('_links/ancestors')
             end
           end
@@ -890,7 +894,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
         context 'when admin' do
-          let!(:current_user) { FactoryGirl.create :admin }
+          let(:current_user) { FactoryGirl.build_stubbed :admin }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'configureForm' }
@@ -946,14 +950,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
-      context 'not embedding links' do
-        let(:embed_links) { false }
-
-        it 'does not embed anything' do
-          is_expected.not_to have_json_path('_embedded')
-        end
-      end
-
       describe 'relations' do
         let(:relation) do
           FactoryGirl.build_stubbed(:relation,
@@ -1001,6 +997,126 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           is_expected
             .to be_json_eql('Unassign'.to_json)
             .at_path('_embedded/customActions/0/name')
+        end
+      end
+    end
+
+    describe 'caching' do
+      it 'is based on the representer\'s cache_key' do
+        allow(OpenProject::Cache)
+          .to receive(:fetch)
+          .and_return("{}")
+        expect(OpenProject::Cache)
+          .to receive(:fetch)
+          .with(representer.json_cache_key)
+          .and_call_original
+
+        representer.to_json
+      end
+
+      describe '#json_cache_key' do
+        let(:category) { FactoryGirl.build_stubbed(:category) }
+        let(:assigned_to) { FactoryGirl.build_stubbed(:user) }
+        let(:responsible) { FactoryGirl.build_stubbed(:user) }
+
+        before do
+          work_package.category = category
+          work_package.assigned_to = assigned_to
+          work_package.responsible = responsible
+        end
+        let!(:former_cache_key) { representer.json_cache_key }
+
+        it 'includes the name of the representer class' do
+          expect(representer.json_cache_key)
+            .to include('API', 'V3', 'WorkPackages', 'WorkPackageRepresenter')
+        end
+
+        it 'changes when the locale changes' do
+          I18n.with_locale(:fr) do
+            expect(representer.json_cache_key)
+              .not_to eql former_cache_key
+          end
+        end
+
+        it 'changes when the feeds_enabled? setting is switched' do
+          allow(Setting)
+            .to receive(:feeds_enabled?)
+            .and_return(!Setting.feeds_enabled?)
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the work_package_done_ratio setting is changes' do
+          allow(Setting)
+            .to receive(:work_package_done_ratio)
+            .and_return('status')
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the work_package is updated' do
+          work_package.updated_at = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the work_package\'s type is updated' do
+          work_package.type.updated_at = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the work_package\'s project is updated' do
+          work_package.project.updated_on = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the work_package\'s status is updated' do
+          work_package.status.updated_at = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the work_package\'s priority is updated' do
+          work_package.priority.updated_at = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the work_package\'s category is updated' do
+          work_package.category.updated_at = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the work_package\'s author is updated' do
+          work_package.author.updated_on = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the work_package\'s responsible is updated' do
+          work_package.responsible.updated_on = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the work_package\'s assigned_to is updated' do
+          work_package.assigned_to.updated_on = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
         end
       end
     end

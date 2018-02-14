@@ -48,6 +48,10 @@ module API
             project.all_work_package_custom_fields.to_a & type.custom_fields.to_a
           end
 
+          def no_caching?
+            false
+          end
+
           private
 
           def contract

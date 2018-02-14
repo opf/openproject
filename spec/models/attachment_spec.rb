@@ -41,6 +41,14 @@ describe Attachment, type: :model do
       content_type: nil, # so that it is detected
       file:         file)
   end
+  let(:stubbed_attachment) do
+    FactoryGirl.build_stubbed(
+      :attachment,
+      author:       author,
+      container:    work_package,
+      content_type: nil, # so that it is detected
+      file:         file)
+  end
 
   describe 'create' do
     context 'save' do
@@ -113,6 +121,20 @@ describe Attachment, type: :model do
 
     it "deletes the attachment's file" do
       expect(File.exists?(attachment.file.path)).to eq false
+    end
+  end
+
+  # Made necessary as attachments only have the created_on field which is not factored
+  # into the cache_key. While it shouldn't be a problem in production, as attachments cannot be
+  # altered, it is a problem in the tests.
+  describe '#cache_key' do
+    before do
+      stubbed_attachment.created_on = Time.now
+    end
+
+    it 'factors in id and created_on' do
+      expect(stubbed_attachment.cache_key)
+        .to eql("attachments/#{stubbed_attachment.id}-#{stubbed_attachment.created_on.to_i}")
     end
   end
 end

@@ -36,11 +36,6 @@ describe Enumeration, type: :model do
     @default_enumeration = FactoryGirl.create :default_enumeration
   end
 
-  it 'should objects count' do
-    assert_equal @issues.size, @low_priority.objects_count
-    assert_equal 0, FactoryGirl.create(:priority).objects_count
-  end
-
   it 'should in use' do
     assert @low_priority.in_use?
     assert !FactoryGirl.create(:priority).in_use?

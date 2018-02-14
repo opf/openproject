@@ -34,38 +34,41 @@ module API
   module V3
     module Projects
       class ProjectRepresenter < ::API::Decorators::Single
+        include ::API::Caching::CachedRepresenter
+
+        cached_representer key_parts: %i(project_type)
+
         self_link
 
-        link :createWorkPackage do
-          next unless current_user_allowed_to(:add_work_packages, context: represented)
-
+        link :createWorkPackage,
+             cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented) } do
           {
             href: api_v3_paths.create_project_work_package_form(represented.id),
             method: :post
           }
         end
 
-        link :createWorkPackageImmediate do
-          next unless current_user_allowed_to(:add_work_packages, context: represented)
-
+        link :createWorkPackageImmediate,
+             cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented) } do
           {
             href: api_v3_paths.work_packages_by_project(represented.id),
             method: :post
           }
         end
 
-        link 'categories' do
+        link :categories do
           { href: api_v3_paths.categories(represented.id) }
         end
 
-        link 'versions' do
+        link :versions do
           { href: api_v3_paths.versions_by_project(represented.id) }
         end
 
-        link 'types' do
-          next unless current_user_allowed_to(:view_work_packages, context: represented) ||
-                      current_user_allowed_to(:manage_types, context: represented)
-
+        link :types,
+             cache_if: -> {
+               current_user_allowed_to(:view_work_packages, context: represented) ||
+                 current_user_allowed_to(:manage_types, context: represented)
+             } do
           { href: api_v3_paths.types_by_project(represented.id) }
         end
 
@@ -90,7 +93,6 @@ module API
           'Project'
         end
 
-        self.to_eager_load = [:project_type]
         self.checked_permissions = [:add_work_packages]
       end
     end
