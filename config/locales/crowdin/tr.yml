@@ -230,8 +230,8 @@ tr:
       login_verification:
         other: Silme işlemini doğrulamak için %{name} giriniz. Gönderildikten sonra,
           şifrenizi onaylamanız istenecektir.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        self: Silme işlemini doğrulamak için %{name} giriniz. Gönderildikten sonra,
+          şifrenizi onaylamanız istenecektir.
     error_inactive_activation_by_mail: 'Hesabınız henüz etkinleştirilmedi. Hesabınızı
       etkinleştirmek için size gönderilen e-posta bağlantısını tıklatın.
 
@@ -1021,7 +1021,7 @@ tr:
       boards: Toplum Forumu
       newsletter: Güvenlik uyarıları / haber bülteni
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Yapılandırma rehberi
   instructions_after_registration: "%{signin} düğmesini tıklayarak hesabınız etkinleştirildiğinde
     hemen oturum açabilirsiniz."
   instructions_after_logout: "%{signin} düğmesini tıklayarak tekrar oturum açabilirsiniz."
@@ -1606,11 +1606,11 @@ tr:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: Proje içeriği dışından create_work_package_link makrosu
+          çağrılıyor.
+        invalid_type: "'%{project}' projesinde '%{type}' isminde bir tür bulunamadı."
       link_name: Yeni iş paketi
-      link_name_type: New %{type_name}
+      link_name_type: Yeni %{type_name}
   mail:
     actions: Eylemler
   mail_body_account_activation_request: 'Yeni bir kullanıcı ( %{value}) kaydoldu.
@@ -2586,7 +2586,7 @@ tr:
         hatalı biçimlendirilmiş.
       multipart_body_error: İstek gövdesi, beklenen çok parçalı parçaları içeriyordu.
       multiple_errors: Çoklu alan kısıtlamaları ihlal edilmiştir.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Ek oluşturulamadı
       render:
         context_not_parsable: Sağlanan bağlam, bir kaynağa bağ değildir.
         unsupported_context: Verilen kaynak bağlam olarak desteklenmiyor.
