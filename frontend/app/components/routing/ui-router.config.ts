@@ -148,6 +148,7 @@ openprojectModule
       .state('work-packages.show.watchers', panels.watchers)
 
       .state('work-packages.list', {
+        url: '',
         controller: 'WorkPackagesListRouter',
         template: '<wp-list></wp-list>',
         reloadOnSearch: false,

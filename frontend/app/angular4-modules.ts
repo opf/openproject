@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Injector, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -67,7 +67,8 @@ import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-tab
 import {WorkPackagesTableController,} from 'core-components/wp-table/wp-table.directive';
 import {
   $qToken,
-  $rootScopeToken, $stateToken,
+  $rootScopeToken,
+  $stateToken,
   $timeoutToken,
   columnsModalToken,
   FocusHelperToken,
@@ -100,9 +101,7 @@ import {WorkPackageZenModeButtonComponent} from 'core-components/wp-buttons/wp-z
 import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
 import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
 import {Ng1QueryFiltersComponentWrapper} from 'core-components/filters/query-filters/query-filters-ng1-wrapper.component';
-import {getUIRouter, UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
-import {UIRouter, UrlService} from '@uirouter/core';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
 
 @NgModule({
   imports: [
@@ -194,12 +193,13 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
   ]
 })
 export class OpenProjectModule {
-  constructor(private upgrade:UpgradeModule, private injector:Injector) {
+  constructor(private upgrade:UpgradeModule) {
   }
 
   // noinspection JSUnusedGlobalSymbols
   ngDoBootstrap() {
-    this.upgrade.bootstrap(document.body, ['openproject'], {strictDi: false});
+    // Already done in openproject-app.ts
+    // this.upgrade.bootstrap(document.body, ['openproject'], {strictDi: false});
   }
 }
 

@@ -27,10 +27,36 @@
 //++
 
 require('./init-app');
-const OpenProjectModule = require('./angular4-modules').OpenProjectModule;
-const platformBrowserDynamic = require('@angular/platform-browser-dynamic').platformBrowserDynamic;
+
+import {NgModuleRef} from '@angular/core';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {openprojectModule} from './angular-modules';
+import {OpenProjectModule} from './angular4-modules';
+import {UpgradeModule} from '@angular/upgrade/static';
+import {getUIRouter} from '@uirouter/angular-hybrid';
+
+openprojectModule
+  .config([ '$urlServiceProvider', ($urlServiceProvider:any) => {
+    // Defer the routing until the upgraded module is being bootstrapped
+    $urlServiceProvider.deferIntercept();
+  }])
+  .run(['$$angularInjector', ($$angularInjector:any) => {
+    // Synchronize the current URL now that we are being bootstrapped
+    const url:any = getUIRouter($$angularInjector).urlService;
+    url.listen();
+    url.sync();
+  }]);
+
+export function bootstrapWithUiRouter(platformRef:NgModuleRef<any>): void {
+  const injector = platformRef.injector;
+  const upgradeModule = injector.get(UpgradeModule);
+
+  upgradeModule.bootstrap(document.body, [ openprojectModule.name ], { strictDi: false });
+}
 
 jQuery(function () {
   // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
-  platformBrowserDynamic().bootstrapModule(OpenProjectModule);
+  platformBrowserDynamic()
+    .bootstrapModule(OpenProjectModule)
+    .then(platformRef => bootstrapWithUiRouter(platformRef));
 });

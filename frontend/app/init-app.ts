@@ -26,8 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-// Globally exposed dependencies
-import {getUIRouter} from '@uirouter/angular-hybrid/lib/index';
+import ExpressionService from 'core-components/common/xss/expression.service';
 
 require('./vendors');
 
@@ -48,7 +47,11 @@ requireGlobals.keys().forEach(requireGlobals);
 var documentLang = (angular.element('html').attr('lang') || 'en').toLowerCase();
 require('angular-i18n/angular-locale_' + documentLang + '.js');
 
-var opApp = require('./angular-modules.ts').default;
+import {openprojectModule} from './angular-modules';
+import CacheService = op.CacheService;
+import {getUIRouter} from '@uirouter/angular-hybrid';
+import {whenDebugging} from 'core-app/helpers/debug_output';
+import {enableReactiveStatesLogging} from 'reactivestates';
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
@@ -56,17 +59,12 @@ const meta = jQuery('meta[name=openproject_initializer]');
 I18n.locale = meta.data('defaultLocale');
 I18n.locale = meta.data('locale');
 
-opApp
+openprojectModule
     .config([
       '$compileProvider',
       '$locationProvider',
-      '$urlServiceProvider',
       '$httpProvider',
-      function($compileProvider, $locationProvider, $urlServiceProvider, $httpProvider) {
-
-        // Tell UI-Router to wait to synchronize the URL (until all bootstrapping is complete)
-        console.error("DEFERRED HERE");
-        $urlServiceProvider.deferIntercept();
+      function($compileProvider:any, $locationProvider:any, $httpProvider:any) {
 
         // Disable debugInfo outside development mode
         $compileProvider.debugInfoEnabled(window.OpenProject.environment === 'development');
@@ -83,9 +81,9 @@ opApp
         $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         // prepend a given base path to requests performed via $http
         //
-        $httpProvider.interceptors.push(function($q) {
+        $httpProvider.interceptors.push(function($q:ng.IQService) {
           return {
-            'request': function(config) {
+            'request': function(config:any) {
               // OpenProject can run in a subpath e.g. https://mydomain/open_project.
               // We append the path found as the base-tag value to all http requests
               // to the server except:
@@ -106,30 +104,23 @@ opApp
     ])
     .run([
       '$http',
-      'injector',
       '$rootScope',
       '$window',
       'TimezoneService',
       'ExpressionService',
       'CacheService',
       'KeyboardShortcutService',
-      '$$angularInjector',
-      function($http,
-               $rootScope,
-               $window,
-               TimezoneService,
-               ExpressionService,
-               CacheService,
-               KeyboardShortcutService,
-               $$angularInjector) {
-        $http.defaults.headers.common.Accept = 'application/json';
+      function($http:ng.IHttpService,
+               $rootScope:any,
+               $window:ng.IWindowService,
+               TimezoneService:any,
+               ExpressionService:ExpressionService,
+               CacheService:CacheService,
+               KeyboardShortcutService:any) {
 
-        console.error("Log URL service");
-        const urlService = getUIRouter($$angularInjector).urlService;
+        $http.defaults.headers!.common.Accept = 'application/json';
 
-        // Instruct UIRouter to listen to URL changes
-        urlService.listen();
-        urlService.sync();
+        console.error("Init app run");
 
         // Set the escaping target of opening double curly braces
         // This is what returned by rails-angular-xss when it discoveres double open curly braces
@@ -139,7 +130,7 @@ opApp
         if ($window.innerWidth < 680) {
           // On mobile sized screens navigation shall allways be callapsed when
           // window loads.
-          $rootScope.showNavigation = false
+          $rootScope.showNavigation = false;
         } else {
           $rootScope.showNavigation =
               $window.sessionStorage.getItem('openproject:navigation-toggle') !==
@@ -155,7 +146,7 @@ opApp
         }
 
         $rootScope.$on('$stateChangeError',
-            function(event){
+            function(event:JQueryEventObject){
               event.preventDefault();
               // transitionTo() promise will be rejected with
               // a 'transition prevented' error
@@ -179,13 +170,8 @@ requireTemplate.keys().forEach(requireTemplate);
 var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|ts|html)$/);
 requireComponent.keys().forEach(requireComponent);
 
-
-const debugOutput = require("./helpers/debug_output");
-debugOutput.whenDebugging(function () {
-  const reactivestates = require("reactivestates");
-  reactivestates.enableReactiveStatesLogging();
-});
-
+// Enable debug logging for reactive states
+whenDebugging(enableReactiveStatesLogging);
 
 // load Angular 4 modules
 require("./angular4-modules");
