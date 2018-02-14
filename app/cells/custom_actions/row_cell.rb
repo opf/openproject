@@ -6,8 +6,8 @@ module CustomActions
       model
     end
 
-    def users
-      synchronized_group.users.count
+    def name
+      link_to h(action.name), edit_custom_action_path(action)
     end
 
     def button_links

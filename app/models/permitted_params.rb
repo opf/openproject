@@ -228,7 +228,7 @@ class PermittedParams
 
       allowed_params = self.class.permitted_attributes[:user] + \
                        additional_params + \
-                       [:admin, :login]
+                       %i[admin login]
 
       permitted_params = params.require(:user).permit(*allowed_params)
       permitted_params = permitted_params.merge(custom_field_values(:user))
@@ -331,9 +331,7 @@ class PermittedParams
                                                          :wiki_page_title,
                                                          :status,
                                                          :sharing,
-                                                         version_settings_attributes: [:id,
-                                                                                       :display,
-                                                                                       :project_id])
+                                                         version_settings_attributes: %i(id display project_id))
 
     permitted_params.merge(custom_field_values(:version, required: false))
   end
@@ -354,12 +352,12 @@ class PermittedParams
   end
 
   def attachments
-    params.permit(attachments: [:file, :description])['attachments']
+    params.permit(attachments: %i[file description])['attachments']
   end
 
   def enumerations
-    acceptable_params = [:active, :is_default, :move_to, :name, :reassign_to_i,
-                         :parent_id, :custom_field_values, :reassign_to_id]
+    acceptable_params = %i[active is_default move_to name reassign_to_i
+                           parent_id custom_field_values reassign_to_id]
 
     whitelist = ActionController::Parameters.new
 
@@ -436,36 +434,39 @@ class PermittedParams
   def self.permitted_attributes
     @whitelisted_params ||= begin
       params = {
-        attribute_help_text: [
-          :type,
-          :attribute_name,
-          :help_text
-        ],
-        auth_source: [
-          :name,
-          :host,
-          :port,
-          :tls,
-          :account,
-          :account_password,
-          :base_dn,
-          :onthefly_register,
-          :attr_login,
-          :attr_firstname,
-          :attr_lastname,
-          :attr_mail,
-          :attr_admin],
-        board: [
-          :name,
-          :description],
-        color: [
-          :name,
-          :hexcode,
-          :move_to
-        ],
-        custom_action: [
-          :name
-        ],
+        attribute_help_text: %i(
+          type
+          attribute_name
+          help_text
+        ),
+        auth_source: %i(
+          name
+          host
+          port
+          tls
+          account
+          account_password
+          base_dn
+          onthefly_register
+          attr_login
+          attr_firstname
+          attr_lastname
+          attr_mail
+          attr_admin
+        ),
+        board: %i(
+          name
+          description
+        ),
+        color: %i(
+          name
+          hexcode
+          move_to
+        ),
+        custom_action: %i(
+          name
+          description
+        ),
         custom_field: [
           :editable,
           :field_format,
@@ -486,29 +487,33 @@ class PermittedParams
           { custom_options_attributes: %i(id value default_value position) },
           type_ids: []
         ],
-        enumeration: [
-          :active,
-          :is_default,
-          :move_to,
-          :name,
-          :reassign_to_id
-        ],
+        enumeration: %i(
+          active
+          is_default
+          move_to
+          name
+          reassign_to_id
+        ),
         group: [
           :lastname
         ],
         membership: [
           :project_id,
-          role_ids: []],
+          role_ids: []
+        ],
         group_membership: [
           :membership_id,
           membership: [
             :project_id,
-            role_ids: []]],
+            role_ids: []
+          ]
+        ],
         member: [
-          role_ids: []],
+          role_ids: []
+        ],
         new_work_package: [
           :assigned_to_id,
-          { attachments: [:file, :description] },
+          { attachments: %i[file description] },
           :category_id,
           :description,
           :done_ratio,
@@ -537,7 +542,7 @@ class PermittedParams
                args[:params]['work_package'].has_key?('time_entry') &&
                args[:current_user].allowed_to?(:log_time, args[:project])
 
-              { time_entry: [:hours, :activity_id, :comments] }
+              { time_entry: %i[hours activity_id comments] }
             end
           end,
           # attributes unique to :new_work_package
@@ -546,37 +551,39 @@ class PermittedParams
         project_type: [
           :name,
           type_ids: []],
-        query: [
-          :name,
-          :display_sums,
-          :is_public,
-          :group_by],
+        query: %i(
+          name
+          display_sums
+          is_public
+          group_by
+        ),
         role: [
           :name,
           :assignable,
           :move_to,
           permissions: []],
-        search: [
-          :q,
-          :offset,
-          :previous,
-          :scope,
-          :all_words,
-          :titles_only,
-          :work_packages,
-          :news,
-          :changesets,
-          :wiki_pages,
-          :messages,
-          :projects,
-          :submit
-        ],
-        status: [
-          :name,
-          :default_done_ratio,
-          :is_closed,
-          :is_default,
-          :move_to],
+        search: %i(
+          q
+          offset
+          previous
+          scope
+          all_words
+          titles_only
+          work_packages
+          news
+          changesets
+          wiki_pages
+          messages
+          projects
+          submit
+        ),
+        status: %i(
+          name
+          default_done_ratio
+          is_closed
+          is_default
+          move_to
+        ),
         type: [
           :name,
           :is_in_roadmap,
@@ -587,21 +594,24 @@ class PermittedParams
           project_ids: [],
           custom_field_ids: []
         ],
-        user: [
-          :firstname,
-          :lastname,
-          :mail,
-          :mail_notification,
-          :language,
-          :custom_fields],
-        wiki_page: [
-          :title,
-          :parent_id,
-          :redirect_existing_links],
-        wiki_content: [
-          :comments,
-          :text,
-          :lock_version],
+        user: %i(
+          firstname
+          lastname
+          mail
+          mail_notification
+          language
+          custom_fields
+        ),
+        wiki_page: %i(
+          title
+          parent_id
+          redirect_existing_links
+        ),
+        wiki_content: %i(
+          comments
+          text
+          lock_version
+        ),
         move_to: [:move_to]
       }
 

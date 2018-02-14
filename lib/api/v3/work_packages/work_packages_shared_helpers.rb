@@ -79,6 +79,14 @@ module API
           end
         end
 
+        def work_package_representer(work_package = @work_package)
+          ::API::V3::WorkPackages::WorkPackageRepresenter.create(
+            work_package,
+            current_user: current_user,
+            embed_links: true
+          )
+        end
+
         private
 
         def custom_field_context_changed?(work_package)

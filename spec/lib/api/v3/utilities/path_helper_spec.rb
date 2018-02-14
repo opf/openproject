@@ -140,6 +140,20 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/configuration'
   end
 
+  context 'custom action paths' do
+    describe '#custom_action' do
+      subject { helper.custom_action 42 }
+
+      it_behaves_like 'api v3 path', '/custom_actions/42'
+    end
+
+    describe '#custom_action_execute' do
+      subject { helper.custom_action_execute 42 }
+
+      it_behaves_like 'api v3 path', '/custom_actions/42/execute'
+    end
+  end
+
   describe '#custom_option' do
     subject { helper.custom_option 42 }
 
@@ -549,12 +563,6 @@ describe ::API::V3::Utilities::PathHelper do
       subject { helper.work_package 1 }
 
       it_behaves_like 'api v3 path', '/work_packages/1'
-    end
-
-    describe '#work_package_custom_action_execute' do
-      subject { helper.work_package_custom_action_execute 42, 23 }
-
-      it_behaves_like 'api v3 path', '/work_packages/42/custom_actions/23/execute'
     end
 
     describe '#work_package_activities' do

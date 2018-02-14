@@ -36,6 +36,10 @@ module Pages
           fill_in 'Name', with: name
         end
 
+        def set_description(description)
+          fill_in 'Description', with: description
+        end
+
         def add_action(name, value)
           within '#custom-actions-form--actions' do
             select name, from: 'Add'

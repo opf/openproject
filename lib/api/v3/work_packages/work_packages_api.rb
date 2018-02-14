@@ -68,16 +68,9 @@ module API
           end
           route_param :id do
             helpers WorkPackagesSharedHelpers
+
             helpers do
               attr_reader :work_package
-
-              def work_package_representer
-                ::API::V3::WorkPackages::WorkPackageRepresenter.create(
-                  @work_package,
-                  current_user: current_user,
-                  embed_links: true
-                )
-              end
             end
 
             before do
@@ -136,7 +129,6 @@ module API
             mount ::API::V3::WorkPackages::AvailableProjectsOnEditAPI
             mount ::API::V3::WorkPackages::AvailableRelationCandidatesAPI
             mount ::API::V3::WorkPackages::WorkPackageRelationsAPI
-            mount ::API::V3::WorkPackages::CustomActions::CustomActionsAPI
           end
 
           mount ::API::V3::WorkPackages::CreateFormAPI

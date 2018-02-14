@@ -327,16 +327,6 @@ module API
           end
         end
 
-        links :customActions do
-          represented.custom_actions(current_user).map do |action|
-            {
-              href: api_v3_paths.work_package_custom_action_execute(represented.id, action.id),
-              title: action.name,
-              method: 'POST'
-            }
-          end
-        end
-
         property :id,
                  render_nil: true
 
@@ -510,6 +500,24 @@ module API
 
                               represented.parent = new_parent
                             end
+
+        resources :customActions,
+                  link: ->(*) {
+                    represented.custom_actions(current_user).map do |action|
+                      {
+                        href: api_v3_paths.custom_action(action.id),
+                        title: action.name
+                      }
+                    end
+                  },
+                  getter: ->(*) {
+                    represented.custom_actions(current_user).map do |action|
+                      ::API::V3::CustomActions::CustomActionRepresenter.new(action, current_user: current_user)
+                    end
+                  },
+                  setter: ->(_fragment:, **) do
+                    # noop
+                  end
 
         def _type
           'WorkPackage'

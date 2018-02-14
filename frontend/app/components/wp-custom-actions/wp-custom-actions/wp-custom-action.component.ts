@@ -27,20 +27,15 @@
 // ++
 
 import {opUiComponentsModule} from '../../../angular-modules';
-import {Component, Inject} from '@angular/core';
-import {OnInit, Input} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
-import {HalRequestService} from 'core-components/api/api-v3/hal-request/hal-request.service';
+
+import {Component, HostListener, Inject, Input} from '@angular/core';
+import {CustomActionResourceInterface} from 'core-components/api/api-v3/hal-resources/custom-action-resource.service';
 import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {HalRequestService} from 'core-components/api/api-v3/hal-request/hal-request.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {downgradeComponent} from '@angular/upgrade/static';
 import {halRequestToken} from 'core-app/angular4-transition-utils';
-
-interface CustomActionLink {
-  href:string;
-  title:string;
-  method:string;
-}
 
 @Component({
   selector: 'wp-custom-action',
@@ -49,18 +44,30 @@ interface CustomActionLink {
 export class WpCustomActionComponent {
 
   @Input() workPackage:WorkPackageResourceInterface;
-  @Input() link:CustomActionLink;
+  @Input() action:CustomActionResourceInterface;
 
   constructor(@Inject(halRequestToken) private halRequest:HalRequestService,
               private wpCacheService:WorkPackageCacheService,
               private wpNotificationsService:WorkPackageNotificationService) { }
 
+  private fetchAction() {
+    this.halRequest.get(this.action.href!)
+      .then((action) => {
+        this.action = <CustomActionResourceInterface>action;
+      });
+  }
+
   public update() {
     let payload = {
-      lockVersion: this.workPackage.lockVersion
+      lockVersion: this.workPackage.lockVersion,
+      _links: {
+        workPackage: {
+          href: this.workPackage.href
+        }
+      }
     };
 
-    this.halRequest.post<WorkPackageResourceInterface>(this.link.href, payload)
+    this.halRequest.post<WorkPackageResourceInterface>(this.action.href + '/execute', payload)
       .then((savedWp:WorkPackageResourceInterface) => {
         this.wpNotificationsService.showSave(savedWp, false);
         this.workPackage = savedWp;
@@ -68,6 +75,10 @@ export class WpCustomActionComponent {
       }).catch((errorResource:any) => {
         this.wpNotificationsService.handleErrorResponse(errorResource, this.workPackage);
       });
+  }
+
+  @HostListener('mouseenter') onMouseEnter() {
+    this.fetchAction();
   }
 }
 

@@ -30,28 +30,21 @@
 
 require 'model_contract'
 
-# Contract for create (c) and update (u)
 module CustomActions
-  class CUContract < ::ModelContract
-    def self.model
-      CustomAction
-    end
+  class ExecuteContract < Reform::Contract
+    property :lock_version
+    property :work_package_id
 
-    attribute :name
-    attribute :description
+    validates :work_package_id, presence: true
+    validate :work_package_visible
 
-    attribute :actions do
-      if model.actions.empty?
-        errors.add :actions, :empty
-      end
-      model.actions.each do |action|
-        action.validate(errors)
-      end
-    end
+    private
 
-    attribute :conditions do
-      model.conditions.each do |condition|
-        condition.validate(errors)
+    def work_package_visible
+      return unless model.work_package_id
+
+      unless WorkPackage.visible.where(id: model.work_package_id).exists?
+        errors.add(:work_package_id, :does_not_exist)
       end
     end
   end

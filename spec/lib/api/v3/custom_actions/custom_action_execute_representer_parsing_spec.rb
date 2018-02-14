@@ -28,62 +28,56 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::QueryRepresenter do
+describe ::API::V3::CustomActions::CustomActionExecuteRepresenter, 'parsing' do
   include ::API::V3::Utilities::PathHelper
 
-  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:user) { double('current_user') }
+  let(:struct) { OpenStruct.new }
+  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
+
   let(:representer) do
-    described_class.new(query, current_user: user, embed_links: true)
+    described_class.new(struct, current_user: user)
   end
 
-  let(:permissions) { [] }
-
-  let(:policy) do
-    policy_stub = double('policy stub')
-
-    allow(QueryPolicy)
-      .to receive(:new)
-      .with(user)
-      .and_return(policy_stub)
-
-    allow(policy_stub)
-      .to receive(:allowed?)
-      .and_return(false)
-
-    permissions.each do |permission|
-      allow(policy_stub)
-        .to receive(:allowed?)
-        .with(query, permission)
-        .and_return(true)
-    end
+  let(:payload) do
+    {}
   end
 
-  before do
-    policy
+  subject do
+    representer.from_hash(payload)
+
+    struct
   end
 
-  subject { representer.from_hash request_body }
-
-  describe 'parsing empty group_by (Regression #25606)' do
-    before do
-      query.group_by = 'project'
-    end
-
-    let(:request_body) do
+  context 'lockVersion' do
+    let(:payload) do
       {
-        '_links' => {
-          'groupBy' => { 'href' => nil }
-        }
+        'lockVersion' => 1
       }
     end
 
-    it 'should unset group_by' do
-      expect(query).to be_grouped
-      expect(query.group_by).to eq('project')
+    it 'sets the lockVersion' do
+      expect(subject.lock_version)
+        .to eql payload['lockVersion']
+    end
+  end
 
-      expect(subject).not_to be_grouped
+  context '_links' do
+    context 'workPackage' do
+      let(:payload) do
+        {
+          '_links' => {
+            'workPackage' => {
+              'href' => api_v3_paths.work_package(work_package.id)
+            }
+          }
+        }
+      end
+
+      it 'sets the work_package_id' do
+        expect(subject.work_package_id)
+          .to eql work_package.id.to_s
+      end
     end
   end
 end
