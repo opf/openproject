@@ -43,86 +43,81 @@ function queryFiltersDirective($timeout:ng.ITimeoutService,
 
   return {
     restrict: 'E',
-    replace: true,
     scope: {},
     templateUrl: '/components/filters/query-filters/query-filters.directive.html',
 
-    compile: function () {
-      return {
-        pre: function (scope:any) {
-          scope.I18n = I18n;
-          scope.focusElementIndex;
-          scope.remainingFilters = [];
+    link: function (scope:any) {
+      scope.I18n = I18n;
+      scope.focusElementIndex;
+      scope.remainingFilters = [];
 
-          scope.filters;
+      scope.filters;
 
-          wpTableFilters.observeOnScope(scope).subscribe(initialize);
+      wpTableFilters.observeOnScope(scope).subscribe(initialize);
 
-          scope.$watch('filterToBeAdded', function (filter:any) {
-            if (filter) {
-              scope.filterToBeAdded = undefined;
-              let newFilter = scope.filters.add(filter);
-              var index = currentFilterLength();
-              updateFilterFocus(index);
-              updateRemainingFilters();
+      scope.$watch('filterToBeAdded', function (filter:any) {
+        if (filter) {
+          scope.filterToBeAdded = undefined;
+          let newFilter = scope.filters.add(filter);
+          var index = currentFilterLength();
+          updateFilterFocus(index);
+          updateRemainingFilters();
 
-              wpTableFilters.replaceIfComplete(scope.filters);
-            }
-          });
-
-          scope.closeFilter = function() {
-            wpFiltersService.toggleVisibility();
-          }
-
-          scope.deactivateFilter = function (removedFilter:QueryFilterInstanceResource) {
-            let index = scope.filters.current.indexOf(removedFilter);
-
-            if (removedFilter.isCompletelyDefined()) {
-              wpTableFilters.remove(removedFilter);
-            } else {
-              scope.filters.remove(removedFilter);
-            }
-
-            updateFilterFocus(index);
-
-            updateRemainingFilters();
-          };
-
-          function initialize() {
-            scope.filters = wpTableFilters.currentState;
-
-            updateRemainingFilters();
-          }
-
-          function updateRemainingFilters() {
-            scope.remainingFilters = scope.filters.remainingFilters;
-          }
-
-          function updateFilterFocus(index:number) {
-            var activeFilterCount = currentFilterLength();
-
-            if (activeFilterCount == 0) {
-              scope.focusElementIndex = ADD_FILTER_SELECT_INDEX;
-            } else {
-              var filterIndex = (index < activeFilterCount) ? index : activeFilterCount - 1;
-              var filter = currentFilterAt(filterIndex);
-              scope.focusElementIndex = scope.filters.current.indexOf(filter);
-            }
-
-            $timeout(function () {
-              scope.$broadcast('updateFocus');
-            }, 300);
-          }
-
-          function currentFilterLength() {
-            return scope.filters.current.length;
-          }
-
-          function currentFilterAt(index:number) {
-            return scope.filters.current[index];
-          }
+          wpTableFilters.replaceIfComplete(scope.filters);
         }
+      });
+
+      scope.closeFilter = function () {
+        wpFiltersService.toggleVisibility();
+      }
+
+      scope.deactivateFilter = function (removedFilter:QueryFilterInstanceResource) {
+        let index = scope.filters.current.indexOf(removedFilter);
+
+        if (removedFilter.isCompletelyDefined()) {
+          wpTableFilters.remove(removedFilter);
+        } else {
+          scope.filters.remove(removedFilter);
+        }
+
+        updateFilterFocus(index);
+
+        updateRemainingFilters();
       };
+
+      function initialize() {
+        scope.filters = wpTableFilters.currentState;
+
+        updateRemainingFilters();
+      }
+
+      function updateRemainingFilters() {
+        scope.remainingFilters = scope.filters.remainingFilters;
+      }
+
+      function updateFilterFocus(index:number) {
+        var activeFilterCount = currentFilterLength();
+
+        if (activeFilterCount == 0) {
+          scope.focusElementIndex = ADD_FILTER_SELECT_INDEX;
+        } else {
+          var filterIndex = (index < activeFilterCount) ? index : activeFilterCount - 1;
+          var filter = currentFilterAt(filterIndex);
+          scope.focusElementIndex = scope.filters.current.indexOf(filter);
+        }
+
+        $timeout(function () {
+          scope.$broadcast('updateFocus');
+        }, 300);
+      }
+
+      function currentFilterLength() {
+        return scope.filters.current.length;
+      }
+
+      function currentFilterAt(index:number) {
+        return scope.filters.current[index];
+      }
     }
   };
 }

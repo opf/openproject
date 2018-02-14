@@ -99,6 +99,7 @@ import {WorkPackageTimelineButtonComponent} from 'core-components/wp-buttons/wp-
 import {WorkPackageZenModeButtonComponent} from 'core-components/wp-buttons/wp-zen-mode-toggle-button/wp-zen-mode-toggle-button.component';
 import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
 import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
+import {Ng1QueryFiltersComponentWrapper} from 'core-components/filters/query-filters/query-filters-ng1-wrapper.component';
 
 @NgModule({
   imports: [
@@ -165,6 +166,7 @@ import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-fil
     WorkPackageTimelineButtonComponent,
     WorkPackageZenModeButtonComponent,
     WorkPackageFilterContainerComponent,
+    Ng1QueryFiltersComponentWrapper,
     WpResizerDirectiveUpgraded,
     WpCustomActionComponent,
     WpCustomActionsComponent,
