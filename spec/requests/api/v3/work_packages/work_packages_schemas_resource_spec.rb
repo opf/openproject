@@ -130,18 +130,6 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
   describe 'GET /api/v3/work_packages/schemas/:id' do
     let(:schema_path) { api_v3_paths.work_package_schema project.id, type.id }
 
-    def cache_key
-      # Compare with ETag composed of project and customizations
-      # to avoid evaluating the server request
-      custom_fields = project.all_work_package_custom_fields
-
-      custom_fields_key = ActiveSupport::Cache.expand_cache_key custom_fields
-
-      ["api/v3/work_packages/schema/#{project.id}-#{type.id}",
-       type.updated_at,
-       Digest::SHA2.hexdigest(custom_fields_key)]
-    end
-
     context 'logged in' do
       before do
         allow(User).to receive(:current).and_return(current_user)
@@ -168,7 +156,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
                                                         self_link,
                                                         current_user: nil)
 
-          expect(Rails.cache.fetch(represented_schema.cache_key)).to_not be_nil
+          expect(OpenProject::Cache.fetch(represented_schema.json_cache_key)).to_not be_nil
         end
       end
 

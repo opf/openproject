@@ -72,6 +72,10 @@ module API
             end
           end
 
+          def no_caching?
+            true
+          end
+
           private
 
           def contract

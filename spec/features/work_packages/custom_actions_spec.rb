@@ -246,12 +246,13 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.dismiss_notification!
 
     ## Bump the lockVersion and by that force a conflict.
-    WorkPackage.where(id: work_package.id).update_all(lock_version: 10)
+    WorkPackage.where(id: work_package.id).update_all(lock_version: 10, updated_at: Time.now)
 
     wp_page.click_custom_action('Escalate')
 
     wp_page.expect_notification type: :error, message: I18n.t('api_v3.errors.code_409')
 
+    visit "/"
     wp_page.visit!
 
     wp_page.click_custom_action('Escalate')
