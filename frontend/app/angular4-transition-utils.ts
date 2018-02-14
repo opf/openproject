@@ -36,7 +36,6 @@ export const $timeoutToken = new InjectionToken<ITimeoutService>('$timeout');
 export const $stateToken = new InjectionToken<StateService>('$state');
 
 export const I18nToken = new InjectionToken<op.I18n>('I18n');
-export const StateToken = new InjectionToken<StateService>('$state');
 export const columnsModalToken = new InjectionToken<any>('columnsModal');
 export const FocusHelperToken = new InjectionToken<any>('FocusHelper');
 export const NotificationsServiceToken = new InjectionToken<any>('NotificationsService');

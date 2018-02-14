@@ -27,11 +27,18 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
-import {WorkPackageButtonController, wpButtonDirective} from '../wp-buttons.module';
+import {AbstractWorkPackageButtonComponent,} from '../wp-buttons.module';
+import {Component, Inject} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {downgradeComponent} from '@angular/upgrade/static';
 
 const screenfull:any = require('screenfull/dist/screenfull.js');
 
-export class WorkPackageZenModeButtonController extends WorkPackageButtonController {
+@Component({
+  template: require('!!raw-loader!core-components/wp-buttons/wp-button.template.html'),
+  selector: 'wp-zen-mode-toggle-button',
+})
+export class WorkPackageZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
   public buttonId:string = 'work-packages-zen-mode-toggle-button';
   public buttonClass:string = 'toolbar-icon';
   public iconClass:string = 'icon-zen-mode';
@@ -42,22 +49,19 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
   private deactivateLabel:string;
   private scope:ng.IScope;
 
-  constructor(public I18n:op.I18n, protected $scope:ng.IScope) {
+  constructor(@Inject(I18nToken) readonly I18n:op.I18n) {
     super(I18n);
-    this.scope = $scope;
+
     this.activateLabel = I18n.t('js.zen_mode.button_activate');
     this.deactivateLabel = I18n.t('js.zen_mode.button_deactivate');
     let self = this;
-    
+
     if (screenfull.enabled) {
       screenfull.onchange(function() {
         // This event might get triggered several times for once leaving
         // fullscreen mode.
         if (!screenfull.isFullscreen) {
           self.deactivateZenMode();
-          // The event wasn't cached from angularJS so we need to make sure
-          // a rendering cycle gets triggered:
-          self.scope.$apply();
         }
       });
     }
@@ -76,11 +80,11 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
   }
 
   public isActive():boolean {
-    return WorkPackageZenModeButtonController.inZenMode;
+    return WorkPackageZenModeButtonComponent.inZenMode;
   }
 
   private deactivateZenMode():void {
-    WorkPackageZenModeButtonController.inZenMode = false;
+    WorkPackageZenModeButtonComponent.inZenMode = false;
     angular.element('body').removeClass('zen-mode');
     this.disabled = false;
     if (screenfull.enabled && screenfull.isFullscreen) {
@@ -89,7 +93,7 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
   }
 
   private activateZenMode():void {
-    WorkPackageZenModeButtonController.inZenMode = true;
+    WorkPackageZenModeButtonComponent.inZenMode = true;
     angular.element('body').addClass('zen-mode');
     if (screenfull.enabled) {
       screenfull.request();
@@ -97,7 +101,7 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
   }
 
   public performAction() {
-    if (WorkPackageZenModeButtonController.inZenMode) {
+    if (WorkPackageZenModeButtonComponent.inZenMode) {
       this.deactivateZenMode();
     } else {
       this.activateZenMode();
@@ -105,10 +109,7 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
   }
 }
 
-function wpZenModeToggleButton():ng.IDirective {
-  return wpButtonDirective({
-    controller: WorkPackageZenModeButtonController
-  });
-}
-
-wpButtonsModule.directive('wpZenModeToggleButton', wpZenModeToggleButton);
+wpButtonsModule.directive(
+  'wpZenModeToggleButton',
+  downgradeComponent({ component: WorkPackageZenModeButtonComponent })
+);

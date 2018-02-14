@@ -47,7 +47,7 @@ import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.se
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
-import {I18nToken, StateToken} from 'core-app/angular4-transition-utils';
+import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
@@ -63,7 +63,9 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
   text = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
-    'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination')
+    'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination'),
+    'search_query_title': this.I18n.t('js.toolbar.search_query_title'),
+    'button_settings': this.I18n.t('js.button_settings')
   };
 
   tableInformationLoaded = false;
@@ -103,7 +105,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
               readonly wpListService:WorkPackagesListService,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
               readonly loadingIndicator:LoadingIndicatorService,
-              @Inject(StateToken) readonly $state:StateService,
+              @Inject($stateToken) readonly $state:StateService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
 
     this.tableState = this.states.globalTable;

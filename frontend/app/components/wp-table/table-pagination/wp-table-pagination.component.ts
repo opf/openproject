@@ -41,7 +41,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 @Component({
   template: require('!!raw-loader!core-components/table-pagination/table-pagination.component.html')
 })
-export class WorkPackageTablePaginationComponent extends TablePaginationComponent  implements OnDestroy {
+export class WorkPackageTablePaginationComponent extends TablePaginationComponent implements OnDestroy {
   constructor(protected paginationService:PaginationService,
               protected wpTablePagination:WorkPackageTablePaginationService,
               @Inject(I18nToken) protected I18n:op.I18n) {

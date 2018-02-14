@@ -36,7 +36,7 @@ export interface ButtonControllerText {
   buttonText:string;
 }
 
-export abstract class WorkPackageButtonController {
+export abstract class AbstractWorkPackageButtonComponent {
   public disabled:boolean;
   public buttonId:string;
   public iconClass:string;
@@ -91,7 +91,7 @@ export abstract class WorkPackageButtonController {
   public abstract performAction():void;
 }
 
-export abstract class WorkPackageNavigationButtonController extends WorkPackageButtonController {
+export abstract class WorkPackageNavigationButtonComponent extends AbstractWorkPackageButtonComponent {
   public activeState:string;
   public accessKey:number;
 

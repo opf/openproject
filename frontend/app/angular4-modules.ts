@@ -67,15 +67,14 @@ import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-tab
 import {WorkPackagesTableController,} from 'core-components/wp-table/wp-table.directive';
 import {
   $qToken,
-  $rootScopeToken,
-  $stateToken,
+  $rootScopeToken, $stateToken,
   $timeoutToken,
   columnsModalToken,
   FocusHelperToken,
   halRequestToken,
   I18nToken,
   NotificationsServiceToken,
-  PathHelperToken, StateToken,
+  PathHelperToken,
   upgradeService,
   upgradeServiceWithToken
 } from './angular4-transition-utils';
@@ -93,6 +92,13 @@ import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp
 import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
+import {WorkPackageCreateButtonComponent} from 'core-components/wp-buttons/wp-create-button/wp-create-button.component';
+import {WorkPackageFilterButtonComponent} from 'core-components/wp-buttons/wp-filter-button/wp-filter-button.directive';
+import {WorkPackageDetailsViewButtonComponent} from 'core-components/wp-buttons/wp-details-view-button/wp-details-view-button.component';
+import {WorkPackageTimelineButtonComponent} from 'core-components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component';
+import {WorkPackageZenModeButtonComponent} from 'core-components/wp-buttons/wp-zen-mode-toggle-button/wp-zen-mode-toggle-button.component';
+import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
+import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
 
 @NgModule({
   imports: [
@@ -105,7 +111,7 @@ import {LoadingIndicatorService} from 'core-components/common/loading-indicator/
     HideSectionService,
     upgradeServiceWithToken('$rootScope', $rootScopeToken),
     upgradeServiceWithToken('I18n', I18nToken),
-    upgradeServiceWithToken('$state', StateToken),
+    upgradeServiceWithToken('$state', $stateToken),
     upgradeServiceWithToken('$q', $qToken),
     upgradeServiceWithToken('$timeout', $timeoutToken),
     upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
@@ -133,6 +139,7 @@ import {LoadingIndicatorService} from 'core-components/common/loading-indicator/
     upgradeService('wpTableSum', WorkPackageTableSumService),
     upgradeService('wpListService', WorkPackagesListService),
     upgradeService('wpListChecksumService', WorkPackagesListChecksumService),
+    upgradeService('wpFiltersService', WorkPackageFiltersService),
     upgradeService('loadingIndicator', LoadingIndicatorService),
     upgradeService('wpTableRelationColumns', WorkPackageTableRelationColumnsService),
     upgradeService('wpTableGroupBy', WorkPackageTableGroupByService),
@@ -152,6 +159,12 @@ import {LoadingIndicatorService} from 'core-components/common/loading-indicator/
     WorkPackageTableTimelineGrid,
     WorkPackageTimelineTableController,
     WorkPackagesTableController,
+    WorkPackageCreateButtonComponent,
+    WorkPackageFilterButtonComponent,
+    WorkPackageDetailsViewButtonComponent,
+    WorkPackageTimelineButtonComponent,
+    WorkPackageZenModeButtonComponent,
+    WorkPackageFilterContainerComponent,
     WpResizerDirectiveUpgraded,
     WpCustomActionComponent,
     WpCustomActionsComponent,

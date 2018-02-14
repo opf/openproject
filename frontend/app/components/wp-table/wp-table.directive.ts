@@ -195,8 +195,3 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     return [$tableSide[0], $timelineSide[0]];
   }
 }
-
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpTable',
-    downgradeComponent({component: WorkPackagesTableController}));

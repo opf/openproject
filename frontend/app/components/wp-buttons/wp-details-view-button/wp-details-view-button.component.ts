@@ -27,18 +27,24 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
-import {WorkPackageButtonController, wpButtonDirective} from '../wp-buttons.module';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {States} from '../../states.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService} from '@uirouter/angularjs';
+import {Component, Inject} from '@angular/core';
+import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
+import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {downgradeComponent} from '@angular/upgrade/static';
 
-
-export class WorkPackageDetailsViewButtonController extends WorkPackageButtonController {
+@Component({
+  template: require('!!raw-loader!core-components/wp-buttons/wp-button.template.html'),
+  selector: 'wp-details-view-button',
+})
+export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageButtonComponent {
   public projectIdentifier:string;
   public accessKey:number = 8;
   public activeState:string = 'work-packages.list.details';
-  public listState: string = 'work-packages.list';
+  public listState:string = 'work-packages.list';
   public buttonId:string = 'work-packages-details-view-button';
   public buttonClass:string = 'toolbar-icon';
   public iconClass:string = 'icon-info2';
@@ -47,13 +53,12 @@ export class WorkPackageDetailsViewButtonController extends WorkPackageButtonCon
   public deactivateLabel:string;
 
   constructor(
-    public $state:StateService,
+    @Inject($stateToken) readonly $state:StateService,
+    @Inject(I18nToken) readonly I18n:op.I18n,
     public states:States,
-    public I18n:op.I18n,
-    public loadingIndicator:any,
     public wpTableFocus:WorkPackageTableFocusService,
     public keepTab:KeepTabService) {
-    'ngInject';
+
     super(I18n);
 
     this.activateLabel = I18n.t('js.button_open_details');
@@ -100,20 +105,11 @@ export class WorkPackageDetailsViewButtonController extends WorkPackageButtonCon
     };
 
     angular.extend(params, this.$state.params);
-
-    this.loadingIndicator.mainPage = this.$state.go.apply(
-      this.$state, [this.keepTab.currentDetailsState, params]);
+    this.$state.go(this.keepTab.currentDetailsState, params);
   }
 }
 
-function wpDetailsViewButton() {
-  return wpButtonDirective({
-    scope: {
-      projectIdentifier: '=?'
-    },
-
-    controller: WorkPackageDetailsViewButtonController,
-  });
-}
-
-wpButtonsModule.directive('wpDetailsViewButton', wpDetailsViewButton);
+wpButtonsModule.directive(
+  'wpDetailsViewButton',
+  downgradeComponent({ component: WorkPackageDetailsViewButtonComponent })
+);
