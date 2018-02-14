@@ -60,15 +60,15 @@ ru:
   custom_actions:
     actions:
       name: Действия
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
+      add: Добавить действие
+    conditions: Условия
+    plural: Пользовательские действия
+    new: Новое пользовательское действие
+    edit: Редактировать пользовательское действие %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: Пользовательские действия — особенность Корпоративной версии
+      description: Пользовательские действия автоматизируют повседневную работу, объединяя
+        отдельные шаги в одну кнопку.
   custom_fields:
     text_add_new_custom_field: 'Прежде чем добавлять настраиваемые поля в проект,
       нужно создать их.
@@ -452,10 +452,10 @@ ru:
         custom_field:
           at_least_one_custom_option: По крайней мере один параметр должен быть доступен.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_an_integer: "(%{name}) is not an integer."
+          only_one_allowed: "(%{name}) разрешено только одно значение."
+          empty: "(%{name}) не может быть пустым."
+          inclusion: "(%{name}) не задано ни одно из допустимых значений."
+          not_an_integer: "(%{name}) не является целым числом."
         enterprise_token:
           unreadable: невозможно прочитать. Вы уверены, что это маркер поддержки?
         parse_schema_filter_params_service:
@@ -570,7 +570,7 @@ ru:
       attribute_help_text: Атрибут текста справки
       board: Форум
       comment: Комментарий
-      custom_action: Custom action
+      custom_action: Пользовательское действие
       custom_field: Настраиваемое поле
       group: Группа
       category: Категория
