@@ -1,0 +1,9 @@
+id:
+  error_can_not_be_assigned: Peran tidak dapat ditugaskan untuk pengguna ini
+  global_roles: Peran global
+  label_role_type: Mengetik
+  label_member_role: Peran proyek
+  label_global_role: Peran global
+  label_not_changeable: (tidak berubah)
+  label_no_assignable_role: Tidak ada peran global yang tersedia untuk tugas
+  label_global: Global
