@@ -127,6 +127,10 @@ import {WorkPackageAttachmentListComponent} from 'core-components/wp-attachments
 import {WorkPackageAttachmentListItemComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list-item.component';
 import {OpDateTimeUpgradedDirective} from 'core-components/common/date/op-date-time.upgraded.directive';
 import {UserLinkUpgradedComponent} from 'core-components/user/user-link/user-link.upgraded.component';
+import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import {NewestActivityOnOverviewComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-on-overview.component';
+import {WorkPackageCommentDirectiveUpgraded} from 'core-components/work-packages/work-package-comment/work-package-comment.directive.upgraded';
+import {ActivityEntryDirectiveUpgraded} from 'core-components/wp-activity/activity-entry.directive.upgraded';
 
 @NgModule({
   imports: [
@@ -183,6 +187,8 @@ import {UserLinkUpgradedComponent} from 'core-components/user/user-link/user-lin
     upgradeService('wpCreate', WorkPackageCreateService),
     upgradeService('firstRoute', FirstRouteService),
     upgradeService('PathHelper', PathHelperService),
+    // Activity tab
+    upgradeService('wpActivity', WorkPackagesActivityService),
   ],
   declarations: [
     WorkPackagesListComponent,
@@ -236,6 +242,11 @@ import {UserLinkUpgradedComponent} from 'core-components/user/user-link/user-lin
     WorkPackageAttachmentListItemComponent,
     OpDateTimeUpgradedDirective,
     UserLinkUpgradedComponent,
+
+    // Activity Tab
+    NewestActivityOnOverviewComponent,
+    WorkPackageCommentDirectiveUpgraded,
+    ActivityEntryDirectiveUpgraded,
 
     // WP Edit Fields
     WorkPackageEditFieldComponent,

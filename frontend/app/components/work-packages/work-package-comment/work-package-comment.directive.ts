@@ -63,11 +63,13 @@ export class CommentFieldDirectiveController {
       cancelTitle: I18n.t('js.label_cancel_comment'),
       placeholder: I18n.t('js.label_add_comment_title')
     };
+  }
 
+  public $onInit() {
     this.canAddComment = !!this.workPackage.addComment;
-    this.showAbove = ConfigurationService.commentsSortedInDescendingOrder();
+    this.showAbove = this.ConfigurationService.commentsSortedInDescendingOrder();
 
-    $scope.$on('workPackage.comment.quoteThis', (evt, quote) => {
+    this.$scope.$on('workPackage.comment.quoteThis', (evt, quote) => {
       this.resetField(quote);
       this.editing = true;
       this.$element.find('.work-packages--activity--add-comment')[0].scrollIntoView();
@@ -147,7 +149,6 @@ export class CommentFieldDirectiveController {
 function workPackageComment():any {
   return {
     restrict: 'E',
-    replace: true,
     transclude: true,
     templateUrl: '/components/work-packages/work-package-comment/work-package-comment.directive.html',
     scope: {

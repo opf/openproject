@@ -26,29 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.activities')
-  .directive('activityEntry', activityEntry);
 
-function activityEntry(PathHelper) {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-activity/activity-entry.directive.html',
+import {UpgradeComponent} from '@angular/upgrade/static';
+import {Directive, ElementRef, Injector, Input} from '@angular/core';
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {CollectionResource} from 'core-components/api/api-v3/hal-resources/collection-resource.service';
 
-    scope: {
-      workPackage: '=',
-      activity: '=',
-      activityNo: '=',
-      isInitial: '=',
-      inputElementId: '='
-    },
+@Directive({
+  selector: 'work-package-comment-upgraded'
+})
+export class WorkPackageCommentDirectiveUpgraded extends UpgradeComponent {
+  @Input('workPackage') public workPackage:WorkPackageResourceInterface;
+  @Input('activities') public activities:CollectionResource;
 
-    link: function(scope) {
-      var projectId = scope.workPackage.project.id;
-      scope.autocompletePath = PathHelper.workPackageJsonAutoCompletePath(projectId);
-
-      scope.activityType = scope.activity._type;
-      scope.activityLabel = I18n.t('js.label_activity_no', { activityNo: scope.activityNo });
-    }
-  };
+  constructor(elementRef:ElementRef, injector:Injector) {
+    super('workPackageComment', elementRef, injector);
+  }
 }

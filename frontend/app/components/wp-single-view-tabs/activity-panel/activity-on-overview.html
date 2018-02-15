@@ -1,0 +1,14 @@
+<work-package-comment-upgraded [workPackage]="workPackage"
+                               [activities]="activities">
+
+  <ul class='work-package-details-activities-list'>
+    <li *ngFor="let inf of latestActivityInfo"
+        class="work-package-details-activities-activity">
+      <activity-entry-upgraded [workPackage]="workPackage"
+                               [activity]="inf.activity"
+                               [activityNo]="inf.number(true)"
+                               [isInitial]="inf.isInitial(true)">
+      </activity-entry-upgraded>
+    </li>
+  </ul>
+</work-package-comment-upgraded>
