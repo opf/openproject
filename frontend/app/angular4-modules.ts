@@ -133,6 +133,7 @@ import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/a
 import {NewestActivityOnOverviewComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-on-overview.component';
 import {WorkPackageCommentDirectiveUpgraded} from 'core-components/work-packages/work-package-comment/work-package-comment.directive.upgraded';
 import {ActivityEntryDirectiveUpgraded} from 'core-components/wp-activity/activity-entry.directive.upgraded';
+import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-view/wp-full-view.component';
 
 @NgModule({
   imports: [
@@ -231,6 +232,9 @@ import {ActivityEntryDirectiveUpgraded} from 'core-components/wp-activity/activi
     WorkPackageWatcherButtonComponent,
     WorkPackageSubjectComponent,
 
+    // Full view
+    WorkPackagesFullViewComponent,
+
     // Single view
     WorkPackageOverviewTabComponent,
     WorkPackageSingleViewComponent,
@@ -265,6 +269,9 @@ import {ActivityEntryDirectiveUpgraded} from 'core-components/wp-activity/activi
 
     // Split view
     WorkPackageSplitViewComponent,
+
+    // Full view
+    WorkPackagesFullViewComponent,
 
     // Single view
     WorkPackageOverviewTabComponent,

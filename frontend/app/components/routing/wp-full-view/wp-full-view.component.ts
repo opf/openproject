@@ -26,17 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpControllersModule} from "../../../angular-modules";
-import {UserResource} from "../../api/api-v3/hal-resources/user-resource.service";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller";
-import {WorkPackageMoreMenuService} from '../../work-packages/work-package-more-menu.service'
-import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
+import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
+import {WorkPackageMoreMenuService} from '../../work-packages/work-package-more-menu.service';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService} from '@uirouter/core';
-import {TypeResource} from "core-components/api/api-v3/hal-resources/type-resource.service";
-import {Injector} from '@angular/core';
+import {TypeResource} from 'core-components/api/api-v3/hal-resources/type-resource.service';
+import {Component, Inject, Injector} from '@angular/core';
+import {$stateToken, wpMoreMenuServiceToken} from 'core-app/angular4-transition-utils';
+import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
+import {States} from 'core-components/states.service';
+import {FirstRouteService} from 'core-components/routing/first-route-service';
+import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 
-export class WorkPackageShowController extends WorkPackageViewController {
+@Component({
+  template: require('!!raw-loader!./wp-full-view.html'),
+  selector: 'wp-full-view-entry',
+})
+export class WorkPackagesFullViewComponent extends WorkPackageViewController {
 
   // Watcher properties
   public isWatched:boolean;
@@ -50,15 +58,31 @@ export class WorkPackageShowController extends WorkPackageViewController {
   public authorActive:boolean;
   public attachments:any;
 
+  // More menu
+  public permittedActions:any;
+  public actionsAvailable:any;
+  public triggerMoreMenuAction:Function;
+
   private wpMoreMenu:WorkPackageMoreMenuService;
 
-  constructor(public $scope:any,
-              public $injector:Injector,
-              public $state:StateService,
+  constructor(public injector:Injector,
+              public states:States,
+              public firstRoute:FirstRouteService,
+              public keepTab:KeepTabService,
+              public wpTableSelection:WorkPackageTableSelection,
               public wpTableFocus:WorkPackageTableFocusService,
-              protected wpMoreMenuService:WorkPackageMoreMenuService) {
-    super($injector, $state.params['workPackageId']);
+              @Inject(wpMoreMenuServiceToken) private wpMoreMenuServiceFactory:any,
+              @Inject($stateToken) readonly $state:StateService) {
+    super(injector, $state.params['workPackageId']);
     this.observeWorkPackage();
+  }
+
+  protected initializeTexts() {
+    super.initializeTexts();
+
+    this.text.full_view = {
+      button_more: this.I18n.t('js.button_more')
+    };
   }
 
   protected init() {
@@ -68,17 +92,17 @@ export class WorkPackageShowController extends WorkPackageViewController {
     this.wpTableFocus.updateFocus(this.workPackage.id);
 
     // initialization
-    this.wpMoreMenu = new (this.wpMoreMenuService as any)(this.workPackage);
+    this.wpMoreMenu = new this.wpMoreMenuServiceFactory(this.workPackage) as WorkPackageMoreMenuService;
 
     this.wpMoreMenu.initialize().then(() => {
-      this.$scope.permittedActions = this.wpMoreMenu.permittedActions;
-      this.$scope.actionsAvailable = this.wpMoreMenu.actionsAvailable;
+      this.permittedActions = this.wpMoreMenu.permittedActions;
+      this.actionsAvailable = this.wpMoreMenu.actionsAvailable;
     });
 
     this.setWorkPackageScopeProperties(this.workPackage);
     this.text.goToList = this.I18n.t('js.button_back_to_list_view');
 
-    this.$scope.triggerMoreMenuAction = this.wpMoreMenu.triggerMoreMenuAction.bind(this.wpMoreMenu);
+    this.triggerMoreMenuAction = this.wpMoreMenu.triggerMoreMenuAction.bind(this.wpMoreMenu);
   }
 
   public goToList() {
@@ -106,5 +130,3 @@ export class WorkPackageShowController extends WorkPackageViewController {
     this.attachments = wp.attachments.elements;
   }
 }
-
-wpControllersModule.controller('WorkPackageShowController', WorkPackageShowController);

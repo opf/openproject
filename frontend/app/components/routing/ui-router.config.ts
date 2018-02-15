@@ -32,6 +32,7 @@ import {Transition, TransitionService, UrlMatcherFactory, UrlService} from '@uir
 import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
+import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-view/wp-full-view.component';
 
 const panels = {
   get overview() {
@@ -136,9 +137,7 @@ openprojectModule
         url: '/{workPackageId:[0-9]+}',
         // Redirect to 'activity' by default.
         redirectTo: 'work-packages.show.activity',
-        templateUrl: '/components/routing/wp-show/wp.show.html',
-        controller: 'WorkPackageShowController',
-        controllerAs: '$ctrl',
+        component: WorkPackagesFullViewComponent,
         onEnter: () => angular.element('body').addClass('action-show'),
         onExit: () => angular.element('body').removeClass('action-show')
       })

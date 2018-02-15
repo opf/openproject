@@ -1,0 +1,91 @@
+<div wp-edit-field-group
+     [workPackage]="workPackage"
+     *ngIf="workPackage"
+     class="work-packages--show-view">
+
+    <wp-breadcrumb [workPackage]="workPackage"></wp-breadcrumb>
+
+    <div class="toolbar-container">
+      <div id="toolbar">
+        <div class="wp-show--header-container">
+          <div class="wp-show--back-button hide-when-print">
+              <accessible-by-keyboard (execute)="goToList()"
+                                      linkClass="work-packages-list-view-button button"
+                                      [linkAriaLabel]="text.goToList"
+                                      [linkTitle]="text.goToList">
+                <op-icon icon-classes="button--icon icon-back-up"></op-icon>
+            </accessible-by-keyboard>
+          </div>
+          <ul class="subject-header">
+            <li class="subject-header-inner">
+              <wp-subject></wp-subject>
+            </li>
+          </ul>
+        </div>
+        <ul id="toolbar-items" class="toolbar-items hide-when-print">
+          <li class="toolbar-item hidden-for-mobile">
+            <wp-create-button
+              [allowed]="!!workPackage.addChild"
+              [projectIdentifier]="projectIdentifier"
+              stateName="work-packages.new">
+            </wp-create-button>
+          </li>
+          <li class="toolbar-item" ng-if="displayWatchButton">
+            <wp-watcher-button [workPackage]="workPackage"
+                               [showText]="false">
+            </wp-watcher-button>
+          </li>
+          <li class="toolbar-item hidden-for-mobile">
+            <wp-zen-mode-toggle-button>
+            </wp-zen-mode-toggle-button>
+          </li>
+          <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
+            <button class="button dropdown-relative toolbar-icon"
+                    [disabled]="!actionsAvailable"
+                    [attr.title]="text.full_view.button_more"
+
+                    hasDropdownMenu
+                    [hasDropdownMenu-locals]="{'permittedActions': permittedActions,'actionsAvailable': actionsAvailable, 'triggerMoreMenuAction': triggerMoreMenuAction}"
+                    [hasDropdownMenu-target]="'ShowMoreDropdownMenu'">
+              <op-icon icon-classes="button--icon icon-show-more"></op-icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="work-packages-full-view--split-container">
+      <div class="work-packages-full-view--split-left">
+        <div class="work-packages--panel-inner">
+          <wp-single-view [workPackage]="workPackage"></wp-single-view>
+        </div>
+      </div>
+      <div class="work-packages-full-view--split-right">
+        <div class="work-packages--panel-inner">
+          <span class="hidden-for-sighted" tabindex="-1" focus-ng1-wrapper [textContent]="focusAnchorLabel"></span>
+          <div id="tabs">
+            <ul class="tabrow">
+              <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+              properly. Thus, don't remove the hrefs or the empty URLs! -->
+              <li uiSref="work-packages.show.activity({workPackageId: workPackage.id})"
+                  uiSrefActive="selected">
+                <a href="" [textContent]="text.tabs.activity"></a>
+              </li>
+              <li uiSref="work-packages.show.relations({workPackageId: workPackage.id})"
+                  uiSrefActive="selected">
+                <a href="" [textContent]="text.tabs.relations"></a>
+                <wp-relations-count [wpId]="workPackage.id"></wp-relations-count>
+              </li>
+              <li *ngIf="canViewWorkPackageWatchers()"
+                  uiSref="work-packages.show.watchers({workPackageId: workPackage.id})"
+                  uiSrefActive="selected">
+                <a href="" [textContent]="text.tabs.watchers"></a>
+              </li>
+            </ul>
+          </div>
+          <div class="tabcontent" ui-view>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
