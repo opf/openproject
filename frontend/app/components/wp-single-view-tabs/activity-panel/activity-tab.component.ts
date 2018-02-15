@@ -26,49 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {Component, Inject, Input, OnDestroy} from '@angular/core';
+import {Transition} from '@uirouter/core';
+import {I18nToken} from '../../../angular4-transition-utils';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {ActivityPanelBaseController} from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
-import {Component, Inject, Input} from '@angular/core';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {I18nToken} from 'core-app/angular4-transition-utils';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
-import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
-
 @Component({
-  template: require('!!raw-loader!./activity-on-overview.html'),
-  selector: 'newest-activity-on-overview',
+  template: require('!!raw-loader!./activity-tab.html'),
+  selector: 'wp-activity-tab',
 })
-export class NewestActivityOnOverviewComponent extends ActivityPanelBaseController {
-  @Input('workPackage') public workPackage:WorkPackageResourceInterface;
-
-  public latestActivityInfo:ActivityEntryInfo[] = [];
+export class WorkPackageActivityTabComponent extends ActivityPanelBaseController implements OnDestroy {
+  public workPackageId:string;
+  public workPackage:WorkPackageResourceInterface;
+  public tabName = this.I18n.t('js.work_packages.tabs.activity');
 
   constructor(readonly wpCacheService:WorkPackageCacheService,
+              readonly $transition:Transition,
               @Inject(I18nToken) readonly I18n:op.I18n,
               readonly wpActivity:WorkPackagesActivityService) {
     super(wpCacheService, I18n, wpActivity);
+
+    this.workPackageId = this.$transition.params('to').workPackageId;
+    wpCacheService.loadWorkPackage(this.workPackageId)
+      .values$()
+      .takeUntil(componentDestroyed(this))
+      .subscribe((wp) => this.workPackage = wp);
   }
 
-  protected shouldShowToggler() {
-    return false;
-  }
-
-  protected updateActivities(activities:any) {
-    super.updateActivities(activities);
-    this.activities = activities;
-    this.latestActivityInfo = this.latestActivities();
-  }
-
-  private latestActivities(visible:number = 3) {
-    let segment:any[] = []
-
-    if (this.reverse) {
-      segment = this.activities.slice(-visible).reverse();
-    } else {
-      segment = this.activities.slice(0, visible);
-    }
-
-    return segment.map((el:HalResource, i:number) => this.info(el, i));
+  ngOnDestroy() {
+    // Nothing to do
   }
 }

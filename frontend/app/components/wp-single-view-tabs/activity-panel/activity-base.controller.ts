@@ -32,12 +32,15 @@ import {OnDestroy, OnInit} from '@angular/core';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
+import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
 
 export class ActivityPanelBaseController implements OnInit, OnDestroy {
   public workPackage:WorkPackageResourceInterface;
 
   public activities:HalResource[] = [];
+  public activityEntries:ActivityEntryInfo[] = [];
   public reverse:boolean;
+  public showToggler:boolean;
 
   public onlyComments:boolean = false;
   public togglerText:string;
@@ -70,11 +73,13 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
     // Nothing to do
   }
 
-  protected updateActivities(activities:any) {
+  protected updateActivities(activities:HalResource[]) {
     this.activities = activities;
+    this.activityEntries = activities.map((el:HalResource, i:number) => this.info(el, i));;
+    this.showToggler = this.shouldShowToggler();
   }
 
-  public showToggler() {
+  protected shouldShowToggler() {
     const count_all = this.activities.length;
     const count_with_comments = this.activitiesWithComments.length;
 
@@ -92,7 +97,8 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
   }
 
   public get activitiesWithComments() {
-    return this.activities.filter((activity:any) => !!_.get(activity, 'comment.html'));
+    return this.activities
+      .filter((activity:HalResource) => !!_.get(activity, 'comment.html'));
   }
 
   public toggleComments() {

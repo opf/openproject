@@ -33,6 +33,7 @@ import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-vi
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
 import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-view/wp-full-view.component';
+import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
 
 const panels = {
   get overview() {
@@ -55,7 +56,7 @@ const panels = {
     return {
       url: '/activity',
       reloadOnSearch: false,
-      template: '<activity-panel ng-if="$ctrl.workPackage" work-package="$ctrl.workPackage"></activity-panel>'
+      component: WorkPackageActivityTabComponent,
     };
   },
 

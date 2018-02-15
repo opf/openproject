@@ -134,6 +134,7 @@ import {NewestActivityOnOverviewComponent} from 'core-components/wp-single-view-
 import {WorkPackageCommentDirectiveUpgraded} from 'core-components/work-packages/work-package-comment/work-package-comment.directive.upgraded';
 import {ActivityEntryDirectiveUpgraded} from 'core-components/wp-activity/activity-entry.directive.upgraded';
 import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-view/wp-full-view.component';
+import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
 
 @NgModule({
   imports: [
@@ -253,6 +254,7 @@ import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-vie
     NewestActivityOnOverviewComponent,
     WorkPackageCommentDirectiveUpgraded,
     ActivityEntryDirectiveUpgraded,
+    WorkPackageActivityTabComponent,
 
     // WP Edit Fields
     WorkPackageEditFieldComponent,
@@ -272,6 +274,9 @@ import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-vie
 
     // Full view
     WorkPackagesFullViewComponent,
+
+    // Single view tabs
+    WorkPackageActivityTabComponent,
 
     // Single view
     WorkPackageOverviewTabComponent,
