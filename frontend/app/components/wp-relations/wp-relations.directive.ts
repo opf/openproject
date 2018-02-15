@@ -39,7 +39,7 @@ import {StateService} from '@uirouter/core';
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
   public workPackage:WorkPackageResourceInterface;
-  public canAddRelation:boolean = !!this.workPackage.addRelation;
+  public canAddRelation:boolean;
 
   // By default, group by relation type
   public groupByWorkPackageType = false;
@@ -51,6 +51,10 @@ export class WorkPackageRelationsController {
               protected I18n:op.I18n,
               protected wpRelations:WorkPackageRelationsService,
               protected wpCacheService:WorkPackageCacheService) {
+  }
+
+  $onInit() {
+    this.canAddRelation = !!this.workPackage.addRelation;
 
     scopedObservable(this.$scope,
       this.wpRelations.state(this.workPackage.id).values$())
@@ -141,7 +145,6 @@ export class WorkPackageRelationsController {
 function wpRelationsDirective():any {
   return {
     restrict: 'E',
-    replace: true,
     templateUrl: '/components/wp-relations/wp-relations.template.html',
 
     scope: {

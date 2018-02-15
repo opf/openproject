@@ -38,7 +38,7 @@ import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {WorkPackageEditFieldGroupDirective} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
+import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 
 interface FieldDescriptor {
   name:string;
@@ -97,7 +97,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy  {
   protected firstTimeFocused:boolean = false;
 
   constructor(@Inject(I18nToken) readonly I18n:op.I18n,
-              public wpEditFieldGroup:WorkPackageEditFieldGroupDirective,
+              public wpEditFieldGroup:WorkPackageEditFieldGroupComponent,
               protected currentProject:CurrentProjectService,
               protected PathHelper:PathHelperService,
               protected states:States,

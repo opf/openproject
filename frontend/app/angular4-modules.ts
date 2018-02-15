@@ -64,7 +64,7 @@ import {WorkPackageTableTimelineGrid} from 'core-components/wp-table/timeline/gr
 import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/timeline/header/wp-timeline-header.directive';
 import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
-import {WorkPackagesTableController,} from 'core-components/wp-table/wp-table.directive';
+import {WorkPackagesTableController} from 'core-components/wp-table/wp-table.directive';
 import {
   $qToken,
   $rootScopeToken,
@@ -110,7 +110,7 @@ import {WorkPackageRelationsCountComponent} from 'core-components/work-packages/
 import {FirstRouteService} from 'core-components/routing/first-route-service';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {WorkPackageSubjectComponent} from 'core-components/work-packages/wp-subject/wp-subject.component';
-import {WorkPackageEditFieldGroupDirective} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
+import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 import {WorkPackageCreateService} from 'core-components/wp-create/wp-create.service';
@@ -135,6 +135,8 @@ import {WorkPackageCommentDirectiveUpgraded} from 'core-components/work-packages
 import {ActivityEntryDirectiveUpgraded} from 'core-components/wp-activity/activity-entry.directive.upgraded';
 import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-view/wp-full-view.component';
 import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
+import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
+import {Ng1RelationsDirectiveWrapper} from 'core-components/wp-relations/wp-relations.directive.upgraded';
 
 @NgModule({
   imports: [
@@ -228,7 +230,7 @@ import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-ta
     WorkPackageSplitViewComponent,
     WorkPackageRelationsCountComponent,
     WorkPackageBreadcrumbComponent,
-    WorkPackageEditFieldGroupDirective,
+    WorkPackageEditFieldGroupComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
     WorkPackageSubjectComponent,
@@ -256,6 +258,10 @@ import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-ta
     ActivityEntryDirectiveUpgraded,
     WorkPackageActivityTabComponent,
 
+    // Relations Tab
+    WorkPackageRelationsTabComponent,
+    Ng1RelationsDirectiveWrapper,
+
     // WP Edit Fields
     WorkPackageEditFieldComponent,
   ],
@@ -277,9 +283,11 @@ import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-ta
 
     // Single view tabs
     WorkPackageActivityTabComponent,
+    WorkPackageRelationsTabComponent,
 
     // Single view
     WorkPackageOverviewTabComponent,
+    WorkPackageEditFieldGroupComponent,
   ]
 })
 export class OpenProjectModule {

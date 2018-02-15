@@ -46,7 +46,7 @@ import {debugLog} from '../../../helpers/debug_output';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
 import {I18nToken, NotificationsServiceToken} from 'core-app/angular4-transition-utils';
-import {WorkPackageEditFieldGroupDirective} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
+import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
 
 @Component({
@@ -73,7 +73,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
               protected wpEditing:WorkPackageEditingService,
               protected wpCacheService:WorkPackageCacheService,
               // Get parent field group from injector
-              protected wpEditFieldGroup:WorkPackageEditFieldGroupDirective,
+              protected wpEditFieldGroup:WorkPackageEditFieldGroupComponent,
               @Inject(NotificationsServiceToken) protected NotificationsService:any,
               @Inject(I18nToken) readonly I18n:op.I18n) {
 

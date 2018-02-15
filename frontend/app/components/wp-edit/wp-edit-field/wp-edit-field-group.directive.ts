@@ -38,17 +38,18 @@ import {WorkPackageNotificationService} from '../wp-notification.service';
 import {WorkPackageCreateService} from './../../wp-create/wp-create.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
-import {Directive, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 
-@Directive({
-  selector: 'wp-edit-field-group,[wp-edit-field-group]'
+@Component({
+  selector: 'wp-edit-field-group,[wp-edit-field-group]',
+  template: '<ng-content></ng-content>'
 })
-export class WorkPackageEditFieldGroupDirective implements OnInit, OnDestroy {
+export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   @Input('workPackage') workPackage:WorkPackageResourceInterface;
   @Input('successState') successState?:string;
   @Input('inEditMode') inEditMode:boolean = false;
@@ -219,8 +220,8 @@ export class WorkPackageEditFieldGroupDirective implements OnInit, OnDestroy {
 
 
 
-opWorkPackagesModule.directive('wpEditFieldGroup',
-  downgradeComponent({component: WorkPackageEditFieldGroupDirective})
+opWorkPackagesModule.directive('wpEditFieldGroupNg1',
+  downgradeComponent({component: WorkPackageEditFieldGroupComponent})
 );
 
 

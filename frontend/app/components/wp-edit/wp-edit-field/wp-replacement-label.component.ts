@@ -27,7 +27,7 @@
 // ++
 
 
-import {WorkPackageEditFieldGroupDirective} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
+import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 
 @Component({
@@ -38,7 +38,7 @@ export class WorkPackageReplacementLabelComponent implements OnInit {
   @Input('fieldName') public fieldName:string;
   private $element:ng.IAugmentedJQuery;
 
-  constructor(protected wpEditFieldGroup:WorkPackageEditFieldGroupDirective,
+  constructor(protected wpEditFieldGroup:WorkPackageEditFieldGroupComponent,
               protected elementRef:ElementRef) {
   }
 

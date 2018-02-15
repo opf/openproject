@@ -26,26 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpDirectivesModule} from '../../../angular-modules';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {Transition} from '@uirouter/core';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {Component, Inject, OnDestroy} from '@angular/core';
+import {I18nToken} from '../../../angular4-transition-utils';
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
-export class RelationsPanelController {
+@Component({
+  template: require('!!raw-loader!./relations-tab.html'),
+  selector: 'wp-relations-tab',
+})
+export class WorkPackageRelationsTabComponent implements OnDestroy {
+  public workPackageId:string;
   public workPackage:WorkPackageResourceInterface;
+
+  public constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+                     readonly $transition:Transition,
+                     readonly wpCacheService:WorkPackageCacheService) {
+
+    this.workPackageId = this.$transition.params('to').workPackageId;
+    wpCacheService.loadWorkPackage(this.workPackageId)
+      .values$()
+      .takeUntil(componentDestroyed(this))
+      .subscribe((wp) => this.workPackage = wp);
+  }
+
+  ngOnDestroy() {
+    // Nothing to do
+  }
 }
-
-function relationsPanelDirective():any {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-panels/relations-panel/relations-panel.directive.html',
-
-    scope: {
-      workPackage: '='
-    },
-
-    controller: RelationsPanelController,
-    controllerAs: '$ctrl',
-    bindToController: true
-  };
-}
-
-wpDirectivesModule.directive('relationsPanel', relationsPanelDirective);

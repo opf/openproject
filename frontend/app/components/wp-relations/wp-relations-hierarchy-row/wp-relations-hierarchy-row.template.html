@@ -20,13 +20,13 @@
             </span>
         </div>
         <div class="grid-content medium-3 collapse wp-relations-status-field">
-            <wp-edit-field-group work-package="$ctrl.relatedWorkPackage">
+            <wp-edit-field-group-ng1 work-package="$ctrl.relatedWorkPackage">
               <div wp-edit-form="$ctrl.relatedWorkPackage" ng-if="$ctrl.relationReady">
                   <wp-edit-field work-package-id="$ctrl.relatedWorkPackage.id"
                                  field-name="'status'">
                   </wp-edit-field>
               </div>
-            </wp-edit-field-group>
+            </wp-edit-field-group-ng1>
         </div>
         <div class="grid-content medium-2 collapse wp-relations-controls-section focus-within--depending">
           <accessible-by-keyboard ng-if="$ctrl.canModifyHierarchy && $ctrl.isParent()"

@@ -34,6 +34,7 @@ import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list
 import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
 import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-view/wp-full-view.component';
 import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
+import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
 
 const panels = {
   get overview() {
@@ -71,10 +72,7 @@ const panels = {
     return {
       url: '/relations',
       reloadOnSearch: false,
-      template: ` <relations-panel
-                    ng-if="$ctrl.workPackage"
-                    work-package="$ctrl.workPackage"
-                  ></relations-panel>`
+      component: WorkPackageRelationsTabComponent
     };
   }
 };

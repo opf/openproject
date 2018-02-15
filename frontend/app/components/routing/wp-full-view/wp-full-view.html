@@ -67,17 +67,20 @@
             <ul class="tabrow">
               <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
               properly. Thus, don't remove the hrefs or the empty URLs! -->
-              <li uiSref="work-packages.show.activity({workPackageId: workPackage.id})"
+              <li uiSref="work-packages.show.activity"
+                  [uiParams]="{workPackageId: workPackage.id}"
                   uiSrefActive="selected">
                 <a href="" [textContent]="text.tabs.activity"></a>
               </li>
-              <li uiSref="work-packages.show.relations({workPackageId: workPackage.id})"
+              <li uiSref="work-packages.show.relations"
+                  [uiParams]="{workPackageId: workPackage.id}"
                   uiSrefActive="selected">
                 <a href="" [textContent]="text.tabs.relations"></a>
                 <wp-relations-count [wpId]="workPackage.id"></wp-relations-count>
               </li>
               <li *ngIf="canViewWorkPackageWatchers()"
-                  uiSref="work-packages.show.watchers({workPackageId: workPackage.id})"
+                  uiSref="work-packages.show.watchers"
+                  [uiParams]="{workPackageId: workPackage.id}"
                   uiSrefActive="selected">
                 <a href="" [textContent]="text.tabs.watchers"></a>
               </li>

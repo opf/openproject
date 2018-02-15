@@ -41,7 +41,7 @@ import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 import {StateService} from '@uirouter/core';
-import {WorkPackageEditFieldGroupDirective} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
+import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 
 export class SingleViewEditContext implements WorkPackageEditContext {
@@ -60,7 +60,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   // other fields
   public successState:string;
 
-  constructor(public fieldGroup:WorkPackageEditFieldGroupDirective) {
+  constructor(public fieldGroup:WorkPackageEditFieldGroupComponent) {
     $injectFields(this, 'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh',
       'FocusHelper', '$q', '$timeout', 'templateRenderer', '$state', 'wpNotificationsService', 'wpTableSelection');
   }
