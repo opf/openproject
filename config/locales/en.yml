@@ -2388,6 +2388,9 @@ en:
   note_password_login_disabled: "Password login has been disabled by %{configuration}."
   warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
 
   menu_item: "Menu item"
   menu_item_setting: "Visibility"

@@ -2596,6 +2596,8 @@ de:
   note_password_login_disabled: Der Passwort-Login wurde per %{configuration} deaktiviert.
   warning: Warnung
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
+  warning_registration_token_expired: |
+    Die Aktivierungs-Email ist abgelaufen. Wir haben eine neue geschickt an: %{email}
   menu_item: Menüpunkt
   menu_item_setting: Sichtbarkeit
   wiki_menu_item_for: Menüpunkt für die Wikiseite "%{title}"

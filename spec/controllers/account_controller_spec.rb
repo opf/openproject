@@ -652,4 +652,58 @@ describe AccountController, type: :controller do
       end
     end
   end
+
+  describe 'POST #activate' do
+    shared_examples 'account activation' do
+      let(:token) { Token::Invitation.create user: user }
+
+      let(:activation_params) do
+        {
+          token: token.value
+        }
+      end
+
+      context 'with an expired token' do
+        before do
+          token.update_column :expires_on, Date.today - 1.day
+
+          post :activate, params: activation_params
+        end
+
+        it 'fails and shows an expiration warning' do
+          is_expected.to redirect_to('/')
+          expect(flash[:warning]).to include 'expired'
+        end
+
+        it 'deletes the old token and generates a new one' do
+          old_token = Token::Invitation.find_by(id: token.id)
+          new_token = Token::Invitation.find_by(user_id: token.user.id)
+
+          expect(old_token).to be_nil
+          expect(new_token).to be_present
+
+          expect(new_token).not_to be_expired
+        end
+
+        it 'sends out a new activation email' do
+          new_token = Token::Invitation.find_by(user_id: token.user.id)
+          mail = ActionMailer::Base.deliveries.last
+
+          expect(mail.parts.first.body.raw_source).to include "activate?token=#{new_token.value}"
+        end
+      end
+    end
+
+    context 'with an invited user' do
+      it_behaves_like 'account activation' do
+        let(:user) { FactoryGirl.create :user, status: 4 }
+      end
+    end
+
+    context 'with an registered user' do
+      it_behaves_like 'account activation' do
+        let(:user) { FactoryGirl.create :user, status: 2 }
+      end
+    end
+  end
 end
