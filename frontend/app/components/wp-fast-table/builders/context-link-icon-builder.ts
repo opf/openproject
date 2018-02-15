@@ -1,6 +1,6 @@
 import {Injector} from '@angular/core';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
-import {KeepTabService} from 'core-components/wp-panels/keep-tab/keep-tab.service';
+import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {opIconElement} from '../../../helpers/op-icon-builder';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {wpCellTdClassName} from './cell-builder';

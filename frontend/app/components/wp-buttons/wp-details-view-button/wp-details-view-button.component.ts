@@ -27,7 +27,7 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
-import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
+import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import {States} from '../../states.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService} from '@uirouter/core';

@@ -1,0 +1,14 @@
+<div class="work-package--attachments--files">
+  <div class="work-package--details--long-field">
+    <span
+        class="inplace-edit--read"
+        *ngFor="let attachment of workPackage.pendingAttachments">
+      <wp-attachment-list-item [attachment]="attachment" [workPackage]="workPackage"></wp-attachment-list-item>
+    </span>
+    <span
+        class="inplace-edit--read"
+        *ngFor="let attachment of workPackage.attachments.elements">
+      <wp-attachment-list-item [attachment]="attachment" [workPackage]="workPackage"></wp-attachment-list-item>
+    </span>
+  </div>
+</div>

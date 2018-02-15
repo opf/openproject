@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,37 +24,22 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {wpButtonsModule} from '../../../angular-modules';
-import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {Component, Input, OnInit} from '@angular/core';
+import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
 
-export default class WorkPackageStatusButtonController {
-  public workPackage:WorkPackageResourceInterface;
-  public text:any;
-  public allowed:boolean;
+@Component({
+  template: require('!!raw-loader!./wp-attachment-list.html'),
+  selector: 'wp-attachment-list',
+})
+export class WorkPackageAttachmentListComponent implements OnInit {
+  @Input('workPackage') public workPackage:WorkPackageResourceInterface;
 
-  constructor(protected I18n:op.I18n,
-              protected wpEditing:WorkPackageEditingService) {
-    this.text = {
-      explanation: I18n.t('js.label_edit_status')
-    };
-  }
-
-  public $onInit() {
-    // Created for interface compliance
-  }
-
-  public isDisabled() {
-    let changeset = this.wpEditing.changesetFor(this.workPackage);
-    return !this.allowed || changeset.inFlight;
-  }
-
-  public get getStatus() {
-    let changeset = this.wpEditing.changesetFor(this.workPackage);
-    return changeset.value('status');
+  ngOnInit() {
+    if (this.workPackage.attachments) {
+      this.workPackage.attachments.updateElements();
+    }
   }
 }
-
-wpButtonsModule.controller('WorkPackageStatusButtonController', WorkPackageStatusButtonController);

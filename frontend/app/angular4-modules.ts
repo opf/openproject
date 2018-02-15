@@ -52,7 +52,7 @@ import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-
 import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WpInlineCreateDirectiveUpgraded} from 'core-components/wp-inline-create/wp-inline-create.directive';
-import {KeepTabService} from 'core-components/wp-panels/keep-tab/keep-tab.service';
+import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
@@ -75,7 +75,7 @@ import {
   halRequestToken,
   I18nToken,
   NotificationsServiceToken,
-  PathHelperToken,
+  PathHelperToken, TimezoneServiceToken,
   upgradeService,
   upgradeServiceWithToken, wpMoreMenuServiceToken
 } from './angular4-transition-utils';
@@ -114,6 +114,19 @@ import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-fie
 import {WorkPackageCreateService} from 'core-components/wp-create/wp-create.service';
 import {WorkPackageWatcherButtonComponent} from 'core-components/work-packages/wp-watcher-button/wp-watcher-button.component';
 import {WorkPackageSplitViewToolbarComponent} from 'core-components/wp-details/wp-details-toolbar.component';
+import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
+import {CurrentProjectService} from 'core-components/projects/current-project.service';
+import {WorkPackageSingleViewComponent} from 'core-components/work-packages/wp-single-view/wp-single-view.component';
+import {WorkPackageStatusButtonComponent} from 'core-components/wp-buttons/wp-status-button/wp-status-button.component';
+import {Ng1AttributeHelpTextWrapper} from 'core-components/common/help-texts/attribute-help-text-ng1-wrapper';
+import {WorkPackageReplacementLabelComponent} from 'core-components/wp-edit/wp-edit-field/wp-replacement-label.component';
+import {FocusWithinDirective} from 'core-components/common/focus-within/focus-within.directive';
+import {AuthoringComponent} from 'core-components/common/authoring/authoring.component';
+import {Ng1WorkPackageAttachmentsUploadWrapper} from 'core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload-ng1-wrapper';
+import {WorkPackageAttachmentListComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list.component';
+import {WorkPackageAttachmentListItemComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list-item.component';
+import {OpDateTimeUpgradedDirective} from 'core-components/common/date/op-date-time.upgraded.directive';
+import {UserLinkUpgradedComponent} from 'core-components/user/user-link/user-link.upgraded.component';
 
 @NgModule({
   imports: [
@@ -136,6 +149,7 @@ import {WorkPackageSplitViewToolbarComponent} from 'core-components/wp-details/w
     upgradeServiceWithToken('PathHelper', PathHelperToken),
     upgradeServiceWithToken('halRequest', halRequestToken),
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
+    upgradeServiceWithToken('TimezoneService', TimezoneServiceToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     upgradeService('wpCacheService', WorkPackageCacheService),
     upgradeService('wpEditing', WorkPackageEditingService),
@@ -164,6 +178,7 @@ import {WorkPackageSplitViewToolbarComponent} from 'core-components/wp-details/w
     upgradeService('contextMenu', ContextMenuService),
     upgradeService('authorisationService', AuthorisationService),
     upgradeService('ConfigurationService', ConfigurationService),
+    upgradeService('currentProject', CurrentProjectService),
     // Split view
     upgradeService('wpCreate', WorkPackageCreateService),
     upgradeService('firstRoute', FirstRouteService),
@@ -208,6 +223,20 @@ import {WorkPackageSplitViewToolbarComponent} from 'core-components/wp-details/w
     WorkPackageWatcherButtonComponent,
     WorkPackageSubjectComponent,
 
+    // Single view
+    WorkPackageOverviewTabComponent,
+    WorkPackageSingleViewComponent,
+    WorkPackageStatusButtonComponent,
+    Ng1AttributeHelpTextWrapper,
+    WorkPackageReplacementLabelComponent,
+    FocusWithinDirective,
+    AuthoringComponent,
+    Ng1WorkPackageAttachmentsUploadWrapper,
+    WorkPackageAttachmentListComponent,
+    WorkPackageAttachmentListItemComponent,
+    OpDateTimeUpgradedDirective,
+    UserLinkUpgradedComponent,
+
     // WP Edit Fields
     WorkPackageEditFieldComponent,
   ],
@@ -222,7 +251,10 @@ import {WorkPackageSplitViewToolbarComponent} from 'core-components/wp-details/w
     AddSectionDropdownComponent,
 
     // Split view
-    WorkPackageSplitViewComponent
+    WorkPackageSplitViewComponent,
+
+    // Single view
+    WorkPackageOverviewTabComponent,
   ]
 })
 export class OpenProjectModule {

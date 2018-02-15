@@ -1,0 +1,13 @@
+<wp-single-view [workPackage]="workPackage"
+                *ngIf="workPackage"></wp-single-view>
+
+<div class="attributes-group" *ngIf="workPackage">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text" [textContent]="tabName"></h3>
+    </div>
+  </div>
+
+  <!-- TODO -->
+  <!-- <activity-panel template="overview" work-package="workPackage"></activity-panel> -->
+</div>

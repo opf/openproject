@@ -26,13 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageEditFieldGroupController} from './wp-edit-field-group.directive';
-export class WorkPackageReplacementLabelController {
-  public wpEditFieldGroup:WorkPackageEditFieldGroupController;
-  public fieldName:string;
 
-  constructor(protected $scope:ng.IScope,
-              protected $element:ng.IAugmentedJQuery) {
+import {WorkPackageEditFieldGroupDirective} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
+import {Component, ElementRef, Input, OnInit} from '@angular/core';
+
+@Component({
+  template: require('!!raw-loader!./wp-replacement-label.html'),
+  selector: 'wp-replacement-label',
+})
+export class WorkPackageReplacementLabelComponent implements OnInit {
+  @Input('fieldName') public fieldName:string;
+  private $element:ng.IAugmentedJQuery;
+
+  constructor(protected wpEditFieldGroup:WorkPackageEditFieldGroupDirective,
+              protected elementRef:ElementRef) {
+  }
+
+  ngOnInit() {
+    this.$element = angular.element(this.elementRef.nativeElement);
   }
 
   public activate(evt:JQueryEventObject) {
@@ -42,38 +53,9 @@ export class WorkPackageReplacementLabelController {
       return true;
     }
 
-    this.wpEditFieldGroup.fields[this.fieldName].handleUserActivate(null);
+    const field = this.wpEditFieldGroup.fields[this.fieldName];
+    field && field.handleUserActivate(null);
+
     return false;
   }
 }
-
-function wpReplacementLabelLink(scope:ng.IScope,
-                                element:ng.IAugmentedJQuery,
-                                attrs:ng.IAttributes,
-                                controllers:[WorkPackageEditFieldGroupController, WorkPackageReplacementLabelController]) {
-
-  controllers[1].wpEditFieldGroup = controllers[0];
-}
-
-function wpReplacementLabel():any {
-  return {
-    restrict: 'A',
-    templateUrl: '/components/wp-edit/wp-edit-field/wp-replacement-label.directive.html',
-    transclude: true,
-
-    scope: {
-      fieldName: '=wpReplacementLabel',
-    },
-
-    require: ['^wpEditFieldGroup', 'wpReplacementLabel'],
-    link: wpReplacementLabelLink,
-
-    controller: WorkPackageReplacementLabelController,
-    controllerAs: 'vm',
-    bindToController: true
-  };
-}
-
-angular
-  .module('openproject')
-  .directive('wpReplacementLabel', wpReplacementLabel);

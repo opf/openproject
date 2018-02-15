@@ -1,6 +1,6 @@
 import {InsertMode, ViewMode} from './wp-attachments-formattable.enums';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
+import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import {openprojectModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {MarkupModel} from './models/markup-model';

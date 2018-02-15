@@ -1,0 +1,15 @@
+<div class="wp-status-button">
+  <button class="button"
+          [disabled]="isDisabled()"
+          [attr.aria-label]="text.explanation"
+
+          hasDropdownMenu
+          [hasDropdownMenu-locals]="{'workPackage': workPackage }"
+          [hasDropdownMenu-target]="'WpStatusContextMenu'">
+
+    <span class="button--text"
+          aria-hidden="true"
+          [textContent]="getStatus.name"></span>
+    <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
+  </button>
+</div>

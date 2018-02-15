@@ -31,7 +31,7 @@ import {scopedObservable} from '../../../helpers/angular-rx-utils';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../../states.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
+import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';

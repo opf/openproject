@@ -26,44 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {UploadFile} from '../../api/op-file-upload/op-file-upload.service';
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {Component, Inject, Input} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
 
-export class WorkPackageAttachmentListController {
-  public workPackage: WorkPackageResourceInterface;
-  public text: any = {};
+@Component({
+  template: require('!!raw-loader!./wp-attachment-list-item.html'),
+  selector: 'wp-attachment-list-item',
+})
+export class WorkPackageAttachmentListItemComponent {
+  @Input('workPackage') public workPackage:WorkPackageResourceInterface;
+  @Input('attachment') public attachment:HalResource;
 
-  public itemTemplateUrl =
-    '/components/wp-attachments/wp-attachment-list/wp-attachment-list-item.html';
+  public text = {
+    destroyConfirmation: this.I18n.t('js.text_attachment_destroy_confirmation'),
+    removeFile: (arg:any) => this.I18n.t('js.label_remove_file', arg)
+  }
 
-  constructor(protected wpNotificationsService:WorkPackageNotificationService, I18n:op.I18n) {
-    this.text = {
-      destroyConfirmation: I18n.t('js.text_attachment_destroy_confirmation'),
-      removeFile: (arg:any) => I18n.t('js.label_remove_file', arg)
-    };
+  constructor(protected wpNotificationsService:WorkPackageNotificationService,
+              @Inject(I18nToken) readonly I18n:op.I18n) {
+  }
 
-    if (this.workPackage.attachments) {
-      this.workPackage.attachments.updateElements();
+  public confirmRemoveAttachment($event:JQueryEventObject) {
+    if (!window.confirm(this.text.destroyConfirmation)) {
+      $event.stopImmediatePropagation();
+      $event.preventDefault();
+      return false;
     }
+
+    this.workPackage.removeAttachment(this.attachment);
+    return false;
   }
 }
-
-function wpAttachmentListDirective():any {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-attachments/wp-attachment-list/wp-attachment-list.directive.html',
-
-    scope: {
-      workPackage: '='
-    },
-
-    controller: WorkPackageAttachmentListController,
-    controllerAs: '$ctrl',
-    bindToController: true
-  };
-}
-
-wpDirectivesModule.directive('wpAttachmentList', wpAttachmentListDirective);

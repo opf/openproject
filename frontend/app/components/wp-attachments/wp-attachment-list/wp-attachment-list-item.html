@@ -1,29 +1,30 @@
 <span class="inplace-editing--trigger-container">
   <span class="inplace-editing--trigger-link"
-        focus-within="'.inplace-edit--icon-wrapper'">
+        focus-within
+        focusWithinSelector=".inplace-edit--icon-wrapper">
     <span class="inplace-editing--container">
       <span class="inplace-edit--read-value">
         <op-icon icon-classes="icon-context icon-attachment"></op-icon>
         <a
             class="work-package--attachments--filename"
-            ng-href="{{ ::attachment.downloadLocation.href || '#' }}"
+            [attr.href]="attachment.downloadLocation.href || '#'"
             download>
 
-          {{ ::attachment.fileName || attachment.customName || attachment.name }}
+          {{ attachment.fileName || attachment.customName || attachment.name }}
           <authoring class="work-package--attachments--info"
-                     created-on="attachment.createdAt"
-                     author="attachment.author"
-                     show-author-as-link="false"
-                     ng-if="!$ctrl.workPackage.isNew"></authoring>
+                     [createdOn]="attachment.createdAt"
+                     [author]="attachment.author"
+                     [showAuthorAsLink]="false"
+                     *ngIf="!workPackage.isNew"></authoring>
         </a>
       </span>
       <a
           href=""
           class="inplace-edit--icon-wrapper work-package--atachments--delete-button"
-          ng-if="!!attachment.$links.delete || $ctrl.workPackage.isNew"
-          ng-click="$ctrl.workPackage.removeAttachment(attachment)"
-          confirm-popup="{{ ::$ctrl.text.destroyConfirmation }}">
-        <op-icon icon-classes="icon-delete" icon-title="{{ ::$ctrl.text.removeFile({fileName: attachment.fileName}) }}"></op-icon>
+          *ngIf="!!attachment.$links.delete || workPackage.isNew"
+          (click)="confirmRemoveAttachment($event)">
+        <op-icon icon-classes="icon-delete"
+                 [icon-title]="text.removeFile({fileName: attachment.fileName})"></op-icon>
       </a>
     </span>
   </span>

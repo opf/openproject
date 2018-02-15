@@ -1,4 +1,4 @@
-import {KeepTabService} from 'core-components/wp-panels/keep-tab/keep-tab.service';
+import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {StateService} from '@uirouter/core';
 
 export const uiStateLinkClass = '__ui-state-link';

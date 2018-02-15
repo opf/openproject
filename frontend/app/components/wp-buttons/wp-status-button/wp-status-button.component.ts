@@ -26,13 +26,34 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpDirectivesModule} from "../../../angular-modules";
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
+import {Component, Inject, Input} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 
-function overviewPanel(){
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-panels/overview-panel/overview-panel.directive.html',
+@Component({
+  template: require('!!raw-loader!./wp-status-button.html'),
+  selector: 'wp-status-button',
+})
+export class WorkPackageStatusButtonComponent {
+  @Input('workPackage') public workPackage:WorkPackageResourceInterface;
+  @Input('allowed') public allowed:boolean;
+
+  public text = {
+    explanation: this.I18n.t('js.label_edit_status')
   };
-}
 
-wpDirectivesModule.directive('overviewPanel', overviewPanel);
+  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+              protected wpEditing:WorkPackageEditingService) {
+  }
+
+  public isDisabled() {
+    let changeset = this.wpEditing.changesetFor(this.workPackage);
+    return !this.allowed || changeset.inFlight;
+  }
+
+  public get getStatus() {
+    let changeset = this.wpEditing.changesetFor(this.workPackage);
+    return changeset.value('status');
+  }
+}

@@ -3,7 +3,7 @@ import {$stateToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../../../states.service';
-import {KeepTabService} from '../../../wp-panels/keep-tab/keep-tab.service';
+import {KeepTabService} from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';

@@ -26,20 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opWorkPackagesModule} from '../../../angular-modules';
-import {scopedObservable} from '../../../helpers/angular-rx-utils';
 import {debugLog} from '../../../helpers/debug_output';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
 import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
-import {WorkPackageEditFieldGroupController} from "../../wp-edit/wp-edit-field/wp-edit-field-group.directive";
-import {
-  WorkPackageEditingService
-} from '../../wp-edit-form/work-package-editing-service';
+import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {States} from '../../states.service';
 import {CurrentProjectService} from '../../projects/current-project.service';
-import {StateParams} from '@uirouter/core';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {WorkPackageEditFieldGroupDirective} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 
 interface FieldDescriptor {
   name:string;
@@ -55,9 +54,12 @@ interface GroupDescriptor {
   members:FieldDescriptor[];
 }
 
-export class WorkPackageSingleViewController {
-  public wpEditFieldGroup:WorkPackageEditFieldGroupController;
-  public workPackage:WorkPackageResourceInterface;
+@Component({
+  template: require('!!raw-loader!./wp-single-view.html'),
+  selector: 'wp-single-view',
+})
+export class WorkPackageSingleViewComponent implements OnInit, OnDestroy  {
+  @Input('workPackage') public workPackage:WorkPackageResourceInterface;
 
   // Grouped fields returned from API
   public groupedFields:GroupDescriptor[] = [];
@@ -66,32 +68,52 @@ export class WorkPackageSingleViewController {
     href:string|null,
     field?:FieldDescriptor[]
   };
-  public text:any;
-  public scope:any;
+  public text = {
+    attachments: {
+      label: this.I18n.t('js.label_attachments')
+    },
+    project: {
+      required: this.I18n.t('js.project.required_outside_context'),
+      context: this.I18n.t('js.project.context'),
+      switchTo: this.I18n.t('js.project.click_to_switch_context'),
+    },
+
+    fields: {
+      description: this.I18n.t('js.work_packages.properties.description'),
+    },
+    description: {
+      placeholder: this.I18n.t('js.work_packages.placeholders.description')
+    },
+    date: {
+      startDate: this.I18n.t('js.label_no_start_date'),
+      dueDate: this.I18n.t('js.label_no_due_date')
+    },
+    infoRow: {
+      createdBy: this.I18n.t('js.label_created_by'),
+      lastUpdatedOn: this.I18n.t('js.label_last_updated_on')
+    },
+  };
 
   protected firstTimeFocused:boolean = false;
 
-  constructor(protected $scope:ng.IScope,
-              protected $rootScope:ng.IRootScopeService,
-              protected $stateParams:StateParams,
-              protected I18n:op.I18n,
+  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+              public wpEditFieldGroup:WorkPackageEditFieldGroupDirective,
               protected currentProject:CurrentProjectService,
-              protected PathHelper:any,
+              protected PathHelper:PathHelperService,
               protected states:States,
               protected wpEditing:WorkPackageEditingService,
               protected wpDisplayField:WorkPackageDisplayFieldService,
               protected wpCacheService:WorkPackageCacheService) {
   }
 
-  public initialize() {
-    // Create I18n texts
-    this.setupI18nTexts();
-
+  public ngOnInit() {
     if (this.workPackage.attachments) {
       this.workPackage.attachments.updateElements();
     }
 
-    scopedObservable(this.$scope, this.wpEditing.temporaryEditResource(this.workPackage.id).values$())
+    this.wpEditing.temporaryEditResource(this.workPackage.id)
+      .values$()
+      .takeUntil(componentDestroyed(this))
       .subscribe((resource:WorkPackageResourceInterface) => {
         // Prepare the fields that are required always
         const isNew = this.workPackage.isNew;
@@ -126,6 +148,10 @@ export class WorkPackageSingleViewController {
       });
   }
 
+  ngOnDestroy() {
+    // Nothing to do
+  }
+
   /**
    * Returns whether a group should be hidden due to being empty
    * (e.g., consists only of CFs and none of them are active in this project.
@@ -144,6 +170,16 @@ export class WorkPackageSingleViewController {
     return this.wpEditFieldGroup.inEditMode && !field.writable;
   }
 
+  /**
+   * angular 2 doesn't support track by property any more but requires a custom function
+   * https://github.com/angular/angular/issues/12969
+   * @param index
+   * @param elem
+   */
+  public trackByName(_index:number, elem:{ name: string }) {
+    return elem.name;
+  }
+
   /*
    * Returns the work package label
    */
@@ -156,29 +192,6 @@ export class WorkPackageSingleViewController {
     let projectPath = this.PathHelper.projectPath(id);
     let project = `<a href="${projectPath}">${this.workPackage.project.name}<a>`;
     return this.I18n.t('js.project.work_package_belongs_to', { projectname: project });
-  }
-
-  private setupI18nTexts() {
-    this.text = {
-      project: {
-        required: this.I18n.t('js.project.required_outside_context'),
-        context: this.I18n.t('js.project.context'),
-        switchTo: this.I18n.t('js.project.click_to_switch_context'),
-      },
-      dropFiles: this.I18n.t('js.label_drop_files'),
-      dropFilesHint: this.I18n.t('js.label_drop_files_hint'),
-      fields: {
-        description: this.I18n.t('js.work_packages.properties.description'),
-      },
-      date: {
-        startDate: this.I18n.t('js.label_no_start_date'),
-        dueDate: this.I18n.t('js.label_no_due_date')
-      },
-      infoRow: {
-        createdBy: this.I18n.t('js.label_created_by'),
-        lastUpdatedOn: this.I18n.t('js.label_last_updated_on')
-      },
-    };
   }
 
   /**
@@ -247,29 +260,3 @@ export class WorkPackageSingleViewController {
   }
 
 }
-
-function wpSingleViewDirective():any {
-
-  return {
-    restrict: 'E',
-    templateUrl: '/components/work-packages/wp-single-view/wp-single-view.directive.html',
-
-    scope: {
-      workPackage: '=?'
-    },
-
-    require: ['^wpEditFieldGroup'],
-    link: (scope:any,
-           element:ng.IAugmentedJQuery,
-           attrs:any,
-           controllers: [WorkPackageEditFieldGroupController]) => {
-      scope.$ctrl.wpEditFieldGroup = controllers[0];
-      scope.$ctrl.initialize();
-    },
-    bindToController: true,
-    controller: WorkPackageSingleViewController,
-    controllerAs: '$ctrl'
-  };
-}
-
-opWorkPackagesModule.directive('wpSingleView', wpSingleViewDirective);

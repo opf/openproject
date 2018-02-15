@@ -31,13 +31,14 @@ import {FirstRouteService} from 'app/components/routing/first-route-service';
 import {Transition, TransitionService, UrlMatcherFactory, UrlService} from '@uirouter/core';
 import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
+import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
 
 const panels = {
   get overview() {
     return {
       url: '/overview',
       reloadOnSearch: false,
-      template: '<overview-panel work-package="$ctrl.workPackage"></overview-panel>'
+      component: WorkPackageOverviewTabComponent
     };
   },
 

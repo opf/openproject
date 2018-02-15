@@ -28,7 +28,7 @@
 
 import {States} from '../../states.service';
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
-import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
+import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
 import {FirstRouteService} from 'core-components/routing/first-route-service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';

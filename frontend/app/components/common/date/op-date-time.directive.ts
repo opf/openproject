@@ -26,18 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($compile, TimezoneService) {
+import {opUiComponentsModule} from '../../../angular-modules';
+
+function opDateTimeDirective($compile:ng.ICompileService, TimezoneService:any) {
   return {
     restrict: 'EA',
-    replace: true,
     scope: { dateTimeValue: '=' },
     // Note: we cannot reuse op-date here as this does not apply the user's configured timezone
     template: '<span title="{{ date }} {{ time }}"><span>{{date}}</span> <span>{{time}}</span></span>',
-    link: function(scope, element, attrs) {
+    link: function(scope:any, element:ng.IAugmentedJQuery) {
       var c = TimezoneService.formattedDatetimeComponents(scope.dateTimeValue);
       scope.date = c[0];
       scope.time = c[1];
       $compile(element.contents())(scope);
     }
   };
-};
+}
+
+opUiComponentsModule.directive('opDateTime', opDateTimeDirective);

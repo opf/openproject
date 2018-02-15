@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WatchersPanelController} from '../wp-panels/watchers-panel/watchers-panel.controller';
+import {WatchersPanelController} from '../wp-single-view-tabs/watchers-panel/watchers-panel.controller';
 import {UserResource} from '../api/api-v3/hal-resources/user-resource.service';
 import {wpDirectivesModule} from '../../angular-modules';
 
