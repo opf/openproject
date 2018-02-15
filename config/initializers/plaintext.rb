@@ -27,8 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-file_name = File.join([Rails.root.to_s, 'config', 'text_extractor.yml'])
+file_name = File.join([Rails.root.to_s, 'config', 'plaintext.yml'])
 if File.file?(file_name)
   config_file = File.read(file_name)
-  TextExtractor::Configuration.load(config_file)
+  Plaintext::Configuration.load(config_file)
 end

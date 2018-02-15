@@ -163,8 +163,7 @@ gem 'aws-sdk', '~> 2.10.1'
 
 gem 'openproject-token', '~> 1.0.1'
 
-gem 'text-extractor', '0.1.0'
-
+gem 'plaintext', '0.1.0'
 
 group :test do
   gem 'rack-test', '~> 0.6.3'

@@ -77,12 +77,12 @@ class AdminController < ApplicationController
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_file_repository_writable, repository_writable],
-      [:'extraction.available.pdftotext', TextExtractor::PdfHandler.available?],
-      [:'extraction.available.unrtf',     TextExtractor::RtfHandler.available?],
-      [:'extraction.available.catdoc',    TextExtractor::DocHandler.available?],
-      [:'extraction.available.xls2csv',   TextExtractor::XlsHandler.available?],
-      [:'extraction.available.catppt',    TextExtractor::PptHandler.available?],
-      [:'extraction.available.tesseract', TextExtractor::ImageHandler.available?]
+      [:'extraction.available.pdftotext', Plaintext::PdfHandler.available?],
+      [:'extraction.available.unrtf',     Plaintext::RtfHandler.available?],
+      [:'extraction.available.catdoc',    Plaintext::DocHandler.available?],
+      [:'extraction.available.xls2csv',   Plaintext::XlsHandler.available?],
+      [:'extraction.available.catppt',    Plaintext::PptHandler.available?],
+      [:'extraction.available.tesseract', Plaintext::ImageHandler.available?]
     ]
 
     @storage_information = OpenProject::Storage.mount_information

@@ -55,7 +55,7 @@ class ExtractFulltextJob < ApplicationJob
 
     begin
       if @attachment.readable?
-        resolver = TextExtractor::Resolver.new(@file, @attachment.content_type)
+        resolver = Plaintext::Resolver.new(@file, @attachment.content_type)
         @text = resolver.text
       end
     rescue => e

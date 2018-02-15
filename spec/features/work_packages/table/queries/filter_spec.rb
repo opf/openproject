@@ -263,10 +263,10 @@ describe 'filter work packages', js: true do
       allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
       allow(EnterpriseToken).to receive(:allows_to?).with(:attachment_filters).and_return(true)
 
-      allow_any_instance_of(TextExtractor::Resolver).to receive(:text).and_return('I am the first text $1.99.')
+      allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return('I am the first text $1.99.')
       wp_with_attachment_a
       ExtractFulltextJob.new(attachment_a.id).perform
-      allow_any_instance_of(TextExtractor::Resolver).to receive(:text).and_return('I am the second text.')
+      allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return('I am the second text.')
       wp_with_attachment_b
       ExtractFulltextJob.new(attachment_b.id).perform
       wp_without_attachment

@@ -38,7 +38,7 @@ describe ExtractFulltextJob, type: :job do
 
     context "with successful text extraction" do
       before do
-        allow_any_instance_of(TextExtractor::Resolver).to receive(:text).and_return(text)
+        allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return(text)
       end
 
       context 'attachment is readable' do
@@ -91,7 +91,7 @@ describe ExtractFulltextJob, type: :job do
       let(:logger) { Rails.logger }
 
       before do
-        allow_any_instance_of(TextExtractor::Resolver).to receive(:text).and_raise(exception_message)
+        allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_raise(exception_message)
 
         # This line is actually part of the test. `expect` call needs to go so far up here, as we want to verify that a message gets logged.
         expect(logger).to receive(:error).with(exception_message)

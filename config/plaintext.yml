@@ -1,0 +1,38 @@
+# Text extraction helper programs.
+#
+# commands should write the resulting plain text to STDOUT. Use __FILE__ as
+# placeholder for the file path. The values below are the defaults.
+# apt install poppler-utils
+pdftotext:
+ - /usr/local/bin/pdftotext
+ - -enc
+ - UTF-8
+ - __FILE__
+ - '-'
+
+# apt install unrtf
+unrtf:
+  - /usr/local/bin/unrtf
+  - --text
+  - __FILE__
+
+tesseract:
+  - /usr/local/bin/tesseract
+  - __FILE__
+  - stdout
+
+# apt install catdoc
+catdoc:
+  - /usr/bin/textutil
+  - -convert
+  - txt
+  - -stdout
+  - __FILE__
+# xls2csv:
+#   - /usr/bin/xls2csv
+#   - -dutf-8
+#   - __FILE__
+# catppt:
+#   - /usr/bin/catppt
+#   - -dutf-8
+#   - __FILE__
