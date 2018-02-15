@@ -26,45 +26,43 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opWorkPackagesModule} from "../../../angular-modules";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageCacheService} from "../work-package-cache.service";
-import {StateParams} from '@uirouter/core';
+import {opWorkPackagesModule} from '../../../angular-modules';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageCacheService} from '../work-package-cache.service';
+import {UIRouterGlobals} from '@uirouter/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {downgradeComponent} from '@angular/upgrade/static';
 
-export class WorkPackageSubjectController {
+@Component({
+  template: require('!!raw-loader!./wp-subject.html'),
+  selector: 'wp-subject',
+})
+export class WorkPackageSubjectComponent implements OnInit, OnDestroy {
+  @Input('workPackage') workPackage:WorkPackageResourceInterface;
 
-  public workPackage: WorkPackageResourceInterface;
-
-  constructor(protected $scope:ng.IScope,
-              protected $stateParams:StateParams,
+  constructor(protected uiRouterGlobals:UIRouterGlobals,
               protected wpCacheService:WorkPackageCacheService) {
+  }
+
+  ngOnDestroy() {
+    // Nothing to do
+  }
+
+  ngOnInit() {
     if (!this.workPackage) {
-      scopedObservable(
-        $scope,
-        wpCacheService.loadWorkPackage($stateParams['workPackageId']).values$())
-        .subscribe((wp: WorkPackageResourceInterface) => {
+      this.wpCacheService.loadWorkPackage(this.uiRouterGlobals.params['workPackageId'])
+        .values$()
+        .takeUntil(componentDestroyed(this))
+        .subscribe((wp:WorkPackageResourceInterface) => {
           this.workPackage = wp;
         });
     }
   }
 }
 
-function wpSubjectDirective():any {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/work-packages/wp-subject/wp-subject.directive.html',
-    scope: {
-      workPackage: '=?'
-    },
-    bindToController: true,
-    controller: WorkPackageSubjectController,
-    controllerAs: '$ctrl'
-  };
-}
-
-opWorkPackagesModule.directive('wpSubject', wpSubjectDirective);
+opWorkPackagesModule.directive(
+  'wpSubject',
+  downgradeComponent({component: WorkPackageSubjectComponent})
+);
 

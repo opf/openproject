@@ -26,44 +26,49 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageEditFieldController} from './wp-edit-field.directive';
 import {States} from '../../states.service';
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
 import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
 import {input} from 'reactivestates';
-import {scopeDestroyed$} from '../../../helpers/angular-rx-utils';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {WorkPackageCreateService} from './../../wp-create/wp-create.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
+import {Directive, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 
-export class WorkPackageEditFieldGroupController {
-  public workPackage:WorkPackageResourceInterface;
-  public successState?:string;
-  public inEditMode:boolean;
+@Directive({
+  selector: 'wp-edit-field-group,[wp-edit-field-group]'
+})
+export class WorkPackageEditFieldGroupDirective implements OnInit, OnDestroy {
+  @Input('workPackage') workPackage:WorkPackageResourceInterface;
+  @Input('successState') successState?:string;
+  @Input('inEditMode') inEditMode:boolean = false;
+
   public form:WorkPackageEditForm;
-  public fields:{ [attribute:string]:WorkPackageEditFieldController } = {};
+  public fields:{ [attribute:string]:WorkPackageEditFieldComponent } = {};
   private registeredFields = input<string[]>();
   private unregisterListener:Function;
 
-  constructor(protected $scope:ng.IScope,
-              protected $state:StateService,
-              protected states:States,
+  constructor(protected states:States,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditing:WorkPackageEditingService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpTableSelection:WorkPackageTableSelection,
               protected wpTableFocus:WorkPackageTableFocusService,
-              protected $rootScope:ng.IRootScopeService,
-              protected $window:ng.IWindowService,
               protected $transitions:TransitionService,
-              protected ConfigurationService:any,
-              protected $q:ng.IQService,
-              protected I18n:op.I18n) {
+              protected ConfigurationService:ConfigurationService,
+              @Inject($stateToken) readonly $state:StateService,
+              @Inject(I18nToken) readonly I18n:op.I18n) {
+
     const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
     const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
 
@@ -79,7 +84,7 @@ export class WorkPackageEditFieldGroupController {
       const fromParams = transition.params('from');
       const toParams = transition.params('to');
       if (!this.allowedStateChange(toState, toParams, fromState, fromParams)) {
-        if (requiresConfirmation && !$window.confirm(confirmText)) {
+        if (requiresConfirmation && !window.confirm(confirmText)) {
           return false;
         }
 
@@ -88,21 +93,21 @@ export class WorkPackageEditFieldGroupController {
 
       return true;
     });
-
-    $scope.$on('$destroy', () => {
-      this.unregisterListener();
-      this.form.destroy();
-    });
   }
 
-  public $onInit() {
+  ngOnDestroy() {
+    this.unregisterListener();
+    this.form.destroy();
+  }
+
+  ngOnInit() {
     const context = new SingleViewEditContext(this);
     this.form = WorkPackageEditForm.createInContext(context, this.workPackage, this.inEditMode);
 
     // Stop editing whenever a work package was saved
     if (this.inEditMode && this.workPackage.isNew) {
       this.wpCreate.onNewWorkPackage()
-        .takeUntil(scopeDestroyed$(this.$scope))
+        .takeUntil(componentDestroyed(this))
         .subscribe((wp:WorkPackageResourceInterface) => {
           this.form.editMode = false;
           this.stopEditingAndLeave(wp, true);
@@ -111,7 +116,7 @@ export class WorkPackageEditFieldGroupController {
 
     this.states.workPackages.get(this.workPackage.id)
       .values$()
-      .takeUntil(scopeDestroyed$(this.$scope))
+      .takeUntil(componentDestroyed(this))
       .subscribe((wp) => {
         _.each(this.fields, (ctrl) => this.updateDisplayField(ctrl, wp));
       });
@@ -125,7 +130,7 @@ export class WorkPackageEditFieldGroupController {
     return this.inEditMode && this.form.editMode;
   }
 
-  public register(field:WorkPackageEditFieldController) {
+  public register(field:WorkPackageEditFieldComponent) {
     this.fields[field.fieldName] = field;
     this.registeredFields.putValue(_.keys(this.fields));
 
@@ -139,7 +144,7 @@ export class WorkPackageEditFieldGroupController {
     }
   }
 
-  public waitForField(name:string):Promise<WorkPackageEditFieldController> {
+  public waitForField(name:string):Promise<WorkPackageEditFieldComponent> {
     return this.registeredFields
       .values$()
       .filter(keys => keys.indexOf(name) >= 0)
@@ -188,12 +193,12 @@ export class WorkPackageEditFieldGroupController {
     }
   }
 
-  private updateDisplayField(field:WorkPackageEditFieldController, wp:WorkPackageResourceInterface) {
+  private updateDisplayField(field:WorkPackageEditFieldComponent, wp:WorkPackageResourceInterface) {
     field.workPackage = wp;
     field.render();
   }
 
-  private skipField(field:WorkPackageEditFieldController) {
+  private skipField(field:WorkPackageEditFieldComponent) {
     const fieldName = field.fieldName;
 
     const isSkipField = fieldName === 'status' || fieldName === 'type';
@@ -212,18 +217,10 @@ export class WorkPackageEditFieldGroupController {
   }
 }
 
-opWorkPackagesModule.directive('wpEditFieldGroup', function() {
-  return {
-    restrict: 'EA',
-    controller: WorkPackageEditFieldGroupController,
-    bindToController: true,
-    template: '',
-    controllerAs: '$fieldGroupCtrl',
-    scope: {
-      workPackage: '=',
-      successState: '=?',
-      inEditMode: '=?'
-    }
-  };
-});
+
+
+opWorkPackagesModule.directive('wpEditFieldGroup',
+  downgradeComponent({component: WorkPackageEditFieldGroupDirective})
+);
+
 

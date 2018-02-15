@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {scopeDestroyed$} from '../../../helpers/angular-rx-utils';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {ContextMenuService} from '../../context-menus/context-menu.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
@@ -34,46 +33,54 @@ import {WorkPackageNotificationService} from '../wp-notification.service';
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
-import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
 import {
   displayClassName,
   DisplayFieldRenderer,
   editFieldContainerClass
 } from '../../wp-edit-form/display-field-renderer';
-import {WorkPackageEditFieldGroupController} from './wp-edit-field-group.directive';
 import {ClickPositionMapper} from '../../common/set-click-position/set-click-position';
 import {WorkPackageEditFieldHandler} from '../../wp-edit-form/work-package-edit-field-handler';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {SelectionHelpers} from '../../../helpers/selection-helpers';
 import {debugLog} from '../../../helpers/debug_output';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
+import {I18nToken, NotificationsServiceToken} from 'core-app/angular4-transition-utils';
+import {WorkPackageEditFieldGroupDirective} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
+import {ConfigurationService} from 'core-components/common/config/configuration.service';
 
-export class WorkPackageEditFieldController {
-  public wpEditFieldGroup:WorkPackageEditFieldGroupController;
-  public fieldName:string;
-  public displayPlaceholder:string;
-  public workPackageId:string;
+@Component({
+  template: require('!!raw-loader!./wp-edit-field.html'),
+  selector: 'wp-edit-field',
+})
+export class WorkPackageEditFieldComponent implements OnInit {
+  @Input('fieldName') public fieldName:string;
+  @Input('workPackageId') public workPackageId:string;
+  @Input('wrapperClasses') public wrapperClasses?:string;
+  @Input('displayPlaceholder') public displayPlaceholder?:string;
+
   public workPackage:WorkPackageResourceInterface;
   public fieldRenderer = new DisplayFieldRenderer('single-view');
   public editFieldContainerClass = editFieldContainerClass;
   private active = false;
+  private $element:ng.IAugmentedJQuery;
 
   constructor(protected states:States,
-              protected $scope:ng.IScope,
-              protected $element:ng.IAugmentedJQuery,
-              protected $timeout:ng.ITimeoutService,
-              protected $q:ng.IQService,
-              protected NotificationsService:any,
+              protected elementRef:ElementRef,
               protected wpNotificationsService:WorkPackageNotificationService,
-              protected ConfigurationService:any,
+              protected ConfigurationService:ConfigurationService,
               protected contextMenu:ContextMenuService,
               protected wpEditing:WorkPackageEditingService,
               protected wpCacheService:WorkPackageCacheService,
-              protected ENTER_KEY:any,
-              protected I18n:op.I18n) {
+              // Get parent field group from injector
+              protected wpEditFieldGroup:WorkPackageEditFieldGroupDirective,
+              @Inject(NotificationsServiceToken) protected NotificationsService:any,
+              @Inject(I18nToken) readonly I18n:op.I18n) {
 
   }
 
-  public $onInit() {
+  public ngOnInit() {
+    this.$element = angular.element(this.elementRef.nativeElement);
     this.wpEditFieldGroup.register(this);
   }
 
@@ -87,7 +94,7 @@ export class WorkPackageEditFieldController {
     this.editContainer.empty().hide();
     this.displayContainer.show();
 
-    this.$scope.$evalAsync(() => this.active = false);
+    this.active = false;
     if (focus) {
       this.$element.find(`.${displayClassName}`).focus();
     }
@@ -176,17 +183,8 @@ export class WorkPackageEditFieldController {
   }
 
 }
-opWorkPackagesModule.component('wpEditField', {
-  templateUrl: '/components/wp-edit/wp-edit-field/wp-edit-field.directive.html',
-  controller: WorkPackageEditFieldController,
-  controllerAs: 'vm',
-  bindings: {
-    fieldName: '<',
-    wrapperClasses: '<?',
-    workPackageId: '<',
-    displayPlaceholder: '<?'
-  },
-  require: {
-    wpEditFieldGroup: '^wpEditFieldGroup'
-  }
-});
+
+opWorkPackagesModule.component('wpEditField',
+  downgradeComponent({component: WorkPackageEditFieldComponent})
+);
+

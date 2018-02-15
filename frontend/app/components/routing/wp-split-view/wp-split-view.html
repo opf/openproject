@@ -47,10 +47,10 @@
 
       <wp-breadcrumb [workPackage]="workPackage"></wp-breadcrumb>
 
-      <ng1-wp-edit-field-group-wrapper [workPackage]="workPackage">
-        <ng1-wp-subject-wrapper></ng1-wp-subject-wrapper>
+      <wp-edit-field-group [workPackage]="workPackage">
+        <wp-subject></wp-subject>
         <div class="work-package-details-tab" ui-view></div>
-      </ng1-wp-edit-field-group-wrapper>
+      </wp-edit-field-group>
     </div>
 
     <div class="work-packages--details-toolbar-container" *ngIf="workPackage">
