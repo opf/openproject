@@ -209,18 +209,16 @@ class ::Query::Results
   # Returns the columns that need to be included to allow:
   # * sorting
   # * grouping
-  def include_columns # rubocop:disable Metrics/AbcSize
+  def include_columns
     columns = query.sort_criteria_columns.map { |column, _direction| column.association }
 
     if query.group_by_column
       columns << query.group_by_column.association
     end
 
-    query.filters.each do |filter|
-      columns << filter.includes
-    end
+    columns << all_filter_includes(query)
 
-    columns.flatten.compact.uniq.map(&:to_sym)
+    clean_symbol_list(columns)
   end
 
   def sort_criteria_array
@@ -300,5 +298,15 @@ class ::Query::Results
     else
       reflection.alias_candidate(WorkPackage.table_name)
     end
+  end
+
+  private
+
+  def all_filter_includes(query)
+    query.filters.map { |filter| filter.includes }
+  end
+
+  def clean_symbol_list(list)
+    list.flatten.compact.uniq.map(&:to_sym)
   end
 end

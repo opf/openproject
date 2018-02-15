@@ -75,7 +75,7 @@ OpenProject::Application.configure do
   config.force_ssl = OpenProject::Configuration['rails_force_ssl']
 
   # Set to :debug to see everything in the log.
-  # config.log_level = :warn
+  config.log_level = :warn
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]

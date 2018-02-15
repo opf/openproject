@@ -31,5 +31,4 @@
 Delayed::Worker.logger = Rails.logger
 
 # By default bypass worker queue and execute asynchronous tasks at once
-# Delayed::Worker.delay_jobs = !Rails.env.test?
-Delayed::Worker.delay_jobs = false
+Delayed::Worker.delay_jobs = !Rails.env.test?
