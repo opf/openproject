@@ -474,7 +474,7 @@ cs:
         title: Pracovní balíčky nelze načíst.
         description: Váš dotaz je chybný a nelze jej zpracovat.
       no_results:
-        title: No work packages to display.
+        title: Žádné pracovní balíčky k zobrazení.
         description: Either none have been created or all work packages are filtered
           out.
       property_groups:

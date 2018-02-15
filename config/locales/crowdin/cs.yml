@@ -433,8 +433,8 @@ cs:
         invalid_url: není platná adresa URL.
         invalid_url_scheme: 'není podporovaný protokol (povoleny: %{allowed_schemes}).'
         less_than_or_equal_to: musí být menší než nebo rovno %{count}.
-        not_a_date: is not a valid date.
-        not_a_datetime: is not a valid date time.
+        not_a_date: není platné datum.
+        not_a_datetime: není platný čas.
         not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_a_number: není číslo.
         not_an_integer: není celé číslo.
@@ -896,7 +896,7 @@ cs:
   description_available_columns: Dostupné sloupce
   description_choose_project: Projekty
   description_compare_from: Porovnání z
-  description_compare_to: Compare to
+  description_compare_to: Porovnat s
   description_current_position: 'Nacházíte se zde:'
   description_date_from: Zadejte počáteční datum
   description_date_range_interval: Zvolte rozsah výběrem počátečního a koncového data
