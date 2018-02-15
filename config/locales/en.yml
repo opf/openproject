@@ -1945,6 +1945,7 @@ en:
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
+  setting_invitation_expiration_days: "Activation E-Mail expires after"
   setting_work_package_done_ratio: "Calculate the work package done ratio with"
   setting_work_package_done_ratio_field: "Use the work package field"
   setting_work_package_done_ratio_status: "Use the work package status"
