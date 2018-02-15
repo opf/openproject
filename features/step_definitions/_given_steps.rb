@@ -78,6 +78,8 @@ Given /^I want to edit the task named (.+)$/ do |task_subject|
   task = Task.find_by(subject: task_subject)
   task.should_not be_nil
   @task_params = HashWithIndifferentAccess.new(task.attributes)
+  @task_params['parent_id'] = task.parent_id
+  @task_params
 end
 
 Given /^I want to edit the impediment named (.+)$/ do |impediment_subject|

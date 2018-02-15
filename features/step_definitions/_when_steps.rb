@@ -58,7 +58,13 @@ When /^I move the (story|item|task) named (.+) below (.+)$/ do |type, story_subj
 
   attributes = story.attributes
   attributes[:prev]             = prev.id
-  attributes[:fixed_version_id] = prev.fixed_version_id unless type == 'task'
+
+  if type == 'task'
+    # #attributes returns the parent_id to always be nil
+    attributes['parent_id'] = story.parent_id
+  else
+    attributes[:fixed_version_id] = prev.fixed_version_id
+  end
 
   project = Project.find(attributes['project_id'])
   sprint  = prev.fixed_version
