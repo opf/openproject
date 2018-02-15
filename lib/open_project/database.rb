@@ -149,7 +149,7 @@ module OpenProject
     # search.
     def self.allows_tsv?
       OpenProject::Database.name == :postgresql &&
-        Gem::Version.new(OpenProject::Database.version) >= Gem::Version.new('9.6')
+        Gem::Version.new(OpenProject::Database.version) >= Gem::Version.new('9.5')
     end
   end
 end
