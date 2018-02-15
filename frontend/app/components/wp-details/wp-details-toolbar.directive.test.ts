@@ -28,6 +28,8 @@
 
 /*jshint expr: true*/
 
+// TODO convert?
+
 describe('workPackageDetailsToolbar', function() {
   var I18n:any, $q:any, HookService:any, compile:any, scope:any, element:any, stateParams:any;
   var html = `

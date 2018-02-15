@@ -77,7 +77,7 @@ import {
   NotificationsServiceToken,
   PathHelperToken,
   upgradeService,
-  upgradeServiceWithToken
+  upgradeServiceWithToken, wpMoreMenuServiceToken
 } from './angular4-transition-utils';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
 import {WpCustomActionsComponent} from 'core-components/wp-custom-actions/wp-custom-actions.component';
@@ -104,7 +104,6 @@ import {Ng1QueryFiltersComponentWrapper} from 'core-components/filters/query-fil
 import {UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
 import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
 import {WorkPackageBreadcrumbComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb.component';
-import {Ng1DetailsToolbarWrapper} from 'core-components/wp-details/wp-details-toolbar-ng1-wrapper';
 import {WorkPackageRelationsCountComponent} from 'core-components/work-packages/wp-relations-count/wp-relations-count.component';
 import {FirstRouteService} from 'core-components/routing/first-route-service';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
@@ -113,6 +112,8 @@ import {WorkPackageEditFieldGroupDirective} from 'core-components/wp-edit/wp-edi
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 import {WorkPackageCreateService} from 'core-components/wp-create/wp-create.service';
+import {WorkPackageWatcherButtonComponent} from 'core-components/work-packages/wp-watcher-button/wp-watcher-button.component';
+import {WorkPackageSplitViewToolbarComponent} from 'core-components/wp-details/wp-details-toolbar.component';
 
 @NgModule({
   imports: [
@@ -134,6 +135,7 @@ import {WorkPackageCreateService} from 'core-components/wp-create/wp-create.serv
     upgradeServiceWithToken('FocusHelper', FocusHelperToken),
     upgradeServiceWithToken('PathHelper', PathHelperToken),
     upgradeServiceWithToken('halRequest', halRequestToken),
+    upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     upgradeService('wpCacheService', WorkPackageCacheService),
     upgradeService('wpEditing', WorkPackageEditingService),
@@ -202,8 +204,9 @@ import {WorkPackageCreateService} from 'core-components/wp-create/wp-create.serv
     WorkPackageRelationsCountComponent,
     WorkPackageBreadcrumbComponent,
     WorkPackageEditFieldGroupDirective,
+    WorkPackageSplitViewToolbarComponent,
+    WorkPackageWatcherButtonComponent,
     WorkPackageSubjectComponent,
-    Ng1DetailsToolbarWrapper,
 
     // WP Edit Fields
     WorkPackageEditFieldComponent,

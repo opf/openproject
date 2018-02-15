@@ -42,6 +42,7 @@ export const NotificationsServiceToken = new InjectionToken<any>('NotificationsS
 export const v3PathToken = new InjectionToken<any>('v3Path');
 export const PathHelperToken = new InjectionToken<any>('PathHelper');
 export const halRequestToken = new InjectionToken<any>('halRequest');
+export const wpMoreMenuServiceToken = new InjectionToken<any>('wpMoreMenuService');
 export const $httpToken = new InjectionToken<any>('$http');
 export const halResourceFactoryToken = new InjectionToken<any>('halResourceFactory');
 

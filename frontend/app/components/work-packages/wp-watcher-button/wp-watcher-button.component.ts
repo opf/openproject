@@ -26,33 +26,45 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {wpDirectivesModule} from '../../../angular-modules';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageCacheService} from '../work-package-cache.service';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {downgradeComponent} from '@angular/upgrade/static';
 
-import {wpDirectivesModule} from "../../../angular-modules";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageCacheService} from "../work-package-cache.service";
+@Component({
+  template: require('!!raw-loader!./wp-watcher-button.html'),
+  selector: 'wp-watcher-button',
+})
+export class WorkPackageWatcherButtonComponent implements OnInit,  OnDestroy {
+  @Input('workPackage') public workPackage:WorkPackageResourceInterface;
+  @Input('showText') public showText:boolean = false;
+  @Input('disabled') public disabled:boolean = false;
 
-export class WorkPackageWatcherButtonController {
-
-  public workPackage:WorkPackageResourceInterface;
   public buttonText:string;
   public buttonTitle:string;
   public buttonClass:string;
   public buttonId:string;
   public watchIconClass:string;
 
-  constructor(public $scope:ng.IScope,
-              public $rootScope:ng.IRootScopeService,
-              public I18n:op.I18n,
+  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
               public wpCacheService:WorkPackageCacheService) {
+  }
 
-    scopedObservable(
-      $scope,
-      wpCacheService.loadWorkPackage(this.workPackage.id).values$())
+  ngOnInit() {
+    this.wpCacheService.loadWorkPackage(this.workPackage.id)
+      .values$()
+      .takeUntil(componentDestroyed(this))
       .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.setWatchStatus();
       });
+  }
+
+  ngOnDestroy() {
+    // Nothing to do
   }
 
   public get isWatched() {
@@ -69,7 +81,7 @@ export class WorkPackageWatcherButtonController {
     toggleLink(toggleLink.$link.payload).then(() => {
       this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
     });
-  };
+  }
 
   public nextStateLink() {
     const linkName = this.isWatched ? 'unwatch' : 'watch';
@@ -94,23 +106,6 @@ export class WorkPackageWatcherButtonController {
   }
 }
 
-function wpWatcherButton():any {
-  return {
-    replace: true,
-    templateUrl: '/components/work-packages/wp-watcher-button/wp-watcher-button.directive.html',
-
-    scope: {
-      workPackage: '=',
-      showText: '=',
-      disabled: '='
-    },
-
-    bindToController: true,
-    controller: WorkPackageWatcherButtonController,
-    controllerAs: 'vm'
-  };
-}
-
-
-
-wpDirectivesModule.directive('wpWatcherButton', wpWatcherButton);
+wpDirectivesModule.directive('wpWatcherButton',
+  downgradeComponent({component: WorkPackageWatcherButtonComponent})
+);

@@ -29,35 +29,44 @@ import {WorkPackageMoreMenuService} from '../work-packages/work-package-more-men
 
 import {openprojectModule} from '../../angular-modules';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
-function wpDetailsToolbar(
-  I18n:op.I18n,
-  wpEditing:WorkPackageEditingService,
-  wpMoreMenuService:WorkPackageMoreMenuService):any {
+import {I18nToken, wpMoreMenuServiceToken} from 'core-app/angular4-transition-utils';
+import {Component, Inject, Input, OnInit} from '@angular/core';
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {downgradeComponent} from '@angular/upgrade/static';
 
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-details/wp-details-toolbar.directive.html',
-    scope: {
-      workPackage: '='
-    },
 
-    link: function(scope:any, attr:ng.IAttributes, element:ng.IAugmentedJQuery) {
+@Component({
+  template: require('!!raw-loader!./wp-details-toolbar.html'),
+  selector: 'wp-details-toolbar',
+})
+export class WorkPackageSplitViewToolbarComponent implements OnInit {
+  @Input('workPackage') workPackage:WorkPackageResourceInterface;
 
-      let wpMoreMenu = new (wpMoreMenuService as any)(scope.workPackage);
+  public permittedActions:any;
+  public actionsAvailable:any;
+  public triggerMoreMenuAction:Function;
 
-      wpMoreMenu.initialize().then(() => {
-        scope.permittedActions = wpMoreMenu.permittedActions;
-        scope.actionsAvailable = wpMoreMenu.actionsAvailable;
-      });
+  public text = {
+    button_more: this.I18n.t('js.button_more')
+  }
 
-      scope.triggerMoreMenuAction = wpMoreMenu.triggerMoreMenuAction.bind(wpMoreMenu);
+constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+  public wpEditing:WorkPackageEditingService,
+  @Inject(wpMoreMenuServiceToken) private wpMoreMenuServiceFactory:any) {
+  }
 
-      scope.displayWatchButton = scope.workPackage.hasOwnProperty('unwatch') ||
-        scope.workPackage.hasOwnProperty('watch');
+  ngOnInit() {
+    let wpMoreMenu = new this.wpMoreMenuServiceFactory(this.workPackage) as WorkPackageMoreMenuService;
 
-      scope.I18n = I18n;
-    }
-  };
+    wpMoreMenu.initialize().then(() => {
+      this.permittedActions = wpMoreMenu.permittedActions;
+      this.actionsAvailable = wpMoreMenu.actionsAvailable;
+    });
+
+    this.triggerMoreMenuAction = wpMoreMenu.triggerMoreMenuAction.bind(wpMoreMenu);
+  }
 }
 
-openprojectModule.directive('wpDetailsToolbar', wpDetailsToolbar);
+openprojectModule.directive('wpDetailsToolbar',
+  downgradeComponent({component: WorkPackageSplitViewToolbarComponent })
+);
