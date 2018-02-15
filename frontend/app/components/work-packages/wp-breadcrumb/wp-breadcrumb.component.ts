@@ -26,14 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {openprojectModule} from "../../../angular-modules";
+import {wpControllersModule} from '../../../angular-modules';
+import {Component, Input} from '@angular/core';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 
-function wpBreadcrumb() {
-  return {
-    restrict: 'E',
-    scope: {workPackage: '=workPackage'},
-    templateUrl: '/components/work-packages/wp-breadcrumb/wp-breadcrumb.directive.html'
-  };
+@Component({
+  template: require('!!raw-loader!./wp-breadcrumb.html'),
+  selector: 'wp-breadcrumb',
+})
+export class WorkPackageBreadcrumbComponent {
+  @Input('workPackage') workPackage:WorkPackageResourceInterface;
 }
 
-openprojectModule.directive('wpBreadcrumb', wpBreadcrumb);
+wpControllersModule.directive(
+  'wpBreadcrumb',
+  downgradeComponent({component: WorkPackageBreadcrumbComponent })
+);
+
+

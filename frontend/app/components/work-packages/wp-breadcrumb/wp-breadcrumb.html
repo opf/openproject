@@ -1,0 +1,14 @@
+<div class="wp-breadcrumb -show"
+     *ngIf="workPackage && workPackage.ancestors.length > 0">
+  <ul class="breadcrumb">
+    <li *ngFor="let ancestor of workPackage.ancestors"
+        class="icon-context icon-small icon-arrow-right5">
+      <a [attr.title]="ancestor.name"
+         [textContent]="ancestor.name"
+         uiSref="work-packages.show.activity({workPackageId: ancestor.id})"
+         class="breadcrumb-project-title nocut"></a>
+    </li>
+    <li class="icon-context icon-small icon-arrow-right5"
+        [textContent]="workPackage.name"></li>
+  </ul>
+</div>

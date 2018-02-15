@@ -120,8 +120,6 @@ openprojectModule
 
         $http.defaults.headers!.common.Accept = 'application/json';
 
-        console.error("Init app run");
-
         // Set the escaping target of opening double curly braces
         // This is what returned by rails-angular-xss when it discoveres double open curly braces
         // See https://github.com/opf/rails-angular-xss for more information.

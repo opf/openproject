@@ -53,11 +53,11 @@ export class WorkPackageShowController extends WorkPackageViewController {
   private wpMoreMenu:WorkPackageMoreMenuService;
 
   constructor(public $scope:any,
-              public injector:Injector,
+              public $injector:Injector,
               public $state:StateService,
               public wpTableFocus:WorkPackageTableFocusService,
               protected wpMoreMenuService:WorkPackageMoreMenuService) {
-    super(injector, $state.params['workPackageId']);
+    super($injector, $state.params['workPackageId']);
     this.observeWorkPackage();
   }
 

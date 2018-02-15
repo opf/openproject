@@ -217,6 +217,7 @@ opWorkPackagesModule.directive('wpEditFieldGroup', function() {
     restrict: 'EA',
     controller: WorkPackageEditFieldGroupController,
     bindToController: true,
+    template: '',
     controllerAs: '$fieldGroupCtrl',
     scope: {
       workPackage: '=',

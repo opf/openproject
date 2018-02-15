@@ -83,8 +83,6 @@ openprojectModule
 
     $urlMatcherFactoryProvider.strictMode(false);
 
-    console.error('Config ui-router.config');
-
     // Prepend the baseurl to the route to avoid using a base tag
     // For more information, see
     // https://github.com/angular/angular.js/issues/5519
@@ -209,7 +207,6 @@ openprojectModule
         $transitions:TransitionService,
         $window:ng.IWindowService) => {
 
-      console.error('RUN ui-router config');
       $trace.enable(1);
 
       // Our application is still a hybrid one, meaning most routes are still

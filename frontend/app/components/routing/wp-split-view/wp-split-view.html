@@ -1,63 +1,64 @@
 <div class="work-packages--details loading-indicator--location"
       data-indicator-name="wpDetails"
-      ng-if="$ctrl.workPackage">
+      *ngIf="workPackage">
     <div id="tabs">
       <ul class="tabrow">
         <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
         properly. Thus, don't remove the hrefs or the empty URLs! -->
-        <li ui-sref="work-packages.list.details.overview({})"
-            ui-sref-active="selected">
-          <a href="" ng-bind="::$ctrl.text.tabs.overview"/>
+        <li uiSref="work-packages.list.details.overview({})"
+            uiSrefActive="selected">
+          <a href="" [textContent]="text.tabs.overview"></a>
         </li>
-        <li ui-sref="work-packages.list.details.activity({})"
-            ui-sref-active="selected">
-          <a href="" ng-bind="::$ctrl.text.tabs.activity"/>
+        <li uiSref="work-packages.list.details.activity({})"
+            uiSrefActive="selected">
+          <a href="" [textContent]="text.tabs.activity"></a>
         </li>
-        <li ui-sref="work-packages.list.details.relations({})"
-            ui-sref-active="selected">
-          <a href="" ng-bind="::$ctrl.text.tabs.relations"/>
-          <wp-relations-count wp-id="::$ctrl.workPackage.id"></wp-relations-count>
+        <li uiSref="work-packages.list.details.relations({})"
+            uiSrefActive="selected">
+          <a href="" [textContent]="text.tabs.relations"></a>
+          <wp-relations-count [wpId]="workPackage.id"></wp-relations-count>
         </li>
-        <li ng-if="$ctrl.canViewWorkPackageWatchers()"
-            ui-sref="work-packages.list.details.watchers({})"
-            ui-sref-active="selected">
-          <a href="" ng-bind="::$ctrl.text.tabs.watchers"/>
+        <li ng-if="canViewWorkPackageWatchers()"
+            uiSref="work-packages.list.details.watchers({})"
+            uiSrefActive="selected">
+          <a href="" [textContent]="text.tabs.watchers"></a>
         </li>
         <li class="tab-icon">
-          <accessible-by-keyboard execute="$ctrl.switchToFullscreen()"
-                                  link-aria-label="{{ ::$ctrl.text.goTofullScreen }}"
-                                  link-title="{{ ::$ctrl.text.goTofullScreen }}"
-                                  link-class="work-packages--details-fullscreen-icon"
-                                  span-class="icon-context icon-to-fullscreen">
+          <accessible-by-keyboard (execute)="switchToFullscreen()"
+                                  [linkAriaLabel]="text.goTofullScreen"
+                                  [linkTitle]="text.goTofullScreen"
+                                  linkClass="work-packages--details-fullscreen-icon"
+                                  spanClass="icon-context icon-to-fullscreen">
           </accessible-by-keyboard>
         </li>
         <li class="tab-icon">
-          <accessible-by-keyboard execute="$ctrl.close()"
-                                  link-aria-label="{{ ::$ctrl.text.closeDetailsView }}"
-                                  link-title="{{ ::$ctrl.text.closeDetailsView }}"
-                                  link-class="work-packages--details-close-icon"
-                                  span-class="icon-context icon-close">
+          <accessible-by-keyboard (execute)="close()"
+                                  [linkAriaLabel]="text.closeDetailsView"
+                                  [linkTitle]="text.closeDetailsView"
+                                  linkClass="work-packages--details-close-icon"
+                                  spanClass="icon-context icon-close">
           </accessible-by-keyboard>
         </li>
       </ul>
     </div>
-    <div class="work-packages--details-content">
-      <span class="hidden-for-sighted" tabindex="-1" focus="$ctrl.shouldFocus" ng-bind="$ctrl.focusAnchorLabel">
+    <div class="work-packages--details-content" *ngIf="workPackage">
+    <span class="hidden-for-sighted" tabindex="-1" focus="shouldFocus" [textContent]="focusAnchorLabel">
       </span>
 
-      <wp-breadcrumb work-package="$ctrl.workPackage"></wp-breadcrumb>
+      <wp-breadcrumb [workPackage]="workPackage"></wp-breadcrumb>
 
-      <wp-edit-field-group work-package="$ctrl.workPackage">
-        <wp-subject></wp-subject>
+      <ng1-wp-edit-field-group-wrapper [workPackage]="workPackage">
+        <ng1-wp-subject-wrapper></ng1-wp-subject-wrapper>
         <div class="work-package-details-tab" ui-view></div>
-      </wp-edit-field-group>
+      </ng1-wp-edit-field-group-wrapper>
     </div>
 
-    <div class="work-packages--details-toolbar-container" ng-if="$ctrl.workPackage">
-      <wp-details-toolbar work-package='$ctrl.workPackage'></wp-details-toolbar>
+    <div class="work-packages--details-toolbar-container" *ngIf="workPackage">
+      <ng1-wp-details-toolbar-wrapper [workPackage]="workPackage"></ng1-wp-details-toolbar-wrapper>
     </div>
 
     <div class="work-packages--details--resizer hidden-for-mobile hide-when-print">
-      <wp-resizer element-class="'work-packages-split-view--details-side'" local-storage-key="'openProject-splitViewFlexBasis'"></wp-resizer>
+      <wp-resizer [elementClass]="'work-packages-split-view--details-side'"
+                  [localStorageKey]="'openProject-splitViewFlexBasis'"></wp-resizer>
     </div>
-</div
+</div>

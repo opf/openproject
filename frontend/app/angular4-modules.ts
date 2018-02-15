@@ -102,6 +102,14 @@ import {WorkPackageFilterContainerComponent} from 'core-components/filters/filte
 import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
 import {Ng1QueryFiltersComponentWrapper} from 'core-components/filters/query-filters/query-filters-ng1-wrapper.component';
 import {UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
+import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
+import {Ng1WorkPackageSubjectComponentWrapper} from 'core-components/work-packages/wp-subject/wp-subject-ng1-wrapper';
+import {Ng1WorkPackageEditFieldGroupController} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group-ng1-wrapper';
+import {WorkPackageBreadcrumbComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb.component';
+import {Ng1DetailsToolbarWrapper} from 'core-components/wp-details/wp-details-toolbar-ng1-wrapper';
+import {WorkPackageRelationsCountComponent} from 'core-components/work-packages/wp-relations-count/wp-relations-count.component';
+import {FirstRouteService} from 'core-components/routing/first-route-service';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 @NgModule({
   imports: [
@@ -150,6 +158,9 @@ import {UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
     upgradeService('wpTableColumns', WorkPackageTableColumnsService),
     upgradeService('contextMenu', ContextMenuService),
     upgradeService('authorisationService', AuthorisationService),
+    // Split view
+    upgradeService('firstRoute', FirstRouteService),
+    upgradeService('PathHelper', PathHelperService),
   ],
   declarations: [
     WorkPackagesListComponent,
@@ -179,7 +190,15 @@ import {UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
     WpInlineCreateDirectiveUpgraded,
     HideSectionComponent,
     HideSectionLinkComponent,
-    AddSectionDropdownComponent
+    AddSectionDropdownComponent,
+
+    // Split view
+    WorkPackageSplitViewComponent,
+    WorkPackageRelationsCountComponent,
+    WorkPackageBreadcrumbComponent,
+    Ng1WorkPackageSubjectComponentWrapper,
+    Ng1DetailsToolbarWrapper,
+    Ng1WorkPackageEditFieldGroupController
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -189,7 +208,10 @@ import {UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
     WpCustomActionsComponent,
     HideSectionComponent,
     HideSectionLinkComponent,
-    AddSectionDropdownComponent
+    AddSectionDropdownComponent,
+
+    // Split view
+    WorkPackageSplitViewComponent
   ]
 })
 export class OpenProjectModule {
