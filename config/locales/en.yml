@@ -2072,6 +2072,7 @@ en:
     It's needs to be a squared 180 by 180 pixels sized PNG image file. Please
     make sure the image's background is not transparent otherwise it will look
     bad on iOS.
+  text_database_allows_tsv: "Database allows TSVector (optional)"
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
   text_destroy: "Delete"
