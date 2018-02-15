@@ -81,14 +81,7 @@ class AdminController < ApplicationController
     ]
 
     if OpenProject::Database.allows_tsv?
-      @checklist += [
-        [:'extraction.available.pdftotext', Plaintext::PdfHandler.available?],
-        [:'extraction.available.unrtf',     Plaintext::RtfHandler.available?],
-        [:'extraction.available.catdoc',    Plaintext::DocHandler.available?],
-        [:'extraction.available.xls2csv',   Plaintext::XlsHandler.available?],
-        [:'extraction.available.catppt',    Plaintext::PptHandler.available?],
-        [:'extraction.available.tesseract', Plaintext::ImageHandler.available?]
-      ]
+      @checklist += plaintext_extraction_checks
     end
 
     @storage_information = OpenProject::Storage.mount_information
@@ -105,5 +98,18 @@ class AdminController < ApplicationController
 
   def show_local_breadcrumb
     true
+  end
+
+  private
+
+  def plaintext_extraction_checks
+    [
+      [:'extraction.available.pdftotext', Plaintext::PdfHandler.available?],
+      [:'extraction.available.unrtf',     Plaintext::RtfHandler.available?],
+      [:'extraction.available.catdoc',    Plaintext::DocHandler.available?],
+      [:'extraction.available.xls2csv',   Plaintext::XlsHandler.available?],
+      [:'extraction.available.catppt',    Plaintext::PptHandler.available?],
+      [:'extraction.available.tesseract', Plaintext::ImageHandler.available?]
+    ]
   end
 end

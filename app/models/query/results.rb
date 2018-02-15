@@ -300,10 +300,8 @@ class ::Query::Results
     end
   end
 
-  private
-
   def all_filter_includes(query)
-    query.filters.map { |filter| filter.includes }
+    query.filters.map(&:includes)
   end
 
   def clean_symbol_list(list)
