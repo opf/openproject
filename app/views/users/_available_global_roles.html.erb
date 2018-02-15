@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ++#%>
 
 <% def available_additional_global_roles available_roles, user
-  available_roles - user.global_roles.reload
+  (available_roles || []) - user.global_roles.reload
 end%>
 
 <div class="grid-content" id="available_principal_roles">
