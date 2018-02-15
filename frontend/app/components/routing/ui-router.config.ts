@@ -29,6 +29,8 @@
 import {openprojectModule} from '../../angular-modules';
 import {FirstRouteService} from 'app/components/routing/first-route-service';
 import {Transition, TransitionService, UrlMatcherFactory, UrlService} from '@uirouter/core';
+import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
+import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 
 const panels = {
   get overview() {
@@ -81,7 +83,7 @@ openprojectModule
 
     $urlMatcherFactoryProvider.strictMode(false);
 
-    console.error("Config ui-router.config");
+    console.error('Config ui-router.config');
 
     // Prepend the baseurl to the route to avoid using a base tag
     // For more information, see
@@ -100,7 +102,6 @@ openprojectModule
           query_id: { dynamic: true },
           query_props: { dynamic: true }
         },
-        onEnter: () => console.error("ENTERING!"),
         templateUrl: '/components/routing/main/work-packages.html',
         controller: 'WorkPackagesController'
       })
@@ -149,8 +150,7 @@ openprojectModule
 
       .state('work-packages.list', {
         url: '',
-        controller: 'WorkPackagesListRouter',
-        template: '<wp-list></wp-list>',
+        component: WorkPackagesListComponent,
         reloadOnSearch: false,
         onEnter: () => angular.element('body').addClass('action-index'),
         onExit: () => angular.element('body').removeClass('action-index')
@@ -182,9 +182,7 @@ openprojectModule
       .state('work-packages.list.details', {
         redirectTo: 'work-packages.list.details.overview',
         url: '/details/{workPackageId:[0-9]+}',
-        templateUrl: '/components/routing/wp-details/wp.list.details.html',
-        controller: 'WorkPackageDetailsController',
-        controllerAs: '$ctrl',
+        component: WorkPackageSplitViewComponent,
         reloadOnSearch: false,
         params: {
           focus: {
@@ -211,7 +209,7 @@ openprojectModule
         $transitions:TransitionService,
         $window:ng.IWindowService) => {
 
-      console.error("RUN ui-router config");
+      console.error('RUN ui-router config');
       $trace.enable(1);
 
       // Our application is still a hybrid one, meaning most routes are still

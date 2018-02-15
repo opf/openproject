@@ -26,27 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpControllersModule} from "../../../angular-modules";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {States} from "../../states.service";
-import {WorkPackageTableSelection} from "../../wp-fast-table/state/wp-table-selection.service";
-import {KeepTabService} from "../../wp-panels/keep-tab/keep-tab.service";
-import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller";
-import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
-import {FirstRouteService} from "core-components/routing/first-route-service";
-import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
+import {States} from '../../states.service';
+import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
+import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
+import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
+import {FirstRouteService} from 'core-components/routing/first-route-service';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService} from '@uirouter/core';
+import {Component, Inject, Injector} from '@angular/core';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {$stateToken} from 'core-app/angular4-transition-utils';
 
-export class WorkPackageDetailsController extends WorkPackageViewController {
+@Component({
+  template: require('!!raw-loader!./wp-split-view.html'),
+  selector: 'wp-split-view-entry',
+})
+export class WorkPackageSplitViewComponent extends WorkPackageViewController {
 
-  constructor(public $scope:ng.IScope,
+  constructor(public injector:Injector,
               public states:States,
               public firstRoute:FirstRouteService,
               public keepTab:KeepTabService,
               public wpTableSelection:WorkPackageTableSelection,
               public wpTableFocus:WorkPackageTableFocusService,
-              public $state:StateService) {
-    super($scope, $state.params['workPackageId']);
+              @Inject($stateToken) readonly $state:StateService) {
+    super(injector, $state.params['workPackageId']);
     this.observeWorkPackage();
 
     let wpId = $state.params['workPackageId'];
@@ -65,15 +69,14 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
       this.wpTableSelection.setRowState(wpId, true);
     }
 
-    scopedObservable(
-      $scope,
-      this.wpTableFocus.whenChanged()
-    ).subscribe(newId => {
+    this.wpTableFocus.whenChanged()
+      .takeUntil(componentDestroyed(this))
+      .subscribe(newId => {
         const idSame = wpId.toString() === newId.toString();
         if (!idSame && $state.includes('work-packages.list.details')) {
           $state.go(
             ($state.current.name as string),
-            {workPackageId: newId, focus: false }
+            {workPackageId: newId, focus: false}
           );
         }
       });
@@ -97,5 +100,3 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
     this.text.goTofullScreen = this.I18n.t('js.work_packages.message_successful_show_in_fullscreen');
   }
 }
-
-wpControllersModule.controller('WorkPackageDetailsController', WorkPackageDetailsController);

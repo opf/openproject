@@ -27,7 +27,7 @@
 // ++
 
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {StateService} from '@uirouter/core';
+import {StateService, StateParams, TransitionService} from '@uirouter/core';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {auditTime, distinctUntilChanged, filter, withLatestFrom} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';
@@ -131,6 +131,20 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     this.wpTableRefresh.clear('Table controller scope destroyed.');
   }
 
+  /**
+   * Callback from ui-router when params in this state changed.
+   * @param {StateParams} params
+   */
+  public uiOnParamsChanged(params:StateParams) {
+    console.log('params changed to %O', params);
+    let newChecksum = params.query_props;
+    let newId = params.query_id && parseInt(params.query_id);
+
+    this.wpListChecksumService.executeIfOutdated(newId, newChecksum, () => {
+      this.wpListService.loadCurrentQueryFromParams(params['projectPath']);
+    });
+  }
+
   private setupQueryObservers() {
     this.states.tableRendering.onQueryUpdated.values$().pipe()
       .take(1)
@@ -152,7 +166,8 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
       this.wpListChecksumService.setToQuery(query, pagination);
     });
 
-    this.states.query.context.fireOnStateChange(this.wpTablePagination.state, 'Query loaded').values$().pipe(
+    this.states.query.context.fireOnStateChange(this.wpTablePagination.state,
+      'Query loaded').values$().pipe(
       untilComponentDestroyed(this),
       withLatestFrom(this.states.query.resource.values$())
     ).subscribe(([pagination, query]) => {
@@ -226,7 +241,6 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
       this.loadingIndicator.table.promise = this.updateResults();
     }
   }
-
 
   updateTitle(query:QueryResource) {
     if (query.id) {

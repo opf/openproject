@@ -27,15 +27,14 @@
 // ++
 
 import {wpControllersModule} from "../../../angular-modules";
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 import {UserResource} from "../../api/api-v3/hal-resources/user-resource.service";
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller";
-import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.service";
 import {WorkPackageMoreMenuService} from '../../work-packages/work-package-more-menu.service'
 import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
 import {StateService} from '@uirouter/core';
 import {TypeResource} from "core-components/api/api-v3/hal-resources/type-resource.service";
+import {Injector} from '@angular/core';
 
 export class WorkPackageShowController extends WorkPackageViewController {
 
@@ -54,10 +53,11 @@ export class WorkPackageShowController extends WorkPackageViewController {
   private wpMoreMenu:WorkPackageMoreMenuService;
 
   constructor(public $scope:any,
+              public injector:Injector,
               public $state:StateService,
               public wpTableFocus:WorkPackageTableFocusService,
               protected wpMoreMenuService:WorkPackageMoreMenuService) {
-    super($scope, $state.params['workPackageId']);
+    super(injector, $state.params['workPackageId']);
     this.observeWorkPackage();
   }
 

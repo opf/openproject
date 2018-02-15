@@ -37,25 +37,22 @@ import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService} from '@uirouter/core';
+import {Injector, OnDestroy} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import PathHelper = op.PathHelper;
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
-export class WorkPackageViewController {
+export class WorkPackageViewController implements OnDestroy {
 
-  protected $q:ng.IQService;
-  protected $state:StateService;
-  protected states:States;
-  protected $rootScope:ng.IRootScopeService;
-  protected keepTab:KeepTabService;
-  protected wpCacheService:WorkPackageCacheService;
-  protected WorkPackageService:any;
-  protected PathHelper:op.PathHelper;
-  protected I18n:op.I18n;
-  protected wpTableRefresh:WorkPackageTableRefreshService;
-  protected wpEditing:WorkPackageEditingService;
-  protected wpTableFocus:WorkPackageTableFocusService;
-
-  // Helper promise to detect when the controller has been initialized
-  // (when a WP has loaded).
-  public initialized:ng.IDeferred<any>;
+  public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
+  public states:States = this.injector.get(States);
+  public I18n:op.I18n = this.injector.get(I18nToken);
+  public keepTab:KeepTabService = this.injector.get(KeepTabService);
+  public PathHelper:PathHelperService = this.injector.get(PathHelperService);
+  public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
+  protected wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
+  protected wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
 
   // Static texts
   public text:any = {};
@@ -67,16 +64,11 @@ export class WorkPackageViewController {
   protected focusAnchorLabel:string;
   public showStaticPagePath:string;
 
-  constructor(public $scope:ng.IScope,
-              protected workPackageId:string) {
-    $injectFields(this, '$q', '$state', 'keepTab', 'wpCacheService', 'WorkPackageService',
-      'states', 'wpEditing', 'PathHelper', 'I18n', 'wpTableRefresh', 'wpTableFocus');
-
-    this.initialized = this.$q.defer();
+  constructor(public injector:Injector, protected workPackageId:string) {
     this.initializeTexts();
   }
 
-  public $onInit() {
+  ngOnDestroy():void {
     // Created for interface compliance
   }
 
@@ -85,11 +77,11 @@ export class WorkPackageViewController {
    * Needs to be run explicitly by descendants.
    */
   protected observeWorkPackage() {
-    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(this.workPackageId).values$())
+    this.wpCacheService.loadWorkPackage(this.workPackageId).values$()
+      .takeUntil(componentDestroyed(this))
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.init();
-        this.initialized.resolve();
       });
   }
 
@@ -113,10 +105,12 @@ export class WorkPackageViewController {
     });
 
     // Preselect this work package for future list operations
-    this.showStaticPagePath = this.PathHelper.workPackagePath(this.workPackage);
+    this.showStaticPagePath = this.PathHelper.workPackagePath(this.workPackageId);
 
     // Listen to tab changes to update the tab label
-    scopedObservable(this.$scope, this.keepTab.observable).subscribe((tabs:any) => {
+    this.keepTab.observable
+      .takeUntil(componentDestroyed(this))
+      .subscribe((tabs:any) => {
       this.updateFocusAnchorLabel(tabs.active);
     });
   }
@@ -142,5 +136,3 @@ export class WorkPackageViewController {
     return this.workPackage.isEditable;
   }
 }
-
-wpControllersModule.controller('WorkPackageViewController', WorkPackageViewController);
