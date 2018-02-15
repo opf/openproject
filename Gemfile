@@ -106,8 +106,7 @@ gem 'rack-attack', '~> 5.0.1'
 gem 'okcomputer', '~> 1.16.0'
 
 # Patch Rails HTML whitelisting for Angular curly braces
-# TODO: reactivate after compatibility with 5.1 has been established
-# gem 'rails-angular-xss', git: 'https://github.com/opf/rails-angular-xss', ref: 'a45267d5'
+gem 'rails-angular-xss', git: 'https://github.com/opf/rails-angular-xss', ref: '00b588b8b8b18c0f53fcb5232be1a2c34dbd1fac'
 
 gem 'gon', '~> 6.2.0'
 gem "syck", '~> 1.3.0', require: false

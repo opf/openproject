@@ -49,6 +49,14 @@ GIT
       rubyzip
 
 GIT
+  remote: https://github.com/opf/rails-angular-xss
+  revision: 00b588b8b8b18c0f53fcb5232be1a2c34dbd1fac
+  ref: 00b588b8b8b18c0f53fcb5232be1a2c34dbd1fac
+  specs:
+    rails-angular-xss (0.3.0.pre.pre)
+      rails (>= 5.0.0)
+
+GIT
   remote: https://github.com/rspec/rspec-activemodel-mocks
   revision: 5cd4c9d552bcc75d60ea4b7dda96e7377197ab8d
   specs:
@@ -674,6 +682,7 @@ DEPENDENCIES
   rack-test (~> 0.6.3)
   rack_session_access
   rails (~> 5.1.5)
+  rails-angular-xss!
   rails-controller-testing (~> 1.0.2)
   rails_12factor
   rails_autolink (~> 1.1.6)
