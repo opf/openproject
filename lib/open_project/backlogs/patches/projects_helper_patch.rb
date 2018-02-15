@@ -42,10 +42,11 @@ module OpenProject::Backlogs::Patches::ProjectsHelperPatch
 
       def project_settings_tabs
         project_settings_tabs_without_backlogs.tap do |settings|
-          if @project.module_enabled? 'backlogs'
+          if @project.module_enabled?('backlogs') &&
+             User.current.allowed_to?(:edit_project, @project)
             settings << {
               name: 'backlogs_settings',
-              action: :manage_project_activities,
+              action: :edit_work_packages,
               partial: 'projects/settings/backlogs_settings',
               label: 'backlogs.backlog_settings'
             }
