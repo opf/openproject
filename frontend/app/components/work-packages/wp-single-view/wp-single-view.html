@@ -79,8 +79,7 @@
       <wp-edit-field [fieldName]="'description'"
                      [workPackageId]="workPackage.id"
                      [wrapperClasses]="'-no-label'"
-                     [displayPlaceholder]="text.description.placeholder"
-                     wp-attachments-formattable>
+                     [displayPlaceholder]="text.description.placeholder">
       </wp-edit-field>
     </div>
   </div>
@@ -118,8 +117,7 @@
             <wp-edit-field *ngIf="descriptor.field.isFormattable"
                            class="wp-edit-formattable-field"
                            [workPackageId]="workPackage.id"
-                           [fieldName]="descriptor.name"
-                           wp-attachments-formattable>
+                           [fieldName]="descriptor.name">
             </wp-edit-field>
             <wp-edit-field *ngIf="!descriptor.field.isFormattable"
                            [workPackageId]="workPackage.id"

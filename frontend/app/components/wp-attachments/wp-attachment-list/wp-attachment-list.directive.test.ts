@@ -27,7 +27,7 @@
 //++
 
 import {wpDirectivesModule, opTemplatesModule} from '../../../angular-modules';
-import {WorkPackageAttachmentListController} from './wp-attachment-list.directive';
+import {WorkPackageAttachmentListComponent} from './wp-attachment-list.component';
 import IRootScopeService = angular.IRootScopeService;
 import ICompileService = angular.ICompileService;
 import IScope = angular.IScope;
@@ -37,7 +37,7 @@ import IDirective = angular.IDirective;
 describe('wpAttachmentList directive', () => {
   var scope: any;
   var element: IAugmentedJQuery;
-  var controller: WorkPackageAttachmentListController;
+  var controller: WorkPackageAttachmentListComponent;
   var workPackage: any;
   var compile:any;
 

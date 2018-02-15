@@ -75,9 +75,11 @@ import {
   halRequestToken,
   I18nToken,
   NotificationsServiceToken,
-  PathHelperToken, TimezoneServiceToken,
+  PathHelperToken,
+  TimezoneServiceToken,
   upgradeService,
-  upgradeServiceWithToken, wpMoreMenuServiceToken
+  upgradeServiceWithToken,
+  wpMoreMenuServiceToken
 } from './angular4-transition-utils';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
 import {WpCustomActionsComponent} from 'core-components/wp-custom-actions/wp-custom-actions.component';

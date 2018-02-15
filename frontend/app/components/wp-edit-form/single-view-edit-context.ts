@@ -38,11 +38,11 @@ import {WorkPackageEditForm} from './work-package-edit-form';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
-import {WorkPackageEditFieldController} from '../wp-edit/wp-edit-field/wp-edit-field.directive';
-import {WorkPackageEditFieldGroupController} from '../wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 import {StateService} from '@uirouter/core';
+import {WorkPackageEditFieldGroupDirective} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
+import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 
 export class SingleViewEditContext implements WorkPackageEditContext {
 
@@ -60,7 +60,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   // other fields
   public successState:string;
 
-  constructor(public fieldGroup:WorkPackageEditFieldGroupController) {
+  constructor(public fieldGroup:WorkPackageEditFieldGroupDirective) {
     $injectFields(this, 'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh',
       'FocusHelper', '$q', '$timeout', 'templateRenderer', '$state', 'wpNotificationsService', 'wpTableSelection');
   }
@@ -139,7 +139,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     return 'subject';
   }
 
-  private async fieldCtrl(name:string):Promise<WorkPackageEditFieldController> {
+  private async fieldCtrl(name:string):Promise<WorkPackageEditFieldComponent> {
     return this.fieldGroup.waitForField(name);
   }
 }
