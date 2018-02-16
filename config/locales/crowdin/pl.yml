@@ -1633,7 +1633,7 @@ pl:
           context.
         invalid_type: No type found with name '%{type}' in project '%{project}'.
       link_name: Nowy pakiet roboczy
-      link_name_type: New %{type_name}
+      link_name_type: Nowy %{type_name}
   mail:
     actions: Akcje
   mail_body_account_activation_request: 'A new user (%{value}) has registered. The
