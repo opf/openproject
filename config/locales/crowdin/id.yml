@@ -1,0 +1,166 @@
+id:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: 'Pengenal'
+        default: 'Gunakan Default'
+      two_factor_authentication/device/sms:
+        phone_number: "telepon"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: 'sudah diatur untuk perangkat OTP lain.'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "harus merupakan format + XX XXXXXXXXX"
+    models:
+      two_factor_authentication/device: "Perangkat 2FA"
+      two_factor_authentication/device/sms: "telephon"
+      two_factor_authentication/device/totp: "Aplikasi Authenticator"
+  two_factor_authentication:
+    error_2fa_disabled: "Pengiriman 2FA telah dinonaktifkan."
+    error_no_device: "Tidak ada perangkat 2FA terdaftar yang ditemukan untuk pengguna ini, meskipun yang diperlukan untuk contoh ini."
+    error_no_matching_strategy: "Tidak ada 2FA strategi yang cocok tersedia untuk pengguna ini. Silahkan hubungi administratior Anda."
+    error_is_enforced_not_active: 'Kesalahan konfigurasi: dua faktor otentikasi yang telah diberlakukan, tapi ada tidak ada strategi yang aktif.'
+    error_invalid_backup_code: 'Kode cadangan 2FA tidak valid'
+    channel_unavailable: "%{channel} saluran pengiriman tidak tersedia."
+    no_valid_phone_number: "Nomor telepon tidak ada."
+    label_pwd_confirmation: "sandi"
+    notice_pwd_confirmation: "Anda perlu mengkonfirmasi password saat melakukan perubahan pada pengaturan ini."
+    label_device_type: "Tipe perangkat"
+    label_default_device: "Default 2FA perangkat"
+    label_device: "Perangkat 2FA"
+    label_devices: "Perangkat 2FA"
+    label_one_time_password: 'One-time password'
+    label_2fa_enabled: 'Dua faktor otentikasi tidak aktif'
+    label_2fa_disabled: 'Dua faktor otentikasi tidak aktif'
+    text_enter_2fa: 'Silakan masukkan sandi satu kali dari perangkat Anda.'
+    text_2fa_enabled: 'Setelah setiap login, Anda akan diminta untuk memasukkan tanda OTP dari perangkat 2FA default Anda.'
+    text_2fa_disabled: 'Untuk mengaktifkan otentikasi dua faktor, gunakan tombol di atas untuk mendaftar perangkat 2FA baru. Jika Anda sudah memiliki perangkat, Anda perlu untuk membuatnya default.'
+    login:
+      enter_backup_code_title: Masukkan Kode Cadangan
+      enter_backup_code_text: Masukkan kode cadangan yang sah dari daftar kode dalam kasus Anda tidak lagi dapat mengakses perangkat 2FA terdaftar.
+      other_device: 'Gunakan perangkat yang lain atau kode cadangan'
+    settings:
+      title: 'Pengaturan 2FA'
+      current_configuration: 'Konfigurasi penyimpanan saat ini'
+      label_active_strategies: 'Aktifkan strategi 2FA'
+      label_enforced: 'Menegakkan 2FA'
+      label_remember: 'Ingat 2FA login'
+      text_configuration: |
+        Catatan: Nilai-nilai ini mewakili konfigurasi aplikasi-lebar saat ini. Anda tidak dapat menonaktifkan pengaturan yang dilaksanakan oleh konfigurasi atau mengubah strategi aktif saat ini, karena mereka memerlukan server restart.
+      text_configuration_guide: Untuk informasi lebih lanjut, periksa panduan konfigurasi.
+      text_enforced: 'Mengaktifkan pengaturan ini untuk memaksa semua pengguna untuk mendaftarkan perangkat 2FA pada login berikutnya mereka. Hanya dapat dinonaktifkan bila tidak pernah ditegakkan oleh konfigurasi.'
+      text_remember: |
+        Set ini untuk lebih besar dari nol untuk memungkinkan pengguna untuk mengingat mereka 2FA otentikasi untuk jumlah hari tertentu. Mereka tidak akan diminta untuk memasukkan kembali selama periode itu. Hanya dapat ditetapkan saat tidak pernah ditegakkan oleh konfigurasi.
+      error_invalid_settings: 'Strategi 2FA yang Anda pilih tidak sah'
+      failed_to_save_settings: 'Gagal untuk memperbarui pengaturan 2FA: %{message}'
+    admin:
+      self_edit_path: 'Untuk menambah atau memodifikasi perangkat 2FA Anda sendiri, silahkan pergi ke %{self_edit_link}'
+      self_edit_link_name: 'Dua faktor otentikasi tidak aktif'
+      self_edit_forbidden: 'Anda tidak dapat mengedit perangkat 2FA Anda sendiri di jalan ini. Pergi ke My Account > dua faktor otentikasi sebaliknya.'
+      no_devices_for_user: 'Tidak ada perangkat 2FA telah terdaftar untuk pengguna ini.'
+      all_devices_deleted: 'Semua 2FA perangkat pengguna ini telah dihapus'
+      delete_all_are_you_sure: 'Apakah Anda yakin Anda ingin menghapus semua 2FA perangkat untuk pengguna ini?'
+      button_delete_all_devices: 'Menghapus perangkat terdaftar 2FA'
+      button_register_mobile_phone_for_user: 'Daftar ponsel'
+      text_2fa_enabled: 'Setelah setiap login, user ini akan diminta untuk memasukkan tanda OTP dari perangkat nya 2FA default.'
+      text_2fa_disabled: "Pengguna tidak mengatur perangkat 2FA melalui 'Halaman account saya'"
+    backup_codes:
+      none_found: Tidak ada cadangan yang ada untuk akun ini
+      singular: kode cadangan
+      plural: Kode kode cadangan
+      your_codes: akun %{login} untuk anda %{app_name}
+      overview_description: |
+        Jika Anda tidak dapat mengakses perangkat dua faktor, Anda dapat menggunakan kode cadangan untuk mendapatkan kembali akses ke account Anda. Gunakan tombol berikut untuk menghasilkan serangkaian baru kode cadangan.
+      generate:
+        title: Menghasilkan kode cadangan
+        keep_safe_as_password: 'Penting! Memperlakukan kode ini sebagai kata sandi.'
+        keep_safe_warning: 'Baik menyimpannya dalam pengelola kata sandi Anda, atau cetak Halaman ini dan menempatkan di tempat yang aman.'
+        regenerate_warning: 'Peringatan: Jika Anda telah membuat kode cadangan sebelumnya, mereka akan membatalkan dan tidak akan bekerja lagi.'
+    devices:
+      add_new: 'Tambahkan perangkat 2FA baru'
+      register: 'daftar perangkat'
+      confirm_default: 'Mengkonfirmasi perubahan default perangkat'
+      confirm_device: 'Mengkonfirmasi perangkat'
+      confirm_now: 'Tidak dikonfirmasi, klik di sini untuk mengaktifkan'
+      cannot_delete_default: 'Tidak dapat menghapus perangkat default'
+      make_default_are_you_sure: 'Apakah Anda yakin Anda ingin membuat perangkat 2FA ini default?'
+      make_default_failed: 'Gagal untuk memperbarui perangkat 2FA default.'
+      deletion_are_you_sure: 'Apakah Anda yakin ingin menghapus pengaturan tersimpan ini?'
+      registration_complete: '2FA perangkat pendaftaran lengkap!'
+      registration_failed_token_invalid: '2FA perangkat pendaftaran gagal, token adalah tidak valid.'
+      registration_failed_update: '2FA perangkat pendaftaran gagal, token ini berlaku tetapi perangkat tidak dapat diperbarui.'
+      confirm_send_failed: 'Konfirmasi perangkat 2FA Anda gagal.'
+      button_complete_registration: 'Pendaftaran lengkap 2FA'
+      text_confirm_to_complete_html: "Silahkan lengkapi pendaftaran perangkat <strong>%{identifier}</strong> dengan memasukkan sandi satu kali dari perangkat Anda."
+      text_confirm_to_change_default_html: "Harap mengkonfirmasi mengubah perangkat default untuk <strong>%{new_identifier}</strong> dengan memasukkan sandi satu kali dari default perangkat Anda saat ini."
+      text_identifier: 'Anda dapat memberikan perangkat identifier kustom menggunakan bidang ini.'
+      failed_to_delete: 'Gagal untuk menghapus perangkat 2FA.'
+      is_default_cannot_delete: 'Perangkat ditandai sebagai default dan tidak dapat dihapus karena kebijakan keamanan aktif. Menandai perangkat lain sebagai default sebelum menghapus.'
+      not_existing: 'Tidak ada perangkat 2FA telah terdaftar untuk akun Anda.'
+      request_2fa: Silakan masukkan kode dari %{device_name} Anda untuk memverifikasi identitas Anda.
+      totp:
+        title: 'Menggunakan authenticator berbasis aplikasi Anda'
+        provisioning_uri: 'Penyediaan URI'
+        secret_key: 'Kunci rahasia'
+        time_based: 'Berdasarkan waktu'
+        account: 'Nama akun / penerbit'
+        setup: |
+          Untuk mengatur dua faktor otentikasi dengan Google Authenticator, men-download aplikasi dari Apple App store atau Google Play Store. Setelah membuka app, Anda dapat memindai kode QR berikut untuk mendaftar perangkat.
+        question_cannot_scan: |
+          Mampu memindai kode menggunakan aplikasi Anda?
+        text_cannot_scan: |
+          Jika Anda tidak dapat memindai kode, Anda dapat memasukkan entri manual menggunakan rincian berikut:
+        description: |
+          Mendaftar aplikasi authenticator untuk digunakan dengan OpenProject yang menggunakan standar otentikasi berbasis waktu one-time password. Contoh umum adalah Google Authenticator atau Authy.
+      sms:
+        title: 'Menggunakan ponsel Anda'
+        redacted_identifier: 'Perangkat mobile (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, kita mengirimkan kode otentikasi melalui %{delivery_channel}'
+        description: |
+          Mendaftarkan nomor ponsel Anda untuk pengiriman sandi satu kali OpenProject.
+    sns:
+      delivery_failed: 'SNS pengiriman gagal:'
+    restdt:
+      delivery_failed_with_code: 'Token pengiriman yang gagal. (Kesalahan kode %{code})'
+    strategies:
+      totp: 'Otentikasi aplikasi'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
+    mobile_transmit_notification: "One-time password telah dikirim ke ponsel Anda."
+    label_two_factor_authentication: 'Autentikasi dua faktor'
+    forced_registration:
+      required_to_add_device: 'Kebijakan keamanan aktif mengharuskan Anda untuk mengaktifkan otentikasi dua-faktor. Silakan gunakan formulir berikut untuk mendaftar perangkat.'
+    remember:
+      active_session_notice: >
+        Akun Anda telah aktif ingat cookie yang berlaku hingga %{expires_on}. Cookie ini memungkinkan Anda untuk masuk tanpa faktor kedua ke akun Anda sehingga waktu itu.
+      label: 'ingat'
+      clear_cookie: 'tekan disini untuk menghapus cookie '
+      cookie_removed: 'Ingat cookie telah dihapus.'
+      dont_ask_again: "Membuat cookie untuk mengingat 2FA otentikasi pada klien ini untuk %{days} hari."
+  field_phone: "Ponsel"
+  field_otp: "One-time password"
+  notice_account_otp_invalid: "Sandi sekali pakai yang tidak valid."
+  notice_account_otp_expired: "Kedaluwarsa one-time password yang Anda masukkan."
+  notice_otp_sms_text: "Sandi satu kali: %{token}"
+  notice_developer_strategy_otp: "Pengembang strategi dihasilkan one-time password berikut: %{token} (saluran: %{channel})"
+  notice_account_otp_send_failed: "Sandi satu kali tidak akan dikirim."
+  notice_account_has_no_phone: "Tidak ada nomor ponsel ini dikaitkan dengan akun Anda."
+  label_expiration_hint: "%{date} atau logout"
+  label_actions: 'Tindakan'
+  label_confirmed: 'Dikonfirmasi'
+  button_continue: 'Lanjutkan'
+  button_make_default: 'Tandai sebagai default'
+  label_unverified_phone: "Cell phone not yet verified"
+  message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
+  notice_phone_number_format: "Masukkan nomor dalam format berikut: + XX XXXXXXXX."
+  error_password_on_phone_change: "is required if you want to change your cell phone number"
+  notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
+  text_otp_not_receive: "Verifikasi metode lain"
+  text_send_otp_again: "Kirim kembali one-time password oleh:"
+  button_resend_otp_form: "Kirim kembali"
+  button_otp_by_voice: "Panggilan suara"
+  button_otp_by_sms: "SMS"
+  label_otp_channel: "Delivery channel yang"
