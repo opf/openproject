@@ -219,7 +219,7 @@ module NavigationHelpers
     when /^the edit page (?:for |of )the version(?: called) (.+)$/
       version_name = $1.gsub("\"", '')
       version = Version.find_by(name: version_name)
-      "/versions/edit/#{version.id}"
+      "/versions/#{version.id}/edit"
 
     # this should be handled by the generic "the edit page of ..." path
     # but the path required differs from the standard
