@@ -35,6 +35,7 @@ import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-ta
 import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-view/wp-full-view.component';
 import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
 import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
+import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
 
 const panels = {
   get overview() {
@@ -49,7 +50,7 @@ const panels = {
     return {
       url: '/watchers',
       reloadOnSearch: false,
-      template: '<watchers-panel ng-if="$ctrl.workPackage" work-package="$ctrl.workPackage"></watchers-panel>'
+      component: WorkPackageWatchersTabComponent,
     };
   },
 

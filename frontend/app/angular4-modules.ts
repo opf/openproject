@@ -136,7 +136,9 @@ import {ActivityEntryDirectiveUpgraded} from 'core-components/wp-activity/activi
 import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-view/wp-full-view.component';
 import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
 import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
-import {Ng1RelationsDirectiveWrapper} from 'core-components/wp-relations/wp-relations.directive.upgraded';
+import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
+import {Ng1RelationsDirectiveWrapper} from 'core-components/wp-relations/ng1-wp-relations-wrapper.directive';
+import {WorkPackageWatcherEntryComponent} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watcher-entry.component';
 
 @NgModule({
   imports: [
@@ -262,6 +264,10 @@ import {Ng1RelationsDirectiveWrapper} from 'core-components/wp-relations/wp-rela
     WorkPackageRelationsTabComponent,
     Ng1RelationsDirectiveWrapper,
 
+    // Watchers tab
+    WorkPackageWatchersTabComponent,
+    WorkPackageWatcherEntryComponent,
+
     // WP Edit Fields
     WorkPackageEditFieldComponent,
   ],
@@ -284,6 +290,7 @@ import {Ng1RelationsDirectiveWrapper} from 'core-components/wp-relations/wp-rela
     // Single view tabs
     WorkPackageActivityTabComponent,
     WorkPackageRelationsTabComponent,
+    WorkPackageWatchersTabComponent,
 
     // Single view
     WorkPackageOverviewTabComponent,

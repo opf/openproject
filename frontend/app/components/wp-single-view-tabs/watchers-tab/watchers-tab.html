@@ -1,0 +1,26 @@
+<div id="detail-panel-watchers">
+  <div class="notification-box -error"
+       *ngIf="error">
+    <div class="notification-box--content">
+      <p [textContent]="text.loadingError"></p>
+    </div>
+  </div>
+  <div [hidden]="error">
+    <div class="work-package--watchers work-package--details--long-field"
+         [ngClass]="{'-read-only': !allowedToRemove}">
+
+      <wp-watcher-entry
+                  *ngFor="let watcher of watching"
+                  [watcher]="watcher"></wp-watcher-entry><!-- Track by ID? -->
+    </div>
+    <div class="work-package--watchers-lookup hide-when-print"
+         [hidden]="!allowedToAdd">
+      <form name="watcherForm" novalidate>
+        <input type="text"
+               class="wp-watcher--autocomplete ui-autocomplete--input"
+               [ngClass]="{ '-error': noResults }"
+               [attr.placeholder]="text.autocomplete.placeholder">
+      </form>
+    </div>
+  </div>
+</div>
