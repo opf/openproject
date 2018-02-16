@@ -26,26 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageCreateController} from "../wp-new/wp-create.controller";
-import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
+import {Component} from '@angular/core';
+import {WorkPackageCopyController} from 'core-components/wp-copy/wp-copy.controller';
 
-export class WorkPackageCopyController extends WorkPackageCreateController {
-  protected newWorkPackageFromParams(stateParams:any) {
-    return new Promise<WorkPackageChangeset>((resolve, reject) => {
-      this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId)
-        .values$()
-        .take(1)
-        .subscribe(
-          (wp:WorkPackageResourceInterface) => this.createCopyFrom(wp).then(resolve),
-          reject);
-    });
-  }
-
-  private createCopyFrom(wp:WorkPackageResourceInterface) {
-    const changeset = this.wpEditing.changesetFor(wp);
-    return changeset.getForm().then((form:any) => {
-      return this.wpCreate.copyWorkPackage(form, wp.project.identifier);
-    });
-  }
+@Component({
+  template: require('!!raw-loader!../wp-new/wp-new-split-view.html'),
+  selector: 'wp-copy-split-view',
+})
+export class WorkPackageCopySplitViewComponent extends WorkPackageCopyController {
+  public successState = 'work-packages.list.details';
 }
+

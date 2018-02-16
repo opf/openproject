@@ -36,7 +36,10 @@ import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-vie
 import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
 import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
 import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
-import {WorkPackageNewFullCreateComponent} from 'core-components/wp-new/wp-new-full-view.component';
+import {WorkPackageNewFullViewComponent} from 'core-components/wp-new/wp-new-full-view.component';
+import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-full-view.component';
+import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
+import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
 
 const panels = {
   get overview() {
@@ -109,7 +112,7 @@ openprojectModule
 
       .state('work-packages.new', {
         url: '/new?type&parent_id',
-        component: WorkPackageNewFullCreateComponent,
+        component: WorkPackageNewFullViewComponent,
         reloadOnSearch: false,
         onEnter: () => angular.element('body').addClass('full-create'),
         onExit: () => angular.element('body').removeClass('full-create'),
@@ -117,16 +120,9 @@ openprojectModule
 
       .state('work-packages.copy', {
         url: '/{copiedFromWorkPackageId:[0-9]+}/copy',
-        controller: 'WorkPackageCopyController',
-        controllerAs: '$ctrl',
+        component: WorkPackageCopyFullViewComponent,
         reloadOnSearch: false,
-        resolve: {
-          successState: () => 'work-packages.show'
-        },
-        templateUrl: '/components/routing/main/work-packages.new.html',
-        onEnter: () => {
-          angular.element('body').addClass('action-show');
-        },
+        onEnter: () => angular.element('body').addClass('action-show'),
         onExit: () => angular.element('body').removeClass('action-show')
       })
       .state('work-packages.show', {
@@ -151,24 +147,14 @@ openprojectModule
       })
       .state('work-packages.list.new', {
         url: '/create_new?type&parent_id',
-        controller: 'WorkPackageCreateController',
-        controllerAs: '$ctrl',
-        templateUrl: '/components/routing/wp-list/wp.list.new.html',
+        component: WorkPackageNewSplitViewComponent,
         reloadOnSearch: false,
-        resolve: {
-          successState: () => 'work-packages.list.details.overview'
-        },
         onEnter: () => angular.element('body').addClass('action-create'),
         onExit: () => angular.element('body').removeClass('action-create')
       })
       .state('work-packages.list.copy', {
         url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
-        controller: 'WorkPackageCopyController',
-        controllerAs: '$ctrl',
-        resolve: {
-          successState: () => 'work-packages.list.details'
-        },
-        templateUrl: '/components/routing/wp-list/wp.list.new.html',
+        component: WorkPackageCopySplitViewComponent,
         reloadOnSearch: false,
         onEnter: () => angular.element('body').addClass('action-details'),
         onExit: () => angular.element('body').removeClass('action-details')

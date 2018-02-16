@@ -33,6 +33,6 @@ import {Component} from '@angular/core';
   template: require('!!raw-loader!./wp-new-full-view.html'),
   selector: 'wp-new-full-view',
 })
-export class WorkPackageNewFullCreateComponent extends WorkPackageCreateController {
+export class WorkPackageNewFullViewComponent extends WorkPackageCreateController {
   public successState:string = 'work-packages.show';
 }

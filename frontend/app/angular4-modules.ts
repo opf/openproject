@@ -139,10 +139,13 @@ import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-t
 import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
 import {Ng1RelationsDirectiveWrapper} from 'core-components/wp-relations/ng1-wp-relations-wrapper.directive';
 import {WorkPackageWatcherEntryComponent} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watcher-entry.component';
-import {WorkPackageNewFullCreateComponent} from 'core-components/wp-new/wp-new-full-view.component';
+import {WorkPackageNewFullViewComponent} from 'core-components/wp-new/wp-new-full-view.component';
 import {WorkPackageTypeStatusComponent} from 'core-components/work-packages/wp-type-status/wp-type-status.component';
 import {WorkPackageEditActionsBarComponent} from 'core-components/common/edit-actions-bar/wp-edit-actions-bar.component';
 import {RootDmService} from 'core-components/api/api-v3/hal-resource-dms/root-dm.service';
+import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-full-view.component';
+import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
+import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
 
 @NgModule({
   imports: [
@@ -278,9 +281,14 @@ import {RootDmService} from 'core-components/api/api-v3/hal-resource-dms/root-dm
     WorkPackageEditFieldComponent,
 
     // WP New
-    WorkPackageNewFullCreateComponent,
+    WorkPackageNewFullViewComponent,
+    WorkPackageNewSplitViewComponent,
     WorkPackageTypeStatusComponent,
     WorkPackageEditActionsBarComponent,
+
+    // WP Copy
+    WorkPackageCopyFullViewComponent,
+    WorkPackageCopySplitViewComponent,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -308,7 +316,12 @@ import {RootDmService} from 'core-components/api/api-v3/hal-resource-dms/root-dm
     WorkPackageEditFieldGroupComponent,
 
     // WP new
-    WorkPackageNewFullCreateComponent,
+    WorkPackageNewFullViewComponent,
+    WorkPackageNewSplitViewComponent,
+
+    // WP copy
+    WorkPackageCopyFullViewComponent,
+    WorkPackageCopySplitViewComponent,
   ]
 })
 export class OpenProjectModule {

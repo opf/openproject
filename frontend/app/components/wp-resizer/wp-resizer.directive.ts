@@ -35,8 +35,8 @@ export class WorkPackageResizerController {
   private oldPosition:number;
   private mouseMoveHandler:any;
   public resizeEvent:string;
-  public elementClass: string;
-  public localStorageKey: string;
+  public elementClass:string;
+  public localStorageKey:string;
 
   constructor(public $element:ng.IAugmentedJQuery) {
   }
@@ -47,11 +47,12 @@ export class WorkPackageResizerController {
 
     // Get inital width from local storage and apply
     let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
-    this.elementFlex = localStorageValue ? parseInt(localStorageValue, 10) : this.resizingElement.offsetWidth;
+    this.elementFlex = localStorageValue ? parseInt(localStorageValue,
+      10) : this.resizingElement.offsetWidth;
 
     // This case only happens when the timeline is loaded but not displayed.
     // Therefor the flexbasis will be set to 50%, just in px
-    if (this.elementFlex === 0 && this.resizingElement.parentElement ) {
+    if (this.elementFlex === 0 && this.resizingElement.parentElement) {
       this.elementFlex = this.resizingElement.parentElement.offsetWidth / 2;
     }
     this.resizingElement.style.flexBasis = this.elementFlex + 'px';
@@ -64,12 +65,17 @@ export class WorkPackageResizerController {
     window.addEventListener('mouseup', this.handleMouseUp.bind(this));
   }
 
+  $onDestroy() {
+    // Reset the style when killing this directive, otherwise the style remains
+    this.resizingElement.style.flexBasis = null;
+  }
+
   private handleMouseDown(e:MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
 
     // Only on left mouse click the resizing is started
-    if(e.buttons === 1 || e.which === 1) {
+    if (e.buttons === 1 || e.which === 1) {
       // Gettig starting position
       this.oldPosition = e.clientX;
 
@@ -79,7 +85,8 @@ export class WorkPackageResizerController {
       // Change cursor icon
       // This is handled via JS to ensure
       // that the cursor stays the same even when the mouse leaves the actual resizer.
-      document.getElementsByTagName("body")[0].setAttribute('style', 'cursor: col-resize !important');
+      document.getElementsByTagName("body")[0].setAttribute('style',
+        'cursor: col-resize !important');
 
       // Enable mouse move
       window.addEventListener('mousemove', this.mouseMoveHandler);
@@ -147,7 +154,6 @@ function wpResizer():any {
 }
 
 openprojectModule.directive('wpResizer', wpResizer);
-
 
 @Directive({
   selector: 'wp-resizer'

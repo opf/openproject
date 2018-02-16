@@ -1,0 +1,34 @@
+<div
+  class="work-packages--details work-packages--new"
+  *ngIf="newWorkPackage"
+>
+  <wp-edit-field-group [workPackage]="newWorkPackage"
+                       [successState]="successState"
+                       [inEditMode]="true">
+    <div class="work-packages--details-content -create-mode">
+      <span class="hidden-for-sighted"
+            tabindex="-1"
+            focus-ng1-wrapper
+            [textContent]="focusAnchorLabel"></span>
+      <div class="work-packages--new-details-header">
+        <wp-type-status [workPackage]="newWorkPackage"></wp-type-status>
+        <div class="hidden-for-accessibility wp--details--switch-fullscreen-wrapper">
+          <a (click)="switchToFullscreen()"
+             class="work-packages-show-view-button wp--details--switch-fullscreen ">
+            <span class="icon-context icon-to-fullscreen"></span>
+          </a>
+        </div>
+      </div>
+      <wp-single-view [workPackage]="newWorkPackage"></wp-single-view>
+    </div>
+
+    <div class="work-packages--details-toolbar-container">
+      <wp-edit-actions-bar (onCancel)="cancelAndBackToList()"></wp-edit-actions-bar>
+    </div>
+
+    <div class="work-packages--details--resizer hidden-for-mobile hide-when-print">
+      <wp-resizer [elementClass]="'work-packages-split-view--details-side'"
+                  [localStorageKey]="'openProject-splitViewFlexBasis'"></wp-resizer>
+    </div>
+  </wp-edit-field-group>
+</div>
