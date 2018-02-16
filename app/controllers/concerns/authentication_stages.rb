@@ -33,7 +33,7 @@ module Concerns
     private
 
     def authentication_stages(after_activation: false, reset: true)
-      if !OpenProject::Authentication::Stage.stages.empty?
+      if OpenProject::Authentication::Stage.stages.select(&:active?).any?
         session.delete [:authentication_stages, :stage_secrets, :back_url] if reset
 
         if session.include?(:authentication_stages)
