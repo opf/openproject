@@ -13,6 +13,7 @@ RUN apt-get update -qq && \
     	sqlite \
 		poppler-utils \
 		unrtf \
+		tesseract-ocr \
 		catdoc && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
