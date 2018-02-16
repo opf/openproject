@@ -46,6 +46,8 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
     </fieldset>
 
+    <%= cell Settings::NumericSettingCell, "invitation_expiration_days", unit: "days" %>
+
     <fieldset class="form--fieldset">
       <fieldset id="registration_footer" class="form--fieldset">
         <legend class="form--fieldset-legend"><%= I18n.t(:setting_registration_footer) %></legend>

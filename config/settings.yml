@@ -309,6 +309,9 @@ users_deletable_by_admins:
   default: 0
 users_deletable_by_self:
   default: 0
+invitation_expiration_days:
+  default: 7
+  format: int
 journal_aggregation_time_minutes:
   default: 5
   format: int

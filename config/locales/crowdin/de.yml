@@ -2084,6 +2084,7 @@ de:
   setting_feeds_limit: Max. Anzahl Einträge pro Atom-Feed
   setting_file_max_size_displayed: Maximale Größe inline angezeigter Textdateien
   setting_host_name: Hostname
+  setting_invitation_expiration_days: Gültigkeit von Aktivierungs-Emails
   setting_work_package_done_ratio: Berechne den Arbeitspaket-Fortschritt mittels
   setting_work_package_done_ratio_field: Arbeitspaket-Feld %-erledigt
   setting_work_package_done_ratio_status: Arbeitspaket-Status
@@ -2595,6 +2596,8 @@ de:
   note_password_login_disabled: Der Passwort-Login wurde per %{configuration} deaktiviert.
   warning: Warnung
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
+  warning_registration_token_expired: |
+    Die Aktivierungs-Email ist abgelaufen. Wir haben eine neue geschickt an: %{email}
   menu_item: Menüpunkt
   menu_item_setting: Sichtbarkeit
   wiki_menu_item_for: Menüpunkt für die Wikiseite "%{title}"

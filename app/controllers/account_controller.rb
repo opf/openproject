@@ -157,19 +157,28 @@ class AccountController < ApplicationController
     token = ::Token::Invitation.find_by_plaintext_value(params[:token])
 
     if token.nil? || token.expired?
-      flash[:error] = I18n.t(:notice_account_invalid_token)
-      redirect_to home_url
-      return
-    end
-
-    if token.user.invited?
+      handle_expired_token token
+    elsif token.user.invited?
       activate_by_invite_token token
     elsif Setting.self_registration?
       activate_self_registered token
     else
       flash[:error] = I18n.t(:notice_account_invalid_token)
+
       redirect_to home_url
     end
+  end
+
+  def handle_expired_token(token)
+    if token.nil?
+      flash[:error] = I18n.t :notice_account_invalid_token
+    elsif token.expired?
+      send_activation_email! Token::Invitation.create!(user: token.user)
+
+      flash[:warning] = I18n.t :warning_registration_token_expired, email: token.user.mail
+    end
+
+    redirect_to home_url
   end
 
   def activate_self_registered(token)
@@ -471,6 +480,10 @@ class AccountController < ApplicationController
     end
   end
 
+  def send_activation_email!(token)
+    UserMailer.user_signed_up(token).deliver_now
+  end
+
   def pending_auth_source_registration?
     session[:auth_source_registration] && !pending_omniauth_registration?
   end
@@ -539,9 +552,11 @@ class AccountController < ApplicationController
   # Pass a block for behavior when a user fails to save
   def register_by_email_activation(user, _opts = {})
     token = Token::Invitation.new(user: user)
+
     if user.save and token.save
-      UserMailer.user_signed_up(token).deliver_now
-      flash[:notice] = l(:notice_account_register_done)
+      send_activation_email! token
+      flash[:notice] = I18n.t(:notice_account_register_done)
+
       redirect_to action: 'login'
     else
       yield if block_given?
