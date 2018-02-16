@@ -52,14 +52,14 @@ module Concerns
 
     def init_authentication_stages(after_activation:)
       stages = OpenProject::Authentication::Stage
-        .stages
-        .select { |s| s.active? }
-        .select { |s| s.run_after_activation? || !after_activation }
+               .stages
+               .select(&:active?)
+               .select { |s| s.run_after_activation? || !after_activation }
 
       session[:authentication_stages] = stages.map(&:identifier)
       session[:stage_secrets] = session[:authentication_stages]
-        .map { |ident| [ident, stage_secret(ident)] }
-        .to_h
+                                .map { |ident| [ident, stage_secret(ident)] }
+                                .to_h
       session[:back_url] = back_url
 
       stages
