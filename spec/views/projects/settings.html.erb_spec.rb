@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'projects/settings', type: :view do
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryGirl.build_stubbed(:project) }
 
   describe 'project copy permission' do
     before do
@@ -61,7 +61,7 @@ describe 'projects/settings', type: :view do
   end
 
   context 'User.current is admin' do
-    let(:admin) { FactoryGirl.build :admin }
+    let(:admin) { FactoryGirl.build_stubbed :admin }
 
     before do
       assign(:project, project)
@@ -78,7 +78,7 @@ describe 'projects/settings', type: :view do
   end
 
   context 'User.current is non-admin' do
-    let(:non_admin) { FactoryGirl.create :user }
+    let(:non_admin) { FactoryGirl.build_stubbed :user }
 
     before do
       assign(:project, project)
