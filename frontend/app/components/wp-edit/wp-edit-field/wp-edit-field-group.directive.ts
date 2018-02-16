@@ -35,7 +35,7 @@ import {input} from 'reactivestates';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageNotificationService} from '../wp-notification.service';
-import {WorkPackageCreateService} from './../../wp-create/wp-create.service';
+import {WorkPackageCreateService} from './../../wp-new/wp-create.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';

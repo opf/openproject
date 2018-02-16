@@ -34,7 +34,7 @@ import {scopeDestroyed$, scopedObservable} from '../../helpers/angular-rx-utils'
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageCreateService} from '../wp-create/wp-create.service';
+import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';

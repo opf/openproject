@@ -26,21 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpDirectivesModule} from "../../../angular-modules";
-import {WorkPackageEditFieldGroupController} from '../../wp-edit/wp-edit-field/wp-edit-field-group.directive';
+import {WorkPackageEditFieldGroupComponent,} from '../../wp-edit/wp-edit-field/wp-edit-field-group.directive';
+import {Component, EventEmitter, Inject, Output} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 
-export class EditActionsBarController {
-  public wpEditFieldGroup:WorkPackageEditFieldGroupController;
-  public text:any;
-  public onSave:Function;
-  public onCancel:Function;
+@Component({
+  template: require('!!raw-loader!./wp-edit-actions-bar.html'),
+  selector: 'wp-edit-actions-bar',
+})
+export class WorkPackageEditActionsBarComponent {
+  @Output('onSave') public onSave = new EventEmitter<void>();
+  @Output('onCancel') public onCancel = new EventEmitter<void>();
   public saving:boolean = false;
 
-  constructor(I18n:op.I18n) {
-    this.text = {
-      save: I18n.t('js.button_save'),
-      cancel: I18n.t('js.button_cancel')
-    };
+  public text = {
+    save: this.I18n.t('js.button_save'),
+    cancel: this.I18n.t('js.button_cancel')
+  };
+
+  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+              readonly wpEditFieldGroup:WorkPackageEditFieldGroupComponent) {
   }
 
   public save():void {
@@ -53,37 +58,12 @@ export class EditActionsBarController {
       .saveWorkPackage()
       .finally(() => {
         this.saving = false;
-        this.onSave();
+        this.onSave.emit();
       });
   }
 
   public cancel():void {
     this.wpEditFieldGroup.inEditMode = false;
-    this.onCancel();
+    this.onCancel.emit();
   }
 }
-
-function editActionsBar():any {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/common/edit-actions-bar/edit-actions-bar.directive.html',
-    require: '^wpEditFieldGroup',
-    link: function (scope:any,
-                    element:ng.IAugmentedJQuery,
-                    attrs:ng.IAttributes,
-                    controller:WorkPackageEditFieldGroupController) {
-      scope.$ctrl.wpEditFieldGroup = controller;
-    },
-
-    scope: {
-      onSave: '&',
-      onCancel: '&'
-    },
-
-    bindToController: true,
-    controller: EditActionsBarController,
-    controllerAs: '$ctrl'
-  };
-}
-
-wpDirectivesModule.directive('editActionsBar', editActionsBar);

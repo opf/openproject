@@ -29,7 +29,7 @@
 import {wpDirectivesModule} from "../../angular-modules";
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageCreateController} from "../wp-create/wp-create.controller";
+import {WorkPackageCreateController} from "../wp-new/wp-create.controller";
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 
 export class WorkPackageCopyController extends WorkPackageCreateController {

@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpDirectivesModule} from '../../angular-modules';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
 import {RootDmService} from '../api/api-v3/hal-resource-dms/root-dm.service';
@@ -34,56 +33,67 @@ import {RootResource} from '../api/api-v3/hal-resources/root-resource.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageCreateService} from './wp-create.service';
-import {scopedObservable} from '../../helpers/angular-rx-utils';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-values';
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
-import {StateService} from '@uirouter/core';
+import {StateService, Transition} from '@uirouter/core';
+import {Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {$stateToken, I18nToken, v3PathToken} from 'core-app/angular4-transition-utils';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
-export class WorkPackageCreateController {
+export class WorkPackageCreateController implements OnInit, OnDestroy {
+  public successState:string;
   public newWorkPackage:WorkPackageResourceInterface;
   public parentWorkPackage:WorkPackageResourceInterface;
   public changeset:WorkPackageChangeset;
 
-  constructor(protected $state:StateService,
-              protected $scope:ng.IScope,
-              protected $q:ng.IQService,
-              protected I18n:op.I18n,
-              protected successState:string,
+  public stateParams = this.$transition.params('to');
+  public text = {
+    button_settings: this.I18n.t('js.button_settings')
+  };
+
+  constructor(readonly $transition:Transition,
+              @Inject($stateToken) readonly $state:StateService,
+              @Inject(I18nToken) readonly I18n:op.I18n,
+              @Inject(v3PathToken) protected v3Path:any,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected states:States,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditing:WorkPackageEditingService,
               protected wpTableFilters:WorkPackageTableFiltersService,
               protected wpCacheService:WorkPackageCacheService,
-              protected v3Path:any,
-              protected $location:ng.ILocationService,
+              protected PathHelper:PathHelperService,
               protected RootDm:RootDmService) {
 
-    this.newWorkPackageFromParams($state.params)
+  }
+
+  public ngOnInit() {
+    this.newWorkPackageFromParams(this.stateParams)
       .then((changeset:WorkPackageChangeset) => {
         this.changeset = changeset;
         this.newWorkPackage = changeset.workPackage;
 
 
-        wpCacheService.updateWorkPackage(this.newWorkPackage);
+        this.wpCacheService.updateWorkPackage(this.newWorkPackage);
         this.wpEditing.updateValue('new', changeset);
 
-        if ($state.params['parent_id']) {
+        if (this.stateParams['parent_id']) {
           this.changeset.setValue(
             'parent',
-            {href: v3Path.wp({wp: $state.params['parent_id']})}
+            {href: this.v3Path.wp({wp: this.stateParams['parent_id']})}
           );
         }
 
         // Load the parent simply to display the type name :-/
-        if ($state.params['parent_id']) {
-          scopedObservable(this.$scope,
-            wpCacheService.loadWorkPackage($state.params['parent_id']).values$())
+        if (this.stateParams['parent_id']) {
+          this.wpCacheService.loadWorkPackage(this.stateParams['parent_id'])
+            .values$()
+            .takeUntil(componentDestroyed(this))
             .subscribe(parent => {
-              this.parentWorkPackage = parent;
-            });
+            this.parentWorkPackage = parent;
+          });
         }
       })
       .catch((error:any) => {
@@ -91,10 +101,9 @@ export class WorkPackageCreateController {
           this.RootDm.load().then((root:RootResource) => {
             if (!root.user) {
               // Not logged in
-              let url:string = $location.absUrl();
-              $location.path('/login').search({back_url: url});
-              let loginUrl:string = $location.absUrl();
-              window.location.href = loginUrl;
+              let url = URI(this.PathHelper.loginPath())
+              url.search({back_url: url});
+              window.location.href = url.toString();
             }
           });
           this.wpNotificationsService.handleErrorResponse(error);
@@ -102,8 +111,8 @@ export class WorkPackageCreateController {
       });
   }
 
-  public $onInit() {
-    // Created for interface compliance
+  public ngOnDestroy() {
+
   }
 
   public switchToFullscreen() {
@@ -123,7 +132,7 @@ export class WorkPackageCreateController {
       const typeMatches = (changeType && changeType.idFromLink === type.toString());
 
       if (hasChanges && (typeEmpty || typeMatches)) {
-        return this.$q.when(changeset);
+        return Promise.resolve(changeset);
       }
     }
 
@@ -138,5 +147,3 @@ export class WorkPackageCreateController {
     this.$state.go('work-packages.list', this.$state.params);
   }
 }
-
-wpDirectivesModule.controller('WorkPackageCreateController', WorkPackageCreateController);

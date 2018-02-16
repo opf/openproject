@@ -78,7 +78,7 @@ import {
   PathHelperToken,
   TimezoneServiceToken,
   upgradeService,
-  upgradeServiceWithToken,
+  upgradeServiceWithToken, v3PathToken,
   wpMoreMenuServiceToken
 } from './angular4-transition-utils';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
@@ -113,7 +113,7 @@ import {WorkPackageSubjectComponent} from 'core-components/work-packages/wp-subj
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
-import {WorkPackageCreateService} from 'core-components/wp-create/wp-create.service';
+import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
 import {WorkPackageWatcherButtonComponent} from 'core-components/work-packages/wp-watcher-button/wp-watcher-button.component';
 import {WorkPackageSplitViewToolbarComponent} from 'core-components/wp-details/wp-details-toolbar.component';
 import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
@@ -139,6 +139,10 @@ import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-t
 import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
 import {Ng1RelationsDirectiveWrapper} from 'core-components/wp-relations/ng1-wp-relations-wrapper.directive';
 import {WorkPackageWatcherEntryComponent} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watcher-entry.component';
+import {WorkPackageNewFullCreateComponent} from 'core-components/wp-new/wp-new-full-view.component';
+import {WorkPackageTypeStatusComponent} from 'core-components/work-packages/wp-type-status/wp-type-status.component';
+import {WorkPackageEditActionsBarComponent} from 'core-components/common/edit-actions-bar/wp-edit-actions-bar.component';
+import {RootDmService} from 'core-components/api/api-v3/hal-resource-dms/root-dm.service';
 
 @NgModule({
   imports: [
@@ -162,6 +166,7 @@ import {WorkPackageWatcherEntryComponent} from 'core-components/wp-single-view-t
     upgradeServiceWithToken('halRequest', halRequestToken),
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
     upgradeServiceWithToken('TimezoneService', TimezoneServiceToken),
+    upgradeServiceWithToken('v3Path', v3PathToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     upgradeService('wpCacheService', WorkPackageCacheService),
     upgradeService('wpEditing', WorkPackageEditingService),
@@ -191,6 +196,7 @@ import {WorkPackageWatcherEntryComponent} from 'core-components/wp-single-view-t
     upgradeService('authorisationService', AuthorisationService),
     upgradeService('ConfigurationService', ConfigurationService),
     upgradeService('currentProject', CurrentProjectService),
+    upgradeService('RootDm', RootDmService),
     // Split view
     upgradeService('wpCreate', WorkPackageCreateService),
     upgradeService('firstRoute', FirstRouteService),
@@ -270,6 +276,11 @@ import {WorkPackageWatcherEntryComponent} from 'core-components/wp-single-view-t
 
     // WP Edit Fields
     WorkPackageEditFieldComponent,
+
+    // WP New
+    WorkPackageNewFullCreateComponent,
+    WorkPackageTypeStatusComponent,
+    WorkPackageEditActionsBarComponent,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -295,6 +306,9 @@ import {WorkPackageWatcherEntryComponent} from 'core-components/wp-single-view-t
     // Single view
     WorkPackageOverviewTabComponent,
     WorkPackageEditFieldGroupComponent,
+
+    // WP new
+    WorkPackageNewFullCreateComponent,
   ]
 })
 export class OpenProjectModule {

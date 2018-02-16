@@ -26,27 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opWorkPackagesModule} from "../../../angular-modules";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageCacheService} from "../work-package-cache.service";
+import {WorkPackageCreateController} from 'core-components/wp-new/wp-create.controller';
+import {Component} from '@angular/core';
 
-class WorkPackageTypeStatusController {
-  public workPackage:WorkPackageResource;
+@Component({
+  template: require('!!raw-loader!./wp-new-full-view.html'),
+  selector: 'wp-new-full-view',
+})
+export class WorkPackageNewFullCreateComponent extends WorkPackageCreateController {
+  public successState:string = 'work-packages.show';
 }
-
-function wpTypeStatusDirective():any {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/work-packages/wp-type-status/wp-type-status.directive.html',
-    scope: {
-      workPackage: '='
-    },
-    bindToController: true,
-    controller: WorkPackageTypeStatusController,
-    controllerAs: '$ctrl'
-  };
-}
-
-opWorkPackagesModule.directive('wpTypeStatus', wpTypeStatusDirective);
-

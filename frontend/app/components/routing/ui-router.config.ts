@@ -36,6 +36,7 @@ import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-vie
 import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
 import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
 import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
+import {WorkPackageNewFullCreateComponent} from 'core-components/wp-new/wp-new-full-view.component';
 
 const panels = {
   get overview() {
@@ -108,12 +109,7 @@ openprojectModule
 
       .state('work-packages.new', {
         url: '/new?type&parent_id',
-        templateUrl: '/components/routing/main/work-packages.new.html',
-        resolve: {
-          successState: () => 'work-packages.show'
-        },
-        controller: 'WorkPackageCreateController',
-        controllerAs: '$ctrl',
+        component: WorkPackageNewFullCreateComponent,
         reloadOnSearch: false,
         onEnter: () => angular.element('body').addClass('full-create'),
         onExit: () => angular.element('body').removeClass('full-create'),
