@@ -4,10 +4,11 @@
       <div class="title-container">
         <div class="text">
           <h2>
-            <span has-dropdown-menu
-                  target="wpQuerySelectService"
-                  collision-container="#content"
-                  locals="selectedTitle">
+            <span
+                  hasDropdownMenu
+                  [hasDropdownMenu-locals]="{'selectedTitle': selectedTitle }"
+                  [hasDropdownMenu-collisionContainer]="'#content'"
+                  [hasDropdownMenu-target]="'wpQuerySelectService'">
               <accessible-by-keyboard
                 linkClass="wp-table--query-menu-link"
                 [linkTitle]="text.search_query_title">
@@ -49,9 +50,9 @@
           <button id="work-packages-settings-button"
                   title="{{ text.button_settings }}"
                   class="button last work-packages-settings-button toolbar-icon"
-                  has-dropdown-menu
-                  target="SettingsDropdownMenu"
-                  locals="query">
+                  hasDropdownMenu
+                  [hasDropdownMenu-locals]="{'query': query}"
+                  [hasDropdownMenu-target]="'SettingsDropdownMenu'">
             <op-icon icon-classes="button--icon icon-show-more"></op-icon>
           </button>
         </li>
