@@ -60,7 +60,7 @@ class MyProjectsOverviewsController < ApplicationController
                       block_name: block_name,
                       textile: textile })
    else
-     render text: t(:error_textile_not_saved), status: 400
+     render plain: t(:error_textile_not_saved), status: 400
    end
   end
 
@@ -74,7 +74,7 @@ class MyProjectsOverviewsController < ApplicationController
     elsif block == "custom_element"
       render_new_custom_block
     else
-      render nothing: true
+      head :ok
     end
   end
 
