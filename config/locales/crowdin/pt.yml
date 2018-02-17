@@ -2072,6 +2072,7 @@ pt:
   setting_feeds_limit: Limite de conteúdo feed
   setting_file_max_size_displayed: Tamanho máximo de ficheiros de texto exibido inline
   setting_host_name: Nome do host
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Calcular a percentagem de progresso do pacote de
     trabalho
   setting_work_package_done_ratio_field: Utilize o campo de pacote de trabalho
@@ -2582,6 +2583,9 @@ pt:
   note_password_login_disabled: A senha da sessão foi desativada por %{configuration}.
   warning: Aviso
   warning_attachments_not_saved: Não foi possível guardar %{count} ficheiro(s).
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Item de menu
   menu_item_setting: Visibilidade
   wiki_menu_item_for: Item de menu para página wiki "%{title}"

@@ -2025,6 +2025,7 @@ id:
   setting_feeds_limit: Batasan konten feed
   setting_file_max_size_displayed: Ukuran maks. file teks yang ditampilkan inline
   setting_host_name: Nama host
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Hitung Paket-Penugasan dengan Rasio Penyelesaian
   setting_work_package_done_ratio_field: Gunakan isian Paket-Penugasan
   setting_work_package_done_ratio_status: Gunakan status Paket-Penugasan
@@ -2517,6 +2518,9 @@ id:
   note_password_login_disabled: Password login telah dinonaktifkan (by %{configuration}).
   warning: Warning
   warning_attachments_not_saved: "%{count} file tidak akan disimpan."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Menu item
   menu_item_setting: Visibilitas
   wiki_menu_item_for: Menu untuk Halaman Wiki "%{title}"

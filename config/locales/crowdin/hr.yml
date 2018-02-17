@@ -2071,6 +2071,7 @@ hr:
   setting_file_max_size_displayed: Maksimalna veličina tesktualnih datoteka prikazanih
     u liniji
   setting_host_name: Hostname
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Izračunaj omjer učinjenoga radnog paketa
   setting_work_package_done_ratio_field: Koristi polje radnog paketa
   setting_work_package_done_ratio_status: Koristi status radnog paketa
@@ -2566,6 +2567,9 @@ hr:
   note_password_login_disabled: Prijava korištenjem lozinke je onemogućena %{configuration}.
   warning: Upozorenje
   warning_attachments_not_saved: "%{count} datoteka(e) ne mogu biti spremljene."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Stavka izbornika
   menu_item_setting: Vidljivost
   wiki_menu_item_for: Stavka izbornika za wiki stranicu "%{title}"

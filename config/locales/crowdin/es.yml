@@ -2095,6 +2095,7 @@ es:
   setting_file_max_size_displayed: Tamaño máximo de archivos de texto mostrado en
     linea
   setting_host_name: Nombre de host
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Calcular la relacion de paquete de trabajo hecho
     con
   setting_work_package_done_ratio_field: Usar el campo de paquete de trabajo
@@ -2608,6 +2609,9 @@ es:
     por %{configuration}.
   warning: Alerta
   warning_attachments_not_saved: "%{count} archivo(s) no podrán ser salvados."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Elemento de menú
   menu_item_setting: Visibilidad
   wiki_menu_item_for: Elemento de menú para wiki '%{title}'

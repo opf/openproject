@@ -2030,6 +2030,7 @@ tr:
   setting_feeds_limit: Besleme içeriği sınırı
   setting_file_max_size_displayed: Satır içi görüntülenen maksimum metin dosyası boyutu
   setting_host_name: Ana bilgisayar adı
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: İş tamamlanma oranını hesapla yöntemi
   setting_work_package_done_ratio_field: İş paketi alanını kullan
   setting_work_package_done_ratio_status: İş paketi durumunu kullan
@@ -2527,6 +2528,9 @@ tr:
     bırakıldı.
   warning: Uyarı
   warning_attachments_not_saved: "%{count} dosya (lar) kaydedilemedi."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Menü seçeneği
   menu_item_setting: Görünürlük
   wiki_menu_item_for: Wikipage için menü öğesi " %{title} "

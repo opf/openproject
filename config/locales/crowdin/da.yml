@@ -2033,6 +2033,7 @@ da:
   setting_feeds_limit: Grænse for indhold af feeds
   setting_file_max_size_displayed: Maksimal størrelse af tekstfiler, der vises inline
   setting_host_name: Værtsnavn
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Beregn fremgang for arbejdspakker med
   setting_work_package_done_ratio_field: Brug arbejdspakkens felt
   setting_work_package_done_ratio_status: Brug arbejdspakkens status
@@ -2525,6 +2526,9 @@ da:
   note_password_login_disabled: Login med adgangskode er deaktiveret ved %{configuration}.
   warning: Advarsel
   warning_attachments_not_saved: "%{count} file(r) kunne ikke gemmes."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Menupunkt
   menu_item_setting: Synlighed
   wiki_menu_item_for: Menupunkt for wikipage "%{title}"

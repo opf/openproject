@@ -2029,6 +2029,7 @@
   setting_feeds_limit: Innholdsgrense for Feed
   setting_file_max_size_displayed: Maks størrelse på tekstfiler som vises inline
   setting_host_name: Vertsnavn
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Kalkulèr utførelsesgrad for arbeidspakke med
   setting_work_package_done_ratio_field: Bruk arbeidspakkefeltet
   setting_work_package_done_ratio_status: Bruk arbeidspakkestatus
@@ -2522,6 +2523,9 @@
   note_password_login_disabled: Passordinnlogging er deaktivert av %{configuration}.
   warning: Advarsel
   warning_attachments_not_saved: "%{count} fil(er) kunne ikke lagres."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Menyelement
   menu_item_setting: Synlighet
   wiki_menu_item_for: Menyelement for wiki-siden "%{title}"

@@ -2003,6 +2003,7 @@ th:
   setting_feeds_limit: จำกัดเนื้อหาของ Feed
   setting_file_max_size_displayed: ความยาวสูงสุดของไฟล์ตัวอักษรแสดงในบรรทัด
   setting_host_name: ชื่อโฮสต์
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: คำนวณอัตราส่วนของชุดภารกิจที่เสร็จแล้วกับ
   setting_work_package_done_ratio_field: ใช้ฟิลด์ของชุดภารกิจ
   setting_work_package_done_ratio_status: ใช้สถานะของชุดภารกิจ
@@ -2468,6 +2469,9 @@ th:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
   warning_attachments_not_saved: มี %{count} ไฟล์ที่ไม่สามารถบันทึกได้
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: เมนู
   menu_item_setting: การมองเห็น
   wiki_menu_item_for: เมนูสำหรับหน้าวิกิ "%{title}"

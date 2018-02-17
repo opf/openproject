@@ -1875,6 +1875,7 @@ zh:
   setting_feeds_limit: Feed内容限制
   setting_file_max_size_displayed: 内联显示的文本文件的最大文件大小
   setting_host_name: 主机名
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: 计算工作包完成比率
   setting_work_package_done_ratio_field: 使用工作包字段
   setting_work_package_done_ratio_status: 使用工作包状态
@@ -2292,6 +2293,9 @@ zh:
   note_password_login_disabled: 密码登录已被 %{configuration} 禁用。
   warning: 警告
   warning_attachments_not_saved: "%{count} 文件不能被保存。"
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: 菜单项
   menu_item_setting: 可见性
   wiki_menu_item_for: wiki页面” %{title} “的菜单项

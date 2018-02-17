@@ -2040,6 +2040,7 @@ hu:
   setting_feeds_limit: Tartalom szintjének a korlátja
   setting_file_max_size_displayed: A szöveg fájl sorainak maximum mérete megjelenítéskor
   setting_host_name: Gazdagép neve
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: A munkacsomag elkészült arányainak kiszámítása
   setting_work_package_done_ratio_field: A munkacsomag mező használata
   setting_work_package_done_ratio_status: Használja a munkacsomag állapotát
@@ -2544,6 +2545,9 @@ hu:
   note_password_login_disabled: Bejelentkezési jelszót a %{configuration} letiltotta.
   warning: Figyelem
   warning_attachments_not_saved: "%{count} fájl nem menthető."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Menüpont
   menu_item_setting: Látható
   wiki_menu_item_for: Wikipage "%{title}" menüeleme
