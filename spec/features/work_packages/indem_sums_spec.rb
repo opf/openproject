@@ -63,7 +63,7 @@ RSpec.feature 'Work package index sums', js: true do
     dropdown_id = 'settings'
 
     # Trigger action from action menu dropdown
-    find("button[has-dropdown-menu][target=#{dropdown_id}DropdownMenu]").click
+    find("#work-packages-settings-button").click
     find("##{dropdown_id}Dropdown").click_link 'Columns'
 
     within('.ng-modal-inner') do
@@ -76,7 +76,7 @@ RSpec.feature 'Work package index sums', js: true do
     end
 
     # Trigger action from action menu dropdown
-    find("button[has-dropdown-menu][target=#{dropdown_id}DropdownMenu]").click
+    find("#work-packages-settings-button").click
     find("##{dropdown_id}Dropdown").click_link 'Display sums'
 
     within('.sum.group.all') do
