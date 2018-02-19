@@ -209,7 +209,7 @@ export class WorkPackagesListService {
 
     let form = this.states.query.form.value!;
 
-    let promise = this.QueryDm.save(query, form);
+    let promise = this.QueryDm.update(query, form);
 
     promise
       .then(() => {

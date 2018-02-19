@@ -152,7 +152,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
     if (!query.id && allowQueryAction(event, 'updateImmediately')) {
       saveModal.activate();
     } else if (query.id && allowQueryAction(event, 'updateImmediately')) {
-      wpListService.save();
+      wpListService.save(query);
     }
 
     closeAnyContextMenu();
