@@ -29,18 +29,53 @@
 require 'spec_helper'
 
 describe AccountController, type: :controller do
-  render_views
-
   after do
     User.delete_all
     User.current = nil
   end
+  let(:user) { FactoryGirl.build_stubbed(:user) }
 
   context 'GET #login' do
+    let(:setup) {}
+    let(:params) { {} }
+
+    before do
+      setup
+
+      get :login, params: params
+    end
+
     it 'renders the view' do
-      get :login
       expect(response).to render_template 'login'
       expect(response).to be_success
+    end
+
+    context 'user already logged in' do
+      let(:setup) { login_as user }
+
+      it 'redirects to home' do
+        expect(response)
+          .to redirect_to my_page_path
+      end
+    end
+
+    context 'user already logged in and back url present' do
+      let(:setup) { login_as user }
+      let(:params) { { back_url: "/projects" } }
+
+      it 'redirects to back_url value' do
+        expect(response)
+          .to redirect_to projects_path
+      end
+    end
+
+    context 'user already logged in and invalid back url present' do
+      let(:setup) { login_as user }
+      let(:params) { { back_url: 'http://test.foo/work_packages/show/1' } }
+
+      it 'redirects to home' do
+        expect(response).to redirect_to my_page_path
+      end
     end
   end
 
@@ -608,6 +643,8 @@ describe AccountController, type: :controller do
   end
 
   describe 'GET #auth_source_sso_failed (/sso)' do
+   render_views
+
     let(:failure) do
       {
         user: user,
