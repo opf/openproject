@@ -30,7 +30,7 @@
 
         <div class="grid-content medium-5 collapse" wp-single-relation
              ng-if="$ctrl.relatedWorkPackage">
-            <a ui-sref=".({ workPackageId: $ctrl.relatedWorkPackage.id})"
+            <a ui-sref="work-packages.show.relations({ workPackageId: $ctrl.relatedWorkPackage.id})"
                class="wp-relations--subject-field"
                aria-label="{{ $ctrl.normalizedRelationType + ' ' + singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}">
                 {{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}
