@@ -32,6 +32,7 @@ import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.servi
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
+import {scopedObservable} from 'core-app/helpers/angular-rx-utils';
 
 export class CommentFieldDirectiveController {
   public workPackage:WorkPackageResourceInterface;
@@ -69,7 +70,8 @@ export class CommentFieldDirectiveController {
     this.canAddComment = !!this.workPackage.addComment;
     this.showAbove = this.ConfigurationService.commentsSortedInDescendingOrder();
 
-    this.$scope.$on('workPackage.comment.quoteThis', (evt, quote) => {
+    scopedObservable<string>(this.$scope, this.wpActivityService.quoteEvents.values$())
+      .subscribe((quote:string) => {
       this.resetField(quote);
       this.editing = true;
       this.$element.find('.work-packages--activity--add-comment')[0].scrollIntoView();

@@ -31,8 +31,14 @@ import {opServicesModule} from './../../angular-modules';
 import {WorkPackageResourceInterface} from 'app/components/api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
 import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
+import {input} from 'reactivestates';
 
 export class ActivityService {
+
+  // Replacement for $scope.$emit on activty-entry to mark comments to be quoted.
+  // Should be generalized if needed for more than that.
+  public quoteEvents = input<string>();
+
   constructor(
     private $http:ng.IHttpService,
     private I18n:op.I18n,
