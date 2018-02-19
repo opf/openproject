@@ -1,9 +1,12 @@
 require 'spec_helper'
 
-describe WorkPackagesController, "rendering to xls", :type => :controller do
+describe WorkPackagesController, 'rendering to xls', type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
-  let!(:work_package) { FactoryGirl.create(:work_package, :subject => '!SUBJECT!',
-                                                   :description => '!DESCRIPTION!') }
+  let!(:work_package) do
+    FactoryGirl.create(:work_package,
+                       subject: '!SUBJECT!',
+                       description: '!DESCRIPTION!')
+  end
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -39,19 +42,35 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
     # Since this test has to work without the actual costs plugin we'll just add
     # a custom field called 'costs' to emulate it.
 
-    let(:custom_field) { FactoryGirl.create(:work_package_custom_field, :name => 'unit costs', :field_format => 'float') }
-    let(:custom_value) { FactoryGirl.create(:custom_value, :custom_field => custom_field) }
-    let(:project)      { FactoryGirl.create(:project, :work_package_custom_fields => [custom_field]) }
+    let(:custom_field) do
+      FactoryGirl.create(:float_wp_custom_field,
+                         name: 'unit costs')
+    end
+    let(:custom_value) do
+      FactoryGirl.create(:custom_value,
+                         custom_field: custom_field)
+    end
+    let(:type) do
+      type = project.types.first
+      type.custom_fields << custom_field
+      type
+    end
+    let(:project) do
+      FactoryGirl.create(:project,
+                         work_package_custom_fields: [custom_field])
+    end
     let(:work_packages) do
-      value = lambda do |val|
-        FactoryGirl.create(:custom_value, :custom_field => custom_field, :value => val)
-      end
-      wps = FactoryGirl.create_list(:work_package, 4, :project => project)
+      wps = FactoryGirl.create_list(:work_package, 4,
+                                    project: project,
+                                    type: type)
       wps[0].estimated_hours = 27.5
       wps[0].save!
-      wps[1].custom_values << value.call(1)
-      wps[2].custom_values << value.call(99.99)
-      wps[3].custom_values << value.call(1000)
+      wps[1].send(:"custom_field_#{custom_field.id}=", 1)
+      wps[1].save!
+      wps[2].send(:"custom_field_#{custom_field.id}=", 99.99)
+      wps[2].save!
+      wps[3].send(:"custom_field_#{custom_field.id}=", 1000)
+      wps[3].save!
       wps
     end
 
@@ -64,14 +83,18 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
         column.caption =~ /cost/i
       end
 
-      allow(Setting).to receive(:plugin_openproject_costs).and_return({ 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' })
+      allow(Setting).to receive(:plugin_openproject_costs).and_return('costs_currency' => 'EUR', 'costs_currency_format' => '%n %u')
 
       get 'index',
           params: {
             format: 'xls',
             project_id: work_packages.first.project_id,
             set_filter: '1',
-            c: ['subject', 'status', 'estimated_hours', "cf_#{custom_field.id}"]
+            c: ['subject',
+                'status',
+                'estimated_hours',
+                "cf_#{custom_field.id}"],
+            sortBy: JSON::dump(['id:asc'])
           }
 
       expect(response.response_code).to eq(200)
@@ -94,7 +117,7 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
       expect(@sheet.rows.size).to eq(4 + 1)
 
       cost_column = @sheet.columns.last.to_a
-      [1, 99.99, 1000].each do |value|
+      [1.0, 99.99, 1000.0].each do |value|
         expect(cost_column).to include(value)
       end
     end
@@ -134,8 +157,9 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
       expect(response.body).to include('!SUBJECT!')
     end
 
-    context 'the mime type' do
-      it { expect(response.header['Content-Type']).to eq('application/vnd.ms-excel') }
+    it 'returns the xls mime mime type' do
+      expect(response.header['Content-Type'])
+        .to eq('application/vnd.ms-excel')
     end
   end
 
