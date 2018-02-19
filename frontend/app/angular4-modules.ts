@@ -122,7 +122,6 @@ import {WorkPackageSingleViewComponent} from 'core-components/work-packages/wp-s
 import {WorkPackageStatusButtonComponent} from 'core-components/wp-buttons/wp-status-button/wp-status-button.component';
 import {Ng1AttributeHelpTextWrapper} from 'core-components/common/help-texts/attribute-help-text-ng1-wrapper';
 import {WorkPackageReplacementLabelComponent} from 'core-components/wp-edit/wp-edit-field/wp-replacement-label.component';
-import {FocusWithinDirective} from 'core-components/common/focus-within/focus-within.directive';
 import {AuthoringComponent} from 'core-components/common/authoring/authoring.component';
 import {Ng1WorkPackageAttachmentsUploadWrapper} from 'core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload-ng1-wrapper';
 import {WorkPackageAttachmentListComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list.component';
@@ -146,6 +145,7 @@ import {RootDmService} from 'core-components/api/api-v3/hal-resource-dms/root-dm
 import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-full-view.component';
 import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
 import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
+import {FocusWithinDirective} from 'core-components/common/focus-within/focus-within.upgraded.directive';
 
 @NgModule({
   imports: [

@@ -29,46 +29,53 @@
 import {wpDirectivesModule} from '../../../angular-modules';
 import {scopedObservable} from '../../../helpers/angular-rx-utils';
 import {BehaviorSubject} from 'rxjs';
+import {Directive, ElementRef, Input, OnDestroy, OnInit} from '@angular/core';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {downgradeComponent} from '@angular/upgrade/static';
 
 // with courtesy of http://stackoverflow.com/a/29722694/3206935
 
-function focusWithinDirective($timeout:ng.ITimeoutService) {
-  return {
-    restrict: 'A',
+@Directive({
+  selector: '[focus-within]'
+})
+export class FocusWithinDirective implements OnInit, OnDestroy {
+  @Input('focusWithinSelector') selector:string;
 
-    scope: {
-      selector: '=focusWithin'
-    },
+  private $element:ng.IAugmentedJQuery;
 
-    link: (scope:any, element:ng.IAugmentedJQuery) => {
-      let focusedObservable = new BehaviorSubject(false);
+  constructor(private elementRef:ElementRef) {
 
-      scopedObservable(
-          scope,
-          focusedObservable
-        )
-        .auditTime(50)
-        .subscribe(focused => {
-           element.toggleClass('-focus', focused);
-        });
+  }
+
+  ngOnInit() {
+    this.$element = jQuery(this.elementRef.nativeElement);
+    let focusedObservable = new BehaviorSubject(false);
+
+    focusedObservable
+      .auditTime(50)
+      .takeUntil(componentDestroyed(this))
+      .subscribe(focused => {
+        this.$element.toggleClass('-focus', focused);
+      });
 
 
-      let focusListener = function () {
-          focusedObservable.next(true);
-      };
-      element[0].addEventListener('focus', focusListener, true);
+    let focusListener = function () {
+      focusedObservable.next(true);
+    };
+    this.$element[0].addEventListener('focus', focusListener, true);
 
-      let blurListener = function () {
-          focusedObservable.next(false);
-      };
-      element[0].addEventListener('blur', blurListener, true);
+    let blurListener = function () {
+      focusedObservable.next(false);
+    };
+    this.$element[0].addEventListener('blur', blurListener, true);
 
-      $timeout(() => {
-        element.addClass('focus-within--trigger');
-        element.find(scope.selector).addClass('focus-within--depending');
-      }, 0);
-    }
-  };
+    setTimeout(() => {
+      this.$element.addClass('focus-within--trigger');
+      this.$element.find(this.selector).addClass('focus-within--depending');
+    }, 0);
+  }
+
+  ngOnDestroy() {
+    // NOthing to do
+  }
 }
-
-wpDirectivesModule.directive('focusWithin', focusWithinDirective);
