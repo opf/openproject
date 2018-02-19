@@ -16,8 +16,6 @@ Gem::Specification.new do |s|
   s.files       = Dir["{app,config,db,lib,doc}/**/*", "README.md"]
   s.test_files  = Dir["spec/**/*"]
 
-  s.add_dependency 'rails', '~> 5.0.0'
-
   s.add_dependency "reporting_engine", ">= 1.1.0"
   s.add_dependency "openproject-costs", "= #{OpenProject::Reporting::VERSION}"
 
