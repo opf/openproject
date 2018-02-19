@@ -154,8 +154,7 @@ function workPackageComment():any {
     transclude: true,
     templateUrl: '/components/work-packages/work-package-comment/work-package-comment.directive.html',
     scope: {
-      workPackage: '=',
-      activities: '='
+      workPackage: '='
     },
 
     controllerAs: 'vm',

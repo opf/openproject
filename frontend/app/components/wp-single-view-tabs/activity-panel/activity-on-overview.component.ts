@@ -56,7 +56,6 @@ export class NewestActivityOnOverviewComponent extends ActivityPanelBaseControll
 
   protected updateActivities(activities:any) {
     super.updateActivities(activities);
-    this.activities = activities;
     this.latestActivityInfo = this.latestActivities();
   }
 
@@ -64,11 +63,11 @@ export class NewestActivityOnOverviewComponent extends ActivityPanelBaseControll
     let segment:any[] = []
 
     if (this.reverse) {
-      segment = this.activities.slice(-visible).reverse();
+      segment = this.unfilteredActivities.slice(-visible).reverse();
     } else {
-      segment = this.activities.slice(0, visible);
+      segment = this.unfilteredActivities.slice(0, visible);
     }
 
-    return segment.map((el:HalResource, i:number) => this.info(el, i));
+    return segment.map((el:HalResource, i:number) => this.info(el, i, segment));
   }
 }

@@ -37,8 +37,12 @@ import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-pa
 export class ActivityPanelBaseController implements OnInit, OnDestroy {
   public workPackage:WorkPackageResourceInterface;
 
-  public activities:HalResource[] = [];
-  public activityEntries:ActivityEntryInfo[] = [];
+  // All activities retrieved for the work package
+  public unfilteredActivities:HalResource[] = [];
+
+  // Visible activities
+  public visibleActivities:ActivityEntryInfo[] = [];
+
   public reverse:boolean;
   public showToggler:boolean;
 
@@ -74,35 +78,38 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
   }
 
   protected updateActivities(activities:HalResource[]) {
-    this.activities = activities;
-    this.activityEntries = activities.map((el:HalResource, i:number) => this.info(el, i));;
+    this.unfilteredActivities = activities;
+
+    const visible = this.getVisibleActivities();
+    this.visibleActivities = visible.map((el:HalResource, i:number) => this.info(el, i, visible));
     this.showToggler = this.shouldShowToggler();
   }
 
   protected shouldShowToggler() {
-    const count_all = this.activities.length;
-    const count_with_comments = this.activitiesWithComments.length;
+    const count_all = this.unfilteredActivities.length;
+    const count_with_comments = this.getActivitiesWithComments().length;
 
     return count_all > 1 &&
       count_with_comments > 0 &&
-      count_with_comments < this.activities.length;
+      count_with_comments < this.unfilteredActivities.length;
   }
 
-  public visibleActivities() {
+  protected getVisibleActivities() {
     if (!this.onlyComments) {
-      return this.activities;
+      return this.unfilteredActivities;
     } else {
-      return this.activitiesWithComments;
+      return this.getActivitiesWithComments();
     }
   }
 
-  public get activitiesWithComments() {
-    return this.activities
+  protected getActivitiesWithComments() {
+    return this.unfilteredActivities
       .filter((activity:HalResource) => !!_.get(activity, 'comment.html'));
   }
 
   public toggleComments() {
     this.onlyComments = !this.onlyComments;
+    this.updateActivities(this.unfilteredActivities);
 
     if (this.onlyComments) {
       this.togglerText = this.text.showAll;
@@ -111,8 +118,8 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
     }
   }
 
-  public info(activity:any, index:any) {
-    return this.wpActivity.info(this.visibleActivities(), activity, index);
+  public info(activity:any, index:any, visible:HalResource[]) {
+    return this.wpActivity.info(visible, activity, index);
   }
 }
 

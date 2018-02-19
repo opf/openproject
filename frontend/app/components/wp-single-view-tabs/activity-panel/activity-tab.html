@@ -1,15 +1,14 @@
-<work-package-comment-upgraded [workPackage]="workPackage"
-                               [activities]="activities">
+<work-package-comment-upgraded [workPackage]="workPackage">
 
 
   <div class="detail-activity">
     <ul class="work-package-details-activities-list">
-      <li *ngFor="let inf of activityEntries; let first = first"
+      <li *ngFor="let inf of visibleActivities; let first = first"
           class="work-package-details-activities-activity">
         <h3 class="activity-date"
             [ngClass]="{'-with-toggler': first && showToggler}"
             *ngIf="first || inf.isNextDate">
-          <span class="activity-date--label" ng-bind="inf.date"></span>
+          <span class="activity-date--label" [textContent]="inf.date"></span>
           <accessible-by-keyboard (execute)="toggleComments()"
                                   *ngIf="first && showToggler"
                                   linkClass="activity-comments--toggler button -small -transparent"

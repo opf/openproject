@@ -66,7 +66,8 @@ export class ActivityEntryInfo {
 
     while (--activityNo > 0) {
       var idx = this.orderedIndex(activityNo, forceReverse) - 1;
-      if (this.activities[idx]._type.indexOf('Activity') === 0) {
+      var activity = this.activities[idx];
+      if (!_.isNil(activity) && activity._type.indexOf('Activity') === 0) {
         return false;
       }
     }

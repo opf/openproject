@@ -34,6 +34,7 @@ import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resou
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {ActivityPanelBaseController} from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
 @Component({
   template: require('!!raw-loader!./activity-tab.html'),
   selector: 'wp-activity-tab',
@@ -59,4 +60,14 @@ export class WorkPackageActivityTabComponent extends ActivityPanelBaseController
   ngOnDestroy() {
     // Nothing to do
   }
+
+  protected updateActivities(activities:HalResource[]) {
+    if (this.reverse) {
+      activities = activities.reverse();
+    }
+
+    super.updateActivities(activities);
+  }
+
+
 }
