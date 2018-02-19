@@ -10,6 +10,57 @@ objectClass: organizationalUnit
 objectClass: top
 ou: people
 
+#########################################################
+# MICROSOFT SCHEMA for sAMAccountName and memberOf
+# these two attributes are not defined in Apache Directory Server
+#########################################################
+
+dn: cn=microsoft, ou=schema
+objectclass: metaSchema
+objectclass: top
+cn: microsoft
+
+dn: ou=attributetypes, cn=microsoft, ou=schema
+objectclass: organizationalUnit
+objectclass: top
+ou: attributetypes
+
+dn: m-oid=1.2.840.113556.1.4.221, ou=attributetypes, cn=microsoft, ou=schema
+objectclass: metaAttributeType
+objectclass: metaTop
+objectclass: top
+m-oid: 1.2.840.113556.1.4.221
+m-name: sAMAccountName
+m-equality: caseIgnoreMatch
+m-syntax: 1.3.6.1.4.1.1466.115.121.1.15
+m-singleValue: TRUE
+
+dn: m-oid=1.2.840.113556.1.4.222, ou=attributetypes, cn=microsoft, ou=schema
+objectclass: metaAttributeType
+objectclass: metaTop
+objectclass: top
+m-oid: 1.2.840.113556.1.4.222
+m-name: memberOf
+m-equality: caseIgnoreMatch
+m-syntax: 1.3.6.1.4.1.1466.115.121.1.15
+m-singleValue: FALSE
+
+dn: ou=objectclasses, cn=microsoft, ou=schema
+objectclass: organizationalUnit
+objectclass: top
+ou: objectClasses
+
+dn: m-oid=1.2.840.113556.1.5.6, ou=objectclasses, cn=microsoft, ou=schema
+objectclass: metaObjectClass
+objectclass: metaTop
+objectclass: top
+m-oid: 1.2.840.113556.1.5.6
+m-name: simulatedMicrosoftSecurityPrincipal
+m-supObjectClass: top
+m-typeObjectClass: AUXILIARY
+m-must: sAMAccountName
+m-may: memberOf
+
 dn: cn=foo,ou=groups,dc=example,dc=com
 objectClass: groupOfNames
 objectClass: top
@@ -24,8 +75,26 @@ member: uid=aa729,ou=people,dc=example,dc=com
 member: uid=bb459,ou=people,dc=example,dc=com
 member: uid=cc414,ou=people,dc=example,dc=com
 
+dn: uid=aa729,ou=people,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: simulatedMicrosoftSecurityPrincipal
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Alexandra Adams
+sn: Adams
+givenName: Alexandra
+mail: alexandra@example.org
+uid: aa729
+samAccountName: aa729
+memberOf: cn=bar,ou=groups,dc=example,dc=com
+memberOf: cn=foo,ou=groups,dc=example,dc=com
+# Password is "smada"
+userpassword:: e1NIQX1wR2xtWlgxVk9FZEhIYjMwSFplemVWTkZ4R009
+
 dn: uid=bb459,ou=people,dc=example,dc=com
 objectClass: inetOrgPerson
+objectClass: simulatedMicrosoftSecurityPrincipal
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
@@ -34,8 +103,26 @@ sn: Baldwin
 givenName: Belle
 mail: belle@example.org
 uid: bb459
+samAccountName: bb459
+memberOf: cn=bar,ou=groups,dc=example,dc=com
 # Password is "niwdlab"
 userpassword:: e1NIQX1MUmlmMk4rNVREU2FPL3Jka0gySEhGOGZGNzQ9
+
+dn: uid=cc414,ou=people,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: simulatedMicrosoftSecurityPrincipal
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Claire Carpenter
+sn: Carpenter
+givenName: Claire
+mail: claire@example.org
+uid: cc414
+samAccountName: cc414
+memberOf: cn=bar,ou=groups,dc=example,dc=com
+userpassword:: e1NIQX1VTC9pUysyUjdHaHdiaFhPV29USGQ0L3FvTUE9
+
 
 dn: uid=dd945,ou=people,dc=example,dc=com
 objectClass: inetOrgPerson
@@ -49,18 +136,6 @@ mail: dorothy@example.org
 uid: dd945
 userpassword:: e1NIQX1EMFVsY1RmYkNkZEZMd2loMDRpZzRERWlsQWM9
 
-dn: uid=cc414,ou=people,dc=example,dc=com
-objectClass: inetOrgPerson
-objectClass: organizationalPerson
-objectClass: person
-objectClass: top
-cn: Claire Carpenter
-sn: Carpenter
-givenName: Claire
-mail: claire@example.org
-uid: cc414
-userpassword:: e1NIQX1VTC9pUysyUjdHaHdiaFhPV29USGQ0L3FvTUE9
-
 dn: uid=xx396,ou=people,dc=example,dc=com
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
@@ -72,17 +147,4 @@ givenName: Xara
 mail: xara@example.org
 uid: xx396
 userpassword:: e1NIQX1ZYzJFbjJSL3NiZGpsRU9pdGtMbGt3WTRqQVk9
-
-dn: uid=aa729,ou=people,dc=example,dc=com
-objectClass: inetOrgPerson
-objectClass: organizationalPerson
-objectClass: person
-objectClass: top
-cn: Alexandra Adams
-sn: Adams
-givenName: Alexandra
-mail: alexandra@example.org
-uid: aa729
-# Password is "smada"
-userpassword:: e1NIQX1wR2xtWlgxVk9FZEhIYjMwSFplemVWTkZ4R009
 

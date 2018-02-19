@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 require 'ladle'
 
-describe OpenProject::LdapGroups::Synchronization, with_groups_ee: true do
+describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   let(:plugin_settings) do
     { group_base: 'ou=groups,dc=example,dc=com', group_key: 'cn' }
   end
