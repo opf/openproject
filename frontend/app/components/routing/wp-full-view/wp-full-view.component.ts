@@ -43,6 +43,8 @@ import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-
 @Component({
   template: require('!!raw-loader!./wp-full-view.html'),
   selector: 'wp-full-view-entry',
+  // Required class to support inner scrolling on page
+  host: { 'class': 'work-packages-page--ui-view' }
 })
 export class WorkPackagesFullViewComponent extends WorkPackageViewController {
 
