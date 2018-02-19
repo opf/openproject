@@ -51,7 +51,7 @@ module Concerns
     end
 
     def init_authentication_stages(after_activation:)
-      stages = active_stages
+      stages = active_stages after_activation
 
       session[:authentication_stages] = stages.map(&:identifier)
       session[:stage_secrets] = new_stage_secrets
@@ -60,7 +60,7 @@ module Concerns
       stages
     end
 
-    def active_stages
+    def active_stages(after_activation)
       OpenProject::Authentication::Stage
         .stages
         .select(&:active?)
