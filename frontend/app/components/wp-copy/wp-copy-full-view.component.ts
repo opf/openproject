@@ -32,6 +32,7 @@ import {WorkPackageCopyController} from 'core-components/wp-copy/wp-copy.control
 @Component({
   template: require('!!raw-loader!../wp-new/wp-new-full-view.html'),
   selector: 'wp-copy-full-view',
+  host: { 'class': 'work-packages-page--ui-view' }
 })
 export class WorkPackageCopyFullViewComponent extends WorkPackageCopyController {
   public successState = 'work-packages.show';
