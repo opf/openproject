@@ -1,19 +1,18 @@
-import {ClickOrEnterHandler} from '../click-or-enter-handler';
-import {WorkPackageTableHierarchiesService} from '../../state/wp-table-hierarchy.service';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {WorkPackageTable} from '../../wp-fast-table';
+import {Injector} from '@angular/core';
 import {States} from '../../../states.service';
-import {TableEventHandler} from '../table-handler-registry';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
+import {WorkPackageTableHierarchiesService} from '../../state/wp-table-hierarchy.service';
+import {WorkPackageTable} from '../../wp-fast-table';
+import {ClickOrEnterHandler} from '../click-or-enter-handler';
+import {TableEventHandler} from '../table-handler-registry';
 
 export class HierarchyClickHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
-  public states:States;
-  public wpTableHierarchies:WorkPackageTableHierarchiesService;
+  public states:States = this.injector.get(States);
+  public wpTableHierarchies:WorkPackageTableHierarchiesService = this.injector.get(WorkPackageTableHierarchiesService);
 
-  constructor(table: WorkPackageTable) {
+  constructor(public readonly injector:Injector, table:WorkPackageTable) {
     super();
-    injectorBridge(this);
   }
 
   public get EVENT() {
@@ -28,7 +27,7 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
     return jQuery(table.tbody);
   }
 
-  public processEvent(table: WorkPackageTable, evt:JQueryEventObject):boolean {
+  public processEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
     let target = jQuery(evt.target);
 
     // Locate the row from event
@@ -42,5 +41,3 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
     return false;
   }
 }
-
-HierarchyClickHandler.$inject = ['states', 'wpTableHierarchies'];

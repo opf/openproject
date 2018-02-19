@@ -1,16 +1,17 @@
-import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
-import {CellBuilder, wpCellTdClassName} from '../cell-builder';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
-import {checkedClassName} from '../ui-state-link-builder';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
-import {RelationCellbuilder} from '../relation-cell-builder';
-import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
-import {ContextLinkIconBuilder} from "../context-link-icon-builder";
-import {$injectFields} from "../../../angular/angular-injector-bridge.functions";
+import {Injector} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {locateTableRowByIdentifier} from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
 import {debugLog} from '../../../../helpers/debug_output';
+import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
+import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
+import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
+import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
+import {WorkPackageTable} from '../../wp-fast-table';
+import {CellBuilder, wpCellTdClassName} from '../cell-builder';
+import {ContextLinkIconBuilder} from '../context-link-icon-builder';
+import {RelationCellbuilder} from '../relation-cell-builder';
+import {checkedClassName} from '../ui-state-link-builder';
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
@@ -22,21 +23,22 @@ export const internalContextMenuColumn = {
 } as QueryColumn;
 
 export class SingleRowBuilder {
+
   // Injections
-  public wpTableSelection:WorkPackageTableSelection;
-  public wpTableColumns:WorkPackageTableColumnsService;
-  public I18n:op.I18n;
+  public wpTableSelection = this.injector.get(WorkPackageTableSelection);
+  public wpTableColumns = this.injector.get(WorkPackageTableColumnsService);
+  public I18n:op.I18n = this.injector.get(I18nToken);
 
   // Cell builder instance
   protected cellBuilder = new CellBuilder();
   // Relation cell builder instance
-  protected relationCellBuilder = new RelationCellbuilder();
+  protected relationCellBuilder = new RelationCellbuilder(this.injector);
 
   // Details Link builder
-  protected contextLinkBuilder = new ContextLinkIconBuilder();
+  protected contextLinkBuilder = new ContextLinkIconBuilder(this.injector);
 
-  constructor(protected workPackageTable:WorkPackageTable) {
-    $injectFields(this, 'wpTableSelection', 'wpTableColumns', 'I18n');
+  constructor(public readonly injector:Injector,
+              protected workPackageTable:WorkPackageTable) {
   }
 
   /**
@@ -151,7 +153,7 @@ export class SingleRowBuilder {
 
     this.augmentedColumns.forEach((column:QueryColumn) => {
       let cell:Element;
-      let oldCell:JQuery|undefined = cells[column.id];
+      let oldCell:JQuery | undefined = cells[column.id];
 
       if (oldCell && oldCell.length) {
         debugLog(`Rendering previous open column ${column.id} on ${workPackage.id}`);

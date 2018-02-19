@@ -1,28 +1,30 @@
-import {debugLog} from '../../../../helpers/debug_output';
-import {$injectFields, injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {States} from '../../../states.service';
-import {TableEventHandler} from '../table-handler-registry';
-import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
-import {tableRowClassName} from '../../builders/rows/single-row-builder';
-import {tdClassName} from '../../builders/cell-builder';
-import {KeepTabService} from "../../../wp-panels/keep-tab/keep-tab.service";
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {Injector} from '@angular/core';
 import {StateService} from '@uirouter/angularjs';
+import {$stateToken} from 'core-app/angular4-transition-utils';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {debugLog} from '../../../../helpers/debug_output';
+import {States} from '../../../states.service';
+import {KeepTabService} from '../../../wp-panels/keep-tab/keep-tab.service';
+import {tdClassName} from '../../builders/cell-builder';
+import {tableRowClassName} from '../../builders/rows/single-row-builder';
+import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
+import {WorkPackageTable} from '../../wp-fast-table';
+import {TableEventHandler} from '../table-handler-registry';
 
 export class RowClickHandler implements TableEventHandler {
+
   // Injections
-  public $state:StateService;
-  public states:States;
-  public keepTab:KeepTabService;
-  public wpTableSelection:WorkPackageTableSelection;
-  public wpTableFocus:WorkPackageTableFocusService;
+  public $state:StateService = this.injector.get($stateToken);
+  public states:States = this.injector.get(States);
+  public keepTab:KeepTabService = this.injector.get(KeepTabService);
+  public wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);
+  public wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
 
   private clicks = 0;
   private timer:number;
 
-  constructor(table:WorkPackageTable) {
-    $injectFields(this, 'keepTab', '$state', 'states', 'wpTableSelection', 'wpTableFocus');
+  constructor(public readonly injector:Injector,
+              table:WorkPackageTable) {
   }
 
   public get EVENT() {

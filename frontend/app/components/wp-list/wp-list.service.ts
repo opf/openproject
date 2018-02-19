@@ -37,18 +37,24 @@ import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table
 import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
 import {WorkPackageStatesInitializationService} from './wp-states-initialization.service';
 import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {StateParams, StateService} from '@uirouter/core';
+import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
+import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
 
 export class WorkPackagesListService {
   constructor(protected NotificationsService:any,
               protected UrlParamsHelper:any,
-              protected AuthorisationService:any,
+              protected authorisationService:AuthorisationService,
               protected $q:ng.IQService,
-              protected $state:any,
+              protected $state:StateService,
               protected QueryDm:QueryDmService,
               protected QueryFormDm:QueryFormDmService,
               protected states:States,
               protected wpTablePagination:WorkPackageTablePaginationService,
+              protected wpListChecksumService:WorkPackagesListChecksumService,
               protected wpStatesInitialization:WorkPackageStatesInitializationService,
+              protected loadingIndicator:LoadingIndicatorService,
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
               protected I18n:op.I18n,
               protected queryMenu:QueryMenuService) {
@@ -130,6 +136,18 @@ export class WorkPackagesListService {
     let query = this.currentQuery;
 
     return this.loadResultsList(query, pagination);
+  }
+
+  /**
+   * Load the query from the given state params
+   * @param stateParams
+   */
+  public loadCurrentQueryFromParams(projectIdentifier?:string) {
+    this.wpListChecksumService.clear();
+    this.loadingIndicator.table.promise =
+      this.fromQueryParams(this.$state.params, projectIdentifier).then(() => {
+        return this.states.globalTable.rendered.valuesPromise();
+      });
   }
 
   public loadForm(query:QueryResource):ng.IPromise<QueryFormResource> {
@@ -268,7 +286,7 @@ export class WorkPackagesListService {
   private updateStatesFromWPListOnPromise(query:QueryResource, promise:ng.IPromise<WorkPackageCollectionResource>):ng.IPromise<WorkPackageCollectionResource> {
     return promise.then((results) => {
       this.states.query.context.doAndTransition('Query loaded', () => {
-        this.wpStatesInitialization.updateFromResults(results);
+        this.wpStatesInitialization.updateFromResults(query, results);
         return this.states.tableRendering.onQueryUpdated.valuesPromise();
       });
 

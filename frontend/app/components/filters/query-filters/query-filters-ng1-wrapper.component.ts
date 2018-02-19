@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,31 +24,31 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-angular
-  .module('openproject.services')
-  .factory('AuthorisationService', AuthorisationService);
+// This Angular directive will act as an interface to the "upgraded" AngularJS component
+// query-filters
+import {
+  Directive, DoCheck, ElementRef, Inject, Injector, OnChanges, OnDestroy,
+  OnInit, SimpleChanges
+} from '@angular/core';
+import {UpgradeComponent} from '@angular/upgrade/static';
 
-function AuthorisationService($rootScope) {
-  var links = {};
+@Directive({selector: 'ng1-query-filters-wrapper'})
+export class Ng1QueryFiltersComponentWrapper extends UpgradeComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
 
-  var AuthorisationService = {
+  constructor(@Inject(ElementRef) elementRef:ElementRef, @Inject(Injector) injector:Injector) {
+    // We must pass the name of the directive as used by AngularJS to the super
+    super('queryFilters', elementRef, injector);
+  }
 
-    initModelAuth: function(modelName, modelLinks) {
-      links[modelName] = modelLinks;
+  // For this class to work when compiled with AoT, we must implement these lifecycle hooks
+  // because the AoT compiler will not realise that the super class implements them
+  ngOnInit() { super.ngOnInit(); }
 
-      $rootScope.$broadcast('modelAuthUpdate.' + modelName)
-    },
+  ngOnChanges(changes:SimpleChanges) { super.ngOnChanges(changes); }
 
-    can: function(modelName, action) {
-      return links[modelName] && (action in links[modelName]);
-    },
+  ngDoCheck() { super.ngDoCheck(); }
 
-    cannot: function(modelName, action) {
-      return !AuthorisationService.can(modelName, action);
-    }
-  };
-
-  return AuthorisationService;
+  ngOnDestroy() { super.ngOnDestroy(); }
 }

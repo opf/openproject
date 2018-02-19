@@ -1,56 +1,57 @@
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {Injector} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
+import {debugLog} from '../../helpers/debug_output';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 
 import {States} from '../states.service';
-import {injectorBridge} from '../angular/angular-injector-bridge.functions';
-
-import {WorkPackageTableRow} from './wp-table.interfaces';
-import {TableHandlerRegistry} from './handlers/table-handler-registry';
-import {PlainRowsBuilder} from './builders/modes/plain/plain-rows-builder';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {WorkPackageTimelineTableController} from '../wp-table/timeline/container/wp-timeline-container.directive';
 import {GroupedRowsBuilder} from './builders/modes/grouped/grouped-rows-builder';
 import {HierarchyRowsBuilder} from './builders/modes/hierarchy/hierarchy-rows-builder';
+import {PlainRowsBuilder} from './builders/modes/plain/plain-rows-builder';
 import {RowsBuilder} from './builders/modes/rows-builder';
-import {WorkPackageTimelineTableController} from '../wp-table/timeline/container/wp-timeline-container.directive';
 import {PrimaryRenderPass, RenderedRow} from './builders/primary-render-pass';
-import {debugLog} from '../../helpers/debug_output';
-import {WorkPackageTableEditingContext} from "./wp-table-editing";
+import {WorkPackageTableEditingContext} from './wp-table-editing';
+
+import {WorkPackageTableRow} from './wp-table.interfaces';
 
 export class WorkPackageTable {
-  public wpCacheService:WorkPackageCacheService;
-  public states:States;
-  public I18n:op.I18n;
 
-  public originalRows: string[] = [];
-  public originalRowIndex:{[id: string]: WorkPackageTableRow} = {};
+  private readonly tableState = this.injector.get(TableStateHolder).get();
+
+  public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
+  public states:States = this.injector.get(States);
+  public I18n:op.I18n = this.injector.get(I18nToken);
+
+  public originalRows:string[] = [];
+  public originalRowIndex:{ [id:string]:WorkPackageTableRow } = {};
 
   // WP rows builder
   // Ordered by priority
   private builders = [
-    new HierarchyRowsBuilder(this),
-    new GroupedRowsBuilder(this),
-    new PlainRowsBuilder(this)
+    new HierarchyRowsBuilder(this.injector, this),
+    new GroupedRowsBuilder(this.injector, this),
+    new PlainRowsBuilder(this.injector, this)
   ];
 
   // Last render pass used for refreshing single rows
-  private lastRenderPass:PrimaryRenderPass|null = null;
+  private lastRenderPass:PrimaryRenderPass | null = null;
 
   // Work package editing context handler in the table, which handles open forms
   // and their contexts
-  public editing:WorkPackageTableEditingContext = new WorkPackageTableEditingContext();
+  public editing:WorkPackageTableEditingContext = new WorkPackageTableEditingContext(this.injector);
 
-  constructor(public container:HTMLElement,
+  constructor(public readonly injector:Injector,
+              public container:HTMLElement,
               public tbody:HTMLElement,
               public timelineBody:HTMLElement,
               public timelineController:WorkPackageTimelineTableController) {
-    injectorBridge(this);
-    TableHandlerRegistry.attachTo(this);
+
   }
 
   public get renderedRows() {
-    return this.states.table.rendered.getValueOr([]);
+    return this.tableState.rendered.getValueOr([]);
   }
 
   public findRenderedRow(classIdentifier:string):[number, RenderedRow] {
@@ -71,10 +72,11 @@ export class WorkPackageTable {
     this.originalRowIndex = {};
     this.originalRows = rows.map((wp:WorkPackageResourceInterface, i:number) => {
       let wpId = wp.id;
-      this.originalRowIndex[wpId] = <WorkPackageTableRow> { object: wp, workPackageId: wpId, position: i };
+      this.originalRowIndex[wpId] = <WorkPackageTableRow> {object: wp, workPackageId: wpId, position: i};
       return wpId;
     });
   }
+
   /**
    *
    * @param rows
@@ -102,7 +104,7 @@ export class WorkPackageTable {
     this.timelineBody.innerHTML = '';
     this.timelineBody.appendChild(renderPass.timeline.timelineBody);
 
-    this.states.table.rendered.putValue(renderPass.result);
+    this.tableState.rendered.putValue(renderPass.result);
   }
 
   /**
@@ -115,7 +117,7 @@ export class WorkPackageTable {
     this.tbody.innerHTML = '';
     this.tbody.appendChild(renderPass.tableBody);
 
-    this.states.table.rendered.putValue(renderPass.result);
+    this.tableState.rendered.putValue(renderPass.result);
   }
 
   /**
@@ -137,5 +139,3 @@ export class WorkPackageTable {
     });
   }
 }
-
-WorkPackageTable.$inject = ['wpCacheService', 'states', 'I18n'];

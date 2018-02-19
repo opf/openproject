@@ -27,22 +27,44 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
+import {StateService} from '@uirouter/angularjs';
+import {downgradeComponent} from '@angular/upgrade/static'
+import {Component, Inject, Input} from '@angular/core';
+import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 
-function wpCreateButton() {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-buttons/wp-create-button/wp-create-button.directive.html',
+@Component({
+  template: require('!!raw-loader!./wp-create-button.html'),
+  selector: 'wp-create-button',
+})
+export class WorkPackageCreateButtonComponent {
+  @Input('projectIdentifier') projectIdentifier:string;
+  @Input('stateName') stateName:string;
+  @Input('allowed') allowed:boolean;
+  public types:any;
 
-    scope: {
-      projectIdentifier: '=',
-      allowed: '=',
-      stateName: '@'
-    },
+  public text = {
+    createWithDropdown: this.I18n.t('js.work_packages.create.button'),
+    createButton: this.I18n.t('js.label_work_package'),
+    explanation: this.I18n.t('js.label_create_work_package')
+  };
 
-    bindToController: true,
-    controllerAs: '$ctrl',
-    controller: 'WorkPackageCreateButtonController'
+  constructor(@Inject($stateToken) readonly $state:StateService,
+              @Inject(I18nToken) readonly I18n:op.I18n) {
+  }
+
+  public $onInit() {
+    // Created for interface compliance
+  }
+
+  public createWorkPackage() {
+    this.$state.go(this.stateName, {projectPath: this.projectIdentifier});
+  }
+
+  public isDisabled() {
+    return !this.allowed || this.$state.includes('**.new');
   }
 }
 
-wpButtonsModule.directive('wpCreateButton', wpCreateButton);
+wpButtonsModule
+  .directive('wpCreateButton',
+    downgradeComponent({component: WorkPackageCreateButtonComponent}));

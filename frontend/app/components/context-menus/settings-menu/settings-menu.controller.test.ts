@@ -28,25 +28,27 @@
 
 /*jshint expr: true*/
 
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+
 var reactivestates = require("reactivestates");
 
 describe('optionsDropdown Directive', function() {
-  var compile,
-      element,
-      rootScope,
-      scope,
-      I18n,
-      AuthorisationService,
-      wpTableSum,
-      wpTableGroupBy,
-      columnsModal,
-      sortByModal,
-      groupByModal,
-      exportModal,
-      wpTableHierarchies,
-      states,
-      query,
-      form;
+  var compile:any,
+      element:any,
+      rootScope:any,
+      scope:any,
+      I18n:any,
+      authorisationService:AuthorisationService,
+      wpTableSum:any,
+      wpTableGroupBy:any,
+      columnsModal:any,
+      sortByModal:any,
+      groupByModal:any,
+      exportModal:any,
+      wpTableHierarchies:any,
+      states:any,
+      query:any,
+      form:any;
 
   beforeEach(angular.mock.module('openproject.models',
                     'openproject.workPackages',
@@ -54,7 +56,7 @@ describe('optionsDropdown Directive', function() {
                     'openproject.layout',
                     'openproject.services'));
 
-  beforeEach(angular.mock.module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function($provide:any) {
     wpTableSum = {
       isEnabled: false
     };
@@ -77,9 +79,9 @@ describe('optionsDropdown Directive', function() {
     };
 
     var queryValues = {
-      takeUntil: function(condition) {
+      takeUntil: function(condition:any) {
         return {
-          subscribe: function(func) {
+          subscribe: function(func:any) {
             func(query);
           }
         }
@@ -89,9 +91,9 @@ describe('optionsDropdown Directive', function() {
     form = {}
 
     var formValues = {
-      takeUntil: function(condition) {
+      takeUntil: function(condition:any) {
         return {
-          subscribe: function(func) {
+          subscribe: function(func:any) {
             func(form);
           }
         }
@@ -112,7 +114,7 @@ describe('optionsDropdown Directive', function() {
         }
 
       },
-      table: {
+      globalTable: {
         timelineVisible: {
           value: {}
         },
@@ -130,7 +132,7 @@ describe('optionsDropdown Directive', function() {
     $provide.constant('states', states);
   }));
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope:any, $compile:any) {
     var optionsDropdownHtml;
     optionsDropdownHtml = '<div class="toolbar"><button has-dropdown-menu="" target="SettingsDropdownMenu" locals="query"></button></div>';
 
@@ -145,8 +147,8 @@ describe('optionsDropdown Directive', function() {
     };
   }));
 
-  beforeEach(inject(function(_AuthorisationService_, _I18n_){
-    AuthorisationService = _AuthorisationService_;
+  beforeEach(inject(function(_authorisationService_:AuthorisationService, _I18n_:any){
+    authorisationService = _authorisationService_;
 
     I18n = _I18n_;
 
@@ -169,7 +171,7 @@ describe('optionsDropdown Directive', function() {
   });
 
   describe('element', function() {
-    var getMenuItem = function(name) {
+    var getMenuItem = function(name:any) {
       var menuLinks = element.find('a.menu-item');
 
       return _.find(menuLinks, function(item) {
@@ -364,15 +366,15 @@ describe('optionsDropdown Directive', function() {
         return getMenuItem(I18n.t('js.toolbar.settings.export'));
       }
 
-      var authorisation;
+      var authorisation:any;
 
       beforeEach(function() {
-        authorisation = sinon.stub(AuthorisationService, 'can');
+        authorisation = sinon.stub(authorisationService, 'can');
         authorisation.returns(false);
       });
 
       afterEach(function() {
-        AuthorisationService.can.restore();
+        (authorisationService.can as any).restore();
       });
 
       it('has a "Export" menu item', function() {

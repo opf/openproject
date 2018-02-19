@@ -26,45 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageDetailsViewButtonController} from './wp-details-view-button.directive';
-import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
+import {Injectable} from '@angular/core';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
-var expect = chai.expect;
+@Injectable()
+export class TableStore  {
 
-describe('wpListViewButton directive', () => {
-  var $state:any, scope:any;
-  var keepTab:KeepTabService;
-  var controller:WorkPackageDetailsViewButtonController;
+  constructor(readonly tableState:TableState) {
+  }
 
-  beforeEach(angular.mock.module('openproject.wpButtons', 'openproject.templates',
-    'openproject.config'));
+}
 
-  beforeEach(angular.mock.inject(($compile:any, $rootScope:any, _$state_:any, _keepTab_:any) => {
-    var html = '<wp-details-view-button></wp-details-view-button>';
 
-    var element = angular.element(html);
-
-    $state = _$state_;
-    keepTab = _keepTab_;
-
-    scope = $rootScope.$new();
-
-    $compile(element)(scope);
-    scope.$digest();
-
-    controller = element.controller('wpDetailsViewButton');
-  }));
-
-  describe('when using openDetailsView()', () => {
-    var go:any;
-
-    beforeEach(() => {
-      go = sinon.stub($state, 'go');
-      controller.openDetailsView();
-    });
-
-    it("should redirect user to 'work-packages.list'", () => {
-      expect(go.withArgs(keepTab.currentDetailsState).calledOnce).to.be.true;
-    });
-  });
-});

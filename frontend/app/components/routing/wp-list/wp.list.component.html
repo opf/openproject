@@ -1,17 +1,32 @@
 <div class="work-packages-list-view--container">
   <div class="toolbar-container">
     <div class="toolbar">
-      <selectable-title
-          focus
-          selected-title="selectedTitle">
-      </selectable-title>
+      <div class="title-container">
+        <div class="text">
+          <h2>
+            <span has-dropdown-menu
+                  target="wpQuerySelectService"
+                  collision-container="#content"
+                  locals="selectedTitle">
+              <accessible-by-keyboard
+                linkClass="wp-table--query-menu-link"
+                [linkTitle]="text.search_query_title">
+                <op-icon
+                  icon-classes="icon-pulldown icon-button icon-small hide-when-print"></op-icon>
+                {{ selectedTitle | slice:0:50 }}
+              </accessible-by-keyboard>
+            </span>
+          </h2>
+        </div>
+      </div>
 
-      <ul class="toolbar-items hide-when-print" ng-if="tableInformationLoaded">
+      <ul class="toolbar-items hide-when-print"
+          *ngIf="tableInformationLoaded">
         <li class="toolbar-item">
           <wp-create-button
-              allowed="allowed('work_packages', 'createWorkPackage')"
-              project-identifier="projectIdentifier"
-              state-name="work-packages.list.new">
+            [allowed]="allowed('work_packages', 'createWorkPackage')"
+            [projectIdentifier]="projectIdentifier"
+            stateName="work-packages.list.new">
           </wp-create-button>
         </li>
         <li class="toolbar-item hidden-for-mobile">
@@ -32,7 +47,7 @@
         </li>
         <li class="toolbar-item hidden-for-mobile">
           <button id="work-packages-settings-button"
-                  title="{{ I18n.t('js.button_settings') }}"
+                  title="{{ text.button_settings }}"
                   class="button last work-packages-settings-button toolbar-icon"
                   has-dropdown-menu
                   target="SettingsDropdownMenu"
@@ -47,26 +62,28 @@
   <filter-container></filter-container>
 
   <accessible-by-keyboard
-    link-class="hidden-for-sighted skip-navigation-link"
-    link-aria-label="{{ ::text.text_jump_to_pagination }}"
-    execute="setAnchorToNextElement()">
-    <span ng-bind="::text.jump_to_pagination"></span>
+    linkClass="hidden-for-sighted skip-navigation-link"
+    [linkAriaLabel]="text.text_jump_to_pagination"
+    (execute)="setAnchorToNextElement()">
+    <span [textContent]="text.jump_to_pagination"></span>
   </accessible-by-keyboard>
 
   <!-- (TABLE + TIMELINE) + DETAILS view -->
   <div class="work-packages-split-view">
 
     <!-- (TABLE + TIMELINE) and FOOTER vertical split-->
-    <div class="work-packages-split-view--tabletimeline-side loading-indicator--location" data-indicator-name="table">
+    <div class="work-packages-split-view--tabletimeline-side loading-indicator--location"
+         data-indicator-name="table">
 
       <!-- TABLE + TIMELINE horizontal split -->
-      <wp-table [project-identifier]="projectIdentifier"
-                ng-if="tableInformationLoaded"
+      <wp-table *ngIf="tableInformationLoaded"
+                [projectIdentifier]="projectIdentifier"
+                [tableState]="tableState"
                 class="work-packages-split-view--tabletimeline-content"></wp-table>
 
       <!-- Footer -->
-      <div class="work-packages-split-view--tabletimeline-footer hide-when-print" ng-if="tableInformationLoaded">
-        <wp-table-pagination></wp-table-pagination>
+      <div class="work-packages-split-view--tabletimeline-footer hide-when-print"
+           *ngIf="tableInformationLoaded">
       </div>
     </div>
 

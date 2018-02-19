@@ -1,30 +1,28 @@
-import {RowsBuilder} from '../rows-builder';
+import {Injector} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageTable} from '../../../wp-fast-table';
-import {injectorBridge} from '../../../../angular/angular-injector-bridge.functions';
 import {PrimaryRenderPass} from '../../primary-render-pass';
-import {PlainRenderPass} from './plain-render-pass';
 import {SingleRowBuilder} from '../../rows/single-row-builder';
+import {RowsBuilder} from '../rows-builder';
+import {PlainRenderPass} from './plain-render-pass';
 
 export class PlainRowsBuilder extends RowsBuilder {
+
   // Injections
-  public I18n:op.I18n;
+  public I18n:op.I18n = this.injector.get(I18nToken);
 
   protected rowBuilder:SingleRowBuilder;
 
   // The group expansion state
-  constructor(workPackageTable:WorkPackageTable) {
-    super(workPackageTable);
-    injectorBridge(this);
-
-    this.rowBuilder = new SingleRowBuilder(this.workPackageTable);
+  constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {
+    super(injector, workPackageTable);
+    this.rowBuilder = new SingleRowBuilder(injector, this.workPackageTable);
   }
 
   /**
    * Rebuild the entire grouped tbody from the given table
    */
   public buildRows():PrimaryRenderPass {
-    return new PlainRenderPass(this.workPackageTable, this.rowBuilder).render();
+    return new PlainRenderPass(this.injector, this.workPackageTable, this.rowBuilder).render();
   }
 }
-
-PlainRowsBuilder.$inject = ['states', 'I18n'];

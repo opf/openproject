@@ -26,37 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpButtonsModule} from '../../../angular-modules';
-import {StateService} from '@uirouter/angularjs';
+import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
+import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
+import {StateParams} from '@uirouter/core';
 
-export default class WorkPackageCreateButtonController {
-  public projectIdentifier:string;
-  public text:any;
-  public types:any;
-  public stateName:string;
+function WorkPackagesListRouterController($scope:any,
+                                          $stateParams:StateParams,
+                                          wpListChecksumService:WorkPackagesListChecksumService,
+                                          wpListService:WorkPackagesListService) {
+  $scope.$watchCollection(
+    () => {
+      return {
+        query_id: $stateParams['query_id'],
+        query_props: $stateParams['query_props']
+      };
+    },
+    (params:{ query_id:any, query_props:any }) => {
+      let newChecksum = params.query_props;
+      let newId = params.query_id && parseInt(params.query_id);
 
-  public allowed:boolean;
-
-  constructor(protected $state:StateService,
-              protected I18n:op.I18n) {
-    this.text = {
-      createWithDropdown: I18n.t('js.work_packages.create.button'),
-      createButton: I18n.t('js.label_work_package'),
-      explanation: I18n.t('js.label_create_work_package')
-    };
-  }
-
-  public $onInit() {
-    // Created for interface compliance
-  }
-
-  public createWorkPackage() {
-    this.$state.go(this.stateName, {projectPath: this.projectIdentifier});
-  }
-
-  public isDisabled() {
-    return !this.allowed || this.$state.includes('**.new');
-  }
+      wpListChecksumService.executeIfOutdated(newId, newChecksum, function() {
+        wpListService.loadCurrentQueryFromParams($stateParams['projectPath']);
+      });
+    });
 }
 
-wpButtonsModule.controller('WorkPackageCreateButtonController', WorkPackageCreateButtonController);
+angular
+  .module('openproject.workPackages.controllers')
+  .controller('WorkPackagesListRouter', WorkPackagesListRouterController);

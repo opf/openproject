@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Injector} from '@angular/core';
+import {$qToken, $timeoutToken, FocusHelperToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {CellBuilder, editCellContainer, tdClassName} from '../wp-fast-table/builders/cell-builder';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
@@ -41,13 +43,13 @@ import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
 export class TableRowEditContext implements WorkPackageEditContext {
 
   // Injections
-  public templateRenderer:SimpleTemplateRenderer;
-  public wpTableRefresh:WorkPackageTableRefreshService;
-  public wpTableColumns:WorkPackageTableColumnsService;
-  public states:States;
-  public FocusHelper:any;
-  public $q:ng.IQService;
-  public $timeout:ng.ITimeoutService;
+  public templateRenderer:SimpleTemplateRenderer = this.injector.get(SimpleTemplateRenderer);
+  public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
+  public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
+  public states:States = this.injector.get(States);
+  public FocusHelper:any = this.injector.get(FocusHelperToken);
+  public $q:ng.IQService = this.injector.get($qToken);
+  public $timeout:ng.ITimeoutService = this.injector.get($timeoutToken);
 
   // other fields
   public successState:string;
@@ -55,8 +57,10 @@ export class TableRowEditContext implements WorkPackageEditContext {
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder();
 
-  constructor(public workPackageId:string, public classIdentifier:string) {
-    injectorBridge(this);
+  constructor(public readonly injector:Injector,
+              public workPackageId:string,
+              public classIdentifier:string) {
+    // injectorBridge(this);
   }
 
   public findContainer(fieldName:string):JQuery {
@@ -165,7 +169,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 }
 
-TableRowEditContext.$inject = [
-  'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh',
-  'FocusHelper', '$q', '$timeout', 'templateRenderer'
-];
+// TableRowEditContext.$inject = [
+//   'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh',
+//   'FocusHelper', '$q', '$timeout', 'templateRenderer'
+// ];

@@ -25,27 +25,27 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+
+import {Injector} from '@angular/core';
 import {States} from '../../../states.service';
-import {RenderInfo} from '../wp-timeline';
-import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
-import {TimelineCellRenderer} from './timeline-cell-renderer';
-import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
-import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
-import {WorkPackageTimelineCell} from './wp-timeline-cell';
-import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
+import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
+import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
+import {RenderInfo} from '../wp-timeline';
+import {TimelineCellRenderer} from './timeline-cell-renderer';
+import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
+import {WorkPackageTimelineCell} from './wp-timeline-cell';
 
 export class WorkPackageTimelineCellsRenderer {
+
   // Injections
-  public states:States;
+  public states = this.injector.get(States);
 
   public cells:{ [classIdentifier:string]:WorkPackageTimelineCell } = {};
 
   private cellRenderers:{ milestone:TimelineMilestoneCellRenderer, generic:TimelineCellRenderer };
 
-  constructor(private wpTimeline:WorkPackageTimelineTableController) {
-    $injectFields(this, 'states');
-
+  constructor(public readonly injector:Injector, private wpTimeline:WorkPackageTimelineTableController) {
     this.cellRenderers = {
       milestone: new TimelineMilestoneCellRenderer(wpTimeline),
       generic: new TimelineCellRenderer(wpTimeline)
@@ -126,6 +126,7 @@ export class WorkPackageTimelineCellsRenderer {
 
   private buildCell(classIdentifier:string, workPackageId:string) {
     return new WorkPackageTimelineCell(
+      this.injector,
       this.wpTimeline,
       this.cellRenderers,
       this.renderInfoFor(workPackageId),

@@ -26,52 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "../wp-display-field/wp-display-field.module";
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-builder';
 
-export class IdDisplayField extends DisplayField {
+type ModelLinks = {[action:string]:any};
 
-  public text:Object;
-  private uiStateBuilder:UiStateLinkBuilder;
+export class AuthorisationService {
+  private links:{[model:string]:ModelLinks} = {};
 
-  constructor(public workPackage:WorkPackageResourceInterface,
-              public name:string,
-              public schema:op.FieldSchema) {
-    super(workPackage as any, name, schema);
-
-    this.uiStateBuilder = new UiStateLinkBuilder(this.$injector.get('$state'), this.$injector.get('keepTab'));
-
-    this.text = {
-      linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
-    };
+  constructor(readonly $rootScope:ng.IRootScopeService) {
   }
 
-  public get value() {
-    if (this.workPackage.isNew) {
-      return null;
-    }
-    else {
-      return this.workPackage[this.name];
-    }
+  public initModelAuth(modelName:string, modelLinks:ModelLinks) {
+    this.links[modelName] = modelLinks;
+
+    this.$rootScope.$broadcast('modelAuthUpdate.' + modelName);
   }
 
-  public render(element:HTMLElement, displayText:string):void {
-    if (!this.value) {
-      return;
-    }
-
-    let link = this.uiStateBuilder.linkToShow(
-      this.value,
-      displayText,
-      this.value
-    );
-
-    element.appendChild(link);
+  public can(modelName:string, action:string) {
+    return this.links[modelName] && (action in this.links[modelName]);
   }
 
-  public isEmpty():boolean {
-    return false;
+  public cannot(modelName:string, action:string) {
+    return !this.can(modelName, action);
   }
-
 }
+
+angular
+  .module('openproject.services')
+  .service('authorisationService', AuthorisationService);

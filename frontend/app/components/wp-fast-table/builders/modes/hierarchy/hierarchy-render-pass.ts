@@ -1,49 +1,49 @@
-import {WorkPackageTable} from '../../../wp-fast-table';
+import {Injector} from '@angular/core';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
 import {WorkPackageResourceInterface} from '../../../../api/api-v3/hal-resources/work-package-resource.service';
-import {
-  additionalHierarchyRowClassName,
-  SingleHierarchyRowBuilder
-} from './single-hierarchy-row-builder';
-import {WorkPackageTableRow} from '../../../wp-table.interfaces';
+import {States} from '../../../../states.service';
 import {
   ancestorClassIdentifier,
   collapsedGroupClass,
   hierarchyGroupClass,
   hierarchyRootClass
 } from '../../../helpers/wp-table-hierarchy-helpers';
-import {PrimaryRenderPass, RowRenderInfo} from '../../primary-render-pass';
-import {States} from '../../../../states.service';
-import {$injectFields} from '../../../../angular/angular-injector-bridge.functions';
+import {WorkPackageTable} from '../../../wp-fast-table';
 import {WorkPackageTableHierarchies} from '../../../wp-table-hierarchies';
-import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {WorkPackageTableRow} from '../../../wp-table.interfaces';
+import {PrimaryRenderPass, RowRenderInfo} from '../../primary-render-pass';
+import {additionalHierarchyRowClassName, SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
-  public states:States;
-  public wpCacheService:WorkPackageCacheService;
+
+  private readonly tableState = this.injector.get(TableStateHolder);
+
+  public states = this.injector.get(States);
+  public wpCacheService = this.injector.get(WorkPackageCacheService);
 
   // Remember which rows were already rendered
-  public rendered:{[workPackageId:string]: boolean};
+  public rendered:{ [workPackageId:string]:boolean };
 
   // Remember additional parents inserted that are not part of the results table
-  public additionalParents:{[workPackageId:string]: WorkPackageResourceInterface};
+  public additionalParents:{ [workPackageId:string]:WorkPackageResourceInterface };
 
   // Defer children to be rendered when their parent occurs later in the table
-  public deferred:{[parentId:string]: WorkPackageResourceInterface[]};
+  public deferred:{ [parentId:string]:WorkPackageResourceInterface[] };
 
   // Collapsed state
   private hierarchies:WorkPackageTableHierarchies;
 
-  constructor(public workPackageTable:WorkPackageTable,
+  constructor(public readonly injector:Injector,
+              public workPackageTable:WorkPackageTable,
               public rowBuilder:SingleHierarchyRowBuilder) {
-    super(workPackageTable, rowBuilder);
-
-    $injectFields(this, 'states', 'wpCacheService');
+    super(injector, workPackageTable, rowBuilder);
   }
 
   protected prepare() {
     super.prepare();
 
-    this.hierarchies = this.states.table.hierarchies.value!;
+    this.hierarchies = this.tableState.get().hierarchies.value!;
     this.rendered = {};
     this.additionalParents = {};
     this.deferred = {};
@@ -152,7 +152,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     let row:WorkPackageTableRow = this.workPackageTable.originalRowIndex[workPackage.id];
 
     if (!row) {
-      row = { object: workPackage } as WorkPackageTableRow;
+      row = {object: workPackage} as WorkPackageTableRow;
     }
 
     return row;

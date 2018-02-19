@@ -27,10 +27,11 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
-import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
+import {wpButtonDirective} from '../wp-buttons.module';
 import {StateService} from '@uirouter/angularjs';
+import {WorkPackageNavigationButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
 
-export class WorkPackageListViewButtonController extends WorkPackageNavigationButtonController {
+export class WorkPackageListViewButtonController extends WorkPackageNavigationButtonComponent {
   public projectIdentifier:number;
 
   public accessKey:number = 8;

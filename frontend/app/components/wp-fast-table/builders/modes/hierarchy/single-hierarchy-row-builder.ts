@@ -1,28 +1,20 @@
-import {WorkPackageTable} from '../../../wp-fast-table';
-import {WorkPackageTableRow} from '../../../wp-table.interfaces';
+import {Injector} from '@angular/core';
 import {WorkPackageResourceInterface} from '../../../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageTableHierarchiesService} from '../../../state/wp-table-hierarchy.service';
-import {$injectFields} from '../../../../angular/angular-injector-bridge.functions';
-import {WorkPackageEditForm} from '../../../../wp-edit-form/work-package-edit-form';
-import {
-  collapsedGroupClass,
-  hasChildrenInTable,
-  hierarchyRootClass
-} from '../../../helpers/wp-table-hierarchy-helpers';
-import {UiStateLinkBuilder} from '../../ui-state-link-builder';
-import {QueryColumn} from '../../../../wp-query/query-column';
-import {SingleRowBuilder} from '../../rows/single-row-builder';
 import {States} from '../../../../states.service';
 import {WorkPackageChangeset} from '../../../../wp-edit-form/work-package-changeset';
+import {collapsedGroupClass, hasChildrenInTable} from '../../../helpers/wp-table-hierarchy-helpers';
+import {WorkPackageTableHierarchiesService} from '../../../state/wp-table-hierarchy.service';
+import {WorkPackageTable} from '../../../wp-fast-table';
+import {SingleRowBuilder} from '../../rows/single-row-builder';
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
 export const hierarchyCellClassName = 'wp-table--hierarchy-span';
-export const additionalHierarchyRowClassName =  'wp-table--hierarchy-aditional-row';
+export const additionalHierarchyRowClassName = 'wp-table--hierarchy-aditional-row';
 
 export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   // Injected
-  public wpTableHierarchies:WorkPackageTableHierarchiesService;
-  public states:States;
+  public wpTableHierarchies = this.injector.get(WorkPackageTableHierarchiesService);
+  public states = this.injector.get(States);
 
   public text:{
     leaf:(level:number) => string;
@@ -30,9 +22,10 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     collapsed:(level:number) => string;
   };
 
-  constructor(protected workPackageTable:WorkPackageTable) {
-    super(workPackageTable);
-    $injectFields(this, 'wpTableHierarchies', 'states');
+  constructor(public readonly injector:Injector,
+              protected workPackageTable:WorkPackageTable) {
+
+    super(injector, workPackageTable);
 
     this.text = {
       leaf: (level:number) => this.I18n.t('js.work_packages.hierarchy.leaf', {level: level}),
@@ -141,5 +134,3 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   }
 
 }
-
-SingleHierarchyRowBuilder.$inject = ['states', 'I18n'];

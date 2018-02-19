@@ -28,32 +28,34 @@
 
 /*jshint expr: true*/
 
-describe('AuthorisationService', function() {
+import {AuthorisationService} from './model-auth.service';
 
-  var AuthorisationService, $rootScope, query;
+describe('authorisationService', function() {
+
+  var authorisationService:AuthorisationService, $rootScope:ng.IRootScopeService, query:any;
 
   beforeEach(angular.mock.module('openproject.services', 'openproject.models'));
 
-  beforeEach(inject(function(_AuthorisationService_, _$rootScope_){
-    AuthorisationService = _AuthorisationService_;
+  beforeEach(inject(function(_authorisationService_:AuthorisationService, _$rootScope_:ng.IRootScopeService){
+    authorisationService = _authorisationService_;
     $rootScope = _$rootScope_;
   }));
 
   describe('model action authorisation', function () {
     beforeEach(function(){
-      AuthorisationService.initModelAuth('query', {
+      authorisationService.initModelAuth('query', {
         create: '/queries'
       });
     });
 
     it('should allow action', function() {
-      expect(AuthorisationService.can('query', 'create')).to.be.true;
-      expect(AuthorisationService.cannot('query', 'create')).to.be.false;
+      expect(authorisationService.can('query', 'create')).to.be.true;
+      expect(authorisationService.cannot('query', 'create')).to.be.false;
     });
 
     it('should not allow action', function() {
-      expect(AuthorisationService.can('query', 'delete')).to.be.false;
-      expect(AuthorisationService.cannot('query', 'delete')).to.be.true;
+      expect(authorisationService.can('query', 'delete')).to.be.false;
+      expect(authorisationService.cannot('query', 'delete')).to.be.true;
     });
 
     it('should call an event on initialisation', function () {
@@ -63,7 +65,7 @@ describe('AuthorisationService', function() {
         eventCalled = true;
       });
 
-      AuthorisationService.initModelAuth('my_model');
+      authorisationService.initModelAuth('my_model', {});
       expect(eventCalled).to.be.true;
     });
   });
