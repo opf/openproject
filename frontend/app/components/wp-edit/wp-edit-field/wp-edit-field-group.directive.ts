@@ -210,7 +210,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
 
     // In new/copy mode, transitions to the same controller are allowed
     if (fromState.name.match(/\.(new|copy)$/)) {
-      return fromState.controller === toState.controller;
+       fromState.component.name === toState.component.name;
     }
 
     // When editing an existing WP, transitions on the same WP id are allowed
