@@ -83,8 +83,7 @@ shared_examples 'avatar management' do
       find('.avatars--local-avatar-delete-link').click
       page.driver.browser.switch_to.alert.accept
 
-      expect(page).to have_selector('.form--fieldset-legend', text: 'CUSTOM AVATAR')
-      expect(page).to have_selector('.avatars--current-local-avatar', text: 'none')
+      expect(page).to have_selector('.avatars--current-local-avatar', text: 'none', wait: 20)
     end
   end
 

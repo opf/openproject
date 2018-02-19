@@ -7,7 +7,7 @@ OpenProject::Application.routes.draw do
     end
 
     # Get the current avatar
-    get '/users/:id/avatar', controller: 'avatar', action: :show, as: 'user_avatar'
+    resources :avatars, controller: 'avatar',  only: %i[show], as: 'user_avatar'
 
     # Update another user's avatar
     resources :users do
