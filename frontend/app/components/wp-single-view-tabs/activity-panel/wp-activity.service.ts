@@ -29,6 +29,7 @@
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {ActivityEntryInfo} from './activity-entry-info';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
 
 
 export class WorkPackagesActivityService {
@@ -78,7 +79,7 @@ export class WorkPackagesActivityService {
     );
   }
 
-  public info(activities:any, activity:any, index:any) {
+  public info(activities:HalResource[], activity:HalResource, index:number) {
     return new ActivityEntryInfo(this.$filter, this.isReversed, activities, activity, index);
   };
 

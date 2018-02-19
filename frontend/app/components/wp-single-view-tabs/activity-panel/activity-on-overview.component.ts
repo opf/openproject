@@ -50,6 +50,11 @@ export class NewestActivityOnOverviewComponent extends ActivityPanelBaseControll
     super(wpCacheService, I18n, wpActivity);
   }
 
+  ngOnInit() {
+    this.workPackageId = this.workPackage.id;
+    super.ngOnInit();
+  }
+
   protected shouldShowToggler() {
     return false;
   }
@@ -68,6 +73,6 @@ export class NewestActivityOnOverviewComponent extends ActivityPanelBaseControll
       segment = this.unfilteredActivities.slice(0, visible);
     }
 
-    return segment.map((el:HalResource, i:number) => this.info(el, i, segment));
+    return segment.map((el:HalResource, i:number) => this.info(el, i));
   }
 }

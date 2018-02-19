@@ -40,7 +40,6 @@ import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource
   selector: 'wp-activity-tab',
 })
 export class WorkPackageActivityTabComponent extends ActivityPanelBaseController implements OnDestroy {
-  public workPackageId:string;
   public workPackage:WorkPackageResourceInterface;
   public tabName = this.I18n.t('js.work_packages.tabs.activity');
 
@@ -49,25 +48,10 @@ export class WorkPackageActivityTabComponent extends ActivityPanelBaseController
               @Inject(I18nToken) readonly I18n:op.I18n,
               readonly wpActivity:WorkPackagesActivityService) {
     super(wpCacheService, I18n, wpActivity);
-
     this.workPackageId = this.$transition.params('to').workPackageId;
-    wpCacheService.loadWorkPackage(this.workPackageId)
-      .values$()
-      .takeUntil(componentDestroyed(this))
-      .subscribe((wp) => this.workPackage = wp);
   }
 
   ngOnDestroy() {
     // Nothing to do
   }
-
-  protected updateActivities(activities:HalResource[]) {
-    if (this.reverse) {
-      activities = activities.reverse();
-    }
-
-    super.updateActivities(activities);
-  }
-
-
 }

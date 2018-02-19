@@ -36,6 +36,7 @@ import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-pa
 
 export class ActivityPanelBaseController implements OnInit, OnDestroy {
   public workPackage:WorkPackageResourceInterface;
+  public workPackageId:string;
 
   // All activities retrieved for the work package
   public unfilteredActivities:HalResource[] = [];
@@ -57,12 +58,12 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
               readonly I18n:op.I18n,
               readonly wpActivity:WorkPackagesActivityService) {
 
-    this.reverse = wpActivity.order === 'asc';
+    this.reverse = wpActivity.isReversed;
     this.togglerText = this.text.commentsOnly;
   }
 
   ngOnInit() {
-    this.wpCacheService.loadWorkPackage(this.workPackage.id)
+    this.wpCacheService.loadWorkPackage(this.workPackageId)
       .values$()
       .takeUntil(componentDestroyed(this))
       .subscribe((wp:WorkPackageResourceInterface) => {
@@ -81,7 +82,7 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
     this.unfilteredActivities = activities;
 
     const visible = this.getVisibleActivities();
-    this.visibleActivities = visible.map((el:HalResource, i:number) => this.info(el, i, visible));
+    this.visibleActivities = visible.map((el:HalResource, i:number) => this.info(el, i));
     this.showToggler = this.shouldShowToggler();
   }
 
@@ -118,8 +119,8 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
     }
   }
 
-  public info(activity:any, index:any, visible:HalResource[]) {
-    return this.wpActivity.info(visible, activity, index);
+  public info(activity:HalResource, index:number) {
+    return this.wpActivity.info(this.unfilteredActivities, activity, index);
   }
 }
 
