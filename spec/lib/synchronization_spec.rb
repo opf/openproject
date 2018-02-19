@@ -105,14 +105,48 @@ describe OpenProject::LdapGroups::Synchronization, with_groups_ee: true do
           user_cc414
         end
 
-        it 'synchronizes all memberships' do
-          subject
 
-          expect(synced_foo.users.count).to eq(1)
-          expect(synced_bar.users.count).to eq(3)
+        describe 'synchronizes all memberships' do
+          before do
+            subject
 
-          expect(group_foo.users).to eq([user_aa729])
-          expect(group_bar.users).to eq([user_aa729, user_bb459, user_cc414])
+            expect(synced_foo.users.count).to eq(1)
+            expect(synced_bar.users.count).to eq(3)
+
+            expect(group_foo.users).to eq([user_aa729])
+            expect(group_bar.users).to eq([user_aa729, user_bb459, user_cc414])
+          end
+
+          it 'removes all memberships after removing synced group' do
+            synced_foo_id = synced_foo.id
+            expect(::LdapGroups::Membership.where(group_id: synced_foo_id).count).to eq(1)
+            synced_foo.destroy
+
+            expect { group_foo.reload }.not_to raise_error ActiveRecord::RecordNotFound
+
+            expect(::LdapGroups::Membership.where(group_id: synced_foo_id)).to be_empty
+          end
+
+          it 'removes all memberships and groups after removing auth source' do
+            expect{ auth_source.destroy }
+              .to change{::LdapGroups::Membership.count}.from(4).to(0)
+
+            auth_source.destroy
+
+            expect { synced_foo.reload }.to raise_error ActiveRecord::RecordNotFound
+            expect { synced_bar.reload }.to raise_error ActiveRecord::RecordNotFound
+          end
+
+          it 'removes all memberships and groups after removing actual group' do
+            synced_foo_id = synced_foo.id
+            expect(::LdapGroups::Membership.where(group_id: synced_foo_id).count).to eq(1)
+            group_foo.destroy
+
+            expect { synced_foo.reload }.to raise_error ActiveRecord::RecordNotFound
+            expect(group_bar.users).to eq([user_aa729, user_bb459, user_cc414])
+
+            expect(::LdapGroups::Membership.where(group_id: synced_foo_id)).to be_empty
+          end
         end
       end
 
@@ -129,6 +163,23 @@ describe OpenProject::LdapGroups::Synchronization, with_groups_ee: true do
           expect(group_foo.users).to be_empty
           expect(group_bar.users).to eq([user_cc414])
         end
+      end
+    end
+
+    context 'foo group exists' do
+      before do
+        group_foo
+        synced_foo
+      end
+
+      it 'ignores users that are already in the group' do
+        group_foo.users << user_aa729
+
+        # Outputs that nothing was added to sync group
+        expect { subject }.to output("No users to remove for foo\nNo new users to add for foo\n").to_stdout
+
+        # Does not add to synced group since added manually
+        expect(synced_foo.users.count).to eq(0)
       end
     end
   end
