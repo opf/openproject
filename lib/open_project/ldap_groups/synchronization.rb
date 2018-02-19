@@ -50,14 +50,19 @@ module OpenProject::LdapGroups
     ##
     # Get the current members from the ldap group
     def get_members(ldap_con, group)
-      group_filter = Net::LDAP::Filter.eq(::OpenProject::LdapGroups.group_key, group.escaped_entry)
-      object_filter = Net::LDAP::Filter.eq('objectClass', '*')
+
+      # Get user login attribute and base dn which are private
+      attr_login = ldap.send :attr_login
+      base_dn = ldap.send :base_dn
+
+      # memberOf filter to identifiy member entries of the group
+      memberof_filter = Net::LDAP::Filter.eq('memberOf', group.dn)
 
       logins = []
-      ldap_con.search(base: ::OpenProject::LdapGroups.group_base,
-                      filter: object_filter & group_filter,
-                      attributes: [:member]) do |entry|
-        logins = entry[:member].map { |dn| dn.match(/\A\w+\=([^,]+)/)[1] }
+      ldap_con.search(base: base_dn,
+                      filter: memberof_filter,
+                      attributes: [attr_login]) do |entry|
+        logins << ::LdapAuthSource.get_attr(entry, attr_login)
       end
 
       logins

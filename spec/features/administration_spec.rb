@@ -8,13 +8,13 @@ describe 'LDAP group sync administration spec', type: :feature, js: true do
     visit ldap_groups_synchronized_groups_path
   end
 
-  context 'without EE', with_group_ee: false do
+  context 'without EE' do
     it 'shows upsale' do
       expect(page).to have_selector('.upsale-notification')
     end
   end
 
-  context 'with EE', with_group_ee: true do
+  context 'with EE', with_ee: %i[ldap_groups] do
     let!(:group) { FactoryGirl.create :group, lastname: 'foo' }
     let!(:auth_source) { FactoryGirl.create :ldap_auth_source, name: 'ldap' }
 

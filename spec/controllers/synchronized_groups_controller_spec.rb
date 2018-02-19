@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe ::LdapGroups::SynchronizedGroupsController, with_groups_ee: true, type: :controller do
+describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], type: :controller do
   let(:user) { FactoryGirl.create :user }
   let(:admin) { FactoryGirl.create :admin }
 
