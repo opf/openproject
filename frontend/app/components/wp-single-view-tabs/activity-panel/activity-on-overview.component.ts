@@ -65,14 +65,7 @@ export class NewestActivityOnOverviewComponent extends ActivityPanelBaseControll
   }
 
   private latestActivities(visible:number = 3) {
-    let segment:any[] = []
-
-    if (this.reverse) {
-      segment = this.unfilteredActivities.slice(-visible).reverse();
-    } else {
-      segment = this.unfilteredActivities.slice(0, visible);
-    }
-
+    let segment = this.unfilteredActivities.slice(0, visible);
     return segment.map((el:HalResource, i:number) => this.info(el, i));
   }
 }
