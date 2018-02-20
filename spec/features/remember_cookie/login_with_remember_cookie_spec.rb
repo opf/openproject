@@ -94,7 +94,7 @@ describe 'Login with 2FA remember cookie', type: :feature,
       visit '/logout'
       expect_no_autologin
 
-      # Disable functionality
+      # Enable functionality
       allow(::OpenProject::TwoFactorAuthentication::TokenStrategyManager)
           .to receive(:allow_remember_for_days)
           .and_return(1)

@@ -48,6 +48,8 @@ module ::TwoFactorAuthentication
       end
 
       def has_valid_2fa_remember_cookie?(user = current_user)
+        return false unless remember_2fa_enabled?
+
         token = get_2fa_remember_cookie(user)
         token.present? && !token.expired?
       end
