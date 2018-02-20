@@ -1,7 +1,7 @@
 shared_examples_for "should let you create a configuration" do
 
   before do
-    post 'create', params
+    post 'create', params: params
   end
 
   it { expect(response).to redirect_to :action => 'index' }
@@ -11,7 +11,7 @@ end
 shared_examples_for "should not let you create a configuration" do
 
   before do
-    post 'create', params
+    post 'create', params: params
   end
 
   it { expect(response).to render_template('new') }
