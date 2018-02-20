@@ -27,9 +27,9 @@
 class ExportCardConfigurationsController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin
-  before_filter :load_config, only: [:show, :update, :edit, :destroy, :activate, :deactivate]
-  before_filter :load_configs, only: [:index]
+  before_action :require_admin
+  before_action :load_config, only: [:show, :update, :edit, :destroy, :activate, :deactivate]
+  before_action :load_configs, only: [:index]
 
   def index
   end
