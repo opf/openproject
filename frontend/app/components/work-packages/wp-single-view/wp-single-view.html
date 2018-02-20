@@ -108,7 +108,7 @@
               {{ descriptor.label }}
               <span class="required"
                     *ngIf="descriptor.field.required && descriptor.field.writable"> *</span>
-              <ng1-attribute-help-text-wrapper attribute="descriptor.name" attribute-scope="WorkPackage"></ng1-attribute-help-text-wrapper>
+              <ng1-attribute-help-text-wrapper [attribute]="descriptor.name" [attributeScope]="'WorkPackage'"></ng1-attribute-help-text-wrapper>
           </wp-replacement-label>
           </div>
           <div *ngIf="!descriptor.multiple"
@@ -129,7 +129,7 @@
               *ngIf="descriptor.multiple">
             <wp-replacement-label [fieldName]="descriptor.name">
               {{ descriptor.label }}
-              <ng1-attribute-help-text-wrapper attribute="descriptor.name" attribute-scope="WorkPackage"></ng1-attribute-help-text-wrapper>
+              <ng1-attribute-help-text-wrapper [attribute]="descriptor.name" [attributeScope]="'WorkPackage'"></ng1-attribute-help-text-wrapper>
             </wp-replacement-label>
           </div>
           <div

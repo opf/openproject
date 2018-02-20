@@ -72,7 +72,9 @@ export class AttributeHelpTextController {
 
       this.ngDialog.close('');
     };
+  }
 
+  public $onInit() {
     if (this.helpTextId) {
       this.exists = true;
     } else {
@@ -82,10 +84,6 @@ export class AttributeHelpTextController {
         return resource;
       });
     }
-  }
-
-  public $onInit() {
-    // Created for interface compliance
   }
 
   public handleClick() {
