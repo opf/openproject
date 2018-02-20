@@ -61,7 +61,7 @@ export class AddSectionDropdownComponent implements OnInit, OnDestroy {
                                      .subscribe(([all, displayed]) => {
       this.selectable = _.filter(all, all_candidate =>
         !_.some(displayed, displayed_candidate => all_candidate.key === displayed_candidate.key)
-      );
+      ).sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()));
     });
   }
 

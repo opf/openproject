@@ -36,14 +36,14 @@ class User < Principal
     lastname_firstname:       [:lastname, :firstname],
     lastname_coma_firstname:  [:lastname, :firstname],
     username:                 [:login]
-  }
+  }.freeze
 
-  USER_MAIL_OPTION_ALL            = ['all', :label_user_mail_option_all]
-  USER_MAIL_OPTION_SELECTED       = ['selected', :label_user_mail_option_selected]
-  USER_MAIL_OPTION_ONLY_MY_EVENTS = ['only_my_events', :label_user_mail_option_only_my_events]
-  USER_MAIL_OPTION_ONLY_ASSIGNED  = ['only_assigned', :label_user_mail_option_only_assigned]
-  USER_MAIL_OPTION_ONLY_OWNER     = ['only_owner', :label_user_mail_option_only_owner]
-  USER_MAIL_OPTION_NON            = ['none', :label_user_mail_option_none]
+  USER_MAIL_OPTION_ALL            = ['all', :label_user_mail_option_all].freeze
+  USER_MAIL_OPTION_SELECTED       = ['selected', :label_user_mail_option_selected].freeze
+  USER_MAIL_OPTION_ONLY_MY_EVENTS = ['only_my_events', :label_user_mail_option_only_my_events].freeze
+  USER_MAIL_OPTION_ONLY_ASSIGNED  = ['only_assigned', :label_user_mail_option_only_assigned].freeze
+  USER_MAIL_OPTION_ONLY_OWNER     = ['only_owner', :label_user_mail_option_only_owner].freeze
+  USER_MAIL_OPTION_NON            = ['none', :label_user_mail_option_none].freeze
 
   MAIL_NOTIFICATION_OPTIONS = [
     USER_MAIL_OPTION_ALL,
@@ -52,7 +52,7 @@ class User < Principal
     USER_MAIL_OPTION_ONLY_ASSIGNED,
     USER_MAIL_OPTION_ONLY_OWNER,
     USER_MAIL_OPTION_NON
-  ]
+  ].freeze
 
   has_and_belongs_to_many :groups,
                           join_table:   "#{table_name_prefix}group_users#{table_name_suffix}",
@@ -131,11 +131,11 @@ class User < Principal
   before_destroy :delete_associated_private_queries
   before_destroy :reassign_associated
 
-  scope :in_group, -> (group) {
+  scope :in_group, ->(group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
     where(["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id])
   }
-  scope :not_in_group, -> (group) {
+  scope :not_in_group, ->(group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
     where(["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id])
   }

@@ -26,10 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.helpers')
-  .constant('CUSTOM_FIELD_PREFIX', 'cf_')
-  .service('CustomFieldHelper', ['CUSTOM_FIELD_PREFIX', 'I18n', require(
-    './custom-field-helper')])
-  .factory('SvgHelper', require('./svg-helper'))
-  .service('WorkPackageLoadingHelper', ['$timeout', require(
-    './work-package-loading-helper')]);
+.user-mention:before
+  content: '@'
+  color: $gray-dark

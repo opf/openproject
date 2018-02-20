@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,13 +28,13 @@
 require 'spec_helper'
 require_relative '../shared_expectations'
 
-describe CustomActions::Actions::Responsible, type: :model do
-  let(:key) { :responsible }
+describe CustomActions::Actions::Notify, type: :model do
+  let(:key) { :notify }
   let(:allowed_values) do
     users = [FactoryGirl.build_stubbed(:user),
-             FactoryGirl.build_stubbed(:user)]
+             FactoryGirl.build_stubbed(:group)]
 
-    allow(User)
+    allow(Principal)
       .to receive_message_chain(:active_or_registered, :select, :order_by_name)
             .and_return(users)
 
@@ -43,25 +43,44 @@ describe CustomActions::Actions::Responsible, type: :model do
      { value: users.last.id, label: users.last.name }]
   end
 
-  it_behaves_like 'base custom action'
-  it_behaves_like 'associated custom action' do
+  it_behaves_like 'base custom action' do
     describe '#allowed_values' do
-      context 'group assignment disabled', with_settings: { work_package_group_assignment?: false } do
-        it 'is the list of all users' do
-          allowed_values
+      it 'is the list of all users' do
+        allowed_values
 
-          expect(instance.allowed_values)
-            .to eql(allowed_values)
-        end
+        expect(instance.allowed_values)
+          .to eql(allowed_values)
       end
+    end
 
-      context 'group assignment enabled', with_settings: { work_package_group_assignment?: true } do
-        it 'is the list of all users' do
-          allowed_values
+    it_behaves_like 'associated custom action validations'
 
-          expect(instance.allowed_values)
-            .to eql(allowed_values)
-        end
+    describe '#apply' do
+      let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
+
+      it 'adds a note with all values distinguised by type' do
+        principals = [FactoryGirl.build_stubbed(:user),
+                      FactoryGirl.build_stubbed(:group),
+                      FactoryGirl.build_stubbed(:user)]
+
+        allow(Principal)
+          .to receive_message_chain(:active_or_registered, :select, :order_by_name, :where)
+          .and_return(principals)
+
+        instance.values = principals.map(&:id)
+
+        expect(work_package)
+          .to receive(:journal_notes=)
+          .with("user##{principals[0].id}, group##{principals[1].id}, user##{principals[2].id}")
+
+        instance.apply(work_package)
+      end
+    end
+
+    describe '#multi_value?' do
+      it 'is true' do
+        expect(instance)
+          .to be_multi_value
       end
     end
   end

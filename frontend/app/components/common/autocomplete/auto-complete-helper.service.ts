@@ -36,8 +36,8 @@ export class AutoCompleteHelperService {
       at: at,
       startWithSpace: true,
       searchKey: 'id_principal',
-      displayTpl: '<li data-value="user#${id}">${name}</li>',
-      insertTpl: "user#${id}",
+      displayTpl: '<li data-value="#{subtype}#${id}">${name}</li>',
+      insertTpl: "${typePrefix}#${id}",
       limit: 10,
       highlightFirst: true,
       suffix: '',
@@ -55,6 +55,7 @@ export class AutoCompleteHelperService {
                 const principals = data["_embedded"]["elements"];
                 for (let i = principals.length - 1; i >= 0; i--) {
                   principals[i]['id_principal'] = principals[i]['id'].toString() + ' ' + principals[i]['name'];
+                  principals[i]['typePrefix'] = principals[i]['subtype'].toLowerCase();
                 }
 
                 if (angular.element(textarea).is(':visible')) {
