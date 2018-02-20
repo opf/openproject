@@ -199,6 +199,11 @@ describe 'Custom actions', type: :feature, js: true do
 
     new_ca_page.set_name('Move project')
     new_ca_page.add_action(date_custom_field.name, (Date.today + 5.days).to_s)
+
+    if page.has_selector? '.ui-datepicker-close'
+      scroll_to_and_click(find('.ui-datepicker-close'))
+    end
+
     new_ca_page.add_action('Type', other_type.name)
     new_ca_page.add_action('Project', other_project.name)
     new_ca_page.set_condition('Project', project.name)
