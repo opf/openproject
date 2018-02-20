@@ -90,6 +90,10 @@ class UserPreference < ActiveRecord::Base
     others[:comments_sorting] = to_boolean(value) ? 'desc' : 'asc'
   end
 
+  def time_zone
+    self[:time_zone].presence || Setting.user_default_timezone.presence
+  end
+
   def canonical_time_zone
     return if time_zone.nil?
 
