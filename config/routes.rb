@@ -8,9 +8,7 @@ OpenProject::Application.routes.draw do
   get '/users/:id/avatar', controller: 'avatars/avatar', action: :show, as: 'user_avatar'
 
   # Update another user's avatar
-  resources :users do
-    member do
-      resource :avatar, controller: 'avatars/users', as: 'edit_user_avatar', only: %i[show update destroy]
-    end
+  scope 'users/:id' do
+    resource :avatar, controller: 'avatars/users', as: 'edit_user_avatar', only: %i[show update destroy]
   end
 end
