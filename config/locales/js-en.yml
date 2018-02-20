@@ -92,6 +92,8 @@ en:
           one: "First sorting criteria"
           two: "Second sorting criteria"
           three: "Third sorting criteria"
+      upsale_for_more: "For more advanced filters, check out the"
+      upsale_link: 'Enterprise Edition.'
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"

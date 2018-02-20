@@ -9,10 +9,24 @@ class RailsCell < Cell::ViewModel
   # this would override Cell's own render method and
   # subsequently break everything.
 
+  ##
+  # Defines options for this cell which can be used within the cell's template.
+  # Options are passed to the cell during the render call.
+  #
+  # @param names [Array<String> | Hash<String, Any>] Either a list of names for options whose
+  #                                                  default value is empty or a hash mapping
+  #                                                  option names to default values.
   def self.options(*names)
+    default_values = {}
+
+    if names.size == 1 && names.first.is_a?(Hash)
+      default_values = names.first
+      names = default_values.keys
+    end
+
     names.each do |name|
       define_method(name) do
-        options[name]
+        options[name] || default_values[name]
       end
     end
   end

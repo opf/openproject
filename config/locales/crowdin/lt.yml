@@ -2072,6 +2072,7 @@ lt:
   setting_file_max_size_displayed: Maksimalus tekstinių failų dydis rodomas vienoje
     eilutėje
   setting_host_name: Šeimininko vardas
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Skaičiuoti darbų paketo atlikimo santykį su
   setting_work_package_done_ratio_field: Naudoti darbų paketo laukelį
   setting_work_package_done_ratio_status: Naudoti darbų paketo būseną
@@ -2576,6 +2577,9 @@ lt:
   warning: Įspėjimas
   warning_attachments_not_saved: "%{count} failas (-ai, -ų) negali būti išsaugotas
     (-i)."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Meniu punktas
   menu_item_setting: Matomumas
   wiki_menu_item_for: Meniu punktas wiki puslapiui „%{title}“

@@ -65,7 +65,7 @@ describe 'users/edit', type: :view do
   end
 
   context 'with an invited user' do
-    let(:user) { FactoryGirl.create :invited_user }
+    let(:user) { FactoryGirl.build_stubbed :invited_user }
 
     before do
       assign(:user, user)

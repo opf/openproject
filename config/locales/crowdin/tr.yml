@@ -61,10 +61,10 @@ tr:
   custom_actions:
     actions:
       name: Eylemler
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
+      add: Eylem ekle
+    conditions: Koşullar
+    plural: Özel eylemler
+    new: Özel eylem ekle
     edit: Edit custom action %{name}
     upsale:
       title: Custom actions is an Enterprise Edition feature
@@ -242,8 +242,8 @@ tr:
       login_verification:
         other: Silme işlemini doğrulamak için %{name} giriniz. Gönderildikten sonra,
           şifrenizi onaylamanız istenecektir.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        self: Silme işlemini doğrulamak için %{name} giriniz. Gönderildikten sonra,
+          şifrenizi onaylamanız istenecektir.
     error_inactive_activation_by_mail: 'Hesabınız henüz etkinleştirilmedi. Hesabınızı
       etkinleştirmek için size gönderilen e-posta bağlantısını tıklatın.
 
@@ -449,9 +449,9 @@ tr:
           at_least_one_custom_option: En az bir seçeneğin uygun olması gerekir.
         custom_actions:
           only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_an_integer: "(%{name}) is not an integer."
+          empty: "(%{name}) değeri boş olamaz."
+          inclusion: "(%{name}) değer izin verilen değerlerden birine ayarlı değil."
+          not_an_integer: "(%{name}) bir tamsayı değil."
         enterprise_token:
           unreadable: okunamıyor. Desteklenen bir destek anahtarı olduğuna emin misiniz?
         parse_schema_filter_params_service:
@@ -560,7 +560,7 @@ tr:
       attribute_help_text: Öznitelik Yardım metni
       board: Forum
       comment: Yorum
-      custom_action: Custom action
+      custom_action: Özel eylem
       custom_field: Özel alan
       group: Grup
       category: Kategori
@@ -1024,7 +1024,7 @@ tr:
       boards: Toplum Forumu
       newsletter: Güvenlik uyarıları / haber bülteni
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Yapılandırma rehberi
   instructions_after_registration: "%{signin} düğmesini tıklayarak hesabınız etkinleştirildiğinde
     hemen oturum açabilirsiniz."
   instructions_after_logout: "%{signin} düğmesini tıklayarak tekrar oturum açabilirsiniz."
@@ -1609,11 +1609,11 @@ tr:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: Proje içeriği dışından create_work_package_link makrosu
+          çağrılıyor.
+        invalid_type: "'%{project}' projesinde '%{type}' isminde bir tür bulunamadı."
       link_name: Yeni iş paketi
-      link_name_type: New %{type_name}
+      link_name_type: Yeni %{type_name}
   mail:
     actions: Eylemler
   mail_body_account_activation_request: 'Yeni bir kullanıcı ( %{value}) kaydoldu.
@@ -2030,6 +2030,7 @@ tr:
   setting_feeds_limit: Besleme içeriği sınırı
   setting_file_max_size_displayed: Satır içi görüntülenen maksimum metin dosyası boyutu
   setting_host_name: Ana bilgisayar adı
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: İş tamamlanma oranını hesapla yöntemi
   setting_work_package_done_ratio_field: İş paketi alanını kullan
   setting_work_package_done_ratio_status: İş paketi durumunu kullan
@@ -2527,6 +2528,9 @@ tr:
     bırakıldı.
   warning: Uyarı
   warning_attachments_not_saved: "%{count} dosya (lar) kaydedilemedi."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Menü seçeneği
   menu_item_setting: Görünürlük
   wiki_menu_item_for: Wikipage için menü öğesi " %{title} "
@@ -2577,7 +2581,7 @@ tr:
         hatalı biçimlendirilmiş.
       multipart_body_error: İstek gövdesi, beklenen çok parçalı parçaları içeriyordu.
       multiple_errors: Çoklu alan kısıtlamaları ihlal edilmiştir.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Ek oluşturulamadı
       render:
         context_not_parsable: Sağlanan bağlam, bir kaynağa bağ değildir.
         unsupported_context: Verilen kaynak bağlam olarak desteklenmiyor.

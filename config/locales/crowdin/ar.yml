@@ -2101,6 +2101,7 @@ ar:
   setting_file_max_size_displayed: عرض الحد الأقصى لحجم الملفات النصية المضمنة في
     السطر
   setting_host_name: إسم المضيف
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: حساب نسبة المنجزة من مجموعة العمل مع
   setting_work_package_done_ratio_field: استخدم حقل مجموعة العمل
   setting_work_package_done_ratio_status: استخدم حالة مجموعة العمل
@@ -2596,6 +2597,9 @@ ar:
   note_password_login_disabled: تم تعطيل تسجيل دخول كلمة المرور بواسطة %{configuration}.
   warning: تحذير
   warning_attachments_not_saved: تعذر حفظ الملف (الملفات) %{count}.
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: عناصر القائمة
   menu_item_setting: الظهور
   wiki_menu_item_for: عنصر القائمة "%{title}"

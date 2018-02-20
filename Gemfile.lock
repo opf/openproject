@@ -367,7 +367,7 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (4.5.0.337)
     nio4r (2.1.0)
-    nokogiri (1.8.1)
+    nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     oj (3.3.8)
     okcomputer (1.16.0)
@@ -383,6 +383,10 @@ GEM
       rake (>= 0.8.1)
     pdf-core (0.7.0)
     pg (0.21.0)
+    plaintext (0.1.0)
+      activesupport (> 2.2.1)
+      nokogiri (~> 1.8.1)
+      rubyzip (~> 1.2.1)
     powerpack (0.1.1)
     prawn (2.2.2)
       pdf-core (~> 0.7.0)
@@ -661,7 +665,7 @@ DEPENDENCIES
   mysql2 (~> 0.4.4)
   net-ldap (~> 0.16.0)
   newrelic_rpm
-  nokogiri (~> 1.8.1)
+  nokogiri (~> 1.8.2)
   oj (~> 3.3.2)
   okcomputer (~> 1.16.0)
   omniauth!
@@ -670,6 +674,7 @@ DEPENDENCIES
   parallel_tests (~> 2.14.0)
   passenger
   pg (~> 0.21.0)
+  plaintext (= 0.1.0)
   prawn (~> 2.2)
   prawn-table (~> 0.2.2)
   pry-byebug (~> 3.4.2)

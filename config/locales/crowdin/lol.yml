@@ -1863,6 +1863,7 @@ lol:
   setting_feeds_limit: crwdns97930:0crwdne97930:0
   setting_file_max_size_displayed: crwdns97931:0crwdne97931:0
   setting_host_name: crwdns97932:0crwdne97932:0
+  setting_invitation_expiration_days: crwdns98855:0crwdne98855:0
   setting_work_package_done_ratio: crwdns97933:0crwdne97933:0
   setting_work_package_done_ratio_field: crwdns97934:0crwdne97934:0
   setting_work_package_done_ratio_status: crwdns97935:0crwdne97935:0
@@ -2276,6 +2277,9 @@ lol:
   note_password_login_disabled: crwdns98288:0%{configuration}crwdne98288:0
   warning: crwdns98289:0crwdne98289:0
   warning_attachments_not_saved: crwdns98290:0%{count}crwdne98290:0
+  warning_registration_token_expired: 'crwdns98856:0%{email}crwdne98856:0
+
+'
   menu_item: crwdns98291:0crwdne98291:0
   menu_item_setting: crwdns98292:0crwdne98292:0
   wiki_menu_item_for: crwdns98293:0%{title}crwdne98293:0

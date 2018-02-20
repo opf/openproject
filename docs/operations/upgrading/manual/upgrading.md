@@ -114,7 +114,7 @@ Note: We strongly recommend to update your OpenProject installation to the lates
   with that.
 
 * If you run the worker process with a cronjob, disable the cronjob temporarily.
-* Stop the (delayed\_job) worker process. In case you run the woker process through
+* Stop the (delayed\_job) worker process. In case you run the worker process through
   `RAILS_ENV=production bundle exec script/delayed_job start`, execute the following:
   `RAILS_ENV=production bundle exec script/delayed_job stop`.
 
@@ -225,6 +225,15 @@ The actual upgrade commands are as follows:
 [openproject@debian]# RAILS_ENV="production" bundle exec rake assets:precompile
 [openproject@debian]# touch tmp/restart.txt
 ```
+
+To make sure that all work package attachments are indexed, so that their content can be used in work package filters
+run:
+
+```bash
+[openproject@debian]# RAILS_ENV="production" rake attachments:extract_fulltext_where_missing
+```
+
+
 
 *Side note:* If you are using `RAILS_ENV="development"` the task `bundle exec rake assets:webpack` needs to be run. This step is not necessary for `production` because it is part of the `asset:precompile` tasks.
 

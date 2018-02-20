@@ -2027,6 +2027,7 @@ et:
   setting_feeds_limit: Uudisvoogude suurim uudiste arv
   setting_file_max_size_displayed: Teksti sees kuvatava tekstifaili maksimaalne suurus
   setting_host_name: Serveri nimi ja teerada
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Määra teema edenemise aste
   setting_work_package_done_ratio_field: kasutades vastavat välja
   setting_work_package_done_ratio_status: kasutades teema olekut
@@ -2514,6 +2515,9 @@ et:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Hoiatus
   warning_attachments_not_saved: "%{count} faili ei saa salvestada."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Menüüvalik
   menu_item_setting: Nähtavus
   wiki_menu_item_for: Menüüvalik vikilehele "%{title}"

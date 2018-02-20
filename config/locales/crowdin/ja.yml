@@ -51,15 +51,14 @@ ja:
   custom_actions:
     actions:
       name: 操作
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
+      add: アクションを追加
+    conditions: 条件
+    plural: カスタムアクション
+    new: 新しいカスタムアクション
+    edit: カスタムアクション %{name} の編集
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: カスタムアクションは、エンタープライズ版の機能です
+      description: カスタムアクションは、1 つのボタンに個々のステップを組み合わせて日々の作業を合理化します。
   custom_fields:
     text_add_new_custom_field: '新しいカスタムフィールドをプロジェクトに追加するには、それをこのプロジェクトに追加する前に、まず作成する必要があります。
 
@@ -407,10 +406,10 @@ ja:
         custom_field:
           at_least_one_custom_option: 少なくとも 1 つオプションが有効である必要があります。
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_an_integer: "(%{name}) is not an integer."
+          only_one_allowed: "(%{name}) 1 つの値のみ可能です。"
+          empty: "(%{name}) 値を空にすることはできません。"
+          inclusion: "(%{name}) は、許可されている値ではありません。"
+          not_an_integer: "(%{name}) が整数ではありません。"
         enterprise_token:
           unreadable: 読み取りできません。サポート トークンですか?
         parse_schema_filter_params_service:
@@ -508,7 +507,7 @@ ja:
       attribute_help_text: 属性のヘルプ テキスト
       board: フォーラム
       comment: コメント
-      custom_action: Custom action
+      custom_action: カスタムアクション
       custom_field: カスタムフィールド
       group: グループ
       category: カテゴリ
@@ -1887,6 +1886,7 @@ ja:
   setting_feeds_limit: フィードの項目数の上限
   setting_file_max_size_displayed: 画面表示するテキストファイルの最大サイズ
   setting_host_name: ホスト名
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: 進捗率の算出方法
   setting_work_package_done_ratio_field: 作業項目のフィールドを使用する
   setting_work_package_done_ratio_status: 作業項目のステータスを使用する
@@ -2316,6 +2316,9 @@ ja:
   note_password_login_disabled: パスワードを利用してログインは%{configuration}によって無効にされています。
   warning: 注意
   warning_attachments_not_saved: "%{count} 件のファイルを保存できませんでした。"
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: メニュー項目
   menu_item_setting: 可視性
   wiki_menu_item_for: Wikiページ"%{title}"のメニュー項目

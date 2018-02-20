@@ -2028,6 +2028,7 @@ fi:
   setting_feeds_limit: Syötteen sisällön raja
   setting_file_max_size_displayed: Max size of text files displayed inline
   setting_host_name: Verkko-osoite
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Käytä työpaketi edistymisen laskennassa
   setting_work_package_done_ratio_field: Työpaketin kenttä
   setting_work_package_done_ratio_status: Työpaketin tila
@@ -2519,6 +2520,9 @@ fi:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
   warning_attachments_not_saved: "%{count} tiedostoa ei voitu tallentaa."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Menu item
   menu_item_setting: Visibility
   wiki_menu_item_for: Menu item for wikipage "%{title}"

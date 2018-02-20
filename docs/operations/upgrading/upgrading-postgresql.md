@@ -12,7 +12,7 @@ upgrade process for this distribution. Debian oldstable also uses PostgreSQL 9.4
 
 Stop the current OpenProject workers
 
-``` bash
+```bash
 service openproject stop
 ```
 
@@ -40,25 +40,25 @@ https://www.postgresql.org/download/
 
  Stop the old cluster:
  
- ``` bash
+ ```bash
  pg_dropcluster 9.6 main --stop
  ```
  
  Upgrade the cluster to 9.6
  
- ``` bash 
+ ```bash 
  pg_upgradecluster -v 9.6 9.3 main
  ```
  
  Remove the old cluster
  
- ``` bash
+ ```bash
  pg_dropcluster 9.3 main
  ```
  
  Lastly, remove the ubuntu-provided version of 9.3:
  
- ``` bash 
+ ```bash 
  apt-get remove postgres postgresql-9.3
  ```
  

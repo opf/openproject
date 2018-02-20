@@ -2083,6 +2083,7 @@ fr:
   setting_file_max_size_displayed: Taille maximale de l'affichage du fichers texte
     inline
   setting_host_name: Nom d'hôte
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Calculer le taux d'avancement du lot de travaux
     avec
   setting_work_package_done_ratio_field: Utiliser le champ Lot de Travaux
@@ -2598,6 +2599,9 @@ fr:
     par %{configuration}.
   warning: Attention
   warning_attachments_not_saved: "%{count} fichier(s) n'ont pu être sauvegardés."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Éléments de menu
   menu_item_setting: Visibilité
   wiki_menu_item_for: Élément de menu pour wikipage « %{title} »

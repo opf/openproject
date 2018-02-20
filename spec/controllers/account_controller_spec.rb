@@ -29,18 +29,53 @@
 require 'spec_helper'
 
 describe AccountController, type: :controller do
-  render_views
-
   after do
     User.delete_all
     User.current = nil
   end
+  let(:user) { FactoryGirl.build_stubbed(:user) }
 
   context 'GET #login' do
+    let(:setup) {}
+    let(:params) { {} }
+
+    before do
+      setup
+
+      get :login, params: params
+    end
+
     it 'renders the view' do
-      get :login
       expect(response).to render_template 'login'
       expect(response).to be_success
+    end
+
+    context 'user already logged in' do
+      let(:setup) { login_as user }
+
+      it 'redirects to home' do
+        expect(response)
+          .to redirect_to my_page_path
+      end
+    end
+
+    context 'user already logged in and back url present' do
+      let(:setup) { login_as user }
+      let(:params) { { back_url: "/projects" } }
+
+      it 'redirects to back_url value' do
+        expect(response)
+          .to redirect_to projects_path
+      end
+    end
+
+    context 'user already logged in and invalid back url present' do
+      let(:setup) { login_as user }
+      let(:params) { { back_url: 'http://test.foo/work_packages/show/1' } }
+
+      it 'redirects to home' do
+        expect(response).to redirect_to my_page_path
+      end
     end
   end
 
@@ -608,6 +643,8 @@ describe AccountController, type: :controller do
   end
 
   describe 'GET #auth_source_sso_failed (/sso)' do
+   render_views
+
     let(:failure) do
       {
         user: user,
@@ -649,6 +686,60 @@ describe AccountController, type: :controller do
 
         expect(response.body).to have_text "Create a new account"
         expect(response.body).to have_text "This field is invalid: Email has already been taken."
+      end
+    end
+  end
+
+  describe 'POST #activate' do
+    shared_examples 'account activation' do
+      let(:token) { Token::Invitation.create user: user }
+
+      let(:activation_params) do
+        {
+          token: token.value
+        }
+      end
+
+      context 'with an expired token' do
+        before do
+          token.update_column :expires_on, Date.today - 1.day
+
+          post :activate, params: activation_params
+        end
+
+        it 'fails and shows an expiration warning' do
+          is_expected.to redirect_to('/')
+          expect(flash[:warning]).to include 'expired'
+        end
+
+        it 'deletes the old token and generates a new one' do
+          old_token = Token::Invitation.find_by(id: token.id)
+          new_token = Token::Invitation.find_by(user_id: token.user.id)
+
+          expect(old_token).to be_nil
+          expect(new_token).to be_present
+
+          expect(new_token).not_to be_expired
+        end
+
+        it 'sends out a new activation email' do
+          new_token = Token::Invitation.find_by(user_id: token.user.id)
+          mail = ActionMailer::Base.deliveries.last
+
+          expect(mail.parts.first.body.raw_source).to include "activate?token=#{new_token.value}"
+        end
+      end
+    end
+
+    context 'with an invited user' do
+      it_behaves_like 'account activation' do
+        let(:user) { FactoryGirl.create :user, status: 4 }
+      end
+    end
+
+    context 'with an registered user' do
+      it_behaves_like 'account activation' do
+        let(:user) { FactoryGirl.create :user, status: 2 }
       end
     end
   end

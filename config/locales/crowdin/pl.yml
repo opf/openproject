@@ -1635,7 +1635,7 @@ pl:
           context.
         invalid_type: No type found with name '%{type}' in project '%{project}'.
       link_name: Nowy pakiet roboczy
-      link_name_type: New %{type_name}
+      link_name_type: Nowy %{type_name}
   mail:
     actions: Akcje
   mail_body_account_activation_request: 'A new user (%{value}) has registered. The
@@ -2066,6 +2066,7 @@ pl:
   setting_file_max_size_displayed: Maksymalny rozmiar plików tekstowych wyświetlanych
     w treści
   setting_host_name: Nazwa hosta
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Oblicz status realizacji pakietu roboczego z
   setting_work_package_done_ratio_field: Użyj pola pakietu roboczego
   setting_work_package_done_ratio_status: Użyj statusu pakietu roboczego
@@ -2564,6 +2565,9 @@ pl:
   note_password_login_disabled: Logowanie poprzez hasło zostało wyłączone przez %{configuration}.
   warning: Ostrzeżenie
   warning_attachments_not_saved: "%{count} plik(ów) nie może być zapisany."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Element menu
   menu_item_setting: Widoczność
   wiki_menu_item_for: Element menu dla strony wiki "%{title}"

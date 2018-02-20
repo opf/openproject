@@ -2028,6 +2028,7 @@ sv-SE:
   setting_feeds_limit: Innehållsbegränsning på Flöden
   setting_file_max_size_displayed: Maxstorlek på textfiler som visas inline
   setting_host_name: Värdnamn
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Beräkna arbetspaketets andel avklarat med
   setting_work_package_done_ratio_field: Använd fältet arbetspaket
   setting_work_package_done_ratio_status: Använd fältet arbetspaketsstatus
@@ -2518,6 +2519,9 @@ sv-SE:
   note_password_login_disabled: Inloggning med lösenord har inaktiverats av %{configuration}.
   warning: Varning
   warning_attachments_not_saved: "%{count} fil(er) kunde inte sparas."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Menyalternativ
   menu_item_setting: Synlighet
   wiki_menu_item_for: Menyobjekt för wiki-sida "%{title}"
