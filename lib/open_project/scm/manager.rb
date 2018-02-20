@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -66,8 +67,10 @@ module OpenProject
         # { Vendor: <Path> }
         def managed_paths
           paths = {}
-          @scms.each do |vendor, klass|
-            paths[vendor] = klass.managed_root if klass.manageable?
+          if @scms.present?
+            @scms.each do |vendor, klass|
+              paths[vendor] = klass.managed_root if klass.manageable?
+            end
           end
 
           paths

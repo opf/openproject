@@ -56,6 +56,8 @@ function queryFiltersDirective($timeout:ng.ITimeoutService,
 
           scope.filters;
 
+          scope.eeShowBanners = angular.element('body').hasClass('ee-banners-visible');
+
           wpTableFilters.observeOnScope(scope).subscribe(initialize);
 
           scope.$watch('filterToBeAdded', function (filter:any) {

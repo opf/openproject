@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,23 +25,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::Filters::Base
-  include ::Queries::Filters::Serializable
+module OpenProject
+  # This module provides utility methods to work with PostgreSQL's full-text capabilities (TSVECTOR)
+  module FullTextSearch
+    def self.normalize_text(text)
+      I18n.with_locale(:en) { I18n.transliterate(text.to_s.downcase) }
+    end
 
-  self.model = WorkPackage
+    def self.normalize_filename(filename)
+      name_in_words = to_words filename.to_s.downcase
+      I18n.with_locale(:en) { I18n.transliterate(name_in_words) }
+    end
 
-  def human_name
-    WorkPackage.human_attribute_name(name)
-  end
-
-  def project
-    context.project
-  end
-
-  def includes
-    nil
+    def self.to_words(text)
+      text.gsub /[^[:alnum:]]/, ' '
+    end
   end
 end

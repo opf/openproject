@@ -111,7 +111,9 @@ module OpenProject
       'health_checks_jobs_never_ran_minutes_ago' => 5,
 
       'after_login_default_redirect_url' => nil,
-      'after_first_login_redirect_url' => nil
+      'after_first_login_redirect_url' => nil,
+
+      'main_content_language' => 'english'
     }
 
     @config = nil

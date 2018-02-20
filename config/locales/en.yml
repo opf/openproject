@@ -284,6 +284,8 @@ en:
       announcements:
         show_until: "Display until"
       attachment:
+        attachment_content: "Attachment content"
+        attachment_file_name: "Attachment file name"
         downloads: "Downloads"
         file: "File"
         filename: "File"
@@ -953,6 +955,15 @@ en:
       csv: "CSV"
       pdf: "PDF"
       pdf_with_descriptions: "PDF with descriptions"
+
+  extraction:
+    available:
+      pdftotext: "Pdftotext available (optional)"
+      unrtf: "Unrtf available (optional)"
+      catdoc: "Catdoc available (optional)"
+      xls2csv: "Xls2csv available (optional)"
+      catppt: "Catppt available (optional)"
+      tesseract: "Tesseract available (optional)"
 
   general_csv_decimal_separator: "."
   general_csv_encoding: "UTF-8"
@@ -2062,6 +2073,7 @@ en:
     It's needs to be a squared 180 by 180 pixels sized PNG image file. Please
     make sure the image's background is not transparent otherwise it will look
     bad on iOS.
+  text_database_allows_tsv: "Database allows TSVector (optional)"
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
   text_destroy: "Delete"

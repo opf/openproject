@@ -348,6 +348,30 @@ default:
   # after_login_default_redirect_url: '/my/page'
   # after_first_login_redirect_url: '/projects/demo'
 
+  # For filtering work packages based on their attachments (name, content) it's worth to specify the main language that
+  # is used in those documents. This improves the full text search features of PostgreSQL. Currently PostgreSQL shipps
+  # with the following languages pre-installed:
+  #
+  # danish
+  # dutch
+  # english
+  # finnish
+  # french
+  # german
+  # hungarian
+  # italian
+  # norwegian
+  # portuguese
+  # romanian
+  # russian
+  # simple
+  # spanish
+  # swedish
+  # turkish
+  #
+  # main_content_language: 'english'
+
+
 
 # specific configuration options for production environment
 # that overrides the default ones

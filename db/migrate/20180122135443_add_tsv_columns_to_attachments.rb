@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,23 +25,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::Filters::Base
-  include ::Queries::Filters::Serializable
+class AddTsvColumnsToAttachments < ActiveRecord::Migration[5.0]
+  def change
+    if OpenProject::Database.allows_tsv?
+      add_column :attachments, :fulltext_tsv, :tsvector
+      add_column :attachments, :file_tsv, :tsvector
 
-  self.model = WorkPackage
-
-  def human_name
-    WorkPackage.human_attribute_name(name)
-  end
-
-  def project
-    context.project
-  end
-
-  def includes
-    nil
+      add_index :attachments, :fulltext_tsv, using: "gin"
+      add_index :attachments, :file_tsv, using: "gin"
+    else
+      reversible do |dir|
+        dir.up do
+          warn "Your installation does not support full-text search features. Better use PostgreSQL in version 9.5 or higher."
+        end
+      end
+    end
   end
 end

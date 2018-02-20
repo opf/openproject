@@ -27,7 +27,7 @@ migrate() {
 	/etc/init.d/memcached start
 	rake db:migrate db:seed
 	/etc/init.d/memcached stop
-	chown app:app db/schema.rb
+	chown app:app db/structure.sql
 	popd
 }
 

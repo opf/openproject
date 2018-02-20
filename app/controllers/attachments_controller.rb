@@ -52,6 +52,10 @@ class AttachmentsController < ApplicationController
     end
   end
 
+  def fulltext
+    render plain: @attachment.fulltext.to_s
+  end
+
   private
 
   def find_project
