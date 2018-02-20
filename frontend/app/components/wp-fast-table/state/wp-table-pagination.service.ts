@@ -27,20 +27,12 @@
 //++
 
 import {Injectable} from '@angular/core';
-import {
-  WorkPackageTableBaseService,
-  TableStateStates
-} from './wp-table-base.service';
-import {States} from '../../states.service';
+import {WorkPackageTableBaseService,} from './wp-table-base.service';
 import {opServicesModule} from '../../../angular-modules';
 import {WorkPackageCollectionResource} from '../../api/api-v3/hal-resources/wp-collection-resource.service'
-import {
-  QueryResource
-} from '../../api/api-v3/hal-resources/query-resource.service';
+import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageTablePagination} from '../wp-table-pagination';
-import {
-  WorkPackageTableBaseState,
-} from '../wp-table-base';
+import {States} from 'core-components/states.service';
 
 interface PaginationUpdateObject {
   page?:number;
@@ -50,17 +42,17 @@ interface PaginationUpdateObject {
 }
 
 @Injectable()
-export class WorkPackageTablePaginationService extends WorkPackageTableBaseService {
-  protected stateName = 'pagination' as TableStateStates;
-
-  constructor(public states: States) {
+export class WorkPackageTablePaginationService extends WorkPackageTableBaseService<WorkPackageTablePagination> {
+  public constructor(states:States) {
     super(states);
   }
 
-  public initialize(results:WorkPackageCollectionResource) {
-    let state = new WorkPackageTablePagination(results);
+  public get state() {
+    return this.tableState.pagination;
+  }
 
-    this.state.putValue(state);
+  public valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
+    return new WorkPackageTablePagination(results);
   }
 
   public updateFromObject(object:PaginationUpdateObject) {

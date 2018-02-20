@@ -30,7 +30,7 @@ import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-sele
 import {ContextMenuService} from '../context-menu.service';
 import {WorkPackageRelationsHierarchyService} from "../../wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {States} from '../../states.service';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 function wpContextMenuController($scope:any,
                                  $rootScope:ng.IRootScopeService,

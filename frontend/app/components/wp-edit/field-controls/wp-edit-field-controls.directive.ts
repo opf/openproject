@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageEditFieldController} from "../wp-edit-field/wp-edit-field.directive";
 import {EditField} from "../wp-edit-field/wp-edit-field.module";
 
 

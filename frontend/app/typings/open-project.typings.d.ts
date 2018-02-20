@@ -75,8 +75,8 @@ interface Function {
 }
 
 interface JQuery {
-  topShelf: any;
-  atwho: any;
+  topShelf:any;
+  atwho:any;
 }
 
 declare var Factory:any;

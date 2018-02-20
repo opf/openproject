@@ -1,39 +1,38 @@
-import {wpCellTdClassName} from './../wp-fast-table/builders/cell-builder';
-import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
-import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
-import {injectorBridge} from '../angular/angular-injector-bridge.functions';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {rowId} from '../wp-fast-table/helpers/wp-table-row-helpers';
+import {Injector} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
-import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
-import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
 import {
+  commonRowClassName,
   internalContextMenuColumn,
-  tableRowClassName,
-  SingleRowBuilder, commonRowClassName
+  SingleRowBuilder,
+  tableRowClassName
 } from '../wp-fast-table/builders/rows/single-row-builder';
+import {rowId} from '../wp-fast-table/helpers/wp-table-row-helpers';
+import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {QueryColumn} from '../wp-query/query-column';
-import IScope = angular.IScope;
+import {wpCellTdClassName} from './../wp-fast-table/builders/cell-builder';
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';
 export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
 
 export class InlineCreateRowBuilder extends SingleRowBuilder {
+
   // Injections
-  public states:States;
-  public wpTableSelection:WorkPackageTableSelection;
-  public wpTableColumns:WorkPackageTableColumnsService;
-  public I18n:op.I18n;
+  public states = this.injector.get(States);
+  public wpTableSelection = this.injector.get(WorkPackageTableSelection);
+  public wpTableColumns = this.injector.get(WorkPackageTableColumnsService);
+  public I18n = this.injector.get(I18nToken);
 
   protected text:{ cancelButton:string };
 
-  constructor(workPackageTable: WorkPackageTable) {
-    super(workPackageTable);
-    injectorBridge(this);
+  constructor(public readonly injector:Injector,
+              workPackageTable:WorkPackageTable) {
+
+    super(injector, workPackageTable);
 
     this.text = {
       cancelButton: this.I18n.t('js.button_cancel')
@@ -81,7 +80,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     const td = document.createElement('td');
     td.classList.add(wpCellTdClassName, 'wp-table--cancel-create-td');
 
-   td.innerHTML = `
+    td.innerHTML = `
     <a
        href="javascript:"
        class="${inlineCreateCancelClassName} icon icon-cancel"
@@ -92,6 +91,3 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     return td;
   }
 }
-
-
-InlineCreateRowBuilder.$inject = ['states', 'wpTableSelection', 'wpTableColumns', 'I18n'];

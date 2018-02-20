@@ -49,7 +49,6 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
 
   /*@ngInject*/
   constructor(private states:States,
-              private $q:angular.IQService,
               private wpNotificationsService:WorkPackageNotificationService,
               private schemaCacheService:SchemaCacheService,
               private apiWorkPackages:ApiWorkPackagesService) {
@@ -83,23 +82,22 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     }
   }
 
-  saveWorkPackage(workPackage:WorkPackageResourceInterface):IPromise<WorkPackageResourceInterface | null> {
+  saveWorkPackage(workPackage:WorkPackageResourceInterface):Promise<WorkPackageResourceInterface | null> {
     if (!(workPackage.dirty || workPackage.isNew)) {
-      return this.$q.reject(null);
+      return Promise.reject<any>(null);
     }
 
-    const deferred = this.$q.defer<WorkPackageResourceInterface>();
-    workPackage.save()
-      .then(() => {
-        this.wpNotificationsService.showSave(workPackage);
-        deferred.resolve(workPackage);
-      })
-      .catch((error:any) => {
-        this.wpNotificationsService.handleErrorResponse(error, workPackage);
-        deferred.reject(workPackage);
-      });
-
-    return deferred.promise;
+    return new Promise<WorkPackageResourceInterface|null>((resolve, reject) => {
+      return workPackage.save()
+        .then(() => {
+          this.wpNotificationsService.showSave(workPackage);
+          resolve(workPackage);
+        })
+        .catch((error:any) => {
+          this.wpNotificationsService.handleErrorResponse(error, workPackage);
+          reject(workPackage);
+        });
+    });
   }
 
   /**

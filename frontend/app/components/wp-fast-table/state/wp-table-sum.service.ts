@@ -26,21 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  TableStateStates,
-  WorkPackageQueryStateService,
-  WorkPackageTableBaseService
-} from './wp-table-base.service';
+import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {opServicesModule} from '../../../angular-modules';
-import {States} from '../../states.service';
 import {WorkPackageTableSum} from '../wp-table-sum';
+import {States} from 'core-components/states.service';
 
-export class WorkPackageTableSumService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
-  protected stateName = 'sum' as TableStateStates;
+export class WorkPackageTableSumService extends WorkPackageTableBaseService<WorkPackageTableSum> implements WorkPackageQueryStateService {
 
-  constructor(public states: States) {
+  public constructor(states:States) {
     super(states);
+  }
+
+
+  public get state() {
+    return this.tableState.sum;
+  }
+
+  public valueFromQuery(query:QueryResource) {
+    return new WorkPackageTableSum(query.sums);
   }
 
   public initialize(query:QueryResource) {

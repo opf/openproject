@@ -1,8 +1,10 @@
-import {$injectFields} from '../../angular/angular-injector-bridge.functions';
+import {Injector} from '@angular/core';
+import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {opIconElement} from '../../../helpers/op-icon-builder';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {wpCellTdClassName} from './cell-builder';
 import {UiStateLinkBuilder} from './ui-state-link-builder';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 export const contextMenuTdClassName = 'wp-table--context-menu-td';
 export const contextMenuSpanClassName = 'wp-table--context-menu-span';
@@ -11,15 +13,14 @@ export const contextColumnIcon = 'wp-table-context-menu-icon';
 export const detailsLinkClassName = 'wp-table--details-link';
 
 export class ContextLinkIconBuilder {
+
   // Injections
-  public I18n:op.I18n;
+  public I18n:op.I18n = this.injector.get(I18nToken);
 
   public text:any;
-  public uiStatebuilder = new UiStateLinkBuilder();
+  public uiStatebuilder = new UiStateLinkBuilder(this.injector.get($stateToken), this.injector.get(KeepTabService));
 
-  constructor() {
-    $injectFields(this, 'I18n');
-
+  constructor(public readonly injector:Injector) {
     this.text = {
       button: this.I18n.t('js.button_open_details')
     };

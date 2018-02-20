@@ -27,7 +27,7 @@
 // ++
 
 import {AfterViewInit, Directive, ElementRef, Inject, Input} from '@angular/core';
-import {focusHelperToken} from 'core-app/angular4-transition-utils';
+import {FocusHelperToken} from 'core-app/angular4-transition-utils';
 import {ContextMenuService} from '../context-menu.service';
 
 function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper:any) {
@@ -113,7 +113,7 @@ export class HasDropdownMenuDirective implements AfterViewInit {
 
   constructor(elementRef:ElementRef,
               private contextMenu:ContextMenuService,
-              @Inject(focusHelperToken) private FocusHelper:any) {
+              @Inject(FocusHelperToken) private FocusHelper:any) {
     this.$element = jQuery(elementRef.nativeElement);
     this.nativeElement = elementRef.nativeElement;
   }

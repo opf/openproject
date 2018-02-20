@@ -40,7 +40,7 @@ import {States} from '../../../states.service';
 import {SchemaResource} from './schema-resource.service';
 import {TypeResource} from './type-resource.service';
 import {RelationResourceInterface} from './relation-resource.service';
-import {WorkPackageCreateService} from '../../../wp-create/wp-create.service';
+import {WorkPackageCreateService} from '../../../wp-new/wp-create.service';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
 import {debugLog} from '../../../../helpers/debug_output';
 import {CollectionResource} from "core-components/api/api-v3/hal-resources/collection-resource.service";

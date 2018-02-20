@@ -27,9 +27,9 @@
 //++
 
 import {opWorkPackagesModule} from '../../../angular-modules';
-import {WorkPackageCreateService} from '../../wp-create/wp-create.service';
+import {WorkPackageCreateService} from '../../wp-new/wp-create.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 
 class TypesContextMenuController {

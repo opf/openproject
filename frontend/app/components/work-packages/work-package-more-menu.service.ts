@@ -30,7 +30,8 @@ import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-reso
 import {States} from '../states.service';
 import {$injectFields} from '../angular/angular-injector-bridge.functions';
 import {PathHelperFunctions} from 'core-components/common/path-helper/path-helper.functions';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 
 var $state:StateService;
 var $window:ng.IWindowService;
@@ -38,7 +39,7 @@ var $location:ng.ILocationService;
 var states:States;
 var HookService:any;
 var WorkPackageService:any;
-var AuthorisationService:any;
+var authorisationService:AuthorisationService;
 var WorkPackageAuthorization:any;
 var PERMITTED_MORE_MENU_ACTIONS:any;
 
@@ -76,7 +77,7 @@ export class WorkPackageMoreMenuService {
    */
   public initialize() {
     return this.workPackage.project.$load().then(() => {
-      AuthorisationService.initModelAuth('work_package', this.workPackage.$links);
+      authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
       var authorization = new WorkPackageAuthorization(this.workPackage);
       this.permittedActions = angular.extend(this.getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
@@ -137,7 +138,7 @@ function wpMoreMenuService(...args:any[]) {
    $location,
    HookService,
    WorkPackageService,
-   AuthorisationService,
+   authorisationService,
    WorkPackageAuthorization,
    PERMITTED_MORE_MENU_ACTIONS] = args;
   return WorkPackageMoreMenuService;
@@ -150,7 +151,7 @@ wpMoreMenuService.$inject = [
   '$location',
   'HookService',
   'WorkPackageService',
-  'AuthorisationService',
+  'authorisationService',
   'WorkPackageAuthorization',
   'PERMITTED_MORE_MENU_ACTIONS'
 ];

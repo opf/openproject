@@ -47,6 +47,7 @@ describe('SettingsModalController', () => {
       }
     };
     states = {
+      globalTable: {},
       query: {
         resource: input<{name: string}>()
       }

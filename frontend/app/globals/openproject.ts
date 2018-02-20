@@ -58,7 +58,7 @@ export class OpenProject {
     return jQuery('meta[name=app_base_path]').attr('content') || '';
   }
 
-  public get environment(): JQuery {
+  public get environment():string {
     return jQuery('meta[name=openproject_initializer]').data('environment');
   }
 

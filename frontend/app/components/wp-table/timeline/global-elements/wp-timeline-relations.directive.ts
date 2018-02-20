@@ -26,7 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, Injector, OnDestroy, OnInit} from '@angular/core';
+import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {State} from 'reactivestates';
 import {Observable} from 'rxjs/Observable';
@@ -78,14 +79,18 @@ function newSegment(vp:TimelineViewParameters,
 })
 export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
 
+  private readonly tableState = this.injector.get(TableStateHolder);
+
   private container:JQuery;
 
   private workPackagesWithRelations:{ [workPackageId:string]:State<RelationsStateValue> } = {};
 
-  constructor(public elementRef:ElementRef,
+  constructor(public readonly injector:Injector,
+              public elementRef:ElementRef,
               public states:States,
               public workPackageTimelineTableController:WorkPackageTimelineTableController,
               public wpRelations:WorkPackageRelationsService) {
+
   }
 
   ngOnInit() {
@@ -115,8 +120,8 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
   private setupRelationSubscription() {
     // for all visible WorkPackage rows...
     Observable.combineLatest(
-      this.states.table.renderedWorkPackages.values$(),
-      this.states.table.timelineVisible.values$()
+      this.tableState.get().renderedWorkPackages.values$(),
+      this.tableState.get().timelineVisible.values$()
     )
       .filter(([rendered, timeline]) => timeline.isVisible)
       .takeUntil(componentDestroyed(this))
@@ -142,7 +147,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
     // When a WorkPackage changes, redraw the corresponding relations
     this.states.workPackages.observeChange()
       .takeUntil(componentDestroyed(this))
-      .filter(() => this.states.table.timelineVisible.mapOr(v => v.visible, false))
+      .filter(() => this.tableState.get().timelineVisible.mapOr(v => v.visible, false))
       .subscribe(([workPackageId]) => {
         this.renderWorkPackagesRelations([workPackageId]);
       });

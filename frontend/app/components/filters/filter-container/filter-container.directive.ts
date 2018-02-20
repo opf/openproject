@@ -27,18 +27,21 @@
 // ++
 
 import {filtersModule} from '../../../angular-modules';
+import {Component} from '@angular/core';
+import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
+import {downgradeComponent} from '@angular/upgrade/static';
 
-function filterContainerDirective(wpFiltersService:any) {
-  return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/components/filters/filter-container/filter-container.directive.html',
-
-    link: (scope:any) => {
-      scope.wpFilters = wpFiltersService;
-    }
-  };
+@Component({
+  template: require('!!raw-loader!core-components/filters/filter-container/filter-container.directive.html'),
+  selector: 'filter-container',
+})
+export class WorkPackageFilterContainerComponent {
+  constructor(public wpFiltersService:WorkPackageFiltersService) {
+  }
 }
 
-filtersModule.directive('filterContainer', filterContainerDirective);
+filtersModule.directive(
+  'filterContainer',
+  downgradeComponent({ component: WorkPackageFilterContainerComponent })
+);
 

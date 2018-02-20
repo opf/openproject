@@ -30,7 +30,7 @@ import {wpControllersModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 export class WorkPackageDestroyModalController {
   public text:any;

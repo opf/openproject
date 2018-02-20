@@ -121,10 +121,7 @@ function userActivity($uiViewScroll:any,
       };
 
       scope.quoteComment = function () {
-        scope.$emit(
-          'workPackage.comment.quoteThis',
-          quotedText(scope.activity.comment.raw)
-        );
+        wpActivityService.quoteEvents.putValue(quotedText(scope.activity.comment.raw));
       };
 
       scope.updateComment = function () {

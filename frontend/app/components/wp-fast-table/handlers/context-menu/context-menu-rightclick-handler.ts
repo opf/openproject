@@ -1,16 +1,17 @@
-import {debugLog} from "../../../../helpers/debug_output";
-import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
-import {WorkPackageTable} from "../../wp-fast-table";
-import {TableEventHandler} from "../table-handler-registry";
-import {tableRowClassName} from "../../builders/rows/single-row-builder";
-import {uiStateLinkClass} from "../../builders/ui-state-link-builder";
-import {ContextMenuService} from "../../../context-menus/context-menu.service";
-import {timelineCellClassName} from "../../builders/timeline/timeline-row-builder";
-import {ContextMenuHandler} from "./context-menu-handler";
+import {Injector} from '@angular/core';
+import {debugLog} from '../../../../helpers/debug_output';
+import {tableRowClassName} from '../../builders/rows/single-row-builder';
+import {timelineCellClassName} from '../../builders/timeline/timeline-row-builder';
+import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
+import {WorkPackageTable} from '../../wp-fast-table';
+import {ContextMenuHandler} from './context-menu-handler';
 
 export class ContextMenuRightClickHandler extends ContextMenuHandler {
-  constructor(table: WorkPackageTable) {
-    super(table);
+
+  constructor(public readonly injector:Injector,
+              table:WorkPackageTable) {
+
+    super(injector, table);
   }
 
   public get EVENT() {
@@ -21,7 +22,7 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     return `.${tableRowClassName},.${timelineCellClassName}`;
   }
 
-  public handleEvent(table: WorkPackageTable, evt:JQueryEventObject):boolean {
+  public handleEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
     let target = jQuery(evt.target);
 
     // We want to keep the original context menu on hrefs

@@ -27,19 +27,26 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
-import {WorkPackageButtonController, wpButtonDirective} from '../wp-buttons.module';
-import WorkPackageFiltersService from "../../filters/wp-filters/wp-filters.service";
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
+import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {Component, Inject, OnDestroy} from '@angular/core';
+import {downgradeComponent} from '@angular/upgrade/static';
+import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
-export class WorkPackageFilterButtonController extends WorkPackageButtonController {
+@Component({
+  template: require('!!raw-loader!./wp-filter-button.html'),
+  selector: 'wp-filter-button',
+})
+export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonComponent implements OnDestroy  {
   public count:number;
   public initialized:boolean = false;
 
   public buttonId:string = 'work-packages-filter-toggle-button';
   public iconClass:string = 'icon-filter';
 
-  constructor(public I18n:op.I18n,
-              private $scope:ng.IScope,
+  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
               protected wpFiltersService:WorkPackageFiltersService,
               protected wpTableFilters:WorkPackageTableFiltersService) {
     'ngInject';
@@ -47,6 +54,10 @@ export class WorkPackageFilterButtonController extends WorkPackageButtonControll
     super(I18n);
 
     this.setupObserver();
+  }
+
+  ngOnDestroy():void {
+    // Empty
   }
 
   public get labelKey():string {
@@ -70,7 +81,7 @@ export class WorkPackageFilterButtonController extends WorkPackageButtonControll
   }
 
   public performAction() {
-    this.toggleVisibility()
+    this.toggleVisibility();
   }
 
   public toggleVisibility() {
@@ -78,18 +89,17 @@ export class WorkPackageFilterButtonController extends WorkPackageButtonControll
   }
 
   private setupObserver() {
-    this.wpTableFilters.observeOnScope(this.$scope).subscribe(state => {
+    this.wpTableFilters
+      .observeUntil(componentDestroyed(this))
+      .subscribe(state => {
       this.count = state.current.length;
       this.initialized = true;
     });
   }
 }
 
-function wpFilterButton():ng.IDirective {
-  return wpButtonDirective({
-    templateUrl: '/components/wp-buttons/wp-filter-button/wp-filter-button.directive.html',
-    controller: WorkPackageFilterButtonController
-  });
-}
+wpButtonsModule.directive(
+  'wpFilterButton',
+  downgradeComponent({ component: WorkPackageFilterButtonComponent })
+);
 
-wpButtonsModule.directive('wpFilterButton', wpFilterButton);

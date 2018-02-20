@@ -1,44 +1,44 @@
 <ul id="work-packages-timeline-mode-selection"
     class="toolbar-button-group">
 
-  <li ng-if="vm.isActive()">
+  <li *ngIf="isActive()">
     <button id="work-packages-timeline-zoom-auto-button"
             class="button timeline-toolbar--button toolbar-icon"
-            ng-class="vm.getAutoZoomToggleClass()"
-            title="{{ vm.text.zoomAuto }}"
-            ng-click="vm.toggleAutoZoom()">
+            [ngClass]="getAutoZoomToggleClass()"
+            [attr.title]="text.zoomAuto"
+            (click)="toggleAutoZoom()">
       <op-icon icon-classes="icon-zoom-auto button--icon"></op-icon>
     </button>
   </li>
 
-  <li ng-if="vm.isActive()">
+  <li *ngIf="isActive()">
     <button id="work-packages-timeline-zoom-out-button"
             class="button timeline-toolbar--button toolbar-icon"
-            title="{{ vm.text.zoomOut }}"
-            ng-disabled="vm.currentZoom == vm.maxZoomLevel"
-            ng-click="vm.updateZoomWithDelta(1)">
+            [attr.title]="text.zoomOut"
+            [disabled]="currentZoom == maxZoomLevel"
+            (click)="updateZoomWithDelta(1)">
       <op-icon icon-classes="icon-zoom-out button--icon"></op-icon>
     </button>
   </li>
 
-  <li ng-if="vm.isActive()">
+  <li *ngIf="isActive()">
     <button id="work-packages-timeline-zoom-in-button"
             class="button timeline-toolbar--button toolbar-icon"
-            title="{{ vm.text.zoomIn }}"
-            ng-disabled="vm.currentZoom == vm.minZoomLevel"
-            ng-click="vm.updateZoomWithDelta(-1)">
+            [attr.title]="text.zoomIn"
+            [disabled]="currentZoom == minZoomLevel"
+            (click)="updateZoomWithDelta(-1)">
       <op-icon icon-classes="icon-zoom-in button--icon"></op-icon>
     </button>
   </li>
 
   <li>
-    <button id="{{ ::vm.buttonId }}"
-            class="button timeline-toolbar--button toolbar-icon"
-            title="{{ vm.label }}"
-            ng-click="vm.toggleTimeline()"
-            ng-disabled="vm.disabled || (!vm.isToggle() && vm.isActive())"
-            ng-class="{ '-active': vm.isActive() }">
-      <op-icon icon-classes="{{ ::vm.iconClass }} button--icon"></op-icon>
+    <button class="button timeline-toolbar--button toolbar-icon"
+            [ngClass]="{ '-active': isActive() }"
+            [attr.id]="buttonId"
+            [attr.title]="label"
+            [disabled]="disabled || (!isToggle() && isActive())"
+            (click)="toggleTimeline()">
+      <op-icon icon-classes="{{ iconClass }} button--icon"></op-icon>
     </button>
   </li>
 

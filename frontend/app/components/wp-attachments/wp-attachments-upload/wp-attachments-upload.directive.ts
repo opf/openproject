@@ -38,7 +38,9 @@ export class WorkPackageUploadDirectiveController {
 
   constructor(protected $q:ng.IQService, ConfigurationService:any, protected I18n:op.I18n) {
     this.text = {
-      uploadLabel: I18n.t('js.label_add_attachments')
+      uploadLabel: I18n.t('js.label_add_attachments'),
+      dropFiles: I18n.t('js.label_drop_files'),
+      dropFilesHint: I18n.t('js.label_drop_files_hint')
     };
     ConfigurationService.api().then((settings:any) => {
       this.maxFileSize = settings.maximumAttachmentFileSize;
@@ -66,22 +68,7 @@ function wpUploadDirective():any {
 
   return {
     restrict: 'AE',
-    template: `
-      <div
-        class="wp-attachment-upload hide-when-print"
-        ng-if="$ctrl.workPackage.canAddAttachments"
-        ngf-drop
-        ngf-select
-        ngf-change="$ctrl.uploadFiles($files)"
-        ngf-multiple="true"
-        ngf-validate="{ size: {max: ::$ctrl.maxFileSize} }"
-        tabindex="0"
-        aria-label="{{ ::$ctrl.text.uploadLabel }}"
-        click-on-keypress="[13, 32]"
-        ng-transclude>
-      </div>`,
-
-    transclude: true,
+    templateUrl: '/components/wp-attachments/wp-attachments-upload/wp-attachments-upload.html',
 
     scope: {
       workPackage: '='

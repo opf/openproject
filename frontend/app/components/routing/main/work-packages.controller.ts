@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {StateService, StateParams} from '@uirouter/angularjs';
+import {StateService, StateParams} from '@uirouter/core';
 
 angular
   .module('openproject.workPackages.controllers')
   .controller('WorkPackagesController', WorkPackagesController);
 
-function WorkPackagesController($scope:ng.IScope,
+function WorkPackagesController($scope:any,
                                 $state:StateService,
                                 $stateParams:StateParams) {
 

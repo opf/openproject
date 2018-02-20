@@ -27,30 +27,46 @@
 // ++
 
 import {InputState, State} from 'reactivestates';
-import {Observable} from 'rxjs/Observable';
-import {takeUntil} from 'rxjs/operators';
 import {scopedObservable} from '../../../helpers/angular-rx-utils';
+import {Observable} from 'rxjs';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {States} from '../../states.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {QuerySchemaResourceInterface} from 'core-components/api/api-v3/hal-resources/query-schema-resource.service';
+import {States} from 'core-components/states.service';
+import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
+import {takeUntil} from 'rxjs/operators';
 
-export type TableStateStates =
-  'columns' |
-  'groupBy' |
-  'filters' |
-  'sum' |
-  'sortBy' |
-  'timelineVisible' |
-  'relationColumns' |
-  'pagination';
-
-export abstract class WorkPackageTableBaseService {
-  protected abstract stateName:TableStateStates;
+export abstract class WorkPackageTableBaseService<T> {
+  protected tableState:TableState;
 
   constructor(protected states:States) {
+    // TODO Remove global references
+    this.tableState = states.globalTable;
   }
 
-  public get state():InputState<any> {
-    return this.states.table[this.stateName];
+  /**
+   * Return the state this service cares for from the table state.
+   * @returns {InputState<T>}
+   */
+  public abstract get state():InputState<T>;
+
+  /**
+   * Get the state value from the current query.
+   *
+   * @param {QueryResource} query
+   * @returns {T} Instance of the state value for this type.
+   */
+  public abstract valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource):T|undefined;
+
+  /**
+   * Initialize this table state from the given query resource,
+   * and possibly the associated schema.
+   *
+   * @param {QueryResource} query
+   * @param {QuerySchemaResourceInterface} schema
+   */
+  public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResourceInterface) {
+    this.state.putValue(this.valueFromQuery(query, results)!);
   }
 
   public clear(reason:string) {

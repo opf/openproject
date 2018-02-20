@@ -1,30 +1,32 @@
-import {RowsBuilder} from '../rows-builder';
+import {Injector} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
+import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
 import {States} from '../../../../states.service';
 import {WorkPackageTableColumnsService} from '../../../state/wp-table-columns.service';
 import {WorkPackageTable} from '../../../wp-fast-table';
-import {injectorBridge} from '../../../../angular/angular-injector-bridge.functions';
-import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
+import {tableRowClassName} from '../../rows/single-row-builder';
+import {RowsBuilder} from '../rows-builder';
+import {GroupHeaderBuilder} from './group-header-builder';
 import {GroupedRenderPass} from './grouped-render-pass';
 import {groupedRowClassName, groupIdentifier} from './grouped-rows-helpers';
-import {GroupHeaderBuilder} from './group-header-builder';
-import {tableRowClassName} from '../../rows/single-row-builder';
 
 export const rowGroupClassName = 'wp-table--group-header';
 export const collapsedRowClass = '-collapsed';
 
 export class GroupedRowsBuilder extends RowsBuilder {
+
   // Injections
-  public states:States;
-  public wpTableColumns:WorkPackageTableColumnsService;
-  public I18n:op.I18n;
+  private readonly tableState = this.injector.get(TableStateHolder);
+  public states:States = this.injector.get(States);
+  public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
+  public I18n:op.I18n = this.injector.get(I18nToken);
 
   private headerBuilder:GroupHeaderBuilder;
 
-  constructor(workPackageTable:WorkPackageTable) {
-    super(workPackageTable);
-    injectorBridge(this);
-
-    this.headerBuilder = new GroupHeaderBuilder();
+  constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {
+    super(injector, workPackageTable);
+    this.headerBuilder = new GroupHeaderBuilder(this.injector);
   }
 
   /**
@@ -38,14 +40,14 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * Returns the reference to the last table.groups state value
    */
   public get groups() {
-    return this.states.table.groups.value || [];
+    return this.tableState.get().groups.value || [];
   }
 
   /**
    * Returns the reference to the last table.collapesedGroups state value
    */
   public get collapsedGroups() {
-    return this.states.table.collapsedGroups.value || {};
+    return this.tableState.get().collapsedGroups.value || {};
   }
 
   public get colspan() {
@@ -54,6 +56,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
 
   public buildRows() {
     return new GroupedRenderPass(
+      this.injector,
       this.workPackageTable,
       this.getGroupData(),
       this.headerBuilder,
@@ -67,7 +70,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
   public refreshExpansionState() {
     const groups = this.getGroupData();
     const colspan = this.wpTableColumns.columnCount + 1;
-    const rendered = this.states.table.rendered.value!;
+    const rendered = this.tableState.get().rendered.value!;
 
     jQuery(`.${rowGroupClassName}`).each((i:number, oldRow:Element) => {
       let groupIndex = jQuery(oldRow).data('groupIndex');
@@ -94,7 +97,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       });
     });
 
-    this.states.table.rendered.putValue(rendered, 'Updated hidden state of rows after group change.');
+    this.tableState.get().rendered.putValue(rendered, 'Updated hidden state of rows after group change.');
   }
 
   /**
@@ -112,5 +115,3 @@ export class GroupedRowsBuilder extends RowsBuilder {
     });
   }
 }
-
-GroupedRowsBuilder.$inject = ['wpTableColumns', 'states', 'I18n'];

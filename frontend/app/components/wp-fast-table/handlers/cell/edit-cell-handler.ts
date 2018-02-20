@@ -1,24 +1,19 @@
+import {Injector} from '@angular/core';
 import {debugLog} from '../../../../helpers/debug_output';
-import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
+import {ClickPositionMapper} from '../../../common/set-click-position/set-click-position';
 import {States} from '../../../states.service';
-import {TableRowEditContext} from '../../../wp-edit-form/table-row-edit-context';
+import {cellClassName, editableClassName, readOnlyClassName} from '../../../wp-edit-form/display-field-renderer';
+import {WorkPackageEditingService} from '../../../wp-edit-form/work-package-editing-service';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
 import {TableEventHandler} from '../table-handler-registry';
-import {
-  cellClassName,
-  editableClassName,
-  readOnlyClassName
-} from '../../../wp-edit-form/display-field-renderer';
-import {WorkPackageEditingService} from '../../../wp-edit-form/work-package-editing-service';
-import {ClickPositionMapper} from '../../../common/set-click-position/set-click-position';
-import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
+
   // Injections
-  public states:States;
-  public wpEditing:WorkPackageEditingService;
+  public states:States = this.injector.get(States);
+  public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
 
   // Keep a reference to all
 
@@ -34,9 +29,8 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     return jQuery(table.container);
   }
 
-  constructor(table:WorkPackageTable) {
+  constructor(public readonly injector:Injector, table:WorkPackageTable) {
     super();
-    $injectFields(this, 'states', 'wpEditing');
   }
 
   protected processEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {

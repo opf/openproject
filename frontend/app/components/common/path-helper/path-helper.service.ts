@@ -59,6 +59,10 @@ export class PathHelperService {
     return this.staticBase + '/my/page';
   }
 
+  public loginPath() {
+    return this.staticBase + '/login';
+  }
+
   public projectsPath() {
     return this.staticBase + '/projects';
   }

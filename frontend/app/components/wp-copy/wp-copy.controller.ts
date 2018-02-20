@@ -26,27 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpDirectivesModule} from "../../angular-modules";
-import {scopedObservable} from "../../helpers/angular-rx-utils";
 import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageCreateController} from "../wp-create/wp-create.controller";
+import {WorkPackageCreateController} from "../wp-new/wp-create.controller";
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 
 export class WorkPackageCopyController extends WorkPackageCreateController {
   protected newWorkPackageFromParams(stateParams:any) {
-    var deferred = this.$q.defer<any>();
-
-    scopedObservable(
-      this.$scope,
-      this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId).values$())
-      .take(1)
-      .subscribe((wp:WorkPackageResourceInterface) => {
-        this.createCopyFrom(wp).then((changeset:WorkPackageChangeset) => {
-          deferred.resolve(changeset);
-        });
-      });
-
-    return deferred.promise;
+    return new Promise<WorkPackageChangeset>((resolve, reject) => {
+      this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId)
+        .values$()
+        .take(1)
+        .subscribe(
+          (wp:WorkPackageResourceInterface) => this.createCopyFrom(wp).then(resolve),
+          reject);
+    });
   }
 
   private createCopyFrom(wp:WorkPackageResourceInterface) {
@@ -56,5 +49,3 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
     });
   }
 }
-
-wpDirectivesModule.controller('WorkPackageCopyController', WorkPackageCopyController);

@@ -34,7 +34,7 @@ import {scopeDestroyed$, scopedObservable} from '../../helpers/angular-rx-utils'
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageCreateService} from '../wp-create/wp-create.service';
+import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
@@ -46,9 +46,11 @@ import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-co
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {
-  inlineCreateCancelClassName, InlineCreateRowBuilder,
+  inlineCreateCancelClassName,
+  InlineCreateRowBuilder,
   inlineCreateRowClassName
 } from './inline-create-row-builder';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 
 export class WorkPackageInlineCreateController {
 
@@ -57,6 +59,8 @@ export class WorkPackageInlineCreateController {
   public projectIdentifier:string;
 
   public table:WorkPackageTable;
+
+  public hierarchicalInjector:Injector;
 
   // inner state
 
@@ -85,7 +89,7 @@ export class WorkPackageInlineCreateController {
               public wpTableColumns:WorkPackageTableColumnsService,
               private wpTableFilters:WorkPackageTableFiltersService,
               private wpTableFocus:WorkPackageTableFocusService,
-              private AuthorisationService:any) {
+              private authorisationService:AuthorisationService) {
   }
 
   // Will be called by Angular
@@ -95,8 +99,8 @@ export class WorkPackageInlineCreateController {
       return;
     }
 
-    this.rowBuilder = new InlineCreateRowBuilder(this.table);
-    this.timelineBuilder = new TimelineRowBuilder(this.table);
+    this.rowBuilder = new InlineCreateRowBuilder(this.hierarchicalInjector, this.table);
+    this.timelineBuilder = new TimelineRowBuilder(this.hierarchicalInjector, this.table);
     this.text = {
       create: I18n.t('js.label_create_work_package')
     };
@@ -124,7 +128,7 @@ export class WorkPackageInlineCreateController {
       });
 
     // Watch on this scope when the columns change and refresh this row
-    this.states.table.columns.values$()
+    this.states.globalTable.columns.values$()
       .filter(() => this.isHidden) // Take only when row is inserted
       .takeUntil(scopeDestroyed$(this.$scope)).subscribe(() => {
       const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
@@ -167,7 +171,8 @@ export class WorkPackageInlineCreateController {
         this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
 
         // Set editing context to table
-        const context = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
+        const context = new TableRowEditContext(
+          this.hierarchicalInjector, wp.id, this.rowBuilder.classIdentifier(wp));
         this.workPackageEditForm = WorkPackageEditForm.createInContext(context, wp, false);
         this.workPackageEditForm.changeset.clear();
 
@@ -214,7 +219,7 @@ export class WorkPackageInlineCreateController {
   }
 
   public get isAllowed():boolean {
-    return this.AuthorisationService.can('work_packages', 'createWorkPackage');
+    return this.authorisationService.can('work_packages', 'createWorkPackage');
   }
 }
 
@@ -244,6 +249,7 @@ export class WpInlineCreateDirectiveUpgraded extends UpgradeComponent {
 
   @Input('wp-inline-create--table') table:WorkPackageTable;
   @Input('wp-inline-create--project-identifier') projectIdentifier:string;
+  @Input('wp-inline-create--hierarchical-injector') hierarchicalInjector:string;
 
   constructor(elementRef:ElementRef, injector:Injector) {
     super('wpInlineCreate', elementRef, injector);

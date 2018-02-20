@@ -1,4 +1,5 @@
-import {$injectFields} from '../../../../angular/angular-injector-bridge.functions';
+import {Injector} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
 import {groupName} from './grouped-rows-helpers';
 
@@ -9,12 +10,11 @@ export function groupClassNameFor(group:GroupObject) {
 }
 
 export class GroupHeaderBuilder {
-  public I18n:op.I18n;
+
+  public I18n:op.I18n = this.injector.get(I18nToken);
   public text:{ collapse:string, expand:string };
 
-  constructor() {
-    $injectFields(this, 'I18n');
-
+  constructor(public readonly injector:Injector) {
     this.text = {
       collapse: this.I18n.t('js.label_collapse'),
       expand: this.I18n.t('js.label_expand'),

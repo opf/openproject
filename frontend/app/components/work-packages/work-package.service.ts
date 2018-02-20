@@ -28,7 +28,7 @@
 
 import {States} from "../states.service";
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 angular
     .module('openproject.services')

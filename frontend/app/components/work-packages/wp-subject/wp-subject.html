@@ -1,0 +1,15 @@
+<div *ngIf="workPackage"
+     class="work-packages--subject-type-row">
+  <div class="work-packages--type-selector work-packages--subject-element">
+    <wp-edit-field [workPackageId]="workPackage.id"
+                   [wrapperClasses]="'work-packages--type-selector work-packages--subject-element -no-label'"
+                   [fieldName]="'type'">
+    </wp-edit-field>
+  </div>
+  <div class="work-packages--details--subject work-packages--subject-element">
+    <wp-edit-field [workPackageId]="workPackage.id"
+                   [wrapperClasses]="'work-packages--details--subject work-packages--subject-element -no-label'"
+                   [fieldName]="'subject'">
+    </wp-edit-field>
+  </div>
+</div>

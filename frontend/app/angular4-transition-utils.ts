@@ -27,15 +27,23 @@
 // ++
 
 import {InjectionToken} from '@angular/core';
-import {IRootScopeService} from 'angular';
+import {IQService, IRootScopeService, ITimeoutService} from 'angular';
+import {StateService} from '@uirouter/core';
 
 export const $rootScopeToken = new InjectionToken<IRootScopeService>('$rootScope');
+export const $qToken = new InjectionToken<IQService>('$q');
+export const $timeoutToken = new InjectionToken<ITimeoutService>('$timeout');
+export const $stateToken = new InjectionToken<StateService>('$state');
+
 export const I18nToken = new InjectionToken<op.I18n>('I18n');
 export const columnsModalToken = new InjectionToken<any>('columnsModal');
-export const focusHelperToken = new InjectionToken<any>('FocusHelper');
+export const FocusHelperToken = new InjectionToken<any>('FocusHelper');
 export const NotificationsServiceToken = new InjectionToken<any>('NotificationsService');
 export const v3PathToken = new InjectionToken<any>('v3Path');
-export const $qToken = new InjectionToken<any>('$q');
+export const PathHelperToken = new InjectionToken<any>('PathHelper');
+export const halRequestToken = new InjectionToken<any>('halRequest');
+export const wpMoreMenuServiceToken = new InjectionToken<any>('wpMoreMenuService');
+export const TimezoneServiceToken = new InjectionToken<any>('TimezoneService');
 export const $httpToken = new InjectionToken<any>('$http');
 export const halResourceFactoryToken = new InjectionToken<any>('halResourceFactory');
 

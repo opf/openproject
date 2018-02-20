@@ -27,27 +27,31 @@
 // ++
 
 import {opServicesModule} from '../../../angular-modules';
-import {QueryResource, TimelineLabels, TimelineZoomLevel} from '../../api/api-v3/hal-resources/query-resource.service';
+import {
+  QueryResource,
+  TimelineLabels,
+  TimelineZoomLevel
+} from '../../api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {States} from '../../states.service';
 import {zoomLevelOrder} from '../../wp-table/timeline/wp-timeline';
 import {WorkPackageTableTimelineState} from './../wp-table-timeline';
-import {TableStateStates, WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
+import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
+import {States} from 'core-components/states.service';
 
-export class WorkPackageTableTimelineService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
+export class WorkPackageTableTimelineService extends WorkPackageTableBaseService<WorkPackageTableTimelineState> implements WorkPackageQueryStateService {
 
-  protected stateName = 'timelineVisible' as TableStateStates;
-
-  constructor(public states:States) {
+  public constructor(states:States) {
     super(states);
   }
 
-  public initialize(query:QueryResource) {
-    let current = new WorkPackageTableTimelineState(query);
 
-    this.state.putValue(current);
+  public get state() {
+    return this.tableState.timelineVisible;
   }
 
+  public valueFromQuery(query:QueryResource) {
+    return new WorkPackageTableTimelineState(query);
+  }
   public hasChanged(query:QueryResource) {
     const visibilityChanged = this.isVisible !== query.timelineVisible;
     const zoomLevelChanged = this.zoomLevel !== query.timelineZoomLevel;
@@ -133,11 +137,11 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   }
 
   public toggleAutoZoom() {
-    this.states.table.timelineAutoZoom.putValue(!this.states.table.timelineAutoZoom.value);
+    this.states.globalTable.timelineAutoZoom.putValue(!this.states.globalTable.timelineAutoZoom.value);
   }
 
   public isAutoZoomEnabled():boolean {
-    return this.states.table.timelineAutoZoom.value!;
+    return this.states.globalTable.timelineAutoZoom.value!;
   }
 
   public get current():WorkPackageTableTimelineState {

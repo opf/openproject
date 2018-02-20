@@ -32,6 +32,7 @@ import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.servi
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
+import {scopedObservable} from 'core-app/helpers/angular-rx-utils';
 
 export class CommentFieldDirectiveController {
   public workPackage:WorkPackageResourceInterface;
@@ -63,11 +64,14 @@ export class CommentFieldDirectiveController {
       cancelTitle: I18n.t('js.label_cancel_comment'),
       placeholder: I18n.t('js.label_add_comment_title')
     };
+  }
 
+  public $onInit() {
     this.canAddComment = !!this.workPackage.addComment;
-    this.showAbove = ConfigurationService.commentsSortedInDescendingOrder();
+    this.showAbove = this.ConfigurationService.commentsSortedInDescendingOrder();
 
-    $scope.$on('workPackage.comment.quoteThis', (evt, quote) => {
+    scopedObservable<string>(this.$scope, this.wpActivityService.quoteEvents.values$())
+      .subscribe((quote:string) => {
       this.resetField(quote);
       this.editing = true;
       this.$element.find('.work-packages--activity--add-comment')[0].scrollIntoView();
@@ -147,12 +151,10 @@ export class CommentFieldDirectiveController {
 function workPackageComment():any {
   return {
     restrict: 'E',
-    replace: true,
     transclude: true,
     templateUrl: '/components/work-packages/work-package-comment/work-package-comment.directive.html',
     scope: {
-      workPackage: '=',
-      activities: '='
+      workPackage: '='
     },
 
     controllerAs: 'vm',

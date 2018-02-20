@@ -6,7 +6,7 @@
         <div class="grid-content medium-7 collapse" wp-single-relation>
             <span ng-style="{'padding-left': $ctrl.indentBy + 'px'}"
                   class="wp-relations-hierarchy-subject">
-                <a ui-sref=".({ workPackageId: $ctrl.relatedWorkPackage.id})"
+                <a ui-sref="work-packages.show.relations({ workPackageId: $ctrl.relatedWorkPackage.id})"
                    class="wp-relations--subject-field"
                    ng-if="!$ctrl.isCurrentElement()"
                    aria-label="{{ ($ctrl.isParent() ? $ctrl.text.parent : $ctrl.text.children) + ' ' + singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage) }}"
@@ -20,13 +20,13 @@
             </span>
         </div>
         <div class="grid-content medium-3 collapse wp-relations-status-field">
-            <wp-edit-field-group work-package="$ctrl.relatedWorkPackage">
+            <wp-edit-field-group-ng1 work-package="$ctrl.relatedWorkPackage">
               <div wp-edit-form="$ctrl.relatedWorkPackage" ng-if="$ctrl.relationReady">
                   <wp-edit-field work-package-id="$ctrl.relatedWorkPackage.id"
                                  field-name="'status'">
                   </wp-edit-field>
               </div>
-            </wp-edit-field-group>
+            </wp-edit-field-group-ng1>
         </div>
         <div class="grid-content medium-2 collapse wp-relations-controls-section focus-within--depending">
           <accessible-by-keyboard ng-if="$ctrl.canModifyHierarchy && $ctrl.isParent()"

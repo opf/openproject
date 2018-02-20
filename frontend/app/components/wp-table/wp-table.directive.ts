@@ -26,14 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, Inject, Injectable, Input, OnDestroy, OnInit} from '@angular/core';
-import {downgradeComponent, downgradeInjectable} from '@angular/upgrade/static';
-import {IRootScopeService} from 'angular';
-import {$rootScopeToken, columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {Component, ElementRef, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {QueryGroupByResource} from 'core-components/api/api-v3/hal-resources/query-group-by-resource.service';
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
-import {GroupObject} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import openprojectModule from '../../angular-modules';
+import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
+import {TableState, TableStateHolder} from 'core-components/wp-table/table-state/table-state';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {combineLatest} from 'rxjs/observable/combineLatest';
 import {debugLog} from '../../helpers/debug_output';
 import {ContextMenuService} from '../context-menus/context-menu.service';
 import {States} from '../states.service';
@@ -44,29 +45,17 @@ import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
 import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
-import {takeUntil} from 'rxjs/operators';
-import {combineLatest} from 'rxjs/observable/combineLatest';
-
-
-/**
- * TODO remove once the transition to Angular4 is completed
- */
-@Injectable()
-export class WorkPackagesTableControllerHolder {
-  instance:WorkPackagesTableController;
-}
-
-openprojectModule.factory(
-  'workPackagesTableControllerHolder',
-  downgradeInjectable(WorkPackagesTableControllerHolder));
-
 
 @Component({
-  template: require('!!raw-loader!./wp-table.directive.html')
+  template: require('!!raw-loader!./wp-table.directive.html'),
+  selector: 'wp-table',
+  providers: [TableStateHolder]
 })
 export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   @Input() projectIdentifier:string;
+
+  @Input() tableState:TableState;
 
   private $element:JQuery;
 
@@ -90,7 +79,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public rowcount:number;
 
-  public groupBy:GroupObject[];
+  public groupBy:QueryGroupByResource | undefined;
 
   public columns:any;
 
@@ -99,25 +88,24 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   public timelineVisible:boolean;
 
   constructor(private elementRef:ElementRef,
+              public injector:Injector,
+              private readonly tableStateHolder:TableStateHolder,
               @Inject(columnsModalToken) private columnsModal:any,
               private contextMenu:ContextMenuService,
-              private workPackagesTableControllerHolder:WorkPackagesTableControllerHolder,
               private states:States,
-              @Inject($rootScopeToken) private $rootScope:IRootScopeService,
               @Inject(I18nToken) private I18n:op.I18n,
               private wpTableGroupBy:WorkPackageTableGroupByService,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpTableColumns:WorkPackageTableColumnsService) {
-
-    workPackagesTableControllerHolder.instance = this;
   }
 
   ngOnInit():void {
+    this.tableStateHolder.set(this.tableState);
     this.$element = jQuery(this.elementRef.nativeElement);
     this.scrollSyncUpdate = createScrollSync(this.$element);
 
     // Clear any old table subscribers
-    this.states.table.stopAllSubscriptions.next();
+    this.tableState.stopAllSubscriptions.next();
 
     this.locale = I18n.locale;
 
@@ -142,27 +130,27 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
     let statesCombined = combineLatest(
       this.states.query.resource.values$(),
-      this.states.table.results.values$(),
+      this.tableState.results.values$(),
       this.wpTableGroupBy.state.values$(),
       this.wpTableColumns.state.values$(),
       this.wpTableTimeline.state.values$());
 
     statesCombined.pipe(
-      takeUntil(componentDestroyed(this)))
-      .subscribe(([query, results, groupBy, columns, timelines]) => {
-        this.query = query;
-        this.rowcount = results.count;
+      untilComponentDestroyed(this)
+    ).subscribe(([query, results, groupBy, columns, timelines]) => {
+      this.query = query;
+      this.rowcount = results.count;
 
-        this.groupBy = groupBy.current;
-        this.columns = columns.current;
-        // Total columns = all available columns + id + checkbox
-        this.numTableColumns = this.columns.length + 2;
+      this.groupBy = groupBy.current;
+      this.columns = columns.current;
+      // Total columns = all available columns + id + checkbox
+      this.numTableColumns = this.columns.length + 2;
 
-        if (this.timelineVisible !== timelines.current) {
-          this.scrollSyncUpdate(timelines.current);
-        }
-        this.timelineVisible = timelines.current;
-      });
+      if (this.timelineVisible !== timelines.current) {
+        this.scrollSyncUpdate(timelines.current);
+      }
+      this.timelineVisible = timelines.current;
+    });
 
     // Locate table and timeline elements
     const tableAndTimeline = this.getTableAndTimelineElement();
@@ -178,19 +166,16 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     this.wpTableHoverSync.deactivate();
   }
 
-  public cancelInlineWorkPackage(index:number, row:any) {
-    this.$rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
-  };
-
   public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
-    var t0 = performance.now();
+    let t0 = performance.now();
 
     const tbody = this.$element.find('.work-package--results-tbody');
-    this.workPackageTable = new WorkPackageTable(this.$element[0], tbody[0], body, controller);
+    this.workPackageTable = new WorkPackageTable(this.injector, this.$element[0], tbody[0], body, controller);
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
+    new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);
 
-    var t1 = performance.now();
+    let t1 = performance.now();
     debugLog('Render took ' + (t1 - t0) + ' milliseconds.');
   }
 
@@ -210,8 +195,3 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     return [$tableSide[0], $timelineSide[0]];
   }
 }
-
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpTable',
-    downgradeComponent({component: WorkPackagesTableController}));

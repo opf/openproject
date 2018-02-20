@@ -27,23 +27,20 @@
 // ++
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-builder';
 
 export class IdDisplayField extends DisplayField {
-  public text: Object;
-  private uiStateBuilder:UiStateLinkBuilder;
 
+  public text:Object;
+  private uiStateBuilder:UiStateLinkBuilder;
 
   constructor(public workPackage:WorkPackageResourceInterface,
               public name:string,
               public schema:op.FieldSchema) {
     super(workPackage as any, name, schema);
 
-    this.uiStateBuilder = new UiStateLinkBuilder();
+    this.uiStateBuilder = new UiStateLinkBuilder(this.$injector.get('$state'), this.$injector.get('keepTab'));
 
     this.text = {
       linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
@@ -59,7 +56,7 @@ export class IdDisplayField extends DisplayField {
     }
   }
 
-  public render(element: HTMLElement, displayText:string): void {
+  public render(element:HTMLElement, displayText:string):void {
     if (!this.value) {
       return;
     }
@@ -73,7 +70,8 @@ export class IdDisplayField extends DisplayField {
     element.appendChild(link);
   }
 
-  public isEmpty(): boolean {
+  public isEmpty():boolean {
     return false;
   }
+
 }
