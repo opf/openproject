@@ -39,7 +39,7 @@ class AddTsvColumnsToAttachments < ActiveRecord::Migration[5.0]
     else
       reversible do |dir|
         dir.up do
-          warn "Your installation does not support full-text search features. Better use PostgreSQL in version 9.6 or higher."
+          warn "Your installation does not support full-text search features. Better use PostgreSQL in version 9.5 or higher."
         end
       end
     end
