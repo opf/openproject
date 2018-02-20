@@ -53,7 +53,15 @@ class ActivitiesController < ApplicationController
     events = @activity.events(@date_from, @date_to)
     censor_events_from_projects_with_disabled_activity!(events) unless @project
 
-    if events.empty? || stale?(etag: [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
+    if events.empty? || stale?(etag: [@activity.scope,
+                                      @date_to,
+                                      @date_from,
+                                      @with_subprojects,
+                                      @author,
+                                      events.first,
+                                      User.current,
+                                      current_language,
+                                      DesignColor.overwritten])
       respond_to do |format|
         format.html do
           @events_by_day = events.group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }
