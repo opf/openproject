@@ -9,7 +9,8 @@
   </div>
 
   <div (click)="activateIfEditable($event)"
-       data-click-on-keypress="[13, 32]"
+       click-on-keypress-upgraded
+       [clickOnKeypressKeys]="[13, 32]"
        tabindex="-1"
        class="__d_display_container"></div>
 </div>

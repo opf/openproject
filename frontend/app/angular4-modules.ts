@@ -78,7 +78,8 @@ import {
   PathHelperToken,
   TimezoneServiceToken,
   upgradeService,
-  upgradeServiceWithToken, v3PathToken,
+  upgradeServiceWithToken,
+  v3PathToken,
   wpMoreMenuServiceToken
 } from './angular4-transition-utils';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
@@ -146,6 +147,7 @@ import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-
 import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
 import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
 import {FocusWithinDirective} from 'core-components/common/focus-within/focus-within.upgraded.directive';
+import {ClickOnKeypressComponent} from 'core-app/ui_components/click-on-keypress-upgraded.component';
 
 @NgModule({
   imports: [
@@ -262,6 +264,7 @@ import {FocusWithinDirective} from 'core-components/common/focus-within/focus-wi
     WorkPackageAttachmentListItemComponent,
     OpDateTimeUpgradedDirective,
     UserLinkUpgradedComponent,
+    ClickOnKeypressComponent,
 
     // Activity Tab
     NewestActivityOnOverviewComponent,
