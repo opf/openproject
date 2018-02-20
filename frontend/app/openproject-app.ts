@@ -28,6 +28,10 @@
 
 require('./init-app');
 
+// load Angular 4 modules
+require("./angular4-modules");
+
+
 import {NgModuleRef} from '@angular/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {openprojectModule} from './angular-modules';

@@ -171,6 +171,3 @@ requireComponent.keys().forEach(requireComponent);
 // Enable debug logging for reactive states
 whenDebugging(enableReactiveStatesLogging);
 
-// load Angular 4 modules
-require("./angular4-modules");
-
