@@ -139,8 +139,8 @@ class MyProjectsOverviewsController < ApplicationController
                        block_name: new_block.first,
                        textile: new_block.last })
     else
-      render text: I18n.t(:error_saving_changes, errors: overview.errors.full_messages.join(', ')),
-                   status: 500
+      render plain: I18n.t(:error_saving_changes, errors: overview.errors.full_messages.join(', ')),
+                    status: 500
     end
   end
 
