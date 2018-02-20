@@ -44,6 +44,15 @@ See docs/COPYRIGHT.rdoc for more details.
 
     <div class="form--field"><%= setting_select :user_format, @options[:user_format], container_class: '-slim' %></div>
 
+    <%=
+      cell(
+        Settings::TimeZoneSettingCell,
+        "user_default_timezone",
+        container_class: "-slim",
+        title: I18n.t("tooltip_user_default_timezone")
+      )
+    %>
+
     <div class="form--field"><%= setting_text_field :journal_aggregation_time_minutes, unit: t(:label_minute_plural), container_class: '-xslim' %>
       <span class="form--field-instructions">
         <%= t(:text_journal_aggregation_time_explanation) %><br/>

@@ -127,6 +127,8 @@ class User < Principal
   validate :password_meets_requirements
 
   after_save :update_password
+  after_save :set_default_timezone!
+
   before_create :sanitize_mail_notification_setting
   before_destroy :delete_associated_private_queries
   before_destroy :reassign_associated
@@ -692,6 +694,10 @@ class User < Principal
     end
 
     system_user
+  end
+
+  def set_default_timezone!
+    pref.time_zone = pref.time_zone.presence || Setting.user_default_timezone.presence
   end
 
   protected
