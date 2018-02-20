@@ -7,9 +7,9 @@ tr:
   enumeration_doc_categories: "Belge kategorileri"
   enumeration:
     document_category:
-      documentation: Documentation
-      specification: Specification
-      other: Other
+      documentation: Belgeleme
+      specification: Şartname
+      other: Diğer
   label_document_added: "Belge eklendi"
   label_document_new: "Yeni belge"
   label_document_plural: "Belgeler"
