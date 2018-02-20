@@ -114,6 +114,9 @@ openprojectModule
         url: '/new?type&parent_id',
         component: WorkPackageNewFullViewComponent,
         reloadOnSearch: false,
+        data: {
+          allowMovingInEditMode: true
+        },
         onEnter: () => angular.element('body').addClass('full-create'),
         onExit: () => angular.element('body').removeClass('full-create'),
       })
@@ -122,6 +125,9 @@ openprojectModule
         url: '/{copiedFromWorkPackageId:[0-9]+}/copy',
         component: WorkPackageCopyFullViewComponent,
         reloadOnSearch: false,
+        data: {
+          allowMovingInEditMode: true
+        },
         onEnter: () => angular.element('body').addClass('action-show'),
         onExit: () => angular.element('body').removeClass('action-show')
       })
@@ -149,6 +155,9 @@ openprojectModule
         url: '/create_new?type&parent_id',
         component: WorkPackageNewSplitViewComponent,
         reloadOnSearch: false,
+        data: {
+          allowMovingInEditMode: true
+        },
         onEnter: () => angular.element('body').addClass('action-create'),
         onExit: () => angular.element('body').removeClass('action-create')
       })
@@ -156,6 +165,9 @@ openprojectModule
         url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
         component: WorkPackageCopySplitViewComponent,
         reloadOnSearch: false,
+        data: {
+          allowMovingInEditMode: true
+        },
         onEnter: () => angular.element('body').addClass('action-details'),
         onExit: () => angular.element('body').removeClass('action-details')
       })
