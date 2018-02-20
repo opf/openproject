@@ -88,6 +88,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
               readonly wpListService:WorkPackagesListService,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
               readonly loadingIndicator:LoadingIndicatorService,
+              readonly $transitions:TransitionService,
               @Inject($stateToken) readonly $state:StateService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
 
@@ -108,6 +109,18 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
     // Listen for refresh changes
     this.setupRefreshObserver();
+
+    // Listen for param changes
+    this.$transitions.onSuccess({}, (transition) => {
+      console.log('Updating params!' + transition.to().name);
+
+      const params = transition.params('to');
+      let newChecksum = params.query_props;
+      let newId = params.query_id && parseInt(params.query_id);
+
+      this.wpListChecksumService
+        .executeIfOutdated(newId, newChecksum, () => this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier));
+    });
   }
 
   ngOnDestroy():void {
