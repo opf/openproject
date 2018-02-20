@@ -124,6 +124,11 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
       .text(item.label)
       .appendTo(div);
 
+    // Needed for iOS to ensure that the link is executed on the first click (touch)
+    link.on('touchstart',(evt:JQueryEventObject) => {
+      this.$window.location.href =  this.projectLink(item.object.identifier);
+    });
+
     // When in hierarchy, indent
     if (item.object.level > 0) {
       link
