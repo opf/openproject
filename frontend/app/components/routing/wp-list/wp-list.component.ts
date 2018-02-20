@@ -73,23 +73,6 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   selectedTitle?:string;
   tableState:TableState;
 
-  readonly setAnchorToNextElement = () => {
-    // Skip to next when visible, otherwise skip to previous
-    const selectors = '#pagination--next-link, #pagination--prev-link, #pagination-empty-text';
-    const visibleLink = jQuery(selectors)
-      .not(':hidden')
-      .first();
-
-    if (visibleLink.length) {
-      visibleLink.focus();
-    }
-  };
-
-  readonly allowed = (model:string, permission:string) => {
-    // TODO
-    return true || this.authorisationService.can(model, permission);
-  };
-
   constructor(readonly states:States,
               readonly authorisationService:AuthorisationService,
               readonly wpTableRefresh:WorkPackageTableRefreshService,
@@ -131,18 +114,21 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     this.wpTableRefresh.clear('Table controller scope destroyed.');
   }
 
-  /**
-   * Callback from ui-router when params in this state changed.
-   * @param {StateParams} params
-   */
-  public uiOnParamsChanged(params:StateParams) {
-    console.log('params changed to %O', params);
-    let newChecksum = params.query_props;
-    let newId = params.query_id && parseInt(params.query_id);
+  public allowed(model:string, permission:string)  {
+    return this.authorisationService.can(model, permission);
+  }
 
-    this.wpListChecksumService.executeIfOutdated(newId, newChecksum, () => {
-      this.wpListService.loadCurrentQueryFromParams(params['projectPath']);
-    });
+
+  public setAnchorToNextElement() {
+    // Skip to next when visible, otherwise skip to previous
+    const selectors = '#pagination--next-link, #pagination--prev-link, #pagination-empty-text';
+    const visibleLink = jQuery(selectors)
+      .not(':hidden')
+      .first();
+
+    if (visibleLink.length) {
+      visibleLink.focus();
+    }
   }
 
   private setupQueryObservers() {
