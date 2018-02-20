@@ -44,7 +44,7 @@ module OpenProject::PdfExport::ExportCard
       @config = config
       @work_packages = work_packages
 
-      page_layout = :landscape if config.landscape? else :portrait
+      page_layout = config.landscape? ? :landscape : :portrait
       page_size = config.page_size or defaults[:page_size]
 
       @pdf = Prawn::Document.new(
