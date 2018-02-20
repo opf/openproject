@@ -31,7 +31,7 @@ describe Meeting, type: :model do
   let(:meeting) { FactoryGirl.create(:meeting, project: project, author: user1) }
   let(:agenda) do
     meeting.create_agenda text: 'Meeting Agenda text'
-    meeting.agenda(true) # avoiding stale object errors
+    meeting.reload_agenda # avoiding stale object errors
   end
 
   let(:role) { FactoryGirl.create(:role, permissions: [:view_meetings]) }
