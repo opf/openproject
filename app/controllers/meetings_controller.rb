@@ -147,7 +147,7 @@ class MeetingsController < ApplicationController
   def convert_params
     # We do some preprocessing of `meeting_params` that we will store in this
     # instance variable.
-    @converted_params = meeting_params
+    @converted_params = meeting_params.to_h
 
     @converted_params[:duration] = @converted_params[:duration].to_hours
     # Force defaults on participants
