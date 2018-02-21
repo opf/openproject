@@ -111,12 +111,14 @@ Feature: Team Member
   Scenario: View the burndown chart from the backlogs dashboard
     Given I am on the master backlog
       And I open the "Sprint 002" backlogs menu
+     Then I should see "Burndown Chart"
      When I follow "Burndown Chart" of the "Sprint 002" menu
      Then I should see the burndown chart for sprint "Sprint 002"
 
   @javascript
   Scenario: View the burndown chart from the taskboard
     Given I am on the taskboard for "Sprint 002"
+     Then I should see "Burndown Chart"
      When I follow "Burndown Chart"
      Then I should see the burndown chart for sprint "Sprint 002"
 

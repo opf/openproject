@@ -218,9 +218,12 @@ When /^I click on the impediment called "(.+?)"$/ do |impediment_name|
 end
 
 When /^I click to add a new task for story "(.+?)"$/ do |story_name|
+  expect(page)
+    .to have_content(story_name)
+
   story = Story.find_by(subject: story_name)
 
-  page.all(:css, "tr.story_#{story.id} td.add_new").last.click
+  find("tr.story_#{story.id} td.add_new").click
 end
 
 When /^I fill in the id of the work_package "(.+?)" as the parent work_package$/ do |work_package_name|
