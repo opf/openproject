@@ -57,6 +57,18 @@ ru:
   boards:
     show:
       no_results_title_text: На данный момент сообщений для форума нет.
+  custom_actions:
+    actions:
+      name: Действия
+      add: Добавить действие
+    conditions: Условия
+    plural: Пользовательские действия
+    new: Новое пользовательское действие
+    edit: Редактировать пользовательское действие %{name}
+    upsale:
+      title: Пользовательские действия — особенность Корпоративной версии
+      description: Пользовательские действия автоматизируют повседневную работу, объединяя
+        отдельные шаги в одну кнопку.
   custom_fields:
     text_add_new_custom_field: 'Прежде чем добавлять настраиваемые поля в проект,
       нужно создать их.
@@ -439,6 +451,11 @@ ru:
       models:
         custom_field:
           at_least_one_custom_option: По крайней мере один параметр должен быть доступен.
+        custom_actions:
+          only_one_allowed: "(%{name}) разрешено только одно значение."
+          empty: "(%{name}) не может быть пустым."
+          inclusion: "(%{name}) не задано ни одно из допустимых значений."
+          not_an_integer: "(%{name}) не является целым числом."
         enterprise_token:
           unreadable: невозможно прочитать. Вы уверены, что это маркер поддержки?
         parse_schema_filter_params_service:
@@ -553,6 +570,7 @@ ru:
       attribute_help_text: Атрибут текста справки
       board: Форум
       comment: Комментарий
+      custom_action: Пользовательское действие
       custom_field: Настраиваемое поле
       group: Группа
       category: Категория
@@ -2050,6 +2068,7 @@ ru:
   setting_feeds_limit: Предел содержимого новостной ленты
   setting_file_max_size_displayed: Максимальная длина  строки текстовых файлов
   setting_host_name: Имя компьютера в сети
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Калькуляции пакета работ сделаны со следующими
     коэфицентами
   setting_work_package_done_ratio_field: Использовать поле пакета работ
@@ -2557,6 +2576,9 @@ ru:
   note_password_login_disabled: Вход по паролю был отключен через параметры %{configuration}.
   warning: Предупреждение
   warning_attachments_not_saved: "%{count} файл(-ов) не может быть сохранен(-о)."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Пункт меню
   menu_item_setting: Видимость
   wiki_menu_item_for: Пункт меню для wiki-страницы  «%{title}»

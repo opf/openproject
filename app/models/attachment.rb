@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -47,6 +48,8 @@ class Attachment < ActiveRecord::Base
                       end)
 
   mount_uploader :file, OpenProject::Configuration.file_uploader
+
+  after_commit :extract_fulltext, on: :create
 
   def filesize_below_allowed_maximum
     if filesize > Setting.attachment_max_size.to_i.kilobytes
@@ -177,5 +180,29 @@ class Attachment < ActiveRecord::Base
   def self.content_type_for(file_path, fallback = OpenProject::ContentTypeDetector::SENSIBLE_DEFAULT)
     content_type = Redmine::MimeType.narrow_type file_path, OpenProject::ContentTypeDetector.new(file_path).detect
     content_type || fallback
+  end
+
+  def extract_fulltext
+    return unless OpenProject::Database.allows_tsv?
+    job = ExtractFulltextJob.new(id)
+    Delayed::Job::enqueue job
+  end
+
+  # Extract the fulltext of any attachments where fulltext is still nil.
+  # This runs inline and not in a asynchronous worker.
+  def self.extract_fulltext_where_missing
+    return unless OpenProject::Database.allows_tsv?
+    Attachment.where(fulltext: nil).pluck(:id).each do |id|
+      job = ExtractFulltextJob.new(id)
+      job.perform
+    end
+  end
+
+  def self.force_extract_fulltext
+    return unless OpenProject::Database.allows_tsv?
+    Attachment.pluck(:id).each do |id|
+      job = ExtractFulltextJob.new(id)
+      job.perform
+    end
   end
 end

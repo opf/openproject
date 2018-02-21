@@ -29,7 +29,7 @@
 
 import {opWorkPackagesModule} from '../../angular-modules';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {StateService} from '@uirouter/angularjs';
+import {StateService} from '@uirouter/core';
 
 var $state:StateService;
 var PathHelper:any;

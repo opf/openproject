@@ -31,8 +31,6 @@ angular.module('openproject.uiComponents')
     './accessible-by-keyboard-directive')])
   .directive('accessibleCheckbox', [require('./accessible-checkbox-directive')])
   .directive('accessibleElement', [require('./accessible-element-directive')])
-  .directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', require(
-    './authoring-directive')])
   .directive('copyToClipboard', [
     'I18n',
     '$timeout',
@@ -42,7 +40,6 @@ angular.module('openproject.uiComponents')
   ])
   .directive('opDate', ['TimezoneService', require('./date/date-directive')])
   .directive('opTime', ['TimezoneService', require('./date/time-directive')])
-  .directive('opDateTime', ['$compile', 'TimezoneService', require('./date/date-time-directive')])
   .directive('emptyElement', [require('./empty-element-directive')])
   .constant('ENTER_KEY', 13)
   .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])

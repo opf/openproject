@@ -59,6 +59,18 @@ pt:
   boards:
     show:
       no_results_title_text: Atualmente, não existem publicações para o quadro.
+  custom_actions:
+    actions:
+      name: Ações
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'Para adicionar novos campos personalizados a um projeto,
       primeiro precisa de criá-los para depois adicioná-los a este projeto.
@@ -448,6 +460,11 @@ pt:
       models:
         custom_field:
           at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: não foi possível ler. Tem a certeza que é um token de suporte?
         parse_schema_filter_params_service:
@@ -558,6 +575,7 @@ pt:
       attribute_help_text: Texto de ajuda do atributo
       board: Fórum
       comment: Comentario
+      custom_action: Custom action
       custom_field: Campo personalizado
       group: Grupo
       category: Categoria
@@ -2054,6 +2072,7 @@ pt:
   setting_feeds_limit: Limite de conteúdo feed
   setting_file_max_size_displayed: Tamanho máximo de ficheiros de texto exibido inline
   setting_host_name: Nome do host
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Calcular a percentagem de progresso do pacote de
     trabalho
   setting_work_package_done_ratio_field: Utilize o campo de pacote de trabalho
@@ -2564,6 +2583,9 @@ pt:
   note_password_login_disabled: A senha da sessão foi desativada por %{configuration}.
   warning: Aviso
   warning_attachments_not_saved: Não foi possível guardar %{count} ficheiro(s).
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Item de menu
   menu_item_setting: Visibilidade
   wiki_menu_item_for: Item de menu para página wiki "%{title}"

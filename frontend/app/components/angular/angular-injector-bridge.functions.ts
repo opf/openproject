@@ -1,10 +1,10 @@
-
-
-  /**
+/**
    * Returns the currently bootstrapped injector from the application.
    * Not applicable until after the application bootstrapping is done.
    */
-  export function $currentInjector() {
+import {Injector} from '@angular/core';
+
+export function $currentInjector() {
     return (window as any).ngInjector || angular.element(document.body).injector();
   }
 
@@ -30,6 +30,7 @@
    *
    * @param target The target to inject into
    * @param dependencies A set of dependencies to inject
+   * @deprecated
    */
   export function $injectFields(target:any, ...dependencies:string[]) {
     let $injector = $currentInjector();
@@ -37,3 +38,5 @@
       target[dep] = $injector.get(dep);
     });
   }
+
+

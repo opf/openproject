@@ -28,15 +28,25 @@
 
 import {openprojectModule} from '../../angular-modules';
 import {FirstRouteService} from 'app/components/routing/first-route-service';
-import {Transition, TransitionService} from '@uirouter/core';
-import {StateProvider, UrlMatcherFactory, UrlRouterProvider} from '@uirouter/angularjs';
+import {Transition, TransitionService, UrlMatcherFactory, UrlService} from '@uirouter/core';
+import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
+import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
+import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
+import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-view/wp-full-view.component';
+import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
+import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
+import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
+import {WorkPackageNewFullViewComponent} from 'core-components/wp-new/wp-new-full-view.component';
+import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-full-view.component';
+import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
+import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
 
 const panels = {
   get overview() {
     return {
       url: '/overview',
       reloadOnSearch: false,
-      template: '<overview-panel work-package="$ctrl.workPackage"></overview-panel>'
+      component: WorkPackageOverviewTabComponent
     };
   },
 
@@ -44,7 +54,7 @@ const panels = {
     return {
       url: '/watchers',
       reloadOnSearch: false,
-      template: '<watchers-panel ng-if="$ctrl.workPackage" work-package="$ctrl.workPackage"></watchers-panel>'
+      component: WorkPackageWatchersTabComponent,
     };
   },
 
@@ -52,7 +62,7 @@ const panels = {
     return {
       url: '/activity',
       reloadOnSearch: false,
-      template: '<activity-panel ng-if="$ctrl.workPackage" work-package="$ctrl.workPackage"></activity-panel>'
+      component: WorkPackageActivityTabComponent,
     };
   },
 
@@ -67,18 +77,16 @@ const panels = {
     return {
       url: '/relations',
       reloadOnSearch: false,
-      template: ` <relations-panel
-                    ng-if="$ctrl.workPackage"
-                    work-package="$ctrl.workPackage"
-                  ></relations-panel>`
+      component: WorkPackageRelationsTabComponent
     };
   }
 };
 
 openprojectModule
-  .config(($stateProvider:StateProvider,
-           $urlRouterProvider:UrlRouterProvider,
+  .config(($stateProvider:any,
+           $urlRouterProvider:any,
            $urlMatcherFactoryProvider:UrlMatcherFactory) => {
+
     $urlMatcherFactoryProvider.strictMode(false);
 
     // Prepend the baseurl to the route to avoid using a base tag
@@ -104,38 +112,30 @@ openprojectModule
 
       .state('work-packages.new', {
         url: '/new?type&parent_id',
-        templateUrl: '/components/routing/main/work-packages.new.html',
-        resolve: {
-          successState: () => 'work-packages.show'
-        },
-        controller: 'WorkPackageCreateController',
-        controllerAs: '$ctrl',
+        component: WorkPackageNewFullViewComponent,
         reloadOnSearch: false,
+        data: {
+          allowMovingInEditMode: true
+        },
         onEnter: () => angular.element('body').addClass('full-create'),
         onExit: () => angular.element('body').removeClass('full-create'),
       })
 
       .state('work-packages.copy', {
         url: '/{copiedFromWorkPackageId:[0-9]+}/copy',
-        controller: 'WorkPackageCopyController',
-        controllerAs: '$ctrl',
+        component: WorkPackageCopyFullViewComponent,
         reloadOnSearch: false,
-        resolve: {
-          successState: () => 'work-packages.show'
+        data: {
+          allowMovingInEditMode: true
         },
-        templateUrl: '/components/routing/main/work-packages.new.html',
-        onEnter: () => {
-          angular.element('body').addClass('action-show');
-        },
+        onEnter: () => angular.element('body').addClass('action-show'),
         onExit: () => angular.element('body').removeClass('action-show')
       })
       .state('work-packages.show', {
         url: '/{workPackageId:[0-9]+}',
         // Redirect to 'activity' by default.
         redirectTo: 'work-packages.show.activity',
-        templateUrl: '/components/routing/wp-show/wp.show.html',
-        controller: 'WorkPackageShowController',
-        controllerAs: '$ctrl',
+        component: WorkPackagesFullViewComponent,
         onEnter: () => angular.element('body').addClass('action-show'),
         onExit: () => angular.element('body').removeClass('action-show')
       })
@@ -146,42 +146,35 @@ openprojectModule
 
       .state('work-packages.list', {
         url: '',
-        controller: 'WorkPackagesListController',
-        templateUrl: '/components/routing/wp-list/wp.list.html',
+        component: WorkPackagesListComponent,
         reloadOnSearch: false,
         onEnter: () => angular.element('body').addClass('action-index'),
         onExit: () => angular.element('body').removeClass('action-index')
       })
       .state('work-packages.list.new', {
         url: '/create_new?type&parent_id',
-        controller: 'WorkPackageCreateController',
-        controllerAs: '$ctrl',
-        templateUrl: '/components/routing/wp-list/wp.list.new.html',
+        component: WorkPackageNewSplitViewComponent,
         reloadOnSearch: false,
-        resolve: {
-          successState: () => 'work-packages.list.details.overview'
+        data: {
+          allowMovingInEditMode: true
         },
         onEnter: () => angular.element('body').addClass('action-create'),
         onExit: () => angular.element('body').removeClass('action-create')
       })
       .state('work-packages.list.copy', {
         url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
-        controller: 'WorkPackageCopyController',
-        controllerAs: '$ctrl',
-        resolve: {
-          successState: () => 'work-packages.list.details'
-        },
-        templateUrl: '/components/routing/wp-list/wp.list.new.html',
+        component: WorkPackageCopySplitViewComponent,
         reloadOnSearch: false,
+        data: {
+          allowMovingInEditMode: true
+        },
         onEnter: () => angular.element('body').addClass('action-details'),
         onExit: () => angular.element('body').removeClass('action-details')
       })
       .state('work-packages.list.details', {
         redirectTo: 'work-packages.list.details.overview',
         url: '/details/{workPackageId:[0-9]+}',
-        templateUrl: '/components/routing/wp-details/wp.list.details.html',
-        controller: 'WorkPackageDetailsController',
-        controllerAs: '$ctrl',
+        component: WorkPackageSplitViewComponent,
         reloadOnSearch: false,
         params: {
           focus: {
@@ -204,8 +197,11 @@ openprojectModule
         firstRoute:FirstRouteService,
         $timeout:ng.ITimeoutService,
         $rootScope:ng.IRootScopeService,
+        $trace:any,
         $transitions:TransitionService,
         $window:ng.IWindowService) => {
+
+      $trace.enable(1);
 
       // Our application is still a hybrid one, meaning most routes are still
       // handled by Rails. As such, we disable the default link-hijacking that

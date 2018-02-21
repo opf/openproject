@@ -49,6 +49,13 @@ describe 'Custom actions', type: :feature, js: true do
                        user: user)
     user
   end
+  let!(:other_member_user) do
+    FactoryGirl.create(:user,
+                       firstname: 'Other member',
+                       lastname: 'User',
+                       member_in_project: project,
+                       member_through_role: role)
+  end
   let(:project) { FactoryGirl.create(:project) }
   let(:other_project) { FactoryGirl.create(:project) }
   let!(:work_package) do
@@ -159,6 +166,7 @@ describe 'Custom actions', type: :feature, js: true do
     new_ca_page = index_ca_page.new
     new_ca_page.set_name('Escalate')
     new_ca_page.add_action('Priority', immediate_priority.name)
+    new_ca_page.add_action('Notify', other_member_user.name)
     new_ca_page.add_action(list_custom_field.name, selected_list_custom_field_options.map(&:name))
     new_ca_page.create
 
@@ -199,6 +207,11 @@ describe 'Custom actions', type: :feature, js: true do
 
     new_ca_page.set_name('Move project')
     new_ca_page.add_action(date_custom_field.name, (Date.today + 5.days).to_s)
+
+    if page.has_selector? '.ui-datepicker-close'
+      scroll_to_and_click(find('.ui-datepicker-close'))
+    end
+
     new_ca_page.add_action('Type', other_type.name)
     new_ca_page.add_action('Project', other_project.name)
     new_ca_page.set_condition('Project', project.name)
@@ -210,7 +223,7 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.visit!
 
     expect(page)
-      .to have_selector('.custom-action', text: 'Unassign')
+      .to have_selector('.custom-action', text: 'Unassign', wait: 10)
     expect(page)
       .to have_selector('.custom-action', text: 'Close')
     expect(page)
@@ -249,6 +262,9 @@ describe 'Custom actions', type: :feature, js: true do
                               status: default_status.name,
                               assignee: '-',
                               "customField#{list_custom_field.id}" => selected_list_custom_field_options.map(&:name).join(' ')
+
+    expect(page)
+      .to have_selector('.work-package-details-activities-activity-contents a.user-mention', text: other_member_user.name)
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 

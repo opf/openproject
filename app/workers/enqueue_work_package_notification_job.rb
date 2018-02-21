@@ -88,35 +88,16 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
   end
 
   def mentioned
-    mentioned_people = []
-
-    text = text_for_mentions
-    user_ids = text.scan(/\buser#([\d]+)\b/).first.to_a
-    user_login_names = text.scan(/\buser:"(.+?)"/).first.to_a
-
-    user_ids.each do |user_id|
-      if user = User.find_by(id: user_id)
-        if @work_package.visible? user
-          mentioned_people << user unless user.mail_notification == 'none'
-        end
-      end
-    end
-
-    user_login_names.each do |name|
-      if user = User.find_by(login: name)
-        if @work_package.visible? user
-          mentioned_people << user unless user.mail_notification == 'none'
-        end
-      end
-    end
-    mentioned_people
+    mentioned_ids
+      .where(id: User.allowed(:view_work_packages, @work_package.project))
+      .where.not(mail_notification: User::USER_MAIL_OPTION_NON.first)
   end
 
   def text_for_mentions
     potential_text = ""
     potential_text << @journal.notes if @journal.try(:notes)
 
-    [:description, :subject].each do |field|
+    %i[description subject].each do |field|
       if @journal.details[field].try(:any?)
         from = @journal.details[field].first
         to = @journal.details[field].second
@@ -126,4 +107,23 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
     potential_text
   end
 
+  def mentioned_ids
+    text = text_for_mentions
+    user_ids, user_login_names, group_ids = text
+                                            .scan(/\b(?:user#([\d]+))|(?:user:"(.+?)")|(?:group#([\d]+))\b/)
+                                            .transpose
+                                            .each(&:compact!)
+
+    base_scope = User
+                 .includes(:groups)
+                 .references(:groups_users)
+
+    by_id = base_scope.where(id: user_ids || [])
+    by_login = base_scope.where(login: user_login_names || [])
+    by_group = base_scope.where(groups_users: { id: group_ids || [] })
+
+    by_id
+      .or(by_login)
+      .or(by_group)
+  end
 end

@@ -1,8 +1,9 @@
 import {InputState} from 'reactivestates';
-import {States} from '../states.service';
 import {opServicesModule} from '../../angular-modules';
+import {States} from '../states.service';
 
 export class WorkPackageTableRefreshService {
+
   constructor(public states:States) {
   }
 
@@ -23,7 +24,7 @@ export class WorkPackageTableRefreshService {
   }
 
   public get state():InputState<boolean[]> {
-    return this.states.table.refreshRequired;
+    return this.states.globalTable.refreshRequired;
   }
 }
 

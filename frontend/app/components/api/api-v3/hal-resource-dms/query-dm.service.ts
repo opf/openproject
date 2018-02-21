@@ -108,9 +108,16 @@ export class QueryDmService {
                                {caching: {enabled: false} });
   }
 
-  public save(query:QueryResource, form:QueryFormResource) {
-    return this.extractPayload(query, form).then(payload => {
-      return query.updateImmediately(payload);
+  public update(query:QueryResource, form:QueryFormResource) {
+    return new Promise<QueryResource>((resolve, reject) => {
+      this.extractPayload(query, form)
+        .then(payload => {
+          let path = this.v3Path.queries({ query: query.id });
+          this.halRequest.patch<QueryResource>(path, payload)
+            .then(resolve)
+            .catch(reject)
+        })
+        .catch(reject);
     });
   }
 

@@ -29,21 +29,22 @@ require 'spec_helper'
 require_relative '../shared_expectations'
 
 describe CustomActions::Actions::Project, type: :model do
+  let(:key) { :project }
+  let(:priority) { 10 }
+
+  let(:allowed_values) do
+    projects = [FactoryGirl.build_stubbed(:project),
+                FactoryGirl.build_stubbed(:project)]
+    allow(Project)
+      .to receive_message_chain(:select, :order)
+            .and_return(projects)
+
+    [{ value: projects.first.id, label: projects.first.name },
+     { value: projects.last.id, label: projects.last.name }]
+  end
+
+  it_behaves_like 'base custom action'
   it_behaves_like 'associated custom action' do
-    let(:key) { :project }
-    let(:priority) { 10 }
-
-    let(:allowed_values) do
-      projects = [FactoryGirl.build_stubbed(:project),
-                  FactoryGirl.build_stubbed(:project)]
-      allow(Project)
-        .to receive_message_chain(:select, :order)
-        .and_return(projects)
-
-      [{ value: projects.first.id, label: projects.first.name },
-       { value: projects.last.id, label: projects.last.name }]
-    end
-
     describe '#allowed_values' do
       it 'is the list of all project' do
         allowed_values

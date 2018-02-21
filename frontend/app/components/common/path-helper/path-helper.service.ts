@@ -59,6 +59,10 @@ export class PathHelperService {
     return this.staticBase + '/my/page';
   }
 
+  public loginPath() {
+    return this.staticBase + '/login';
+  }
+
   public projectsPath() {
     return this.staticBase + '/projects';
   }
@@ -198,7 +202,7 @@ export class PathHelperService {
     // that are members of that project:
     filters.add('member', '=', [projectId.toString()]);
     // That are users:
-    filters.add('type', '=', ['User']);
+    filters.add('type', '=', ['User', 'Group']);
     // That are not the current user:
     filters.add('id', '!', ['me']);
 

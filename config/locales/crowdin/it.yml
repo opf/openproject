@@ -60,6 +60,18 @@ it:
   boards:
     show:
       no_results_title_text: Al momento non vi sono messaggi in bacheca.
+  custom_actions:
+    actions:
+      name: Azioni
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'Per aggiungere nuovi campi personalizzati a un progetto,
       è necessario prima crearli.
@@ -445,6 +457,11 @@ it:
       models:
         custom_field:
           at_least_one_custom_option: Deve essere disponibile almeno un'opzione.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: non può essere letto. Sei sicuro che si tratta di un token di
             assistenza?
@@ -560,6 +577,7 @@ it:
       attribute_help_text: Testo guida dell'attributo
       board: Forum
       comment: Commento
+      custom_action: Custom action
       custom_field: Campo personalizzato
       group: Gruppo
       category: Categoria
@@ -2071,6 +2089,7 @@ it:
   setting_file_max_size_displayed: Dimensione massima dei file di testo visualizzati
     inline
   setting_host_name: Nome dell'Host
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Calcola la percentuale di completamento della macro-attività
     (work package) con
   setting_work_package_done_ratio_field: Usa il campo della macro-attività (work package)
@@ -2597,6 +2616,9 @@ it:
     %{configuration}.
   warning: Attenzione
   warning_attachments_not_saved: "%{count} file non possono essere salvati."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Voce di menu
   menu_item_setting: Visibilità
   wiki_menu_item_for: Voce di menù per la pagina wiki "%{title}"

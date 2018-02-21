@@ -1,5 +1,6 @@
 import {wpControllersModule} from '../../../angular-modules';
 import {States} from '../../states.service';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 
 export class QuerySharingForm {
   public canPublish:boolean = false;
@@ -13,7 +14,7 @@ export class QuerySharingForm {
 
   constructor(public $scope:ng.IScope,
               public states:States,
-              public AuthorisationService:any,
+              public authorisationService:AuthorisationService,
               public I18n:op.I18n) {
     const query = this.states.query.resource.value!;
     const form = states.query.form.value!;
@@ -31,8 +32,8 @@ export class QuerySharingForm {
 
   public get canStar() {
     return this.isSave ||
-      this.AuthorisationService.can('query', 'star') ||
-      this.AuthorisationService.can('query', 'unstar');
+      this.authorisationService.can('query', 'star') ||
+      this.authorisationService.can('query', 'unstar');
   }
 
   public changed() {

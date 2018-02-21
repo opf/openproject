@@ -28,7 +28,6 @@
 
 angular.module('openproject.helpers')
   .constant('CUSTOM_FIELD_PREFIX', 'cf_')
-  // .service('AutoCompleteHelper', ['$http', 'PathHelper', require('./auto-complete-helper')])
   .service('CustomFieldHelper', ['CUSTOM_FIELD_PREFIX', 'I18n', require(
     './custom-field-helper')])
   .factory('SvgHelper', require('./svg-helper'))

@@ -28,18 +28,9 @@
 
 import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
-import {WorkPackageTableRelationColumns} from '../wp-table-relation-columns';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableColumnsService} from './wp-table-columns.service';
-import {TableStateStates, WorkPackageTableBaseService} from './wp-table-base.service';
-import {
-  RelationResource,
-  RelationResourceInterface
-} from '../../api/api-v3/hal-resources/relation-resource.service';
-import {
-  QueryColumn, queryColumnTypes, RelationQueryColumn,
-  TypeRelationQueryColumn
-} from '../../wp-query/query-column';
+import {RelationResourceInterface} from '../../api/api-v3/hal-resources/relation-resource.service';
 import {IQService} from 'angular';
 import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
@@ -48,7 +39,7 @@ import {
   WorkPackageRelationsService
 } from '../../wp-relations/wp-relations.service';
 import {WorkPackageTableHierarchiesService} from './wp-table-hierarchy.service';
-import { WorkPackageNotificationService } from 'core-components/wp-edit/wp-notification.service';
+import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 
 export class WorkPackageTableAdditionalElementsService {
 
@@ -75,10 +66,10 @@ export class WorkPackageTableAdditionalElementsService {
   private loadAdditional(wpIds:string[]) {
     this.wpCacheService.requireAll(wpIds)
       .then(() => {
-        this.states.table.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
+        this.states.globalTable.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
       })
       .catch((e) => {
-        this.states.table.additionalRequiredWorkPackages.putValue(null, 'Failure loading required work packages');
+        this.states.globalTable.additionalRequiredWorkPackages.putValue(null, 'Failure loading required work packages');
         this.wpNotificationsService.handleErrorResponse(e);
       });
   }

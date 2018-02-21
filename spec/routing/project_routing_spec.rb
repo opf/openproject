@@ -260,8 +260,8 @@ describe ProjectsController, type: :routing do
 
   describe 'level_list' do
     it do
-      expect(get('/projects/level_list')).to route_to(
-        controller: 'projects', action: 'level_list'
+      expect(get('/projects/level_list.json')).to route_to(
+        controller: 'projects', action: 'level_list', format: 'json'
       )
     end
   end

@@ -158,7 +158,7 @@ gem 'cocaine', '~> 0.5.8'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'nokogiri', '~> 1.8.1'
+gem 'nokogiri', '~> 1.8.2'
 
 # carrierwave 0.11.3 should allow to use fog-aws without the rest of the
 # fog dependency chain. We only need aws here, so we can avoid it
@@ -170,6 +170,8 @@ gem 'carrierwave', '~> 1.2.2'
 gem 'aws-sdk', '~> 2.10.1'
 
 gem 'openproject-token', '~> 1.0.1'
+
+gem 'plaintext', '0.1.0'
 
 group :test do
   gem 'rack-test', '~> 0.6.3'

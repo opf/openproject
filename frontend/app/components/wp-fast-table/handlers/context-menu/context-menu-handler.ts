@@ -1,18 +1,15 @@
-import {debugLog} from "../../../../helpers/debug_output";
-import {$injectFields, injectorBridge} from "../../../angular/angular-injector-bridge.functions";
-import {WorkPackageTable} from "../../wp-fast-table";
-import {TableEventHandler} from "../table-handler-registry";
-import {tableRowClassName} from "../../builders/rows/single-row-builder";
-import {uiStateLinkClass} from "../../builders/ui-state-link-builder";
-import {ContextMenuService} from "../../../context-menus/context-menu.service";
-import {timelineCellClassName} from "../../builders/timeline/timeline-row-builder";
+import {Injector} from '@angular/core';
+import {ContextMenuService} from '../../../context-menus/context-menu.service';
+import {tableRowClassName} from '../../builders/rows/single-row-builder';
+import {WorkPackageTable} from '../../wp-fast-table';
+import {TableEventHandler} from '../table-handler-registry';
 
 export abstract class ContextMenuHandler implements TableEventHandler {
   // Injections
-  public contextMenu:ContextMenuService;
+  public contextMenu:ContextMenuService = this.injector.get(ContextMenuService);
 
-  constructor(protected table: WorkPackageTable) {
-    $injectFields(this, 'contextMenu');
+  constructor(public readonly injector:Injector,
+              protected table:WorkPackageTable) {
   }
 
   public get rowSelector() {
@@ -27,7 +24,7 @@ export abstract class ContextMenuHandler implements TableEventHandler {
     return jQuery(table.container);
   }
 
-  public abstract handleEvent(table: WorkPackageTable, evt:JQueryEventObject):boolean;
+  public abstract handleEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean;
 
   protected openContextMenu(evt:JQueryEventObject, workPackageId:string, positionArgs?:any):void {
     let [index,] = this.table.findRenderedRow(workPackageId);

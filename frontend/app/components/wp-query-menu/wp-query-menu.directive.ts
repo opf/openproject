@@ -34,7 +34,7 @@ import {
   QueryMenuEvent,
   QueryMenuService
 } from 'core-components/wp-query-menu/wp-query-menu.service';
-import {StateService, StateParams} from '@uirouter/angularjs';
+import {StateService, StateParams} from '@uirouter/core';
 
 export const QUERY_MENU_ITEM_TYPE = 'query-menu-item';
 

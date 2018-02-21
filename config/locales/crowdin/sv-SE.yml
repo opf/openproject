@@ -59,6 +59,18 @@ sv-SE:
   boards:
     show:
       no_results_title_text: Det finns för närvarande inga inlägg på anslagstavlan.
+  custom_actions:
+    actions:
+      name: Actions
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'Innan du kan lägga till nya anpassade fält till ett
       projekt måste du skapa dessa.
@@ -437,6 +449,11 @@ sv-SE:
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: kan inte läsas. Är du säker på att det är en support-nyckel?
         parse_schema_filter_params_service:
@@ -546,6 +563,7 @@ sv-SE:
       attribute_help_text: Attribute help text
       board: Forum
       comment: Kommentar
+      custom_action: Custom action
       custom_field: Anpassat fält
       group: Grupp
       category: Kategori
@@ -2010,6 +2028,7 @@ sv-SE:
   setting_feeds_limit: Innehållsbegränsning på Flöden
   setting_file_max_size_displayed: Maxstorlek på textfiler som visas inline
   setting_host_name: Värdnamn
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Beräkna arbetspaketets andel avklarat med
   setting_work_package_done_ratio_field: Använd fältet arbetspaket
   setting_work_package_done_ratio_status: Använd fältet arbetspaketsstatus
@@ -2500,6 +2519,9 @@ sv-SE:
   note_password_login_disabled: Inloggning med lösenord har inaktiverats av %{configuration}.
   warning: Varning
   warning_attachments_not_saved: "%{count} fil(er) kunde inte sparas."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Menyalternativ
   menu_item_setting: Synlighet
   wiki_menu_item_for: Menyobjekt för wiki-sida "%{title}"

@@ -35,7 +35,7 @@ import {$injectFields} from '../angular/angular-injector-bridge.functions';
 import {debugLog} from '../../helpers/debug_output';
 import {SchemaCacheService} from '../schemas/schema-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageCreateService} from '../wp-create/wp-create.service';
+import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {input} from 'reactivestates';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageEditingService} from './work-package-editing-service';

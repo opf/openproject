@@ -27,41 +27,50 @@
 // ++
 
 import {opConfigModule} from '../../../angular-modules';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
-function ConfigurationService(
-  $q:ng.IQService,
-  $http:ng.IHttpService,
-  $window:ng.IWindowService,
-  PathHelper:any,
-  I18n:op.I18n) {
+export class ConfigurationService {
   // fetches configuration from the ApiV3 endpoint
   // TODO: this currently saves the request between page reloads,
   // but could easily be stored in localStorage
-  var cache = false;
-  var path:string = PathHelper.apiConfigurationPath();
-  var fetchSettings = function () {
-    var data = $q.defer();
-    let resolve = $http.get(path) as any;
+  private cache:any;
+  private path:string = this.PathHelper.apiConfigurationPath();
+  public settings = this.initSettings();
+
+  public constructor(private $q:ng.IQService,
+                     private $http:ng.IHttpService,
+                     private $window:ng.IWindowService,
+                     private PathHelper:PathHelperService,
+                     private I18n:op.I18n) {
+
+  }
+
+  public fetchSettings () {
+    var data = this.$q.defer();
+    let resolve = this.$http.get(this.path) as any;
     resolve.success(function (settings:any) {
       data.resolve(settings);
     }).error(function (err:any) {
       data.reject(err);
     });
     return data.promise;
-  };
-  var api = function () {
-    var settings = $q.defer();
-    if (cache) {
-      settings.resolve(cache);
+  }
+
+  public api() {
+    var settings = this.$q.defer();
+    if (this.cache) {
+      settings.resolve(this.cache);
     } else {
-      fetchSettings().then(function (data:any) {
-        cache = data;
+      this.fetchSettings().then((data:any) => {
+        this.cache = data;
         settings.resolve(data);
       });
     }
     return settings.promise;
-  };
-  var initSettings = function () {
+  }
+
+  public initSettings() {
+
     var settings:any = {},
       defaults:any = {
         enabled_modules: [],
@@ -77,76 +86,84 @@ function ConfigurationService(
         }
       };
 
-    var gon = ($window as any).gon;
+    var gon = (window as any).gon;
     if (gon !== undefined) {
       settings = gon.settings;
     }
 
     return _.merge(defaults, settings);
-  };
+  }
 
-  return {
-    settings: initSettings(),
-    api: api,
-    displaySettingPresent: function (this:any, setting:any) {
-      return this.settings.display.hasOwnProperty(setting) &&
-        this.settings.display[setting] !== false;
-    },
-    accessibilityModeEnabled: function (this:any) {
-      return this.settings.user_preferences.impaired;
-    },
-    commentsSortedInDescendingOrder: function (this:any) {
-      return this.settings.user_preferences.others.comments_sorting === 'desc';
-    },
-    warnOnLeavingUnsaved: function (this:any) {
-      return this.settings.user_preferences.others.warn_on_leaving_unsaved === true;
-    },
-    autoHidePopups: function (this:any) {
-      return this.settings.user_preferences.others.auto_hide_popups === true;
-    },
-    isTimezoneSet: function (this:any) {
-      return this.settings.user_preferences.time_zone !== '';
-    },
-    timezone: function (this:any) {
-      return this.settings.user_preferences.time_zone;
-    },
-    dateFormatPresent: function (this:any) {
-      return this.displaySettingPresent('date_format') &&
-        this.settings.display.date_format !== '';
-    },
-    dateFormat: function (this:any) {
-      return this.settings.display.date_format;
-    },
-    timeFormatPresent: function (this:any) {
-      return this.displaySettingPresent('time_format') &&
-        this.settings.display.time_format !== '';
-    },
-    timeFormat: function (this:any) {
-      return this.settings.display.time_format;
-    },
-    isModuleEnabled: function (this:any, module:string) {
-      return this.settings.enabled_modules.indexOf(module) >= 0;
-    },
-    startOfWeekPresent: function (this:any) {
-      return this.displaySettingPresent('start_of_week') &&
-        this.settings.display.start_of_week !== '';
-    },
-    startOfWeek: function (this:any) {
-      if (this.startOfWeekPresent()) {
-        return this.settings.display.start_of_week;
-      }
+  public displaySettingPresent(setting:any) {
+    return this.settings.display.hasOwnProperty(setting) &&
+      this.settings.display[setting] !== false;
+  }
 
-      // This if/else statement is used because
-      // jquery regionals have different start day for German locale
-      if (I18n.locale === 'en') {
-        return 1;
-      } else if (I18n.locale === 'de') {
-        return 0;
-      }
+  public accessibilityModeEnabled() {
+    return this.settings.user_preferences.impaired;
+  }
+  public commentsSortedInDescendingOrder() {
+    return this.settings.user_preferences.others.comments_sorting === 'desc';
+  }
 
-      return '';
+  public warnOnLeavingUnsaved() {
+    return this.settings.user_preferences.others.warn_on_leaving_unsaved === true;
+  }
+
+  public autoHidePopups() {
+    return this.settings.user_preferences.others.auto_hide_popups === true;
+  }
+
+  public isTimezoneSet()  {
+    return this.settings.user_preferences.time_zone !== '';
+  }
+
+  public timezone()  {
+    return this.settings.user_preferences.time_zone;
+  }
+
+  public dateFormatPresent()  {
+    return this.displaySettingPresent('date_format') &&
+      this.settings.display.date_format !== '';
+  }
+
+  public dateFormat()  {
+    return this.settings.display.date_format;
+  }
+
+  public timeFormatPresent()  {
+    return this.displaySettingPresent('time_format') &&
+      this.settings.display.time_format !== '';
+  }
+
+  public timeFormat()  {
+    return this.settings.display.time_format;
+  }
+
+  public isModuleEnabled(module:string) {
+    return this.settings.enabled_modules.indexOf(module) >= 0;
+  }
+
+  public startOfWeekPresent()  {
+    return this.displaySettingPresent('start_of_week') &&
+      this.settings.display.start_of_week !== '';
+  }
+
+  public startOfWeek()  {
+    if (this.startOfWeekPresent()) {
+      return this.settings.display.start_of_week;
     }
-  };
+
+    // This if/else statement is used because
+    // jquery regionals have different start day for German locale
+    if (I18n.locale === 'en') {
+      return 1;
+    } else if (I18n.locale === 'de') {
+      return 0;
+    }
+
+    return '';
+  }
 }
 
-opConfigModule.factory('ConfigurationService', ConfigurationService);
+opConfigModule.service('ConfigurationService', ConfigurationService);

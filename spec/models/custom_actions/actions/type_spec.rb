@@ -29,20 +29,21 @@ require 'spec_helper'
 require_relative '../shared_expectations'
 
 describe CustomActions::Actions::Type, type: :model do
+  let(:key) { :type }
+  let(:priority) { 20 }
+  let(:allowed_values) do
+    types = [FactoryGirl.build_stubbed(:type),
+             FactoryGirl.build_stubbed(:type)]
+    allow(Type)
+      .to receive_message_chain(:select, :order)
+            .and_return(types)
+
+    [{ value: types.first.id, label: types.first.name },
+     { value: types.last.id, label: types.last.name }]
+  end
+
+  it_behaves_like 'base custom action'
   it_behaves_like 'associated custom action' do
-    let(:key) { :type }
-    let(:priority) { 20 }
-    let(:allowed_values) do
-      types = [FactoryGirl.build_stubbed(:type),
-               FactoryGirl.build_stubbed(:type)]
-      allow(Type)
-        .to receive_message_chain(:select, :order)
-        .and_return(types)
-
-      [{ value: types.first.id, label: types.first.name },
-       { value: types.last.id, label: types.last.name }]
-    end
-
     describe '#allowed_values' do
       it 'is the list of all type' do
         allowed_values

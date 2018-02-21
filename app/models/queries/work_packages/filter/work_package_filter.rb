@@ -40,4 +40,8 @@ class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::Filters::Bas
   def project
     context.project
   end
+
+  def includes
+    nil
+  end
 end

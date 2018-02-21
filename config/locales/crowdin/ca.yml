@@ -59,6 +59,18 @@ ca:
   boards:
     show:
       no_results_title_text: Actualment no hi ha cap entrada al tauler.
+  custom_actions:
+    actions:
+      name: Actions
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'To add new custom fields to a project you first need
       to create them before you can add them to this project.
@@ -448,6 +460,11 @@ ca:
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -555,6 +572,7 @@ ca:
       attribute_help_text: Attribute help text
       board: Fòrum
       comment: Comentari
+      custom_action: Custom action
       custom_field: Camp personalitzat
       group: Grup
       category: Categoria
@@ -2060,6 +2078,7 @@ ca:
   setting_feeds_limit: Límit de contingut del canals
   setting_file_max_size_displayed: Mida màxima dels fitxers de text mostrats en línia
   setting_host_name: Nom del servidor
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Calcular la ratio d'execució del paquet de treball
     amb
   setting_work_package_done_ratio_field: Utilitzar el camp de paquet de treball
@@ -2573,6 +2592,9 @@ ca:
     %{configuration}.
   warning: Alerta
   warning_attachments_not_saved: No s'han pogut desar %{count} fitxer(s).
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Element de menú
   menu_item_setting: Visibilitat
   wiki_menu_item_for: Element de menú per a la pàgina wiki "%{title}"

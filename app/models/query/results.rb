@@ -216,7 +216,9 @@ class ::Query::Results
       columns << query.group_by_column.association
     end
 
-    columns.compact.uniq.map(&:to_sym)
+    columns << all_filter_includes(query)
+
+    clean_symbol_list(columns)
   end
 
   def sort_criteria_array
@@ -296,5 +298,13 @@ class ::Query::Results
     else
       reflection.alias_candidate(WorkPackage.table_name)
     end
+  end
+
+  def all_filter_includes(query)
+    query.filters.map(&:includes)
+  end
+
+  def clean_symbol_list(list)
+    list.flatten.compact.uniq.map(&:to_sym)
   end
 end

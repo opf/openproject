@@ -13,7 +13,7 @@ export class WorkPackageTableSelection {
   public selectionState:InputState<WPTableRowSelectionState>;
 
   constructor(public states:States) {
-    this.selectionState = states.table.selection;
+    this.selectionState = states.globalTable.selection;
 
     if (this.selectionState.isPristine()) {
       this.reset();

@@ -26,39 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  TableStateStates,
-  WorkPackageQueryStateService,
-  WorkPackageTableBaseService
-} from './wp-table-base.service';
-import {States} from '../../states.service';
+import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {opServicesModule} from '../../../angular-modules';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageTableColumns} from '../wp-table-columns';
-import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
 import {QueryColumn, queryColumnTypes} from '../../wp-query/query-column';
+import {InputState} from 'reactivestates';
+import {States} from 'core-components/states.service';
 
-export class WorkPackageTableColumnsService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
-  protected stateName = 'columns' as TableStateStates;
+export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<WorkPackageTableColumns> implements WorkPackageQueryStateService {
 
-  constructor(protected states: States) {
+  public constructor(states:States) {
     super(states);
   }
 
-  public initialize(query:QueryResource, schema?:QuerySchemaResourceInterface) {
-    let state = new WorkPackageTableColumns(query);
-    this.state.putValue(state);
+  public get state():InputState<WorkPackageTableColumns> {
+    return this.tableState.columns;
   }
 
-  public update(query:QueryResource, schema?:QuerySchemaResourceInterface) {
-    let currentState = this.currentState;
-
-    if (currentState) {
-      currentState.update(query, schema);
-      this.state.putValue(currentState);
-    } else {
-      this.initialize(query, schema);
-    }
+  public valueFromQuery(query:QueryResource):WorkPackageTableColumns {
+    return new WorkPackageTableColumns(query);
   }
 
   public hasChanged(query:QueryResource) {

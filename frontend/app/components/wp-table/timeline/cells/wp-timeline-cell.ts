@@ -1,3 +1,5 @@
+import {Injector} from '@angular/core';
+import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -29,14 +31,13 @@ import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/wo
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
 import {States} from '../../../states.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
+import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
 import {WorkPackageTableRefreshService} from '../../wp-table-refresh-request.service';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
 import {registerWorkPackageMouseHandler} from './wp-timeline-cell-mouse-handler';
-import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
-import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 
 export const classNameLeftLabel = 'labelLeft';
 export const classNameRightContainer = 'containerRight';
@@ -74,7 +75,8 @@ export class WorkPackageTimelineCell {
   private timelineCell:JQuery;
   private labels:WorkPackageCellLabels;
 
-  constructor(public workPackageTimeline:WorkPackageTimelineTableController,
+  constructor(public readonly injector:Injector,
+              public workPackageTimeline:WorkPackageTimelineTableController,
               public renderers:{ milestone:TimelineMilestoneCellRenderer, generic:TimelineCellRenderer },
               public latestRenderInfo:RenderInfo,
               public classIdentifier:string,
@@ -152,6 +154,7 @@ export class WorkPackageTimelineCell {
       this.wpElement.classList.add('-editable');
 
       registerWorkPackageMouseHandler(
+        this.injector,
         () => this.latestRenderInfo,
         this.workPackageTimeline,
         this.wpCacheService,

@@ -1,12 +1,15 @@
-import {debugLog} from "../../../../helpers/debug_output";
-import {WorkPackageTable} from "../../wp-fast-table";
-import {uiStateLinkClass} from "../../builders/ui-state-link-builder";
-import {ContextMenuHandler} from "./context-menu-handler";
-import {contextMenuLinkClassName} from "../../builders/context-link-icon-builder";
+import {Injector} from '@angular/core';
+import {debugLog} from '../../../../helpers/debug_output';
+import {contextMenuLinkClassName} from '../../builders/context-link-icon-builder';
+import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
+import {WorkPackageTable} from '../../wp-fast-table';
+import {ContextMenuHandler} from './context-menu-handler';
 
 export class ContextMenuClickHandler extends ContextMenuHandler {
-  constructor(table: WorkPackageTable) {
-    super(table);
+
+  constructor(public readonly injector:Injector,
+              table:WorkPackageTable) {
+    super(injector, table);
   }
 
   public get EVENT() {
@@ -17,7 +20,7 @@ export class ContextMenuClickHandler extends ContextMenuHandler {
     return `.${contextMenuLinkClassName}`;
   }
 
-  public handleEvent(table: WorkPackageTable, evt:JQueryEventObject):boolean {
+  public handleEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
     let target = jQuery(evt.target);
 
     // We want to keep the original context menu on hrefs

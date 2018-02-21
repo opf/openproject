@@ -1,16 +1,17 @@
-import {PrimaryRenderPass, RowRenderInfo} from '../primary-render-pass';
-import {WorkPackageTable} from '../../wp-fast-table';
+import {Injector} from '@angular/core';
+import {RelationResource} from '../../../api/api-v3/hal-resources/relation-resource.service';
+import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
+import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
+import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {
   RelationColumnType,
   WorkPackageTableRelationColumnsService
 } from '../../state/wp-table-relation-columns.service';
-import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
-import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
+import {WorkPackageTable} from '../../wp-fast-table';
+import {PrimaryRenderPass, RowRenderInfo} from '../primary-render-pass';
 import {relationGroupClass, RelationRowBuilder} from './relation-row-builder';
-import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {RelationResource} from '../../../api/api-v3/hal-resources/relation-resource.service';
-import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
+import {QueryColumn} from 'core-components/wp-query/query-column';
 
 export interface RelationRenderInfo extends RowRenderInfo {
   data:{
@@ -21,16 +22,18 @@ export interface RelationRenderInfo extends RowRenderInfo {
 }
 
 export class RelationsRenderPass {
-  public wpRelations:WorkPackageRelationsService;
-  public wpTableColumns:WorkPackageTableColumnsService;
-  public wpTableRelationColumns:WorkPackageTableRelationColumnsService;
+
+  public wpRelations = this.injector.get(WorkPackageRelationsService);
+  public wpTableColumns = this.injector.get(WorkPackageTableColumnsService);
+  public wpTableRelationColumns = this.injector.get(WorkPackageTableRelationColumnsService);
 
   public relationRowBuilder:RelationRowBuilder;
 
-  constructor(private table:WorkPackageTable, private tablePass:PrimaryRenderPass) {
-    $injectFields(this, 'wpRelations', 'wpTableColumns', 'wpTableRelationColumns');
+  constructor(public readonly injector:Injector,
+              private table:WorkPackageTable,
+              private tablePass:PrimaryRenderPass) {
 
-    this.relationRowBuilder = new RelationRowBuilder(table);
+    this.relationRowBuilder = new RelationRowBuilder(injector, table);
   }
 
   public render() {
@@ -58,7 +61,7 @@ export class RelationsRenderPass {
 
       this.wpTableRelationColumns.relationsToExtendFor(workPackage,
         state.value!,
-        (relation, column, type) => {
+        (relation:RelationResource, column:QueryColumn, type:any) => {
 
           // Build each relation row (currently sorted by order defined in API)
           const [relationRow, target] = this.relationRowBuilder.buildEmptyRelationRow(

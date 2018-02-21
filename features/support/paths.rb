@@ -181,7 +181,7 @@ module NavigationHelpers
     when /^the edit page (?:for |of )(the )?role(?: called)? (.+)$/
       role_identifier = $2.gsub("\"", '')
       role_identifier = Role.find_by(name: role_identifier).id
-      "/roles/edit/#{role_identifier}"
+      "admin/roles/#{role_identifier}/edit"
 
     when /^the new user page$/
       '/users/new'
@@ -219,7 +219,7 @@ module NavigationHelpers
     when /^the edit page (?:for |of )the version(?: called) (.+)$/
       version_name = $1.gsub("\"", '')
       version = Version.find_by(name: version_name)
-      "/versions/edit/#{version.id}"
+      "/versions/#{version.id}/edit"
 
     # this should be handled by the generic "the edit page of ..." path
     # but the path required differs from the standard
@@ -304,7 +304,7 @@ module NavigationHelpers
       '/announcements/1/edit'
 
     when /^the index page of Roles$/
-      '/roles'
+      '/admin/roles'
 
     when /^the search page$/
       '/search'

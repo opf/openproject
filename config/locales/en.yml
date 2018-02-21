@@ -284,6 +284,8 @@ en:
       announcements:
         show_until: "Display until"
       attachment:
+        attachment_content: "Attachment content"
+        attachment_file_name: "Attachment file name"
         downloads: "Downloads"
         file: "File"
         filename: "File"
@@ -953,6 +955,15 @@ en:
       csv: "CSV"
       pdf: "PDF"
       pdf_with_descriptions: "PDF with descriptions"
+
+  extraction:
+    available:
+      pdftotext: "Pdftotext available (optional)"
+      unrtf: "Unrtf available (optional)"
+      catdoc: "Catdoc available (optional)"
+      xls2csv: "Xls2csv available (optional)"
+      catppt: "Catppt available (optional)"
+      tesseract: "Tesseract available (optional)"
 
   general_csv_decimal_separator: "."
   general_csv_encoding: "UTF-8"
@@ -1945,6 +1956,7 @@ en:
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
+  setting_invitation_expiration_days: "Activation E-Mail expires after"
   setting_work_package_done_ratio: "Calculate the work package done ratio with"
   setting_work_package_done_ratio_field: "Use the work package field"
   setting_work_package_done_ratio_status: "Use the work package status"
@@ -2066,6 +2078,7 @@ en:
     It's needs to be a squared 180 by 180 pixels sized PNG image file. Please
     make sure the image's background is not transparent otherwise it will look
     bad on iOS.
+  text_database_allows_tsv: "Database allows TSVector (optional)"
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
   text_destroy: "Delete"
@@ -2392,6 +2405,9 @@ en:
   note_password_login_disabled: "Password login has been disabled by %{configuration}."
   warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
 
   menu_item: "Menu item"
   menu_item_setting: "Visibility"

@@ -59,7 +59,7 @@ require('angular-elastic');
 require('angular-modal/modal.min.js');
 require('angular-sanitize/angular-sanitize.min.js');
 require('angular-truncate/src/truncate.js');
-require('@uirouter/angularjs/release/angular-ui-router.min.js');
+require('@uirouter/angular-hybrid');
 require('ng-file-upload/dist/ng-file-upload.min.js');
 
 // Jquery UI

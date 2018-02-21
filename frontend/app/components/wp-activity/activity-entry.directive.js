@@ -33,7 +33,6 @@ angular
 function activityEntry(PathHelper) {
   return {
     restrict: 'E',
-    replace: true,
     templateUrl: '/components/wp-activity/activity-entry.directive.html',
 
     scope: {

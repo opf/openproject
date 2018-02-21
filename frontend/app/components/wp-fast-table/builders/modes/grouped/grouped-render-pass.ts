@@ -1,20 +1,24 @@
-import {WorkPackageTable} from '../../../wp-fast-table';
+import {Injector} from '@angular/core';
+import {HalResource} from '../../../../api/api-v3/hal-resources/hal-resource.service';
 import {WorkPackageResourceInterface} from '../../../../api/api-v3/hal-resources/work-package-resource.service';
+import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
+import {WorkPackageTable} from '../../../wp-fast-table';
 import {WorkPackageTableRow} from '../../../wp-table.interfaces';
 import {SingleRowBuilder} from '../../rows/single-row-builder';
-import {collapsedRowClass} from './grouped-rows-builder';
-import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
-import {HalResource} from '../../../../api/api-v3/hal-resources/hal-resource.service';
-import {groupClassNameFor, GroupHeaderBuilder} from './group-header-builder';
-import {groupByProperty, groupedRowClassName} from './grouped-rows-helpers';
 import {PlainRenderPass} from '../plain/plain-render-pass';
+import {groupClassNameFor, GroupHeaderBuilder} from './group-header-builder';
+import {collapsedRowClass} from './grouped-rows-builder';
+import {groupByProperty, groupedRowClassName} from './grouped-rows-helpers';
 
 export class GroupedRenderPass extends PlainRenderPass {
-  constructor(public workPackageTable:WorkPackageTable,
+
+  constructor(public readonly injector:Injector,
+              public workPackageTable:WorkPackageTable,
               public groups:GroupObject[],
               public headerBuilder:GroupHeaderBuilder,
               public colspan:number) {
-    super(workPackageTable, new SingleRowBuilder(workPackageTable));
+
+    super(injector, workPackageTable, new SingleRowBuilder(injector, workPackageTable));
   }
 
   /**

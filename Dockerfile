@@ -13,6 +13,17 @@ RUN apt-get update -qq && \
 # install node + npm
 RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xzf - -C /usr/local --strip-components=1
 
+RUN apt-get update -qq && \
+	DEBIAN_FRONTEND=noninteractive apt-get install -y \
+	    postgresql-client \
+    	mysql-client \
+    	sqlite \
+		poppler-utils \
+		unrtf \
+		tesseract-ocr \
+		catdoc && \
+	apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Using /home/app since npm cache and other stuff will be put there when running npm install
 # We don't want to pollute any locally-mounted directory
 RUN useradd -d /home/app -m app

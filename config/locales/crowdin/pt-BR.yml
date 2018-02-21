@@ -59,6 +59,18 @@ pt-BR:
   boards:
     show:
       no_results_title_text: Atualmente, não há mensagens para o quadro.
+  custom_actions:
+    actions:
+      name: Ações
+      add: Adicionar ação
+    conditions: Condições
+    plural: Ações personalizadas
+    new: Nova ação personalizada
+    edit: Editar ação personalizada %{name}
+    upsale:
+      title: Ações personalizadas são funcionalidades da versão Enterprise Edition
+      description: As ações personalizadas simplificam o trabalho diário combinando
+        um conjunto de etapas em um único botão.
   custom_fields:
     text_add_new_custom_field: 'Para adicionar campos personalizados a um projeto
       é necessário criá-los primeiro para depois adicioná-los a este projeto.
@@ -436,6 +448,11 @@ pt-BR:
       models:
         custom_field:
           at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.
+        custom_actions:
+          only_one_allowed: "(%{name}) apenas um valor é permitido."
+          empty: "(%{name}) valor não pode ser vazio."
+          inclusion: "(%{name}) valor não está definido como um dos valores permitidos."
+          not_an_integer: "(%{name}) não é um número inteiro."
         enterprise_token:
           unreadable: não pode ser lido. Tem certeza que é um token de suporte?
         parse_schema_filter_params_service:
@@ -546,6 +563,7 @@ pt-BR:
       attribute_help_text: Texto de ajuda do atributo
       board: Fórum
       comment: Comentário
+      custom_action: Ação personalizada
       custom_field: Campo personalizado
       group: Grupo
       category: Categoria
@@ -1996,7 +2014,7 @@ pt-BR:
   setting_smtp_address: Servidor SMTP
   setting_smtp_port: Porta SMTP
   setting_smtp_authentication: Autenticação SMTP
-  setting_smtp_domain: Olá domínio SMTP
+  setting_smtp_domain: Domínio SMTP
   setting_smtp_user_name: Usuário SMTP
   setting_smtp_password: Senha SMTP
   setting_activity_days_default: Dias exibidos na atividade de projeto
@@ -2036,6 +2054,7 @@ pt-BR:
   setting_file_max_size_displayed: Tamanho máximo de arquivos de texto exibidos em
     linha
   setting_host_name: Nome do servidor
+  setting_invitation_expiration_days: E-mail de ativação expira após
   setting_work_package_done_ratio: Calcular percentual concluído do pacote de trabalho
     de acordo com
   setting_work_package_done_ratio_field: Usar campo de pacote de trabalho
@@ -2542,6 +2561,10 @@ pt-BR:
   note_password_login_disabled: Login senha foi desativado pelo %{configuration}.
   warning: Aviso
   warning_attachments_not_saved: "%{count} arquivo(s) não pôde(m) ser salvo(s)."
+  warning_registration_token_expired: 'O e-mail de ativação expirou. Enviamos um novo
+    para %{email}. Por favor, clique no link dentro dele para ativar sua conta.
+
+'
   menu_item: Item de menu
   menu_item_setting: Visibilidade
   wiki_menu_item_for: Item de menu para página wiki "%{title}"

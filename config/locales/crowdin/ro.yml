@@ -59,6 +59,18 @@ ro:
   boards:
     show:
       no_results_title_text: În acest moment nu există mesaje pentru acest forum.
+  custom_actions:
+    actions:
+      name: Actions
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'To add new custom fields to a project you first need
       to create them before you can add them to this project.
@@ -448,6 +460,11 @@ ro:
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -557,6 +574,7 @@ ro:
       attribute_help_text: Attribute help text
       board: Forum
       comment: Comentariu
+      custom_action: Custom action
       custom_field: Câmp personalizat
       group: Grup
       category: Categorie
@@ -2056,6 +2074,7 @@ ro:
   setting_feeds_limit: Limită conținut flux
   setting_file_max_size_displayed: Numărul maxim de linii afișat în text
   setting_host_name: Numele serverului
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Calculare rație de finalizare pentru pachet de
     lucru cu
   setting_work_package_done_ratio_field: Utilizare câmp din pachetul de lucru
@@ -2567,6 +2586,9 @@ ro:
   note_password_login_disabled: Autentificarea cu parolă a fost dezactivată prin %{configuration}.
   warning: Avertizare
   warning_attachments_not_saved: Nu au putut fi salvate %{count} fișiere.
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Element de meniu
   menu_item_setting: Vizibilitate
   wiki_menu_item_for: Meniu pentru pagina wiki "%{title}"

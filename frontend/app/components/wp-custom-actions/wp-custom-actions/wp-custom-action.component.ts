@@ -27,13 +27,14 @@
 // ++
 
 import {opUiComponentsModule} from '../../../angular-modules';
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {OnInit, Input} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {HalRequestService} from 'core-components/api/api-v3/hal-request/hal-request.service';
 import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {halRequestToken} from 'core-app/angular4-transition-utils';
 
 interface CustomActionLink {
   href:string;
@@ -50,7 +51,7 @@ export class WpCustomActionComponent {
   @Input() workPackage:WorkPackageResourceInterface;
   @Input() link:CustomActionLink;
 
-  constructor(private halRequest:HalRequestService,
+  constructor(@Inject(halRequestToken) private halRequest:HalRequestService,
               private wpCacheService:WorkPackageCacheService,
               private wpNotificationsService:WorkPackageNotificationService) { }
 

@@ -1,26 +1,27 @@
-import {WorkPackageTableColumnsService} from '../../../state/wp-table-columns.service';
+import {Injector} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {States} from '../../../../states.service';
+import {WorkPackageTableColumnsService} from '../../../state/wp-table-columns.service';
 import {WorkPackageTableHierarchiesService} from '../../../state/wp-table-hierarchy.service';
 import {WorkPackageTable} from '../../../wp-fast-table';
-import {injectorBridge} from '../../../../angular/angular-injector-bridge.functions';
-import {SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
-import {HierarchyRenderPass} from './hierarchy-render-pass';
 import {RowsBuilder} from '../rows-builder';
+import {HierarchyRenderPass} from './hierarchy-render-pass';
+import {SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
 
 export class HierarchyRowsBuilder extends RowsBuilder {
+
   // Injections
-  public states:States;
-  public wpTableColumns:WorkPackageTableColumnsService;
-  public wpTableHierarchies:WorkPackageTableHierarchiesService;
-  public I18n:op.I18n;
+  public states = this.injector.get(States);
+  public wpTableColumns = this.injector.get(WorkPackageTableColumnsService);
+  public wpTableHierarchies = this.injector.get(WorkPackageTableHierarchiesService);
+  public I18n = this.injector.get(I18nToken);
 
   protected rowBuilder:SingleHierarchyRowBuilder;
 
   // The group expansion state
-  constructor(public workPackageTable:WorkPackageTable) {
-    super(workPackageTable);
-    injectorBridge(this);
-    this.rowBuilder = new SingleHierarchyRowBuilder(this.workPackageTable);
+  constructor(public readonly injector:Injector, public workPackageTable:WorkPackageTable) {
+    super(injector, workPackageTable);
+    this.rowBuilder = new SingleHierarchyRowBuilder(injector, this.workPackageTable);
   }
 
   /**
@@ -34,8 +35,6 @@ export class HierarchyRowsBuilder extends RowsBuilder {
    * Rebuild the entire grouped tbody from the given table
    */
   public buildRows():HierarchyRenderPass {
-    return new HierarchyRenderPass(this.workPackageTable, this.rowBuilder).render();
+    return new HierarchyRenderPass(this.injector, this.workPackageTable, this.rowBuilder).render();
   }
 }
-
-HierarchyRowsBuilder.$inject = ['wpTableColumns', 'wpTableHierarchies', 'states', 'I18n'];

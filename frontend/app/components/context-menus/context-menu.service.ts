@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TransitionService} from '@uirouter/angularjs';
+import {TransitionService} from '@uirouter/core';
 
 interface ContextMenu {
   close(disableFocus?:boolean):Promise<void>;

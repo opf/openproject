@@ -26,36 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  TableStateStates,
-  WorkPackageQueryStateService,
-  WorkPackageTableBaseService
-} from './wp-table-base.service';
+import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
 import {
   QUERY_SORT_BY_ASC,
   QUERY_SORT_BY_DESC,
   QuerySortByResource
 } from '../../api/api-v3/hal-resources/query-sort-by-resource.service';
 import {opServicesModule} from '../../../angular-modules';
-import {States} from '../../states.service';
 import {WorkPackageTableSortBy} from '../wp-table-sort-by';
 import {QueryColumn} from '../../wp-query/query-column';
 import {combine} from 'reactivestates';
 import {Observable} from 'rxjs';
+import {States} from 'core-components/states.service';
 
-export class WorkPackageTableSortByService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
-  protected stateName = 'sortBy' as TableStateStates;
+export class WorkPackageTableSortByService extends WorkPackageTableBaseService<WorkPackageTableSortBy> implements WorkPackageQueryStateService {
 
-  constructor(public states: States) {
+  public constructor(states:States) {
     super(states);
   }
 
-  public initialize(query:QueryResource) {
-    let sortBy = new WorkPackageTableSortBy(query);
 
-    this.state.putValue(sortBy);
+  public get state() {
+    return this.tableState.sortBy;
+  }
+
+  public valueFromQuery(query:QueryResource) {
+    return new WorkPackageTableSortBy(query);
   }
 
   public onReadyWithAvailable():Observable<null> {

@@ -1,12 +1,13 @@
-import {States} from '../../states.service';
-import {WorkPackageTable} from '../wp-fast-table';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {$injectFields} from '../../angular/angular-injector-bridge.functions';
-import {TimelineRenderPass} from './timeline/timeline-render-pass';
-import {SingleRowBuilder} from './rows/single-row-builder';
-import {RelationRenderInfo, RelationsRenderPass} from './relations/relations-render-pass';
+import {Injector} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {timeOutput} from '../../../helpers/debug_output';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {States} from '../../states.service';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+import {WorkPackageTable} from '../wp-fast-table';
+import {RelationRenderInfo, RelationsRenderPass} from './relations/relations-render-pass';
+import {SingleRowBuilder} from './rows/single-row-builder';
+import {TimelineRenderPass} from './timeline/timeline-render-pass';
 
 export type RenderedRowType = 'primary' | 'relations';
 
@@ -16,7 +17,7 @@ export interface RowRenderInfo {
   // Additional classes to be added by any secondary render passes
   additionalClasses:string[];
   // If this row is a work package, contains a reference to the rendered WP
-  workPackage:WorkPackageResourceInterface|null;
+  workPackage:WorkPackageResourceInterface | null;
   // If this is an additional row not present, this contains a reference to the WP
   // it originated from
   belongsTo?:WorkPackageResourceInterface;
@@ -28,12 +29,13 @@ export interface RowRenderInfo {
   data?:any;
 }
 
-export type RenderedRow = { classIdentifier:string, workPackageId:string|null, hidden:boolean };
+export type RenderedRow = { classIdentifier:string, workPackageId:string | null, hidden:boolean };
 
 export abstract class PrimaryRenderPass {
-  public wpEditing:WorkPackageEditingService;
-  public states:States;
-  public I18n:op.I18n;
+
+  public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
+  public states:States = this.injector.get(States);
+  public I18n:op.I18n = this.injector.get(I18nToken);
 
   /** The rendered order of rows of work package IDs or <null>, if not a work package row */
   public renderedOrder:RowRenderInfo[];
@@ -47,10 +49,9 @@ export abstract class PrimaryRenderPass {
   /** Additional render pass that handles table relation rendering */
   public relations:RelationsRenderPass;
 
-  constructor(public workPackageTable:WorkPackageTable,
+  constructor(public readonly injector:Injector,
+              public workPackageTable:WorkPackageTable,
               public rowBuilder:SingleRowBuilder) {
-    $injectFields(this, 'states', 'I18n', 'wpEditing');
-
   }
 
   /**
@@ -89,12 +90,12 @@ export abstract class PrimaryRenderPass {
    */
   public refresh(row:RowRenderInfo, workPackage:WorkPackageResourceInterface, body:HTMLElement) {
     let oldRow = jQuery(body).find(`.${row.classIdentifier}`);
-    let replacement:JQuery|null = null;
+    let replacement:JQuery | null = null;
     let editing = this.wpEditing.changesetFor(workPackage);
 
-    switch(row.renderType) {
+    switch (row.renderType) {
       case 'primary':
-        replacement =  this.rowBuilder.refreshRow(workPackage, editing, oldRow);
+        replacement = this.rowBuilder.refreshRow(workPackage, editing, oldRow);
         break;
       case 'relations':
         replacement = this.relations.refreshRelationRow(row as RelationRenderInfo, workPackage, editing, oldRow);
@@ -137,8 +138,8 @@ export abstract class PrimaryRenderPass {
 
 
   protected prepare() {
-    this.timeline = new TimelineRenderPass(this.workPackageTable, this);
-    this.relations = new RelationsRenderPass(this.workPackageTable, this);
+    this.timeline = new TimelineRenderPass(this.injector, this.workPackageTable, this);
+    this.relations = new RelationsRenderPass(this.injector, this.workPackageTable, this);
     this.tableBody = document.createDocumentFragment();
     this.renderedOrder = [];
   }

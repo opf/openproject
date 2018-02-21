@@ -50,6 +50,18 @@ ko:
   boards:
     show:
       no_results_title_text: 게시판에 포스트가 없습니다.
+  custom_actions:
+    actions:
+      name: 작업
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: '프로젝트에 새 사용자 지정 필드를 추가하려면 먼저 해당 필드를 만들어야 합니다. 그래야 이
       프로젝트에 해당 필드를 추가할 수 있습니다.
@@ -406,6 +418,11 @@ ko:
       models:
         custom_field:
           at_least_one_custom_option: 하나 이상의 옵션을 사용할 수 있어야 합니다.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: 읽을 수 없습니다. 지원하는 토큰이 확실한가요?
         parse_schema_filter_params_service:
@@ -507,6 +524,7 @@ ko:
       attribute_help_text: 특성 도움말 텍스트
       board: 포럼
       comment: 코멘트
+      custom_action: Custom action
       custom_field: 사용자 정의 필드
       group: 그룹
       category: 카테고리
@@ -1938,6 +1956,7 @@ ko:
   setting_feeds_limit: 피드 콘텐츠 제한
   setting_file_max_size_displayed: 인라인에 표시되는 텍스트 파일의 최대 크기
   setting_host_name: 호스트 이름
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: 다음으로 작업 패키지 완료 비율 계산
   setting_work_package_done_ratio_field: 작업 패키지 필드 사용
   setting_work_package_done_ratio_status: 작업 패키지 상태 사용
@@ -2382,6 +2401,9 @@ ko:
   note_password_login_disabled: 암호 로그인이 %{configuration}에 의해 비활성화되었습니다.
   warning: 경고
   warning_attachments_not_saved: "%{count}개 파일을 저장할 수 없습니다."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: 메뉴 항목
   menu_item_setting: 표시 여부
   wiki_menu_item_for: 위키 페이지 "%{title}"에 대한 메뉴 항목

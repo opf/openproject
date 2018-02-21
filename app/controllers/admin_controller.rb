@@ -76,8 +76,13 @@ class AdminController < ApplicationController
     repository_writable = File.writable?(OpenProject::Configuration.attachments_storage_path)
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
-      [:text_file_repository_writable, repository_writable]
+      [:text_file_repository_writable, repository_writable],
+      [:text_database_allows_tsv, OpenProject::Database.allows_tsv?]
     ]
+
+    if OpenProject::Database.allows_tsv?
+      @checklist += plaintext_extraction_checks
+    end
 
     @storage_information = OpenProject::Storage.mount_information
   end
@@ -93,5 +98,18 @@ class AdminController < ApplicationController
 
   def show_local_breadcrumb
     true
+  end
+
+  private
+
+  def plaintext_extraction_checks
+    [
+      [:'extraction.available.pdftotext', Plaintext::PdfHandler.available?],
+      [:'extraction.available.unrtf',     Plaintext::RtfHandler.available?],
+      [:'extraction.available.catdoc',    Plaintext::DocHandler.available?],
+      [:'extraction.available.xls2csv',   Plaintext::XlsHandler.available?],
+      [:'extraction.available.catppt',    Plaintext::PptHandler.available?],
+      [:'extraction.available.tesseract', Plaintext::ImageHandler.available?]
+    ]
   end
 end

@@ -54,6 +54,18 @@ zh-TW:
   boards:
     show:
       no_results_title_text: 目前沒有任何貼文在板上
+  custom_actions:
+    actions:
+      name: Actions
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: '要加入自訂欄位至一個專案，您必須先建立欄位才能將它們加入至此專案。
 
@@ -405,6 +417,11 @@ zh-TW:
       models:
         custom_field:
           at_least_one_custom_option: 需要至少一個選項可用。
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -505,6 +522,7 @@ zh-TW:
       attribute_help_text: 屬性說明文字
       board: 討論區
       comment: 評論
+      custom_action: Custom action
       custom_field: 自訂欄位
       group: 群組
       category: 類別
@@ -1893,6 +1911,7 @@ zh-TW:
   setting_feeds_limit: Feed 內容限制
   setting_file_max_size_displayed: Max size of text files displayed inline
   setting_host_name: 主機名稱
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: 計算工作項目的完成比例
   setting_work_package_done_ratio_field: Use the work package field
   setting_work_package_done_ratio_status: 使用工作項目狀態
@@ -2366,6 +2385,9 @@ zh-TW:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: 警告
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: 選單項目
   menu_item_setting: 可見度
   wiki_menu_item_for: Menu item for wikipage "%{title}"

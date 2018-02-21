@@ -1,0 +1,171 @@
+<div *ngIf="workPackage"
+     class="work-package--single-view">
+  <div class="wp-new--subject-wrapper"
+       *ngIf="workPackage.isNew">
+    <wp-edit-field [workPackageId]="workPackage.id"
+                   [wrapperClasses]="'-no-label'"
+                   [fieldName]="'subject'"></wp-edit-field>
+  </div>
+
+  <div class="wp-info-wrapper">
+    <wp-status-button *ngIf="!workPackage.isNew"
+                      [workPackage]="workPackage"
+                      [allowed]="workPackage.isEditable"></wp-status-button>
+    <ng1-attribute-help-text-wrapper [attribute]="'status'"
+                                     [attributeScope]="'WorkPackage'"
+                                     *ngIf="!workPackage.isNew"></ng1-attribute-help-text-wrapper>
+
+    <div class="work-packages--info-row"
+         *ngIf="!workPackage.isNew">
+      <span [textContent]="idLabel"></span>:
+      <span [textContent]="text.infoRow.createdBy"></span>
+      <user-link class="user-link"
+                 [user]="workPackage.author"></user-link>.
+      <span [textContent]="text.infoRow.lastUpdatedOn"></span>
+      <op-date-time [dateTimeValue]="workPackage.updatedAt"></op-date-time>.
+     </div>
+
+    <wp-custom-actions [workPackage]="workPackage"class="custom-actions"></wp-custom-actions>
+  </div>
+
+  <div class="attributes-group -project-context"
+       *ngIf="projectContext.field">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container"></div>
+    </div>
+    <div>
+      <p [hidden]="projectContext.href" [textContent]="text.project.required"></p>
+      <div class="attributes-key-value"
+           [ngClass]="{'-span-all-columns': descriptor.spanAll }"
+           *ngFor="let descriptor of projectContext.field; trackBy:trackByName">
+        <div class="attributes-key-value--key">
+          <wp-replacement-label [fieldName]="descriptor.name">
+            {{ descriptor.label }}
+            <span class="required"
+                  *ngIf="descriptor.field.required && descriptor.field.writable">*</span>
+            <ng1-attribute-help-text-wrapper [attribute]="descriptor.name"
+                                             [attributeScope]="'WorkPackage'"></ng1-attribute-help-text-wrapper>
+          </wp-replacement-label>
+        </div>
+        <div class="attributes-key-value--value-container">
+          <wp-edit-field [workPackageId]="workPackage.id"
+                         [fieldName]="descriptor.name"></wp-edit-field>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="attributes-group -project-context hide-when-print" *ngIf="!workPackage.isNew && !projectContext.matches">
+    <div>
+      <p>
+        <span [innerHTML]="projectContextText"></span>
+        <br/>
+        <a [attr.href]="projectContext.href"
+           class="project-context--switch-link"
+           [textContent]="text.project.switchTo">
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <div class="attributes-group description-group">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text"
+            [textContent]="text.fields.description"></h3>
+      </div>
+    </div>
+    <div class="single-attribute wiki work-packages--details--description">
+      <wp-edit-field [fieldName]="'description'"
+                     [workPackageId]="workPackage.id"
+                     [wrapperClasses]="'-no-label'"
+                     [displayPlaceholder]="text.description.placeholder">
+      </wp-edit-field>
+    </div>
+  </div>
+
+  <div *ngFor="let group of groupedFields; trackBy:trackByName"
+       [hidden]="shouldHideGroup(group)"
+       [attr.data-group-name]="group.name"
+       class="attributes-group">
+
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text"
+            [textContent]="group.name"></h3>
+      </div>
+    </div>
+
+    <div class="-columns-2">
+      <div class="attributes-key-value"
+           [ngClass]="{'-span-all-columns': descriptor.spanAll }"
+           *ngFor="let descriptor of group.members; trackBy:trackByName">
+        <ng-template [ngIf]="!shouldHideField(descriptor)">
+          <div
+              class="attributes-key-value--key"
+              *ngIf="!descriptor.multiple">
+            <wp-replacement-label [fieldName]="descriptor.name">
+              {{ descriptor.label }}
+              <span class="required"
+                    *ngIf="descriptor.field.required && descriptor.field.writable"> *</span>
+              <ng1-attribute-help-text-wrapper [attribute]="descriptor.name" [attributeScope]="'WorkPackage'"></ng1-attribute-help-text-wrapper>
+          </wp-replacement-label>
+          </div>
+          <div *ngIf="!descriptor.multiple"
+               class="attributes-key-value--value-container">
+
+            <wp-edit-field *ngIf="descriptor.field.isFormattable"
+                           class="wp-edit-formattable-field"
+                           [workPackageId]="workPackage.id"
+                           [fieldName]="descriptor.name">
+            </wp-edit-field>
+            <wp-edit-field *ngIf="!descriptor.field.isFormattable"
+                           [workPackageId]="workPackage.id"
+                           [fieldName]="descriptor.name">
+            </wp-edit-field>
+          </div>
+          <div
+              class="attributes-key-value--key"
+              *ngIf="descriptor.multiple">
+            <wp-replacement-label [fieldName]="descriptor.name">
+              {{ descriptor.label }}
+              <ng1-attribute-help-text-wrapper [attribute]="descriptor.name" [attributeScope]="'WorkPackage'"></ng1-attribute-help-text-wrapper>
+            </wp-replacement-label>
+          </div>
+          <div
+              *ngIf="descriptor.multiple"
+              class="attributes-key-value--value-container -minimal">
+            <wp-edit-field [fieldName]="descriptor.fields[0].name"
+                           [workPackageId]="workPackage.id"
+                           [wrapperClasses]="'-small -shrink'"
+                           [displayPlaceholder]="text[descriptor.name][descriptor.fields[0].name]">
+            </wp-edit-field>
+
+            <span class="attributes-key-value--value-separator"></span>
+
+            <wp-edit-field [fieldName]="descriptor.fields[1].name"
+                           [workPackageId]="workPackage.id"
+                           [wrapperClasses]="'-small -shrink'"
+                           [displayPlaceholder]="text[descriptor.name][descriptor.fields[1].name]">
+            </wp-edit-field>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="work-packages--attachments attributes-group">
+  <div class="work-packages--atachments-container">
+    <div class="attributes-group--header"
+         *ngIf="workPackage.attachments">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text" [textContent]="text.attachments.label"></h3>
+      </div>
+    </div>
+
+    <wp-attachment-list [workPackage]="workPackage"></wp-attachment-list>
+    <ng1-wp-attachments-upload-wrapper [workPackage]="workPackage" class="hide-when-print">
+    </ng1-wp-attachments-upload-wrapper>
+  </div>
+</div>

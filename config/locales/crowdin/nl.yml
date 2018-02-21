@@ -60,6 +60,18 @@ nl:
   boards:
     show:
       no_results_title_text: Er zijn momenteel geen berichten voor het bord.
+  custom_actions:
+    actions:
+      name: Acties
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'Om de nieuwe aangepaste velden toevoegen aan een project
       moet u deze eerst maken voordat u ze aan dit project toevoegen kunt.
@@ -445,6 +457,11 @@ nl:
       models:
         custom_field:
           at_least_one_custom_option: Ten minste één optie moet beschikbaar zijn.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: kan niet worden gelezen. Weet u zeer dat het een support token
             is?
@@ -556,6 +573,7 @@ nl:
       attribute_help_text: Kenmerk help-teksten
       board: Forum
       comment: Commentaar
+      custom_action: Custom action
       custom_field: Aangepast veld
       group: Groep
       category: Categorie
@@ -2047,6 +2065,7 @@ nl:
   setting_feeds_limit: Feed inhoud limiet
   setting_file_max_size_displayed: Maximale grootte van tekstbestanden inline weergegeven
   setting_host_name: Hostnaam
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Berekenen van de verhouding-gedaan van het werkpakket
   setting_work_package_done_ratio_field: Gebruik het veld werkpakket
   setting_work_package_done_ratio_status: Gebruik de werkpakket status
@@ -2555,6 +2574,9 @@ nl:
   note_password_login_disabled: Wachtwoord is uitgeschakeld door %{configuration}.
   warning: Waarschuwing
   warning_attachments_not_saved: "%{count} bestanden kunnen niet worden opgeslagen."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Menu-item
   menu_item_setting: Zichtbaarheid
   wiki_menu_item_for: Menu-item voor wiki pagina "%{title}"

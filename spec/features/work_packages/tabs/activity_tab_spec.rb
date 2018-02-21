@@ -59,6 +59,7 @@ describe 'Activity tab', js: true, selenium: true do
   before do
     login_as(user)
     allow(user.pref).to receive(:warn_on_leaving_unsaved?).and_return(false)
+    allow(user.pref).to receive(:comments_sorting).and_return(comments_in_reverse ? 'desc' : 'asc')
     allow(user.pref).to receive(:comments_in_reverse_order?).and_return(comments_in_reverse)
   end
 
@@ -71,7 +72,14 @@ describe 'Activity tab', js: true, selenium: true do
 
     it 'shows activities in ascending order' do
       journals.each_with_index do |journal, idx|
-        date_selector = ".work-package-details-activities-activity:nth-of-type(#{idx + 1}) " +
+        actual_index =
+          if comments_in_reverse
+            journals.length - idx
+          else
+            idx + 1
+          end
+
+        date_selector = ".work-package-details-activities-activity:nth-of-type(#{actual_index}) " +
                         '.activity-date'
         # Do not use :long format to match the printed date without double spaces
         # on the first 9 days of the month
@@ -83,7 +91,7 @@ describe 'Activity tab', js: true, selenium: true do
 
         if journal.id != note_1.id
           expect(activity).to have_selector('.user', text: journal.user.name)
-          expect(activity).to have_selector('.user-comment > .message', text: journal.notes)
+          expect(activity).to have_selector('.user-comment > .message', text: journal.notes, visible: :all)
         end
 
         if activity == note_1
@@ -128,16 +136,15 @@ describe 'Activity tab', js: true, selenium: true do
 
       it 'can toggle between activities and comments-only' do
         expect(page).to have_selector('.work-package-details-activities-activity-contents', count: 3)
+        expect(page).to have_selector('.user-comment > .message', text: note_2.notes)
 
         # Show only comments
         find('.activity-comments--toggler').click
 
         # It should remove the middle
         expect(page).to have_selector('.work-package-details-activities-activity-contents', count: 2)
-
-        expect(page).to have_selector("#activity-#{initial_note.id}")
-        expect(page).to have_selector("#activity-#{note_2.id}")
-        expect(page).to have_no_selector("#activity-#{note_1.id}")
+        expect(page).to have_selector('.user-comment > .message', text: initial_comment)
+        expect(page).to have_selector('.user-comment > .message', text: note_2.notes)
 
         # Show all again
         find('.activity-comments--toggler').click

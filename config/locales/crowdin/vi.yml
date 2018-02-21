@@ -59,6 +59,18 @@ vi:
   boards:
     show:
       no_results_title_text: Hiện có không có bài viết ở bảng điều khiển.
+  custom_actions:
+    actions:
+      name: Actions
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'To add new custom fields to a project you first need
       to create them before you can add them to this project.
@@ -440,6 +452,11 @@ vi:
       models:
         custom_field:
           at_least_one_custom_option: Ít nhất một lựa chọn cần phải được cung cấp.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -547,6 +564,7 @@ vi:
       attribute_help_text: Thuộc tính văn bản trợ giúp
       board: Diễn đàn
       comment: Nhận xét
+      custom_action: Custom action
       custom_field: Tùy chỉnh mục
       group: Nhóm
       category: Thể loại
@@ -2017,6 +2035,7 @@ vi:
   setting_feeds_limit: Feed content limit
   setting_file_max_size_displayed: Max size of text files displayed inline
   setting_host_name: Host name
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Calculate the work package done ratio with
   setting_work_package_done_ratio_field: Use the work package field
   setting_work_package_done_ratio_status: Use the work package status
@@ -2510,6 +2529,9 @@ vi:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Menu item
   menu_item_setting: Visibility
   wiki_menu_item_for: Menu item for wikipage "%{title}"

@@ -48,6 +48,18 @@ zh:
   boards:
     show:
       no_results_title_text: 目前没有发布内容。
+  custom_actions:
+    actions:
+      name: 操作
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: '要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
 
@@ -392,6 +404,11 @@ zh:
       models:
         custom_field:
           at_least_one_custom_option: 至少有需要一个可用选项。
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: 无法读取。是否确定为支持令牌？
         parse_schema_filter_params_service:
@@ -489,6 +506,7 @@ zh:
       attribute_help_text: 属性帮助文本
       board: 论坛
       comment: 评论
+      custom_action: Custom action
       custom_field: 自定义字段
       group: 组
       category: 类别
@@ -1857,6 +1875,7 @@ zh:
   setting_feeds_limit: Feed内容限制
   setting_file_max_size_displayed: 内联显示的文本文件的最大文件大小
   setting_host_name: 主机名
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: 计算工作包完成比率
   setting_work_package_done_ratio_field: 使用工作包字段
   setting_work_package_done_ratio_status: 使用工作包状态
@@ -2274,6 +2293,9 @@ zh:
   note_password_login_disabled: 密码登录已被 %{configuration} 禁用。
   warning: 警告
   warning_attachments_not_saved: "%{count} 文件不能被保存。"
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: 菜单项
   menu_item_setting: 可见性
   wiki_menu_item_for: wiki页面” %{title} “的菜单项

@@ -194,7 +194,7 @@ describe CustomActions::Actions::CustomField, type: :model do
     context 'for a list custom field allowing multiple values' do
       let(:custom_field) { list_multi_custom_field }
 
-      it 'is :associated_property_multi' do
+      it 'is :associated_property' do
         expect(instance.type)
           .to eql(:associated_property)
       end

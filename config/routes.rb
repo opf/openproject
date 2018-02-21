@@ -463,10 +463,14 @@ OpenProject::Application.routes.draw do
         format: false
   end
 
-  resources :attachments, only: [:destroy], format: false do
+  resources :attachments, only: %i{destroy fulltext}, format: false do
     member do
       scope via: :get, constraints: { id: /\d+/, filename: /[^\/]*/ } do
         match '(/:filename)' => 'attachments#download', as: 'download'
+      end
+
+      scope via: :get, constraints: { id: /\d+/, filename: /[^\/]*/ } do
+        match '(/:filename/fulltext)' => 'attachments#fulltext', as: 'fulltext'
       end
     end
   end

@@ -29,21 +29,22 @@ require 'spec_helper'
 require_relative '../shared_expectations'
 
 describe CustomActions::Actions::Responsible, type: :model do
+  let(:key) { :responsible }
+  let(:allowed_values) do
+    users = [FactoryGirl.build_stubbed(:user),
+             FactoryGirl.build_stubbed(:user)]
+
+    allow(User)
+      .to receive_message_chain(:active_or_registered, :select, :order_by_name)
+            .and_return(users)
+
+    [{ value: nil, label: '-' },
+     { value: users.first.id, label: users.first.name },
+     { value: users.last.id, label: users.last.name }]
+  end
+
+  it_behaves_like 'base custom action'
   it_behaves_like 'associated custom action' do
-    let(:key) { :responsible }
-    let(:allowed_values) do
-      users = [FactoryGirl.build_stubbed(:user),
-               FactoryGirl.build_stubbed(:user)]
-
-      allow(User)
-        .to receive_message_chain(:active_or_registered, :select, :order_by_name)
-        .and_return(users)
-
-      [{ value: nil, label: '-' },
-       { value: users.first.id, label: users.first.name },
-       { value: users.last.id, label: users.last.name }]
-    end
-
     describe '#allowed_values' do
       context 'group assignment disabled', with_settings: { work_package_group_assignment?: false } do
         it 'is the list of all users' do

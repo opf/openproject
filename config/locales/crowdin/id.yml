@@ -59,6 +59,18 @@ id:
   boards:
     show:
       no_results_title_text: Tidak ada pos untuk papan saat ini.
+  custom_actions:
+    actions:
+      name: Tindakan
+      add: Add action
+    conditions: Conditions
+    plural: Custom actions
+    new: New custom action
+    edit: Edit custom action %{name}
+    upsale:
+      title: Custom actions is an Enterprise Edition feature
+      description: Custom actions streamline everyday work by combining a set of individual
+        steps into one button.
   custom_fields:
     text_add_new_custom_field: 'Untuk menambahkan kolom kustom baru untuk sebuah proyek,
       pertama-tama Anda harus membuatnya, sebelum Anda dapat menambahkannya ke proyek
@@ -437,6 +449,11 @@ id:
         custom_field:
           at_least_one_custom_option: Paling tidak, satu pilihan dibutuhkan untuk
             tersedia.
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_an_integer: "(%{name}) is not an integer."
         enterprise_token:
           unreadable: tidak dapat dibaca. Apakah Anda yakin ini adalah token pendukung?
         parse_schema_filter_params_service:
@@ -544,6 +561,7 @@ id:
       attribute_help_text: Atribut teks bantuan
       board: Forum
       comment: Komentar
+      custom_action: Custom action
       custom_field: Isian kustom
       group: Grup
       category: Kategori
@@ -2007,6 +2025,7 @@ id:
   setting_feeds_limit: Batasan konten feed
   setting_file_max_size_displayed: Ukuran maks. file teks yang ditampilkan inline
   setting_host_name: Nama host
+  setting_invitation_expiration_days: Activation E-Mail expires after
   setting_work_package_done_ratio: Hitung Paket-Penugasan dengan Rasio Penyelesaian
   setting_work_package_done_ratio_field: Gunakan isian Paket-Penugasan
   setting_work_package_done_ratio_status: Gunakan status Paket-Penugasan
@@ -2499,6 +2518,9 @@ id:
   note_password_login_disabled: Password login telah dinonaktifkan (by %{configuration}).
   warning: Warning
   warning_attachments_not_saved: "%{count} file tidak akan disimpan."
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
   menu_item: Menu item
   menu_item_setting: Visibilitas
   wiki_menu_item_for: Menu untuk Halaman Wiki "%{title}"
