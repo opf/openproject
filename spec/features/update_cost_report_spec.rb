@@ -18,6 +18,7 @@
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
+require_relative 'support/pages/cost_report_page'
 
 describe "updating a cost report's cost type", type: :feature, js: true do
   let(:project) { FactoryGirl.create :project_with_types }
@@ -35,24 +36,18 @@ describe "updating a cost report's cost type", type: :feature, js: true do
     FactoryGirl.create :cost_entry, user: user, project: project, cost_type: cost_type
   end
 
+  let(:report_page) { ::Pages::CostReportPage.new project }
+
   before do
     login_as(user)
   end
 
   it 'works' do
-    visit "/projects/#{project.identifier}/cost_reports"
+    report_page.visit!
+    report_page.save(as: 'My Query', public: true)
 
-    click_on "Save"
-    fill_in "query_name", with: "My Query"
-    check "query_is_public"
+    report_page.switch_to_type cost_type.name
 
-    within "#save_as_form" do
-      click_on "Save"
-    end
-
-    choose cost_type.name
-
-    click_on "Apply"
     click_on "Save"
 
     click_on "My Query"

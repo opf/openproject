@@ -8,17 +8,22 @@ module Pages
 
     def clear
       click_on 'Clear'
+
+      # Safeguard to force waiting for the form to be cleared
+      expect(page)
+        .not_to have_selector('.group-by--selected-element')
     end
 
     def save(as:, public: false)
       click_on 'Save'
-      fill_in 'query_name', with: as
-
-      if public
-        check 'Public'
-      end
 
       page.within('#save_as_form') do
+        fill_in 'Name', with: as
+
+        if public
+          check 'Public'
+        end
+
         click_on 'Save'
       end
     end
@@ -64,6 +69,10 @@ module Pages
       else
         expect(page).to have_no_selector('#group-by--selected-columns .group-by--selected-element', text: text)
       end
+    end
+
+    def path
+      cost_reports_path(project)
     end
   end
 end

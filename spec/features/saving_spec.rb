@@ -5,7 +5,7 @@ describe 'Cost report saving', type: :feature, js: true do
   let(:project) { FactoryGirl.create :project }
   let(:user) { FactoryGirl.create :admin }
 
-  let(:report_page) { ::Pages::CostReportPage.new project}
+  let(:report_page) { ::Pages::CostReportPage.new project }
 
   before do
     login_as(user)
