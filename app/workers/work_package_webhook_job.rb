@@ -45,7 +45,7 @@ class WorkPackageWebhookJob < WebhookJob
     exception = nil
 
     if signature = request_signature(body)
-      headers['HTTP_X_OP_SIGNATURE'] = signature
+      request_headers['HTTP_X_OP_SIGNATURE'] = signature
     end
 
     response = RestClient.post webhook.url, request_body, request_headers

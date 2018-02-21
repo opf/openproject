@@ -13,7 +13,8 @@ module ::Webhooks
         end
 
         def response_body
-          render locals: { log_entry: log }, prefixes: ["#{::OpenProject::Webhooks::Engine.root}/app/cells/views"]
+          render(locals: { log_entry: log },
+                 prefixes: ["#{::OpenProject::Webhooks::Engine.root}/app/cells/views"]).html_safe
         end
       end
     end
