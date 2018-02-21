@@ -1,0 +1,169 @@
+tr:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: 'Tanıtıcı'
+        default: 'Varsayılan olarak kullanın'
+      two_factor_authentication/device/sms:
+        phone_number: "Telefon numarası"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: 'zaten başka bir OTP aygıtı için ayarlanmış.'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "biçimi olmalı + XX XXXXXXXXX"
+    models:
+      two_factor_authentication/device: "2FA aygıtı"
+      two_factor_authentication/device/sms: "Cep telefonu"
+      two_factor_authentication/device/totp: "Kimlik Doğrulayıcı uygulaması"
+  two_factor_authentication:
+    error_2fa_disabled: "2FA teslimatı devre dışı bırakıldı."
+    error_no_device: "Bu örnek için gerekli olmasına rağmen, bu kullanıcı için kayıtlı 2FA cihazı bulunamadı."
+    error_no_matching_strategy: "Bu kullanıcı için uygun 2FA stratejisi yok. Lütfen yöneticinize başvurun."
+    error_is_enforced_not_active: 'Yapılandırma hatası: İki faktörlü kimlik doğrulama zorlanmış, ancak etkin bir strateji mevcut değil.'
+    error_invalid_backup_code: '2FA yedek kodu geçersiz'
+    channel_unavailable: "%{channel} dağıtım kanalı kullanılamıyor."
+    no_valid_phone_number: "Geçerli telefon numarası yok."
+    label_pwd_confirmation: "Parola"
+    notice_pwd_confirmation: "Bu ayarlarda değişiklik yaptıktan sonra şifrenizi onaylamanız gerekir."
+    label_device_type: "Cihaz türü"
+    label_default_device: "Varsayılan 2FA aygıtı"
+    label_device: "2FA aygıtı"
+    label_devices: "2FA aygıtı"
+    label_one_time_password: 'Tek-kullanımlık Şifreler'
+    label_2fa_enabled: 'İki faktörlü kimlik doğrulama etkin'
+    label_2fa_disabled: 'İki faktörlü kimlik doğrulama etkin değil'
+    text_enter_2fa: 'Lütfen cihazınızdaki bir kerelik şifreyi girin.'
+    text_2fa_enabled: 'Her girişte, varsayılan 2FA cihazınızdan bir OTP jetonu girmeniz istenir.'
+    text_2fa_disabled: 'İki faktörlü kimlik doğrulamayı etkinleştirmek için yukarıdaki düğmeyi kullanarak yeni bir 2FA aygıtı kaydettirin. Hâlihazırda bir aygıtınız varsa, onu bir varsayılan yapın.'
+    login:
+      enter_backup_code_title: Yedekleme kodunuzu girin
+      enter_backup_code_text: Kayıtlı 2FA cihazlarınıza erişemediğiniz taktirde lütfen kod listenizden geçerli bir yedek kod girin.
+      other_device: 'Başka bir aygıt veya yedek kodu kullanın'
+    settings:
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
+      text_configuration: |
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_remember: |
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+    admin:
+      self_edit_path: 'Kendi 2FA cihazlarınızı eklemek veya değiştirmek için lütfen %{self_edit_link} adresine gidin'
+      self_edit_link_name: 'Hesap sayfanızdaki iki faktörlü kimlik doğrulama'
+      self_edit_forbidden: 'Bu yolda kendi 2FA cihazlarınızı düzenleyemezsiniz. Yerine, Hesabım> İki faktörlü kimlik doğrulama gidin.'
+      no_devices_for_user: 'Bu kullanıcı için 2FA cihazı kayıtlı değil.'
+      all_devices_deleted: 'Bu kullanıcının tüm 2FA cihazları silindi'
+      delete_all_are_you_sure: 'Bu kullanıcı için tüm 2FA cihazlarını silmek istediğinizden emin misiniz?'
+      button_delete_all_devices: 'Kayıtlı 2FA cihazlarını sil'
+      button_register_mobile_phone_for_user: 'Cep telefonunu kaydet'
+      text_2fa_enabled: 'Her girişte bu kullanıcının varsayılan 2FA cihazından bir OTP jetonu girmesi istenir.'
+      text_2fa_disabled: "Kullanıcı, \"Hesabım sayfası\" nı kullanarak bir 2FA cihazı kurmadı,"
+    backup_codes:
+      none_found: Bu hesap için geçerli bir yedek kod bulunmamaktadır.
+      singular: Yedekleme kodu
+      plural: Yedekleme kodları
+      your_codes: sizin %{app_name} hesabınız için %{login}
+      overview_description: |
+        Kayıtlı 2FA cihazlarınıza erişiminiz yoksa, 2FA yedek kod girerek hesabınıza erişebilirsiniz. Yeni bir yedek kod oluşturmak için aşağıdaki düğmeyi kullanın.
+      generate:
+        title: Yedek kodları oluşturun
+        keep_safe_as_password: 'Önemli! Bu kodlara parola gibi davranın.'
+        keep_safe_warning: 'Yedek kodlarınızı şifre yöneticinize kaydedin veya bu sayfayı yazdırıp güvenli bir yerde saklayın.'
+        regenerate_warning: 'Uyarı: Önceden oluşturduğunuz 2FA yedek kodları geçersiz olur ve artık kullanılamazlar.'
+    devices:
+      add_new: 'Yeni 2FA aygıtı ekle'
+      register: 'Cihazınızı Kaydettirin'
+      confirm_default: 'Varsayılan aygıtı değiştirdiğinizi onaylayın'
+      confirm_device: 'Aygıtı Onayla'
+      confirm_now: 'Teyit edilmemiştir, etkinleştirmek için buraya tıklayın'
+      cannot_delete_default: 'Varsayılan cihazı silemiyor'
+      make_default_are_you_sure: 'Bu 2FA cihazını varsayılan ayar yapmak istediğinizden emin misiniz?'
+      make_default_failed: 'Varsayılan 2FA aygıtı güncellenemedi.'
+      deletion_are_you_sure: 'Bu 2FA cihazını silmek istediğinizden emin misiniz?'
+      registration_complete: '2FA cihaz kaydı tamamlandı!'
+      registration_failed_token_invalid: '2FA cihaz kaydı başarısız oldu, belirteç geçersiz.'
+      registration_failed_update: '2FA cihaz kaydı başarısız oldu, belirteç geçerli ancak cihaz güncellenemedi.'
+      confirm_send_failed: '2FA cihazınızın onayı başarısız oldu.'
+      button_complete_registration: '2FA kaydı tamamlayın'
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_change_default_html: "Mevcut varsayılan cihazınızdan bir kerelik şifre girerek varsayılan cihazınızı <strong>%{new_identifier}</strong> olarak değiştirmenizi onaylayın."
+      text_identifier: 'Bu alanı kullanarak cihaza özel bir tanımlayıcı verebilirsiniz.'
+      failed_to_delete: '2FA cihazı silinemedi.'
+      is_default_cannot_delete: 'Cihaz varsayılan olarak işaretlidir ve etkin bir güvenlik politikası nedeniyle silinemez. Silmeden önce başka bir cihazı varsayılan olarak işaretleyin.'
+      not_existing: 'Hesabınız için hiçbir 2FA cihazı kayıtlı değil.'
+      request_2fa: Kimliğinizi doğrulamak için lütfen %{device_name} numaranızın kodunu girin.
+      totp:
+        title: 'Uygulama dayalı kimlik doğrulayıcınızı kullanın'
+        provisioning_uri: 'URI Hazırlama'
+        secret_key: 'Secret key'
+        time_based: 'Zaman bazlı'
+        account: 'Hesap adı / veren'
+        setup: |
+          Google Authenticator ile iki faktörlü kimlik doğrulama kurmak için uygulamayı Apple App mağazasından veya Google Play Store'dan indirin.
+          Uygulamayı açtıktan sonra, cihazı kaydetmek için aşağıdaki QR kodunu tarayabilirsiniz.
+        question_cannot_scan: |
+          Uygulamanızı kullanarak kodu tarayamıyor musunuz?
+        text_cannot_scan: |
+          Kodu tarayamazsanız, aşağıdaki ayrıntıları kullanarak girişi manuel olarak girebilirsiniz:
+        description: |
+          Zamana dayalı bir kerelik şifre doğrulama standardını kullanarak OpenProject ile kullanmak üzere bir uygulama kimlik doğrulayıcısı kaydettirin.
+          Genel örnekler, Google Authenticator veya Authy'dir.
+      sms:
+        title: 'Cep telefonunuzu kullanın'
+        redacted_identifier: 'Hareket eden aygıt (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, biz %{delivery_channel} ile bir kimlik doğrulama kodu gönderdik'
+        description: |
+          OpenProject'ın bir kerelik şifrelerini iletmek için cep telefonu numaranızı kaydedin.
+    sns:
+      delivery_failed: 'SNS teslim başarısız oldu:'
+    restdt:
+      delivery_failed_with_code: 'Token teslimatı başarısız oldu. (Hata kodu %{code})'
+    strategies:
+      totp: 'Authenticator application'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
+    mobile_transmit_notification: "Cep telefonunuza bir kerelik bir şifre gönderildi."
+    label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
+    forced_registration:
+      required_to_add_device: 'Etkin bir güvenlik ilkesi, iki faktörlü kimlik doğrulamayı etkinleştirmenizi gerektirir. Bir cihazı kaydetmek için lütfen aşağıdaki formu kullanın.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+  field_phone: "Cep Telefonu"
+  field_otp: "Tek-kullanımlık Şifre"
+  notice_account_otp_invalid: "Geçersiz tek kullanımlık şifre."
+  notice_account_otp_expired: "Girdiğiniz tek kullanımlık şifrenin süresi doldu."
+  notice_otp_sms_text: "Tek Kullanımlık Şifreniz: %{token}"
+  notice_developer_strategy_otp: "Geliştirici stratejisi, aşağıdaki tek seferlik şifreyi oluşturdu: %{token} (kanal: %{channel})"
+  notice_account_otp_send_failed: "Tek kullanımlık şifreniz gönderilemedi."
+  notice_account_has_no_phone: "Hesabınızla ilişkili cep telefonu numarası yok."
+  label_expiration_hint: "%{date} veya oturum kapatma"
+  label_actions: 'Eylemler'
+  label_confirmed: 'Onaylandı'
+  button_continue: 'Devam et'
+  button_make_default: 'Varsayılan olarak kullanın'
+  label_unverified_phone: "Cell phone not yet verified"
+  message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
+  notice_phone_number_format: "Lütfen numarasını yandaki biçimde girin: + XX XXXXXXXX."
+  error_password_on_phone_change: "is required if you want to change your cell phone number"
+  notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
+  text_otp_not_receive: "Diğer doğrulama yöntemleri"
+  text_send_otp_again: "Tek seferlik şifreyi şu yollarla tekrar gönderin:"
+  button_resend_otp_form: "Tekrar Gönder"
+  button_otp_by_voice: "Sesli arama"
+  button_otp_by_sms: "SMS"
+  label_otp_channel: "Teslimat kanalı"
