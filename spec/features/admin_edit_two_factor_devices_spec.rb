@@ -70,9 +70,11 @@ describe 'Admin 2FA management', with_2fa_ee: true, type: :feature,
       expect(page).to have_selector('.mobile-otp--two-factor-device-row', count: 2)
       expect(page).to have_selector('.on-off-status.-enabled')
       find('.button', text: I18n.t('two_factor_authentication.admin.button_delete_all_devices')).click
+
       page.driver.browser.switch_to.alert.accept
 
-      expect(page).to have_selector('.generic-table--empty-row', text: I18n.t('two_factor_authentication.admin.no_devices_for_user'))
+      expect(page).to have_selector('.generic-table--empty-row',
+                                    text: I18n.t('two_factor_authentication.admin.no_devices_for_user'), wait: 20)
       expect(page).to have_selector('.on-off-status.-disabled')
     end
   end
