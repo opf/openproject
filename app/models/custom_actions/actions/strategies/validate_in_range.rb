@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,22 +26,46 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Actions::Strategies::Float
-  include CustomActions::Actions::Strategies::ValidateInRange
-
-  def values=(values)
-    super(Array(values).map { |v| to_float_or_nil(v) }.uniq)
-  end
-
-  def type
-    :float_property
-  end
-
-  def to_float_or_nil(value)
-    return nil if value.nil?
-
-    Float(value)
-  rescue TypeError, ArgumentError
+module CustomActions::Actions::Strategies::ValidateInRange
+  def minimum
     nil
+  end
+
+  def maximum
+    nil
+  end
+
+  def validate(errors)
+    super
+    validate_in_interval(errors)
+  end
+
+  private
+
+  def validate_in_interval(errors)
+    return unless values.length == 1
+
+    validate_greater_than_minimum(errors)
+    validate_smaller_than_maximum(errors)
+  end
+
+  def validate_smaller_than_maximum(errors)
+    if maximum && values[0] > maximum
+      errors.add :actions,
+                 I18n.t(:'activerecord.errors.models.custom_actions.smaller_than_or_equal_to',
+                        name: human_name,
+                        count: maximum),
+                 error_symbol: :smaller_than_or_equal_to
+    end
+  end
+
+  def validate_greater_than_minimum(errors)
+    if minimum && values[0] < minimum
+      errors.add :actions,
+                 I18n.t(:'activerecord.errors.models.custom_actions.greater_than_or_equal_to',
+                        name: human_name,
+                        count: minimum),
+                 error_symbol: :greater_than_or_equal_to
+    end
   end
 end

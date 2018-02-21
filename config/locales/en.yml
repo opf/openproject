@@ -434,7 +434,6 @@ en:
         file_too_large: "is too large (maximum size is %{count} Bytes)."
         greater_than: "must be greater than %{count}."
         greater_than_or_equal_to: "must be greater than or equal to %{count}."
-        smaller_than_or_equal_to: "must be smaller than or equal to %{count}."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         greater_than_start_date: "must be greater than the start date."
         greater_than_or_equal_to_start_date: "must be greater than or equal to the start date."
@@ -469,6 +468,8 @@ en:
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
           not_an_integer: "(%{name}) is not an integer."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         parse_schema_filter_params_service:
