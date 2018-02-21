@@ -34,4 +34,42 @@ module CustomActions::Actions::Strategies::Integer
   def type
     :integer_property
   end
+
+  def minimum
+    nil
+  end
+
+  def maximum
+    nil
+  end
+
+  def validate(errors)
+    super
+    validate_in_interval(errors)
+  end
+
+  private
+
+  def validate_in_interval(errors)
+    return unless values.length == 1
+
+    validate_greater_than_minimum(errors)
+    validate_smaller_than_maximum(errors)
+  end
+
+  def validate_smaller_than_maximum(errors)
+    if maximum && values[0] > maximum
+      errors.add :actions,
+                 I18n.t(:'activerecord.errors.messages.smaller_than_or_equal_to', count: maximum),
+                 error_symbol: :smaller_than_or_equal_to
+    end
+  end
+
+  def validate_greater_than_minimum(errors)
+    if minimum && values[0] < minimum
+      errors.add :actions,
+                 I18n.t(:'activerecord.errors.messages.greater_than_or_equal_to', count: minimum),
+                 error_symbol: :greater_than_or_equal_to
+    end
+  end
 end

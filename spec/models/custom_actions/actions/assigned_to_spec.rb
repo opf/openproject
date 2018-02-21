@@ -30,6 +30,7 @@ require_relative '../shared_expectations'
 
 describe CustomActions::Actions::AssignedTo, type: :model do
   let(:key) { :assigned_to }
+  let(:type) { :associated_property }
   let(:allowed_values) do
     users = []
 
