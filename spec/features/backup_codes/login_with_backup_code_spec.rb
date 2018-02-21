@@ -32,6 +32,10 @@ describe 'Login with 2FA backup code', with_2fa_ee: true, type: :feature,
 
       first_login_step
 
+      expect(page).to have_selector('#toggle_resend_form', wait: 10)
+      # Wait a bit before clicking the form
+      sleep 5
+
       # Open other options
       find('#toggle_resend_form').click
       find('a', text: I18n.t('two_factor_authentication.login.enter_backup_code_title'), wait: 10).click
