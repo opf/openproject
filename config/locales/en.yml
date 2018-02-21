@@ -90,9 +90,11 @@ en:
     plural: 'Custom actions'
     new: 'New custom action'
     edit: 'Edit custom action %{name}'
+    execute: 'Execute %{name}'
     upsale:
       title: 'Custom actions is an Enterprise Edition feature'
       description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
+
   custom_fields:
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before

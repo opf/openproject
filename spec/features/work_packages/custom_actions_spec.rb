@@ -144,6 +144,7 @@ describe 'Custom actions', type: :feature, js: true do
 
     new_ca_page = index_ca_page.new
     new_ca_page.set_name('Unassign')
+    new_ca_page.set_description('Removes the assignee')
     new_ca_page.add_action('Assignee', '-')
     new_ca_page.create
 
@@ -208,6 +209,7 @@ describe 'Custom actions', type: :feature, js: true do
     new_ca_page.set_name('Move project')
     new_ca_page.add_action(date_custom_field.name, (Date.today + 5.days).to_s)
 
+    # Close autocompleter
     if page.has_selector? '.ui-datepicker-close'
       scroll_to_and_click(find('.ui-datepicker-close'))
     end
@@ -236,6 +238,11 @@ describe 'Custom actions', type: :feature, js: true do
       .to have_no_selector('.custom-action', text: 'Other roles action')
 
     within('.custom-actions') do
+      # When hovering over the button, the description is displayed
+      button = find('.custom-action--button', text: 'Unassign')
+      expect(button['title'])
+        .to eql 'Removes the assignee'
+
       click_button('Unassign')
     end
 

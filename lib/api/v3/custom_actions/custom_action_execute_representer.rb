@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,33 +25,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
+module API
+  module V3
+    module CustomActions
+      class CustomActionExecuteRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
 
-# Contract for create (c) and update (u)
-module CustomActions
-  class CUContract < ::ModelContract
-    def self.model
-      CustomAction
-    end
+        # For now, this is only intended for parsing
+        associated_resource :work_package,
+                            link: ->(*) {
+                              raise NotImplementedError
+                            },
+                            getter: ->(*) {
+                              raise NotImplementedError
+                            }
 
-    attribute :name
-    attribute :description
-
-    attribute :actions do
-      if model.actions.empty?
-        errors.add :actions, :empty
-      end
-      model.actions.each do |action|
-        action.validate(errors)
-      end
-    end
-
-    attribute :conditions do
-      model.conditions.each do |condition|
-        condition.validate(errors)
+        property :lock_version
       end
     end
   end

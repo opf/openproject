@@ -28,62 +28,50 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::QueryRepresenter do
+describe ::API::V3::CustomActions::CustomActionRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:user) { double('current_user') }
+  let(:custom_action) { FactoryGirl.build_stubbed(:custom_action) }
+  let(:user) { FactoryGirl.build_stubbed(:user) }
+
   let(:representer) do
-    described_class.new(query, current_user: user, embed_links: true)
+    described_class.new(custom_action, current_user: user, embed_links: true)
   end
 
-  let(:permissions) { [] }
+  subject { representer.to_json }
 
-  let(:policy) do
-    policy_stub = double('policy stub')
+  context 'properties' do
+    it 'has a _type property' do
+      is_expected
+        .to be_json_eql('CustomAction'.to_json)
+        .at_path('_type')
+    end
 
-    allow(QueryPolicy)
-      .to receive(:new)
-      .with(user)
-      .and_return(policy_stub)
+    it 'has a name property' do
+      is_expected
+        .to be_json_eql(custom_action.name.to_json)
+        .at_path('name')
+    end
 
-    allow(policy_stub)
-      .to receive(:allowed?)
-      .and_return(false)
-
-    permissions.each do |permission|
-      allow(policy_stub)
-        .to receive(:allowed?)
-        .with(query, permission)
-        .and_return(true)
+    it 'has a description property' do
+      is_expected
+        .to be_json_eql(custom_action.description.to_json)
+        .at_path('description')
     end
   end
 
-  before do
-    policy
-  end
-
-  subject { representer.from_hash request_body }
-
-  describe 'parsing empty group_by (Regression #25606)' do
-    before do
-      query.group_by = 'project'
+  context 'links' do
+    it_behaves_like 'has a titled link' do
+      let(:link) { 'self' }
+      let(:href) { api_v3_paths.custom_action(custom_action.id) }
+      let(:title) { custom_action.name }
     end
 
-    let(:request_body) do
-      {
-        '_links' => {
-          'groupBy' => { 'href' => nil }
-        }
-      }
-    end
-
-    it 'should unset group_by' do
-      expect(query).to be_grouped
-      expect(query.group_by).to eq('project')
-
-      expect(subject).not_to be_grouped
+    it_behaves_like 'has a titled link' do
+      let(:link) { 'executeImmediately' }
+      let(:href) { api_v3_paths.custom_action_execute(custom_action.id) }
+      let(:title) { "Execute #{custom_action.name}" }
+      let(:method) { 'post' }
     end
   end
 end

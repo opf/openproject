@@ -53,6 +53,15 @@ describe CustomActions::CUContract do
     end
   end
 
+  describe 'description' do
+    it 'is writable' do
+      action.description = 'blubs'
+
+      expect(instance.validate)
+        .to be_truthy
+    end
+  end
+
   describe 'actions' do
     it 'is writable' do
       responsible_action = CustomActions::Actions::Responsible.new

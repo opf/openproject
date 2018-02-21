@@ -42,6 +42,15 @@ describe CustomAction, type: :model do
     end
   end
 
+  describe '#description' do
+    it 'can be set and read' do
+      stubbed_instance.description = 'blubs'
+
+      expect(stubbed_instance.description)
+        .to eql 'blubs'
+    end
+  end
+
   describe 'validations' do
     it 'is invalid with a name longer than 255 chars' do
       stubbed_instance.name = 'a' * 256
