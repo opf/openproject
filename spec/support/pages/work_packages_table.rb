@@ -93,7 +93,6 @@ module Pages
     end
 
     def click_inline_create
-
       ##
       # When using the inline create on initial page load,
       # there is a delay on travis where inline create can be clicked.

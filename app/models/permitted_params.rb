@@ -466,6 +466,7 @@ class PermittedParams
         custom_action: %i(
           name
           description
+          move_to
         ),
         custom_field: [
           :editable,

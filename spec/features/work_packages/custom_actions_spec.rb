@@ -224,27 +224,22 @@ describe 'Custom actions', type: :feature, js: true do
 
     wp_page.visit!
 
-    expect(page)
-      .to have_selector('.custom-action', text: 'Unassign', wait: 10)
-    expect(page)
-      .to have_selector('.custom-action', text: 'Close')
-    expect(page)
-      .to have_selector('.custom-action', text: 'Escalate')
-    expect(page)
-      .to have_selector('.custom-action', text: 'Move project')
-    expect(page)
-      .to have_no_selector('.custom-action', text: 'Reset')
-    expect(page)
-      .to have_no_selector('.custom-action', text: 'Other roles action')
+    wp_page.expect_custom_action('Unassign')
+    wp_page.expect_custom_action('Close')
+    wp_page.expect_custom_action('Escalate')
+    wp_page.expect_custom_action('Move project')
+    wp_page.expect_no_custom_action('Reset')
+    wp_page.expect_no_custom_action('Other roles action')
+    wp_page.expect_custom_action_order('Unassign', 'Close', 'Escalate', 'Move project')
 
     within('.custom-actions') do
       # When hovering over the button, the description is displayed
       button = find('.custom-action--button', text: 'Unassign')
       expect(button['title'])
         .to eql 'Removes the assignee'
-
-      click_button('Unassign')
     end
+
+    wp_page.click_custom_action('Unassign')
 
     wp_page.expect_attributes assignee: '-'
     wp_page.expect_notification message: 'Successful update'
@@ -253,17 +248,13 @@ describe 'Custom actions', type: :feature, js: true do
     ## Bump the lockVersion and by that force a conflict.
     WorkPackage.where(id: work_package.id).update_all(lock_version: 10)
 
-    within('.custom-actions') do
-      click_button('Escalate')
-    end
+    wp_page.click_custom_action('Escalate')
 
     wp_page.expect_notification type: :error, message: I18n.t('api_v3.errors.code_409')
 
     wp_page.visit!
 
-    within('.custom-actions') do
-      click_button('Escalate')
-    end
+    wp_page.click_custom_action('Escalate')
 
     wp_page.expect_attributes priority: immediate_priority.name,
                               status: default_status.name,
@@ -275,23 +266,17 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 
-    within('.custom-actions') do
-      click_button('Close')
-    end
+    wp_page.click_custom_action('Close')
 
     wp_page.expect_attributes status: closed_status.name,
                               priority: immediate_priority.name
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 
-    expect(page)
-      .to have_selector('.custom-action', text: 'Reset')
-    expect(page)
-      .to have_no_selector('.custom-action', text: 'Close')
+    wp_page.expect_custom_action('Reset')
+    wp_page.expect_no_custom_action('Close')
 
-    within('.custom-actions') do
-      click_button('Reset')
-    end
+    wp_page.click_custom_action('Reset')
 
     wp_page.expect_attributes priority: default_priority.name,
                               status: default_status.name,
@@ -316,27 +301,25 @@ describe 'Custom actions', type: :feature, js: true do
     index_ca_page.expect_current_path
     index_ca_page.expect_listed('Unassign', 'Close', 'Escalate', 'Reject')
 
+    index_ca_page.move_top 'Move project'
+    index_ca_page.move_bottom 'Escalate'
+    index_ca_page.move_up 'Close'
+    index_ca_page.move_down 'Unassign'
+
     # Check the altered button
     login_as(user)
 
     wp_page.visit!
 
-    expect(page)
-      .to have_selector('.custom-action', text: 'Unassign')
-    expect(page)
-      .to have_selector('.custom-action', text: 'Close')
-    expect(page)
-      .to have_selector('.custom-action', text: 'Escalate')
-    expect(page)
-      .to have_selector('.custom-action', text: 'Reject')
-    expect(page)
-      .to have_selector('.custom-action', text: 'Move project')
-    expect(page)
-      .to have_no_selector('.custom-action', text: 'Reset')
+    wp_page.expect_custom_action('Unassign')
+    wp_page.expect_custom_action('Close')
+    wp_page.expect_custom_action('Escalate')
+    wp_page.expect_custom_action('Move project')
+    wp_page.expect_custom_action('Reject')
+    wp_page.expect_no_custom_action('Reset')
+    wp_page.expect_custom_action_order('Move project', 'Close', 'Reject', 'Unassign', 'Escalate')
 
-    within('.custom-actions') do
-      click_button('Reject')
-    end
+    wp_page.click_custom_action('Reject')
 
     wp_page.expect_attributes assignee: '-',
                               status: rejected_status.name,
@@ -344,10 +327,8 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 
-    expect(page)
-      .to have_selector('.custom-action', text: 'Close')
-    expect(page)
-      .to have_no_selector('.custom-action', text: 'Reject')
+    wp_page.expect_custom_action('Close')
+    wp_page.expect_no_custom_action('Reject')
 
     # Delete 'Reject' from list of actions
     login_as(admin)
@@ -363,19 +344,13 @@ describe 'Custom actions', type: :feature, js: true do
 
     wp_page.visit!
 
-    expect(page)
-      .to have_no_selector('.custom-action', text: 'Unassign')
-    expect(page)
-      .to have_selector('.custom-action', text: 'Close')
-    expect(page)
-      .to have_selector('.custom-action', text: 'Escalate')
-    expect(page)
-      .to have_no_selector('.custom-action', text: 'Reject')
+    wp_page.expect_no_custom_action('Unassign')
+    wp_page.expect_custom_action('Close')
+    wp_page.expect_custom_action('Escalate')
+    wp_page.expect_no_custom_action('Reject')
 
     # Move project
-    within('.custom-actions') do
-      click_button('Move project')
-    end
+    wp_page.click_custom_action('Move project')
 
     # TODO: check project
     wp_page.expect_attributes assignee: '-',

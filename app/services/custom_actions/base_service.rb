@@ -49,12 +49,12 @@ class CustomActions::BaseService
   private
 
   def set_attributes(action, attributes)
-    actions_attributes = (attributes.delete(:actions) || {}).symbolize_keys
-    conditions_attributes = (attributes.delete(:conditions) || {}).symbolize_keys
+    actions_attributes = attributes.delete(:actions)
+    conditions_attributes = attributes.delete(:conditions)
     action.attributes = attributes
 
-    set_actions(action, actions_attributes)
-    set_conditions(action, conditions_attributes)
+    set_actions(action, actions_attributes.symbolize_keys) if actions_attributes
+    set_conditions(action, conditions_attributes.symbolize_keys) if conditions_attributes
   end
 
   def set_actions(action, actions_attributes)

@@ -40,6 +40,8 @@ class CustomAction < ActiveRecord::Base
 
   define_attribute_method 'conditions'
 
+  acts_as_list
+
   def initialize(*args)
     ret = super
 
@@ -63,6 +65,10 @@ class CustomAction < ActiveRecord::Base
 
   def self.order_by_name
     order(:name)
+  end
+
+  def self.order_by_position
+    order(:position)
   end
 
   def all_actions
