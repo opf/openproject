@@ -500,16 +500,12 @@ module OpenProject::TextFormatting::Formatters
       #
       # displays the current url plus an optional anchor
       #
-      def full_url(anchor_name = '')
-        return "##{anchor_name}" if current_request.nil?
-        url_for pagination_params_whitelist.merge(anchor: anchor_name, only_path: true)
+      def full_url(anchor_name = '', request)
+        return "##{anchor_name}" if request.nil?
+        url_for pagination_params_whitelist(request).merge(anchor: anchor_name, only_path: true)
       rescue ActionController::UrlGenerationError
         # In a context outside params, we don't know what the relative anchor url is
         "##{anchor_name}"
-      end
-
-      def current_request
-        request rescue nil
       end
     end
   end

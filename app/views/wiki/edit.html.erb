@@ -33,9 +33,9 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= error_messages_for 'content' %>
 
   <div class="attributes-group">
-    <%= f.text_area :text, cols: 100, rows: 25, class: 'wiki-edit op-auto-complete', hidden: true, accesskey:  accesskey(:edit) %>
+    <%= f.text_area :text, cols: 100, rows: 25, class: 'wiki-edit op-auto-complete', accesskey:  accesskey(:edit) %>
+    <%= wikitoolbar_for 'content_text' %>
   </div>
-  <op-ckeditor-form textarea-selector="#content_text"></op-ckeditor-form>
 
   <div class="form--field">
     <%= f.text_field :comments, size: 120 %>

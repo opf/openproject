@@ -39,13 +39,11 @@ module OpenProject::TextFormatting::Formatters
 
         ActiveRecord::Base.transaction do
           converters.each do |handler|
-            handler.call!
+            handler.call
           end
         end
 
         puts "\n-- Completed --"
-      ensure
-        cleanup
       end
 
       private
@@ -56,11 +54,6 @@ module OpenProject::TextFormatting::Formatters
           method(:convert_models),
           method(:convert_custom_field_longtext)
         ]
-      end
-
-      def cleanup
-        src.close
-        dst.close
       end
 
       def convert_settings
@@ -99,11 +92,11 @@ module OpenProject::TextFormatting::Formatters
       end
 
       def convert_custom_field_longtext
-        formattable_cfs = WorkPackageCustomField.where(field_format: 'text').pluck(:id)
-        print "#{the_class.name} "
+        formattable_cfs = CustomField.where(field_format: 'text').pluck(:id)
+        print "CustomField type text "
         CustomValue.where(custom_field_id: formattable_cfs).in_batches(of: 200) do |relation|
           relation.pluck(:id, :value).each do |cv_id, value|
-            CustomValue.where(id: cv_id).update_all(value: value)
+            CustomValue.where(id: cv_id).update_all(value: convert_textile_to_markdown(value))
             print '.'
           end
         end
@@ -180,22 +173,22 @@ module OpenProject::TextFormatting::Formatters
 
       def models_to_convert
         {
-          Announcement => [:text],
-          AttributeHelpText => [:help_text],
-          Comment => [:text],
-          WikiContent => [:text],
-          WorkPackage =>  [:description],
-          Message => [:content],
-          News => [:description],
-          Document => [:description],
-          Project => [:description],
-          Journal => [:notes],
-          AttachmentJournal => [:text],
-          MessageJournal => [:content],
-          WikiContentJournal => [:text],
-          WorkPackageJournal => [:description],
+          ::Announcement => [:text],
+          ::AttributeHelpText => [:help_text],
+          ::Comment => [:text],
+          ::WikiContent => [:text],
+          ::WorkPackage =>  [:description],
+          ::Message => [:content],
+          ::News => [:description],
+          ::Project => [:description],
+          ::Journal => [:notes],
+          ::Journal::AttachmentJournal => [:description],
+          ::Journal::MessageJournal => [:content],
+          ::Journal::WikiContentJournal => [:text],
+          ::Journal::WorkPackageJournal => [:description],
           ## TODO
           # Documents
+          # ::Document => [:description],
           # Meetings
         }
       end

@@ -34,7 +34,8 @@ module OpenProject::TextFormatting
 
       def self.matchers
         [
-          OpenProject::TextFormatting::Matchers::ResourceLinksMatcher
+          OpenProject::TextFormatting::Matchers::ResourceLinksMatcher,
+          OpenProject::TextFormatting::Matchers::WikiLinksMatcher
         ]
       end
 

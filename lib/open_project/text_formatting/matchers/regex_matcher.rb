@@ -69,6 +69,10 @@ module OpenProject::TextFormatting
       def self.process_match(matchdata, matched_string, context)
         raise NotImplementedError
       end
+
+      ##
+      # Helper method for url helpers
+      def controller; end
     end
   end
 end

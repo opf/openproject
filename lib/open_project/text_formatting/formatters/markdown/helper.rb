@@ -31,7 +31,7 @@ module OpenProject::TextFormatting::Formatters
   module Markdown
     module Helper
       def wikitoolbar_for(field_id)
-        # Kept only for compatibility
+        tag 'op-ckeditor-form', 'textarea-selector': "##{field_id}"
       end
 
       def initial_page_content(_page)

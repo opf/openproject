@@ -75,6 +75,7 @@ export class OpCkeditorFormComponent {
   public $onInit() {
     this.formElement = this.$element.closest('form');
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
+    this.wrappedTextArea.hide();
     const wrapper = this.$element.find(`.${ckEditorReplacementClass}`);
     window.ClassicEditor
       .create(wrapper[0])
