@@ -132,7 +132,9 @@ Feature: Edit story on backlogs view
   @javascript
   Scenario: Edit story in a sprint
     Given I am on the master backlog
-     When I click on the text "Story A"
+    # Give the page time to initialize
+     When I sleep for 0.25 seconds
+      And I click on the text "Story A"
       And I fill in "Story A revisited" for "subject"
       And I fill in "11" for "story_points"
       And I confirm the story form

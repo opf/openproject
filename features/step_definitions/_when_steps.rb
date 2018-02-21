@@ -256,3 +256,7 @@ When(/^I click on the link for the story "(.*?)"$/) do |subject|
     click_link(story.id)
   end
 end
+
+When /^I sleep for (.+) seconds$/ do |seconds|
+  sleep seconds.to_i
+end
