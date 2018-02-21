@@ -268,6 +268,8 @@ tr:
       announcements:
         show_until: Son yayın tarihi
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: İndirmeler
         file: Dosya
         filename: Dosya
@@ -986,6 +988,14 @@ tr:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: Açıklamalı PDF
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2094,6 +2104,7 @@ tr:
   setting_accessibility_mode_for_anonymous: İsimsiz kullanıcılar için erişilebilirlik
     modunu etkinleştir
   setting_user_format: Kullanıcılar biçimi görüntüler
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Yöneticiler kullanıcı hesaplarını silebilsin
   setting_users_deletable_by_self: Kullanıcılar kendi hesaplarını silebilsin
   setting_welcome_text: Hoş geldiniz blok metini
@@ -2163,6 +2174,7 @@ tr:
     Aksi halde iOS üzerinde çok kötü gözükür.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Varsayılan yönetici hesabı değişti
   text_default_encoding: 'Varsayılan: UTF-8'
   text_destroy: Sil
@@ -2459,6 +2471,10 @@ tr:
       quarters: Üç aylık
       years: Yıl
   title_remove_and_delete_user: Davet edilen kullanıcıyı projeden çıkarın ve onu silin.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Eskisi geçersiz olduysa ya da orjinal e-posta alınamadıysa
     yeni bir davet anahtarı gönderir. Aynı zamanda bu işlevi aktif kullanıcıların
     farkli bir kimlik doğrulama yöntemine geçişi için de kullanabilirsiniz. Aktif

@@ -229,6 +229,8 @@ lol:
       announcements:
         show_until: crwdns96494:0crwdne96494:0
       attachment:
+        attachment_content: crwdns98857:0crwdne98857:0
+        attachment_file_name: crwdns98858:0crwdne98858:0
         downloads: crwdns96495:0crwdne96495:0
         file: crwdns96496:0crwdne96496:0
         filename: crwdns96497:0crwdne96497:0
@@ -908,6 +910,14 @@ lol:
       csv: crwdns97037:0crwdne97037:0
       pdf: crwdns97038:0crwdne97038:0
       pdf_with_descriptions: crwdns97039:0crwdne97039:0
+  extraction:
+    available:
+      pdftotext: crwdns98859:0crwdne98859:0
+      unrtf: crwdns98860:0crwdne98860:0
+      catdoc: crwdns98861:0crwdne98861:0
+      xls2csv: crwdns98862:0crwdne98862:0
+      catppt: crwdns98863:0crwdne98863:0
+      tesseract: crwdns98864:0crwdne98864:0
   general_csv_decimal_separator: crwdns97040:0crwdne97040:0
   general_csv_encoding: crwdns97041:0crwdne97041:0
   general_csv_separator: crwdns97042:0crwdne97042:0
@@ -1914,6 +1924,7 @@ lol:
   setting_time_format: crwdns97980:0crwdne97980:0
   setting_accessibility_mode_for_anonymous: crwdns97981:0crwdne97981:0
   setting_user_format: crwdns97982:0crwdne97982:0
+  setting_user_default_timezone: crwdns98865:0crwdne98865:0
   setting_users_deletable_by_admins: crwdns97983:0crwdne97983:0
   setting_users_deletable_by_self: crwdns97984:0crwdne97984:0
   setting_welcome_text: crwdns97985:0crwdne97985:0
@@ -1969,6 +1980,7 @@ lol:
   text_custom_touch_icon_instructions: 'crwdns98022:0crwdne98022:0
 
 '
+  text_database_allows_tsv: crwdns98866:0crwdne98866:0
   text_default_administrator_account_changed: crwdns98023:0crwdne98023:0
   text_default_encoding: crwdns98024:0crwdne98024:0
   text_destroy: crwdns98025:0crwdne98025:0
@@ -2222,6 +2234,9 @@ lol:
       quarters: crwdns98246:0crwdne98246:0
       years: crwdns98247:0crwdne98247:0
   title_remove_and_delete_user: crwdns98248:0crwdne98248:0
+  tooltip_user_default_timezone: 'crwdns98867:0crwdne98867:0
+
+'
   tooltip_resend_invitation: 'crwdns98249:0crwdne98249:0
 
 '

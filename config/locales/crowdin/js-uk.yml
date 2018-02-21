@@ -66,6 +66,8 @@ uk:
           one: Перший критерій впорядкування
           two: Другий критерій впорядкування
           three: Третій критерій впорядкування
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: 'no'
     general_text_yes: 'yes'
     general_text_No: 'No'

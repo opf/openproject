@@ -271,6 +271,8 @@ sv-SE:
       announcements:
         show_until: Visa fram till
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Nedladdningar
         file: Fil
         filename: Fil
@@ -987,6 +989,14 @@ sv-SE:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF med beskrivningar
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: ";"
@@ -2089,6 +2099,7 @@ sv-SE:
   setting_accessibility_mode_for_anonymous: Aktivera hjälpmedelsläget för anonyma
     användare
   setting_user_format: Användarvisningsformat
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Användarkonton kan tas bort av administratörer
   setting_users_deletable_by_self: Användare kan ta bort sina konton
   setting_welcome_text: Textblock för välkomstmeddelande
@@ -2159,6 +2170,7 @@ sv-SE:
     inte är transparent annars det ser dåligt på iOS.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Standardadministratörskontot har ändrats
   text_default_encoding: 'Standard: UTF-8'
   text_destroy: Ta bort
@@ -2452,6 +2464,10 @@ sv-SE:
       years: År
   title_remove_and_delete_user: Ta bort den inbjudna medlemmen från projektet och
     radera honom/henne.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Skickar en ny nyckel om den gamla löpt ut eller användaren
     inte fick det ursprungliga e-postmeddelandet. Kan också användas för aktiva användare
     för att välja en ny autentiseringsmetod. När den används för aktiva användare

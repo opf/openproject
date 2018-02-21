@@ -65,6 +65,8 @@ ro:
           one: Primul criteriu de sortare
           two: Al doilea criteriu de sortare
           three: Al treilea criteriu de sortare
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: nu
     general_text_yes: da
     general_text_No: Nu

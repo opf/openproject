@@ -65,6 +65,8 @@ vi:
           one: Tiêu chí phân loại đầu tiên
           two: Tiêu chí phân loại thứ hai
           three: Tiêu chí phân loại thứ ba
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: không
     general_text_yes: có
     general_text_No: Không

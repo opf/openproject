@@ -65,6 +65,8 @@ hr:
           one: Prvi kriterijum sortiranja
           two: Drugi kriterijum sortiranja
           three: Treći kriterijum sortiranja
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: ne
     general_text_yes: da
     general_text_No: Ne

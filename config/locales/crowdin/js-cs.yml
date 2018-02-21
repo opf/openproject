@@ -65,6 +65,8 @@ cs:
           one: První kritérium třídění
           two: Druhé kritérium třídění
           three: Třetí kritérium třídění
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: ne
     general_text_yes: ano
     general_text_No: Ne

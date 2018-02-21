@@ -65,6 +65,8 @@ fi:
           one: Ensimmäinen lajitteluperuste
           two: Toinen lajitteluperuste
           three: Kolmas lajitteluperuste
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: ei
     general_text_yes: kyllä
     general_text_No: Ei

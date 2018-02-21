@@ -268,6 +268,8 @@ id:
       announcements:
         show_until: Display until
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Download
         file: File
         filename: File
@@ -985,6 +987,14 @@ id:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF disertai deskripsi
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2086,6 +2096,7 @@ id:
   setting_accessibility_mode_for_anonymous: Aktifkan mode Aksesibilitas untuk user
     anonim
   setting_user_format: Format tampilan user
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Akun user dapat dihapus oleh admin
   setting_users_deletable_by_self: User diijinkan menghapus akun mereka sendiri
   setting_welcome_text: Welcome block text
@@ -2158,6 +2169,7 @@ id:
     iOS.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Akun administrator default terlah dirubah
   text_default_encoding: 'Default: UTF-8'
   text_destroy: Hapus
@@ -2453,6 +2465,10 @@ id:
       years: Tahun
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Kirim email undangan lain dengan token yang baru dalam
     hal yang lama kadaluwarsa atau pengguna tidak mendapat email yang asli. Dapat
     juga digunakan oleh pengguna aktif untuk memilih metode otentikasi baru. Ketika

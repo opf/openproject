@@ -268,6 +268,8 @@ hu:
       announcements:
         show_until: Megjelenít eddig
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Letöltés
         file: Fájl
         filename: Fájl
@@ -990,6 +992,14 @@ hu:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF leírásokkal
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2101,6 +2111,7 @@ hu:
   setting_accessibility_mode_for_anonymous: Engedélyezi a kisegítő módot a névtelen
     felhasználók számára
   setting_user_format: A felhasználók a megjelenítési formátuma
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: A felhasználói fiókok az adminok által törölhetőek
   setting_users_deletable_by_self: Engedélyezi, hogy a felhasználók törölhessék a
     saját fiókjukat
@@ -2172,6 +2183,7 @@ hu:
     iOS-en hibásan jelenhet meg.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Az alapértelmezett rendszergazdai fiók
     megváltozott
   text_default_encoding: 'Alapértelmezett érték: UTF-8'
@@ -2473,6 +2485,10 @@ hu:
       years: Évek
   title_remove_and_delete_user: Távolítsa el a meghívott felhasználót a projektből,
     és törölje őt.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Új meghívó e-mail küldése egy új tokennel. Ez abban
     az esetben hasznos, ha a felhasználó nem érvényesítette meghívóját időben (lejárt
     a tokenje) vagy nem kapta meg az meghívó e-mailt. Aktív felhasználóknak is küldhetsz

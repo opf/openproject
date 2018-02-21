@@ -278,6 +278,8 @@ it:
       announcements:
         show_until: Visualizza fino a
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Scaricati
         file: File
         filename: File
@@ -1010,6 +1012,14 @@ it:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF con descrizioni
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2160,6 +2170,7 @@ it:
   setting_accessibility_mode_for_anonymous: Abilita la modalità di accesso facilitato
     per utenti anonimi
   setting_user_format: Formato di visualizzazione utenti
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Account degli utenti eliminabili dagli amministratori
   setting_users_deletable_by_self: Gli utenti possono eliminare il proprio account
   setting_welcome_text: Blocco di testo di benvenuto
@@ -2235,6 +2246,7 @@ it:
     non sia trasparente, altrimenti non sarà esteticamente appetibile su iOS.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Account amministratore predefinito cambiato
   text_default_encoding: 'Predefinito: UTF-8'
   text_destroy: Cancella
@@ -2547,6 +2559,10 @@ it:
       quarters: Trimestri
       years: Anni
   title_remove_and_delete_user: Rimuovi l'utente invitato dal progetto ed eliminalo/a.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Invia un''altra email di invito con un token nuovo nel
     caso in cui quello vecchio sia scaduto o l''utente non abbia ricevuto la prima
     email. Può anche consentire agli utenti attivi di scegliere un nuovo metodo di

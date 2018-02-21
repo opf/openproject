@@ -230,6 +230,8 @@ zh:
       announcements:
         show_until: 显示截止日期
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: 下载
         file: 文件
         filename: 文件
@@ -913,6 +915,14 @@ zh:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: 带描述的PDF
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1927,6 +1937,7 @@ zh:
   setting_time_format: 时间格式
   setting_accessibility_mode_for_anonymous: 为匿名用户启用辅助功能模式
   setting_user_format: 用户显示格式
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: 可由管理员删除用户帐户
   setting_users_deletable_by_self: 允许用户删除其帐户
   setting_welcome_text: 欢迎块文本
@@ -1982,6 +1993,7 @@ zh:
   text_custom_touch_icon_instructions: '如果你在主屏幕上建立了一个标签，这个小图标将会显示在你的手机或平板电脑上。
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: 更改默认管理员帐户
   text_default_encoding: 默认值： UTF-8
   text_destroy: 删除
@@ -2237,6 +2249,10 @@ zh:
       quarters: 季度
       years: 年
   title_remove_and_delete_user: 从项目中移除所邀请的用户并删除他/她。
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: '旧邀请电子邮件过期或用户未收到之前的电子邮件时，再发送一封邀请电子邮件。也可由活跃用户用于选择新的身份验证方法。活跃用户使用时，状态会更改为“已邀请”。
 
 '

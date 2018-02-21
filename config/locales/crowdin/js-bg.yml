@@ -65,6 +65,8 @@ bg:
           one: Първи критерий за подреждане
           two: Втори критерий за подреждане
           three: Трети критерий за подреждане
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: Не
     general_text_yes: Да
     general_text_No: Не

@@ -268,6 +268,8 @@ pl:
       announcements:
         show_until: Wyświetlaj do
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Pliki do pobrania
         file: Plik
         filename: Plik
@@ -1003,6 +1005,14 @@ pl:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF z opisami
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: "."
@@ -2129,6 +2139,7 @@ pl:
   setting_time_format: Format czasu
   setting_accessibility_mode_for_anonymous: Włącz tryb dostępu dla użytkowników anonimowych
   setting_user_format: Format wyświetlania nazwy użytkownika
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Konta użytkowników mogą być usuwane przez administratorów
   setting_users_deletable_by_self: Użytkownicy mogą usuwać swoje konta
   setting_welcome_text: Tekst bloku powitalnego
@@ -2199,6 +2210,7 @@ pl:
     się, że obrazek nie ma przeźroczystego tła - inaczej źle będzie wyglądał na iOS''ach.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Domyślne konto administratora zostało
     zmienione
   text_default_encoding: 'Domyślnie: UTF-8'
@@ -2498,6 +2510,10 @@ pl:
       years: Lata
   title_remove_and_delete_user: Usuń dotychczasowego użytkownika z projektu i usuń
     go.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Wysyła kolejne zaproszenie mailowe ze świeżym tokenem
     w przypadku, gdy stary wygasł lub gdy użytkownik nie otrzymał pierwszej wiadomości
     e-mail. Można używać też do wyboru nowej metody uwierzytelniania dla aktywnych

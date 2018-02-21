@@ -271,6 +271,8 @@ ru:
       announcements:
         show_until: Отобразить до
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Загрузки
         file: Файл
         filename: Файл
@@ -1009,6 +1011,14 @@ ru:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF с описанием
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2133,6 +2143,7 @@ ru:
   setting_accessibility_mode_for_anonymous: Разрешить режим доступа людей с ограниченными
     возможностями для анонимных пользователей
   setting_user_format: Формат имён пользователей
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Учётные записи пользователей могут быть удалены
     администратором
   setting_users_deletable_by_self: Пользователи могут удалять свои учётные записи
@@ -2205,6 +2216,7 @@ ru:
     не является прозрачным, иначе это будет выглядеть плохо на iOS.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Первоначальная учетная запись администратора
     была изменена
   text_default_encoding: 'По-умолчанию: UTF-8'
@@ -2506,6 +2518,10 @@ ru:
       years: Годы
   title_remove_and_delete_user: Исключить из проекта приглашенного пользователя и
     удалить его.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Отправляет по электронной почте другое приглашение со
     свежим маркером в случае, если истек срок действия старого или пользователь не
     получил первоначального сообщения. Может использоваться для действующих пользователей

@@ -64,6 +64,8 @@ ko:
           one: 첫 번째 정렬 기준
           two: 두 번째 정렬 기준
           three: 세 번째 정렬 기준
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: 아니요
     general_text_yes: 예
     general_text_No: 아니요

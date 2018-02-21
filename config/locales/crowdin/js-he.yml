@@ -65,6 +65,8 @@ he:
           one: First sorting criteria
           two: Second sorting criteria
           three: Third sorting criteria
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: לא
     general_text_yes: כן
     general_text_No: לא

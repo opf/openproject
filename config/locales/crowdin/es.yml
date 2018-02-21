@@ -285,6 +285,8 @@ es:
       announcements:
         show_until: Mostrar hasta
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Descargas
         file: Archivo
         filename: Archivo
@@ -1017,6 +1019,14 @@ es:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF con descripciones
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2165,6 +2175,7 @@ es:
   setting_accessibility_mode_for_anonymous: Activar el modo de accesibilidad para
     usuarios anónimos
   setting_user_format: Formato de visualización de usuarios
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Cuentas de usuario eliminables por administradores
   setting_users_deletable_by_self: Permitir a los usuarios eliminar sus propias cuentas
   setting_welcome_text: Bloque de texto de bienvenida
@@ -2240,6 +2251,7 @@ es:
     transparente, ya que tendrá una apariencia poco adecuada en iOS.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Se ha cambiado la cuenta de administrador
     por defecto
   text_default_encoding: 'Por defecto: UTF-8'
@@ -2538,6 +2550,10 @@ es:
       quarters: Cuatrimestres
       years: Años
   title_remove_and_delete_user: Eliminar al usurio invitado del proyecto y eliminarlo.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Envía otro correo electrónico de invitación con un token
     nuevo, en caso de que el antiguo esté caducado o el usuario no hubiera recibido
     el primer correo. También se puede usar para usuarios activos con el fin de seleccionar

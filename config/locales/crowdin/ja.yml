@@ -231,6 +231,8 @@ ja:
       announcements:
         show_until: までを表示
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: ダウンロード数
         file: ファイル
         filename: ファイル
@@ -914,6 +916,14 @@ ja:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: 説明付きPDF
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1938,6 +1948,7 @@ ja:
   setting_time_format: 時刻の形式
   setting_accessibility_mode_for_anonymous: 匿名ユーザ向けにアクセシビリティモードを有効
   setting_user_format: ユーザ情報の形式
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: 管理者によるユーザアカウントが削除可能
   setting_users_deletable_by_self: ユーザによる自分のアカウント削除を許可
   setting_welcome_text: ようこそブロックのテキスト
@@ -1997,6 +2008,7 @@ ja:
     x 180 ピクセルサイズの PNG イメージファイルにする必要があります。iOS での表示が悪くなるため、画像の背景を透明にしないでください。
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: 管理者アカウントでデフォルト設定が変更済み
   text_default_encoding: '既定値: UTF-8'
   text_destroy: 削除
@@ -2260,6 +2272,10 @@ ja:
       quarters: 四半期ごと
       years: " 年"
   title_remove_and_delete_user: プロジェクトから招待済のユーザを削除し、彼/彼女を削除します。
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: '古いメールの有効期限が切れた、またはユーザーが元のメールを受け取っていない場合に、新しいトークンで別の招待メールを送信します。アクティブなユーザーに新しい認証方法を選択するために使用することもできます。アクティブなユーザーに使用する場合、彼らの
     ステータスが ''招待'' に変更されます。
 

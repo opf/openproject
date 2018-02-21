@@ -282,6 +282,8 @@ pt:
       announcements:
         show_until: Exibir até
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Transferências
         file: Ficheiro
         filename: Ficheiro
@@ -1008,6 +1010,14 @@ pt:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF com descrições
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2138,6 +2148,7 @@ pt:
   setting_accessibility_mode_for_anonymous: Ativar modo de acessibilidade para utilizadores
     anônimos
   setting_user_format: Formato de apresentação de utilizadores
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Contas de utilizadores podem ser eliminadas pelos
     administradores
   setting_users_deletable_by_self: Os utilizadores podem eliminar as suas contas
@@ -2211,6 +2222,7 @@ pt:
     transparente, caso contrário ficará esteticamente mal no iOS.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Conta padrão de administrador alterada
   text_default_encoding: 'Padrão: UTF-8'
   text_destroy: Eliminar
@@ -2513,6 +2525,10 @@ pt:
       quarters: Trimestres
       years: Anos
   title_remove_and_delete_user: Remova o utilizador convidado do projeto e apague-o/a.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Envia outra mensagem de correio eletrónico de convite
     com um novo token, caso o antigo tenha expirado ou o utilizador não tenha recebido
     a mensagem original. Também pode ser utilizado para utilizadores ativos que escolham

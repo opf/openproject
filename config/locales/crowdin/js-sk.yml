@@ -65,6 +65,8 @@ sk:
           one: Prvé kritérium zoradenia
           two: Druhé kritérium zoradenia
           three: Tretie kritérium zoradenia
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: nie
     general_text_yes: áno
     general_text_No: Nie

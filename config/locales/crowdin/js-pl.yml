@@ -65,6 +65,8 @@ pl:
           one: Pierwsze kryterium sortowania
           two: Drugie kryterium sortowania
           three: Trzecie kryterium sortowania
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: nie
     general_text_yes: tak
     general_text_No: Nie
