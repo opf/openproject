@@ -110,8 +110,6 @@ Feature: Team Member
   @javascript
   Scenario: View the burndown chart from the backlogs dashboard
     Given I am on the master backlog
-      # Give the page time to initialize
-      And I sleep for 0.25 seconds
       And I open the "Sprint 002" backlogs menu
      When I follow "Burndown Chart" of the "Sprint 002" menu
      Then I should see the burndown chart for sprint "Sprint 002"
@@ -119,8 +117,6 @@ Feature: Team Member
   @javascript
   Scenario: View the burndown chart from the taskboard
     Given I am on the taskboard for "Sprint 002"
-      # Give the page time to initialize
-      And I sleep for 0.25 seconds
      When I follow "Burndown Chart"
      Then I should see the burndown chart for sprint "Sprint 002"
 

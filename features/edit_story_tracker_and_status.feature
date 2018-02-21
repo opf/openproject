@@ -93,11 +93,9 @@ Feature: Edit story type and status
 
   @javascript
   Scenario: Display only statuses which are allowed by workflow
-    # Give the page time to initialize
-    When I sleep for 0.25 seconds
-     And I click on the text "Story A"
+     When I click on the text "Story A"
 
-    Then the available status of the story called "Story A" should be the following:
+    And the available status of the story called "Story A" should be the following:
         | New    |
         | Closed |
 
@@ -107,8 +105,6 @@ Feature: Edit story type and status
     Then the displayed attributes of the story called "Story A" should be the following:
         | Status | Closed |
 
-    # Give the page time to initialize
-    When I sleep for 0.25 seconds
     When I click on the text "Story A"
 
     Then the available status of the story called "Story A" should be the following:
@@ -116,9 +112,7 @@ Feature: Edit story type and status
 
   @javascript
   Scenario: Select a status and change to a type that does not offer the status
-    # Give the page time to initialize
-    When I sleep for 0.25 seconds
-     And I click on the text "Story B"
+     When I click on the text "Story B"
 
      Then the available status of the story called "Story B" should be the following:
         | New      |
@@ -149,8 +143,6 @@ Feature: Edit story type and status
         | old_status | new_status |
         | New        | Resolved   |
       And I am on the master backlog
-      # Give the page time to initialize
-      And I sleep for 0.25 seconds
       And I click on the text "Story C"
 
      Then the available status of the story called "Story C" should be the following:
