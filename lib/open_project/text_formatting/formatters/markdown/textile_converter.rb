@@ -52,8 +52,9 @@ module OpenProject::TextFormatting::Formatters
 
       def converters
         [
-          method(:convert_settings)
-          method(:convert_models)
+          method(:convert_settings),
+          method(:convert_models),
+          method(:convert_custom_field_longtext)
         ]
       end
 
@@ -75,6 +76,8 @@ module OpenProject::TextFormatting::Formatters
         puts 'done'
       end
 
+      ##
+      # Converting model attributes as defined in +models_to_convert+.
       def convert_models
         models_to_convert.each do |the_class, attributes|
           print "#{the_class.name} "
@@ -94,6 +97,19 @@ module OpenProject::TextFormatting::Formatters
           puts 'done'
         end
       end
+
+      def convert_custom_field_longtext
+        formattable_cfs = WorkPackageCustomField.where(field_format: 'text').pluck(:id)
+        print "#{the_class.name} "
+        CustomValue.where(custom_field_id: formattable_cfs).in_batches(of: 200) do |relation|
+          relation.pluck(:id, :value).each do |cv_id, value|
+            CustomValue.where(id: cv_id).update_all(value: value)
+            print '.'
+          end
+        end
+
+        puts 'done'
+    end
 
       def convert_textile_to_markdown(textile)
         return '' unless textile.present?
@@ -179,7 +195,6 @@ module OpenProject::TextFormatting::Formatters
           WikiContentJournal => [:text],
           WorkPackageJournal => [:description],
           ## TODO
-          # CF Long text values
           # Documents
           # Meetings
         }
