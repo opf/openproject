@@ -7,15 +7,23 @@ module Pages
     end
 
     def clear
-      click_on 'Clear'
+      # We often clear the page as the first action of the example,
+      # which is why the frontend might not be fully initialized
+      retry_block do
+        scroll_to_and_click(find('#query-link-clear', text: 'Clear'))
 
-      # Safeguard to force waiting for the form to be cleared
-      expect(page)
-        .not_to have_selector('.group-by--selected-element')
+        # Safeguard to force waiting for the form to be cleared
+        expect(page)
+          .not_to have_selector('.group-by--selected-element')
+      end
     end
 
     def save(as:, public: false)
-      click_on 'Save'
+      # Scroll to report bottom and click
+      scroll_to_and_click(find('#query-icon-save-as', text: 'Save'))
+
+      # Ensure the form is visible
+      scroll_to_element find('#save_as_form')
 
       page.within('#save_as_form') do
         fill_in 'Name', with: as
