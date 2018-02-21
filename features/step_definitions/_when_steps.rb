@@ -185,6 +185,8 @@ When /^I close the "(.+?)" backlogs(?: )?menu/ do |backlog_name|
 end
 
 When /^I click on the text "(.+?)"$/ do |locator|
+  expect(page)
+    .to have_content(locator)
   find(:xpath, %{//*[contains(text(), "#{locator}")]}).click
 end
 
