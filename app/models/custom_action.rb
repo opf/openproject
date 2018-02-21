@@ -130,6 +130,7 @@ CustomActions::Register.action(CustomActions::Actions::Type)
 CustomActions::Register.action(CustomActions::Actions::Project)
 CustomActions::Register.action(CustomActions::Actions::Notify)
 CustomActions::Register.action(CustomActions::Actions::DoneRatio)
+CustomActions::Register.action(CustomActions::Actions::EstimatedHours)
 
 CustomActions::Register.condition(CustomActions::Conditions::Status)
 CustomActions::Register.condition(CustomActions::Conditions::Role)

@@ -55,6 +55,13 @@ shared_examples_for 'base custom action' do
       100
     end
   end
+  let(:expected_value) do
+    if defined?(value)
+      value
+    else
+      1
+    end
+  end
 
   describe '.all' do
     it 'is an array with the class itself' do
@@ -79,17 +86,17 @@ shared_examples_for 'base custom action' do
 
   describe '#values' do
     it 'can be provided on initialization' do
-      i = described_class.new(1)
+      i = described_class.new(expected_value)
 
       expect(i.values)
-        .to eql [1]
+        .to eql [expected_value]
     end
 
     it 'can be set and read' do
-      instance.values = 1
+      instance.values = expected_value
 
       expect(instance.values)
-        .to eql [1]
+        .to eql [expected_value]
     end
   end
 
