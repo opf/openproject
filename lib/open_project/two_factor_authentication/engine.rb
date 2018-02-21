@@ -22,7 +22,7 @@ module OpenProject::TwoFactorAuthentication
              requires_openproject: '>= 7.2.0' do
                menu :my_menu,
                     :two_factor_authentication,
-                    { controller: 'two_factor_authentication/my/two_factor_devices', action: :index },
+                    { controller: '/two_factor_authentication/my/two_factor_devices', action: :index },
                     caption: ->(*) { I18n.t('two_factor_authentication.label_two_factor_authentication') },
                     after: :password,
                     if: ->(*) { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.enabled? },
@@ -30,7 +30,7 @@ module OpenProject::TwoFactorAuthentication
 
                menu :admin_menu,
                     :two_factor_authentication,
-                    { controller: 'two_factor_authentication/settings', action: :show },
+                    { controller: '/two_factor_authentication/settings', action: :show },
                     caption: ->(*) { I18n.t('two_factor_authentication.label_two_factor_authentication') },
                     after: :ldap_authentication,
                     if: ->(*) { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.configurable_by_ui? },
