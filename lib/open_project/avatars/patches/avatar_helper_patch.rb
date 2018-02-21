@@ -17,126 +17,118 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'gravatar_image_tag'
+require 'avatar_helper'
 
-module OpenProject::Avatars
-  module Patches
-    module AvatarHelperPatch
-      def self.included(base) # :nodoc:
-        base.send :include, ::GravatarImageTag
-        base.prepend InstanceMethods
+AvatarHelper.class_eval do
+  include ::GravatarImageTag
 
-        base.class_eval do
-          GravatarImageTag.configure do |c|
-            c.include_size_attributes = false
-          end
-        end
+  GravatarImageTag.configure do |c|
+    c.include_size_attributes = false
+  end
+
+  module InstanceMethods
+    # Returns the avatar image tag for the given +user+ if avatars are enabled
+    # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
+    def avatar(user, options = {})
+      if local_avatar? user
+        local_avatar_image_tag user, options
+      elsif avatar_manager.gravatar_enabled?
+        build_gravatar_image_tag user, options
+      else
+        super
+      end
+    rescue StandardError => e
+      Rails.logger.error "Failed to create avatar for #{user}: #{e}"
+      return ''.html_safe
+    end
+
+    def avatar_url(user, options = {})
+      if local_avatar? user
+        local_avatar_image_url user
+      elsif avatar_manager.gravatar_enabled?
+        build_gravatar_image_url user, options
+      else
+        super
+      end
+    rescue StandardError => e
+      Rails.logger.error "Failed to create avatar url for #{user}: #{e}"
+      return ''.html_safe
+    end
+
+    def any_avatar?(user)
+      avatar_manager.gravatar_enabled? || local_avatar?(user)
+    end
+
+    def local_avatar?(user)
+      return false unless avatar_manager.local_avatars_enabled?
+      user.respond_to?(:local_avatar_attachment) && user.local_avatar_attachment
+    end
+
+    def avatar_manager
+      ::OpenProject::Avatars::AvatarManager
+    end
+
+    def build_gravatar_image_tag(user, options = {})
+      mail = extract_email_address(user)
+      raise ArgumentError.new('Invalid Mail') unless mail.present?
+      opts = options.merge(gravatar: default_gravatar_options)
+
+      tag_options = merge_image_options(user, opts)
+      tag_options[:alt] = 'Gravatar'
+
+      gravatar_image_tag(mail, tag_options)
+    end
+
+    def build_gravatar_image_url(user, options = {})
+      mail = extract_email_address(user)
+      raise ArgumentError.new('Invalid Mail') unless mail.present?
+      opts = options.merge(gravatar: default_gravatar_options)
+      # gravatar_image_url expects grvatar options as second arg
+      if opts[:gravatar]
+        opts.merge!(opts.delete(:gravatar))
       end
 
-      module InstanceMethods
-        # Returns the avatar image tag for the given +user+ if avatars are enabled
-        # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
-        def avatar(user, options = {})
-          if local_avatar? user
-            local_avatar_image_tag user, options
-          elsif avatar_manager.gravatar_enabled?
-            build_gravatar_image_tag user, options
-          else
-            super
-          end
-        rescue StandardError => e
-          Rails.logger.error "Failed to create avatar for #{user}: #{e}"
-          return ''.html_safe
-        end
+      gravatar_image_url(mail, opts)
+    end
 
-        def avatar_url(user, options = {})
-          if local_avatar? user
-            local_avatar_image_url user
-          elsif avatar_manager.gravatar_enabled?
-            build_gravatar_image_url user, options
-          else
-            super
-          end
-        rescue StandardError => e
-          Rails.logger.error "Failed to create avatar url for #{user}: #{e}"
-          return ''.html_safe
-        end
+    def local_avatar_image_url(user)
+      user_avatar_url(user.id)
+    end
 
-        def any_avatar?(user)
-          avatar_manager.gravatar_enabled? || local_avatar?(user)
-        end
+    def local_avatar_image_tag(user, options = {})
+      tag_options = merge_image_options(user, options)
 
-        def local_avatar?(user)
-          return false unless avatar_manager.local_avatars_enabled?
-          user.respond_to?(:local_avatar_attachment) && user.local_avatar_attachment
-        end
+      tag_options[:src] = local_avatar_image_url(user)
+      tag_options[:alt] = 'Avatar'
 
-        def avatar_manager
-          ::OpenProject::Avatars::AvatarManager
-        end
+      tag 'img', tag_options, false, false
+    end
 
-        def build_gravatar_image_tag(user, options = {})
-          mail = extract_email_address(user)
-          raise ArgumentError.new('Invalid Mail') unless mail.present?
-          opts = options.merge(gravatar: default_gravatar_options)
+    def merge_image_options(user, options)
+      default_options = { class: 'avatar' }
+      default_options[:title] = h(user.name) if user.respond_to?(:name)
 
-          tag_options = merge_image_options(user, opts)
-          tag_options[:alt] = 'Gravatar'
+      options.reverse_merge(default_options)
+    end
 
-          gravatar_image_tag(mail, tag_options)
-        end
+    def default_gravatar_options
+      options = { secure: Setting.protocol == 'https' }
+      default_value = Setting.plugin_openproject_avatars['gravatar_default']
+      options[:default] = default_value if default_value.present?
 
-        def build_gravatar_image_url(user, options = {})
-          mail = extract_email_address(user)
-          raise ArgumentError.new('Invalid Mail') unless mail.present?
-          opts = options.merge(gravatar: default_gravatar_options)
-          # gravatar_image_url expects grvatar options as second arg
-          if opts[:gravatar]
-            opts.merge!(opts.delete(:gravatar))
-          end
+      options
+    end
 
-          gravatar_image_url(mail, opts)
-        end
-
-        def local_avatar_image_url(user)
-          user_avatar_url(user.id)
-        end
-
-        def local_avatar_image_tag(user, options = {})
-          tag_options = merge_image_options(user, options)
-
-          tag_options[:src] = local_avatar_image_url(user)
-          tag_options[:alt] = 'Avatar'
-
-          tag 'img', tag_options, false, false
-        end
-
-        def merge_image_options(user, options)
-          default_options = { class: 'avatar' }
-          default_options[:title] = h(user.name) if user.respond_to?(:name)
-
-          options.reverse_merge(default_options)
-        end
-
-        def default_gravatar_options
-          options = { secure: Setting.protocol == 'https' }
-          default_value = Setting.plugin_openproject_avatars['gravatar_default']
-          options[:default] = default_value if default_value.present?
-
-          options
-        end
-
-        ##
-        # Get a mail address used for Gravatar
-        def extract_email_address(object)
-          if object.respond_to?(:mail)
-            object.mail
-          elsif object.to_s =~ %r{<(.+?)>}
-            $1
-          end
-        end
+    ##
+    # Get a mail address used for Gravatar
+    def extract_email_address(object)
+      if object.respond_to?(:mail)
+        object.mail
+      elsif object.to_s =~ %r{<(.+?)>}
+        $1
       end
     end
   end
-end
 
-::AvatarHelper.send :include, OpenProject::Avatars::Patches::AvatarHelperPatch
+  prepend InstanceMethods
+end
