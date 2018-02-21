@@ -434,6 +434,7 @@ en:
         file_too_large: "is too large (maximum size is %{count} Bytes)."
         greater_than: "must be greater than %{count}."
         greater_than_or_equal_to: "must be greater than or equal to %{count}."
+        smaller_than_or_equal_to: "must be smaller than or equal to %{count}."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         greater_than_start_date: "must be greater than the start date."
         greater_than_or_equal_to_start_date: "must be greater than or equal to the start date."

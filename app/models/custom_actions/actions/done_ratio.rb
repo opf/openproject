@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -25,33 +27,31 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'spec_helper'
-require_relative '../shared_expectations'
 
-describe CustomActions::Actions::Type, type: :model do
-  let(:key) { :type }
-  let(:priority) { 20 }
-  let(:type) { :associated_property }
-  let(:allowed_values) do
-    types = [FactoryGirl.build_stubbed(:type),
-             FactoryGirl.build_stubbed(:type)]
-    allow(Type)
-      .to receive_message_chain(:select, :order)
-            .and_return(types)
+class CustomActions::Actions::DoneRatio < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Integer
 
-    [{ value: types.first.id, label: types.first.name },
-     { value: types.last.id, label: types.last.name }]
+  def self.key
+    :done_ratio
   end
 
-  it_behaves_like 'base custom action'
-  it_behaves_like 'associated custom action' do
-    describe '#allowed_values' do
-      it 'is the list of all type' do
-        allowed_values
+  def apply(work_package)
+    work_package.done_ratio = values.first
+  end
 
-        expect(instance.allowed_values)
-          .to eql(allowed_values)
-      end
+  def minimum
+    0
+  end
+
+  def maximum
+    100
+  end
+
+  def self.all
+    if WorkPackage.use_field_for_done_ratio?
+      super
+    else
+      []
     end
   end
 end

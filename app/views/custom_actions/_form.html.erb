@@ -60,11 +60,18 @@
                                       action.values,
                                       container_class: '-slim',
                                       step: 'any' %>
-          <% elsif %i(integer_property float_property).include?(action.type) %>
+          <% elsif action.type == :float_property %>
             <%= styled_number_field_tag input_name,
                                         action.values,
                                         container_class: '-slim',
                                         step: 'any' %>
+          <% elsif action.type == :integer_property %>
+            <%= styled_number_field_tag input_name,
+                                        action.values,
+                                        container_class: '-slim',
+                                        min: action.minimum,
+                                        max: action.maximum,
+                                        step: 1 %>
           <% end %>
           <hide-section-link section-name="<%= action.key %>"></hide-section-link>
         </div>

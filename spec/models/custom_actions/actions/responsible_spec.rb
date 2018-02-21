@@ -30,6 +30,7 @@ require_relative '../shared_expectations'
 
 describe CustomActions::Actions::Responsible, type: :model do
   let(:key) { :responsible }
+  let(:type) { :associated_property }
   let(:allowed_values) do
     users = [FactoryGirl.build_stubbed(:user),
              FactoryGirl.build_stubbed(:user)]

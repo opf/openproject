@@ -37,6 +37,13 @@ shared_context 'custom actions action' do
       raise ":key needs to be defined"
     end
   end
+  let(:expected_type) do
+    if defined?(type)
+      type
+    else
+      raise ":type needs to be defined"
+    end
+  end
 end
 
 shared_examples_for 'base custom action' do
@@ -94,9 +101,9 @@ shared_examples_for 'base custom action' do
   end
 
   describe '#type' do
-    it 'is :associated_property' do
+    it 'is the expected type' do
       expect(instance.type)
-        .to eql(:associated_property)
+        .to eql(expected_type)
     end
   end
 

@@ -30,6 +30,7 @@ require_relative '../shared_expectations'
 
 describe CustomActions::Actions::Priority, type: :model do
   let(:key) { :priority }
+  let(:type) { :associated_property }
   let(:allowed_values) do
     priorities = [FactoryGirl.build_stubbed(:issue_priority),
                   FactoryGirl.build_stubbed(:issue_priority)]

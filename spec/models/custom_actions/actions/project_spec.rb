@@ -30,6 +30,7 @@ require_relative '../shared_expectations'
 
 describe CustomActions::Actions::Project, type: :model do
   let(:key) { :project }
+  let(:type) { :associated_property }
   let(:priority) { 10 }
 
   let(:allowed_values) do
