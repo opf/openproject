@@ -56,6 +56,7 @@ ja:
     plural: カスタムアクション
     new: 新しいカスタムアクション
     edit: カスタムアクション %{name} の編集
+    execute: Execute %{name}
     upsale:
       title: カスタムアクションは、エンタープライズ版の機能です
       description: カスタムアクションは、1 つのボタンに個々のステップを組み合わせて日々の作業を合理化します。

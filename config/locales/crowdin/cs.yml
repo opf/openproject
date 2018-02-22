@@ -67,10 +67,11 @@ cs:
     plural: Vlastní akce
     new: Nová vlastní akce
     edit: Upravit vlastní akci %{name}
+    execute: Execute %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: Vlastní akce pouze v Enterprise Edition
+      description: Vlastní akce zjednodušuje každodenní práci tím, že kombinuje několik
+        kroků do jednoho tlačítka.
   custom_fields:
     text_add_new_custom_field: 'To add new custom fields to a project you first need
       to create them before you can add them to this project.
@@ -274,8 +275,8 @@ cs:
       announcements:
         show_until: Display until
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Obsah přílohy
+        attachment_file_name: Název souboru přílohy
         downloads: Ke stažení
         file: Soubor
         filename: Soubor
@@ -456,10 +457,10 @@ cs:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_an_integer: "(%{name}) is not an integer."
+          only_one_allowed: "(%{name}) je povolena pouze jedna hodnota."
+          empty: "(%{name}) hodnota nemůže být prázdná."
+          inclusion: "(%{name}) hodnota není nastavena na jednu z povolených hodnot."
+          not_an_integer: "(%{name}) není celé číslo."
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -570,7 +571,7 @@ cs:
       attribute_help_text: Attribute help text
       board: Fórum
       comment: Komentář
-      custom_action: Custom action
+      custom_action: Vlastní akce
       custom_field: Vlastní pole
       group: Skupina
       category: Kategorie
@@ -887,7 +888,7 @@ cs:
   default_type_feature: Feature
   default_type_milestone: Milník
   default_type_phase: Fáze
-  default_type_task: Task
+  default_type_task: Úkol
   default_type_user_story: User story
   description_active: Aktivní?
   description_attachment_toggle: Zobrazit/skrýt přílohy
@@ -1009,12 +1010,12 @@ cs:
       pdf_with_descriptions: PDF s popisem
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotext k dispozici (volitelné)
+      unrtf: Unrtf k dispozici (volitelné)
+      catdoc: Catdoc k dispozici (volitelné)
+      xls2csv: XLS2CSV k dispozici (volitelné)
+      catppt: Catppt k dispozici (volitelné)
+      tesseract: Tesseract k dispozici (volitelné)
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2064,7 +2065,7 @@ cs:
   setting_file_max_size_displayed: Maximální velikost textových souborů zobrazených
     přímo na stránce
   setting_host_name: Název serveru
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: Platnost aktivačního E-Mailu vyprší po
   setting_work_package_done_ratio: Vypočítat koeficient dokončení úkolu s
   setting_work_package_done_ratio_field: Use the work package field
   setting_work_package_done_ratio_status: Use the work package status
@@ -2124,7 +2125,7 @@ cs:
   setting_time_format: Formát času
   setting_accessibility_mode_for_anonymous: Povolit režim usnadnění pro anonymní uživatele
   setting_user_format: Formát zobrazení uživatelů
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: Výchozí časové pásmo uživatele
   setting_users_deletable_by_admins: Uživatelské účty lze odstranit administrátory
   setting_users_deletable_by_self: Uživatelé mohou odstranit jejich účty
   setting_welcome_text: Welcome block text
@@ -2195,7 +2196,7 @@ cs:
     is not transparent otherwise it will look bad on iOS.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: Databáze umožňuje TSVector (volitelné)
   text_default_administrator_account_changed: Default administrator account changed
   text_default_encoding: 'Default: UTF-8'
   text_destroy: Odstranit
@@ -2494,8 +2495,8 @@ cs:
       years: Roky
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'Výchozí časové pásmo pro nové uživatele. Lze změnit
+    v nastavení uživatele.
 
 '
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
@@ -2565,9 +2566,10 @@ cs:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Varování
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
-  warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+  warning_registration_token_expired: 'Platnost aktivačního emailu vypršela. Poslali
+    jsme vám nový %{email}. Klikněte prosím na odkaz uvnitř pro aktivaci vašeho účtu.
+
+'
   menu_item: Položka nabídky
   menu_item_setting: Viditelnost
   wiki_menu_item_for: Položka nabídky pro stránku wiki "%{title}"

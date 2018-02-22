@@ -65,6 +65,7 @@ hu:
     plural: Custom actions
     new: New custom action
     edit: Edit custom action %{name}
+    execute: Execute %{name}
     upsale:
       title: Custom actions is an Enterprise Edition feature
       description: Custom actions streamline everyday work by combining a set of individual

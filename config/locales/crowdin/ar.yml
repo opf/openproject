@@ -67,6 +67,7 @@ ar:
     plural: إجراءات مخصصة
     new: إضافة إجراء مخصص
     edit: تعديل إجراء مخصص %{name}
+    execute: Execute %{name}
     upsale:
       title: الإجراءات المخصصة هي إحدى ميزات Enterprise Edition
       description: Custom actions streamline everyday work by combining a set of individual

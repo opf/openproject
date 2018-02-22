@@ -56,6 +56,7 @@ lol:
     plural: crwdns98843:0crwdne98843:0
     new: crwdns98844:0crwdne98844:0
     edit: crwdns98845:0%{name}crwdne98845:0
+    execute: crwdns98870:0%{name}crwdne98870:0
     upsale:
       title: crwdns98846:0crwdne98846:0
       description: crwdns98847:0crwdne98847:0
