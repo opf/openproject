@@ -3,13 +3,6 @@ FROM ruby:2.4-stretch
 ENV NODE_VERSION="8.9.1"
 ENV BUNDLER_VERSION="1.16.0"
 
-# Install cmake for gems
-# (commonmarker)
-USER root
-RUN apt-get update -qq && \
-	DEBIAN_FRONTEND=noninteractive apt-get install -y \
-		cmake
-
 # install node + npm
 RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xzf - -C /usr/local --strip-components=1
 

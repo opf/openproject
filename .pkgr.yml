@@ -4,7 +4,6 @@ targets:
   debian-8: &debian8
     build_dependencies:
       - libsqlite3-dev
-      - cmake
   debian-9:
     <<: *debian8
   ubuntu-14.04:
@@ -14,15 +13,12 @@ targets:
   centos-7:
    dependencies:
       - epel-release
-      - cmake
   sles-11:
     build_dependencies:
       - sqlite3-devel
-      - cmake
   sles-12:
     build_dependencies:
       - sqlite3-devel
-      - cmake
 before_precompile: "packaging/setup"
 crons:
   - packaging/cron/openproject-hourly-tasks
