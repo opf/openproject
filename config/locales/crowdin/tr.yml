@@ -137,34 +137,34 @@ tr:
     mobile_transmit_notification: "Tek kullanımlık şifre cep telefonunuza gönderildi."
     label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
     forced_registration:
-      required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
+      required_to_add_device: 'İki faktörlü kimlik doğrulayıcıyı etkinleştirmek için aktif bir güvenlik politikası gereklidir. Bir cihazı kaydetmek için lütfen aşağıdaki formu doldurun.'
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+        Hesabınız %{expires_on}'e kadar geçerli bir hatırlama çerezi var. O zamana kadar bu çerez, hesabınıza ikinci faktöre gerek kalmadan giriş izni verir.
       label: 'Hatırla'
-      clear_cookie: 'Click here to remove this cookie'
-      cookie_removed: 'The remember cookie has been removed.'
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
-  field_phone: "Cell phone"
-  field_otp: "One-time password"
-  notice_account_otp_invalid: "Invalid one-time password."
-  notice_account_otp_expired: "The one-time password you entered expired."
-  notice_otp_sms_text: "Your one-time password: %{token}"
-  notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
-  notice_account_otp_send_failed: "Your one-time password could not be sent."
-  notice_account_has_no_phone: "No cell phone number is associated with your account."
-  label_expiration_hint: "%{date} or on logout"
-  label_actions: 'Actions'
-  label_confirmed: 'Confirmed'
-  button_continue: 'Continue'
-  button_make_default: 'Mark as default'
-  label_unverified_phone: "Cell phone not yet verified"
-  message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
-  error_password_on_phone_change: "is required if you want to change your cell phone number"
-  notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
-  text_otp_not_receive: "Other verification methods"
-  text_send_otp_again: "Resend one-time password by:"
+      clear_cookie: 'Bu çerezi kaldırmak için tıklayın'
+      cookie_removed: 'Çerezin kaldırıldığını hatırla.'
+      dont_ask_again: "Bu kullanıcı da 2FA kimlik doğrulamasını %{days} gün boyunca hatırlamak için çerez oluştur."
+  field_phone: "Cep telefonu"
+  field_otp: "Tek kullanımlık şifre"
+  notice_account_otp_invalid: "Geçersiz tek kullanımlık şifre."
+  notice_account_otp_expired: "Girdiğiniz tek kullanımlık şifrenin süresi dolmuş."
+  notice_otp_sms_text: "Tek kullanımlık şifreniz: %{token}"
+  notice_developer_strategy_otp: "Geliştirici stratejisi aşağıdaki tek seferlik şifreyi oluşturdu: %{token} (Kanal: %{channel})"
+  notice_account_otp_send_failed: "Tek kullanımlık şifreniz gönderilemedi."
+  notice_account_has_no_phone: "Hesabınızla ilişkili cep telefonu numarası yok."
+  label_expiration_hint: "%{date} yada çıkışta"
+  label_actions: 'Eylemler'
+  label_confirmed: 'Onaylandı'
+  button_continue: 'Devam et'
+  button_make_default: 'Varsayılan olarak işaretleyin'
+  label_unverified_phone: "Cep telefonu henüz doğrulanmadı"
+  message_expiration_time: "Güvenlik nedenlerinden dolayı süreniz %{duration} (%{time}) içinde otomatik olarak ya da oturumu kapattığınızda dolacak."
+  notice_phone_number_format: "Lütfen numaranızı yandaki formatta giriniz: +XX XXXXXXXX."
+  error_password_on_phone_change: "cep telefon numaranızı değiştirmek istiyorsanız gereklidir"
+  notice_field_phone: "Tek kullanımlık şifre ile giriş yapabilmek için bu numaraya gönderilen SMS mesajlarını alabilmelisin"
+  text_otp_not_receive: "Diğer doğrulama yöntemleri"
+  text_send_otp_again: "Tek kullanımlık şifreyi tekrar gönderin:"
   button_resend_otp_form: "Tekrar gönder"
   button_otp_by_voice: "Sesli arama"
   button_otp_by_sms: "SMS"
