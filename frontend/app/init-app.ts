@@ -143,6 +143,8 @@ openprojectModule
           CacheService.disableCaching();
         }
 
+        angular.element('body').addClass('__ng-bootstrap-has-run');
+
         $rootScope.$on('$stateChangeError',
             function(event:JQueryEventObject){
               event.preventDefault();
