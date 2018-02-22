@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,48 +27,32 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'rinku'
 
-module OpenProject::TextFormatting::Formatters
-  module Markdown
-    class Formatter < OpenProject::TextFormatting::Formatters::Base
-      attr_reader :context,
-                  :pipeline
+module OpenProject::TextFormatting
+  module Filters
+    # HTML Filter for auto_linking urls in HTML.
+    #
+    # Context options:
+    #
+    #   autolink:
+    #     classes: (string) Classes to add to auto linked urls and mails
+    #     enabled: (boolean)
+    #
+    # This filter does not write additional information to the context.
+    class AutolinkFilter < HTML::Pipeline::Filter
+      def call
+        autolink_context = default_autolink_options.merge context.fetch(:autolink, {})
+        return doc if autolink_context[:enabled] == false
 
-      def initialize(context)
-        @context = context
-        @pipeline = ::HTML::Pipeline.new(located_filters, context)
+        ::Rinku.auto_link(html, :all, "class=\"#{autolink_context[:classes]}\"")
       end
 
-      def to_html(text)
-        result = pipeline.call(text, context)
-        output = result[:output].to_s
-
-        output.html_safe
-      end
-
-      def to_document(text)
-        pipeline.to_document text, context
-      end
-
-      def filters
-        [
-          :markdown,
-          :sanitization,
-          :pattern_matcher,
-          :autolink
-        ]
-      end
-
-      protected
-
-      def located_filters
-        filters.map do |f|
-          if [Symbol, String].include? f.class
-            OpenProject::TextFormatting::Filters.const_get("#{f}_filter".classify)
-          else
-            f
-          end
-        end
+      def default_autolink_options
+        {
+          enabled: true,
+          classes: 'rinku-autolink',
+        }
       end
     end
   end

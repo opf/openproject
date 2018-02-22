@@ -37,7 +37,7 @@ module OpenProject::TextFormatting
         options = [:GITHUB_PRE_LANG]
         options << :HARDBREAKS if context[:gfm] != false
         extensions = context.fetch :commonmarker_extensions,
-                                    %i[table strikethrough tagfilter autolink]
+                                    %i[table strikethrough tagfilter]
 
         html = CommonMarker.render_html(text, options, extensions)
         html.rstrip!

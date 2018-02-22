@@ -47,8 +47,6 @@ gem 'request_store', '~> 1.3.1'
 gem 'warden', '~> 1.2'
 gem 'warden-basic_auth', '~> 0.2.1'
 
-# TODO: adds #auto_link which was deprecated in rails 3.1
-gem 'rails_autolink', '~> 1.1.6'
 gem 'will_paginate', '~> 3.1.0'
 
 gem 'friendly_id', '~> 5.2.1'
@@ -78,6 +76,9 @@ gem 'commonmarker', '~> 0.17.5'
 gem 'html-pipeline', '~> 2.7.1'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 4.5.0'
+# HTML autolinking for mails and urls (replaces autolink)
+gem 'rinku', '~> 2.0.4'
+
 
 # generates SVG Graphs
 # used for statistics on svn repositories

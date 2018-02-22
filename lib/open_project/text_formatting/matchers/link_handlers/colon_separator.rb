@@ -70,7 +70,7 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def render_version
-        if project && version = project.versions.visible.find_by(name: name)
+        if project && version = project.versions.visible.find_by(name: oid)
           link_to h(version.name),
                   { only_path: context[:only_path], controller: '/versions', action: 'show', id: version },
                   class: 'version'
@@ -78,7 +78,7 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def render_commit
-        if project && project.repository && (changeset = Changeset.visible.where(['repository_id = ? AND scmid LIKE ?', project.repository.id, "#{name}%"]).first)
+        if project && project.repository && (changeset = Changeset.visible.where(['repository_id = ? AND scmid LIKE ?', project.repository.id, "#{oid}%"]).first)
           link_to h("#{project_prefix}#{name}"),
                   { only_path: context[:only_path], controller: '/repositories', action: 'revision', project_id: project, rev: changeset.identifier },
                   class: 'changeset',
@@ -88,11 +88,11 @@ module OpenProject::TextFormatting::Matchers
 
       def render_source
         if project && project.repository && User.current.allowed_to?(:browse_repository, project)
-          name =~ %r{\A[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?\z}
+          oid =~ %r{\A[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?\z}
           path = $1
           rev = $3
           anchor = $5
-          link_to h("#{project_prefix}#{prefix}:#{name}"),
+          link_to h("#{project_prefix}#{prefix}:#{oid}"),
                   { controller: '/repositories',
                     action: 'entry',
                     project_id: project,
@@ -108,7 +108,7 @@ module OpenProject::TextFormatting::Matchers
 
       def render_attachment
         attachments = context[:attachments] || context[:object].try(:attachments)
-        if attachments && attachment = attachments.detect { |a| a.filename == name }
+        if attachments && attachment = attachments.detect { |a| a.filename == oid }
           link_to h(attachment.filename),
                   { only_path: context[:only_path], controller: '/attachments', action: 'download', id: attachment },
                   class: 'attachment'
@@ -118,7 +118,7 @@ module OpenProject::TextFormatting::Matchers
       def render_project
         p = Project
           .visible
-          .where(['projects.identifier = :s OR LOWER(projects.name) = :s', { s: name.downcase }])
+          .where(['projects.identifier = :s OR LOWER(projects.name) = :s', { s: oid.downcase }])
           .first
         if p
           link_to_project(p, { only_path: context[:only_path] }, class: 'project')
@@ -126,7 +126,7 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def render_user
-        if user = User.in_visible_project.find_by(login: name)
+        if user = User.in_visible_project.find_by(login: oid)
           link_to_user(user, class: 'user-mention')
         end
       end
