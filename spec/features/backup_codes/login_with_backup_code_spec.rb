@@ -33,12 +33,17 @@ describe 'Login with 2FA backup code', with_2fa_ee: true, type: :feature,
       first_login_step
 
       expect(page).to have_selector('#toggle_resend_form', wait: 10)
-      # Wait a bit before clicking the form
-      sleep 5
+
+      # Wait for the frontend to be loaded and initialized
+      # On downstream configurations, this might take longer than marionette selecting the element
+      expect_angular_frontend_initialized
 
       # Open other options
-      find('#toggle_resend_form').click
-      find('a', text: I18n.t('two_factor_authentication.login.enter_backup_code_title'), wait: 10).click
+      # This may fail on the first request when the assets aren't ready yet
+      retry_block do
+        find('#toggle_resend_form').click
+        find('a', text: I18n.t('two_factor_authentication.login.enter_backup_code_title'), wait: 10).click
+      end
 
       expect(page).to have_selector('h2', text: I18n.t('two_factor_authentication.login.enter_backup_code_title'))
       fill_in 'backup_code', with: 'whatever'
