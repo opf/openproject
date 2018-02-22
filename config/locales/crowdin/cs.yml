@@ -883,7 +883,7 @@ cs:
   default_type_feature: Feature
   default_type_milestone: Milník
   default_type_phase: Fáze
-  default_type_task: Task
+  default_type_task: Úkol
   default_type_user_story: User story
   description_active: Aktivní?
   description_attachment_toggle: Zobrazit/skrýt přílohy

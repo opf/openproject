@@ -20,7 +20,7 @@ fil:
     button_confirm: Confirm
     button_continue: Continue
     button_copy: Copy
-    button_custom-fields: Custom fields
+    button_custom-fields: Mga pasadyang patlang
     button_delete: Delete
     button_delete_watcher: Delete watcher
     button_details_view: Details view
@@ -29,26 +29,26 @@ fil:
     button_filter: Filter
     button_list_view: List view
     button_show_view: Fullscreen view
-    button_log_time: Log time
+    button_log_time: Ang oras ng tala
     button_more: More
     button_move: Move
     button_open_details: Open details view
     button_close_details: Close details view
-    button_open_fullscreen: Open fullscreen view
+    button_open_fullscreen: Buksan ang view ng buong screen
     button_quote: Quote
     button_save: Save
     button_settings: Settings
     button_uncheck_all: Uncheck all
-    button_update: Update
-    button_export-pdf: Download PDF
-    button_export-atom: Download Atom
+    button_update: I-update
+    button_export-pdf: I-download ang PDF
+    button_export-atom: I-download ang atom
     description_available_columns: Available Columns
     description_current_position: 'You are here:'
-    description_select_work_package: 'Select work package #%{id}'
+    description_select_work_package: 'Piliin ang work package #%{id}'
     description_selected_columns: Selected Columns
-    description_subwork_package: 'Child of work package #%{id}'
+    description_subwork_package: 'Bata ng work package #%{id}'
     error:
-      internal: An internal error has occurred.
+      internal: Isang internal error ang naganap.
     filter:
       description:
         text_open_filter: Open this filter with 'ALT' and arrow keys.
@@ -90,18 +90,18 @@ fil:
     label_board_sticky: Sticky
     label_create_work_package: Create new work package
     label_created_by: Created by
-    label_date: Date
-    label_date_with_format: 'Enter the %{date_attribute} using the following format:
+    label_date: Petsa
+    label_date_with_format: 'Ipasok anv %{date_attribute} gamit ang sumusunod na format:
       %{format}'
     label_deactivate: Deactivate
     label_descending: Descending
-    label_description: Description
-    label_cancel_comment: Cancel comment
+    label_description: Deskripsyon
+    label_cancel_comment: Ikansela ang komento
     label_closed_work_packages: closed
     label_collapse: Collapse
     label_collapsed: collapsed
     label_collapse_all: Collapse all
-    label_comment: Comment
+    label_comment: Komento
     label_committed_at: "%{committed_revision_link} at %{date}"
     label_committed_link: committed revision %{revision_identifier}
     label_contains: contains
@@ -113,11 +113,11 @@ fil:
     label_expanded: expanded
     label_expand_all: Expand all
     label_export: Export
-    label_filename: File
-    label_filesize: Size
+    label_filename: Payl
+    label_filesize: Sukat
     label_greater_or_equal: ">="
     label_group_by: Group by
-    label_hide_attributes: Show less
+    label_hide_attributes: Magpakita ng mas kaunti
     label_hide_column: Hide column
     label_in: in
     label_in_less_than: in less than
@@ -144,7 +144,7 @@ fil:
     label_password: Password
     label_previous: Previous
     label_per_page: 'Per page:'
-    label_please_wait: Please wait
+    label_please_wait: Pakiusap maghantay
     label_visibility_settings: Visibility settings
     label_quote_comment: Quote this comment
     label_reset: Reset
@@ -171,7 +171,7 @@ fil:
     label_warning: Warning
     label_work_package: Work package
     label_work_package_plural: Work packages
-    label_watch: Watch
+    label_watch: Tumingin
     label_watch_work_package: Watch work package
     label_watcher_added_successfully: Watcher successfully added!
     label_watcher_deleted_successfully: Watcher successfully deleted!
@@ -182,7 +182,7 @@ fil:
     label_uploaded_by: Uploaded by
     label_global_queries: Shared queries
     label_custom_queries: Private queries
-    label_columns: Columns
+    label_columns: Mga hanay
     label_attachments: Files
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
@@ -208,14 +208,14 @@ fil:
       field_description: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
     pagination:
-      no_other_page: You are on the only page.
+      no_other_page: Ikaw ay nasa pahina lamang.
       pages:
-        next: Forward to the next page
-        previous: Back to the previous page
+        next: Ipasa sa susunod na pahina
+        previous: Bunalik sa nakaraang pahina
     placeholders:
       default: "-"
       subject: Enter subject here
-      selection: Please select
+      selection: Pakiusap pumili
       relation_description: Click to add description for this relation
     project:
       required_outside_context: You are not within a project context. Please choose
@@ -250,7 +250,7 @@ fil:
       label_discard: Discard selection
       typeahead_placeholder: Search for possible watchers
     relation_labels:
-      parent: Parent
+      parent: Peyrent
       children: Children
       relates: Related To
       duplicates: Duplicates
@@ -332,7 +332,7 @@ fil:
       button_deactivate: Deactivate timeline mode
       cancel: Cancel
       change: Change in planning
-      due_date: Due date
+      due_date: Takdang petsa
       empty: "(empty)"
       error: An error has occurred.
       errors:
@@ -346,16 +346,16 @@ fil:
           time.
       filter:
         column:
-          assigned_to: Assignee
-          type: Type
+          assigned_to: Naitalaga
+          type: Uri
           due_date: End date
-          name: Name
+          name: Pangalan
           status: Status
-          responsible: Responsible
-          start_date: Start date
+          responsible: Responsable
+          start_date: Petsa ng pagsimula
         grouping_other: Other
         noneSelection: "(none)"
-      name: Name
+      name: Pangalan
       new_work_package: New work package
       outline: Reset Outline
       outlines:
@@ -366,13 +366,13 @@ fil:
         level4: Expand level 4
         level5: Expand level 5
         all: Show all
-      project_status: Project status
-      project_type: Project type
+      project_status: Estado ng proyekto
+      project_type: Uri ng proyekto
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?
-      responsible: Responsible
+      responsible: Responsable
       save: Save
-      start_date: Start date
+      start_date: Petsa ng pagsimula
       tooManyProjects: More than %{count} Projects. Please use a better filter!
       selection_mode:
         notification: Click on any highlighted work package to create the relation.
@@ -424,17 +424,18 @@ fil:
       comment_added: The comment was successfully added.
       comment_send_failed: An error has occurred. Could not submit the comment.
       comment_updated: The comment was successfully updated.
-      confirm_edit_cancel: Are you sure you want to cancel editing the work package?
+      confirm_edit_cancel: Sigurado ka ba na gusto mong kanselahin ang pag-edit ng
+        work package?
       description_filter: Filter
       description_enter_text: Enter text
       description_options_hide: Hide options
       description_options_show: Show options
       error:
-        edit_prohibited: Editing %{attribute} is blocked for this work package. Either
-          this attribute is derived from relations (e.g, children) or otherwise not
-          configurable.
+        edit_prohibited: Ang pag-iedit ng %{attribute} ay naka-block para sa work
+          package na ito. Alinman sa katangian ito ay nagmula sa relasyon (hal. mga
+          bata) o kung hindi man hindi ito naka-configure.
         format:
-          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+          date: "%{attribute} ay hindi wasto ang petsa YYYY-MM-DDi inaasahan."
         general: An error has occurred.
       edit_attribute: "%{attribute} - Edit"
       key_value: "%{key}: %{value}"
@@ -449,12 +450,13 @@ fil:
       message_error_during_bulk_delete: An error occurred while trying to delete work
         packages.
       message_successful_bulk_delete: Successfully deleted work packages.
-      message_successful_show_in_fullscreen: Click here to open this work package
-        in fullscreen view.
+      message_successful_show_in_fullscreen: Pindutin dito upang buksan ang work package
+        na ito sa fullscreen view.
       message_view_spent_time: Show spent time for this work package
       no_value: No value
       inline_create:
-        title: Click here to add a new work package to this list
+        title: Pindutin dito upang magdagdag ng bagong work package sa listahan na
+          ito
       create:
         header: New %{type}
         header_no_type: New work package (Type not yet set)
@@ -473,8 +475,8 @@ fil:
         title: Work packages could not be loaded.
         description: Your query is erroneous and could not be processed.
       no_results:
-        title: No work packages to display.
-        description: Either none have been created or all work packages are filtered
+        title: Walang mga work package ang i-displey.
+        description: Alinman sa walang ang nilikha o mga work package ay naka-filter
           out.
       property_groups:
         details: Details
@@ -482,39 +484,39 @@ fil:
         estimatesAndTime: Estimates & Time
         other: Other
       properties:
-        assignee: Assignee
-        author: Author
-        createdAt: Created on
-        description: Description
-        date: Date
-        dueDate: Due date
-        estimatedTime: Estimated time
-        spentTime: Spent time
-        category: Category
+        assignee: Naitalaga
+        author: May-akda
+        createdAt: Nilikha sa
+        description: Deskripsyon
+        date: Petsa
+        dueDate: Takdang petsa
+        estimatedTime: Tinantyang oras
+        spentTime: Nauubos na oras
+        category: Kategorya
         percentageDone: Percentage done
-        priority: Priority
-        projectName: Project
-        responsible: Responsible
-        startDate: Start date
+        priority: Ang prayoridad
+        projectName: Proyekto
+        responsible: Responsable
+        startDate: Petsa ng pagsimula
         status: Status
         subject: Subject
         title: Title
-        type: Type
+        type: Uri
         updatedAt: Updated on
-        versionName: Version
-        version: Version
+        versionName: Bersyon
+        version: Bersyon
       jump_marks:
-        pagination: Jump to table pagination
-        label_pagination: Click here to skip over the work packages table and go to
-          pagination
+        pagination: Dumiretso sa talaan ng pagination
+        label_pagination: Pindutin dito upang lagpasan ang mga talaan ng work package
+          at pumunta sa pagination.
         content: Jump to content
         label_content: Click here to skip over the menu and go to the content
       placeholders:
         default: "-"
         description: Click to enter description...
       query:
-        column_names: Columns
-        group_by: Group results by
+        column_names: Mga hanay
+        group_by: Mga resulta sa grupo sa pamamagitan ng
         group: Group by
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
           mode being active.
@@ -527,25 +529,26 @@ fil:
         move_column_right: Move column right
         hide_column: Hide column
         insert_columns: Insert columns ...
-        filters: Filters
-        display_sums: Display Sums
+        filters: Mga nasala
+        display_sums: Ipakita ang mga sum
         errors:
           unretrievable_query: Unable to retrieve query from URL
           not_found: There is no such query
         text_no_results: No matching queries were found.
       table:
-        summary: Table with rows of work package and columns of work package attributes.
-        text_inline_edit: Most cells of this table are buttons that activate inline-editing
-          functionality of that attribute.
+        summary: Talaab sa mga hilera ng work package at mga hanay na katangian ng
+          work package.
+        text_inline_edit: Karamihan sa mga cell ng talaan na ito ay nga pindutan na
+          aktibo sa pag-andar ng inline-editing sa katangian na iyon.
         text_sort_hint: With the links in the table headers you can sort, group, reorder,
           remove and add table columns.
         text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
       tabs:
         overview: Overview
-        activity: Activity
+        activity: Aktibidad
         relations: Relations
         watchers: Watchers
-        attachments: Attachments
+        attachments: Mga kalakip
       time_relative:
         days: days
         weeks: weeks
@@ -571,7 +574,7 @@ fil:
       search_query_title: Click to search saved filter queries
     modals:
       label_settings: Rename query
-      label_name: Name
+      label_name: Pangalan
       label_delete_page: Delete current page
       button_apply: Apply
       button_save: Save
@@ -608,9 +611,10 @@ fil:
       errors:
         required: "%{field} cannot be empty"
         number: "%{field} is not a valid number"
-        maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
-        minlength: "%{field} cannot contain less than %{minLength} digit(s)"
-        messages_on_field: 'This field is invalid: %{messages}'
+        maxlength: "%{field} hindi maaring maglaman na mas higit pa sa %{maxLength}
+          mga digit"
+        minlength: "%{field} hindi maaaring mas kaunti sa %{minLength} mga digit"
+        messages_on_field: 'Ito patlang ay hindi balido: %{messages}'
     error_could_not_resolve_version_name: Couldn't resolve version name
     error_could_not_resolve_user_name: Couldn't resolve user name
     units:
