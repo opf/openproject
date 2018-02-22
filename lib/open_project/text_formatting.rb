@@ -53,11 +53,13 @@ module OpenProject
       return '' if text.blank?
 
       project = options.delete(:project) { @project || object.try(:project) }
+      only_path = options.delete(:only_path) != false
       Renderer.format_text text,
                            options.merge(
                              object: object,
                              request: try(:request),
                              attribute: attribute,
+                             only_path: only_path,
                              project: project
                            )
     end

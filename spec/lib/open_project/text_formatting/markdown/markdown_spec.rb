@@ -68,7 +68,7 @@ describe OpenProject::TextFormatting do
     before do
       @project = project
       allow(User).to receive(:current).and_return(project_member)
-      allow(Setting).to receive(:text_formatting).and_return('textile')
+      allow(Setting).to receive(:text_formatting).and_return('markdown')
     end
 
     context 'Changeset links' do
@@ -651,7 +651,7 @@ describe OpenProject::TextFormatting do
     describe 'options' do
       describe '#format' do
         it 'uses format of Settings, if nothing is specified' do
-          expect(format_text('*Stars!*')).to be_html_eql('<p><strong>Stars!</strong></p>')
+          expect(format_text('_Stars!_')).to be_html_eql('<p><strong>Stars!</strong></p>')
         end
 
         it 'uses format of options, if specified' do

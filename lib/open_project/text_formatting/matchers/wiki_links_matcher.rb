@@ -142,7 +142,7 @@ module OpenProject::TextFormatting
           url_for only_path: context[:only_path],
                   controller: '/wiki',
                   action: 'show',
-                  project_id: project.id,
+                  project_id: project.identifier,
                   id: wiki_page_id,
                 anchor: anchor
         end

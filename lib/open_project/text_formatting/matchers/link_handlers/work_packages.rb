@@ -49,22 +49,35 @@ module OpenProject::TextFormatting::Matchers
         work_package = find_work_package(oid)
         return nil unless work_package
 
+        # Avoid cyclic dependencies between linking two work packages
+        return nil if cyclic_inclusion?(work_package)
+
         render_work_package_link(work_package)
       end
 
       private
 
+      def cyclic_inclusion?(work_package)
+        description = context[:attribute] == :description
+        same_object = context[:object] && context[:object].id == work_package.id
+        link_with_description = matcher.sep == "###"
+
+        description && same_object && link_with_description || context[:no_nesting]
+      end
+
       def render_work_package_link(work_package)
-        case matcher.sep
-        when '#'
-          link_to("##{work_package.id}",
+
+        if matcher.sep == '##'
+          return work_package_quick_info(work_package, only_path: context[:only_path])
+        elsif matcher.sep == '###' && !context[:no_nesting]
+          return work_package_quick_info_with_description(work_package, only_path: context[:only_path])
+        end
+
+        if matcher.sep == '#' || (matcher.sep == '###' && context[:no_nesting])
+          link_to("#{matcher.sep}#{work_package.id}",
                   work_package_path_or_url(id: work_package.id, only_path: context[:only_path]),
                   class: work_package_css_classes(work_package),
                   title: "#{truncate(work_package.subject, length: 100)} (#{work_package.status.try(:name)})")
-        when '##'
-          work_package_quick_info(work_package, only_path: context[:only_path])
-        when '###'
-          work_package_quick_info_with_description(work_package, only_path: context[:only_path])
         end
       end
 

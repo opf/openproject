@@ -266,7 +266,9 @@ module WorkPackagesHelper
     else
       ::OpenProject::TextFormatting::Renderer.format_text(
         description_lines.join(''),
-        attribute: :description
+        object: work_package,
+        attribute: :description,
+        no_nesting: true
       )
     end
   end
