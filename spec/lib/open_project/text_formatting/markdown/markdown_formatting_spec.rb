@@ -142,12 +142,14 @@ describe OpenProject::TextFormatting::Formatters::Markdown::Formatter do
 John said:
 > Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
 > Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
+>
 > * Donec odio lorem,
 > * sagittis ac,
 > * malesuada in,
 > * adipiscing eu, dolor.
 >
 > >Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.
+>
 > Proin a tellus. Nam vel neque.
 
 He's right.
@@ -156,16 +158,16 @@ RAW
     # expected html
     expected = <<-EXPECTED
 <p>John said:</p>
-<blockquote class="icon icon-quote2">
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.<br />
-Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
+<blockquote>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.<br>
+Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.</p>
 <ul>
   <li>Donec odio lorem,</li>
   <li>sagittis ac,</li>
   <li>malesuada in,</li>
   <li>adipiscing eu, dolor.</li>
 </ul>
-<blockquote class="icon icon-quote2">
+<blockquote>
 <p>Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.</p>
 </blockquote>
 <p>Proin a tellus. Nam vel neque.</p>
@@ -173,7 +175,7 @@ Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
 <p>He's right.</p>
 EXPECTED
 
-    expect(expected.gsub(%r{\s+}, '')).to eq(to_html(raw).gsub(%r{\s+}, ''))
+    expect(to_html(raw).gsub(%r{\s+}, '')).to eq(expected.gsub(%r{\s+}, ''))
   end
 
   it 'should table' do
@@ -195,7 +197,7 @@ RAW
 </table>
 EXPECTED
 
-    expect(expected.gsub(%r{\s+}, '')).to eq(to_html(raw).gsub(%r{\s+}, ''))
+    expect(to_html(raw).gsub(%r{\s+}, '')).to eq(expected.gsub(%r{\s+}, ''))
   end
 
   it 'should table with line breaks' do
