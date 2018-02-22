@@ -41,8 +41,7 @@ describe CustomActions::Conditions::Type, type: :model do
           .and_return(types)
 
         expect(instance.allowed_values)
-          .to eql([{ value: nil, label: '-' },
-                   { value: types.first.id, label: types.first.name },
+          .to eql([{ value: types.first.id, label: types.first.name },
                    { value: types.last.id, label: types.last.name }])
       end
     end

@@ -44,7 +44,6 @@ class CustomActions::Conditions::Base
   def allowed_values
     associated
       .map { |value, label| { value: value, label: label } }
-      .unshift(value: nil, label: I18n.t('placeholders.default'))
   end
 
   def human_name

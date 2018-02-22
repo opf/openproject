@@ -1,0 +1,31 @@
+<ng-content style="display:none"></ng-content>
+
+<ul class="form--selected-value--list">
+  <li
+      *ngFor="let item of selectedItems"
+      class="form--selected-value--container"
+      focus-within="accessible-by-keyboard"
+      tabindex="0"
+      [attr.ariaLabel]="ariaLabelText(item)"
+      (click)="editUnlessMulti()" >
+    <span class="form--selected-value">
+      {{item.value}}
+    </span>
+    <accessible-by-keyboard
+        *ngIf="isMulti"
+        (execute)="remove(item)"
+        [linkAriaLabel]="removeItemText(item)"
+        [linkTitle]="removeItemText(item)"
+        linkClass="form--selected-value--remover">
+      <op-icon icon-classes="icon-remove"
+               [icon-title]="removeItemText(item)"></op-icon>
+    </accessible-by-keyboard>
+  </li>
+</ul>
+
+<input
+    [ngClass]="{ '-hidden': !isMulti && selectedItems.length }"
+    type="text"
+    class="form--input -autocomplete"
+    placeholder="{{placeholderText}}">
+

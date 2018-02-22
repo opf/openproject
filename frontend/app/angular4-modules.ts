@@ -148,6 +148,7 @@ import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-sp
 import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
 import {FocusWithinDirective} from 'core-components/common/focus-within/focus-within.upgraded.directive';
 import {ClickOnKeypressComponent} from 'core-app/ui_components/click-on-keypress-upgraded.component';
+import {AutocompleteSelectDecorationComponent} from 'core-components/common/autocomplete-select-decoration/autocomplete-select-decoration.component';
 
 @NgModule({
   imports: [
@@ -235,9 +236,12 @@ import {ClickOnKeypressComponent} from 'core-app/ui_components/click-on-keypress
     SortHeaderDirective,
     HasDropdownMenuDirective,
     WpInlineCreateDirectiveUpgraded,
+
+    // Add functionality to rails rendered templates
     HideSectionComponent,
     HideSectionLinkComponent,
     AddSectionDropdownComponent,
+    AutocompleteSelectDecorationComponent,
 
     // Split view
     WorkPackageSplitViewComponent,
@@ -299,9 +303,12 @@ import {ClickOnKeypressComponent} from 'core-app/ui_components/click-on-keypress
     WorkPackagesTableController,
     TablePaginationComponent,
     WpCustomActionsComponent,
+
+    // Add functionality to rails rendered templates
     HideSectionComponent,
     HideSectionLinkComponent,
     AddSectionDropdownComponent,
+    AutocompleteSelectDecorationComponent,
 
     // Split view
     WorkPackageSplitViewComponent,
