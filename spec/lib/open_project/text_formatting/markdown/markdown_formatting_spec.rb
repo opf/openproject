@@ -180,63 +180,31 @@ EXPECTED
 
   it 'should table' do
     raw = <<-RAW
-This is a table with empty cells:
+This is a table with header cells:
 
-|cell11|cell12||
-|cell21||cell23|
-|cell31|cell32|cell33|
+|header|header|
+|------|------|
+|cell11|cell12|
+|cell21|cell23|
+|cell31|cell32|
 RAW
 
     expected = <<-EXPECTED
-<p>This is a table with empty cells:</p>
+<p>This is a table with header cells:</p>
 
 <table>
-  <tr><td>cell11</td><td>cell12</td><td></td></tr>
-  <tr><td>cell21</td><td></td><td>cell23</td></tr>
-  <tr><td>cell31</td><td>cell32</td><td>cell33</td></tr>
+  <thead>
+    <tr><th>header</th><th>header</th></tr>
+  </thead>
+  <tbody>
+  <tr><td>cell11</td><td>cell12</td></tr>
+  <tr><td>cell21</td><td>cell23</td></tr>
+  <tr><td>cell31</td><td>cell32</td></tr>
+  </tbody>
 </table>
 EXPECTED
 
     expect(to_html(raw).gsub(%r{\s+}, '')).to eq(expected.gsub(%r{\s+}, ''))
-  end
-
-  it 'should table with line breaks' do
-    raw = <<-RAW
-This is a table with line breaks:
-
-|cell11
-continued|cell12||
-|~cell21~||cell23
-cell23 line2
-cell23 **line3**|
-|cell31|cell32
-cell32 line2|cell33|
-
-RAW
-
-    expected = <<-EXPECTED
-<p>This is a table with line breaks:</p>
-
-<table>
-  <tr>
-    <td>cell11<br />continued</td>
-    <td>cell12</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><del>cell21</del></td>
-    <td></td>
-    <td>cell23<br/>cell23 line2<br/>cell23 <strong>line3</strong></td>
-  </tr>
-  <tr>
-    <td>cell31</td>
-    <td>cell32<br/>cell32 line2</td>
-    <td>cell33</td>
-  </tr>
-</table>
-EXPECTED
-
-    expect(expected.gsub(%r{\s+}, '')).to eq(to_html(raw).gsub(%r{\s+}, ''))
   end
 
   it 'should not mangle brackets' do
