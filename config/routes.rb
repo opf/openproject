@@ -342,22 +342,22 @@ OpenProject::Application.routes.draw do
 
       get '(/revisions/:rev)/:format/*path', action: :entry,
                                              format: /raw/,
-                                             rev: /[a-z0-9\.\-_]+/
+                                             rev: /[\w0-9\.\-_]+/
 
       %w{diff annotate changes entry browse}.each do |action|
         get "(/revisions/:rev)/#{action}(/*path)", format: false,
                                                    action: action,
-                                                   rev: /[a-z0-9\.\-_]+/,
+                                                   rev: /[\w0-9\.\-_]+/,
                                                    as: "#{action}_revision"
       end
 
-      get '/revision(/:rev)', rev: /[a-z0-9\.\-_]+/,
+      get '/revision(/:rev)', rev: /[\w0-9\.\-_]+/,
                               action: :revision,
                               as: 'show_revision'
 
       get '(/revisions/:rev)(/*path)', action: :show,
                                        format: false,
-                                       rev: /[a-z0-9\.\-_]+/,
+                                       rev: /[\w0-9\.\-_]+/,
                                        as: 'show_revisions_path'
     end
   end

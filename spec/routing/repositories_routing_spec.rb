@@ -62,6 +62,36 @@ describe RepositoriesController, type: :routing do
     }
   end
 
+  describe 'show with git tags (regression test #27230)' do
+    it {
+      expect(get('/projects/testproject/repository/sub?rev=mytags%2Ffoo&branch=&tag=mytags%2Ffoo'))
+        .to route_to(controller: 'repositories',
+                     action: 'show',
+                     path: 'sub',
+                     branch: '',
+                     rev: 'mytags/foo',
+                     tag: 'mytags/foo',
+                     project_id: 'testproject')
+    }
+    it {
+      expect(get('/projects/testproject/repository?rev=FSubCommit-a&branch=master&tag=FSubCommit-a'))
+        .to route_to(controller: 'repositories',
+                     action: 'show',
+                     branch: 'master',
+                     rev: 'FSubCommit-a',
+                     tag: 'FSubCommit-a',
+                     project_id: 'testproject')
+    }
+    it {
+      expect(get('/projects/testproject/repository/revisions/FSubCommit-a/sub'))
+        .to route_to(controller: 'repositories',
+                     action: 'show',
+                     path: 'sub',
+                     rev: 'FSubCommit-a',
+                     project_id: 'testproject')
+    }
+  end
+
   describe 'edit' do
     it {
       expect(get('/projects/testproject/repository/edit'))
