@@ -78,7 +78,19 @@ module OpenProject::TextFormatting
       include ActionView::Helpers::UrlHelper
 
       def self.regexp
-        %r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|version|commit|source|export|message|project|user)?((\#+|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}
+        %r{
+          ([\s\(,\-\[\>]|^) # Leading string
+          (!)? # Escaped marker
+          (([a-z0-9\-_]+):)? # Project identifier
+          (attachment|version|commit|source|export|message|project|group|user)? # prefix
+          (
+            (\#+|r)(\d+) # separator and its identifier
+            |
+            (:) # or colon separator
+            ([^"\s<>][^\s<>]*?|"[^"]+?") # and its identifier
+          )
+          (?=(?=[[:punct:]]\W)|,|\s|\]|<|$)
+        }x
       end
 
       def self.process_match(m, matched_string, context)
