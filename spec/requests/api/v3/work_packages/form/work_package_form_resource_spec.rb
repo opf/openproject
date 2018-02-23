@@ -35,8 +35,8 @@ describe 'API v3 Work package form resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { FactoryGirl.create(:project, is_public: false) }
-  shared_let(:work_package, reload: true) { FactoryGirl.create(:work_package, project: @project) }
-  shared_let(:authorized_user) { FactoryGirl.create(:user, member_in_project: @project) }
+  shared_let(:work_package, reload: true) { FactoryGirl.create(:work_package, project: project) }
+  shared_let(:authorized_user) { FactoryGirl.create(:user, member_in_project: project) }
   shared_let(:unauthorized_user) { FactoryGirl.create(:user) }
 
   describe '#post' do

@@ -35,20 +35,11 @@
 # Caveats: Set +reload: true+ if you plan to modify this value, otherwise Rails may still
 # have cached the local value. This will perform a database update, but is much faster
 # than creating new records (especially, work packages).
-def shared_let(key, reload: false, &block)
-  var = "@#{key}"
+#
+# Since test-prof added `let_it_be` this is only a wrapper for it
+require 'test_prof/recipes/rspec/let_it_be'
 
-  before_all do
-    # Use instance_eval so following blocks may reference earlier ones
-    result = instance_eval &block
-    instance_variable_set(var, result)
-  end
-
-  let(key) do
-    value = instance_variable_get(var)
-    value.reload if reload
-
-    value
-  end
+def shared_let(key, reload: false, refind: false, &block)
+  let_it_be(key, reload: reload, refind: refind, &block)
 end
 
