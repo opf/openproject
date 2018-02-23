@@ -120,14 +120,14 @@ pt-BR:
         text_cannot_scan: |
           Se você não puder escanear o código, você pode digitar a manualmente usando os seguintes detalhes:
         description: |
-          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
-          Common examples are Google Authenticator or Authy.
+          Registre uma aplicação de autenticação para usar o OpenProject usando o padrão de autenticação de senha de uso único.
+          Exemplos cotidianos são o Autenticador do Google ou Authy.
       sms:
         title: 'Use seu celular'
         redacted_identifier: 'Celular (%{redacted_number})'
         request_2fa_identifier: '%{redacted_identifier}, nós enviamos a você um código de autenticação através do %{delivery_channel}'
         description: |
-          Register your mobile phone number for delivery of OpenProject one-time passwords.
+          Registre seu número de celular pra enviar a senha de uso único do OpenProject.
     sns:
       delivery_failed: 'Falha ao entregar o SNS:'
     restdt:
