@@ -121,7 +121,8 @@
             </wp-edit-field>
             <wp-edit-field *ngIf="!descriptor.field.isFormattable"
                            [workPackageId]="workPackage.id"
-                           [fieldName]="descriptor.name">
+                           [fieldName]="descriptor.name"
+                           [ngClass]="descriptor.field.type === 'text' ? 'wp-edit-field--text' : '' ">
             </wp-edit-field>
           </div>
           <div
