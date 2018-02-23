@@ -80,7 +80,7 @@ class JournalFormatter::Base
       if old_value.blank?
         l(:text_journal_set_to, label: label, value: value)
       else
-        l(:text_journal_changed, label: label, old: old_value, new: value)
+        l(:text_journal_changed, label: label, old: old_value, new: value).html_safe
       end
     end
   end

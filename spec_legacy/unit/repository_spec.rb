@@ -108,7 +108,7 @@ describe Repository, type: :model do
     mail = ActionMailer::Base.deliveries.first
     assert_kind_of Mail::Message, mail
     assert mail.subject.starts_with?("[#{fixed_work_package.project.name} - #{fixed_work_package.type.name} ##{fixed_work_package.id}]")
-    assert mail.body.encoded.include?("Status changed from #{old_status} to #{fixed_work_package.status}")
+    assert mail.body.encoded.include?("Status changed from #{old_status} </br><strong>to</strong> #{fixed_work_package.status}")
 
     # ignoring commits referencing an issue of another project
     assert_equal [], WorkPackage.find(4).changesets

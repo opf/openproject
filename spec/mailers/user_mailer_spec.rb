@@ -226,7 +226,7 @@ describe UserMailer, type: :mailer do
           end
 
           it 'displays changed done ratio' do
-            is_expected.to include('Progress (%) changed from 40 to 100')
+            is_expected.to include('Progress (%) changed from 40 </br><strong>to</strong> 100')
           end
         end
 
@@ -236,7 +236,7 @@ describe UserMailer, type: :mailer do
           end
 
           it 'displays new done ratio' do
-            is_expected.to include('Progress (%) changed from 0 to 100')
+            is_expected.to include('Progress (%) changed from 0 </br><strong>to</strong> 100')
           end
         end
 
@@ -246,7 +246,7 @@ describe UserMailer, type: :mailer do
           end
 
           it 'displays deleted done ratio' do
-            is_expected.to include('Progress (%) changed from 50 to 0')
+            is_expected.to include('Progress (%) changed from 50 </br><strong>to</strong> 0')
           end
         end
       end
@@ -494,7 +494,7 @@ describe UserMailer, type: :mailer do
       end
 
       context 'changed done ratio' do
-        let(:expected) { "#{expected_prefix} changed from <i title=\"40\">40</i> to <i title=\"100\">100</i>" }
+        let(:expected) { "#{expected_prefix} changed from <i title=\"40\">40</i> </br><strong>to</strong> <i title=\"100\">100</i>" }
 
         before do
           allow(journal).to receive(:details).and_return('done_ratio' => [40, 100])
@@ -506,7 +506,7 @@ describe UserMailer, type: :mailer do
       end
 
       context 'new done ratio' do
-        let(:expected) { "#{expected_prefix} changed from <i title=\"0\">0</i> to <i title=\"100\">100</i>" }
+        let(:expected) { "#{expected_prefix} changed from <i title=\"0\">0</i> </br><strong>to</strong> <i title=\"100\">100</i>" }
 
         before do
           allow(journal).to receive(:details).and_return('done_ratio' => [nil, 100])
@@ -518,7 +518,7 @@ describe UserMailer, type: :mailer do
       end
 
       context 'deleted done ratio' do
-        let(:expected) { "#{expected_prefix} changed from <i title=\"50\">50</i> to <i title=\"0\">0</i>" }
+        let(:expected) { "#{expected_prefix} changed from <i title=\"50\">50</i> </br><strong>to</strong> <i title=\"0\">0</i>" }
 
         before do
           allow(journal).to receive(:details).and_return('done_ratio' => [50, nil])
