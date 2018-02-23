@@ -77,6 +77,21 @@ module OpenProject::TextFormatting::Matchers
         matcher.project
       end
 
+      ##
+      # Call a named route with _path when only_path is true
+      # or _url when not.
+      #
+      # Passes on all remaining params.
+      def named_route(name, **args)
+        route = if context[:only_path]
+          :"#{name}_path"
+        else
+          :"#{name}_url"
+        end
+
+        public_send(route, **args)
+      end
+
       def controller; end
     end
   end

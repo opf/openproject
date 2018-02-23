@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= link_to({ action: 'show', project_id: @project, path: nil, rev: @rev },
+<%= link_to({ action: 'show', project_id: @project, repo_path: nil, rev: @rev },
             { title: I18n.t(:label_repository_root) }) do %>
   <%= op_icon('icon-home repository-breadcrumbs--home') %>
 <% end %>

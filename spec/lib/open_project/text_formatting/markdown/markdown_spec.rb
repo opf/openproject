@@ -107,8 +107,8 @@ describe OpenProject::TextFormatting do
         changesets.each do |changeset|
           allow(changesets)
             .to receive(:find_by)
-                  .with(repository_id: project.repository.id, revision: changeset.revision)
-                  .and_return(changeset)
+            .with(repository_id: project.repository.id, revision: changeset.revision)
+            .and_return(changeset)
         end
       end
 
@@ -237,9 +237,15 @@ describe OpenProject::TextFormatting do
       end
 
       context 'Escaping issue link' do
-        subject { format_text("!##{issue.id}.") }
+        subject { format_text("Some leading text. !##{issue.id}. Some following") }
 
-        it { is_expected.to be_html_eql("<p>##{issue.id}.</p>") }
+        it { is_expected.to be_html_eql("<p>Some leading text. ##{issue.id}. Some following</p>") }
+      end
+
+      context 'Escaping issue link' do
+        subject { format_text("!##{issue.id}") }
+
+        it { is_expected.to be_html_eql("<p>##{issue.id}</p>") }
       end
 
       context 'Cyclic Description Links' do
@@ -397,7 +403,7 @@ describe OpenProject::TextFormatting do
     context 'Url links' do
       subject { format_text('http://foo.bar/FAQ#3') }
 
-      it { is_expected.to be_html_eql('<p><a class="external icon-context icon-copy" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a></p>') }
+      it { is_expected.to be_html_eql('<p><a class="rinku-autolink" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a></p>') }
     end
 
     context 'Wiki links' do
@@ -518,13 +524,13 @@ describe OpenProject::TextFormatting do
       end
 
       context 'Struck through link to wiki page' do
-        subject { format_text('-[[Another page|Page]]-') }
+        subject { format_text('~~[[Another page|Page]]~~') }
 
         it { is_expected.to be_html_eql("<p><del><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></del></p>") }
       end
 
       context 'Named struck through link to wiki page' do
-        subject { format_text('-[[Another page|Page]] link-') }
+        subject { format_text('~~[[Another page|Page]] link~~') }
 
         it { is_expected.to be_html_eql("<p><del><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a> link</del></p>") }
       end
@@ -552,17 +558,13 @@ describe OpenProject::TextFormatting do
       let(:repository) do
         FactoryGirl.build_stubbed :repository_subversion, project: project
       end
-      let(:source_url) do
-        { controller: 'repositories',
-          action: 'entry',
-          project_id: identifier,
-          path: 'some/file' }
+
+      def source_url(**args)
+        entry_revision_project_repository_path(project_id: identifier, repo_path: 'some/file', **args)
       end
-      let(:source_url_with_ext) do
-        { controller: 'repositories',
-          action: 'entry',
-          project_id: identifier,
-          path: 'some/file.ext' }
+
+      def source_url_with_ext(**args)
+        entry_revision_project_repository_path(project_id: identifier, repo_path: 'some/file.ext', **args)
       end
 
       before do
@@ -577,16 +579,16 @@ describe OpenProject::TextFormatting do
           # source
           'source:/some/file' => link_to('source:/some/file', source_url, class: 'source'),
           'source:/some/file.' => link_to('source:/some/file', source_url, class: 'source') + '.',
-          'source:/some/file.ext.' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source') + '.',
+          'source:"/some/file.ext".' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source') + '.',
           'source:/some/file. ' => link_to('source:/some/file', source_url, class: 'source') + '.',
-          'source:/some/file.ext. ' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source') + '.',
+          'source:"/some/file.ext". ' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source') + '.',
           'source:/some/file, ' => link_to('source:/some/file', source_url, class: 'source') + ',',
-          'source:/some/file@52' => link_to('source:/some/file@52', source_url.merge(rev: 52), class: 'source'),
-          'source:/some/file.ext@52' => link_to('source:/some/file.ext@52', source_url_with_ext.merge(rev: 52), class: 'source'),
-          'source:/some/file#L110' => link_to('source:/some/file#L110', source_url.merge(anchor: 'L110'), class: 'source'),
-          'source:/some/file.ext#L110' => link_to('source:/some/file.ext#L110', source_url_with_ext.merge(anchor: 'L110'), class: 'source'),
-          'source:/some/file@52#L110' => link_to('source:/some/file@52#L110', source_url.merge(rev: 52, anchor: 'L110'), class: 'source'),
-          'export:/some/file' => link_to('export:/some/file', source_url.merge(format: 'raw'), class: 'source download'),
+          'source:/some/file@52' => link_to('source:/some/file@52', source_url(rev: 52), class: 'source'),
+          'source:"/some/file.ext@52"' => link_to('source:/some/file.ext@52', source_url_with_ext(rev: 52), class: 'source'),
+          'source:"/some/file#L110"' => link_to('source:/some/file#L110', source_url(anchor: 'L110'), class: 'source'),
+          'source:"/some/file.ext#L110"' => link_to('source:/some/file.ext#L110', source_url_with_ext(anchor: 'L110'), class: 'source'),
+          'source:"/some/file@52#L110"' => link_to('source:/some/file@52#L110', source_url(rev: 52, anchor: 'L110'), class: 'source'),
+          'export:/some/file' => link_to('export:/some/file', source_url(format: 'raw'), class: 'source download'),
           # escaping
           '!source:/some/file' => 'source:/some/file',
           # invalid expressions
@@ -652,7 +654,7 @@ describe OpenProject::TextFormatting do
     describe 'options' do
       describe '#format' do
         it 'uses format of Settings, if nothing is specified' do
-          expect(format_text('_Stars!_')).to be_html_eql('<p><strong>Stars!</strong></p>')
+          expect(format_text('_Stars!_')).to be_html_eql('<p><em>Stars!</em></p>')
         end
 
         it 'uses format of options, if specified' do

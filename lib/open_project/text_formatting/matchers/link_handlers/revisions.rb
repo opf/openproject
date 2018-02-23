@@ -48,11 +48,11 @@ module OpenProject::TextFormatting::Matchers
 
         # don't handle link unless repository exists
         return nil unless project && project.repository
-        changeset = changeset.visible.find_by(repository_id: project.repository.id, revision: identifier)
+        changeset = Changeset.visible.find_by(repository_id: project.repository.id, revision: matcher.identifier)
 
         # don't handle link unless changeset can be seen
         if changeset
-          link_to(h("#{project_prefix}r#{identifier}"),
+          link_to(h("#{matcher.project_prefix}r#{matcher.identifier}"),
                   { only_path: context[:only_path], controller: '/repositories', action: 'revision', project_id: project, rev: changeset.revision },
                   class: 'changeset',
                   title: truncate_single_line(changeset.comments, length: 100))

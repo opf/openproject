@@ -346,7 +346,7 @@ class RepositoriesController < ApplicationController
 
     # Prepare checkout instructions
     # available on all pages (even empty!)
-    @path = params[:path] || ''
+    @path = params[:repo_path] || ''
     @instructions = ::Scm::CheckoutInstructionsService.new(@repository, path: @path)
 
     # Asserts repository availability, or renders an appropriate error

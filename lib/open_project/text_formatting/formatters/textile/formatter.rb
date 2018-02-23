@@ -406,7 +406,7 @@ module OpenProject::TextFormatting::Formatters
                   rev = $3
                   anchor = $5
                   link = link_to h("#{project_prefix}#{prefix}:#{name}"), { controller: '/repositories', action: 'entry', project_id: project,
-                                                                            path: path.to_s,
+                                                                            repo_path: path.to_s,
                                                                             rev: rev,
                                                                             anchor: anchor,
                                                                             format: (prefix == 'export' ? 'raw' : nil) },

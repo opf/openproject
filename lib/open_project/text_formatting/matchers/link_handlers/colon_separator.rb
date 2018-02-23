@@ -40,11 +40,26 @@ module OpenProject::TextFormatting::Matchers
         matcher.sep == ':' && valid_prefix? && oid.present?
       end
 
-      # Examples:
-      #     document#17 -> Link to document with id 17
-      #     version#3 -> Link to version with id 3
-      #     message#1218 -> Link to message with id 1218
+      #   Documents:
+      #     document:Greetings -> Link to the document with title "Greetings"
+      #     document:"Some document" -> Link to the document with title "Some document"
+      #   Versions:
+      #     version:1.0.0 -> Link to version named "1.0.0"
+      #     version:"1.0 beta 2" -> Link to version named "1.0 beta 2"
+      #   Attachments:
+      #     attachment:file.zip -> Link to the attachment of the current object named file.zip
+      #   Source files:
+      #     source:"some/file" -> Link to the file located at /some/file in the project's repository
+      #     source:"some/file@52" -> Link to the file's revision 52
+      #     source:"some/file#L120" -> Link to line 120 of the file
+      #     source:"some/file@52#L120" -> Link to line 120 of the file's revision 52
+      #     export:"some/file" -> Force the download of the file
       #
+      #   Links can refer other objects from other projects, using project identifier:
+      #     identifier:r52
+      #     identifier:document:"Some document"
+      #     identifier:version:1.0.0
+      #     identifier:source:some/file
       def call
         send prefix_method
       end
@@ -88,20 +103,19 @@ module OpenProject::TextFormatting::Matchers
 
       def render_source
         if project && project.repository && User.current.allowed_to?(:browse_repository, project)
-          oid =~ %r{\A[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?\z}
+          matcher.identifier =~ %r{\A[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?\z}
           path = $1
           rev = $3
           anchor = $5
-          link_to h("#{project_prefix}#{prefix}:#{oid}"),
-                  { controller: '/repositories',
-                    action: 'entry',
-                    project_id: project,
-                    path: path.to_s,
-                    rev: rev,
-                    anchor: anchor,
-                    format: (prefix == 'export' ? 'raw' : nil)
-                  },
-                  class: (prefix == 'export' ? 'source download' : 'source')
+          link_to h("#{matcher.project_prefix}#{matcher.prefix}:#{oid}"),
+                  named_route(:entry_revision_project_repository,
+                                   action: 'entry',
+                                   project_id: project.identifier,
+                                   repo_path: path.to_s,
+                                   rev: rev,
+                                   anchor: anchor,
+                                   format: (matcher.prefix == 'export' ? 'raw' : nil)),
+                  class: (matcher.prefix == 'export' ? 'source download' : 'source')
         end
       end
       alias :render_export :render_source

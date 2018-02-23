@@ -50,11 +50,11 @@ module OpenProject::TextFormatting
     #   Attachments:
     #     attachment:file.zip -> Link to the attachment of the current object named file.zip
     #   Source files:
-    #     source:some/file -> Link to the file located at /some/file in the project's repository
-    #     source:some/file@52 -> Link to the file's revision 52
-    #     source:some/file#L120 -> Link to line 120 of the file
-    #     source:some/file@52#L120 -> Link to line 120 of the file's revision 52
-    #     export:some/file -> Force the download of the file
+    #     source:"some/file" -> Link to the file located at /some/file in the project's repository
+    #     source:"some/file@52" -> Link to the file's revision 52
+    #     source:"some/file#L120" -> Link to line 120 of the file
+    #     source:"some/file@52#L120" -> Link to line 120 of the file's revision 52
+    #     export:"some/file" -> Force the download of the file
     #   Forum messages:
     #     message#1218 -> Link to message with id 1218
     #
@@ -87,13 +87,18 @@ module OpenProject::TextFormatting
             (\#+|r)(\d+) # separator and its identifier
             |
             (:) # or colon separator
-            ([^"\s<>][^\s<>]*?|"[^"]+?") # and its identifier
+            (
+              [^"\s<>][^\s<>]*? # And a non-quoted value [10]
+              |
+              "([^"]+)" # Or a quoted value [11]
+            )
           )
           (?=
             (?=
-              [[:punct:]]\W
+              [[:punct:]]\W # Includes matches of, e.g., source:foo.ext
             )
-            |,
+            |\.\z # Allow matching when string ends with .
+            |, # or with ,
             |\s
             |\]
             |<
@@ -112,7 +117,8 @@ module OpenProject::TextFormatting
           project_identifier: m[4],
           prefix: m[5],
           sep: m[7] || m[9],
-          identifier: m[8] || m[10],
+          raw_identifier: m[8] || m[10],
+          identifier: m[8] || m[11] || m[10],
           context: context
         )
 
@@ -128,11 +134,12 @@ module OpenProject::TextFormatting
                   :prefix,
                   :sep,
                   :identifier,
+                  :raw_identifier,
                   :link,
                   :context
 
       def initialize(matched_string:, leading:, escaped:, project_prefix:, project_identifier:,
-                     prefix:, sep:, identifier:, context:)
+                     prefix:, sep:, raw_identifier:, identifier:, context:)
         # The entire string that was matched
         @matched_string = matched_string
         # Leading string before the link match
@@ -147,7 +154,9 @@ module OpenProject::TextFormatting
         @prefix = prefix
         # Separator(:)
         @sep = sep
-        # Identifier of the object
+        # Identifier with quotes (if any)
+        @raw_identifier = raw_identifier
+        # Identifier of the object with removed quotes (if any)
         @identifier = identifier
         # Text formatting context
         @context = context
@@ -161,13 +170,23 @@ module OpenProject::TextFormatting
           end
       end
 
+      ##
+      # Process the matched string, returning either a link provided by a formatter,
+      # or the matched string (minus escaping, if any) if no handler matches, an error occurred,
+      # or the string was escaped.
       def process
         @link = nil
-        link_from_match
+
+        # Allow handling when not escaped
+        unless escaped?
+          link_from_match
+        end
 
         result
       end
 
+      ##
+      # Whether the matched string contains the escape marker (!) , e.g., `!#1234`.
       def escaped?
         @escaped.present?
       end
@@ -175,7 +194,7 @@ module OpenProject::TextFormatting
       private
 
       ##
-      #
+      # Build a matching link by asking all handlers
       def link_from_match
         link_handlers.each do |klazz|
           handler = klazz.new(self, context: context)
@@ -206,7 +225,7 @@ module OpenProject::TextFormatting
       ##
       # build resulting link
       def result
-        leading + (link || "#{project_prefix}#{prefix}#{sep}#{identifier}")
+        leading + (link || "#{project_prefix}#{prefix}#{sep}#{raw_identifier}")
       end
     end
   end

@@ -556,13 +556,13 @@ describe OpenProject::TextFormatting do
         { controller: 'repositories',
           action: 'entry',
           project_id: identifier,
-          path: 'some/file' }
+          repo_path: 'some/file' }
       end
       let(:source_url_with_ext) do
         { controller: 'repositories',
           action: 'entry',
           project_id: identifier,
-          path: 'some/file.ext' }
+          repo_path: 'some/file.ext' }
       end
 
       before do

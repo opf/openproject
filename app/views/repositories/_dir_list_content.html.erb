@@ -61,7 +61,7 @@ See docs/COPYRIGHT.rdoc for more details.
           &nbsp
         </a>
       <% end %>
-      <%= link_to({ action: (entry.dir? ? 'show' : 'changes'), project_id: @project, path: to_path_param(ent_path), rev: @rev },
+      <%= link_to({ action: (entry.dir? ? 'show' : 'changes'), project_id: @project, repo_path: to_path_param(ent_path), rev: @rev },
                   class: 'icon-context',
                   aria: { label: (entry.dir? ? t('label_folder') : t('activerecord.attributes.attachment.file')) + " #{h(ent_name)}" }) do %>
         <%= op_icon(entry.dir? ? 'icon-folder' : "icon-ticket #{Redmine::MimeType.css_class_of(ent_name)}") %>
