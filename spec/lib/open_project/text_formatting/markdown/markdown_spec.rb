@@ -119,9 +119,9 @@ describe OpenProject::TextFormatting do
       end
 
       context 'Single link with dot' do
-        subject { format_text("r#{changeset1.revision}.") }
+        subject { format_text("r#{changeset1.revision}. A word") }
 
-        it { is_expected.to be_html_eql("<p>#{changeset_link}.</p>") }
+        it { is_expected.to be_html_eql("<p>#{changeset_link}. A word</p>") }
       end
 
       context 'Two links comma separated' do
@@ -618,10 +618,11 @@ describe OpenProject::TextFormatting do
 
 ##{issue.id}
 
-<pre>
+```
 [[CookBook documentation]]
 
 ##{issue.id}
+```
 </pre>
         RAW
       }
@@ -630,11 +631,11 @@ describe OpenProject::TextFormatting do
         <<-EXPECTED
 <p><a class="wiki-page" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
 <p><a class="issue work_package status-3 priority-1 created-by-me" href="/work_packages/#{issue.id}" title="#{issue.subject} (#{issue.status})">##{issue.id}</a></p>
-<pre>
+<pre><code>
 [[CookBook documentation]]
 
 ##{issue.id}
-</pre>
+</code></pre>
         EXPECTED
       }
 

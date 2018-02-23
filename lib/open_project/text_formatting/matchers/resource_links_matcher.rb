@@ -89,7 +89,16 @@ module OpenProject::TextFormatting
             (:) # or colon separator
             ([^"\s<>][^\s<>]*?|"[^"]+?") # and its identifier
           )
-          (?=(?=[[:punct:]]\W)|,|\s|\]|<|$)
+          (?=
+            (?=
+              [[:punct:]]\W
+            )
+            |,
+            |\s
+            |\]
+            |<
+            |$
+           )
         }x
       end
 
