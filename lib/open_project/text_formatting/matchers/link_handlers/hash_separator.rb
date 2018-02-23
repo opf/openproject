@@ -56,7 +56,7 @@ module OpenProject::TextFormatting::Matchers
       private
 
       def allowed_prefixes
-        %w(version message project user)
+        %w(version message project user group)
       end
 
       def render_version
@@ -86,6 +86,12 @@ module OpenProject::TextFormatting::Matchers
         user = User.in_visible_project.find_by(id: oid)
         if user
           link_to_user(user, class: 'user-mention')
+        end
+      end
+
+      def render_group
+        if group = Group.find_by(id: oid)
+          content_tag(:span, group.name, class: 'user-mention')
         end
       end
     end

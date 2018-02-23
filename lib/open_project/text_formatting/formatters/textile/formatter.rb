@@ -312,7 +312,7 @@ module OpenProject::TextFormatting::Formatters
       #     identifier:version:1.0.0
       #     identifier:source:some/file
       def parse_redmine_links(text, project, obj, attr, only_path, options)
-        text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|version|commit|source|export|message|project|user)?((#+|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |_m|
+        text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|version|commit|source|export|message|project|user|group)?((#+|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |_m|
           leading = $1
           esc = $2
           project_prefix = $3
@@ -362,6 +362,10 @@ module OpenProject::TextFormatting::Formatters
                 if user = User.in_visible_project.find_by(id: oid)
                   link = link_to_user(user, class: 'user-mention')
                 end
+              when 'group'
+                if group = Group.find_by(id: oid)
+                  link = content_tag(:span, group.name, class: 'user-mention')
+                end
               end
             elsif sep == '##'
               oid = identifier.to_i
@@ -377,7 +381,7 @@ module OpenProject::TextFormatting::Formatters
                 .includes(:status)
                 .references(:statuses)
                 .find_by(id: oid)
-              if work_package && obj && !(attr == :description && obj.id == work_package.id)
+              if work_package && obj && !options[:no_nesting] && !(attr == :description && obj.id == work_package.id)
                 link = work_package_quick_info_with_description(work_package, only_path: only_path)
               end
             elsif sep == ':'
