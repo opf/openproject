@@ -3,7 +3,7 @@ pt-BR:
     attributes:
       two_factor_authentication/device:
         identifier: 'Identificador'
-        default: 'Usar padrão'
+        default: 'Usar como padrão'
       two_factor_authentication/device/sms:
         phone_number: "Número de telefone"
     errors:
@@ -34,7 +34,7 @@ pt-BR:
     label_devices: "Dispositivos 2FA"
     label_one_time_password: 'Senha de uso único'
     label_2fa_enabled: 'A autenticação de dois fatores está ativa'
-    label_2fa_disabled: 'Autenticação de dois fatores não ativa'
+    label_2fa_disabled: 'Autenticação de dois fatores não está ativa'
     text_enter_2fa: 'Digite a senha de uso único de seu dispositivo.'
     text_2fa_enabled: 'Em cada login, será solicitado que você digite um token OTP de seu dispositivo 2FA padrão.'
     text_2fa_disabled: 'Para ativar a autenticação de dois fatores, use o botão acima para registrar um novo dispositivo 2FA. Se você já possui um dispositivo, é necessário que ele seja padrão.'

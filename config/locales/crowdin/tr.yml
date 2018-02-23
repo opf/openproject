@@ -105,7 +105,7 @@ tr:
       totp:
         title: 'Uygulama dayalı kimlik doğrulayıcınızı kullanın'
         provisioning_uri: 'URI Hazırlama'
-        secret_key: 'Secret key'
+        secret_key: 'Gizli anahtar'
         time_based: 'Zaman bazlı'
         account: 'Hesap adı / veren'
         setup: |
@@ -139,7 +139,7 @@ tr:
     remember:
       active_session_notice: >
         Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
-      label: 'Remember'
+      label: 'Hatırla'
       clear_cookie: 'Click here to remove this cookie'
       cookie_removed: 'The remember cookie has been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
