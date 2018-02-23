@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,22 +26,33 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Actions::Strategies::Float
-  include CustomActions::Actions::Strategies::ValidateInRange
+require 'spec_helper'
+require_relative '../shared_expectations'
 
-  def values=(values)
-    super(Array(values).map { |v| to_float_or_nil(v) }.uniq)
-  end
+describe CustomActions::Actions::StartDate, type: :model do
+  let(:key) { :start_date }
+  let(:type) { :date_property }
+  let(:value) { Date.today }
 
-  def type
-    :float_property
-  end
+  it_behaves_like 'base custom action' do
+    describe '#apply' do
+      let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
 
-  def to_float_or_nil(value)
-    return nil if value.nil?
+      it 'sets the start_date to the action\'s value' do
+        instance.values = [Date.today]
 
-    Float(value)
-  rescue TypeError, ArgumentError
-    nil
+        instance.apply(work_package)
+
+        expect(work_package.start_date)
+          .to eql Date.today
+      end
+    end
+
+    describe '#multi_value?' do
+      it 'is false' do
+        expect(instance)
+          .not_to be_multi_value
+      end
+    end
   end
 end

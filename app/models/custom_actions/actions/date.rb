@@ -28,22 +28,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Actions::Strategies::Float
-  include CustomActions::Actions::Strategies::ValidateInRange
+class CustomActions::Actions::Date < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Date
 
-  def values=(values)
-    super(Array(values).map { |v| to_float_or_nil(v) }.uniq)
+  def self.key
+    :date
   end
 
-  def type
-    :float_property
-  end
-
-  def to_float_or_nil(value)
-    return nil if value.nil?
-
-    Float(value)
-  rescue TypeError, ArgumentError
-    nil
+  def apply(work_package)
+    work_package.start_date = values.first
+    work_package.due_date = values.first
   end
 end

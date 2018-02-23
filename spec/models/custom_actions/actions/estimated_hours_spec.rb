@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,32 +25,57 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+
 require 'spec_helper'
 require_relative '../shared_expectations'
 
-describe CustomActions::Actions::Type, type: :model do
-  let(:key) { :type }
-  let(:priority) { 20 }
-  let(:type) { :associated_property }
-  let(:allowed_values) do
-    types = [FactoryGirl.build_stubbed(:type),
-             FactoryGirl.build_stubbed(:type)]
-    allow(Type)
-      .to receive_message_chain(:select, :order)
-            .and_return(types)
+describe CustomActions::Actions::EstimatedHours, type: :model do
+  let(:key) { :estimated_hours }
+  let(:type) { :float_property }
+  let(:value) { 1.0 }
 
-    [{ value: types.first.id, label: types.first.name },
-     { value: types.last.id, label: types.last.name }]
-  end
+  it_behaves_like 'base custom action' do
+    describe '#apply' do
+      let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
 
-  it_behaves_like 'base custom action'
-  it_behaves_like 'associated custom action' do
-    describe '#allowed_values' do
-      it 'is the list of all type' do
-        allowed_values
+      it 'sets the done_ratio to the action\'s value' do
+        instance.values = [95.56]
 
-        expect(instance.allowed_values)
-          .to eql(allowed_values)
+        instance.apply(work_package)
+
+        expect(work_package.estimated_hours)
+          .to eql 95.56
+      end
+    end
+
+    describe '#multi_value?' do
+      it 'is false' do
+        expect(instance)
+          .not_to be_multi_value
+      end
+    end
+
+    describe 'validate' do
+      let(:errors) do
+        FactoryGirl.build_stubbed(:custom_action).errors
+      end
+
+      it 'is valid for values equal to or greater than 0' do
+        instance.values = [50]
+
+        instance.validate(errors)
+
+        expect(errors)
+          .to be_empty
+      end
+
+      it 'is invalid for values smaller than 0' do
+        instance.values = [-0.00001]
+
+        instance.validate(errors)
+
+        expect(errors.symbols_for(:actions))
+          .to include(:greater_than_or_equal_to)
       end
     end
   end

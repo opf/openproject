@@ -30,6 +30,7 @@ require_relative '../shared_expectations'
 
 describe CustomActions::Actions::Status, type: :model do
   let(:key) { :status }
+  let(:type) { :associated_property }
   let(:allowed_values) do
     statuses = [FactoryGirl.build_stubbed(:status),
                 FactoryGirl.build_stubbed(:status)]

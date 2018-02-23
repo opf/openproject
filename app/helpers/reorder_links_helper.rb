@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,25 +25,31 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Actions::Strategies::Float
-  include CustomActions::Actions::Strategies::ValidateInRange
+module ReorderLinksHelper
+  def reorder_links(name, url, options = {})
+    method = options[:method] || :post
 
-  def values=(values)
-    super(Array(values).map { |v| to_float_or_nil(v) }.uniq)
+    content_tag(:span,
+                reorder_link(name, url, 'highest', 'icon-sort-up', t(:label_sort_highest), method) +
+                  reorder_link(name, url, 'higher', 'icon-arrow-up2', t(:label_sort_higher), method) +
+                  reorder_link(name, url, 'lower', 'icon-arrow-down2', t(:label_sort_lower), method) +
+                  reorder_link(name, url, 'lowest', 'icon-sort-down', t(:label_sort_lowest), method),
+                class: 'reorder-icons')
   end
 
-  def type
-    :float_property
-  end
-
-  def to_float_or_nil(value)
-    return nil if value.nil?
-
-    Float(value)
-  rescue TypeError, ArgumentError
-    nil
+  def reorder_link(name, url, direction, icon_class, label, method)
+    text = content_tag(:span,
+                       label,
+                       class: 'hidden-for-sighted')
+    icon = content_tag(:span,
+                       '',
+                       class: "icon-context #{icon_class} icon-small")
+    link_to(text + icon,
+            url.merge("#{name}[move_to]" => direction),
+            method: method,
+            title: label)
   end
 end

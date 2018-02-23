@@ -97,7 +97,7 @@ describe CustomActionsController, type: :controller do
     let(:call) { get :index }
     before do
       allow(CustomAction)
-        .to receive(:order_by_name)
+        .to receive(:order_by_position)
         .and_return([action])
     end
 

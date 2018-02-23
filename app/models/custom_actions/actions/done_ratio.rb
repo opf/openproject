@@ -28,22 +28,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Actions::Strategies::Float
-  include CustomActions::Actions::Strategies::ValidateInRange
+class CustomActions::Actions::DoneRatio < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Integer
 
-  def values=(values)
-    super(Array(values).map { |v| to_float_or_nil(v) }.uniq)
+  def self.key
+    :done_ratio
   end
 
-  def type
-    :float_property
+  def apply(work_package)
+    work_package.done_ratio = values.first
   end
 
-  def to_float_or_nil(value)
-    return nil if value.nil?
+  def minimum
+    0
+  end
 
-    Float(value)
-  rescue TypeError, ArgumentError
-    nil
+  def maximum
+    100
+  end
+
+  def self.all
+    if WorkPackage.use_field_for_done_ratio?
+      super
+    else
+      []
+    end
   end
 end

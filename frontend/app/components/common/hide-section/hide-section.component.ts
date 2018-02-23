@@ -27,7 +27,7 @@
 // ++
 
 import {opUiComponentsModule} from '../../../angular-modules';
-import {Component, OnDestroy} from '@angular/core';
+import {Component, ElementRef, OnDestroy} from '@angular/core';
 import {OnInit, Input} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {HideSectionService} from 'core-components/common/hide-section/hide-section.service';
@@ -42,15 +42,25 @@ export class HideSectionComponent implements OnInit, OnDestroy {
   displayed:boolean = false;
 
   private displayedSubscription:Subscription;
+  private initializationSubscription:Subscription;
 
   @Input() sectionName:string;
   @Input() onDisplayed:Function;
 
-  constructor(protected hideSection:HideSectionService) { }
+  constructor(protected hideSection:HideSectionService,
+              private elementRef:ElementRef) { }
 
   ngOnInit() {
-    this.displayedSubscription = this.hideSection.displayed$
-      .map(all_displayed => _.some(all_displayed, candidate => candidate.key === this.sectionName))
+    let mappedDisplayed = this.hideSection.displayed$
+      .map(all_displayed => _.some(all_displayed, candidate => candidate.key === this.sectionName));
+
+    this.initializationSubscription = mappedDisplayed
+      .take(1)
+      .subscribe(show => {
+        jQuery(this.elementRef.nativeElement).addClass('-initialized');
+      });
+
+    this.displayedSubscription = mappedDisplayed
       .distinctUntilChanged()
       .subscribe(show => {
         this.displayed = show;
@@ -63,6 +73,7 @@ export class HideSectionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.displayedSubscription.unsubscribe();
+    this.initializationSubscription.unsubscribe();
   }
 }
 

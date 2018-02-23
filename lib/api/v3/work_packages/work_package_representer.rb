@@ -503,7 +503,7 @@ module API
 
         resources :customActions,
                   link: ->(*) {
-                    represented.custom_actions(current_user).map do |action|
+                    ordered_custom_actions.map do |action|
                       {
                         href: api_v3_paths.custom_action(action.id),
                         title: action.name
@@ -511,7 +511,7 @@ module API
                     end
                   },
                   getter: ->(*) {
-                    represented.custom_actions(current_user).map do |action|
+                    ordered_custom_actions.map do |action|
                       ::API::V3::CustomActions::CustomActionRepresenter.new(action, current_user: current_user)
                     end
                   },
@@ -594,6 +594,11 @@ module API
 
         def spent_time=(value)
           # noop
+        end
+
+        def ordered_custom_actions
+          # As the custom actions are sometimes set as an array
+          represented.custom_actions(current_user).to_a.sort_by(&:position)
         end
 
         self.to_eager_load = [{ children: { project: :enabled_modules } },

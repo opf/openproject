@@ -28,22 +28,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module CustomActions::Actions::Strategies::Float
-  include CustomActions::Actions::Strategies::ValidateInRange
+class CustomActions::Actions::EstimatedHours < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Float
 
-  def values=(values)
-    super(Array(values).map { |v| to_float_or_nil(v) }.uniq)
+  def self.key
+    :estimated_hours
   end
 
-  def type
-    :float_property
+  def apply(work_package)
+    work_package.estimated_hours = values.first
   end
 
-  def to_float_or_nil(value)
-    return nil if value.nil?
-
-    Float(value)
-  rescue TypeError, ArgumentError
-    nil
+  def minimum
+    0
   end
 end
