@@ -8,42 +8,44 @@ fil:
     plugins:
       no_results_title_text: Sa kasalukuyan ay walang mga plugin na available.
     custom_styles:
-      custom_colors: Custom colors
-      customize: 'Customize your OpenProject installation with your own logo. Note:
-        This logo will be publicly accessible.'
-      enterprise_notice: As a special 'Thank you!' for their financial contribution
-        to develop OpenProject, this tiny feature is only available for Enterprise
-        Edition support subscribers.
-      manage_colors: Edit color select options
+      custom_colors: Naka-kustom ng mga kukay
+      customize: 'I-custimize ang iyong OpenProject installation gamit ang iyong sarilig
+        logo. Tandaan: Ang logo ay pambulikong accesible.'
+      enterprise_notice: Bilang isang espesyal 'Salamat' para sa kanilang tulong na
+        pinansyal upang mabuo ang OpenProject, Ito maliit na tampok ay magagamit para
+        sa Enterprise Edition sinuportahan ng mga tagapasunod.
+      manage_colors: I-edit ang kulay ng mga napiling opsyon
       instructions:
-        alternative_color: Strong accent color, typically used for most the important
-          button on a screen.
-        content_link_color: Font color of most of the links.
-        primary_color: Main color.
-        primary_color_dark: Typically a darker version of the main color used for
-          hover effects.
-        header_bg_color: Background color of the header.
-        header_item_bg_hover_color: Background color of clickable header items when
-          hovered with the mouse.
-        header_item_font_color: Font color of clickable header items.
-        header_item_font_hover_color: Font color of clickable header items when hovered
-          with the mouse.
-        header_border_bottom_color: Thin line under the header. Leave this field empty
-          if you don't want any line.
-        main_menu_bg_color: Left side menu's background color.
+        alternative_color: Malakas ang amoy ng kulay, kadalasan ay ginamit para sa
+          pinaka-importanteng pindutan sa screen.
+        content_link_color: Ang kulay ng font ang karamihan ng mga link.
+        primary_color: Pangunahing kulay.
+        primary_color_dark: Kadalasan ang masyadong maitim na bersyon sa isang pangunahing
+          kulay ang ginamit para sa mga epekto ng hover.
+        header_bg_color: Ang kulay ng background ng header.
+        header_item_bg_hover_color: Ang nakapalibot na kulay ng madaling pindutin
+          aytem ng header kung naka-hover gamit ang mouse.
+        header_item_font_color: Ang kulay ng font sa madaling pinduting header ng
+          mga aytem.
+        header_item_font_hover_color: Ang kulay ng font ng madaling pinduting mga
+          aytem kung naka-hover gamit ang mouse.
+        header_border_bottom_color: Manipis na kinya sa ibaba ng header. Iwanan itong
+          patlang walang laman kung ayaw mo sa kahit anong linya.
+        main_menu_bg_color: Kabilang kaliwa ang kulay ng pagpipiliang nakapalibot
+          na kulay.
     enterprise:
-      upgrade_to_ee: Upgrade to Enterprise Edition
-      add_token: Upload an Enterprise Edition support token
-      replace_token: Replace your current support token
+      upgrade_to_ee: I-upgrade sa Enterprise Edition
+      add_token: I-upload ang isang Enterprise Edition support token
+      replace_token: Palitan ang iyong kasulukuyang support token
       order: Order Enterprise Edition
-      paste: Paste your Enterprise Edition support token
-      required_for_feature: This feature is only available with an active Enterprise
-        Edition support token.
-      enterprise_link: For more information, click here.
+      paste: Idikit ang iyong Enterprise Editoon ng support token
+      required_for_feature: Ang tampok na ito ay magagamit lamang sa isang aktibong
+        support token ng Enterprise Edition.
+      enterprise_link: Para sa karagdagang impormasyon, pindutin dito.
   announcements:
-    show_until: Show until
-    is_active: currently displayed
-    is_inactive: currently not displayed
+    show_until: Ipakita hanggang
+    is_active: kasalukuyang naka-displey
+    is_inactive: kasulukuyang hindi naka-displey
   attribute_help_texts:
     text_overview: In this view, you can create custom help texts for attributes view.
       When defined, these texts can be shown by clicking the help icon next to its
@@ -60,13 +62,14 @@ fil:
     show:
       no_results_title_text: Sa kasalukuyan ay walang mga post para sa board.
   custom_fields:
-    text_add_new_custom_field: 'To add new custom fields to a project you first need
-      to create them before you can add them to this project.
+    text_add_new_custom_field: 'Upang magdagdag ng mga kustom na patlang sa isang
+      proyekto kinakailangan mo muna likhain bago ka muna sila idagdag sa proyektong
+      ito.
 
 '
-    is_enabled_globally: Is enabled globally
-    enabled_in_project: Enabled in project
-    contained_in_type: Contained in type
+    is_enabled_globally: Ay pinagana pandaigdigan
+    enabled_in_project: Pinagana sa proyekto
+    contained_in_type: Naglaman ng uri
     confirm_destroy_option: Deleting an option will delete all of its occurrences
       (e.g. in work packages). Are you sure you want to delete it?
     tab:
@@ -74,12 +77,12 @@ fil:
       no_results_content_text: Gumawa ng bagong custom field
   deprecations:
     old_timeline:
-      replacement: This timelines module is being replaced by the interactive timeline
-        embedded into the work packages module.
-      removal: This module is going to be removed with OpenProject 8.0. The configuration
-        for this view will NOT be migrated to the work package view.
-      further_information_before: Please take a look at
-      link_name: how to migrate to the new timeline.
+      replacement: Itong timeline modyul ay pinalitan ng interactive timeline na naka-embededd
+        sa work package ng modyul.
+      removal: Itong modyul ay aalisin sa OpenProject 8.0. Ang kumoigurasyon para
+        sa view na ito ay HINDI mag-migrate sa work package view.
+      further_information_before: Mangyaring tumingin sa
+      link_name: paano lumipat sa bagong timeline.
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
@@ -157,11 +160,11 @@ fil:
       no_results_content_text: Gumawa ng bagong uri
     edit:
       settings: Settings
-      form_configuration: Form configuration
+      form_configuration: Form kompigurasyon
       projects: Projects
-      enabled_projects: Enabled projects
-      add_group: Add group
-      reset: Reset to defaults
+      enabled_projects: Paganahin ang mga proyekto
+      add_group: Magdagdag ng grupo
+      reset: I-reset sa mga default
   versions:
     overview:
       no_results_title_text: Sa kasalukuyan ay walang mga work packages na nakatala
@@ -273,7 +276,7 @@ fil:
   activerecord:
     attributes:
       announcements:
-        show_until: Display until
+        show_until: I-displey hanggang
       attachment:
         downloads: Ang mga na-download
         file: Payl
@@ -304,7 +307,7 @@ fil:
         is_required: Kinakailangan
         max_length: Ang pinaka mahaba
         min_length: Ang pinaka mababang sukat ng haba
-        multi_value: Allow multi-select
+        multi_value: Pinahintulutan ang multi-select
         possible_values: Ang mga posibleng halaga
         regexp: Ang madalas na pagpapahayag
         searchable: Nahahanap
@@ -312,9 +315,9 @@ fil:
       custom_value:
         value: Halaga
       enterprise_token:
-        starts_at: Valid since
-        expires_at: Expires at
-        subscriber: Subscriber
+        starts_at: Balido mula noon
+        expires_at: Matapos sa
+        subscriber: Taga -subaybay
         encoded_token: Enterprise support token
       relation:
         delay: Antala
@@ -328,7 +331,7 @@ fil:
         roles: Ang mga tungkulin
       project:
         identifier: Ang pagkakakilanlan
-        latest_activity_at: Latest activity at
+        latest_activity_at: Pinakamabagong aktibidad sa
         parent: Ang kahaliling proyekto ng
         project_type: Uri ng proyekto
         queries: Mga query
@@ -346,8 +349,8 @@ fil:
       repository:
         url: Ang URL
       role:
-        assignable: Work packages can be assigned to users and groups in possession
-          of this role in the respective project
+        assignable: Ang mga work package ay maaring nakatalaga sa mga gumagamit at
+          grupo sa possesyon ng tungkulin na ito sa nakatalagang proyekto
       time_entry:
         activity: Aktibidad
         hours: Mga oras
@@ -373,9 +376,9 @@ fil:
         hide_mail: Itago ang aking email adress
         impaired: Aksezibilidad mode
         time_zone: Time zone
-        auto_hide_popups: Auto-hide success notifications
-        warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
-          changes
+        auto_hide_popups: Auto-hide success ang mga abiso
+        warn_on_leaving_unsaved: Balaan mo ako kung aalais ng worj package na walang
+          pag-save ng pagbabago
       version:
         effective_date: Takdang petsa
         sharing: Pagbababahagi
@@ -438,17 +441,17 @@ fil:
         greater_than_or_equal_to: dapat ay mas malaki o kapareho sa %{count}.
         smaller_than_or_equal_to_max_length: dapat ay mas maliit kaysa o katumbas
           sa pinakamataas na haba.
-        greater_than_start_date: must be greater than the start date.
-        greater_than_or_equal_to_start_date: must be greater than or equal to the
-          start date.
+        greater_than_start_date: dapat ay mas malaki kaysa sa petsa ng pagsisiimula.
+        greater_than_or_equal_to_start_date: dapat ay mas malaki kaysa o katumbas
+          sa petsa ng pagsisimula.
         inclusion: is not set to one of the allowed values.
         invalid: ay hindi balido.
         invalid_url: is not a valid URL.
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: must be less than or equal to %{count}.
-        not_a_date: is not a valid date.
-        not_a_datetime: is not a valid date time.
-        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
+        not_a_date: ay hindi balido ang petsa.
+        not_a_datetime: ay hindi balido ang petsa ng oras.
+        not_an_iso_date: 'ay hindi balido ang petsa. Ang kinakailangan format: YYYY-MM-DD.'
         not_a_number: ay hindi numero.
         not_an_integer: ay hindi integer.
         not_same_project: ay hindi nabibilang sa parehong proyekto.
@@ -467,13 +470,13 @@ fil:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
         enterprise_token:
-          unreadable: can't be read. Are you sure it is a support token?
+          unreadable: hindi mabasa. Sigurado ka ba na ito ay suportado ng token?
         parse_schema_filter_params_service:
           attributes:
             base:
-              unsupported_operator: The operator is not supported.
-              invalid_values: A value is invalid.
-              id_filter_required: An 'id' filter is required.
+              unsupported_operator: Ang operator ay hindi suportado.
+              invalid_values: Ang halaga ay hindi balido.
+              id_filter_required: Isang'id' filter ay kinakailangan.
         project:
           attributes:
             types:
@@ -485,25 +488,29 @@ fil:
         query:
           attributes:
             project:
-              error_not_found: not found
+              error_not_found: hindi nakita
             public:
-              error_unauthorized: "- The user has no permission to create public queries."
-          group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
-            You cannot activate both.
+              error_unauthorized: "- Ang gumagamit ay walang permiso para lumikha
+                ng mga bagong query."
+          group_by_hierarchies_exclusive: ay mutually wxclusive sa grupo ng '%{group_by}'.
+            Hindi mo maaring i-aktibi ang dalawa.
           filters:
             custom_fields:
-              inexistent: There is no custom field for the filter.
-              invalid: The custom field is not valid in the given context.
+              inexistent: Walang pasadyang patlabg para sa pag-sala.
+              invalid: Ang pasadyang patlang ay hindi balido sa ibinigay na konteksto.
         relation:
           typed_dag:
             circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
-              error_not_found: work package in `to` position not found or not visible
-              error_readonly: an existing relation's `to` link is immutable
+              error_not_found: work package sa 'to' hindi natagpuan ang posisyon o
+                hindi nakikita
+              error_readonly: isang umiiral narelasyon 'to' ang link ay hindi mababago
             from:
-              error_not_found: work package in `from` position not found or not visible
-              error_readonly: an existing relation's `from` link is immutable
+              error_not_found: work package sa 'mula sa' ang posisyon ay hindi nakita
+                o hindi nakikita
+              error_readonly: isang umiiral na realsyon 'mula sa' ang link ay hindi
+                mababago
         repository:
           not_available: Ang SCM vendor ay hindi available
           not_whitelisted: ay hindi pinayagan ng kumpigurasyon.
@@ -522,8 +529,8 @@ fil:
               cannot_be_in_another_project: hindi maaring sa iba pang proyekto.
               not_a_valid_parent: ay hindi balido.
             start_date:
-              violates_relationships: can only be set to %{soonest_start} or later
-                so as not to violate the work package's relationships.
+              violates_relationships: nakatakda lamang sa %{soonest_start} o mamaya
+                bilang hindi lumalabag sa relasyon ng mga work package.
             status_id:
               status_transition_invalid: ay invalid dahil walang valid na transisyon
                 na umiiral mula sa luma hanggang sa bagong estado para sa mga role
@@ -539,10 +546,10 @@ fil:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
-              attribute_unknown: Invalid work package attribute used.
+              group_without_name: Wala pangalan ng grupo ay hindi pinapayagan.
+              duplicate_group: Ang pangalan ng grupo %{group} ay ginamit mahigit pa
+                sa isa. Ang mga pangalan ng grulo ay dapat nakakatangi.
+              attribute_unknown: Hindi balido ang work package attribute ang nagamit.
         user:
           attributes:
             password:
@@ -562,9 +569,10 @@ fil:
                 description: "'Kompirmasyon ng password' ay dapat tugma sa input ng
                   'Bagong password' na patlang."
             status:
-              invalid_on_create: is not a valid status for new users.
+              invalid_on_create: ay hindi isang balidong estado para sa mga bagong
+                gumagamit.
             auth_source:
-              error_not_found: not found
+              error_not_found: hindi nakita
         member:
           principal_blank: Mangayring pumili na kahit isang gumagamit o grupo.
           role_blank: Mangyaring pumili ng kahit isang tungkulin.
@@ -698,7 +706,7 @@ fil:
   button_remove: Tanggalin
   button_remove_widget: Remove widget
   button_rename: Rename
-  button_replace: Replace
+  button_replace: Palitan
   button_reply: Reply
   button_reset: Reset
   button_rollback: Rollback to this version
@@ -713,7 +721,7 @@ fil:
   button_unlock: Unlock
   button_unwatch: Unwatch
   button_update: I-update
-  button_upload: Upload
+  button_upload: I-upload
   button_view: Tingnan
   button_watch: Tumingin
   button_manage_menu_entry: I-configure ang pagpipiliang aytem
@@ -721,8 +729,9 @@ fil:
   button_configure_menu_entry: I-configure ang pagpipiliang aytem
   button_delete_menu_entry: Burahin ang pagpipiliang aytem
   copy_project:
-    started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
-      You will be informed by mail as soon as "%{target_project_name}" is available.
+    started: Magsimula kopyahin ang proyekto "%{source_project_name}" sa "%{target_project_name}".
+      Pinapaalam ka sa pamamagitan ng mail sa lalong madaling panahon na ang "%{target_project_name}"
+      ay magagamit.
     failed: Hindi makopya ang proyekto %{source_project_name}
     succeeded: Nilikhang proyekto %{target_project_name}
     errors: Mali
@@ -893,8 +902,8 @@ fil:
 '
   description_available_columns: Available Columns
   description_choose_project: Projects
-  description_compare_from: Compare from
-  description_compare_to: Compare to
+  description_compare_from: Ikinumpara mula sa
+  description_compare_to: Ikinumpara sa
   description_current_position: 'You are here:'
   description_date_from: Enter start date
   description_date_range_interval: Choose range by selecting start and end date
@@ -922,9 +931,10 @@ fil:
   ee:
     upsale:
       form_configuration:
-        description: 'Customize the form configuration with these additional features:'
-        add_groups: Add new attribute groups
-        rename_groups: Rename attributes groups
+        description: 'I-customizd ang form kumpigurasyon sa mga karagdagag tampok
+          na ito:'
+        add_groups: Magdgdag ng mga bagong attribute na grupo
+        rename_groups: Palitan ng pangalan ang mga grupong attribute
       project_filters:
         description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Activities (time tracking)
@@ -937,21 +947,23 @@ fil:
   error_can_not_delete_custom_field: Unable to delete custom field
   error_can_not_delete_type: This type contains work packages and cannot be deleted.
   error_can_not_delete_standard_type: Standard types cannot be deleted.
-  error_can_not_invite_user: Failed to send invitation to user.
+  error_can_not_invite_user: Nabigong ipadala ang imbiyltasyon sa gumagamit.
   error_can_not_remove_role: This role is in use and cannot be deleted.
   error_can_not_reopen_work_package_on_closed_version: A work package assigned to
     a closed version cannot be reopened
   error_check_user_and_role: Please choose a user and a role.
-  error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
-    are enabled, as this application will not properly function without.
-  error_custom_option_not_found: Option does not exist.
-  error_failed_to_delete_entry: Failed to delete this entry.
-  error_invalid_group_by: 'Can''t group by: %{value}'
-  error_invalid_query_column: 'Invalid query column: %{value}'
-  error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
-  error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
-    Please reduce the number of columns.
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
+  error_cookie_missing: Ang OpenProject cookie ay nawawala. Mangyaring siguraduhin
+    na ang mga cookie ay pinagana, bilang aplikasyon na ito ay hindi gumagana ng maayos
+    na hindi kasama ang.
+  error_custom_option_not_found: Ang opsyon ay hindi umiiral.
+  error_failed_to_delete_entry: Nabigong burahin ang entry na ito.
+  error_invalid_group_by: 'Hindi ma grupo sa pamamagitan ng: %{value}'
+  error_invalid_query_column: Hindi balido ang hanay ng query:%{value}
+  error_invalid_sort_criterion: 'Hindi masunod sa pamamagitan ng hanay: %{value}'
+  error_pdf_export_too_many_columns: Masyadong maraming hanay ang napili para sa PDF
+    export. Mangyaring bawasan ang mga bilang ng hanay.
+  error_token_authenticity: Hindi mapagana upang papatunayan ang Cross-Site Request
+    Forgery token.
   error_work_package_done_ratios_not_updated: Work package done ratios not updated.
   error_work_package_not_found_in_project: The work package was not found or does
     not belong to this project
@@ -977,9 +989,9 @@ fil:
   error_workflow_copy_target: Please select target type(s) and role(s)
   error_menu_item_not_created: Menu item could not be added
   error_menu_item_not_saved: Menu item could not be saved
-  error_wiki_root_menu_item_conflict: 'Can''t rename "%{old_name}" to "%{new_name}"
-    due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}"
-    (%{existing_identifier}).
+  error_wiki_root_menu_item_conflict: 'Hindi mapalitan ng pangalan ang "%{old_name}"
+    sa "%{new_name}" dahil sa kasalungatan sa resulta ng pagpipiliang aytem sa umiiral
+    na pagpipiliang aytem "%{existing_caption}" (%{existing_identifier}).
 
 '
   error_external_authentication_failed: An error occured during external authentication.
@@ -1018,25 +1030,26 @@ fil:
       projects: Newest visible projects in this instance.
       users: Newest registered users in this instance.
     blocks:
-      community: OpenProject community
+      community: Komunidad ng OpenProject
       upsale:
-        become_hero: Become a hero!
-        title: Upgrade to Enterprise Edition
-        description: Boost your productivity with the Enterprise Edition
-        more_info: More information
-        additional_features: Additional powerful premium features
-        professional_support: Professional support from the OpenProject experts
-        you_contribute: Developers need to pay their bills, too. With Enterprise Edition
-          you substantially contribute to this Open-Source community effort.
+        become_hero: Maging isang bayani!
+        title: I-upgrade sa Enterprise Edition
+        description: Palakasin ang itong productivity kasama ang Enterprise Edition
+        more_info: Karagdagang impornasyon
+        additional_features: Karagdagang tampok ng powerful premium
+        professional_support: Propesyonal na suporta mula sa OpenProject eksperto
+        you_contribute: Ang mga developer ay kailangan rin magbayad sa kanilang bayarin.
+          Kasama ang Enterprise Edition maaring kang mag-mabag ng marami para sa pagsisikap
+          ng Open-Source community.
     links:
-      upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      upgrade_enterprise_edition: I-upgrade sa Enterprise Edition
       user_guides: User guides
       faq: FAQ
       glossary: Glossary
       shortcuts: Shortcuts
       forums: Forums
-      blog: OpenProject blog
-      boards: Community forum
+      blog: Blog ng OpenProject
+      boards: Komunidad forum
       newsletter: Security alerts / Newsletter
   links:
     configuration_guide: Configuration guide
@@ -1056,7 +1069,7 @@ fil:
         action: Action
         expiration: Expires
       indefinite_expiration: Never
-  label_accessibility: Accessibility
+  label_accessibility: Aksibilidad
   label_account: Akawnt
   label_active: Aktibo
   label_activate_user: Activate user
@@ -1081,14 +1094,14 @@ fil:
   label_all: all
   label_all_time: all time
   label_all_words: All words
-  label_always_visible: Always displayed
-  label_announcement: Announcement
+  label_always_visible: Palaging ipinapakita
+  label_announcement: Anunsyo
   label_and_its_subprojects: "%{value} and its subprojects"
   label_api_access_key: API access key
   label_api_access_key_created_on: API access key created %{value} ago
   label_api_access_key_type: API
   label_applied_status: Applied status
-  label_archive_project: Archive project
+  label_archive_project: I-archive ang proyekto
   label_ascending: Ascending
   label_assigned_to_me_work_packages: Work packages assigned to me
   label_associated_revisions: Associated revisions
@@ -1106,7 +1119,7 @@ fil:
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
-  label_between: between
+  label_between: sa pagitan ng
   label_blocked_by: blocked by
   label_blocks: blocks
   label_blog: Blog
@@ -1123,7 +1136,7 @@ fil:
   label_category: Kategorya
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Select new main menu item
-  label_select_project: Select a project
+  label_select_project: Pumili ng proyekto
   label_required_disk_storage: Required disk storage
   label_send_invitation: Send invitation
   label_change_plural: Changes
@@ -1133,7 +1146,7 @@ fil:
   label_change_view_all: View all changes
   label_changes_details: Details of all changes
   label_changeset: Changeset
-  label_changeset_id: Changeset ID
+  label_changeset_id: ID ng changeset
   label_changeset_plural: Changesets
   label_checked: checked
   label_check_uncheck_all_in_column: Check/Uncheck all in column
@@ -1163,13 +1176,13 @@ fil:
   label_core_version: Core version
   label_current_status: Current status
   label_current_version: Current version
-  label_custom_field_add_no_type: Add this field to a work package type
+  label_custom_field_add_no_type: Idagdag ang patlang na ito sa uri ng work package
   label_custom_field_new: New custom field
   label_custom_field_plural: Mga pasadyang patlang
   label_custom_field_default_type: Empty type
-  label_custom_style: Design
+  label_custom_style: Disenyo
   label_date: Petsa
-  label_date_and_time: Date and time
+  label_date_and_time: Petsa at oras
   label_date_from: From
   label_date_from_to: From %{start} to %{end}
   label_date_range: Date range
@@ -1177,7 +1190,7 @@ fil:
   label_day_plural: days
   label_default: Default
   label_delete_user: Delete user
-  label_delete_project: Delete project
+  label_delete_project: Burahin ang proyekto
   label_deleted: deleted
   label_deleted_custom_field: "(deleted custom field)"
   label_descending: Descending
@@ -1194,7 +1207,7 @@ fil:
   label_download_plural: "%{count} Downloads"
   label_downloads_abbr: D/L
   label_duplicated_by: duplicated by
-  label_duplicate: duplicate
+  label_duplicate: gayahin
   label_duplicates: duplicates
   label_edit: Edit
   label_enable_multi_select: Toggle multiselect
@@ -1205,12 +1218,12 @@ fil:
   label_end_to_end: end to end
   label_end_to_start: end to start
   label_enumeration_new: New enumeration value
-  label_enumeration_value: Enumeration value
+  label_enumeration_value: Pag-enumerate ng halaga
   label_enumerations: Enumerations
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
   label_environment: Environment
-  label_estimates_and_time: Estimates and time
+  label_estimates_and_time: Mga pagtatantya at oras
   label_equals: is
   label_example: Example
   label_export_to: 'Also available in:'
@@ -1230,7 +1243,7 @@ fil:
   label_follows: follows
   label_force_user_language_to_default: Set language of users having a non allowed
     language to default
-  label_form_configuration: Form configuration
+  label_form_configuration: Form kompigurasyon
   label_general: General
   label_generate_key: Generate a key
   label_git_path: Path to .git directory
@@ -1247,9 +1260,9 @@ fil:
   label_in: in
   label_in_less_than: in less than
   label_in_more_than: in more than
-  label_inactive: Inactive
+  label_inactive: Hindi aktibo
   label_incoming_emails: Incoming emails
-  label_includes: includes
+  label_includes: kasama ang mga
   label_index_by_date: Index by date
   label_index_by_title: Index by title
   label_information: Information
@@ -1259,13 +1272,13 @@ fil:
   label_invite_user: Imbitahan ang user
   label_show_hide: Ipakita/itago
   label_show_all_registered_users: Show all registered users
-  label_journal: Journal
+  label_journal: Talaarawan
   label_journal_diff: Description Comparison
   label_language: Linggwahe
   label_jump_to_a_project: Jump to a project...
   label_language_based: Based on user's language
   label_last_activity: Huling aktibidad
-  label_last_change_on: Last change on
+  label_last_change_on: Hindi binago sa
   label_last_changes: last %{count} changes
   label_last_login: Huling nag login
   label_last_month: last month
@@ -1283,7 +1296,7 @@ fil:
   label_login: Sign in
   label_custom_logo: Custom logo
   label_custom_favicon: Custom favicon
-  label_custom_touch_icon: Custom touch icon
+  label_custom_touch_icon: Ang icon ng kustom pindutan
   label_logout: Sign out
   label_main_menu: Side Menu
   label_manage_groups: Manage groups
@@ -1294,7 +1307,7 @@ fil:
   label_member_plural: Members
   label_view_all_members: Tingnan ang lahat na mga miyembro
   label_menu_item_name: Name of menu item
-  label_message: Message
+  label_message: Mensahe
   label_message_last: Last message
   label_message_new: New message
   label_message_plural: Messages
@@ -1348,7 +1361,7 @@ fil:
   label_overall_activity: Overall activity
   label_overall_spent_time: Overall spent time
   label_overview: Overview
-  label_part_of: part of
+  label_part_of: bahagi ng
   label_password_lost: Forgot your password?
   label_password_rule_lowercase: Lowercase
   label_password_rule_numeric: Numeric Characters
@@ -1371,7 +1384,7 @@ fil:
   label_previous_week: Previous week
   label_principal_invite_via_email: " or invite new users via email"
   label_principal_search: Magdagdag ng umiiral na mga user o grupo
-  label_product_version: Product version
+  label_product_version: Produktong bersyon
   label_professional_support: Propesyonal na suporta
   label_profile: Profile
   label_project_all: All Projects
@@ -1416,8 +1429,8 @@ fil:
   label_repository: Repository
   label_repository_root: Repository root
   label_repository_plural: Repositories
-  label_required: required
-  label_requires: requires
+  label_required: kailangan
+  label_requires: kinakailangan
   label_responsible_for_work_packages: Work packages I am responsible for
   label_result_plural: Results
   label_reverse_chronological_order: In reverse chronological order
@@ -1432,7 +1445,7 @@ fil:
   label_role_and_permissions: Roles and permissions
   label_role_new: New role
   label_role_plural: Ang mga tungkulin
-  label_role_search: Assign role to new members
+  label_role_search: Magtalaga ng tungkulin ss mga bagong miyembro
   label_scm: SCM
   label_search: Search
   label_search_titles_only: Search titles only
@@ -1489,8 +1502,8 @@ fil:
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Updated by %{author} %{age} ago
   label_used_by: Used by
-  label_used_by_types: Used by types
-  label_used_in_projects: Used in projects
+  label_used_by_types: Ginamit sa mga uri
+  label_used_in_projects: Ginamit sa mga proyekto
   label_user: Gumagamit
   label_user_activity: "%{value}'s activity"
   label_user_anonymous: Anonymous
@@ -1523,7 +1536,7 @@ fil:
   label_wiki_edit: Wiki edit
   label_wiki_edit_plural: Wiki edits
   label_wiki_page_attachments: Wiki page attachments
-  label_wiki_page_id: Wiki page ID
+  label_wiki_page_id: ID ng Wiki na pahina
   label_wiki_navigation: Wiki navigation
   label_wiki_page: Pahina ng wiki
   label_wiki_page_plural: Wiki pages
@@ -1536,7 +1549,7 @@ fil:
   label_work_package_attachments: Work package attachments
   label_work_package_category_new: New category
   label_work_package_category_plural: Work package categories
-  label_work_package_hierarchy: Work package hierarchy
+  label_work_package_hierarchy: Hierarchy ng work package
   label_work_package_new: New work package
   label_work_package_note_added: Work package note added
   label_work_package_edit: Edit work package %{name}
@@ -1646,8 +1659,8 @@ fil:
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: JavaScript disabled
   noscript_learn_more: Learn more
-  notice_accessibility_mode: The accessibility mode can be enabled in your [account
-    settings](url).
+  notice_accessibility_mode: Ang aksesibilidad mode ay maaring paganahin sa iyong
+    [account setting](url).
   notice_account_activated: Your account has been activated. You can now log in.
   notice_account_already_activated: Ang account na ito ay na-activate na.
   notice_account_invalid_token: Imbalidong activation token
@@ -1666,8 +1679,8 @@ fil:
   notice_account_register_done: Account was successfully created. To activate your
     account, click on the link that was emailed to you.
   notice_account_unknown_email: Unknown user.
-  notice_account_update_failed: Account setting could not be saved. Please have a
-    look at your account page.
+  notice_account_update_failed: Ang akwant setting ay hindi pwede mai-save. Mangyaring
+    paki-tingnan sa iyong akwant na pahina.
   notice_account_updated: Account was successfully updated.
   notice_account_wrong_password: Wrong password
   notice_account_registered_and_logged_in: Welcome, your account has been activated.
@@ -1679,8 +1692,8 @@ fil:
   notice_auth_stage_error: Authentication stage '%{stage}' failed.
   notice_can_t_change_password: This account uses an external authentication source.
     Impossible to change the password.
-  notice_custom_options_deleted: Option '%{option_value}' and its %{num_deleted} occurrences
-    were deleted.
+  notice_custom_options_deleted: Opsyon ngB'%{option_value}' at ang itong %{num_deleted}
+    nagaganal ay naibura na.
   notice_email_error: An error occurred while sending mail (%{value})
   notice_email_sent: An email was sent to %{value}
   notice_failed_to_save_work_packages: 'Failed to save %{count} work package(s) on
@@ -1700,7 +1713,7 @@ fil:
   notice_locking_conflict_reload_page: Please reload the page, review the changes
     and reapply your updates.
   notice_member_added: Idinagdag ang %{name} sa proyekto.
-  notice_members_added: Added %{number} users to the project.
+  notice_members_added: Idinagdag %{number} ng mga gumagamit sa proyekto.
   notice_member_removed: Tinanggal ang %{user} mula sa proyekto.
   notice_member_deleted: "%{user} ay inalis na sa proyekto at tinanggal."
   notice_no_principals_found: No results found.
@@ -1709,9 +1722,10 @@ fil:
   notice_not_authorized_archived_project: The project you're trying to access has
     been archived.
   notice_password_confirmation_failed: Your password is not correct. Cannot continue.
-  notice_principals_found_multiple: "There are %{number} results found. \n Tab to
-    focus the first result."
-  notice_principals_found_single: "There is one result. \n Tab to focus it."
+  notice_principals_found_multiple: |-
+    Mayroong %{number} mga resulta ang natagpuan.
+     Ang tab ay tumuon sa unang resulta.
+  notice_principals_found_single: "Mayroong isang resulta. \n Tab upang ituon ito."
   notice_project_not_deleted: The project wasn't deleted.
   notice_successful_connection: Successful connection.
   notice_successful_create: Successful creation.
@@ -1728,10 +1742,10 @@ fil:
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Set standard type automatically.
   notice_logged_out: You have been logged out.
-  notice_wont_delete_auth_source: The authentication mode cannot be deleted as long
-    as there are still users using it.
-  notice_project_cannot_update_custom_fields: 'You cannot update the project''s available
-    custom fields. The project is invalid: %{errors}'
+  notice_wont_delete_auth_source: Ang authentication mode ay hindi pwedeng burahin
+    hanggang meron pang user ang gumagamit nito.
+  notice_project_cannot_update_custom_fields: 'Hindi mo pwedeng i-update ang mga patlang
+    ng project''s available custom. Ang proyekto ay hindi balido: %{errors}'
   notice_attachment_migration_wiki_page: 'This page was generated automatically during
     the update of OpenProject. It contains all attachments previously associated with
     the %{container_type} "%{container_name}".
@@ -1757,11 +1771,11 @@ fil:
           mb: MB
           tb: TB
   onboarding:
-    heading_getting_started: Get an overview
+    heading_getting_started: Kumuha ng isang buod
     text_getting_started_description: Get a quick overview of project management and
       team collaboration with OpenProject.
-    text_show_again: You can restart this video from the help menu
-    welcome: Welcome to OpenProject
+    text_show_again: Maari mong i-restart amg video na ito mula sa tulong ng pagpipilian
+    welcome: Maligayang pagdating sa OpenProject
   permission_add_work_package_notes: Add notes
   permission_add_work_packages: Magdagdag ng mga work packages (ito rin ay nagpapahintulot
     na mag dagdag ng mga attachment sa lahat ng mga work packages)
@@ -1823,7 +1837,7 @@ fil:
   permission_view_work_package_watchers: View watchers list
   permission_view_work_packages: Tingnan ang mga work packages
   permission_view_messages: View messages
-  permission_view_members: View members
+  permission_view_members: Tingnan ang mga miyembro
   permission_view_project_associations: View project dependencies
   permission_view_reportings: View reportings
   permission_view_time_entries: View spent time
@@ -1847,7 +1861,7 @@ fil:
       warning_two: Ang mga umiiral na mga link sa proyekto ay hindi na maaring magamit.
       title: Change the project's identifier
     archive:
-      are_you_sure: Are you sure you want to archive the project '%{name}'?
+      are_you_sure: Sigurado ka bang na gusto mong i-archive ang proyekto'%{name}'?
   project_module_activity: Aktibidad
   project_module_boards: Forums
   project_module_calendar: Calendar
@@ -1951,7 +1965,7 @@ fil:
           by using a value starting with http(s):// or file://.
         path_encoding: 'Override Git path encoding (Default: UTF-8)'
       local_title: Link existing local Git repository
-      local_url: Local URL
+      local_url: Lokal URL
       local_introduction: Kung mayroon kang umiiral na na lokal Gir repository, pwedi
         mo itong i-link sa OpenProject para ma-access ang mga ito mula sa loob ng
         application.
@@ -1988,7 +2002,7 @@ fil:
       existing_introduction: Kung mayroon kang umiiral na Subversion repository, pwedi
         mo itong ma-link sa OpenProject para ma access ang mga ito mula sa loob ng
         application.
-      existing_url: Existing URL
+      existing_url: Umiiral na URL
       instructions:
         managed_url: Ito ay ang URL na pinapamahalaan (lokal) ng Subversion repository.
         url: |-
@@ -2007,16 +2021,16 @@ fil:
     url: URL to repository
     warnings:
       cannot_annotate: This file cannot be annotated.
-  search_input_placeholder: Search ...
-  setting_email_delivery_method: Email delivery method
-  setting_sendmail_location: Location of the sendmail executable
-  setting_smtp_enable_starttls_auto: Automatically use STARTTLS if available
-  setting_smtp_address: SMTP server
-  setting_smtp_port: SMTP port
-  setting_smtp_authentication: SMTP authentication
-  setting_smtp_domain: SMTP HELLO domain
-  setting_smtp_user_name: SMTP username
-  setting_smtp_password: SMTP password
+  search_input_placeholder: Hanapin ...
+  setting_email_delivery_method: Pamaraan ng paghahatid ng email
+  setting_sendmail_location: Lokasyon ng sendmail na pagpapatupad
+  setting_smtp_enable_starttls_auto: Automatikong gagamitin ang STARTTLS kung magagamit
+  setting_smtp_address: Server g SMTP
+  setting_smtp_port: Port ng SMTP
+  setting_smtp_authentication: Pagpapatunay ng SMTP
+  setting_smtp_domain: HELLO domain ng SMTP
+  setting_smtp_user_name: Username ng SMTP
+  setting_smtp_password: Password ng SMTP
   setting_activity_days_default: Days displayed on project activity
   setting_app_subtitle: Application subtitle
   setting_app_title: Application title
@@ -2046,7 +2060,7 @@ fil:
     main projects by default
   setting_emails_footer: Emails footer
   setting_emails_header: Emails header
-  setting_email_login: Use e-mail as login
+  setting_email_login: Gamitin ang email bilang login
   setting_enabled_scm: Enabled SCM
   setting_feeds_enabled: Enable Feeds
   setting_feeds_limit: Feed content limit
@@ -2072,7 +2086,8 @@ fil:
     (e.g., to create and update work packages).
   setting_mail_handler_api_key: API key
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_body_delimiter_regex: Ang nga truncate email ay nagkakatugma
+    sa regex na ito
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_password_active_rules: Active character classes
   setting_password_count_former_banned: Number of most recently used passwords banned
@@ -2084,7 +2099,7 @@ fil:
   setting_per_page_options: Objects per page options
   setting_plain_text_mail: Plain text mail (no HTML)
   setting_protocol: Protocol
-  setting_registration_footer: Registration footer
+  setting_registration_footer: Footer ng pagrerehistro
   setting_repositories_automatic_managed_vendor: Awtomatiko na uri ng repository vendor
   setting_repositories_encodings: Repositories encodings
   setting_repository_authentication_caching_enabled: Enable caching for authentication
@@ -2127,7 +2142,7 @@ fil:
     passwords: Passwords
     session: Session
     brute_force_prevention: Automated user blocking
-  show_hide_project_menu: Expand/Collapse project menu
+  show_hide_project_menu: Palawakin/Pagbagsak na proyektong pagpipilian
   status_active: active
   status_archived: archived
   status_invited: imbitado
@@ -2137,10 +2152,10 @@ fil:
     array:
       sentence_connector: and
       skip_last_comma: 'false'
-  text_accessibility_hint: The accessibility mode is designed for users who are blind,
-    motorically handicaped or have a bad eyesight. For the latter focused elements
-    are specially highlighted. Please notice, that the Backlogs module is not available
-    in this mode.
+  text_accessibility_hint: Ang aksibilidad mode ay naka-disenyo para sa mga gumagamit
+    na bulag, motorcically handicsped o mayroong masamang paningin. Para sa mga elementong
+    latter focus ay espesyal na naka-hightlight. Mangyaring pansinin, na ang Backlogs
+    modyul ay hindi magagamit sa modyul na ito.
   text_access_token_hint: Access tokens allow you to grant external applications access
     to resources in OpenProject.
   text_analyze: 'Further analyze: %{subject}'
@@ -2157,7 +2172,7 @@ fil:
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: Must be at least %{count} characters long.
   text_comma_separated: Multiple values allowed (comma separated).
-  text_comment_wiki_page: 'Comment to wiki page: %{page}'
+  text_comment_wiki_page: 'Mag-komento sa wiki na pahina: %{page}'
   text_custom_field_possible_values_info: One line for each value
   text_custom_field_hint_activate_per_project: 'When using custom fields: Keep in
     mind that custom fields need to be activated per project, too.
@@ -2167,20 +2182,21 @@ fil:
     activated per work package type and per project.
 
 '
-  text_custom_logo_instructions: 'A white logo on transparent background is recommended.
-    For best results on both, conventional and retina displays, make sure your image''s
-    dimensions are 460px by 60px.
+  text_custom_logo_instructions: 'Ang puting logo sa transparent background ay inirerekomend.
+    Para sa pinakamahusay na result sa dalawang, conventional at mga displey na retina,
+    siguraduhjn ang iyong dimensyon ng larawan ay 460px by 60px.
 
 '
-  text_custom_favicon_instructions: 'This is the tiny icon that appears in your browser
-    window/tab next to the page''s title. It''s needs to be a squared 32 by 32 pixels
-    sized PNG image file with a transparent background.
+  text_custom_favicon_instructions: 'Ito ay ang manipis na icon na lilitaw sa iyong
+    browser window/tab sa susunod ng pamagat na pahina. Ito ay kailangan na maging
+    kuwadrado 32 by 32 pixels na laki PNG image file na mayroong malinaw na nakapalibot.
 
 '
-  text_custom_touch_icon_instructions: 'This is the icon that appears in your mobile
-    or tablet when you place a bookmark on your homescreen. It''s needs to be a squared
-    180 by 180 pixels sized PNG image file. Please make sure the image''s background
-    is not transparent otherwise it will look bad on iOS.
+  text_custom_touch_icon_instructions: 'Ito ay ang icon na lilitaw sa iyong mobile
+    at tablet kung maglagay ka ng bookmark sa iyong homescreen. Ito ay kinakailangan
+    na naka-kwadrado 180 by 180 pixels na laki ng PNG image file. Mangyaring siguraduhin
+    ang larawan nakapalibot ay hindi transparent kung hindi ito ay magiginf masamang
+    tingnan sa IOS.
 
 '
   text_default_administrator_account_changed: Default administrator account changed
@@ -2201,7 +2217,7 @@ fil:
   text_hint_date_format: Ilagay ang petsa sa anyo ng YYY-MM-DD. Ang ibang mga format
     ay maaaring mabago para sa hindi ni-nais na petsa.
   text_hint_disable_with_0: 'Note: Disable with 0'
-  text_hours_between: Between %{min} and %{max} hours.
+  text_hours_between: Sa pagitan ng %{min} at %{max} mga oras.
   text_work_package_added: Work package %{id} has been reported by %{author}.
   text_work_package_category_destroy_assignments: Remove category assignments
   text_work_package_category_destroy_question: Some work packages (%{count}) are assigned
@@ -2247,17 +2263,17 @@ fil:
     underscores are allowed, must start with a lower case letter.
   text_reassign: 'I-reassign sa work package:'
   text_regexp_info: eg. ^[A-Z0-9]+$
-  text_regexp_multiline: The regex is applied in a multi-line mode. e.g., ^---\s+
+  text_regexp_multiline: Ang regex ay nakalagay sa multi-line mlde. hal., ^---\s+
   text_repository_usernames_mapping: |-
     Select or update the OpenProject user mapped to each username found in the repository log.
     Users with the same OpenProject and repository username or email are automatically mapped.
   text_select_mail_notifications: Select actions for which email notifications should
     be sent.
   text_status_changed_by_changeset: Applied in changeset %{value}.
-  text_table_difference_description: In this table the single %{entries} are shown.
-    You can view the difference between any two entries by first selecting the according
-    checkboxes in the table. When clicking on the button below the table the differences
-    are shown.
+  text_table_difference_description: Sa talaan na ito ang solong %{entries} ay ipinapakita.
+    Maari mong tingnan ang kaibahansa pagitan ng kahit anong dalawang entry sa pamamagitan
+    ng unang pagpili ayon sa mga checkbox sa talaan. Kapag nag-pindut sa pindutan
+    ng ibaba sa talaan ang mga pagkakaiba ay ipinapakita.
   text_time_logged_by_changeset: Applied in changeset %{value}.
   text_tip_work_package_begin_day: work package beginning this day
   text_tip_work_package_begin_end_day: work package beginning and ending this day
@@ -2266,8 +2282,8 @@ fil:
   text_unallowed_characters: Unallowed characters
   text_user_invited: Ang user ay inanyayahan at isa rin itong pending na registration.
   text_user_wrote: "%{value} wrote:"
-  text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
-    lost if you leave this page.
+  text_warn_on_leaving_unsaved: Ang work package ay naglalaman ng hindi naka-save
+    na mawala ito kapag ikaw ay aalisa sa pahinang ito.
   text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all
     its content?
   text_wiki_page_destroy_children: Delete child pages and all their descendants
@@ -2278,7 +2294,7 @@ fil:
   text_workflow_edit: Select a role and a type to edit the workflow
   text_zoom_in: Zoom in
   text_zoom_out: Zoom out
-  text_setup_mail_configuration: Configure your email provider
+  text_setup_mail_configuration: I-configure ang iyong tagapag-bigay ng email
   time:
     am: am
     formats:
@@ -2490,24 +2506,26 @@ fil:
       years: Years
   title_remove_and_delete_user: Alisin ang inimbitahan na user mula proyekto at tanggalin
     siya.
-  tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
-    case the old one expired or the user did not get the original email. Can also
-    be used for active users to choose a new authentication method. When used with
-    active users their status will be changed to ''invited''.
+  tooltip_resend_invitation: 'Magpadala ng ibang imbitasyong email kasama ang fresh
+    token kung sakali walang bisa na ang lima o ang gumagamit ay hindi kumuha ng orihinak
+    na email. Maari rin gamitin para sa aktibing gumagamit upang pumili ng bagong
+    paraan ng pagpapatunay. Kung ginamit sa aktibong gumagamit ang kanila estado ay
+    mababago sa ''Inimbitahan''.
 
 '
   tooltip:
-    setting_email_login: 'If enabled a user will be unable to chose a login during
-      registration. Instead their given e-mail address will serve as the login. An
-      administrator may still change the login separately.
+    setting_email_login: 'Kung pinagana ang user ay hindi pinagana na lumili ng login
+      sa panahon ng pagpaparehistro. Sa halip ang kanilang binigay na e-mail address
+      ay naka-serve bilang login. Isang tagapangasiwa ay may pa-asa pang i-login ng
+      hiwalay.
 
 '
   queries:
     apply_filter: Apply preconfigured filter
   top_menu:
-    additional_resources: Additional resources
-    getting_started: Getting started
-    help_and_support: Help and support
+    additional_resources: Karagdagang pinagkukunan
+    getting_started: Pagsisimula
+    help_and_support: Tulong at supora
   total_progress: Total progress
   user:
     all: all
@@ -2542,10 +2560,10 @@ fil:
     registered: registered
     reset_failed_logins: Reset failed logins
     settings:
-      mail_notifications: Send email notifications
-      mail_project_explanaition: For unselected projects, you will only receive notifications
-        about things you watch or you're involved in (e.g. work packages you're the
-        author or assignee of).
+      mail_notifications: Magpadala ng abiso sa email
+      mail_project_explanaition: Para sa hindi napiling proyekto, makakatanggap ka
+        lamang ng abiso tungkol sa mga bagay na tiningnan mo o kasama ka sa (hal.
+        work packagee ikaw ang may-akda o tagapangasiwa ng).
       mail_self_notified: Gusto kong mapa-alam sa mga pagbabago na ginagawa ko sa
         aking sarili
     status_user_and_brute_force: "%{user} and %{brute_force}"
@@ -2592,7 +2610,7 @@ fil:
       code_500: Isang internal error ang naganap.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)
-        duration: ISO 8601 duration
+        duration: Agwat ng ISO 8601
       invalid_content_type: Expected CONTENT-TYPE to be '%{content_type}' but got
         '%{actual}'.
       invalid_format: 'Invalid format for property ''%{property}'': Expected format
@@ -2605,8 +2623,8 @@ fil:
         this operation.
       missing_content_type: not specified
       missing_request_body: There was no request body.
-      missing_or_malformed_parameter: The query parameter '%{parameter}' is missing
-        or malformed.
+      missing_or_malformed_parameter: Ang query parametro '%{parameter}' ay nawawala
+        o naka-malform.
       multipart_body_error: The request body did not contain the expected multipart
         parts.
       multiple_errors: Multiple field constraints have been violated.

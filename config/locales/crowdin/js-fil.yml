@@ -5,20 +5,20 @@ fil:
       hide: Hide
       loading: Loading ...
     close_popup_title: Close popup
-    close_filter_title: Close filter
-    close_form_title: Close form
+    close_filter_title: Isara ang filter
+    close_form_title: Isara ang form
     clipboard:
       browser_error: Your browser doesn't support copying to clipboard. Please copy
         the selected text manually.
       copied_successful: Sucessfully copied to clipboard!
     button_add_watcher: Add watcher
-    button_back_to_list_view: Back to list view
+    button_back_to_list_view: Bumalik sa listahan ng view
     button_cancel: Cancel
     button_close: Close
     button_check_all: Check all
     button_configure-form: Configure form
-    button_confirm: Confirm
-    button_continue: Continue
+    button_confirm: Kumpirmahin
+    button_continue: Magpatuloy
     button_copy: Copy
     button_custom-fields: Mga pasadyang patlang
     button_delete: Delete
@@ -33,7 +33,7 @@ fil:
     button_more: More
     button_move: Move
     button_open_details: Open details view
-    button_close_details: Close details view
+    button_close_details: Isara ang mga detalye na view
     button_open_fullscreen: Buksan ang view ng buong screen
     button_quote: Quote
     button_save: Save
@@ -56,9 +56,9 @@ fil:
           enter. To leave without filter select the first (empty) entry.
       noneElement: "(none)"
       time_zone_converted:
-        two_values: "%{from} - %{to} in your local time."
-        only_start: From %{from} in your local time.
-        only_end: Till %{to} in your local time.
+        two_values: "%{from} - %{to} sa iyong lokal na oras."
+        only_start: Mula sa %{from} sa iyong lokal na oras.
+        only_end: Hanggang %{to} sa iyong lokal na oras.
       value_spacer: "-"
       sorting:
         criteria:
@@ -73,7 +73,7 @@ fil:
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
       comment.
-    label_add_columns: Add columns
+    label_add_columns: Magdagdag ng hanay
     label_add_comment: Add comment
     label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Add selected columns
@@ -85,11 +85,11 @@ fil:
     label_and: and
     label_ascending: Ascending
     label_author: 'Author: %{user}'
-    label_between: between
+    label_between: sa pagitan ng
     label_board_locked: Locked
     label_board_sticky: Sticky
     label_create_work_package: Create new work package
-    label_created_by: Created by
+    label_created_by: Nilikha ni
     label_date: Petsa
     label_date_with_format: 'Ipasok anv %{date_attribute} gamit ang sumusunod na format:
       %{format}'
@@ -186,7 +186,7 @@ fil:
     label_attachments: Files
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
-    label_add_attachments: Add attachments
+    label_add_attachments: Magdagdag ng mga nakalakip
     label_formattable_attachment_hint: Attach and link files by dropping on this field,
       or pasting from the clipboard.
     label_remove_file: Delete %{fileName}
@@ -205,8 +205,9 @@ fil:
     help_texts:
       show_modal: Show attribute help text entry
     password_confirmation:
-      field_description: You need to enter your account password to confirm this change.
-      title: Confirm your password to continue
+      field_description: Kailangan mong ipasok ang iyong akwant password upang kumpirmahin
+        ang pagbabago niito.
+      title: Kumpirmahin ang iyong password upanh magpatuloy
     pagination:
       no_other_page: Ikaw ay nasa pahina lamang.
       pages:
@@ -216,7 +217,8 @@ fil:
       default: "-"
       subject: Enter subject here
       selection: Pakiusap pumili
-      relation_description: Click to add description for this relation
+      relation_description: Pindutin upang magdagdag ng deskripsyon sa kaugnay na
+        ito
     project:
       required_outside_context: You are not within a project context. Please choose
         the project context first in order to select type and status
@@ -228,27 +230,28 @@ fil:
     text_are_you_sure: Are you sure?
     types:
       attribute_groups:
-        error_duplicate_group_name: The name %{group} is used more than once. Group
-          names must be unique.
+        error_duplicate_group_name: Ang pangalan ng %{group} ay ginamit higit pa sa
+          isang beses. Ang mga pangalan ng grupo ay dapat nakakakatangi.
         reset_title: Reset form configuration
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+        confirm_reset: 'Babala: Sigurado ka ba gusto mong i-reset ang form ng kumpigurasyon?
+          Ito ay i-reset ang mga katangian sa kanilang grupong default, tanggalin
+          ang kakayahang makita ang mga checkbox at hindi paganahin ang LAHAT ng kustom
+          na patlang.
 
 '
-        upgrade_to_ee: Upgrade to Enterprise Edition
-        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
-          you mind supporting us OpenSource developers by becoming an Enterprise Edition
-          client?
-        more_information: More information
-        nevermind: Nevermind
+        upgrade_to_ee: I-upgrade sa Enterprise Edition
+        upgrade_to_ee_text: Wow! kung kinakailngan mo ang tampok na ito ikaw sobrang
+          galing! Ayos lang ba sa iyo na suportahan ag aming OpenSource developers
+          sa pamamagitan ng pagiging isang kliyente ng Enterprise Edition?
+        more_information: Karagdagang impornasyon
+        nevermind: Hindi bale
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
       label_search_watchers: Search watchers
       label_add: Add watchers
       label_discard: Discard selection
-      typeahead_placeholder: Search for possible watchers
+      typeahead_placeholder: Maghanap ng posibleng watchers
     relation_labels:
       parent: Peyrent
       children: Children
@@ -259,33 +262,33 @@ fil:
       blocked: Blocked by
       precedes: Precedes
       follows: Follows
-      includes: Includes
-      partof: Part of
-      requires: Requires
-      required: Required by
-      relation_type: relation type
+      includes: Kasama
+      partof: Bahagi ng
+      requires: Kinakailangan
+      required: Kinakailangan ng
+      relation_type: uri ng naguugnay
     relations_hierarchy:
       hierarchy_headline: hierarchy
     relation_buttons:
       change_parent: Change parent
-      remove_parent: Remove parent
-      group_by_wp_type: Group by work package type
-      group_by_relation_type: Group by relation type
-      add_parent: Add existing parent
-      add_new_child: Create new child
-      add_existing_child: Add existing child
-      remove_child: Remove child
-      add_new_relation: Create new relation
-      update_description: Set or update description of this relation
-      toggle_description: Toggle relation description
-      update_relation: Click to change the relation type
-      add_follower: Add follower
-      add_predecessor: Add predecessor
+      remove_parent: Alisin ang magulang
+      group_by_wp_type: Grupo sa pamamagitan ng uri ng work package
+      group_by_relation_type: Grupo sa pamamagitan ng uri ng pakikipag-ugnayan
+      add_parent: Magdagdag ng umiiral na magulang
+      add_new_child: Maglikha ng bagong bata
+      add_existing_child: Magdagdag ng umiiral na bata
+      remove_child: Alisin ang bata
+      add_new_relation: Lumikha ng pagkikipag-ugnayan
+      update_description: Itakda o i-update ang paglalarawan sa kaugnayan ito
+      toggle_description: I-toggle ang kaugnayan sa paglalarawan
+      update_relation: Pindutin upang baguhin ang uri ng kaugnayan
+      add_follower: Magdagdag ng follower
+      add_predecessor: Magdagdag ng predecessor
       remove: Remove relation
-      save: Save relation
-      abort: Abort
+      save: I-save ang pakipag-ugnayan
+      abort: Huwag ituloy
     relations_autocomplete:
-      placeholder: Enter the related work package id
+      placeholder: Ipasok ang Id ng kauganay sa work package
     repositories:
       select_tag: Select tag
       select_branch: Select branch
@@ -303,13 +306,13 @@ fil:
         other: You can only select {{limit}} items
         zero: You cannot select any items
     sort:
-      sorted_asc: 'Ascending sort applied, '
-      sorted_dsc: 'Descending sort applied, '
-      sorted_no: 'No sort applied, '
-      sorting_disabled: sorting is disabled
-      activate_asc: activate to apply an ascending sort
-      activate_dsc: activate to apply a descending sort
-      activate_no: activate to remove the sort
+      sorted_asc: 'Pataas na paayos ang inilapat '
+      sorted_dsc: 'Pababa na paayosi ang inilapat '
+      sorted_no: 'Walang pagsasaayos ang inilapat '
+      sorting_disabled: ang pagsasaayos ay hindi pinagana
+      activate_asc: aktibo upang ilapat sa isang pataas na pagsaayos
+      activate_dsc: aktibo upang ilapat sa pababa na pagsaayos
+      activate_no: aktibk upang alisin ang pagsaayos
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
       work package(s)?
     text_query_destroy_confirmation: Are you sure you want to delete the selected
@@ -328,8 +331,8 @@ fil:
           its date labels will be shown instead of these attributes.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: I-aktibo ang timeline mode
+      button_deactivate: I-deactivate ang timeline mode
       cancel: Cancel
       change: Change in planning
       due_date: Takdang petsa
@@ -375,8 +378,8 @@ fil:
       start_date: Petsa ng pagsimula
       tooManyProjects: More than %{count} Projects. Please use a better filter!
       selection_mode:
-        notification: Click on any highlighted work package to create the relation.
-          Press escape to cancel.
+        notification: Pumindot sa kahit anong naka-highlight na work package upang
+          lumikha ng kaugnayan. Pindutin ang escape upang kanselahin.
       zoom:
         in: Zoom in
         out: Zoom out
@@ -392,12 +395,12 @@ fil:
       outlines: Hierarchy level
     unsupported_browser:
       title: Your browser version is not supported
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
+      message: Ang bersyon ng browser na ginagamit mo ay hindi na suportado ng OpenProject.
+      update_message: Magyaring i-update ang iyong broswer.
+      update_ie_user: Mangyaring lumipat sa Mozilla Firefox o Google Chromw, o i-upgrade
+        sa Microsoft Edge.
       learn_more: Learn more
-      close_warning: Ignore this warning.
+      close_warning: Huwag pansinin ang babala ito.
     wiki_formatting:
       strong: Strong
       italic: Italic
@@ -445,35 +448,36 @@ fil:
       label_options: Options
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
         confirm selection with enter, delete with backspace'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
+      label_switch_to_single_select: Lumipat sa napiling solo
+      label_switch_to_multi_select: Lumipat sa maramihang pagpili
       message_error_during_bulk_delete: An error occurred while trying to delete work
         packages.
       message_successful_bulk_delete: Successfully deleted work packages.
       message_successful_show_in_fullscreen: Pindutin dito upang buksan ang work package
         na ito sa fullscreen view.
-      message_view_spent_time: Show spent time for this work package
+      message_view_spent_time: Magpakita ng oras na nagamit para sa work package na
+        ito
       no_value: No value
       inline_create:
         title: Pindutin dito upang magdagdag ng bagong work package sa listahan na
           ito
       create:
-        header: New %{type}
-        header_no_type: New work package (Type not yet set)
-        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        header: Bago %{type}
+        header_no_type: Bagong work package ( Uri ay hindi pa naitakda)
+        header_with_parent: 'Bago %{type} ( Anak ng %{parent_type} #%{id})'
         button: Create
       hierarchy:
-        show: Show hierarchy mode
-        hide: Hide hierarchy mode
-        toggle_button: Click to toggle hierarchy mode.
-        leaf: Work package leaf at level %{level}.
-        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
-          filtered children
-        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
-          filtered children
+        show: Magpakita ng hierarchy mode
+        hide: Itahi ang hierarcy mode
+        toggle_button: Pindutin upang i-toggle ang hierarchy mode.
+        leaf: Work package leaf sa level %{level}.
+        children_collapsed: Hierarchy level %{level}, bumagsak. Pindutin upang ipakita
+          ang naka-filtered ng mga bata
+        children_expanded: Hierarchy level %{level}, lumawak. Pindutin upang bumagsak
+          ang naka-filtered na mga bata
       faulty_query:
-        title: Work packages could not be loaded.
-        description: Your query is erroneous and could not be processed.
+        title: Ang mga work package ay hindi mai-load.
+        description: Ang iyong query ay mali at hindi maiproseso.
       no_results:
         title: Walang mga work package ang i-displey.
         description: Alinman sa walang ang nilikha o mga work package ay naka-filter
@@ -509,8 +513,9 @@ fil:
         pagination: Dumiretso sa talaan ng pagination
         label_pagination: Pindutin dito upang lagpasan ang mga talaan ng work package
           at pumunta sa pagination.
-        content: Jump to content
-        label_content: Click here to skip over the menu and go to the content
+        content: Tumalon sa nilalaman
+        label_content: Pindito dito upang laktawin ang pagppipilian at pumunta sa
+          nilalaman
       placeholders:
         default: "-"
         description: Click to enter description...
@@ -518,10 +523,10 @@ fil:
         column_names: Mga hanay
         group_by: Mga resulta sa grupo sa pamamagitan ng
         group: Group by
-        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
-          mode being active.
-        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
-          being grouped by %{column}.
+        group_by_disabled_by_hierarchy: Grupo ng ay hindi pinagana dahil sa pagiging
+          aktibo ng hierarchy mode.
+        hierarchy_disabled_by_group_by: Ang Hierarchy mode ay hindi pinagana dahil
+          sa mga resulta na pag-grupo sa pamamagitan ng %{column}.
         hierarchy_mode: Hierarchy mode
         sort_ascending: Sort ascending
         sort_descending: Sort descending
@@ -533,8 +538,8 @@ fil:
         display_sums: Ipakita ang mga sum
         errors:
           unretrievable_query: Unable to retrieve query from URL
-          not_found: There is no such query
-        text_no_results: No matching queries were found.
+          not_found: Walang ganitong query
+        text_no_results: Walang mga nagkakatugmang query ay natagpuan.
       table:
         summary: Talaab sa mga hilera ng work package at mga hanay na katangian ng
           work package.
@@ -542,7 +547,8 @@ fil:
           aktibo sa pag-andar ng inline-editing sa katangian na iyon.
         text_sort_hint: With the links in the table headers you can sort, group, reorder,
           remove and add table columns.
-        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+        text_select_hint: Pumili ng mga kahon na maaring mabukasan sa 'ALT' at mga
+          arrow key.
       tabs:
         overview: Overview
         activity: Aktibidad
@@ -559,8 +565,8 @@ fil:
         sort_by: Sort by ...
         group_by: Group by ...
         display_sums: Display sums
-        display_hierarchy: Display hierarchy
-        hide_hierarchy: Hide hierarchy
+        display_hierarchy: Ipakita ang hierarchy
+        hide_hierarchy: Itago anh hierarchy
         hide_sums: Hide sums
         save: Save
         save_as: Save as ...
@@ -581,8 +587,8 @@ fil:
       button_submit: Submit
       button_cancel: Cancel
       form_submit:
-        title: Confirm to continue
-        text: Are you sure you want to perform this action?
+        title: Kumpirmahin upang magpatuloy
+        text: Sigurado ka bang na gusto mong magtanghal ng aksyon ito?
       upsale_relation_columns: Need to see relations in the work package list?
       upsale_relation_columns_link: Check out the Enterprise Edition.
       destroy_work_package:
@@ -629,5 +635,5 @@ fil:
         other: "%{count} hours"
         zero: 0 hours
     zen_mode:
-      button_activate: Activate zen mode
-      button_deactivate: Deactivate zen mode
+      button_activate: I-aktibo ang zen mode
+      button_deactivate: I-deactive ang zen mode

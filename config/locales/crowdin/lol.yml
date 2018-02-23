@@ -481,8 +481,8 @@ lol:
               numeric: crwdns92636:0crwdne92636:0
               special: crwdns92637:0crwdne92637:0
               reused:
-                one: crwdns92638:0crwdne92638:0
-                other: crwdns92638:1%{count}crwdne92638:1
+                one: crwdns92638:1crwdne92638:1
+                other: crwdns92638:5%{count}crwdne92638:5
               match:
                 confirm: crwdns92639:0crwdne92639:0
                 description: crwdns92640:0crwdne92640:0
@@ -496,8 +496,8 @@ lol:
       template:
         body: crwdns92643:0crwdne92643:0
         header:
-          one: crwdns92644:0%{model}crwdne92644:0
-          other: crwdns92644:1%{count}crwdnd92644:1%{model}crwdne92644:1
+          one: crwdns92644:1%{model}crwdne92644:1
+          other: crwdns92644:5%{count}crwdnd92644:5%{model}crwdne92644:5
     models:
       attachment: crwdns92645:0crwdne92645:0
       attribute_help_text: crwdns92646:0crwdne92646:0
@@ -512,8 +512,8 @@ lol:
       project: crwdns92655:0crwdne92655:0
       query: crwdns92656:0crwdne92656:0
       role:
-        one: crwdns92657:0crwdne92657:0
-        other: crwdns92657:1crwdne92657:1
+        one: crwdns92657:1crwdne92657:1
+        other: crwdns92657:5crwdne92657:5
       type: crwdns92658:0crwdne92658:0
       project_type: crwdns92659:0crwdne92659:0
       user: crwdns92660:0crwdne92660:0
@@ -709,43 +709,43 @@ lol:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: crwdns92832:0crwdne92832:0
-        other: crwdns92832:1%{count}crwdne92832:1
+        one: crwdns92832:1crwdne92832:1
+        other: crwdns92832:5%{count}crwdne92832:5
       about_x_months:
-        one: crwdns92833:0crwdne92833:0
-        other: crwdns92833:1%{count}crwdne92833:1
+        one: crwdns92833:1crwdne92833:1
+        other: crwdns92833:5%{count}crwdne92833:5
       about_x_years:
-        one: crwdns92834:0crwdne92834:0
-        other: crwdns92834:1%{count}crwdne92834:1
+        one: crwdns92834:1crwdne92834:1
+        other: crwdns92834:5%{count}crwdne92834:5
       almost_x_years:
-        one: crwdns92835:0crwdne92835:0
-        other: crwdns92835:1%{count}crwdne92835:1
+        one: crwdns92835:1crwdne92835:1
+        other: crwdns92835:5%{count}crwdne92835:5
       half_a_minute: crwdns92836:0crwdne92836:0
       less_than_x_minutes:
-        one: crwdns92837:0crwdne92837:0
-        other: crwdns92837:1%{count}crwdne92837:1
+        one: crwdns92837:1crwdne92837:1
+        other: crwdns92837:5%{count}crwdne92837:5
       less_than_x_seconds:
-        one: crwdns92838:0crwdne92838:0
-        other: crwdns92838:1%{count}crwdne92838:1
+        one: crwdns92838:1crwdne92838:1
+        other: crwdns92838:5%{count}crwdne92838:5
       over_x_years:
-        one: crwdns92839:0crwdne92839:0
-        other: crwdns92839:1%{count}crwdne92839:1
+        one: crwdns92839:1crwdne92839:1
+        other: crwdns92839:5%{count}crwdne92839:5
       x_days:
-        one: crwdns92840:0crwdne92840:0
-        other: crwdns92840:1%{count}crwdne92840:1
+        one: crwdns92840:1crwdne92840:1
+        other: crwdns92840:5%{count}crwdne92840:5
       x_minutes:
-        one: crwdns92841:0crwdne92841:0
-        other: crwdns92841:1%{count}crwdne92841:1
+        one: crwdns92841:1crwdne92841:1
+        other: crwdns92841:5%{count}crwdne92841:5
       x_months:
-        one: crwdns92842:0crwdne92842:0
-        other: crwdns92842:1%{count}crwdne92842:1
+        one: crwdns92842:1crwdne92842:1
+        other: crwdns92842:5%{count}crwdne92842:5
       x_seconds:
-        one: crwdns92843:0crwdne92843:0
-        other: crwdns92843:1%{count}crwdne92843:1
+        one: crwdns92843:1crwdne92843:1
+        other: crwdns92843:5%{count}crwdne92843:5
     units:
       hour:
-        one: crwdns92844:0crwdne92844:0
-        other: crwdns92844:1crwdne92844:1
+        one: crwdns92844:1crwdne92844:1
+        other: crwdns92844:5crwdne92844:5
   default_activity_development: crwdns92845:0crwdne92845:0
   default_activity_management: crwdns92846:0crwdne92846:0
   default_activity_other: crwdns92847:0crwdne92847:0
@@ -1456,24 +1456,24 @@ lol:
   label_workflow_plural: crwdns93525:0crwdne93525:0
   label_workflow_summary: crwdns93526:0crwdne93526:0
   label_x_closed_work_packages_abbr:
-    one: crwdns93527:0crwdne93527:0
-    other: crwdns93527:1%{count}crwdne93527:1
+    one: crwdns93527:1crwdne93527:1
+    other: crwdns93527:5%{count}crwdne93527:5
     zero: 0 closed
   label_x_comments:
-    one: crwdns93528:0crwdne93528:0
-    other: crwdns93528:1%{count}crwdne93528:1
+    one: crwdns93528:1crwdne93528:1
+    other: crwdns93528:5%{count}crwdne93528:5
     zero: no comments
   label_x_open_work_packages_abbr:
-    one: crwdns93529:0crwdne93529:0
-    other: crwdns93529:1%{count}crwdne93529:1
+    one: crwdns93529:1crwdne93529:1
+    other: crwdns93529:5%{count}crwdne93529:5
     zero: 0 open
   label_x_open_work_packages_abbr_on_total:
-    one: crwdns93530:0%{total}crwdne93530:0
-    other: crwdns93530:1%{count}crwdnd93530:1%{total}crwdne93530:1
+    one: crwdns93530:1%{total}crwdne93530:1
+    other: crwdns93530:5%{count}crwdnd93530:5%{total}crwdne93530:5
     zero: 0 open / %{total}
   label_x_projects:
-    one: crwdns93531:0crwdne93531:0
-    other: crwdns93531:1%{count}crwdne93531:1
+    one: crwdns93531:1crwdne93531:1
+    other: crwdns93531:5%{count}crwdne93531:5
     zero: no projects
   label_year: crwdns93532:0crwdne93532:0
   label_yesterday: crwdns93533:0crwdne93533:0
@@ -1612,8 +1612,8 @@ lol:
         format: crwdns93651:0%ncrwdnd93651:0%ucrwdne93651:0
         units:
           byte:
-            one: crwdns93652:0crwdne93652:0
-            other: crwdns93652:1crwdne93652:1
+            one: crwdns93652:1crwdne93652:1
+            other: crwdns93652:5crwdne93652:5
           gb: crwdns93653:0crwdne93653:0
           kb: crwdns93654:0crwdne93654:0
           mb: crwdns93655:0crwdne93655:0
@@ -2076,8 +2076,8 @@ lol:
     delete_thing: crwdns94068:0crwdne94068:0
     duration: crwdns94069:0crwdne94069:0
     duration_days:
-      one: crwdns94070:0crwdne94070:0
-      other: crwdns94070:1%{count}crwdne94070:1
+      one: crwdns94070:1crwdne94070:1
+      other: crwdns94070:5%{count}crwdne94070:5
     edit_color: crwdns94071:0crwdne94071:0
     edit_project_type: crwdns94072:0crwdne94072:0
     edit_thing: crwdns94073:0crwdne94073:0
@@ -2258,8 +2258,8 @@ lol:
     assign_random_password: crwdns94217:0crwdne94217:0
     blocked: crwdns94218:0crwdne94218:0
     blocked_num_failed_logins:
-      one: crwdns94219:0crwdne94219:0
-      other: crwdns94219:1%{count}crwdne94219:1
+      one: crwdns94219:1crwdne94219:1
+      other: crwdns94219:5%{count}crwdne94219:5
     confirm_status_change: crwdns94220:0%{name}crwdne94220:0
     deleted: crwdns94221:0crwdne94221:0
     error_status_change_failed: crwdns94222:0%{errors}crwdne94222:0
