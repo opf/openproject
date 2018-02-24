@@ -42,7 +42,8 @@ See docs/COPYRIGHT.rdoc for more details.
       <hr class="form--separator"/>
       <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
       <%= preview_link preview_board_topics_path(@board), 'message-form-preview' %>
-      <%= link_to t(:button_cancel), '', onclick: 'jQuery("#add-message").hide();', class: 'button' %>
+      <%= link_to t(:button_cancel), '', class: 'cancel-add-message-button button' %>
+      <% csp_onclick('jQuery("#add-message").hide();', '.cancel-add-message-button') %>
     <% end %>
     <div id="preview"></div>
   <% end %>
@@ -52,13 +53,13 @@ See docs/COPYRIGHT.rdoc for more details.
   <% if authorize_for(:messages, :new) %>
     <li class="toolbar-item">
       <%= link_to({controller: '/messages', action: 'new', board_id: @board},
-                  {class: 'button -alt-highlight',
+                  {class: 'add-message-button button -alt-highlight',
                    aria: {label: t(:label_message_new)},
-                   title: t(:label_message_new)},
-                  onclick: 'jQuery("#add-message").show(); jQuery("#message_subject").focus(); return false;') do %>
+                   title: t(:label_message_new)}) do %>
         <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t(:label_message) %></span>
       <% end %>
+      <% csp_onclick('jQuery("#add-message").show(); jQuery("#message_subject").focus();', '.add-message-button') %>
     </li>
   <% end %>
   <% unless User.current.anonymous? %>

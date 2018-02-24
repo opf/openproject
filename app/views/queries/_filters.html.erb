@@ -114,7 +114,8 @@ See docs/COPYRIGHT.rdoc for more details.
       <li <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter advanced-filters--filter">
         <% label_value = filter.human_name || WorkPackage.human_attribute_name(filter.class.key) %>
         <label class="advanced-filters--filter-name" title="<%= label_value %>">
-          <%= check_box_tag 'f[]', field, query.has_filter?(field), onclick: "toggle_filter('#{field}');", id: "cb_#{field}" %>
+          <%= check_box_tag 'f[]', field, query.has_filter?(field), id: "cb_#{field}" %>
+          <% csp_onclick("toggle_filter('#{field}');", "#cb_#{field}") %>
           <%= label_value %>
         </label>
         <div class="advanced-filters--filter-operator">

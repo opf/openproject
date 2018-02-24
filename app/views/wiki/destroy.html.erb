@@ -38,8 +38,8 @@ See docs/COPYRIGHT.rdoc for more details.
         <label><%= radio_button_tag 'todo', 'reassign', false %> <%= t(:text_wiki_page_reassign_children) %></label>
         <%= label_tag "reassign_to_id", t(:description_wiki_subpages_reassign), class: "hidden-for-sighted" %>
         <%= select_tag 'reassign_to_id',
-                       options_for_select(wiki_page_options_for_select(@reassignable_to)),
-                       onclick: "jQuery('#todo_reassign').attr('checked', true);" %>
+                       options_for_select(wiki_page_options_for_select(@reassignable_to)) %>
+        <% csp_onclick("jQuery('#todo_reassign').attr('checked', true)", '#reassign_to_id') %>
       <% end %>
     </p>
   </div>

@@ -90,8 +90,7 @@ describe Redmine::MenuManager::MenuItem do
     end
 
     assert Redmine::MenuManager::MenuItem.new(:test_good_html, '/test',
-
-                                              html: { onclick: 'doSomething' }
+                                              html: { data: 'foo' }
                                              )
   end
 

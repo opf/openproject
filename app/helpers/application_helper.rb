@@ -98,7 +98,7 @@ module ApplicationHelper
     onclick = "jQuery('##{id}').toggle(); "
     onclick << (options[:focus] ? "jQuery('##{options[:focus]}').focus(); " : 'this.blur(); ')
     onclick << 'return false;'
-    link_to(name, '#', { onclick: onclick }.merge(html_options))
+    link_to_function(name, onclick, html_options)
   end
 
   def delete_link(url, options = {})
@@ -109,15 +109,6 @@ module ApplicationHelper
     }.merge(options)
 
     link_to I18n.t(:button_delete), url, options
-  end
-
-  def image_to_function(name, function, html_options = {})
-    html_options.symbolize_keys!
-    tag(:input, html_options.merge(
-                  type: 'image', src: image_path(name),
-                  onclick: (html_options[:onclick] ? "#{html_options[:onclick]}; " : '') +
-                            "#{function};"
-    ))
   end
 
   def format_activity_title(text)

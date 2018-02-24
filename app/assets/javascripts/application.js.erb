@@ -353,6 +353,17 @@ jQuery(document).ready(function($) {
   // Focus on field with error
   addClickEventToAllErrorMessages();
 
+  // Skip menu on content
+  jQuery('.skip-navigation-link').click(skipMenu);
+
+  // Click handler for formatting help
+  jQuery(document.body).on('click', '.formatting-help-link-button', function() {
+    window.open(window.appBasePath + '/help/wiki_syntax',
+      "",
+      "resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes"
+    );
+    return false;
+  });
 });
 
 

@@ -44,8 +44,8 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
     </div>
     <div class="form--field">
-      <%= setting_check_box :sys_api_enabled,
-                            onclick: "jQuery('#settings_sys_api_key').prop('disabled', !this.checked)" %>
+      <%= setting_check_box :sys_api_enabled %>
+      <% csp_onclick("jQuery('#settings_sys_api_key').prop('disabled', !this.checked)", '#settings_sys_api_enabled') %>
       <div class="form--field-instructions">
         <%= t(:setting_sys_api_description) %>
       </div>
@@ -130,8 +130,9 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="form--field-instructions"><%= t(:text_comma_separated) %></div>
     </div>
     <div class="form--field">
-      <%= setting_check_box :commit_logtime_enabled,
-                            onclick: "jQuery('#settings_commit_logtime_activity_id').prop('disabled', !this.checked)" %>
+      <%= setting_check_box :commit_logtime_enabled %>
+      <% csp_onclick("jQuery('#settings_commit_logtime_activity_id').prop('disabled', !this.checked)",
+                     '#setting_commit_logtime_enabled') %>
     </div>
     <div class="form--field"><%= setting_select :commit_logtime_activity_id,
          [[t(:label_default), 0]] + TimeEntryActivity.shared.map {|activity| [activity.name, activity.id.to_s]},

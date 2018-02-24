@@ -66,8 +66,7 @@ module SettingsHelper
 
             content_tag(:label, class: 'form--label-with-check-box') do
               styled_check_box_tag("settings[#{setting}][]", value,
-                                   Setting.send(setting).include?(value), options) +
-                text.to_s
+                                   Setting.send(setting).include?(value), options.merge(id: nil)) + text.to_s
             end
           }.join.html_safe
       }
@@ -139,7 +138,7 @@ module SettingsHelper
       styled_check_box_tag('settings[notified_events][]',
                            notifiable.name,
                            Setting.notified_events.include?(notifiable.name),
-                           options) +
+                           options.merge(id: nil)) +
         l_or_humanize(notifiable.name, prefix: 'label_')
     end
   end
