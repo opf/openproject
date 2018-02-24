@@ -296,6 +296,7 @@ cs:
         other: Prosím, zadejte {{count}} nebo více znaků
         zero: Please enter more characters
         few: Prosím, zadejte {{count}} nebo více znaků
+        many: Please enter {{count}} more characters
       load_more: Načíst další výsledky...
       no_matches: Nenalezena žádná shoda
       searching: Vyhledávání ...
@@ -304,6 +305,7 @@ cs:
         other: You can only select {{limit}} items
         zero: You cannot select any items
         few: You can only select {{limit}} items
+        many: You can only select {{limit}} items
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -620,15 +622,18 @@ cs:
         one: pracovní balíček
         other: pracovní balíčky
         few: pracovní balíčky
+        many: work packages
       child_work_packages:
         one: jeden podřazený pracovní balíček
         other: "%{count} podřazených pracovních balíčků"
         few: "%{count} podřazených pracovních balíčků"
+        many: "%{count} work package children"
       hour:
         one: 1 hodina
         other: "%{count} hodiny"
         zero: 0 hours
         few: "%{count} hodiny"
+        many: "%{count} hours"
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode

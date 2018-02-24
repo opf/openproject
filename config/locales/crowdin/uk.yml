@@ -545,6 +545,8 @@ uk:
                   your last %{count}.
                 few: has been used before. Please choose one that is different from
                   your last %{count}.
+                many: has been used before. Please choose one that is different from
+                  your last %{count}.
               match:
                 confirm: Confirm new password.
                 description: "'Password confirmation' should match the input in the
@@ -562,6 +564,7 @@ uk:
           one: 1 error prohibited this %{model} from being saved
           other: "%{count} errors prohibited this %{model} from being saved"
           few: "%{count} errors prohibited this %{model} from being saved"
+          many: "%{count} errors prohibited this %{model} from being saved"
     models:
       attachment: Файл
       attribute_help_text: Attribute help text
@@ -579,6 +582,7 @@ uk:
         one: Role
         other: Roles
         few: Roles
+        many: Roles
       type: Type
       project_type: Тип проекту
       user: User
@@ -781,52 +785,64 @@ uk:
         one: about 1 hour
         other: about %{count} hours
         few: about %{count} hours
+        many: about %{count} hours
       about_x_months:
         one: about 1 month
         other: about %{count} months
         few: about %{count} months
+        many: about %{count} months
       about_x_years:
         one: about 1 year
         other: about %{count} years
         few: about %{count} years
+        many: about %{count} years
       almost_x_years:
         one: almost 1 year
         other: almost %{count} years
         few: almost %{count} years
+        many: almost %{count} years
       half_a_minute: half a minute
       less_than_x_minutes:
         one: less than a minute
         other: less than %{count} minutes
         few: less than %{count} minutes
+        many: less than %{count} minutes
       less_than_x_seconds:
         one: less than 1 second
         other: less than %{count} seconds
         few: less than %{count} seconds
+        many: less than %{count} seconds
       over_x_years:
         one: over 1 year
         other: over %{count} years
         few: over %{count} years
+        many: over %{count} years
       x_days:
         one: 1 day
         other: "%{count} days"
         few: "%{count} days"
+        many: "%{count} days"
       x_minutes:
         one: 1 minute
         other: "%{count} minutes"
         few: "%{count} minutes"
+        many: "%{count} minutes"
       x_months:
         one: 1 month
         other: "%{count} months"
         few: "%{count} months"
+        many: "%{count} months"
       x_seconds:
         one: 1 second
         other: "%{count} seconds"
         few: "%{count} seconds"
+        many: "%{count} seconds"
     units:
       hour:
         one: hour
         other: hours
         few: hours
+        many: hours
   default_activity_development: Development
   default_activity_management: Налаштування
   default_activity_other: Other
@@ -1566,26 +1582,31 @@ uk:
     other: "%{count} closed"
     zero: 0 closed
     few: "%{count} closed"
+    many: "%{count} closed"
   label_x_comments:
     one: 1 comment
     other: "%{count} comments"
     zero: no comments
     few: "%{count} comments"
+    many: "%{count} comments"
   label_x_open_work_packages_abbr:
     one: 1 open
     other: "%{count} open"
     zero: 0 open
     few: "%{count} open"
+    many: "%{count} open"
   label_x_open_work_packages_abbr_on_total:
     one: 1 open / %{total}
     other: "%{count} open / %{total}"
     zero: 0 open / %{total}
     few: "%{count} open / %{total}"
+    many: "%{count} open / %{total}"
   label_x_projects:
     one: 1 project
     other: "%{count} projects"
     zero: no projects
     few: "%{count} projects"
+    many: "%{count} projects"
   label_year: Year
   label_yesterday: yesterday
   label_keyboard_function: Function
@@ -1761,6 +1782,7 @@ uk:
             one: Byte
             other: Bytes
             few: Bytes
+            many: Bytes
           gb: GB
           kb: kB
           mb: MB
@@ -2321,6 +2343,7 @@ uk:
       one: 1 day
       other: "%{count} days"
       few: "%{count} days"
+      many: "%{count} days"
     edit_color: Edit color
     edit_project_type: Edit project type
     edit_thing: Edit
@@ -2529,6 +2552,7 @@ uk:
       one: locked temporarily (one failed login attempt)
       other: locked temporarily (%{count} failed login attempts)
       few: locked temporarily (%{count} failed login attempts)
+      many: locked temporarily (%{count} failed login attempts)
     confirm_status_change: You are about to change the status of '%{name}'. Are you
       sure you want to continue?
     deleted: Deleted user

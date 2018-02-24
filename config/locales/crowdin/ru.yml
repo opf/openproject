@@ -545,6 +545,8 @@ ru:
                 few: |-
                   использовался ранее. Пожалуйста, выберите отличный от ваших
                   последних %{count}.
+                many: has been used before. Please choose one that is different from
+                  your last %{count}.
               match:
                 confirm: Подтвердите новый пароль.
                 description: "«Подтвержденный пароль» должен совпадать с введенным
@@ -563,6 +565,7 @@ ru:
           one: 1 ошибка препятствует сохранению %{model}
           other: "%{count} ошибок препятствуют сохранению %{model}"
           few: "%{count} ошибки препятствует сохранению %{model}"
+          many: "%{count} errors prohibited this %{model} from being saved"
     models:
       attachment: Файл
       attribute_help_text: Атрибут текста справки
@@ -580,6 +583,7 @@ ru:
         one: Роль
         other: Роли
         few: Роли
+        many: Roles
       type: Тип
       project_type: Тип проекта
       user: Пользователь
@@ -781,52 +785,64 @@ ru:
         one: около часа
         other: около %{count} часов
         few: около %{count} часов
+        many: about %{count} hours
       about_x_months:
         one: около месяца
         other: около %{count} месяцев
         few: около %{count} месяцев
+        many: about %{count} months
       about_x_years:
         one: около года
         other: около %{count} лет
         few: около %{count} лет
+        many: about %{count} years
       almost_x_years:
         one: почти год
         other: почти %{count} лет
         few: почти %{count} года
+        many: almost %{count} years
       half_a_minute: полминуты
       less_than_x_minutes:
         one: менее минуты
         other: менее %{count} минут
         few: менее %{count} минут
+        many: less than %{count} minutes
       less_than_x_seconds:
         one: меньше секунды
         other: меньше %{count} секунд
         few: меньше %{count} секунд
+        many: less than %{count} seconds
       over_x_years:
         one: более года
         other: более %{count} лет
         few: более %{count} лет
+        many: over %{count} years
       x_days:
         one: 1 день
         other: "%{count} дней"
         few: "%{count} дня"
+        many: "%{count} days"
       x_minutes:
         one: 1 минута
         other: "%{count} минут"
         few: "%{count} минуты"
+        many: "%{count} minutes"
       x_months:
         one: 1 месяц
         other: "%{count} месяцев"
         few: "%{count} месяца"
+        many: "%{count} months"
       x_seconds:
         one: 1 секунда
         other: "%{count} секунд"
         few: "%{count} секунды"
+        many: "%{count} seconds"
     units:
       hour:
         one: час
         other: часов
         few: часа
+        many: hours
   default_activity_development: Разработка
   default_activity_management: Управление
   default_activity_other: Другие
@@ -1575,26 +1591,31 @@ ru:
     other: "%{count} закрыто"
     zero: 0 closed
     few: "%{count} закрыто"
+    many: "%{count} closed"
   label_x_comments:
     one: 1 комментарий
     other: "%{count} комментариев"
     zero: no comments
     few: "%{count} комментария"
+    many: "%{count} comments"
   label_x_open_work_packages_abbr:
     one: 1 открыт
     other: "%{count} открыто"
     zero: 0 open
     few: "%{count} открыто"
+    many: "%{count} open"
   label_x_open_work_packages_abbr_on_total:
     one: 1 открыт / %{total}
     other: "%{count} открыто / %{total}"
     zero: 0 open / %{total}
     few: "%{count} открыто / %{total}"
+    many: "%{count} open / %{total}"
   label_x_projects:
     one: 1 проект
     other: "%{count} проектов"
     zero: no projects
     few: "%{count} проекта"
+    many: "%{count} projects"
   label_year: Год
   label_yesterday: вчера
   label_keyboard_function: Функция
@@ -1771,6 +1792,7 @@ ru:
             one: Байт
             other: Байтов
             few: Байта
+            many: Bytes
           gb: ГБ
           kb: кБ
           mb: МБ
@@ -2347,6 +2369,7 @@ ru:
       one: 1 день
       other: "%{count} дней"
       few: "%{count} дня"
+      many: "%{count} days"
     edit_color: Изменить цвет
     edit_project_type: Редактировать тип проекта
     edit_thing: Правка
@@ -2555,6 +2578,7 @@ ru:
       one: временно заблокирован (одна неудачная попытка авторизации)
       other: временно заблокирован (%{count} неудачных попыток авторизации)
       few: временно заблокирован (%{count} неудачные попытки авторизации)
+      many: locked temporarily (%{count} failed login attempts)
     confirm_status_change: Вы собираетесь изменить статус '%{name}'. Хотите продолжить?
     deleted: Удалённый пользователь
     error_status_change_failed: 'Изменение статуса пользователя не удалось из-за следующей

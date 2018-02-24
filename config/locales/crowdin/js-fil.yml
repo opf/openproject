@@ -8,13 +8,13 @@ fil:
     close_filter_title: Isara ang filter
     close_form_title: Isara ang form
     clipboard:
-      browser_error: Your browser doesn't support copying to clipboard. Please copy
-        the selected text manually.
-      copied_successful: Sucessfully copied to clipboard!
+      browser_error: Ang iyong browser ay hindi suporta ang pagkokopya sa clipboard.
+        Mangayaring kopyahin ng manu-mano ang napiling teksto.
+      copied_successful: Matagumpay na kinopya sa clipboard!
     button_add_watcher: Add watcher
     button_back_to_list_view: Bumalik sa listahan ng view
     button_cancel: Cancel
-    button_close: Close
+    button_close: Isara
     button_check_all: Check all
     button_configure-form: Configure form
     button_confirm: Kumpirmahin
@@ -28,7 +28,7 @@ fil:
     button_edit: Edit
     button_filter: Filter
     button_list_view: List view
-    button_show_view: Fullscreen view
+    button_show_view: Tanawin sa buong screen
     button_log_time: Ang oras ng tala
     button_more: More
     button_move: Move
@@ -51,9 +51,8 @@ fil:
       internal: Isang internal error ang naganap.
     filter:
       description:
-        text_open_filter: Open this filter with 'ALT' and arrow keys.
-        text_close_filter: To select an entry leave the focus for example by pressing
-          enter. To leave without filter select the first (empty) entry.
+        text_open_filter: Buksan ang filter na ito sa 'ALT' at ang mga arrow key.
+        text_close_filter: Upang pumili ng isang iniwang entry ng.
       noneElement: "(none)"
       time_zone_converted:
         two_values: "%{from} - %{to} sa iyong lokal na oras."
@@ -62,20 +61,20 @@ fil:
       value_spacer: "-"
       sorting:
         criteria:
-          one: First sorting criteria
-          two: Second sorting criteria
-          three: Third sorting criteria
+          one: Ang unang pamantayang pagkasunod-sunod
+          two: Ang pangalawang pamantayang pagkasunod-sunod
+          three: Ang pangatlong pamantayang pagkasunod-sunod
     general_text_no: 'no'
     general_text_yes: 'yes'
     general_text_No: 'No'
     general_text_Yes: 'Yes'
     label_activate: Activate
-    label_activity_no: Activity entry number %{activityNo}
-    label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
-      comment.
+    label_activity_no: Bilang ng aktibidad entry %{activityNo}
+    label_activity_with_comment_no: Bilang ng aktibidad entry %{activityNo}. Mayroong
+      komento ng gumagamit.
     label_add_columns: Magdagdag ng hanay
     label_add_comment: Add comment
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Mag-komento at mag-type ng @ upang ipaalam sa ibang tao
     label_add_selected_columns: Add selected columns
     label_added_by: added by
     label_added_time_by: Added by %{author} %{age}
@@ -84,7 +83,7 @@ fil:
     label_all_work_packages: all work packages
     label_and: and
     label_ascending: Ascending
-    label_author: 'Author: %{user}'
+    label_author: 'May-Akda: %{user}'
     label_between: sa pagitan ng
     label_board_locked: Locked
     label_board_sticky: Sticky
@@ -102,12 +101,12 @@ fil:
     label_collapsed: collapsed
     label_collapse_all: Collapse all
     label_comment: Komento
-    label_committed_at: "%{committed_revision_link} at %{date}"
-    label_committed_link: committed revision %{revision_identifier}
+    label_committed_at: "%{committed_revision_link} sa %{date}"
+    label_committed_link: nakatuon rebisyon %{revision_identifier}
     label_contains: contains
-    label_created_on: created on
-    label_edit_comment: Edit this comment
-    label_edit_status: Edit the status of the work package
+    label_created_on: nilikha sa
+    label_edit_comment: I-edit ang komentong ito
+    label_edit_status: I-edit ang estado ng work package
     label_equals: is
     label_expand: Expand
     label_expanded: expanded
@@ -145,14 +144,14 @@ fil:
     label_previous: Previous
     label_per_page: 'Per page:'
     label_please_wait: Pakiusap maghantay
-    label_visibility_settings: Visibility settings
-    label_quote_comment: Quote this comment
+    label_visibility_settings: Ang mga setting ng katanyagan
+    label_quote_comment: I-quote ang komentong ito
     label_reset: Reset
     label_remove_columns: Remove selected columns
     label_save_as: Save as
     label_select_watcher: Select a watcher...
     label_selected_filter_list: Selected filters
-    label_show_attributes: Show all attributes
+    label_show_attributes: Ipakita ang lahat ng mga katangian
     label_show_in_menu: Show page in menu
     label_sort_by: Sort by
     label_sorted_by: sorted by
@@ -163,11 +162,11 @@ fil:
     label_subject: Subject
     label_this_week: this week
     label_today: today
-    label_activity_show_only_comments: Show activities with comments only
-    label_activity_show_all: Show all activities
+    label_activity_show_only_comments: Magpakita ng mga aktibidad sa komento lamang
+    label_activity_show_all: Ipakita lahat ang mga aktibidad
     label_total_progress: "%{percent}% Total progress"
     label_visible_for_others: Page visible for others
-    label_updated_on: updated on
+    label_updated_on: i-update sa
     label_warning: Warning
     label_work_package: Work package
     label_work_package_plural: Work packages
@@ -184,26 +183,27 @@ fil:
     label_custom_queries: Private queries
     label_columns: Mga hanay
     label_attachments: Files
-    label_drop_files: Drop files here
-    label_drop_files_hint: or click to add files
+    label_drop_files: Ihulog ang mga file dito
+    label_drop_files_hint: o pindutin upang magdagdag ng mga file
     label_add_attachments: Magdagdag ng mga nakalakip
-    label_formattable_attachment_hint: Attach and link files by dropping on this field,
-      or pasting from the clipboard.
-    label_remove_file: Delete %{fileName}
-    label_remove_watcher: Remove watcher %{name}
-    label_remove_all_files: Delete all files
-    label_add_description: Add a description for %{file}
-    label_upload_notification: 'Uploading files for Work package #%{id}: %{subject}'
-    label_files_to_upload: 'These files will be uploaded:'
-    label_rejected_files: 'These files cannot be uploaded:'
-    label_rejected_files_reason: These files cannot be uploaded as their size is greater
-      than %{maximumFilesize}
-    label_wait: Please wait for configuration...
-    label_upload_counter: "%{done} of %{count} files finished"
-    label_validation_error: 'The work package could not be saved due to the following
-      errors:'
+    label_formattable_attachment_hint: Idijit at i-link ang mga file sa pamamagitan
+      ng paghulog sa patlang na ito, o idikit mula sa clipboard.
+    label_remove_file: Burahin ang %{fileName}
+    label_remove_watcher: Alisin ang watcher %{name}
+    label_remove_all_files: Burahin ang lahat ang mga file
+    label_add_description: Magdagdag ng deskripsyon para sa %{file}
+    label_upload_notification: 'Pag-upload ng mga file para sa Work package #%{id}:
+      %{subject}'
+    label_files_to_upload: 'Itong mga file ay naka-upload:'
+    label_rejected_files: 'Itong mga fike ay hindi ma-upload:'
+    label_rejected_files_reason: Itong mga file ay hindi ma-upload kung ang laki ay
+      mas malaki kayda %{maximumFilesize}
+    label_wait: Mangyaring maghintay para sa kompigurasyon...
+    label_upload_counter: "%{done} ng %{count} mga file ay natapos"
+    label_validation_error: 'Ang work package ay hindo maaring o-save dahil sa mga
+      sumusunod na mali:'
     help_texts:
-      show_modal: Show attribute help text entry
+      show_modal: Magpakita ng katangian tekstong tulong entry
     password_confirmation:
       field_description: Kailangan mong ipasok ang iyong akwant password upang kumpirmahin
         ang pagbabago niito.
@@ -215,18 +215,19 @@ fil:
         previous: Bunalik sa nakaraang pahina
     placeholders:
       default: "-"
-      subject: Enter subject here
+      subject: Ipasok ang paksa dito
       selection: Pakiusap pumili
       relation_description: Pindutin upang magdagdag ng deskripsyon sa kaugnay na
         ito
     project:
-      required_outside_context: You are not within a project context. Please choose
-        the project context first in order to select type and status
-      context: Project context
-      work_package_belongs_to: This work package belongs to project %{projectname}.
-      click_to_switch_context: Open this work package in that project.
+      required_outside_context: Wala ka sa loob ng kontesktong proyekto. Mangyaring
+        pumili ng kontekstong proyekto sa unang pagkasunod-sunod upang piliin ang
+        uri at estado
+      context: Kontekstong proyekto
+      work_package_belongs_to: Itong work packge ay nabibilang sa proyekto %{projectname}.
+      click_to_switch_context: Buksan ang work package sa proyekto na iyan.
       autocompleter:
-        label: Project autocompletion
+        label: Proyektong autocompletion
     text_are_you_sure: Are you sure?
     types:
       attribute_groups:
@@ -246,11 +247,11 @@ fil:
         more_information: Karagdagang impornasyon
         nevermind: Hindi bale
     watchers:
-      label_loading: loading watchers...
-      label_error_loading: An error occurred while loading the watchers
-      label_search_watchers: Search watchers
+      label_loading: naglo-load ang mga manunuod...
+      label_error_loading: Isang mali ang naganap habang naglo-load ng mga manunuod
+      label_search_watchers: Hanapin ang mga manunuod
       label_add: Add watchers
-      label_discard: Discard selection
+      label_discard: Itapon ang napili
       typeahead_placeholder: Maghanap ng posibleng watchers
     relation_labels:
       parent: Peyrent
@@ -284,14 +285,14 @@ fil:
       update_relation: Pindutin upang baguhin ang uri ng kaugnayan
       add_follower: Magdagdag ng follower
       add_predecessor: Magdagdag ng predecessor
-      remove: Remove relation
+      remove: Alisin ang relasyon
       save: I-save ang pakipag-ugnayan
       abort: Huwag ituloy
     relations_autocomplete:
       placeholder: Ipasok ang Id ng kauganay sa work package
     repositories:
-      select_tag: Select tag
-      select_branch: Select branch
+      select_tag: Pumiling ng tag
+      select_branch: Pumili ng sangay
     field_value_enter_prompt: Enter a value for '%{field}'
     select2:
       input_too_short:
@@ -317,18 +318,20 @@ fil:
       work package(s)?
     text_query_destroy_confirmation: Are you sure you want to delete the selected
       query?
-    text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
+    text_attachment_destroy_confirmation: Sigurado ka ba na gusto mong burahin ang
+      nakalakip?
     timelines:
-      gantt_chart: Gantt chart
+      gantt_chart: Gantt tsart
       labels:
-        bar: Bar labels
-        left: Left
-        right: Right
-        farRight: Far right
-        showNone: "-- No label --"
-        description: 'Select the attributes you want to be shown in the respective
-          positions of the Gantt chart at all times. Note that when hovering an element,
-          its date labels will be shown instead of these attributes.
+        bar: Mga label ng bar
+        left: Kaliwa
+        right: Kanan
+        farRight: Dulong kanan
+        showNone: "-- Walang label --"
+        description: 'Piliin ang mga katangian na gusto mong ipakita sa kani-kanilang
+          posisyon ng Gant tsart sa lahat ng mga oras. Tandaan kung nagho-hover ang
+          isang elemento, ito ang mga petsa na label ipinapakit sa halip ang mga katangian
+          ito.
 
 '
       button_activate: I-aktibo ang timeline mode
@@ -337,7 +340,7 @@ fil:
       change: Change in planning
       due_date: Takdang petsa
       empty: "(empty)"
-      error: An error has occurred.
+      error: Isang mali ang naganap.
       errors:
         not_implemented: The timeline could not be rendered because it uses a feature
           that is not yet implemented.
@@ -419,14 +422,14 @@ fil:
       image: Image
     work_packages:
       bulk_actions:
-        move: Bulk move
-        edit: Bulk edit
-        copy: Bulk copy
-        delete: Bulk delete
+        move: Ilipat ang bulk
+        edit: I-edit ang bulk
+        copy: Kopyahin ang bulk
+        delete: Burahin ang bulk
       button_clear: Clear
-      comment_added: The comment was successfully added.
-      comment_send_failed: An error has occurred. Could not submit the comment.
-      comment_updated: The comment was successfully updated.
+      comment_added: Ang komento ay matagumpay naidagdag.
+      comment_send_failed: Isang mali ang naganal. Hindi maaring magpasa ng komento.
+      comment_updated: Ang komento ay matagumpay na i-update.
       confirm_edit_cancel: Sigurado ka ba na gusto mong kanselahin ang pag-edit ng
         work package?
       description_filter: Filter
@@ -439,8 +442,8 @@ fil:
           bata) o kung hindi man hindi ito naka-configure.
         format:
           date: "%{attribute} ay hindi wasto ang petsa YYYY-MM-DDi inaasahan."
-        general: An error has occurred.
-      edit_attribute: "%{attribute} - Edit"
+        general: Isang mali ang naganap.
+      edit_attribute: "%{attribute} - I-edit"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: Enable multiselect
       label_disable_multi_select: Disable multiselect
@@ -545,8 +548,8 @@ fil:
           work package.
         text_inline_edit: Karamihan sa mga cell ng talaan na ito ay nga pindutan na
           aktibo sa pag-andar ng inline-editing sa katangian na iyon.
-        text_sort_hint: With the links in the table headers you can sort, group, reorder,
-          remove and add table columns.
+        text_sort_hint: Kasama ang mga link sa talaan ng mga header na maari mong
+          ayusin, i-grupo, alisin at idagdag sa talaan ng mga hanay.
         text_select_hint: Pumili ng mga kahon na maaring mabukasan sa 'ALT' at mga
           arrow key.
       tabs:
@@ -571,13 +574,13 @@ fil:
         save: Save
         save_as: Save as ...
         export: Export ...
-        publish: Publish ...
+        publish: Ipalabas...
         page_settings: Rename query ...
         delete: Delete
       filter: Filter
       unselected_title: Work package
-      search_query_label: Search saved filter queries
-      search_query_title: Click to search saved filter queries
+      search_query_label: Hanapin ang mga naka-save na query
+      search_query_title: Pindutin upang hanapin ang mga naka-save na filter query
     modals:
       label_settings: Rename query
       label_name: Pangalan
@@ -589,27 +592,28 @@ fil:
       form_submit:
         title: Kumpirmahin upang magpatuloy
         text: Sigurado ka bang na gusto mong magtanghal ng aksyon ito?
-      upsale_relation_columns: Need to see relations in the work package list?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
+      upsale_relation_columns: Kailangan tingnan ang mga relasyon sa listahan ng work
+        package?
+      upsale_relation_columns_link: Suriin ang Enterprise Edition.
       destroy_work_package:
-        title: Confirm deletion of %{label}
-        text: Are you sure you want to delete the following %{label} ?
-        has_children: 'The work package has %{childUnits}:'
-        deletes_children: All child work packages will also be deleted.
+        title: Kumpirmahin ang pagbubura ng %{label}
+        text: Sigurado ka ba na gusto mong burahin ang sumusunod na %{label}?
+        has_children: 'Ang work package ay mayroong %{childUnits}:'
+        deletes_children: Lahat ng mga batang work package ay maari rin burahin.
     notice_successful_create: Successful creation.
     notice_successful_delete: Successful deletion.
     notice_successful_update: Successful update.
     notice_bad_request: Bad Request.
     relations:
       empty: No relation exists
-      remove: Remove relation
+      remove: Alisin ang relasyon
     inplace:
       button_edit: "%{attribute}: Edit"
       button_save: "%{attribute}: Save"
       button_cancel: "%{attribute}: Cancel"
       button_save_all: Save
       button_cancel_all: Cancel
-      link_formatting_help: Text formatting help
+      link_formatting_help: Ang tekstong pagfo-format ng tulong
       btn_preview_enable: Preview
       btn_preview_disable: Disable preview
       null_value_label: No value
@@ -626,10 +630,10 @@ fil:
     units:
       workPackage:
         one: work package
-        other: work packages
+        other: mga work package
       child_work_packages:
-        one: one child work package
-        other: "%{count} work package children"
+        one: isang bata work package
+        other: "%{count} work package mga bata"
       hour:
         one: 1 hour
         other: "%{count} hours"

@@ -293,6 +293,7 @@ pl:
         other: Wprowadź jeszcze {{count}} znaków
         zero: Please enter more characters
         few: Wprowadź jeszcze {{count}} znaków
+        many: Please enter {{count}} more characters
       load_more: Ładowanie większej liczby wyników ...
       no_matches: Nie znaleziono dopasowań
       searching: Wyszukiwanie ...
@@ -301,6 +302,7 @@ pl:
         other: Możesz wybrać tylko {{limit}} elementów
         zero: You cannot select any items
         few: Możesz wybrać tylko {{limit}} elementów
+        many: You can only select {{limit}} items
     sort:
       sorted_asc: 'Zastosowano sortowanie rosnące, '
       sorted_dsc: 'Zastosowano sortowanie malejące, '
@@ -616,15 +618,18 @@ pl:
         one: pakiet roboczy
         other: pakiety robocze
         few: pakiety robocze
+        many: work packages
       child_work_packages:
         one: jeden potomny pakiet roboczy
         other: "%{count} potomnych pakietów roboczych"
         few: "%{count} potomnych pakietów roboczych"
+        many: "%{count} work package children"
       hour:
         one: 1 godzina
         other: "%{count} godzin"
         zero: 0 hours
         few: "%{count} godzin"
+        many: "%{count} hours"
     zen_mode:
       button_activate: Włącz tryb zen
       button_deactivate: Wyłącz tryb zen

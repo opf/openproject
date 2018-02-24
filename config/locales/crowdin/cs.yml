@@ -545,6 +545,8 @@ cs:
                   posledních.
                 few: bylo již použito. Zvolte takové, které není stejné jako %{count}
                   posledních.
+                many: has been used before. Please choose one that is different from
+                  your last %{count}.
               match:
                 confirm: Potvrzení nového hesla.
                 description: "'Password confirmation' should match the input in the
@@ -562,6 +564,7 @@ cs:
           one: 1 error prohibited this %{model} from being saved
           other: "%{count} chyb zabránilo %{model} v uložení"
           few: "%{count} errors prohibited this %{model} from being saved"
+          many: "%{count} errors prohibited this %{model} from being saved"
     models:
       attachment: Soubor
       attribute_help_text: Attribute help text
@@ -579,6 +582,7 @@ cs:
         one: Role
         other: Role
         few: Role
+        many: Roles
       type: Typ
       project_type: Typ projektu
       user: Uživatel
@@ -780,52 +784,64 @@ cs:
         one: přibližně 1 hodinu
         other: about %{count} hours
         few: about %{count} hours
+        many: about %{count} hours
       about_x_months:
         one: about 1 month
         other: about %{count} months
         few: about %{count} months
+        many: about %{count} months
       about_x_years:
         one: about 1 year
         other: about %{count} years
         few: about %{count} years
+        many: about %{count} years
       almost_x_years:
         one: almost 1 year
         other: almost %{count} years
         few: almost %{count} years
+        many: almost %{count} years
       half_a_minute: půl minuty
       less_than_x_minutes:
         one: less than a minute
         other: less than %{count} minutes
         few: less than %{count} minutes
+        many: less than %{count} minutes
       less_than_x_seconds:
         one: less than 1 second
         other: less than %{count} seconds
         few: less than %{count} seconds
+        many: less than %{count} seconds
       over_x_years:
         one: přes 1 rok
         other: over %{count} years
         few: over %{count} years
+        many: over %{count} years
       x_days:
         one: 1 den
         other: "%{count} days"
         few: "%{count} days"
+        many: "%{count} days"
       x_minutes:
         one: 1 minuta
         other: "%{count} minutes"
         few: "%{count} minutes"
+        many: "%{count} minutes"
       x_months:
         one: 1 month
         other: "%{count} months"
         few: "%{count} months"
+        many: "%{count} months"
       x_seconds:
         one: 1 second
         other: "%{count} seconds"
         few: "%{count} seconds"
+        many: "%{count} seconds"
     units:
       hour:
         one: hour
         other: hours
         few: hours
+        many: hours
   default_activity_development: Vývoj
   default_activity_management: Management
   default_activity_other: Ostatní
@@ -1567,26 +1583,31 @@ cs:
     other: "%{count} uzavřeny"
     zero: 0 closed
     few: "%{count} uzavřeny"
+    many: "%{count} closed"
   label_x_comments:
     one: 1 komentář
     other: "%{count} komentářů"
     zero: no comments
     few: "%{count} komentářů"
+    many: "%{count} comments"
   label_x_open_work_packages_abbr:
     one: 1 otevřený
     other: "%{count} otevřených"
     zero: 0 open
     few: "%{count} otevřených"
+    many: "%{count} open"
   label_x_open_work_packages_abbr_on_total:
     one: 1 otevřený / %{total}
     other: "%{count} otevřených / %{total}"
     zero: 0 open / %{total}
     few: "%{count} otevřených / %{total}"
+    many: "%{count} open / %{total}"
   label_x_projects:
     one: 1 projekt
     other: "%{count} projektů"
     zero: no projects
     few: "%{count} projektů"
+    many: "%{count} projects"
   label_year: Rok
   label_yesterday: včera
   label_keyboard_function: Funkce
@@ -1760,6 +1781,7 @@ cs:
             one: Byte
             other: Bytes
             few: Bytes
+            many: Bytes
           gb: GB
           kb: kB
           mb: MB
@@ -2322,6 +2344,7 @@ cs:
       one: 1 den
       other: "%{count} days"
       few: "%{count} days"
+      many: "%{count} days"
     edit_color: Upravit barvy
     edit_project_type: Upravit typ projektu
     edit_thing: Upravit
@@ -2530,6 +2553,7 @@ cs:
       one: dočasně uzamčen (jeden pokus o přihlášení se nezdařil)
       other: dočasně uzamčen (%{count} pokusů o přihlášení se nezdařilo)
       few: dočasně uzamčen (%{count} pokusů o přihlášení se nezdařilo)
+      many: locked temporarily (%{count} failed login attempts)
     confirm_status_change: Chystáte se změnit stav '%{name}'. Opravdu chcete pokračovat?
     deleted: Odstraněný uživatel
     error_status_change_failed: 'Changing the user status failed due to the following
