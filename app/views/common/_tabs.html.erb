@@ -40,23 +40,16 @@ See docs/COPYRIGHT.rdoc for more details.
     end
     link_to(position_span + caption, { tab: tab[:name] },
                                        id: "tab-#{tab[:name]}",
-                                       class: (tab[:name] != selected_tab ? nil : 'selected'),
-                                       onclick: "showTab('#{tab[:name]}', this.href); this.blur(); return false;") %></li>
+                                       class: "tab-show #{(tab[:name] != selected_tab ? nil : 'selected')}",
+                                       data: { name: tab[:name] }) %></li>
     <% end %>
   </ul>
   <div class="tabs-buttons" style="display:none;">
-    <button class="tab-left icon-context icon-arrow-left4" onclick="moveTabLeft(this);"></button>
-    <button class="tab-right icon-context icon-arrow-right5" onclick="moveTabRight(this);"></button>
+    <button class="tab-left icon-context icon-arrow-left4"></button>
+    <button class="tab-right icon-context icon-arrow-right5"></button>
   </div>
 </div>
 
-
-<% content_for :header_tags do %>
-  <script>
-    jQuery(function() { displayTabsButtons(); });
-    jQuery(window).resize(function() { displayTabsButtons(); });
-  </script>
-<% end %>
 
 <% tabs.each do |tab| %>
   <%= content_tag('div',

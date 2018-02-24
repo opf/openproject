@@ -107,3 +107,21 @@ function moveTabLeft(el) {
     lis.eq(i-1).show();
   }
 }
+
+jQuery(function($) {
+  // Show tabs, if any
+  displayTabsButtons();
+
+  $(window).resize(function() { displayTabsButtons(); });
+
+  $('.tab-left').click(moveTabLeft);
+  $('.tab-right').click(moveTabRight);
+  $('.tab-show').click(function(evt) {
+    var el = $(this);
+    showTab(el.data('name'), el.href);
+    el.blur();
+
+    evt.preventDefault();
+    return false;
+  });
+});

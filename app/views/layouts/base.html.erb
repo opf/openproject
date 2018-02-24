@@ -183,6 +183,11 @@ See docs/COPYRIGHT.rdoc for more details.
         $('.can-hide-navigation').addClass('hidden-navigation');
       }
       wrapper.show();
+
+
+      // Wrapper for page-specific JS from deprecated inline functions
+      // no longer available with CSP.
+      <%= content_for :additional_js_dom_ready %>
     }(jQuery));
     <% end %>
     <% if (show_decoration) %>

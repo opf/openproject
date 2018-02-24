@@ -70,8 +70,8 @@ See docs/COPYRIGHT.rdoc for more details.
               method: :post %>
 </div>
 
-<%= nonced_javascript_tag  do -%>
-  jQuery(document).ready(function () {
-    Administration.init_language_selection_handling();
-  });
-<% end -%>
+<%=
+  content_for(:additional_js_dom_ready) do
+    "Administration.init_language_selection_handling();".html_safe
+  end
+%>
