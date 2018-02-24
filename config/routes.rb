@@ -345,10 +345,11 @@ OpenProject::Application.routes.draw do
                                              rev: /[\w0-9\.\-_]+/
 
       %w{diff annotate changes entry browse}.each do |action|
-        get "(/revisions/:rev)/#{action}(/*path)", format: false,
-                                                   action: action,
-                                                   rev: /[\w0-9\.\-_]+/,
-                                                   as: "#{action}_revision"
+        get "(/revisions/:rev)/#{action}(/*path)",
+            format: 'html',
+            action: action,
+            constraints: { rev: /[\w0-9\.\-_]+/, path: /.*/ },
+            as: "#{action}_revision"
       end
 
       get '/revision(/:rev)', rev: /[\w0-9\.\-_]+/,
@@ -356,8 +357,8 @@ OpenProject::Application.routes.draw do
                               as: 'show_revision'
 
       get '(/revisions/:rev)(/*path)', action: :show,
-                                       format: false,
-                                       rev: /[\w0-9\.\-_]+/,
+                                       format: 'html',
+                                       constraints: { rev: /[\w0-9\.\-_]+/, path: /.*/ },
                                        as: 'show_revisions_path'
     end
   end
