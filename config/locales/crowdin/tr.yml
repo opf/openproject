@@ -455,6 +455,8 @@ tr:
           empty: "(%{name}) değeri boş olamaz."
           inclusion: "(%{name}) değer izin verilen değerlerden birine ayarlı değil."
           not_an_integer: "(%{name}) bir tamsayı değil."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: okunamıyor. Desteklenen bir destek anahtarı olduğuna emin misiniz?
         parse_schema_filter_params_service:

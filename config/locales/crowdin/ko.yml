@@ -426,6 +426,8 @@ ko:
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
           not_an_integer: "(%{name}) is not an integer."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: 읽을 수 없습니다. 지원하는 토큰이 확실한가요?
         parse_schema_filter_params_service:

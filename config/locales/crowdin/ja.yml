@@ -413,6 +413,8 @@ ja:
           empty: "(%{name}) 値を空にすることはできません。"
           inclusion: "(%{name}) は、許可されている値ではありません。"
           not_an_integer: "(%{name}) が整数ではありません。"
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: 読み取りできません。サポート トークンですか?
         parse_schema_filter_params_service:
