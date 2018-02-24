@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,23 +26,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Contains tag helpers still existing in the OP code but already
-# removed from rails. Please consider removing the occurences in
-# the code rather than adding additional helpers here.
-
-module RemovedJsHelpersHelper
-  # removed in rails 4.1
-  def link_to_function(content, function, html_options = {})
-
-    onclick = "#{function}; return false;"
-    id = html_options.delete(:id) { "link-to-function-#{SecureRandom.uuid}" }
-
-    content_for(:additional_js_dom_ready) do
-      "jQuery('##{id}').click(function() { #{onclick} });\n".html_safe
+module OpenProject::Deprecation
+  class << self
+    def deprecator
+      @@deprecator||= ActiveSupport::Deprecation.new('in a future major upgrade', 'OpenProject')
     end
 
-    content_tag(:a, content, html_options.merge(id: id, href: ''))
+    ##
+    # Deprecate the given method with a notice regarding future removal
+    def deprecate_method(mod, method)
+      deprecator.deprecate_methods(mod, method)
+    end
   end
-
-  OpenProject::Deprecation.deprecate_method(self, :link_to_function)
 end
