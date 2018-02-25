@@ -16,8 +16,8 @@ hu:
         Verziót használó előfizetők számára.
       manage_colors: A színválasztás beállításainak módosítása
       instructions:
-        alternative_color: Strong accent color, typically used for most the important
-          button on a screen.
+        alternative_color: Erős akcentus színe, amelyet általában a képernyő fontos
+          gombjához használnak.
         content_link_color: A legtöbb hivatkozás színe.
         primary_color: Fő szín.
         primary_color_dark: Általában az alap szín sötétebb verzióját használjuk a
@@ -60,16 +60,16 @@ hu:
   custom_actions:
     actions:
       name: Műveletek
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+      add: Művelet hozzáadása
+    conditions: Körülmények
+    plural: Egyéni műveletek
+    new: Új egyedi művelet
+    edit: Egyéni művelet szerkesztése %{name}
+    execute: Végrehajt %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: Az egyéni műveletek egy Enterprise Edition szolgáltatás
+      description: Az egyéni műveletek egyszerűsítik a mindennapi munkát egyes lépések
+        egyesítésével egyetlen gombhoz.
   custom_fields:
     text_add_new_custom_field: 'Új egyéni mezők hozzáadásához először létre kell hozni
       őket, még mielőtt felvenné azokat a projekthez.
@@ -269,8 +269,8 @@ hu:
       announcements:
         show_until: Megjelenít eddig
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Melléklettartalom
+        attachment_file_name: Melléklet fájl neve
         downloads: Letöltés
         file: Fájl
         filename: Fájl
@@ -342,8 +342,8 @@ hu:
       repository:
         url: URL
       role:
-        assignable: Work packages can be assigned to users and groups in possession
-          of this role in the respective project
+        assignable: Munkacsomagok hozzárendelhetők a szerephez tartozó felhasználókhoz
+          és csoportokhoz az adott projektben
       time_entry:
         activity: Tevékenység
         hours: Óra
@@ -451,12 +451,13 @@ hu:
         custom_field:
           at_least_one_custom_option: Minimum egy opciónak elérhetőnek kell lennie.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: "(%{name}) csak egy érték megengedett."
+          empty: "(%{name}) az érték nem lehet üres."
+          inclusion: "(%{name}) érték nincs beállítva az engedélyezett értékek egyikére."
+          not_an_integer: "(%{name}) nem egész szám."
+          smaller_than_or_equal_to: "(%{name}) kisebb vagy egyenlő, mint %{count}."
+          greater_than_or_equal_to: "(%{name}) nagyobbnak vagy egyenlőnek kell lennie
+            %{count} értékkel."
         enterprise_token:
           unreadable: nem olvasható. Biztos vagy benne, hogy ez támogatási token?
         parse_schema_filter_params_service:
@@ -476,12 +477,12 @@ hu:
             public:
               error_unauthorized: "- A felhasználó nem jogosult nyilvános lekérdezéseket
                 létrehozni."
-          group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
-            You cannot activate both.
+          group_by_hierarchies_exclusive: kölcsönösen kizárja a csoportot a '%{group_by}'
+            csoporttal. Nem aktiválhatja mindkettőt.
           filters:
             custom_fields:
               inexistent: Nincs egyedi mező ehhez a szűrőhöz.
-              invalid: The custom field is not valid in the given context.
+              invalid: Az egyéni mező érvénytelen az adott környezetben.
         relation:
           typed_dag:
             circular_dependency: A kapcsolat körkörös függőséget hoz létre.
@@ -566,7 +567,7 @@ hu:
       attribute_help_text: Attribútum-súgószöveg
       board: Fórum
       comment: Vélemény
-      custom_action: Custom action
+      custom_action: Egyéni művelet
       custom_field: Választható mező
       group: Csoport
       category: Kategória
@@ -914,7 +915,7 @@ hu:
   ee:
     upsale:
       form_configuration:
-        description: 'Customize the form configuration with these additional features:'
+        description: 'Az űrlap-konfiguráció testreszabása ezekkel a kiegészítő funkciókkal:'
         add_groups: Attribútum-csoport hozzáadása
         rename_groups: Attribútum-csoportok átnevezése
       project_filters:
@@ -997,12 +998,12 @@ hu:
       pdf_with_descriptions: PDF leírásokkal
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotext elérhető (opcionális)
+      unrtf: Unrtf elérhető (opcionális)
+      catdoc: Catdoc elérhető (opcionális)
+      xls2csv: Xls2csv elérhető (opcionális)
+      catppt: Catppt elérhető (opcionális)
+      tesseract: Tesseract elérhető (opcionális)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1041,7 +1042,7 @@ hu:
       boards: Közösségi fórum
       newsletter: Biztonsági figyelmeztetések / hírlevél
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Konfigurációs útmutató
   instructions_after_registration: Be tud jelentkezni, amint fiókját aktiválta ide
     %{signin} kattintva.
   instructions_after_logout: Újra be tud jelentkezni ide  %{signin} kattintva.
@@ -1629,8 +1630,8 @@ hu:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
+        no_project_context: A create_work_package_link makró hívása külső projektek
+          környezetéből.
         invalid_type: 'Nem található ''%{type}%'' nevű típus ebben a projektben: ''%{project}''.'
       link_name: Új munkacsomag
       link_name_type: Új %{type_name}
@@ -2053,7 +2054,7 @@ hu:
   setting_feeds_limit: Tartalom szintjének a korlátja
   setting_file_max_size_displayed: A szöveg fájl sorainak maximum mérete megjelenítéskor
   setting_host_name: Gazdagép neve
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: Aktiválási e-mail lejár
   setting_work_package_done_ratio: A munkacsomag elkészült arányainak kiszámítása
   setting_work_package_done_ratio_field: A munkacsomag mező használata
   setting_work_package_done_ratio_status: Használja a munkacsomag állapotát
@@ -2114,7 +2115,7 @@ hu:
   setting_accessibility_mode_for_anonymous: Engedélyezi a kisegítő módot a névtelen
     felhasználók számára
   setting_user_format: A felhasználók a megjelenítési formátuma
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: A felhasználók alapértelmezett időzónája
   setting_users_deletable_by_admins: A felhasználói fiókok az adminok által törölhetőek
   setting_users_deletable_by_self: Engedélyezi, hogy a felhasználók törölhessék a
     saját fiókjukat
@@ -2186,7 +2187,7 @@ hu:
     iOS-en hibásan jelenhet meg.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: Az adatbázis lehetővé teszi a TSVector (opcionális)
   text_default_administrator_account_changed: Az alapértelmezett rendszergazdai fiók
     megváltozott
   text_default_encoding: 'Alapértelmezett érték: UTF-8'
@@ -2262,10 +2263,10 @@ hu:
   text_select_mail_notifications: Válassza ki a tevékenységeket, amelyekről e-mail
     értesítést kell küldeni.
   text_status_changed_by_changeset: A %{value} commit-ban hozzáadva.
-  text_table_difference_description: In this table the single %{entries} are shown.
-    You can view the difference between any two entries by first selecting the according
-    checkboxes in the table. When clicking on the button below the table the differences
-    are shown.
+  text_table_difference_description: Ebben a táblázatban látható az egyszeri %{entries}.
+    Megtekintheti a két bejegyzés közötti különbséget azáltal, hogy először kiválasztja
+    a megfelelő jelölőnégyzeteket a táblázatban. A táblázat alatti gombra kattintva
+    a különbségek jelennek meg.
   text_time_logged_by_changeset: A %{value} commit-ban hozzáadva.
   text_tip_work_package_begin_day: ezen a napon kezdődik a munkacsomag
   text_tip_work_package_begin_end_day: Ezen a napon kezdődik és zárodik a munkacsomag
@@ -2488,8 +2489,8 @@ hu:
       years: Évek
   title_remove_and_delete_user: Távolítsa el a meghívott felhasználót a projektből,
     és törölje őt.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'Az új felhasználók alapértelmezett időzónája. A
+    felhasználó beállításai megváltoztathatók.
 
 '
   tooltip_resend_invitation: 'Új meghívó e-mail küldése egy új tokennel. Ez abban
@@ -2547,9 +2548,9 @@ hu:
     reset_failed_logins: A sikertelen bejelentkezés alaphelyzetbe állitása
     settings:
       mail_notifications: E-mail értesítések
-      mail_project_explanaition: For unselected projects, you will only receive notifications
-        about things you watch or you're involved in (e.g. work packages you're the
-        author or assignee of).
+      mail_project_explanaition: A nem kijelölt projektekhez csak olyan dolgokat kapsz
+        értesítésekkel kapcsolatban, amelyeket nézel, vagy amelyekkel Ön részt vesz
+        (például olyan munkacsomagoknál, amelyek a szerző vagy megbízottjai).
       mail_self_notified: Értesítést szeretnék kapni a változásokról, amelyeket magam
         hozok létre
     status_user_and_brute_force: "%{user} és %{brute_force}"
@@ -2565,8 +2566,8 @@ hu:
   warning: Figyelem
   warning_attachments_not_saved: "%{count} fájl nem menthető."
   warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+    Az aktiváló e-mail lejárt. Új levelet küldtünk Önnek %{email} részére.
+    Kérjük, kattintson a belsejében lévő linkre a fiók aktiválásához.
   menu_item: Menüpont
   menu_item_setting: Látható
   wiki_menu_item_for: Wikipage "%{title}" menüeleme
@@ -2612,8 +2613,8 @@ hu:
         lehetővé ezt a műveletet.
       missing_content_type: nincs megadva
       missing_request_body: Nem volt kérelem.
-      missing_or_malformed_parameter: The query parameter '%{parameter}' is missing
-        or malformed.
+      missing_or_malformed_parameter: A(z) '%{parameter}' lekérdezési paraméter hiányzik
+        vagy hibás.
       multipart_body_error: A kérelem nem tartalmazott várható többrészes elemet.
       multiple_errors: Több mező megszorítás is megszegésre került.
       unable_to_create_attachment: Csatolmány mentése sikertelen

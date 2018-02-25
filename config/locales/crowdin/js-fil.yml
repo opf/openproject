@@ -3,7 +3,7 @@ fil:
   js:
     ajax:
       hide: Hide
-      loading: Loading ...
+      loading: Naglo-load ...
     close_popup_title: Close popup
     close_filter_title: Isara ang filter
     close_form_title: Isara ang form
