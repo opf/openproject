@@ -865,7 +865,7 @@ fi:
   default_type_phase: Phase
   default_type_task: Task
   default_type_user_story: User story
-  description_active: Active?
+  description_active: Aktiivinen?
   description_attachment_toggle: Show/Hide attachments
   description_autocomplete: 'This field uses autocomplete. While typing the title
     of a work package you will receive a list of possible candidates. Choose one using

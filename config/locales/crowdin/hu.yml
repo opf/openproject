@@ -16,8 +16,8 @@ hu:
         Verziót használó előfizetők számára.
       manage_colors: A színválasztás beállításainak módosítása
       instructions:
-        alternative_color: Strong accent color, typically used for most the important
-          button on a screen.
+        alternative_color: Erős akcentus színe, amelyet általában a képernyő fontos
+          gombjához használnak.
         content_link_color: A legtöbb hivatkozás színe.
         primary_color: Fő szín.
         primary_color_dark: Általában az alap szín sötétebb verzióját használjuk a
@@ -327,8 +327,8 @@ hu:
       repository:
         url: URL
       role:
-        assignable: Work packages can be assigned to users and groups in possession
-          of this role in the respective project
+        assignable: Munkacsomagok hozzárendelhetők a szerephez tartozó felhasználókhoz
+          és csoportokhoz az adott projektben
       time_entry:
         activity: Tevékenység
         hours: Óra
@@ -470,12 +470,12 @@ hu:
             public:
               error_unauthorized: "- A felhasználó nem jogosult nyilvános lekérdezéseket
                 létrehozni."
-          group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
-            You cannot activate both.
+          group_by_hierarchies_exclusive: kölcsönösen kizárja a csoportot a '%{group_by}'
+            csoporttal. Nem aktiválhatja mindkettőt.
           filters:
             custom_fields:
               inexistent: Nincs egyedi mező ehhez a szűrőhöz.
-              invalid: The custom field is not valid in the given context.
+              invalid: Az egyéni mező érvénytelen az adott környezetben.
         relation:
           typed_dag:
             circular_dependency: A kapcsolat körkörös függőséget hoz létre.
@@ -907,7 +907,7 @@ hu:
   ee:
     upsale:
       form_configuration:
-        description: 'Customize the form configuration with these additional features:'
+        description: 'Az űrlap-konfiguráció testreszabása ezekkel a kiegészítő funkciókkal:'
         add_groups: Attribútum-csoport hozzáadása
         rename_groups: Attribútum-csoportok átnevezése
       project_filters:
@@ -1026,7 +1026,7 @@ hu:
       boards: Közösségi fórum
       newsletter: Biztonsági figyelmeztetések / hírlevél
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Konfigurációs útmutató
   instructions_after_registration: Be tud jelentkezni, amint fiókját aktiválta ide
     %{signin} kattintva.
   instructions_after_logout: Újra be tud jelentkezni ide  %{signin} kattintva.
@@ -1614,8 +1614,8 @@ hu:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
+        no_project_context: A create_work_package_link makró hívása külső projektek
+          környezetéből.
         invalid_type: 'Nem található ''%{type}%'' nevű típus ebben a projektben: ''%{project}''.'
       link_name: Új munkacsomag
       link_name_type: Új %{type_name}
@@ -2247,10 +2247,10 @@ hu:
   text_select_mail_notifications: Válassza ki a tevékenységeket, amelyekről e-mail
     értesítést kell küldeni.
   text_status_changed_by_changeset: A %{value} commit-ban hozzáadva.
-  text_table_difference_description: In this table the single %{entries} are shown.
-    You can view the difference between any two entries by first selecting the according
-    checkboxes in the table. When clicking on the button below the table the differences
-    are shown.
+  text_table_difference_description: Ebben a táblázatban látható az egyszeri %{entries}.
+    Megtekintheti a két bejegyzés közötti különbséget azáltal, hogy először kiválasztja
+    a megfelelő jelölőnégyzeteket a táblázatban. A táblázat alatti gombra kattintva
+    a különbségek jelennek meg.
   text_time_logged_by_changeset: A %{value} commit-ban hozzáadva.
   text_tip_work_package_begin_day: ezen a napon kezdődik a munkacsomag
   text_tip_work_package_begin_end_day: Ezen a napon kezdődik és zárodik a munkacsomag
@@ -2539,9 +2539,9 @@ hu:
     reset_failed_logins: A sikertelen bejelentkezés alaphelyzetbe állitása
     settings:
       mail_notifications: E-mail értesítések
-      mail_project_explanaition: For unselected projects, you will only receive notifications
-        about things you watch or you're involved in (e.g. work packages you're the
-        author or assignee of).
+      mail_project_explanaition: A nem kijelölt projektekhez csak olyan dolgokat kapsz
+        értesítésekkel kapcsolatban, amelyeket nézel, vagy amelyekkel Ön részt vesz
+        (például olyan munkacsomagoknál, amelyek a szerző vagy megbízottjai).
       mail_self_notified: Értesítést szeretnék kapni a változásokról, amelyeket magam
         hozok létre
     status_user_and_brute_force: "%{user} és %{brute_force}"
@@ -2601,8 +2601,8 @@ hu:
         lehetővé ezt a műveletet.
       missing_content_type: nincs megadva
       missing_request_body: Nem volt kérelem.
-      missing_or_malformed_parameter: The query parameter '%{parameter}' is missing
-        or malformed.
+      missing_or_malformed_parameter: A(z) '%{parameter}' lekérdezési paraméter hiányzik
+        vagy hibás.
       multipart_body_error: A kérelem nem tartalmazott várható többrészes elemet.
       multiple_errors: Több mező megszorítás is megszegésre került.
       unable_to_create_attachment: Csatolmány mentése sikertelen

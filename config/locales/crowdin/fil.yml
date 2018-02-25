@@ -57,7 +57,7 @@ fil:
     edit: I-edit na tulong na teksto para sa %{attribute_caption}
   auth_sources:
     index:
-      no_results_content_title: Sa kasalukuyan ay walang mga authentication modes.
+      no_results_content_title: Sa kasalukuyan ay walang mga authentication mode.
       no_results_content_text: Gumawa ng bagong authentication mode
   boards:
     show:
@@ -75,8 +75,8 @@ fil:
       pangyayari nito (e.g. sa mga package na trabaho). Sigurado ka bang gusto mong
       burahin ito?
     tab:
-      no_results_title_text: Sa kasalukuyan ay walang custom fields.
-      no_results_content_text: Gumawa ng bagong custom field
+      no_results_title_text: Sa kasalukuyan ay walang mga custom field.
+      no_results_content_text: Gumawa ng bagong patlang na custom
   deprecations:
     old_timeline:
       replacement: Itong timeline modyul ay pinalitan ng interactive timeline na naka-embededd
@@ -100,7 +100,7 @@ fil:
         ito.
   planning_element_type_colors:
     index:
-      no_results_title_text: Sa kasalukuyan ay walang mga kulay.
+      no_results_title_text: Walang mga kasulukuyan kulay.
       no_results_content_text: Gumawa ng bagong kulay
   projects:
     index:
@@ -521,8 +521,8 @@ fil:
           must_not_be_ssh: hindi dapat isang SSH url.
           no_directory: ay hindi isang direktoryo.
         work_package:
-          is_not_a_valid_target_for_time_entries: 'Work package #%{id} is not a valid
-            target for reassigning the time entries.'
+          is_not_a_valid_target_for_time_entries: 'Ang work package #%{id} ay hindi
+            balido sa target para mag-reassign ng mga oras na entry.'
           attributes:
             due_date:
               not_start_date: hindi sa petsa ng pagsisimula, kahit naa ito ay kinakailangan
@@ -1479,7 +1479,7 @@ fil:
   label_storage_free_space: Natitirang espasyo ng disk
   label_storage_used_space: Nagamit na espasyo ng disk
   label_storage_group: Lalagyan ng filesystem %{identifier}
-  label_storage_for: Encompasses storage for
+  label_storage_for: Sumasaklaw na lalagayan para sa
   label_string: Teksto
   label_subproject: Kahaliling proyekto
   label_subproject_new: New subproject
@@ -1503,7 +1503,8 @@ fil:
   label_total: Total
   label_type_new: New type
   label_type_plural: Mga uri
-  label_type_default_new_projects: Type activated for new projects by default
+  label_type_default_new_projects: Naka-aktibo uri para sa mga bagong proyekto sa
+    pamamagitan ng default
   label_ui: User Interface
   label_update_work_package_done_ratios: Update work package done ratios
   label_updated_time: Updated %{value} ago
@@ -1520,7 +1521,8 @@ fil:
   label_user_mail_option_only_assigned: Only for things I am assigned to
   label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
   label_user_mail_option_only_owner: Only for things I am the owner of
-  label_user_mail_option_selected: For any event on the selected projects only
+  label_user_mail_option_selected: Sa kahit anong kaganapan sa mga napiling proyekto
+    lamang
   label_user_new: New user
   label_user_plural: Users
   label_user_search: Search for user
@@ -1566,7 +1568,7 @@ fil:
   label_work_package_status: Estado ng pakete ng gumagawa
   label_work_package_status_new: New status
   label_work_package_status_plural: Work package statuses
-  label_work_package_types: Work package types
+  label_work_package_types: Ang mga uri ng work package
   label_work_package_updated: Work package updated
   label_work_package_tracking: Work package tracking
   label_work_package_view_all: View all work packages
@@ -1749,7 +1751,7 @@ fil:
   notice_user_missing_authentication_method: Ang user ay pipili pa ng password o iba
     pang paraan para maka pag-sign in.
   notice_user_invitation_resent: Isang imbitasyon ay ipinadala sa %{email}.
-  present_access_key_value: 'Your %{key_name} is: %{value}'
+  present_access_key_value: 'Ang iyong %{key_name} ay: %{value}'
   notice_automatic_set_of_standard_type: Set standard type automatically.
   notice_logged_out: You have been logged out.
   notice_wont_delete_auth_source: Ang authentication mode ay hindi pwedeng burahin
@@ -1793,10 +1795,11 @@ fil:
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
   permission_add_work_package_watchers: Add watchers
-  permission_browse_repository: Read-only access to repository (browse and checkout)
+  permission_browse_repository: Basahin-lamang nag-access sa respositoryo (browse
+    at checkout)
   permission_change_wiki_parent_page: Change parent wiki page
   permission_comment_news: Comment news
-  permission_commit_access: Read/write access to repository (commit)
+  permission_commit_access: Magbasa/magsulat acess sa repositoryo (commit)
   permission_copy_projects: Copy projects
   permission_delete_work_package_watchers: Delete watchers
   permission_delete_work_packages: Delete work packages
@@ -1860,7 +1863,7 @@ fil:
     destroy:
       confirmation: Kung gusto mong magpatuloy, ang proyektong %{identifier} at lahat
         na nakaugnay na data ay mananatiling masira.
-      info: Deleting the project is an irreversible action.
+      info: Pagbubura ng proyekto ay isang hindi mababawi ang aksyon.
       project_verification: Isulat ang pangalan ng proyekto %{name} para ma-verify
         and pagtanggal.
       subprojects_confirmation: 'Ito ay ang subproject(mga): %{value} ay maaring matanggal.'
@@ -1869,7 +1872,7 @@ fil:
       warning_one: Ang mga miyembro ng proyekto ay kinakailangang ilipat ang mga repository
         ng proyekto.
       warning_two: Ang mga umiiral na mga link sa proyekto ay hindi na maaring magamit.
-      title: Change the project's identifier
+      title: Baguhin ang mga pagkakilanlan ng proyekto
     archive:
       are_you_sure: Sigurado ka bang na gusto mong i-archive ang proyekto'%{name}'?
   project_module_activity: Aktibidad
@@ -1891,69 +1894,74 @@ fil:
     subproject_id: Kahaliling proyekto
     name_or_identifier: Pangalan o pagkakakilanlan
   repositories:
-    at_identifier: at %{identifier}
+    at_identifier: sa %{identifier}
     atom_revision_feed: Atom revision feed
     autofetch_information: |-
-      Check this if you want repositories to be updated automatically when accessing the repository module page.
-      This encompasses the retrieval of commits from the repository and refreshing the required disk storage.
+      Suriin ito kung gusto mong automatikong i-update ang mga repositoryo kung mag-access ng pahina ng repositoryo modyul na pahina.
+      Itong sumasaklaw ang pagkuha ng gumawa mula sa repositoryo at nagre-refresh ng kinakailangan lalagyan ng disk.
     checkout:
       access:
-        readwrite: Read + Write
-        read: Read-only
+        readwrite: Magbasa + Magsulat
+        read: Basahin-lamang
         none: Walang checkout access, maari mo lang tingnan ang repository sa pamamagitan
           nitong application.
       access_permission: Ang iyong mga pahintulot sa repository na ito
-      url: Checkout URL
-      base_url_text: |-
-        The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).
-        Note: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered.
+      url: I-checkout ang URL
+      base_url_text: 'Ang base URL upang gamitin para sa pagbubuo ng mga checkout
+        URLA (hal. https://myserver.example.org/repos/). Tandaan: Ang base URL ay
+        ginamit lamang para sa pagsusulat muli ng mga checkout URL sa namamahala ng
+        respository. Ang ibang repositoryo ay hindi binago.'
       default_instructions:
-        git: |-
-          The data contained in this repository can be downloaded to your computer with Git.
-          Please consult the documentation of Git if you need more information on the checkout procedure and available clients.
-        subversion: |-
-          The data contained in this repository can be downloaded to your computer with Subversion.
-          Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
-      enable_instructions_text: Displays checkout instructions defined below on all
-        repository-related pages.
-      instructions: Checkout instructions
-      show_instructions: Display checkout instructions
-      text_instructions: This text is displayed alongside the checkout URL for guidance
-        on how to check out the repository.
-      not_available: Checkout instructions are not defined for this repository. Ask
-        your administrator to enable them for this repository in the system settings.
-    create_managed_delay: 'Please note: The repository is managed, it is created asynchronously
-      on the disk and will be available shortly.'
+        git: Ang data nakapaloob sa repositoryo ito ay maaaring naka-download sa iyong
+          computer na may Git. Mangyaring konsultahin ang dokumentasyon ng Git kung
+          kinakailngan mo ng karagdagang impormasyon sa checkout na pamaraan at mga
+          bakanteng kliyente.
+        subversion: Ang data nakapaloob sa repositoryo na ito ay naka-download sa
+          iyong computer kasama ang Subversion. Mangyaring konsultahin ang dokumentasyon
+          ng Subversion kung kinakailangan mo ng karagdagang impormasyon sa ceckout
+          na pamaraan at mga bakanteng kliyente.
+      enable_instructions_text: Ipakita ang checkout ng mga tagubilin na tinukoy sa
+        ibaba ng lahat na repositoryo-nauugnay na mga pahina.
+      instructions: Ang mga tagubilin checkout
+      show_instructions: Ipakita ang mga checkout na tagubilin
+      text_instructions: Itong teskto ay ipinakita sa tabi ng checkout URL para sa
+        patnubay na kung paano tignan ang repositoryo.
+      not_available: Tingnan mo ang mga tagubilin na hindi tinukoy para sa respositoryo
+        ito. Tanungin mo ang iyong tagapangasiwa upang paganahin sila para sa repositoryo
+        ito sa mga sistema ng setting.
+    create_managed_delay: 'Mangyaring tandaan: Ang repositoryo ay pinamahalaan, ito
+      ay nilikha ng asynchronously sa disk at magagamit sa ilang sandali.'
     create_successful: Ang repository ay naka rehistro na.
     delete_sucessful: Ang repository ay tinanggal na.
     destroy:
-      confirmation: If you continue, this will permanently delete the managed repository.
-      info: Deleting the repository is an irreversible action.
-      info_not_managed: 'Note: This will NOT delete the contents of this repository,
-        as it is not managed by OpenProject.'
-      managed_path_note: 'The following directory will be erased: %{path}'
-      repository_verification: Enter the project's identifier %{identifier} to verify
-        the deletion of its repository.
-      subtitle: Do you really want to delete the %{repository_type} of the project
+      confirmation: Kung magpatuloy ka, itobay permanenteng burahin ang pinamahalaan
+        repositoryo.
+      info: Pagbubura ng repositoryo ay isang hindi mababawi ang aksyon.
+      info_not_managed: 'Tandaan: Ito ay HINDI tatanggalin ang mga nilalaman sa repositoryi
+        ito, bilang ito ay hindi pinamahalaan sa OpenProject.'
+      managed_path_note: 'Ang sumusunod na direktoryo ay buburahin: %{path}'
+      repository_verification: Ipasok ang pagkakilanlan ng proyekto %{identifier}
+        upang matiyak ang pagbubuta ng repositoryo ito.
+      subtitle: Gusto mo ba talaga na burahin ang %{repository_type} ng proyektong
         %{project_name}?
-      subtitle_not_managed: Do you really want to remove the linked %{repository_type}
-        %{url} from the project %{project_name}?
-      title: Delete the %{repository_type}
-      title_not_managed: Remove the linked %{repository_type}?
+      subtitle_not_managed: Gusto mo ba talaga na alisin ang naka-link %{repository_type}%{url}
+        mula sa proyektong%{project_name}?
+      title: Burahin ang %{repository_type}
+      title_not_managed: Alisin ang naka-link %{repository_type}?
     errors:
-      build_failed: Unable to create the repository with the selected configuration.
-        %{reason}
-      managed_delete: Unable to delete the managed repository.
-      managed_delete_local: 'Unable to delete the local repository on filesystem at
-        ''%{path}'': %{error_message}'
-      empty_repository: The repository exists, but is empty. It does not contain any
-        revisions yet.
-      exists_on_filesystem: The repository directory already exists in the filesystem.
-      filesystem_access_failed: 'An error occurred while accessing the repository
-        in the filesystem: %{message}'
-      not_manageable: This repository vendor cannot be managed by OpenProject.
-      path_permission_failed: 'An error occurred trying to create the following path:
-        %{path}. Please ensure that OpenProject may write to that folder.'
+      build_failed: Hindi makalikha ng repositoryo sa napiling kumpigurasyon. %{reason}
+      managed_delete: Hindi maibura ang pinamahalaan repositoryo.
+      managed_delete_local: 'Hindi maibura ang lokal repositoryo sa filesysytem ng
+        %{path}'': %{error_message}'
+      empty_repository: Ang repostoryo ay umiiral, ngunit ito ay walang laman. Ito
+        ay walang laman na kahit anong rebisyon.
+      exists_on_filesystem: Ang direktoryong respositoryo ay umiiral na sa filesystem.
+      filesystem_access_failed: 'Isang mali ang naganap habang nag-aaccess ng repositoryo
+        sa filesystem: %{message}'
+      not_manageable: Itong repositoryo vendor ay hindi mapamahalaan ng OpenProject.
+      path_permission_failed: 'Isang mali ang naganap habang sinusubukan lumikha ng
+        sumusunod na landas: %{path}. Mangyaring siguraduhin na ang OpenProject ay
+        maaaring sumulat sa folder na iyon.'
       unauthorized: Hindi ka pinahintulutan na i-access ang respositoryo o ang mga
         kredensyal ay hindi balido.
       unavailable: Ang repository ay hindi available.
@@ -1962,8 +1970,8 @@ fil:
         na magagamit para sa SCM vendor %{vendor}.
       disabled_or_unknown_vendor: Ang SCM vendor %{vendor} ay hindi pinagana o hindi
         na magagamit.
-      remote_call_failed: 'Calling the managed remote failed with message ''%{message}''
-        (Code: %{code})'
+      remote_call_failed: 'Pagtatawag ng managed remote fauled na may kasamang menshae
+        ng ''%{message}'' (Code: %{code})'
       remote_invalid_response: Nakatanggap ng isang balidong tugon mula sa namamahala
         ng remote.
       remote_save_failed: Hindi mai-save ang respositoryo sa mga parametro naibalik
@@ -1984,31 +1992,32 @@ fil:
       managed_introduction: Hayaang ang OpenProject ay lumikha at awtomatikong mag-integrate
         ng isang local Git repository.
       managed_title: Ang Git repository ay isinama sa OpenProject
-      managed_url: Managed URL
+      managed_url: Pamahalain ang URL
       path: Landas sa Git respositoryo
       path_encoding: Path encoding
     go_to_revision: Pumunta sa rebisyon
-    managed_remote: Managed repositories for this vendor are handled remotely.
+    managed_remote: Pamahalain ang mga respository para vendor na ito ay isinasagawa
+      ng remotely.
     managed_remote_note: Ang impormasyon sa URL at landas ng repository na ito ay
       hindi available bago ito nalikha.
-    managed_url: Managed URL
+    managed_url: Pamahalain ang URL
     settings:
       automatic_managed_repos_disabled: Hindi paganahin ang awtomatikong paglikha
-      automatic_managed_repos: Automatic creation of managed repositories
-      automatic_managed_repos_text: By setting a vendor here, newly created projects
-        will automatically receive a managed repository of this vendor.
-    scm_vendor: Source control management system
+      automatic_managed_repos: Automatiko paglikha ng mga naka-manage na respositoryo
+      automatic_managed_repos_text: Sa pamamagitan ng vendor dito, ang bagong nilikhang
+        proyekto ay automatikong matanggap ng respositoryo sa vendor na ito.
+    scm_vendor: Sistema ng Source control management
     scm_type: Uri ng repository
     scm_types:
       local: Umiiral na link sa lokal respository
       existing: Umiiral na link sa respository
-      managed: Create new repository in OpenProject
+      managed: Lumikha ng bagong repositoryo sa OpenProject
     storage:
       not_available: Ang konsumo ng disk storage ay hindi available para sa ganitong
         repository.
       update_timeout: |-
-        Keep the last required disk space information for a repository for N minutes.
-        As counting the required disk space of a repository may be costly, increase this value to reduce performance impact.
+        Panatilihin ang huling kailangang espasyo disk impormasyon para sa repositoryo ng N minuto.
+        Bilang pagbibilang ang kailangang espasyo ng disk ng repositoryo ay maaring gastos, palakihin ang hakaga na ito upang mabawasan ang epekto ng pagganap.
     subversion:
       existing_title: Umiiral na subversion respository
       existing_introduction: Kung mayroon kang umiiral na Subversion repository, pwedi
@@ -2023,7 +2032,7 @@ fil:
       managed_title: Ang subversion respository ay pinagsama sa OpenProject
       managed_introduction: Hayaan ang OpenProject na lumikha at automatikong pagsamahin
         ang lokal Subversion respository.
-      managed_url: Managed URL
+      managed_url: Pamahalain ang URL
       password: Password ng Repository
       username: Username ng Repository
     truncated: Paumanhin, kailangan namin i-truncate ang direktoryong ito sa %{limit}
@@ -2142,8 +2151,8 @@ fil:
   setting_user_format: Users display format
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
-  setting_welcome_text: Welcome block text
-  setting_welcome_title: Welcome block title
+  setting_welcome_text: Teskstong welcome block
+  setting_welcome_title: Titulo ng welcome back
   setting_welcome_on_homescreen: I-display ang welcome block sa homescreen
   setting_welcome_on_projects_page: I-display ang welcome block sa pangkalahatang
     ideya ng proyekto
@@ -2232,7 +2241,7 @@ fil:
   text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
   text_hint_date_format: Ilagay ang petsa sa anyo ng YYY-MM-DD. Ang ibang mga format
     ay maaaring mabago para sa hindi ni-nais na petsa.
-  text_hint_disable_with_0: 'Note: Disable with 0'
+  text_hint_disable_with_0: 'Tandaan: Hindi pinagana sa 0'
   text_hours_between: Sa pagitan ng %{min} at %{max} mga oras.
   text_work_package_added: Work package %{id} has been reported by %{author}.
   text_work_package_category_destroy_assignments: Remove category assignments
@@ -2247,9 +2256,9 @@ fil:
   text_work_packages_ref_in_commit_messages: Referencing and fixing work packages
     in commit messages
   text_journal_added: "%{label} %{value} added"
-  text_journal_aggregation_time_explanation: Combine journals for display if their
-    age difference is less than the specified timespan. This will also delay mail
-    notifications by the same amount of time.
+  text_journal_aggregation_time_explanation: Pagsamahhin ang mga journak para ipakita
+    kung ang kanilang edad ay pagkakaiba ay mas mababa ng tinukoy na timespan. Ito
+    rin ay ipagpaliban ang mga abiso ng email sa kaparehong halaga ng oras.
   text_journal_changed: "%{label} changed from %{old} to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"

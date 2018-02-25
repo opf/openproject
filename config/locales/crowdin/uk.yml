@@ -252,7 +252,7 @@ uk:
       Будь ласка, зверніться до адміністратора, щоб створити обліковий запис для вас.
 
 '
-    login_with_auth_provider: or sign in with your existing account
+    login_with_auth_provider: або ввійдіть у свій існуючий обліковий запис
     signup_with_auth_provider: or sign up using
     auth_source_login: Please login as <em>%{login}</em> to activate your account.
     omniauth_login: Please login to activate your account.
@@ -293,7 +293,7 @@ uk:
         min_length: Мінімальна довжина
         multi_value: Allow multi-select
         possible_values: Можливі значення
-        regexp: Regular expression
+        regexp: Регулярний вираз
         searchable: Searchable
         visible: Visible
       custom_value:
