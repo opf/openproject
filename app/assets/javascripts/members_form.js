@@ -74,8 +74,21 @@ jQuery(document).ready(function($) {
     window.OpenProject.guardedLocalStorage("showFilter", 'false');
   }
 
+  // Toggle filter
   $('.toggle-member-filter-link').click(toggleMemberFilter);
 
+  // Toggle editing row
+  $('.toggle-membership-button').click(function() {
+    var el = $(this);
+    $(el.data('toggleTarget')).toggle();
+    return false;
+  });
+
+  // Show add member form
+  $('#add-member-button').click(showAddMemberForm);
+
+  // Hide member form
+  $('.hide-member-form-button').click(hideAddMemberForm);
 
   // show member form only when there's an error
   if (jQuery("#errorExplanation").text() != "") {
