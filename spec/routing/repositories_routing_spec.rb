@@ -42,7 +42,7 @@ describe RepositoriesController, type: :routing do
         .to route_to(controller: 'repositories',
                      action: 'show',
                      project_id: 'testproject',
-                     path: 'path/to/file.c')
+                     repo_path: 'path/to/file.c')
     }
 
     it {
@@ -50,7 +50,7 @@ describe RepositoriesController, type: :routing do
         .to route_to(controller: 'repositories',
                      action: 'show',
                      project_id: 'testproject',
-                     path: 'folder with spaces')
+                     repo_path: 'folder with spaces')
     }
 
     it {
@@ -153,7 +153,7 @@ describe RepositoriesController, type: :routing do
         .to route_to(controller: 'repositories',
                      action: 'diff',
                      project_id: 'testproject',
-                     path: 'path/to/file.c')
+                     repo_path: 'path/to/file.c')
     }
 
     it {
@@ -161,7 +161,7 @@ describe RepositoriesController, type: :routing do
         .to route_to(controller: 'repositories',
                      action: 'diff',
                      project_id: 'testproject',
-                     path: 'path/to/file.c',
+                     repo_path: 'path/to/file.c',
                      rev: '2')
     }
   end
@@ -172,7 +172,7 @@ describe RepositoriesController, type: :routing do
         .to route_to(controller: 'repositories',
                      action: 'browse',
                      project_id: 'testproject',
-                     path: 'path/to/file.c')
+                     repo_path: 'path/to/file.c')
     }
   end
 
@@ -182,7 +182,7 @@ describe RepositoriesController, type: :routing do
         .to route_to(controller: 'repositories',
                      action: 'entry',
                      project_id: 'testproject',
-                     path: 'path/to/file.c')
+                     repo_path: 'path/to/file.c')
     }
 
     it {
@@ -190,7 +190,7 @@ describe RepositoriesController, type: :routing do
         .to route_to(controller: 'repositories',
                      action: 'entry',
                      project_id: 'testproject',
-                     path: 'path/to/file.c',
+                     repo_path: 'path/to/file.c',
                      rev: '2')
     }
 
@@ -199,7 +199,7 @@ describe RepositoriesController, type: :routing do
         .to route_to(controller: 'repositories',
                      action: 'entry',
                      project_id: 'testproject',
-                     path: 'path/to/file.c',
+                     repo_path: 'path/to/file.c',
                      format: 'raw')
     }
 
@@ -208,7 +208,7 @@ describe RepositoriesController, type: :routing do
         .to route_to(controller: 'repositories',
                      action: 'entry',
                      project_id: 'testproject',
-                     path: 'path/to/file.c',
+                     repo_path: 'path/to/file.c',
                      rev: 'master',
                      format: 'raw')
     }
@@ -220,14 +220,14 @@ describe RepositoriesController, type: :routing do
         .to route_to(controller: 'repositories',
                      action: 'annotate',
                      project_id: 'testproject',
-                     path: 'path/to/file.c')
+                     repo_path: 'path/to/file.c')
     }
     it {
       expect(get('/projects/testproject/repository/revisions/5/annotate/path/to/file.c'))
         .to route_to(controller: 'repositories',
                      action: 'annotate',
                      project_id: 'testproject',
-                     path: 'path/to/file.c',
+                     repo_path: 'path/to/file.c',
                      rev: '5')
     }
   end
@@ -238,7 +238,7 @@ describe RepositoriesController, type: :routing do
         .to route_to(controller: 'repositories',
                      action: 'changes',
                      project_id: 'testproject',
-                     path: 'path/to/file.c')
+                     repo_path: 'path/to/file.c')
     }
 
     it {
@@ -246,7 +246,7 @@ describe RepositoriesController, type: :routing do
         .to route_to(controller: 'repositories',
                      action: 'changes',
                      project_id: 'testproject',
-                     path: 'path/to/file.c',
+                     repo_path: 'path/to/file.c',
                      rev: '5')
     }
   end

@@ -480,7 +480,7 @@ class RepositoriesController < ApplicationController
   end
 
   def login_back_url_params
-    params.permit(:path)
+    params.permit(:repo_path)
   end
 
   def raw_or_to_large_or_non_text(content, path)
