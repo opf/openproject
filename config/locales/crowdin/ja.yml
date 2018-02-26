@@ -56,7 +56,7 @@ ja:
     plural: カスタムアクション
     new: 新しいカスタムアクション
     edit: カスタムアクション %{name} の編集
-    execute: Execute %{name}
+    execute: "%{name} を実行"
     upsale:
       title: カスタムアクションは、エンタープライズ版の機能です
       description: カスタムアクションは、1 つのボタンに個々のステップを組み合わせて日々の作業を合理化します。
@@ -232,8 +232,8 @@ ja:
       announcements:
         show_until: までを表示
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: 添付ファイルのコンテンツ
+        attachment_file_name: 添付ファイル名
         downloads: ダウンロード数
         file: ファイル
         filename: ファイル
@@ -413,8 +413,8 @@ ja:
           empty: "(%{name}) 値を空にすることはできません。"
           inclusion: "(%{name}) は、許可されている値ではありません。"
           not_an_integer: "(%{name}) が整数ではありません。"
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          smaller_than_or_equal_to: "(%{name}) は %{count} 以下にする必要があります。"
+          greater_than_or_equal_to: "(%{name}) は %{count} 以上にする必要があります。"
         enterprise_token:
           unreadable: 読み取りできません。サポート トークンですか?
         parse_schema_filter_params_service:
@@ -921,12 +921,12 @@ ja:
       pdf_with_descriptions: 説明付きPDF
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotextが利用可能 (オプション)
+      unrtf: Unrtfが利用可能 (オプション)
+      catdoc: Catdocが利用可能 (オプション)
+      xls2csv: Xls2csvが利用可能 (オプション)
+      catppt: Catpptが利用可能 (オプション)
+      tesseract: Tesseractが利用可能 (オプション)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1899,7 +1899,7 @@ ja:
   setting_feeds_limit: フィードの項目数の上限
   setting_file_max_size_displayed: 画面表示するテキストファイルの最大サイズ
   setting_host_name: ホスト名
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: アクティベーションのメールは次で有効期限切れ
   setting_work_package_done_ratio: 進捗率の算出方法
   setting_work_package_done_ratio_field: 作業項目のフィールドを使用する
   setting_work_package_done_ratio_status: 作業項目のステータスを使用する
@@ -1951,7 +1951,7 @@ ja:
   setting_time_format: 時刻の形式
   setting_accessibility_mode_for_anonymous: 匿名ユーザ向けにアクセシビリティモードを有効
   setting_user_format: ユーザ情報の形式
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: ユーザーのデフォルトのタイム ゾーン
   setting_users_deletable_by_admins: 管理者によるユーザアカウントが削除可能
   setting_users_deletable_by_self: ユーザによる自分のアカウント削除を許可
   setting_welcome_text: ようこそブロックのテキスト
@@ -2011,7 +2011,7 @@ ja:
     x 180 ピクセルサイズの PNG イメージファイルにする必要があります。iOS での表示が悪くなるため、画像の背景を透明にしないでください。
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: データベースはTSVectorが利用可能 (オプション)
   text_default_administrator_account_changed: 管理者アカウントでデフォルト設定が変更済み
   text_default_encoding: '既定値: UTF-8'
   text_destroy: 削除
@@ -2275,8 +2275,7 @@ ja:
       quarters: 四半期ごと
       years: " 年"
   title_remove_and_delete_user: プロジェクトから招待済のユーザを削除し、彼/彼女を削除します。
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: '新しいユーザーのデフォルトのタイム ゾーン。ユーザーの設定で変更できます。
 
 '
   tooltip_resend_invitation: '古いメールの有効期限が切れた、またはユーザーが元のメールを受け取っていない場合に、新しいトークンで別の招待メールを送信します。アクティブなユーザーに新しい認証方法を選択するために使用することもできます。アクティブなユーザーに使用する場合、彼らの
@@ -2335,9 +2334,9 @@ ja:
   note_password_login_disabled: パスワードを利用してログインは%{configuration}によって無効にされています。
   warning: 注意
   warning_attachments_not_saved: "%{count} 件のファイルを保存できませんでした。"
-  warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+  warning_registration_token_expired: 'アクティベーションメールの有効期限が切れています。%{email} に新しいものを送りました。その中のリンクをクリックして、アカウントを有効にしてください。
+
+'
   menu_item: メニュー項目
   menu_item_setting: 可視性
   wiki_menu_item_for: Wikiページ"%{title}"のメニュー項目

@@ -64,8 +64,8 @@ ja:
           one: 最初の並べ替え条件
           two: 2 番目の並べ替え基準
           three: 3 番目の並べ替え条件
-      upsale_for_more: For more advanced filters, check out the
-      upsale_link: Enterprise Edition.
+      upsale_for_more: 詳細なフィルターについて、ご確認ください
+      upsale_link: エンタープライズ版。
     general_text_no: いいえ
     general_text_yes: はい
     general_text_No: いいえ
