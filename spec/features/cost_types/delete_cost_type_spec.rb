@@ -42,7 +42,8 @@ describe 'deleting a cost type', type: :feature, js: true do
     page.driver.browser.switch_to.alert.accept
 
     # Expect no results if not locked
-    expect(page).to have_selector '.generic-table--no-results-container'
+    expect_angular_frontend_initialized
+    expect(page).to have_selector '.generic-table--no-results-container', wait: 10
 
     # Show locked
     find('#include_deleted').set true
