@@ -52,9 +52,8 @@ describe 'Cancel editing work package', js: true do
 
   def expect_active_edit(path)
     visit path
-    loading_indicator_saveguard
-
-    expect(page).to have_selector('#wp-new-inline-edit--field-subject')
+    expect_angular_frontend_initialized
+    expect(page).to have_selector('#wp-new-inline-edit--field-subject', wait: 10)
   end
 
   def expect_subject(val)
