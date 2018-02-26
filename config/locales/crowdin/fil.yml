@@ -161,9 +161,9 @@ fil:
       no_results_title_text: Sa kasalukuyan ay walang mga uri.
       no_results_content_text: Gumawa ng bagong uri
     edit:
-      settings: Settings
+      settings: Mga setting
       form_configuration: Form kompigurasyon
-      projects: Projects
+      projects: Mga proyekto
       enabled_projects: Paganahin ang mga proyekto
       add_group: Magdagdag ng grupo
       reset: I-reset sa mga default
@@ -285,7 +285,7 @@ fil:
         filename: Payl
         filesize: Sukat
       attribute_help_text:
-        attribute_name: Attribute
+        attribute_name: Katangian
         help_text: Tekstong tulong
       auth_source:
         account: Akawnt
@@ -298,7 +298,7 @@ fil:
         onthefly: Ang-paglipad-sa mga gawa ng gumagamit
         port: Port
       changeset:
-        repository: Repository
+        repository: Repositoryo
       comment:
         commented: Ang komento
       custom_field:
@@ -541,9 +541,9 @@ fil:
             priority_id:
               only_active_priorities_allowed: ay kinakailangang maging aktibo.
             category:
-              only_same_project_categories_allowed: The category of a work package
-                must be within the same project as the work package.
-              does_not_exist: The specified category does not exist.
+              only_same_project_categories_allowed: Ang kategorya ng isang work package
+                ay dapat nakapaloob sa kaparehong proyekto bilang work package.
+              does_not_exist: Ang tinukoy na kategorya ay hindi umiiral.
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: dapat >= 0.
         type:
@@ -559,16 +559,16 @@ fil:
               weak: 'Dapat naglalaman ng mga karakter sa mga sumusunod na klase (kahit
                 na %{min_count} sa %{all_count}): %{rules}.'
               lowercase: lowercase (e.g. 'a')
-              uppercase: uppercase (e.g. 'A')
-              numeric: numeric (e.g. '1')
-              special: special (e.g. '%')
+              uppercase: uppercase (e.g 'A')
+              numeric: numeric (e.g.'1')
+              special: espesyal (e.g '%')
               reused:
-                one: has been used before. Please choose one that is different from
-                  your last one.
-                other: has been used before. Please choose one that is different from
-                  your last %{count}.
+                one: ay nagamit na dati. Mangyaring pumili ng isa na kaiba mula sa
+                  iyong huling isa.
+                other: ay nagamit na dati. Mangyaring pumili ng isa na kaiba mula
+                  sa iyong huli %{count}.
               match:
-                confirm: Confirm new password.
+                confirm: Kumpirmahin ang bagong password.
                 description: "'Kompirmasyon ng password' ay dapat tugma sa input ng
                   'Bagong password' na patlang."
             status:
@@ -641,7 +641,7 @@ fil:
     estimated_time: Tinantyang oras
     firstname: Unang pangalan
     group: Grupo
-    groups: Groups
+    groups: Mga grupo
     groupname: Pangalan ng grupo
     id: ID
     is_default: Ang default na halaga
@@ -659,70 +659,70 @@ fil:
     role: Tungkulin
     roles: Ang mga tungkulin
     start_date: Petsa ng pagsimula
-    status: Status
-    subject: Subject
-    summary: Summary
-    title: Title
+    status: Estado
+    subject: Paksa
+    summary: Buod
+    title: Pamagat
     type: Uri
-    updated_at: Updated on
-    updated_on: Updated on
+    updated_at: Naka-update sa
+    updated_on: Naka-update sa
     user: Gumagamit
     version: Bersyon
     work_package: Work package
-  button_add: Add
+  button_add: Magdagdag
   button_add_member: Magdagdag ng miyembro
-  button_add_watcher: Add watcher
-  button_annotate: Annotate
-  button_apply: Apply
-  button_archive: Archive
-  button_back: Back
-  button_cancel: Cancel
-  button_change: Change
-  button_change_parent_page: Change parent page
-  button_change_password: Change password
-  button_check_all: Check all
-  button_clear: Clear
+  button_add_watcher: Magdagdag ng manunuod
+  button_annotate: Anotasyon
+  button_apply: Ilagay
+  button_archive: I-archive
+  button_back: Bumalik
+  button_cancel: Kanselahin
+  button_change: Baguhin
+  button_change_parent_page: Baguhin ang magulang na pahina
+  button_change_password: Baguhin ang password
+  button_check_all: Suriin lahat
+  button_clear: Linisin
   button_close: Isara
-  button_collapse_all: Collapse all
-  button_configure: Configure
-  button_copy: Copy
-  button_copy_and_follow: Copy and follow
-  button_create: Create
-  button_create_and_continue: Create and continue
-  button_delete: Delete
-  button_delete_watcher: Delete watcher %{name}
-  button_download: Download
-  button_duplicate: Duplicate
-  button_edit: Edit
-  button_edit_associated_wikipage: 'Edit associated Wiki page: %{page_title}'
-  button_expand_all: Expand all
-  button_filter: Filter
+  button_collapse_all: Bumagsak lahat
+  button_configure: I-configure
+  button_copy: Kopyahin
+  button_copy_and_follow: Kopyahin at sundin
+  button_create: Lumikha
+  button_create_and_continue: Lumikha at magpatuloy
+  button_delete: Burahin
+  button_delete_watcher: Burahin ang manunuod %{name}
+  button_download: I-download
+  button_duplicate: Kapareha
+  button_edit: I-edit
+  button_edit_associated_wikipage: 'I-edit ang kaugnay ng Wiki na pahina: %{page_title}'
+  button_expand_all: Malakihin lahat
+  button_filter: Salain
   button_generate: Bumuo
-  button_list: List
-  button_lock: Lock
+  button_list: Listahan
+  button_lock: I-kandado
   button_log_time: Ang oras ng tala
-  button_login: Sign in
-  button_move: Move
-  button_move_and_follow: Move and follow
+  button_login: Mag-sign in
+  button_move: Ilipat
+  button_move_and_follow: Ilipat at sundin
   button_print: I-print
   button_quote: Quote
   button_remove: Tanggalin
-  button_remove_widget: Remove widget
-  button_rename: Rename
+  button_remove_widget: Alisin ang widget
+  button_rename: Baguhin ang pangalan
   button_replace: Palitan
-  button_reply: Reply
-  button_reset: Reset
-  button_rollback: Rollback to this version
-  button_save: Save
+  button_reply: Mag-reply
+  button_reset: I-reset
+  button_rollback: Pagbabalik ng bersyon ito
+  button_save: I-save
   button_save_back: I-save at bumalik
-  button_show: Show
-  button_sort: Sort
-  button_submit: Submit
-  button_test: Test
-  button_unarchive: Unarchive
-  button_uncheck_all: Uncheck all
-  button_unlock: Unlock
-  button_unwatch: Unwatch
+  button_show: Ipakita
+  button_sort: Ayusin
+  button_submit: Sumite
+  button_test: Pagsusulit
+  button_unarchive: Tanggalin ang archive
+  button_uncheck_all: I-uncheck lahat
+  button_unlock: I-unlock
+  button_unwatch: I-unwatch
   button_update: I-update
   button_upload: I-upload
   button_view: Tingnan
@@ -787,149 +787,150 @@ fil:
     - Mayo
     - Hunyo
     - Hulyo
-    - August
-    - September
-    - October
-    - November
-    - December
+    - Agosto
+    - Setyembre
+    - Oktubre
+    - Nobyembre
+    - Disyembre
     order:
-    - :year
-    - :month
-    - :day
+    - :taon
+    - :buwan
+    - :araw
   datetime:
     distance_in_words:
       about_x_hours:
-        one: about 1 hour
-        other: about %{count} hours
+        one: tungkol sa oras
+        other: tungkol sa mga %{count} oras
       about_x_months:
-        one: about 1 month
-        other: about %{count} months
+        one: isang buwan ang nakalipas
+        other: mga isang %{count} buwan ang nakalipas
       about_x_years:
-        one: about 1 year
-        other: about %{count} years
+        one: isang taon ang nakalipas
+        other: mga isang %{count} taon ang nakalipas
       almost_x_years:
-        one: almost 1 year
-        other: almost %{count} years
-      half_a_minute: half a minute
+        one: halos isang taon
+        other: mga halos isang %{count} taon
+      half_a_minute: kalahating minuto
       less_than_x_minutes:
-        one: less than a minute
-        other: less than %{count} minutes
+        one: mas mababa sa isang minuto
+        other: mga mas mababa sa isang %{count} minuto
       less_than_x_seconds:
-        one: less than 1 second
-        other: less than %{count} seconds
+        one: mas mababa sa isang segundo
+        other: mga mas mababa sa isang %{count} segundo
       over_x_years:
-        one: over 1 year
-        other: over %{count} years
+        one: mahigit sa isang taon
+        other: mas mahigit sa isang %{count} taon
       x_days:
-        one: 1 day
-        other: "%{count} days"
+        one: Isang araw
+        other: mga Isang %{count} araw
       x_minutes:
-        one: 1 minute
-        other: "%{count} minutes"
+        one: Isang minuto
+        other: mga Isang %{count} minuto
       x_months:
-        one: 1 month
-        other: "%{count} months"
+        one: Isang buwan
+        other: mga isang %{count} buwan
       x_seconds:
-        one: 1 second
-        other: "%{count} seconds"
+        one: Isang segundo
+        other: Mga Isang %{count} segundo
     units:
       hour:
-        one: hour
-        other: hours
+        one: oras
+        other: mga oras
   default_activity_development: Development
-  default_activity_management: Management
-  default_activity_other: Other
-  default_activity_specification: Specification
-  default_activity_support: Support
-  default_activity_testing: Testing
-  default_color_black: Black
-  default_color_blue: Blue
-  default_color_blue_dark: Blue (dark)
-  default_color_blue_light: Blue (light)
-  default_color_green_dark: Green (dark)
-  default_color_green_light: Green (light)
-  default_color_grey_dark: Grey (dark)
-  default_color_grey_light: Grey (light)
+  default_activity_management: Pamamahala
+  default_activity_other: Iba pa
+  default_activity_specification: Mga detalye
+  default_activity_support: Suportado
+  default_activity_testing: Sinusubok
+  default_color_black: Itim
+  default_color_blue: Asul
+  default_color_blue_dark: Asul (maitim)
+  default_color_blue_light: Asul (maliwanag)
+  default_color_green_dark: Green (madilin)
+  default_color_green_light: Green (liwanag)
+  default_color_grey_dark: Grey (madilim)
+  default_color_grey_light: Grey (maliwanag)
   default_color_grey: Grey
   default_color_magenta: Magenta
-  default_color_orange: Orange
-  default_color_red: Red
-  default_color_white: White
-  default_color_yellow: Yellow
-  default_status_closed: Closed
-  default_status_confirmed: Confirmed
-  default_status_developed: Developed
+  default_color_orange: Dalandan
+  default_color_red: Pula
+  default_color_white: Maputi
+  default_color_yellow: Dilaw
+  default_status_closed: Isinara
+  default_status_confirmed: Kinumpirma
+  default_status_developed: Nabuo
   default_status_in_development: In development
-  default_status_in_progress: In progress
-  default_status_in_specification: In specification
-  default_status_in_testing: In testing
-  default_status_new: New
-  default_status_on_hold: On hold
+  default_status_in_progress: Isinasagawa
+  default_status_in_specification: Sa pagtutukoy
+  default_status_in_testing: Sa pagsusubok
+  default_status_new: Bago
+  default_status_on_hold: Nakahawak
   default_status_rejected: Tinanggihan
   default_status_scheduled: Naka-iskedyul
   default_status_specified: Tinukoy
-  default_status_tested: Tested
-  default_status_test_failed: Test failed
-  default_status_to_be_scheduled: To be scheduled
-  default_priority_low: Low
-  default_priority_normal: Normal
-  default_priority_high: High
-  default_priority_immediate: Immediate
-  default_project_type_scrum: Scrum team
-  default_project_type_standard: Standard project
+  default_status_tested: Nasubukan
+  default_status_test_failed: Palyado ang pagsubok
+  default_status_to_be_scheduled: Upang maiskedyul
+  default_priority_low: Mababa
+  default_priority_normal: Katamtaman
+  default_priority_high: Mataas
+  default_priority_immediate: Agarang
+  default_project_type_scrum: Scrum na koponan
+  default_project_type_standard: Pamantayang proyekto
   default_reported_project_status_green: Green
   default_reported_project_status_amber: Amber
-  default_reported_project_status_red: Red
-  default_role_anonymous: Anonymous
-  default_role_developer: Developer
-  default_role_project_admin: Project admin
-  default_role_non_member: Non member
-  default_role_reader: Reader
+  default_reported_project_status_red: Pula
+  default_role_anonymous: Hindi kilala
+  default_role_developer: Bumubuo
+  default_role_project_admin: Namuno ng proyekto
+  default_role_non_member: Di-miyembro
+  default_role_reader: Mambabasa
   default_role_member: Miyembro
   default_type: Ang pakete na Ginagawa
   default_type_bug: Bug
   default_type_deliverable: Deliverable
   default_type_epic: Epic
-  default_type_feature: Feature
+  default_type_feature: Tampok
   default_type_milestone: Milestone
   default_type_phase: Phase
-  default_type_task: Task
-  default_type_user_story: User story
-  description_active: Active?
-  description_attachment_toggle: Show/Hide attachments
-  description_autocomplete: 'This field uses autocomplete. While typing the title
-    of a work package you will receive a list of possible candidates. Choose one using
-    the arrow up and arrow down key and select it with tab or enter. Alternatively
-    you can enter the work package number directly.
+  default_type_task: Gawain
+  default_type_user_story: Storya ng gumagamit
+  description_active: Aktibo?
+  description_attachment_toggle: Ipakita/Itagi ang mga paglalakip
+  description_autocomplete: 'Ang itong patlang ay gumagamit ng autocomplete. Habang
+    nag-type ng pamagat ng work package ay makakatanggap ka ng listahan na mga posibleng
+    kandidato. Pumili ng isa gamit ang arrow up and arrow down at piliin ito sa tab
+    o ipasok. Bilang alternatibo maari mong ipasok ng direkta ang bilang ng work package.
 
 '
-  description_available_columns: Available Columns
-  description_choose_project: Projects
+  description_available_columns: Ang mga hanay na magagamit
+  description_choose_project: Mga proyekto
   description_compare_from: Ikinumpara mula sa
   description_compare_to: Ikinumpara sa
-  description_current_position: 'You are here:'
-  description_date_from: Enter start date
-  description_date_range_interval: Choose range by selecting start and end date
-  description_date_range_list: Choose range from list
-  description_date_to: Enter end date
-  description_enter_number: Enter number
-  description_enter_text: Enter text
-  description_filter: Filter
-  description_filter_toggle: Show/Hide filter
-  description_category_reassign: Choose category
-  description_message_content: Message content
-  description_my_project: You are member
+  description_current_position: 'Nandito ka na:'
+  description_date_from: Ipasok ang petsa ng pasisimula
+  description_date_range_interval: Pumili ng saklaw sa pamamagitan ng simula at katapusang
+    petsa
+  description_date_range_list: Pumili ng saklaw mula sa listahan
+  description_date_to: Ipasok ang katapusang petsa
+  description_enter_number: Ipasok ang numero
+  description_enter_text: Ipasok ang teksto
+  description_filter: Salain
+  description_filter_toggle: Ipakita/Itago ang salain
+  description_category_reassign: Pumili ng kategorya
+  description_message_content: L
+  description_my_project: Miyembro ka na
   description_notes: Ang mga tala
-  description_parent_work_package: Parent work package of current
-  description_project_scope: Search scope
-  description_query_sort_criteria_attribute: Sort attribute
-  description_query_sort_criteria_direction: Sort direction
+  description_parent_work_package: Kasulukyang magulang ng work package
+  description_project_scope: Maghanap ng saliksik
+  description_query_sort_criteria_attribute: Ayusin ang katangian
+  description_query_sort_criteria_direction: Ayusin ang direksyon
   description_search: Searchfield
-  description_select_work_package: Select work package
-  description_selected_columns: Selected Columns
-  description_sub_work_package: Sub work package of current
-  description_toc_toggle: Show/Hide table of contents
-  description_wiki_subpages_reassign: Choose new parent page
+  description_select_work_package: Pumili ng work package
+  description_selected_columns: Napiling mga hanay
+  description_sub_work_package: Kasulukuyang sub work package
+  description_toc_toggle: Ipakita/Itago ang talaan ng nilalaman
+  description_wiki_subpages_reassign: Pumili ng bagong pahina na magulang
   direction: ltr
   ee:
     upsale:
@@ -941,22 +942,23 @@ fil:
       project_filters:
         description_html: I-upgrade sa %{link} upang salain at isaayos sa mga custom
           na patlang
-  enumeration_activities: Activities (time tracking)
-  enumeration_work_package_priorities: Work package priorities
-  enumeration_system_activity: System Activity
-  enumeration_reported_project_statuses: Reported project status
+  enumeration_activities: Mga aktibidad (time tracking)
+  enumeration_work_package_priorities: Ang mga prioridad ng work package
+  enumeration_system_activity: Sistema ng aktibidad
+  enumeration_reported_project_statuses: Estado ng inuulat na proyekto
   error_auth_source_sso_failed: Single Sign-On (SSO) para sa gumagamit ng '%{value}'
     ay nabigo
-  error_can_not_archive_project: This project cannot be archived
+  error_can_not_archive_project: Ito proyekto ay hinde pwede ma-archive
   error_can_not_delete_entry: Hindi mabura na entry
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_can_not_delete_type: This type contains work packages and cannot be deleted.
-  error_can_not_delete_standard_type: Standard types cannot be deleted.
+  error_can_not_delete_custom_field: Hindi mabura ang custom field
+  error_can_not_delete_type: Itong uri ay naglalaman ng mga work package at hindi
+    pwedeng burahin.
+  error_can_not_delete_standard_type: Ang mga uri ng pamantayan na hindi maaring burahin.
   error_can_not_invite_user: Nabigong ipadala ang imbiyltasyon sa gumagamit.
-  error_can_not_remove_role: This role is in use and cannot be deleted.
-  error_can_not_reopen_work_package_on_closed_version: A work package assigned to
-    a closed version cannot be reopened
-  error_check_user_and_role: Please choose a user and a role.
+  error_can_not_remove_role: Itong tungkulin ay ginamit pa at hindi pwedeng burahin.
+  error_can_not_reopen_work_package_on_closed_version: Ang work package ay nakatalaga
+    sa isinarang bersyon na hindi pwede buksan muli
+  error_check_user_and_role: Mangyaring pumili ng gumagamit at tungkulin.
   error_cookie_missing: Ang OpenProject cookie ay nawawala. Mangyaring siguraduhin
     na ang mga cookie ay pinagana, bilang aplikasyon na ito ay hindi gumagana ng maayos
     na hindi kasama ang.
@@ -969,49 +971,51 @@ fil:
     export. Mangyaring bawasan ang mga bilang ng hanay.
   error_token_authenticity: Hindi mapagana upang papatunayan ang Cross-Site Request
     Forgery token.
-  error_work_package_done_ratios_not_updated: Work package done ratios not updated.
-  error_work_package_not_found_in_project: The work package was not found or does
-    not belong to this project
-  error_must_be_project_member: must be project member
-  error_no_default_work_package_status: No default work package status is defined.
-    Please check your configuration (Go to "Administration -> Work package statuses").
-  error_no_type_in_project: No type is associated to this project. Please check the
-    Project settings.
-  error_omniauth_registration_timed_out: The registration via an external authentication
-    provider timed out. Please try again.
-  error_scm_command_failed: 'An error occurred when trying to access the repository:
-    %{value}'
-  error_scm_not_found: The entry or revision was not found in the repository.
-  error_unable_delete_status: The work package status cannot be deleted since it is
-    used by at least one work package.
-  error_unable_delete_default_status: Unable to delete the default work package status.
-    Please select another default work package status before deleting the current
-    one.
-  error_unable_to_connect: Unable to connect (%{value})
+  error_work_package_done_ratios_not_updated: Hindi naka-update ang mga work package
+    done ratio.
+  error_work_package_not_found_in_project: Ang work package ay hindi natagpuan o hindi
+    kabilang sa proyektong ito
+  error_must_be_project_member: dapat ay miyembro ng proyekto
+  error_no_default_work_package_status: Walang default work package estado ang tinukoy.
+    Mangyaring suriin ang iyong kumpigurasyon ( Pumunta sa "Administration -> Work
+    package statuses").
+  error_no_type_in_project: Walang uri ay nauugnay sa proyektong ito. Mangyaring suriin
+    ang mga setting ng proyekto.
+  error_omniauth_registration_timed_out: Ang pagparehistro sa pamamagitan ng external
+    authentication provider ay nagtime-out. Mangyaring subukan ulit.
+  error_scm_command_failed: 'Isang mali ang naganap nong subukam ang pag-access ng
+    repositoryo: %{value}'
+  error_scm_not_found: Ang entry o rebisyon ay hindi natagpuan sa repositoryo.
+  error_unable_delete_status: Ang estado ng work package ay hindi pwedeng burahin
+    dahil ginamit oto sa kahit isang work package.
+  error_unable_delete_default_status: Hindi mabura ang default estado ng work package.
+    Mangyaring pumili ng ibang estado ng work package bago buburahin ang kasulukuyang
+    isa.
+  error_unable_to_connect: Hindi makakonekta (%{value})
   error_unable_delete_wiki: Hindi maitanggal ang wiki page.
   error_unable_update_wiki: Hindi mai-update ang wiki page.
-  error_workflow_copy_source: Please select a source type or role
-  error_workflow_copy_target: Please select target type(s) and role(s)
-  error_menu_item_not_created: Menu item could not be added
-  error_menu_item_not_saved: Menu item could not be saved
+  error_workflow_copy_source: Mangyaring piliin ang uri ng pinagmulan at tungkulin
+  error_workflow_copy_target: Mangyaring piliin ang uri ng target at tungkulin
+  error_menu_item_not_created: Aytem ng pagpipilian ay hindi pwede idagdag
+  error_menu_item_not_saved: Aytem ng pagpipilian ay hindi pwede i-save
   error_wiki_root_menu_item_conflict: 'Hindi mapalitan ng pangalan ang "%{old_name}"
     sa "%{new_name}" dahil sa kasalungatan sa resulta ng pagpipiliang aytem sa umiiral
     na pagpipiliang aytem "%{existing_caption}" (%{existing_identifier}).
 
 '
-  error_external_authentication_failed: An error occured during external authentication.
-    Please try again.
+  error_external_authentication_failed: Isang error ang naganap habang nag-external
+    authentication. Mangyaring subukan ulit.
   events:
-    project: Project edited
-    changeset: Changeset edited
-    message: Message edited
+    project: Naka-edit ang proyekto
+    changeset: Naka-edit ang changeset
+    message: Naka-edit ang mensahe
     news: Mga balita
-    reply: Replied
-    time_entry: Timelog edited
-    wiki_page: Wiki page edited
-    work_package_closed: Work Package closed
-    work_package_edit: Work Package edited
-    work_package_note: Work Package note added
+    reply: Sumagot
+    time_entry: Naka-edit ang timelog
+    wiki_page: Naka-edit ang wike na pahina
+    work_package_closed: Isinara ang work package
+    work_package_edit: Naka-edit ang work package
+    work_package_note: Nadagdag ang talaan ng work package
   export:
     format:
       atom: Atom
@@ -1022,14 +1026,14 @@ fil:
   general_csv_encoding: UTF-8
   general_csv_separator: ","
   general_first_day_of_week: '7'
-  general_lang_name: English
+  general_lang_name: Ingles
   general_pdf_encoding: ISO-8859-1
-  general_text_no: 'no'
-  general_text_yes: 'yes'
-  general_text_No: 'No'
-  general_text_Yes: 'Yes'
-  gui_validation_error: 1 error
-  gui_validation_error_plural: "%{count} errors"
+  general_text_no: hindi
+  general_text_yes: oo
+  general_text_No: Hindi
+  general_text_Yes: Oo
+  gui_validation_error: Isang mali
+  gui_validation_error_plural: "%{count} mga mali"
   homescreen:
     additional:
       projects: Pinakamabagong makikitang proyekto sa pagkakataong ito.
@@ -1052,17 +1056,18 @@ fil:
       faq: FAQ
       glossary: Glosaryo
       shortcuts: Mga madalian
-      forums: Forums
+      forums: Mga forum
       blog: Blog ng OpenProject
       boards: Komunidad forum
       newsletter: Mga alertong seguridad/ Newsletter
   links:
     configuration_guide: Gabay ng kumpigurasyon
-  instructions_after_registration: You can sign in as soon as your account has been
-    activated by clicking %{signin}.
-  instructions_after_logout: You can sign in again by clicking %{signin}.
-  instructions_after_error: You can try to sign in again by clicking %{signin}. If
-    the error persists, ask your admin for help.
+  instructions_after_registration: Maari kang mag-sign in sa lalong madaling panahon
+    bilang ang iyong akwant ay naka-aktibo sa pamamagitan ng pagpipindut%{signin}.
+  instructions_after_logout: Maari kang maka-sign in ulit sa pamamagitan ng pagpipindut
+    %{signin}.
+  instructions_after_error: Maaring mong subukan muli sa pamamagitan ng pagpipindut
+    %{signin}. kung ang mali ay nagpatuloy, magtanong sa namuno para sa tulong.
   my_account:
     access_tokens:
       no_results:
@@ -1081,44 +1086,44 @@ fil:
   label_active_in_new_projects: Aktibo sa bagong proyekto
   label_activity: Aktibidad
   label_add_edit_translations: Magdagdag at i-edit ang mga pagsasalin
-  label_add_another_file: Add another file
-  label_add_columns: Add selected columns
-  label_add_note: Add a note
-  label_add_related_work_packages: Add related work packages
-  label_add_subtask: Add subtask
-  label_added: added
-  label_added_time_by: Added by %{author} %{age} ago
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed
-    when the user is the assignee
-  label_additional_workflow_transitions_for_author: Additional transitions allowed
-    when the user is the author
-  label_administration: Administration
+  label_add_another_file: Magdagdag ng ibang file
+  label_add_columns: Magdagdag ng napiling hanay
+  label_add_note: Magdagdag ng talaan
+  label_add_related_work_packages: Magdagdag ng nauugnay na work package
+  label_add_subtask: Magdagdag ng subtask
+  label_added: nadagdag
+  label_added_time_by: Idinagdag ni %{author}%{age} ng nakaraan
+  label_additional_workflow_transitions_for_assignee: Karagdagang transistion pinahintulutan
+    kung ang gumagamit ay nakatalaga
+  label_additional_workflow_transitions_for_author: Karagdagang transistion pinahintulutan
+    kung ang gumagamit ay ang akda
+  label_administration: Tagapangasiwa
   label_advanced_settings: Naka-advance ang mga setting
-  label_age: Age
-  label_ago: days ago
-  label_all: all
-  label_all_time: all time
-  label_all_words: All words
+  label_age: Edad
+  label_ago: ang mga araw nakalipas
+  label_all: lahat
+  label_all_time: sa lahat ng oras
+  label_all_words: Lahat ng mga salita
   label_always_visible: Palaging ipinapakita
   label_announcement: Anunsyo
-  label_and_its_subprojects: "%{value} and its subprojects"
+  label_and_its_subprojects: "%{value} at ang mga subproject na ito"
   label_api_access_key: API access key
-  label_api_access_key_created_on: API access key created %{value} ago
+  label_api_access_key_created_on: API access key ay nilikha %{value} ng nakalipas
   label_api_access_key_type: API
-  label_applied_status: Applied status
+  label_applied_status: Estadong nilapat
   label_archive_project: I-archive ang proyekto
-  label_ascending: Ascending
-  label_assigned_to_me_work_packages: Work packages assigned to me
-  label_associated_revisions: Associated revisions
-  label_attachment_delete: Delete file
-  label_attachment_new: New file
-  label_attachment_plural: Files
-  label_attribute: Attribute
-  label_attribute_plural: Attributes
+  label_ascending: Pataas
+  label_assigned_to_me_work_packages: Ang work package ay nakatakaga sa akin
+  label_associated_revisions: Nauugnay ng mga rebisyon
+  label_attachment_delete: Burahin ang file
+  label_attachment_new: Bagong file
+  label_attachment_plural: Mga file
+  label_attribute: Katangian
+  label_attribute_plural: Mga katangian
   label_auth_source: Mode ng pagpapatunay
-  label_auth_source_new: New authentication mode
-  label_auth_source_plural: Authentication modes
-  label_authentication: Authentication
+  label_auth_source_new: Bagong authentication mode
+  label_auth_source_plural: Ang mga mode ng pagpapatunay
+  label_authentication: Pagpapatunay
   label_available_project_work_package_categories: Ang mga kategorya ng magagamit
     na work package
   label_available_project_boards: Mga magagamit na board
@@ -1126,518 +1131,526 @@ fil:
   label_available_project_repositories: Magagamit na mga respository
   label_api_documentation: API dokumentasyon
   label_between: sa pagitan ng
-  label_blocked_by: blocked by
-  label_blocks: blocks
+  label_blocked_by: hinarangan ni
+  label_blocks: mga hinarang
   label_blog: Blog
-  label_board_locked: Locked
-  label_board_new: New forum
-  label_board_plural: Forums
-  label_board_sticky: Sticky
+  label_board_locked: Naka-lock
+  label_board_new: Bagong forum
+  label_board_plural: Mga forum
+  label_board_sticky: Malagkit
   label_boolean: Boolean
-  label_branch: Branch
+  label_branch: Sangay
   label_browse: Browse
-  label_bulk_edit_selected_work_packages: Bulk edit selected work packages
-  label_calendar: Calendar
-  label_calendar_show: Show Calendar
+  label_bulk_edit_selected_work_packages: Ang bulk edit ng mga napiling work package
+  label_calendar: Kalendaryo
+  label_calendar_show: Ipakita ang kalendaryo
   label_category: Kategorya
-  label_wiki_menu_item: Wiki menu item
-  label_select_main_menu_item: Select new main menu item
+  label_wiki_menu_item: Ang aytem ng wiki na pagpipilian
+  label_select_main_menu_item: Piliin ang bagong pangunahing pagpipilian aytem
   label_select_project: Pumili ng proyekto
   label_required_disk_storage: Kinakailangan lalagyan ng disk
   label_send_invitation: Magpadala ng imbitasyon
-  label_change_plural: Changes
-  label_change_properties: Change properties
-  label_change_status: Change status
+  label_change_plural: Pagbabago
+  label_change_properties: Baguhin ang mga properry
+  label_change_status: Baguhin ang estado
   label_change_status_of_user: 'Baguhin ang estado ng #{username}'
-  label_change_view_all: View all changes
-  label_changes_details: Details of all changes
+  label_change_view_all: Tanawin lahat ang mga pagbabago
+  label_changes_details: Detalye ng lahat na mga pagbabago
   label_changeset: Changeset
   label_changeset_id: ID ng changeset
   label_changeset_plural: Changesets
-  label_checked: checked
+  label_checked: sinuri
   label_check_uncheck_all_in_column: I-check/I-ncheck ang lahat sa hanay
   label_check_uncheck_all_in_row: I-check/I-uncheck ang lahat sa hilera
   label_child_element: Elementong bata
-  label_chronological_order: In chronological order
-  label_close_versions: Close completed versions
-  label_closed_work_packages: closed
-  label_collapse: Collapse
-  label_configuration: configuration
-  label_comment_add: Add a comment
-  label_comment_added: Comment added
-  label_comment_delete: Delete comments
-  label_comment_plural: Comments
-  label_commits_per_author: Commits per author
-  label_commits_per_month: Commits per month
+  label_chronological_order: Sa chronological na pagkasunod-sunod
+  label_close_versions: Isara ang nakompletong bersyon
+  label_closed_work_packages: isinara
+  label_collapse: Bumagsak
+  label_configuration: kumpigurasyon
+  label_comment_add: Magdagdag ng komento
+  label_comment_added: Idinagdag na komento
+  label_comment_delete: Ang mga binurang komento
+  label_comment_plural: Mga komento
+  label_commits_per_author: Pinangako sa bawat ng may-akda
+  label_commits_per_month: Ipinangako sa bawat buwan
   label_confirmation: Kompirmasyon
-  label_contains: contains
+  label_contains: naglalaman
   label_content: Nilalaman
-  label_copied: copied
+  label_copied: kinopya
   label_copy_to_clipboard: Kopyahin sa clipboard
-  label_copy_same_as_target: Same as target
-  label_copy_source: Source
+  label_copy_same_as_target: Tulad bilang target
+  label_copy_source: Pinagkukunan
   label_copy_target: Target
-  label_copy_workflow_from: Copy workflow from
-  label_copy_project: Copy project
-  label_core_version: Core version
-  label_current_status: Current status
-  label_current_version: Current version
+  label_copy_workflow_from: Kopyahin ang workflow mula sa
+  label_copy_project: Kopyahin ang proyekto
+  label_core_version: Ang core bersyon
+  label_current_status: Kasulukuyang bersyon
+  label_current_version: Kasukukuyang bersyon
   label_custom_field_add_no_type: Idagdag ang patlang na ito sa uri ng work package
-  label_custom_field_new: New custom field
+  label_custom_field_new: Bagong custom field
   label_custom_field_plural: Mga pasadyang patlang
-  label_custom_field_default_type: Empty type
+  label_custom_field_default_type: Uri ng walang laman
   label_custom_style: Disenyo
   label_date: Petsa
   label_date_and_time: Petsa at oras
-  label_date_from: From
-  label_date_from_to: From %{start} to %{end}
-  label_date_range: Date range
-  label_date_to: To
-  label_day_plural: days
+  label_date_from: Mula sa
+  label_date_from_to: Mula sa %{start} hanggang %{end}
+  label_date_range: Haba ng petsa
+  label_date_to: Sa
+  label_day_plural: mga araw
   label_default: Default
   label_delete_user: Burahin ang gumagamit
   label_delete_project: Burahin ang proyekto
-  label_deleted: deleted
-  label_deleted_custom_field: "(deleted custom field)"
-  label_descending: Descending
-  label_details: Details
+  label_deleted: binura
+  label_deleted_custom_field: "(binurang custom field)"
+  label_descending: Pababa
+  label_details: Mga detalye
   label_development_roadmap: Kaunlaran ng roadmao
   label_diff: diff
   label_diff_inline: inline
-  label_diff_side_by_side: side by side
-  label_disabled: disabled
-  label_display: Display
-  label_display_per_page: 'Per page: %{value}'
-  label_display_used_statuses_only: Only display statuses that are used by this type
-  label_download: "%{count} Download"
-  label_download_plural: "%{count} Downloads"
+  label_diff_side_by_side: magkatabi
+  label_disabled: hindi pinagana
+  label_display: Ipakita
+  label_display_per_page: 'Bawat pahina: %{value}'
+  label_display_used_statuses_only: Magpakita lamang ng mga estado na ginami sa uri
+    na ito
+  label_download: "%{count} I-download"
+  label_download_plural: "%{count} mga i-download"
   label_downloads_abbr: D/L
-  label_duplicated_by: duplicated by
+  label_duplicated_by: ginaya sa pamamagitan ng
   label_duplicate: gayahin
-  label_duplicates: duplicates
-  label_edit: Edit
-  label_enable_multi_select: Toggle multiselect
+  label_duplicates: mga ginaya
+  label_edit: I-edit
+  label_enable_multi_select: Toggle multi select
   label_enabled_project_custom_fields: Pinagana ang mga custom na patlang
   label_enabled_project_types: Pinagana ang mga uri
   label_enabled_project_modules: Pinagana ang mga modyul
   label_enabled_project_activities: Pinagana ang mga aktibidad ng time tracking
-  label_end_to_end: end to end
-  label_end_to_start: end to start
-  label_enumeration_new: New enumeration value
+  label_end_to_end: katapusan hanggang sa katapusan
+  label_end_to_start: katapusan hanggang simula
+  label_enumeration_new: Bagong enumerasyong halaga
   label_enumeration_value: Pag-enumerate ng halaga
-  label_enumerations: Enumerations
+  label_enumerations: Mga enumerasyon
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
-  label_environment: Environment
+  label_environment: Kalikasan
   label_estimates_and_time: Mga pagtatantya at oras
-  label_equals: is
-  label_example: Example
-  label_export_to: 'Also available in:'
-  label_f_hour: "%{value} hour"
-  label_f_hour_plural: "%{value} hours"
-  label_feed_plural: Feeds
+  label_equals: ay
+  label_example: Halimbawa
+  label_export_to: 'Magagamit rin sa:'
+  label_f_hour: "%{value} oras"
+  label_f_hour_plural: "%{value} mga oras"
+  label_feed_plural: Ang mga feed
   label_feeds_access_key: RSS access key
-  label_feeds_access_key_created_on: RSS access key created %{value} ago
+  label_feeds_access_key_created_on: RSS access key na nillikha %{value} nakalipas
   label_feeds_access_key_type: RSS
-  label_file_added: File added
-  label_file_plural: Files
-  label_filter_add: Add filter
+  label_file_added: Idinagdag na file
+  label_file_plural: Mga file
+  label_filter_add: Magdagdag ng filter
   label_filter_plural: Mga nasala
   label_filters_toggle: Ipakita/itago ang mga salaan
-  label_float: Float
+  label_float: Lumutang
   label_folder: Folder
-  label_follows: follows
-  label_force_user_language_to_default: Set language of users having a non allowed
-    language to default
+  label_follows: sundan
+  label_force_user_language_to_default: Magtakda ng linggwahe ng mga gumagamit na
+    mayroon pinayagang linggwahe sa default
   label_form_configuration: Form kompigurasyon
-  label_general: General
-  label_generate_key: Generate a key
-  label_git_path: Path to .git directory
-  label_greater_or_equal: ">="
-  label_group_by: Group by
-  label_group_new: New group
+  label_general: Pangkalahatan
+  label_generate_key: Bumuo ng susi
+  label_git_path: Landas sa .git direktoryo
+  label_greater_or_equal: ">=="
+  label_group_by: Pangkat sa
+  label_group_new: Bagong grupo
   label_group: Grupo
-  label_group_plural: Groups
-  label_help: Help
-  label_here: here
-  label_hide: Hide
-  label_history: History
-  label_home: Home
-  label_in: in
-  label_in_less_than: in less than
-  label_in_more_than: in more than
+  label_group_plural: Mga grupo
+  label_help: Tulong
+  label_here: dito
+  label_hide: Itago
+  label_history: Kasaysayan
+  label_home: Tahanan
+  label_in: sa
+  label_in_less_than: mas mababa kaysa
+  label_in_more_than: mahigit sa
   label_inactive: Hindi aktibo
-  label_incoming_emails: Incoming emails
+  label_incoming_emails: Papasok na mga email
   label_includes: kasama ang mga
-  label_index_by_date: Index by date
-  label_index_by_title: Index by title
-  label_information: Information
-  label_information_plural: Information
-  label_integer: Integer
-  label_internal: Internal
+  label_index_by_date: Index sa petsa
+  label_index_by_title: Index sa pamagat
+  label_information: Impormasyon
+  label_information_plural: Impormasyon
+  label_integer: Numero
+  label_internal: Panloob
   label_invite_user: Imbitahan ang user
   label_show_hide: Ipakita/itago
   label_show_all_registered_users: Ipakita lahay ang mga nakarehistrong gumagamit
   label_journal: Talaarawan
-  label_journal_diff: Description Comparison
+  label_journal_diff: Paglalarawan ng paghahambing
   label_language: Linggwahe
-  label_jump_to_a_project: Jump to a project...
-  label_language_based: Based on user's language
+  label_jump_to_a_project: Tumalon sa isang proyekto...
+  label_language_based: Naka-base sa linggwahe ng gumagamit
   label_last_activity: Huling aktibidad
   label_last_change_on: Hindi binago sa
-  label_last_changes: last %{count} changes
+  label_last_changes: huling %{count} pagbabago
   label_last_login: Huling nag login
-  label_last_month: last month
-  label_last_n_days: last %{count} days
-  label_last_week: last week
-  label_latest_revision: Latest revision
-  label_latest_revision_plural: Latest revisions
-  label_ldap_authentication: LDAP authentication
+  label_last_month: huling buwan
+  label_last_n_days: mga huling %{count} araw
+  label_last_week: huling semana
+  label_latest_revision: Pinakamabagong rebisyon
+  label_latest_revision_plural: Ang mga pinakamabagong rebisyon
+  label_ldap_authentication: LDAP na pagpapatunay
   label_less_or_equal: "<="
-  label_less_than_ago: less than days ago
-  label_list: List
-  label_loading: Loading...
+  label_less_than_ago: mas mababa kaysa sa mga araw na lumipas
+  label_list: Listahan
+  label_loading: Naglo-load...
   label_lock_user: I-kandado ang gumagamit
-  label_logged_as: Logged in as
-  label_login: Sign in
+  label_logged_as: Naka-log in bilang
+  label_login: Mag-sign in
   label_custom_logo: Custom logo
   label_custom_favicon: Custom favicon
   label_custom_touch_icon: Ang icon ng kustom pindutan
-  label_logout: Sign out
-  label_main_menu: Side Menu
+  label_logout: Mag-sign out
+  label_main_menu: Slide menu
   label_manage_groups: Pamahalain ang mga grupo
   label_managed_repositories_vendor: Pamahalain ang mga %{vendor} respository
-  label_max_size: Maximum size
-  label_me: me
-  label_member_new: New member
-  label_member_plural: Members
+  label_max_size: Pinakamataas na laki
+  label_me: ako
+  label_member_new: Bagong miyembro
+  label_member_plural: Mga miyembro
   label_view_all_members: Tingnan ang lahat na mga miyembro
-  label_menu_item_name: Name of menu item
+  label_menu_item_name: Pangalan ng pagpipiliang aytem
   label_message: Mensahe
-  label_message_last: Last message
-  label_message_new: New message
-  label_message_plural: Messages
-  label_message_posted: Message added
-  label_min_max_length: Min - Max length
+  label_message_last: Huling mensahe
+  label_message_new: Bagong mensahe
+  label_message_plural: Mga mensahe
+  label_message_posted: Idinagdag na mensahe
+  label_min_max_length: Min-max na haba
   label_minute_plural: mga minuto
   label_missing_api_access_key: Nawawala ang API access key
   label_missing_feeds_access_key: Nawawala ang RSS access key
-  label_modification: "%{count} change"
-  label_modified: modified
-  label_module_plural: Modules
-  label_modules: Modules
-  label_month: Month
-  label_months_from: months from
-  label_more: More
-  label_more_than_ago: more than days ago
-  label_move_work_package: Move work package
-  label_my_account: My account
-  label_my_account_data: My account data
-  label_my_page: My page
-  label_my_page_block: My page block
-  label_my_projects: My projects
-  label_my_queries: My custom queries
-  label_new: New
-  label_new_statuses_allowed: New statuses allowed
-  label_news_added: News added
-  label_news_comment_added: Comment added to a news
-  label_news_latest: Latest news
-  label_news_new: Add news
-  label_news_edit: Edit news
+  label_modification: "%{count} baguhin"
+  label_modified: nabago
+  label_module_plural: Mga modyul
+  label_modules: Mga modyul
+  label_month: Buwan
+  label_months_from: mga buwan mula sa
+  label_more: Iba pa
+  label_more_than_ago: mahigit sa araw nakalipas
+  label_move_work_package: Ilipat ang work package
+  label_my_account: Ang aking akwant
+  label_my_account_data: Ang data ng aking akwant
+  label_my_page: Ang aking pahina
+  label_my_page_block: Ang pahinang block
+  label_my_projects: Ang mga aking proyekto
+  label_my_queries: Ang mga aking custom query
+  label_new: Bago
+  label_new_statuses_allowed: Pinayagang bagong estado
+  label_news_added: Bagong idinagdag
+  label_news_comment_added: Ang komento idinagdag sa mga balita
+  label_news_latest: Pinakamabagong balita
+  label_news_new: Magdagdag ng mga balita
+  label_news_edit: I-edit ang mga balita
   label_news_plural: Mga balita
-  label_news_view_all: View all news
-  label_next: Next
-  label_next_week: Next week
-  label_no_change_option: "(No change)"
-  label_no_data: No data to display
+  label_news_view_all: Tanawin lahat ang mga balita
+  label_next: Susunod
+  label_next_week: Susunod na linggo
+  label_no_change_option: "( Walang pagbago)"
+  label_no_data: Walang data upang ipakita
   label_nothing_display: Walang maipakita
-  label_nobody: nobody
-  label_none: none
+  label_nobody: walang sinuman
+  label_none: wala
   label_none_parentheses: "(none)"
-  label_not_contains: doesn't contain
-  label_not_equals: is not
-  label_notify_member_plural: Email updates
+  label_not_contains: hindi naglalaman
+  label_not_equals: ay hindi
+  label_notify_member_plural: I-update ang mga email
   label_on: 'on'
-  label_open_menu: Open menu
-  label_open_work_packages: open
-  label_open_work_packages_plural: open
+  label_open_menu: Buksan ang pagpipilian
+  label_open_work_packages: buksan
+  label_open_work_packages_plural: buksan
   label_optional_description: Deskripsyon
-  label_options: Options
-  label_other: Other
-  label_overall_activity: Overall activity
-  label_overall_spent_time: Overall spent time
-  label_overview: Overview
+  label_options: Mga opsyon
+  label_other: Iba pa
+  label_overall_activity: Pangkalahatang gawain
+  label_overall_spent_time: Pangkalahatang tinipid ang oras
+  label_overview: Buod
   label_part_of: bahagi ng
-  label_password_lost: Forgot your password?
+  label_password_lost: Nakalimutan ang iyong password?
   label_password_rule_lowercase: Lowercase
-  label_password_rule_numeric: Numeric Characters
-  label_password_rule_special: Special Characters
+  label_password_rule_numeric: Ang mga karakter na numeric
+  label_password_rule_special: Mga espesyal karakter
   label_password_rule_uppercase: Uppercase
-  label_path_encoding: Path encoding
-  label_pdf_with_descriptions: PDF with Descriptions
-  label_per_page: Per page
+  label_path_encoding: Landas ng page-encode
+  label_pdf_with_descriptions: PDF na may mga paglalarawan
+  label_per_page: Bawat pahina
   label_people: People
-  label_permissions: Permissions
-  label_permissions_report: Permissions report
-  label_personalize_page: Personalize this page
-  label_planning: Planning
-  label_please_login: Please log in
-  label_plugins: Plugins
+  label_permissions: Mga pahintulot
+  label_permissions_report: Mga pinahintulutan na ulat
+  label_personalize_page: Personalize ang pahina na ito
+  label_planning: Pagpaplano
+  label_please_login: Mangyaring mag-log in
+  label_plugins: Mga plugin
   label_precedes: precedes
-  label_preferences: Preferences
-  label_preview: Preview
-  label_previous: Previous
-  label_previous_week: Previous week
+  label_preferences: Mga kagustuhan
+  label_preview: Tanawin ulit
+  label_previous: Nakaraan
+  label_previous_week: Nakaraang linggo
   label_principal_invite_via_email: " o imbitahin ang bagong gumagamit sa pamamagitan
     ng email"
   label_principal_search: Magdagdag ng umiiral na mga user o grupo
   label_product_version: Produktong bersyon
   label_professional_support: Propesyonal na suporta
   label_profile: Profile
-  label_project_all: All Projects
+  label_project_all: Lahat ng mga proyekto
   label_project_count: Kabuuang bilang ng mga proyekto
-  label_project_copy_notifications: Send email notifications during the project copy
-  label_project_latest: Latest projects
-  label_project_default_type: Allow empty type
+  label_project_copy_notifications: Magpadala ng mga email na abiso habang ang proyekto
+    ay kinopya
+  label_project_latest: Pinakamabagong proyekto
+  label_project_default_type: Payagan ang walang laman uri
   label_project_hierarchy: Proyektong hierarchy
-  label_project_new: New project
-  label_project_plural: Projects
-  label_project_settings: Project settings
+  label_project_new: Bagong proyekto
+  label_project_plural: Mga proyekto
+  label_project_settings: Ang mga setting ng proyekto
   label_projects_storage_information: Ang %{count} proyekto gamit ang %{storage} lalagyan
     ng disk
-  label_project_view_all: View all projects
+  label_project_view_all: Tingnan lahat ang mga proyekto
   label_project_show_details: Ipakita ang mga detalye ng proyekto
   label_project_hide_details: Itago ang mga detalye ng proyekto
-  label_public_projects: Public projects
-  label_query_new: New query
-  label_query_plural: Custom queries
-  label_query_menu_item: Query menu item
-  label_read: Read...
-  label_register: Create a new account
-  label_register_with_developer: Register as developer
-  label_registered_on: Registered on
-  label_registration_activation_by_email: account activation by email
-  label_registration_automatic_activation: automatic account activation
-  label_registration_manual_activation: manual account activation
-  label_related_work_packages: Related work packages
-  label_relates: related to
-  label_relates_to: related to
-  label_relation_delete: Delete relation
-  label_relation_new: New relation
+  label_public_projects: Publikong proyekto
+  label_query_new: Bagong query
+  label_query_plural: Ang mga custom query
+  label_query_menu_item: Aytem ng query na pagpipilian
+  label_read: Basahin...
+  label_register: Gumawa ng bagong akwant
+  label_register_with_developer: Pagrehistro bilang developer
+  label_registered_on: Nakarehistro sa
+  label_registration_activation_by_email: aktibasyon ng akwant sa pamamagitan ng email
+  label_registration_automatic_activation: automatik akwant aktibasyon
+  label_registration_manual_activation: manu-manong akwant aktibasyon
+  label_related_work_packages: Nauugnay sa mga work package
+  label_relates: nauugnay sa
+  label_relates_to: nauugnay sa
+  label_relation_delete: Burahin ang relasyon
+  label_relation_new: Bagong relasyon
   label_release_notes: Paglabas ng mga talaan
-  label_remove_columns: Remove selected columns
-  label_renamed: renamed
-  label_reply_plural: Replies
-  label_report: Report
+  label_remove_columns: Tanggalin ang mga napiling hanay
+  label_renamed: binagong pangalan
+  label_reply_plural: Mga sagot
+  label_report: Ulat
   label_report_bug: I-report ang bug
-  label_report_plural: Reports
-  label_reported_work_packages: Reported work packages
-  label_reporting: Reporting
-  label_reporting_plural: Reportings
-  label_repository: Repository
+  label_report_plural: Mga ulat
+  label_reported_work_packages: Iniulat ang mga work package
+  label_reporting: Inuulat
+  label_reporting_plural: Mga inuulat
+  label_repository: Repositoryo
   label_repository_root: Repository root
-  label_repository_plural: Repositories
+  label_repository_plural: Mga repositoryo
   label_required: kailangan
   label_requires: kinakailangan
-  label_responsible_for_work_packages: Work packages I am responsible for
-  label_result_plural: Results
-  label_reverse_chronological_order: In reverse chronological order
-  label_revision: Revision
-  label_revision_id: Revision %{value}
-  label_revision_plural: Revisions
+  label_responsible_for_work_packages: Ang work package ako ay responsable para sa
+  label_result_plural: Mga resulta
+  label_reverse_chronological_order: Sa kabaligtaran ng chronological order
+  label_revision: Rebisyon
+  label_revision_id: Rebisyon %{value}
+  label_revision_plural: Mga rebisyon
   label_roadmap: Roadmap
-  label_roadmap_edit: Edit roadmap %{name}
-  label_roadmap_due_in: Due in %{value}
-  label_roadmap_no_work_packages: No work packages for this version
-  label_roadmap_overdue: "%{value} late"
-  label_role_and_permissions: Roles and permissions
-  label_role_new: New role
+  label_roadmap_edit: I-edit ang roadmap %{name}
+  label_roadmap_due_in: Dahil sa %{value}
+  label_roadmap_no_work_packages: Walang mga work package para bersyon ito
+  label_roadmap_overdue: "%{value} huli"
+  label_role_and_permissions: Ang mga tungkulin at permiso
+  label_role_new: Bagong tungkulin
   label_role_plural: Ang mga tungkulin
   label_role_search: Magtalaga ng tungkulin ss mga bagong miyembro
   label_scm: SCM
-  label_search: Search
-  label_search_titles_only: Search titles only
-  label_send_information: Send account information to the user
-  label_send_test_email: Send a test email
-  label_settings: Settings
+  label_search: Hanapin
+  label_search_titles_only: Hanapin sa pamagat lamang
+  label_send_information: Magpadala ng akwant impormasyon sa gumagamit
+  label_send_test_email: Magpadala ng test email
+  label_settings: Mga setting
   label_system_settings: Mga setting ng system
-  label_show_completed_versions: Show completed versions
-  label_sort: Sort
-  label_sort_by: Sort by %{value}
-  label_sorted_by: sorted by %{value}
-  label_sort_higher: Move up
-  label_sort_highest: Move to top
-  label_sort_lower: Move down
-  label_sort_lowest: Move to bottom
+  label_show_completed_versions: Ipakita ang mga kompletong bersyon
+  label_sort: Ayusin
+  label_sort_by: Ayusin sa %{value}
+  label_sorted_by: inayos sa %{value}
+  label_sort_higher: Lumipat pataas
+  label_sort_highest: Ilipat sa ibabaw
+  label_sort_lower: Ilipat sa ibaba
+  label_sort_lowest: Ilipat sa ilalim
   label_spent_time: Nauubos na oras
-  label_start_to_end: start to end
-  label_start_to_start: start to start
-  label_statistics: Statistics
-  label_status: Status
-  label_status_updated: Work package status updated
-  label_stay_logged_in: Stay logged in
+  label_start_to_end: simula hanggang katapusan
+  label_start_to_start: simula hanggang simula
+  label_statistics: Istatistika
+  label_status: Estado
+  label_status_updated: Naka-update na work package
+  label_stay_logged_in: Manatiling naka-log in
   label_storage_free_space: Natitirang espasyo ng disk
   label_storage_used_space: Nagamit na espasyo ng disk
   label_storage_group: Lalagyan ng filesystem %{identifier}
   label_storage_for: Sumasaklaw na lalagayan para sa
   label_string: Teksto
   label_subproject: Kahaliling proyekto
-  label_subproject_new: New subproject
-  label_subproject_plural: Subprojects
-  label_subtask_plural: Subtasks
-  label_summary: Summary
-  label_system: System
+  label_subproject_new: Bagong subproject
+  label_subproject_plural: Ang mga subproject
+  label_subtask_plural: Ang mga subtask
+  label_summary: Buod
+  label_system: Sistema
   label_system_storage: Impormasyon ng storage
-  label_table_of_contents: Table of Contents
+  label_table_of_contents: Talaan ng Nilalamn
   label_tag: Tag
-  label_text: Long text
-  label_this_month: this month
-  label_this_week: this week
-  label_this_year: this year
+  label_text: Mahaba na teksto
+  label_this_month: ngayong buwan
+  label_this_week: ngayong semana
+  label_this_year: ngayong taon
   label_time_entry_plural: Nauubos na oras
   label_time_sheet_menu: Time sheet
   label_time_tracking: Time tracking
-  label_today: today
-  label_top_menu: Top Menu
-  label_topic_plural: Topics
-  label_total: Total
-  label_type_new: New type
+  label_today: ngayon
+  label_top_menu: Itaas na pagpipilian
+  label_topic_plural: Mga paksa
+  label_total: Kabuuan
+  label_type_new: Bagong uri
   label_type_plural: Mga uri
   label_type_default_new_projects: Naka-aktibo uri para sa mga bagong proyekto sa
     pamamagitan ng default
   label_ui: User Interface
-  label_update_work_package_done_ratios: Update work package done ratios
-  label_updated_time: Updated %{value} ago
-  label_updated_time_at: "%{author} %{age}"
-  label_updated_time_by: Updated by %{author} %{age} ago
-  label_used_by: Used by
+  label_update_work_package_done_ratios: I-update ang mga work package done ratio
+  label_updated_time: I-update ang nakalipas na %{value}
+  label_updated_time_at: "%{author}%{age}"
+  label_updated_time_by: Naka-update sa %{author}%{age} na nakalipas
+  label_used_by: Ginamit ni
   label_used_by_types: Ginamit sa mga uri
   label_used_in_projects: Ginamit sa mga proyekto
   label_user: Gumagamit
-  label_user_activity: "%{value}'s activity"
-  label_user_anonymous: Anonymous
-  label_user_mail_option_all: For any event on all my projects
-  label_user_mail_option_none: No events
-  label_user_mail_option_only_assigned: Only for things I am assigned to
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_owner: Only for things I am the owner of
+  label_user_activity: "%{value} aktibidad"
+  label_user_anonymous: Hindi kilala
+  label_user_mail_option_all: Sa kahit anong kaganapan sa lahat ng aking proyekto
+  label_user_mail_option_none: Walang mga kaganapan
+  label_user_mail_option_only_assigned: Sa mga bagay lamang ako nakatalaga sa
+  label_user_mail_option_only_my_events: Sa mga bagay ako tumingin o kasama ako sa
+  label_user_mail_option_only_owner: Sa mga bagay lamg ako na ako ang may-ari ng
   label_user_mail_option_selected: Sa kahit anong kaganapan sa mga napiling proyekto
     lamang
-  label_user_new: New user
-  label_user_plural: Users
-  label_user_search: Search for user
-  label_version_new: New version
+  label_user_new: Bagong gumagamit
+  label_user_plural: Mga gumagamit
+  label_user_search: Maghanap para sa gumagamit
+  label_version_new: Bagong bersyon
   label_version_plural: Mga bersyon
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_none: Not shared
-  label_version_sharing_system: With all projects
-  label_version_sharing_tree: With project tree
+  label_version_sharing_descendants: Kasama ang mga subproject
+  label_version_sharing_hierarchy: Sa proyektong hierarchy
+  label_version_sharing_none: Hindi ibinahagi
+  label_version_sharing_system: Sa lahat ng mga proyekto
+  label_version_sharing_tree: Sa proyektong puno
   label_video: Video
-  label_view_all_revisions: View all revisions
-  label_view_diff: View differences
-  label_view_revisions: View revisions
-  label_watched_work_packages: Watched work packages
-  label_week: Week
-  label_wiki_content_added: Wiki page added
-  label_wiki_content_updated: Wiki page updated
-  label_wiki_toc: Table of Contents
-  label_wiki_dont_show_menu_item: Do not show this wikipage in project navigation
-  label_wiki_edit: Wiki edit
-  label_wiki_edit_plural: Wiki edits
+  label_view_all_revisions: Tingnan lahat ang mga rebisyon
+  label_view_diff: Tingnan ang mga pagka-iba
+  label_view_revisions: Tingnan ang mga rebisyon
+  label_watched_work_packages: Pinanuod na mga work package
+  label_week: Linggo
+  label_wiki_content_added: Ang idinagdag na wiking pahina
+  label_wiki_content_updated: Naka-update na wiking pahina
+  label_wiki_toc: Talaan ng Nilalamn
+  label_wiki_dont_show_menu_item: Huwag ipakita ang wikipage na ito sa oroject nabigasyon
+  label_wiki_edit: I-edit ang wiki
+  label_wiki_edit_plural: I-edit ang mga wiki
   label_wiki_page_attachments: Nakakalakip na wiking pahina
   label_wiki_page_id: ID ng Wiki na pahina
-  label_wiki_navigation: Wiki navigation
+  label_wiki_navigation: Nabigasyong wiki
   label_wiki_page: Pahina ng wiki
-  label_wiki_page_plural: Wiki pages
-  label_wiki_show_index_page_link: Show submenu item 'Table of Contents'
-  label_wiki_show_menu_item: Show as menu item in project navigation
-  label_wiki_show_new_page_link: Show submenu item 'Create new child page'
-  label_wiki_show_submenu_item: 'Show as submenu item of '
+  label_wiki_page_plural: Ang mga pahinang wiki
+  label_wiki_show_index_page_link: Ipakita ang aytem ng submenu 'Talaan ng Nilalaman'
+  label_wiki_show_menu_item: Ipakita bilanh aytem na pagpipilian sa proyektong nabigasyon
+  label_wiki_show_new_page_link: Ipakita ang submenu aytem 'Lumikha ng bagong bata
+    na pahina'
+  label_wiki_show_submenu_item: 'Ipakita bilang submenu. aytem ng '
   label_work_package: Work package
-  label_work_package_added: Work package added
+  label_work_package_added: Idinagdag ng work package
   label_work_package_attachments: Nakakalakip na pahinag trabaho
-  label_work_package_category_new: New category
-  label_work_package_category_plural: Work package categories
+  label_work_package_category_new: Bagong kategorya
+  label_work_package_category_plural: Ang mga katergorya ng work package
   label_work_package_hierarchy: Hierarchy ng work package
-  label_work_package_new: New work package
-  label_work_package_note_added: Work package note added
-  label_work_package_edit: Edit work package %{name}
-  label_work_package_plural: Work packages
-  label_work_package_priority_updated: Work package priority updated
+  label_work_package_new: Bagong work package
+  label_work_package_note_added: Idinagdag ang talaan ng work package
+  label_work_package_edit: I-edit ang work package %{name}
+  label_work_package_plural: Ang mga work package
+  label_work_package_priority_updated: Ang work package ay prioridad naka-update
   label_work_package_status: Estado ng pakete ng gumagawa
-  label_work_package_status_new: New status
-  label_work_package_status_plural: Work package statuses
+  label_work_package_status_new: Bagong estado
+  label_work_package_status_plural: Ang mga estado ng work package
   label_work_package_types: Ang mga uri ng work package
-  label_work_package_updated: Work package updated
-  label_work_package_tracking: Work package tracking
-  label_work_package_view_all: View all work packages
-  label_work_package_view_all_assigned_to_me: View all work packages assigned to me
-  label_work_package_view_all_reported_by_me: View all work packages reported by me
+  label_work_package_updated: Naka-update na work package
+  label_work_package_tracking: Ang pagtra-track ng work package
+  label_work_package_view_all: Tanawin lahat ang mga package
+  label_work_package_view_all_assigned_to_me: Tanawin lahat ang mga work package nakatalaga
+    sa akin
+  label_work_package_view_all_reported_by_me: Tanawin lahat ang mga work package inuulat
+    sa akin
   label_work_package_view_all_responsible_for: Tanawin ang lahat ng mga work package
     na ako ang may pananagutan
-  label_work_package_view_all_watched: View all watched work packages
-  label_work_package_watchers: Watchers
+  label_work_package_view_all_watched: Tanawin lahat ang mga binabantayang work package
+  label_work_package_watchers: Manonood
   label_workflow: Daloy ng trabaho
-  label_workflow_plural: Workflows
-  label_workflow_summary: Summary
+  label_workflow_plural: Daloy ng trabaho
+  label_workflow_summary: Buod
   label_x_closed_work_packages_abbr:
-    one: 1 closed
-    other: "%{count} closed"
+    one: Isa ang isinara
+    other: "%{count} ang isinara"
     zero: 0 closed
   label_x_comments:
-    one: 1 comment
-    other: "%{count} comments"
+    one: Isang komento
+    other: "%{count} mga komento"
     zero: no comments
   label_x_open_work_packages_abbr:
-    one: 1 open
-    other: "%{count} open"
+    one: Isa ang bukas
+    other: "%{count} ang bukas"
     zero: 0 open
   label_x_open_work_packages_abbr_on_total:
-    one: 1 open / %{total}
-    other: "%{count} open / %{total}"
+    one: Isa ang bukas / %{total}
+    other: "%{count} bukas / %{total}"
     zero: 0 open / %{total}
   label_x_projects:
-    one: 1 project
-    other: "%{count} projects"
+    one: Isang proyekto
+    other: "%{count} mga proyekto"
     zero: no projects
-  label_year: Year
-  label_yesterday: yesterday
-  label_keyboard_function: Function
-  label_keyboard_shortcut: Shortcut
+  label_year: Taon
+  label_yesterday: kahapon
+  label_keyboard_function: Gumana
+  label_keyboard_shortcut: Madalian
   label_keyboard_accesskey: Accesskey
-  label_keyboard_shortcut_help_heading: Available Keyboard Shortcuts
-  label_keyboard_shortcut_within_project: 'Project related shortcuts:'
-  label_keyboard_shortcut_global_shortcuts: 'Global shortcuts:'
-  label_keyboard_shortcut_some_pages_only: 'Special shortcuts:'
-  label_keyboard_shortcut_search_global: Global search
-  label_keyboard_shortcut_search_project: Find a project
+  label_keyboard_shortcut_help_heading: Magagamit na mga keyboard shortcut
+  label_keyboard_shortcut_within_project: 'Proyektong kaugnau sa mga madalian:'
+  label_keyboard_shortcut_global_shortcuts: 'Pandaigdigang mga shortcut:'
+  label_keyboard_shortcut_some_pages_only: 'Espesyal na mga shortcut:'
+  label_keyboard_shortcut_search_global: Pandaigdigang paghahanap
+  label_keyboard_shortcut_search_project: Humanap ng proyekto
   label_keyboard_shortcut_go_my_page: Pumunta sa aking pahina
-  label_keyboard_shortcut_show_help: Show this help message
-  label_keyboard_shortcut_go_overview: Go to project overview
-  label_keyboard_shortcut_go_work_package: Go to project work packages
-  label_keyboard_shortcut_go_wiki: Go to project wiki
-  label_keyboard_shortcut_go_activity: Go to project activities
-  label_keyboard_shortcut_go_calendar: Go to project calendar
-  label_keyboard_shortcut_go_news: Go to project news
-  label_keyboard_shortcut_go_timelines: Go to timelines
-  label_keyboard_shortcut_new_work_package: Create new work package
-  label_keyboard_shortcut_details_package: Show work packages details pane
-  label_keyboard_shortcut_go_edit: Go to edit the current item (on detail pages only)
-  label_keyboard_shortcut_open_more_menu: Open more-menu (on detail pages only)
-  label_keyboard_shortcut_go_preview: Go to preview the current edit (on edit pages
-    only)
-  label_keyboard_shortcut_focus_previous_item: Focus previous list element (on some
-    lists only)
-  label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
-    only)
-  label_visible_elements: Visible elements
+  label_keyboard_shortcut_show_help: Ipakita ang itong mensaheng tulong
+  label_keyboard_shortcut_go_overview: Pumunta sa buod ng proyekto
+  label_keyboard_shortcut_go_work_package: Pumunta sa mga proyektong work package
+  label_keyboard_shortcut_go_wiki: Pumunta sa proyektong wiki
+  label_keyboard_shortcut_go_activity: Pumunta sa aktibidad ng wiki
+  label_keyboard_shortcut_go_calendar: Pumunya sa proyektong kalendaryo
+  label_keyboard_shortcut_go_news: Pumunta sa proyektong balita
+  label_keyboard_shortcut_go_timelines: Pumunta sa mga timenline
+  label_keyboard_shortcut_new_work_package: Lumikha ng bagong work package
+  label_keyboard_shortcut_details_package: Ipakita ang work package na detalyeng pane
+  label_keyboard_shortcut_go_edit: Pumunta sa i-edit kasulukuyang aytem (sa detalyeng
+    proyekto lamang)
+  label_keyboard_shortcut_open_more_menu: Buksan ang more-menu (sa detalye ng pahina
+    lamang)
+  label_keyboard_shortcut_go_preview: Pumunta sa prebyu ng kasulukuyang i-edit (sa
+    mga edit pahina lamang)
+  label_keyboard_shortcut_focus_previous_item: Tumuon sa nakaraan listahan ng elemento
+    (sa ilang listahan lamang)
+  label_keyboard_shortcut_focus_next_item: Tumuoj sa susunod na listahang elemento
+    (sa ilang listahan lamang)
+  label_visible_elements: Nakikita ang mga elemento
   auth_source:
-    using_abstract_auth_source: Can't use an abstract authentication source.
+    using_abstract_auth_source: Hindi magamit ang isang abstrak na pagpapatunay ng
+      pinagmulan.
     ldap_error: 'LDAP-Error: %{error_message}'
-    ldap_auth_failed: Could not authenticate at the LDAP-Server.
-  macro_execution_error: Error executing the macro %{macro_name}
-  macro_unavailable: Macro %{macro_name} cannot be displayed.
+    ldap_auth_failed: Hindi maarig mapatunayan sa LDAP-Server.
+  macro_execution_error: May mali habang isinasagawa ang macro %{macro_name}
+  macro_unavailable: Macro %{macro_name} hindi naka-display.
   macros:
     create_work_package_link:
       errors:
@@ -1645,115 +1658,118 @@ fil:
           proyektong konteksto.
         invalid_type: Walang uri ang natagpuan na may pangalan '%{type}'sa proyekto
           '%{project}'.
-      link_name: New work package
+      link_name: Bagong work package
       link_name_type: Bagong %{type_name}
   mail:
     actions: Mga aksyon
-  mail_body_account_activation_request: 'A new user (%{value}) has registered. The
-    account is pending your approval:'
-  mail_body_account_information: Your account information
-  mail_body_account_information_external: You can use your %{value} account to log
-    in.
-  mail_body_lost_password: 'To change your password, click on the following link:'
-  mail_body_register: 'To activate your account, click on the following link:'
-  mail_body_reminder: "%{count} work package(s) that are assigned to you are due in
-    the next %{days} days:"
-  mail_body_wiki_content_added: The '%{id}' wiki page has been added by %{author}.
-  mail_body_wiki_content_updated: The '%{id}' wiki page has been updated by %{author}.
-  mail_subject_account_activation_request: "%{value} account activation request"
-  mail_subject_lost_password: Your %{value} password
-  mail_subject_register: Your %{value} account activation
-  mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
-  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
-  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
-  more_actions: More functions
-  noscript_description: You need to activate JavaScript in order to use OpenProject!
-  noscript_heading: JavaScript disabled
-  noscript_learn_more: Learn more
+  mail_body_account_activation_request: 'Ang bagong gumagamit (%{value}) ay naka-rehistro
+    na. Ang akwant ay naghihhintay para sa pag-apruba:'
+  mail_body_account_information: Ang akwant na impormasyon
+  mail_body_account_information_external: Maari mong gamitin ang iyong %{value} akwant
+    sa pag-log in.
+  mail_body_lost_password: 'Upang baguhin ang iyong password, pindutin ang mga sumusunod
+    na link:'
+  mail_body_register: 'Upang i-aktibo ang iyong akwant, pindutin ang sumusunod na
+    link:'
+  mail_body_reminder: "%{count} work package na nakatakaga sa iyo ay dapat isumite
+    sa mga sumusunod na %{days} araw:"
+  mail_body_wiki_content_added: Ang '%{id}' wiking pahina ay naidagdag sa %{author}.
+  mail_body_wiki_content_updated: Ang '%{id}' wiking pahina ay na i-update sa %{author}.
+  mail_subject_account_activation_request: "%{value} kahilingan ng akwant aktibasyon"
+  mail_subject_lost_password: Ang iyong %{value} password
+  mail_subject_register: Ang iyong %{value} akwant aktibasyon
+  mail_subject_reminder: "%{count} work package dahil sa susunod na mga %{days} araw"
+  mail_subject_wiki_content_added: Ang '%{id}' wikin pahina ay naidagdag
+  mail_subject_wiki_content_updated: "'%{id}' wiking pahina ay naka-update na"
+  more_actions: Karagdagang functio
+  noscript_description: Kailangan mong i-aktibo ang JavaScript upang gamitin sa OpenProject!
+  noscript_heading: Ang JavaScript ay hindi pinagana
+  noscript_learn_more: Matuto ng higit pa
   notice_accessibility_mode: Ang aksesibilidad mode ay maaring paganahin sa iyong
     [account setting](url).
-  notice_account_activated: Your account has been activated. You can now log in.
+  notice_account_activated: Ang iyong akwant ay naka-aktibo na. Maari ka ng mag-log
+    in.
   notice_account_already_activated: Ang account na ito ay na-activate na.
   notice_account_invalid_token: Imbalidong activation token
-  notice_account_invalid_credentials: Invalid user or password
-  notice_account_invalid_credentials_or_blocked: Invalid user or password or the account
-    is blocked due to multiple failed login attempts. If so, it will be unblocked
-    automatically in a short time.
-  notice_account_lost_email_sent: An email with instructions to choose a new password
-    has been sent to you.
-  notice_account_new_password_forced: A new password is required.
-  notice_account_password_expired: Your password expired after %{days} days. Please
-    set a new one.
-  notice_account_password_updated: Password was successfully updated.
-  notice_account_pending: Your account was created and is now pending administrator
-    approval.
-  notice_account_register_done: Account was successfully created. To activate your
-    account, click on the link that was emailed to you.
-  notice_account_unknown_email: Unknown user.
+  notice_account_invalid_credentials: Hindi balido ang user o password
+  notice_account_invalid_credentials_or_blocked: Hindi balido ang uuser o password
+    o ang akwant ay naka-block dahil sa maraming pagkabigo na pagtatangkang pag-login.
+    Kung gayon, ito ay automatikong i-unblock sa maikling oras.
+  notice_account_lost_email_sent: Ang isang email na may tagubili upang pumili ng
+    bagong password ay na ipadala na sa iyo.
+  notice_account_new_password_forced: Ang bagog password ay kinakailangan.
+  notice_account_password_expired: Ang iyong password ay walang-bisa pagkatapos ng
+    %{days} mga araw. Mangyaring magtakda ng isang bago.
+  notice_account_password_updated: Matagumpay naka-update ang password.
+  notice_account_pending: Ang iyong akwant ay nilikha at ito ay nakahintay sa pag-aproba
+    ng tagapangasiwa.
+  notice_account_register_done: Ang akwant ay matagumpay naka-update. Upang i-aktibo
+    ang iyong akwant, pindutin ang link na nnaka-email sa iyo.
+  notice_account_unknown_email: Hindi makilala ang user.
   notice_account_update_failed: Ang akwant setting ay hindi pwede mai-save. Mangyaring
     paki-tingnan sa iyong akwant na pahina.
-  notice_account_updated: Account was successfully updated.
-  notice_account_wrong_password: Wrong password
-  notice_account_registered_and_logged_in: Welcome, your account has been activated.
-    You are logged in now.
+  notice_account_updated: Ang akawnt ay matagumpay naka-update.
+  notice_account_wrong_password: Maling ang password
+  notice_account_registered_and_logged_in: Maligayang pagdating, ang iyong akwant
+    ay naka-aktibo na. Ikaw ay naka-log in na.
   notice_activation_failed: Ang account na ito ay hindi ma-activate.
   notice_auth_stage_verification_error: Hindi mapapatunayan ang yugto '%{stage}'.
   notice_auth_stage_wrong_stage: Inaasahang matapos ang yugto ng pagpapatunay '%{expected}',
     ngunit '%{actual}' ay binalik.
   notice_auth_stage_error: Yugto ng pagpapatunay '%{stage}' ay nabigo.
-  notice_can_t_change_password: This account uses an external authentication source.
-    Impossible to change the password.
+  notice_can_t_change_password: Itong akwant ay gumagakit ng isang external authentication
+    source. Imposibleng mapalitan ang password.
   notice_custom_options_deleted: Opsyon ngB'%{option_value}' at ang itong %{num_deleted}
     nagaganal ay naibura na.
-  notice_email_error: An error occurred while sending mail (%{value})
-  notice_email_sent: An email was sent to %{value}
-  notice_failed_to_save_work_packages: 'Failed to save %{count} work package(s) on
-    %{total} selected: %{ids}.'
-  notice_failed_to_save_members: 'Failed to save member(s): %{errors}.'
-  notice_file_not_found: The page you were trying to access doesn't exist or has been
-    removed.
-  notice_forced_logout: You have been automatically logged out after %{ttl_time} minutes
-    of inactivity.
-  notice_internal_server_error: An error occurred on the page you were trying to access.
-    If you continue to experience problems please contact your %{app_title} administrator
-    for assistance.
-  notice_work_package_done_ratios_updated: Work package done ratios updated.
+  notice_email_error: Isang mali ang naganap habang nagpapadala ng email (%{value})
+  notice_email_sent: Isang email ang ipinadala sa %{value}
+  notice_failed_to_save_work_packages: 'Hindi nai-save ang %{count} work package sa
+    %{total} na napili: %{ids}.'
+  notice_failed_to_save_members: 'Hindi na i-save ang mga miyembro: %{errors}.'
+  notice_file_not_found: Ang package na iyong sinusibukan i-access ay hindi umiiral
+    o inalis na.
+  notice_forced_logout: Ikaw ay automatikong naka-log out pagkatapos ng %{ttl_time}
+    ilang minuto ng hindi aktibidad.
+  notice_internal_server_error: Isang error ang naganap sa oahina na gusto mong i-access.
+    Kung nagpatuloy ang mga problema nararansan mo manyaring kontakin ang iyong %{app_title}
+    tagapangasiwa para sa tulong.
+  notice_work_package_done_ratios_updated: Naka-update ang mga work package done ratio.
   notice_locking_conflict: Information has been updated by at least one other user
     in the meantime.
-  notice_locking_conflict_additional_information: The update(s) came from %{users}.
-  notice_locking_conflict_reload_page: Please reload the page, review the changes
-    and reapply your updates.
+  notice_locking_conflict_additional_information: Ang mga update nagmula sa %{users}.
+  notice_locking_conflict_reload_page: Mangyaring i-reload ang pahina na ito, repasuhin
+    ang mga pagbabago at muling i-apply ang iyong mga update.
   notice_member_added: Idinagdag ang %{name} sa proyekto.
   notice_members_added: Idinagdag %{number} ng mga gumagamit sa proyekto.
   notice_member_removed: Tinanggal ang %{user} mula sa proyekto.
   notice_member_deleted: "%{user} ay inalis na sa proyekto at tinanggal."
-  notice_no_principals_found: No results found.
-  notice_bad_request: Bad Request.
-  notice_not_authorized: You are not authorized to access this page.
-  notice_not_authorized_archived_project: The project you're trying to access has
-    been archived.
+  notice_no_principals_found: Walang resulta ang natagpuan.
+  notice_bad_request: Masamang kahilingan.
+  notice_not_authorized: Hindi ka inanyayahan na i-access ang pahina na ito.
+  notice_not_authorized_archived_project: Ang iyong proyekto na sinusubukan mong i-access
+    ay na archive na.
   notice_password_confirmation_failed: Ang iyong password ay hindi tama. Hindi maaring
     magpatuloy.
   notice_principals_found_multiple: |-
     Mayroong %{number} mga resulta ang natagpuan.
      Ang tab ay tumuon sa unang resulta.
   notice_principals_found_single: "Mayroong isang resulta. \n Tab upang ituon ito."
-  notice_project_not_deleted: The project wasn't deleted.
-  notice_successful_connection: Successful connection.
-  notice_successful_create: Successful creation.
-  notice_successful_delete: Successful deletion.
-  notice_successful_update: Successful update.
+  notice_project_not_deleted: Ang proyekto ay hindi nabura.
+  notice_successful_connection: Matagumpay na ikonekta.
+  notice_successful_create: Matagumpay pagkalikha.
+  notice_successful_delete: Matagumpay ang pagtanggal.
+  notice_successful_update: Matagumpay nai-update.
   notice_to_many_principals_to_display: |-
-    There are too many results.
-    Narrow down the search by typing in the name of the new member (or group).
-  notice_unable_delete_time_entry: Unable to delete time log entry.
-  notice_unable_delete_version: Unable to delete version.
+    Mayroong maraming resulta.
+    I-narrow down ang paghahanap sa pamamagitan ng pagtype ng pangalan ng bagong miyembro (o grupo).
+  notice_unable_delete_time_entry: Hindi mabura ang oras ng log entry.
+  notice_unable_delete_version: Hindi mabura ang bersyon.
   notice_user_missing_authentication_method: Ang user ay pipili pa ng password o iba
     pang paraan para maka pag-sign in.
   notice_user_invitation_resent: Isang imbitasyon ay ipinadala sa %{email}.
   present_access_key_value: 'Ang iyong %{key_name} ay: %{value}'
-  notice_automatic_set_of_standard_type: Set standard type automatically.
-  notice_logged_out: You have been logged out.
+  notice_automatic_set_of_standard_type: Magtakda ng automatikong pamantayang uri.
+  notice_logged_out: Ikaw ay naka-log out na.
   notice_wont_delete_auth_source: Ang authentication mode ay hindi pwedeng burahin
     hanggang meron pang user ang gumagamit nito.
   notice_project_cannot_update_custom_fields: 'Hindi mo pwedeng i-update ang mga patlang
@@ -1766,7 +1782,7 @@ fil:
   number:
     format:
       delimiter: ''
-      precision: 3
+      precision: 0
       separator: "."
     human:
       format:
@@ -1876,11 +1892,11 @@ fil:
     archive:
       are_you_sure: Sigurado ka bang na gusto mong i-archive ang proyekto'%{name}'?
   project_module_activity: Aktibidad
-  project_module_boards: Forums
-  project_module_calendar: Calendar
-  project_module_work_package_tracking: Work package tracking
+  project_module_boards: Mga forum
+  project_module_calendar: Kalendaryo
+  project_module_work_package_tracking: Ang pagtra-track ng work package
   project_module_news: Mga balita
-  project_module_repository: Repository
+  project_module_repository: Repositoryo
   project_module_time_tracking: Time tracking
   project_module_timelines: Timelines
   project_module_wiki: Wiki
@@ -1994,7 +2010,7 @@ fil:
       managed_title: Ang Git repository ay isinama sa OpenProject
       managed_url: Pamahalain ang URL
       path: Landas sa Git respositoryo
-      path_encoding: Path encoding
+      path_encoding: Landas ng page-encode
     go_to_revision: Pumunta sa rebisyon
     managed_remote: Pamahalain ang mga respository para vendor na ito ay isinasagawa
       ng remotely.
@@ -2159,8 +2175,8 @@ fil:
   setting_wiki_compression: Wiki history compression
   setting_work_package_group_assignment: Allow assignment to groups
   settings:
-    general: General
-    other: Other
+    general: Pangkalahatan
+    other: Iba pa
     passwords: Passwords
     session: Session
     brute_force_prevention: Automated user blocking
@@ -2226,7 +2242,7 @@ fil:
 '
   text_default_administrator_account_changed: Default administrator account changed
   text_default_encoding: 'Default: UTF-8'
-  text_destroy: Delete
+  text_destroy: Burahin
   text_destroy_with_associated: 'There are additional objects assossociated with the
     work package(s) that are to be deleted. Those objects are of the following types:'
   text_destroy_what_to_do: What do you want to do?
@@ -2355,14 +2371,14 @@ fil:
     dates_are_calculated_based_on_sub_elements: Dates are calculated based on sub
       elements.
     delete_all: Delete all
-    delete_thing: Delete
+    delete_thing: Burahin
     duration: Duration
     duration_days:
-      one: 1 day
-      other: "%{count} days"
+      one: Isang araw
+      other: mga Isang %{count} araw
     edit_color: Edit color
     edit_project_type: Edit project type
-    edit_thing: Edit
+    edit_thing: I-edit
     edit_timeline: Edit timeline report %{timeline}
     delete_timeline: Delete timeline report %{timeline}
     empty: "(empty)"
@@ -2402,7 +2418,7 @@ fil:
         type: Uri
         due_date: End date
         name: Pangalan
-        status: Status
+        status: Estado
         responsible: Responsable
         start_date: Petsa ng pagsimula
       columns: Mga hanay
@@ -2415,7 +2431,7 @@ fil:
         compare_relative_suffix: ago
         compare_absolute: Compare current planning to %{date}
       time_relative:
-        days: days
+        days: mga araw
         weeks: weeks
         months: months
       exclude_own_work_packages: Hide work packages from this project
@@ -2425,7 +2441,7 @@ fil:
       grouping_hide_group: Hide group "%{group}"
       grouping_one: First grouping criterion
       grouping_one_phrase: Is a subproject of
-      grouping_other: Other
+      grouping_other: Iba pa
       hide_chart: Hide chart
       noneElement: "(none)"
       noneSelection: "(none)"
@@ -2453,10 +2469,10 @@ fil:
       timeframe_start: from
       timeline: General Settings
       zoom: Zoom factor
-    history: History
+    history: Kasaysayan
     new_color: New color
     new_association: New dependency
-    new_work_package: New work package
+    new_work_package: Bagong work package
     new_project_type: New project type
     new_reporting: New reporting
     new_timeline: New timeline report
@@ -2553,7 +2569,7 @@ fil:
     help_and_support: Tulong at supora
   total_progress: Total progress
   user:
-    all: all
+    all: lahat
     active: active
     activate: Activate
     activate_and_reset_failed_logins: Activate and reset failed logins
@@ -2593,11 +2609,11 @@ fil:
         aking sarili
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: Pagbabago ng estado
-    unlock: Unlock
+    unlock: I-unlock
     unlock_and_reset_failed_logins: Unlock and reset failed logins
-  version_status_closed: closed
+  version_status_closed: isinara
   version_status_locked: locked
-  version_status_open: open
+  version_status_open: buksan
   note: Note
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning

@@ -2,7 +2,7 @@
 fil:
   js:
     ajax:
-      hide: Hide
+      hide: Itago
       loading: Naglo-load ...
     close_popup_title: Close popup
     close_filter_title: Isara ang filter
@@ -11,41 +11,41 @@ fil:
       browser_error: Ang iyong browser ay hindi suporta ang pagkokopya sa clipboard.
         Mangayaring kopyahin ng manu-mano ang napiling teksto.
       copied_successful: Matagumpay na kinopya sa clipboard!
-    button_add_watcher: Add watcher
+    button_add_watcher: Magdagdag ng manunuod
     button_back_to_list_view: Bumalik sa listahan ng view
-    button_cancel: Cancel
+    button_cancel: Kanselahin
     button_close: Isara
-    button_check_all: Check all
+    button_check_all: Suriin lahat
     button_configure-form: Configure form
     button_confirm: Kumpirmahin
     button_continue: Magpatuloy
-    button_copy: Copy
+    button_copy: Kopyahin
     button_custom-fields: Mga pasadyang patlang
-    button_delete: Delete
+    button_delete: Burahin
     button_delete_watcher: Delete watcher
     button_details_view: Details view
-    button_duplicate: Duplicate
-    button_edit: Edit
-    button_filter: Filter
+    button_duplicate: Kapareha
+    button_edit: I-edit
+    button_filter: Salain
     button_list_view: List view
     button_show_view: Tanawin sa buong screen
     button_log_time: Ang oras ng tala
-    button_more: More
-    button_move: Move
+    button_more: Iba pa
+    button_move: Ilipat
     button_open_details: Open details view
     button_close_details: Isara ang mga detalye na view
     button_open_fullscreen: Buksan ang view ng buong screen
     button_quote: Quote
-    button_save: Save
-    button_settings: Settings
-    button_uncheck_all: Uncheck all
+    button_save: I-save
+    button_settings: Mga setting
+    button_uncheck_all: I-uncheck lahat
     button_update: I-update
     button_export-pdf: I-download ang PDF
     button_export-atom: I-download ang atom
-    description_available_columns: Available Columns
-    description_current_position: 'You are here:'
+    description_available_columns: Ang mga hanay na magagamit
+    description_current_position: 'Nandito ka na:'
     description_select_work_package: 'Piliin ang work package #%{id}'
-    description_selected_columns: Selected Columns
+    description_selected_columns: Napiling mga hanay
     description_subwork_package: 'Bata ng work package #%{id}'
     error:
       internal: Isang internal error ang naganap.
@@ -64,10 +64,10 @@ fil:
           one: Ang unang pamantayang pagkasunod-sunod
           two: Ang pangalawang pamantayang pagkasunod-sunod
           three: Ang pangatlong pamantayang pagkasunod-sunod
-    general_text_no: 'no'
-    general_text_yes: 'yes'
-    general_text_No: 'No'
-    general_text_Yes: 'Yes'
+    general_text_no: hindi
+    general_text_yes: oo
+    general_text_No: Hindi
+    general_text_Yes: Oo
     label_activate: Activate
     label_activity_no: Bilang ng aktibidad entry %{activityNo}
     label_activity_with_comment_no: Bilang ng aktibidad entry %{activityNo}. Mayroong
@@ -75,79 +75,79 @@ fil:
     label_add_columns: Magdagdag ng hanay
     label_add_comment: Add comment
     label_add_comment_title: Mag-komento at mag-type ng @ upang ipaalam sa ibang tao
-    label_add_selected_columns: Add selected columns
+    label_add_selected_columns: Magdagdag ng napiling hanay
     label_added_by: added by
     label_added_time_by: Added by %{author} %{age}
-    label_ago: days ago
-    label_all: all
+    label_ago: ang mga araw nakalipas
+    label_all: lahat
     label_all_work_packages: all work packages
     label_and: and
-    label_ascending: Ascending
+    label_ascending: Pataas
     label_author: 'May-Akda: %{user}'
     label_between: sa pagitan ng
-    label_board_locked: Locked
-    label_board_sticky: Sticky
-    label_create_work_package: Create new work package
+    label_board_locked: Naka-lock
+    label_board_sticky: Malagkit
+    label_create_work_package: Lumikha ng bagong work package
     label_created_by: Nilikha ni
     label_date: Petsa
     label_date_with_format: 'Ipasok anv %{date_attribute} gamit ang sumusunod na format:
       %{format}'
     label_deactivate: Deactivate
-    label_descending: Descending
+    label_descending: Pababa
     label_description: Deskripsyon
     label_cancel_comment: Ikansela ang komento
-    label_closed_work_packages: closed
-    label_collapse: Collapse
+    label_closed_work_packages: isinara
+    label_collapse: Bumagsak
     label_collapsed: collapsed
-    label_collapse_all: Collapse all
+    label_collapse_all: Bumagsak lahat
     label_comment: Komento
     label_committed_at: "%{committed_revision_link} sa %{date}"
     label_committed_link: nakatuon rebisyon %{revision_identifier}
-    label_contains: contains
+    label_contains: naglalaman
     label_created_on: nilikha sa
     label_edit_comment: I-edit ang komentong ito
     label_edit_status: I-edit ang estado ng work package
-    label_equals: is
+    label_equals: ay
     label_expand: Expand
     label_expanded: expanded
-    label_expand_all: Expand all
+    label_expand_all: Malakihin lahat
     label_export: Export
     label_filename: Payl
     label_filesize: Sukat
-    label_greater_or_equal: ">="
-    label_group_by: Group by
+    label_greater_or_equal: ">=="
+    label_group_by: Pangkat sa
     label_hide_attributes: Magpakita ng mas kaunti
     label_hide_column: Hide column
-    label_in: in
-    label_in_less_than: in less than
-    label_in_more_than: in more than
+    label_in: sa
+    label_in_less_than: mas mababa kaysa
+    label_in_more_than: mahigit sa
     label_latest_activity: Latest Activity
     label_last_updated_on: Last updated on
     label_less_or_equal: "<="
-    label_less_than_ago: less than days ago
-    label_loading: Loading...
-    label_me: me
+    label_less_than_ago: mas mababa kaysa sa mga araw na lumipas
+    label_loading: Naglo-load...
+    label_me: ako
     label_menu_collapse: collapse
     label_menu_expand: expand
-    label_more_than_ago: more than days ago
-    label_next: Next
-    label_no_data: No data to display
+    label_more_than_ago: mahigit sa araw nakalipas
+    label_next: Susunod
+    label_no_data: Walang data upang ipakita
     label_no_due_date: no end date
     label_no_start_date: no start date
-    label_none: none
-    label_not_contains: doesn't contain
-    label_not_equals: is not
+    label_none: wala
+    label_not_contains: hindi naglalaman
+    label_not_equals: ay hindi
     label_on: 'on'
-    label_open_menu: Open menu
-    label_open_work_packages: open
+    label_open_menu: Buksan ang pagpipilian
+    label_open_work_packages: buksan
     label_password: Password
-    label_previous: Previous
+    label_previous: Nakaraan
     label_per_page: 'Per page:'
     label_please_wait: Pakiusap maghantay
     label_visibility_settings: Ang mga setting ng katanyagan
     label_quote_comment: I-quote ang komentong ito
-    label_reset: Reset
-    label_remove_columns: Remove selected columns
+    label_reset: I-reset
+    label_remove_columns: Tanggalin ang mga napiling hanay
     label_save_as: Save as
     label_select_watcher: Select a watcher...
     label_selected_filter_list: Selected filters
@@ -155,13 +155,13 @@ fil:
     label_show_in_menu: Show page in menu
     label_sort_by: Sort by
     label_sorted_by: sorted by
-    label_sort_higher: Move up
-    label_sort_lower: Move down
+    label_sort_higher: Lumipat pataas
+    label_sort_lower: Ilipat sa ibaba
     label_sorting: Sorting
     label_sum_for: Sum for
-    label_subject: Subject
-    label_this_week: this week
-    label_today: today
+    label_subject: Paksa
+    label_this_week: ngayong semana
+    label_today: ngayon
     label_activity_show_only_comments: Magpakita ng mga aktibidad sa komento lamang
     label_activity_show_all: Ipakita lahat ang mga aktibidad
     label_total_progress: "%{percent}% Total progress"
@@ -169,20 +169,20 @@ fil:
     label_updated_on: i-update sa
     label_warning: Warning
     label_work_package: Work package
-    label_work_package_plural: Work packages
+    label_work_package_plural: Ang mga work package
     label_watch: Tumingin
     label_watch_work_package: Watch work package
     label_watcher_added_successfully: Watcher successfully added!
     label_watcher_deleted_successfully: Watcher successfully deleted!
     label_work_package_details_you_are_here: You're on the %{tab} tab for %{type}
       %{subject}.
-    label_unwatch: Unwatch
+    label_unwatch: I-unwatch
     label_unwatch_work_package: Unwatch work package
     label_uploaded_by: Uploaded by
     label_global_queries: Shared queries
     label_custom_queries: Private queries
     label_columns: Mga hanay
-    label_attachments: Files
+    label_attachments: Mga file
     label_drop_files: Ihulog ang mga file dito
     label_drop_files_hint: o pindutin upang magdagdag ng mga file
     label_add_attachments: Magdagdag ng mga nakalakip
@@ -336,7 +336,7 @@ fil:
 '
       button_activate: I-aktibo ang timeline mode
       button_deactivate: I-deactivate ang timeline mode
-      cancel: Cancel
+      cancel: Kanselahin
       change: Change in planning
       due_date: Takdang petsa
       empty: "(empty)"
@@ -356,13 +356,13 @@ fil:
           type: Uri
           due_date: End date
           name: Pangalan
-          status: Status
+          status: Estado
           responsible: Responsable
           start_date: Petsa ng pagsimula
-        grouping_other: Other
+        grouping_other: Iba pa
         noneSelection: "(none)"
       name: Pangalan
-      new_work_package: New work package
+      new_work_package: Bagong work package
       outline: Reset Outline
       outlines:
         aggregation: Show aggregations only
@@ -377,7 +377,7 @@ fil:
       really_close_dialog: Do you really want to close the dialog and lose the entered
         data?
       responsible: Responsable
-      save: Save
+      save: I-save
       start_date: Petsa ng pagsimula
       tooManyProjects: More than %{count} Projects. Please use a better filter!
       selection_mode:
@@ -402,7 +402,7 @@ fil:
       update_message: Magyaring i-update ang iyong broswer.
       update_ie_user: Mangyaring lumipat sa Mozilla Firefox o Google Chromw, o i-upgrade
         sa Microsoft Edge.
-      learn_more: Learn more
+      learn_more: Matuto ng higit pa
       close_warning: Huwag pansinin ang babala ito.
     wiki_formatting:
       strong: Strong
@@ -426,14 +426,14 @@ fil:
         edit: I-edit ang bulk
         copy: Kopyahin ang bulk
         delete: Burahin ang bulk
-      button_clear: Clear
+      button_clear: Linisin
       comment_added: Ang komento ay matagumpay naidagdag.
       comment_send_failed: Isang mali ang naganal. Hindi maaring magpasa ng komento.
       comment_updated: Ang komento ay matagumpay na i-update.
       confirm_edit_cancel: Sigurado ka ba na gusto mong kanselahin ang pag-edit ng
         work package?
-      description_filter: Filter
-      description_enter_text: Enter text
+      description_filter: Salain
+      description_enter_text: Ipasok ang teksto
       description_options_hide: Hide options
       description_options_show: Show options
       error:
@@ -447,8 +447,8 @@ fil:
       key_value: "%{key}: %{value}"
       label_enable_multi_select: Enable multiselect
       label_disable_multi_select: Disable multiselect
-      label_filter_add: Add filter
-      label_options: Options
+      label_filter_add: Magdagdag ng filter
+      label_options: Mga opsyon
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
         confirm selection with enter, delete with backspace'
       label_switch_to_single_select: Lumipat sa napiling solo
@@ -468,7 +468,7 @@ fil:
         header: Bago %{type}
         header_no_type: Bagong work package ( Uri ay hindi pa naitakda)
         header_with_parent: 'Bago %{type} ( Anak ng %{parent_type} #%{id})'
-        button: Create
+        button: Lumikha
       hierarchy:
         show: Magpakita ng hierarchy mode
         hide: Itahi ang hierarcy mode
@@ -486,10 +486,10 @@ fil:
         description: Alinman sa walang ang nilikha o mga work package ay naka-filter
           out.
       property_groups:
-        details: Details
+        details: Mga detalye
         people: People
         estimatesAndTime: Estimates & Time
-        other: Other
+        other: Iba pa
       properties:
         assignee: Naitalaga
         author: May-akda
@@ -505,11 +505,11 @@ fil:
         projectName: Proyekto
         responsible: Responsable
         startDate: Petsa ng pagsimula
-        status: Status
-        subject: Subject
-        title: Title
+        status: Estado
+        subject: Paksa
+        title: Pamagat
         type: Uri
-        updatedAt: Updated on
+        updatedAt: Naka-update sa
         versionName: Bersyon
         version: Bersyon
       jump_marks:
@@ -525,7 +525,7 @@ fil:
       query:
         column_names: Mga hanay
         group_by: Mga resulta sa grupo sa pamamagitan ng
-        group: Group by
+        group: Pangkat sa
         group_by_disabled_by_hierarchy: Grupo ng ay hindi pinagana dahil sa pagiging
           aktibo ng hierarchy mode.
         hierarchy_disabled_by_group_by: Ang Hierarchy mode ay hindi pinagana dahil
@@ -553,13 +553,13 @@ fil:
         text_select_hint: Pumili ng mga kahon na maaring mabukasan sa 'ALT' at mga
           arrow key.
       tabs:
-        overview: Overview
+        overview: Buod
         activity: Aktibidad
         relations: Relations
-        watchers: Watchers
+        watchers: Manonood
         attachments: Mga kalakip
       time_relative:
-        days: days
+        days: mga araw
         weeks: weeks
         months: months
     toolbar:
@@ -571,13 +571,13 @@ fil:
         display_hierarchy: Ipakita ang hierarchy
         hide_hierarchy: Itago anh hierarchy
         hide_sums: Hide sums
-        save: Save
+        save: I-save
         save_as: Save as ...
         export: Export ...
         publish: Ipalabas...
         page_settings: Rename query ...
-        delete: Delete
-      filter: Filter
+        delete: Burahin
+      filter: Salain
       unselected_title: Work package
       search_query_label: Hanapin ang mga naka-save na query
       search_query_title: Pindutin upang hanapin ang mga naka-save na filter query
@@ -585,10 +585,10 @@ fil:
       label_settings: Rename query
       label_name: Pangalan
       label_delete_page: Delete current page
-      button_apply: Apply
-      button_save: Save
-      button_submit: Submit
-      button_cancel: Cancel
+      button_apply: Ilagay
+      button_save: I-save
+      button_submit: Sumite
+      button_cancel: Kanselahin
       form_submit:
         title: Kumpirmahin upang magpatuloy
         text: Sigurado ka bang na gusto mong magtanghal ng aksyon ito?
@@ -600,10 +600,10 @@ fil:
         text: Sigurado ka ba na gusto mong burahin ang sumusunod na %{label}?
         has_children: 'Ang work package ay mayroong %{childUnits}:'
         deletes_children: Lahat ng mga batang work package ay maari rin burahin.
-    notice_successful_create: Successful creation.
-    notice_successful_delete: Successful deletion.
-    notice_successful_update: Successful update.
-    notice_bad_request: Bad Request.
+    notice_successful_create: Matagumpay pagkalikha.
+    notice_successful_delete: Matagumpay ang pagtanggal.
+    notice_successful_update: Matagumpay nai-update.
+    notice_bad_request: Masamang kahilingan.
     relations:
       empty: No relation exists
       remove: Alisin ang relasyon
@@ -611,10 +611,10 @@ fil:
       button_edit: "%{attribute}: Edit"
       button_save: "%{attribute}: Save"
       button_cancel: "%{attribute}: Cancel"
-      button_save_all: Save
-      button_cancel_all: Cancel
+      button_save_all: I-save
+      button_cancel_all: Kanselahin
       link_formatting_help: Ang tekstong pagfo-format ng tulong
-      btn_preview_enable: Preview
+      btn_preview_enable: Tanawin ulit
       btn_preview_disable: Disable preview
       null_value_label: No value
       clear_value_label: "-"
