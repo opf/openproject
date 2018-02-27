@@ -252,7 +252,7 @@ fil:
       label_loading: naglo-load ang mga manunuod...
       label_error_loading: Isang mali ang naganap habang naglo-load ng mga manunuod
       label_search_watchers: Hanapin ang mga manunuod
-      label_add: Add watchers
+      label_add: Magdagdag ng manunuod
       label_discard: Itapon ang napili
       typeahead_placeholder: Maghanap ng posibleng watchers
     relation_labels:
@@ -603,8 +603,8 @@ fil:
         has_children: 'Ang work package ay mayroong %{childUnits}:'
         deletes_children: Lahat ng mga batang work package ay maari rin burahin.
     notice_successful_create: Matagumpay pagkalikha.
-    notice_successful_delete: Successful deletion.
-    notice_successful_update: Successful update.
+    notice_successful_delete: Matagumpay ang pagtanggal.
+    notice_successful_update: Matagumpay nai-update.
     notice_bad_request: Masamang kahilingan.
     relations:
       empty: No relation exists
