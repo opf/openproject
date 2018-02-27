@@ -79,7 +79,7 @@ module OpenProject::TextFormatting
 
       def self.regexp
         %r{
-          ([\s\(,\-\[\>]|^) # Leading string
+          ([[[:space:]]\(,\-\[\>]|^|) # Leading string
           (!)? # Escaped marker
           (([a-z0-9\-_]+):)? # Project identifier
           (attachment|version|commit|source|export|message|project|group|user)? # prefix
