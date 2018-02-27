@@ -1734,8 +1734,8 @@ fil:
     Kung nagpatuloy ang mga problema nararansan mo manyaring kontakin ang iyong %{app_title}
     tagapangasiwa para sa tulong.
   notice_work_package_done_ratios_updated: Naka-update ang mga work package done ratio.
-  notice_locking_conflict: Information has been updated by at least one other user
-    in the meantime.
+  notice_locking_conflict: Ang impormasyon ay naka-update sa kahit hindi baba isa
+    o.
   notice_locking_conflict_additional_information: Ang mga update nagmula sa %{users}.
   notice_locking_conflict_reload_page: Mangyaring i-reload ang pahina na ito, repasuhin
     ang mga pagbabago at muling i-apply ang iyong mga update.
@@ -1793,7 +1793,7 @@ fil:
         units:
           byte:
             one: Byte
-            other: Bytes
+            other: Mga byte
           gb: GB
           kb: kB
           mb: MB
@@ -1804,75 +1804,75 @@ fil:
       at pakikipagtulungan ng koponan sa OpenProject.
     text_show_again: Maari mong i-restart amg video na ito mula sa tulong ng pagpipilian
     welcome: Maligayang pagdating sa OpenProject
-  permission_add_work_package_notes: Add notes
+  permission_add_work_package_notes: Magdagdag ng mga talaan
   permission_add_work_packages: Magdagdag ng mga work packages (ito rin ay nagpapahintulot
     na mag dagdag ng mga attachment sa lahat ng mga work packages)
-  permission_add_messages: Post messages
-  permission_add_project: Create project
-  permission_add_subprojects: Create subprojects
-  permission_add_work_package_watchers: Add watchers
+  permission_add_messages: Mga post na mensahe
+  permission_add_project: Lumikha ng proyekto
+  permission_add_subprojects: Lumikha ng mga subproject
+  permission_add_work_package_watchers: Magdagdag ng manunuod
   permission_browse_repository: Basahin-lamang nag-access sa respositoryo (browse
     at checkout)
-  permission_change_wiki_parent_page: Change parent wiki page
-  permission_comment_news: Comment news
+  permission_change_wiki_parent_page: Baguhin ang pahina ng magulang na wiki
+  permission_comment_news: Mga komento ng balita
   permission_commit_access: Magbasa/magsulat acess sa repositoryo (commit)
-  permission_copy_projects: Copy projects
-  permission_delete_work_package_watchers: Delete watchers
-  permission_delete_work_packages: Delete work packages
-  permission_delete_messages: Delete messages
-  permission_delete_own_messages: Delete own messages
-  permission_delete_project_associations: Delete project dependencies
-  permission_delete_reportings: Delete reportings
-  permission_delete_timelines: Delete timelines
-  permission_delete_wiki_pages: Delete wiki pages
-  permission_delete_wiki_pages_attachments: Delete attachments
-  permission_edit_work_package_notes: Edit notes
-  permission_edit_work_packages: Edit work packages
-  permission_edit_messages: Edit messages
-  permission_edit_own_work_package_notes: Edit own notes
-  permission_edit_own_messages: Edit own messages
-  permission_edit_own_time_entries: Edit own time logs
-  permission_edit_project: Edit project
-  permission_edit_project_associations: Edit project dependencies
-  permission_edit_reportings: Edit reportings
-  permission_edit_time_entries: Edit time logs
-  permission_edit_timelines: Edit timelines
-  permission_edit_wiki_pages: Edit wiki pages
-  permission_export_work_packages: Export work packages
-  permission_export_wiki_pages: Export wiki pages
-  permission_list_attachments: List attachments
-  permission_log_time: Log spent time
-  permission_manage_boards: Manage forums
-  permission_manage_categories: Manage work package categories
-  permission_manage_work_package_relations: Manage work package relations
-  permission_manage_members: Manage members
-  permission_manage_news: Manage news
-  permission_manage_project_activities: Manage project activities
-  permission_manage_public_queries: Manage public queries
-  permission_manage_repository: Manage repository
-  permission_manage_subtasks: Manage subtasks
-  permission_manage_versions: Manage versions
-  permission_manage_wiki: Manage wiki
-  permission_manage_wiki_menu: Manage wiki menu
-  permission_move_work_packages: Move work packages
-  permission_protect_wiki_pages: Protect wiki pages
-  permission_rename_wiki_pages: Rename wiki pages
-  permission_save_queries: Save queries
-  permission_select_project_modules: Select project modules
-  permission_manage_types: Select types
-  permission_view_calendar: View calendar
+  permission_copy_projects: Kopyahin ang mga proyekto
+  permission_delete_work_package_watchers: Burahin ang mga manunuod
+  permission_delete_work_packages: Burahin ang mga work package
+  permission_delete_messages: Burahin ang mga mensahe
+  permission_delete_own_messages: Burahin ang mga sariling mensahe
+  permission_delete_project_associations: Burahin ang mga proyektong dependensya
+  permission_delete_reportings: Burahin ang mga ulat
+  permission_delete_timelines: Burahin ang mga timeline
+  permission_delete_wiki_pages: Burahin ang pahina g wiki
+  permission_delete_wiki_pages_attachments: Burahin ang paglalakip
+  permission_edit_work_package_notes: I-edit ang mga talaan
+  permission_edit_work_packages: I-edit ang mga work package
+  permission_edit_messages: E-edit ang mga mensahe
+  permission_edit_own_work_package_notes: I-edit ang mga sariling talaan
+  permission_edit_own_messages: I-edit ang mga sariling mensahe
+  permission_edit_own_time_entries: I-edit ang mga log ng oras
+  permission_edit_project: I-edit ang proyekto
+  permission_edit_project_associations: I-edit ang mga proyektong dependency
+  permission_edit_reportings: I- edit ang mga ulat
+  permission_edit_time_entries: I-edit ang mga log ng oras
+  permission_edit_timelines: I-edit ang mga timeline
+  permission_edit_wiki_pages: I-edit ang mga work package
+  permission_export_work_packages: I-export ang mga work package
+  permission_export_wiki_pages: I-edit ang mga work package
+  permission_list_attachments: Listahan ng paglalakip
+  permission_log_time: Big
+  permission_manage_boards: Pamahalain ang mga forum
+  permission_manage_categories: Pamahalain ang mga kategorya ng work package
+  permission_manage_work_package_relations: Nauugnay na pamahalin ang work package
+  permission_manage_members: Pamahalain ang mga miyembro
+  permission_manage_news: Pamahalain ang mga balita
+  permission_manage_project_activities: Ang mga aktibidad ng pamahalaing proyekto
+  permission_manage_public_queries: Pamahalain ang mga publikong query
+  permission_manage_repository: Pamahalain ang repositoryo
+  permission_manage_subtasks: Pamahalain ang mga subtask
+  permission_manage_versions: Pamahalain ang mga bersyon
+  permission_manage_wiki: Pamahalain ang wiki
+  permission_manage_wiki_menu: Pagpipilian ng pamahalaing wiki
+  permission_move_work_packages: Ilipat ang work package
+  permission_protect_wiki_pages: Protektahan ang mga wiki package
+  permission_rename_wiki_pages: Baguhin ang pangalan ng mga wiki na pahina
+  permission_save_queries: I-save ang mga query
+  permission_select_project_modules: Piliin ang mga proyektong modyul
+  permission_manage_types: Pumili ng mga uri
+  permission_view_calendar: Tanawin ang kalendaryo
   permission_view_changesets: Tingnan ang mga repository revision ng OpenProject
-  permission_view_commit_author_statistics: View commit author statistics
-  permission_view_work_package_watchers: View watchers list
+  permission_view_commit_author_statistics: Tanawin ang commit
+  permission_view_work_package_watchers: Tanawin ang mga manunuod ng listahan
   permission_view_work_packages: Tingnan ang mga work packages
-  permission_view_messages: View messages
+  permission_view_messages: Tingnan ang mga mensahe
   permission_view_members: Tingnan ang mga miyembro
-  permission_view_project_associations: View project dependencies
-  permission_view_reportings: View reportings
-  permission_view_time_entries: View spent time
-  permission_view_timelines: View timelines
-  permission_view_wiki_edits: View wiki history
-  permission_view_wiki_pages: View wiki
+  permission_view_project_associations: Tanawin ang mga proyektong dependecy
+  permission_view_reportings: Tanawin ang mga ulat
+  permission_view_time_entries: Tanawin ang ginugol na oras
+  permission_view_timelines: Tingnan ang mga timeline
+  permission_view_wiki_edits: Tingnan ang mga kasaysayan ng wiki
+  permission_view_wiki_pages: Tanawin ang wiki
   placeholders:
     default: "-"
   project:
@@ -1898,14 +1898,14 @@ fil:
   project_module_news: Mga balita
   project_module_repository: Repositoryo
   project_module_time_tracking: Time tracking
-  project_module_timelines: Timelines
+  project_module_timelines: Ang mga timeline
   project_module_wiki: Wiki
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
     active_or_archived: Aktibo o naka-archieve
-    assigned_to_role: Assignee's role
-    member_of_group: Assignee's group
+    assigned_to_role: Naitalagang tungkulin
+    member_of_group: Itinalagang grupo
     assignee_or_group: Nakatakda o pag-aari ng grupo
     subproject_id: Kahaliling proyekto
     name_or_identifier: Pangalan o pagkakakilanlan
@@ -2068,100 +2068,108 @@ fil:
   setting_smtp_domain: HELLO domain ng SMTP
   setting_smtp_user_name: Username ng SMTP
   setting_smtp_password: Password ng SMTP
-  setting_activity_days_default: Days displayed on project activity
-  setting_app_subtitle: Application subtitle
-  setting_app_title: Application title
-  setting_attachment_max_size: Attachment max. size
+  setting_activity_days_default: Ang mga araw na naka-display sa aktibidad ng proyekto
+  setting_app_subtitle: Aplikasyong subtitle
+  setting_app_title: Aplikasyong pamagat
+  setting_attachment_max_size: Paglalakip ng mataas na laki
   setting_autofetch_changesets: I-autofetch ang mga pagbabago ng respositoryo
   setting_autologin: Autologin
-  setting_available_languages: Available languages
+  setting_available_languages: Magagamit na mga linggwahe
   setting_bcc_recipients: Blind carbon copy recipients (bcc)
   setting_brute_force_block_after_failed_logins: I-block ang gumagamit pagkatapos
     ang numero na ito ay nabigo sa pagtatangkang pag-login
   setting_brute_force_block_minutes: Oras ng user na na-block sa
-  setting_cache_formatted_text: Cache formatted text
-  setting_column_options: Customize the appearance of the work package lists
-  setting_commit_fix_keywords: Fixing keywords
-  setting_commit_logs_encoding: Commit messages encoding
-  setting_commit_logtime_activity_id: Activity for logged time
-  setting_commit_logtime_enabled: Enable time logging
-  setting_commit_ref_keywords: Referencing keywords
-  setting_cross_project_work_package_relations: Allow cross-project work package relations
-  setting_date_format: Date format
-  setting_default_language: Default language
-  setting_default_notification_option: Default notification option
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_default_projects_public: New projects are public by default
-  setting_diff_max_lines_displayed: Max number of diff lines displayed
-  setting_display_subprojects_work_packages: Display subprojects work packages on
-    main projects by default
-  setting_emails_footer: Emails footer
-  setting_emails_header: Emails header
+  setting_cache_formatted_text: Tesktong naka-format na cache
+  setting_column_options: I-customize ang hitsura ng mga listahan ng work package
+  setting_commit_fix_keywords: Isinasaayos ang mga keyword
+  setting_commit_logs_encoding: Paglalagay ng commit mensahe
+  setting_commit_logtime_activity_id: Aktibidad para sa naka-log na oras
+  setting_commit_logtime_enabled: Paganahin ang oras ng pag-log
+  setting_commit_ref_keywords: Pagsangguni ng mga keyword
+  setting_cross_project_work_package_relations: Pahintulutan ang cross-project na
+    relasyon ng work package
+  setting_date_format: Format ng petsa
+  setting_default_language: Default na linggwahe
+  setting_default_notification_option: Opsyon ng default na abiso
+  setting_default_projects_modules: I-default ang pinaganang mga modyul para sa bagong
+    proyekto
+  setting_default_projects_public: Bagong proyektong ay publiko sa pamamagitan ng
+    default
+  setting_diff_max_lines_displayed: Mataas na bilang ng naka-display na linya
+  setting_display_subprojects_work_packages: Ipakita ang mga subproject ng work package
+    sa pangunahing proyekto sa pamamagitan ng default
+  setting_emails_footer: Ang mga email ng footer
+  setting_emails_header: Ang email ng header
   setting_email_login: Gamitin ang email bilang login
-  setting_enabled_scm: Enabled SCM
-  setting_feeds_enabled: Enable Feeds
-  setting_feeds_limit: Feed content limit
-  setting_file_max_size_displayed: Max size of text files displayed inline
+  setting_enabled_scm: Paganahin ang SCM
+  setting_feeds_enabled: Paganahin ang mga feed
+  setting_feeds_limit: Limitasyon ng nilalaman na feed
+  setting_file_max_size_displayed: Max na laki ng mga tekstong file na ipinapakita
+    inline
   setting_host_name: Host name
-  setting_work_package_done_ratio: Calculate the work package done ratio with
-  setting_work_package_done_ratio_field: Use the work package field
-  setting_work_package_done_ratio_status: Use the work package status
-  setting_work_package_done_ratio_disabled: Disable (hide the progress)
-  setting_work_package_list_default_columns: Display by default
+  setting_work_package_done_ratio: Kalkulahin ang work package done rato sa
+  setting_work_package_done_ratio_field: Gamitin ang work package field
+  setting_work_package_done_ratio_status: Gamitin ang estado ng work package
+  setting_work_package_done_ratio_disabled: Hindi pinaga (itago ang proseso)
+  setting_work_package_list_default_columns: Ipakiita sa pamamagitan ng default
   setting_work_package_list_summable_columns: Summable
-  setting_work_package_properties: Work package properties
-  setting_work_package_startdate_is_adddate: Use current date as start date for new
-    work packages
-  setting_work_packages_export_limit: Work packages export limit
+  setting_work_package_properties: Ang mga property ng work package
+  setting_work_package_startdate_is_adddate: Gamitin ang kasulukuyang petsa bilang
+    pagsisimula ng petsa para sa mga bagong work package
+  setting_work_packages_export_limit: Limitasyon ng pag-export ng work package
   setting_journal_aggregation_time_minutes: Ipakita ang mga talaarawan bilang pinagsamang-sama
     sa loob ng
-  setting_log_requesting_user: Log user login, name, and mail address for all requests
-  setting_login_required: Authentication required
-  setting_mail_from: Emission email address
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
+  setting_log_requesting_user: Log user login, pangalan at mga mail address para sa
+    lahat na hiling
+  setting_login_required: Kailangan ng pagpapatunay
+  setting_mail_from: Emission ng email address
+  setting_mail_handler_api_enabled: Paganahin ang paparating na email web service
+  setting_mail_handler_api_description: Ang email web handler ay pinagana ang OpenProject
+    upang makatanggap ng mga mail na naglalaman ng tiyak na command bilang isang intstrumentasyon
+    mechanism ( hal. upang lumikha at i-update ang mga work package).
   setting_mail_handler_api_key: API key
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
+  setting_mail_handler_body_delimiters: I-truncate ang mga email pagatapod ng mga
+    linyang ito
   setting_mail_handler_body_delimiter_regex: Ang nga truncate email ay nagkakatugma
     sa regex na ito
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  setting_password_active_rules: Active character classes
-  setting_password_count_former_banned: Number of most recently used passwords banned
-    for reuse
+  setting_new_project_user_role_id: Ibinigay na tungkulin para sa non-admin na gumagamit
+    isa sa mga lumilikha ng proyekto
+  setting_password_active_rules: Ang mga klase ng aktibong karakter
+  setting_password_count_former_banned: Bilang ng mga pinakamabagong ginamit na password
+    na naka-ban para sa muling gumamit
   setting_password_days_valid: Bilang ng mga araw, pagkatapos na ipinatupad ang pagbabago
     ng password
   setting_password_min_length: Ang pinaka mababang sukat ng haba
-  setting_password_min_adhered_rules: Minimum number of required classes
-  setting_per_page_options: Objects per page options
-  setting_plain_text_mail: Plain text mail (no HTML)
+  setting_password_min_adhered_rules: Pinakamababang bilang
+  setting_per_page_options: Ang mga bagay kada pahina ng pagpipilian
+  setting_plain_text_mail: Plain text mail (walang HTML)
   setting_protocol: Protocol
   setting_registration_footer: Footer ng pagrerehistro
   setting_repositories_automatic_managed_vendor: Awtomatiko na uri ng repository vendor
-  setting_repositories_encodings: Repositories encodings
-  setting_repository_authentication_caching_enabled: Enable caching for authentication
-    request of version control software
+  setting_repositories_encodings: Pag-eencode ng repositoryo
+  setting_repository_authentication_caching_enabled: Paganahin ang pag-cache pra sa
+    hiling ng pagpapatunay ng bersyong control software
   setting_repository_storage_cache_minutes: Ang laki ng repository disk cache
   setting_repository_checkout_display: Ipakita ang mga tagubilin ng pag-checkout
   setting_repository_checkout_base_url: Checkout base URL
   setting_repository_checkout_text: I-checkout ang tekstong pagtuturo
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file
-    log
+  setting_repository_log_display_limit: Pinakamataas na bilang ng rebisyon naka-display
+    sa file blog
   setting_repository_truncate_at: Pinakamataas na bilang ng mga file naka-displey
     sa respository browser
-  setting_rest_api_enabled: Enable REST web service
-  setting_self_registration: Self-registration
-  setting_sequential_project_identifiers: Generate sequential project identifiers
-  setting_session_ttl: Session expiry time after inactivity
-  setting_session_ttl_hint: Value below 5 works like disabled
-  setting_session_ttl_enabled: Session expires
+  setting_rest_api_enabled: Paganahin ang serbisyo ng REST web
+  setting_self_registration: Sariling-pagparehistro
+  setting_sequential_project_identifiers: Bumuo ng pagkasunod-sunod na pagkakilanlan
+    ng proyekto
+  setting_session_ttl: Oras ng pagkawalang -bisa pagkatapos ng hindi aktibo
+  setting_session_ttl_hint: Ang halaga mababa sa 5 na trabaho ay tulad ng may kapansanan
+  setting_session_ttl_enabled: Nag-expire na ang sesyon
   setting_start_of_week: Pagsisimula ng linggo sa
-  setting_sys_api_enabled: Enable repository management web service
-  setting_sys_api_description: The repository management web service provides integration
-    and user authorization for accessing repositories.
-  setting_text_formatting: Text formatting
-  setting_time_format: Time format
+  setting_sys_api_enabled: Paganahin ang serbisyo ng repository management web
+  setting_sys_api_description: Ang serbisyo ng repositoryo management web ay nagbibigay
+    ng intregrasyon at user awtorisasyon para sa pag-access ng mga repositoryo.
+  setting_text_formatting: Pag-format ng teksto
+  setting_time_format: Format ng oras
   setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
     users
   setting_user_format: Users display format
@@ -2358,7 +2366,7 @@ fil:
       project_associations: Dependencies
       reportings: Status reportings
       reports: Timeline reports
-      timelines: Timelines
+      timelines: Ang mga timeline
     add_project_association: Add dependency
     associations: Dependencies
     board_could_not_be_saved: Board could not be saved
@@ -2533,7 +2541,7 @@ fil:
     start: Start
     timeline: Timeline report
     timelines: Timeline reports
-    settings: Timelines
+    settings: Ang mga timeline
     vertical_work_package: Vertical work packages
     without_project_type: Without project type
     you_are_viewing_the_selected_timeline: You are viewing the selected timeline report

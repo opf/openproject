@@ -233,7 +233,7 @@ zh-TW:
         nevermind: Nevermind
     watchers:
       label_loading: 正在載入關注者...
-      label_error_loading: An error occurred while loading the watchers
+      label_error_loading: 而發生錯誤裝載的觀察家
       label_search_watchers: 搜尋關注者
       label_add: 新增監看者
       label_discard: 放棄選擇
@@ -525,8 +525,7 @@ zh-TW:
         summary: Table with rows of work package and columns of work package attributes.
         text_inline_edit: Most cells of this table are buttons that activate inline-editing
           functionality of that attribute.
-        text_sort_hint: With the links in the table headers you can sort, group, reorder,
-          remove and add table columns.
+        text_sort_hint: 通過表格標題中的鏈接，您可以排序，分組，重新排序，刪除和添加表格列。
         text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
       tabs:
         overview: 概要
