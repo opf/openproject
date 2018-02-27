@@ -118,14 +118,14 @@ module Api
 
       def issue_create_call
         attributes = permitted_params.planning_element(project: @project).except :note
+        attributes = lookup_custom_options attributes
 
         planning_element = @project.work_packages.build
         planning_element.attach_files(params[:attachments])
 
         WorkPackages::CreateService
           .new(user: current_user)
-          .call(attributes: attributes,
-                work_package: @project.work_packages.build)
+          .call(attributes: attributes, work_package: planning_element)
       end
 
       def issue_update_call
