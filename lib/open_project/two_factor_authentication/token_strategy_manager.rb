@@ -125,7 +125,7 @@ module OpenProject::TwoFactorAuthentication
       end
 
       def add_default_strategy?(config)
-        config[:active_strategies].empty?
+        config[:active_strategies].empty? && !config[:disabled].present?
       end
 
       def available_strategies
