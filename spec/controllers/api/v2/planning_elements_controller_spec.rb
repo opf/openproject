@@ -950,6 +950,35 @@ describe Api::V2::PlanningElementsController, type: :controller do
         expect(custom_value.value).not_to eq(custom_field.possible_values.first.id.to_s)
         expect(custom_value.value).to eq(custom_field.possible_values.second.id.to_s)
       end
+
+      it 'creates the custom field value' do
+        post 'create',
+            params: {
+              project_id: project.identifier,
+              planning_element: {
+                subject: "custom option lookup test",
+                status_id: planning_element.status.id,
+                priority_id: planning_element.priority.id,
+                author_id: planning_element.author.id,
+                type_id: planning_element.type.id,
+                custom_fields: [
+                  { id: custom_field.id, value: 'bar' }
+                ]
+              }
+            },
+            format: :xml
+
+        expect(response.response_code).to eq(303)
+
+        wp = WorkPackage.last
+        custom_value = wp.custom_values.find do |value|
+          value.custom_field.name == custom_field.name
+        end
+
+        expect(custom_value).not_to be_nil
+        expect(custom_value.value).not_to eq(custom_field.possible_values.first.id.to_s)
+        expect(custom_value.value).to eq(custom_field.possible_values.second.id.to_s)
+      end
     end
 
     ##
