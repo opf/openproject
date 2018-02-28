@@ -54,6 +54,7 @@ module OpenProject
 
       project = options.delete(:project) { @project || object.try(:project) }
       only_path = options.delete(:only_path) != false
+
       Renderer.format_text text,
                            options.merge(
                              object: object,

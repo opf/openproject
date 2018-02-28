@@ -178,7 +178,7 @@ function userActivity($uiViewScroll:any,
             return "\n> " + line;
           })
           .join('');
-        return scope.userName + " wrote:" + quoted;
+        return scope.userName + " wrote:\n" + quoted;
       }
     }
   };

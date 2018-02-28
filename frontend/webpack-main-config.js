@@ -201,7 +201,6 @@ function getWebpackMainConfig() {
         'core-app': path.resolve(__dirname, 'app'),
         'core-components': path.resolve(__dirname, 'app', 'components'),
 
-        'at.js': path.resolve(__dirname, 'vendor', 'at.js'),
         'select2': path.resolve(__dirname, 'vendor', 'select2'),
         'lodash': path.resolve(node_root, 'lodash', 'lodash.min.js'),
         // prevents using crossvent from dist and by that

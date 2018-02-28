@@ -30,11 +30,13 @@ import {EditField} from '../wp-edit-field/wp-edit-field.module';
 import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 import {TextileService} from './../../common/textile/textile-service';
 import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
+import {AutoCompleteHelperService} from 'core-components/common/autocomplete/auto-complete-helper.service';
+import {ConfigurationService} from 'core-components/common/config/configuration.service';
 
 export class WikiTextareaEditField extends EditField {
 
   // Template
-  public template:string = '/components/wp-edit/field-types/wp-edit-markdown-field.directive.html';
+  public template:string;
 
   // Dependencies
   protected $sce:ng.ISCEService;
@@ -42,6 +44,8 @@ export class WikiTextareaEditField extends EditField {
   protected textileService:TextileService;
   protected $timeout:ng.ITimeoutService;
   protected I18n:op.I18n;
+  protected AutoCompleteHelper:AutoCompleteHelperService;
+  protected ConfigurationService:ConfigurationService;
 
   // Values used in template
   public isBusy:boolean = false;
@@ -53,13 +57,26 @@ export class WikiTextareaEditField extends EditField {
   public ckeditor:any;
 
   protected initialize() {
-    $injectFields(this, '$sce', '$http', 'textileService', '$timeout', 'I18n');
+    $injectFields(this, '$sce', '$http', 'textileService', '$timeout', 'AutoCompleteHelper', 'I18n', 'ConfigurationService');
+
+    this.setupTemplate();
 
     this.text = {
       attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
       save: this.I18n.t('js.inplace.button_save', {attribute: this.schema.name}),
       cancel: this.I18n.t('js.inplace.button_cancel', {attribute: this.schema.name})
     };
+  }
+
+  public setupTemplate() {
+    switch (this.ConfigurationService.textFormat()) {
+      case 'markdown':
+        this.template = '/components/wp-edit/field-types/wp-edit-markdown-field.directive.html';
+        break;
+      default:
+        this.template = '/components/wp-edit/field-types/wp-edit-wiki-textarea-field.directive.html';
+        break;
+    }
   }
 
   public onSubmit() {
@@ -87,11 +104,17 @@ export class WikiTextareaEditField extends EditField {
           this.reset();
         }
 
-        element.focus();
+        this.setupAutocompletion(element);
+
+        setTimeout(() => editor.editing.view.focus());
       })
       .catch((error:any) => {
         console.error(error);
       });
+  }
+
+  public setupAutocompletion(element:JQuery) {
+    this.AutoCompleteHelper.enableTextareaAutoCompletion(element, this.resource.project.id);
   }
 
   public reset() {

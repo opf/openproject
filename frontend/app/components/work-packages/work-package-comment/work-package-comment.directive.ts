@@ -98,12 +98,13 @@ export class CommentFieldDirectiveController {
     this._forceFocus = true;
     this.editing = true;
 
-    this.$timeout(() => {
-      if (!this.field) {
-        this.resetField(withText);
-      }
+    if (!this.field) {
+      this.resetField(withText);
+    }
 
-      this.field.$onInit(this.$element);
+    this.waitForField()
+      .then(() => {
+        this.field.$onInit(this.$element);
     });
   }
 
@@ -151,6 +152,22 @@ export class CommentFieldDirectiveController {
     this.editing = false;
     this.field.initializeFieldValue();
     this._forceFocus = true;
+  }
+
+  // Ensure the nested ng-include has rendered
+  private waitForField():Promise<JQuery> {
+    const deferred = this.$q.defer<JQuery>();
+
+    const interval = setInterval(() => {
+      const container = this.$element.find('.op-ckeditor-element');
+
+      if (container.length > 0) {
+        clearInterval(interval);
+        deferred.resolve(container);
+      }
+    }, 100);
+
+    return deferred.promise;
   }
 }
 

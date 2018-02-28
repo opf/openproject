@@ -532,6 +532,11 @@
       "integrity": "sha1-x57Zf380y48robyXkLzDZkdLS3k=",
       "dev": true
     },
+    "at.js": {
+      "version": "1.5.3",
+      "resolved": "https://registry.npmjs.org/at.js/-/at.js-1.5.3.tgz",
+      "integrity": "sha1-jscyTZJPDPvYjfzrp7Lc8iVeBCw="
+    },
     "atoa": {
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/atoa/-/atoa-1.0.0.tgz",
