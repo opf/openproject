@@ -169,10 +169,7 @@ en:
   button_continue: 'Continue'
   button_make_default: 'Mark as default'
   label_unverified_phone: "Cell phone not yet verified"
-  message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
   notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
-  error_password_on_phone_change: "is required if you want to change your cell phone number"
-  notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
   text_otp_not_receive: "Other verification methods"
   text_send_otp_again: "Resend one-time password by:"
   button_resend_otp_form: "Resend"
