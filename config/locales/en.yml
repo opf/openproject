@@ -37,6 +37,8 @@ en:
     label_one_time_password: 'One-time password'
     label_2fa_enabled: 'Two-factor authentication is active'
     label_2fa_disabled: 'Two-factor authentication not active'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
     text_enter_2fa: 'Please enter the one-time password from your device.'
     text_2fa_enabled: 'Upon every login, you will be requested to enter a OTP token from your default 2FA device.'
     text_2fa_disabled: 'To enable two-factor authentication, use the button above to register a new 2FA device. If you already have a device, you need to make it a default.'
@@ -130,6 +132,9 @@ en:
           Register your mobile phone number for delivery of OpenProject one-time passwords.
     sns:
       delivery_failed: 'SNS delivery failed:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
     restdt:
       delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
 
@@ -156,7 +161,6 @@ en:
   field_otp: "One-time password"
   notice_account_otp_invalid: "Invalid one-time password."
   notice_account_otp_expired: "The one-time password you entered expired."
-  notice_otp_sms_text: "Your one-time password: %{token}"
   notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
   notice_account_otp_send_failed: "Your one-time password could not be sent."
   notice_account_has_no_phone: "No cell phone number is associated with your account."

@@ -132,7 +132,8 @@ module OpenProject::TwoFactorAuthentication
         {
           totp: I18n.t("activerecord.models.two_factor_authentication/device/totp"),
           sns: I18n.t("activerecord.models.two_factor_authentication/device/sms"),
-          restdt: I18n.t("activerecord.models.two_factor_authentication/device/restdt")
+          restdt: I18n.t("activerecord.models.two_factor_authentication/device/restdt"),
+          message_bird: I18n.t("activerecord.models.two_factor_authentication/device/sms"),
         }
       end
 
