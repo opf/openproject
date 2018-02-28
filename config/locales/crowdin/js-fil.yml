@@ -4,7 +4,7 @@ fil:
     ajax:
       hide: Itago
       loading: Naglo-load ...
-    close_popup_title: Close popup
+    close_popup_title: Isara ang popup
     close_filter_title: Isara ang filter
     close_form_title: Isara ang form
     clipboard:
@@ -22,17 +22,17 @@ fil:
     button_copy: Kopyahin
     button_custom-fields: Mga pasadyang patlang
     button_delete: Burahin
-    button_delete_watcher: Delete watcher
-    button_details_view: Details view
+    button_delete_watcher: Burahin ang manunuod
+    button_details_view: Tingnan ang mga detalye
     button_duplicate: Kapareha
     button_edit: I-edit
     button_filter: Salain
-    button_list_view: List view
+    button_list_view: Tingnan ang listahan
     button_show_view: Tanawin sa buong screen
     button_log_time: Ang oras ng tala
     button_more: Iba pa
     button_move: Ilipat
-    button_open_details: Open details view
+    button_open_details: Buksan ang detalyeng view
     button_close_details: Isara ang mga detalye na view
     button_open_fullscreen: Buksan ang view ng buong screen
     button_quote: Quote
@@ -73,15 +73,15 @@ fil:
     label_activity_with_comment_no: Bilang ng aktibidad entry %{activityNo}. Mayroong
       komento ng gumagamit.
     label_add_columns: Magdagdag ng hanay
-    label_add_comment: Add comment
+    label_add_comment: Magdagdag ng komento
     label_add_comment_title: Mag-komento at mag-type ng @ upang ipaalam sa ibang tao
     label_add_selected_columns: Magdagdag ng napiling hanay
-    label_added_by: added by
-    label_added_time_by: Added by %{author} %{age}
+    label_added_by: idinagdag ni
+    label_added_time_by: Idinagdag ni %{author} %{age}
     label_ago: ang mga araw nakalipas
     label_all: lahat
-    label_all_work_packages: all work packages
-    label_and: and
+    label_all_work_packages: lahat ng mga work package
+    label_and: at
     label_ascending: Pataas
     label_author: 'May-Akda: %{user}'
     label_between: sa pagitan ng
@@ -92,13 +92,13 @@ fil:
     label_date: Petsa
     label_date_with_format: 'Ipasok anv %{date_attribute} gamit ang sumusunod na format:
       %{format}'
-    label_deactivate: Deactivate
+    label_deactivate: I-deactivate
     label_descending: Pababa
     label_description: Deskripsyon
     label_cancel_comment: Ikansela ang komento
     label_closed_work_packages: isinara
     label_collapse: Bumagsak
-    label_collapsed: collapsed
+    label_collapsed: bumagsak
     label_collapse_all: Bumagsak lahat
     label_comment: Komento
     label_committed_at: "%{committed_revision_link} sa %{date}"
@@ -108,79 +108,79 @@ fil:
     label_edit_comment: I-edit ang komentong ito
     label_edit_status: I-edit ang estado ng work package
     label_equals: ay
-    label_expand: Expand
-    label_expanded: expanded
+    label_expand: Palawakin
+    label_expanded: pinalawak
     label_expand_all: Malakihin lahat
-    label_export: Export
+    label_export: I-export
     label_filename: Payl
     label_filesize: Sukat
     label_greater_or_equal: ">=="
     label_group_by: Pangkat sa
     label_hide_attributes: Magpakita ng mas kaunti
-    label_hide_column: Hide column
+    label_hide_column: Itago ang mga hanay
     label_in: sa
     label_in_less_than: mas mababa kaysa
     label_in_more_than: mahigit sa
-    label_latest_activity: Latest Activity
-    label_last_updated_on: Last updated on
+    label_latest_activity: Pinakamabagong aktibidad
+    label_last_updated_on: Huking naka-update sa
     label_less_or_equal: "<="
     label_less_than_ago: mas mababa kaysa sa mga araw na lumipas
     label_loading: Naglo-load...
     label_me: ako
-    label_menu_collapse: collapse
-    label_menu_expand: expand
+    label_menu_collapse: bumagsak
+    label_menu_expand: palawakin
     label_more_than_ago: mahigit sa araw nakalipas
     label_next: Susunod
     label_no_data: Walang data upang ipakita
-    label_no_due_date: no end date
-    label_no_start_date: no start date
+    label_no_due_date: walang katapusan petsa
+    label_no_start_date: walang simulang petsa
     label_none: wala
     label_not_contains: hindi naglalaman
     label_not_equals: ay hindi
-    label_on: 'on'
+    label_on: sa
     label_open_menu: Buksan ang pagpipilian
     label_open_work_packages: buksan
     label_password: Password
     label_previous: Nakaraan
-    label_per_page: 'Per page:'
+    label_per_page: 'Bawat pahina:'
     label_please_wait: Pakiusap maghantay
     label_visibility_settings: Ang mga setting ng katanyagan
     label_quote_comment: I-quote ang komentong ito
     label_reset: I-reset
     label_remove_columns: Tanggalin ang mga napiling hanay
-    label_save_as: Save as
-    label_select_watcher: Select a watcher...
-    label_selected_filter_list: Selected filters
+    label_save_as: I-save bilang
+    label_select_watcher: Pumili ng manunuod...
+    label_selected_filter_list: Napiling mga filter
     label_show_attributes: Ipakita ang lahat ng mga katangian
-    label_show_in_menu: Show page in menu
+    label_show_in_menu: Ipakita ang pahina ng pagpipilian
     label_sort_by: Sort by
-    label_sorted_by: sorted by
+    label_sorted_by: pinagsunod-sunod ayon sa
     label_sort_higher: Lumipat pataas
     label_sort_lower: Ilipat sa ibaba
-    label_sorting: Sorting
-    label_sum_for: Sum for
+    label_sorting: Pag-aayos
+    label_sum_for: Halaga para sa
     label_subject: Paksa
     label_this_week: ngayong semana
     label_today: ngayon
     label_activity_show_only_comments: Magpakita ng mga aktibidad sa komento lamang
     label_activity_show_all: Ipakita lahat ang mga aktibidad
-    label_total_progress: "%{percent}% Total progress"
-    label_visible_for_others: Page visible for others
+    label_total_progress: "%{percent}% Kabuang progreso"
+    label_visible_for_others: Pahina na makikita sa iba
     label_updated_on: i-update sa
     label_warning: Warning
     label_work_package: Work package
     label_work_package_plural: Ang mga work package
     label_watch: Tumingin
-    label_watch_work_package: Watch work package
-    label_watcher_added_successfully: Watcher successfully added!
-    label_watcher_deleted_successfully: Watcher successfully deleted!
-    label_work_package_details_you_are_here: You're on the %{tab} tab for %{type}
-      %{subject}.
+    label_watch_work_package: Tingnan ang work package
+    label_watcher_added_successfully: Ang mga manunuod ay matagunoay naidagdag!
+    label_watcher_deleted_successfully: Ang manunuod ay matagumpay naibura!
+    label_work_package_details_you_are_here: Nasa ka tab ka ng %{tab} tab para sa
+      %{type}%{subject}.
     label_unwatch: I-unwatch
-    label_unwatch_work_package: Unwatch work package
-    label_uploaded_by: Uploaded by
-    label_global_queries: Shared queries
-    label_custom_queries: Private queries
+    label_unwatch_work_package: I-unwatch ang work package
+    label_uploaded_by: Naka-upload sa pamamagitan ng
+    label_global_queries: Ibinahaging mga query
+    label_custom_queries: Pribadong mga query
     label_columns: Mga hanay
     label_attachments: Mga file
     label_drop_files: Ihulog ang mga file dito
@@ -228,7 +228,7 @@ fil:
       click_to_switch_context: Buksan ang work package sa proyekto na iyan.
       autocompleter:
         label: Proyektong autocompletion
-    text_are_you_sure: Are you sure?
+    text_are_you_sure: Sigurado ka ba?
     types:
       attribute_groups:
         error_duplicate_group_name: Ang pangalan ng %{group} ay ginamit higit pa sa
@@ -255,14 +255,14 @@ fil:
       typeahead_placeholder: Maghanap ng posibleng watchers
     relation_labels:
       parent: Peyrent
-      children: Children
-      relates: Related To
-      duplicates: Duplicates
-      duplicated: Duplicated by
-      blocks: Blocks
-      blocked: Blocked by
-      precedes: Precedes
-      follows: Follows
+      children: Ang mga bata
+      relates: Nauugnay sa
+      duplicates: Mga kopya
+      duplicated: Nakakopya sa
+      blocks: Mga block
+      blocked: Naka-block sa
+      precedes: Ang mga nauna
+      follows: Sumusunod
       includes: Kasama
       partof: Bahagi ng
       requires: Kinakailangan
@@ -271,7 +271,7 @@ fil:
     relations_hierarchy:
       hierarchy_headline: hierarchy
     relation_buttons:
-      change_parent: Change parent
+      change_parent: Palitan ng magulang
       remove_parent: Alisin ang magulang
       group_by_wp_type: Grupo sa pamamagitan ng uri ng work package
       group_by_relation_type: Grupo sa pamamagitan ng uri ng pakikipag-ugnayan
@@ -314,8 +314,8 @@ fil:
       activate_asc: aktibo upang ilapat sa isang pataas na pagsaayos
       activate_dsc: aktibo upang ilapat sa pababa na pagsaayos
       activate_no: aktibk upang alisin ang pagsaayos
-    text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
-      work package(s)?
+    text_work_packages_destroy_confirmation: Sigurado ka ba na gusto mong burahin
+      ang napiling work package?
     text_query_destroy_confirmation: Are you sure you want to delete the selected
       query?
     text_attachment_destroy_confirmation: Sigurado ka ba na gusto mong burahin ang
@@ -337,7 +337,7 @@ fil:
       button_activate: I-aktibo ang timeline mode
       button_deactivate: I-deactivate ang timeline mode
       cancel: Kanselahin
-      change: Change in planning
+      change: Baguhin ang pagpaplano
       due_date: Takdang petsa
       empty: "(empty)"
       error: Isang mali ang naganap.
@@ -384,7 +384,7 @@ fil:
         notification: Pumindot sa kahit anong naka-highlight na work package upang
           lumikha ng kaugnayan. Pindutin ang escape upang kanselahin.
       zoom:
-        in: Zoom in
+        in: Palakihin
         out: Zoom out
         auto: Auto zoom
         days: Days
@@ -521,7 +521,7 @@ fil:
           nilalaman
       placeholders:
         default: "-"
-        description: Click to enter description...
+        description: Pindutin uoang ipasok ang paglalarawan...
       query:
         column_names: Mga hanay
         group_by: Mga resulta sa grupo sa pamamagitan ng
@@ -535,7 +535,7 @@ fil:
         sort_descending: Sort descending
         move_column_left: Move column left
         move_column_right: Move column right
-        hide_column: Hide column
+        hide_column: Itago ang mga hanay
         insert_columns: Insert columns ...
         filters: Mga nasala
         display_sums: Ipakita ang mga sum

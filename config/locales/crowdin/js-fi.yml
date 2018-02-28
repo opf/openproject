@@ -88,7 +88,7 @@ fi:
     label_between: between
     label_board_locked: Lukittu
     label_board_sticky: Pysyvä
-    label_create_work_package: Create new work package
+    label_create_work_package: Luo uusi toimi paketin
     label_created_by: Luonut
     label_date: Päivä
     label_date_with_format: 'Kirjoita %{date_attribute} seuraavassa muodossa: %{format}'
@@ -335,10 +335,9 @@ fi:
       errors:
         not_implemented: Aikajanaa ei voitu muodostaa koska se käyttää toimintoa jota
           ei ole vielä otettu käyttöön.
-        report_comparison: The timeline could not render the configured comparisons.
-          Please check the appropriate section in the configuration, resetting it
-          can help solve this problem.
-        report_epicfail: The timeline could not be loaded due to an unexpected error.
+        report_comparison: Aikajanan voi tehdä määritetty vertailuja. Tarkista oikea
+          kohta asetukset, nollaa se voi auttaa ratkaisemaan tämän ongelman.
+        report_epicfail: Aikajana ei voi ladata koska odottamaton virhe.
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
@@ -354,9 +353,9 @@ fi:
         noneSelection: "(none)"
       name: Nimi
       new_work_package: Uusi työpaketti
-      outline: Reset Outline
+      outline: Palauttaa Ääriviivat
       outlines:
-        aggregation: Show aggregations only
+        aggregation: Näyttää koosteita vain
         level1: Laajenna taso 1
         level2: Laajenna taso 2
         level3: Laajenna taso 3
@@ -378,8 +377,8 @@ fi:
         in: Lähennä
         out: Loitonna
         auto: Auto zoom
-        days: Days
-        weeks: Weeks
+        days: Päivää
+        weeks: Viikkoa
         months: Months
         quarters: Quarters
         years: Years

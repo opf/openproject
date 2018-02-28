@@ -358,11 +358,11 @@ tr:
       outline: Reset Outline
       outlines:
         aggregation: Show aggregations only
-        level1: Expand level 1
-        level2: Expand level 2
-        level3: Expand level 3
-        level4: Expand level 4
-        level5: Expand level 5
+        level1: Düzey 1 genişletin
+        level2: Düzey 2 genişletin
+        level3: Düzey 3 genişletin
+        level4: Seviye 4 genişletin
+        level5: Seviye 5 genişletin
         all: Tümünü göster
       project_status: Proje Durumu
       project_type: Proje türü

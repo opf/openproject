@@ -2370,7 +2370,7 @@ tr:
       noneSelection: "(yok)"
       outline: Initial outline expansion
       parent: Show subprojects of
-      work_package_filters: Filter work packages
+      work_package_filters: İş paketlerini filtrele
       work_package_responsible: Show work packages with responsible
       work_package_assignee: Show work packages with assignee
       types: Türleri göster
@@ -2384,8 +2384,8 @@ tr:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Projeleri filtrele
-      project_responsible: Show projects with responsible
-      project_status: Show project status
+      project_responsible: Projeleri sorumlu ile göster
+      project_status: Proje durumunu göster
       project_types: Proje türlerini göster
       timeframe: Zaman aralığını göster
       timeframe_end: bitiş
@@ -2401,23 +2401,23 @@ tr:
     new_timeline: Yeni zaman çizelgesi raporu
     no_projects_for_reporting_available: There are no projects to which a reporting
       association can be created.
-    no_right_to_view_timeline: You do not have the necessary permission to view the
-      linked timeline.
+    no_right_to_view_timeline: Bağlantılı zaman çizelgesi görüntülemek için gerekli
+      izniniz yok.
     no_timeline_for_id: "%{id} kimlik numaralı bir zaman akışı yok."
     notice_successful_deleted_all_elements: Tüm elementler başarıyla silindi
     outline: Reset Outline
     outlines:
       aggregation: Show aggregations only
-      level1: Expand level 1
-      level2: Expand level 2
-      level3: Expand level 3
-      level4: Expand level 4
-      level5: Expand level 5
+      level1: Düzey 1 genişletin
+      level2: Düzey 2 genişletin
+      level3: Düzey 3 genişletin
+      level4: Seviye 4 genişletin
+      level5: Seviye 5 genişletin
       all: Tümünü göster
     reporting_for_project:
       show: 'Status reported to project: %{title}'
-      edit_delete: 'status report for project: %{title}'
-      history: 'History for status for project: %{title}'
+      edit_delete: 'proje durum raporu: %{title}'
+      history: 'Proje durum geçmişi: %{title}'
     reporting:
       delete: 'Silinme durumu: %{comment}'
       edit: 'Düzenleme durumu: %{comment}'
@@ -2447,8 +2447,8 @@ tr:
       emin misiniz? Zaman akışı raporunda görünen iş paketleri silinmeyecek.
 
 '
-    really_delete_reporting: 'Are you sure, you want to delete the following reporting?
-      Previous reporting statuses will be deleted, too.
+    really_delete_reporting: 'Aşağıdaki raporlama silmek istediğinizden emin misiniz?
+      Önceki raporlama durumları da silinir.
 
 '
     start: Başla
@@ -2457,7 +2457,7 @@ tr:
     settings: Zaman çizelgeleri
     vertical_work_package: Dikey iş paketleri
     without_project_type: Proje türü olmadan
-    you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
+    you_are_viewing_the_selected_timeline: Seçili zaman çizelgesi raporu görüntüleme
     zoom:
       in: Yakınlaştır
       out: Uzaklaştır
@@ -2490,7 +2490,8 @@ tr:
     all: tüm
     active: etkin
     activate: Etkinleştir
-    activate_and_reset_failed_logins: Activate and reset failed logins
+    activate_and_reset_failed_logins: Başarısız oturum açma işlemlerinin kilidini
+      aç ve sıfırla
     authentication_provider: Kimlik doğrulama sağlayıcısı
     authentication_settings_disabled_due_to_external_authentication: 'This user authenticates
       via an external authentication provider, so there is no password in OpenProject

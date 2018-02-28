@@ -867,10 +867,10 @@ fi:
   default_type_user_story: User story
   description_active: Aktiivinen?
   description_attachment_toggle: Show/Hide attachments
-  description_autocomplete: 'This field uses autocomplete. While typing the title
-    of a work package you will receive a list of possible candidates. Choose one using
-    the arrow up and arrow down key and select it with tab or enter. Alternatively
-    you can enter the work package number directly.
+  description_autocomplete: 'Tämä kenttä käyttää automaattinen täydennys. Kun kirjoitat
+    otsikon työtä paketin saat listan mahdollisista ehdokkaista. Valitse yksi käyttäen
+    nuoli ylös ja nuoli alas näppäintä ja valitse sarkain tai kirjoita näppäintä.
+    Vaihtoehtoisesti voit kirjoittaa työtä paketti numero suoraan.
 
 '
   description_available_columns: Käytettävissä olevat sarakkeet
@@ -890,14 +890,14 @@ fi:
   description_message_content: Viestin sisältö
   description_my_project: You are member
   description_notes: Muistiinpanot
-  description_parent_work_package: Parent work package of current
+  description_parent_work_package: Vanhemman työ paketin nykyinen
   description_project_scope: Haun laajuus
   description_query_sort_criteria_attribute: Lajittelun perusta
   description_query_sort_criteria_direction: Lajittelujärjestys
   description_search: Hakukenttä
   description_select_work_package: Select work package
   description_selected_columns: Valitut sarakkeet
-  description_sub_work_package: Sub work package of current
+  description_sub_work_package: Osa työstä paketti nykyinen
   description_toc_toggle: Show/Hide table of contents
   description_wiki_subpages_reassign: Valitse uusi pääsivun
   direction: ltr
@@ -917,12 +917,12 @@ fi:
   error_can_not_archive_project: Tätä projektia ei voida arkistoida
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Mukautettua kenttää ei voi poistaa
-  error_can_not_delete_type: This type contains work packages and cannot be deleted.
-  error_can_not_delete_standard_type: Standard types cannot be deleted.
+  error_can_not_delete_type: Tämän tyyppinen työ sisältää paketit ja ei voi poistaa.
+  error_can_not_delete_standard_type: Standardin tyypit ei voi poistaa.
   error_can_not_invite_user: Kutsun lähettäminen käyttäjälle epäonnistui.
   error_can_not_remove_role: Tämä rooli on käytössä joten sitä ei voida poistaa.
-  error_can_not_reopen_work_package_on_closed_version: A work package assigned to
-    a closed version cannot be reopened
+  error_can_not_reopen_work_package_on_closed_version: Työn paketti määritetty suljettu
+    versio ei voida avata uudelleen
   error_check_user_and_role: Please choose a user and a role.
   error_cookie_missing: OpenProject evästeen puuttuu. Varmista, että evästeet ovat
     käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.
@@ -934,10 +934,11 @@ fi:
   error_pdf_export_too_many_columns: Liikaa sarakkeita valittuina PDF-vientiin. Pienennä
     sarakkeiden määrää.
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
-  error_work_package_done_ratios_not_updated: Work package done ratios not updated.
-  error_work_package_not_found_in_project: The work package was not found or does
-    not belong to this project
-  error_must_be_project_member: must be project member
+  error_work_package_done_ratios_not_updated: Tehtäväkokonaisuus tehnyt suhdelukuja
+    ei päivitetä.
+  error_work_package_not_found_in_project: Työn package ei löydy tai ei kuulu tähän
+    projektiin
+  error_must_be_project_member: on oltava hankkeen jäsen
   error_no_default_work_package_status: No default work package status is defined.
     Please check your configuration (Go to "Administration -> Work package statuses").
   error_no_type_in_project: No type is associated to this project. Please check the
@@ -946,18 +947,18 @@ fi:
     provider timed out. Please try again.
   error_scm_command_failed: 'Tietovarastoon pääsyssä tapahtui virhe: %{value}'
   error_scm_not_found: Syötettä ja/tai versiota ei löydy tietovarastosta.
-  error_unable_delete_status: The work package status cannot be deleted since it is
-    used by at least one work package.
-  error_unable_delete_default_status: Unable to delete the default work package status.
-    Please select another default work package status before deleting the current
-    one.
+  error_unable_delete_status: Työ paketin tila ei voi poistaa koska se on käytössä
+    vähintään yksi tehtäväkokonaisuus.
+  error_unable_delete_default_status: Ei voi poistaa oletuksena työ paketin tila.
+    Ole hyvä ja valitse toinen default työ paketin tila ennen poistamalla nykyinen
+    yksi.
   error_unable_to_connect: Ei voi yhdistää (%{value})
   error_unable_delete_wiki: Wiki-sivun poistaminen ei onnistu.
   error_unable_update_wiki: Wiki-sivun päivittäminen ei onnistu.
   error_workflow_copy_source: Valitse lähdetyyppi tai -rooli
   error_workflow_copy_target: Valitse kohdetyypit ja -roolit
-  error_menu_item_not_created: Menu item could not be added
-  error_menu_item_not_saved: Menu item could not be saved
+  error_menu_item_not_created: Valikkokohta ei voitu lisätä
+  error_menu_item_not_saved: Valikkokohta ei voitu tallentaa
   error_wiki_root_menu_item_conflict: 'Arvoa "%{old_name}" ei voi uudelleennimetä
     arvoksi "%{new_name}" koska se olisi konfliktissa valikkoarvon "%{existing_caption}"
     (%{existing_identifier}) kanssa.
@@ -1582,7 +1583,7 @@ fi:
   label_keyboard_shortcut_go_calendar: Go to project calendar
   label_keyboard_shortcut_go_news: Go to project news
   label_keyboard_shortcut_go_timelines: Go to timelines
-  label_keyboard_shortcut_new_work_package: Create new work package
+  label_keyboard_shortcut_new_work_package: Luo uusi toimi paketin
   label_keyboard_shortcut_details_package: Show work packages details pane
   label_keyboard_shortcut_go_edit: Go to edit the current item (on detail pages only)
   label_keyboard_shortcut_open_more_menu: Open more-menu (on detail pages only)
@@ -1636,12 +1637,12 @@ fi:
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_token: Invalid activation token
   notice_account_invalid_credentials: Virheellinen käyttäjätunnus tai salasana
-  notice_account_invalid_credentials_or_blocked: Invalid user or password or the account
-    is blocked due to multiple failed login attempts. If so, it will be unblocked
-    automatically in a short time.
+  notice_account_invalid_credentials_or_blocked: Virheellinen käyttäjä tai salasana
+    tai tili on estetty koska useita epäonnistunut kirjautuminen yrityksiä. Jos on,
+    niin se vapauttaa automaattisesti lyhyessä ajassa.
   notice_account_lost_email_sent: Sinulle on lähetetty sähköposti jossa on ohje kuinka
     vaihdat salasanasi.
-  notice_account_new_password_forced: A new password is required.
+  notice_account_new_password_forced: Uusi salasana on pakollinen.
   notice_account_password_expired: Your password expired after %{days} days. Please
     set a new one.
   notice_account_password_updated: Salasanan päivitys onnistui.
@@ -1653,8 +1654,8 @@ fi:
     takaisin tilisi sivulle.
   notice_account_updated: Tilin päivitys onnistui.
   notice_account_wrong_password: Väärä salasana
-  notice_account_registered_and_logged_in: Welcome, your account has been activated.
-    You are logged in now.
+  notice_account_registered_and_logged_in: Tervetuloa, tilisi on aktivoitu. Olet kirjautunut
+    sisään nyt.
   notice_activation_failed: The account could not be activated.
   notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
   notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
@@ -1672,9 +1673,8 @@ fi:
   notice_file_not_found: Hakemaasi sivua ei löytynyt tai se on poistettu.
   notice_forced_logout: You have been automatically logged out after %{ttl_time} minutes
     of inactivity.
-  notice_internal_server_error: An error occurred on the page you were trying to access.
-    If you continue to experience problems please contact your %{app_title} administrator
-    for assistance.
+  notice_internal_server_error: On tapahtunut virhe sivu jota yritit käyttää. Jos
+    sinulla on edelleen ongelmia ota yhteyttä %{app_title} järjestelmänvalvojan apua.
   notice_work_package_done_ratios_updated: Work package done ratios updated.
   notice_locking_conflict: Vähintään yksi muu käyttäjä on päivitetty tiedot sillä
     välin.
@@ -1699,8 +1699,8 @@ fi:
   notice_successful_delete: Poisto onnistui.
   notice_successful_update: Päivitys onnistui.
   notice_to_many_principals_to_display: |-
-    There are too many results.
-    Narrow down the search by typing in the name of the new member (or group).
+    On liian paljon tuloksia.
+    Rajata hakua kirjoittamalla nimi uuden jäsenen (tai ryhmä).
   notice_unable_delete_time_entry: Ei voi poistaa aikakirjausta.
   notice_unable_delete_version: Version poisto epäonnistui
   notice_user_missing_authentication_method: User has yet to choose a password or
@@ -2053,8 +2053,8 @@ fi:
   setting_new_project_user_role_id: Rooli joka annetaan projektin luojalle, joka ei
     ole hallinnoija (admin)
   setting_password_active_rules: Aktiiviset merkistöluokat
-  setting_password_count_former_banned: Number of most recently used passwords banned
-    for reuse
+  setting_password_count_former_banned: Määrä viimeksi käytetyt salasanat kielletty
+    uudelleenkäyttöä varten
   setting_password_days_valid: Maksimiaika, jonka jälkeen salasana täytyy vaihtaa
   setting_password_min_length: Vähimmäispituus
   setting_password_min_adhered_rules: Minimum number of required classes
@@ -2076,20 +2076,19 @@ fi:
   setting_rest_api_enabled: Ota käyttöön REST-verkkopalvelu
   setting_self_registration: Itserekisteröinti
   setting_sequential_project_identifiers: Luo peräkkäiset projektien tunnisteet
-  setting_session_ttl: Session expiry time after inactivity
-  setting_session_ttl_hint: Value below 5 works like disabled
-  setting_session_ttl_enabled: Session expires
+  setting_session_ttl: Istunnon voimassaolon ajan kuluttua käyttämättömänä
+  setting_session_ttl_hint: Arvo alle 5 toimii kuten käytöstä
+  setting_session_ttl_enabled: Istunto päättyy
   setting_start_of_week: Week starts on
   setting_sys_api_enabled: Salli WS tietovaraston hallintaan
   setting_sys_api_description: The repository management web service provides integration
     and user authorization for accessing repositories.
   setting_text_formatting: Tekstin muotoilu
   setting_time_format: Aikakormaatti
-  setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
-    users
+  setting_accessibility_mode_for_anonymous: Ota helppokäyttötila anonyymeille käyttäjille
   setting_user_format: Käyttäjien esitysmuoto
   setting_users_deletable_by_admins: User accounts deletable by admins
-  setting_users_deletable_by_self: Users allowed to delete their accounts
+  setting_users_deletable_by_self: Käyttäjät saa poistaa tilinsä
   setting_welcome_text: Tervehdysteksti
   setting_welcome_title: Tervehdyspalkki
   setting_welcome_on_homescreen: Näytä tervehdyspalkki kotinäkymässä
@@ -2187,8 +2186,8 @@ fi:
     henkilön %{watcher_setter} toimesta.
   text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
     work package(s)?
-  text_work_packages_ref_in_commit_messages: Referencing and fixing work packages
-    in commit messages
+  text_work_packages_ref_in_commit_messages: Vertailemalla ja korjaus työtä paketteja
+    sitoutua viestejä
   text_journal_added: "%{label} %{value} lisätty"
   text_journal_aggregation_time_explanation: Yhdistele aktiviteettiuutiset jos niiden
     julkaisuajan ero on pienempi kuin syötetty aika. Tämä viivästyttää myös aktiviteettiuutisten
@@ -2211,12 +2210,12 @@ fi:
     Rooleja, tapahtumien tiloja ja työnkulkua ei vielä olla määritelty.
     On erittäin suotavaa ladata vakioasetukset. Voit muuttaa sitä latauksen jälkeen.
   text_no_notes: Tähän työpakettiin ei ole saatavilla kommentteja.
-  text_notice_too_many_values_are_inperformant: 'Note: Displaying more than 100 items
-    per page can increase the page load time.'
+  text_notice_too_many_values_are_inperformant: 'Huomautus: Näyttää yli 100 kohteita
+    per sivu voi lisätä latausaikaa.'
   text_own_membership_delete_confirmation: Olet aikeissa poistaa yhden tai useamman
     käyttöoikeuden ja et ehkä voi enää muokata tätä projektia sen jälkeen. Haluatko
     varmasti jatkaa?
-  text_plugin_assets_writable: Plugin assets directory writable
+  text_plugin_assets_writable: Plugin varat hakemisto kirjoitettavissa
   text_powered_by: Powered by %{link}
   text_project_identifier_info: Vain pienet kirjaimet (a-z), numerot, väliviivat ja
     alaviivat ovat sallittuja. Ensimmäisenä tulee olla pieni kirjain.
@@ -2233,10 +2232,10 @@ fi:
     checkboxes in the table. When clicking on the button below the table the differences
     are shown.
   text_time_logged_by_changeset: Päivitetty muutosversioon %{value}.
-  text_tip_work_package_begin_day: work package beginning this day
+  text_tip_work_package_begin_day: tehtäväkokonaisuus alusta tähän päivään
   text_tip_work_package_begin_end_day: work package beginning and ending this day
   text_tip_work_package_end_day: work package ending this day
-  text_type_no_workflow: No workflow defined for this type
+  text_type_no_workflow: Ei työnkulun määritetty tämä tyyppi
   text_unallowed_characters: Kiellettyjä merkkejä
   text_user_invited: The user has been invited and is pending registration.
   text_user_wrote: "%{value} kirjoitti:"
@@ -2262,7 +2261,7 @@ fi:
       time: "%H:%M"
     pm: iltapäivä
   timeframe:
-    show: Show timeframe
+    show: Näytä aikataulu
     end: to
     start: from
   timelines:
@@ -2303,10 +2302,9 @@ fi:
     errors:
       not_implemented: Aikajanaa ei voitu muodostaa koska se käyttää toimintoa jota
         ei ole vielä otettu käyttöön.
-      report_comparison: The timeline could not render the configured comparisons.
-        Please check the appropriate section in the configuration, resetting it can
-        help solve this problem.
-      report_epicfail: The timeline could not be loaded due to an unexpected error.
+      report_comparison: Aikajanan voi tehdä määritetty vertailuja. Tarkista oikea
+        kohta asetukset, nollaa se voi auttaa ratkaisemaan tämän ongelman.
+      report_epicfail: Aikajana ei voi ladata koska odottamaton virhe.
       report_timeout: The timeline could not be loaded in a reasonable amount of time.
     filter:
       errors:
@@ -2377,10 +2375,10 @@ fi:
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filter projects
-      project_responsible: Show projects with responsible
+      project_responsible: Näytä hankkeita joiden tehtävänä
       project_status: Show project status
       project_types: Show project types
-      timeframe: Show timeframe
+      timeframe: Näytä aikataulu
       timeframe_end: to
       timeframe_start: from
       timeline: General Settings
@@ -2392,15 +2390,15 @@ fi:
     new_project_type: Uusi projektityyppi
     new_reporting: New reporting
     new_timeline: Uusi aikajana-raportti
-    no_projects_for_reporting_available: There are no projects to which a reporting
-      association can be created.
-    no_right_to_view_timeline: You do not have the necessary permission to view the
-      linked timeline.
+    no_projects_for_reporting_available: Ei ole hankkeita joihin raportointi yhdistys
+      voi olla luotu.
+    no_right_to_view_timeline: Sinulla ei ole tarvittavaa lupaa tarkastella toisiinsa
+      aikajanalla.
     no_timeline_for_id: There is no timeline with ID %{id}.
-    notice_successful_deleted_all_elements: Successfully deleted all elements
-    outline: Reset Outline
+    notice_successful_deleted_all_elements: Poistettu onnistuneesti kaikki elementit
+    outline: Palauttaa Ääriviivat
     outlines:
-      aggregation: Show aggregations only
+      aggregation: Näyttää koosteita vain
       level1: Laajenna taso 1
       level2: Laajenna taso 2
       level3: Laajenna taso 3
@@ -2424,26 +2422,26 @@ fi:
     project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
-    reporting_could_not_be_saved: Reporting could not be saved
+    reporting_could_not_be_saved: Raportointi ei voitu tallentaa
     properties: Ominaisuudet
-    really_delete_color: 'Are you sure, you want to delete the following color? Types
-      using this color will not be deleted.
+    really_delete_color: 'Oletko varma, että haluat poistaa seuraava väri? Tyypit
+      käyttää tätä väriä ei poisteta.
 
 '
     really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
       you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
-    really_delete_project_type: 'Are you sure, you want to delete the following project
-      type? Projects using this type will not be deleted.
+    really_delete_project_type: 'Oletko varma, että haluat poistaa seuraavat projekti
+      tyyppi? Projekti avulla tämä tyyppi ei poisteta.
 
 '
-    really_delete_timeline: 'Are you sure, you want to delete the following timeline
-      report? Work packages shown in this timeline report will not be deleted.
+    really_delete_timeline: 'Oletko varma, että haluat poistaa seuraavat aikajana
+      raportti? Työ paketteja näkyy tämä aikajana raportti ei poisteta.
 
 '
-    really_delete_reporting: 'Are you sure, you want to delete the following reporting?
-      Previous reporting statuses will be deleted, too.
+    really_delete_reporting: 'Oletko varma, että haluat poistaa seuraavat raportointia?
+      Edellisen raportoinnin statukset poistetaan, liian.
 
 '
     start: Aloita
@@ -2452,12 +2450,12 @@ fi:
     settings: Aikataulut
     vertical_work_package: Vertical work packages
     without_project_type: Without project type
-    you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
+    you_are_viewing_the_selected_timeline: Katselet valittu aikajana raportti
     zoom:
       in: Lähennä
       out: Loitonna
-      days: Days
-      weeks: Weeks
+      days: Päivää
+      weeks: Viikkoa
       months: Months
       quarters: Quarters
       years: Years
@@ -2508,9 +2506,9 @@ fi:
     invited: kutsuttu
     lock: Lock permanently
     locked: locked permanently
-    no_login: This user authenticates through login by password. Since it is disabled,
-      they cannot log in.
-    password_change_unsupported: Change of password is not supported.
+    no_login: Tämä käyttäjä todentaa kautta kirjautuminen salasanalla. Koska se on
+      poistettu käytöstä, he eivät voi kirjautua sisään.
+    password_change_unsupported: Muutos salasana ei tueta.
     registered: registered
     reset_failed_logins: Reset failed logins
     settings:
@@ -2534,13 +2532,12 @@ fi:
   menu_item_setting: Visibility
   wiki_menu_item_for: Menu item for wikipage "%{title}"
   wiki_menu_item_setting: Visibility
-  wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
-    item. You now have to choose a wiki page for which a new main item will be generated.
-    To delete the wiki the wiki module can be deactivated by project administrators.
+  wiki_menu_item_new_main_item_explanation: 'Poistat vain tärkeimmät wiki valikosta.
+    Sinun täytyy nyt valita wiki sivu joista tärkein uusi kohde luodaan. Poistaa wiki
+    wiki moduuli voidaan kytkeä pois päältä hankkeen ylläpitäjät.
 
 '
-  wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot
-    be deleted.
+  wiki_menu_item_delete_not_permitted: Wiki valikosta vain wiki sivu voi olla poistettu.
   query_menu_item_for: Menu item for query "%{title}"
   work_package:
     updated_automatically_by_child_changes: '_Päivitetty automaattisesti muutoksella
@@ -2555,11 +2552,11 @@ fi:
     attributes:
       lock_version: Lock Version
     errors:
-      code_401: You need to be authenticated to access this resource.
-      code_401_wrong_credentials: You did not provide the correct credentials.
-      code_403: You are not authorized to access this resource.
+      code_401: Sinun täytyy olla todennettu pääsy tähän resurssiin.
+      code_401_wrong_credentials: Et ole antanut oikeita käyttäjätietoja.
+      code_403: Sinulla ei ole oikeutta käyttää tätä resurssia.
       code_404: The requested resource could not be found.
-      code_409: Couldn't update the resource because of conflicting modifications.
+      code_409: Ei voinut päivittää resurssi koska ristiriitaisia muutoksia.
       code_500: An internal error has occured.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)
@@ -2568,8 +2565,8 @@ fi:
         '%{actual}'.
       invalid_format: 'Invalid format for property ''%{property}'': Expected format
         like ''%{expected_format}'', but got ''%{actual}''.'
-      invalid_json: The request could not be parsed as JSON.
-      invalid_relation: The relation is invalid.
+      invalid_json: Pyyntöä ei voitu jäsentää JSON.
+      invalid_relation: Suhde on virheellinen.
       invalid_resource: For property '%{property}' a link like '%{expected}' is expected,
         but got '%{actual}'.
       invalid_user_status_transition: The current user account status does not allow

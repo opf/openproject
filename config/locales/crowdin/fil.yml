@@ -1021,7 +1021,7 @@ fil:
       atom: Atom
       csv: CSV
       pdf: PDF
-      pdf_with_descriptions: PDF with descriptions
+      pdf_with_descriptions: PDF na may mga paglalarawan
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1363,7 +1363,7 @@ fil:
   label_not_contains: hindi naglalaman
   label_not_equals: ay hindi
   label_notify_member_plural: I-update ang mga email
-  label_on: 'on'
+  label_on: sa
   label_open_menu: Buksan ang pagpipilian
   label_open_work_packages: buksan
   label_open_work_packages_plural: buksan
@@ -2170,44 +2170,47 @@ fil:
     ng intregrasyon at user awtorisasyon para sa pag-access ng mga repositoryo.
   setting_text_formatting: Pag-format ng teksto
   setting_time_format: Format ng oras
-  setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
-    users
+  setting_accessibility_mode_for_anonymous: Paganahin ang aksebilidad mode para sa
+    mga gumagamit ng anonymous
   setting_user_format: Users display format
-  setting_users_deletable_by_admins: User accounts deletable by admins
-  setting_users_deletable_by_self: Users allowed to delete their accounts
+  setting_users_deletable_by_admins: Ang mga akwant ng gumagamit ay madaling buburahin
+    ng mga admin
+  setting_users_deletable_by_self: Ang mga gumagamit ay pinahintulutan burahin ang
+    mga kanilang akwant
   setting_welcome_text: Teskstong welcome block
   setting_welcome_title: Titulo ng welcome back
   setting_welcome_on_homescreen: I-display ang welcome block sa homescreen
   setting_welcome_on_projects_page: I-display ang welcome block sa pangkalahatang
     ideya ng proyekto
-  setting_wiki_compression: Wiki history compression
-  setting_work_package_group_assignment: Allow assignment to groups
+  setting_wiki_compression: Pag-compress ng wiki na kasaysayan
+  setting_work_package_group_assignment: Pinayagan ang gawain sa mga grupo
   settings:
     general: Pangkalahatan
     other: Iba pa
-    passwords: Passwords
-    session: Session
-    brute_force_prevention: Automated user blocking
+    passwords: Ang mga password
+    session: Sesyon
+    brute_force_prevention: Naka-automate na user block
   show_hide_project_menu: Palawakin/Pagbagsak na proyektong pagpipilian
-  status_active: active
+  status_active: aktibo
   status_archived: naka-archive
   status_invited: imbitado
   status_locked: locked
   status_registered: registered
   support:
     array:
-      sentence_connector: and
-      skip_last_comma: 'false'
+      sentence_connector: at
+      skip_last_comma: mali
   text_accessibility_hint: Ang aksibilidad mode ay naka-disenyo para sa mga gumagamit
     na bulag, motorcically handicsped o mayroong masamang paningin. Para sa mga elementong
     latter focus ay espesyal na naka-hightlight. Mangyaring pansinin, na ang Backlogs
     modyul ay hindi magagamit sa modyul na ito.
   text_access_token_hint: Ang access token ay pinayagan kang pagbigyan ang external
     applications access sa pinagkukunan sa OpenProject.
-  text_analyze: 'Further analyze: %{subject}'
-  text_are_you_sure: Are you sure?
-  text_are_you_sure_with_children: Delete work package and all child work packages?
-  text_assign_to_project: Assign to the project
+  text_analyze: 'Karagdagang pagsusuri: %{subject}'
+  text_are_you_sure: Sigurado ka ba?
+  text_are_you_sure_with_children: Burahi ang work packaage at lahag ng batang work
+    pckage?
+  text_assign_to_project: Nakatalaga sa proyekto
   text_form_configuration: 'Pwede mong i-customize kung saan ang mga patlang ay maipapakita
     sa mga porma ng pakete ng mga gawain. Pwede kang malayang magpapagrupo sa mga
     patlang para ito ay sumasalamin sa mga kailangan mo para sa iyong domain.
@@ -2217,11 +2220,11 @@ fil:
     paganahin sila
   text_form_configuration_required_attribute: Katangian ay marka na kinakailangan
     at kaya laging ipinapakita
-  text_caracters_maximum: "%{count} characters maximum."
-  text_caracters_minimum: Must be at least %{count} characters long.
-  text_comma_separated: Multiple values allowed (comma separated).
+  text_caracters_maximum: "%{count} Pinakamaramig karakter."
+  text_caracters_minimum: Dapar ay hindi baba sa mga %{count} karakter blog.
+  text_comma_separated: Maramihang halaga ang pinahintulutan (magkahiwalay na comma).
   text_comment_wiki_page: 'Mag-komento sa wiki na pahina: %{page}'
-  text_custom_field_possible_values_info: One line for each value
+  text_custom_field_possible_values_info: Isang linya para sa bawat halaga
   text_custom_field_hint_activate_per_project: 'Kung gagamit ng mga custom na patlang.
     Laging isaisip na ang mga custom na patlang ay kailangan dapat aktibo bawat proyekto,
     din.
@@ -2248,100 +2251,108 @@ fil:
     tingnan sa IOS.
 
 '
-  text_default_administrator_account_changed: Default administrator account changed
-  text_default_encoding: 'Default: UTF-8'
+  text_default_administrator_account_changed: I-default ang tagapangasiwa ng pagbago
+    ng akwant
+  text_default_encoding: 'I-default: UTF-8'
   text_destroy: Burahin
-  text_destroy_with_associated: 'There are additional objects assossociated with the
-    work package(s) that are to be deleted. Those objects are of the following types:'
-  text_destroy_what_to_do: What do you want to do?
-  text_diff_truncated: "... This diff was truncated because it exceeds the maximum
-    size that can be displayed."
+  text_destroy_with_associated: 'Mayroong karagdagang mga bagay naka-associaye sa
+    work packGe na maaring burahin. Yung mga bagay ay ang mga sumusunod na uri:'
+  text_destroy_what_to_do: Ano gusto mong gawin?
+  text_diff_truncated: "... Itong diff ay naka-truncatw dahil ito ay lamps na sa pinakamataas
+    na laki na maaring ipakita."
   text_email_delivery_not_configured: |-
-    Email delivery is not configured, and notifications are disabled.
-    Configure your SMTP server in config/configuration.yml and restart the application to enable them.
-  text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
-  text_file_repository_writable: Attachments directory writable
-  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+    Ang email na pagpapadala ay hindi natukoy, at mga abiso ay hindi pinagana.
+    I-configure ang iyong SMTP sever sa config/configuration.yml at i-restart muli ang aplikasyon upang paganahin ang mga ito.
+  text_enumeration_category_reassign_to: 'Italaga sila ssa halaga na ito:'
+  text_enumeration_destroy_question: Ang %{count} mga bagay ay nakatalaga sa halaga
+    na ito.
+  text_file_repository_writable: Paglalakip ng direktoryong masusulatan
+  text_git_repo_example: isang bare at lokal repositoryo (e.g /gitrepo, c:\gitrepo)
   text_hint_date_format: Ilagay ang petsa sa anyo ng YYY-MM-DD. Ang ibang mga format
     ay maaaring mabago para sa hindi ni-nais na petsa.
   text_hint_disable_with_0: 'Tandaan: Hindi pinagana sa 0'
   text_hours_between: Sa pagitan ng %{min} at %{max} mga oras.
-  text_work_package_added: Work package %{id} has been reported by %{author}.
-  text_work_package_category_destroy_assignments: Remove category assignments
-  text_work_package_category_destroy_question: Some work packages (%{count}) are assigned
-    to this category. What do you want to do?
-  text_work_package_category_reassign_to: Reassign work packages to this category
-  text_work_package_updated: Work package %{id} has been updated by %{author}.
+  text_work_package_added: Ang work package %{id} ay inulat ng %{author}.
+  text_work_package_category_destroy_assignments: Alisin ang kategoryang mga gawain
+  text_work_package_category_destroy_question: May mga ibang work package (%{count})
+    ay nakatakaga sa kategoryang ito. Ano gusto mong gawin?
+  text_work_package_category_reassign_to: Magtalaga ulit ng mga work package para
+    sa kategoryang ito
+  text_work_package_updated: Ang work package %{id} ay naka-update na sab%{author}.
   text_work_package_watcher_added: Ikaw ay dinagdag bilang watcher sa Work package
     %{id} ng %{watcher_setter}.
-  text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
-    work package(s)?
-  text_work_packages_ref_in_commit_messages: Referencing and fixing work packages
-    in commit messages
-  text_journal_added: "%{label} %{value} added"
+  text_work_packages_destroy_confirmation: Sigurado ka ba na gusto mong burahin ang
+    napiling work package?
+  text_work_packages_ref_in_commit_messages: Pagsangguni at pagsaayos ng work package
+    sa mga isinagawang mensahe
+  text_journal_added: "%{label}%{value} idinagdag"
   text_journal_aggregation_time_explanation: Pagsamahhin ang mga journak para ipakita
     kung ang kanilang edad ay pagkakaiba ay mas mababa ng tinukoy na timespan. Ito
     rin ay ipagpaliban ang mga abiso ng email sa kaparehong halaga ng oras.
-  text_journal_changed: "%{label} changed from %{old} to %{new}"
-  text_journal_changed_no_detail: "%{label} updated"
-  text_journal_changed_with_diff: "%{label} changed (%{link})"
-  text_journal_deleted: "%{label} deleted (%{old})"
-  text_journal_deleted_with_diff: "%{label} deleted (%{link})"
-  text_journal_set_to: "%{label} set to %{value}"
-  text_journal_set_with_diff: "%{label} set (%{link})"
+  text_journal_changed: "%{label} binago mula sa %{old} hanggang %{new}"
+  text_journal_changed_no_detail: "%{label} ay naka-update"
+  text_journal_changed_with_diff: "%{label} binagko (%{link})"
+  text_journal_deleted: "%{label} binura (%{old})"
+  text_journal_deleted_with_diff: "%{label} binura (%{link})"
+  text_journal_set_to: "%{label} itinakda sa %{value}"
+  text_journal_set_with_diff: "%{label} itinakda (%{link})"
   text_latest_note: 'Ang pinakabagong komento ay: %{note}'
-  text_length_between: Length between %{min} and %{max} characters.
-  text_line_separated: Multiple values allowed (one line for each value).
-  text_load_default_configuration: Load the default configuration
-  text_min_max_length_info: 0 means no restriction
+  text_length_between: Taas pagitan ng %{min} at %{max} na mga karakter.
+  text_line_separated: Maramihang halaga ang pinahintulutan (isang linya para sa bawat
+    halaga).
+  text_load_default_configuration: I-load ang kumpigurasyong default
+  text_min_max_length_info: 0 ay nangunguhugan walang paghihigpit
   text_no_roles_defined: Walang mga role na niliwanag.
   text_no_access_tokens_configurable: Walang mga access tokens na pweding ma configure.
   text_no_configuration_data: |-
-    Roles, types, work package statuses and workflow have not been configured yet.
-    It is highly recommended to load the default configuration. You will be able to modify it once loaded.
+    Ang mga tungkulin, uri, estado ng work package at daloy na trabaho ay hindi pa na configure.
+    Ito ay lubos na inirerekomenda upang i-lpad anh default na kumpigurasyon. Magagawa mong baguhin ito pag naka-load.
   text_no_notes: Walang mga komento na available para sa work package na ito.
-  text_notice_too_many_values_are_inperformant: 'Note: Displaying more than 100 items
-    per page can increase the page load time.'
+  text_notice_too_many_values_are_inperformant: 'Tandaan: Pagpapakita ng mahigit isang
+    daan aytem bawat pahina bay maaring lalaki ang pahina ng load na oras.'
   text_own_membership_delete_confirmation: |-
-    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
-    Are you sure you want to continue?
-  text_plugin_assets_writable: Plugin assets directory writable
-  text_powered_by: Powered by %{link}
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and
-    underscores are allowed, must start with a lower case letter.
+    Kinakailangan mong alisin ang ilan o lahat ng iyong perniso at hindi na maaring magagawa na i-edit ang itong proyekto pagkatapos na iyan.
+    Sigurado ka ba gusto mong magpatuloy?
+  text_plugin_assets_writable: Plugin asstes directory writable
+  text_powered_by: Pinalatakbo ng %{link}
+  text_project_identifier_info: Maliit na titik lamang (a-z), mga numero, mga dash
+    at underscore ang pinahintulutan, dapat magsimula sa maliit na titik.
   text_reassign: 'I-reassign sa work package:'
-  text_regexp_info: eg. ^[A-Z0-9]+$
+  text_regexp_info: e. g ^[A-Z0-9]+$
   text_regexp_multiline: Ang regex ay nakalagay sa multi-line mlde. hal., ^---\s+
   text_repository_usernames_mapping: |-
-    Select or update the OpenProject user mapped to each username found in the repository log.
-    Users with the same OpenProject and repository username or email are automatically mapped.
-  text_select_mail_notifications: Select actions for which email notifications should
-    be sent.
-  text_status_changed_by_changeset: Applied in changeset %{value}.
+    Piliin o i-update ang OpenProject usrt naka-map sa bawat username nakita sa repositoryo log.
+    Ang mga gumagamit sa kaparehong OpenProject at repositoryong username o ang email ay automatikong naka-map.
+  text_select_mail_notifications: Piliin ang mga aksyon para sa aling abiso na email
+    ay dapat ipadala.
+  text_status_changed_by_changeset: Ilapaylt sa changeset %{value}.
   text_table_difference_description: Sa talaan na ito ang solong %{entries} ay ipinapakita.
     Maari mong tingnan ang kaibahansa pagitan ng kahit anong dalawang entry sa pamamagitan
     ng unang pagpili ayon sa mga checkbox sa talaan. Kapag nag-pindut sa pindutan
     ng ibaba sa talaan ang mga pagkakaiba ay ipinapakita.
-  text_time_logged_by_changeset: Applied in changeset %{value}.
-  text_tip_work_package_begin_day: work package beginning this day
-  text_tip_work_package_begin_end_day: work package beginning and ending this day
-  text_tip_work_package_end_day: work package ending this day
-  text_type_no_workflow: No workflow defined for this type
-  text_unallowed_characters: Unallowed characters
+  text_time_logged_by_changeset: Ilapaylt sa changeset %{value}.
+  text_tip_work_package_begin_day: ang work package ay magsisimula ngayong araw
+  text_tip_work_package_begin_end_day: ang work package ay masisimula at magtatapos
+    ngayong araw
+  text_tip_work_package_end_day: ang work package ay matatapis ngayong araw
+  text_type_no_workflow: Walang workflow ay tinukoy para sa uri na ito
+  text_unallowed_characters: Hindi pinayagang mga karakter
   text_user_invited: Ang user ay inanyayahan at isa rin itong pending na registration.
-  text_user_wrote: "%{value} wrote:"
+  text_user_wrote: "%{value} isinulat:"
   text_warn_on_leaving_unsaved: Ang work package ay naglalaman ng hindi naka-save
     na mawala ito kapag ikaw ay aalisa sa pahinang ito.
-  text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all
-    its content?
-  text_wiki_page_destroy_children: Delete child pages and all their descendants
-  text_wiki_page_destroy_question: This page has %{descendants} child page(s) and
-    descendant(s). What do you want to do?
-  text_wiki_page_nullify_children: Keep child pages as root pages
-  text_wiki_page_reassign_children: Reassign child pages to this parent page
-  text_workflow_edit: Select a role and a type to edit the workflow
-  text_zoom_in: Zoom in
+  text_wiki_destroy_confirmation: Sigurado ka ba na gusto mong burahin ang wiki na
+    ito at lahat ng nilalaman nito?
+  text_wiki_page_destroy_children: Burahin ang mga batang oahina at lahat ng mga kanyang
+    inapo
+  text_wiki_page_destroy_question: Ang pahina na ito ay mayroon %{descendants} batang
+    pahina at inaapo. Anon gusto mong gawin?
+  text_wiki_page_nullify_children: Panatalihin ang mga batang pahina bilang root na
+    pahina
+  text_wiki_page_reassign_children: Italaga muli ang batang pahina sa pahina ng magulang
+    na ito
+  text_workflow_edit: Pumili ng tungkulin at isang uri upang i-edit ang daloy ng trabaho
+  text_zoom_in: Palakihin
   text_zoom_out: Zoom out
   text_setup_mail_configuration: I-configure ang iyong tagapag-bigay ng email
   time:
@@ -2353,32 +2364,32 @@ fil:
       time: "%I:%M %p"
     pm: pm
   timeframe:
-    show: Show timeframe
-    end: to
-    start: from
+    show: Magpakita ng timeframe
+    end: sa
+    start: mula sa
   timelines:
     admin_menu:
       color: Kulay
-      colors: Colors
+      colors: Mga kulay
       project_type: Uri ng proyekto
-      project_types: Project types
+      project_types: Ang mga uri ng proyekto
     project_menu:
-      project_associations: Dependencies
-      reportings: Status reportings
-      reports: Timeline reports
+      project_associations: Dependencia
+      reportings: Ang mga estado ng ulat
+      reports: Ang mga ulat ng timeline
       timelines: Ang mga timeline
-    add_project_association: Add dependency
-    associations: Dependencies
-    board_could_not_be_saved: Board could not be saved
-    button_delete_all: Delete all
-    change: Change in planning
-    children: Child elements
+    add_project_association: Magdagdag g dependency
+    associations: Dependencia
+    board_could_not_be_saved: Ang board ay hindi ma i-save
+    button_delete_all: Burahin ang lahat
+    change: Baguhin ang pagpaplano
+    children: Ang mga bata na elemento
     color_could_not_be_saved: Color could not be saved
     current_planning: Current planning
     dates: Dates
     dates_are_calculated_based_on_sub_elements: Dates are calculated based on sub
       elements.
-    delete_all: Delete all
+    delete_all: Burahin ang lahat
     delete_thing: Burahin
     duration: Duration
     duration_days:
@@ -2463,8 +2474,8 @@ fil:
       project_time_filter: Projects with a work package of a certain type in a certain
         timeframe
       project_time_filter_timeframe: Timeframe
-      project_time_filter_historical_from: from
-      project_time_filter_historical_to: to
+      project_time_filter_historical_from: mula sa
+      project_time_filter_historical_to: sa
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
@@ -2472,9 +2483,9 @@ fil:
       project_responsible: Show projects with responsible
       project_status: Show project status
       project_types: Show project types
-      timeframe: Show timeframe
-      timeframe_end: to
-      timeframe_start: from
+      timeframe: Magpakita ng timeframe
+      timeframe_end: sa
+      timeframe_start: mula sa
       timeline: General Settings
       zoom: Zoom factor
     history: Kasaysayan
@@ -2540,13 +2551,13 @@ fil:
 '
     start: Start
     timeline: Timeline report
-    timelines: Timeline reports
+    timelines: Ang mga ulat ng timeline
     settings: Ang mga timeline
     vertical_work_package: Vertical work packages
     without_project_type: Without project type
     you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
     zoom:
-      in: Zoom in
+      in: Palakihin
       out: Zoom out
       days: Days
       weeks: Weeks
@@ -2578,7 +2589,7 @@ fil:
   total_progress: Total progress
   user:
     all: lahat
-    active: active
+    active: aktibo
     activate: Activate
     activate_and_reset_failed_logins: Activate and reset failed logins
     authentication_provider: Authentication Provider
