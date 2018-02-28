@@ -40,7 +40,7 @@ module OpenProject::TwoFactorAuthentication
       end
 
       def build_token_text(token)
-        I18n.t(:notice_otp_sms_text, token: token)
+        I18n.t('two_factor_authentication.text_otp_delivery_message_sms', app_title: Setting.app_title, token: token)
       end
 
       ##
