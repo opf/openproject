@@ -38,11 +38,10 @@ describe CustomActions::Conditions::Status, type: :model do
                     FactoryGirl.build_stubbed(:status)]
         allow(Status)
           .to receive_message_chain(:select, :order)
-                .and_return(statuses)
+          .and_return(statuses)
 
         expect(instance.allowed_values)
-          .to eql([{ value: nil, label: '-' },
-                   { value: statuses.first.id, label: statuses.first.name },
+          .to eql([{ value: statuses.first.id, label: statuses.first.name },
                    { value: statuses.last.id, label: statuses.last.name }])
       end
     end

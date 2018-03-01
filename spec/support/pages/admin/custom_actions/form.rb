@@ -41,17 +41,9 @@ module Pages
         end
 
         def add_action(name, value)
-          within '#custom-actions-form--actions' do
-            select name, from: 'Add'
+          select name, from: 'Add'
 
-            if page.has_select?(name)
-              Array(value).each do |val|
-                select val, from: name
-              end
-            else
-              fill_in name, with: value
-            end
-          end
+          set_action_value(name, value)
         end
 
         def remove_action(name)
@@ -63,20 +55,39 @@ module Pages
         end
 
         def set_action(name, value)
-          within '#custom-actions-form--active-actions' do
-            field = find('.form--field', text: name)
-            within field do
-              select value, from: name
-            end
-          end
+          set_action_value(name, value)
         rescue Capybara::ElementNotFound
           add_action(name, value)
         end
 
         def set_condition(name, value)
-          within '#custom-actions-form--conditions' do
-            Array(value).each do |val|
-              select val, from: name
+          Array(value).each do |val|
+            fill_in name, with: val
+            find('.ui-menu-item', text: val).click
+          end
+        end
+
+        private
+
+        def set_action_value(name, value)
+          field = find('#custom-actions-form--active-actions .form--field', text: name)
+
+          autocomplete = false
+
+          Array(value).each do |val|
+            within field do
+              if has_selector?('.form--selected-value--container')
+                find('.form--selected-value--container').click
+                autocomplete = true
+              elsif has_selector?('.form--input.-autocomplete')
+                autocomplete = true
+              end
+
+              fill_in name, with: val
+            end
+
+            if autocomplete
+              find('.ui-menu-item', text: val).click
             end
           end
         end

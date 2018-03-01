@@ -163,6 +163,9 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
 .form--space
   padding-top: 10px
 
+  &.-big
+    padding-top: 20px
+
 .form--row
   @include grid-block
   @include grid-visible-overflow
@@ -377,6 +380,10 @@ fieldset.form--fieldset
       line-height:  $base-line-height
       padding-right: 0.325rem
 
+  &.-top
+    align-self: flex-start
+    line-height: 2.15rem
+
 .form--label-required
   @include default-transition
   @include varprop(color, primary-color-dark)
@@ -579,6 +586,56 @@ input[readonly].-clickable
 
   .form &
     margin-bottom: 0rem
+
+.form--select-autocompleter
+  max-height: 400px
+  overflow-y: auto
+
+.form--selected-value
+  width: calc(100% - 42px)
+  padding: 3px
+  line-height: 2
+
+.form--selected-value--container
+  display: inline-block
+  border: 1px solid transparent
+  border-radius: 2px
+  overflow: visible
+  width: 100%
+  position: relative
+
+  &:last-of-type
+    margin-bottom: 0.5rem
+
+  &:hover,
+  &:focus,
+  &.-focus
+    text-decoration: none
+    color: $body-font-color
+    border-color: $inplace-edit--border-color
+
+    .form--selected-value--remover
+      visibility: visible
+
+    a.form--selected-value--remover
+      text-decoration: none
+      color: $body-font-color
+
+.form--selected-value--remover
+  position: absolute
+  height: 100%
+  right: 0
+  text-align: center
+  width: 32px
+  background: #F8F8F8
+  border-left: 1px solid #ddd
+  color: $body-font-color
+  visibility: hidden
+  line-height: 2rem
+
+.form--selected-value--list
+  margin-left: 0rem
+  margin-bottom: 0rem
 
 .form--text-area
   @extend %input-style

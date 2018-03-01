@@ -15,16 +15,20 @@
 
   <% @custom_action.all_conditions.each do |condition| %>
     <div class="form--field">
-      <%= styled_label_tag("custom_action_conditions_#{condition.key}", condition.human_name) %>
+      <%= styled_label_tag("custom_action_conditions_#{condition.key}", condition.human_name, class: '-top') %>
       <% input_name = "custom_action[conditions][#{condition.key}]" %>
       <% selected_values = condition.values
          select_options = options_for_select(condition.allowed_values.map { |v| [v[:label], v[:value]] },
                                              selected: selected_values) %>
-      <%= styled_select_tag input_name,
-                            select_options,
-                            multiple: true,
-                            container_class: '-middle' %>
+      <div class="form--select-container -middle">
+        <autocomplete-select-decoration>
+          <%= select_tag input_name,
+                         select_options,
+                         multiple: true %>
+        </autocomplete-select-decoration>
+      </div>
     </div>
+    <div class="form--space -big"></div>
   <% end %>
 </fieldset>
 
@@ -37,17 +41,21 @@
     <% @custom_action.all_actions.each do |action| %>
       <hide-section section-name="<%= action.key %>">
         <div class="form--field">
-          <%= styled_label_tag("custom_action_actions_#{action.key}", action.human_name) %>
+          <%= styled_label_tag("custom_action_actions_#{action.key}", action.human_name, class: '-top') %>
 
           <% input_name = "custom_action[actions][#{action.key}]" %>
           <% if %i(associated_property boolean).include?(action.type) %>
             <% selected_values = action.values
                select_options = options_for_select(action.allowed_values.map { |v| [v[:label], v[:value]] },
                                                    selected: selected_values) %>
-            <%= styled_select_tag input_name,
-                                  select_options,
-                                  multiple: action.multi_value?,
-                                  container_class: '-middle' %>
+            <div class="form--select-container -middle">
+              <autocomplete-select-decoration
+                  label="<%=action.human_name%>">
+                <%= select_tag input_name,
+                               select_options,
+                               multiple: action.multi_value? %>
+              </autocomplete-select-decoration>
+            </div>
           <% elsif %i(date_property).include?(action.type) %>
             <op-date-picker>
               <%= styled_text_field_tag input_name,
