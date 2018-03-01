@@ -228,9 +228,9 @@ class Version < ActiveRecord::Base
 
   # Update the issue's fixed versions. Used if a version's sharing changes.
   def update_issues_from_sharing_change
-    if VERSION_SHARINGS.index(sharing_was).nil? ||
+    if VERSION_SHARINGS.index(sharing_before_last_save).nil? ||
        VERSION_SHARINGS.index(sharing).nil? ||
-       VERSION_SHARINGS.index(sharing_was) > VERSION_SHARINGS.index(sharing)
+       VERSION_SHARINGS.index(sharing_before_last_save) > VERSION_SHARINGS.index(sharing)
       WorkPackage.update_versions_from_sharing_change self
     end
   end

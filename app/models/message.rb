@@ -132,7 +132,7 @@ class Message < ActiveRecord::Base
       .or(with_parent_id)
       .update_all("board_id = #{board_id}")
 
-    Board.reset_counters!(board_id_was)
+    Board.reset_counters!(board_id_before_last_save)
     Board.reset_counters!(board_id)
   end
 

@@ -77,11 +77,11 @@ module Relation::HierarchyPaths
     end
 
     def hierarchy_relation_and_to_id_changed?
-      hierarchy? && to_id_changed?
+      hierarchy? && saved_change_to_to_id?
     end
 
     def alter_hierarchy_path
-      self.class.execute_sql self.class.remove_hierarchy_path_sql(to_id_was)
+      self.class.execute_sql self.class.remove_hierarchy_path_sql(to_id_before_last_save)
       self.class.execute_sql self.class.add_hierarchy_path_sql(to_id)
     end
 
