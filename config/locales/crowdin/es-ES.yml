@@ -35,6 +35,8 @@ es:
     label_one_time_password: 'Contraseña de un solo uso'
     label_2fa_enabled: 'Autenticación de dos factores está activa'
     label_2fa_disabled: 'Autenticación de dos factores no está activa'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
     text_enter_2fa: 'Ingrese la contraseña de un solo uso desde su dispositivo.'
     text_2fa_enabled: 'Después de cada inicio de sesión, se le solicitará que ingrese un token OTP desde su dispositivo 2FA predeterminado.'
     text_2fa_disabled: 'Para habilitar la autenticación de dos factores, use el botón de arriba para registrar un nuevo dispositivo 2FA. Si ya tiene un dispositivo, debe hacerlo de manera predeterminada.'
@@ -130,6 +132,9 @@ es:
           Registre su número de teléfono móvil para la entrega de contraseñas de OpenProject por única vez.
     sns:
       delivery_failed: 'La entrega de SNS falló:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
     restdt:
       delivery_failed_with_code: 'La entrega del token falló. (Código de error %{code})'
     strategies:
@@ -151,7 +156,6 @@ es:
   field_otp: "Contraseña de un solo uso"
   notice_account_otp_invalid: "Contraseña de un solo uso no válida."
   notice_account_otp_expired: "La contraseña de un solo uso que ingresó expiró."
-  notice_otp_sms_text: "Su contraseña de un solo uso: %{token}"
   notice_developer_strategy_otp: "La estrategia de desarrollador generó la siguiente contraseña de un solo uso: %{token} (Canal: %{channel})"
   notice_account_otp_send_failed: "No se pudo enviar su contraseña de un solo uso."
   notice_account_has_no_phone: "No hay un número de teléfono celular asociado a su cuenta."
@@ -161,10 +165,7 @@ es:
   button_continue: 'Continuar'
   button_make_default: 'Marcar como predeterminado'
   label_unverified_phone: "Teléfono celular aún no verificado"
-  message_expiration_time: "Por razones de seguridad caducará en %{duration} (%{time}) automáticamente o cuando cierre la sesión."
   notice_phone_number_format: "Ingrese el número en el siguiente formato: + XX XXXXXXXX."
-  error_password_on_phone_change: "es obligatorio si desea cambiar su número de teléfono celular"
-  notice_field_phone: "Para iniciar sesión con una contraseña única, debe poder recibir mensajes SMS enviados a este número"
   text_otp_not_receive: "Otros métodos de verificación"
   text_send_otp_again: "Vuelva a ingresar la contraseña de un solo uso de la siguiente manera:"
   button_resend_otp_form: "Reenviar"

@@ -35,6 +35,8 @@ id:
     label_one_time_password: 'Satu-kali kata sandi'
     label_2fa_enabled: 'Dua faktor otentikasi tidak aktif'
     label_2fa_disabled: 'Dua faktor otentikasi tidak aktif'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
     text_enter_2fa: 'Silakan masukkan sandi satu kali dari perangkat Anda.'
     text_2fa_enabled: 'Setelah setiap login, Anda akan diminta untuk memasukkan tanda OTP dari perangkat 2FA default Anda.'
     text_2fa_disabled: 'Untuk mengaktifkan otentikasi dua faktor, gunakan tombol di atas untuk mendaftar perangkat 2FA baru. Jika Anda sudah memiliki perangkat, Anda perlu untuk membuatnya default.'
@@ -126,6 +128,9 @@ id:
           Mendaftarkan nomor ponsel Anda untuk pengiriman sandi satu kali OpenProject.
     sns:
       delivery_failed: 'Pengiriman SNS gagal:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
     restdt:
       delivery_failed_with_code: 'Token pengiriman yang gagal. (Kesalahan kode %{code})'
     strategies:
@@ -147,7 +152,6 @@ id:
   field_otp: "Satu-kali kata sandi"
   notice_account_otp_invalid: "Sandi sekali pakai yang tidak valid."
   notice_account_otp_expired: "Kata sandi satu-kali yang anda masukkan kadaluarsa."
-  notice_otp_sms_text: "Sandi satu kali: %{token}"
   notice_developer_strategy_otp: "Pengembang strategi dihasilkan one-time password berikut: %{token} (saluran: %{channel})"
   notice_account_otp_send_failed: "Sandi satu kali tidak akan dikirim."
   notice_account_has_no_phone: "Tidak ada nomor ponsel ini dikaitkan dengan akun Anda."
@@ -157,10 +161,7 @@ id:
   button_continue: 'Lanjutkan'
   button_make_default: 'Tandai sebagai default'
   label_unverified_phone: "Ponsel yang belum diverifikasi"
-  message_expiration_time: "Untuk alasan keamanan itu akan berakhir dalam %{duration} (%{time}) secara otomatis atau ketika Anda log."
   notice_phone_number_format: "Masukkan nomor dalam format berikut: + XX XXXXXXXX."
-  error_password_on_phone_change: "diperlukan jika Anda ingin mengubah nomor telepon seluler Anda"
-  notice_field_phone: "Login oleh one-time password Anda harus mampu menerima pesan SMS yang dikirimkan ke Nomer ini"
   text_otp_not_receive: "Verifikasi metode lain"
   text_send_otp_again: "Kirim kembali kata sandi satu-kali oleh:"
   button_resend_otp_form: "Kirim kembali"

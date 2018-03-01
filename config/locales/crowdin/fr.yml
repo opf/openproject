@@ -35,6 +35,8 @@ fr:
     label_one_time_password: 'Mot de passe à usage unique'
     label_2fa_enabled: 'Authentification à deux facteurs est active'
     label_2fa_disabled: 'Authentification à deux facteurs non active'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
     text_enter_2fa: 'Veuillez entrer le mot de passe unique de votre appareil.'
     text_2fa_enabled: 'Lors de chaque connexion, il vous sera demandé d’entrer un jeton OTP depuis votre appareil 2FA par défaut.'
     text_2fa_disabled: 'Pour activer l’authentification à deux facteurs, utilisez le bouton ci-dessus pour inscrire un nouvel appareil 2FA. Si vous avez déjà un dispositif, vous devez en faire un appareil par défaut.'
@@ -126,6 +128,9 @@ fr:
           Inscrivez votre numéro de téléphone pour la livraison de mots de passe à usage unique OpenProject.
     sns:
       delivery_failed: 'Remise SNS a échoué:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
     restdt:
       delivery_failed_with_code: 'Remise du jeton a échoué. (Error code %{code})'
     strategies:
@@ -147,7 +152,6 @@ fr:
   field_otp: "Mot de passe à usage unique"
   notice_account_otp_invalid: "Mot de passe à usage unique non valide."
   notice_account_otp_expired: "Le mot de passe à usage unique que vous avez renseigné a expiré."
-  notice_otp_sms_text: "Votre mot de passe à usage unique unique: %{token}"
   notice_developer_strategy_otp: "La stratégie de développement à généré le mot de passe à usage unique suivant : %{token} (Channel: %{channel})"
   notice_account_otp_send_failed: "Votre mot de passe à usage unique n’a pas pu être envoyé."
   notice_account_has_no_phone: "Aucun numéro de téléphone cellulaire n’est associé à votre compte."
@@ -157,10 +161,7 @@ fr:
   button_continue: 'Continuer'
   button_make_default: 'Marquer par défaut'
   label_unverified_phone: "Téléphone portable pas encore vérifié"
-  message_expiration_time: "Pour des raisons de sécurité, il expirera automatiquement dans %{duration} (%{time}) ou quand vous vous déconnecterez."
   notice_phone_number_format: "Veuillez entrer le nombre dans le format suivant : +XX XXXXXXXX."
-  error_password_on_phone_change: "est requis si vous voulez changer votre numéro de téléphone portable"
-  notice_field_phone: "Pour se connecter via un mot de passe à usage unique, vous devez pouvoir recevoir les SMS envoyés à ce numéro"
   text_otp_not_receive: "Autres méthodes de vérification"
   text_send_otp_again: "Ré-envoyer le mot de passe à usage par:"
   button_resend_otp_form: "Renvoyer"

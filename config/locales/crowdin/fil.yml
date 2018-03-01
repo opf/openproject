@@ -32,142 +32,143 @@ fil:
     label_default_device: "I-Default ang 2FA na aparato"
     label_device: "Ang 2FA na aparato"
     label_devices: "Ang 2FA na mga aparato"
-    label_one_time_password: 'One-time password'
-    label_2fa_enabled: 'Two-factor authentication is active'
-    label_2fa_disabled: 'Two-factor authentication not active'
-    text_enter_2fa: 'Please enter the one-time password from your device.'
-    text_2fa_enabled: 'Upon every login, you will be requested to enter a OTP token from your default 2FA device.'
-    text_2fa_disabled: 'To enable two-factor authentication, use the button above to register a new 2FA device. If you already have a device, you need to make it a default.'
+    label_one_time_password: 'Ang isang beses na password'
+    label_2fa_enabled: 'Ang Dalawang-dahilan ng aktibo na pagpapatunay'
+    label_2fa_disabled: 'Ang Dalawang-dahilan ng hindi aktibo na pagpapatunay'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_enter_2fa: 'Pakiusap na ipasok ng isang beses ang pasword mula sa iyong aparato.'
+    text_2fa_enabled: 'Sa bawat pag-login, gagawin mo ang kahilingan na ipasok ang OTP token mula sa na-default na 2FA na aparato.'
+    text_2fa_disabled: 'Upang mapagana ang Dalawang-dahilan sa pagpapatunay, gamitin ang boton par monga magparehistro sa bagong 2FA na aparato, kung ikaw ay may handa ng aparato. kailangan mong gawin ito na-default.'
     login:
-      enter_backup_code_title: Enter backup code
-      enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
-      other_device: 'Use another device or backup code'
+      enter_backup_code_title: Ipasok ang backup code
+      enter_backup_code_text: Pakiusap magpasok ng balido na backup code mula sa iyong listahan ng mga code kung sakali na hindi na ma-access ang iyong nirehistro na 2FA na mga aparato.
+      other_device: 'Gumamit ng ibang aparato o backup code'
     settings:
-      title: '2FA settings'
-      current_configuration: 'Current configuration'
-      label_active_strategies: 'Active 2FA strategies'
-      label_enforced: 'Enforce 2FA'
-      label_remember: 'Remember 2FA login'
+      title: 'Ang mga 2FA setting'
+      current_configuration: 'Ang kasalukuyang kompigurasyon'
+      label_active_strategies: 'Ang aktibo na 2Fa na mga deskarte'
+      label_enforced: 'Ang Ipatupad ang 2FA'
+      label_remember: 'Alalahanin ang pag-login sa 2FA'
       text_configuration: |
-        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
-      text_configuration_guide: For more information, check the configuration guide.
-      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+        Paalala: Ang mga halaga na ito ay sumasagisag sa kasalukuyang malawak na aplikasyon sa kumpigurasyon. Hindi mo maaaring i-disable ang mga setting na pinatupad ng kumpigurasyon o baguhin ang kasalukuyang mga aktibo na deskarte, dahil sa sila ay nangangailangan ng muling paguumpisa ng server.
+      text_configuration_guide: Para sa mas maraming impormasyon, suriin ang gabay sa kumpigurasyon.
+      text_enforced: 'Paganahin ang setting na ito para ma puwersa ang lahat ng mga gumagamit upang mag rehisrto sa 2FA na aparato sa kanilang susunod na pag-login, Maaari lamang na hindi mapagana habang hindi ma puwersa gamit ang kumpigurasyon.'
       text_remember: |
-        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
-        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
-      error_invalid_settings: 'The 2FA strategies you selected are invalid'
-      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+        Itakda ito sa mas higit pa sa sero upang pagayagan ang mga gumagamit na maalala ang pagpapatunay sa kanilang 2FA para sa ibinigay na numero sa mga araw.
+        Sila ay hindi hihiling na muling ipasok habang ang sa mga panahon na ito. Maaari lamang kung hindi na magpatupad gamit ang kumpigurasyon.
+      error_invalid_settings: 'Ang 2FA na mga deskarte na iyong napili ay walang bisa'
+      failed_to_save_settings: 'Bigo na ma-update ang 2FA na mga setting: %{message}'
     admin:
-      self_edit_path: 'To add or modify your own 2FA devices, please go to %{self_edit_link}'
-      self_edit_link_name: 'Two-factor authentication on your account page'
-      self_edit_forbidden: 'You may not edit your own 2FA devices on this path. Go to My Account > Two factor authentication instead.'
-      no_devices_for_user: 'No 2FA device has been registered for this user.'
-      all_devices_deleted: 'All 2FA devices of this user have been deleted'
-      delete_all_are_you_sure: 'Are you sure you want to delete all 2FA devices for this user?'
-      button_delete_all_devices: 'Delete registered 2FA devices'
-      button_register_mobile_phone_for_user: 'Register mobile phone'
-      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from his default 2FA device.'
-      text_2fa_disabled: "The user did not set up a 2FA device through his 'My account page'"
+      self_edit_path: 'Para magdagdag o bawasan ang iyong sariing 2FA na mga aparato, pakiusap na mag punta sa %{self_edit_link}'
+      self_edit_link_name: 'Ang Dalawang-dahilan ng pagpapatunay sa iyong pahina ng account'
+      self_edit_forbidden: 'Hindi mo pwede na baguhin ang iyong sariling 2FA sa landas na ito. Magpunta sa Aking Account > Dalawang-dahilan ng pagpapatunay sa halip.'
+      no_devices_for_user: 'Walang 2FA na aparato ang na rehistro para sa gumagamit na ito.'
+      all_devices_deleted: 'Lahat ng 2Fa na mga aparato sa gumagamit na ito ay burado'
+      delete_all_are_you_sure: 'Sigurado kaba na nais mong burahin ang lahat ng 2FA na mga aparato para sa gumagamit na ito?'
+      button_delete_all_devices: 'Burahin ang nakarehistro na 2FA na mga aparato'
+      button_register_mobile_phone_for_user: 'Ang mobile na telepono ay irehistro'
+      text_2fa_enabled: 'Sa bawat pag-login, ang gumagamit na ito ay hinihiling na ipasok ang OTP na token mula sa kanyang default na 2FA aparato.'
+      text_2fa_disabled: "Ang gumagamit ay hindi nag-set up ng 2FA mula sa kanyang 'Aking account sa pahina'"
     upsale:
-      title: 'Two-factor authentication is an enterprise feature'
-      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+      title: 'Ang Dalawang-dahilan ng pagpapatunay ay isang tampok sa negosyo'
+      description: 'Para mapalakas ang iyong panloob o panlabas na pagpapatunay sa mga mekanismo kasama ang pangalawang kadahilanan.'
     backup_codes:
-      none_found: No backup codes exist for this account.
-      singular: Backup code
-      plural: Backup codes
-      your_codes: for your %{app_name} account %{login}
+      none_found: Walang mga backup na umiiral para sa account na ito.
+      singular: Ang Backup code
+      plural: Ang mga Backup code
+      your_codes: para sa iyong %{app_name} account %{login}
       overview_description: |
-        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
-        Use the following button to generate a new set of backup codes.
+        Kung ikaw ay hindi mo ma-access ang iyong Dalawang-dahilan sa mga aparato, maaari kang gumamit ng backup code para mabawi ang na-access sa iyong account.
+        Gamitin ang mga sumusunod na buton uang mabuo ang bagong set ng mga backup code.
       generate:
-        title: Generate backup codes
-        keep_safe_as_password: 'Important! Treat these codes as passwords.'
-        keep_safe_warning: 'Either save them in your password manager, or print this page and put in a safe place.'
-        regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
+        title: Ang Bumuo ng mga backup code
+        keep_safe_as_password: 'Ang Importante! Ang pakitunguhan ang mga code bilang mga password.'
+        keep_safe_warning: 'Alin man sa na-save nila na password sa iyong tagapamahala, o i-print ito sa pahina at ilagay sa ligtas na lugar.'
+        regenerate_warning: 'Babala: Kung ikaw ay lumikha na ng mga code dati, sila ay mawawalan ng bisa at kahit kailan hindi na gagana.'
     devices:
-      add_new: 'Add new 2FA device'
-      register: 'Register device'
-      confirm_default: 'Confirm changing default device'
-      confirm_device: 'Confirm device'
-      confirm_now: 'Not confirmed, click here to activate'
-      cannot_delete_default: 'Cannot delete default device'
-      make_default_are_you_sure: 'Are you sure you want to make this 2FA device your default?'
-      make_default_failed: 'Failed to update the default 2FA device.'
-      deletion_are_you_sure: 'Are you sure you want to delete this 2FA device?'
-      registration_complete: '2FA device registration complete!'
-      registration_failed_token_invalid: '2FA device registration failed, the token was invalid.'
-      registration_failed_update: '2FA device registration failed, the token was valid but the device could not be updated.'
-      confirm_send_failed: 'Confirmation of your 2FA device failed.'
-      button_complete_registration: 'Complete 2FA registration'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
-      text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
-      text_identifier: 'You can give the device a custom identifier using this field.'
-      failed_to_delete: 'Failed to delete 2FA device.'
-      is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
-      not_existing: 'No 2FA device has been registered for your account.'
-      request_2fa: Please enter the code from your %{device_name} to verify your identity.
+      add_new: 'Magdagdag ng bagong 2FA na aparato'
+      register: 'I-Rehistro ang aparato'
+      confirm_default: 'Kumpirmahin ang pagbabago sa default na aparato'
+      confirm_device: 'Kumpirmahin ang aparato'
+      confirm_now: 'Hindi makumpirma, I-click dito upang buhayin'
+      cannot_delete_default: 'Hindi mabura na default sa aparato'
+      make_default_are_you_sure: 'Sigurado kaba na nais mong gawin ang 2FA na aparato sa iyong default?'
+      make_default_failed: 'Bigo na ma-update ang default 2FA sa aparato.'
+      deletion_are_you_sure: 'Sigurado ka ba na nais mong burahin ang 2FA na aparato?'
+      registration_complete: 'Ang 2FA na aparato ay kumpleto na nairehistro!'
+      registration_failed_token_invalid: 'Ang 2FA rehistro ay bigo, ang token ay imbalido.'
+      registration_failed_update: 'Ang 2FA na aparato ay bigo sa pag rehistro, ang token ay balido ngunit ang aparato ay hindi ma-update.'
+      confirm_send_failed: 'Ang kumpirmasyon sa iyong 2FA na aparado ay bigo.'
+      button_complete_registration: 'Kumpleto ang 2FA na magparehistro'
+      text_confirm_to_complete_html: "Pakiusap na kumpletuhin ang pagrehistro sa iyong aparato <strong>%{identifier}</strong> sa pamamagitan ng pagpasok ng isang beses na password mula sa iyong default na aparato."
+      text_confirm_to_change_default_html: "Pakiusap na kumpirmahin ang pagbabago sa iyong default na aparato para sa <strong>%{new_identifier}</strong> sa pamamagitan ng pagpasok ng isang beses na password mula sa iyong kasalukuyang default na aparato."
+      text_identifier: 'Maaari kang magbigay ng aparato sa pasadya na identifier gamit ang field na ito.'
+      failed_to_delete: 'Bigo na mabura ang 2FA na aparato.'
+      is_default_cannot_delete: 'Ang aparato ay namarkahan bilang default at hindi maari na burahin dahil sa aktibo nasiguridad na patakaran, Markahan ng ibang aparato bilang default bago burahin.'
+      not_existing: 'Walang 2FA na aparato ang narehistro para sa iyong account.'
+      request_2fa: Pakiusap ipasok ang code mula sa iyong %{device_name} upang matiyak ang iyong pagkakakilanlan.
       totp:
-        title: 'Use your app-based authenticator'
-        provisioning_uri: 'Provisioning URI'
-        secret_key: 'Secret key'
-        time_based: 'Time based'
-        account: 'Account name / Issuer'
+        title: 'Gamitin ang iyong app-based authenticator'
+        provisioning_uri: 'Ang Provisioning sa URI'
+        secret_key: 'Ang Sekreto na Susi'
+        time_based: 'Nakabatay sa Oras'
+        account: 'Ang Pangalan sa Account / Tagapag-isyu'
         setup: |
-          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
-          After opening the app, you can scan the following QR code to register the device.
+          Para sa setting up ng dalwang-dahilan ng pagpapatunay kasama ang Google Authenticator, I-doownload ang aplikasyon mula sa Apple App na tindahan o sa Google Play na Tindahan.
+          Pagkatapos na buksan ang app, maaari mong i-scan ang sumusunod na QR code para mag-rehistro sa aparato.
         question_cannot_scan: |
-          Unable to scan the code using your application?
+          Hindi ma-scan ang code gamit ang iyong aplikasyon?
         text_cannot_scan: |
-          If you can't scan the code, you can enter the entry manually using the following details:
+          Kung hindi mo ma-scan ang code, maaari mong ipasok ang entry manomano gamit ang mga sumusunod na mga detalye:
         description: |
-          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
-          Common examples are Google Authenticator or Authy.
+          Irehistro ang aplikasyon sa authenticator para magamit kasama ang OpenProject gamit ang basehan sa oras ang pamantayan sa password authentication.
+          Mga karaniwan na halimbawa sa Google Authenticator o Authy.
       sms:
-        title: 'Use your mobile phone'
-        redacted_identifier: 'Mobile device (%{redacted_number})'
-        request_2fa_identifier: '%{redacted_identifier}, we sent you an authentication code via %{delivery_channel}'
+        title: 'Gamit ang iyong mobile na telepono'
+        redacted_identifier: 'Ang Mobile na aparato (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, kami ay nagpadala saiyo ng authentication code sa pamamagitan ng %{delivery_channel}'
         description: |
-          Register your mobile phone number for delivery of OpenProject one-time passwords.
+          Irehistro ang iyong numero sa mobile na telepono para sa paghahatid ng isang beses na mga password.
     sns:
-      delivery_failed: 'SNS delivery failed:'
+      delivery_failed: 'Ang paghahatid ng SNS ay bigo:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
     restdt:
-      delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
+      delivery_failed_with_code: 'Ang token sa paghahatid ay bigo. (Error code %{code})'
     strategies:
-      totp: 'Authenticator application'
-      sns: 'Amazon SNS'
-      resdt: 'SMS Rest API'
-    mobile_transmit_notification: "A one-time password has been sent to your cell phone."
-    label_two_factor_authentication: 'Two-factor authentication'
+      totp: 'Ang Aplikasyon sa Authenticator'
+      sns: 'Ang SNS sa Amazon'
+      resdt: 'Ang SMS na Pahinga sa API'
+    mobile_transmit_notification: "Ang isang-beses na password ay naipadala sa iyong cell phone."
+    label_two_factor_authentication: 'Ang dalwang-Dahilan sa authentication'
     forced_registration:
-      required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
+      required_to_add_device: 'Ang aktibong siguridad sa patakaran ang mga kinakailngan ka upang mapagana ang dalawang-dahilan sa authentication.. Pakiusap na gamitin ang sumusunod na porma para magparehistro sa iyong aparato.'
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
-      label: 'Remember'
-      clear_cookie: 'Click here to remove this cookie'
-      cookie_removed: 'The remember cookie has been removed.'
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
-  field_phone: "Cell phone"
-  field_otp: "One-time password"
-  notice_account_otp_invalid: "Invalid one-time password."
-  notice_account_otp_expired: "The one-time password you entered expired."
-  notice_otp_sms_text: "Your one-time password: %{token}"
-  notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
-  notice_account_otp_send_failed: "Your one-time password could not be sent."
-  notice_account_has_no_phone: "No cell phone number is associated with your account."
-  label_expiration_hint: "%{date} or on logout"
-  label_actions: 'Actions'
-  label_confirmed: 'Confirmed'
-  button_continue: 'Continue'
-  button_make_default: 'Mark as default'
-  label_unverified_phone: "Cell phone not yet verified"
-  message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
-  error_password_on_phone_change: "is required if you want to change your cell phone number"
-  notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
-  text_otp_not_receive: "Other verification methods"
-  text_send_otp_again: "Resend one-time password by:"
-  button_resend_otp_form: "Resend"
-  button_otp_by_voice: "Voice call"
-  button_otp_by_sms: "SMS"
-  label_otp_channel: "Delivery channel"
+        Ang iyong account ay aktibo sa naaalala na coockie na balido hanggang sa %{expires_on}. Ang coockie na iyo ay pinapayagan ka na mag-login ng walang pangalawa na dahilan sa iyong account hanggang sa mga oras na iyan.
+      label: 'Tandaan'
+      clear_cookie: 'I-Click dito upang maalis ang coockie na ito'
+      cookie_removed: 'Ang naalala na coockie ay naalis.'
+      dont_ask_again: "Lumikha ng coockie upang maalala ang 2FA authentication para sa kleyente na ito %{days} mga araw."
+  field_phone: "Ang Cell phone"
+  field_otp: "Ang Isang-beses na password"
+  notice_account_otp_invalid: "Imbalido ang isang-beses na password."
+  notice_account_otp_expired: "Ang isang-beses na password na iyong ipinasok ay na-expire."
+  notice_developer_strategy_otp: "Ang taga-develop ng diskarte sa nabuo na sumusunod na isang beses na password: %{token} (Channel: %{channel}"
+  notice_account_otp_send_failed: "Ang iyong isang beses na password ay hindi maipadala."
+  notice_account_has_no_phone: "Walang numero sa cellphone ang nauugnay sa iyong account."
+  label_expiration_hint: "%{date} o mag-logout sa"
+  label_actions: 'Mga Aksyon'
+  label_confirmed: 'Kumpirmahin'
+  button_continue: 'Ipagpatuloy'
+  button_make_default: 'Markahan bilang default'
+  label_unverified_phone: "Hindi ma-verify ang Cell Phone"
+  notice_phone_number_format: "Pakiusap na ipasok ang numero sa sumusunod na pormat: +XX XXXXXXXX."
+  text_otp_not_receive: "Iba pang mga pamamaraan sa pagpapatunay"
+  text_send_otp_again: "Ipadala muli ang isang beses na password sa:"
+  button_resend_otp_form: "Ipadala muli"
+  button_otp_by_voice: "Ang tinig sa tawag"
+  button_otp_by_sms: "Ang SMS"
+  label_otp_channel: "Ang Pagpapadala ng channel"

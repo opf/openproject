@@ -35,6 +35,8 @@ tr:
     label_one_time_password: 'Tek kullanımlık şifre'
     label_2fa_enabled: 'İki faktörlü kimlik doğrulama aktif'
     label_2fa_disabled: 'İki faktörlü kimlik doğrulama aktif değil'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
     text_enter_2fa: 'Lütfen cihazınızdaki tek kullanımlık şifreyi giriniz.'
     text_2fa_enabled: 'Her girişte, varsayılan 2FA cihazınızdan bir OTP jetonu girmeniz talep edilir.'
     text_2fa_disabled: 'İki faktörlü kimlik doğrulamayı etkinleştirmek için yukarıdaki düğmeyi kullanarak yeni bir 2FA aygıtı kaydedin. zaten bir cihazınız varsa, onu bir varsayılan yapmanız gerekir.'
@@ -128,6 +130,9 @@ tr:
           OpenProject'in tek kullanımlık şifrelerini göndermek için cep telefon numaranızı kaydedin.
     sns:
       delivery_failed: 'SNS gönderimi başarısız:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
     restdt:
       delivery_failed_with_code: 'Jeton gönderimi başarısız. (Hata kodu %{code})'
     strategies:
@@ -149,7 +154,6 @@ tr:
   field_otp: "Tek kullanımlık şifre"
   notice_account_otp_invalid: "Geçersiz tek kullanımlık şifre."
   notice_account_otp_expired: "Girdiğiniz tek kullanımlık şifrenin süresi dolmuş."
-  notice_otp_sms_text: "Tek kullanımlık şifreniz: %{token}"
   notice_developer_strategy_otp: "Geliştirici stratejisi aşağıdaki tek seferlik şifreyi oluşturdu: %{token} (Kanal: %{channel})"
   notice_account_otp_send_failed: "Tek kullanımlık şifreniz gönderilemedi."
   notice_account_has_no_phone: "Hesabınızla ilişkili cep telefonu numarası yok."
@@ -159,10 +163,7 @@ tr:
   button_continue: 'Devam et'
   button_make_default: 'Varsayılan olarak işaretleyin'
   label_unverified_phone: "Cep telefonu henüz doğrulanmadı"
-  message_expiration_time: "Güvenlik nedenlerinden dolayı süreniz %{duration} (%{time}) içinde otomatik olarak ya da oturumu kapattığınızda dolacak."
   notice_phone_number_format: "Lütfen numaranızı yandaki formatta giriniz: +XX XXXXXXXX."
-  error_password_on_phone_change: "cep telefon numaranızı değiştirmek istiyorsanız gereklidir"
-  notice_field_phone: "Tek kullanımlık şifre ile giriş yapabilmek için bu numaraya gönderilen SMS mesajlarını alabilmelisin"
   text_otp_not_receive: "Diğer doğrulama yöntemleri"
   text_send_otp_again: "Tek kullanımlık şifreyi tekrar gönderin:"
   button_resend_otp_form: "Tekrar gönder"
