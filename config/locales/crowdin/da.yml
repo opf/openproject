@@ -67,6 +67,7 @@ da:
     plural: Custom actions
     new: New custom action
     edit: Edit custom action %{name}
+    execute: Execute %{name}
     upsale:
       title: Custom actions is an Enterprise Edition feature
       description: Custom actions streamline everyday work by combining a set of individual
@@ -272,6 +273,8 @@ da:
       announcements:
         show_until: Display until
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Hentninger
         file: Fil
         filename: Fil
@@ -456,6 +459,8 @@ da:
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
           not_an_integer: "(%{name}) is not an integer."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -988,6 +993,14 @@ da:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF med beskrivelse
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2092,6 +2105,7 @@ da:
   setting_accessibility_mode_for_anonymous: Aktivér tilgængelighedstilstand for anonyme
     brugere
   setting_user_format: Brugerens fremvisningsformat
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Brugerens konti kan slettes af administratorer
   setting_users_deletable_by_self: Brugererne kan selv slette deres konti
   setting_welcome_text: Velkomstblok-tekst
@@ -2162,6 +2176,7 @@ da:
     is not transparent otherwise it will look bad on iOS.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Forhåndsvalgt administratorkonto ændret
   text_default_encoding: 'Forhåndsvalgt: UTF-8'
   text_destroy: Slet
@@ -2457,6 +2472,10 @@ da:
       years: År
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
     be used for active users to choose a new authentication method. When used with

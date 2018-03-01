@@ -37,6 +37,13 @@ shared_context 'custom actions action' do
       raise ":key needs to be defined"
     end
   end
+  let(:expected_type) do
+    if defined?(type)
+      type
+    else
+      raise ":type needs to be defined"
+    end
+  end
 end
 
 shared_examples_for 'base custom action' do
@@ -46,6 +53,13 @@ shared_examples_for 'base custom action' do
       priority
     else
       100
+    end
+  end
+  let(:expected_value) do
+    if defined?(value)
+      value
+    else
+      1
     end
   end
 
@@ -72,17 +86,17 @@ shared_examples_for 'base custom action' do
 
   describe '#values' do
     it 'can be provided on initialization' do
-      i = described_class.new(1)
+      i = described_class.new(expected_value)
 
       expect(i.values)
-        .to eql [1]
+        .to eql [expected_value]
     end
 
     it 'can be set and read' do
-      instance.values = 1
+      instance.values = expected_value
 
       expect(instance.values)
-        .to eql [1]
+        .to eql [expected_value]
     end
   end
 
@@ -94,9 +108,9 @@ shared_examples_for 'base custom action' do
   end
 
   describe '#type' do
-    it 'is :associated_property' do
+    it 'is the expected type' do
       expect(instance.type)
-        .to eql(:associated_property)
+        .to eql(expected_type)
     end
   end
 

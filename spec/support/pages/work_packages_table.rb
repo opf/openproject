@@ -70,7 +70,9 @@ module Pages
     end
 
     def has_work_packages_listed?(work_packages)
-      work_packages.all? { |wp| has_text? wp.subject }
+      work_packages.all? do |wp|
+        has_selector?(".wp-row-#{wp.id} td.subject", text: wp.subject, wait: 20)
+      end
     end
 
     def expect_no_work_package_listed
@@ -93,7 +95,6 @@ module Pages
     end
 
     def click_inline_create
-
       ##
       # When using the inline create on initial page load,
       # there is a delay on travis where inline create can be clicked.

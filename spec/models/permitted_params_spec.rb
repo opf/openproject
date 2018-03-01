@@ -360,8 +360,10 @@ describe PermittedParams, type: :model do
     let(:hash) do
       {
         'name' => 'blubs',
+        'description' => 'blubs blubs',
         'actions' => { 'assigned_to' => '1' },
-        'conditions' => { 'status' => '42' }
+        'conditions' => { 'status' => '42' },
+        'move_to' => 'lower'
       }
     end
 

@@ -278,29 +278,32 @@ OpenProject::Application.routes.draw do
       get '/statistics', action: :stats, as: 'stats'
 
       get '(/revisions/:rev)/diff.:format', action: :diff
-      get '(/revisions/:rev)/diff(/*repo_path)', action: :diff,
-                                            format: false
+      get '(/revisions/:rev)/diff(/*repo_path)',
+          action: :diff,
+          format: false
 
-      get '(/revisions/:rev)/:format/*repo_path', action: :entry,
-                                                  format: /raw/,
-                                                  rev: /[a-z0-9\.\-_]+/,
-                                                  as: :raw_entry
+      get '(/revisions/:rev)/:format/*repo_path',
+          action: :entry,
+          format: /raw/,
+          rev: /[\w0-9\.\-_]+/
 
       %w{diff annotate changes entry browse}.each do |action|
-        get "(/revisions/:rev)/#{action}(/*repo_path)", format: false,
-                                                        action: action,
-                                                        rev: /[a-z0-9\.\-_]+/,
-                                                        as: "#{action}_revision"
+        get "(/revisions/:rev)/#{action}(/*repo_path)",
+            format: 'html',
+            action: action,
+            constraints: { rev: /[\w0-9\.\-_]+/, repo_path: /.*/ },
+            as: "#{action}_revision"
       end
 
-      get '/revision(/:rev)', rev: /[a-z0-9\.\-_]+/,
+      get '/revision(/:rev)', rev: /[\w0-9\.\-_]+/,
                               action: :revision,
                               as: 'show_revision'
 
-      get '(/revisions/:rev)(/*repo_path)', action: :show,
-                                            format: false,
-                                            rev: /[a-z0-9\.\-_]+/,
-                                            as: 'show_revisions_path'
+      get '(/revisions/:rev)(/*repo_path)',
+          action: :show,
+          format: 'html',
+          constraints: { rev: /[\w0-9\.\-_]+/, repo_path: /.*/ },
+          as: 'show_revisions_path'
     end
   end
 

@@ -31,6 +31,7 @@ require_relative '../shared_expectations'
 describe CustomActions::Actions::Type, type: :model do
   let(:key) { :type }
   let(:priority) { 20 }
+  let(:type) { :associated_property }
   let(:allowed_values) do
     types = [FactoryGirl.build_stubbed(:type),
              FactoryGirl.build_stubbed(:type)]

@@ -56,6 +56,7 @@ export function bootstrapWithUiRouter(platformRef:NgModuleRef<any>): void {
   const upgradeModule = injector.get(UpgradeModule);
 
   upgradeModule.bootstrap(document.body, [ openprojectModule.name ], { strictDi: false });
+  angular.element('body').addClass('__ng2-bootstrap-has-run');
 }
 
 jQuery(function () {

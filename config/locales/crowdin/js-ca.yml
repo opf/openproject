@@ -66,6 +66,8 @@ ca:
           one: Primer criteri d'ordenació
           two: Segon criteri d'ordenació
           three: Tercer criteri d'ordenació
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: 'no'
     general_text_yes: sí
     general_text_No: 'No'

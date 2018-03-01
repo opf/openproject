@@ -1,6 +1,8 @@
 module CustomActions
   class TableCell < ::TableCell
-    columns :name
+    columns :name,
+            :description,
+            :sort
 
     def initial_sort
       %i[id asc]
@@ -25,7 +27,9 @@ module CustomActions
 
     def headers
       [
-        ['name', caption: CustomAction.human_attribute_name(:name)]
+        ['name', caption: CustomAction.human_attribute_name(:name)],
+        ['description', caption: CustomAction.human_attribute_name(:description)],
+        ['sort', caption: I18n.t(:label_sort)]
       ]
     end
   end

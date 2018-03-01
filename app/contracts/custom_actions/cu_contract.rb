@@ -38,6 +38,7 @@ module CustomActions
     end
 
     attribute :name
+    attribute :description
 
     attribute :actions do
       if model.actions.empty?

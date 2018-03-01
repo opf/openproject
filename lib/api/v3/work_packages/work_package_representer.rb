@@ -327,16 +327,6 @@ module API
           end
         end
 
-        links :customActions do
-          represented.custom_actions(current_user).map do |action|
-            {
-              href: api_v3_paths.work_package_custom_action_execute(represented.id, action.id),
-              title: action.name,
-              method: 'POST'
-            }
-          end
-        end
-
         property :id,
                  render_nil: true
 
@@ -511,6 +501,24 @@ module API
                               represented.parent = new_parent
                             end
 
+        resources :customActions,
+                  link: ->(*) {
+                    ordered_custom_actions.map do |action|
+                      {
+                        href: api_v3_paths.custom_action(action.id),
+                        title: action.name
+                      }
+                    end
+                  },
+                  getter: ->(*) {
+                    ordered_custom_actions.map do |action|
+                      ::API::V3::CustomActions::CustomActionRepresenter.new(action, current_user: current_user)
+                    end
+                  },
+                  setter: ->(_fragment:, **) do
+                    # noop
+                  end
+
         def _type
           'WorkPackage'
         end
@@ -586,6 +594,11 @@ module API
 
         def spent_time=(value)
           # noop
+        end
+
+        def ordered_custom_actions
+          # As the custom actions are sometimes set as an array
+          represented.custom_actions(current_user).to_a.sort_by(&:position)
         end
 
         self.to_eager_load = [{ children: { project: :enabled_modules } },

@@ -67,6 +67,7 @@ pt-BR:
     plural: Ações personalizadas
     new: Nova ação personalizada
     edit: Editar ação personalizada %{name}
+    execute: Execute %{name}
     upsale:
       title: Ações personalizadas são funcionalidades da versão Enterprise Edition
       description: As ações personalizadas simplificam o trabalho diário combinando
@@ -271,6 +272,8 @@ pt-BR:
       announcements:
         show_until: Exibir até
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Transferências
         file: Arquivo
         filename: Arquivo
@@ -453,6 +456,8 @@ pt-BR:
           empty: "(%{name}) valor não pode ser vazio."
           inclusion: "(%{name}) valor não está definido como um dos valores permitidos."
           not_an_integer: "(%{name}) não é um número inteiro."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: não pode ser lido. Tem certeza que é um token de suporte?
         parse_schema_filter_params_service:
@@ -593,8 +598,8 @@ pt-BR:
     updated: 'Atualizado: %{title}'
   attributes:
     active: Ativo
-    assigned_to: Responsável
-    assignee: Responsável
+    assigned_to: Atribuído
+    assignee: Atribuído
     attachments: Anexos
     author: Autor
     base: 'Erro geral:'
@@ -994,6 +999,14 @@ pt-BR:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF com descrições
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2119,6 +2132,7 @@ pt-BR:
   setting_accessibility_mode_for_anonymous: Ativar o modo de acessibilidade para usuários
     anônimos
   setting_user_format: Formato de exibição de usuários
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Contas de usuário podem ser excluídas pelos administradores
   setting_users_deletable_by_self: Usuários podem excluir suas contas
   setting_welcome_text: Texto do bloco de boas-vindas
@@ -2192,6 +2206,7 @@ pt-BR:
     de fundo da imagem não é transparente caso contrário vai ficar ruim no iOS.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Conta do administrador padrão alterada
   text_default_encoding: 'Padrão: UTF-8'
   text_destroy: Excluir
@@ -2368,7 +2383,7 @@ pt-BR:
         date: data
         default: padrão
       column:
-        assigned_to: Responsável
+        assigned_to: Atribuído
         type: Tipo
         due_date: Data de término
         name: Nome
@@ -2494,6 +2509,10 @@ pt-BR:
       quarters: Trimestres
       years: Anos
   title_remove_and_delete_user: Remover o usuário convidado do projeto e excluí-lo.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Envia outro e-mail de convite com um novo token, caso
     o antigo tenha expirado ou o usuário não tenha recebido o e-mail original. Também
     pode ser usado para que usuários ativos escolham um novo método de autenticação.

@@ -67,6 +67,7 @@ fr:
     plural: Custom actions
     new: New custom action
     edit: Edit custom action %{name}
+    execute: Execute %{name}
     upsale:
       title: Custom actions is an Enterprise Edition feature
       description: Custom actions streamline everyday work by combining a set of individual
@@ -278,6 +279,8 @@ fr:
       announcements:
         show_until: Afficher jusqu'à
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Téléchargements
         file: Fichier
         filename: Fichier
@@ -463,6 +466,8 @@ fr:
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
           not_an_integer: "(%{name}) is not an integer."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: ne peut être lu. Êtes-vous sûr qu'il s'agisse d'une licence
             Entreprise ?
@@ -1013,6 +1018,14 @@ fr:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF avec descriptions
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: "."
@@ -2148,6 +2161,7 @@ fr:
   setting_accessibility_mode_for_anonymous: Activer le mode d'accessibilité pour les
     utilisateurs anonymes
   setting_user_format: Utilisateur affiche format
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Comptes utilisateurs effaçables par admins
   setting_users_deletable_by_self: Utilisateurs autorisés à supprimer leur compte
   setting_welcome_text: Bloc de texte de bienvenue
@@ -2223,6 +2237,7 @@ fr:
     il aura un mauvais affichage sur iOS.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Changement du compte Administrateur
     par defaut
   text_default_encoding: 'Défaut: UTF-8'
@@ -2528,6 +2543,10 @@ fr:
       quarters: Trimestres
       years: Années
   title_remove_and_delete_user: Retirer du projet l'utilisateur invité et le supprimer.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Envoie un nouveau courriel d''invitation avec un nouveau
     jeton, au cas où l''ancien jeton aurait expiré ou l''utilisateur n''aurait pas
     reçu le courriel original. Peut être également utilisé pour les utilisateurs actifs

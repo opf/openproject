@@ -67,6 +67,7 @@ de:
     plural: Custom actions
     new: New custom action
     edit: Edit custom action %{name}
+    execute: Execute %{name}
     upsale:
       title: Custom actions is an Enterprise Edition feature
       description: Custom actions streamline everyday work by combining a set of individual
@@ -281,6 +282,8 @@ de:
       announcements:
         show_until: Anzeigen bis
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Downloads
         file: Datei
         filename: Datei
@@ -466,6 +469,8 @@ de:
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
           not_an_integer: "(%{name}) is not an integer."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: kann nicht gelesen werden. Ist dies ein Enterprise-Edition Support
             Token?
@@ -1012,6 +1017,14 @@ de:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF mit Beschreibungen
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: ";"
@@ -2150,6 +2163,7 @@ de:
   setting_accessibility_mode_for_anonymous: Barrierefreien Modus für nicht angemeldete
     Nutzer aktivieren
   setting_user_format: Benutzer-Anzeigeformat
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Admins können Nutzeraccounts löschen
   setting_users_deletable_by_self: Nutzer können ihren Account löschen
   setting_welcome_text: Text für Willkommens-Block
@@ -2221,6 +2235,7 @@ de:
     nicht transparent sein, da dies auf iOS-Geräten nicht optimal dargestellt wird.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Administrator-Kennwort geändert
   text_default_encoding: 'Standard: UTF-8'
   text_destroy: Löschen
@@ -2525,6 +2540,10 @@ de:
       years: Jahre
   title_remove_and_delete_user: Den eingeladenen Benutzer aus dem Projekt entfernen
     und löschen.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Sendet eine weitere Einladungs-Email mit einem neuen
     Token für den Fall, dass das alte Token abgelaufen ist oder der Benutzer nicht
     die ursprüngliche Email erhalten hat. Dies kann auch für aktive Nutzer genutzt

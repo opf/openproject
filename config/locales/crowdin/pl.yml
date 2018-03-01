@@ -67,6 +67,7 @@ pl:
     plural: Custom actions
     new: New custom action
     edit: Edit custom action %{name}
+    execute: Execute %{name}
     upsale:
       title: Custom actions is an Enterprise Edition feature
       description: Custom actions streamline everyday work by combining a set of individual
@@ -268,6 +269,8 @@ pl:
       announcements:
         show_until: Wyświetlaj do
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Pliki do pobrania
         file: Plik
         filename: Plik
@@ -452,6 +455,8 @@ pl:
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
           not_an_integer: "(%{name}) is not an integer."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: nie można odczytać. Czy na pewno jest to token wsparcia?
         parse_schema_filter_params_service:
@@ -540,6 +545,8 @@ pl:
                 one: było użyte wcześniej. Proszę wybrać inne niż poprzednie.
                 other: było użyte wcześniej. Proszę wybrać inne niż %{count} poprzednich.
                 few: było użyte wcześniej. Proszę wybrać inne niż %{count} poprzednich.
+                many: has been used before. Please choose one that is different from
+                  your last %{count}.
               match:
                 confirm: Potwierdź nowe hasło.
                 description: '"Potwierdzenie hasła" powinno być zgodne z wartością
@@ -557,6 +564,7 @@ pl:
           one: 1 błąd uniemożliwia zapisanie %{model}
           other: "%{count} błędów uniemożliwia zapisanie %{model}"
           few: "%{count} błędów uniemożliwia zapisanie %{model}"
+          many: "%{count} errors prohibited this %{model} from being saved"
     models:
       attachment: Plik
       attribute_help_text: Tekst pomocy atrybutu
@@ -575,6 +583,7 @@ pl:
         one: Rola
         other: Role
         few: Role
+        many: Roles
       type: Typ
       project_type: Typ projektu
       user: Użytkownik
@@ -776,52 +785,64 @@ pl:
         one: około 1 godziny
         other: około %{count} godzin
         few: około %{count} godzin
+        many: about %{count} hours
       about_x_months:
         one: około 1 miesiąca
         other: około %{count} miesięcy
         few: około %{count} miesięcy
+        many: about %{count} months
       about_x_years:
         one: około 1 roku
         other: około %{count} lat
         few: około %{count} lat
+        many: about %{count} years
       almost_x_years:
         one: prawie 1 rok
         other: prawie %{count} lat
         few: prawie %{count} lat
+        many: almost %{count} years
       half_a_minute: pół minuty
       less_than_x_minutes:
         one: mniej niż minutę
         other: mniej niż %{count} minut
         few: mniej niż %{count} minut
+        many: less than %{count} minutes
       less_than_x_seconds:
         one: mniej niż 1 sekundę
         other: mniej niż %{count} sekund
         few: mniej niż %{count} sekund
+        many: less than %{count} seconds
       over_x_years:
         one: ponad 1 rok
         other: ponad %{count} lat
         few: ponad %{count} lat
+        many: over %{count} years
       x_days:
         one: 1 dzień
         other: "%{count} dni"
         few: "%{count} dni"
+        many: "%{count} days"
       x_minutes:
         one: 1 minuta
         other: "%{count} minut"
         few: "%{count} minut"
+        many: "%{count} minutes"
       x_months:
         one: 1 miesiąc
         other: "%{count} miesięcy"
         few: "%{count} miesięcy"
+        many: "%{count} months"
       x_seconds:
         one: 1 sekunda
         other: "%{count} sekund"
         few: "%{count} sekund"
+        many: "%{count} seconds"
     units:
       hour:
         one: godzina
         other: godziny
         few: godziny
+        many: hours
   default_activity_development: Rozwój
   default_activity_management: Zarządzanie
   default_activity_other: Inne
@@ -1003,6 +1024,14 @@ pl:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF z opisami
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: "."
@@ -1570,26 +1599,31 @@ pl:
     other: "%{count} zamkniętych"
     zero: 0 closed
     few: "%{count} zamkniętych"
+    many: "%{count} closed"
   label_x_comments:
     one: 1 komentarz
     other: "%{count} komentarzy"
     zero: no comments
     few: "%{count} komentarzy"
+    many: "%{count} comments"
   label_x_open_work_packages_abbr:
     one: 1 otwarty
     other: "%{count} otwartych"
     zero: 0 open
     few: "%{count} otwartych"
+    many: "%{count} open"
   label_x_open_work_packages_abbr_on_total:
     one: 1 otwarty / %{total}
     other: "%{count} otwartych / %{total}"
     zero: 0 open / %{total}
     few: "%{count} otwartych / %{total}"
+    many: "%{count} open / %{total}"
   label_x_projects:
     one: 1 projekt
     other: "%{count} projektów"
     zero: no projects
     few: "%{count} projektów"
+    many: "%{count} projects"
   label_year: Rok
   label_yesterday: wczoraj
   label_keyboard_function: Funkcja
@@ -1770,6 +1804,7 @@ pl:
             one: Bajt
             other: Bajty
             few: Bajty
+            many: Bytes
           gb: GB
           kb: kB
           mb: MB
@@ -2129,6 +2164,7 @@ pl:
   setting_time_format: Format czasu
   setting_accessibility_mode_for_anonymous: Włącz tryb dostępu dla użytkowników anonimowych
   setting_user_format: Format wyświetlania nazwy użytkownika
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Konta użytkowników mogą być usuwane przez administratorów
   setting_users_deletable_by_self: Użytkownicy mogą usuwać swoje konta
   setting_welcome_text: Tekst bloku powitalnego
@@ -2199,6 +2235,7 @@ pl:
     się, że obrazek nie ma przeźroczystego tła - inaczej źle będzie wyglądał na iOS''ach.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Domyślne konto administratora zostało
     zmienione
   text_default_encoding: 'Domyślnie: UTF-8'
@@ -2335,6 +2372,7 @@ pl:
       one: 1 dzień
       other: "%{count} dni"
       few: "%{count} dni"
+      many: "%{count} days"
     edit_color: Edycja koloru
     edit_project_type: Edycja typu projektu
     edit_thing: Edycja
@@ -2498,6 +2536,10 @@ pl:
       years: Lata
   title_remove_and_delete_user: Usuń dotychczasowego użytkownika z projektu i usuń
     go.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Wysyła kolejne zaproszenie mailowe ze świeżym tokenem
     w przypadku, gdy stary wygasł lub gdy użytkownik nie otrzymał pierwszej wiadomości
     e-mail. Można używać też do wyboru nowej metody uwierzytelniania dla aktywnych
@@ -2535,6 +2577,7 @@ pl:
       one: tymczasowo zablokowane (jedna nieudana próba zalogowania)
       other: tymczasowo zablokowane (%{count} nieudanych prób zalogowania)
       few: tymczasowo zablokowane (%{count} nieudanych prób zalogowania)
+      many: locked temporarily (%{count} failed login attempts)
     confirm_status_change: Zamierzasz zmienić status „%{name}”. Na pewno chcesz kontynuować?
     deleted: Usunięty uźytkownik
     error_status_change_failed: 'Zmiana statusu użytkownika nie powiodło się z powodu

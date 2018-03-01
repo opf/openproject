@@ -67,9 +67,9 @@ class CustomActions::UpdateWorkPackageService
   end
 
   def retry_apply_actions(work_package, actions, errors)
-    invalid_keys = errors.keys.map { |k| k.to_s.gsub(/(_id)?$/, '_id') }
+    invalid_keys = errors.keys.map { |k| append_id(k) }
 
-    new_actions = actions.reject { |a| invalid_keys.include?(a.key.to_s.gsub(/(_id)?$/, '_id')) }
+    new_actions = actions.reject { |a| invalid_keys.include?(append_id(a.key)) }
 
     if new_actions.any? && actions.length != new_actions.length
       apply_actions(work_package, new_actions)
@@ -80,5 +80,9 @@ class CustomActions::UpdateWorkPackageService
     actions
       .sort_by(&:priority)
       .each { |a| a.apply(work_package) }
+  end
+
+  def append_id(sym)
+    sym.to_s.chomp('_id') + '_id'
   end
 end

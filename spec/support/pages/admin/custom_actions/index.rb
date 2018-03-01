@@ -67,17 +67,47 @@ module Pages
           end
         end
 
+        def move_top(name)
+          within_row_of(name) do
+            click_link 'Move to top'
+          end
+        end
+
+        def move_bottom(name)
+          within_row_of(name) do
+            click_link 'Move to bottom'
+          end
+        end
+
+        def move_up(name)
+          within_row_of(name) do
+            click_link 'Move up'
+          end
+        end
+
+        def move_down(name)
+          within_row_of(name) do
+            click_link 'Move down'
+          end
+        end
+
         def path
           custom_actions_path
         end
 
         private
 
-        def within_buttons_of(name)
+        def within_row_of(name)
           within 'table' do
-            row = find('tr', text: name)
+            within find('tr', text: name) do
+              yield
+            end
+          end
+        end
 
-            within row.find('.buttons') do
+        def within_buttons_of(name)
+          within_row_of(name) do
+            within find('.buttons') do
               yield
             end
           end

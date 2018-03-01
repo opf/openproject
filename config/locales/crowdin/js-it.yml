@@ -66,6 +66,8 @@ it:
           one: Primo criterio di ordinamento
           two: Secondo criterio di ordinamento
           three: Terzo criterio di ordinamento
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: 'no'
     general_text_yes: si
     general_text_No: 'No'

@@ -40,7 +40,7 @@ class CustomActionsController < ApplicationController
   helper_method :gon
 
   def index
-    @custom_actions = CustomAction.order_by_name
+    @custom_actions = CustomAction.order_by_position
   end
 
   def new

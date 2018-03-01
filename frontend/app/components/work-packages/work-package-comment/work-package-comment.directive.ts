@@ -72,8 +72,7 @@ export class CommentFieldDirectiveController {
 
     scopedObservable<string>(this.$scope, this.wpActivityService.quoteEvents.values$())
       .subscribe((quote:string) => {
-      this.resetField(quote);
-      this.activate();
+      this.activate(quote);
       this.$element.find('.work-packages--activity--add-comment')[0].scrollIntoView();
     });
   }

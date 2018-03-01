@@ -66,6 +66,8 @@ fr:
           one: Premier critère de tri
           two: Second critère de tri
           three: Troisième critère de tri
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: non
     general_text_yes: oui
     general_text_No: Non

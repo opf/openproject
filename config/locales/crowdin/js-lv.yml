@@ -65,6 +65,8 @@ lv:
           one: Pirmais kārtošanas kritērijs
           two: Otrs kārtošanas kritērijs
           three: Trešais kārtošanas kritērijs
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: 'no'
     general_text_yes: 'yes'
     general_text_No: 'No'

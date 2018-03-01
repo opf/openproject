@@ -107,6 +107,14 @@ module API
             "#{work_packages_by_project(project_id)}/form"
           end
 
+          def self.custom_action(id)
+            "#{root}/custom_actions/#{id}"
+          end
+
+          def self.custom_action_execute(id)
+            "#{custom_action(id)}/execute"
+          end
+
           def self.custom_option(id)
             "#{root}/custom_options/#{id}"
           end
@@ -346,10 +354,6 @@ module API
 
           def self.work_package(id)
             "#{work_packages}/#{id}"
-          end
-
-          def self.work_package_custom_action_execute(work_package_id, action_id)
-            "#{work_package(work_package_id)}/custom_actions/#{action_id}/execute"
           end
 
           def self.work_package_activities(id)

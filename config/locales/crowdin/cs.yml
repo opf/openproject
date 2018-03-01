@@ -67,10 +67,11 @@ cs:
     plural: Vlastní akce
     new: Nová vlastní akce
     edit: Upravit vlastní akci %{name}
+    execute: Execute %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: Vlastní akce pouze v Enterprise Edition
+      description: Vlastní akce zjednodušuje každodenní práci tím, že kombinuje několik
+        kroků do jednoho tlačítka.
   custom_fields:
     text_add_new_custom_field: 'To add new custom fields to a project you first need
       to create them before you can add them to this project.
@@ -274,6 +275,8 @@ cs:
       announcements:
         show_until: Display until
       attachment:
+        attachment_content: Obsah přílohy
+        attachment_file_name: Název souboru přílohy
         downloads: Ke stažení
         file: Soubor
         filename: Soubor
@@ -454,10 +457,12 @@ cs:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_an_integer: "(%{name}) is not an integer."
+          only_one_allowed: "(%{name}) je povolena pouze jedna hodnota."
+          empty: "(%{name}) hodnota nemůže být prázdná."
+          inclusion: "(%{name}) hodnota není nastavena na jednu z povolených hodnot."
+          not_an_integer: "(%{name}) není celé číslo."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -546,6 +551,8 @@ cs:
                   posledních.
                 few: bylo již použito. Zvolte takové, které není stejné jako %{count}
                   posledních.
+                many: has been used before. Please choose one that is different from
+                  your last %{count}.
               match:
                 confirm: Potvrzení nového hesla.
                 description: "'Password confirmation' should match the input in the
@@ -563,12 +570,13 @@ cs:
           one: 1 error prohibited this %{model} from being saved
           other: "%{count} chyb zabránilo %{model} v uložení"
           few: "%{count} errors prohibited this %{model} from being saved"
+          many: "%{count} errors prohibited this %{model} from being saved"
     models:
       attachment: Soubor
       attribute_help_text: Attribute help text
       board: Fórum
       comment: Komentář
-      custom_action: Custom action
+      custom_action: Vlastní akce
       custom_field: Vlastní pole
       group: Skupina
       category: Kategorie
@@ -581,6 +589,7 @@ cs:
         one: Role
         other: Role
         few: Role
+        many: Roles
       type: Typ
       project_type: Typ projektu
       user: Uživatel
@@ -782,52 +791,64 @@ cs:
         one: přibližně 1 hodinu
         other: about %{count} hours
         few: about %{count} hours
+        many: about %{count} hours
       about_x_months:
         one: about 1 month
         other: about %{count} months
         few: about %{count} months
+        many: about %{count} months
       about_x_years:
         one: about 1 year
         other: about %{count} years
         few: about %{count} years
+        many: about %{count} years
       almost_x_years:
         one: almost 1 year
         other: almost %{count} years
         few: almost %{count} years
+        many: almost %{count} years
       half_a_minute: půl minuty
       less_than_x_minutes:
         one: less than a minute
         other: less than %{count} minutes
         few: less than %{count} minutes
+        many: less than %{count} minutes
       less_than_x_seconds:
         one: less than 1 second
         other: less than %{count} seconds
         few: less than %{count} seconds
+        many: less than %{count} seconds
       over_x_years:
         one: přes 1 rok
         other: over %{count} years
         few: over %{count} years
+        many: over %{count} years
       x_days:
         one: 1 den
         other: "%{count} days"
         few: "%{count} days"
+        many: "%{count} days"
       x_minutes:
         one: 1 minuta
         other: "%{count} minutes"
         few: "%{count} minutes"
+        many: "%{count} minutes"
       x_months:
         one: 1 month
         other: "%{count} months"
         few: "%{count} months"
+        many: "%{count} months"
       x_seconds:
         one: 1 second
         other: "%{count} seconds"
         few: "%{count} seconds"
+        many: "%{count} seconds"
     units:
       hour:
         one: hour
         other: hours
         few: hours
+        many: hours
   default_activity_development: Vývoj
   default_activity_management: Management
   default_activity_other: Ostatní
@@ -885,7 +906,7 @@ cs:
   default_type_feature: Feature
   default_type_milestone: Milník
   default_type_phase: Fáze
-  default_type_task: Task
+  default_type_task: Úkol
   default_type_user_story: User story
   description_active: Aktivní?
   description_attachment_toggle: Zobrazit/skrýt přílohy
@@ -1005,6 +1026,14 @@ cs:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF s popisem
+  extraction:
+    available:
+      pdftotext: Pdftotext k dispozici (volitelné)
+      unrtf: Unrtf k dispozici (volitelné)
+      catdoc: Catdoc k dispozici (volitelné)
+      xls2csv: XLS2CSV k dispozici (volitelné)
+      catppt: Catppt k dispozici (volitelné)
+      tesseract: Tesseract k dispozici (volitelné)
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1569,26 +1598,31 @@ cs:
     other: "%{count} uzavřeny"
     zero: 0 closed
     few: "%{count} uzavřeny"
+    many: "%{count} closed"
   label_x_comments:
     one: 1 komentář
     other: "%{count} komentářů"
     zero: no comments
     few: "%{count} komentářů"
+    many: "%{count} comments"
   label_x_open_work_packages_abbr:
     one: 1 otevřený
     other: "%{count} otevřených"
     zero: 0 open
     few: "%{count} otevřených"
+    many: "%{count} open"
   label_x_open_work_packages_abbr_on_total:
     one: 1 otevřený / %{total}
     other: "%{count} otevřených / %{total}"
     zero: 0 open / %{total}
     few: "%{count} otevřených / %{total}"
+    many: "%{count} open / %{total}"
   label_x_projects:
     one: 1 projekt
     other: "%{count} projektů"
     zero: no projects
     few: "%{count} projektů"
+    many: "%{count} projects"
   label_year: Rok
   label_yesterday: včera
   label_keyboard_function: Funkce
@@ -1762,6 +1796,7 @@ cs:
             one: Byte
             other: Bytes
             few: Bytes
+            many: Bytes
           gb: GB
           kb: kB
           mb: MB
@@ -2054,7 +2089,7 @@ cs:
   setting_file_max_size_displayed: Maximální velikost textových souborů zobrazených
     přímo na stránce
   setting_host_name: Název serveru
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: Platnost aktivačního E-Mailu vyprší po
   setting_work_package_done_ratio: Vypočítat koeficient dokončení úkolu s
   setting_work_package_done_ratio_field: Use the work package field
   setting_work_package_done_ratio_status: Use the work package status
@@ -2114,6 +2149,7 @@ cs:
   setting_time_format: Formát času
   setting_accessibility_mode_for_anonymous: Povolit režim usnadnění pro anonymní uživatele
   setting_user_format: Formát zobrazení uživatelů
+  setting_user_default_timezone: Výchozí časové pásmo uživatele
   setting_users_deletable_by_admins: Uživatelské účty lze odstranit administrátory
   setting_users_deletable_by_self: Uživatelé mohou odstranit jejich účty
   setting_welcome_text: Welcome block text
@@ -2184,6 +2220,7 @@ cs:
     is not transparent otherwise it will look bad on iOS.
 
 '
+  text_database_allows_tsv: Databáze umožňuje TSVector (volitelné)
   text_default_administrator_account_changed: Default administrator account changed
   text_default_encoding: 'Default: UTF-8'
   text_destroy: Odstranit
@@ -2320,6 +2357,7 @@ cs:
       one: 1 den
       other: "%{count} days"
       few: "%{count} days"
+      many: "%{count} days"
     edit_color: Upravit barvy
     edit_project_type: Upravit typ projektu
     edit_thing: Upravit
@@ -2482,6 +2520,10 @@ cs:
       years: Roky
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  tooltip_user_default_timezone: 'Výchozí časové pásmo pro nové uživatele. Lze změnit
+    v nastavení uživatele.
+
+'
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
     be used for active users to choose a new authentication method. When used with
@@ -2519,6 +2561,7 @@ cs:
       one: dočasně uzamčen (jeden pokus o přihlášení se nezdařil)
       other: dočasně uzamčen (%{count} pokusů o přihlášení se nezdařilo)
       few: dočasně uzamčen (%{count} pokusů o přihlášení se nezdařilo)
+      many: locked temporarily (%{count} failed login attempts)
     confirm_status_change: Chystáte se změnit stav '%{name}'. Opravdu chcete pokračovat?
     deleted: Odstraněný uživatel
     error_status_change_failed: 'Changing the user status failed due to the following
@@ -2549,9 +2592,10 @@ cs:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Varování
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
-  warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+  warning_registration_token_expired: 'Platnost aktivačního emailu vypršela. Poslali
+    jsme vám nový %{email}. Klikněte prosím na odkaz uvnitř pro aktivaci vašeho účtu.
+
+'
   menu_item: Položka nabídky
   menu_item_setting: Viditelnost
   wiki_menu_item_for: Položka nabídky pro stránku wiki "%{title}"

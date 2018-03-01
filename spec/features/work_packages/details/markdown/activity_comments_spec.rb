@@ -114,34 +114,12 @@ describe 'activity comments',
         end
       end
 
-      describe 'quoting' do
-        it 'can quote a previous comment' do
-          expect(page).to have_selector('.user-comment .message',
-                                        text: initial_comment)
-
-          # Hover comment
-          page.find('.user-comment > .message').hover
-
-          # Quote this comment
-          page.find('.comments-icons .icon-quote').click
-          expect(comment_field.editing?).to be true
-
-          # Add our comment
-          quote = comment_field.input_element[:value]
-          expect(quote).to include("> #{initial_comment}")
-          quote << "\nthis is **some remark** under a quote"
-          comment_field.input_element.set(quote)
-          comment_field.submit_by_click
-
-          expect(page).to have_selector('.user-comment > .message', count: 2)
-          expect(page).to have_selector('.user-comment > .message blockquote')
-          expect(page).to have_selector('.user-comment > .message strong')
-        end
-      end
-
       describe 'with an existing comment' do
         it 'allows to edit an existing comment' do
-          comment_field.input_element.set 'Comment with **bold text**'
+          # Insert new text, need to do this separately.
+          ['Comment with', ' ',  '*', '*', 'bold text', '*', '*'].each do |key|
+            comment_field.input_element.send_keys key
+          end
           comment_field.submit_by_click
 
           expect(page).to have_selector('.user-comment .message strong', text: 'bold text')
@@ -152,33 +130,64 @@ describe 'activity comments',
           page.driver.browser.action.move_to(activity.native).perform
 
           # Check the edit textarea
-          activity.find('.icon-edit').click
+          edit_button = activity.find('.icon-edit')
+          scroll_to_element(edit_button)
+          edit_button.click
           edit = WorkPackageEditorField.new wp_page,
                                             'comment',
                                             selector: '.user-comment--form'
 
-          edit.expect_value 'Comment with **bold text**'
-          edit.set_value 'Comment with _italic text_'
+
+          # Insert new text, need to do this separately.
+          edit.input_element.click
+
+          [:enter, 'Comment with', ' ',  '_', 'italic text', '_'].each do |key|
+            edit.input_element.send_keys key
+          end
 
           edit.submit_by_click
+          expect(page).to have_selector('.user-comment .message strong', text: 'bold text')
           expect(page).to have_selector('.user-comment .message em', text: 'italic text')
-          expect(page).to have_selector('.user-comment .message', text: 'Comment with italic text')
-
-          # Clear the comment
-          activity = page.find('#activity-2')
-          page.driver.browser.action.move_to(activity.native).perform
-
-          # Check the edit textarea
-          activity.find('.icon-edit').click
-          edit = WorkPackageEditorField.new wp_page,
-                                              'comment',
-                                              selector: '.user-comment--form'
-
-          edit.set_value ''
-          edit.submit_by_click
-
-          expect(page).to have_no_selector('#activity-2 .user-comment .message em', text: 'italic text')
+          expect(page).to have_selector('.user-comment .message',
+                                        text: 'Comment with bold text Comment with italic text')
         end
+      end
+    end
+
+    describe 'quoting' do
+      it 'can quote a previous comment' do
+        expect(page).to have_selector('.user-comment .message',
+                                      text: initial_comment)
+
+        # Hover comment
+        quoted = page.find('.user-comment > .message')
+        scroll_to_element(quoted)
+        quoted.hover
+
+        # Quote this comment
+        page.find('.comments-icons .icon-quote').click
+        expect(comment_field.editing?).to be true
+
+        # Add our comment
+        quote = comment_field.input_element[:innerHTML]
+        expect(quote).to eq '<p>Anonymous wrote:</p><blockquote><p>the first comment in this WP</p></blockquote>'
+
+        # Extend the comment
+        comment_field.input_element.click
+
+        # Insert new text, need to do this separately.
+        [:enter, :return, 'this is ', '*', '*', 'a bold', '*', '*', ' remark'].each do |key|
+          comment_field.input_element.send_keys key
+        end
+
+        comment_field.submit_by_click
+
+        # Scroll to the activity
+        scroll_to_element(page.find('#activity-2'))
+
+        expect(page).to have_selector('.user-comment > .message', count: 2)
+        expect(page).to have_selector('.user-comment > .message blockquote')
+        expect(page).to have_selector('.user-comment > .message strong')
       end
     end
   end

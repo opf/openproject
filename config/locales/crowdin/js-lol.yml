@@ -63,6 +63,8 @@ lol:
           one: crwdns98384:0crwdne98384:0
           two: crwdns98385:0crwdne98385:0
           three: crwdns98386:0crwdne98386:0
+      upsale_for_more: crwdns98868:0crwdne98868:0
+      upsale_link: crwdns98869:0crwdne98869:0
     general_text_no: crwdns98387:0crwdne98387:0
     general_text_yes: crwdns98388:0crwdne98388:0
     general_text_No: crwdns98389:0crwdne98389:0
@@ -278,15 +280,15 @@ lol:
     field_value_enter_prompt: crwdns98582:0%{field}crwdne98582:0
     select2:
       input_too_short:
-        one: crwdns98583:0crwdne98583:0
-        other: crwdns98583:1{{count}}crwdne98583:1
+        one: crwdns98583:1crwdne98583:1
+        other: crwdns98583:5{{count}}crwdne98583:5
         zero: Please enter more characters
       load_more: crwdns98584:0crwdne98584:0
       no_matches: crwdns98585:0crwdne98585:0
       searching: crwdns98586:0crwdne98586:0
       selection_too_big:
-        one: crwdns98587:0crwdne98587:0
-        other: crwdns98587:1{{limit}}crwdne98587:1
+        one: crwdns98587:1crwdne98587:1
+        other: crwdns98587:5{{limit}}crwdne98587:5
         zero: You cannot select any items
     sort:
       sorted_asc: crwdns98588:0crwdne98588:0
@@ -577,14 +579,14 @@ lol:
     error_could_not_resolve_user_name: crwdns98834:0crwdne98834:0
     units:
       workPackage:
-        one: crwdns98835:0crwdne98835:0
-        other: crwdns98835:1crwdne98835:1
+        one: crwdns98835:1crwdne98835:1
+        other: crwdns98835:5crwdne98835:5
       child_work_packages:
-        one: crwdns98836:0crwdne98836:0
-        other: crwdns98836:1%{count}crwdne98836:1
+        one: crwdns98836:1crwdne98836:1
+        other: crwdns98836:5%{count}crwdne98836:5
       hour:
-        one: crwdns98837:0crwdne98837:0
-        other: crwdns98837:1%{count}crwdne98837:1
+        one: crwdns98837:1crwdne98837:1
+        other: crwdns98837:5%{count}crwdne98837:5
         zero: 0 hours
     zen_mode:
       button_activate: crwdns98838:0crwdne98838:0

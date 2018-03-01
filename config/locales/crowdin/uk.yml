@@ -67,6 +67,7 @@ uk:
     plural: Custom actions
     new: New custom action
     edit: Edit custom action %{name}
+    execute: Execute %{name}
     upsale:
       title: Custom actions is an Enterprise Edition feature
       description: Custom actions streamline everyday work by combining a set of individual
@@ -264,7 +265,7 @@ uk:
       Будь ласка, зверніться до адміністратора, щоб створити обліковий запис для вас.
 
 '
-    login_with_auth_provider: or sign in with your existing account
+    login_with_auth_provider: або ввійдіть у свій існуючий обліковий запис
     signup_with_auth_provider: or sign up using
     auth_source_login: Please login as <em>%{login}</em> to activate your account.
     omniauth_login: Please login to activate your account.
@@ -274,6 +275,8 @@ uk:
       announcements:
         show_until: Display until
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Завантаження
         file: Файл
         filename: Файл
@@ -305,7 +308,7 @@ uk:
         min_length: Мінімальна довжина
         multi_value: Allow multi-select
         possible_values: Можливі значення
-        regexp: Regular expression
+        regexp: Регулярний вираз
         searchable: Searchable
         visible: Visible
       custom_value:
@@ -458,6 +461,8 @@ uk:
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
           not_an_integer: "(%{name}) is not an integer."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -546,6 +551,8 @@ uk:
                   your last %{count}.
                 few: has been used before. Please choose one that is different from
                   your last %{count}.
+                many: has been used before. Please choose one that is different from
+                  your last %{count}.
               match:
                 confirm: Confirm new password.
                 description: "'Password confirmation' should match the input in the
@@ -563,6 +570,7 @@ uk:
           one: 1 error prohibited this %{model} from being saved
           other: "%{count} errors prohibited this %{model} from being saved"
           few: "%{count} errors prohibited this %{model} from being saved"
+          many: "%{count} errors prohibited this %{model} from being saved"
     models:
       attachment: Файл
       attribute_help_text: Attribute help text
@@ -581,6 +589,7 @@ uk:
         one: Role
         other: Roles
         few: Roles
+        many: Roles
       type: Type
       project_type: Тип проекту
       user: User
@@ -783,52 +792,64 @@ uk:
         one: about 1 hour
         other: about %{count} hours
         few: about %{count} hours
+        many: about %{count} hours
       about_x_months:
         one: about 1 month
         other: about %{count} months
         few: about %{count} months
+        many: about %{count} months
       about_x_years:
         one: about 1 year
         other: about %{count} years
         few: about %{count} years
+        many: about %{count} years
       almost_x_years:
         one: almost 1 year
         other: almost %{count} years
         few: almost %{count} years
+        many: almost %{count} years
       half_a_minute: half a minute
       less_than_x_minutes:
         one: less than a minute
         other: less than %{count} minutes
         few: less than %{count} minutes
+        many: less than %{count} minutes
       less_than_x_seconds:
         one: less than 1 second
         other: less than %{count} seconds
         few: less than %{count} seconds
+        many: less than %{count} seconds
       over_x_years:
         one: over 1 year
         other: over %{count} years
         few: over %{count} years
+        many: over %{count} years
       x_days:
         one: 1 day
         other: "%{count} days"
         few: "%{count} days"
+        many: "%{count} days"
       x_minutes:
         one: 1 minute
         other: "%{count} minutes"
         few: "%{count} minutes"
+        many: "%{count} minutes"
       x_months:
         one: 1 month
         other: "%{count} months"
         few: "%{count} months"
+        many: "%{count} months"
       x_seconds:
         one: 1 second
         other: "%{count} seconds"
         few: "%{count} seconds"
+        many: "%{count} seconds"
     units:
       hour:
         one: hour
         other: hours
         few: hours
+        many: hours
   default_activity_development: Development
   default_activity_management: Налаштування
   default_activity_other: Other
@@ -1006,6 +1027,14 @@ uk:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF з описами
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1568,26 +1597,31 @@ uk:
     other: "%{count} closed"
     zero: 0 closed
     few: "%{count} closed"
+    many: "%{count} closed"
   label_x_comments:
     one: 1 comment
     other: "%{count} comments"
     zero: no comments
     few: "%{count} comments"
+    many: "%{count} comments"
   label_x_open_work_packages_abbr:
     one: 1 open
     other: "%{count} open"
     zero: 0 open
     few: "%{count} open"
+    many: "%{count} open"
   label_x_open_work_packages_abbr_on_total:
     one: 1 open / %{total}
     other: "%{count} open / %{total}"
     zero: 0 open / %{total}
     few: "%{count} open / %{total}"
+    many: "%{count} open / %{total}"
   label_x_projects:
     one: 1 project
     other: "%{count} projects"
     zero: no projects
     few: "%{count} projects"
+    many: "%{count} projects"
   label_year: Year
   label_yesterday: yesterday
   label_keyboard_function: Function
@@ -1763,6 +1797,7 @@ uk:
             one: Byte
             other: Bytes
             few: Bytes
+            many: Bytes
           gb: GB
           kb: kB
           mb: MB
@@ -2114,6 +2149,7 @@ uk:
   setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
     users
   setting_user_format: Users display format
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
   setting_welcome_text: Welcome block text
@@ -2184,6 +2220,7 @@ uk:
     is not transparent otherwise it will look bad on iOS.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Default administrator account changed
   text_default_encoding: 'Default: UTF-8'
   text_destroy: Delete
@@ -2319,6 +2356,7 @@ uk:
       one: 1 day
       other: "%{count} days"
       few: "%{count} days"
+      many: "%{count} days"
     edit_color: Edit color
     edit_project_type: Edit project type
     edit_thing: Edit
@@ -2481,6 +2519,10 @@ uk:
       years: Years
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
     be used for active users to choose a new authentication method. When used with
@@ -2518,6 +2560,7 @@ uk:
       one: locked temporarily (one failed login attempt)
       other: locked temporarily (%{count} failed login attempts)
       few: locked temporarily (%{count} failed login attempts)
+      many: locked temporarily (%{count} failed login attempts)
     confirm_status_change: You are about to change the status of '%{name}'. Are you
       sure you want to continue?
     deleted: Deleted user

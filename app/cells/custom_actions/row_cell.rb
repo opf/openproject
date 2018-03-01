@@ -1,13 +1,18 @@
 module CustomActions
   class RowCell < ::RowCell
     include ::IconsHelper
+    include ReorderLinksHelper
 
     def action
       model
     end
 
-    def users
-      synchronized_group.users.count
+    def name
+      link_to h(action.name), edit_custom_action_path(action)
+    end
+
+    def sort
+      reorder_links('custom_action', { action: 'update', id: action }, method: :put)
     end
 
     def button_links

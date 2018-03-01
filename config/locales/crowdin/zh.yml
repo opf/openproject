@@ -51,15 +51,15 @@ zh:
   custom_actions:
     actions:
       name: 操作
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
+      add: 添加操作
+    conditions: 条件
+    plural: 自定义操作
+    new: 添加自定义操作
+    edit: 编辑自定义操作 %{name}
+    execute: 执行 %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: 自定义操作是企业版功能
+      description: 自定义操作通过将一组单独的步骤组合成一个按钮来简化日常工作。
   custom_fields:
     text_add_new_custom_field: '要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
 
@@ -230,6 +230,8 @@ zh:
       announcements:
         show_until: 显示截止日期
       attachment:
+        attachment_content: 附件内容
+        attachment_file_name: 附件文件名
         downloads: 下载
         file: 文件
         filename: 文件
@@ -405,10 +407,12 @@ zh:
         custom_field:
           at_least_one_custom_option: 至少有需要一个可用选项。
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_an_integer: "(%{name}) is not an integer."
+          only_one_allowed: "(%{name}) 只允许一个值。"
+          empty: "(%{name}) 值不能为空。"
+          inclusion: "(%{name}) 的值未设置为允许的值之一。"
+          not_an_integer: "(%{name}) 不是整数。"
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: 无法读取。是否确定为支持令牌？
         parse_schema_filter_params_service:
@@ -506,7 +510,7 @@ zh:
       attribute_help_text: 属性帮助文本
       board: 论坛
       comment: 评论
-      custom_action: Custom action
+      custom_action: 自定义操作
       custom_field: 自定义字段
       group: 组
       category: 类别
@@ -913,6 +917,14 @@ zh:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: 带描述的PDF
+  extraction:
+    available:
+      pdftotext: Pdftotext 可用 (可选)
+      unrtf: Unrtf 可用 (可选)
+      catdoc: Catdoc 可用 (可选)
+      xls2csv: Xls2csv 可用 (可选)
+      catppt: Catppt 可用 (可选)
+      tesseract: Tesseract 可用 (可选)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -950,7 +962,7 @@ zh:
       boards: 社区论坛
       newsletter: 安全警报/通信
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: 配置指南
   instructions_after_registration: 只要您的帐户已被激活您可以点击 %{signin} 登录。
   instructions_after_logout: 你可以点击 %{signin} 重新登录。
   instructions_after_error: 你可以尝试点击 %{signin} 重新登录。如果错误仍然存在，请向您的管理员寻求帮助。
@@ -1875,7 +1887,7 @@ zh:
   setting_feeds_limit: Feed内容限制
   setting_file_max_size_displayed: 内联显示的文本文件的最大文件大小
   setting_host_name: 主机名
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: 激活电子邮件的过期时间为
   setting_work_package_done_ratio: 计算工作包完成比率
   setting_work_package_done_ratio_field: 使用工作包字段
   setting_work_package_done_ratio_status: 使用工作包状态
@@ -1927,6 +1939,7 @@ zh:
   setting_time_format: 时间格式
   setting_accessibility_mode_for_anonymous: 为匿名用户启用辅助功能模式
   setting_user_format: 用户显示格式
+  setting_user_default_timezone: 用户默认时区
   setting_users_deletable_by_admins: 可由管理员删除用户帐户
   setting_users_deletable_by_self: 允许用户删除其帐户
   setting_welcome_text: 欢迎块文本
@@ -1982,6 +1995,7 @@ zh:
   text_custom_touch_icon_instructions: '如果你在主屏幕上建立了一个标签，这个小图标将会显示在你的手机或平板电脑上。
 
 '
+  text_database_allows_tsv: 数据库允许 TSVector (可选)
   text_default_administrator_account_changed: 更改默认管理员帐户
   text_default_encoding: 默认值： UTF-8
   text_destroy: 删除
@@ -2237,6 +2251,9 @@ zh:
       quarters: 季度
       years: 年
   title_remove_and_delete_user: 从项目中移除所邀请的用户并删除他/她。
+  tooltip_user_default_timezone: '新用户的默认时区。可以在用户设置中更改。
+
+'
   tooltip_resend_invitation: '旧邀请电子邮件过期或用户未收到之前的电子邮件时，再发送一封邀请电子邮件。也可由活跃用户用于选择新的身份验证方法。活跃用户使用时，状态会更改为“已邀请”。
 
 '
@@ -2293,9 +2310,9 @@ zh:
   note_password_login_disabled: 密码登录已被 %{configuration} 禁用。
   warning: 警告
   warning_attachments_not_saved: "%{count} 文件不能被保存。"
-  warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+  warning_registration_token_expired: '激活邮件已过期，我们给您发送了一封新邮件到%{email}。请单击内部的链接以激活您的帐户。
+
+'
   menu_item: 菜单项
   menu_item_setting: 可见性
   wiki_menu_item_for: wiki页面” %{title} “的菜单项

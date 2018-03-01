@@ -29,6 +29,8 @@
 #++
 
 module CustomActions::Actions::Strategies::Float
+  include CustomActions::Actions::Strategies::ValidateInRange
+
   def values=(values)
     super(Array(values).map { |v| to_float_or_nil(v) }.uniq)
   end

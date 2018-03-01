@@ -34,11 +34,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:member) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:current_user) { member }
   let(:embed_links) { true }
-  let(:representer) {
+  let(:representer) do
     described_class.create(work_package, current_user: current_user, embed_links: embed_links)
-  }
+  end
 
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.build(:work_package,
                       id: 42,
                       start_date: Date.today.to_datetime,
@@ -47,23 +47,23 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                       updated_at: DateTime.now,
                       done_ratio: 50,
                       estimated_hours: 6.0)
-  }
+  end
   let(:project) { work_package.project }
-  let(:all_permissions) {
-    [
-      :view_work_packages,
-      :view_work_package_watchers,
-      :edit_work_packages,
-      :add_work_package_watchers,
-      :delete_work_package_watchers,
-      :manage_work_package_relations,
-      :add_work_package_notes,
-      :add_work_packages,
-      :view_time_entries,
-      :view_changesets,
-      :delete_work_packages
+  let(:all_permissions) do
+    %i[
+      view_work_packages
+      view_work_package_watchers
+      edit_work_packages
+      add_work_package_watchers
+      delete_work_package_watchers
+      manage_work_package_relations
+      add_work_package_notes
+      add_work_packages
+      view_time_entries
+      view_changesets
+      delete_work_packages
     ]
-  }
+  end
   let(:permissions) { all_permissions }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
 
@@ -102,10 +102,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when the work package has a milestone type' do
-          let(:milestone_type) {
+          let(:milestone_type) do
             FactoryGirl.build_stubbed(:type,
                                       is_milestone: true)
-          }
+          end
 
           before do
             work_package.type = milestone_type
@@ -132,10 +132,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when the work package has a milestone type' do
-          let(:milestone_type) {
+          let(:milestone_type) do
             FactoryGirl.build_stubbed(:type,
                                       is_milestone: true)
-          }
+          end
 
           before do
             work_package.type = milestone_type
@@ -148,10 +148,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'date' do
-        let(:milestone_type) {
+        let(:milestone_type) do
           FactoryGirl.build_stubbed(:type,
                                     is_milestone: true)
-        }
+        end
 
         before do
           work_package.type = milestone_type
@@ -173,10 +173,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when the work package has a non milestone type' do
-          let(:none_milestone_type) {
+          let(:none_milestone_type) do
             FactoryGirl.build_stubbed(:type,
                                       is_milestone: false)
-          }
+          end
 
           before do
             work_package.type = none_milestone_type
@@ -214,13 +214,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'estimatedTime' do
-      let(:work_package) {
+      let(:work_package) do
         FactoryGirl.build(:work_package,
                           id: 42,
                           created_at: DateTime.now,
                           updated_at: DateTime.now,
                           estimated_hours: 6.5)
-      }
+      end
 
       it { is_expected.to be_json_eql('PT6H30M'.to_json).at_path('estimatedTime') }
     end
@@ -356,9 +356,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'assignee' do
         context 'assignee is set' do
-          let(:work_package) {
+          let(:work_package) do
             FactoryGirl.build(:work_package, id: 42, assigned_to: FactoryGirl.build_stubbed(:user))
-          }
+          end
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'assignee' }
@@ -376,9 +376,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'responsible' do
         context 'responsible is set' do
-          let(:work_package) {
+          let(:work_package) do
             FactoryGirl.build(:work_package, id: 42, responsible: FactoryGirl.build_stubbed(:user))
-          }
+          end
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'responsible' }
@@ -397,9 +397,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'revisions' do
         it_behaves_like 'has an untitled link' do
           let(:link) { 'revisions' }
-          let(:href) {
+          let(:href) do
             api_v3_paths.work_package_revisions(work_package.id)
-          }
+          end
         end
       end
 
@@ -498,9 +498,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'schema' do
         it_behaves_like 'has an untitled link' do
           let(:link) { 'schema' }
-          let(:href) {
+          let(:href) do
             api_v3_paths.work_package_schema(work_package.project.id, work_package.type.id)
-          }
+          end
         end
       end
 
@@ -542,7 +542,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'user is neither allowed to edit work packages nor to add them' do
-          let(:permissions) { all_permissions - [:edit_work_packages, :add_work_packages] }
+          let(:permissions) { all_permissions - %i[edit_work_packages add_work_packages] }
 
           it_behaves_like 'has no link' do
             let(:link) { 'addAttachment' }
@@ -784,11 +784,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'children' do
           let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-          let!(:forbidden_work_package) {
+          let!(:forbidden_work_package) do
             FactoryGirl.create(:work_package,
                                project: forbidden_project,
                                parent: work_package)
-          }
+          end
 
           it { expect(subject).not_to have_json_path('_links/children') }
 
@@ -911,8 +911,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
           expected = [
             {
-              href: api_v3_paths.work_package_custom_action_execute(work_package.id, unassign_action.id),
-              method: 'POST',
+              href: api_v3_paths.custom_action(unassign_action.id),
               title: unassign_action.name
             }
           ]
@@ -987,6 +986,21 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           is_expected
             .to be_json_eql(api_v3_paths.relation(relation.id).to_json)
             .at_path('_embedded/relations/_embedded/elements/0/_links/self/href')
+        end
+      end
+
+      describe 'customActions' do
+        it 'has an array of customActions' do
+          unassign_action = FactoryGirl.build_stubbed(:custom_action,
+                                                      actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+                                                      name: 'Unassign')
+          allow(work_package)
+            .to receive(:custom_actions)
+            .and_return([unassign_action])
+
+          is_expected
+            .to be_json_eql('Unassign'.to_json)
+            .at_path('_embedded/customActions/0/name')
         end
       end
     end

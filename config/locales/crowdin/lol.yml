@@ -56,6 +56,7 @@ lol:
     plural: crwdns98843:0crwdne98843:0
     new: crwdns98844:0crwdne98844:0
     edit: crwdns98845:0%{name}crwdne98845:0
+    execute: crwdns98870:0%{name}crwdne98870:0
     upsale:
       title: crwdns98846:0crwdne98846:0
       description: crwdns98847:0crwdne98847:0
@@ -229,6 +230,8 @@ lol:
       announcements:
         show_until: crwdns96494:0crwdne96494:0
       attachment:
+        attachment_content: crwdns98857:0crwdne98857:0
+        attachment_file_name: crwdns98858:0crwdne98858:0
         downloads: crwdns96495:0crwdne96495:0
         file: crwdns96496:0crwdne96496:0
         filename: crwdns96497:0crwdne96497:0
@@ -408,6 +411,8 @@ lol:
           empty: crwdns98849:0%{name}crwdne98849:0
           inclusion: crwdns98850:0%{name}crwdne98850:0
           not_an_integer: crwdns98851:0%{name}crwdne98851:0
+          smaller_than_or_equal_to: crwdns98871:0%{name}crwdnd98871:0%{count}crwdne98871:0
+          greater_than_or_equal_to: crwdns98872:0%{name}crwdnd98872:0%{count}crwdne98872:0
         enterprise_token:
           unreadable: crwdns96639:0crwdne96639:0
         parse_schema_filter_params_service:
@@ -482,8 +487,8 @@ lol:
               numeric: crwdns96676:0crwdne96676:0
               special: crwdns96677:0crwdne96677:0
               reused:
-                one: crwdns96678:0crwdne96678:0
-                other: crwdns96678:1%{count}crwdne96678:1
+                one: crwdns96678:1crwdne96678:1
+                other: crwdns96678:5%{count}crwdne96678:5
               match:
                 confirm: crwdns96679:0crwdne96679:0
                 description: crwdns96680:0crwdne96680:0
@@ -497,8 +502,8 @@ lol:
       template:
         body: crwdns96685:0crwdne96685:0
         header:
-          one: crwdns96686:0%{model}crwdne96686:0
-          other: crwdns96686:1%{count}crwdnd96686:1%{model}crwdne96686:1
+          one: crwdns96686:1%{model}crwdne96686:1
+          other: crwdns96686:5%{count}crwdnd96686:5%{model}crwdne96686:5
     models:
       attachment: crwdns96687:0crwdne96687:0
       attribute_help_text: crwdns96688:0crwdne96688:0
@@ -514,8 +519,8 @@ lol:
       project: crwdns96697:0crwdne96697:0
       query: crwdns96698:0crwdne96698:0
       role:
-        one: crwdns96699:0crwdne96699:0
-        other: crwdns96699:1crwdne96699:1
+        one: crwdns96699:1crwdne96699:1
+        other: crwdns96699:5crwdne96699:5
       type: crwdns96700:0crwdne96700:0
       project_type: crwdns96701:0crwdne96701:0
       user: crwdns96702:0crwdne96702:0
@@ -711,43 +716,43 @@ lol:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: crwdns96878:0crwdne96878:0
-        other: crwdns96878:1%{count}crwdne96878:1
+        one: crwdns96878:1crwdne96878:1
+        other: crwdns96878:5%{count}crwdne96878:5
       about_x_months:
-        one: crwdns96879:0crwdne96879:0
-        other: crwdns96879:1%{count}crwdne96879:1
+        one: crwdns96879:1crwdne96879:1
+        other: crwdns96879:5%{count}crwdne96879:5
       about_x_years:
-        one: crwdns96880:0crwdne96880:0
-        other: crwdns96880:1%{count}crwdne96880:1
+        one: crwdns96880:1crwdne96880:1
+        other: crwdns96880:5%{count}crwdne96880:5
       almost_x_years:
-        one: crwdns96881:0crwdne96881:0
-        other: crwdns96881:1%{count}crwdne96881:1
+        one: crwdns96881:1crwdne96881:1
+        other: crwdns96881:5%{count}crwdne96881:5
       half_a_minute: crwdns96882:0crwdne96882:0
       less_than_x_minutes:
-        one: crwdns96883:0crwdne96883:0
-        other: crwdns96883:1%{count}crwdne96883:1
+        one: crwdns96883:1crwdne96883:1
+        other: crwdns96883:5%{count}crwdne96883:5
       less_than_x_seconds:
-        one: crwdns96884:0crwdne96884:0
-        other: crwdns96884:1%{count}crwdne96884:1
+        one: crwdns96884:1crwdne96884:1
+        other: crwdns96884:5%{count}crwdne96884:5
       over_x_years:
-        one: crwdns96885:0crwdne96885:0
-        other: crwdns96885:1%{count}crwdne96885:1
+        one: crwdns96885:1crwdne96885:1
+        other: crwdns96885:5%{count}crwdne96885:5
       x_days:
-        one: crwdns96886:0crwdne96886:0
-        other: crwdns96886:1%{count}crwdne96886:1
+        one: crwdns96886:1crwdne96886:1
+        other: crwdns96886:5%{count}crwdne96886:5
       x_minutes:
-        one: crwdns96887:0crwdne96887:0
-        other: crwdns96887:1%{count}crwdne96887:1
+        one: crwdns96887:1crwdne96887:1
+        other: crwdns96887:5%{count}crwdne96887:5
       x_months:
-        one: crwdns96888:0crwdne96888:0
-        other: crwdns96888:1%{count}crwdne96888:1
+        one: crwdns96888:1crwdne96888:1
+        other: crwdns96888:5%{count}crwdne96888:5
       x_seconds:
-        one: crwdns96889:0crwdne96889:0
-        other: crwdns96889:1%{count}crwdne96889:1
+        one: crwdns96889:1crwdne96889:1
+        other: crwdns96889:5%{count}crwdne96889:5
     units:
       hour:
-        one: crwdns96890:0crwdne96890:0
-        other: crwdns96890:1crwdne96890:1
+        one: crwdns96890:1crwdne96890:1
+        other: crwdns96890:5crwdne96890:5
   default_activity_development: crwdns96891:0crwdne96891:0
   default_activity_management: crwdns96892:0crwdne96892:0
   default_activity_other: crwdns96893:0crwdne96893:0
@@ -908,6 +913,14 @@ lol:
       csv: crwdns97037:0crwdne97037:0
       pdf: crwdns97038:0crwdne97038:0
       pdf_with_descriptions: crwdns97039:0crwdne97039:0
+  extraction:
+    available:
+      pdftotext: crwdns98859:0crwdne98859:0
+      unrtf: crwdns98860:0crwdne98860:0
+      catdoc: crwdns98861:0crwdne98861:0
+      xls2csv: crwdns98862:0crwdne98862:0
+      catppt: crwdns98863:0crwdne98863:0
+      tesseract: crwdns98864:0crwdne98864:0
   general_csv_decimal_separator: crwdns97040:0crwdne97040:0
   general_csv_encoding: crwdns97041:0crwdne97041:0
   general_csv_separator: crwdns97042:0crwdne97042:0
@@ -1458,24 +1471,24 @@ lol:
   label_workflow_plural: crwdns97577:0crwdne97577:0
   label_workflow_summary: crwdns97578:0crwdne97578:0
   label_x_closed_work_packages_abbr:
-    one: crwdns97579:0crwdne97579:0
-    other: crwdns97579:1%{count}crwdne97579:1
+    one: crwdns97579:1crwdne97579:1
+    other: crwdns97579:5%{count}crwdne97579:5
     zero: 0 closed
   label_x_comments:
-    one: crwdns97580:0crwdne97580:0
-    other: crwdns97580:1%{count}crwdne97580:1
+    one: crwdns97580:1crwdne97580:1
+    other: crwdns97580:5%{count}crwdne97580:5
     zero: no comments
   label_x_open_work_packages_abbr:
-    one: crwdns97581:0crwdne97581:0
-    other: crwdns97581:1%{count}crwdne97581:1
+    one: crwdns97581:1crwdne97581:1
+    other: crwdns97581:5%{count}crwdne97581:5
     zero: 0 open
   label_x_open_work_packages_abbr_on_total:
-    one: crwdns97582:0%{total}crwdne97582:0
-    other: crwdns97582:1%{count}crwdnd97582:1%{total}crwdne97582:1
+    one: crwdns97582:1%{total}crwdne97582:1
+    other: crwdns97582:5%{count}crwdnd97582:5%{total}crwdne97582:5
     zero: 0 open / %{total}
   label_x_projects:
-    one: crwdns97583:0crwdne97583:0
-    other: crwdns97583:1%{count}crwdne97583:1
+    one: crwdns97583:1crwdne97583:1
+    other: crwdns97583:5%{count}crwdne97583:5
     zero: no projects
   label_year: crwdns97584:0crwdne97584:0
   label_yesterday: crwdns97585:0crwdne97585:0
@@ -1614,8 +1627,8 @@ lol:
         format: crwdns97706:0%ncrwdnd97706:0%ucrwdne97706:0
         units:
           byte:
-            one: crwdns97707:0crwdne97707:0
-            other: crwdns97707:1crwdne97707:1
+            one: crwdns97707:1crwdne97707:1
+            other: crwdns97707:5crwdne97707:5
           gb: crwdns97708:0crwdne97708:0
           kb: crwdns97709:0crwdne97709:0
           mb: crwdns97710:0crwdne97710:0
@@ -1914,6 +1927,7 @@ lol:
   setting_time_format: crwdns97980:0crwdne97980:0
   setting_accessibility_mode_for_anonymous: crwdns97981:0crwdne97981:0
   setting_user_format: crwdns97982:0crwdne97982:0
+  setting_user_default_timezone: crwdns98865:0crwdne98865:0
   setting_users_deletable_by_admins: crwdns97983:0crwdne97983:0
   setting_users_deletable_by_self: crwdns97984:0crwdne97984:0
   setting_welcome_text: crwdns97985:0crwdne97985:0
@@ -1969,6 +1983,7 @@ lol:
   text_custom_touch_icon_instructions: 'crwdns98022:0crwdne98022:0
 
 '
+  text_database_allows_tsv: crwdns98866:0crwdne98866:0
   text_default_administrator_account_changed: crwdns98023:0crwdne98023:0
   text_default_encoding: crwdns98024:0crwdne98024:0
   text_destroy: crwdns98025:0crwdne98025:0
@@ -2074,8 +2089,8 @@ lol:
     delete_thing: crwdns98119:0crwdne98119:0
     duration: crwdns98120:0crwdne98120:0
     duration_days:
-      one: crwdns98121:0crwdne98121:0
-      other: crwdns98121:1%{count}crwdne98121:1
+      one: crwdns98121:1crwdne98121:1
+      other: crwdns98121:5%{count}crwdne98121:5
     edit_color: crwdns98122:0crwdne98122:0
     edit_project_type: crwdns98123:0crwdne98123:0
     edit_thing: crwdns98124:0crwdne98124:0
@@ -2222,6 +2237,9 @@ lol:
       quarters: crwdns98246:0crwdne98246:0
       years: crwdns98247:0crwdne98247:0
   title_remove_and_delete_user: crwdns98248:0crwdne98248:0
+  tooltip_user_default_timezone: 'crwdns98867:0crwdne98867:0
+
+'
   tooltip_resend_invitation: 'crwdns98249:0crwdne98249:0
 
 '
@@ -2249,8 +2267,8 @@ lol:
     assign_random_password: crwdns98263:0crwdne98263:0
     blocked: crwdns98264:0crwdne98264:0
     blocked_num_failed_logins:
-      one: crwdns98265:0crwdne98265:0
-      other: crwdns98265:1%{count}crwdne98265:1
+      one: crwdns98265:1crwdne98265:1
+      other: crwdns98265:5%{count}crwdne98265:5
     confirm_status_change: crwdns98266:0%{name}crwdne98266:0
     deleted: crwdns98267:0crwdne98267:0
     error_status_change_failed: crwdns98268:0%{errors}crwdne98268:0

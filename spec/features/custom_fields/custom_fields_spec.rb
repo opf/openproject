@@ -78,6 +78,7 @@ describe 'custom fields', js: true do
       with_enterprise_token(:multiselect_custom_fields)
 
       cf_page.visit!
+      expect_angular_frontend_initialized
 
       click_on custom_field.name
     end

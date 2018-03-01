@@ -67,8 +67,8 @@ describe 'Watcher tab', js: true, selenium: true do
       expect_button_is_watching
 
       # Remove watcher from list
-      page.find('.watcher-element', text: user.name).hover
-      page.find('.remove-watcher-btn').click
+      page.find('wp-watcher-entry', text: user.name).hover
+      page.find('.form--selected-value--remover').click
 
       # Expect the removal of the user to toggle WP watch button
       expect(page).to have_no_selector('.work-package--watcher-name')

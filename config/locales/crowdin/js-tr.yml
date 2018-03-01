@@ -65,6 +65,8 @@ tr:
           one: İlk sıralama ölçütü
           two: İkinci sıralama ölçütü
           three: Üçüncü sıralama ölçütleri
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: hayır
     general_text_yes: evet
     general_text_No: Hayır
@@ -358,11 +360,11 @@ tr:
       outline: Reset Outline
       outlines:
         aggregation: Show aggregations only
-        level1: Expand level 1
-        level2: Expand level 2
-        level3: Expand level 3
-        level4: Expand level 4
-        level5: Expand level 5
+        level1: Düzey 1 genişletin
+        level2: Düzey 2 genişletin
+        level3: Düzey 3 genişletin
+        level4: Seviye 4 genişletin
+        level5: Seviye 5 genişletin
         all: Tümünü göster
       project_status: Proje Durumu
       project_type: Proje türü

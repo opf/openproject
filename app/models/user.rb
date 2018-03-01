@@ -127,6 +127,7 @@ class User < Principal
   validate :password_meets_requirements
 
   after_save :update_password
+
   before_create :sanitize_mail_notification_setting
   before_destroy :delete_associated_private_queries
   before_destroy :reassign_associated

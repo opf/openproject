@@ -40,6 +40,8 @@ class CustomAction < ActiveRecord::Base
 
   define_attribute_method 'conditions'
 
+  acts_as_list
+
   def initialize(*args)
     ret = super
 
@@ -63,6 +65,10 @@ class CustomAction < ActiveRecord::Base
 
   def self.order_by_name
     order(:name)
+  end
+
+  def self.order_by_position
+    order(:position)
   end
 
   def all_actions
@@ -129,6 +135,11 @@ CustomActions::Register.action(CustomActions::Actions::CustomField)
 CustomActions::Register.action(CustomActions::Actions::Type)
 CustomActions::Register.action(CustomActions::Actions::Project)
 CustomActions::Register.action(CustomActions::Actions::Notify)
+CustomActions::Register.action(CustomActions::Actions::DoneRatio)
+CustomActions::Register.action(CustomActions::Actions::EstimatedHours)
+CustomActions::Register.action(CustomActions::Actions::StartDate)
+CustomActions::Register.action(CustomActions::Actions::DueDate)
+CustomActions::Register.action(CustomActions::Actions::Date)
 
 CustomActions::Register.condition(CustomActions::Conditions::Status)
 CustomActions::Register.condition(CustomActions::Conditions::Role)

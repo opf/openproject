@@ -58,6 +58,7 @@ ko:
     plural: Custom actions
     new: New custom action
     edit: Edit custom action %{name}
+    execute: Execute %{name}
     upsale:
       title: Custom actions is an Enterprise Edition feature
       description: Custom actions streamline everyday work by combining a set of individual
@@ -243,6 +244,8 @@ ko:
       announcements:
         show_until: 표시 기한
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: 다운로드
         file: 파일
         filename: 파일
@@ -423,6 +426,8 @@ ko:
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
           not_an_integer: "(%{name}) is not an integer."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: 읽을 수 없습니다. 지원하는 토큰이 확실한가요?
         parse_schema_filter_params_service:
@@ -957,6 +962,14 @@ ko:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: 설명이 첨부된 PDF
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2008,6 +2021,7 @@ ko:
   setting_time_format: 시간 형식
   setting_accessibility_mode_for_anonymous: 익명 사용자에 대해 접근성 모드 사용
   setting_user_format: 사용자 표시 형식
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: 관리자가 삭제 가능한 사용자 계정
   setting_users_deletable_by_self: 자신의 계정을 삭제하도록 허용된 사용자
   setting_welcome_text: 환영 블록 텍스트
@@ -2071,6 +2085,7 @@ ko:
     제곱 픽셀 크기의 PNG 이미지 파일이어야 합니다. 이미지의 배경이 투명하지 않은지 확인하세요. 그렇지 않으면 iOS에서 제대로 표시되지 않습니다.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: 기본 관리자 계정 변경됨
   text_default_encoding: '기본: UTF-8'
   text_destroy: 삭제
@@ -2341,6 +2356,10 @@ ko:
       quarters: 분기
       years: 년
   title_remove_and_delete_user: 초대받은 사용자를 프로젝트에서 제거하고 해당 사용자를 삭제하세요.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: '이전의 토큰이 만료되거나 사용자가 기존 메일을 받지 않았을 수 있기 때문에 새로운 토큰으로 다른
     초대 메일을 보냅니다. 이것은 활성화된 사용자들이 새로운 인증 방식을 선택할 때 사용될 수도 있습니다. 활성화된 사용자들이 사용할 때 그들의
     상태는 ''초대됨''으로 변경됩니다.

@@ -65,6 +65,8 @@ ar:
           one: أولاً يتم فرز المعايير
           two: ثانياً يتم فرز المعايير
           three: ثالثاً يتم فرز المعايير
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: لا
     general_text_yes: نعم
     general_text_No: لا

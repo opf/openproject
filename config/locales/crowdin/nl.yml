@@ -68,6 +68,7 @@ nl:
     plural: Custom actions
     new: New custom action
     edit: Edit custom action %{name}
+    execute: Execute %{name}
     upsale:
       title: Custom actions is an Enterprise Edition feature
       description: Custom actions streamline everyday work by combining a set of individual
@@ -279,6 +280,8 @@ nl:
       announcements:
         show_until: Toon tot
       attachment:
+        attachment_content: Attachment content
+        attachment_file_name: Attachment file name
         downloads: Downloads
         file: Bestand
         filename: Bestand
@@ -462,6 +465,8 @@ nl:
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
           not_an_integer: "(%{name}) is not an integer."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: kan niet worden gelezen. Weet u zeer dat het een support token
             is?
@@ -1001,6 +1006,14 @@ nl:
       csv: CSV
       pdf: PDF
       pdf_with_descriptions: PDF met beschrijvingen
+  extraction:
+    available:
+      pdftotext: Pdftotext available (optional)
+      unrtf: Unrtf available (optional)
+      catdoc: Catdoc available (optional)
+      xls2csv: Xls2csv available (optional)
+      catppt: Catppt available (optional)
+      tesseract: Tesseract available (optional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2129,6 +2142,7 @@ nl:
   setting_accessibility_mode_for_anonymous: Toegankelijkheid modus voor anonieme gebruikers
     inschakelen
   setting_user_format: Notatie voor weergave van gebruikers
+  setting_user_default_timezone: Users default time zone
   setting_users_deletable_by_admins: Gebruikersaccounts verwijderbaar door beheerder
   setting_users_deletable_by_self: Gebruikers kunnen hun accounts verwijderen
   setting_welcome_text: Welkom blok tekst
@@ -2200,6 +2214,7 @@ nl:
     is want dit kan er niet mooi uit zien op iOS.
 
 '
+  text_database_allows_tsv: Database allows TSVector (optional)
   text_default_administrator_account_changed: Standaard beheerdersaccount gewijzigd
   text_default_encoding: 'Standaardinstelling: UTF-8'
   text_destroy: Verwijderen
@@ -2503,6 +2518,10 @@ nl:
       years: Jaren
   title_remove_and_delete_user: De uitgenodigde gebruiker uit het project verwijderen
     en verwijder hem/haar.
+  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
+    in a user''s settings.
+
+'
   tooltip_resend_invitation: 'Verzendt een andere uitnodiging e-mail met een nieuw
     token in geval het oude verlopen is of de gebruiker het oorspronkelijke e-mailbericht
     niet ontvangen heeft. Kan ook worden gebruikt voor actieve gebruikers om een nieuwe

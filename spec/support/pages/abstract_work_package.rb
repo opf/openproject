@@ -136,6 +136,24 @@ module Pages
       expect(page).to have_selector('#top-menu', visible: true)
     end
 
+    def expect_custom_action(name)
+      expect(page)
+        .to have_selector('.custom-action', text: name)
+    end
+
+    def expect_no_custom_action(name)
+      expect(page)
+        .to have_no_selector('.custom-action', text: name)
+    end
+
+    def expect_custom_action_order(*names)
+      within('.custom-actions') do
+        names.each_cons(2) do |earlier, later|
+          body.index(earlier) < body.index(later)
+        end
+      end
+    end
+
     def update_attributes(key_value_map, save: true)
       set_attributes(key_value_map, save: save)
     end
@@ -182,6 +200,12 @@ module Pages
       page.visit!
 
       page
+    end
+
+    def click_custom_action(name)
+      within('.custom-actions') do
+        click_button(name)
+      end
     end
 
     def trigger_edit_mode

@@ -66,6 +66,8 @@ nl:
           one: Eerste sorteercriteria
           two: Tweede sorteercriteria
           three: Derde sorteercriteria
+      upsale_for_more: For more advanced filters, check out the
+      upsale_link: Enterprise Edition.
     general_text_no: Nee
     general_text_yes: Ja
     general_text_No: Nee
