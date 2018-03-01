@@ -24,7 +24,7 @@
 </ul>
 
 <input
-    [ngClass]="{ '-hidden': !isMulti && selectedItems.length }"
+    [hidden]="!isMulti && selectedItems.length"
     type="text"
     class="form--input -autocomplete"
     placeholder="{{placeholderText}}">

@@ -26,5 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-.-hidden
+// Overriding the browser's default [hidden] rule to force hiding the element as having a
+// more specific rule (and almost everything will be more specific than [hidden]) will prevent using
+// the hidden-attribute otherwise:
+// "Note: Changing the value of the CSS display property on an element with the hidden attribute overrides the behavior.
+// For instance, elements styled display: flex will be displayed despite the hidden attribute's presence."
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden
+[hidden]
   display: none !important
