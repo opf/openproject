@@ -30,14 +30,12 @@ var webpack = require('webpack');
 var path = require('path');
 
 var CleanWebpackPlugin = require('clean-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var mode = (process.env['RAILS_ENV'] || 'production').toLowerCase();
 var uglify = (mode !== 'development');
 
 var output_root = path.resolve(__dirname, '..', 'app', 'assets', 'javascripts');
 var bundle_output = path.resolve(output_root, 'bundles')
-var ckeditor_build_dist_path = path.resolve(__dirname, 'node_modules', '@openproject', 'commonmark-ckeditor-build', 'dist', 'openproject-ckeditor.js');
 
 function getWebpackVendorsConfig() {
   var config = {
@@ -77,16 +75,7 @@ function getWebpackVendorsConfig() {
       new CleanWebpackPlugin(['bundles'], {
         root: output_root,
         verbose: true
-      }),
-
-      // Copy linked ckeditor build dist
-      new CopyWebpackPlugin([
-          {
-            from: ckeditor_build_dist_path,
-            to: path.resolve(output_root, 'editor', 'openproject-ckeditor.js'),
-            toType: 'file'
-          }],
-        { debug: 'info', copyUnmodified: true })
+      })
     ]
   };
 

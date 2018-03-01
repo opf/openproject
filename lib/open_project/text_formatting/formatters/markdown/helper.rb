@@ -30,6 +30,10 @@
 module OpenProject::TextFormatting::Formatters
   module Markdown
     module Helper
+      def text_formatting_js_includes
+        javascript_include_tag 'vendor/ckeditor/openproject-ckeditor.js', async: true
+      end
+
       def wikitoolbar_for(field_id)
         tag 'op-ckeditor-form', 'textarea-selector': "##{field_id}"
       end

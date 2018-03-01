@@ -30,7 +30,6 @@
 module OpenProject::TextFormatting::Formatters
   module Textile
     class Formatter < OpenProject::TextFormatting::Formatters::Base
-      attr_reader
 
       include Redmine::WikiFormatting::Macros::Definitions
       include ActionView::Helpers::SanitizeHelper

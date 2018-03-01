@@ -94,9 +94,8 @@ describe 'activity comments',
         end
       end
 
-      describe 'autocomplete' do
+      describe 'autocomplete (at.js/autocompleter does not work (yet) in CKEditor)', skip: true do
         before do
-          skip 'at.js/autocompleter does not work (yet) in CKEditor'
         end
 
         describe 'work packages' do
