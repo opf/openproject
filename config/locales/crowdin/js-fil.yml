@@ -53,7 +53,7 @@ fil:
       description:
         text_open_filter: Buksan ang filter na ito sa 'ALT' at ang mga arrow key.
         text_close_filter: Upang pumili ng isang iniwang entry ng.
-      noneElement: "(none)"
+      noneElement: "(wala)"
       time_zone_converted:
         two_values: "%{from} - %{to} sa iyong lokal na oras."
         only_start: Mula sa %{from} sa iyong lokal na oras.
@@ -114,7 +114,7 @@ fil:
     label_expanded: pinalawak
     label_expand_all: Malakihin lahat
     label_export: I-export
-    label_filename: Payl
+    label_filename: File
     label_filesize: Sukat
     label_greater_or_equal: ">=="
     label_group_by: Pangkat sa
@@ -155,7 +155,7 @@ fil:
     label_selected_filter_list: Napiling mga filter
     label_show_attributes: Ipakita ang lahat ng mga katangian
     label_show_in_menu: Ipakita ang pahina ng pagpipilian
-    label_sort_by: Sort by
+    label_sort_by: Pag-uuri sa pamamagitan ng
     label_sorted_by: pinagsunod-sunod ayon sa
     label_sort_higher: Lumipat pataas
     label_sort_lower: Ilipat sa ibaba
@@ -256,7 +256,7 @@ fil:
       label_discard: Itapon ang napili
       typeahead_placeholder: Maghanap ng posibleng watchers
     relation_labels:
-      parent: Peyrent
+      parent: Magulang
       children: Ang mga bata
       relates: Nauugnay sa
       duplicates: Mga kopya
@@ -295,18 +295,18 @@ fil:
     repositories:
       select_tag: Pumiling ng tag
       select_branch: Pumili ng sangay
-    field_value_enter_prompt: Enter a value for '%{field}'
+    field_value_enter_prompt: Ipasok ang halaga para sa %{field}
     select2:
       input_too_short:
-        one: Please enter one more character
-        other: Please enter {{count}} more characters
+        one: Mangyaring ipasok ang higit isang karakter
+        other: Mangyaring ipasok ang {{count}} maraming karakter
         zero: Please enter more characters
-      load_more: Loading more results ...
-      no_matches: No matches found
-      searching: Searching ...
+      load_more: Naglo-load ng ibang resulta ...
+      no_matches: Walang magkatugmang natagpuan
+      searching: Naghahanap ...
       selection_too_big:
-        one: You can only select one item
-        other: You can only select {{limit}} items
+        one: Maari ka lamang oumili ng isang aytem
+        other: Maari ka lamang pumili ng mga {{limit}} aytem
         zero: You cannot select any items
     sort:
       sorted_asc: 'Pataas na paayos ang inilapat '
@@ -318,7 +318,7 @@ fil:
       activate_no: aktibk upang alisin ang pagsaayos
     text_work_packages_destroy_confirmation: Sigurado ka ba na gusto mong burahin
       ang napiling work package?
-    text_query_destroy_confirmation: Are you sure you want to delete the selected
+    text_query_destroy_confirmation: Sigurado ka ba na gusto mong burahin ang napiling
       query?
     text_attachment_destroy_confirmation: Sigurado ka ba na gusto mong burahin ang
       nakalakip?
@@ -341,28 +341,29 @@ fil:
       cancel: Kanselahin
       change: Baguhin ang pagpaplano
       due_date: Takdang petsa
-      empty: "(empty)"
+      empty: "(walang laman)"
       error: Isang mali ang naganap.
       errors:
-        not_implemented: The timeline could not be rendered because it uses a feature
-          that is not yet implemented.
-        report_comparison: The timeline could not render the configured comparisons.
-          Please check the appropriate section in the configuration, resetting it
-          can help solve this problem.
-        report_epicfail: The timeline could not be loaded due to an unexpected error.
-        report_timeout: The timeline could not be loaded in a reasonable amount of
-          time.
+        not_implemented: Ang timeline ay hindi dapat naka-render dahil ito ay gumagamit
+          ng tampok na hindi pa naipapatupad.
+        report_comparison: Ang timeline ay dapathindi naka-render ang nakaayos na
+          paghahambing na ito. Mangyaring suriin ang nararapat na seksyon sa kumpigurasyo,
+          pag-resetting ay maaring makatulog sa pag resolba ng problema.
+        report_epicfail: Ang timeline ay hindi maipupuno sa kadahilanang may di inaasahang
+          pagkakamali.
+        report_timeout: Ang timeline ay hindi maipupuno dahil sa isang makatwirang
+          halaga ng oras.
       filter:
         column:
           assigned_to: Naitalaga
           type: Uri
-          due_date: End date
+          due_date: Ang pagtatapos ng petsa
           name: Pangalan
           status: Estado
           responsible: Responsable
           start_date: Petsa ng pagsimula
         grouping_other: Iba pa
-        noneSelection: "(none)"
+        noneSelection: "(wala)"
       name: Pangalan
       new_work_package: Bagong work package
       outline: Reset Outline
@@ -376,12 +377,13 @@ fil:
         all: Show all
       project_status: Estado ng proyekto
       project_type: Uri ng proyekto
-      really_close_dialog: Do you really want to close the dialog and lose the entered
-        data?
+      really_close_dialog: Sigurado ka na ba na gusto mong isara ang dialogo at mawala
+        lahat ang ipanasok na data?
       responsible: Responsable
       save: I-save
       start_date: Petsa ng pagsimula
-      tooManyProjects: More than %{count} Projects. Please use a better filter!
+      tooManyProjects: Higit sa %{count} mga Proyekto. Mangyaring gumamit ng mas magandang
+        filter!
       selection_mode:
         notification: Pumindot sa kahit anong naka-highlight na work package upang
           lumikha ng kaugnayan. Pindutin ang escape upang kanselahin.
@@ -394,12 +396,12 @@ fil:
         months: Months
         quarters: Quarters
         years: Years
-        slider: Zoom slider
+        slider: Zoom Slider
     tl_toolbar:
       zooms: Zoom level
       outlines: Hierarchy level
     unsupported_browser:
-      title: Your browser version is not supported
+      title: Ang iyong bersyong browser ay hindi suportado
       message: Ang bersyon ng browser na ginagamit mo ay hindi na suportado ng OpenProject.
       update_message: Magyaring i-update ang iyong broswer.
       update_ie_user: Mangyaring lumipat sa Mozilla Firefox o Google Chromw, o i-upgrade
@@ -407,21 +409,21 @@ fil:
       learn_more: Matuto ng higit pa
       close_warning: Huwag pansinin ang babala ito.
     wiki_formatting:
-      strong: Strong
+      strong: Malakas
       italic: Italic
-      underline: Underline
-      deleted: Deleted
+      underline: Salungguhitan
+      deleted: Binura
       code: Inline Code
-      heading1: Heading 1
-      heading2: Heading 2
-      heading3: Heading 3
-      unordered_list: Unordered List
-      ordered_list: Ordered List
+      heading1: Pamuhatan 1
+      heading2: Pamuhatan 2
+      heading3: Pamuhatan 3
+      unordered_list: Listahan ng hindi pagkasunod-sunod
+      ordered_list: Listahan ng pagkasunod-sunod
       quote: Quote
       unquote: Unquote
-      preformatted_text: Preformatted Text
-      wiki_link: Link to a Wiki page
-      image: Image
+      preformatted_text: Tekstong naka-preformat
+      wiki_link: Ang link sa pahinang wiki
+      image: Larawan
     work_packages:
       bulk_actions:
         move: Ilipat ang bulk
@@ -436,8 +438,8 @@ fil:
         work package?
       description_filter: Salain
       description_enter_text: Ipasok ang teksto
-      description_options_hide: Hide options
-      description_options_show: Show options
+      description_options_hide: Itago ang mga opsyon
+      description_options_show: Ipakita ang mga opsyon
       error:
         edit_prohibited: Ang pag-iedit ng %{attribute} ay naka-block para sa work
           package na ito. Alinman sa katangian ito ay nagmula sa relasyon (hal. mga
@@ -447,22 +449,22 @@ fil:
         general: Isang mali ang naganap.
       edit_attribute: "%{attribute} - I-edit"
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: Enable multiselect
-      label_disable_multi_select: Disable multiselect
+      label_enable_multi_select: Paganahin ang mga pagpipilian
+      label_disable_multi_select: Hindi pinagana ang maraming pagpipilian
       label_filter_add: Magdagdag ng filter
       label_options: Mga opsyon
-      label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
-        confirm selection with enter, delete with backspace'
+      label_column_multiselect: 'Pagsamahin ang dropdown na patlang: Piliin na may
+        mga arrow key, kumpirmahin ang pinili gamit ang enter, burahin gamit ang backspace'
       label_switch_to_single_select: Lumipat sa napiling solo
       label_switch_to_multi_select: Lumipat sa maramihang pagpili
-      message_error_during_bulk_delete: An error occurred while trying to delete work
-        packages.
-      message_successful_bulk_delete: Successfully deleted work packages.
+      message_error_during_bulk_delete: Isang mali ang naganap habang sinusubukan
+        burahin ang mga work package.
+      message_successful_bulk_delete: Matagumpay naibura ang mga work package.
       message_successful_show_in_fullscreen: Pindutin dito upang buksan ang work package
         na ito sa fullscreen view.
       message_view_spent_time: Magpakita ng oras na nagamit para sa work package na
         ito
-      no_value: No value
+      no_value: Walang halaga
       inline_create:
         title: Pindutin dito upang magdagdag ng bagong work package sa listahan na
           ito
@@ -489,8 +491,8 @@ fil:
           out.
       property_groups:
         details: Mga detalye
-        people: People
-        estimatesAndTime: Estimates & Time
+        people: Mga tao
+        estimatesAndTime: Ang mga pagtatantya at oras
         other: Iba pa
       properties:
         assignee: Naitalaga
@@ -502,7 +504,7 @@ fil:
         estimatedTime: Tinantyang oras
         spentTime: Nauubos na oras
         category: Kategorya
-        percentageDone: Percentage done
+        percentageDone: Porsyentong natapos
         priority: Ang prayoridad
         projectName: Proyekto
         responsible: Responsable
@@ -533,16 +535,16 @@ fil:
         hierarchy_disabled_by_group_by: Ang Hierarchy mode ay hindi pinagana dahil
           sa mga resulta na pag-grupo sa pamamagitan ng %{column}.
         hierarchy_mode: Hierarchy mode
-        sort_ascending: Sort ascending
-        sort_descending: Sort descending
-        move_column_left: Move column left
-        move_column_right: Move column right
+        sort_ascending: Ayusin pataas
+        sort_descending: Ayusin pababa
+        move_column_left: Ilipat ang hanay sa kaliwa
+        move_column_right: Ilipat ang hanay sa kanan
         hide_column: Itago ang mga hanay
-        insert_columns: Insert columns ...
+        insert_columns: Isingit ang mga hanay...
         filters: Mga nasala
         display_sums: Ipakita ang mga sum
         errors:
-          unretrievable_query: Unable to retrieve query from URL
+          unretrievable_query: Hindi mabalik ang query mula sa URL
           not_found: Walang ganitong query
         text_no_results: Walang mga nagkakatugmang query ay natagpuan.
       table:
@@ -557,36 +559,36 @@ fil:
       tabs:
         overview: Buod
         activity: Aktibidad
-        relations: Relations
+        relations: Mga relasyon
         watchers: Manonood
         attachments: Mga kalakip
       time_relative:
         days: mga araw
-        weeks: weeks
-        months: months
+        weeks: mga linggo
+        months: mga buwan
     toolbar:
       settings:
-        columns: Columns ...
-        sort_by: Sort by ...
-        group_by: Group by ...
-        display_sums: Display sums
+        columns: Mga hanay ...
+        sort_by: Ayusin sa ...
+        group_by: Grupohin sa ...
+        display_sums: Ipakita ang kabuuan
         display_hierarchy: Ipakita ang hierarchy
         hide_hierarchy: Itago anh hierarchy
-        hide_sums: Hide sums
+        hide_sums: Itago ang kabuuan
         save: I-save
-        save_as: Save as ...
-        export: Export ...
+        save_as: I-save bilang ...
+        export: I-export ...
         publish: Ipalabas...
-        page_settings: Rename query ...
+        page_settings: Palitan ng pangalan ang query...
         delete: Burahin
       filter: Salain
       unselected_title: Work package
       search_query_label: Hanapin ang mga naka-save na query
       search_query_title: Pindutin upang hanapin ang mga naka-save na filter query
     modals:
-      label_settings: Rename query
+      label_settings: Palitan ng pangalan ang query
       label_name: Pangalan
-      label_delete_page: Delete current page
+      label_delete_page: Burahin ang kasukuyang pahina
       button_apply: Ilagay
       button_save: I-save
       button_submit: Sumite
@@ -607,28 +609,28 @@ fil:
     notice_successful_update: Matagumpay nai-update.
     notice_bad_request: Masamang kahilingan.
     relations:
-      empty: No relation exists
+      empty: Walang relasyon ang umiiral
       remove: Alisin ang relasyon
     inplace:
-      button_edit: "%{attribute}: Edit"
-      button_save: "%{attribute}: Save"
-      button_cancel: "%{attribute}: Cancel"
+      button_edit: "%{attribute}: I-edit"
+      button_save: "%{attribute}: I-save"
+      button_cancel: "%{attribute}: Kanselahin"
       button_save_all: I-save
       button_cancel_all: Kanselahin
       link_formatting_help: Ang tekstong pagfo-format ng tulong
       btn_preview_enable: Tanawin ulit
-      btn_preview_disable: Disable preview
-      null_value_label: No value
+      btn_preview_disable: Hindi pinagana ang preview
+      null_value_label: Walang halaga
       clear_value_label: "-"
       errors:
-        required: "%{field} cannot be empty"
-        number: "%{field} is not a valid number"
+        required: "%{field} hindi maaring walang laman"
+        number: "%{field} ay hindi balidong numero"
         maxlength: "%{field} hindi maaring maglaman na mas higit pa sa %{maxLength}
           mga digit"
         minlength: "%{field} hindi maaaring mas kaunti sa %{minLength} mga digit"
         messages_on_field: 'Ito patlang ay hindi balido: %{messages}'
-    error_could_not_resolve_version_name: Couldn't resolve version name
-    error_could_not_resolve_user_name: Couldn't resolve user name
+    error_could_not_resolve_version_name: Hindi ma resolba ang bersyon na pangalan
+    error_could_not_resolve_user_name: Hindi mairesolba ang pangalan ng gumagamit
     units:
       workPackage:
         one: work package
@@ -637,8 +639,8 @@ fil:
         one: isang bata work package
         other: "%{count} work package mga bata"
       hour:
-        one: 1 hour
-        other: "%{count} hours"
+        one: Isang oras
+        other: "%{count} mga oras"
         zero: 0 hours
     zen_mode:
       button_activate: I-aktibo ang zen mode
