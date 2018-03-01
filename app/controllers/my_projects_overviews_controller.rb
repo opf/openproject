@@ -47,7 +47,7 @@ class MyProjectsOverviewsController < ApplicationController
 
     if params["attachments"]
       # Attach files and save them
-      attachments = Attachment.attach_files(overview, params["attachments"])
+      attachments = Attachment.attach_files(overview, params["attachments"].to_unsafe_h)
       unless attachments[:unsaved].blank?
         render text: t(:warning_attachments_not_saved, attachments[:unsaved].size), status: 500
       end
