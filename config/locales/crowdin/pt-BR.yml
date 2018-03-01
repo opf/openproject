@@ -35,6 +35,8 @@ pt-BR:
     label_one_time_password: 'Senha de uso único'
     label_2fa_enabled: 'A autenticação de dois fatores está ativa'
     label_2fa_disabled: 'Autenticação de dois fatores não está ativa'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
     text_enter_2fa: 'Digite a senha de uso único de seu dispositivo.'
     text_2fa_enabled: 'Em cada login, será solicitado que você digite um token OTP de seu dispositivo 2FA padrão.'
     text_2fa_disabled: 'Para ativar a autenticação de dois fatores, use o botão acima para registrar um novo dispositivo 2FA. Se você já possui um dispositivo, é necessário que ele seja padrão.'
@@ -127,6 +129,9 @@ pt-BR:
           Registre seu número de telefone celular para a entrega de senhas de uso único do OpenProject.
     sns:
       delivery_failed: 'Falha na entrega do SNS:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
     restdt:
       delivery_failed_with_code: 'A entrega do token falhou. (Código de erro %{code})'
     strategies:
@@ -148,7 +153,6 @@ pt-BR:
   field_otp: "Senha de uso único"
   notice_account_otp_invalid: "Senha de uso único inválida."
   notice_account_otp_expired: "A senha de uso único que você inseriu expirou."
-  notice_otp_sms_text: "Sua senha de uso único: %{token}"
   notice_developer_strategy_otp: "A estratégia do desenvolvedor gerou a seguinte senha única: %{token} (Canal: %{channel})"
   notice_account_otp_send_failed: "Sua senha de uso único não pôde ser enviada."
   notice_account_has_no_phone: "Nenhum número de telefone celular está associado à sua conta."

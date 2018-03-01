@@ -35,6 +35,8 @@ fil:
     label_one_time_password: 'Ang isang beses na password'
     label_2fa_enabled: 'Ang Dalawang-dahilan ng aktibo na pagpapatunay'
     label_2fa_disabled: 'Ang Dalawang-dahilan ng hindi aktibo na pagpapatunay'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
     text_enter_2fa: 'Pakiusap na ipasok ng isang beses ang pasword mula sa iyong aparato.'
     text_2fa_enabled: 'Sa bawat pag-login, gagawin mo ang kahilingan na ipasok ang OTP token mula sa na-default na 2FA na aparato.'
     text_2fa_disabled: 'Upang mapagana ang Dalawang-dahilan sa pagpapatunay, gamitin ang boton par monga magparehistro sa bagong 2FA na aparato, kung ikaw ay may handa ng aparato. kailangan mong gawin ito na-default.'
@@ -127,6 +129,9 @@ fil:
           Irehistro ang iyong numero sa mobile na telepono para sa paghahatid ng isang beses na mga password.
     sns:
       delivery_failed: 'Ang paghahatid ng SNS ay bigo:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
     restdt:
       delivery_failed_with_code: 'Ang token sa paghahatid ay bigo. (Error code %{code})'
     strategies:
@@ -148,7 +153,6 @@ fil:
   field_otp: "Ang Isang-beses na password"
   notice_account_otp_invalid: "Imbalido ang isang-beses na password."
   notice_account_otp_expired: "Ang isang-beses na password na iyong ipinasok ay na-expire."
-  notice_otp_sms_text: "Ang iyong isang beses na password: %{token}"
   notice_developer_strategy_otp: "Ang taga-develop ng diskarte sa nabuo na sumusunod na isang beses na password: %{token} (Channel: %{channel}"
   notice_account_otp_send_failed: "Ang iyong isang beses na password ay hindi maipadala."
   notice_account_has_no_phone: "Walang numero sa cellphone ang nauugnay sa iyong account."

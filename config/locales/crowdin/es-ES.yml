@@ -35,6 +35,8 @@ es:
     label_one_time_password: 'Contraseña de un solo uso'
     label_2fa_enabled: 'La autenticación de dos factores está habilitada'
     label_2fa_disabled: 'La autenticación de dos factores está deshabilitada'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
     text_enter_2fa: 'Ingrese contraseña un solo uso desde su dispositivo.'
     text_2fa_enabled: 'Al iniciar cada sesión, se le pedirá introducir un token OTP del dispositivo predeterminado 2FA.'
     text_2fa_disabled: 'Para habilitar la autenticación de dos factores, utilice el botón de arriba para registrar un nuevo dispositivo 2FA. Si ya tiene un dispositivo, se necesita convertirlo en el predeterminado.'
@@ -125,6 +127,9 @@ es:
           Registrar su número de teléfono móvil para la entrega de contraseñas de un solo uso de OpenProject.
     sns:
       delivery_failed: 'Error en la entrega SNS:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
     restdt:
       delivery_failed_with_code: 'Falló entrega de token. (Código de error %{code})'
     strategies:
@@ -146,7 +151,6 @@ es:
   field_otp: "Contraseña de un solo uso"
   notice_account_otp_invalid: "Contraseña de un solo uso no válida."
   notice_account_otp_expired: "La contraseña de un solo uso que haz introducido a caducado."
-  notice_otp_sms_text: "Su contraseña de un solo uso: %{token}"
   notice_developer_strategy_otp: "Estrategia de desarrollador generó la siguiente contraseña de un solo uso: %{token} (Canal: %{channel})"
   notice_account_otp_send_failed: "Su contraseña de un solo uso no pudo ser enviada."
   notice_account_has_no_phone: "Ningún número de teléfono móvil está asociado con su cuenta."

@@ -35,6 +35,8 @@ tr:
     label_one_time_password: 'Tek-kullanımlık Şifreler'
     label_2fa_enabled: 'İki faktörlü kimlik doğrulama etkin'
     label_2fa_disabled: 'İki faktörlü kimlik doğrulama etkin değil'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
     text_enter_2fa: 'Lütfen cihazınızdaki bir kerelik şifreyi girin.'
     text_2fa_enabled: 'Her girişte, varsayılan 2FA cihazınızdan bir OTP jetonu girmeniz istenir.'
     text_2fa_disabled: 'İki faktörlü kimlik doğrulamayı etkinleştirmek için yukarıdaki düğmeyi kullanarak yeni bir 2FA aygıtı kaydettirin. Hâlihazırda bir aygıtınız varsa, onu bir varsayılan yapın.'
@@ -126,6 +128,9 @@ tr:
           OpenProject'ın bir kerelik şifrelerini iletmek için cep telefonu numaranızı kaydedin.
     sns:
       delivery_failed: 'SNS teslim başarısız oldu:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
     restdt:
       delivery_failed_with_code: 'Token teslimatı başarısız oldu. (Hata kodu %{code})'
     strategies:
@@ -147,7 +152,6 @@ tr:
   field_otp: "Tek-kullanımlık Şifre"
   notice_account_otp_invalid: "Geçersiz tek kullanımlık şifre."
   notice_account_otp_expired: "Girdiğiniz tek kullanımlık şifrenin süresi doldu."
-  notice_otp_sms_text: "Tek Kullanımlık Şifreniz: %{token}"
   notice_developer_strategy_otp: "Geliştirici stratejisi, aşağıdaki tek seferlik şifreyi oluşturdu: %{token} (kanal: %{channel})"
   notice_account_otp_send_failed: "Tek kullanımlık şifreniz gönderilemedi."
   notice_account_has_no_phone: "Hesabınızla ilişkili cep telefonu numarası yok."

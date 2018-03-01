@@ -35,6 +35,8 @@ fr:
     label_one_time_password: 'Mot de passe unique'
     label_2fa_enabled: 'Authentification à deux facteurs est active'
     label_2fa_disabled: 'Authentification à deux facteurs non active'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
     text_enter_2fa: 'Veuillez entrer le mot de passe unique de votre appareil.'
     text_2fa_enabled: 'Lors de chaque connexion, vous sera demandé d’entrer un jeton OTP sur appareil 2FA défaut.'
     text_2fa_disabled: 'Pour activer l’authentification à deux facteurs, utilisez le bouton ci-dessus pour inscrire un nouvel appareil 2FA. Si vous avez déjà un dispositif, vous devez faire une valeur par défaut.'
@@ -123,6 +125,9 @@ fr:
           Inscrire votre numéro de téléphone pour la livraison de OpenProject des mots de passe uniques.
     sns:
       delivery_failed: 'Remise SNS a échoué:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
     restdt:
       delivery_failed_with_code: 'Jeton remise a échoué. (Error code %{code})'
     strategies:
@@ -144,7 +149,6 @@ fr:
   field_otp: "Mot de passe unique"
   notice_account_otp_invalid: "Mot de passe unique non valide."
   notice_account_otp_expired: "Le mot de passe unique à usage a expiré."
-  notice_otp_sms_text: "Votre mot de passe unique: %{token}"
   notice_developer_strategy_otp: "Stratégie de développeur générée le mot de passe unique suivant: %{token} (Canal: %{channel})"
   notice_account_otp_send_failed: "Votre mot de passe unique n’a pas pu être envoyé."
   notice_account_has_no_phone: "Aucun numéro de téléphone cellulaire n’est associée à votre compte."
