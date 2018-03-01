@@ -281,8 +281,8 @@ fil:
         show_until: I-displey hanggang
       attachment:
         downloads: Ang mga na-download
-        file: Payl
-        filename: Payl
+        file: File
+        filename: File
         filesize: Sukat
       attribute_help_text:
         attribute_name: Katangian
@@ -295,7 +295,7 @@ fil:
         attr_mail: Ang katangian ng Email
         base_dn: Ang Base DN
         host: Host
-        onthefly: Ang-paglipad-sa mga gawa ng gumagamit
+        onthefly: On-the-fly paglilikha ng gumagamit
         port: Port
       changeset:
         repository: Repositoryo
@@ -304,7 +304,7 @@ fil:
       custom_field:
         default_value: Ang default na halaga
         editable: Pwedeng mabago
-        field_format: Pormasyon
+        field_format: Format
         is_filter: Gamitin bilang tagasala
         is_required: Kinakailangan
         max_length: Ang pinaka mahaba
@@ -414,9 +414,9 @@ fil:
         end_insertion: Katapusan na
         end_deletion: Katapusan ng pagbubura
         fixed_version: Bersyon
-        parent: Peyrent
-        parent_issue: Peyrent
-        parent_work_package: Peyrent
+        parent: Magulang
+        parent_issue: Magulang
+        parent_work_package: Magulang
         priority: Ang prayoridad
         progress: Isinasagawa (%)
         responsible: Responsable
@@ -585,7 +585,7 @@ fil:
           one: Ipinagbabawal na isang error sa %{model} na jto mula sa pagka-save
           other: "%{count} mga error na ipinagbabawal sa iton %{model} mula sa pagka-save"
     models:
-      attachment: Payl
+      attachment: File
       attribute_help_text: Tekstong tulong na katangian
       board: Forum
       comment: Komento
@@ -1359,7 +1359,7 @@ fil:
   label_nothing_display: Walang maipakita
   label_nobody: walang sinuman
   label_none: wala
-  label_none_parentheses: "(none)"
+  label_none_parentheses: "(wala)"
   label_not_contains: hindi naglalaman
   label_not_equals: ay hindi
   label_notify_member_plural: I-update ang mga email
@@ -1382,7 +1382,7 @@ fil:
   label_path_encoding: Landas ng page-encode
   label_pdf_with_descriptions: PDF na may mga paglalarawan
   label_per_page: Bawat pahina
-  label_people: People
+  label_people: Mga tao
   label_permissions: Mga pahintulot
   label_permissions_report: Mga pinahintulutan na ulat
   label_personalize_page: Personalize ang pahina na ito
@@ -2384,119 +2384,122 @@ fil:
     button_delete_all: Burahin ang lahat
     change: Baguhin ang pagpaplano
     children: Ang mga bata na elemento
-    color_could_not_be_saved: Color could not be saved
-    current_planning: Current planning
-    dates: Dates
-    dates_are_calculated_based_on_sub_elements: Dates are calculated based on sub
-      elements.
+    color_could_not_be_saved: Ang kulay ay hindi dapat naka-save
+    current_planning: Kasulukuyang pagpaplano
+    dates: Mga petsa
+    dates_are_calculated_based_on_sub_elements: Ang mga petsa ay kinakalkula nakabase
+      sa mga sub element.
     delete_all: Burahin ang lahat
     delete_thing: Burahin
-    duration: Duration
+    duration: Durasyon
     duration_days:
       one: Isang araw
       other: mga Isang %{count} araw
-    edit_color: Edit color
-    edit_project_type: Edit project type
+    edit_color: I-edit ang kulay
+    edit_project_type: I-edit ang uri ng proyekto
     edit_thing: I-edit
-    edit_timeline: Edit timeline report %{timeline}
-    delete_timeline: Delete timeline report %{timeline}
-    empty: "(empty)"
-    enable_type_in_project: Enable type "%{type}"
-    end: End
+    edit_timeline: I-edit ang timeline ng ulat %{timeline}
+    delete_timeline: Burahin ang timeline ng proyekto %{timeline}
+    empty: "(walang laman)"
+    enable_type_in_project: Paganahin ang uri "%{type}"
+    end: Katapusan
     errors:
-      not_implemented: The timeline could not be rendered because it uses a feature
-        that is not yet implemented.
-      report_comparison: The timeline could not render the configured comparisons.
-        Please check the appropriate section in the configuration, resetting it can
-        help solve this problem.
-      report_epicfail: The timeline could not be loaded due to an unexpected error.
-      report_timeout: The timeline could not be loaded in a reasonable amount of time.
+      not_implemented: Ang timeline ay hindi dapat naka-render dahil ito ay gumagamit
+        ng tampok na hindi pa naipapatupad.
+      report_comparison: Ang timeline ay dapathindi naka-render ang nakaayos na paghahambing
+        na ito. Mangyaring suriin ang nararapat na seksyon sa kumpigurasyo, pag-resetting
+        ay maaring makatulog sa pag resolba ng problema.
+      report_epicfail: Ang timeline ay hindi maipupuno sa kadahilanang may di inaasahang
+        pagkakamali.
+      report_timeout: Ang timeline ay hindi maipupuno dahil sa isang makatwirang halaga
+        ng oras.
     filter:
       errors:
-        timeframe_start: 'The timeframe start '
-        timeframe_end: 'The timeframe end '
-        compare_to_relative: 'The value of the relative comparison '
-        compare_to_absolute: 'The value of the absolute comparison '
-        planning_element_time_relative_one: 'The start for work packages in a certain
-          timeframe '
-        planning_element_time_relative_two: 'The end for work packages in a certain
-          timeframe '
-        planning_element_time_absolute_one: 'The start for work packages in a certain
-          timeframe  '
-        planning_element_time_absolute_two: 'The end for work packages in a certain
-          timeframe  '
+        timeframe_start: 'Ang timeframe ay nagsisimula '
+        timeframe_end: 'Ang timeframe ay natapos na '
+        compare_to_relative: 'Ang halaga ng paghahambing ng kamag-anak '
+        compare_to_absolute: 'Ang halaga ng ganap na paghahambing '
+        planning_element_time_relative_one: 'Ang pagsisimula ng para sa mga packages
+          na gawain sa isang tiyak na timeframe '
+        planning_element_time_relative_two: 'Ang pagtatapos sa mga packages ng gawain
+          sa isang tiyak na timeframe '
+        planning_element_time_absolute_one: 'Ang pagsisimula sa mga package ng gawain
+          sa isang tiyak na timeframe  '
+        planning_element_time_absolute_two: 'Ang pagtatapos ng mga package na gawain
+          sa tiyak na timeframe  '
       sort:
-        sortation: Sort by
-        alphabet: alphabet
-        explicit_order: explicit order
-        project_sortation: Sort projects by
-        date: date
-        default: default
+        sortation: Pag-uuri sa pamamagitan ng
+        alphabet: ang alpabeto
+        explicit_order: tahasang pagkasunud-sunod
+        project_sortation: Inuring mga proyekto sa pamamagitan ng
+        date: ang petsa
+        default: pasadya
       column:
         assigned_to: Naitalaga
         type: Uri
-        due_date: End date
+        due_date: Ang pagtatapos ng petsa
         name: Pangalan
         status: Estado
         responsible: Responsable
         start_date: Petsa ng pagsimula
       columns: Mga hanay
-      comparisons: Comparisons
+      comparisons: Mga kahalintulad
       comparison:
-        absolute: Absolute
-        none: None
-        relative: Relative
-        compare_relative_prefix: Compare current planning to
-        compare_relative_suffix: ago
-        compare_absolute: Compare current planning to %{date}
+        absolute: Ganap
+        none: Wala
+        relative: Ang kamag-anak
+        compare_relative_prefix: Ikumpara sa kasalukuyang pagpaplano sa
+        compare_relative_suffix: ang nakalipas
+        compare_absolute: Ikumpara sa kasalukyang pagpaplano sa %{date}
       time_relative:
         days: mga araw
-        weeks: weeks
-        months: months
-      exclude_own_work_packages: Hide work packages from this project
-      exclude_reporters: Hide other projects
-      exclude_empty: Hide empty projects
-      grouping: Grouping
-      grouping_hide_group: Hide group "%{group}"
-      grouping_one: First grouping criterion
-      grouping_one_phrase: Is a subproject of
+        weeks: mga linggo
+        months: mga buwan
+      exclude_own_work_packages: Itago ang mga package na gawain mula sa proeyktong
+        ito
+      exclude_reporters: Itago ang iba pang mga proyekto
+      exclude_empty: Itago ang mga walang nilalaman na mga proyekto
+      grouping: Ang pagpapangkat
+      grouping_hide_group: Itago ang grupo na "%{group}"
+      grouping_one: Unang pagpapangkat na kriterya
+      grouping_one_phrase: Ay isang subproject sa
       grouping_other: Iba pa
-      hide_chart: Hide chart
-      noneElement: "(none)"
-      noneSelection: "(none)"
-      outline: Initial outline expansion
-      parent: Show subprojects of
-      work_package_filters: Filter work packages
-      work_package_responsible: Show work packages with responsible
-      work_package_assignee: Show work packages with assignee
-      types: Show types
-      status: Show status
-      project_time_filter: Projects with a work package of a certain type in a certain
-        timeframe
-      project_time_filter_timeframe: Timeframe
+      hide_chart: Itago ang tsart
+      noneElement: "(wala)"
+      noneSelection: "(wala)"
+      outline: Paunang pagpapalawak ng balangkas
+      parent: Ipakita ang mga subproject sa
+      work_package_filters: I-filter ang mga package na gawain
+      work_package_responsible: Ipakita ang mga responsabling package na gawain
+      work_package_assignee: Ipakita ang mga itinalagang package na gawain
+      types: Ipakita ang mga uri
+      status: Ipakita ang estado
+      project_time_filter: Mga proyektong mayroong package na gawain sa isang tiyak
+        na uri sa tiyak na timeframe
+      project_time_filter_timeframe: Ang timeframe
       project_time_filter_historical_from: mula sa
       project_time_filter_historical_to: sa
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
-        %{end_label} %{endspan}%{endspanunit} from now"
-      project_filters: Filter projects
-      project_responsible: Show projects with responsible
-      project_status: Show project status
-      project_types: Show project types
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} na
+        ang nakakaraan, %{end_label} %{endspan}%{endspanunit} mula sa ngayon"
+      project_filters: I-filter ang mga proyekto
+      project_responsible: Ipakita ang mga responsabling proyekto
+      project_status: Ipakita ang estado ng proyekto
+      project_types: Ipakita ang mga uri ng proyekto
       timeframe: Magpakita ng timeframe
       timeframe_end: sa
       timeframe_start: mula sa
-      timeline: General Settings
-      zoom: Zoom factor
+      timeline: Mga pangkalahatan na setting
+      zoom: Ang zoom na kadahilanan
     history: Kasaysayan
-    new_color: New color
-    new_association: New dependency
+    new_color: Bagong kulay
+    new_association: Bagong dependencia
     new_work_package: Bagong work package
-    new_project_type: New project type
-    new_reporting: New reporting
-    new_timeline: New timeline report
-    no_projects_for_reporting_available: There are no projects to which a reporting
-      association can be created.
+    new_project_type: Bagong uri na proyekto
+    new_reporting: Bagong pag-uulat
+    new_timeline: Bagong timeline na ulat
+    no_projects_for_reporting_available: Walang mga proyekto upang piliin kung alin
+      proyekto asosasyon ang maaring likhain.
     no_right_to_view_timeline: You do not have the necessary permission to view the
       linked timeline.
     no_timeline_for_id: There is no timeline with ID %{id}.
@@ -2703,4 +2706,4 @@ fil:
         start_date: Start date cannot be set on parent work packages.
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
-      schema: Schema
+      schema: Iskema
