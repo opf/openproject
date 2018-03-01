@@ -97,7 +97,11 @@ shared_examples 'a cancellable field' do
 end
 
 shared_examples 'a previewable field' do
-  xit 'can preview the field' do
+  before do
+    skip('Markdown mode does not provide previewing') if Setting.text_formatting == 'markdown'
+  end
+
+  it 'can preview the field' do
     field.activate!
 
     field.input_element.set '*Highlight*'

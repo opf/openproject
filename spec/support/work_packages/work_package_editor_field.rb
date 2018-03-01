@@ -3,7 +3,15 @@ require_relative './work_package_field'
 class WorkPackageEditorField < WorkPackageField
 
   def input_selector
-    'div.op-ckeditor-wrapper'
+    if markdown?
+      'div.op-ckeditor-wrapper'
+    else
+      '.textarea-wrapper textarea'
+    end
+  end
+
+  def markdown?
+    Setting.text_formatting == 'markdown'
   end
 
   def expect_save_button(enabled: true)
@@ -15,7 +23,11 @@ class WorkPackageEditorField < WorkPackageField
   end
 
   def expect_value(value)
-    expect(input_element.text).to eq(value)
+    if markdown?
+      expect(input_element.text).to eq(value)
+    else
+      expect(input_element.value).to eq(value)
+    end
   end
 
   def save!
