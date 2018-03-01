@@ -69,6 +69,7 @@ module Pages
     end
 
     def ensure_page_loaded
+      expect_angular_frontend_initialized
       expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
                                     text: work_package.journals.last.user.name,
                                     minimum: 1,

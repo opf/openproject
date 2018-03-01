@@ -30,156 +30,194 @@ import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {TextileService} from './../../common/textile/textile-service';
 import {ActivityService} from './../activity-service';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
+import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
+import {WorkPackageCommentField} from 'core-components/work-packages/work-package-comment/wp-comment-field.module';
+
+export class UserActivityController {
+  public workPackage:WorkPackageResourceInterface;
+  public activity:HalResource;
+  public activityNo:string;
+  public activityLabel:string;
+  public isInitial:boolean;
+
+  public inEdit = false;
+  public inEditMode = false;
+  public userCanEdit= false;
+  public userCanQuote = false;
+
+  public userId:string|number;
+  public userName:string;
+  public userAvatar:string;
+  public userActive:boolean;
+  public userPath:string|null;
+  public userLabel:string;
+  public postedComment:string;
+  public activityLabelWithComment?:string;
+  public details:any[] = [];
+
+  public field:WorkPackageCommentField;
+  public focused = false;
+
+  public accessibilityModeEnabled = this.ConfigurationService.accessibilityModeEnabled();
+
+  constructor(readonly $uiViewScroll:any,
+              readonly $scope:ng.IScope,
+              readonly $timeout:ng.ITimeoutService,
+              readonly $q:ng.IQService,
+              readonly $element:ng.IAugmentedJQuery,
+              readonly $location:ng.ILocationService,
+              readonly $sce:ng.ISCEService,
+              readonly I18n:op.I18n,
+              readonly PathHelper:PathHelperService,
+              readonly wpActivityService:ActivityService,
+              readonly wpCacheService:WorkPackageCacheService,
+              readonly ConfigurationService:ConfigurationService,
+              readonly AutoCompleteHelper:any,
+              readonly textileService:TextileService) {
+  }
+
+  public $onInit() {
+    this.resetField();
+    this.userCanEdit = !!this.activity.update;
+    this.userCanQuote = !!this.workPackage.addComment;
+    this.postedComment = this.$sce.trustAsHtml(this.activity.comment.html);
+
+    if (this.postedComment) {
+      this.activityLabelWithComment = I18n.t('js.label_activity_with_comment_no', {
+        activityNo: this.activityNo
+      });
+    }
+
+    this.$element.bind('focusin', this.focus.bind(this));
+    this.$element.bind('focusout', this.blur.bind(this));
+
+    angular.forEach(this.activity.details,  (detail:any) => {
+      this.details.push(this.$sce.trustAsHtml(detail.html));
+    });
+
+    if (this.$location.hash() === 'activity-' + this.activityNo) {
+      this.$uiViewScroll(this.$element);
+    }
+
+    this.activity.user.$load().then((user:UserResource) => {
+      this.userId = user.id;
+      this.userName = user.name;
+      this.userAvatar = user.avatar;
+      this.userActive = user.isActive;
+      this.userPath = user.showUser.href;
+      this.userLabel = this.I18n.t('js.label_author', {user: this.userName});
+    });
+  }
+
+  public resetField(withText?:string) {
+    this.field = new WorkPackageCommentField(this.workPackage, I18n);
+    this.field.initializeFieldValue(withText);
+  }
+
+  public handleUserSubmit() {
+    this.field.onSubmit();
+    if (this.field.isBusy || this.field.isEmpty()) {
+      return;
+    }
+    this.updateComment();
+  }
+
+  public handleUserCancel() {
+    this.inEdit = false;
+    this.focusEditIcon();
+  }
+
+  public get active() {
+    return this.inEdit;
+  }
+
+  public editComment() {
+    this.inEdit = true;
+
+    this.resetField(this.activity.comment.raw);
+    this.waitForField()
+      .then(() => {
+        this.field.$onInit(this.$element);
+      });
+  }
+
+  // Ensure the nested ng-include has rendered
+  private waitForField():Promise<JQuery> {
+    const deferred = this.$q.defer<JQuery>();
+
+    const interval = setInterval(() => {
+      const container = this.$element.find('.op-ckeditor-element');
+
+      if (container.length > 0) {
+        clearInterval(interval);
+        deferred.resolve(container);
+      }
+    }, 100);
+
+    return deferred.promise;
+  }
+
+  public quoteComment() {
+    this.wpActivityService.quoteEvents.putValue(this.quotedText(this.activity.comment.raw));
+  }
+
+  public updateComment() {
+    this.wpActivityService.updateComment(this.activity, this.field.rawValue || '')
+      .then(() => {
+      this.workPackage.updateActivities();
+      this.inEdit = false;
+    });
+    this.focusEditIcon();
+  }
+
+  public focusEditIcon() {
+    // Find the according edit icon and focus it
+    jQuery('.edit-activity--' + this.activityNo + ' a').focus();
+  }
+
+  public focus() {
+    this.$timeout(() => this.focused = true);
+  }
+
+  public blur() {
+    this.$timeout(() => this.focused = false);
+  }
+
+  public focussing() {
+    return this.focused;
+  }
+
+  public quotedText(rawComment:string) {
+    var quoted = rawComment.split('\n')
+      .map(function (line:string) {
+        return '\n> ' + line;
+      })
+      .join('');
+    return this.userName + ' wrote:\n' + quoted;
+  }
+}
 
 angular
   .module('openproject.workPackages.activities')
-  .directive('userActivity', userActivity);
+  .directive('userActivity', function() {
+    return {
+      restrict: 'E',
+      templateUrl: '/templates/work_packages/activities/_user.html',
+      scope: {
+        workPackage: '=',
+        activity: '=',
+        activityNo: '=',
+        activityLabel: '=',
+        isInitial: '='
+      },
+      controller: UserActivityController,
+      bindToController: true,
+      controllerAs: 'vm'
+    };
+  });
 
-function userActivity($uiViewScroll:any,
-                      $timeout:ng.ITimeoutService,
-                      $location:ng.ILocationService,
-                      $sce:ng.ISCEService,
-                      I18n:op.I18n,
-                      PathHelper:any,
-                      wpActivityService:ActivityService,
-                      wpCacheService:WorkPackageCacheService,
-                      ConfigurationService:any,
-                      AutoCompleteHelper:any,
-                      textileService:TextileService) {
-  return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/templates/work_packages/activities/_user.html',
-    scope: {
-      workPackage: '=',
-      activity: '=',
-      activityNo: '=',
-      activityLabel: '=',
-      isInitial: '='
-    },
-    link: function (scope:any, element:ng.IAugmentedJQuery) {
-      scope.$watch('inEdit', function (newVal:boolean, oldVal:boolean) {
-        var textarea = element.find('.edit-comment-text');
-        if (newVal) {
-          $timeout(function () {
-            AutoCompleteHelper.enableTextareaAutoCompletion(textarea);
-            textarea.focus();
-            textarea.on('keydown keypress', function (e) {
-              if (e.keyCode === 27) {
-                scope.inEdit = false;
-              }
-            });
-          });
-        } else {
-          textarea.off('keydown keypress');
-        }
-      });
 
-      scope.I18n = I18n;
-      scope.inEdit = false;
-      scope.inPreview = false;
-      scope.userCanEdit = !!scope.activity.update;
-      scope.userCanQuote = !!scope.workPackage.addComment;
-      scope.accessibilityModeEnabled = ConfigurationService.accessibilityModeEnabled();
-
-      scope.activity.user.$load().then((user:UserResource) => {
-        scope.userId = user.id;
-        scope.userName = user.name;
-        scope.userAvatar = user.avatar;
-        scope.userActive = user.isActive;
-        scope.userPath = user.showUser.href;
-        scope.userLabel = I18n.t('js.label_author', {user: scope.userName});
-      });
-
-      scope.postedComment = $sce.trustAsHtml(scope.activity.comment.html);
-      if (scope.postedComment) {
-        scope.activityLabelWithComment = I18n.t('js.label_activity_with_comment_no', {
-          activityNo: scope.activityNo
-        });
-      }
-      scope.details = [];
-
-      angular.forEach(scope.activity.details, function (this:any[], detail) {
-        this.push($sce.trustAsHtml(detail.html));
-      }, scope.details);
-
-      $timeout(function () {
-        if ($location.hash() === 'activity-' + scope.activityNo) {
-          $uiViewScroll(element);
-        }
-      });
-
-      scope.editComment = function () {
-        scope.activity.editedComment = scope.activity.comment.raw;
-        scope.isPreview = false;
-        scope.inEdit = true;
-      };
-
-      scope.cancelEdit = function () {
-        scope.inEdit = false;
-        scope.focusEditIcon();
-      };
-
-      scope.quoteComment = function () {
-        wpActivityService.quoteEvents.putValue(quotedText(scope.activity.comment.raw));
-      };
-
-      scope.updateComment = function () {
-        wpActivityService.updateComment(scope.activity, scope.activity.editedComment || '').then(function () {
-          scope.workPackage.updateActivities();
-          scope.inEdit = false;
-        });
-        scope.focusEditIcon();
-      };
-
-      scope.focusEditIcon = function () {
-        // Find the according edit icon and focus it
-        jQuery('.edit-activity--' + scope.activityNo + ' a').focus();
-      };
-
-      scope.toggleCommentPreview = function () {
-        scope.isPreview = !scope.isPreview;
-        scope.previewHtml = '';
-        if (scope.isPreview) {
-          textileService.renderWithWorkPackageContext(
-            scope.workPackage,
-            scope.activity.editedComment
-          ).then(function (r:any) {
-            scope.previewHtml = $sce.trustAsHtml(r.data);
-          }).catch(() => {
-            scope.isPreview = false;
-          });
-        }
-      };
-
-      var focused = false;
-      scope.focus = function () {
-        $timeout(function () {
-          focused = true;
-        });
-      };
-
-      scope.blur = function () {
-        $timeout(function () {
-          focused = false;
-        });
-      };
-
-      scope.focussing = function () {
-        return focused;
-      };
-
-      element.bind('focusin', scope.focus);
-      element.bind('focusout', scope.blur);
-
-      function quotedText(rawComment:string) {
-        var quoted = rawComment.split("\n")
-          .map(function (line:string) {
-            return "\n> " + line;
-          })
-          .join('');
-        return scope.userName + " wrote:\n" + quoted;
-      }
-    }
-  };
-}

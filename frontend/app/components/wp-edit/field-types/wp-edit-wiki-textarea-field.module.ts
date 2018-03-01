@@ -52,6 +52,8 @@ export class WikiTextareaEditField extends EditField {
   public isPreview:boolean = false;
   public previewHtml:string;
   public text:Object;
+  public wysiwig:boolean;
+
 
   // CKEditor instance
   public ckeditor:any;
@@ -59,6 +61,7 @@ export class WikiTextareaEditField extends EditField {
   protected initialize() {
     $injectFields(this, '$sce', '$http', 'textileService', '$timeout', 'AutoCompleteHelper', 'I18n', 'ConfigurationService');
 
+    this.wysiwig = this.ConfigurationService.textFormat() === 'markdown';
     this.setupTemplate();
 
     this.text = {
@@ -69,27 +72,28 @@ export class WikiTextareaEditField extends EditField {
   }
 
   public setupTemplate() {
-    switch (this.ConfigurationService.textFormat()) {
-      case 'markdown':
-        this.template = '/components/wp-edit/field-types/wp-edit-markdown-field.directive.html';
-        break;
-      default:
-        this.template = '/components/wp-edit/field-types/wp-edit-wiki-textarea-field.directive.html';
-        break;
+    if (this.wysiwig) {
+      this.template = '/components/wp-edit/field-types/wp-edit-markdown-field.directive.html';
+    } else {
+      this.template = '/components/wp-edit/field-types/wp-edit-wiki-textarea-field.directive.html';
     }
   }
 
   public onSubmit() {
-    if (this.ckeditor) {
+    if (this.wysiwig && this.ckeditor) {
       this.rawValue = this.ckeditor.getData();
     }
   }
 
-  public get isInitialized() {
-    return !!this.ckeditor;
+  public $onInit(container:JQuery) {
+    if (this.wysiwig) {
+      this.setupMarkdownEditor(container);
+    } else {
+      jQuery('body').css('background', 'red !important');
+    }
   }
 
-  public $onInit(container:JQuery) {
+  public setupMarkdownEditor(container:JQuery) {
     const element = container.find('.op-ckeditor-element');
     (window as any).BalloonEditor
       .create(element[0])
@@ -104,7 +108,7 @@ export class WikiTextareaEditField extends EditField {
           this.reset();
         }
 
-        this.setupAutocompletion(element);
+        this.AutoCompleteHelper.enableTextareaAutoCompletion(element, this.resource.project.id);
 
         setTimeout(() => editor.editing.view.focus());
       })
@@ -113,12 +117,10 @@ export class WikiTextareaEditField extends EditField {
       });
   }
 
-  public setupAutocompletion(element:JQuery) {
-    this.AutoCompleteHelper.enableTextareaAutoCompletion(element, this.resource.project.id);
-  }
-
   public reset() {
-    this.ckeditor.setData(this.rawValue);
+    if (this.wysiwig) {
+      this.ckeditor.setData(this.rawValue);
+    }
   }
 
   public get rawValue() {
@@ -138,7 +140,7 @@ export class WikiTextareaEditField extends EditField {
   }
 
   public isEmpty():boolean {
-    if (this.isInitialized) {
+    if (this.wysiwig && this.ckeditor) {
       return this.ckeditor.getData() === '';
     } else {
       return !(this.value && this.value.raw);

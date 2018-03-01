@@ -98,9 +98,7 @@ export class CommentFieldDirectiveController {
     this._forceFocus = true;
     this.editing = true;
 
-    if (!this.field) {
-      this.resetField(withText);
-    }
+    this.resetField(withText);
 
     this.waitForField()
       .then(() => {

@@ -120,7 +120,11 @@ end
 shared_examples 'a workpackage autocomplete field' do
   let!(:wp2) { FactoryGirl.create(:work_package, project: project, subject: 'AutoFoo') }
 
-  xit 'autocompletes the other work package' do
+  before do
+    skip('Markdown mode does not provide autocompleting') if Setting.text_formatting == 'markdown'
+  end
+
+  it 'autocompletes the other work package' do
     field.activate!
     field.input_element.send_keys(" ##{wp2.id}")
     expect(page).to have_selector('.atwho-view-ul li.cur', text: wp2.to_s.strip)
