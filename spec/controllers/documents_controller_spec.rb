@@ -120,11 +120,11 @@ describe DocumentsController do
 
     it "should create a new document with valid arguments" do
       expect do
-        post :create, project_id: project.identifier,
-                      document: FactoryGirl.attributes_for(:document, title: "New Document",
-                                                                      project_id: project.id,
-                                                                      category_id: default_category.id
-                                                          )
+        post :create, params: { project_id: project.identifier,
+                                document: FactoryGirl.attributes_for(:document, title: "New Document",
+                                                                                project_id: project.id,
+                                                                                category_id: default_category.id
+                                                                    ) }
 
       end.to change{Document.count}.by 1
     end
@@ -132,8 +132,10 @@ describe DocumentsController do
     it "should create a new document with valid arguments" do
       expect do
         post :create,
-             project_id: project.identifier,
-             document: document_attributes
+             params: {
+               project_id: project.identifier,
+               document: document_attributes
+             }
       end.to change{Document.count}.by 1
     end
 
@@ -144,12 +146,14 @@ describe DocumentsController do
         FactoryGirl.create(:member, project: notify_project, user: user, roles: [role])
 
         post :create,
-             project_id: notify_project.identifier,
-             document: FactoryGirl.attributes_for(:document,  title: "New Document",
-                                                              project_id: notify_project.id,
-                                                              category_id: default_category.id
-                                                 ),
-             attachments: { '1' => { description: "sample file", file: file_attachment } }
+             params: {
+               project_id: notify_project.identifier,
+               document: FactoryGirl.attributes_for(:document,  title: "New Document",
+                                                                project_id: notify_project.id,
+                                                                category_id: default_category.id
+                                                   ),
+               attachments: { '1' => { description: "sample file", file: file_attachment } }
+             }
       end
 
       it "should add an attachment" do
@@ -187,8 +191,10 @@ describe DocumentsController do
     before do
       document
       post :add_attachment,
-           id: document.id,
-           attachments: { '1' => { description: "sample file", file: file_attachment } }
+           params: {
+             id: document.id,
+             attachments: { '1' => { description: "sample file", file: file_attachment } }
+           }
     end
 
     it "should delete the document and redirect back to documents-page of the project" do
@@ -205,7 +211,7 @@ describe DocumentsController do
 
     it "should delete the document and redirect back to documents-page of the project" do
       expect{
-        delete :destroy, id: document.id
+        delete :destroy, params: { id: document.id }
       }.to change{Document.count}.by -1
 
       expect(response).to redirect_to "/projects/#{project.identifier}/documents"
