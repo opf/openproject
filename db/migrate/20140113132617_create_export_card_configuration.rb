@@ -23,7 +23,7 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-class CreateExportCardConfiguration < ActiveRecord::Migration
+class CreateExportCardConfiguration < ActiveRecord::Migration[5.0]
   def change
     create_table :export_card_configurations do |t|
       t.string :name
