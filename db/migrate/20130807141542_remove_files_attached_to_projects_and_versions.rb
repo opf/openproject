@@ -29,7 +29,7 @@
 
 class RemoveFilesAttachedToProjectsAndVersions < ActiveRecord::Migration[4.2]
   def up
-    if  Attachment.where(container_type: ['Version', 'Project']).any?
+    if !skip? && Attachment.where(container_type: ['Version', 'Project']).any?
       raise 'Error: There are still attachments attached to Versions or Projects!'\
             "\n\n"\
             "Consider possible solutions under the rake namespace 'migrations:attachments'."\
@@ -39,8 +39,16 @@ class RemoveFilesAttachedToProjectsAndVersions < ActiveRecord::Migration[4.2]
             "\n\n"\
             "You can also move all attachments to newly created wiki pages using:\n"\
             "'migrations:attachments:move_to_wiki'\n\n"\
+            "Note: Moving the attachments to a wiki will only work after all migrations are done.\n"\
+            "      Rerun the migrations with IGNORE_PROJECT_AND_VERSIONS_ATTACHMENTS=true\n"\
+            "      in the environment to skip this check. Then run the rake task above to move\n"\
+            "      the attachments to wiki pages."
             "\n\n\n"
     end
+  end
+
+  def skip?
+    String(ENV["IGNORE_PROJECT_AND_VERSIONS_ATTACHMENTS"]) == "true"
   end
 
   def down

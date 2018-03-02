@@ -34,7 +34,11 @@ module Queries::FilterSerializer
   def self.load(serialized_filter_hash)
     return [] if serialized_filter_hash.nil?
 
-    (YAML.load(serialized_filter_hash) || {}).each_with_object([]) do |(field, options), array|
+    # yeah, dunno, but apparently '=' may have been serialized as a Syck::DefaultKey instance...
+    yaml = serialized_filter_hash
+      .gsub('!ruby/object:Syck::DefaultKey {}', '"="')
+
+    (YAML.load(yaml) || {}).each_with_object([]) do |(field, options), array|
       options = options.with_indifferent_access
       filter = filter_for(field, true)
       filter.operator = options['operator']
