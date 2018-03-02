@@ -29,7 +29,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateDocumentsTables < ActiveRecord::Migration
+class CreateDocumentsTables < ActiveRecord::Migration[5.0]
   def up
     unless ActiveRecord::Base.connection.table_exists? 'documents'
       create_table "documents" do |t|

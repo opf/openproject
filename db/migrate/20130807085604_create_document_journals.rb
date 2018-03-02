@@ -29,7 +29,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateDocumentJournals < ActiveRecord::Migration
+class CreateDocumentJournals < ActiveRecord::Migration[5.0]
   def change
     create_table :document_journals do |t|
       t.integer  :journal_id,                                :null => false
