@@ -67,8 +67,10 @@ class DocumentsController < ApplicationController
   def create
     @document = @project.documents.build
     @document.attributes = document_params
+    attachment_params = params[:attachments] ? params[:attachments].to_unsafe_h : {}
+
     if @document.save
-      Attachment.attach_files(@document, params[:attachments])
+      Attachment.attach_files(@document, attachment_params)
       render_attachment_warning_if_needed(@document)
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_documents_path(@project)
@@ -97,7 +99,7 @@ class DocumentsController < ApplicationController
   end
 
   def add_attachment
-    attachments = Attachment.attach_files(@document, params[:attachments])
+    attachments = Attachment.attach_files(@document, params[:attachments].to_unsafe_h)
     render_attachment_warning_if_needed(@document)
 
     if attachments.present? && attachments[:files].present? && Setting.notified_events.include?('document_added')
