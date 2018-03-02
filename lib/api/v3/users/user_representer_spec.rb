@@ -49,7 +49,9 @@ describe ::API::V3::Users::UserRepresenter do
       end
 
       it 'should be blank if gravatar is disabled' do
-        allow(Setting).to receive(:gravatar_enabled?).and_return(false)
+        allow(Setting)
+          .to receive(:plugin_openproject_avatars)
+          .and_return(enable_gravatars: false)
 
         expect(parse_json(subject, 'avatar')).to be_blank
       end
