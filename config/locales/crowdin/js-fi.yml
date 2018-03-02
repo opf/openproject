@@ -88,7 +88,7 @@ fi:
     label_between: between
     label_board_locked: Lukittu
     label_board_sticky: Pysyvä
-    label_create_work_package: Luo uusi toimi paketin
+    label_create_work_package: Luo uusi toimia paketti
     label_created_by: Luonut
     label_date: Päivä
     label_date_with_format: 'Kirjoita %{date_attribute} seuraavassa muodossa: %{format}'
@@ -316,8 +316,8 @@ fi:
       gantt_chart: Gantt chart
       labels:
         bar: Bar labels
-        left: Left
-        right: Right
+        left: Vasen
+        right: Oikea
         farRight: Far right
         showNone: "-- No label --"
         description: 'Select the attributes you want to be shown in the respective
@@ -353,7 +353,7 @@ fi:
         noneSelection: "(none)"
       name: Nimi
       new_work_package: Uusi työpaketti
-      outline: Palauttaa Ääriviivat
+      outline: Nollaa hahmotelma
       outlines:
         aggregation: Näyttää koosteita vain
         level1: Laajenna taso 1
@@ -573,7 +573,7 @@ fi:
       form_submit:
         title: Vahvista jatkaaksesi
         text: Oletko varma, että haluat suorittaa tämän toiminnon?
-      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns: Täytyy nähdä suhteet toimia paketti lista?
       upsale_relation_columns_link: Check out the Enterprise Edition.
       destroy_work_package:
         title: Confirm deletion of %{label}

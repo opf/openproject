@@ -18,22 +18,22 @@ fi:
       instructions:
         alternative_color: Strong accent color, typically used for most the important
           button on a screen.
-        content_link_color: Font color of most of the links.
+        content_link_color: Fontin väri eniten linkkejä.
         primary_color: Pääväri.
         primary_color_dark: Yleensä tummempi versio pääväristä on käytössä valintatehosteissa.
         header_bg_color: Background color of the header.
-        header_item_bg_hover_color: Background color of clickable header items when
-          hovered with the mouse.
-        header_item_font_color: Font color of clickable header items.
-        header_item_font_hover_color: Font color of clickable header items when hovered
-          with the mouse.
+        header_item_bg_hover_color: Taustan väri klikattava otsikko eriä kun leijui
+          hiirellä.
+        header_item_font_color: Fontin väri klikattava otsikko eriä.
+        header_item_font_hover_color: Fontin väri klikattava otsikko eriä kun leijui
+          hiirellä.
         header_border_bottom_color: Thin line under the header. Leave this field empty
           if you don't want any line.
         main_menu_bg_color: Left side menu's background color.
     enterprise:
       upgrade_to_ee: Päivitä yritysversioon
       add_token: Upload an Enterprise Edition support token
-      replace_token: Replace your current support token
+      replace_token: Korvata nykyisen tukea poletti
       order: Tilaa yritysversio
       paste: Paste your Enterprise Edition support token
       required_for_feature: This feature is only available with an active Enterprise
@@ -127,8 +127,8 @@ fi:
       failed_to_reset_token: 'Failed to reset access token: %{error}'
       notice_reset_token: 'A new %{type} token has been generated. Your access token
         is:'
-      token_value_warning: 'Note: This is the only time you will see this token, make
-        sure to copy it now.'
+      token_value_warning: 'Huomautus: Tämä on ainoa kerta kun näet tämän tunnuksen,
+        varmista että kopio se nyt.'
       no_results_title_text: Tällä hetkellä ei ole pääsyavaimia saatavilla.
   news:
     index:
@@ -331,8 +331,8 @@ fi:
       repository:
         url: URL
       role:
-        assignable: Work packages can be assigned to users and groups in possession
-          of this role in the respective project
+        assignable: Toimia paketti voidaan määrittää käyttäjät ja ryhmät hallussaan
+          tämä rooli kunkin projekti
       time_entry:
         activity: Aktiviteetti
         hours: Tunnit
@@ -523,7 +523,7 @@ fi:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
+              group_without_name: Nimeämätön ryhmät eivät ole sallittuja.
               duplicate_group: The group name %{group} is used more than once. Group
                 names must be unique.
               attribute_unknown: Invalid work package attribute used.
@@ -867,9 +867,9 @@ fi:
   default_type_user_story: User story
   description_active: Aktiivinen?
   description_attachment_toggle: Show/Hide attachments
-  description_autocomplete: 'Tämä kenttä käyttää automaattinen täydennys. Kun kirjoitat
+  description_autocomplete: 'Tämä kenttä käyttää automaattisen täydennyksen. Kun näppäily
     otsikon työtä paketin saat listan mahdollisista ehdokkaista. Valitse yksi käyttäen
-    nuoli ylös ja nuoli alas näppäintä ja valitse sarkain tai kirjoita näppäintä.
+    nuoli ylös ja nuoli alas näppäintä ja valitse sarkain tai näppäile näppäintä.
     Vaihtoehtoisesti voit kirjoittaa työtä paketti numero suoraan.
 
 '
@@ -890,7 +890,7 @@ fi:
   description_message_content: Viestin sisältö
   description_my_project: You are member
   description_notes: Muistiinpanot
-  description_parent_work_package: Vanhemman työ paketin nykyinen
+  description_parent_work_package: Vanhemman työ paketti nykyinen
   description_project_scope: Haun laajuus
   description_query_sort_criteria_attribute: Lajittelun perusta
   description_query_sort_criteria_direction: Lajittelujärjestys
@@ -904,7 +904,7 @@ fi:
   ee:
     upsale:
       form_configuration:
-        description: 'Customize the form configuration with these additional features:'
+        description: 'Muokata lomakkeen konfigurointi nämä lisäominaisuudet:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
       project_filters:
@@ -917,12 +917,12 @@ fi:
   error_can_not_archive_project: Tätä projektia ei voida arkistoida
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Mukautettua kenttää ei voi poistaa
-  error_can_not_delete_type: Tämän tyyppinen työ sisältää paketit ja ei voi poistaa.
-  error_can_not_delete_standard_type: Standardin tyypit ei voi poistaa.
+  error_can_not_delete_type: Tämä tyyppinen työ sisältää pakettia ja ei voi poistaa.
+  error_can_not_delete_standard_type: Standardin tyyppiä ei voi poistaa.
   error_can_not_invite_user: Kutsun lähettäminen käyttäjälle epäonnistui.
   error_can_not_remove_role: Tämä rooli on käytössä joten sitä ei voida poistaa.
   error_can_not_reopen_work_package_on_closed_version: Työn paketti määritetty suljettu
-    versio ei voida avata uudelleen
+    versio ei voi avata uudelleen
   error_check_user_and_role: Please choose a user and a role.
   error_cookie_missing: OpenProject evästeen puuttuu. Varmista, että evästeet ovat
     käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.
@@ -934,23 +934,23 @@ fi:
   error_pdf_export_too_many_columns: Liikaa sarakkeita valittuina PDF-vientiin. Pienennä
     sarakkeiden määrää.
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
-  error_work_package_done_ratios_not_updated: Tehtäväkokonaisuus tehnyt suhdelukuja
-    ei päivitetä.
-  error_work_package_not_found_in_project: Työn package ei löydy tai ei kuulu tähän
+  error_work_package_done_ratios_not_updated: Toimi paketti tehnyt suhdelukuja ei
+    päivitetä.
+  error_work_package_not_found_in_project: Toimia paketti ei löydy tai ei kuulu tähän
     projektiin
-  error_must_be_project_member: on oltava hankkeen jäsen
+  error_must_be_project_member: on oltava projekti jäsen
   error_no_default_work_package_status: No default work package status is defined.
     Please check your configuration (Go to "Administration -> Work package statuses").
-  error_no_type_in_project: No type is associated to this project. Please check the
-    Project settings.
-  error_omniauth_registration_timed_out: The registration via an external authentication
-    provider timed out. Please try again.
+  error_no_type_in_project: Ei tyyppi liittyy tähän projekti. Ole hyvä ja tarkista
+    Projekti asetuksista.
+  error_omniauth_registration_timed_out: Rekisteröinnin kautta ulkoinen todennus perheenhuoltaja
+    aikakatkaistiin. Ole hyvä ja yritä uudelleen.
   error_scm_command_failed: 'Tietovarastoon pääsyssä tapahtui virhe: %{value}'
   error_scm_not_found: Syötettä ja/tai versiota ei löydy tietovarastosta.
-  error_unable_delete_status: Työ paketin tila ei voi poistaa koska se on käytössä
-    vähintään yksi tehtäväkokonaisuus.
-  error_unable_delete_default_status: Ei voi poistaa oletuksena työ paketin tila.
-    Ole hyvä ja valitse toinen default työ paketin tila ennen poistamalla nykyinen
+  error_unable_delete_status: Toimia paketti tila ei voi poistaa koska se on käytössä
+    vähintään yksi toimia paketti.
+  error_unable_delete_default_status: Ei voi poistaa oletuksena työ paketti tila.
+    Ole hyvä ja valitse vielä oletusarvo työ paketti tila ennen poistamalla nykyinen
     yksi.
   error_unable_to_connect: Ei voi yhdistää (%{value})
   error_unable_delete_wiki: Wiki-sivun poistaminen ei onnistu.
@@ -1070,7 +1070,7 @@ fi:
   label_api_access_key_created_on: API access key created %{value} ago
   label_api_access_key_type: API
   label_applied_status: Käytetty tila
-  label_archive_project: Archive project
+  label_archive_project: Arkisto projekti
   label_ascending: Nouseva
   label_assigned_to_me_work_packages: Minulle määritetyt työpaketit
   label_associated_revisions: Liittyvät versiot
@@ -1159,7 +1159,7 @@ fi:
   label_day_plural: päivää
   label_default: Oletus
   label_delete_user: Delete user
-  label_delete_project: Delete project
+  label_delete_project: Poista projekti
   label_deleted: poistettu
   label_deleted_custom_field: "(poistettu mukautettu kenttä)"
   label_descending: Laskeva
@@ -1465,7 +1465,7 @@ fi:
   label_total: Yhteensä
   label_type_new: Uusi tyyppi
   label_type_plural: Tyypit
-  label_type_default_new_projects: Type activated for new projects by default
+  label_type_default_new_projects: Tyyppi aktivoitu uusia hankkeita oletuksena
   label_ui: Käyttöliittymä
   label_update_work_package_done_ratios: Päivitä työpaketin valmiusasteet
   label_updated_time: Päivitetty %{value} sitten
@@ -1512,7 +1512,7 @@ fi:
   label_wiki_page: Wiki-sivu
   label_wiki_page_plural: Wiki sivut
   label_wiki_show_index_page_link: Näytä alivalikon vaihtoehto "Sisällysluettelo"
-  label_wiki_show_menu_item: Show as menu item in project navigation
+  label_wiki_show_menu_item: Näytä valikon kohta projekti navigaatio
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
   label_wiki_show_submenu_item: 'Show as submenu item of '
   label_work_package: Työpaketti
@@ -1583,7 +1583,7 @@ fi:
   label_keyboard_shortcut_go_calendar: Go to project calendar
   label_keyboard_shortcut_go_news: Go to project news
   label_keyboard_shortcut_go_timelines: Go to timelines
-  label_keyboard_shortcut_new_work_package: Luo uusi toimi paketin
+  label_keyboard_shortcut_new_work_package: Luo uusi toimia paketti
   label_keyboard_shortcut_details_package: Show work packages details pane
   label_keyboard_shortcut_go_edit: Go to edit the current item (on detail pages only)
   label_keyboard_shortcut_open_more_menu: Open more-menu (on detail pages only)
@@ -1595,7 +1595,7 @@ fi:
     only)
   label_visible_elements: Näkyvät elementit
   auth_source:
-    using_abstract_auth_source: Can't use an abstract authentication source.
+    using_abstract_auth_source: Voi käyttää abstrakti autentikointi lähde.
     ldap_error: 'LDAP-Error: %{error_message}'
     ldap_auth_failed: Could not authenticate at the LDAP-Server.
   macro_execution_error: Error executing the macro %{macro_name}
@@ -1637,12 +1637,12 @@ fi:
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_token: Invalid activation token
   notice_account_invalid_credentials: Virheellinen käyttäjätunnus tai salasana
-  notice_account_invalid_credentials_or_blocked: Virheellinen käyttäjä tai salasana
-    tai tili on estetty koska useita epäonnistunut kirjautuminen yrityksiä. Jos on,
-    niin se vapauttaa automaattisesti lyhyessä ajassa.
+  notice_account_invalid_credentials_or_blocked: Pätemätön käyttäjä tai salasana tai
+    tili on tukossa koska useita epäonnistunut kirjautuminen yrityksiä. Jos on, niin
+    se vapauttaa automaattisesti lyhyessä ajassa.
   notice_account_lost_email_sent: Sinulle on lähetetty sähköposti jossa on ohje kuinka
     vaihdat salasanasi.
-  notice_account_new_password_forced: Uusi salasana on pakollinen.
+  notice_account_new_password_forced: Uusi salasana on vaaditaan.
   notice_account_password_expired: Your password expired after %{days} days. Please
     set a new one.
   notice_account_password_updated: Salasanan päivitys onnistui.
@@ -1674,13 +1674,13 @@ fi:
   notice_forced_logout: You have been automatically logged out after %{ttl_time} minutes
     of inactivity.
   notice_internal_server_error: On tapahtunut virhe sivu jota yritit käyttää. Jos
-    sinulla on edelleen ongelmia ota yhteyttä %{app_title} järjestelmänvalvojan apua.
+    sinulla on edelleen ongelmia ota yhteyttä %{app_title} hallintomies sillä apua.
   notice_work_package_done_ratios_updated: Work package done ratios updated.
   notice_locking_conflict: Vähintään yksi muu käyttäjä on päivitetty tiedot sillä
     välin.
   notice_locking_conflict_additional_information: The update(s) came from %{users}.
-  notice_locking_conflict_reload_page: Please reload the page, review the changes
-    and reapply your updates.
+  notice_locking_conflict_reload_page: Ole hyvä ja päivitä sivu, tarkistaa muutokset
+    ja uudelleen päivitykset.
   notice_member_added: Added %{name} to the project.
   notice_members_added: Lisätty %{number} käyttäjää hankkeeseen.
   notice_member_removed: Removed %{user} from project.
@@ -1689,7 +1689,7 @@ fi:
   notice_bad_request: Bad Request.
   notice_not_authorized: Sinulla ole oikeuksia käyttää tätä sivua.
   notice_not_authorized_archived_project: Haluamasi projekti on arkistoitu.
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: Salasana ei ole oikea. Ei voi jatkua.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
@@ -1703,8 +1703,8 @@ fi:
     Rajata hakua kirjoittamalla nimi uuden jäsenen (tai ryhmä).
   notice_unable_delete_time_entry: Ei voi poistaa aikakirjausta.
   notice_unable_delete_version: Version poisto epäonnistui
-  notice_user_missing_authentication_method: User has yet to choose a password or
-    another way to sign in.
+  notice_user_missing_authentication_method: Käyttäjä on vielä valita salasana tai
+    toinen tapa kirjautua sisään.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Set standard type automatically.
@@ -1863,17 +1863,17 @@ fi:
         Note: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered.
       default_instructions:
         git: |-
-          The data contained in this repository can be downloaded to your computer with Git.
-          Please consult the documentation of Git if you need more information on the checkout procedure and available clients.
+          Sisältämät tiedot tämä arkisto voidaan ladata tietokoneeseen Git.
+          Ota dokumentointi Git jos tarvitset lisätietoja huoneen luovutus menettely ja saatavilla asiakkaille.
         subversion: |-
           The data contained in this repository can be downloaded to your computer with Subversion.
           Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
-      enable_instructions_text: Displays checkout instructions defined below on all
-        repository-related pages.
+      enable_instructions_text: Näyttää kassalle ohjeet alla määritellään kaikki säilytyspaikka-liittyviä
+        sivuja.
       instructions: Checkout instructions
       show_instructions: Display checkout instructions
-      text_instructions: This text is displayed alongside the checkout URL for guidance
-        on how to check out the repository.
+      text_instructions: Tämä teksti näkyy rinnalla kassalla URL ohjeet siitä miten
+        tarkistaa säilytyspaikka.
       not_available: Checkout instructions are not defined for this repository. Ask
         your administrator to enable them for this repository in the system settings.
     create_managed_delay: 'Please note: The repository is managed, it is created asynchronously
@@ -1881,7 +1881,7 @@ fi:
     create_successful: The repository has been registered.
     delete_sucessful: The repository has been deleted.
     destroy:
-      confirmation: If you continue, this will permanently delete the managed repository.
+      confirmation: Jos jatkat, tämän pysyvästi poistaa onnistunut säilytyspaikka.
       info: Deleting the repository is an irreversible action.
       info_not_managed: 'Note: This will NOT delete the contents of this repository,
         as it is not managed by OpenProject.'
@@ -1895,8 +1895,7 @@ fi:
       title: Delete the %{repository_type}
       title_not_managed: Remove the linked %{repository_type}?
     errors:
-      build_failed: Unable to create the repository with the selected configuration.
-        %{reason}
+      build_failed: Ei voi luoda säilytyspaikka kanssa valitun kokoonpanon. %{reason}
       managed_delete: Unable to delete the managed repository.
       managed_delete_local: 'Unable to delete the local repository on filesystem at
         ''%{path}'': %{error_message}'
@@ -1908,8 +1907,8 @@ fi:
       not_manageable: This repository vendor cannot be managed by OpenProject.
       path_permission_failed: 'An error occurred trying to create the following path:
         %{path}. Please ensure that OpenProject may write to that folder.'
-      unauthorized: You're not authorized to access the repository or the credentials
-        are invalid.
+      unauthorized: Sinulla ei ole valtuutetun käyttää säilytyspaikka tai tunnistetiedot
+        eivät kelpaa.
       unavailable: The repository is unavailable.
       exception_title: 'Cannot access the repository: %{message}'
       disabled_or_unknown_type: The selected type %{type} is disabled or no longer
@@ -1918,9 +1917,8 @@ fi:
         available.
       remote_call_failed: 'Calling the managed remote failed with message ''%{message}''
         (Code: %{code})'
-      remote_invalid_response: Received an invalid response from the managed remote.
-      remote_save_failed: Could not save the repository with the parameters retrieved
-        from the remote.
+      remote_invalid_response: Vastaanotettu virheellinen vastaus onnistui kauko.
+      remote_save_failed: Ei voitu tallentaa asäilytyspaikka parametrit haetaan kauko.
     git:
       instructions:
         managed_url: This is the URL of the managed (local) Git repository.
@@ -1939,7 +1937,7 @@ fi:
       path: Path to Git repository
       path_encoding: Polun koodaus
     go_to_revision: Go to revision
-    managed_remote: Managed repositories for this vendor are handled remotely.
+    managed_remote: Onnistunut arkistot tälle toimittajalle hoidetaan etänä.
     managed_remote_note: Information on the URL and path of this repository is not
       available prior to its creation.
     managed_url: Managed URL
@@ -1970,8 +1968,8 @@ fi:
           Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.
           The following URL schemes are supported:
       managed_title: Subversion repository integrated into OpenProject
-      managed_introduction: Let OpenProject create and integrate a local Subversion
-        repository automatically.
+      managed_introduction: Päästää OpenProject luoda ja integroida paikallinen kumouksellisuus
+        säilytyspaikka automaattisesti.
       managed_url: Managed URL
       password: Repository Password
       username: Repository username
@@ -1981,7 +1979,7 @@ fi:
     update_settings_successful: The settings have been sucessfully saved.
     url: URL to repository
     warnings:
-      cannot_annotate: This file cannot be annotated.
+      cannot_annotate: Tätä tiedostoa ei voi selityksineen.
   search_input_placeholder: Etsi...
   setting_email_delivery_method: Sähköpostiviestien toimitustapa
   setting_sendmail_location: Location of the sendmail executable
@@ -2053,8 +2051,8 @@ fi:
   setting_new_project_user_role_id: Rooli joka annetaan projektin luojalle, joka ei
     ole hallinnoija (admin)
   setting_password_active_rules: Aktiiviset merkistöluokat
-  setting_password_count_former_banned: Määrä viimeksi käytetyt salasanat kielletty
-    uudelleenkäyttöä varten
+  setting_password_count_former_banned: Numero viimeksi käytetyt salasanat kielletty
+    sillä uudelleenkäyttö
   setting_password_days_valid: Maksimiaika, jonka jälkeen salasana täytyy vaihtaa
   setting_password_min_length: Vähimmäispituus
   setting_password_min_adhered_rules: Minimum number of required classes
@@ -2076,7 +2074,7 @@ fi:
   setting_rest_api_enabled: Ota käyttöön REST-verkkopalvelu
   setting_self_registration: Itserekisteröinti
   setting_sequential_project_identifiers: Luo peräkkäiset projektien tunnisteet
-  setting_session_ttl: Istunnon voimassaolon ajan kuluttua käyttämättömänä
+  setting_session_ttl: Istunnon vanhentumisaika jälkeen toimettomuus
   setting_session_ttl_hint: Arvo alle 5 toimii kuten käytöstä
   setting_session_ttl_enabled: Istunto päättyy
   setting_start_of_week: Week starts on
@@ -2088,7 +2086,7 @@ fi:
   setting_accessibility_mode_for_anonymous: Ota helppokäyttötila anonyymeille käyttäjille
   setting_user_format: Käyttäjien esitysmuoto
   setting_users_deletable_by_admins: User accounts deletable by admins
-  setting_users_deletable_by_self: Käyttäjät saa poistaa tilinsä
+  setting_users_deletable_by_self: Käyttäjille saa poistaa tilinsä
   setting_welcome_text: Tervehdysteksti
   setting_welcome_title: Tervehdyspalkki
   setting_welcome_on_homescreen: Näytä tervehdyspalkki kotinäkymässä
@@ -2115,8 +2113,8 @@ fi:
     motorically handicaped or have a bad eyesight. For the latter focused elements
     are specially highlighted. Please notice, that the Backlogs module is not available
     in this mode.
-  text_access_token_hint: Access tokens allow you to grant external applications access
-    to resources in OpenProject.
+  text_access_token_hint: Käyttövaltuuksien avulla voit tuoda ulkoisia sovelluksia
+    pääsyn resursseja sisään OpenProject.
   text_analyze: 'Further analyze: %{subject}'
   text_are_you_sure: Oletko varma?
   text_are_you_sure_with_children: Delete work package and all child work packages?
@@ -2162,7 +2160,7 @@ fi:
   text_destroy: Poista
   text_destroy_with_associated: 'There are additional objects assossociated with the
     work package(s) that are to be deleted. Those objects are of the following types:'
-  text_destroy_what_to_do: What do you want to do?
+  text_destroy_what_to_do: Mitä sinä haluat tehdä?
   text_diff_truncated: "... Tämä katkaistiin koska suurin mahdollinen näytettävä määrä
     tuli täyteen."
   text_email_delivery_not_configured: |-
@@ -2177,7 +2175,7 @@ fi:
   text_hint_disable_with_0: 'Huom: Poista käytöstä syöttämällä 0'
   text_hours_between: "%{min}-%{max} tuntia."
   text_work_package_added: Work package %{id} has been reported by %{author}.
-  text_work_package_category_destroy_assignments: Remove category assignments
+  text_work_package_category_destroy_assignments: Poistaa luokan tehtävät
   text_work_package_category_destroy_question: Some work packages (%{count}) are assigned
     to this category. What do you want to do?
   text_work_package_category_reassign_to: Reassign work packages to this category
@@ -2186,7 +2184,7 @@ fi:
     henkilön %{watcher_setter} toimesta.
   text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
     work package(s)?
-  text_work_packages_ref_in_commit_messages: Vertailemalla ja korjaus työtä paketteja
+  text_work_packages_ref_in_commit_messages: Vertailemalla ja korjaus toimia paketit
     sitoutua viestejä
   text_journal_added: "%{label} %{value} lisätty"
   text_journal_aggregation_time_explanation: Yhdistele aktiviteettiuutiset jos niiden
@@ -2211,7 +2209,7 @@ fi:
     On erittäin suotavaa ladata vakioasetukset. Voit muuttaa sitä latauksen jälkeen.
   text_no_notes: Tähän työpakettiin ei ole saatavilla kommentteja.
   text_notice_too_many_values_are_inperformant: 'Huomautus: Näyttää yli 100 kohteita
-    per sivu voi lisätä latausaikaa.'
+    sivulla voi lisätä sivu kuormitus aika.'
   text_own_membership_delete_confirmation: Olet aikeissa poistaa yhden tai useamman
     käyttöoikeuden ja et ehkä voi enää muokata tätä projektia sen jälkeen. Haluatko
     varmasti jatkaa?
@@ -2232,12 +2230,12 @@ fi:
     checkboxes in the table. When clicking on the button below the table the differences
     are shown.
   text_time_logged_by_changeset: Päivitetty muutosversioon %{value}.
-  text_tip_work_package_begin_day: tehtäväkokonaisuus alusta tähän päivään
-  text_tip_work_package_begin_end_day: work package beginning and ending this day
+  text_tip_work_package_begin_day: toimia paketti alusta tähän päivään
+  text_tip_work_package_begin_end_day: toimia paketti alkaa ja päättyy tähän päivään
   text_tip_work_package_end_day: work package ending this day
   text_type_no_workflow: Ei työnkulun määritetty tämä tyyppi
   text_unallowed_characters: Kiellettyjä merkkejä
-  text_user_invited: The user has been invited and is pending registration.
+  text_user_invited: Käyttäjä on kutsuttu ja on vireillä rekisteröinti.
   text_user_wrote: "%{value} kirjoitti:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
@@ -2364,7 +2362,7 @@ fi:
       work_package_filters: Filter work packages
       work_package_responsible: Show work packages with responsible
       work_package_assignee: Show work packages with assignee
-      types: Show types
+      types: Näytä tyypit
       status: Näytä tila
       project_time_filter: Projects with a work package of a certain type in a certain
         timeframe
@@ -2376,8 +2374,8 @@ fi:
         %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: Filter projects
       project_responsible: Näytä hankkeita joiden tehtävänä
-      project_status: Show project status
-      project_types: Show project types
+      project_status: Näytä projekti tila
+      project_types: Näytä projekti tyypit
       timeframe: Näytä aikataulu
       timeframe_end: to
       timeframe_start: from
@@ -2396,7 +2394,7 @@ fi:
       aikajanalla.
     no_timeline_for_id: There is no timeline with ID %{id}.
     notice_successful_deleted_all_elements: Poistettu onnistuneesti kaikki elementit
-    outline: Palauttaa Ääriviivat
+    outline: Nollaa hahmotelma
     outlines:
       aggregation: Näyttää koosteita vain
       level1: Laajenna taso 1
@@ -2422,10 +2420,10 @@ fi:
     project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
-    reporting_could_not_be_saved: Raportointi ei voitu tallentaa
+    reporting_could_not_be_saved: Raportointi ei voitu tallenneta
     properties: Ominaisuudet
     really_delete_color: 'Oletko varma, että haluat poistaa seuraava väri? Tyypit
-      käyttää tätä väriä ei poisteta.
+      käyttää tätä väri ei poisteta.
 
 '
     really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
@@ -2437,7 +2435,7 @@ fi:
 
 '
     really_delete_timeline: 'Oletko varma, että haluat poistaa seuraavat aikajana
-      raportti? Työ paketteja näkyy tämä aikajana raportti ei poisteta.
+      raportti? toimia paketti näkyy tämä aikajana raportti ei poisteta.
 
 '
     really_delete_reporting: 'Oletko varma, että haluat poistaa seuraavat raportointia?
@@ -2450,7 +2448,7 @@ fi:
     settings: Aikataulut
     vertical_work_package: Vertical work packages
     without_project_type: Without project type
-    you_are_viewing_the_selected_timeline: Katselet valittu aikajana raportti
+    you_are_viewing_the_selected_timeline: Sinä olet katselu valittu aikajana raportti
     zoom:
       in: Lähennä
       out: Loitonna
@@ -2486,9 +2484,9 @@ fi:
     activate: Aktivoi
     activate_and_reset_failed_logins: Activate and reset failed logins
     authentication_provider: Authentication Provider
-    authentication_settings_disabled_due_to_external_authentication: 'This user authenticates
-      via an external authentication provider, so there is no password in OpenProject
-      to be changed.
+    authentication_settings_disabled_due_to_external_authentication: 'Tämä käyttäjä
+      autentikoi kautta ulkoisen autentikointi perheenhuoltaja, joten ei ole salasana
+      OpenProject olla muutettu.
 
 '
     authorization_rejected: You are not allowed to sign in.
@@ -2500,14 +2498,14 @@ fi:
     confirm_status_change: You are about to change the status of '%{name}'. Are you
       sure you want to continue?
     deleted: Poista käyttäjä
-    error_status_change_failed: 'Changing the user status failed due to the following
-      errors: %{errors}'
+    error_status_change_failed: 'Muuttaminen käyttäjän tila epäonnistui koska seuraavia
+      virheitä: %{errors}'
     invite: Invite user via email
     invited: kutsuttu
-    lock: Lock permanently
+    lock: Lukko vakinaisesti
     locked: locked permanently
     no_login: Tämä käyttäjä todentaa kautta kirjautuminen salasanalla. Koska se on
-      poistettu käytöstä, he eivät voi kirjautua sisään.
+      poistettu käytöstä, he ei voi loki sisään.
     password_change_unsupported: Muutos salasana ei tueta.
     registered: registered
     reset_failed_logins: Reset failed logins
@@ -2516,7 +2514,7 @@ fi:
       mail_project_explanaition: For unselected projects, you will only receive notifications
         about things you watch or you're involved in (e.g. work packages you're the
         author or assignee of).
-      mail_self_notified: I want to be notified of changes that I make myself
+      mail_self_notified: Haluan ilmoituksen muutoksista jotka teen itse
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: Status change
     unlock: Vapauta
@@ -2532,12 +2530,12 @@ fi:
   menu_item_setting: Visibility
   wiki_menu_item_for: Menu item for wikipage "%{title}"
   wiki_menu_item_setting: Visibility
-  wiki_menu_item_new_main_item_explanation: 'Poistat vain tärkeimmät wiki valikosta.
-    Sinun täytyy nyt valita wiki sivu joista tärkein uusi kohde luodaan. Poistaa wiki
-    wiki moduuli voidaan kytkeä pois päältä hankkeen ylläpitäjät.
+  wiki_menu_item_new_main_item_explanation: 'Sinä olet poistat vain tärkeimmät wiki
+    valikosta. Sinun täytyy nyt valita wiki sivu joista tärkein uusi kohde luodaan.
+    Poistaa wiki wiki moduuli voidaan kytkeä pois päältä hankkeen ylläpitäjät.
 
 '
-  wiki_menu_item_delete_not_permitted: Wiki valikosta vain wiki sivu voi olla poistettu.
+  wiki_menu_item_delete_not_permitted: Wiki valikosta vain wiki sivu voi olla Poistetaan.
   query_menu_item_for: Menu item for query "%{title}"
   work_package:
     updated_automatically_by_child_changes: '_Päivitetty automaattisesti muutoksella
@@ -2569,25 +2567,24 @@ fi:
       invalid_relation: Suhde on virheellinen.
       invalid_resource: For property '%{property}' a link like '%{expected}' is expected,
         but got '%{actual}'.
-      invalid_user_status_transition: The current user account status does not allow
-        this operation.
+      invalid_user_status_transition: Nykyisen käyttäjän tilin tila ei salli tätä
+        operaatio.
       missing_content_type: not specified
-      missing_request_body: There was no request body.
+      missing_request_body: Ei ollut pyyntö kehon.
       missing_or_malformed_parameter: Kyselyparametri "%{parameter}" puuttuu tai on
         virheellinen.
-      multipart_body_error: The request body did not contain the expected multipart
-        parts.
-      multiple_errors: Multiple field constraints have been violated.
+      multipart_body_error: Pyynnön elin ei sisällä odotettavissa moniosaisia osat.
+      multiple_errors: Useita kenttä rajoituksia on rikottu.
       unable_to_create_attachment: The attachment could not be created
       render:
-        context_not_parsable: The context provided is not a link to a resource.
-        unsupported_context: The resource given is not supported as context.
+        context_not_parsable: Yhteydessä edellyttäen ei ole linkki resurssi.
+        unsupported_context: Resurssi koska ei ole tuettu yhteydessä.
         context_object_not_found: Cannot find the resource given as the context.
       validation:
         done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
           by status or when it is disabled.
         due_date: Due date cannot be set on parent work packages.
-        estimated_hours: Estimated hours cannot be set on parent work packages.
+        estimated_hours: Arvioitu tuntia ei voi asettaa vanhemman toimia paketti.
         invalid_user_assigned_to_work_package: The chosen user is not allowed to be
           '%{property}' for this work package.
         start_date: Start date cannot be set on parent work packages.

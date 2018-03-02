@@ -68,7 +68,7 @@ fil:
     general_text_yes: oo
     general_text_No: Hindi
     general_text_Yes: Oo
-    label_activate: Activate
+    label_activate: Aktibo
     label_activity_no: Bilang ng aktibidad entry %{activityNo}
     label_activity_with_comment_no: Bilang ng aktibidad entry %{activityNo}. Mayroong
       komento ng gumagamit.
@@ -167,7 +167,7 @@ fil:
     label_total_progress: "%{percent}% Kabuang progreso"
     label_visible_for_others: Pahina na makikita sa iba
     label_updated_on: i-update sa
-    label_warning: Warning
+    label_warning: Babala
     label_work_package: Work package
     label_work_package_plural: Ang mga work package
     label_watch: Tumingin
@@ -364,15 +364,15 @@ fil:
         noneSelection: "(wala)"
       name: Pangalan
       new_work_package: Bagong work package
-      outline: Reset Outline
+      outline: I-reset ang balangkas
       outlines:
-        aggregation: Show aggregations only
-        level1: Expand level 1
-        level2: Expand level 2
-        level3: Expand level 3
-        level4: Expand level 4
-        level5: Expand level 5
-        all: Show all
+        aggregation: Ipakita lamang ang mga pinagsama-sama
+        level1: Palawakin ang ika-1 na antas
+        level2: Palawakin ang ika-2 antas
+        level3: Palawakin ang ika-3 na antas
+        level4: Palawakin ang ika-4 na antas
+        level5: Palawakin ang ika-5 na antas
+        all: Ipakita ang lahat
       project_status: Estado ng proyekto
       project_type: Uri ng proyekto
       really_close_dialog: Sigurado ka na ba na gusto mong isara ang dialogo at mawala
@@ -389,11 +389,11 @@ fil:
         in: Palakihin
         out: Zoom out
         auto: Auto zoom
-        days: Days
-        weeks: Weeks
-        months: Months
-        quarters: Quarters
-        years: Years
+        days: Mga araw
+        weeks: Mga linggo
+        months: Mga buwan
+        quarters: Mga quarter
+        years: Mga taon
         slider: Zoom Slider
     tl_toolbar:
       zooms: Zoom level
