@@ -27,9 +27,12 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% content = escape_javascript render(partial: 'memberships') %>
-<% flash_message = escape_javascript render(partial: "members/common_notice",
-                                            locals: { message: l(:notice_successful_delete) }) %>
-var compiledContent = OpenProject.Helpers.Angular.compile('<%= content %>');
-jQuery('#tab-content-memberships').html(compiledContent);
-jQuery('#tab-content-memberships').prepend('<%= flash_message %>');
+<%= labelled_tabular_form_for @project,
+                              url: { controller: '/projects', action: 'modules', id: @project },
+                              method: :put do |form| %>
+
+  <%= render partial: "/projects/form/modules",
+             locals: { form: form } %>
+
+  <p><%= form.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %></p>
+<% end %>

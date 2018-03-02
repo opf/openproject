@@ -22,6 +22,7 @@ OpenProject::Application.configure do
     project/description_handling.js
     project/filters.js
     repository_navigation.js
+    repository_settings.js
     select_list_move.js
     types_checkboxes.js
     work_packages.js

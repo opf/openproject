@@ -26,21 +26,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% selected_tab = params[:tab] ? params[:tab].to_s : tabs.first[:name] %>
 <div class="tabs">
   <ul>
     <% tabs.each do |tab| %>
       <li><%=
-    position_span = you_are_here_info(tab[:name], tab[:name] != selected_tab)
+    position_span = you_are_here_info(tab[:name], tab != selected_tab)
     caption = case tab[:label]
     when Proc
       tab[:label].call
     else
-      l(tab[:label])
+      t(tab[:label])
     end
     link_to(position_span + caption, { tab: tab[:name] },
                                        id: "tab-#{tab[:name]}",
-                                       class: "tab-show #{(tab[:name] != selected_tab ? nil : 'selected')}",
+                                       class: "tab-show #{(tab == selected_tab ? 'selected' : '')}",
                                        data: { name: tab[:name] }) %></li>
     <% end %>
   </ul>
@@ -50,11 +49,22 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
 </div>
 
+<%= content_for :header_tags do %>
+  <%= nonced_javascript_tag  do %>
 
-<% tabs.each do |tab| %>
-  <%= content_tag('div',
-                  render(partial: tab[:partial], locals: {tab: tab} ),
-                  id: "tab-content-#{tab[:name]}",
-                  style: (tab[:name] != selected_tab ? 'display:none' : nil),
-                  class: 'tab-content') %>
+    jQuery(function($) {
+    // Show tabs, if any
+    displayTabsButtons();
+    $(window).resize(function() { displayTabsButtons(); });
+
+    $('.tab-left').click(moveTabLeft);
+    $('.tab-right').click(moveTabRight);
+    });
+  <% end %>
 <% end %>
+
+
+<%= content_tag 'div',
+                render(partial: selected_tab[:partial], locals: { tab: selected_tab } ),
+                id: "tab-content-#{selected_tab[:name]}",
+                class: 'tab-content' %>

@@ -46,10 +46,7 @@ class AttachmentsController < ApplicationController
     # Make sure association callbacks are called
     @attachment.container.attachments.delete(@attachment)
 
-    respond_to do |format|
-      format.html do redirect_to url_for(destroy_response_url(@attachment.container)) end
-      format.js
-    end
+    redirect_to url_for(destroy_response_url(@attachment.container))
   end
 
   def fulltext

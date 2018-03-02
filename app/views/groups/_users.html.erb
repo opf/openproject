@@ -46,10 +46,7 @@ See docs/COPYRIGHT.rdoc for more details.
                .not_in_group(@group)
                .limit(100) %>
     <% if users.any? %>
-      <%= styled_form_tag(members_of_group_path(@group),
-                          method: :post,
-                          remote: true,
-                          'ajax-indicated': '') do |f| %>
+      <%= styled_form_tag(members_of_group_path(@group), method: :post) do |f| %>
         <remote-field-updater url="<%= url_for(controller: '/groups', action: 'autocomplete_for_user', id: @group)%>">
           <fieldset class="form--fieldset">
             <legend class="form--fieldset-legend"><%=l(:label_user_new)%></legend>

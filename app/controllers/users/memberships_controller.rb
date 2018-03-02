@@ -49,13 +49,7 @@ class Users::MembershipsController < ApplicationController
       @membership.destroy && @membership = nil
     end
 
-    respond_to do |format|
-      format.html do
-        redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
-      end
-
-      format.js {}
-    end
+    redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
   end
 
   private
@@ -65,12 +59,7 @@ class Users::MembershipsController < ApplicationController
     service = ::Members::EditMembershipService.new(@membership, save: save_record, current_user: current_user)
     service.call(attributes: permitted_params.membership)
 
-    respond_to do |format|
-      format.html do
-        redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
-      end
-      format.js { render 'update_or_create' }
-    end
+    redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
   end
 
   def find_user

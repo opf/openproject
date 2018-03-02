@@ -32,28 +32,6 @@
   Used by view/common/_tabs.html.erb in inline javascript.
 */
 
-// Called when a tab was selected.
-// Responsible to hide the old selected tab and show the content
-// of the currently selected tab.
-function showTab(name, url) {
-  jQuery('div#content .tabs .position-label').hide();
-  jQuery('div#content .tabs #tab-' + name + ' .position-label').show();
-  jQuery('div#content .tab-content').hide();
-  jQuery('div.tabs a').removeClass('selected');
-  jQuery('#tab-content-' + name).show();
-  jQuery('#tab-' + name).addClass('selected');
-  //replaces current URL with the "href" attribute of the current link
-  //(only triggered if supported by browser)
-  if ("replaceState" in window.history) {
-    window.history.replaceState(null, document.title, url);
-  }
-
-  window.setTimeout(function() {
-    jQuery('#tab-' + name).focus();
-  }, 100);
-  return false;
-}
-
 /*
   There are hidden buttons in the common/_tabs.html.erb view,
   which shall allow the user to scrolls through the tab captions.
@@ -108,20 +86,3 @@ function moveTabLeft(el) {
   }
 }
 
-jQuery(function($) {
-  // Show tabs, if any
-  displayTabsButtons();
-
-  $(window).resize(function() { displayTabsButtons(); });
-
-  $('.tab-left').click(moveTabLeft);
-  $('.tab-right').click(moveTabRight);
-  $('.tab-show').click(function(evt) {
-    var el = $(this);
-    showTab(el.data('name'), el.href);
-    el.blur();
-
-    evt.preventDefault();
-    return false;
-  });
-});

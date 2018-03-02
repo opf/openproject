@@ -127,10 +127,7 @@ class BoardsController < ApplicationController
       flash.now[:error] = l('board_could_not_be_saved')
       render action: 'edit'
     end
-    redirect_to controller: :projects,
-                action: 'settings',
-                tab: 'boards',
-                id: @board.project_id
+    redirect_to_settings_in_projects(@board.project_id)
   end
 
   def destroy
@@ -141,8 +138,8 @@ class BoardsController < ApplicationController
 
   private
 
-  def redirect_to_settings_in_projects
-    redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'boards'
+  def redirect_to_settings_in_projects(id = @project)
+    redirect_to controller: '/project_settings', action: 'show', id: id, tab: 'boards'
   end
 
   def find_board_if_available
