@@ -43,7 +43,7 @@ module CustomActions::Actions::Strategies::ValidateInRange
   private
 
   def validate_in_interval(errors)
-    return unless values.length == 1
+    return unless values.compact.length == 1
 
     validate_greater_than_minimum(errors)
     validate_smaller_than_maximum(errors)
