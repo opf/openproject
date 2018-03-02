@@ -161,9 +161,10 @@ describe 'Activity tab', js: true, selenium: true do
         expect(field.editing?).to be true
 
         # Add our comment
-        quote = field.input_element[:innerHTML]
-        expect(quote).to have_selector('p', text: 'Anonymous wrote:')
-        expect(quote).to have_selector('blockquote', text: 'First comment on this wp.')
+        quote = field.input_element[:value]
+        expect(quote).to include("> #{initial_comment}")
+        quote << "\nthis is some remark under a quote"
+        field.input_element.set(quote)
         field.submit_by_click
 
         expect(page).to have_selector('.user-comment > .message', count: 3)

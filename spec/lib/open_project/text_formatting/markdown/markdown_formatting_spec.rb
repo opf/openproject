@@ -30,12 +30,6 @@
 require 'spec_helper'
 
 describe OpenProject::TextFormatting::Formatters::Markdown::Formatter do
-  MODIFIERS = {
-    '**' => 'strong', # bold
-    '_' => 'em',      # italic
-    '~' => 'del'      # deleted
-  }
-
   it 'should modifiers' do
     assert_html_output(
       '**bold**'                => '<strong>bold</strong>',
@@ -47,17 +41,6 @@ describe OpenProject::TextFormatting::Formatters::Markdown::Formatter do
       '**two** **words**'         => '<strong>two</strong> <strong>words</strong>',
       '**(two)** **(words)**'     => '<strong>(two)</strong> <strong>(words)</strong>'
     )
-  end
-
-  it 'should modifiers combination' do
-    MODIFIERS.each do |m1, tag1|
-      MODIFIERS.each do |m2, tag2|
-        next if m1 == m2
-        text = "#{m2}#{m1}Phrase modifiers#{m1}#{m2}"
-        html = "<#{tag2}><#{tag1}>Phrase modifiers</#{tag1}></#{tag2}>"
-        assert_html_output text => html
-      end
-    end
   end
 
   it 'should inline code' do

@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe PreviewsHelper, type: :helper do
+describe TextFormattingHelper, type: :helper do
   describe '#preview_link' do
     let(:path) { '/' }
     let(:id)   { 'news_preview' }
