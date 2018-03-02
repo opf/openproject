@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class RemoveSignoffFromCostObjects < ActiveRecord::Migration
+class RemoveSignoffFromCostObjects < ActiveRecord::Migration[5.0]
   def change
     remove_column :cost_objects, :project_manager_signoff
     remove_column :cost_objects, :client_signoff

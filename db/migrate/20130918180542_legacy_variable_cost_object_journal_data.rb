@@ -40,7 +40,7 @@
 
 require Rails.root.join('db', 'migrate', 'migration_utils', 'legacy_journal_migrator').to_s
 
-class LegacyVariableCostObjectJournalData < ActiveRecord::Migration
+class LegacyVariableCostObjectJournalData < ActiveRecord::Migration[5.0]
   def up
     migrator.run
   end

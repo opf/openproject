@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class AddCostsColumnToWorkPackage < ActiveRecord::Migration
+class AddCostsColumnToWorkPackage < ActiveRecord::Migration[5.0]
   def change
     add_column :work_packages, :cost_object_id, :integer
     WorkPackage.reset_column_information
