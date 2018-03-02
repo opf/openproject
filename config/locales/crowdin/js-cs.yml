@@ -4,6 +4,12 @@ cs:
     ajax:
       hide: Skrýt
       loading: Načítání ...
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: Zavřít okno
     close_filter_title: Zavřít filtr
     close_form_title: Zavřít formulář

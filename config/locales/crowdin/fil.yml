@@ -481,8 +481,9 @@ fil:
           inclusion: "(%{name}) ang halaga ay hindi nakatakda sa isa mga pinahintulutan
             halaga."
           not_an_integer: "(%{name}) ay hindi isang numero."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          smaller_than_or_equal_to: "(%{name}) dapat ay mas maliit kaysa o katumbas
+            sa %{count}."
+          greater_than_or_equal_to: "(%{name}) ay mas mataas kaysa o katumbas sa %{count}."
         enterprise_token:
           unreadable: hindi mabasa. Sigurado ka ba na ito ay suportado ng token?
         parse_schema_filter_params_service:
@@ -995,7 +996,7 @@ fil:
     repositoryo: %{value}'
   error_scm_not_found: Ang entry o rebisyon ay hindi natagpuan sa repositoryo.
   error_unable_delete_status: Ang estado ng work package ay hindi pwedeng burahin
-    dahil ginamit oto sa kahit isang work package.
+    dahil ginamit ito sa kahit isang work package.
   error_unable_delete_default_status: Hindi mabura ang default estado ng work package.
     Mangyaring pumili ng ibang estado ng work package bago buburahin ang kasulukuyang
     isa.
@@ -2210,8 +2211,8 @@ fil:
   status_active: aktibo
   status_archived: naka-archive
   status_invited: imbitado
-  status_locked: locked
-  status_registered: registered
+  status_locked: nakakandado
+  status_registered: narehistro
   support:
     array:
       sentence_connector: at
@@ -2515,64 +2516,67 @@ fil:
     new_timeline: Bagong timeline na ulat
     no_projects_for_reporting_available: Walang mga proyekto upang piliin kung alin
       proyekto asosasyon ang maaring likhain.
-    no_right_to_view_timeline: You do not have the necessary permission to view the
-      linked timeline.
-    no_timeline_for_id: There is no timeline with ID %{id}.
-    notice_successful_deleted_all_elements: Successfully deleted all elements
-    outline: Reset Outline
+    no_right_to_view_timeline: Wala kang kailangang permiso na tingnan ang naka-link
+      sa timeline.
+    no_timeline_for_id: Walang timeline sa ID na %{id}.
+    notice_successful_deleted_all_elements: Matagumpay na naibura ang mga elemento
+    outline: I-reset ang balangkas
     outlines:
-      aggregation: Show aggregations only
-      level1: Expand level 1
-      level2: Expand level 2
-      level3: Expand level 3
-      level4: Expand level 4
-      level5: Expand level 5
-      all: Show all
+      aggregation: Ipakita lamang ang mga pinagsama-sama
+      level1: Palawakin ang ika-1 na antas
+      level2: Palawakin ang ika-2 antas
+      level3: Palawakin ang ika-3 na antas
+      level4: Palawakin ang ika-4 na antas
+      level5: Palawakin ang ika-5 na antas
+      all: Ipakita ang lahat
     reporting_for_project:
-      show: 'Status reported to project: %{title}'
-      edit_delete: 'status report for project: %{title}'
-      history: 'History for status for project: %{title}'
+      show: 'Estadong ini-ulat sa proyektong: %{title}'
+      edit_delete: 'estadong ulat na para sa proyektong: %{title}'
+      history: 'Kasaysayan na para sa estadong para sa proyektong: %{title}'
     reporting:
-      delete: 'Delete status: %{comment}'
-      edit: 'Edit status: %{comment}'
-      show: 'Status: %{comment}'
-    planning_element_update: 'Update: %{title}'
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
-    project_type_could_not_be_saved: Project type could not be saved
-    type_could_not_be_saved: Type could not be saved
-    reporting_could_not_be_saved: Reporting could not be saved
-    properties: Properties
-    really_delete_color: 'Are you sure, you want to delete the following color? Types
-      using this color will not be deleted.
+      delete: 'Burahin ang estado: %{comment}'
+      edit: 'I-edit ang estado: %{comment}'
+      show: 'Estado: %{comment}'
+    planning_element_update: 'I-update: %{title}'
+    work_packages_are_displayed_in_aggregations: Ang mga work package ay ipinapakita
+      sa agregasyon
+    project_type_could_not_be_saved: Ang uri ng proyekto ay hindi mai-save
+    type_could_not_be_saved: Ang mga uri ay hindi mai-save
+    reporting_could_not_be_saved: Ang paguulat ay hindi mai-save
+    properties: Mga property
+    really_delete_color: 'Sigurado ka ba, na gusto mong burahin ang sumusunod na kulay?
+      Ang mga uri gamit ang kulay ay hindi mabubura.
 
 '
-    really_delete_project_type: 'Are you sure, you want to delete the following project
-      type? Projects using this type will not be deleted.
+    really_delete_project_type: 'Sigurado ka na, na gusto mong burahin anh sumusunod
+      na uri ng proyekto? Ang mga proyekto gumagamit ng uri na ito ay hindi mabubura.
 
 '
-    really_delete_timeline: 'Are you sure, you want to delete the following timeline
-      report? Work packages shown in this timeline report will not be deleted.
+    really_delete_timeline: 'Sigurado ka ba, na gusto mong burahin ang sumusunod na
+      timeline na ulat? Ang mga work package ay nagpapakita ng timeline report na
+      ito ay mabubura.
 
 '
-    really_delete_reporting: 'Are you sure, you want to delete the following reporting?
-      Previous reporting statuses will be deleted, too.
+    really_delete_reporting: 'Sigurado ka ba gusto mong burahin ang sumusunod ng mga
+      pag-uulat? Nakaraang oag-uulat ay buburahin rin.
 
 '
-    start: Start
-    timeline: Timeline report
+    start: Simulan
+    timeline: Timeline na ulat
     timelines: Ang mga ulat ng timeline
     settings: Ang mga timeline
-    vertical_work_package: Vertical work packages
-    without_project_type: Without project type
-    you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
+    vertical_work_package: Pataas na work package
+    without_project_type: Walng uri na proyekto
+    you_are_viewing_the_selected_timeline: Ikaw at tumatanaw sa napiling timeline
+      na ulat
     zoom:
       in: Palakihin
       out: Zoom out
-      days: Days
-      weeks: Weeks
-      months: Months
-      quarters: Quarters
-      years: Years
+      days: Mga araw
+      weeks: Mga linggo
+      months: Mga buwan
+      quarters: Mga quarter
+      years: Mga taon
   title_remove_and_delete_user: Alisin ang inimbitahan na user mula proyekto at tanggalin
     siya.
   tooltip_user_default_timezone: 'Ang default time zone para sa mga bagong gumagamit.
@@ -2594,44 +2598,44 @@ fil:
 
 '
   queries:
-    apply_filter: Apply preconfigured filter
+    apply_filter: Lapatan ng naka-preconfigure na filter
   top_menu:
     additional_resources: Karagdagang pinagkukunan
     getting_started: Pagsisimula
     help_and_support: Tulong at supora
-  total_progress: Total progress
+  total_progress: Kabuuang progreso
   user:
     all: lahat
     active: aktibo
-    activate: Activate
-    activate_and_reset_failed_logins: Activate and reset failed logins
-    authentication_provider: Authentication Provider
-    authentication_settings_disabled_due_to_external_authentication: 'This user authenticates
-      via an external authentication provider, so there is no password in OpenProject
-      to be changed.
+    activate: Aktibo
+    activate_and_reset_failed_logins: Gawing aktibo at i-reset ang nabigong mga paglog-in
+    authentication_provider: Pagpapatunay na provider
+    authentication_settings_disabled_due_to_external_authentication: 'Ang gumagamit
+      ay nagpapatunay sa pamamagitan ng pagpapatunay na provider, kaya walang password
+      sa OpenProject na magbago.
 
 '
-    authorization_rejected: You are not allowed to sign in.
+    authorization_rejected: Ikaw ay hindi pinapayagang mag-sign in.
     assign_random_password: Mag-atas ng random na password (ipinadala sa user sa pamamagitan
       ng email)
-    blocked: locked temporarily
+    blocked: pansamantalang nakandado
     blocked_num_failed_logins:
-      one: locked temporarily (one failed login attempt)
-      other: locked temporarily (%{count} failed login attempts)
+      one: pansamantalang nakandado (isang nabigong pagtatangkang paglog-in)
+      other: pansamantalang nakandado (%{count} ay nabigo sa mga pagtatangkang paglog-in)
     confirm_status_change: Ikaw ay malapit ng magpabago sa estado na '%{name}'. Sigurado
       ka bang gusto mong magpatuloy?
-    deleted: Deleted user
-    error_status_change_failed: 'Changing the user status failed due to the following
-      errors: %{errors}'
+    deleted: Binurang gumagamit
+    error_status_change_failed: 'Ang pagbabago sa estado sa gumagamit ay nabigo dahil
+      sa mga sumusunod na pagkakamali: %{errors}'
     invite: Imbitahan ang user gamit ang email
     invited: imbitado
-    lock: Lock permanently
-    locked: locked permanently
-    no_login: This user authenticates through login by password. Since it is disabled,
-      they cannot log in.
-    password_change_unsupported: Change of password is not supported.
-    registered: registered
-    reset_failed_logins: Reset failed logins
+    lock: Permanente nang nakandado
+    locked: permanenteng nakakandado
+    no_login: Ang gumagamit na ito ay nagpapatunay sa pamamagitan ng paglog-in gamit
+      ang password. Dahil ito ay hindi gumagana, sila ay hindi makapaglog-in.
+    password_change_unsupported: Pagbabago ng password ay hindi suportado.
+    registered: narehistro
+    reset_failed_logins: I-reset ang mga nabigong paglog-in
     settings:
       mail_notifications: Magpadala ng abiso sa email
       mail_project_explanaition: Para sa hindi napiling proyekto, makakatanggap ka
@@ -2639,84 +2643,94 @@ fil:
         work packagee ikaw ang may-akda o tagapangasiwa ng).
       mail_self_notified: Gusto kong mapa-alam sa mga pagbabago na ginagawa ko sa
         aking sarili
-    status_user_and_brute_force: "%{user} and %{brute_force}"
+    status_user_and_brute_force: "%{user} at %{brute_force}"
     status_change: Pagbabago ng estado
     unlock: I-unlock
-    unlock_and_reset_failed_logins: Unlock and reset failed logins
+    unlock_and_reset_failed_logins: I-unlock at i-reset ang mga nabigong paglog-im
   version_status_closed: isinara
-  version_status_locked: locked
+  version_status_locked: nakakandado
   version_status_open: buksan
-  note: Note
-  note_password_login_disabled: Password login has been disabled by %{configuration}.
-  warning: Warning
-  warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  note: Talaan
+  note_password_login_disabled: Ang paglog-in sa password ay di gumagana dahil sa
+    %{configuration}.
+  warning: Babala
+  warning_attachments_not_saved: "%{count} na(mga) file ay hindi mai-save."
   warning_registration_token_expired: |
     Ang pagaaktibo ng email ay nag-expire na. Nagpadala kami ng isang bagi sa %{email}.
     Mangyaring pindutin ang link sa loob nito.
-  menu_item: Menu item
-  menu_item_setting: Visibility
-  wiki_menu_item_for: Menu item for wikipage "%{title}"
-  wiki_menu_item_setting: Visibility
-  wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
-    item. You now have to choose a wiki page for which a new main item will be generated.
-    To delete the wiki the wiki module can be deactivated by project administrators.
+  menu_item: Pagpipilian sa mga aytem
+  menu_item_setting: Nakikita
+  wiki_menu_item_for: Aytem na pagpipilian sa wikipage na "%{title}"
+  wiki_menu_item_setting: Nakikita
+  wiki_menu_item_new_main_item_explanation: 'Ikay ay nagtatanggal sa tanging pangunahing
+    aytem sa wiki na pagpipilian. Ikaw ay pwede nang makapili ng isang pahinang wiki
+    kung saan ang isang bagong pangunahing aytem ay magiging buo. Para matanggal ang
+    wiki ang modyul na wiki ay hindi aktibo sa pamamagitan ng mga administrador sa
+    proyekto.
 
 '
-  wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot
-    be deleted.
-  query_menu_item_for: Menu item for query "%{title}"
+  wiki_menu_item_delete_not_permitted: Ang wiki na aytem na pagpipilian sa pahinang
+    wiki lamang ay hindi maibura.
+  query_menu_item_for: Aytem na pagpipilian sa query "%{title}"
   work_package:
-    updated_automatically_by_child_changes: '_Updated automatically by changing values
-      within child work package %{child}_
+    updated_automatically_by_child_changes: '_Awtomatikong nai-update sa pamamagitan
+      ng pagbabago sa mga halaga sa loob ng pambatang gawain na pakete %{child}_
 
 '
     destroy:
       info: Ang pagtanggal ng work package ay isang hindi maibabalik na pagkilos.
       title: Tanggalin ang work package
-  nothing_to_preview: Nothing to preview
+  nothing_to_preview: Walang mai-preview
   api_v3:
     attributes:
-      lock_version: Lock Version
+      lock_version: Nakakandadong bersyon
     errors:
-      code_401: You need to be authenticated to access this resource.
-      code_401_wrong_credentials: You did not provide the correct credentials.
-      code_403: You are not authorized to access this resource.
-      code_404: The requested resource could not be found.
-      code_409: Couldn't update the resource because of conflicting modifications.
+      code_401: Kailangan mong magpatunay para ma-akses mo ang mapagkukunan na ito.
+      code_401_wrong_credentials: Hindi mo na naibigay ang tamang mga kredensyal.
+      code_403: Ikaw ay hindi pwedeng magpatunay na mag-akses sa mapagkukunan na ito.
+      code_404: Ang hinihiling na mapagkukunan ay hindi nakita.
+      code_409: Hindi mai-updatr ang mapagkukunan dahil sa magkasalungat na mga pagbabago.
       code_500: Isang internal error ang naganap.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)
         duration: Agwat ng ISO 8601
-      invalid_content_type: Expected CONTENT-TYPE to be '%{content_type}' but got
-        '%{actual}'.
-      invalid_format: 'Invalid format for property ''%{property}'': Expected format
-        like ''%{expected_format}'', but got ''%{actual}''.'
-      invalid_json: The request could not be parsed as JSON.
-      invalid_relation: The relation is invalid.
-      invalid_resource: For property '%{property}' a link like '%{expected}' is expected,
-        but got '%{actual}'.
-      invalid_user_status_transition: The current user account status does not allow
-        this operation.
-      missing_content_type: not specified
-      missing_request_body: There was no request body.
+      invalid_content_type: Inasahan ang CONTENT-TYPE ay magiging %{content_type}
+        pero ang nakuha ay '%{actual}'.
+      invalid_format: 'Hindi balidong format para sa ari-aria g ''%{property}'': Asahang
+        magformat tulad sa ''%{expected_format}'', pero nakakuha ng ''%{actual}''.'
+      invalid_json: Ang kahilingan ay hindi mai-parse bilang JSON.
+      invalid_relation: Ang relasyon ay hindi balido.
+      invalid_resource: Para sa ari-ariang '%{property}' isang link gaya ng '%{expected}'
+        ay inaasahan, pero nakakuha ng '%{actual}'.
+      invalid_user_status_transition: Ang kasalukuyang gumagamit ng estado ng akawnt
+        ay hindi pinapahintulutan sa operasyong ito.
+      missing_content_type: hindi matukoy
+      missing_request_body: Ito ay walang katawang kahilingan.
       missing_or_malformed_parameter: Ang query parametro '%{parameter}' ay nawawala
         o naka-malform.
-      multipart_body_error: The request body did not contain the expected multipart
-        parts.
-      multiple_errors: Multiple field constraints have been violated.
+      multipart_body_error: Ang katawan ng kahilingan ay hindi naglalaman ng inaasahang
+        mga parte ng multipart.
+      multiple_errors: Maramihang mga hadlang sa patlang ay lumabag.
       unable_to_create_attachment: Ang paglalakip ay hindi maaring likhain
       render:
-        context_not_parsable: The context provided is not a link to a resource.
-        unsupported_context: The resource given is not supported as context.
-        context_object_not_found: Cannot find the resource given as the context.
+        context_not_parsable: Ang kontekstong naibigay ay hindi nai-link sa isang
+          mapagkukunan.
+        unsupported_context: Ang ibinigay na mapagkukunan ay hindi suportado bilang
+          isang konteksto.
+        context_object_not_found: Hindi mahanap ang ibinigay na mapagkukunan bilang
+          konteksto.
       validation:
-        done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
-          by status or when it is disabled.
-        due_date: Due date cannot be set on parent work packages.
-        estimated_hours: Estimated hours cannot be set on parent work packages.
-        invalid_user_assigned_to_work_package: The chosen user is not allowed to be
-          '%{property}' for this work package.
-        start_date: Start date cannot be set on parent work packages.
-      writing_read_only_attributes: You must not write a read-only attribute.
+        done_ratio: Hindi mai-set ang natapos na ratio sa gawain ng mga magulang na
+          package, kapag ito ay inferred sa pamamagitan ng estado o kapag ito ay hindi
+          mapagana.
+        due_date: Itinakdang petsa ay hindi mai-set sa mga trabaho ng magulang na
+          package.
+        estimated_hours: Itinayang mga oras ay hindi mai-set sa mga package ng gawain
+          ng magulang.
+        invalid_user_assigned_to_work_package: Ang piniling gumagamit ay hindi pinahihintulan
+          sa '%{property}' na para sa package ng gawain ng magulang.
+        start_date: Sinimulang petsa ay hindi mai-set sa mga pakete ng gawain ng magulang.
+      writing_read_only_attributes: Ikaw ay hindi pwedeng sumulat ng isang katangiang
+        basa-lang.
     resources:
       schema: Iskema

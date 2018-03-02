@@ -4,6 +4,12 @@ lol:
     ajax:
       hide: crwdns98333:0crwdne98333:0
       loading: crwdns98334:0crwdne98334:0
+    autocomplete_select:
+      placeholder:
+        multi: crwdns98881:0%{name}crwdne98881:0
+        single: crwdns98882:0%{name}crwdne98882:0
+      remove: crwdns98883:0%{name}crwdne98883:0
+      active: crwdns98884:0%{label}crwdnd98884:0%{name}crwdne98884:0
     close_popup_title: crwdns98335:0crwdne98335:0
     close_filter_title: crwdns98336:0crwdne98336:0
     close_form_title: crwdns98337:0crwdne98337:0

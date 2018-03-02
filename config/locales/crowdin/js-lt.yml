@@ -4,6 +4,12 @@ lt:
     ajax:
       hide: Paslėpti
       loading: Įkeliama ...
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: Užverti iškylantį langą
     close_filter_title: Užverti filtrą
     close_form_title: Užverti formą

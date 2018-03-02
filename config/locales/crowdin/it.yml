@@ -63,14 +63,14 @@ it:
   custom_actions:
     actions:
       name: Azioni
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+      add: Aggiungi un'azione
+    conditions: Condizioni
+    plural: Azioni personalizzate
+    new: Nuova azione personalizzata
+    edit: Modifica l'azione personalizzata %{name}
+    execute: Esegui %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
+      title: Le azioni personalizzate sono una funzionalità dell' Enterprise Edition
       description: Custom actions streamline everyday work by combining a set of individual
         steps into one button.
   custom_fields:
@@ -582,7 +582,7 @@ it:
       attribute_help_text: Testo guida dell'attributo
       board: Forum
       comment: Commento
-      custom_action: Custom action
+      custom_action: Azione personalizzata
       custom_field: Campo personalizzato
       group: Gruppo
       category: Categoria

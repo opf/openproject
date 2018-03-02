@@ -4,6 +4,12 @@ ar:
     ajax:
       hide: إخفاء
       loading: جاري التحميل ...
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: إغلاق النافذة المنبثقة
     close_filter_title: إغلاق عامل التصفية
     close_form_title: إغلاق النموذج

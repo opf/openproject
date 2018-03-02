@@ -4,6 +4,12 @@ ru:
     ajax:
       hide: Скрыть
       loading: Загрузка ...
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: Закрыть всплывающее
     close_filter_title: Закрыть фильтр
     close_form_title: Закрыть форму
