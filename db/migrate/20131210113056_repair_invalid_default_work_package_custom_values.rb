@@ -28,6 +28,28 @@
 #++
 
 class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[4.2]
+  class CurrentCustomField < ActiveRecord::Base
+    self.table_name = "custom_fields"
+
+    def self.find_sti_class(type_name)
+      type_name = "Current#{type_name}"
+      super
+    end
+
+    translates :name, :default_value, :possible_values
+  end
+
+  [
+    :user, :group, :work_package, :project, :version,
+    :time_entry_activity, :time_entry, :issue_priority,
+  ]
+    .each do |name|
+      Kernel.const_set(
+        "Current#{name.to_s.camelize}CustomField",
+        Class.new(CurrentCustomField)
+      )
+    end
+
   def up
     unless custom_field_default_values.empty?
       create_missing_work_package_custom_values
@@ -86,7 +108,7 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[4.2]
   end
 
   def custom_field_default_values
-    @custom_field_default_values ||= CustomField.select { |c| !(c.default_value.blank?) }
+    @custom_field_default_values ||= CurrentCustomField.select { |c| !(c.default_value.blank?) }
                                      .each_with_object({}) { |c, h| h[c.id] = c.default_value unless h[c.id] }
   end
 
