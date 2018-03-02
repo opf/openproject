@@ -18,7 +18,7 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-class RemoveMeetingRoleIdFromMeetingParticipants < ActiveRecord::Migration
+class RemoveMeetingRoleIdFromMeetingParticipants < ActiveRecord::Migration[5.0]
   def up
     remove_column :meeting_participants, :meeting_role_id
   end

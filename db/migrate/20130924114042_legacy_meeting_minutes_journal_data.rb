@@ -22,7 +22,7 @@
 
 require Rails.root.join('db', 'migrate', 'migration_utils', 'legacy_journal_migrator').to_s
 
-class LegacyMeetingMinutesJournalData < ActiveRecord::Migration
+class LegacyMeetingMinutesJournalData < ActiveRecord::Migration[5.0]
   class UnsupportedMeetingMinutesJournalCompressionError < ::StandardError
   end
 

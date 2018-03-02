@@ -17,7 +17,7 @@
 #
 # See doc/COPYRIGHT.md for more details.
 #++
-class CreateMeetingJournals < ActiveRecord::Migration
+class CreateMeetingJournals < ActiveRecord::Migration[5.0]
   def change
     create_table :meeting_journals do |t|
       t.integer :journal_id, null: false
