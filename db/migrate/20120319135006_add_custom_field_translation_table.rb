@@ -46,9 +46,11 @@ class AddCustomFieldTranslationTable < ActiveRecord::Migration[4.2]
 
     I18n.locale = Setting.default_language.to_sym
     OldCustomField.all.each do |f|
+      pvs = f.read_attribute(:possible_values)
+
       f.name = f.read_attribute(:name)
       f.default_value = f.read_attribute(:default_value)
-      f.possible_values = YAML::load(f.read_attribute(:possible_values))
+      f.possible_values = YAML::load(pvs) if pvs
       f.save
     end
 
