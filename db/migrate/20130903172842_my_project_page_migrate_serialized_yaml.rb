@@ -20,7 +20,7 @@
 
 require Rails.root.join("db","migrate","migration_utils","legacy_yamler").to_s
 
-class MyProjectPageMigrateSerializedYaml < ActiveRecord::Migration
+class MyProjectPageMigrateSerializedYaml < ActiveRecord::Migration[5.0]
   include Migration::LegacyYamler
 
   def up
