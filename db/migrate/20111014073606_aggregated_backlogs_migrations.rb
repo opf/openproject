@@ -37,7 +37,7 @@ require Rails.root.join('db', 'migrate', 'migration_utils', 'migration_squasher'
 require Rails.root.join('db', 'migrate', 'migration_utils', 'setting_renamer').to_s
 require 'open_project/plugins/migration_mapping'
 # This migration aggregates the migrations detailed in MIGRATION_FILES
-class AggregatedBacklogsMigrations < ActiveRecord::Migration
+class AggregatedBacklogsMigrations < ActiveRecord::Migration[5.0]
   def initialize(*)
     super
     @issues_table_exists = ActiveRecord::Base.connection.tables.include? 'issues'

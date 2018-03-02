@@ -33,7 +33,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RenameIssueStatusToStatus < ActiveRecord::Migration
+class RenameIssueStatusToStatus < ActiveRecord::Migration[5.0]
   def change
     rename_table :issue_done_statuses_for_project, :done_statuses_for_project
     rename_column :done_statuses_for_project, :issue_status_id, :status_id

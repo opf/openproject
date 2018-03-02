@@ -33,7 +33,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddBacklogColumnsToWorkPackageJournal < ActiveRecord::Migration
+class AddBacklogColumnsToWorkPackageJournal < ActiveRecord::Migration[5.0]
   def change
     add_column :work_package_journals, :story_points, :integer
     add_column :work_package_journals, :remaining_hours, :float
