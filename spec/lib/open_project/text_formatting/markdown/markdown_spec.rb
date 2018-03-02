@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-describe OpenProject::TextFormatting do
+describe OpenProject::TextFormatting,
+         # Speeds up the spec by avoiding event mailers to be procssed
+         with_settings: { notified_events: [] } do
   include OpenProject::TextFormatting
   include ERB::Util
   include WorkPackagesHelper # soft-dependency
