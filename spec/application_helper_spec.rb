@@ -41,7 +41,7 @@ describe ApplicationHelper do
   describe ".format_text" do
     let(:project) { FactoryGirl.create :valid_project }
     let(:identifier) { project.identifier }
-    let(:role) { 
+    let(:role) {
       FactoryGirl.create(:role, permissions: [
       :view_work_packages, :edit_work_packages, :view_documents, :browse_repository, :view_changesets, :view_wiki_pages
       ])

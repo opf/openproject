@@ -32,22 +32,18 @@
 module OpenProject::Documents::Patches
   module CustomFieldsHelperPatch
     def self.included(base)
-
-      base.class_eval do
-
-        def custom_fields_tabs_with_documents
-          custom_fields_tabs_without_documents << {
-            name: 'DocumentCategoryCustomField',
-            partial: 'custom_fields/tab',
-            label: DocumentCategory::OptionName
-          }
-        end
-
-        alias_method_chain :custom_fields_tabs, :documents
-      end
-
+      base.prepend InstanceMethods
     end
 
+    module InstanceMethods
+      def custom_fields_tabs
+        super << {
+          name: 'DocumentCategoryCustomField',
+          partial: 'custom_fields/tab',
+          label: DocumentCategory::OptionName
+        }
+      end
+    end
   end
 end
 

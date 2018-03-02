@@ -32,7 +32,6 @@
 module OpenProject::Documents::Patches
   module TextFormattingPatch
     def self.included(base)
-
       base.class_eval do
 
         def parse_redmine_links_with_documents(text, project, obj, attr, only_path, options)
@@ -70,7 +69,8 @@ module OpenProject::Documents::Patches
           parse_redmine_links_without_documents(text, project, obj, attr, only_path, options)
         end
 
-        alias_method_chain :parse_redmine_links, :documents
+        alias_method :parse_redmine_links_without_documents, :parse_redmine_links
+        alias_method :parse_redmine_links, :parse_redmine_links_with_documents
       end
 
     end
