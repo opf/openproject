@@ -48,6 +48,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= link_to t(:button_cancel),
       { controller: '/wiki', action: 'show', project_id: @project, id: @page },
       class: 'button' %>
+  <%= preview_link preview_project_wiki_path(@project, @page), 'wiki_form-preview' %>
 <% end %>
 <div id="preview"></div>
 <% content_for :header_tags do %>

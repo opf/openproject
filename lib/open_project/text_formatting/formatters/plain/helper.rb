@@ -33,6 +33,13 @@ module OpenProject::TextFormatting::Formatters
       def wikitoolbar_for(_field_id)
       end
 
+      def text_formatting_has_preview?
+        false
+      end
+
+      def text_formatting_js_includes
+      end
+
       def heads_for_wiki_formatter
       end
 

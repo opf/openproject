@@ -42,9 +42,6 @@ module ApplicationHelper
   include IconsHelper
   include AdditionalUrlHelpers
 
-  extend Forwardable
-  def_delegators :wiki_helper, :text_formatting_js_includes, :wikitoolbar_for, :heads_for_wiki_formatter
-
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action, project: @project)
     User.current.allowed_to?({ controller: controller, action: action }, project)
@@ -599,11 +596,6 @@ module ApplicationHelper
 
   private
 
-  def wiki_helper
-    helper = OpenProject::TextFormatting::Formatters.helper_for(Setting.text_formatting)
-    extend helper
-    self
-  end
 
   def link_to_content_update(text, url_params = {}, html_options = {})
     link_to(text, url_params, html_options)

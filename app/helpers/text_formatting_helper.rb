@@ -27,8 +27,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module PreviewsHelper
+module TextFormattingHelper
+  extend Forwardable
+  def_delegators :current_formatting_helper,
+                 :text_formatting_has_preview?,
+                 :text_formatting_js_includes,
+                 :wikitoolbar_for,
+                 :heads_for_wiki_formatter
+
   def preview_link(path, link_id, options = {})
+    return '' unless text_formatting_has_preview?
+
     options = {
       accesskey: accesskey(:preview),
       id: link_id,
@@ -41,5 +50,13 @@ module PreviewsHelper
     link_to path, options do
       l(:label_preview)
     end
+  end
+
+  private
+
+  def current_formatting_helper
+    helper = OpenProject::TextFormatting::Formatters.helper_for(Setting.text_formatting)
+    extend helper
+    self
   end
 end

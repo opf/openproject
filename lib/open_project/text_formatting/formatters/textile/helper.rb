@@ -34,6 +34,10 @@ module OpenProject::TextFormatting::Formatters
         # TODO Nothing to do here yet, since the js_toolbar is still part of application
       end
 
+      def text_formatting_has_preview?
+        true
+      end
+
       def wikitoolbar_for(field_id)
         heads_for_wiki_formatter
         url = url_for(controller: '/help', action: 'wiki_syntax')
