@@ -40,15 +40,21 @@ MESSAGE
     end
   end
 
-  let(:watcher_role) {
+  let(:watcher_role) do
     permissions = is_public_permission ? [] : [watch_permission]
 
     FactoryGirl.create(:role, permissions: permissions)
-  }
+  end
   let(:non_watcher_role) { FactoryGirl.create(:role, permissions: []) }
   let(:non_member_user) { FactoryGirl.create(:user) }
   let(:user_with_permission) do
     FactoryGirl.create(:user,
+                       member_in_project: project,
+                       member_through_role: watcher_role)
+  end
+  let(:locked_user_with_permission) do
+    FactoryGirl.create(:user,
+                       status: Principal::STATUSES[:locked],
                        member_in_project: project,
                        member_through_role: watcher_role)
   end
@@ -77,13 +83,13 @@ MESSAGE
   end
 
   shared_context 'non member role has the permission to watch' do
-    let(:non_member_role) {
+    let(:non_member_role) do
       unless is_public_permission
         Role.non_member.add_permission! watch_permission
       end
 
       Role.non_member
-    }
+    end
 
     before do
       unless is_public_permission
@@ -93,10 +99,10 @@ MESSAGE
   end
 
   shared_context 'anonymous role has the permission to watch' do
-    let(:anonymous_role) {
+    let(:anonymous_role) do
       permissions = is_public_permission ? [] : [watch_permission]
       FactoryGirl.build :anonymous_role, permissions: permissions
-    }
+    end
 
     before do
       anonymous_role.save!
@@ -118,6 +124,7 @@ MESSAGE
       anonymous_user.save!
       user_with_permission.save!
       user_wo_permission.save!
+      locked_user_with_permission.save!
     end
 
     include_context 'non member role has the permission to watch'
