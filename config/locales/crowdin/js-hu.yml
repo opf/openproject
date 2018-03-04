@@ -6,10 +6,10 @@ hu:
       loading: Betöltés folyamatban… ...
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
-      active: Active %{label} %{name}
+        multi: '"%{name}" hozzáadása'
+        single: '"%{name}" kiválasztása'
+      remove: "%{name} törlése"
+      active: "%{label} %{name} aktiválása"
     close_popup_title: Előugró ablak bezárása
     close_filter_title: Szűrő bezárása
     close_form_title: Űrlap bezárása

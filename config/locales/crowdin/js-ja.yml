@@ -6,10 +6,10 @@ ja:
       loading: ロード中...
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
-      active: Active %{label} %{name}
+        multi: '"%{name}" を追加'
+        single: '"%{name}" を選択'
+      remove: "%{name} を削除"
+      active: アクティブ %{label} %{name}
     close_popup_title: ポップアップを閉じる
     close_filter_title: フィルタを閉じる
     close_form_title: フォームを閉じる
