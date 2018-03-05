@@ -26,6 +26,10 @@ See doc/COPYRIGHT.md for more details.
 
 <h3><%= l(:label_history) %></h3>
 
+<% content_for :header_tags do %>
+  <%= javascript_include_tag('meeting/meeting.js') %>
+<% end %>
+
 <%= form_tag({:action => "diff"}, :method => :get) do %>
 <div class="generic-table--container">
   <div class="generic-table--results-container">
@@ -94,7 +98,12 @@ See doc/COPYRIGHT.md for more details.
             </td>
               <td class="checkbox -short">
                 <% if show_diff && (index < @content_versions.size-1) %>
-                  <%= radio_button_tag('version_to', content_version.version, (index==0), :id => "checkbox-from-#{index}", :onclick => "$('checkbox-to-#{index+1}').checked=true;") %>
+                  <%= radio_button_tag('version_to',
+                                       content_version.version,
+                                       (index==0),
+                                       id: "checkbox-from-#{index}",
+                                       class: 'meetings--checkbox-version-to',
+                                       data: { target: ".checkbox-to-#{index+1}" }) %>
                   <label class="hidden-for-sighted" for="checkbox-from-<%= index %>"><%= l(:description_compare_from) %> <%= index %></label>
                 <% end %>
               </td>
@@ -111,7 +120,7 @@ See doc/COPYRIGHT.md for more details.
         <% end %>
       </tbody>
     </table>
-  
+
   </div>
 </div>
 <%= styled_button_tag l(:label_view_diff), class: '-small -highlight' if show_diff %>
