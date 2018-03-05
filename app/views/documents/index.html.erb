@@ -66,25 +66,33 @@ See doc/COPYRIGHT.rdoc for more details.
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= l(:label_sort_by, '') %></legend>
       <p>
-        <%= radio_button_tag 'sort_by', 'category', (@sort_by == 'category'), :onclick => 'this.form.submit();' %>
+        <%= radio_button_tag 'sort_by', 'category', (@sort_by == 'category'), class: 'submit-this-form' %>
       <label for="sort_by_category">
         <%= Document.human_attribute_name(:category) %>
       </label><br />
-        <%= radio_button_tag 'sort_by', 'date', (@sort_by == 'date'), :onclick => 'this.form.submit();' %>
+        <%= radio_button_tag 'sort_by', 'date', (@sort_by == 'date'), class: 'submit-this-form' %>
       <label for="sort_by_date">
         <%= l(:label_date) %>
       </label><br />
-        <%= radio_button_tag 'sort_by', 'title', (@sort_by == 'title'), :onclick => 'this.form.submit();' %>
+        <%= radio_button_tag 'sort_by', 'title', (@sort_by == 'title'), class: 'submit-this-form' %>
       <label for="sort_by_title">
         <%= Document.human_attribute_name(:title) %>
       </label><br />
-        <%= radio_button_tag 'sort_by', 'author', (@sort_by == 'author'), :onclick => 'this.form.submit();' %>
+        <%= radio_button_tag 'sort_by', 'author', (@sort_by == 'author'), class: 'submit-this-form' %>
       <label for="sort_by_author">
         <%= Document.human_attribute_name(:author) %>
       </label>
       </p>
     </fieldset>
   <% end %>
+<% end %>
+
+<%= nonced_javascript_tag do %>
+  jQuery(function($) {
+    $('.submit-this-form').click(function() {
+      $(this).closest('form').submit();
+    });
+  });
 <% end %>
 
 <% html_title(l(:label_document_plural)) -%>
