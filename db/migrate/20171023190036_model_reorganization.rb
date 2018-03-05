@@ -30,7 +30,7 @@ class ModelReorganization < ActiveRecord::Migration[5.0]
       # OTP secret for totp
       t.text 'otp_secret', null: true
     end
-    add_reference :two_factor_authentication_devices, :user, foreign_key: true
+    add_reference :two_factor_authentication_devices, :user, foreign_key: true, type: :bigint
 
     # Create existing SMS device for data currently in users table
     User.transaction do
