@@ -78,6 +78,6 @@ module OpenProject::Documents::Patches
   end
 end
 
-unless OpenProject::TextFormatting.included_modules.include?(OpenProject::Documents::Patches::TextFormattingPatch)
-  OpenProject::TextFormatting.send(:include, OpenProject::Documents::Patches::TextFormattingPatch)
-end
+# unless OpenProject::TextFormatting.included_modules.include?(OpenProject::Documents::Patches::TextFormattingPatch)
+#   OpenProject::TextFormatting.send(:include, OpenProject::Documents::Patches::TextFormattingPatch)
+# end
