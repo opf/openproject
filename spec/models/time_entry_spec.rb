@@ -375,7 +375,7 @@ describe TimeEntry, type: :model do
         before do
           is_member(project, user2, [:view_own_time_entries])
           # don't understand why memberships get loaded on the user
-          time_entry2.user.memberships(true)
+          time_entry2.user.memberships.reload
 
           time_entry.save!
         end
@@ -389,7 +389,7 @@ describe TimeEntry, type: :model do
         before do
           is_member(project, time_entry2.user, [:view_own_time_entries])
           # don't understand why memberships get loaded on the user
-          time_entry2.user.memberships(true)
+          time_entry2.user.memberships.reload
 
           time_entry2.save!
         end

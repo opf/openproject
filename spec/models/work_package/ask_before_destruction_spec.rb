@@ -182,7 +182,7 @@ describe WorkPackage, type: :model do
       it 'should set an error on work packages' do
         action
 
-        expect(work_package.errors.get(:base)).to eq([I18n.t(:'activerecord.errors.models.work_package.nullify_is_not_valid_for_cost_entries')])
+        expect(work_package.errors[:base]).to eq([I18n.t(:'activerecord.errors.models.work_package.nullify_is_not_valid_for_cost_entries')])
       end
     end
 

@@ -16,7 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
-class AddCostObjectJournals < ActiveRecord::Migration
+class AddCostObjectJournals < ActiveRecord::Migration[5.0]
   def change
     create_table :cost_object_journals do |t|
       t.integer :journal_id,  null: false

@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class AddJournalColumnsToTimeEntryJournals < ActiveRecord::Migration
+class AddJournalColumnsToTimeEntryJournals < ActiveRecord::Migration[5.0]
   def change
     add_column :time_entry_journals, :overridden_costs, :decimal, precision: 15, scale: 2, null: true
     add_column :time_entry_journals, :costs, :decimal, precision: 15, scale: 2, null: true

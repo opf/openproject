@@ -19,7 +19,7 @@
 
 require Rails.root.join('db', 'migrate', 'migration_utils', 'utils').to_s
 
-class LegacyIssuesCostsDataToWorkPackages < ActiveRecord::Migration
+class LegacyIssuesCostsDataToWorkPackages < ActiveRecord::Migration[5.0]
   def up
     return unless migration_applicable?
 

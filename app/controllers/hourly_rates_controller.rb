@@ -73,7 +73,6 @@ class HourlyRatesController < ApplicationController
     :cost_objects
   end
 
-
   def update
     # TODO: copied over from edit
     # remove code where appropriate

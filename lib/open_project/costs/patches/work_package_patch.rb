@@ -147,7 +147,7 @@ module OpenProject::Costs::Patches
       end
 
       def move_cost_entries
-        return unless project_id_changed?
+        return unless saved_change_to_project_id?
         # TODO: This only works with the global cost_rates
         CostEntry
           .where(work_package_id: id)

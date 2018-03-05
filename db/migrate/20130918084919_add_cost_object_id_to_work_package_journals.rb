@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class AddCostObjectIdToWorkPackageJournals < ActiveRecord::Migration
+class AddCostObjectIdToWorkPackageJournals < ActiveRecord::Migration[5.0]
   def change
     add_column :work_package_journals, :cost_object_id, :integer, null: true
     Journal::WorkPackageJournal.reset_column_information

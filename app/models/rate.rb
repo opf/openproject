@@ -76,16 +76,16 @@ class Rate < ActiveRecord::Base
   def rate_updated
     o = Methods.new(self)
 
-    unless valid_from_changed?
+    unless saved_change_to_valid_from?
       # We have not moved a rate, maybe just changed the rate value
 
-      return unless rate_changed?
+      return unless saved_change_to_rate?
       # Only the rate value was changed so just update the currently assigned entries
       return rate_created
     end
 
     # We have definitely moved the rate
-    if o.count_rates(valid_from_was, valid_from) > 0
+    if o.count_rates(valid_from_before_last_save, valid_from) > 0
       # We have passed the boundary of another rate
       # We do essantially the same as deleting the old rate and adding a new one
 
