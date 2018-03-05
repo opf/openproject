@@ -30,54 +30,58 @@
 #++
 
 module OpenProject::Documents::Patches
-  module TextFormattingPatch
-    def self.included(base)
-      base.class_eval do
-
-        def parse_redmine_links_with_documents(text, project, obj, attr, only_path, options)
-          text.gsub!(/([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(document)((#+|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)/) do |_m|
-            leading = $1
-            esc = $2
-            project_prefix = $3
-            project_identifier = $4
-            prefix = $5
-            sep = $7 || $9
-            identifier = $8 || $10
-            link = nil
-            if project_identifier
-              project = Project.visible.find_by_identifier(project_identifier)
-            end
-            if esc.nil?
-              if sep == '#'
-                oid = identifier.to_i
-                document = Document.visible.find_by_id(oid)
-              elsif sep == ':' && project
-                name = identifier.gsub(%r{^"(.*)"$}, "\\1")
-                document = project.documents.visible.find_by_title(name)
-              end
-              if document
-                link = link_to document.title, {
-                  only_path: only_path,
-                  controller: '/documents',
-                  action: 'show', id: document },
-                  class: 'document'
-              end
-            end
-            leading + (link || "#{project_prefix}#{prefix}#{sep}#{identifier}")
-          end
-
-          parse_redmine_links_without_documents(text, project, obj, attr, only_path, options)
-        end
-
-        alias_method :parse_redmine_links_without_documents, :parse_redmine_links
-        alias_method :parse_redmine_links, :parse_redmine_links_with_documents
-      end
-
+  module HashSeparatorPatch
+    def self.mixin!
+      base = ::OpenProject::TextFormatting::Matchers::LinkHandlers::HashSeparator
+      base.prepend InstanceMethods
+      base.singleton_class.prepend ClassMethods
     end
 
+    module InstanceMethods
+      def render_document
+        if document = Document.visible.find_by_id(oid)
+          link_to document.title,
+                  { only_path: context[:only_path],
+                    controller: '/documents',
+                    action: 'show',
+                    id: document },
+                  class: 'document'
+        end
+      end
+    end
+
+    module ClassMethods
+      def allowed_prefixes
+        super + %w[document]
+      end
+    end
+  end
+
+  module ColonSeparatorMixin
+    def self.mixin!
+      base = ::OpenProject::TextFormatting::Matchers::LinkHandlers::ColonSeparator
+      base.prepend InstanceMethods
+      base.singleton_class.prepend ClassMethods
+    end
+
+    module InstanceMethods
+      def render_document
+        name = identifier.gsub(%r{^"(.*)"$}, "\\1")
+        if document = project.documents.visible.find_by_title(name)
+          link_to document.title,
+                  { only_path: context[:only_path],
+                    controller: '/documents',
+                    action: 'show',
+                    id: document },
+                  class: 'document'
+        end
+      end
+    end
+
+    module ClassMethods
+      def allowed_prefixes
+        super + %w[document]
+      end
+    end
   end
 end
-
-# unless OpenProject::TextFormatting.included_modules.include?(OpenProject::Documents::Patches::TextFormattingPatch)
-#   OpenProject::TextFormatting.send(:include, OpenProject::Documents::Patches::TextFormattingPatch)
-# end
