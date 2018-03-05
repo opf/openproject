@@ -42,7 +42,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% if  @issue_custom_fields.any? %>
   <%= labelled_tabular_form_for @project,
-                                url: { action: 'custom_fields', id: @project },
+                                url: { controller: '/projects', action: 'custom_fields', id: @project },
                                 method: :put,
                                 html: { id: 'modules-form' } do |form| %>
 

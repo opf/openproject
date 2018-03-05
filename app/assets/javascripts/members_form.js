@@ -77,6 +77,8 @@ jQuery(document).ready(function($) {
   // Toggle filter
   $('.toggle-member-filter-link').click(toggleMemberFilter);
 
+
+
   // Toggle editing row
   $('.toggle-membership-button').click(function() {
     var el = $(this);

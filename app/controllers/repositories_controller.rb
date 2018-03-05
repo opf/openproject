@@ -56,7 +56,7 @@ class RepositoriesController < ApplicationController
     @repository = @project.repository
     update_repository(params.fetch(:repository, {}))
 
-    redirect_to settings_repository_tab_path
+    redirect_to helpers.settings_repository_tab_path
   end
 
   def create
@@ -69,7 +69,7 @@ class RepositoriesController < ApplicationController
       flash[:error] = service.build_error
     end
 
-    redirect_to settings_repository_tab_path
+    redirect_to helpers.settings_repository_tab_path
   end
 
   def committers
@@ -93,7 +93,7 @@ class RepositoriesController < ApplicationController
 
   def destroy_info
     @repository = @project.repository
-    @back_link = settings_repository_tab_path
+    @back_link = helpers.settings_repository_tab_path
   end
 
   def destroy
@@ -103,7 +103,7 @@ class RepositoriesController < ApplicationController
     else
       flash[:error] = repository.errors.full_messages
     end
-    redirect_to settings_repository_tab_path
+    redirect_to helpers.settings_repository_tab_path
   end
 
   def show
@@ -313,9 +313,9 @@ class RepositoriesController < ApplicationController
     @repository.attributes = @repository.class.permitted_params(repo_params)
 
     if @repository.save
-      flash.now[:notice] = l('repositories.update_settings_successful')
+      flash[:notice] = l('repositories.update_settings_successful')
     else
-      flash.now[:error] = @repository.errors.full_messages.join('\n')
+      flash[:error] = @repository.errors.full_messages.join('\n')
     end
   end
 

@@ -64,6 +64,6 @@ class WatchersController < ApplicationController
 
   def set_watcher(user, watching)
     @watched.set_watcher(user, watching)
-    redirect_back(home_url)
+    redirect_back(fallback_location: home_url)
   end
 end

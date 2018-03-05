@@ -389,13 +389,6 @@ describe ProjectsController, type: :controller do
     assert_select 'a', content: /Private child/
   end
 
-  it 'should settings' do
-    session[:user_id] = 2 # manager
-    get :settings, params: { id: 1 }
-    assert_response :success
-    assert_template 'settings'
-  end
-
   it 'should update' do
     session[:user_id] = 2 # manager
     put :update,

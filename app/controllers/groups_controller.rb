@@ -122,6 +122,7 @@ class GroupsController < ApplicationController
     @users = User.includes(:memberships).where(id: params[:user_ids])
     @group.users << @users
 
+    I18n.t :notice_successful_update
     redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users'
   end
 
@@ -129,6 +130,7 @@ class GroupsController < ApplicationController
     @group = Group.includes(:users).find(params[:id])
     @group.users.delete(User.includes(:memberships).find(params[:user_id]))
 
+    I18n.t :notice_successful_update
     redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users'
   end
 
@@ -143,8 +145,13 @@ class GroupsController < ApplicationController
     @membership = membership_id.present? ? Member.find(membership_id) : Member.new(principal: @group)
 
     service = ::Members::EditMembershipService.new(@membership, save: true, current_user: current_user)
-    service.call(attributes: membership_params[:membership])
+    result = service.call(attributes: membership_params[:membership])
 
+    if result.success?
+      flash[:notice] = I18n.t :notice_successful_update
+    else
+      flash[:error] = reusult.errors.full_mesages.join("\n")
+    end
     redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships'
   end
 
@@ -153,6 +160,8 @@ class GroupsController < ApplicationController
   def destroy_membership
     membership_params = permitted_params.group_membership
     Member.find(membership_params[:membership_id]).destroy
+
+    flash[:notice] = I18n.t :notice_successful_delete
     redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships'
   end
 

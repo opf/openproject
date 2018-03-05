@@ -29,7 +29,7 @@ SecureHeaders::Configuration.default do |config|
     # Form targets can only be self
     form_action: %w('self'),
     # Allow iframe from vimeo (welcome video)
-    frame_src: %w(https://*.vimeo.com),
+    frame_src: %w(https://*.vimeo.com 'self'),
     frame_ancestors: %w('self'),
     # Allow images from anywhere
     img_src: %w(* data:),

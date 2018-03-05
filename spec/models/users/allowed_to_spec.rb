@@ -302,7 +302,7 @@ describe User, 'allowed_to?' do
              w/ requesting a controller and action allowed by multiple permissions
              w/ the project being public
              w/ anonymous being allowed the action' do
-      let(:permission) { { controller: 'projects', action: 'settings' } }
+      let(:permission) { { controller: '/project_settings', action: 'show' } }
 
       before do
         project.is_public = true
@@ -432,7 +432,7 @@ describe User, 'allowed_to?' do
       end
 
       it 'should be true' do
-        expect(user.allowed_to?({ controller: 'projects', action: 'settings' }, project))
+        expect(user.allowed_to?({ controller: 'projects', action: 'show' }, project))
           .to be_truthy
       end
     end
@@ -560,7 +560,7 @@ describe User, 'allowed_to?' do
       end
 
       it 'should be true' do
-        expect(user.allowed_to?({ controller: 'projects', action: 'settings' }, nil, global: true))
+        expect(user.allowed_to?({ controller: '/project_settings', action: 'show' }, nil, global: true))
           .to be_truthy
       end
     end

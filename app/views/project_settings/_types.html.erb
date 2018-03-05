@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% if  Type.all.any? %>
   <%= form_for @project,
-               url: { action: 'types', id: @project },
+               url: { controller: '/projects', action: 'types', id: @project },
                method: :patch,
                html: {id: 'types-form'} do |f| %>
     <%= render partial: 'projects/form/types', locals: { f: f, project: @project, withControlls: true } %>
