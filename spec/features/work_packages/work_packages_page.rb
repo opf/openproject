@@ -144,9 +144,7 @@ class WorkPackagesPage
 
   def ensure_index_page_loaded
     if Capybara.current_driver == Capybara.javascript_driver
-      extend ::Angular::DSL unless singleton_class.included_modules.include?(::Angular::DSL)
-
-      expect(page).to have_selector('.advanced-filters--filter', visible: false, wait: 8)
+      expect(page).to have_selector('.advanced-filters--filter', visible: :all, wait: 20)
     end
   end
 end

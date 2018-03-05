@@ -45,10 +45,12 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
   <% if any_members %>
     <li class="toolbar-item">
-      <button id="filter-member-button" focus title="<%= I18n.t(:description_filter) %>" class="button">
+      <button id="filter-member-button"
+              focus
+              title="<%= I18n.t(:description_filter) %>"
+              class="toggle-member-filter-link button">
         <%= op_icon('button--icon icon-filter') %>
       </button>
-      <% csp_onclick('toggleMemberFilter', '#filter-member-button') %>
     </li>
   <% end %>
 <% end %>
