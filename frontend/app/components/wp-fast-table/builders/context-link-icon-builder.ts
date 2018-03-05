@@ -42,7 +42,7 @@ export class ContextLinkIconBuilder {
 
     // Enter the context menu arrow
     let contextMenu = document.createElement('a');
-    contextMenu.href = 'javascript:';
+    contextMenu.href = '#';
     contextMenu.classList.add(contextMenuLinkClassName, contextColumnIcon);
     contextMenu.appendChild(opIconElement('icon', 'icon-show-more-horizontal'));
 

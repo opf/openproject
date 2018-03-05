@@ -459,6 +459,8 @@ module ApplicationHelper
   end
 
   def calendar_for(field_id)
+    # Ensure global AV context exists (when, e.g., called from widget)
+    @_request ||= request
     include_calendar_headers_tags
     nonced_javascript_tag("jQuery(function() { jQuery('##{field_id}').datepicker(); })")
   end

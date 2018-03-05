@@ -496,7 +496,7 @@ module OpenProject
           out << "<legend class='form--fieldset-legend' title='" +
             l(:description_toc_toggle) +
             "'>
-            <a href='javascript:'>
+            <a href='#'>
               #{l(:label_table_of_contents)}
             </a>
             </legend><div>"

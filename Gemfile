@@ -103,7 +103,7 @@ gem 'rack-protection', '~> 2.0.0'
 gem 'rack-attack', '~> 5.0.1'
 
 # CSP headers
-gem 'secure_headers', '~> 3.7.0'
+gem 'secure_headers', '~> 5.0.5'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.16.0'
@@ -209,6 +209,7 @@ group :test do
   gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'selenium-webdriver', '~> 3.6'
+  gem 'childprocess' # forced by selenium-webdriver, but not in its gemspec
   gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.1.0', require: false
 
