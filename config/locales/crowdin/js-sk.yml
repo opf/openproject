@@ -4,6 +4,12 @@ sk:
     ajax:
       hide: Skryť
       loading: Načítava sa ...
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: Zavrieť okno
     close_filter_title: Close filter
     close_form_title: Close form
@@ -296,6 +302,7 @@ sk:
         other: Zadajte ešte minimálne {{count}} znakov
         zero: Please enter more characters
         few: Zadajte ešte minimálne {{count}} znaky
+        many: Please enter {{count}} more characters
       load_more: Načítanie ďalších záznamov ...
       no_matches: Nenašli sa žiadne záznamy
       searching: Vyhľadávanie ...
@@ -304,6 +311,7 @@ sk:
         other: Môžete vybrať maximálne {{limit}} položiek
         zero: You cannot select any items
         few: Môžete vybrať maximálne {{limit}} položky
+        many: You can only select {{limit}} items
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -620,15 +628,18 @@ sk:
         one: pracovný balíček
         other: pracovný balíček
         few: pracovné balíčky
+        many: work packages
       child_work_packages:
         one: one child work package
         other: "%{count} work package children"
         few: "%{count} work package children"
+        many: "%{count} work package children"
       hour:
         one: 1 hodina
         other: "%{count} hodín"
         zero: 0 hours
         few: "%{count} hodiny"
+        many: "%{count} hours"
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode

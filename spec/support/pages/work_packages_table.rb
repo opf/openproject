@@ -54,6 +54,12 @@ module Pages
       end
     end
 
+    def expect_work_package_count(n)
+      within(table_container) do
+        expect(page).to have_selector(".wp--row", count: n, wait: 20)
+      end
+    end
+
     def expect_work_package_not_listed(*work_packages, wait: 3)
       within(table_container) do
         work_packages.each do |wp|
@@ -70,7 +76,9 @@ module Pages
     end
 
     def has_work_packages_listed?(work_packages)
-      work_packages.all? { |wp| has_text? wp.subject }
+      work_packages.all? do |wp|
+        has_selector?(".wp-row-#{wp.id} td.subject", text: wp.subject, wait: 20)
+      end
     end
 
     def expect_no_work_package_listed

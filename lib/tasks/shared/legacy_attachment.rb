@@ -27,10 +27,14 @@ module Tasks
       module_function
 
       def migrate_attachment(attachment)
-        file = legacy_file_name attachment.disk_filename
-        new_file = strip_timestamp_from_filename(file)
+        file_name = attachment.disk_filename.presence
 
-        if File.readable? file
+        if file_name
+          file = legacy_file_name file_name
+          new_file = strip_timestamp_from_filename(file)
+        end
+
+        if file_name && File.readable?(file)
           FileUtils.move file, new_file
           attachment.file = File.open(new_file)
           attachment.filename = ''

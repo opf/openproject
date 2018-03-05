@@ -456,6 +456,8 @@ pt-BR:
           empty: "(%{name}) valor não pode ser vazio."
           inclusion: "(%{name}) valor não está definido como um dos valores permitidos."
           not_an_integer: "(%{name}) não é um número inteiro."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: não pode ser lido. Tem certeza que é um token de suporte?
         parse_schema_filter_params_service:

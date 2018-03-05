@@ -36,7 +36,6 @@ import {Subscription} from 'rxjs/Subscription';
 @Component({
   selector: 'hide-section',
   template: '<span *ngIf="displayed"><ng-content></ng-content></span>'
-
 })
 export class HideSectionComponent implements OnInit, OnDestroy {
   displayed:boolean = false;

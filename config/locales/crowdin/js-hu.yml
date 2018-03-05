@@ -4,6 +4,12 @@ hu:
     ajax:
       hide: Elrejt
       loading: Betöltés folyamatban… ...
+    autocomplete_select:
+      placeholder:
+        multi: '"%{name}" hozzáadása'
+        single: '"%{name}" kiválasztása'
+      remove: "%{name} törlése"
+      active: "%{label} %{name} aktiválása"
     close_popup_title: Előugró ablak bezárása
     close_filter_title: Szűrő bezárása
     close_form_title: Űrlap bezárása
@@ -65,8 +71,8 @@ hu:
           one: Első rendezési feltétel
           two: Második rendezési feltétel
           three: Harmadik rendezési feltétel
-      upsale_for_more: For more advanced filters, check out the
-      upsale_link: Enterprise Edition.
+      upsale_for_more: A fejlettebb szűrők esetén nézze meg a
+      upsale_link: Vállalati kiadás.
     general_text_no: nem
     general_text_yes: igen
     general_text_No: Nem

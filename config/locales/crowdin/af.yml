@@ -62,12 +62,12 @@ af:
   custom_actions:
     actions:
       name: Actions
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+      add: Voeg aksie toe
+    conditions: Voorwaardes
+    plural: Pasgemaakte aksies
+    new: Nuwe pasgemaakte aksie
+    edit: Wysig pasgemaakte aksie %{name}
+    execute: Voer %{name} uit
     upsale:
       title: Custom actions is an Enterprise Edition feature
       description: Custom actions streamline everyday work by combining a set of individual
@@ -460,6 +460,8 @@ af:
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
           not_an_integer: "(%{name}) is not an integer."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -1002,10 +1004,10 @@ af:
     available:
       pdftotext: Pdftotext available (optional)
       unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      catdoc: Catdoc beskikbaar (opsioneel)
+      xls2csv: Xls2csv beskikbaar (opsioneel)
+      catppt: Catppt beskikbaar (opsioneel)
+      tesseract: Tesseract beskikbaar (opsioneel)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2481,8 +2483,8 @@ af:
       years: Years
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'Die verstektydsone vir nuwe gebruikers. Kan in ’n
+    gebruiker se instellings verander word.
 
 '
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in

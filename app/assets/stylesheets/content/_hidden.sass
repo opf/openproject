@@ -26,29 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-// READ value of edit fields
-.wp-edit-field--display-field
-  display: inline-block
-  max-width: 100%
-
-  &.-placeholder
-    font-style: italic
-
-  p
-    word-wrap: break-word
-    font-size: 14px
-    margin-bottom: 0
-
-    &:last-of-type
-      margin-bottom: 0
-
-  .read-value--html
-    *
-      // Adjust size of all members in the html
-      font-size: 0.875rem
-    p
-      // Add some margin to paragraphs in long-text fields
-      margin-bottom: 1em
-
-.wp-edit-field--text
-  width: 100%
+// Overriding the browser's default [hidden] rule to force hiding the element as having a
+// more specific rule (and almost everything will be more specific than [hidden]) will prevent using
+// the hidden-attribute otherwise:
+// "Note: Changing the value of the CSS display property on an element with the hidden attribute overrides the behavior.
+// For instance, elements styled display: flex will be displayed despite the hidden attribute's presence."
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden
+[hidden]
+  display: none !important

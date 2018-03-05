@@ -34,6 +34,7 @@ describe RepositoriesController, type: :routing do
       expect(get('/projects/testproject/repository'))
         .to route_to(controller: 'repositories',
                      action: 'show',
+                     format: 'html',
                      project_id: 'testproject')
     }
 
@@ -41,6 +42,7 @@ describe RepositoriesController, type: :routing do
       expect(get('/projects/testproject/repository/path/to/file.c'))
         .to route_to(controller: 'repositories',
                      action: 'show',
+                     format: 'html',
                      project_id: 'testproject',
                      path: 'path/to/file.c')
     }
@@ -49,6 +51,7 @@ describe RepositoriesController, type: :routing do
       expect(get('/projects/testproject/repository/folder%20with%20spaces'))
         .to route_to(controller: 'repositories',
                      action: 'show',
+                     format: 'html',
                      project_id: 'testproject',
                      path: 'folder with spaces')
     }
@@ -57,7 +60,53 @@ describe RepositoriesController, type: :routing do
       expect(get('/projects/testproject/repository/revisions/5'))
         .to route_to(controller: 'repositories',
                      action: 'show',
+                     format: 'html',
                      rev: '5',
+                     project_id: 'testproject')
+    }
+  end
+
+  describe 'changes with js file (regression #24960)' do
+    it {
+      expect(get('/projects/testproject/repository/revisions/my-branch/changes/assets/test.js'))
+        .to route_to(controller: 'repositories',
+                     action: 'changes',
+                     path: 'assets/test.js',
+                     rev: 'my-branch',
+                     format: 'html',
+                     project_id: 'testproject')
+    }
+  end
+
+  describe 'show with git tags (regression test #27230)' do
+    it {
+      expect(get('/projects/testproject/repository/sub?rev=mytags%2Ffoo&branch=&tag=mytags%2Ffoo'))
+        .to route_to(controller: 'repositories',
+                     action: 'show',
+                     path: 'sub',
+                     branch: '',
+                     rev: 'mytags/foo',
+                     tag: 'mytags/foo',
+                     format: 'html',
+                     project_id: 'testproject')
+    }
+    it {
+      expect(get('/projects/testproject/repository?rev=FSubCommit-a&branch=master&tag=FSubCommit-a'))
+        .to route_to(controller: 'repositories',
+                     action: 'show',
+                     branch: 'master',
+                     rev: 'FSubCommit-a',
+                     tag: 'FSubCommit-a',
+                     format: 'html',
+                     project_id: 'testproject')
+    }
+    it {
+      expect(get('/projects/testproject/repository/revisions/FSubCommit-a/sub'))
+        .to route_to(controller: 'repositories',
+                     action: 'show',
+                     path: 'sub',
+                     rev: 'FSubCommit-a',
+                     format: 'html',
                      project_id: 'testproject')
     }
   end
@@ -171,6 +220,7 @@ describe RepositoriesController, type: :routing do
       expect(get('/projects/testproject/repository/browse/path/to/file.c'))
         .to route_to(controller: 'repositories',
                      action: 'browse',
+                     format: 'html',
                      project_id: 'testproject',
                      path: 'path/to/file.c')
     }
@@ -181,6 +231,7 @@ describe RepositoriesController, type: :routing do
       expect(get('/projects/testproject/repository/entry/path/to/file.c'))
         .to route_to(controller: 'repositories',
                      action: 'entry',
+                     format: 'html',
                      project_id: 'testproject',
                      path: 'path/to/file.c')
     }
@@ -189,6 +240,7 @@ describe RepositoriesController, type: :routing do
       expect(get('/projects/testproject/repository/revisions/2/entry/path/to/file.c'))
         .to route_to(controller: 'repositories',
                      action: 'entry',
+                     format: 'html',
                      project_id: 'testproject',
                      path: 'path/to/file.c',
                      rev: '2')
@@ -219,6 +271,7 @@ describe RepositoriesController, type: :routing do
       expect(get('/projects/testproject/repository/annotate/path/to/file.c'))
         .to route_to(controller: 'repositories',
                      action: 'annotate',
+                     format: 'html',
                      project_id: 'testproject',
                      path: 'path/to/file.c')
     }
@@ -226,6 +279,7 @@ describe RepositoriesController, type: :routing do
       expect(get('/projects/testproject/repository/revisions/5/annotate/path/to/file.c'))
         .to route_to(controller: 'repositories',
                      action: 'annotate',
+                     format: 'html',
                      project_id: 'testproject',
                      path: 'path/to/file.c',
                      rev: '5')
@@ -237,6 +291,7 @@ describe RepositoriesController, type: :routing do
       expect(get('/projects/testproject/repository/changes/path/to/file.c'))
         .to route_to(controller: 'repositories',
                      action: 'changes',
+                     format: 'html',
                      project_id: 'testproject',
                      path: 'path/to/file.c')
     }
@@ -245,6 +300,7 @@ describe RepositoriesController, type: :routing do
       expect(get('/projects/testproject/repository/revisions/5/changes/path/to/file.c'))
         .to route_to(controller: 'repositories',
                      action: 'changes',
+                     format: 'html',
                      project_id: 'testproject',
                      path: 'path/to/file.c',
                      rev: '5')

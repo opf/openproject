@@ -41,8 +41,7 @@ describe CustomActions::Conditions::Project, type: :model do
           .and_return(projects)
 
         expect(instance.allowed_values)
-          .to eql([{ value: nil, label: '-' },
-                   { value: projects.first.id, label: projects.first.name },
+          .to eql([{ value: projects.first.id, label: projects.first.name },
                    { value: projects.last.id, label: projects.last.name }])
       end
     end

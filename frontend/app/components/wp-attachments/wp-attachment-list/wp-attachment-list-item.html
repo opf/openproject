@@ -1,31 +1,25 @@
-<span class="inplace-editing--trigger-container">
-  <span class="inplace-editing--trigger-link"
-        focus-within
-        focusWithinSelector=".inplace-edit--icon-wrapper">
-    <span class="inplace-editing--container">
-      <span class="inplace-edit--read-value">
-        <op-icon icon-classes="icon-context icon-attachment"></op-icon>
-        <a
-            class="work-package--attachments--filename"
-            [attr.href]="attachment.downloadLocation.href || '#'"
-            download>
+<li class="form--selected-value--container" focus-within focusWithinSelector=".inplace-edit--icon-wrapper">
+  <span class="form--selected-value">
+    <op-icon icon-classes="icon-context icon-attachment"></op-icon>
+    <a
+        class="work-package--attachments--filename"
+        [attr.href]="attachment.downloadLocation.href || '#'"
+        download>
 
-          {{ attachment.fileName || attachment.customName || attachment.name }}
-          <authoring class="work-package--attachments--info"
-                     [createdOn]="attachment.createdAt"
-                     [author]="attachment.author"
-                     [showAuthorAsLink]="false"
-                     *ngIf="!workPackage.isNew"></authoring>
-        </a>
-      </span>
-      <a
-          href=""
-          class="inplace-edit--icon-wrapper work-package--atachments--delete-button"
-          *ngIf="!!attachment.$links.delete || workPackage.isNew"
-          (click)="confirmRemoveAttachment($event)">
-        <op-icon icon-classes="icon-delete"
-                 [icon-title]="text.removeFile({fileName: attachment.fileName})"></op-icon>
-      </a>
-    </span>
+      {{ attachment.fileName || attachment.customName || attachment.name }}
+      <authoring class="work-package--attachments--info"
+                 [createdOn]="attachment.createdAt"
+                 [author]="attachment.author"
+                 [showAuthorAsLink]="false"
+                 *ngIf="!workPackage.isNew"></authoring>
+    </a>
   </span>
-</span>
+  <a
+      href=""
+      class="form--selected-value--remover work-package--atachments--delete-button"
+      *ngIf="!!attachment.$links.delete || workPackage.isNew"
+      (click)="confirmRemoveAttachment($event)">
+    <op-icon icon-classes="icon-delete"
+             [icon-title]="text.removeFile({fileName: attachment.fileName})"></op-icon>
+  </a>
+</li>

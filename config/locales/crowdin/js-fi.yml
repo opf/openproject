@@ -4,6 +4,12 @@ fi:
     ajax:
       hide: Piilota
       loading: Ladataan...
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: Sulje ponnahdus-ikkuna
     close_filter_title: Sulje suodatin
     close_form_title: Sulje lomake
@@ -90,7 +96,7 @@ fi:
     label_between: between
     label_board_locked: Lukittu
     label_board_sticky: Pysyvä
-    label_create_work_package: Create new work package
+    label_create_work_package: Luo uusi toimia paketti
     label_created_by: Luonut
     label_date: Päivä
     label_date_with_format: 'Kirjoita %{date_attribute} seuraavassa muodossa: %{format}'
@@ -318,8 +324,8 @@ fi:
       gantt_chart: Gantt chart
       labels:
         bar: Bar labels
-        left: Left
-        right: Right
+        left: Vasen
+        right: Oikea
         farRight: Far right
         showNone: "-- No label --"
         description: 'Select the attributes you want to be shown in the respective
@@ -337,10 +343,9 @@ fi:
       errors:
         not_implemented: Aikajanaa ei voitu muodostaa koska se käyttää toimintoa jota
           ei ole vielä otettu käyttöön.
-        report_comparison: The timeline could not render the configured comparisons.
-          Please check the appropriate section in the configuration, resetting it
-          can help solve this problem.
-        report_epicfail: The timeline could not be loaded due to an unexpected error.
+        report_comparison: Aikajanan voi tehdä määritetty vertailuja. Tarkista oikea
+          kohta asetukset, nollaa se voi auttaa ratkaisemaan tämän ongelman.
+        report_epicfail: Aikajana ei voi ladata koska odottamaton virhe.
         report_timeout: The timeline could not be loaded in a reasonable amount of
           time.
       filter:
@@ -356,9 +361,9 @@ fi:
         noneSelection: "(none)"
       name: Nimi
       new_work_package: Uusi työpaketti
-      outline: Reset Outline
+      outline: Nollaa hahmotelma
       outlines:
-        aggregation: Show aggregations only
+        aggregation: Näyttää koosteita vain
         level1: Laajenna taso 1
         level2: Laajenna taso 2
         level3: Laajenna taso 3
@@ -380,8 +385,8 @@ fi:
         in: Lähennä
         out: Loitonna
         auto: Auto zoom
-        days: Days
-        weeks: Weeks
+        days: Päivää
+        weeks: Viikkoa
         months: Months
         quarters: Quarters
         years: Years
@@ -576,7 +581,7 @@ fi:
       form_submit:
         title: Vahvista jatkaaksesi
         text: Oletko varma, että haluat suorittaa tämän toiminnon?
-      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns: Täytyy nähdä suhteet toimia paketti lista?
       upsale_relation_columns_link: Check out the Enterprise Edition.
       destroy_work_package:
         title: Confirm deletion of %{label}

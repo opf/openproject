@@ -4,6 +4,12 @@ zh:
     ajax:
       hide: 隐藏
       loading: 加载中...
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: 关闭弹出窗口
     close_filter_title: 关闭过滤器
     close_form_title: 关闭表单
@@ -63,8 +69,8 @@ zh:
           one: 第一个排序条件
           two: 第二个排序条件
           three: 第三个排序条件
-      upsale_for_more: For more advanced filters, check out the
-      upsale_link: Enterprise Edition.
+      upsale_for_more: 有关更高级的筛选器, 请查看
+      upsale_link: 企业版
     general_text_no: 否
     general_text_yes: 是
     general_text_No: 否

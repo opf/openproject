@@ -4,6 +4,12 @@ uk:
     ajax:
       hide: Hide
       loading: Завантаження ...
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: Закрити вспливаюче вікно
     close_filter_title: Закрити фільтр
     close_form_title: Закрити форму
@@ -299,6 +305,7 @@ uk:
         other: Будь ласка, введіть ще {{count}} символів
         zero: Please enter more characters
         few: Будь ласка, введіть ще {{count}} символи
+        many: Please enter {{count}} more characters
       load_more: Завантаження додаткових результатів ...
       no_matches: Збігів не знайдено
       searching: Шукаємо ...
@@ -307,6 +314,7 @@ uk:
         other: Ви можете вибрати тільки {{limit}} елементів
         zero: You cannot select any items
         few: Ви можете вибрати тільки {{limit}} елементи
+        many: You can only select {{limit}} items
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -622,15 +630,18 @@ uk:
         one: work package
         other: work packages
         few: work packages
+        many: work packages
       child_work_packages:
         one: one child work package
         other: "%{count} work package children"
         few: "%{count} work package children"
+        many: "%{count} work package children"
       hour:
         one: 1 година
         other: "%{count} годин"
         zero: 0 hours
         few: "%{count} години"
+        many: "%{count} hours"
     zen_mode:
       button_activate: Activate zen mode
       button_deactivate: Deactivate zen mode

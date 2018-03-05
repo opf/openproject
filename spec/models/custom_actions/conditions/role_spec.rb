@@ -42,8 +42,7 @@ describe CustomActions::Conditions::Role, type: :model do
           .and_return(roles)
 
         expect(instance.allowed_values)
-          .to eql([{ value: nil, label: '-' },
-                   { value: roles.first.id, label: roles.first.name },
+          .to eql([{ value: roles.first.id, label: roles.first.name },
                    { value: roles.last.id, label: roles.last.name }])
       end
     end

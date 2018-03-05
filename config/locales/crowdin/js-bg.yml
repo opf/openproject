@@ -4,6 +4,12 @@ bg:
     ajax:
       hide: Скрий
       loading: Зареждане ...
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: Затвори изкачащият прозорец
     close_filter_title: Close filter
     close_form_title: Close form

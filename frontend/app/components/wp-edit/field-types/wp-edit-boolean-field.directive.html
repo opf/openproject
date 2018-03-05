@@ -6,5 +6,6 @@
        ng-change="vm.handleUserSubmit()"
        ng-focus="vm.handleUserFocus()"
        ng-blur="vm.handleUserBlur()"
+       ng-keydown="vm.handleUserKeydown($event)"
        ng-disabled="vm.field.inFlight"
        ng-attr-id="{{vm.htmlId}}" />
