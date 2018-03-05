@@ -116,6 +116,16 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
       end
     end
 
+    context 'with some values same for done ratio' do
+      it_behaves_like 'attributes of parent having children' do
+        let(:done_ratios) { [20, 20, 50] }
+        let(:estimated_hours) { [nil, nil, nil] }
+
+        let(:aggregate_done_ratio) { 30 }
+        let(:aggregate_estimated_hours) { nil }
+      end
+    end
+
     context 'with no estimated hours and 1.5 of the tasks done' do
       it_behaves_like 'attributes of parent having children' do
         let(:done_ratios) { [0, 50, 100] }
