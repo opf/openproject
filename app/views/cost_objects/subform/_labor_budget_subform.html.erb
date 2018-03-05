@@ -26,7 +26,7 @@ end -%>
 <costs-budget-subform item-count="<%= @cost_object.labor_budget_items.length %>"
                       update-url="<%= url_for(action: :update_labor_budget_item, project_id: @project.id) %>">
   <fieldset id="labor_budget_items_fieldset" class="form--fieldset -collapsible">
-    <legend class="form--fieldset-legend" onclick="toggleFieldset(this);"><%= VariableCostObject.human_attribute_name(:labor_budget) %></legend>
+    <legend class="form--fieldset-legend"><%= VariableCostObject.human_attribute_name(:labor_budget) %></legend>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
         <table class="generic-table" id="labor_budget_items">

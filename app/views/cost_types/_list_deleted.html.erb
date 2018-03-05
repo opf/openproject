@@ -73,7 +73,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                                           method: :patch,
                                           html: { id: "restore_cost_type_#{cost_type.id}",
                                                   class: 'restore_cost_type' } do |f| %>
-                    <a href="#" onclick="submitForm(event, this);" class="submit_cost_type"><%= icon_wrapper('icon icon-unlocked', I18n.t(:button_unlock)) %></a>
+                    <button type="submit"
+                            class="button submit_cost_type">
+                      <%= icon_wrapper('icon icon-unlocked', I18n.t(:button_unlock)) %>
+                    </button>
                   <% end %>
                 </td>
               </tr>
