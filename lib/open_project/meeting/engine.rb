@@ -68,7 +68,7 @@ module OpenProject::Meeting
     patch_with_namespace :BasicData, :SettingSeeder
 
     initializer 'meeting.precompile_assets' do
-      Rails.application.config.assets.precompile += %w(meeting/meeting.css)
+      Rails.application.config.assets.precompile += %w(meeting/meeting.css meeting/meeting.js)
     end
 
     initializer 'meeting.register_hooks' do
