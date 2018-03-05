@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class GeneralizeWikiMenuItems < ActiveRecord::Migration[4.2]
+class GeneralizeWikiMenuItems < ActiveRecord::Migration[5.1]
   def up
     rename_table :wiki_menu_items, :menu_items
     add_column :menu_items, :type, :string

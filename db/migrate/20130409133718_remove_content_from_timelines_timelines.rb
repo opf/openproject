@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class RemoveContentFromTimelinesTimelines < ActiveRecord::Migration[4.2]
+class RemoveContentFromTimelinesTimelines < ActiveRecord::Migration[5.1]
   def self.up
     change_table(:timelines_timelines) do |t|
       t.remove :content

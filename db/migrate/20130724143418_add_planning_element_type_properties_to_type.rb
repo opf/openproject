@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddPlanningElementTypePropertiesToType < ActiveRecord::Migration[4.2]
+class AddPlanningElementTypePropertiesToType < ActiveRecord::Migration[5.1]
   def up
     add_column :types, :in_aggregation, :boolean, default: true,  null: false
     add_column :types, :is_milestone,   :boolean, default: false, null: false

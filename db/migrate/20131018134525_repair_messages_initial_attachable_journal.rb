@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/attachable_utils'
 
-class RepairMessagesInitialAttachableJournal < ActiveRecord::Migration[4.2]
+class RepairMessagesInitialAttachableJournal < ActiveRecord::Migration[5.1]
   include Migration::Utils
   include Migration::Utils::AttachableUtils
 

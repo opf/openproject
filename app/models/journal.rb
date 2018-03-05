@@ -44,8 +44,8 @@ class Journal < ActiveRecord::Base
   belongs_to :user
   belongs_to :journable, polymorphic: true
 
-  has_many :attachable_journals, class_name: Journal::AttachableJournal, dependent: :destroy
-  has_many :customizable_journals, class_name: Journal::CustomizableJournal, dependent: :destroy
+  has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :destroy
+  has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :destroy
 
   after_create :save_data, if: :data
   after_save :save_data, :touch_journable

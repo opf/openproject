@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/timelines'
 
-class MigrateTimelinesEndDatePropertyInOptions < ActiveRecord::Migration[4.2]
+class MigrateTimelinesEndDatePropertyInOptions < ActiveRecord::Migration[5.1]
   include Migration::Utils
 
   COLUMN = 'options'

@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddStickedOnFieldToMessages < ActiveRecord::Migration[4.2]
+class AddStickedOnFieldToMessages < ActiveRecord::Migration[5.1]
   def change
     add_column :messages, :sticked_on, :datetime,  default: nil,  null: true
   end

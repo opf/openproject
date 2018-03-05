@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddOptionsToTimelinesTimelines < ActiveRecord::Migration[4.2]
+class AddOptionsToTimelinesTimelines < ActiveRecord::Migration[5.1]
   def self.up
     change_table(:timelines_timelines) do |t|
       t.text :options

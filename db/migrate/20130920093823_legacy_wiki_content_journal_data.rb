@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/legacy_journal_migrator'
 
-class LegacyWikiContentJournalData < ActiveRecord::Migration[4.2]
+class LegacyWikiContentJournalData < ActiveRecord::Migration[5.1]
   class UnsupportedWikiContentJournalCompressionError < ::StandardError
   end
 

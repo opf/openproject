@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class RenameChangesetWpJoinTable < ActiveRecord::Migration[4.2]
+class RenameChangesetWpJoinTable < ActiveRecord::Migration[5.1]
   def up
     remove_index :changesets_issues, name: :changesets_issues_ids
 

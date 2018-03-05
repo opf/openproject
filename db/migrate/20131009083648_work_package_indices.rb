@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackageIndices < ActiveRecord::Migration[4.2]
+class WorkPackageIndices < ActiveRecord::Migration[5.1]
   def up
     # drop obsolete fields
     remove_column :work_packages, :planning_element_status_comment

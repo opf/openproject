@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class DropModelJournalsUpdatedOnColumn < ActiveRecord::Migration[4.2]
+class DropModelJournalsUpdatedOnColumn < ActiveRecord::Migration[5.1]
   def up
     remove_column :work_package_journals, :updated_at
     remove_column :wiki_content_journals, :updated_on

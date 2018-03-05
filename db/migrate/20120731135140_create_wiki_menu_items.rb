@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateWikiMenuItems < ActiveRecord::Migration[4.2]
+class CreateWikiMenuItems < ActiveRecord::Migration[5.1]
   def self.up
     create_table :wiki_menu_items do |t|
       t.column :name, :string

@@ -25,7 +25,7 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-class UnderscoreScmSettings < ActiveRecord::Migration[4.2]
+class UnderscoreScmSettings < ActiveRecord::Migration[5.1]
   def up
     Setting.enabled_scm = Setting.enabled_scm.map(&:underscore)
   end

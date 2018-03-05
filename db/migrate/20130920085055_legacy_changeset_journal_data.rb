@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/legacy_journal_migrator'
 
-class LegacyChangesetJournalData < ActiveRecord::Migration[4.2]
+class LegacyChangesetJournalData < ActiveRecord::Migration[5.1]
   def up
     add_index 'changeset_journals', ['journal_id']
 

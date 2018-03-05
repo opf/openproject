@@ -28,7 +28,7 @@
 
 require 'tasks/shared/legacy_attachment'
 
-class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration[4.2]
+class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration[5.1]
   def up
     add_column_if_missing :attachments, :file, :string
 

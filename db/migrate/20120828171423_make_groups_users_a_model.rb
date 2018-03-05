@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class MakeGroupsUsersAModel < ActiveRecord::Migration[4.2]
+class MakeGroupsUsersAModel < ActiveRecord::Migration[5.1]
   def self.up
     remove_index :groups_users, name: :groups_users_ids
     rename_table :groups_users, :group_users

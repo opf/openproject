@@ -30,7 +30,7 @@
 require_relative 'migration_utils/legacy_journal_migrator'
 require_relative 'migration_utils/journal_migrator_concerns'
 
-class LegacyMessageJournalData < ActiveRecord::Migration[4.2]
+class LegacyMessageJournalData < ActiveRecord::Migration[5.1]
   def up
     add_index 'message_journals', ['journal_id']
 

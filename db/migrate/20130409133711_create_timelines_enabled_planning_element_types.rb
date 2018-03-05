@@ -27,17 +27,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesEnabledPlanningElementTypes < ActiveRecord::Migration[4.2]
+class CreateTimelinesEnabledPlanningElementTypes < ActiveRecord::Migration[5.1]
   def self.up
     create_table :timelines_enabled_planning_element_types do |t|
       t.belongs_to :project
-      t.belongs_to :planning_element_type
+      t.belongs_to :planning_element_type, index: { name: 'index_enabled_pe_types_on_pe_type_id' }
 
       t.timestamps
     end
-
-    add_index :timelines_enabled_planning_element_types, :project_id
-    add_index :timelines_enabled_planning_element_types, :planning_element_type_id, name: 'index_enabled_pe_types_on_pe_type_id'
   end
 
   def self.down

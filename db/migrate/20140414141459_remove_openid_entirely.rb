@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class RemoveOpenidEntirely < ActiveRecord::Migration[4.2]
+class RemoveOpenidEntirely < ActiveRecord::Migration[5.1]
   def up
     drop_table 'open_id_authentication_nonces'
     drop_table 'open_id_authentication_associations'

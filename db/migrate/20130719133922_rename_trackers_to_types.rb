@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class RenameTrackersToTypes < ActiveRecord::Migration[4.2]
+class RenameTrackersToTypes < ActiveRecord::Migration[5.1]
   # This migration leaves legacy issues as they are. After this
   # migration, those legacy issues have tracker_id columns as well as
   # having indexes that mention both tracker and issue, since there was

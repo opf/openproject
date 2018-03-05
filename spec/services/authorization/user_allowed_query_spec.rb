@@ -54,8 +54,8 @@ describe Authorization::UserAllowedQuery do
       non_member_role.save!
     end
 
-    it 'is a user relation' do
-      expect(described_class.query(action, project)).to be_a User::ActiveRecord_Relation
+    it 'is an AR relation' do
+      expect(described_class.query(action, project)).to be_a ActiveRecord::Relation
     end
 
     context 'w/o the project being public

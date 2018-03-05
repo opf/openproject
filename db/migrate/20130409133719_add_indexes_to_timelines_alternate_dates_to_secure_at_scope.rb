@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddIndexesToTimelinesAlternateDatesToSecureAtScope < ActiveRecord::Migration[4.2]
+class AddIndexesToTimelinesAlternateDatesToSecureAtScope < ActiveRecord::Migration[5.1]
   def self.up
     add_index :timelines_alternate_dates,
               [:updated_at, :planning_element_id, :scenario_id],

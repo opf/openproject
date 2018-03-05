@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddCustomizableJournal < ActiveRecord::Migration[4.2]
+class AddCustomizableJournal < ActiveRecord::Migration[5.1]
   def change
     create_table :customizable_journals do |t|
       t.integer :journal_id, null: false
