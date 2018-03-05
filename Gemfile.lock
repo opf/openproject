@@ -50,13 +50,12 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 52a08551cf5562f14b2eeadb31bcb64bafd303a2
-  branch: translations-in-core
+  revision: 693fb174fc0c79c8df656840221c571443eddad7
+  branch: dev
   specs:
     openproject-translations (7.4.0)
       crowdin-api (~> 0.5.0)
       mixlib-shellout (~> 2.1.0)
-      rails (~> 5.0.0)
       rubyzip
 
 GIT
@@ -581,7 +580,7 @@ GEM
     uber (0.0.15)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.4)
+    unf_ext (0.0.7.5)
     unicode-display_width (1.3.0)
     unicorn (5.3.1)
       kgio (~> 2.6)
