@@ -31,10 +31,10 @@
 class CustomAction < ActiveRecord::Base
   validates :name, length: { maximum: 255, minimum: 1 }
   serialize :actions, CustomActions::Actions::Serializer
-  has_and_belongs_to_many :statuses
-  has_and_belongs_to_many :roles
-  has_and_belongs_to_many :types
-  has_and_belongs_to_many :projects
+  has_and_belongs_to_many :status_conditions, class_name: 'Status'
+  has_and_belongs_to_many :role_conditions, class_name: 'Role'
+  has_and_belongs_to_many :type_conditions, class_name: 'Type'
+  has_and_belongs_to_many :project_conditions, class_name: 'Project'
 
   after_save :persist_conditions
 
@@ -122,8 +122,10 @@ class CustomAction < ActiveRecord::Base
   end
 
   def persist_conditions
-    conditions.each do |new_condition|
-      new_condition.persist(self)
+    available_conditions.map do |condition_class|
+      condition = conditions.detect { |c| c.class == condition_class }
+
+      condition_class.setter(self, condition)
     end
   end
 end

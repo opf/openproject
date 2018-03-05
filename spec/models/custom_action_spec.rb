@@ -126,6 +126,7 @@ describe CustomAction, type: :model do
   describe '.conditions' do
     let(:status) { FactoryGirl.create(:status) }
     let(:role) { FactoryGirl.create(:role) }
+    let(:project) { FactoryGirl.create(:project) }
 
     it 'is empty initially' do
       expect(stubbed_instance.conditions)
@@ -150,6 +151,19 @@ describe CustomAction, type: :model do
       expect(CustomAction.find(instance.id).conditions.map { |a| [a.key, a.values] })
         .to match_array [[:status, [status.id]],
                          [:role, [role.id]]]
+    end
+
+    it 'existing permissions can be removed' do
+      instance.conditions = [CustomActions::Conditions::Project.new(project.id)]
+
+      instance.save!
+
+      instance.conditions = []
+
+      instance.save!
+
+      expect(CustomAction.find(instance.id).conditions.map { |a| [a.key, a.values] })
+        .to be_empty
     end
   end
 

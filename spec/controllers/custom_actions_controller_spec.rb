@@ -183,7 +183,7 @@ describe CustomActionsController, type: :controller do
 
       allow(service)
         .to receive(:call)
-        .with(attributes: permitted_params.to_h)
+        .with(attributes: permitted_params.to_h.merge(conditions: {}))
         .and_yield(service_result)
 
       service
@@ -317,7 +317,7 @@ describe CustomActionsController, type: :controller do
 
       allow(service)
         .to receive(:call)
-        .with(attributes: permitted_params.to_h)
+        .with(attributes: permitted_params.to_h.merge(conditions: {}))
         .and_yield(service_result)
 
       service
