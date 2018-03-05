@@ -82,7 +82,7 @@ module OpenProject::TextFormatting
           ([[[:space:]]\(,\-\[\>]|^) # Leading string
           (!)? # Escaped marker
           (([a-z0-9\-_]+):)? # Project identifier
-          (attachment|version|commit|source|export|message|project|group|user)? # prefix
+          (#{allowed_prefixes.join("|")})? # prefix
           (
             (\#+|r)(\d+) # separator and its identifier
             |
@@ -105,6 +105,26 @@ module OpenProject::TextFormatting
             |$
            )
         }x
+      end
+
+      ##
+      # Allowed prefix matchers
+      def self.allowed_prefixes
+        link_handlers
+          .map { |handler| handler.allowed_prefixes }
+          .flatten
+          .uniq
+      end
+
+      ##
+      # Link handlers, may be extended by plugins
+      def self.link_handlers
+        [
+          LinkHandlers::WorkPackages,
+          LinkHandlers::HashSeparator,
+          LinkHandlers::ColonSeparator,
+          LinkHandlers::Revisions
+        ]
       end
 
       def self.process_match(m, matched_string, context)
@@ -196,7 +216,7 @@ module OpenProject::TextFormatting
       ##
       # Build a matching link by asking all handlers
       def link_from_match
-        link_handlers.each do |klazz|
+        self.class.link_handlers.each do |klazz|
           handler = klazz.new(self, context: context)
 
           if handler.applicable?
@@ -209,17 +229,6 @@ module OpenProject::TextFormatting
         Rails.logger.debug { "Backtrace:\n\t#{e.backtrace.join("\n\t")}" }
         # Keep the original string unmatched
         @link = nil
-      end
-
-      ##
-      # Link handlers, may be extended by plugins
-      def link_handlers
-        [
-          LinkHandlers::WorkPackages,
-          LinkHandlers::HashSeparator,
-          LinkHandlers::ColonSeparator,
-          LinkHandlers::Revisions
-        ]
       end
 
       ##

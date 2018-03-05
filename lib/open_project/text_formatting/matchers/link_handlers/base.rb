@@ -52,6 +52,16 @@ module OpenProject::TextFormatting::Matchers
       end
 
       ##
+      # Allowed prefixes for this matcher
+      def self.allowed_prefixes
+        []
+      end
+
+      def allowed_prefixes
+        self.class.allowed_prefixes
+      end
+
+      ##
       # Test whether we should try to resolve the given link
       def applicable?
         raise NotImplementedError

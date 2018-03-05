@@ -32,6 +32,10 @@ module OpenProject::TextFormatting::Matchers
   module LinkHandlers
     class ColonSeparator < Base
 
+      def self.allowed_prefixes
+        %w(commit source export version project user attachment)
+      end
+
       ##
       # Colon-separated object links
       # Condition: Separator is ':'
@@ -79,10 +83,6 @@ module OpenProject::TextFormatting::Matchers
       end
 
       private
-
-      def allowed_prefixes
-        %w(commit source export version message project user attachment)
-      end
 
       def render_version
         if project && version = project.versions.visible.find_by(name: oid)

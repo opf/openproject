@@ -32,6 +32,10 @@ module OpenProject::TextFormatting::Matchers
   module LinkHandlers
     class HashSeparator < Base
 
+      def self.allowed_prefixes
+        %w(version message project user group)
+      end
+
       ##
       # Hash-separated object links
       # Condition: Separator is '#'
@@ -54,10 +58,6 @@ module OpenProject::TextFormatting::Matchers
       end
 
       private
-
-      def allowed_prefixes
-        %w(version message project user group)
-      end
 
       def render_version
         version = Version.visible.find_by(id: oid)
