@@ -6,10 +6,10 @@ fil:
       loading: Naglo-load ...
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
-      active: Active %{label} %{name}
+        multi: Magdagdag ng "%{name}"
+        single: Pumili ng "%{name}"
+      remove: Alisin ang %{name}
+      active: I-aktibo ang %{label} %{name}
     close_popup_title: Isara ang popup
     close_filter_title: Isara ang filter
     close_form_title: Isara ang form
