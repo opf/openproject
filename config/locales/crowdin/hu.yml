@@ -659,7 +659,7 @@ hu:
   button_copy_and_follow: Másol és folytat
   button_create: Létrehoz
   button_create_and_continue: Létrehoz és folytat
-  button_delete: Töröl
+  button_delete: Törlés
   button_delete_watcher: Megfigyelő törlése %{name}
   button_download: Letöltés
   button_duplicate: Másolás ide
@@ -2175,7 +2175,7 @@ hu:
   text_default_administrator_account_changed: Az alapértelmezett rendszergazdai fiók
     megváltozott
   text_default_encoding: 'Alapértelmezett érték: UTF-8'
-  text_destroy: Töröl
+  text_destroy: Törlés
   text_destroy_with_associated: 'További objektumok vannak hozzárendelve, a munkacsomag(ok)hoz,
     amelyeket törölni kell. Ezek az objektumok a következők:'
   text_destroy_what_to_do: Mit szeretne tenni?
@@ -2307,7 +2307,7 @@ hu:
     dates_are_calculated_based_on_sub_elements: A dátumok az al elemek alapján számítódnak
       ki.
     delete_all: Összes törlése
-    delete_thing: Töröl
+    delete_thing: Törlés
     duration: Időtartam
     duration_days:
       one: 1 napja

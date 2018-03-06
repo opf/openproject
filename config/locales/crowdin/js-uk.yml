@@ -363,12 +363,12 @@ uk:
       new_work_package: New work package
       outline: Reset Outline
       outlines:
-        aggregation: Show aggregations only
-        level1: Expand level 1
-        level2: Expand level 2
-        level3: Expand level 3
-        level4: Expand level 4
-        level5: Expand level 5
+        aggregation: Показати тільки агрегати
+        level1: Розширити рівень 1
+        level2: Розширити рівень 2
+        level3: Розширити рівень 3
+        level4: Розширити рівень 4
+        level5: Розширити рівень 5
         all: Show all
       project_status: Project status
       project_type: Тип проекту
@@ -385,11 +385,11 @@ uk:
         in: Zoom in
         out: Zoom out
         auto: Auto zoom
-        days: Days
-        weeks: Weeks
-        months: Months
-        quarters: Quarters
-        years: Years
+        days: Днів
+        weeks: Тижня
+        months: Місяців
+        quarters: Приміщенням
+        years: Років
         slider: Повзунок масштабування
     tl_toolbar:
       zooms: Рівень масштабування
