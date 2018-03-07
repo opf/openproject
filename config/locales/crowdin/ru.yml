@@ -65,7 +65,7 @@ ru:
     plural: Пользовательские действия
     new: Новое пользовательское действие
     edit: Редактировать пользовательское действие %{name}
-    execute: Execute %{name}
+    execute: Выполнить %{name}
     upsale:
       title: Пользовательские действия — особенность Корпоративной версии
       description: Пользовательские действия автоматизируют повседневную работу, объединяя
@@ -272,8 +272,8 @@ ru:
       announcements:
         show_until: Отобразить до
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Вложенный контент
+        attachment_file_name: Название вложенного файла
         downloads: Загрузки
         file: Файл
         filename: Файл
@@ -2103,7 +2103,7 @@ ru:
   setting_feeds_limit: Предел содержимого новостной ленты
   setting_file_max_size_displayed: Максимальная длина  строки текстовых файлов
   setting_host_name: Имя компьютера в сети
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: Действие письма активации истекает после
   setting_work_package_done_ratio: Калькуляции пакета работ сделаны со следующими
     коэфицентами
   setting_work_package_done_ratio_field: Использовать поле пакета работ
@@ -2168,7 +2168,7 @@ ru:
   setting_accessibility_mode_for_anonymous: Разрешить режим доступа людей с ограниченными
     возможностями для анонимных пользователей
   setting_user_format: Формат имён пользователей
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: Часовой пояс пользователя по умолчанию
   setting_users_deletable_by_admins: Учётные записи пользователей могут быть удалены
     администратором
   setting_users_deletable_by_self: Пользователи могут удалять свои учётные записи
