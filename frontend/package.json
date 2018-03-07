@@ -24,6 +24,7 @@
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
     "sorted-object": "^1.0.0",
+    "webpack-bundle-analyzer": "2.11.1",
     "webpack-dev-server": "^1.6.5"
   },
   "dependencies": {

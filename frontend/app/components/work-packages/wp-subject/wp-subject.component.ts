@@ -26,13 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {UIRouterGlobals} from '@uirouter/core';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {takeUntil} from 'rxjs/operators';
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
-import {UIRouterGlobals} from '@uirouter/core';
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
   template: require('!!raw-loader!./wp-subject.html'),
@@ -53,7 +54,9 @@ export class WorkPackageSubjectComponent implements OnInit, OnDestroy {
     if (!this.workPackage) {
       this.wpCacheService.loadWorkPackage(this.uiRouterGlobals.params['workPackageId'])
         .values$()
-        .takeUntil(componentDestroyed(this))
+        .pipe(
+          takeUntil(componentDestroyed(this))
+        )
         .subscribe((wp:WorkPackageResourceInterface) => {
           this.workPackage = wp;
         });

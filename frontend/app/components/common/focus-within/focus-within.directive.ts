@@ -26,9 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {auditTime} from 'rxjs/operators';
 import {wpDirectivesModule} from '../../../angular-modules';
 import {scopedObservable} from '../../../helpers/angular-rx-utils';
-import {BehaviorSubject} from 'rxjs';
 
 // with courtesy of http://stackoverflow.com/a/29722694/3206935
 
@@ -44,22 +45,24 @@ function focusWithinDirective($timeout:ng.ITimeoutService) {
       let focusedObservable = new BehaviorSubject(false);
 
       scopedObservable(
-          scope,
-          focusedObservable
+        scope,
+        focusedObservable
+      )
+        .pipe(
+          auditTime(50)
         )
-        .auditTime(50)
         .subscribe(focused => {
-           element.toggleClass('-focus', focused);
+          element.toggleClass('-focus', focused);
         });
 
 
-      let focusListener = function () {
-          focusedObservable.next(true);
+      let focusListener = function() {
+        focusedObservable.next(true);
       };
       element[0].addEventListener('focus', focusListener, true);
 
-      let blurListener = function () {
-          focusedObservable.next(false);
+      let blurListener = function() {
+        focusedObservable.next(false);
       };
       element[0].addEventListener('blur', blurListener, true);
 

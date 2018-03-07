@@ -26,19 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {takeUntil} from 'rxjs/operators';
 import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
   template: require('!!raw-loader!./wp-watcher-button.html'),
   selector: 'wp-watcher-button',
 })
-export class WorkPackageWatcherButtonComponent implements OnInit,  OnDestroy {
+export class WorkPackageWatcherButtonComponent implements OnInit, OnDestroy {
   @Input('workPackage') public workPackage:WorkPackageResourceInterface;
   @Input('showText') public showText:boolean = false;
   @Input('disabled') public disabled:boolean = false;
@@ -56,8 +57,10 @@ export class WorkPackageWatcherButtonComponent implements OnInit,  OnDestroy {
   ngOnInit() {
     this.wpCacheService.loadWorkPackage(this.workPackage.id)
       .values$()
-      .takeUntil(componentDestroyed(this))
-      .subscribe((wp: WorkPackageResourceInterface) => {
+      .pipe(
+        takeUntil(componentDestroyed(this))
+      )
+      .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.setWatchStatus();
       });

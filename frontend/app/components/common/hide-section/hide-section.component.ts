@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opUiComponentsModule} from '../../../angular-modules';
-import {Component, ElementRef, OnDestroy} from '@angular/core';
-import {OnInit, Input} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {HideSectionService} from 'core-components/common/hide-section/hide-section.service';
+import {distinctUntilChanged, map, take} from 'rxjs/operators';
 import {Subscription} from 'rxjs/Subscription';
+import {opUiComponentsModule} from '../../../angular-modules';
 
 @Component({
   selector: 'hide-section',
@@ -47,20 +47,27 @@ export class HideSectionComponent implements OnInit, OnDestroy {
   @Input() onDisplayed:Function;
 
   constructor(protected hideSection:HideSectionService,
-              private elementRef:ElementRef) { }
+              private elementRef:ElementRef) {
+  }
 
   ngOnInit() {
     let mappedDisplayed = this.hideSection.displayed$
-      .map(all_displayed => _.some(all_displayed, candidate => candidate.key === this.sectionName));
+      .pipe(
+        map(all_displayed => _.some(all_displayed, candidate => candidate.key === this.sectionName))
+      );
 
     this.initializationSubscription = mappedDisplayed
-      .take(1)
+      .pipe(
+        take(1)
+      )
       .subscribe(show => {
         jQuery(this.elementRef.nativeElement).addClass('-initialized');
       });
 
     this.displayedSubscription = mappedDisplayed
-      .distinctUntilChanged()
+      .pipe(
+        distinctUntilChanged()
+      )
       .subscribe(show => {
         this.displayed = show;
 

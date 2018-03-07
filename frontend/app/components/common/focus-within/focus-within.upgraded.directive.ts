@@ -26,12 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from '../../../angular-modules';
-import {scopedObservable} from '../../../helpers/angular-rx-utils';
-import {BehaviorSubject} from 'rxjs';
 import {Directive, ElementRef, Input, OnDestroy, OnInit} from '@angular/core';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {downgradeComponent} from '@angular/upgrade/static';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {auditTime, takeUntil} from 'rxjs/operators';
 
 // with courtesy of http://stackoverflow.com/a/29722694/3206935
 
@@ -52,19 +50,21 @@ export class FocusWithinDirective implements OnInit, OnDestroy {
     let focusedObservable = new BehaviorSubject(false);
 
     focusedObservable
-      .auditTime(50)
-      .takeUntil(componentDestroyed(this))
+      .pipe(
+        auditTime(50),
+        takeUntil(componentDestroyed(this))
+      )
       .subscribe(focused => {
         this.$element.toggleClass('-focus', focused);
       });
 
 
-    let focusListener = function () {
+    let focusListener = function() {
       focusedObservable.next(true);
     };
     this.$element[0].addEventListener('focus', focusListener, true);
 
-    let blurListener = function () {
+    let blurListener = function() {
       focusedObservable.next(false);
     };
     this.$element[0].addEventListener('blur', blurListener, true);

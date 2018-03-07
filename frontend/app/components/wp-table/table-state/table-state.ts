@@ -15,7 +15,8 @@ import {WorkPackageTableSum} from 'app/components/wp-fast-table/wp-table-sum';
 import {WorkPackageTableTimelineState} from 'app/components/wp-fast-table/wp-table-timeline';
 import {WPTableRowSelectionState} from 'app/components/wp-fast-table/wp-table.interfaces';
 import {derive, input, State, StatesGroup} from 'reactivestates';
-import {Subject} from 'rxjs/Rx';
+import {map} from 'rxjs/operators';
+import {Subject} from 'rxjs/Subject';
 
 export class TableState extends StatesGroup {
 
@@ -49,8 +50,9 @@ export class TableState extends StatesGroup {
     // State to be updated when the table is up to date
     rendered = input<RenderedRow[]>();
 
-    renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $
-            .map(rows => rows.filter(row => !!row.workPackageId)));
+    renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $.pipe(
+            map(rows => rows.filter(row => !!row.workPackageId)))
+    );
 
     // State to determine timeline visibility
     timelineVisible = input<WorkPackageTableTimelineState>();

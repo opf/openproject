@@ -26,22 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {States} from '../states.service';
+import {Inject, OnDestroy, OnInit} from '@angular/core';
+import {StateService, Transition} from '@uirouter/core';
+import {$stateToken, I18nToken, v3PathToken} from 'core-app/angular4-transition-utils';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {takeUntil} from 'rxjs/operators';
 import {RootDmService} from '../api/api-v3/hal-resource-dms/root-dm.service';
 import {RootResource} from '../api/api-v3/hal-resources/root-resource.service';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
-import {WorkPackageCreateService} from './wp-create.service';
-import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
+import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-values';
+import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
-import {StateService, Transition} from '@uirouter/core';
-import {Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {$stateToken, I18nToken, v3PathToken} from 'core-app/angular4-transition-utils';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {WorkPackageCreateService} from './wp-create.service';
 
 export class WorkPackageCreateController implements OnInit, OnDestroy {
   public successState:string;
@@ -90,10 +91,12 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
         if (this.stateParams['parent_id']) {
           this.wpCacheService.loadWorkPackage(this.stateParams['parent_id'])
             .values$()
-            .takeUntil(componentDestroyed(this))
+            .pipe(
+              takeUntil(componentDestroyed(this))
+            )
             .subscribe(parent => {
-            this.parentWorkPackage = parent;
-          });
+              this.parentWorkPackage = parent;
+            });
         }
       })
       .catch((error:any) => {
@@ -101,7 +104,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
           this.RootDm.load().then((root:RootResource) => {
             if (!root.user) {
               // Not logged in
-              let url = URI(this.PathHelper.loginPath())
+              let url = URI(this.PathHelper.loginPath());
               url.search({back_url: url});
               window.location.href = url.toString();
             }
