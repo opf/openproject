@@ -72,7 +72,7 @@ zh-TW:
     label_activity_with_comment_no: 活動條目編號 %{activityNo}。有的使用者評論。
     label_add_columns: Add columns
     label_add_comment: 新增評論
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: 註解並輸入 @ 來標記其他人
     label_add_selected_columns: 新增所選欄
     label_added_by: 新增者
     label_added_time_by: 由 %{author} 於%{age} 新增
@@ -103,7 +103,7 @@ zh-TW:
     label_contains: 包含
     label_created_on: 建立於
     label_edit_comment: 編輯此評論
-    label_edit_status: Edit the status of the work package
+    label_edit_status: 編輯工作項目的狀態
     label_equals: 是
     label_expand: 展開
     label_expanded: 展開
@@ -213,9 +213,9 @@ zh-TW:
       required_outside_context: 你不是在專案內容範圍內。請先選擇專案內容再選擇類型和狀態
       context: 專案內容
       work_package_belongs_to: 此工作項目屬於專案 %{projectname}。
-      click_to_switch_context: Open this work package in that project.
+      click_to_switch_context: 在該專案中打開此工作項目。
       autocompleter:
-        label: Project autocompletion
+        label: 專案自動完成
     text_are_you_sure: 是否確定？
     types:
       attribute_groups:
@@ -303,8 +303,7 @@ zh-TW:
       activate_asc: activate to apply an ascending sort
       activate_dsc: activate to apply a descending sort
       activate_no: activate to remove the sort
-    text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
-      work package(s)?
+    text_work_packages_destroy_confirmation: 你確定要刪除選定的工作項目嗎？
     text_query_destroy_confirmation: 確定要刪除已選擇的查詢項目嗎?
     text_attachment_destroy_confirmation: 你確定你想要刪除附件?
     timelines:
@@ -315,9 +314,7 @@ zh-TW:
         right: 右
         farRight: 最右
         showNone: "-- 沒有標籤 --"
-        description: 'Select the attributes you want to be shown in the respective
-          positions of the Gantt chart at all times. Note that when hovering an element,
-          its date labels will be shown instead of these attributes.
+        description: '選擇要在甘特圖的對應位置上始終顯示的屬性。請注意, 在游標停在元素上時, 將顯示其日期標籤, 而不是這些屬性。
 
 '
       button_activate: Activate timeline mode
@@ -370,7 +367,7 @@ zh-TW:
       zoom:
         in: 放大
         out: 縮小
-        auto: Auto zoom
+        auto: 自動縮放
         days: 日
         weeks: 週
         months: 月

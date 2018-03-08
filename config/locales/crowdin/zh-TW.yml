@@ -116,11 +116,9 @@ zh-TW:
       no_results_content_text: 新增一個成員到這個專案
   my:
     access_token:
-      failed_to_reset_token: 'Failed to reset access token: %{error}'
-      notice_reset_token: 'A new %{type} token has been generated. Your access token
-        is:'
-      token_value_warning: 'Note: This is the only time you will see this token, make
-        sure to copy it now.'
+      failed_to_reset_token: '無法重置訪問憑證: %{error}'
+      notice_reset_token: '生成了一個新的 %{type} 憑證。您的訪問憑證是:'
+      token_value_warning: '注意: 這是您唯一可以看到此憑證的時候, 請務必立即複製它。'
       no_results_title_text: 目前沒有存取憑証
   news:
     index:
@@ -205,10 +203,8 @@ zh-TW:
         other: 將從系統中刪除該帳號。因此，使用者將不再能夠用他當前的帳密登錄。未來必須重新申請，才能再度成為使用者。
         self: 您的帳號將從系統中刪除。因此，您將不再能夠使用當前的帳密登錄。未來必需重新申請，才能再度成為使用者。
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        other: 輸入登入 %{name} 以驗證刪除。一旦提交, 您將被要求確認您的密碼。
+        self: 輸入您的登入 %{name} 以驗證刪除。一旦提交, 您將被要求確認您的密碼。
     error_inactive_activation_by_mail: '您的帳號尚未啟用。要啟用您的帳號，請點擊系統通過電子郵件發送給您的連結。
 
 '
@@ -394,8 +390,8 @@ zh-TW:
           start date.
         inclusion: 沒有被設置為一個允許的值。
         invalid: 不正確。
-        invalid_url: is not a valid URL.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: 不是有效的 URL。
+        invalid_url_scheme: '不是受支援的協定 (允許的協定: %{allowed_schemes})。'
         less_than_or_equal_to: 必須少於或者等於 %{count}。
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -446,7 +442,7 @@ zh-TW:
               invalid: The custom field is not valid in the given context.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: 無限迴圈的關聯。
           attributes:
             to:
               error_not_found: work package in `to` position not found or not visible
@@ -635,7 +631,7 @@ zh-TW:
   button_login: 登入
   button_move: 移動
   button_move_and_follow: 移動並跟隨
-  button_print: Print
+  button_print: 列印
   button_quote: 引言
   button_remove: 刪除
   button_remove_widget: 移除元件
@@ -668,7 +664,7 @@ zh-TW:
     failed: 無法複製專案 %{source_project_name}
     succeeded: 專案 %{target_project_name} 建立成功
     errors: 錯誤
-    project_custom_fields: Custom fields on project
+    project_custom_fields: 專案上的自訂欄位
     text:
       failed: 無法從 “%{source_project_name}” 複製專案到 "%{target_project_name}"
       succeeded: 複製 "%{source_project_name}" 到 "%{target_project_name}"。
@@ -866,7 +862,7 @@ zh-TW:
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: 升級到 %{link} 以篩選和排序自訂欄位
   enumeration_activities: 活動 (時間追蹤)
   enumeration_work_package_priorities: 工作項目優先等級
   enumeration_system_activity: 系統活動
@@ -968,7 +964,7 @@ zh-TW:
       boards: Community forum
       newsletter: 安全警報 / 消息
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: 設定指南
   instructions_after_registration: 帳號啟用後即可點擊 %{signin} 登入
   instructions_after_logout: 您可點擊 %{signin} 再次登入。
   instructions_after_error: 你可以試著再按一次 %{signin} 來嘗試登入。如果持續發生錯誤，請向您的管理員尋求幫助。
@@ -985,7 +981,7 @@ zh-TW:
   label_accessibility: Accessibility
   label_account: 帳號
   label_active: 啟用
-  label_activate_user: Activate user
+  label_activate_user: 啟動使用者
   label_active_in_new_projects: 在新專案中啟用
   label_activity: 活動
   label_add_edit_translations: 增加和編輯翻譯
@@ -1049,11 +1045,11 @@ zh-TW:
   label_select_main_menu_item: 選擇新的主選單項目
   label_select_project: Select a project
   label_required_disk_storage: 需要磁碟空間
-  label_send_invitation: Send invitation
+  label_send_invitation: 發送邀請
   label_change_plural: 更改
   label_change_properties: 更改屬性
   label_change_status: 更改狀態
-  label_change_status_of_user: 'Change status of #{username}'
+  label_change_status_of_user: '更改 #{username} 的狀態'
   label_change_view_all: 檢視所有更改
   label_changes_details: 所有更改的詳細資訊
   label_changeset: Changeset
@@ -1100,7 +1096,7 @@ zh-TW:
   label_date_to: 到
   label_day_plural: 天
   label_default: 預設
-  label_delete_user: Delete user
+  label_delete_user: 刪除使用者
   label_delete_project: Delete project
   label_deleted: 已刪除
   label_deleted_custom_field: "(已刪除的自訂欄位)"
@@ -1126,8 +1122,8 @@ zh-TW:
   label_enabled_project_types: 啟用的類型
   label_enabled_project_modules: 啟用的模組
   label_enabled_project_activities: 啟用的時間追蹤活動
-  label_end_to_end: end to end
-  label_end_to_start: end to start
+  label_end_to_end: 尾端到尾端
+  label_end_to_start: 尾端至開端
   label_enumeration_new: 新增條列項目
   label_enumeration_value: Enumeration value
   label_enumerations: 條列項目
@@ -1148,7 +1144,7 @@ zh-TW:
   label_file_plural: 檔案
   label_filter_add: 新增篩選器
   label_filter_plural: 篩選器
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: 顯示/隱藏篩選器
   label_float: 浮點數
   label_folder: Folder
   label_follows: 關注
@@ -1181,7 +1177,7 @@ zh-TW:
   label_internal: 內部
   label_invite_user: 邀請使用者
   label_show_hide: 顯示/隱藏
-  label_show_all_registered_users: Show all registered users
+  label_show_all_registered_users: 顯示所有註冊使用者
   label_journal: Journal
   label_journal_diff: 內容對比
   label_language: 語言
@@ -1201,7 +1197,7 @@ zh-TW:
   label_less_than_ago: 少於幾天前
   label_list: 清單
   label_loading: 讀取中...
-  label_lock_user: Lock user
+  label_lock_user: 鎖定使用者
   label_logged_as: 登入為
   label_login: 登入
   label_custom_logo: Custom logo
@@ -1308,8 +1304,8 @@ zh-TW:
   label_project_settings: 專案設定
   label_projects_storage_information: "%{count} 個專案，使用了 %{storage} 磁碟空間"
   label_project_view_all: 檢視所有專案
-  label_project_show_details: Show project details
-  label_project_hide_details: Hide project details
+  label_project_show_details: 顯示專案詳細資訊
+  label_project_hide_details: 隱藏專案詳細資訊
   label_public_projects: 公開專案
   label_query_new: 新增查詢
   label_query_plural: 自訂查詢
@@ -1537,13 +1533,12 @@ zh-TW:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: 從外部專案上下文呼叫 create_work_package_link 巨集。
+        invalid_type: 在專案 "%{project}" 中找不到名稱為 "%{type}" 的類型。
       link_name: 新增工作項目
-      link_name_type: New %{type_name}
+      link_name_type: 新增 %{type_name}
   mail:
-    actions: Actions
+    actions: 操作
   mail_body_account_activation_request: 一個新的使用者 (%{value}) 已註冊。該帳號正等您核准：
   mail_body_account_information: 您的帳號資訊
   mail_body_account_information_external: 您可以使用您的帳號 %{value} 登錄。
@@ -1582,10 +1577,9 @@ zh-TW:
   notice_account_wrong_password: 密碼錯誤
   notice_account_registered_and_logged_in: 歡迎，您的帳號已被啟用。您現在已經登入了。
   notice_activation_failed: 這個帳號無法被啟用
-  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
-    but '%{actual}' returned.
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_auth_stage_verification_error: 無法驗證 "%{stage}" 階段。
+  notice_auth_stage_wrong_stage: 預計完成身份驗證 "%{expected}" 階段, 但卻返回 "%{actual}" 。
+  notice_auth_stage_error: 身份驗證階段 "%{stage}" 失敗。
   notice_can_t_change_password: 此帳號使用外部身份驗證。無法修改密碼。
   notice_custom_options_deleted: Option '%{option_value}' and its %{num_deleted} occurrences
     were deleted.
@@ -1608,7 +1602,7 @@ zh-TW:
   notice_bad_request: 錯誤的請求
   notice_not_authorized: 你沒有存取此頁面的權限
   notice_not_authorized_archived_project: 你欲存取的專案已被封存
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: 您的密碼不正確。無法繼續。
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
@@ -1624,7 +1618,7 @@ zh-TW:
   notice_unable_delete_version: 無法刪除版本
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: 已向 %{email} 發送邀請。
   present_access_key_value: 您的 %{key_name} 是 %{value}
   notice_automatic_set_of_standard_type: 自動設定標準類型
   notice_logged_out: 您已登出
@@ -1753,12 +1747,12 @@ zh-TW:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: 啟用或封存
     assigned_to_role: 負責執行者的角色
     member_of_group: 負責執行者的群組
     assignee_or_group: 被指派或所屬的人或群組
     subproject_id: 子專案
-    name_or_identifier: Name or identifier
+    name_or_identifier: 名稱或識別碼
   repositories:
     at_identifier: 在 %{identifier}
     atom_revision_feed: 單一修訂串流
@@ -1889,19 +1883,19 @@ zh-TW:
   setting_brute_force_block_after_failed_logins: 禁止使用者當嘗試登入失敗這個次數後
   setting_brute_force_block_minutes: 使用者被禁止的時間
   setting_cache_formatted_text: 快取格式化文字
-  setting_column_options: Customize the appearance of the work package lists
+  setting_column_options: 自訂工作項目清單的外觀
   setting_commit_fix_keywords: 固定的關鍵字
-  setting_commit_logs_encoding: Commit messages encoding
-  setting_commit_logtime_activity_id: Activity for logged time
+  setting_commit_logs_encoding: Commit 訊息的編碼
+  setting_commit_logtime_activity_id: 紀錄時間的動作
   setting_commit_logtime_enabled: 啟用時間日誌
   setting_commit_ref_keywords: 參照關鍵字
-  setting_cross_project_work_package_relations: Allow cross-project work package relations
+  setting_cross_project_work_package_relations: 允許跨專案的工作項目關聯
   setting_date_format: 日期格式
   setting_default_language: 預設語言
   setting_default_notification_option: 預設通知選項
   setting_default_projects_modules: 新專案預設啟用的模組
-  setting_default_projects_public: New projects are public by default
-  setting_diff_max_lines_displayed: Max number of diff lines displayed
+  setting_default_projects_public: 新專案預設為公開
+  setting_diff_max_lines_displayed: 顯示比對差異的最大行數
   setting_display_subprojects_work_packages: 預設在主專案中顯示子專案的工作項目
   setting_emails_footer: 電子郵件頁腳
   setting_emails_header: 電子郵件標頭
@@ -1909,68 +1903,60 @@ zh-TW:
   setting_enabled_scm: 啟用 SCM
   setting_feeds_enabled: 啟用 Feed
   setting_feeds_limit: Feed 內容限制
-  setting_file_max_size_displayed: Max size of text files displayed inline
+  setting_file_max_size_displayed: 直接显示文字文件內容的最大檔案容量
   setting_host_name: 主機名稱
   setting_work_package_done_ratio: 計算工作項目的完成比例
-  setting_work_package_done_ratio_field: Use the work package field
+  setting_work_package_done_ratio_field: 使用工作項目欄位
   setting_work_package_done_ratio_status: 使用工作項目狀態
   setting_work_package_done_ratio_disabled: 禁用 （隱藏進度）
   setting_work_package_list_default_columns: 預設顯示
   setting_work_package_list_summable_columns: 可加總
   setting_work_package_properties: 工作項目屬性
-  setting_work_package_startdate_is_adddate: Use current date as start date for new
-    work packages
-  setting_work_packages_export_limit: Work packages export limit
+  setting_work_package_startdate_is_adddate: 使用目前日期作為新工作項目的開始日期
+  setting_work_packages_export_limit: 工作項目匯出數量限制
   setting_journal_aggregation_time_minutes: 將日誌顯示嵌入到
-  setting_log_requesting_user: Log user login, name, and mail address for all requests
+  setting_log_requesting_user: 對所有的請求紀錄使用者登入名稱和郵件地址
   setting_login_required: 需要身份驗證
   setting_mail_from: 發出的電子郵件地址
-  setting_mail_handler_api_enabled: Enable incoming email web service
-  setting_mail_handler_api_description: The email web handler enables OpenProject
-    to receive emails containing specific commands as an instrumentation mechanism
-    (e.g., to create and update work packages).
+  setting_mail_handler_api_enabled: 啟用寄入電子郵件網路服務
+  setting_mail_handler_api_description: 電子郵件網路接收使 OpenProject 可以接收包含特殊命令作為編輯機制的電子郵件(例如：建立或更新工作項目)。
   setting_mail_handler_api_key: API 金鑰
-  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
+  setting_mail_handler_body_delimiters: 在這些行之後截斷電子郵件
   setting_mail_handler_body_delimiter_regex: 清空符合正規表達式的電子郵件
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  setting_password_active_rules: Active character classes
-  setting_password_count_former_banned: Number of most recently used passwords banned
-    for reuse
+  setting_new_project_user_role_id: 非管理員用户新建專案時將被赋予的（在該專案中的）角色
+  setting_password_active_rules: 啟用字元類別
+  setting_password_count_former_banned: 禁止重複使用最近被使用的密碼次數
   setting_password_days_valid: 在經過多少天後強制執行密碼變更
   setting_password_min_length: 最小長度
-  setting_password_min_adhered_rules: Minimum number of required classes
-  setting_per_page_options: Objects per page options
+  setting_password_min_adhered_rules: 必要類別的最小數目
+  setting_per_page_options: 每頁顯示項目個數的設置
   setting_plain_text_mail: 純文字郵件（不含 HTML）
   setting_protocol: Protocol
   setting_registration_footer: Registration footer
   setting_repositories_automatic_managed_vendor: 自動版本控制類型
   setting_repositories_encodings: 儲存庫編碼
-  setting_repository_authentication_caching_enabled: Enable caching for authentication
-    request of version control software
+  setting_repository_authentication_caching_enabled: 啟用版本控制軟體的驗證請求的快取機制
   setting_repository_storage_cache_minutes: 版本庫磁碟空間快取
   setting_repository_checkout_display: 顯示 Checkout 指令說明
   setting_repository_checkout_base_url: Checkout base URL
   setting_repository_checkout_text: Checkout 指令說明文字
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file
-    log
+  setting_repository_log_display_limit: 在文件變更紀錄頁面上显示的最大修訂版本數量
   setting_repository_truncate_at: 儲存庫瀏覽器中顯示的最大檔案數量
   setting_rest_api_enabled: 啟用 REST 網路服務
   setting_self_registration: 自助註冊
-  setting_sequential_project_identifiers: Generate sequential project identifiers
-  setting_session_ttl: Session expiry time after inactivity
-  setting_session_ttl_hint: Value below 5 works like disabled
+  setting_sequential_project_identifiers: 產生循序專案標示
+  setting_session_ttl: 非活躍使用後連線失效時間
+  setting_session_ttl_hint: 低於5個工作同於停用
   setting_session_ttl_enabled: 連線逾時
   setting_start_of_week: 一週起始於
-  setting_sys_api_enabled: Enable repository management web service
-  setting_sys_api_description: The repository management web service provides integration
-    and user authorization for accessing repositories.
+  setting_sys_api_enabled: 啟用版控容器管理網路服務
+  setting_sys_api_description: 版控容器管理網路服務提供容器存取管理和使用者認證
   setting_text_formatting: 文字格式
   setting_time_format: 時間格式
-  setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
-    users
+  setting_accessibility_mode_for_anonymous: 啟用匿名使用者存取模式
   setting_user_format: 使用者顯示格式
-  setting_users_deletable_by_admins: User accounts deletable by admins
-  setting_users_deletable_by_self: Users allowed to delete their accounts
+  setting_users_deletable_by_admins: 使用者帳戶可被管理者刪除
+  setting_users_deletable_by_self: 使用者允許刪除他們的帳號
   setting_welcome_text: 歡迎區塊文字
   setting_welcome_title: 歡迎區塊標題
   setting_welcome_on_homescreen: 在主頁面上顯示歡迎區塊
@@ -1982,10 +1968,10 @@ zh-TW:
     other: 其他
     passwords: 密碼
     session: Session
-    brute_force_prevention: Automated user blocking
+    brute_force_prevention: 自動禁止使用者
   show_hide_project_menu: 展開/折疊專案選單
   status_active: 啟用
-  status_archived: archived
+  status_archived: 已封存
   status_invited: 已邀請
   status_locked: 鎖定
   status_registered: 已註冊
@@ -1998,7 +1984,7 @@ zh-TW:
     are specially highlighted. Please notice, that the Backlogs module is not available
     in this mode.
   text_access_token_hint: 存取權杖讓你能夠允許外部程式存取在 OpenProject 內的資源
-  text_analyze: 'Further analyze: %{subject}'
+  text_analyze: '進一步分析: %{subject}'
   text_are_you_sure: 是否確定？
   text_are_you_sure_with_children: 刪除工作項目以及所有子工作項目?
   text_assign_to_project: 分配給專案
@@ -2009,7 +1995,7 @@ zh-TW:
   text_form_configuration_required_attribute: 以標示為必須的屬性將會永遠顯示
   text_caracters_maximum: 最多 %{count} 個字元。
   text_caracters_minimum: 必須至少 %{count} 個字元長。
-  text_comma_separated: Multiple values allowed (comma separated).
+  text_comma_separated: 允許多個值 (逗號分隔)。
   text_comment_wiki_page: 'Comment to wiki page: %{page}'
   text_custom_field_possible_values_info: 每個值一行
   text_custom_field_hint_activate_per_project: '當使用自訂欄位：請留意自訂欄位需要分別被每個專案個別啟用。
@@ -2030,36 +2016,31 @@ zh-TW:
     PNG 圖檔。請確保圖片的背景不是透明的，否則在 iOS 上會看起來很醜。
 
 '
-  text_default_administrator_account_changed: Default administrator account changed
+  text_default_administrator_account_changed: 預設管理者帳號已更改
   text_default_encoding: '預設值: UTF-8'
   text_destroy: 删除
-  text_destroy_with_associated: 'There are additional objects assossociated with the
-    work package(s) that are to be deleted. Those objects are of the following types:'
+  text_destroy_with_associated: '還有其他物件與要刪除的工作項目有關聯。這些物件具有以下類型:'
   text_destroy_what_to_do: 您想要做什麼？
-  text_diff_truncated: "... This diff was truncated because it exceeds the maximum
-    size that can be displayed."
-  text_email_delivery_not_configured: |-
-    Email delivery is not configured, and notifications are disabled.
-    Configure your SMTP server in config/configuration.yml and restart the application to enable them.
+  text_diff_truncated: "... 此差異被截斷, 因為它超出了可以顯示的最大大小。"
+  text_email_delivery_not_configured: 未配置電子郵件傳遞, 而且通知未啟用。在配置或configuration.yml中配置
+    SMTP 伺服器，並且重新啟動應用程式以啟用它們。
   text_enumeration_category_reassign_to: '重新指定為這個值:'
-  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
-  text_file_repository_writable: Attachments directory writable
-  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  text_enumeration_destroy_question: "%{count} 個物件被賦予此值。"
+  text_file_repository_writable: 附件目錄可寫
+  text_git_repo_example: 部分和本機存放區 (例如 /gitrepo, c:\ gitrepo)
   text_hint_date_format: Enter a date in the form of YYYY-MM-DD. Other formats may
     be changed to an unwanted date.
   text_hint_disable_with_0: '注意: 0 表示停用'
   text_hours_between: 在 %{min} 到 %{max} 小時。
-  text_work_package_added: Work package %{id} has been reported by %{author}.
-  text_work_package_category_destroy_assignments: Remove category assignments
+  text_work_package_added: "%{author} 報告了工作項目 %{id}。"
+  text_work_package_category_destroy_assignments: 刪除類別分配
   text_work_package_category_destroy_question: 一些工作項目(%{count})被分配給此類別。你想要做什麼？
   text_work_package_category_reassign_to: 重新分配工作項目到這個類別
-  text_work_package_updated: Work package %{id} has been updated by %{author}.
+  text_work_package_updated: "%{author} 更新了工作項目 %{id}。"
   text_work_package_watcher_added: 你已經被 %{watcher_setter} 以觀察者的身份加入到工作項目 %{id}
-  text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
-    work package(s)?
-  text_work_packages_ref_in_commit_messages: Referencing and fixing work packages
-    in commit messages
-  text_journal_added: "%{label} %{value} added"
+  text_work_packages_destroy_confirmation: 你確定要刪除選定的工作項目嗎？
+  text_work_packages_ref_in_commit_messages: 在提交訊息中引用和修復工作項目
+  text_journal_added: "%{label} %{value} 已增加"
   text_journal_aggregation_time_explanation: 合併日誌顯示，如果他們的建立時間差小於某固定時間。這也會減慢郵件通知相同時間。
   text_journal_changed: "%{label} changed from %{old} to %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
@@ -2364,8 +2345,7 @@ zh-TW:
     blocked_num_failed_logins:
       one: locked temporarily (one failed login attempt)
       other: locked temporarily (%{count} failed login attempts)
-    confirm_status_change: You are about to change the status of '%{name}'. Are you
-      sure you want to continue?
+    confirm_status_change: 您將更改 "%{name}" 的狀態。是否確實要繼續？
     deleted: 刪除使用者
     error_status_change_failed: 'Changing the user status failed due to the following
       errors: %{errors}'
@@ -2385,7 +2365,7 @@ zh-TW:
         author or assignee of).
       mail_self_notified: 我想要在我自己有變更的時候被通知
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
-    status_change: Status change
+    status_change: 狀態變更
     unlock: 解除鎖定
     unlock_and_reset_failed_logins: Unlock and reset failed logins
   version_status_closed: 已關閉
@@ -2449,7 +2429,7 @@ zh-TW:
         or malformed.
       multipart_body_error: 請求正文不包含預期的多段部分。
       multiple_errors: Multiple field constraints have been violated.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: 無法創建附件
       render:
         context_not_parsable: The context provided is not a link to a resource.
         unsupported_context: The resource given is not supported as context.
