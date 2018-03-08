@@ -6,9 +6,9 @@ de:
       loading: Lädt ...
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
+        multi: '"%{name}" hinzufügen'
+        single: Auswählen "%{name}"
+      remove: Entferne %{name}
       active: Active %{label} %{name}
     close_popup_title: Dialog schließen
     close_filter_title: Filter schließen
@@ -73,7 +73,7 @@ de:
           two: Zweites Sortierkriterium
           three: Drittes Sortierkriterium
       upsale_for_more: For more advanced filters, check out the
-      upsale_link: Enterprise Edition.
+      upsale_link: Enterprise-Edition.
     general_text_no: nein
     general_text_yes: ja
     general_text_No: Nein
