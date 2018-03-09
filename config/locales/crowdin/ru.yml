@@ -459,8 +459,8 @@ ru:
           empty: "(%{name}) не может быть пустым."
           inclusion: "(%{name}) не задано ни одно из допустимых значений."
           not_an_integer: "(%{name}) не является целым числом."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          smaller_than_or_equal_to: "(%{name}) должен быть меньше или равен %{count}."
+          greater_than_or_equal_to: "(%{name}) должен быть больше или равен %{count}."
         enterprise_token:
           unreadable: невозможно прочитать. Вы уверены, что это маркер поддержки?
         parse_schema_filter_params_service:
@@ -1032,12 +1032,12 @@ ru:
       pdf_with_descriptions: PDF с описанием
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotext доступно (опционально)
+      unrtf: Unrtf доступно (опционально)
+      catdoc: Catdoc доступно (опционально)
+      xls2csv: Xls2csv доступно (опционально)
+      catppt: Catppt доступно (опционально)
+      tesseract: Tesseract доступно (опционально)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2241,7 +2241,7 @@ ru:
     не является прозрачным, иначе это будет выглядеть плохо на iOS.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: База данных позволяет TSVector (опционально)
   text_default_administrator_account_changed: Первоначальная учетная запись администратора
     была изменена
   text_default_encoding: 'По-умолчанию: UTF-8'
@@ -2544,8 +2544,8 @@ ru:
       years: Годы
   title_remove_and_delete_user: Исключить из проекта приглашенного пользователя и
     удалить его.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'Часовой пояс по умолчанию для новых пользователей.
+    Может быть изменен в настройках пользователя.
 
 '
   tooltip_resend_invitation: 'Отправляет по электронной почте другое приглашение со
@@ -2619,9 +2619,11 @@ ru:
   note_password_login_disabled: Вход по паролю был отключен через параметры %{configuration}.
   warning: Предупреждение
   warning_attachments_not_saved: "%{count} файл(-ов) не может быть сохранен(-о)."
-  warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+  warning_registration_token_expired: 'Срок ответа на письмо активации истек. Мы отправили
+    вам новое на %{email}. Пожалуйста, нажмите на ссылку внутри него, чтобы активировать
+    вашу учетную запись.
+
+'
   menu_item: Пункт меню
   menu_item_setting: Видимость
   wiki_menu_item_for: Пункт меню для wiki-страницы  «%{title}»
