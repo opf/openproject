@@ -1,5 +1,5 @@
 module OpenProject
   module TwoFactorAuthentication
-    VERSION = "7.4.2"
+    VERSION = "7.4.3"
   end
 end
