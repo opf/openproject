@@ -1077,7 +1077,7 @@ hu:
   label_applied_status: Alkalmazott státusz
   label_archive_project: Projekt archiválása
   label_ascending: Növekvő
-  label_assigned_to_me_work_packages: Hozzámrendelt munkacsomagok
+  label_assigned_to_me_work_packages: Magamhoz rendelt munkacsomagok
   label_associated_revisions: Kapcsolódó módosítások
   label_attachment_delete: Fájl törlése
   label_attachment_new: Új fájl
@@ -1400,7 +1400,7 @@ hu:
   label_report: Jelentés
   label_report_bug: Hiba bejelentése
   label_report_plural: Jelentések
-  label_reported_work_packages: Ezekkről a munkacsomagokról készült jelentés
+  label_reported_work_packages: A magamhoz rendelt munkacsomagok legutóbbi változásai
   label_reporting: Jelentés
   label_reporting_plural: Jelentések
   label_repository: Csomagtároló
@@ -1542,10 +1542,10 @@ hu:
   label_work_package_updated: Frissült a munkacsomag
   label_work_package_tracking: A munkacsomag nyomon követése
   label_work_package_view_all: Minden munkacsomag megtekintése
-  label_work_package_view_all_assigned_to_me: A hozzám rendelt valamennyi munkacsomag
+  label_work_package_view_all_assigned_to_me: Az összes magamhoz rendelt munkacsomag
     megtekintése
-  label_work_package_view_all_reported_by_me: Az összes munkacsomag megtekintése az
-    általam készített jelentés szerint
+  label_work_package_view_all_reported_by_me: Az összes magamhoz rendelt munkacsomag
+    módosításainak listája
   label_work_package_view_all_responsible_for: Az összes munkacsomag megtekintése,
     amelyért én vagyok a felelős
   label_work_package_view_all_watched: Az összes megfigyelt munkacsomag megtekintése
@@ -2542,8 +2542,8 @@ hu:
       mail_project_explanaition: A nem kijelölt projektekhez csak olyan dolgokat kapsz
         értesítésekkel kapcsolatban, amelyeket nézel, vagy amelyekkel Ön részt vesz
         (például olyan munkacsomagoknál, amelyek a szerző vagy megbízottjai).
-      mail_self_notified: Értesítést szeretnék kapni a változásokról, amelyeket magam
-        hozok létre
+      mail_self_notified: Értesítés küldése a saját magam által által végrehajtott
+        módosításokról
     status_user_and_brute_force: "%{user} és %{brute_force}"
     status_change: Állapot változás
     unlock: A zárolás feloldása
