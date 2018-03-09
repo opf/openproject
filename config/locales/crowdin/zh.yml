@@ -947,7 +947,7 @@ zh:
       boards: 社区论坛
       newsletter: 安全警报/通信
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: 配置指南
   instructions_after_registration: 只要您的帐户已被激活您可以点击 %{signin} 登录。
   instructions_after_logout: 你可以点击 %{signin} 重新登录。
   instructions_after_error: 你可以尝试点击 %{signin} 重新登录。如果错误仍然存在，请向您的管理员寻求帮助。

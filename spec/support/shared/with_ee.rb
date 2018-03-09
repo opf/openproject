@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,34 +24,34 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::FilterSerializer
-  extend Queries::AvailableFilters
-  extend Queries::AvailableFilters::ClassMethods
-
-  def self.load(serialized_filter_hash)
-    return [] if serialized_filter_hash.nil?
-
-    # yeah, dunno, but apparently '=' may have been serialized as a Syck::DefaultKey instance...
-    yaml = serialized_filter_hash
-      .gsub('!ruby/object:Syck::DefaultKey {}', '"="')
-
-    (YAML.load(yaml) || {}).each_with_object([]) do |(field, options), array|
-      options = options.with_indifferent_access
-      filter = filter_for(field, true)
-      filter.operator = options['operator']
-      filter.values = options['values']
-      array << filter
+def aggregate_parent_array(example, acc)
+  # We have to manually check parent groups for with_ee:,
+  # since they are being ignored otherwise
+  example.example_group.parents.each do |parent|
+    if parent.respond_to?(:metadata) && parent.metadata[:with_ee]
+      acc.merge(parent.metadata[:with_ee])
     end
   end
 
-  def self.dump(filters)
-    YAML.dump ((filters || []).map(&:to_hash).reduce(:merge) || {}).stringify_keys
-  end
+  acc
+end
 
-  def self.registered_filters
-    Queries::Register.filters[Query]
+RSpec.configure do |config|
+  config.before(:each) do |example|
+    allowed = example.metadata[:with_ee]
+    if allowed.present?
+      allowed = aggregate_parent_array(example, allowed.to_set)
+
+      allow(EnterpriseToken).to receive(:allows_to?).and_call_original
+      allowed.each do |k|
+        allow(EnterpriseToken)
+          .to receive(:allows_to?)
+          .with(k)
+          .and_return true
+      end
+    end
   end
 end

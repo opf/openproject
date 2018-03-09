@@ -540,6 +540,8 @@ lt:
                   nuo paskutinių %{count}.
                 few: jau buvo naudotas. Prašome pasirinkti tokį, kuris skiriasi nuo
                   paskutinių %{count}.
+                many: has been used before. Please choose one that is different from
+                  your last %{count}.
               match:
                 confirm: Patvirtinkite naują slaptažodį.
                 description: "„Slaptažodžio patvirtinimas“ turi sutapti su įvestu
@@ -557,6 +559,7 @@ lt:
           one: 1 klaida neleido, kad šis %{model} būtų išsaugotas
           other: "%{count} klaidos (-a, -ų) neleido, kad šis %{model} būtų išsaugotas"
           few: "%{count} klaidos (-a, -ų) neleido, kad šis %{model} būtų išsaugotas"
+          many: "%{count} errors prohibited this %{model} from being saved"
     models:
       attachment: Failas
       attribute_help_text: Atributo pagalbos tekstas
@@ -574,6 +577,7 @@ lt:
         one: Rolė
         other: Rolės (-ė, -ių)
         few: Rolės (-ė, -ių)
+        many: Roles
       type: Tipas
       project_type: Projekto tipas
       user: Vartotojas
@@ -776,52 +780,64 @@ lt:
         one: apie 1 valandą
         other: apie %{count} valandos (-a, -ų)
         few: apie %{count} valandos (-a, -ų)
+        many: about %{count} hours
       about_x_months:
         one: apie 1 mėnesį
         other: apie %{count} mėnesius (-į, -ių)
         few: apie %{count} mėnesius (-į, -ių)
+        many: about %{count} months
       about_x_years:
         one: apie 1 metus
         other: apie %{count} metus (-ų)
         few: apie %{count} metus (-ų)
+        many: about %{count} years
       almost_x_years:
         one: beveik 1 metus
         other: beveik %{count} metus (-ų)
         few: beveik %{count} metus (-ų)
+        many: almost %{count} years
       half_a_minute: pusę minutės
       less_than_x_minutes:
         one: mažiau nei 1 minutę
         other: mažiau nei %{count} minutes (-ę, -ių)
         few: mažiau nei %{count} minutes (-ę, -ių)
+        many: less than %{count} minutes
       less_than_x_seconds:
         one: mažiau nei 1 sekundę
         other: mažiau nei %{count} sekundžių (-ę, -es)
         few: mažiau nei %{count} sekundžių (-ę, -es)
+        many: less than %{count} seconds
       over_x_years:
         one: daugiau nei 1 metus
         other: daugiau nei %{count} metus (-ų)
         few: daugiau nei %{count} metus (-ų)
+        many: over %{count} years
       x_days:
         one: 1 dieną
         other: "%{count} dienas (-ą, -ų)"
         few: "%{count} dienas (-ą, -ų)"
+        many: "%{count} days"
       x_minutes:
         one: 1 minutę
         other: "%{count} minutes (-ę, -ių)"
         few: "%{count} minutes (-ę, -ių)"
+        many: "%{count} minutes"
       x_months:
         one: 1 mėnesį
         other: "%{count} mėnesius (-į, -ių)"
         few: "%{count} mėnesius (-į, -ių)"
+        many: "%{count} months"
       x_seconds:
         one: 1 sekundę
         other: "%{count} sekundes (-ę, -ių)"
         few: "%{count} sekundes (-ę, -ių)"
+        many: "%{count} seconds"
     units:
       hour:
         one: valanda
         other: valandos (-a, -ų)
         few: valandos (-a, -ų)
+        many: hours
   default_activity_development: Kūrimas
   default_activity_management: Valdymas
   default_activity_other: Kita
@@ -1569,26 +1585,31 @@ lt:
     other: "%{count} uždaryti (-as, -ų)"
     zero: 0 closed
     few: "%{count} uždaryti (-as, -ų)"
+    many: "%{count} closed"
   label_x_comments:
     one: 1 komentatas
     other: "%{count} komentarai (-as, -ų)"
     zero: no comments
     few: "%{count} komentarai (-as, -ų)"
+    many: "%{count} comments"
   label_x_open_work_packages_abbr:
     one: 1 atidarytas
     other: "%{count} atidaryti (-as, -ų)"
     zero: 0 open
     few: "%{count} atidaryti (-as, -ų)"
+    many: "%{count} open"
   label_x_open_work_packages_abbr_on_total:
     one: 1 atidarytas / %{total}
     other: "%{count} atidaryti (-as, -ų) / %{total}"
     zero: 0 open / %{total}
     few: "%{count} atidaryti (-as, -ų) / %{total}"
+    many: "%{count} open / %{total}"
   label_x_projects:
     one: 1 projektas
     other: "%{count} projektai (-as, -ų)"
     zero: no projects
     few: "%{count} projektai (-as, -ų)"
+    many: "%{count} projects"
   label_year: Metai
   label_yesterday: vakar
   label_keyboard_function: Funkcija
@@ -1769,6 +1790,7 @@ lt:
             one: Baitas
             other: Baitai (-as, -ų)
             few: Baitai (-as, -ų)
+            many: Bytes
           gb: GB
           kb: kB
           mb: MB
@@ -2349,6 +2371,7 @@ lt:
       one: 1 dieną
       other: "%{count} dienas (-ą, -ų)"
       few: "%{count} dienas (-ą, -ų)"
+      many: "%{count} days"
     edit_color: Redaguoti spalvą
     edit_project_type: Redaguoti projekto tipą
     edit_thing: Redaguoti
@@ -2557,6 +2580,7 @@ lt:
       other: laikinai užrakintas (%{count} nesėkmingi(-as, -ų) prisijungimai(-as,
         -ų))
       few: laikinai užrakintas (%{count} nesėkmingi(-as, -ų) prisijungimai(-as, -ų))
+      many: locked temporarily (%{count} failed login attempts)
     confirm_status_change: Jūs pakeisti „%{name}“ būseną. Ar tikrai norite tęsti?
     deleted: Ištrintas vartotojas
     error_status_change_failed: 'Vartotojo būsenos keitimas nepavyko dėl šių klaidų:

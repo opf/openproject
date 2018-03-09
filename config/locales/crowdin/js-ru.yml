@@ -294,6 +294,7 @@ ru:
         other: Пожалуйста, введите более {{count}} символов
         zero: Please enter more characters
         few: Пожалуйста, введите более {{count}} символов
+        many: Please enter {{count}} more characters
       load_more: Загрузка дополнительных результатов ...
       no_matches: Совпадения не найдены
       searching: Поиск ...
@@ -302,6 +303,7 @@ ru:
         other: Вы можете выбрать только {{limit}} элементов
         zero: You cannot select any items
         few: Вы можете выбрать только {{limit}} элемента
+        many: You can only select {{limit}} items
     sort:
       sorted_asc: 'Применяется сортировка по возрастанию, '
       sorted_dsc: 'Применяется сортировка по убыванию, '
@@ -619,15 +621,18 @@ ru:
         one: пакет работ
         other: пакеты работ
         few: пакеты работ
+        many: work packages
       child_work_packages:
         one: пакет работ с одним дочерним
         other: пакет работ с %{count} дочерними
         few: пакет работ с %{count} дочерними
+        many: "%{count} work package children"
       hour:
         one: 1 час
         other: "%{count} часов"
         zero: 0 hours
         few: "%{count} часа"
+        many: "%{count} hours"
     zen_mode:
       button_activate: Включить дзен-режим
       button_deactivate: Отключить дзен-режим

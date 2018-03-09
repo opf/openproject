@@ -278,15 +278,15 @@ lol:
     field_value_enter_prompt: crwdns94533:0%{field}crwdne94533:0
     select2:
       input_too_short:
-        one: crwdns94534:0crwdne94534:0
-        other: crwdns94534:1{{count}}crwdne94534:1
+        one: crwdns94534:1crwdne94534:1
+        other: crwdns94534:5{{count}}crwdne94534:5
         zero: Please enter more characters
       load_more: crwdns94535:0crwdne94535:0
       no_matches: crwdns94536:0crwdne94536:0
       searching: crwdns94537:0crwdne94537:0
       selection_too_big:
-        one: crwdns94538:0crwdne94538:0
-        other: crwdns94538:1{{limit}}crwdne94538:1
+        one: crwdns94538:1crwdne94538:1
+        other: crwdns94538:5{{limit}}crwdne94538:5
         zero: You cannot select any items
     sort:
       sorted_asc: crwdns94539:0crwdne94539:0
@@ -577,14 +577,14 @@ lol:
     error_could_not_resolve_user_name: crwdns94785:0crwdne94785:0
     units:
       workPackage:
-        one: crwdns94786:0crwdne94786:0
-        other: crwdns94786:1crwdne94786:1
+        one: crwdns94786:1crwdne94786:1
+        other: crwdns94786:5crwdne94786:5
       child_work_packages:
-        one: crwdns94787:0crwdne94787:0
-        other: crwdns94787:1%{count}crwdne94787:1
+        one: crwdns94787:1crwdne94787:1
+        other: crwdns94787:5%{count}crwdne94787:5
       hour:
-        one: crwdns94788:0crwdne94788:0
-        other: crwdns94788:1%{count}crwdne94788:1
+        one: crwdns94788:1crwdne94788:1
+        other: crwdns94788:5%{count}crwdne94788:5
         zero: 0 hours
     zen_mode:
       button_activate: crwdns94789:0crwdne94789:0

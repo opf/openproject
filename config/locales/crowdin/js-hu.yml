@@ -21,7 +21,7 @@ hu:
     button_continue: Folytatás
     button_copy: Másol
     button_custom-fields: Választható mezők
-    button_delete: Töröl
+    button_delete: Törlés
     button_delete_watcher: Megfigyelő törlése
     button_details_view: Részletek megtekintése
     button_duplicate: Másolás ide
@@ -153,7 +153,7 @@ hu:
     label_select_watcher: Megfigyelők választása...
     label_selected_filter_list: Szűrők választása
     label_show_attributes: Minden attribútum megjelenítése
-    label_show_in_menu: Lap megjelenítése a menüben
+    label_show_in_menu: Lekérdezés megjelenítése a menüben
     label_sort_by: Rendezés a következő szerint
     label_sorted_by: rendezve
     label_sort_higher: Mozgatás felfelé
@@ -166,7 +166,7 @@ hu:
     label_activity_show_only_comments: Hozzászólással rendelkező tevékenységek mutatása
     label_activity_show_all: Minden tevékenység mutatása
     label_total_progress: "%{percent}% a teljes folyamatban"
-    label_visible_for_others: Az oldal látható mások számára
+    label_visible_for_others: A lekérdezés látható mások számára
     label_updated_on: frissítve
     label_warning: Figyelem
     label_work_package: Munkacsomag
@@ -562,7 +562,7 @@ hu:
         export: Exportálás...
         publish: Közzététel ...
         page_settings: Lekérdezés átnevezése ...
-        delete: Töröl
+        delete: Törlés
       filter: Szűrő
       unselected_title: Munkacsomag
       search_query_label: Mentett szűrés keresése

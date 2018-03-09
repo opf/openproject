@@ -75,7 +75,8 @@ tr:
       yorumu var.
     label_add_columns: Sütunlar ekle
     label_add_comment: Yorum ekle
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Yorum yapmak ve diğer kişilere bunu bildirmek için @
+      yazın
     label_add_selected_columns: Seçilen sütunları ekle
     label_added_by: ekleyen
     label_added_time_by: "%{author} %{age} tarafından eklendi"
@@ -222,7 +223,7 @@ tr:
       work_package_belongs_to: Bu iş paketi %{projectname} projesine ait.
       click_to_switch_context: Bu iş paketini o projede aç.
       autocompleter:
-        label: Project autocompletion
+        label: Proje otomatik tamamlama
     text_are_you_sure: Emin misiniz?
     types:
       attribute_groups:
@@ -357,11 +358,11 @@ tr:
       outline: Reset Outline
       outlines:
         aggregation: Show aggregations only
-        level1: Expand level 1
-        level2: Expand level 2
-        level3: Expand level 3
-        level4: Expand level 4
-        level5: Expand level 5
+        level1: Düzey 1 genişletin
+        level2: Düzey 2 genişletin
+        level3: Düzey 3 genişletin
+        level4: Seviye 4 genişletin
+        level5: Seviye 5 genişletin
         all: Tümünü göster
       project_status: Proje Durumu
       project_type: Proje türü

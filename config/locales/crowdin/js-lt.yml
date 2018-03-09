@@ -295,6 +295,7 @@ lt:
         other: Prašome įvesti dar {{count}} simbolius (-į, -ių)
         zero: Please enter more characters
         few: Prašome įvesti dar {{count}} simbolius (-į, -ių)
+        many: Please enter {{count}} more characters
       load_more: Įkeliama daugiau rezultatų ...
       no_matches: Atitikmenų nerasta
       searching: Ieškoma ...
@@ -303,6 +304,7 @@ lt:
         other: Jūs galite pasirinkti tik {{limit}} elementus (-ą, -ų)
         zero: You cannot select any items
         few: Jūs galite pasirinkti tik {{limit}} elementus (-ą, -ų)
+        many: You can only select {{limit}} items
     sort:
       sorted_asc: 'Pritaikyta didėjimo tvarka, '
       sorted_dsc: 'Pritaikyta mažėjimo tvarka, '
@@ -621,15 +623,18 @@ lt:
         one: darbų paketas
         other: darbų paketai
         few: darbų paketai
+        many: work packages
       child_work_packages:
         one: darbų paketas su vienu vaiku
         other: "%{count} darbų paketo vaikų"
         few: "%{count} darbų paketo vaikai"
+        many: "%{count} work package children"
       hour:
         one: valanda
         other: "%{count} valandos (-a, -ų)"
         zero: 0 hours
         few: "%{count} valandos (-a, -ų)"
+        many: "%{count} hours"
     zen_mode:
       button_activate: Įjungti Zen režimą
       button_deactivate: Išjungti Zen režimą

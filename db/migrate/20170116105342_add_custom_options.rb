@@ -114,6 +114,10 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
     # we don't support translations anymore, assume first as canonical
     translation = translations.first
 
+    if translation.possible_values.is_a? String
+      translation.possible_values = YAML.load translation.possible_values
+    end
+
     translation.possible_values.each_with_index.map do |value, i|
       custom_field.custom_options.create!(
         value: value,
