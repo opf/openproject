@@ -122,7 +122,7 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
             expect(::LdapGroups::Membership.where(group_id: synced_foo_id).count).to eq(1)
             synced_foo.destroy
 
-            expect { group_foo.reload }.not_to raise_error ActiveRecord::RecordNotFound
+            expect { group_foo.reload }.not_to raise_error
 
             expect(::LdapGroups::Membership.where(group_id: synced_foo_id)).to be_empty
           end

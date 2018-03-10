@@ -53,8 +53,12 @@ describe 'LDAP group sync administration spec', type: :feature, js: true do
       memberships = sync.users.pluck(:id)
 
       visit ldap_groups_synchronized_groups_path
+      expect_angular_frontend_initialized
+
       find('.buttons a', text: 'Delete').click
       find('.danger-zone--verification input').set 'attr'
+
+      sleep 2
       click_on 'Delete'
 
       expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_delete))
