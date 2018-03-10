@@ -66,10 +66,7 @@ describe 'Documents widget', type: :feature, js: true do
     select 'Documents', from: 'block-options'
     click_button 'Add'
 
-    within '#top' do
-      expect(page).to have_content('Documents')
-    end
-
+    expect(page).to have_selector('.widget-box--header-title', text: 'Documents', wait: 10)
     expect(page.find('#block-options option', text: 'Documents')['disabled']).to eql 'true'
   end
 end
