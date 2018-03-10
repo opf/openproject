@@ -36,8 +36,8 @@ describe MyProjectsOverviewsController, type: :routing do
       }
 
       it {
-        expect(get('/projects/test-project/settings')).to route_to(controller: 'projects',
-                                                                   action: 'settings',
+        expect(get('/projects/test-project/settings')).to route_to(controller: 'project_settings',
+                                                                   action: 'show',
                                                                    id: 'test-project')
       }
 
