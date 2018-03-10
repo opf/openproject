@@ -62,8 +62,7 @@ See docs/COPYRIGHT.rdoc for more details.
           <div class="form--field -trailing-label">
             <%= styled_label_tag 'to_do_action_reassign', l(:text_reassign) %>
             <div class="form--field-container">
-              <%= styled_radio_button_tag 'to_do[action]',
-                                          'reassign', %>
+              <%= styled_radio_button_tag 'to_do[action]', 'reassign' %>
               <% csp_onclick('if(jQuery("#to_do_action_reassign").prop("checked")) { jQuery("#to_do_reassign_to_id").focus(); }',
                              '#reassign') %>
             </div>

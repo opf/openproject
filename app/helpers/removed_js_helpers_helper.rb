@@ -48,7 +48,4 @@ module RemovedJsHelpersHelper
       "jQuery('#{selector}').click(function() { #{callback_str}; return false; });\n".html_safe
     end
   end
-
-  OpenProject::Deprecation.deprecate_method(self, :link_to_function)
-  OpenProject::Deprecation.deprecate_method(self, :csp_onclick)
 end
