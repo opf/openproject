@@ -1,6 +1,4 @@
-require 'open_project/openid_connect/lobby_boy_configuration'
 require 'open_project/plugins'
-require 'lobby_boy'
 
 module OpenProject::OpenIDConnect
   class Engine < ::Rails::Engine
@@ -50,31 +48,6 @@ module OpenProject::OpenIDConnect
         Providers.configure base_redirect_uri: "#{Setting.protocol}://#{Setting.host_name}"
         Providers.load(configuration).map(&:to_h)
       end
-    end
-
-    config.to_prepare do
-      OpenProject::OpenIDConnect::LobbyBoyConfiguration.update!
-
-      if LobbyBoy.configured?
-        require 'open_project/hooks/session_iframes'
-
-        require 'open_project/openid_connect/sso_login'
-        ::Concerns::OmniauthLogin.prepend SSOLogin
-
-        require 'open_project/openid_connect/sso_logout'
-        ::AccountController.prepend SSOLogout
-      end
-    end
-
-    initializer "openid_connect.middleware.lobby_boy_config" do |app|
-      anchor =
-        if defined? ::Multitenancy::Elevators::MappedDomainElevator
-          ::Multitenancy::Elevators::MappedDomainElevator
-        else
-          ActionDispatch::Callbacks
-        end
-
-      app.config.middleware.insert_after anchor, OpenProject::OpenIDConnect::LobbyBoyConfiguration
     end
 
     config.to_prepare do

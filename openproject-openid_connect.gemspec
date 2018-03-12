@@ -18,5 +18,4 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails', '~> 5.0'
   s.add_dependency 'openproject-auth_plugins', '~> 8.0'
   s.add_dependency 'omniauth-openid_connect-providers', '~> 0.1'
-  s.add_dependency 'lobby_boy'
 end
