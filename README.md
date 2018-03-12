@@ -10,8 +10,6 @@ You will have to add the following lines to your OpenProject's `Gemfile.plugins`
     gem 'omniauth-openid-connect', :git => 'git@github.com:finnlabs/omniauth-openid-connect.git', :branch => 'dev'
     gem 'omniauth-openid_connect-providers', :git => 'git@github.com:finnlabs/omniauth-openid_connect-providers.git', :branch => 'dev'
     gem 'openproject-openid_connect', :git => 'git@github.com:finnlabs/openproject-openid_connect.git', :branch => 'dev'
-
-    gem 'lobby_boy', :git => 'git@github.com:finnlabs/lobby_boy.git', :branch => 'dev'
 ```
 
 ### Development

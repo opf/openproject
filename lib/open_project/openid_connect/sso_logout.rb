@@ -1,7 +1,6 @@
 module OpenProject
   module OpenIDConnect
     module SSOLogout
-      include LobbyBoy::SessionHelper
       include ::OmniauthHelper
 
       def session_expired?
