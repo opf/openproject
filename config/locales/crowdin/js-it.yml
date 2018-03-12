@@ -6,10 +6,10 @@ it:
       loading: Caricamento ...
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
-      active: Active %{label} %{name}
+        multi: Aggiungi "%{name}"
+        single: Seleziona "%{name}"
+      remove: Rimuovi %{name}
+      active: Attiva %{label} %{name}
     close_popup_title: Chiudi popup
     close_filter_title: Chiudi il filtro
     close_form_title: Chiudi il modulo
@@ -72,7 +72,7 @@ it:
           one: Primo criterio di ordinamento
           two: Secondo criterio di ordinamento
           three: Terzo criterio di ordinamento
-      upsale_for_more: For more advanced filters, check out the
+      upsale_for_more: Per ulteriori filtri avanzati, controlla il
       upsale_link: Enterprise Edition.
     general_text_no: 'no'
     general_text_yes: si
