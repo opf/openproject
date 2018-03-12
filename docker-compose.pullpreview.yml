@@ -26,7 +26,8 @@ web:
   command: "./docker/web"
   memory: 1024
   volumes:
-    - .:/files
+    - .:/usr/src/app
+    - .:/usr/src/files
 
 worker:
   build: .
