@@ -72,6 +72,13 @@ See doc/COPYRIGHT.rdoc for more details.
       $("#email_delivery_method_" + delivery_method).show();
     }).trigger("change");
 
+    $('#settings_smtp_authentication').on('change', function() {
+      var isNone = $(this).val() === 'none';
+      $('#settings_smtp_user_name,#settings_smtp_password')
+          .closest('.form--field')
+          .toggle(!isNone);
+    });
+
     /** Toggle repository checkout fieldsets required when option is disabled */
     $('.settings-repositories--checkout-toggle').change(function() {
       var wasChecked = this.checked,
