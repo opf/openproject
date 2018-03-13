@@ -27,7 +27,6 @@ web:
   memory: 1024
   volumes:
     - .:/usr/src/app
-    - .:/usr/src/files
 
 worker:
   build: .
