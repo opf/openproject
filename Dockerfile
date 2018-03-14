@@ -23,8 +23,6 @@ RUN useradd -d /home/app -m app
 RUN mkdir -p /usr/src/app
 RUN gem install bundler --version "${BUNDLER_VERSION}"
 RUN chown -R app:app /usr/src/app /usr/local/bundle /usr
-# important so that mounted volume gets the right permissions
-RUN mkdir -p /usr/src/app/files && chown -R app:app /usr/src/app/files
 
 WORKDIR /usr/src/app
 
@@ -57,6 +55,8 @@ COPY . /usr/src/app
 RUN cp docker/Procfile .
 RUN sed -i "s|Rails.groups(:opf_plugins)|Rails.groups(:opf_plugins, :docker)|" config/application.rb
 RUN chown -R app:app /usr/src/app
+# important so that mounted volume gets the right permissions
+RUN mkdir -p /usr/src/app/files && chown -R app:app /usr/src/app/files
 
 USER app
 # Run the npm postinstall manually after it was copied
