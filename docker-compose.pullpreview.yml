@@ -26,7 +26,7 @@ web:
   command: "./docker/web"
   memory: 1024
   volumes:
-    - /usr/src/app/files
+    - "/var/db/openproject"
 
 worker:
   build: .
@@ -39,7 +39,7 @@ worker:
     - "RAILS_ENV=production"
     - "HEROKU=true"
     - "OP_ADMIN_USER_SEEDER_FORCE_PASSWORD_CHANGE=off"
-  command: "bundle exec rake db:migrate db:seed jobs:work"
+  command: "./docker/worker --seed"
   memory: 384
   volumes_from:
     - web

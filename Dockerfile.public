@@ -7,6 +7,7 @@ ENV HEROKU=true
 ENV ATTACHMENTS_STORAGE_PATH=/var/db/openproject/files
 ENV RAILS_CACHE_STORE=memcache
 ENV SECRET_KEY_BASE=OVERWRITE_ME
+ENV ALL_IN_ONE=1
 
 USER root
 RUN apt-get update -qq && \
