@@ -433,7 +433,7 @@ sk:
           dátum.
         inclusion: nie je nastavená na niektorú z povolených hodnôt.
         invalid: je neplatný.
-        invalid_url: is not a valid URL.
+        invalid_url: nie je platnou URL adresou.
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: musí byť menšie alebo rovné ako %{count}.
         not_a_date: is not a valid date.
@@ -692,7 +692,7 @@ sk:
   button_login: Prihlásiť sa
   button_move: Presunúť
   button_move_and_follow: Presunúť a nasledovať
-  button_print: Print
+  button_print: Tlač
   button_quote: Citovať
   button_remove: Vymazať
   button_remove_widget: Odstrániť widget
@@ -1066,7 +1066,7 @@ sk:
       boards: Komunitné fórum
       newsletter: Security alerts / Newsletter
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Sprievodca konfiguráciou
   instructions_after_registration: Môžete prihlásiť ihneď potom, ako váš účet bude
     aktivovaný. Akciu iniciujete kliknutí na %{signin}.
   instructions_after_logout: Môžete znovu prihlásiť kliknutím na tlačidlo %{signin}.
@@ -1152,7 +1152,7 @@ sk:
   label_select_main_menu_item: Vyberte novú položku hlavného menu
   label_select_project: Select a project
   label_required_disk_storage: Požadované miesto na disku
-  label_send_invitation: Send invitation
+  label_send_invitation: Poslať pozvánku
   label_change_plural: Zmeny
   label_change_properties: Zmeniť vlastnosti
   label_change_status: Zmeniť stav
@@ -1251,7 +1251,7 @@ sk:
   label_file_plural: Súbory
   label_filter_add: Pridať filter
   label_filter_plural: Filtre
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: Zobraziť / skryť filtre
   label_float: Plávajúce (float)
   label_folder: Priečinok
   label_follows: nasleduje
@@ -1412,8 +1412,8 @@ sk:
   label_project_settings: Nastavenia projektu
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: Zobraziť všetky projekty
-  label_project_show_details: Zobraziť detailné informácie o projekte
-  label_project_hide_details: Skryť detailné informácie o projekte
+  label_project_show_details: Zobraziť detaily projektu
+  label_project_hide_details: Skryť detaily projektu
   label_public_projects: Verejné projekty
   label_query_new: Nový dopyt
   label_query_plural: Vlastné dopyty

@@ -591,8 +591,8 @@ pt-BR:
     updated: 'Atualizado: %{title}'
   attributes:
     active: Ativo
-    assigned_to: Atribuído
-    assignee: Atribuído
+    assigned_to: Atribuição
+    assignee: Atribuição
     attachments: Anexos
     author: Autor
     base: 'Erro geral:'
@@ -2370,7 +2370,7 @@ pt-BR:
         date: data
         default: padrão
       column:
-        assigned_to: Atribuído
+        assigned_to: Atribuição
         type: Tipo
         due_date: Data de término
         name: Nome
