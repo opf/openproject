@@ -33,6 +33,11 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'rspec/example_disabler'
 require 'test_prof/recipes/rspec/before_all'
+require 'timecop'
+
+##
+# Ensure Timecop is run only with a block to return after
+Timecop.safe_mode = true
 
 ##
 # Start collecting coverage when desired
