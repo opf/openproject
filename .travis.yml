@@ -49,7 +49,7 @@ env:
   global:
     - CI=true
     - RAILS_ENV=test
-    - GECKODRIVER_VERSION="0.19.1"
+    - GECKODRIVER_VERSION="0.20.0"
 
   matrix:
     - "TEST_SUITE=npm"
