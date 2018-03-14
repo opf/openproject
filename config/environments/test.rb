@@ -73,6 +73,8 @@ OpenProject::Application.configure do
   config.assets.compress = false
   config.assets.digest = false
   config.assets.debug = false
+  config.assets.quiet = true
+  config.assets.logger = false
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
