@@ -7,7 +7,6 @@ ENV HEROKU=true
 ENV ATTACHMENTS_STORAGE_PATH=/var/db/openproject/files
 ENV RAILS_CACHE_STORE=memcache
 ENV SECRET_KEY_BASE=OVERWRITE_ME
-ENV ALL_IN_ONE=1
 
 USER root
 RUN apt-get update -qq && \
@@ -35,4 +34,4 @@ EXPOSE 80 5432
 # volumes to export
 VOLUME ["/var/lib/postgresql/9.6/main", "/var/db/openproject"]
 
-CMD ["/usr/src/app/docker/entrypoint"]
+ENTRYPOINT ["/usr/src/app/docker/entrypoint-all-in-one.sh"]

@@ -1,10 +1,6 @@
 #!/bin/bash
 set -e
 
-if [ "$ALL_IN_ONE" = "1" ]; then
-	exec ./entrypoint-all-in-one.sh "$@"
-fi
-
 if [ "$(id -u)" = '0' ]; then
 	chown -R $APP_USER:$APP_USER $APP_PATH $APP_DATA /usr/local
 	sync
