@@ -35,8 +35,8 @@ de:
     label_one_time_password: 'Passwort zur einmaligen Verwendung'
     label_2fa_enabled: 'Zwei-Faktor-Authentifizierung ist aktiviert'
     label_2fa_disabled: 'Zwei-Faktor-Authentifizierung ist nicht aktiviert'
-    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
-    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_otp_delivery_message_sms: "Ihr %{app_title} Einmalkennwort lautet %{token}"
+    text_otp_delivery_message_voice: "Ihr %{app_title} Einmalkennwort lautet: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
     text_enter_2fa: 'Bitte geben Sie das Einmalpasswort von Ihrem 2FA-Gerät ein.'
     text_2fa_enabled: 'Bei jedem Login werden Sie aufgefordert, ein Einmalpasswort aus Ihrem Standardgerät für 2FA einzugeben.'
     text_2fa_disabled: 'Um die Zwei-Faktor-Authentifizierung zu aktivieren, registrieren Sie ein 2FA-Gerät über die obige Schaltfläche. Wenn Sie bereits ein Gerät registriert haben, müssen Sie es noch als Standardgerät festlegen.'
@@ -127,8 +127,8 @@ de:
     sns:
       delivery_failed: 'Zustellung über Amazon SNS fehlgeschlagen:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'MessageBird SMS Zustellung fehlgeschlagen.'
+      voice_delivery_failed: 'MessageBird Anruf fehlgeschlagen.'
     restdt:
       delivery_failed_with_code: 'Einmalpasswort-Zustellung fehlgeschlagen. (Fehler %{code})'
     strategies:

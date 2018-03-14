@@ -1,0 +1,172 @@
+nl:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: 'ID'
+        default: 'Gebruik als standaard'
+      two_factor_authentication/device/sms:
+        phone_number: "Telefoonnummer"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: 'is al ingesteld voor een ander OTP-apparaat.'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "moet de formaat + XX XXXXXXXXX zijn"
+    models:
+      two_factor_authentication/device: "2FA apparaat"
+      two_factor_authentication/device/sms: "Mobiele telefoon"
+      two_factor_authentication/device/totp: "Verificator toepassing"
+  two_factor_authentication:
+    error_2fa_disabled: "2FA-bezorging is uitgeschakeld."
+    error_no_device: "Geen geregistreerd 2FA-apparaat gevonden voor deze gebruiker, ondanks dat dit vereist is voor dit voorbeeld."
+    error_no_matching_strategy: "Er is geen overeenkomende 2FA-strategie beschikbaar voor deze gebruiker. Neem contact op met uw beheerder."
+    error_is_enforced_not_active: 'Configuratiefout: tweefactorauthenticatie is afgedwongen, maar er zijn geen actieve strategieën.'
+    error_invalid_backup_code: 'Ongeldige 2FA back-up code'
+    channel_unavailable: "Het bezorgkanaal %{channel} is niet beschikbaar."
+    no_valid_phone_number: "Er is geen geldig telefoonnummer."
+    label_pwd_confirmation: "Wachtwoord"
+    notice_pwd_confirmation: "U moet uw wachtwoord bevestigen bij het aanbrengen van wijzigingen in deze instellingen."
+    label_device_type: "Apparaattype"
+    label_default_device: "Standaard 2FA-apparaat"
+    label_device: "2FA apparaat"
+    label_devices: "2FA apparaten"
+    label_one_time_password: 'Eenmalig wachtwoord'
+    label_2fa_enabled: 'Twee-factor-authenticatie is actief'
+    label_2fa_disabled: 'Twee-factor-authenticatie is niet actief'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_enter_2fa: 'Voer het eenmalige wachtwoord in vanaf uw apparaat.'
+    text_2fa_enabled: 'Bij elke aanmelding wordt u gevraagd om een OTP-token in te voeren vanaf uw standaard 2FA-apparaat.'
+    text_2fa_disabled: 'Om authenticatie met twee factoren in te schakelen, gebruikt u de knop hierboven om een nieuw 2FA-apparaat te registreren. Als u al een apparaat heeft, moet u dit als standaard instellen.'
+    login:
+      enter_backup_code_title: Back-up code invoeren
+      enter_backup_code_text: Voer een geldige back-up code in uit uw codelijst voor het geval dat u geen toegang meer heeft tot uw geregistreerde 2FA-apparaten.
+      other_device: 'Gebruik een ander 2FA-apparaat of een back-up code'
+    settings:
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
+      text_configuration: |
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_remember: |
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+    admin:
+      self_edit_path: 'Om uw eigen 2FA-apparaten toe te voegen of te wijzigen, gaat u naar %{self_edit_link}'
+      self_edit_link_name: 'Twee-factor-authenticatie op uw accountpagina'
+      self_edit_forbidden: 'U mag uw eigen 2FA-apparaten niet op dit pad bewerken. Ga in plaats daarvan naar Mijn account> Two-factor-authenticatie.'
+      no_devices_for_user: 'Er is geen 2FA-apparaat geregistreerd voor deze gebruiker.'
+      all_devices_deleted: 'Alle 2FA-apparaten van deze gebruiker zijn verwijderd'
+      delete_all_are_you_sure: 'Weet u zeker dat u alle 2FA-apparaten voor deze gebruiker wilt verwijderen?'
+      button_delete_all_devices: 'Geregistreerde 2FA apparaten verwijderen'
+      button_register_mobile_phone_for_user: 'Mobiele telefoon registreren'
+      text_2fa_enabled: 'Bij elke aanmelding wordt deze gebruiker gevraagd om een OTP-token in te voeren vanaf zijn standaard 2FA-apparaat.'
+      text_2fa_disabled: "De gebruiker heeft geen 2FA-apparaat ingesteld via zijn 'Mijn accountpagina'"
+    backup_codes:
+      none_found: Geen 2FA back-upcodes gevonden voor dit account.
+      singular: Back-up code
+      plural: Back-up codes
+      your_codes: voor uw %{app_name} account %{login}
+      overview_description: |
+        Als u geen toegang hebt tot uw geregistreerde 2FA-apparaten, krijgt u toegang tot uw account door een 2FA-back-upcode in te voeren. Gebruik de volgende knop om een nieuwe back-upcodes te genereren.
+      generate:
+        title: Back-up codes genereren
+        keep_safe_as_password: 'Belangrijk! Behandel deze codes als wachtwoorden.'
+        keep_safe_warning: 'Sla ze op in uw wachtwoordbeheerder of druk deze pagina af en bewaar hem op een veilige plaats.'
+        regenerate_warning: 'Waarschuwing: als u al 2FA-back-upcodes hebt gemaakt, worden deze ongeldig en kunnen deze niet meer worden gebruikt.'
+    devices:
+      add_new: 'Nieuwe 2FA-apparaat toevoegen'
+      register: 'Registreer apparaat'
+      confirm_default: 'Bevestig het wijzigen van standaard-apparaat'
+      confirm_device: 'Apparaat bevestigen'
+      confirm_now: 'Niet bevestigd, klik hier om te activeren'
+      cannot_delete_default: 'Kan standaardapparaat niet verwijderen'
+      make_default_are_you_sure: 'Weet u zeker dat u dit 2FA-apparaat als standaard wilt instellen?'
+      make_default_failed: 'Kan het standaard 2FA-apparaat niet bijwerken.'
+      deletion_are_you_sure: 'Bent u zeker dat u dit 2FA-apparaat wilt verwijderen?'
+      registration_complete: '2FA-apparaatregistratie voltooid!'
+      registration_failed_token_invalid: '2FA-apparaatregistratie mislukt, het token was ongeldig.'
+      registration_failed_update: '2FA registratie van het apparaat mislukt, het token was geldig, maar het apparaat kan niet worden bijgewerkt.'
+      confirm_send_failed: 'Bevestiging van uw 2FA-apparaat is mislukt.'
+      button_complete_registration: 'Voltooi 2FA-registratie'
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_change_default_html: "Bevestig uw standaardapparaat aan <strong>%{new_identifier}</strong> door een eenmalig wachtwoord in te voeren vanaf uw huidige standaardapparaat."
+      text_identifier: 'U kunt het apparaat een aangepaste Id geven met behulp van dit veld.'
+      failed_to_delete: 'Kan het 2FA-apparaat niet verwijderen.'
+      is_default_cannot_delete: 'Het apparaat is gemarkeerd als standaard en kan niet worden verwijderd vanwege een actief beveiligingsbeleid. Markeer een ander apparaat als standaard voordat u het verwijdert.'
+      not_existing: 'Er is geen 2FA-apparaat geregistreerd voor uw account.'
+      request_2fa: Voer alstublieft de code van uw %{device_name} in om uw identiteit te verifiëren.
+      totp:
+        title: 'Gebruik uw app-gebaseerde authenticator'
+        provisioning_uri: 'Voorbereiden van URI'
+        secret_key: 'Secret key'
+        time_based: 'Tijdgebonden'
+        account: 'Accountnaam / verstrekker'
+        setup: |
+          Voor het instellen van twee-factorenauthenticatie met Google Authenticator, download de applicatie vanuit de Apple App Store of Google Play Store.
+          Na het openen van de app, kunt u de volgende QR-code scannen om het apparaat te registreren.
+        question_cannot_scan: |
+          Kon de code niet worden gescand met uw applicatie?
+        text_cannot_scan: |
+          Als u de code niet kunt scannen, kunt u het item handmatig invoeren met behulp van de volgende details:
+        description: |
+          Registreer een applicatie-authenticator voor gebruik met OpenProject met behulp van de tijdgebonden eenmalige wachtwoordauthenticatie-standaard (TOTP). Veelvoorkomende voorbeelden zijn Google Authenticator of Authy.
+      sms:
+        title: 'Gebruik uw mobiele telefoon'
+        redacted_identifier: 'Mobiel apparaat (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, we hebben u een authenticatiecode gestuurd via %{delivery_channel}'
+        description: |
+          Registreer uw mobiele telefoonnummer voor de levering van OpenProject eenmalige wachtwoorden.
+    sns:
+      delivery_failed: 'SNS levering mislukt:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
+    restdt:
+      delivery_failed_with_code: 'Token levering mislukt. (Error code %{code})'
+    strategies:
+      totp: 'Verificator toepassing'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
+    mobile_transmit_notification: "Een eenmalig wachtwoord is verzonden naar uw mobiele telefoon."
+    label_two_factor_authentication: 'Twee-factor-authenticatie'
+    forced_registration:
+      required_to_add_device: 'Voor een actief beveiligingsbeleid moet u authenticatie met twee factoren inschakelen. Gebruik het volgende formulier om een apparaat te registreren.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+  field_phone: "Mobiele telefoon"
+  field_otp: "Eenmalig wachtwoord"
+  notice_account_otp_invalid: "Ongeldig éénmalig wachtwoord."
+  notice_account_otp_expired: "Het eenmalige wachtwoord dat je hebt ingevoerd, is verlopen."
+  notice_developer_strategy_otp: "Ontwikkelaarsstrategie heeft het volgende eenmalige wachtwoord gegenereerd: %{token} (kanaal: %{channel})"
+  notice_account_otp_send_failed: "Uw eenmalige wachtwoord kan niet worden verzonden."
+  notice_account_has_no_phone: "Er is geen mobiel nummer gekoppeld aan uw account."
+  label_expiration_hint: "%{date} of bij het afmelden"
+  label_actions: 'Acties'
+  label_confirmed: 'Bevestigd'
+  button_continue: 'Verdergaan'
+  button_make_default: 'Markeren als standaard'
+  label_unverified_phone: "Cell phone not yet verified"
+  message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
+  notice_phone_number_format: "Voer het nummer alstublieft in de volgende indeling in: + XX XXXXXXXX."
+  error_password_on_phone_change: "is required if you want to change your cell phone number"
+  notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
+  text_otp_not_receive: "Andere verificatiemethoden"
+  text_send_otp_again: "Eenmalig wachtwoord opnieuw verzenden door:"
+  button_resend_otp_form: "Opnieuw verzenden"
+  button_otp_by_voice: "Spraakoproep"
+  button_otp_by_sms: "SMS"
+  label_otp_channel: "Bezorgkanaal"

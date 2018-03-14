@@ -1,0 +1,174 @@
+zh-CN:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: '标识符'
+        default: '用作默认'
+      two_factor_authentication/device/sms:
+        phone_number: "电话号码"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: '已设为另一个 OTP 设备。'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "格式必须为 +XX XXXXXXXXX"
+    models:
+      two_factor_authentication/device: "2FA 设备"
+      two_factor_authentication/device/sms: "手机"
+      two_factor_authentication/device/totp: "身份验证器应用程序"
+  two_factor_authentication:
+    error_2fa_disabled: "2FA 传送已禁用。"
+    error_no_device: "尽管此实例需要，但没有为该用户找到注册的 2FA 设备。"
+    error_no_matching_strategy: "没有匹配的 2FA 策略可供此用户使用。请联系您的管理员。"
+    error_is_enforced_not_active: '配置错误：已强制执行双重身份验证，但不存在活动策略。'
+    error_invalid_backup_code: '2FA 备份代码无效'
+    channel_unavailable: "传送通道 %{channel} 不可用。"
+    no_valid_phone_number: "不存在有效的电话号码。"
+    label_pwd_confirmation: "密码"
+    notice_pwd_confirmation: "在对这些设置进行更改时，您需要确认您的密码。"
+    label_device_type: "设备类型"
+    label_default_device: "默认 2FA 设备"
+    label_device: "2FA 设备"
+    label_devices: "2FA 设备"
+    label_one_time_password: '一次性密码'
+    label_2fa_enabled: '双重身份验证已激活'
+    label_2fa_disabled: '双重身份验证未激活'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_enter_2fa: '请从您的设备输入一次性密码。'
+    text_2fa_enabled: '每次登录时，系统将要求您从默认的 2FA 设备输入 OTP 令牌。'
+    text_2fa_disabled: '要启用双重身份验证，请使用上面的按钮注册新的 2FA 设备。如果您已拥有设备，则需要将其设置为默认设备。'
+    login:
+      enter_backup_code_title: 输入备份代码
+      enter_backup_code_text: 请从您的代码列表中输入有效的备份代码，以防您无法再访问已注册的 2FA 设备。
+      other_device: '使用其他设备或备份代码'
+    settings:
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
+      text_configuration: |
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_remember: |
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+    admin:
+      self_edit_path: '要添加或修改您自己的 2FA 设备，请转到 %{self_edit_link}'
+      self_edit_link_name: '您帐户页面上的双重身份验证'
+      self_edit_forbidden: '您可能无法在此路径上编辑自己的 2FA 设备。请转到我的帐户 >> 双重身份验证。'
+      no_devices_for_user: '没有为此用户注册过 2FA 设备。'
+      all_devices_deleted: '此用户的所有 2FA 设备已被删除'
+      delete_all_are_you_sure: '确实要删除此用户的所有 2FA 设备吗？'
+      button_delete_all_devices: '删除已注册的 2FA 设备'
+      button_register_mobile_phone_for_user: '注册手机'
+      text_2fa_enabled: '每次登录时，系统将要求此用户从默认的 2FA 设备输入 OTP 令牌。'
+      text_2fa_disabled: "用户未通过“我的帐户页面”设置过 2FA 设备"
+    backup_codes:
+      none_found: 此帐户不存在备份代码。
+      singular: 备份代码
+      plural: 备份代码
+      your_codes: 针对您的 %{app_name} 帐户 %{login}
+      overview_description: |
+        如果您无法访问您的双重身份验证设备，可以使用备份代码重新获得对帐户的访问权限。
+        使用以下按钮生成一组新的备份代码。
+      generate:
+        title: 生成备份代码
+        keep_safe_as_password: '重要！将这些代码视为密码。'
+        keep_safe_warning: '请将它们保存在您的密码管理器中，或者打印本页并置于安全的地方。'
+        regenerate_warning: '警告：如果您以前创建过备份代码，它们将失效并且不再工作。'
+    devices:
+      add_new: '添加新的 2FA 设备'
+      register: '注册设备'
+      confirm_default: '确认更改默认设备'
+      confirm_device: '确认设备'
+      confirm_now: '未确认，请单击此处激活'
+      cannot_delete_default: '无法删除默认设备'
+      make_default_are_you_sure: '确实要将此 2FA 设备设置为您的默认设备吗？'
+      make_default_failed: '更新默认 2FA 设备失败。'
+      deletion_are_you_sure: '确实要删除此 2FA 设备吗？'
+      registration_complete: '2FA 设备注册完成！'
+      registration_failed_token_invalid: '2FA 设备注册失败，令牌无效。'
+      registration_failed_update: '2FA 设备注册失败，令牌有效，但设备无法更新。'
+      confirm_send_failed: '确认您的 2FA 设备失败。'
+      button_complete_registration: '完成 2FA 注册'
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_change_default_html: "请从您的当前默认设备输入一次性密码，确认将您的默认设备更改为 <strong>%{new_identifier}</strong>。"
+      text_identifier: '您可以使用此字段为设备提供自定义标识符。'
+      failed_to_delete: '删除 2FA 设备失败。'
+      is_default_cannot_delete: '该设备被标记为默认设备，并且由于活动安全策略而无法删除。在删除之前，请将另一个设备标记为默认设备。'
+      not_existing: '没有为您的帐户注册过 2FA 设备。'
+      request_2fa: 请从您的 %{device_name} 输入代码以验证您的身份。
+      totp:
+        title: '使用您的基于应用程序的身份验证器'
+        provisioning_uri: '配置 URI'
+        secret_key: 'Secret key'
+        time_based: '基于时间'
+        account: '帐户名/颁发者'
+        setup: |
+          要使用 Google Authenticator 设置双重身份验证，请从 Apple App Store 或 Google Play 商店下载应用程序。
+          打开应用程序后，您可以扫描下面的二维码来注册设备。
+        question_cannot_scan: |
+          无法使用您的应用程序扫描二维码？
+        text_cannot_scan: |
+          如果您无法扫描二维码，可以使用下列详细信息手动输入条目：
+        description: |
+          使用基于时间的一次性密码身份验证标准来注册要与 OpenProject 搭配使用的应用程序身份验证器。
+          常见的示例包括 Google Authenticator 或 Authy。
+      sms:
+        title: '使用您的手机'
+        redacted_identifier: '移动设备 (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}，我们通过 %{delivery_channel} 向您发送了一个身份验证代码'
+        description: |
+          注册您的手机号码，以便传送 OpenProject 一次性密码。
+    sns:
+      delivery_failed: 'SNS 传送失败：'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
+    restdt:
+      delivery_failed_with_code: '令牌传送失败。（错误代码 %{code}）'
+    strategies:
+      totp: '身份验证器应用程序'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
+    mobile_transmit_notification: "一个一次性密码已发送到您的手机。"
+    label_two_factor_authentication: '双重身份验证'
+    forced_registration:
+      required_to_add_device: '活动安全策略要求您启用双重身份验证。请使用以下表单注册设备。'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+  field_phone: "手机"
+  field_otp: "一次性密码"
+  notice_account_otp_invalid: "一次性密码无效。"
+  notice_account_otp_expired: "您输入的一次性密码已过期。"
+  notice_developer_strategy_otp: "开发人员策略生成了以下一次性密码：%{token}（通道：%{channel}）"
+  notice_account_otp_send_failed: "无法发送您的一次性密码。"
+  notice_account_has_no_phone: "您的帐户没有关联任何手机号码。"
+  label_expiration_hint: "%{date} 或注销时"
+  label_actions: '操作'
+  label_confirmed: '已确认'
+  button_continue: '继续'
+  button_make_default: '标记为默认'
+  label_unverified_phone: "Cell phone not yet verified"
+  message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
+  notice_phone_number_format: "请按以下格式输入号码：+XX XXXXXXXX。"
+  error_password_on_phone_change: "is required if you want to change your cell phone number"
+  notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
+  text_otp_not_receive: "其他验证方法"
+  text_send_otp_again: "通过下列方式重新发送一次性密码："
+  button_resend_otp_form: "重新发送"
+  button_otp_by_voice: "语音通话"
+  button_otp_by_sms: "短信"
+  label_otp_channel: "传送通道"

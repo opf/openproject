@@ -45,20 +45,19 @@ tr:
       enter_backup_code_text: Kayıtlı 2FA cihazlarınıza erişemediğiniz taktirde lütfen kod listenizden geçerli bir yedek kod girin.
       other_device: 'Başka bir aygıt veya yedek kodu kullanın'
     settings:
-      title: '2FA settings'
-      current_configuration: 'Current configuration'
-      label_active_strategies: 'Active 2FA strategies'
-      label_enforced: 'Enforce 2FA'
-      label_remember: 'Remember 2FA login'
+      title: '2FA ayarları'
+      current_configuration: 'Mevcut yapılandırma'
+      label_active_strategies: 'Aktif 2FA stratejileri'
+      label_enforced: '2FA uygula'
+      label_remember: '2FA girişi hatırla'
       text_configuration: |
-        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
-      text_configuration_guide: For more information, check the configuration guide.
-      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+        Not: Bu değerler mevcut uygulama çapı yapılandırmasını temsil eder. Mevcut aktif stratejileri yapılandırarak veya değiştirerek zorlanan ayarları devre dışı bırakamazsınız. Çünkü bir sunucunun yeniden başlatılması gerekir.
+      text_configuration_guide: Daha fazla bilgi için, yapılandırma klavuzunu kontrol edin.
+      text_enforced: 'Tüm kullanıcıların bir sonraki oturum açışlarında 2FA cihazını kaydettirmek için bu ayarı etkinleştirin. Sadece yapılandırma tarafından zorlanmadığında devre dışı bırakılabilir.'
       text_remember: |
-        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
-        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
-      error_invalid_settings: 'The 2FA strategies you selected are invalid'
-      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+        Kullanıcılara verilen belirli sürede 2FA kimlik doğrulayıcılarını hatırlamalarına izin vermek için sıfırdan büyük ayarlayın. Bu süre zarfında onların tekrar girilmesi istenmeyecek. Sadece yapılandırma tarafından zorlanmadığında ayarlanabilir.
+      error_invalid_settings: 'Seçtiğiniz 2FA stratejileri geçersizdir'
+      failed_to_save_settings: '2FA ayarları güncelleştirmesi başarısız: %{message}'
     admin:
       self_edit_path: 'Kendi 2FA cihazlarınızı eklemek veya değiştirmek için lütfen %{self_edit_link} adresine gidin'
       self_edit_link_name: 'Hesap sayfanızdaki iki faktörlü kimlik doğrulama'
@@ -97,7 +96,7 @@ tr:
       registration_failed_update: '2FA cihaz kaydı başarısız oldu, belirteç geçerli ancak cihaz güncellenemedi.'
       confirm_send_failed: '2FA cihazınızın onayı başarısız oldu.'
       button_complete_registration: '2FA kaydı tamamlayın'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_complete_html: "Lütfen varsayılan cihazınızdan tek kullanımlık şifreyi girerek <strong>%{identifier}</strong> cihazınızın kaydını tamalayın."
       text_confirm_to_change_default_html: "Mevcut varsayılan cihazınızdan bir kerelik şifre girerek varsayılan cihazınızı <strong>%{new_identifier}</strong> olarak değiştirmenizi onaylayın."
       text_identifier: 'Bu alanı kullanarak cihaza özel bir tanımlayıcı verebilirsiniz.'
       failed_to_delete: '2FA cihazı silinemedi.'
@@ -134,7 +133,7 @@ tr:
     restdt:
       delivery_failed_with_code: 'Token teslimatı başarısız oldu. (Hata kodu %{code})'
     strategies:
-      totp: 'Authenticator application'
+      totp: 'Kimlik doğrulayıcı uygulama'
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
     mobile_transmit_notification: "Cep telefonunuza bir kerelik bir şifre gönderildi."
@@ -143,11 +142,11 @@ tr:
       required_to_add_device: 'Etkin bir güvenlik ilkesi, iki faktörlü kimlik doğrulamayı etkinleştirmenizi gerektirir. Bir cihazı kaydetmek için lütfen aşağıdaki formu kullanın.'
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+        Hesabınız %{expires_on}'e kadar geçerli bir hatırlama çerezi var. O zamana kadar bu çerez, hesabınıza ikinci faktöre gerek kalmadan giriş izni verir.
       label: 'Hatırla'
-      clear_cookie: 'Click here to remove this cookie'
-      cookie_removed: 'The remember cookie has been removed.'
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+      clear_cookie: 'Bu çerezi kaldırmak için tıklayın'
+      cookie_removed: 'Çerezin kaldırıldığını hatırla.'
+      dont_ask_again: "Bu kullanıcı da 2FA kimlik doğrulamasını %{days} gün boyunca hatırlamak için çerez oluştur."
   field_phone: "Cep Telefonu"
   field_otp: "Tek-kullanımlık Şifre"
   notice_account_otp_invalid: "Geçersiz tek kullanımlık şifre."
