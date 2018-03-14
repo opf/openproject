@@ -29,7 +29,9 @@
 language: ruby
 
 rvm:
-  - 2.4.2
+  # 2.4.1 is prebuilt on trust images and result in faster builds
+  # https://docs.travis-ci.com/user/reference/trusty/#Ruby-images
+  - 2.4.1
 
 sudo: required
 dist: trusty
