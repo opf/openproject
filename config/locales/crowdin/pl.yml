@@ -1,0 +1,174 @@
+pl:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: 'Identyfikator'
+        default: 'Użyj jako domyślnego'
+      two_factor_authentication/device/sms:
+        phone_number: "Numer telefonu"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: 'jest już ustawione dla innego urządzenia OTP.'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "musi posiadać format +XX XXXXXXXXX"
+    models:
+      two_factor_authentication/device: "Urządzenie 2FA (2 Factory Authenticator)"
+      two_factor_authentication/device/sms: "Telefon komórkowy"
+      two_factor_authentication/device/totp: "Aplikacja Authenticator"
+  two_factor_authentication:
+    error_2fa_disabled: "Doręczanie 2FA została wyłączona (zablokowana)."
+    error_no_device: "Nie znaleziono zarejestrowanego urządzenia 2FA dla tego użytkownika, mimo że jest ono wymagane dla tego wystąpienia."
+    error_no_matching_strategy: "Dla tego użytkownika nie jest dostępna żadna zgodna strategia 2FA. Skontaktuj się z administratorem."
+    error_is_enforced_not_active: 'Błąd konfiguracji: Wymuszono uwierzytelnianie dwuskładnikowe, ale nie istnieją żadne aktywne strategie.'
+    error_invalid_backup_code: 'Nieprawidłowy kod kopii zapasowej 2FA'
+    channel_unavailable: "Kanał dostaw %{channel} jest niedostępny."
+    no_valid_phone_number: "Brak prawidłowego numeru telefonu."
+    label_pwd_confirmation: "Hasło"
+    notice_pwd_confirmation: "Po wprowadzeniu zmian w tych ustawieniach musisz potwierdzić swoje hasło."
+    label_device_type: "Rodzaj urządzenia"
+    label_default_device: "Domyślne urządzenie 2FA"
+    label_device: "Urządzenie 2FA"
+    label_devices: "Urządzenie 2FA"
+    label_one_time_password: 'Jednorazowe hasło'
+    label_2fa_enabled: 'Uwierzytelnianie dwuskładnikowe jest aktywne'
+    label_2fa_disabled: 'Uwierzytelnianie dwuskładnikowe nie jest aktywne'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_enter_2fa: 'Wprowadź jednorazowe hasło z urządzenia.'
+    text_2fa_enabled: 'Po każdym logowaniu zostaniesz poproszony o wprowadzenie tokena OTP z domyślnego urządzenia 2FA.'
+    text_2fa_disabled: 'Aby włączyć uwierzytelnianie dwuskładnikowe, użyj przycisku powyżej, aby zarejestrować nowe urządzenie 2FA. Jeśli masz już urządzenie, musisz ustawić je jako domyślne.'
+    login:
+      enter_backup_code_title: Wprowadź kod zapasowy
+      enter_backup_code_text: Wprowadź prawidłowy kod zapasowy z listy kodów, na wypadek, gdyby nie było już dostępu do zarejestrowanych urządzeń 2FA.
+      other_device: 'Użyj innego urządzenia lub kodu zapasowego'
+    settings:
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
+      text_configuration: |
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_remember: |
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+    admin:
+      self_edit_path: 'Aby dodać lub zmodyfikować własne urządzenia 2FA, przejdź do %{self_edit_link}'
+      self_edit_link_name: 'Uwierzytelnianie dwuskładnikowe na stronie konta'
+      self_edit_forbidden: 'Nie możesz edytować własnych urządzeń 2FA na tej ścieżce. Przejdź do Moje konto> Uwierzytelnianie dwuetapowe.'
+      no_devices_for_user: 'Żadne urządzenie 2FA nie zostało zarejestrowane dla tego użytkownika.'
+      all_devices_deleted: 'Wszystkie urządzenia 2FA tego użytkownika zostały usunięte'
+      delete_all_are_you_sure: 'Czy na pewno chcesz usunąć wszystkie urządzenia 2FA dla tego użytkownika?'
+      button_delete_all_devices: 'Usuń zarejestrowane urządzenia 2FA'
+      button_register_mobile_phone_for_user: 'Zarejestruj telefon komórkowy'
+      text_2fa_enabled: 'Po każdym logowaniu ten użytkownik zostanie poproszony o wprowadzenie tokena OTP z jego domyślnego urządzenia 2FA.'
+      text_2fa_disabled: "Użytkownik nie ustawił urządzenia 2FA na swojej stronie \"Moje konto\""
+    upsale:
+      title: 'Two-factor authentication is an enterprise feature'
+      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+    backup_codes:
+      none_found: Na tym koncie nie ma kodów zapasowych.
+      singular: Kod zapasowy
+      plural: Kody zapasowe
+      your_codes: dla Twojego %{app_name} konta %{login}
+      overview_description: |
+        Jeśli nie możesz uzyskać dostępu do urządzeń z dwoma elementami, możesz użyć kodu zapasowego, aby odzyskać dostęp do swojego konta.
+        Użyj następującego przycisku, aby wygenerować nowy zestaw kodów zapasowych.
+      generate:
+        title: Wygeneruj kody zapasowe
+        keep_safe_as_password: 'Ważny! Traktuj te kody jako hasła.'
+        keep_safe_warning: 'Zapisz je w menedżerze haseł lub wydrukuj tę stronę i umieść w bezpiecznym miejscu.'
+        regenerate_warning: 'Ostrzeżenie: jeśli wcześniej utworzyłeś kody zapasowe, zostaną one unieważnione i przestaną działać.'
+    devices:
+      add_new: 'Dodaj nowe urządzenie 2FA'
+      register: 'Zarejestruj urządzenie'
+      confirm_default: 'Potwierdź zmianę domyślnego urządzenia'
+      confirm_device: 'Potwierdź urządzenie'
+      confirm_now: 'Nie potwierdzono, kliknij tutaj, aby aktywować'
+      cannot_delete_default: 'Nie można usunąć domyślnego urządzenia'
+      make_default_are_you_sure: 'Czy na pewno chcesz ustawić to urządzenie 2FA jako domyślne?'
+      make_default_failed: 'Nie udało się zaktualizować domyślnego urządzenia 2FA.'
+      deletion_are_you_sure: 'Czy na pewno chcesz usunąć to urządzenie 2FA?'
+      registration_complete: 'Rejestracja urządzenia 2FA zakończona!'
+      registration_failed_token_invalid: 'Rejestracja urządzenia 2FA nie powiodła się, token był nieprawidłowy.'
+      registration_failed_update: 'Rejestracja urządzenia 2FA nie powiodła się, token był ważny, ale urządzenie nie mogło zostać zaktualizowane.'
+      confirm_send_failed: 'Potwierdzenie twojego urządzenia 2FA nie powiodło się.'
+      button_complete_registration: 'Ukończ rejestrację 2FA'
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_change_default_html: "Proszę potwierdzić, zmiana domyślnego urządzenia do <strong>%{new_identifier}</strong> poprzez wpisanie hasła jednorazowego z bieżącego urządzenia domyślnego."
+      text_identifier: 'Możesz nadać urządzeniu niestandardowy identyfikator za pomocą tego pola.'
+      failed_to_delete: 'Nie można usunąć urządzenia 2FA.'
+      is_default_cannot_delete: 'Urządzenie jest oznaczone jako domyślne i nie można go usunąć z powodu aktywnej polityki bezpieczeństwa. Przed usunięciem oznacz urządzenie jako domyślne.'
+      not_existing: 'Nie zarejestrowano urządzenia 2FA dla Twojego konta.'
+      request_2fa: Wprowadź kod z %{device_name}, aby zweryfikować swoją tożsamość.
+      totp:
+        title: 'Użyj uwierzytelniacza opartego na aplikacji'
+        provisioning_uri: 'Inicjowanie obsługi URI'
+        secret_key: 'Secret key'
+        time_based: 'Oparte na czasie'
+        account: 'Nazwa rachunku / wystawcy'
+        setup: |
+          Aby skonfigurować uwierzytelnianie dwuskładnikowe za pomocą Google Authenticator, pobierz aplikację ze sklepu Apple App Store lub Google Play Store.
+          Po otwarciu aplikacji możesz zeskanować poniższy kod QR, aby zarejestrować urządzenie.
+        question_cannot_scan: |
+          Nie można zeskanować kodu za pomocą aplikacji?
+        text_cannot_scan: |
+          Jeśli nie możesz zeskanować kodu, możesz wprowadzić wpis ręcznie, korzystając z następujących informacji:
+        description: |
+          Zarejestruj aplikację uwierzytelniającą do użytku z OpenProject, korzystając z opartego na czasie standardu uwierzytelniania za pomocą hasła jednorazowego.
+          Typowymi przykładami są Google Authenticator lub Authy.
+      sms:
+        title: 'Użyj swojego telefonu komórkowego'
+        redacted_identifier: 'Urządzenie mobilne (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, wysłaliśmy Ci kod uwierzytelniający za pośrednictwem %{delivery_channel}'
+        description: |
+          Zarejestruj swój numer telefonu komórkowego w celu dostarczenia jednorazowych haseł OpenProject.
+    sns:
+      delivery_failed: 'Nie udało się dostarczyć SNS:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
+    restdt:
+      delivery_failed_with_code: 'Błąd dostarczania tokenu. (Kod błędu %{code})'
+    strategies:
+      totp: 'Aplikacja Authenticator'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
+    mobile_transmit_notification: "Hasło jednorazowe zostało wysłane na Twój telefon komórkowy."
+    label_two_factor_authentication: 'Uwierzytelnianie dwuskładnikowe'
+    forced_registration:
+      required_to_add_device: 'Aktywna polityka bezpieczeństwa wymaga włączenia uwierzytelniania dwuskładnikowego. Użyj poniższego formularza, aby zarejestrować urządzenie.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+  field_phone: "Komórka"
+  field_otp: "Jednorazowe hasło"
+  notice_account_otp_invalid: "Nieprawidłowe hasło jednorazowe."
+  notice_account_otp_expired: "Wprowadzone hasło jednorazowe wygasło."
+  notice_developer_strategy_otp: "Strategia programisty wygenerowała następujące jednorazowe hasło: %{token} (kanał:%{channel})"
+  notice_account_otp_send_failed: "Twoje jednorazowe hasło nie mogło zostać wysłane."
+  notice_account_has_no_phone: "Żaden numer telefonu komórkowego nie jest powiązany z Twoim kontem."
+  label_expiration_hint: "%{date} lub wylogowania"
+  label_actions: 'Działania'
+  label_confirmed: 'Zatwardziały'
+  button_continue: 'Dalej'
+  button_make_default: 'Oznacz jako domyślny'
+  label_unverified_phone: "Cell phone not yet verified"
+  notice_phone_number_format: "Wprowadź numer w następującym formacie: + XX XXXXXXXX."
+  text_otp_not_receive: "Inne metody weryfikacji"
+  text_send_otp_again: "Ponownie wyślij hasło jednorazowe:"
+  button_resend_otp_form: "Wysłać ponownie"
+  button_otp_by_voice: "Rozmowa głosowa"
+  button_otp_by_sms: "SMS"
+  label_otp_channel: "Kanał dostawy"

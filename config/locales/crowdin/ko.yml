@@ -1,0 +1,174 @@
+ko:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: '식별자'
+        default: '기본값으로 사용'
+      two_factor_authentication/device/sms:
+        phone_number: "전화번호"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: '은(는) 이미 다른 OTP 장치에 대해 설정되었습니다.'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "은(는) +XX XXXXXXXXX 형식이어야 합니다."
+    models:
+      two_factor_authentication/device: "2FA 장치"
+      two_factor_authentication/device/sms: "휴대폰"
+      two_factor_authentication/device/totp: "인증자 애플리케이션"
+  two_factor_authentication:
+    error_2fa_disabled: "2FA 배달이 비활성화되었습니다."
+    error_no_device: "이 인스턴스에 필요하지만, 이 사용자에 대해 등록된 2FA 장치를 찾지 못했습니다."
+    error_no_matching_strategy: "이 사용자에 대해 사용 가능한 일치하는 2FA 전략이 없습니다. 관리자에게 문의하세요."
+    error_is_enforced_not_active: '구성 오류: 2단계 인증이 적용되었지만, 존재하는 활성 전략이 없습니다.'
+    error_invalid_backup_code: '잘못된 2FA 백업 코드'
+    channel_unavailable: "배달 채널 %{channel}이(가) 사용 가능하지 않습니다."
+    no_valid_phone_number: "올바른 전화번호가 없습니다."
+    label_pwd_confirmation: "암호"
+    notice_pwd_confirmation: "이러한 설정 변경 시 암호를 확인해야 합니다."
+    label_device_type: "장치 유형"
+    label_default_device: "기본 2FA 장치"
+    label_device: "2FA 장치"
+    label_devices: "2FA 장치"
+    label_one_time_password: '일회용 암호'
+    label_2fa_enabled: '2단계 인증이 활성화되었습니다.'
+    label_2fa_disabled: '2단계 인증이 활성화되지 않았습니다.'
+    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
+    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_enter_2fa: '장치에서 일회용 암호를 입력하세요.'
+    text_2fa_enabled: '로그인할 때마다 기본 2FA 장치에서 OTP 토큰을 입력하라는 메시지가 표시됩니다.'
+    text_2fa_disabled: '2단계 인증을 활성화하려면 위의 버튼을 사용하여 새로운 2FA 장치를 등록하세요. 장치가 이미 있는 경우 이 장치를 기본값으로 만들어야 합니다.'
+    login:
+      enter_backup_code_title: 백업 코드 입력
+      enter_backup_code_text: 등록된 2FA 장치에 더 이상 액세스할 수 없는 경우 코드 목록에서 유효한 백업 코드를 입력하세요.
+      other_device: '다른 장치 또는 백업 코드 사용'
+    settings:
+      title: '2FA settings'
+      current_configuration: 'Current configuration'
+      label_active_strategies: 'Active 2FA strategies'
+      label_enforced: 'Enforce 2FA'
+      label_remember: 'Remember 2FA login'
+      text_configuration: |
+        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
+      text_configuration_guide: For more information, check the configuration guide.
+      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+      text_remember: |
+        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
+        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
+      error_invalid_settings: 'The 2FA strategies you selected are invalid'
+      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+    admin:
+      self_edit_path: '고유한 2FA 장치를 추가하거나 수정하려면 %{self_edit_link}(으)로 이동하세요.'
+      self_edit_link_name: '계정 페이지의 2단계 인증'
+      self_edit_forbidden: '이 경로에서 사용자의 고유한 2FA 장치를 편집하지 못할 수 있습니다. 대신 내 계정 > 2단계 인증으로 이동하세요.'
+      no_devices_for_user: '2FA 장치가 이 사용자에 대해 등록되지 않았습니다.'
+      all_devices_deleted: '이 사용자의 모든 2FA 장치가 삭제되었습니다.'
+      delete_all_are_you_sure: '이 사용자에 대한 모든 2FA 장치를 삭제하시겠습니까?'
+      button_delete_all_devices: '등록된 2FA 장치 삭제'
+      button_register_mobile_phone_for_user: '휴대폰 등록'
+      text_2fa_enabled: '로그인할 때마다 기본 2FA 장치에서 OTP 토큰을 입력하라는 메시지가 이 사용자에게 표시됩니다.'
+      text_2fa_disabled: "사용자가 '내 계정 페이지'에서 2FA 장치를 설정하지 않았습니다."
+    upsale:
+      title: 'Two-factor authentication is an enterprise feature'
+      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+    backup_codes:
+      none_found: 이 계정에 대한 백업 코드가 존재하지 않습니다.
+      singular: 백업 코드
+      plural: 백업 코드
+      your_codes: '- %{app_name} 계정 %{login}'
+      overview_description: |
+        2단계 장치에 액세스할 수 없는 경우 백업 코드를 사용하여 계정에 다시 액세스할 수 있습니다.
+        다음 버튼을 사용하여 새로운 백업 코드 집합을 생성하세요.
+      generate:
+        title: 백업 코드 생성
+        keep_safe_as_password: '중요! 이러한 코드를 암호로 처리하세요.'
+        keep_safe_warning: '암호 관리자에 이를 저장하거나, 이 페이지를 인쇄하고 안전한 장소에 보관하세요.'
+        regenerate_warning: '경고: 이전에 백업 코드를 만든 경우 이러한 코드는 무효화되고 더 이상 작동하지 않습니다.'
+    devices:
+      add_new: '새로운 2FA 장치 추가'
+      register: '장치 등록'
+      confirm_default: '기본 장치 변경 확인'
+      confirm_device: '장치 확인'
+      confirm_now: '확인되지 않음, 여기를 클릭하여 활성화'
+      cannot_delete_default: '기본 장치를 삭제할 수 없음'
+      make_default_are_you_sure: '이 2FA 장치를 기본 장치로 만드시겠습니까?'
+      make_default_failed: '기본 2FA 장치를 업데이트하지 못했습니다.'
+      deletion_are_you_sure: '이 2FA 장치를 삭제하시겠습니까?'
+      registration_complete: '2FA 장치 등록 완료!'
+      registration_failed_token_invalid: '2FA 장치 등록 실패, 토큰이 잘못되었습니다.'
+      registration_failed_update: '2FA 장치 등록 실패, 토큰이 유효하지만 장치를 업데이트할 수 없습니다.'
+      confirm_send_failed: '2FA 장치 확인에 실패했습니다.'
+      button_complete_registration: '2FA 등록 완료'
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_change_default_html: "현재 기본 장치에서 일회용 암호를 입력하여 기본 장치를 <strong>%{new_identifier}</strong>(으)로 변경을 확인하세요."
+      text_identifier: '이 필드를 사용하여 사용자 지정 식별자를 장치에 지정할 수 있습니다.'
+      failed_to_delete: '2FA 장치를 삭제하지 못했습니다.'
+      is_default_cannot_delete: '장치가 기본으로 표시되고 활성 보안 정책으로 인해 삭제할 수 없습니다. 삭제하기 전에 다른 장치를 기본으로 표시하세요.'
+      not_existing: '2FA 장치가 해당 계정에 대해 등록되지 않았습니다.'
+      request_2fa: '%{device_name}의 코드를 입력하여 ID를 확인하세요.'
+      totp:
+        title: '앱 기반 인증자 사용'
+        provisioning_uri: '프로비저닝 URI'
+        secret_key: 'Secret key'
+        time_based: '시간 기반'
+        account: '계정 이름/발급자'
+        setup: |
+          Google 인증자로 2단계 인증 설정을 위해, Apple App Store 또는 Google Play Store에서 애플리케이션을 다운로드하세요. 
+          앱을 연 후, 다음 QR 코드를 스캔하여 장치를 등록할 수 있습니다.
+        question_cannot_scan: |
+          애플리케이션을 사용하여 코드를 스캔할 수 없습니까?
+        text_cannot_scan: |
+          코드를 스캔할 수 없는 경우 다음과 같은 세부 정보를 사용하여 수동으로 항목을 입력할 수 있습니다.
+        description: |
+          시간 기반 일회용 암호 인증 표준을 사용하여 OpenProject와 함께 사용할 애플리케이션 인증자를 등록하세요.
+          일반적인 예로 Google Authenticator 또는 Authy가 있습니다.
+      sms:
+        title: '휴대폰 사용'
+        redacted_identifier: '모바일 장치(%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}님, %{delivery_channel}을(를) 통해 인증 코드를 전송했습니다.'
+        description: |
+          OpenProject 일회용 암호 배달을 위해 휴대폰 번호를 등록하세요.
+    sns:
+      delivery_failed: 'SNS 배달 실패:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
+    restdt:
+      delivery_failed_with_code: '토큰 배달이 실패했습니다(오류 코드 %{code}).'
+    strategies:
+      totp: '인증자 애플리케이션'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
+    mobile_transmit_notification: "일회용 암호가 휴대폰으로 전송되었습니다."
+    label_two_factor_authentication: '2단계 인증'
+    forced_registration:
+      required_to_add_device: '활성 보안 정책에서는 2단계 인증을 사용하도록 요구합니다. 다음 양식을 사용하여 장치를 등록하세요.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+  field_phone: "휴대폰"
+  field_otp: "일회용 암호"
+  notice_account_otp_invalid: "일회용 암호가 잘못되었습니다 ."
+  notice_account_otp_expired: "입력한 일회용 암호가 만료되었습니다."
+  notice_developer_strategy_otp: "개발자 전략에서 다음 일회용 암호를 생성함: %{token}(채널: %{channel})"
+  notice_account_otp_send_failed: "일회용 암호를 보낼 수 없습니다."
+  notice_account_has_no_phone: "휴대폰 번호가 계정과 연결되지 않았습니다."
+  label_expiration_hint: "%{date} 또는 로그아웃 시"
+  label_actions: '작업'
+  label_confirmed: '확인됨'
+  button_continue: '계속'
+  button_make_default: '기본값으로 표시'
+  label_unverified_phone: "Cell phone not yet verified"
+  notice_phone_number_format: "다음과 같은 형식으로 번호를 입력하세요: + XX XXXXXXXX."
+  text_otp_not_receive: "기타 확인 방법"
+  text_send_otp_again: "다음으로 일회용 암호 다시 보내기:"
+  button_resend_otp_form: "다시 보내기"
+  button_otp_by_voice: "음성 통화"
+  button_otp_by_sms: "SMS"
+  label_otp_channel: "배달 채널"
