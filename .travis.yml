@@ -93,8 +93,8 @@ before_install:
   - tar -xzf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -C geckodriver
   - export PATH=$PATH:$PWD/geckodriver
   - echo `geckodriver --version`
-  # Install Node LTS Boron (6.9.1)
-  - "nvm install 6.9.1"
+  # Install latest Node LTS
+  - "nvm install lts/*"
 
 bundler_args: --binstubs --without development production docker
 
