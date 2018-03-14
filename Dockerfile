@@ -22,7 +22,9 @@ RUN apt-get update -qq && \
 RUN useradd -d /home/app -m app
 RUN mkdir -p /usr/src/app
 RUN gem install bundler --version "${BUNDLER_VERSION}"
-RUN chown -R app:app /usr/src/app /usr/local/bundle
+RUN chown -R app:app /usr/src/app /usr/local/bundle /usr
+# important so that mounted volume gets the right permissions
+RUN mkdir -p /usr/src/app/files && chown -R app:app /usr/src/app/files
 
 WORKDIR /usr/src/app
 
