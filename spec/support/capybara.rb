@@ -83,7 +83,7 @@ Capybara.register_driver :selenium do |app|
   end
 
   # If you need to trace the webdriver commands, un-comment this line
-  # Selenium::WebDriver.logger.level = :info
+  Selenium::WebDriver.logger.level = :warn
 
   Capybara::Selenium::Driver.new(
     app,

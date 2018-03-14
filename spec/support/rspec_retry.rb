@@ -12,30 +12,12 @@ RSpec.configure do |config|
   # and print the exception that causes a retry
   config.verbose_retry = true
   config.display_try_failure_messages = true
-
-  ##
-  # By default, do not retry specs
-  config.default_retry_count = 0
-
-  ##
-  # Retry JS feature specs, but not during single runs
-  if ENV['CI']
-    config.around :each, :js do |ex|
-      ex.run_with_retry retry: 2
-    end
-  end
 end
 
 ##
 # Allow specific code blocks to retry on specific errors
 Retriable.configure do |c|
-  # Three tries in that block
-  if ENV['CI']
-    c.tries = 3
-    c.base_interval = 1
-  else
-    c.tries = 1
-  end
+  c.tries = 1
 end
 
 ##
