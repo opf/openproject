@@ -209,7 +209,6 @@ group :test do
   gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'selenium-webdriver', '~> 3.6'
-  gem 'childprocess' # forced by selenium-webdriver, but not in its gemspec
   gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.1.0', require: false
 
