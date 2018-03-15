@@ -86,13 +86,14 @@ Capybara.register_driver :selenium do |app|
 
   options = Selenium::WebDriver::Firefox::Options.new
   options.profile = profile
+  options.log_level = :trace
 
   unless ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_NO_HEADLESS'])
     options.args << "--headless"
   end
 
   # If you need to trace the webdriver commands, un-comment this line
-  Selenium::WebDriver.logger.level = :warn
+  # Selenium::WebDriver.logger.level = :warn
 
   Capybara::Selenium::Driver.new(
     app,
