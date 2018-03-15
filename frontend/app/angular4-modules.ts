@@ -149,13 +149,20 @@ import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy
 import {FocusWithinDirective} from 'core-components/common/focus-within/focus-within.upgraded.directive';
 import {ClickOnKeypressComponent} from 'core-app/ui_components/click-on-keypress-upgraded.component';
 import {AutocompleteSelectDecorationComponent} from 'core-components/common/autocomplete-select-decoration/autocomplete-select-decoration.component';
+import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
+import {PortalModule} from "@angular/cdk/portal";
+import {OpExampleContextMenuDirective} from "core-components/op-context-menu/trigger/op-example-context-menu.directive";
+import {OpContextMenuTrigger} from "core-components/op-context-menu/trigger/op-context-menu-trigger";
+import {OPContextMenuComponent} from "core-components/op-context-menu/op-context-menu.component";
 
 @NgModule({
   imports: [
     BrowserModule,
     UpgradeModule,
     FormsModule,
-    UIRouterUpgradeModule
+    UIRouterUpgradeModule,
+    // Angular CDK
+    PortalModule
   ],
   providers: [
     GonRef,
@@ -209,6 +216,8 @@ import {AutocompleteSelectDecorationComponent} from 'core-components/common/auto
     upgradeService('PathHelper', PathHelperService),
     // Activity tab
     upgradeService('wpActivity', WorkPackagesActivityService),
+    // Context menus
+    OPContextMenuService,
   ],
   declarations: [
     WorkPackagesListComponent,
@@ -296,6 +305,10 @@ import {AutocompleteSelectDecorationComponent} from 'core-components/common/auto
     // WP Copy
     WorkPackageCopyFullViewComponent,
     WorkPackageCopySplitViewComponent,
+
+    // Context menus
+    OpExampleContextMenuDirective,
+    OPContextMenuComponent,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -332,6 +345,9 @@ import {AutocompleteSelectDecorationComponent} from 'core-components/common/auto
     // WP copy
     WorkPackageCopyFullViewComponent,
     WorkPackageCopySplitViewComponent,
+
+    // Context menu entry component
+    OPContextMenuComponent,
   ]
 })
 export class OpenProjectModule {

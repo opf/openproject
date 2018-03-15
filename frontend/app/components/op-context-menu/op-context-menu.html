@@ -1,0 +1,20 @@
+<div [id]="contextMenuId"
+     class="dropdown-relative dropdown action-menu">
+  <ul class="dropdown-menu">
+    <ng-container *ngFor="let item of items">
+      <li *ngIf="item.divider" class="dropdown-divider"></li>
+      <li *ngIf="!item.divider">
+        <a class="menu-item"
+           tabindex="0"
+           [ngClass]="{ 'inactive': item.disabled }"
+           [attr.disabled]="item.disabled"
+           [attr.aria-label]="item.ariaLabel || item.linkText"
+           (keydown.enter)="handleClick(item, $event)"
+           (click)="handleClick(item, $event)">
+          <op-icon *ngIf="item.icon" icon-classes="icon-action-menu {{ item.icon }}"> </op-icon>
+          <span [textContent]="item.linkText"></span>
+        </a>
+      </li>
+    </ng-container>
+  </ul>
+</div>

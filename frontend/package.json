@@ -27,6 +27,7 @@
     "webpack-dev-server": "^1.6.5"
   },
   "dependencies": {
+    "@angular/cdk": "^5.2.4",
     "@angular/common": "^4.4.5",
     "@angular/compiler": "^4.4.5",
     "@angular/core": "^4.4.5",
@@ -53,8 +54,8 @@
     "@types/sinon-chai": "^2.7.27",
     "@types/urijs": "^1.15.31",
     "@types/webpack-env": "^1.13.0",
-    "@uirouter/angular-hybrid": "^3.1.10",
     "@uirouter/angular": "1.0.1",
+    "@uirouter/angular-hybrid": "^3.1.10",
     "@uirouter/angularjs": "1.0.15",
     "@uirouter/core": "5.0.17",
     "URIjs": "^1.14.1",
