@@ -154,6 +154,7 @@ import {PortalModule} from "@angular/cdk/portal";
 import {OpExampleContextMenuDirective} from "core-components/op-context-menu/trigger/op-example-context-menu.directive";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/trigger/op-context-menu-trigger";
 import {OPContextMenuComponent} from "core-components/op-context-menu/op-context-menu.component";
+import {OpTypesContextMenuDirective} from "core-components/op-context-menu/trigger/op-types-context-menu.directive";
 
 @NgModule({
   imports: [
@@ -308,6 +309,7 @@ import {OPContextMenuComponent} from "core-components/op-context-menu/op-context
 
     // Context menus
     OpExampleContextMenuDirective,
+    OpTypesContextMenuDirective,
     OPContextMenuComponent,
   ],
   entryComponents: [

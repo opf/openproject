@@ -7,9 +7,10 @@ import {
 export interface OpContextMenuEntry {
   disabled:boolean;
   icon?:string;
+  href?:string;
   ariaLabel?:string;
   linkText:string;
-  onClick:($event:JQueryEventObject) => void;
+  onClick:($event:JQueryEventObject) => boolean;
 }
 
 export interface OpContextMenuDivider {
@@ -31,11 +32,15 @@ export class OPContextMenuComponent {
   }
 
   public handleClick(item:OpContextMenuEntry, $event:JQueryEventObject) {
-    if (!item.disabled) {
-      item.onClick($event);
-      this.opContextMenuService.close();
+    if (item.disabled) {
+      return false;
     }
 
-    return false;
+    if (item.onClick($event)) {
+      this.opContextMenuService.close();
+      return false;
+    }
+
+    return true;
   }
 }

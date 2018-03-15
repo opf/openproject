@@ -42,7 +42,7 @@ class TypesContextMenuController {
               protected wpCreate:WorkPackageCreateService) {
     const project = $scope.projectIdentifier;
     $scope.$ctrl = this;
-    this.isMobile = document.documentElement.classList.contains('-browser-mobile');
+    this.isMobile = bowser.mobile;
 
     wpCreate.getEmptyForm(project).then((form:any) => {
       this.types = form.schema.type.allowedValues;

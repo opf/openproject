@@ -78,6 +78,10 @@ export class OPContextMenuService {
     });
   }
 
+  public isActive(menu:OpContextMenuTrigger) {
+    return this.active && this.active === menu;
+  }
+
   /**
    * Closes all currently open context menus.
    */

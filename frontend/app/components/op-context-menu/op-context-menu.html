@@ -1,12 +1,14 @@
 <div [id]="contextMenuId"
-     class="dropdown-relative dropdown action-menu">
-  <ul class="dropdown-menu">
+     class="dropdown-relative dropdown action-menu -overflow-in-view">
+  <ul class="dropdown-menu"
+      [ngClass]="{'-empty': items.length === 0 }">
     <ng-container *ngFor="let item of items">
       <li *ngIf="item.divider" class="dropdown-divider"></li>
       <li *ngIf="!item.divider">
         <a class="menu-item"
            tabindex="0"
            [ngClass]="{ 'inactive': item.disabled }"
+           [attr.href]="item.href"
            [attr.disabled]="item.disabled"
            [attr.aria-label]="item.ariaLabel || item.linkText"
            (keydown.enter)="handleClick(item, $event)"

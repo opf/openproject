@@ -9,10 +9,10 @@ export abstract class OpContextMenuTrigger implements AfterViewInit {
   // Where to focus after this menu closes
   @Input('afterFocusOn') public afterFocusOn:string;
 
-  private $element:JQuery;
+  protected $element:JQuery;
+  protected items:OpContextMenuItem[] = [];
 
-  constructor(readonly injector:Injector,
-              readonly elementRef:ElementRef,
+  constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService) {
   }
 
@@ -21,6 +21,15 @@ export abstract class OpContextMenuTrigger implements AfterViewInit {
 
     // Open by clicking the element
     this.$element.click((evt) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+
+      // When clicking the same trigger twice, close the element instead.
+      if (this.opContextMenu.isActive(this)) {
+        this.opContextMenu.close();
+        return false;
+      }
+
       this.open(evt);
       return false;
     });
@@ -48,7 +57,7 @@ export abstract class OpContextMenuTrigger implements AfterViewInit {
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(openerEvent:Event) {
+  public positionArgs(openerEvent:Event):any {
     return {
       my: 'left top',
       at: 'right bottom',
@@ -71,9 +80,5 @@ export abstract class OpContextMenuTrigger implements AfterViewInit {
    */
   protected open(evt:Event) {
     this.opContextMenu.show(this, evt);
-    evt.preventDefault();
-    evt.stopPropagation();
   }
-
-  protected abstract get items():OpContextMenuItem[];
 }
