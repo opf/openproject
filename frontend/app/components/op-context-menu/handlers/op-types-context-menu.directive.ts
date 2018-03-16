@@ -73,6 +73,14 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
     });
   }
 
+  public get locals() {
+    return {
+      items: this.items,
+      contextMenuId: 'types-context-menu'
+    };
+  }
+
+
   /**
    * Positioning args for jquery-ui position.
    *
