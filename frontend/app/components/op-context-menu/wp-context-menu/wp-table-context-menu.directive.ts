@@ -27,8 +27,9 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
   private WorkPackageContextMenuHelper = this.injector.get(WorkPackageContextMenuHelperService);
 
   private workPackage = this.states.workPackages.get(this.workPackageId).value!;
+  private selectedWorkPackages = this.getSelectedWorkPackages();
   private permittedActions = this.WorkPackageContextMenuHelper.getPermittedActions(
-    this.getSelectedWorkPackages(),
+    this.selectedWorkPackages,
     PERMITTED_CONTEXT_MENU_ACTIONS
   );
   protected items = this.buildItems();
@@ -41,7 +42,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
   }
 
   public get locals():OpContextMenuLocalsMap {
-    return {items: this.items}
+    return {contextMenuId: 'work-package-context-menu', items: this.items};
   }
 
   public triggerContextMenuAction(action:WorkPackageAction) {
@@ -138,6 +139,45 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
         }
       }
     });
+
+    if (!this.workPackage.isNew) {
+      items.unshift(
+        {
+          icon: 'icon-view-split',
+          class: 'detailsViewMenuItem',
+          href: this.$state.href('work-packages.list.details.overview', {workPackageId: this.workPackageId}),
+          linkText: I18n.t('js.button_open_details'),
+          onClick: ($event) => {
+            if (LinkHandling.isClickedWithModifier($event)) {
+              return false;
+            }
+
+            this.$state.go(
+              'work-packages.list.details.overview',
+              {workPackageId: this.workPackageId}
+            );
+            return true;
+          }
+        },
+        {
+          icon: 'icon-view-fullscreen',
+          class: 'openFullScreenView',
+          href: this.$state.href('work-packages.show', {workPackageId: this.workPackageId}),
+          linkText: I18n.t('js.button_open_fullscreen'),
+          onClick: ($event) => {
+            if (LinkHandling.isClickedWithModifier($event)) {
+              return false;
+            }
+
+            this.$state.go(
+              'work-packages.show',
+              { workPackageId: this.workPackageId }
+            );
+            return true;
+          }
+        },
+      )
+    }
 
     return items;
   }

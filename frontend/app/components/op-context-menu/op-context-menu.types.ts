@@ -1,5 +1,6 @@
 export interface OpContextMenuLocalsMap {
   items:OpContextMenuItem[];
+  contextMenuId?:string;
   [key:string]:any;
 };
 
@@ -8,6 +9,7 @@ export interface OpContextMenuEntry {
   hidden?:boolean;
   icon?:string;
   href?:string;
+  class?:string;
   ariaLabel?:string;
   linkText:string;
   onClick:($event:JQueryEventObject) => boolean;
