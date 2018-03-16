@@ -66,7 +66,6 @@ export const opWorkPackagesModule = angular.module('openproject.workPackages', [
   'openproject.workPackages.directives',
   'openproject.workPackages.tabs',
   'openproject.uiComponents',
-  'ng-context-menu',
   'ngFileUpload'
 ]);
 export const wpServicesModule = angular.module('openproject.workPackages.services', [
@@ -158,7 +157,6 @@ export const openprojectModule = angular.module('openproject', [
   'ngSanitize',
   angularDragula(angular),
   'ngDialog',
-  'truncate',
   'openproject.layout',
   'openproject.api',
   'openproject.templates',
