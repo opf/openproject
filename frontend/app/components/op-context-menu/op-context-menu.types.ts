@@ -4,7 +4,8 @@ export interface OpContextMenuLocalsMap {
 };
 
 export interface OpContextMenuEntry {
-  disabled:boolean;
+  disabled?:boolean;
+  hidden?:boolean;
   icon?:string;
   href?:string;
   ariaLabel?:string;

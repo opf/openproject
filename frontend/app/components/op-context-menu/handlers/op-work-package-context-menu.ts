@@ -156,14 +156,11 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
         icon: action.icon ? `icon-${action.icon}` : undefined,
         onClick: ($event:JQueryEventObject) => {
           if (action.href && LinkHandling.isClickedWithModifier($event)) {
-            return true;
+            return false;
           }
 
-          $event.preventDefault();
-          $event.stopPropagation();
           this.triggerContextMenuAction(action)
-
-          return false;
+          return true;
         }
       }
     });

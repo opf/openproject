@@ -158,6 +158,7 @@ import {OPContextMenuComponent} from "core-components/op-context-menu/op-context
 import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {OpTypesContextMenuDirective} from "core-components/op-context-menu/handlers/op-types-context-menu.directive";
 import {WorkPackageContextMenuHelperService} from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
+import {OpColumnsContextMenu} from "core-components/op-context-menu/handlers/op-columns-context-menu.directive";
 
 @NgModule({
   imports: [
@@ -318,6 +319,7 @@ import {WorkPackageContextMenuHelperService} from "core-components/wp-table/cont
     // Context menus
     OpTypesContextMenuDirective,
     OPContextMenuComponent,
+    OpColumnsContextMenu,
   ],
   entryComponents: [
     WorkPackagesListComponent,

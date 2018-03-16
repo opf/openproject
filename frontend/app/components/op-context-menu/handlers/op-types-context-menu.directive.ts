@@ -95,14 +95,11 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
         ariaLabel: type.name,
         onClick: ($event:JQueryEventObject) => {
           if (LinkHandling.isClickedWithModifier($event)) {
-            return true;
+            return false;
           }
 
-          $event.preventDefault();
-          $event.stopPropagation();
           this.$state.go(this.stateName, { type: type.id });
-
-          return false;
+          return true;
         }
       };
     });
