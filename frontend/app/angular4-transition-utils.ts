@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {InjectionToken} from '@angular/core';
+import {Inject, InjectionToken} from '@angular/core';
 import {IQService, IRootScopeService, ITimeoutService} from 'angular';
 import {StateService} from '@uirouter/core';
 
@@ -37,6 +37,14 @@ export const $stateToken = new InjectionToken<StateService>('$state');
 
 export const I18nToken = new InjectionToken<op.I18n>('I18n');
 export const columnsModalToken = new InjectionToken<any>('columnsModal');
+export const sortingModalToken = new InjectionToken<any>('sortingModal');
+export const groupingModalToken =  new InjectionToken<any>('groupingModal');
+export const shareModalToken = new InjectionToken<any>('shareModal');
+export const saveModalToken = new InjectionToken<any>('saveModal');
+export const settingsModalToken = new InjectionToken<any>('settingsModal');
+export const exportModalToken = new InjectionToken<any>(' exportModal');
+export const timelinesModalToken = new InjectionToken<any>('timelinesModal');
+
 export const FocusHelperToken = new InjectionToken<any>('FocusHelper');
 export const NotificationsServiceToken = new InjectionToken<any>('NotificationsService');
 export const v3PathToken = new InjectionToken<any>('v3Path');

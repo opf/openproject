@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {NgModule} from '@angular/core';
+import {InjectionToken, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -70,13 +70,14 @@ import {
   $rootScopeToken,
   $stateToken,
   $timeoutToken,
-  columnsModalToken,
-  FocusHelperToken,
+  columnsModalToken, exportModalToken,
+  FocusHelperToken, groupingModalToken,
   halRequestToken,
   HookServiceToken,
   I18nToken,
   NotificationsServiceToken,
-  PathHelperToken,
+  PathHelperToken, saveModalToken, settingsModalToken, shareModalToken, sortingModalToken,
+  timelinesModalToken,
   TimezoneServiceToken,
   upgradeService,
   upgradeServiceWithToken,
@@ -159,6 +160,7 @@ import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations
 import {OpTypesContextMenuDirective} from "core-components/op-context-menu/handlers/op-types-context-menu.directive";
 import {WorkPackageContextMenuHelperService} from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
 import {OpColumnsContextMenu} from "core-components/op-context-menu/handlers/op-columns-context-menu.directive";
+import {OpSettingsMenuDirective} from "core-components/op-context-menu/handlers/op-settings-menu.directive";
 
 @NgModule({
   imports: [
@@ -186,6 +188,13 @@ import {OpColumnsContextMenu} from "core-components/op-context-menu/handlers/op-
     upgradeServiceWithToken('TimezoneService', TimezoneServiceToken),
     upgradeServiceWithToken('v3Path', v3PathToken),
     upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
+    upgradeServiceWithToken('sortingModal', sortingModalToken),
+    upgradeServiceWithToken('groupingModal', groupingModalToken),
+    upgradeServiceWithToken('shareModal', shareModalToken),
+    upgradeServiceWithToken('saveModal', saveModalToken),
+    upgradeServiceWithToken('settingsModal', settingsModalToken),
+    upgradeServiceWithToken('exportModal', exportModalToken),
+    upgradeServiceWithToken('timelinesModal', timelinesModalToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     upgradeService('wpCacheService', WorkPackageCacheService),
     upgradeService('wpEditing', WorkPackageEditingService),
@@ -320,6 +329,7 @@ import {OpColumnsContextMenu} from "core-components/op-context-menu/handlers/op-
     OpTypesContextMenuDirective,
     OPContextMenuComponent,
     OpColumnsContextMenu,
+    OpSettingsMenuDirective,
   ],
   entryComponents: [
     WorkPackagesListComponent,
