@@ -46,6 +46,10 @@ export const wpMoreMenuServiceToken = new InjectionToken<any>('wpMoreMenuService
 export const TimezoneServiceToken = new InjectionToken<any>('TimezoneService');
 export const $httpToken = new InjectionToken<any>('$http');
 export const halResourceFactoryToken = new InjectionToken<any>('halResourceFactory');
+export const wpDestroyModalToken = new InjectionToken<any>('wpDestroyModal');
+export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');
+export const HookServiceToken = new InjectionToken<any>('HookService');
+export const UrlParamsHelperToken = new InjectionToken<any>('UrlParamsHelper');
 
 export function upgradeService(ng1InjectorName:string, providedType:any) {
   return {

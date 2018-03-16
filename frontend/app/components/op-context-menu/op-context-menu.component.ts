@@ -1,34 +1,22 @@
 import {Component, Inject} from "@angular/core";
+import {OpContextMenuLocalsToken} from "core-app/angular4-transition-utils";
 import {
-  OpContextMenuLocalsMap,
-  OpContextMenuLocalsToken, OPContextMenuService
-} from "core-components/op-context-menu/op-context-menu.service";
-
-export interface OpContextMenuEntry {
-  disabled:boolean;
-  icon?:string;
-  href?:string;
-  ariaLabel?:string;
-  linkText:string;
-  onClick:($event:JQueryEventObject) => boolean;
-}
-
-export interface OpContextMenuDivider {
-  divider:true;
-}
-
-export type OpContextMenuItem = OpContextMenuEntry | OpContextMenuDivider;
-
+  OpContextMenuEntry,
+  OpContextMenuItem,
+  OpContextMenuLocalsMap
+} from "core-components/op-context-menu/op-context-menu.types";
+import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 
 @Component({
   template: require('!!raw-loader!./op-context-menu.html')
 })
 export class OPContextMenuComponent {
   public items:OpContextMenuItem[];
+  public service:OPContextMenuService;
 
-  constructor(@Inject(OpContextMenuLocalsToken) public locals:OpContextMenuLocalsMap,
-              readonly opContextMenuService:OPContextMenuService) {
+  constructor(@Inject(OpContextMenuLocalsToken) public locals:OpContextMenuLocalsMap) {
     this.items = this.locals.items;
+    this.service = this.locals.service;
   }
 
   public handleClick(item:OpContextMenuEntry, $event:JQueryEventObject) {
@@ -37,7 +25,7 @@ export class OPContextMenuComponent {
     }
 
     if (item.onClick($event)) {
-      this.opContextMenuService.close();
+      this.locals.service.close();
       return false;
     }
 

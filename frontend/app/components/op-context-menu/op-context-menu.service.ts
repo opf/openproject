@@ -1,28 +1,15 @@
-import {
-  ApplicationRef,
-  ComponentFactoryResolver,
-  Injectable,
-  InjectionToken,
-  Injector
-} from '@angular/core';
+import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector} from '@angular/core';
 import {ComponentPortal, DomPortalOutlet, PortalInjector} from "@angular/cdk/portal";
-import {
-  OPContextMenuComponent,
-  OpContextMenuItem
-} from "core-components/op-context-menu/op-context-menu.component";
-import {OpContextMenuTrigger} from "core-components/op-context-menu/trigger/op-context-menu-trigger";
 import {TransitionService} from "@uirouter/core";
+import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-menu-handler";
+import {OpContextMenuLocalsToken} from "core-app/angular4-transition-utils";
+import {OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";
+import {OPContextMenuComponent} from "core-components/op-context-menu/op-context-menu.component";
 
-export interface OpContextMenuLocalsMap {
-  items:OpContextMenuItem[];
-  [key:string]:any;
-};
-
-export const OpContextMenuLocalsToken = new InjectionToken<OpContextMenuLocalsMap>('CONTEXT_MENU_LOCALS');
 
 @Injectable()
 export class OPContextMenuService {
-  public active:OpContextMenuTrigger|null = null;
+  public active:OpContextMenuHandler|null = null;
 
   // Hold a reference to the DOM node we're using as a host
   private portalHostElement:HTMLElement;
@@ -59,10 +46,9 @@ export class OPContextMenuService {
 
   /**
    * Open a ContextMenu reference and append it to the portal
-   * @param contextMenu A reference to a context menu class
-   * @param data A set of locals injectable as 'CONTEXT_MENU_LOCALS' token in the component
+   * @param contextMenu A reference to a context menu handler
    */
-  public show(menu:OpContextMenuTrigger, event:Event) {
+  public show(menu:OpContextMenuHandler, event:Event) {
     this.close();
 
     // Create a portal for the given component class and render it
@@ -78,7 +64,7 @@ export class OPContextMenuService {
     });
   }
 
-  public isActive(menu:OpContextMenuTrigger) {
+  public isActive(menu:OpContextMenuHandler) {
     return this.active && this.active === menu;
   }
 
@@ -117,6 +103,10 @@ export class OPContextMenuService {
    */
   private injectorFor(data:OpContextMenuLocalsMap) {
     const injectorTokens = new WeakMap();
+    // Pass the service because otherwise we're getting a cyclic dependency between the portal
+    // host service and the bound portal
+    data.service = this;
+
     injectorTokens.set(OpContextMenuLocalsToken, data);
 
     return new PortalInjector(this.injector, injectorTokens);

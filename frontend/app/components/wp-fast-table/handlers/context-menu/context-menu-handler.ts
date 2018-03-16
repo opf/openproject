@@ -1,12 +1,13 @@
 import {Injector} from '@angular/core';
-import {ContextMenuService} from '../../../context-menus/context-menu.service';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {TableEventHandler} from '../table-handler-registry';
+import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
+import {OpWorkPackageContextMenu} from "core-components/op-context-menu/handlers/op-work-package-context-menu";
 
 export abstract class ContextMenuHandler implements TableEventHandler {
   // Injections
-  public contextMenu:ContextMenuService = this.injector.get(ContextMenuService);
+  public opContextMenu:OPContextMenuService = this.injector.get(OPContextMenuService);
 
   constructor(public readonly injector:Injector,
               protected table:WorkPackageTable) {
@@ -27,15 +28,7 @@ export abstract class ContextMenuHandler implements TableEventHandler {
   public abstract handleEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean;
 
   protected openContextMenu(evt:JQueryEventObject, workPackageId:string, positionArgs?:any):void {
-    let [index,] = this.table.findRenderedRow(workPackageId);
-    this.contextMenu.activate(
-      'WorkPackageContextMenu',
-      evt,
-      {
-        workPackageId: workPackageId,
-        rowIndex: index,
-        table: this.table
-      }
-    );
+    const handler = new OpWorkPackageContextMenu(this.injector, this.table, workPackageId, jQuery(evt.target));
+    this.opContextMenu.show(handler, evt)
   }
 }

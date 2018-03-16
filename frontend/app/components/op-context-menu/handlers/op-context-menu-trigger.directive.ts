@@ -1,11 +1,12 @@
-import {AfterViewInit, Directive, ElementRef, Injector, Input} from "@angular/core";
-import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.component";
+import {AfterViewInit, Directive, ElementRef, Input} from "@angular/core";
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
+import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-menu-handler";
+import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
 
 @Directive({
   selector: '[opContextMenuTrigger]'
 })
-export abstract class OpContextMenuTrigger implements AfterViewInit {
+export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterViewInit {
   // Where to focus after this menu closes
   @Input('afterFocusOn') public afterFocusOn:string;
 
@@ -14,6 +15,7 @@ export abstract class OpContextMenuTrigger implements AfterViewInit {
 
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService) {
+    super(opContextMenu);
   }
 
   ngAfterViewInit():void {
@@ -50,35 +52,5 @@ export abstract class OpContextMenuTrigger implements AfterViewInit {
     }
 
     target.focus();
-  }
-
-  /**
-   * Positioning args for jquery-ui position.
-   *
-   * @param {Event} openerEvent
-   */
-  public positionArgs(openerEvent:Event):any {
-    return {
-      my: 'left top',
-      at: 'right bottom',
-      of: openerEvent
-    };
-  }
-
-  /**
-   * Get the locals passed to the op-context-menu component
-   */
-  public get locals() {
-    return {
-      items: this.items
-    };
-  }
-
-  /**
-   * Open this context menu
-   * @param {Event} evt
-   */
-  protected open(evt:Event) {
-    this.opContextMenu.show(this, evt);
   }
 }

@@ -73,13 +73,16 @@ import {
   columnsModalToken,
   FocusHelperToken,
   halRequestToken,
+  HookServiceToken,
   I18nToken,
   NotificationsServiceToken,
   PathHelperToken,
   TimezoneServiceToken,
   upgradeService,
   upgradeServiceWithToken,
+  UrlParamsHelperToken,
   v3PathToken,
+  wpDestroyModalToken,
   wpMoreMenuServiceToken
 } from './angular4-transition-utils';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
@@ -151,10 +154,10 @@ import {ClickOnKeypressComponent} from 'core-app/ui_components/click-on-keypress
 import {AutocompleteSelectDecorationComponent} from 'core-components/common/autocomplete-select-decoration/autocomplete-select-decoration.component';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {PortalModule} from "@angular/cdk/portal";
-import {OpExampleContextMenuDirective} from "core-components/op-context-menu/trigger/op-example-context-menu.directive";
-import {OpContextMenuTrigger} from "core-components/op-context-menu/trigger/op-context-menu-trigger";
 import {OPContextMenuComponent} from "core-components/op-context-menu/op-context-menu.component";
-import {OpTypesContextMenuDirective} from "core-components/op-context-menu/trigger/op-types-context-menu.directive";
+import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
+import {OpTypesContextMenuDirective} from "core-components/op-context-menu/handlers/op-types-context-menu.directive";
+import {WorkPackageContextMenuHelperService} from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
 
 @NgModule({
   imports: [
@@ -181,6 +184,7 @@ import {OpTypesContextMenuDirective} from "core-components/op-context-menu/trigg
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
     upgradeServiceWithToken('TimezoneService', TimezoneServiceToken),
     upgradeServiceWithToken('v3Path', v3PathToken),
+    upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     upgradeService('wpCacheService', WorkPackageCacheService),
     upgradeService('wpEditing', WorkPackageEditingService),
@@ -201,6 +205,7 @@ import {OpTypesContextMenuDirective} from "core-components/op-context-menu/trigg
     upgradeService('wpTableSum', WorkPackageTableSumService),
     upgradeService('wpListService', WorkPackagesListService),
     upgradeService('wpListChecksumService', WorkPackagesListChecksumService),
+    upgradeService('wpRelationsHierarchyService', WorkPackageRelationsHierarchyService),
     upgradeService('wpFiltersService', WorkPackageFiltersService),
     upgradeService('loadingIndicator', LoadingIndicatorService),
     upgradeService('wpTableRelationColumns', WorkPackageTableRelationColumnsService),
@@ -219,6 +224,9 @@ import {OpTypesContextMenuDirective} from "core-components/op-context-menu/trigg
     upgradeService('wpActivity', WorkPackagesActivityService),
     // Context menus
     OPContextMenuService,
+    upgradeServiceWithToken('HookService', HookServiceToken),
+    upgradeServiceWithToken('UrlParamsHelper', UrlParamsHelperToken),
+    WorkPackageContextMenuHelperService,
   ],
   declarations: [
     WorkPackagesListComponent,
@@ -308,7 +316,6 @@ import {OpTypesContextMenuDirective} from "core-components/op-context-menu/trigg
     WorkPackageCopySplitViewComponent,
 
     // Context menus
-    OpExampleContextMenuDirective,
     OpTypesContextMenuDirective,
     OPContextMenuComponent,
   ],
@@ -348,7 +355,6 @@ import {OpTypesContextMenuDirective} from "core-components/op-context-menu/trigg
     WorkPackageCopyFullViewComponent,
     WorkPackageCopySplitViewComponent,
 
-    // Context menu entry component
     OPContextMenuComponent,
   ]
 })

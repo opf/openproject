@@ -1,6 +1,7 @@
 <div [id]="contextMenuId"
      class="dropdown-relative dropdown action-menu -overflow-in-view">
   <ul class="dropdown-menu"
+      role="menu"
       [ngClass]="{'-empty': items.length === 0 }">
     <ng-container *ngFor="let item of items">
       <li *ngIf="item.divider" class="dropdown-divider"></li>
