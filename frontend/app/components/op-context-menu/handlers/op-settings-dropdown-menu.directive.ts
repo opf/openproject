@@ -176,7 +176,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       {
         // Sort-by modal
         linkText: this.I18n.t('js.toolbar.settings.sort_by'),
-        icon: 'icon-columns',
+        icon: 'icon-sort-by',
         onClick: () => {
           this.sortingModal.activate();
           return true;

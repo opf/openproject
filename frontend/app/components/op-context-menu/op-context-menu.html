@@ -10,7 +10,7 @@
         <a class="menu-item"
            tabindex="0"
            [ngClass]="{ 'inactive': item.disabled }"
-           [attr.href]="item.href"
+           [attr.href]="item.href || ''"
            [attr.disabled]="item.disabled"
            [attr.aria-label]="item.ariaLabel || item.linkText"
            (keydown.enter)="handleClick(item, $event)"
