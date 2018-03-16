@@ -331,7 +331,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       {
         // Timelines modal
         disabled: !this.wpTableTimeline.isVisible,
-        linkText: this.I18n.t('js.timelines.gantt_chart'),
+        linkText: this.I18n.t('js.timelines.gantt_chart') + ' ...',
         icon: 'icon-view-timeline',
         onClick: () => {
           this.timelinesModal.activate();
