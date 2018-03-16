@@ -162,6 +162,7 @@ import {WorkPackageContextMenuHelperService} from "core-components/wp-table/cont
 import {OpColumnsContextMenu} from "core-components/op-context-menu/handlers/op-columns-context-menu.directive";
 import {OpSettingsMenuDirective} from "core-components/op-context-menu/handlers/op-settings-dropdown-menu.directive";
 import {WorkPackageStatusDropdownDirective} from "core-components/op-context-menu/handlers/wp-status-dropdown-menu.directive";
+import {WorkPackageCreateSettingsMenuDirective} from "core-components/op-context-menu/handlers/wp-create-settings-menu.directive";
 
 @NgModule({
   imports: [
@@ -332,6 +333,7 @@ import {WorkPackageStatusDropdownDirective} from "core-components/op-context-men
     OpColumnsContextMenu,
     OpSettingsMenuDirective,
     WorkPackageStatusDropdownDirective,
+    WorkPackageCreateSettingsMenuDirective,
   ],
   entryComponents: [
     WorkPackagesListComponent,
