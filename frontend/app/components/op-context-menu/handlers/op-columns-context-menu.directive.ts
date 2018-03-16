@@ -81,6 +81,10 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
     };
   }
 
+  protected get afterFocusOn():JQuery {
+    return this.$element.find(`#${this.column.id}`);
+  }
+
   private buildItems() {
     let c = this.column;
 

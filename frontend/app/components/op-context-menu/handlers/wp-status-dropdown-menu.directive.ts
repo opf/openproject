@@ -64,6 +64,13 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     });
   }
 
+  public get locals() {
+    return {
+      items: this.items,
+      contextMenuId: 'wp-status-context-menu'
+    };
+  }
+
   /**
    * Positioning args for jquery-ui position.
    *

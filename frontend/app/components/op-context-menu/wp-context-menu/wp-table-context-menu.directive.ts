@@ -37,12 +37,20 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
   constructor(readonly injector:Injector,
               readonly table:WorkPackageTable,
               readonly workPackageId:string,
-              public $element:JQuery) {
+              public $element:JQuery,
+              public additionalPositionArgs:any = {}) {
     super(injector.get(OPContextMenuService))
   }
 
   public get locals():OpContextMenuLocalsMap {
     return { contextMenuId: 'work-package-context-menu', items: this.items};
+  }
+
+  public positionArgs(evt:JQueryEventObject) {
+    let position = super.positionArgs(evt);
+    _.assign(position, this.additionalPositionArgs);
+
+    return position;
   }
 
   public triggerContextMenuAction(action:WorkPackageAction) {

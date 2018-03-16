@@ -7,9 +7,6 @@ import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu
   selector: '[opContextMenuTrigger]'
 })
 export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterViewInit {
-  // Where to focus after this menu closes
-  @Input('afterFocusOn') public afterFocusOn:string;
-
   protected $element:JQuery;
   protected items:OpContextMenuItem[] = [];
 
@@ -40,17 +37,5 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
     Mousetrap(this.$element[0]).bind('shift+alt+f10', (evt) => {
       this.open(evt);
     });
-  }
-
-  /**
-   * Called when the service closes this context menu
-   */
-  public onClose() {
-    let target =  this.$element;
-    if (this.afterFocusOn) {
-      target = this.$element.find(this.afterFocusOn);
-    }
-
-    target.focus();
   }
 }

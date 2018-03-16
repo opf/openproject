@@ -6,7 +6,6 @@ import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu
  * This will often be a trigger component, but does not have to be.
  */
 export abstract class OpContextMenuHandler {
-  public afterFocusOn?:string;
   protected $element:JQuery;
   protected items:OpContextMenuItem[] = [];
 
@@ -17,12 +16,7 @@ export abstract class OpContextMenuHandler {
    * Called when the service closes this context menu
    */
   public onClose() {
-    let target =  this.$element;
-    if (this.afterFocusOn) {
-      target = this.$element.find(this.afterFocusOn);
-    }
-
-    target.focus();
+    this.afterFocusOn.focus();
   }
 
   public onOpen(menu:JQuery) {
@@ -56,5 +50,9 @@ export abstract class OpContextMenuHandler {
    */
   protected open(evt:Event) {
     this.opContextMenu.show(this, evt);
+  }
+
+  protected get afterFocusOn():JQuery {
+    return this.$element;
   }
 }
