@@ -160,7 +160,8 @@ import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations
 import {OpTypesContextMenuDirective} from "core-components/op-context-menu/handlers/op-types-context-menu.directive";
 import {WorkPackageContextMenuHelperService} from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
 import {OpColumnsContextMenu} from "core-components/op-context-menu/handlers/op-columns-context-menu.directive";
-import {OpSettingsMenuDirective} from "core-components/op-context-menu/handlers/op-settings-menu.directive";
+import {OpSettingsMenuDirective} from "core-components/op-context-menu/handlers/op-settings-dropdown-menu.directive";
+import {WorkPackageStatusDropdownDirective} from "core-components/op-context-menu/handlers/wp-status-dropdown-menu.directive";
 
 @NgModule({
   imports: [
@@ -330,6 +331,7 @@ import {OpSettingsMenuDirective} from "core-components/op-context-menu/handlers/
     OPContextMenuComponent,
     OpColumnsContextMenu,
     OpSettingsMenuDirective,
+    WorkPackageStatusDropdownDirective,
   ],
   entryComponents: [
     WorkPackagesListComponent,

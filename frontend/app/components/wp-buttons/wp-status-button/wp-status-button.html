@@ -3,9 +3,8 @@
           [disabled]="isDisabled()"
           [attr.aria-label]="text.explanation"
 
-          hasDropdownMenu
-          [hasDropdownMenu-locals]="{'workPackage': workPackage }"
-          [hasDropdownMenu-target]="'WpStatusContextMenu'">
+          wpStatusDropdown
+          [wpStatusDropdown-workPackage]="workPackage">
 
     <span class="button--text"
           aria-hidden="true"
