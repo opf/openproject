@@ -42,7 +42,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
   }
 
   public get locals():OpContextMenuLocalsMap {
-    return {contextMenuId: 'work-package-context-menu', items: this.items};
+    return { contextMenuId: 'work-package-context-menu', items: this.items};
   }
 
   public triggerContextMenuAction(action:WorkPackageAction) {
@@ -147,7 +147,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
           class: 'detailsViewMenuItem',
           href: this.$state.href('work-packages.list.details.overview', {workPackageId: this.workPackageId}),
           linkText: I18n.t('js.button_open_details'),
-          onClick: ($event) => {
+          onClick: ($event:JQueryEventObject) => {
             if (LinkHandling.isClickedWithModifier($event)) {
               return false;
             }
@@ -164,7 +164,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
           class: 'openFullScreenView',
           href: this.$state.href('work-packages.show', {workPackageId: this.workPackageId}),
           linkText: I18n.t('js.button_open_fullscreen'),
-          onClick: ($event) => {
+          onClick: ($event:JQueryEventObject) => {
             if (LinkHandling.isClickedWithModifier($event)) {
               return false;
             }
