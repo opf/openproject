@@ -35,7 +35,6 @@ import {AccessibleByKeyboardDirectiveUpgraded} from 'core-app/ui_components/acce
 import {SimpleTemplateRenderer} from 'core-components/angular/simple-template-renderer';
 import {OpIcon} from 'core-components/common/icon/op-icon';
 import {ContextMenuService} from 'core-components/context-menus/context-menu.service';
-import {HasDropdownMenuDirective} from 'core-components/context-menus/has-dropdown-menu/has-dropdown-menu-directive';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {States} from 'core-components/states.service';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
@@ -163,6 +162,7 @@ import {OpColumnsContextMenu} from "core-components/op-context-menu/handlers/op-
 import {OpSettingsMenuDirective} from "core-components/op-context-menu/handlers/op-settings-dropdown-menu.directive";
 import {WorkPackageStatusDropdownDirective} from "core-components/op-context-menu/handlers/wp-status-dropdown-menu.directive";
 import {WorkPackageCreateSettingsMenuDirective} from "core-components/op-context-menu/handlers/wp-create-settings-menu.directive";
+import {WorkPackageSingleContextMenuDirective} from "core-components/op-context-menu/wp-context-menu/wp-single-context-menu";
 
 @NgModule({
   imports: [
@@ -264,7 +264,6 @@ import {WorkPackageCreateSettingsMenuDirective} from "core-components/op-context
     WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
     SortHeaderDirective,
-    HasDropdownMenuDirective,
     WpInlineCreateDirectiveUpgraded,
 
     // Add functionality to rails rendered templates
@@ -334,6 +333,7 @@ import {WorkPackageCreateSettingsMenuDirective} from "core-components/op-context
     OpSettingsMenuDirective,
     WorkPackageStatusDropdownDirective,
     WorkPackageCreateSettingsMenuDirective,
+    WorkPackageSingleContextMenuDirective,
   ],
   entryComponents: [
     WorkPackagesListComponent,

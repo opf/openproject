@@ -3,7 +3,7 @@ import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {TableEventHandler} from '../table-handler-registry';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {OpWorkPackageContextMenu} from "core-components/op-context-menu/handlers/op-work-package-context-menu";
+import {OpWorkPackageContextMenu} from "core-components/op-context-menu/wp-context-menu/wp-table-context-menu.directive";
 
 export abstract class ContextMenuHandler implements TableEventHandler {
   // Injections

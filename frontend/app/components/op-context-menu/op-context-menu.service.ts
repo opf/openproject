@@ -48,11 +48,11 @@ export class OPContextMenuService {
    * Open a ContextMenu reference and append it to the portal
    * @param contextMenu A reference to a context menu handler
    */
-  public show(menu:OpContextMenuHandler, event:Event) {
+  public show(menu:OpContextMenuHandler, event:Event, component = OPContextMenuComponent) {
     this.close();
 
     // Create a portal for the given component class and render it
-    const portal = new ComponentPortal(OPContextMenuComponent, null, this.injectorFor(menu.locals));
+    const portal = new ComponentPortal(component, null, this.injectorFor(menu.locals));
     this.bodyPortalHost.attach(portal);
     this.portalHostElement.style.display = 'block';
     this.active = menu;

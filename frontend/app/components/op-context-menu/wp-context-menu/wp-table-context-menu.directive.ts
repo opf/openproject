@@ -15,35 +15,9 @@ import {
   OpContextMenuItem,
   OpContextMenuLocalsMap
 } from "core-components/op-context-menu/op-context-menu.types";
+import {PERMITTED_CONTEXT_MENU_ACTIONS} from "core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions";
 
 export class OpWorkPackageContextMenu extends OpContextMenuHandler {
-
-  static PERMITTED_CONTEXT_MENU_ACTIONS = [
-    {
-      icon: 'log_time',
-      link: 'logTime'
-    },
-    {
-      icon: 'move',
-      link: 'move'
-    },
-    {
-      icon: 'copy',
-      link: 'copy'
-    },
-    {
-      icon: 'delete',
-      link: 'delete'
-    },
-    {
-      icon: 'export-pdf',
-      link: 'pdf'
-    },
-    {
-      icon: 'export-atom',
-      link: 'atom'
-    }
-  ];
 
   private states = this.injector.get(States);
   private wpRelationsHierarchyService = this.injector.get(WorkPackageRelationsHierarchyService);
@@ -55,7 +29,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
   private workPackage = this.states.workPackages.get(this.workPackageId).value!;
   private permittedActions = this.WorkPackageContextMenuHelper.getPermittedActions(
     this.getSelectedWorkPackages(),
-    OpWorkPackageContextMenu.PERMITTED_CONTEXT_MENU_ACTIONS
+    PERMITTED_CONTEXT_MENU_ACTIONS
   );
   protected items = this.buildItems();
 

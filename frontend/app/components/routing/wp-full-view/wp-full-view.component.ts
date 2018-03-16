@@ -29,12 +29,11 @@
 import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
-import {WorkPackageMoreMenuService} from '../../work-packages/work-package-more-menu.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService} from '@uirouter/core';
 import {TypeResource} from 'core-components/api/api-v3/hal-resources/type-resource.service';
 import {Component, Inject, Injector} from '@angular/core';
-import {$stateToken, wpMoreMenuServiceToken} from 'core-app/angular4-transition-utils';
+import {$stateToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {States} from 'core-components/states.service';
 import {FirstRouteService} from 'core-components/routing/first-route-service';
@@ -65,15 +64,12 @@ export class WorkPackagesFullViewComponent extends WorkPackageViewController {
   public actionsAvailable:any;
   public triggerMoreMenuAction:Function;
 
-  private wpMoreMenu:WorkPackageMoreMenuService;
-
   constructor(public injector:Injector,
               public states:States,
               public firstRoute:FirstRouteService,
               public keepTab:KeepTabService,
               public wpTableSelection:WorkPackageTableSelection,
               public wpTableFocus:WorkPackageTableFocusService,
-              @Inject(wpMoreMenuServiceToken) private wpMoreMenuServiceFactory:any,
               @Inject($stateToken) readonly $state:StateService) {
     super(injector, $state.params['workPackageId']);
     this.observeWorkPackage();
@@ -93,18 +89,8 @@ export class WorkPackagesFullViewComponent extends WorkPackageViewController {
     // Set Focused WP
     this.wpTableFocus.updateFocus(this.workPackage.id);
 
-    // initialization
-    this.wpMoreMenu = new this.wpMoreMenuServiceFactory(this.workPackage) as WorkPackageMoreMenuService;
-
-    this.wpMoreMenu.initialize().then(() => {
-      this.permittedActions = this.wpMoreMenu.permittedActions;
-      this.actionsAvailable = this.wpMoreMenu.actionsAvailable;
-    });
-
     this.setWorkPackageScopeProperties(this.workPackage);
     this.text.goToList = this.I18n.t('js.button_back_to_list_view');
-
-    this.triggerMoreMenuAction = this.wpMoreMenu.triggerMoreMenuAction.bind(this.wpMoreMenu);
   }
 
   public goToList() {
