@@ -27,7 +27,6 @@
 // ++
 
 import {Component, ElementRef, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {QueryGroupByResource} from 'core-components/api/api-v3/hal-resources/query-group-by-resource.service';
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
@@ -36,7 +35,6 @@ import {TableState, TableStateHolder} from 'core-components/wp-table/table-state
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {debugLog} from '../../helpers/debug_output';
-import {ContextMenuService} from '../context-menus/context-menu.service';
 import {States} from '../states.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
@@ -45,6 +43,7 @@ import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
 import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
+import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 
 @Component({
   template: require('!!raw-loader!./wp-table.directive.html'),
@@ -91,7 +90,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
               public injector:Injector,
               private readonly tableStateHolder:TableStateHolder,
               @Inject(columnsModalToken) private columnsModal:any,
-              private contextMenu:ContextMenuService,
+              private opContextMenu:OPContextMenuService,
               private states:States,
               @Inject(I18nToken) private I18n:op.I18n,
               private wpTableGroupBy:WorkPackageTableGroupByService,
@@ -180,7 +179,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   }
 
   public openColumnsModal() {
-    this.contextMenu.close();
+    this.opContextMenu.close();
     this.columnsModal.activate();
   }
 

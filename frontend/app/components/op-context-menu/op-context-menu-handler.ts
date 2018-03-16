@@ -25,6 +25,10 @@ export abstract class OpContextMenuHandler {
     target.focus();
   }
 
+  public onOpen(menu:JQuery) {
+    menu.find('.menu-item').first().focus();
+  }
+
   /**
    * Positioning args for jquery-ui position.
    *

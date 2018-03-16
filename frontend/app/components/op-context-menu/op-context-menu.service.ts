@@ -1,11 +1,13 @@
-import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector} from '@angular/core';
+import {
+  ApplicationRef, ComponentFactoryResolver, Inject, Injectable,
+  Injector
+} from '@angular/core';
 import {ComponentPortal, DomPortalOutlet, PortalInjector} from "@angular/cdk/portal";
 import {TransitionService} from "@uirouter/core";
 import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-menu-handler";
-import {OpContextMenuLocalsToken} from "core-app/angular4-transition-utils";
+import {FocusHelperToken, OpContextMenuLocalsToken} from "core-app/angular4-transition-utils";
 import {OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";
 import {OPContextMenuComponent} from "core-components/op-context-menu/op-context-menu.component";
-
 
 @Injectable()
 export class OPContextMenuService {
@@ -16,7 +18,11 @@ export class OPContextMenuService {
   // And a reference to the actual portal host interface on top of the element
   private bodyPortalHost:DomPortalOutlet;
 
+  // Allow temporarily disabling the close handler
+  private isOpening = false;
+
   constructor(private componentFactoryResolver:ComponentFactoryResolver,
+              @Inject(FocusHelperToken) readonly FocusHelper:any,
               private appRef:ApplicationRef,
               private $transitions:TransitionService,
               private injector:Injector) {
@@ -39,8 +45,10 @@ export class OPContextMenuService {
     Mousetrap.bind('escape', () => this.close());
 
     // Listen to any click and close the active context menu
-    jQuery(window).click(() => {
-      this.active && this.close();
+    jQuery(window).click((evt) => {
+      if (this.active && !this.portalHostElement.contains(evt.target)) {
+        this.close();
+      }
     });
   }
 
@@ -48,10 +56,11 @@ export class OPContextMenuService {
    * Open a ContextMenu reference and append it to the portal
    * @param contextMenu A reference to a context menu handler
    */
-  public show(menu:OpContextMenuHandler, event:Event, component = OPContextMenuComponent) {
+  public show(menu:OpContextMenuHandler, event:Event, component:any = OPContextMenuComponent) {
     this.close();
 
     // Create a portal for the given component class and render it
+    this.isOpening = true;
     const portal = new ComponentPortal(component, null, this.injectorFor(menu.locals));
     this.bodyPortalHost.attach(portal);
     this.portalHostElement.style.display = 'block';
@@ -60,7 +69,8 @@ export class OPContextMenuService {
     setTimeout(() => {
       this.reposition(event);
       // Focus on the first element
-      this.activeMenu.find('.menu-item').first().focus();
+      this.active && this.active.onOpen(this.activeMenu);
+      this.isOpening = false;
     });
   }
 
@@ -72,6 +82,10 @@ export class OPContextMenuService {
    * Closes all currently open context menus.
    */
   public close() {
+    if (this.isOpening) {
+      return;
+    }
+
     // Detach any component currently in the portal
     this.bodyPortalHost.detach();
     this.portalHostElement.style.display = 'none';

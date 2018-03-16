@@ -34,7 +34,6 @@ import {TablePaginationComponent} from 'core-app/components/table-pagination/tab
 import {AccessibleByKeyboardDirectiveUpgraded} from 'core-app/ui_components/accessible-by-keyboard-directive-upgraded';
 import {SimpleTemplateRenderer} from 'core-components/angular/simple-template-renderer';
 import {OpIcon} from 'core-components/common/icon/op-icon';
-import {ContextMenuService} from 'core-components/context-menus/context-menu.service';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {States} from 'core-components/states.service';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
@@ -163,6 +162,9 @@ import {OpSettingsMenuDirective} from "core-components/op-context-menu/handlers/
 import {WorkPackageStatusDropdownDirective} from "core-components/op-context-menu/handlers/wp-status-dropdown-menu.directive";
 import {WorkPackageCreateSettingsMenuDirective} from "core-components/op-context-menu/handlers/wp-create-settings-menu.directive";
 import {WorkPackageSingleContextMenuDirective} from "core-components/op-context-menu/wp-context-menu/wp-single-context-menu";
+import {WorkPackageQuerySelectableTitleComponent} from "core-components/wp-query-select/wp-query-selectable-title.component";
+import {WorkPackageQuerySelectDropdownComponent} from "core-components/wp-query-select/wp-query-select-dropdown.component";
+import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-dm.service";
 
 @NgModule({
   imports: [
@@ -223,11 +225,11 @@ import {WorkPackageSingleContextMenuDirective} from "core-components/op-context-
     upgradeService('wpTableRelationColumns', WorkPackageTableRelationColumnsService),
     upgradeService('wpTableGroupBy', WorkPackageTableGroupByService),
     upgradeService('wpTableColumns', WorkPackageTableColumnsService),
-    upgradeService('contextMenu', ContextMenuService),
     upgradeService('authorisationService', AuthorisationService),
     upgradeService('ConfigurationService', ConfigurationService),
     upgradeService('currentProject', CurrentProjectService),
     upgradeService('RootDm', RootDmService),
+    upgradeService('QueryDm', QueryDmService),
     // Split view
     upgradeService('wpCreate', WorkPackageCreateService),
     upgradeService('firstRoute', FirstRouteService),
@@ -334,6 +336,8 @@ import {WorkPackageSingleContextMenuDirective} from "core-components/op-context-
     WorkPackageStatusDropdownDirective,
     WorkPackageCreateSettingsMenuDirective,
     WorkPackageSingleContextMenuDirective,
+    WorkPackageQuerySelectableTitleComponent,
+    WorkPackageQuerySelectDropdownComponent,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -372,6 +376,7 @@ import {WorkPackageSingleContextMenuDirective} from "core-components/op-context-
     WorkPackageCopySplitViewComponent,
 
     OPContextMenuComponent,
+    WorkPackageQuerySelectDropdownComponent,
   ]
 })
 export class OpenProjectModule {

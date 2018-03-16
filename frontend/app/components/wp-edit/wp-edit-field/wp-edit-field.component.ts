@@ -27,7 +27,6 @@
 // ++
 
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {ContextMenuService} from '../../context-menus/context-menu.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {opWorkPackagesModule} from '../../../angular-modules';
@@ -48,6 +47,7 @@ import {Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
 import {I18nToken, NotificationsServiceToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 
 @Component({
   template: require('!!raw-loader!./wp-edit-field.html'),
@@ -69,7 +69,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
               protected elementRef:ElementRef,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected ConfigurationService:ConfigurationService,
-              protected contextMenu:ContextMenuService,
+              protected opContextMenu:OPContextMenuService,
               protected wpEditing:WorkPackageEditingService,
               protected wpCacheService:WorkPackageCacheService,
               // Get parent field group from injector
@@ -122,7 +122,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
       this.handleUserActivate(event);
     }
 
-    this.contextMenu.close();
+    this.opContextMenu.close();
     event.stopImmediatePropagation();
 
     return false;
