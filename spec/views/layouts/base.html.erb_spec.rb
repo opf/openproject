@@ -189,7 +189,7 @@ describe 'layouts/base', type: :view do
 
       it "contains inline CSS block with those styles." do
         render
-        expect(response).to render_template partial: 'custom_styles/_inline_css'
+        expect(rendered).to render_template partial: 'custom_styles/_inline_css'
       end
 
       it "renders CSS4 variables" do
@@ -197,7 +197,8 @@ describe 'layouts/base', type: :view do
         primary_color
         render
         expect(DesignColor.overwritten.size).to eq(1)
-        expect(response).to render_template partial: 'custom_styles/_inline_css'
+        expect(rendered).to render_template partial: 'custom_styles/_inline_css'
+        expect(rendered).to match /--primary-color:\s*#{primary_color.get_hexcode}/
       end
     end
 
@@ -212,7 +213,7 @@ describe 'layouts/base', type: :view do
       end
 
       it "does not contain an inline CSS block for styles." do
-        expect(response).to_not render_template partial: 'custom_styles/_inline_css'
+        expect(rendered).to_not render_template partial: 'custom_styles/_inline_css'
       end
     end
 
@@ -226,7 +227,7 @@ describe 'layouts/base', type: :view do
       end
 
       it "does not contain an inline CSS block for styles." do
-        expect(response).to_not render_template partial: 'custom_styles/_inline_css'
+        expect(rendered).to_not render_template partial: 'custom_styles/_inline_css'
       end
     end
 
@@ -238,7 +239,7 @@ describe 'layouts/base', type: :view do
       end
 
       it "does not contain an inline CSS block for styles." do
-        expect(response).to_not render_template partial: 'custom_styles/_inline_css'
+        expect(rendered).to_not render_template partial: 'custom_styles/_inline_css'
       end
     end
   end
