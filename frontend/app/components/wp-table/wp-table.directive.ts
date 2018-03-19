@@ -65,6 +65,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public tbody:JQuery;
 
+  public query:QueryResource;
+
   public timeline:HTMLElement;
 
   public locale:string;
@@ -130,6 +132,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     statesCombined.pipe(
       untilComponentDestroyed(this)
     ).subscribe(([results, groupBy, columns, timelines]) => {
+      this.query = this.tableState.query!.value!;
       this.rowcount = results.count;
 
       this.groupBy = groupBy.current;

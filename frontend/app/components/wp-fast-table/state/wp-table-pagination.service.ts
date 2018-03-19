@@ -85,6 +85,3 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
     return this.state.value! as WorkPackageTablePagination;
   }
 }
-
-
-opServicesModule.service('wpTablePagination', WorkPackageTablePaginationService);
