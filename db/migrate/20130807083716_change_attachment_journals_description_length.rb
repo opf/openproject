@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class ChangeAttachmentJournalsDescriptionLength < ActiveRecord::Migration[4.2]
+class ChangeAttachmentJournalsDescriptionLength < ActiveRecord::Migration[5.1]
   def change
     change_column :attachment_journals,
                   :description,

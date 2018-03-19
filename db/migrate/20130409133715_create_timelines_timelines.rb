@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesTimelines < ActiveRecord::Migration[4.2]
+class CreateTimelinesTimelines < ActiveRecord::Migration[5.1]
   def self.up
     create_table :timelines_timelines do |t|
       t.column :name,        :string,  null: false
@@ -37,8 +37,6 @@ class CreateTimelinesTimelines < ActiveRecord::Migration[4.2]
 
       t.timestamps
     end
-
-    add_index :timelines_timelines, :project_id
   end
 
   def self.down

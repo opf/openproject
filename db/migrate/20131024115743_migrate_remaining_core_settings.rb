@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class MigrateRemainingCoreSettings < ActiveRecord::Migration[4.2]
+class MigrateRemainingCoreSettings < ActiveRecord::Migration[5.1]
   REPLACED = {
     'tracker' => 'type',
     'issue_status_updated' => 'status_updated',

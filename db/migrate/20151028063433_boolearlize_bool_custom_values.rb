@@ -1,4 +1,4 @@
-class BoolearlizeBoolCustomValues < ActiveRecord::Migration[4.2]
+class BoolearlizeBoolCustomValues < ActiveRecord::Migration[5.1]
   def up
     update_custom_values(fake_true, db_true, fake_false, db_false)
     update_queries(fake_true, db_true_unquoted, fake_false, db_false_unquoted)

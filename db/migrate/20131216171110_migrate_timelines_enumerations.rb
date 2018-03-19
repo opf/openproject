@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class MigrateTimelinesEnumerations < ActiveRecord::Migration[4.2]
+class MigrateTimelinesEnumerations < ActiveRecord::Migration[5.1]
   PROJECT_STATUS_TYPE_NAME = { 'Timelines::ReportedProjectStatus' => 'ReportedProjectStatus' }
 
   def up

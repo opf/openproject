@@ -148,7 +148,9 @@ describe TimelogController, type: :controller do
     # simulate that this fails (e.g. due to a plugin), see #5700
     TimeEntry.class_eval do
       before_destroy :stop_callback_chain
-      def stop_callback_chain; false; end
+      def stop_callback_chain
+        throw :abort
+      end
     end
 
     session[:user_id] = 2

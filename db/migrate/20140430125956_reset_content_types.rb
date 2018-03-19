@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class ResetContentTypes < ActiveRecord::Migration[4.2]
+class ResetContentTypes < ActiveRecord::Migration[5.1]
   def up
     Attachment.all.each do |attachment|
       attachment.update_column(:content_type, Attachment.content_type_for(attachment.disk_filename))

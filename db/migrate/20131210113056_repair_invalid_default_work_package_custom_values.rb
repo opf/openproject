@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[4.2]
+class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[5.1]
   class CurrentCustomField < ActiveRecord::Base
     self.table_name = "custom_fields"
 
@@ -39,9 +39,9 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[4.2]
     translates :name, :default_value, :possible_values
   end
 
-  [
-    :user, :group, :work_package, :project, :version,
-    :time_entry_activity, :time_entry, :issue_priority,
+  %i[
+    user group work_package project version
+    time_entry_activity time_entry issue_priority
   ]
     .each do |name|
       Kernel.const_set(
@@ -55,9 +55,6 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[4.2]
       create_missing_work_package_custom_values
       create_missing_work_package_customizable_journals
     end
-  end
-
-  def down
   end
 
   private
@@ -88,8 +85,7 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[4.2]
     end
   end
 
-  def create_missing_custom_value(_table, _customized_id, _custom_field_id)
-  end
+  def create_missing_custom_value(_table, _customized_id, _custom_field_id); end
 
   def missing_custom_values
     @missing_custom_values ||= select_all <<-SQL

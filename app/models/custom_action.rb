@@ -38,6 +38,7 @@ class CustomAction < ActiveRecord::Base
 
   after_save :persist_conditions
 
+  attribute :conditions
   define_attribute_method 'conditions'
 
   acts_as_list

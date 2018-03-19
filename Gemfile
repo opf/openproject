@@ -33,14 +33,14 @@ ruby '~> 2.4.2'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 5.0.6'
+gem 'rails', '~> 5.1.5'
 gem 'responders', '~> 2.4'
 
 gem 'coderay', '~> 1.1.2'
 gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'rdoc', '>= 2.4.2'
 
-gem 'globalize', git: 'https://github.com/globalize/globalize', ref: '38443bcd', require: false
+gem 'globalize', '~> 5.1.0.beta2', require: false
 gem 'omniauth', git: 'https://github.com/oliverguenther/omniauth', ref: '40c6f5f751d2da7cce5444bbd96c390c450440a9'
 gem 'request_store', '~> 1.3.1'
 
@@ -109,7 +109,7 @@ gem 'secure_headers', '~> 5.0.5'
 gem 'okcomputer', '~> 1.16.0'
 
 # Patch Rails HTML whitelisting for Angular curly braces
-gem 'rails-angular-xss', git: 'https://github.com/opf/rails-angular-xss', ref: 'a45267d5'
+gem 'rails-angular-xss', git: 'https://github.com/opf/rails-angular-xss', ref: '00b588b8b8b18c0f53fcb5232be1a2c34dbd1fac'
 
 gem 'gon', '~> 6.2.0'
 gem "syck", '~> 1.3.0', require: false
@@ -261,7 +261,7 @@ platforms :mri, :mingw, :x64_mingw do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'translations-in-core'
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
 end
 
 group :docker, optional: true do

@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateWikiMenuItemForExistingWikis < ActiveRecord::Migration[4.2]
+class CreateWikiMenuItemForExistingWikis < ActiveRecord::Migration[5.1]
   class OldWikiMenuItem < ActiveRecord::Base
     self.table_name = "wiki_menu_items"
 

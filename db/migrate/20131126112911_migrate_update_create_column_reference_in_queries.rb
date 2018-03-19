@@ -31,7 +31,7 @@ require 'yaml'
 
 require_relative 'migration_utils/queries'
 
-class MigrateUpdateCreateColumnReferenceInQueries < ActiveRecord::Migration[4.2]
+class MigrateUpdateCreateColumnReferenceInQueries < ActiveRecord::Migration[5.1]
   include Migration::Utils
 
   KEY = { 'updated_on' => 'updated_at', 'created_on' => 'created_at' }

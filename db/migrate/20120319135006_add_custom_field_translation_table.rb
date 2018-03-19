@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddCustomFieldTranslationTable < ActiveRecord::Migration[4.2]
+class AddCustomFieldTranslationTable < ActiveRecord::Migration[5.1]
   class OldCustomField < ActiveRecord::Base
     self.table_name = :custom_fields
     self.inheritance_column = nil

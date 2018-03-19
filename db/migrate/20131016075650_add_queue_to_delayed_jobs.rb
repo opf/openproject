@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddQueueToDelayedJobs < ActiveRecord::Migration[4.2]
+class AddQueueToDelayedJobs < ActiveRecord::Migration[5.1]
   def self.up
     add_column :delayed_jobs, :queue, :string
   end

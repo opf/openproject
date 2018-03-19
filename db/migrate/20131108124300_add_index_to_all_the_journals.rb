@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddIndexToAllTheJournals < ActiveRecord::Migration[4.2]
+class AddIndexToAllTheJournals < ActiveRecord::Migration[5.1]
   def change
     # This now is only a no op.
     #

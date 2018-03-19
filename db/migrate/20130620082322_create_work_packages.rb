@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateWorkPackages < ActiveRecord::Migration[4.2]
+class CreateWorkPackages < ActiveRecord::Migration[5.1]
   def up
     create_table 'work_packages' do |t|
       # Issue
@@ -77,20 +77,11 @@ class CreateWorkPackages < ActiveRecord::Migration[4.2]
       t.change :project_id, :integer, default: 0, null: false
     end
 
-    # Planning Elements
-    add_index :work_packages, :parent_id
-    add_index :work_packages, :project_id
-    add_index :work_packages, :responsible_id
-    add_index :work_packages, :planning_element_type_id
-    add_index :work_packages, :planning_element_status_id
-
     # Nested Set
     add_index :work_packages, [:root_id, :lft, :rgt]
 
     change_table(:projects) do |t|
       t.belongs_to :work_packages_responsible
-
-      t.index :work_packages_responsible_id
     end
 
     # Time Entry

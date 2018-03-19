@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class RenameEndDateOnAlternateDates < ActiveRecord::Migration[4.2]
+class RenameEndDateOnAlternateDates < ActiveRecord::Migration[5.1]
   def change
     rename_column :alternate_dates, :end_date, :due_date
   end

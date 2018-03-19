@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/customizable_utils'
 
-class RepairCustomizableJournals < ActiveRecord::Migration[4.2]
+class RepairCustomizableJournals < ActiveRecord::Migration[5.1]
   include Migration::Utils
   include Migration::Utils::CustomizableUtils
 
