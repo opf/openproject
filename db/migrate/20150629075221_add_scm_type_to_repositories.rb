@@ -37,7 +37,7 @@
 # - Repository::*: existing
 # - Repository::Git: local
 #
-class AddScmTypeToRepositories < ActiveRecord::Migration[4.2]
+class AddScmTypeToRepositories < ActiveRecord::Migration[5.1]
   def up
     add_column :repositories, :scm_type, :string, null: true
 

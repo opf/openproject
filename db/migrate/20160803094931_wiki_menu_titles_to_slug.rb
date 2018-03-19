@@ -1,4 +1,4 @@
-class WikiMenuTitlesToSlug < ActiveRecord::Migration[4.2]
+class WikiMenuTitlesToSlug < ActiveRecord::Migration[5.1]
   def up
     migrate_menu_items
   end

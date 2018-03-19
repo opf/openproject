@@ -27,15 +27,34 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[4.2]
+class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[5.1]
+  class CurrentCustomField < ActiveRecord::Base
+    self.table_name = "custom_fields"
+
+    def self.find_sti_class(type_name)
+      type_name = "Current#{type_name}"
+      super
+    end
+
+    translates :name, :default_value, :possible_values
+  end
+
+  %i[
+    user group work_package project version
+    time_entry_activity time_entry issue_priority
+  ]
+    .each do |name|
+      Kernel.const_set(
+        "Current#{name.to_s.camelize}CustomField",
+        Class.new(CurrentCustomField)
+      )
+    end
+
   def up
     unless custom_field_default_values.empty?
       create_missing_work_package_custom_values
       create_missing_work_package_customizable_journals
     end
-  end
-
-  def down
   end
 
   private
@@ -66,8 +85,7 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[4.2]
     end
   end
 
-  def create_missing_custom_value(_table, _customized_id, _custom_field_id)
-  end
+  def create_missing_custom_value(_table, _customized_id, _custom_field_id); end
 
   def missing_custom_values
     @missing_custom_values ||= select_all <<-SQL
@@ -86,7 +104,7 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[4.2]
   end
 
   def custom_field_default_values
-    @custom_field_default_values ||= CustomField.select { |c| !(c.default_value.blank?) }
+    @custom_field_default_values ||= CurrentCustomField.select { |c| !(c.default_value.blank?) }
                                      .each_with_object({}) { |c, h| h[c.id] = c.default_value unless h[c.id] }
   end
 

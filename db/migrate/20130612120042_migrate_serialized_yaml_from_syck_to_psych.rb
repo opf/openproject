@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/legacy_yamler'
 
-class MigrateSerializedYamlFromSyckToPsych < ActiveRecord::Migration[4.2]
+class MigrateSerializedYamlFromSyckToPsych < ActiveRecord::Migration[5.1]
   include Migration::LegacyYamler
 
   def up

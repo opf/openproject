@@ -4,6 +4,12 @@ hr:
     ajax:
       hide: Sakrij
       loading: Učitavanje ...
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: Popup izbornik
     close_filter_title: Zatvori filtar
     close_form_title: Zatvori obrazac

@@ -43,7 +43,7 @@
 #       be displayed, if not downloaded.
 #
 # Important: The migration is irreversible.
-class PatchCorruptAttachments < ActiveRecord::Migration[4.2]
+class PatchCorruptAttachments < ActiveRecord::Migration[5.1]
   def up
     Attachment.all.each do |attachment|
       patch_attachment attachment

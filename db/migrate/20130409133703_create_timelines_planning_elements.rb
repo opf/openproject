@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesPlanningElements < ActiveRecord::Migration[4.2]
+class CreateTimelinesPlanningElements < ActiveRecord::Migration[5.1]
   def self.up
     create_table(:timelines_planning_elements) do |t|
       t.column :name,        :string,  null: false
@@ -45,12 +45,6 @@ class CreateTimelinesPlanningElements < ActiveRecord::Migration[4.2]
 
       t.timestamps
     end
-
-    add_index :timelines_planning_elements, :parent_id
-    add_index :timelines_planning_elements, :project_id
-    add_index :timelines_planning_elements, :responsible_id
-    add_index :timelines_planning_elements, :planning_element_type_id
-    add_index :timelines_planning_elements, :planning_element_status_id
   end
 
   def self.down

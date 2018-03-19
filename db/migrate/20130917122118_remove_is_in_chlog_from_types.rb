@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class RemoveIsInChlogFromTypes < ActiveRecord::Migration[4.2]
+class RemoveIsInChlogFromTypes < ActiveRecord::Migration[5.1]
   def up
     remove_column :types, :is_in_chlog
   end

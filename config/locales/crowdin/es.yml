@@ -286,8 +286,8 @@ es:
       announcements:
         show_until: Mostrar hasta
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Contenido del archivo adjunto
+        attachment_file_name: Nombre de archivo adjunto
         downloads: Descargas
         file: Archivo
         filename: Archivo

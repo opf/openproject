@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class RenameIssueCategoryToCategory < ActiveRecord::Migration[4.2]
+class RenameIssueCategoryToCategory < ActiveRecord::Migration[5.1]
   def change
     rename_table :issue_categories, :categories
   end

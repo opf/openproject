@@ -63,16 +63,16 @@ it:
   custom_actions:
     actions:
       name: Azioni
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+      add: Aggiungi un'azione
+    conditions: Condizioni
+    plural: Azioni personalizzate
+    new: Nuova azione personalizzata
+    edit: Modifica l'azione personalizzata %{name}
+    execute: Esegui %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: Le azioni personalizzate sono una funzionalità dell' Enterprise Edition
+      description: La linea personalizzata delle azioni lavora quotidianamente combinando
+        un set di passi individuali in un bottone.
   custom_fields:
     text_add_new_custom_field: 'Per aggiungere nuovi campi personalizzati a un progetto,
       è necessario prima crearli.
@@ -279,8 +279,8 @@ it:
       announcements:
         show_until: Visualizza fino a
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Contenuto allegato
+        attachment_file_name: Nome del file allegato
         downloads: Scaricati
         file: File
         filename: File
@@ -461,12 +461,13 @@ it:
         custom_field:
           at_least_one_custom_option: Deve essere disponibile almeno un'opzione.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: "(%{name}) solo un valore è permesso."
+          empty: "(%{name}) valore non può essere vuoto."
+          inclusion: "(%{name}) valore non è impostato ad uno dei valori permessi."
+          not_an_integer: "(%{name}) non è un intero."
+          smaller_than_or_equal_to: "(%{name}) deve essere più piccolo o uguale a
+            %{count}."
+          greater_than_or_equal_to: "(%{name}) deve essere più grande o uguale a %{count}."
         enterprise_token:
           unreadable: non può essere letto. Sei sicuro che si tratta di un token di
             assistenza?
@@ -582,7 +583,7 @@ it:
       attribute_help_text: Testo guida dell'attributo
       board: Forum
       comment: Commento
-      custom_action: Custom action
+      custom_action: Azione personalizzata
       custom_field: Campo personalizzato
       group: Gruppo
       category: Categoria
@@ -1017,12 +1018,12 @@ it:
       pdf_with_descriptions: PDF con descrizioni
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdfatesto disponibile (opzionale)
+      unrtf: Unrtf disponibile (opzionale)
+      catdoc: Catdoc disponibile (opzionale)
+      xls2csv: Xls2csv disponibile (opzionale)
+      catppt: Catppt disponibile (opzionale)
+      tesseract: Tesseract disponibile (opzionale)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2102,7 +2103,7 @@ it:
   setting_file_max_size_displayed: Dimensione massima dei file di testo visualizzati
     inline
   setting_host_name: Nome dell'Host
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: L'attivazione dell'e-mail scade dopo
   setting_work_package_done_ratio: Calcola la percentuale di completamento della macro-attività
     (work package) con
   setting_work_package_done_ratio_field: Usa il campo della macro-attività (work package)
@@ -2173,7 +2174,7 @@ it:
   setting_accessibility_mode_for_anonymous: Abilita la modalità di accesso facilitato
     per utenti anonimi
   setting_user_format: Formato di visualizzazione utenti
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: Orario predefinito utenti
   setting_users_deletable_by_admins: Account degli utenti eliminabili dagli amministratori
   setting_users_deletable_by_self: Gli utenti possono eliminare il proprio account
   setting_welcome_text: Blocco di testo di benvenuto
@@ -2249,7 +2250,7 @@ it:
     non sia trasparente, altrimenti non sarà esteticamente appetibile su iOS.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: Il database permette TSVector (opzionale)
   text_default_administrator_account_changed: Account amministratore predefinito cambiato
   text_default_encoding: 'Predefinito: UTF-8'
   text_destroy: Cancella
@@ -2562,8 +2563,8 @@ it:
       quarters: Trimestri
       years: Anni
   title_remove_and_delete_user: Rimuovi l'utente invitato dal progetto ed eliminalo/a.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'L''orario predefinito per i nuovi utenti. Può essere
+    cambiato in un impostazione utenti.
 
 '
   tooltip_resend_invitation: 'Invia un''altra email di invito con un token nuovo nel
@@ -2636,8 +2637,8 @@ it:
   warning: Attenzione
   warning_attachments_not_saved: "%{count} file non possono essere salvati."
   warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+    L'attivazione della e-mail è scaduta. Te ne abbiamo mandata una nuova a %{email}.
+    Clicca il link al suo interno per attivare il tuo account.
   menu_item: Voce di menu
   menu_item_setting: Visibilità
   wiki_menu_item_for: Voce di menù per la pagina wiki "%{title}"

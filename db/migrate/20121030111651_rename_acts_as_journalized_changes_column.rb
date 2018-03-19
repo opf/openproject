@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class RenameActsAsJournalizedChangesColumn < ActiveRecord::Migration[4.2]
+class RenameActsAsJournalizedChangesColumn < ActiveRecord::Migration[5.1]
   def self.up
     # This is provided here for migrating up after the JournalDetails has been removed
     unless Object.const_defined?('JournalDetails')

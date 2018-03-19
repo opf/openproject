@@ -1,4 +1,4 @@
-class AddSlugToWikiPages < ActiveRecord::Migration[4.2]
+class AddSlugToWikiPages < ActiveRecord::Migration[5.1]
   def up
     add_column :wiki_pages, :slug, :string
     add_index :wiki_pages, [:wiki_id, :slug], name: 'wiki_pages_wiki_id_slug', unique: true

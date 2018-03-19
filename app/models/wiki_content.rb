@@ -39,7 +39,7 @@ class WikiContent < ActiveRecord::Base
 
   before_save :comments_to_journal_notes
   after_create :send_content_added_mail
-  after_update :send_content_updated_mail
+  after_update :send_content_updated_mail, if: :saved_change_to_text?
 
   acts_as_journalized
 
@@ -94,8 +94,7 @@ class WikiContent < ActiveRecord::Base
   end
 
   def send_content_updated_mail
-    return unless text_changed? &&
-                  Setting.notified_events.include?('wiki_content_updated')
+    return unless Setting.notified_events.include?('wiki_content_updated')
 
     update_recipients.uniq.each do |user|
       UserMailer.wiki_content_updated(user, self, User.current).deliver_now

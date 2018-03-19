@@ -4,6 +4,12 @@ zh:
     ajax:
       hide: 隐藏
       loading: 加载中...
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: 关闭弹出窗口
     close_filter_title: 关闭过滤器
     close_form_title: 关闭表单

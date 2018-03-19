@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class RemoveTimelinesNamespace < ActiveRecord::Migration[4.2]
+class RemoveTimelinesNamespace < ActiveRecord::Migration[5.1]
   def self.up
     # rename all tables.
     # this changes everything. again.

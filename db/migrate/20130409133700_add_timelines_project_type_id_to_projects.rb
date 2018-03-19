@@ -27,12 +27,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddTimelinesProjectTypeIdToProjects < ActiveRecord::Migration[4.2]
+class AddTimelinesProjectTypeIdToProjects < ActiveRecord::Migration[5.1]
   def self.up
     change_table(:projects) do |t|
       t.belongs_to :timelines_project_type
-
-      t.index :timelines_project_type_id
     end
   rescue
     raise "Error: Cannot migrate table 'projects'!"\

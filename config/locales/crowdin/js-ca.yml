@@ -4,6 +4,12 @@ ca:
     ajax:
       hide: Amagar
       loading: Carregant ...
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: Tanca el popup
     close_filter_title: Close filter
     close_form_title: Close form

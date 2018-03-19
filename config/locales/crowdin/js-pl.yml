@@ -4,6 +4,12 @@ pl:
     ajax:
       hide: Ukryj
       loading: Ładowanie ...
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: Zamknij okno
     close_filter_title: Zamknij filtr
     close_form_title: Zamknij formularz

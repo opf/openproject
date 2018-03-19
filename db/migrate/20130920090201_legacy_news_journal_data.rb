@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/legacy_journal_migrator'
 
-class LegacyNewsJournalData < ActiveRecord::Migration[4.2]
+class LegacyNewsJournalData < ActiveRecord::Migration[5.1]
   def up
     add_index 'news_journals', ['journal_id']
 

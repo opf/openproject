@@ -36,7 +36,7 @@
 # In general we learned that up until now OpenProject was not very good at handling concurrent
 # updates to journables. By adding the index we ensure data consistency, but at the same time
 # provoke errors in those update scenarios.
-class AddUniqueIndexOnJournals < ActiveRecord::Migration[4.2]
+class AddUniqueIndexOnJournals < ActiveRecord::Migration[5.1]
   def up
     cleanup_duplicate_journals
     add_index :journals, [:journable_type, :journable_id, :version], unique: true

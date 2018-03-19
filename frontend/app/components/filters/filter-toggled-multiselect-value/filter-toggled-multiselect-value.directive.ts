@@ -122,7 +122,7 @@ export class ToggledMultiselectController {
       .then(((resources:Array<HalResource>) => {
         let options = (resources[0] as CollectionResource).elements;
 
-        if (isUserResource) {
+        if (isUserResource && this.filter.filter.id !== 'memberOfGroup') {
           this.addMeValue(options, (resources[1] as RootResource).user);
         }
 

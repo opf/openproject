@@ -256,6 +256,7 @@ describe MailHandler, type: :model do
 
   it 'should add work package with localized attributes' do
     User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'de'
+
     issue = submit_email('ticket_with_localized_attributes.eml', allow_override: 'type,category,priority')
     assert issue.is_a?(WorkPackage)
     assert !issue.new_record?

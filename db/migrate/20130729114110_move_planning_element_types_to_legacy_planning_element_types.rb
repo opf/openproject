@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class MovePlanningElementTypesToLegacyPlanningElementTypes < ActiveRecord::Migration[4.2]
+class MovePlanningElementTypesToLegacyPlanningElementTypes < ActiveRecord::Migration[5.1]
   def up
     rename_table :default_planning_element_types, :legacy_default_planning_element_types
     rename_table :enabled_planning_element_types, :legacy_enabled_planning_element_types

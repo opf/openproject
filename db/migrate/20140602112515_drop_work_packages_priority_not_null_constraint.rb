@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class DropWorkPackagesPriorityNotNullConstraint < ActiveRecord::Migration[4.2]
+class DropWorkPackagesPriorityNotNullConstraint < ActiveRecord::Migration[5.1]
   def change
     change_column :work_packages, :priority_id, :integer, null: true
   end

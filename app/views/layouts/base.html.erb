@@ -68,6 +68,13 @@ See docs/COPYRIGHT.rdoc for more details.
         <% end %>
       <% end %>
     <% end %>
+    <% if ::I18n.locale == :lol #the in-context translation pseudo-language %>
+      <script type="text/javascript">
+        var _jipt = [];
+            _jipt.push(['project', 'openproject']);
+      </script>
+      <script type="text/javascript" src="//cdn.crowdin.com/jipt/jipt.js"></script>
+    <% end %>
   </head>
   <body class="<%= body_css_classes %>" data-relative_url_root="<%= root_path %>" ng-init="projectIdentifier = '<%= (@project.identifier rescue '') %>'">
     <noscript>

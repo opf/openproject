@@ -4,6 +4,12 @@ sk:
     ajax:
       hide: Skryť
       loading: Načítava sa ...
+    autocomplete_select:
+      placeholder:
+        multi: Add "%{name}"
+        single: Select "%{name}"
+      remove: Remove %{name}
+      active: Active %{label} %{name}
     close_popup_title: Zavrieť okno
     close_filter_title: Close filter
     close_form_title: Close form
@@ -77,7 +83,7 @@ sk:
       komentár)
     label_add_columns: Add columns
     label_add_comment: Pridať komentár
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Komentujte a napíšte @ pre upozornenie ďalších ľudí
     label_add_selected_columns: Pridať vybraté stĺpce
     label_added_by: Pridal
     label_added_time_by: Pridal %{author} %{age}
@@ -108,7 +114,7 @@ sk:
     label_contains: obsahuje
     label_created_on: vytvorené
     label_edit_comment: Upraviť tento komentár
-    label_edit_status: Edit the status of the work package
+    label_edit_status: Upraviť stav pracovného balíka
     label_equals: je
     label_expand: Rozbaliť
     label_expanded: rozbalené

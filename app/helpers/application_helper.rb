@@ -385,21 +385,17 @@ module ApplicationHelper
              []
            end
 
-    mapped_languages = valid_languages.map { |lang|
-      [ll(lang.to_s, :general_lang_name), lang.to_s]
-    }
+    mapped_languages = valid_languages.map { |lang| translate_language(lang) }
 
-    auto + mapped_languages.sort { |x, y| x.last <=> y.last }
+    auto + mapped_languages.sort_by(&:last)
   end
 
   def all_lang_options_for_select(blank = true)
     initial_lang_options = blank ? [['(auto)', '']] : []
 
-    mapped_languages = all_languages.map { |lang|
-      [ll(lang.to_s, :general_lang_name), lang.to_s]
-    }
+    mapped_languages = all_languages.map { |lang| translate_language(lang) }
 
-    initial_lang_options + mapped_languages.sort { |x, y| x.last <=> y.last }
+    initial_lang_options + mapped_languages.sort_by(&:last)
   end
 
   def labelled_tabular_form_for(record, options = {}, &block)
@@ -596,6 +592,21 @@ module ApplicationHelper
 
   private
 
+  def translate_language(lang_code)
+    # rename in-context translation language name for the language select box
+    if lang_code == Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE &&
+       ::I18n.locale != Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE
+      [Redmine::I18n::IN_CONTEXT_TRANSLATION_NAME, lang_code.to_s]
+    else
+      [ll(lang_code.to_s, :general_lang_name), lang_code.to_s]
+    end
+  end
+
+  def wiki_helper
+    helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
+    extend helper
+    self
+  end
 
   def link_to_content_update(text, url_params = {}, html_options = {})
     link_to(text, url_params, html_options)

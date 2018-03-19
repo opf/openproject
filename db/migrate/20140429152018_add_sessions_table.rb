@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddSessionsTable < ActiveRecord::Migration[4.2]
+class AddSessionsTable < ActiveRecord::Migration[5.1]
   def change
     create_table :sessions do |t|
       t.string :session_id, null: false

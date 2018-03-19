@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddUpdatedAtIndexToWorkPackages < ActiveRecord::Migration[4.2]
+class AddUpdatedAtIndexToWorkPackages < ActiveRecord::Migration[5.1]
   def change
     add_index :work_packages, :updated_at
   end

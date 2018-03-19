@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/utils'
 
-class DeleteFormerDeletedPlanningElements < ActiveRecord::Migration[4.2]
+class DeleteFormerDeletedPlanningElements < ActiveRecord::Migration[5.1]
   include Migration::Utils
 
   def up

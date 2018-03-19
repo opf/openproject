@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddEnabledModulesNameIndex < ActiveRecord::Migration[4.2]
+class AddEnabledModulesNameIndex < ActiveRecord::Migration[5.1]
   def change
     add_index :enabled_modules, :name, length: 8
   end

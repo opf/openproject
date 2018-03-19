@@ -1,4 +1,4 @@
-class BoolearlizeBoolCustomValues < ActiveRecord::Migration[4.2]
+class BoolearlizeBoolCustomValues < ActiveRecord::Migration[5.1]
   def up
     update_custom_values(fake_true, db_true, fake_false, db_false)
     update_queries(fake_true, db_true_unquoted, fake_false, db_false_unquoted)
@@ -27,6 +27,10 @@ class BoolearlizeBoolCustomValues < ActiveRecord::Migration[4.2]
       query.filters.each do |filter|
         update_filter(filter, old_true, new_true, old_false, new_false)
       end
+
+      query.column_names = [] if query.column_names == ""
+      query.sort_criteria = [] if query.sort_criteria == ""
+
       query.save(validate: false) # if we validate new code is run depending on role_permissions which do not exist yet
     end
   end

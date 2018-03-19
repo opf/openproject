@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateUserPasswords < ActiveRecord::Migration[4.2]
+class CreateUserPasswords < ActiveRecord::Migration[5.1]
   def initialize(*)
     super
     @former_passwords_table_exists = ActiveRecord::Base.connection.tables.include? 'former_user_passwords'

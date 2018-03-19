@@ -4,6 +4,12 @@ ru:
     ajax:
       hide: Скрыть
       loading: Загрузка ...
+    autocomplete_select:
+      placeholder:
+        multi: Добавить «%{name}»
+        single: Выбрать «%{name}»
+      remove: Удалить %{name}
+      active: Активировать %{label} %{name}
     close_popup_title: Закрыть всплывающее
     close_filter_title: Закрыть фильтр
     close_form_title: Закрыть форму
@@ -65,7 +71,7 @@ ru:
           one: Первый критерий сортировки
           two: Второй критерий сортировки
           three: Третий критерий сортировки
-      upsale_for_more: For more advanced filters, check out the
+      upsale_for_more: Для более сложных фильтров, проверить
       upsale_link: Корпоративная версия.
     general_text_no: нет
     general_text_yes: да

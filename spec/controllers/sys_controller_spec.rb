@@ -30,8 +30,7 @@ require 'spec_helper'
 
 describe SysController, type: :controller do
   let(:commit_role) {
-    FactoryGirl.create(:role, permissions: [:commit_access,
-                                            :browse_repository])
+    FactoryGirl.create(:role, permissions: %i[commit_access browse_repository])
   }
   let(:browse_role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
   let(:guest_role) { FactoryGirl.create(:role, permissions: []) }
@@ -315,13 +314,12 @@ describe SysController, type: :controller do
         end
 
         it 'should respond 403 not allowed for write (push)' do
-          post 'repo_auth',
-               key: api_key,
-               repository: project.identifier,
-               method: 'POST',
-               git_smart_http: '1',
-               uri: "/git/#{project.identifier}/git-receive-pack",
-               location: '/git'
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'POST',
+                                      git_smart_http: '1',
+                                      uri: "/git/#{project.identifier}/git-receive-pack",
+                                      location: '/git' }
 
           expect(response.code).to eq('403')
         end

@@ -52,7 +52,8 @@ module Project::Activity
 
     def with_latest_activity
       Project
-        .select('projects.*, activity.latest_activity_at')
+        .select('projects.*')
+        .select('activity.latest_activity_at')
         .joins("LEFT JOIN (#{latest_activity_sql}) activity ON projects.id = activity.project_id")
     end
 

@@ -81,6 +81,7 @@ describe 'custom fields', js: true do
       expect_angular_frontend_initialized
 
       click_on custom_field.name
+      expect_angular_frontend_initialized
     end
 
     it "adds new options" do

@@ -31,7 +31,7 @@ require 'yaml'
 
 require_relative 'migration_utils/queries'
 
-class MigrateQueryTrackerReferencesToType < ActiveRecord::Migration[4.2]
+class MigrateQueryTrackerReferencesToType < ActiveRecord::Migration[5.1]
   include Migration::Utils
 
   KEY = { 'tracker_id' => 'type_id', 'tracker' => 'type' }

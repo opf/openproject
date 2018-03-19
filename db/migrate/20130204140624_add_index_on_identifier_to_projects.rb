@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddIndexOnIdentifierToProjects < ActiveRecord::Migration[4.2]
+class AddIndexOnIdentifierToProjects < ActiveRecord::Migration[5.1]
   def self.up
     add_index :projects, :identifier
   end
