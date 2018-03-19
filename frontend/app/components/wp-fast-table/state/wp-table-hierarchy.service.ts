@@ -1,14 +1,12 @@
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {opServicesModule} from '../../../angular-modules';
-import {States} from '../../states.service';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {WorkPackageTableHierarchies} from '../wp-table-hierarchies';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseService<WorkPackageTableHierarchies> implements WorkPackageQueryStateService {
-  constructor(public states:States,
-              public wpCacheService:WorkPackageCacheService) {
-    super(states);
+  public constructor(tableState:TableState) {
+    super(tableState);
   }
 
   public get state() {
@@ -44,9 +42,9 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
 
     // hierarchies and group by are mutually exclusive
     if (active) {
-      var groupBy = this.states.globalTable.groupBy.value!;
+      var groupBy = this.tableState.groupBy.value!;
       groupBy.current = undefined;
-      this.states.globalTable.groupBy.putValue(groupBy);
+      this.tableState.groupBy.putValue(groupBy);
     }
 
     this.state.putValue(state);

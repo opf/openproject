@@ -43,9 +43,9 @@ import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-reso
 
 export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<WorkPackageTableFilters> implements WorkPackageQueryStateService {
 
-  constructor(public states:States,
-              private $q:ng.IQService) {
-    super(states);
+  constructor(readonly tableState:TableState,
+              readonly $q:ng.IQService) {
+    super(tableState);
   }
 
   public get state():InputState<WorkPackageTableFilters> {

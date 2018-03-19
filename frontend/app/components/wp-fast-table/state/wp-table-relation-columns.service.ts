@@ -55,13 +55,13 @@ import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-reso
 export type RelationColumnType = 'toType' | 'ofType';
 
 export class WorkPackageTableRelationColumnsService extends WorkPackageTableBaseService<WorkPackageTableRelationColumns> {
-  constructor(public states:States,
+  constructor(public tableState:TableState,
               public wpTableColumns:WorkPackageTableColumnsService,
               public $q:IQService,
               public halRequest:HalRequestService,
               public wpCacheService:WorkPackageCacheService,
               public wpRelations:WorkPackageRelationsService) {
-    super(states);
+      super(tableState);
   }
 
   public get state() {
@@ -130,7 +130,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
 
       return _.filter(relations, (relation:RelationResourceInterface) => {
         const denormalized = relation.denormalized(workPackage);
-        const target = this.states.workPackages.get(denormalized.targetId).value;
+        const target = this.wpCacheService.state(denormalized.targetId).value;
 
         return _.get(target, 'type.href') === typeHref;
       });
