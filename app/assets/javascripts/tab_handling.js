@@ -62,8 +62,9 @@ function displayTabsButtons() {
 }
 
 // scroll the tab caption list right
-function moveTabRight(el) {
-  var lis = jQuery(el).parents('div.tabs').first().find('ul').children();
+function moveTabRight() {
+  var el = jQuery(this);
+  var lis = el.parents('div.tabs').first().find('ul').children();
   var tabsWidth = 0;
   var i = 0;
   lis.each(function() {
@@ -77,12 +78,26 @@ function moveTabRight(el) {
 }
 
 // scroll the tab caption list left
-function moveTabLeft(el) {
-  var lis = jQuery(el).parents('div.tabs').first().find('ul').children();
+function moveTabLeft() {
+  var el = jQuery(this);
+  var lis = el.parents('div.tabs').first().find('ul').children();
   var i = 0;
   while (i < lis.length && !lis.eq(i).is(':visible')) { i++; }
   if (i > 0) {
     lis.eq(i-1).show();
   }
 }
+
+jQuery(function($) {
+  if (jQuery('div.tabs').length === 0) {
+    return;
+  }
+
+  // Show tabs
+  displayTabsButtons();
+  $(window).resize(function() { displayTabsButtons(); });
+
+  $('.tab-left').click(moveTabLeft);
+  $('.tab-right').click(moveTabRight);
+});
 
