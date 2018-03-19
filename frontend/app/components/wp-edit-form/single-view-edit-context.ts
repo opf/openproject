@@ -43,26 +43,25 @@ import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selecti
 import {StateService} from '@uirouter/core';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
+import {Injector} from '@angular/core';
+import {$stateToken, FocusHelperToken} from 'core-app/angular4-transition-utils';
 
 export class SingleViewEditContext implements WorkPackageEditContext {
 
   // Injections
-  public wpTableRefresh:WorkPackageTableRefreshService;
-  public states:States;
-  public FocusHelper:any;
-  public $q:ng.IQService;
-  public $timeout:ng.ITimeoutService;
-  public templateRenderer:SimpleTemplateRenderer;
-  public $state:StateService;
-  public wpNotificationsService:WorkPackageNotificationService;
-  protected wpTableSelection:WorkPackageTableSelection;
+  public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
+  public states:States = this.injector.get(States);
+  public FocusHelper:any = this.injector.get(FocusHelperToken);
+  public templateRenderer:SimpleTemplateRenderer = this.injector.get(SimpleTemplateRenderer);
+  public $state:StateService = this.injector.get($stateToken);
+  public wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
+  protected wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);
 
   // other fields
   public successState:string;
 
-  constructor(public fieldGroup:WorkPackageEditFieldGroupComponent) {
-    $injectFields(this, 'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh',
-      'FocusHelper', '$q', '$timeout', 'templateRenderer', '$state', 'wpNotificationsService', 'wpTableSelection');
+  constructor(readonly injector:Injector,
+              readonly fieldGroup:WorkPackageEditFieldGroupComponent) {
   }
 
   public async activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
@@ -98,7 +97,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
         .then(() => {
           ctrl.editContainer.show();
           // Assure the element is visible
-          this.$timeout(() => {
+          setTimeout(() => {
             resolve(fieldHandler);
           });
         })
@@ -121,18 +120,16 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   }
 
   public requireVisible(fieldName:string):Promise<undefined> {
-    const deferred = this.$q.defer<undefined>();
+    return new Promise((resolve, ) => {
+      const interval = setInterval(() => {
+        const field = this.fieldGroup.fields[fieldName];
 
-    const interval = setInterval(() => {
-      const field = this.fieldGroup.fields[fieldName];
-
-      if (field !== undefined) {
-        clearInterval(interval);
-        deferred.resolve();
-      }
-    }, 50);
-
-    return deferred.promise;
+        if (field !== undefined) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 50);
+    });
   }
 
   public firstField(names:string[]) {

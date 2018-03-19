@@ -35,6 +35,7 @@ import {InputState} from 'reactivestates';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {States} from 'core-components/states.service';
 import {Injectable} from '@angular/core';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
 export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<WorkPackageTableColumns> implements WorkPackageQueryStateService {
@@ -258,3 +259,5 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
     return _.differenceBy(this.all, this.getColumns(), '$href');
   }
 }
+
+opServicesModule.service('wpTableColumns', downgradeInjectable(WorkPackageTableColumnsService));

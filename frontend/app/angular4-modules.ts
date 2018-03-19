@@ -66,6 +66,7 @@ import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-
 import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
 import {WorkPackagesTableController} from 'core-components/wp-table/wp-table.directive';
 import {
+  $localeToken,
   $qToken,
   $rootScopeToken,
   $stateToken,
@@ -175,6 +176,11 @@ import {QueryFormDmService} from 'core-components/api/api-v3/hal-resource-dms/qu
 import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
 import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
+import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
+import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
+import {WorkPackageFieldService} from 'core-components/wp-field/wp-field.service';
+import ExpressionService from 'core-components/common/xss/expression.service';
+import {WorkPackageEditFieldService} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.service';
 
 @NgModule({
   imports: [
@@ -196,6 +202,7 @@ import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-li
     upgradeServiceWithToken('$state', $stateToken),
     upgradeServiceWithToken('$q', $qToken),
     upgradeServiceWithToken('$timeout', $timeoutToken),
+    upgradeServiceWithToken('$locale', $localeToken),
     upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
     upgradeServiceWithToken('columnsModal', columnsModalToken),
     upgradeServiceWithToken('FocusHelper', FocusHelperToken),
@@ -213,8 +220,9 @@ import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-li
     upgradeServiceWithToken('exportModal', exportModalToken),
     upgradeServiceWithToken('timelinesModal', timelinesModalToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
-    upgradeService('wpCacheService', WorkPackageCacheService),
-    upgradeService('wpEditing', WorkPackageEditingService),
+    WorkPackageCacheService,
+    WorkPackageEditingService,
+    SchemaCacheService,
     upgradeService('states', States),
     upgradeService('paginationService', PaginationService),
     upgradeService('keepTab', KeepTabService),
@@ -225,6 +233,7 @@ import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-li
     upgradeService('wpRelationsHierarchyService', WorkPackageRelationsHierarchyService),
     upgradeService('wpFiltersService', WorkPackageFiltersService),
     upgradeService('loadingIndicator', LoadingIndicatorService),
+    upgradeService('apiWorkPackages', ApiWorkPackagesService),
     // Table and query states services
     WorkPackageTableRelationColumnsService,
     WorkPackageTablePaginationService,
@@ -242,6 +251,10 @@ import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-li
     WorkPackagesListInvalidQueryService,
     WorkPackageTableFocusService,
     WorkPackageTableSelection,
+    WorkPackageFieldService,
+    WorkPackageDisplayFieldService,
+    WorkPackageEditFieldService,
+    ExpressionService,
     upgradeService('authorisationService', AuthorisationService),
     upgradeService('ConfigurationService', ConfigurationService),
     upgradeService('currentProject', CurrentProjectService),

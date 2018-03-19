@@ -30,10 +30,12 @@ import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 import {Field, FieldFactory} from '../../wp-field/wp-field.module';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
+import {Injector} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 
 export class DisplayField extends Field {
   public static type:string;
-  public static $injector:ng.auto.IInjectorService;
+  public static $injector:Injector;
   public I18n:op.I18n;
   public mode:string | null = null;
   public changeset:WorkPackageChangeset|null = null;
@@ -82,10 +84,6 @@ export class DisplayField extends Field {
     return this.valueString;
   }
 
-  protected get $injector():ng.auto.IInjectorService {
-    return (this.constructor as typeof DisplayField).$injector;
-  }
-
   public render(element:HTMLElement, displayText:string):void {
     element.textContent = displayText;
   }
@@ -95,7 +93,7 @@ export class DisplayField extends Field {
               public schema:op.FieldSchema) {
     super(resource, name, schema);
 
-    this.I18n = <op.I18n>this.$injector.get('I18n');
+    this.I18n = <op.I18n>this.$injector.get(I18nToken);
   }
 }
 

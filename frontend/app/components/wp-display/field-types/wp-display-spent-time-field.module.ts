@@ -29,19 +29,19 @@
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {DurationDisplayField} from './wp-display-duration-field.module';
 import {HalResource} from "core-components/api/api-v3/hal-resources/hal-resource.service";
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 export class SpentTimeDisplayField extends DurationDisplayField {
   public template: string = '/components/wp-display/field-types/wp-display-spent-time-field.directive.html';
   public text: any;
   public timeEntriesLink: string;
-  private PathHelper:any;
+  private PathHelper:PathHelperService = this.$injector.get(PathHelperService);
 
   constructor(public resource:HalResource,
               public name: string,
               public schema:op.FieldSchema) {
     super(resource, name, schema);
 
-    this.PathHelper = this.$injector.get('PathHelper');
 
     this.text = {
       linkTitle: this.I18n.t('js.work_packages.message_view_spent_time')

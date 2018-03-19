@@ -56,9 +56,12 @@ export class WorkPackageEditActionsBarComponent {
     this.saving = true;
     this.wpEditFieldGroup
       .saveWorkPackage()
-      .finally(() => {
+      .then(() => {
         this.saving = false;
         this.onSave.emit();
+      })
+      .catch(() => {
+        this.saving = false;
       });
   }
 

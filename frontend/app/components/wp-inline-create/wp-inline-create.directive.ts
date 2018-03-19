@@ -87,6 +87,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   private $element:JQuery;
 
   constructor(readonly elementRef:ElementRef,
+              readonly injector:Injector,
               @Inject(FocusHelperToken) readonly FocusHelper:any,
               readonly tableState:TableState,
               readonly wpCacheService:WorkPackageCacheService,
@@ -187,7 +188,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
         // Set editing context to table
         const context = new TableRowEditContext(
           this.hierarchicalInjector, wp.id, this.rowBuilder.classIdentifier(wp));
-        this.workPackageEditForm = WorkPackageEditForm.createInContext(context, wp, false);
+        this.workPackageEditForm = WorkPackageEditForm.createInContext(this.injector, context, wp, false);
         this.workPackageEditForm.changeset.clear();
 
         const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
