@@ -29,6 +29,9 @@
 
 module Redmine
   module I18n
+    IN_CONTEXT_TRANSLATION_CODE = :lol
+    IN_CONTEXT_TRANSLATION_NAME = 'In-Context Crowdin Translation'.freeze
+
     def self.included(base)
       base.extend Redmine::I18n
     end
