@@ -33,6 +33,7 @@ import {WorkPackageCollectionResource} from '../../api/api-v3/hal-resources/wp-c
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageTablePagination} from '../wp-table-pagination';
 import {States} from 'core-components/states.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 interface PaginationUpdateObject {
   page?:number;
@@ -43,8 +44,8 @@ interface PaginationUpdateObject {
 
 @Injectable()
 export class WorkPackageTablePaginationService extends WorkPackageTableBaseService<WorkPackageTablePagination> {
-  public constructor(states:States) {
-    super(states);
+  public constructor(tableState:TableState) {
+    super(tableState);
   }
 
   public get state() {

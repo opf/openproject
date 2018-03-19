@@ -1,21 +1,21 @@
 import {Injector} from '@angular/core';
 import {debugLog} from '../../../../helpers/debug_output';
-import {States} from '../../../states.service';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {WorkPackageTable} from '../../wp-fast-table';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 export class ColumnsTransformer {
 
-  public states:States = this.injector.get(States);
+  public  tableState:TableState = this.injector.get(TableState);
   public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
 
   constructor(public readonly injector:Injector,
               public table:WorkPackageTable) {
 
-    this.states.updates.columnsUpdates
+    this.tableState.updates.columnsUpdates
       .values$('Refreshing columns on user request')
       .filter(() => this.wpTableColumns.hasRelationColumns() === false)
-      .takeUntil(this.states.globalTable.stopAllSubscriptions)
+      .takeUntil(this.tableState.stopAllSubscriptions)
       .subscribe(() => {
         if (table.originalRows.length > 0) {
 
