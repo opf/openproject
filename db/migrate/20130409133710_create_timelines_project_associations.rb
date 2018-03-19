@@ -29,7 +29,7 @@
 
 class CreateTimelinesProjectAssociations < ActiveRecord::Migration[5.1]
   def self.up
-    create_table(:timelines_project_associations) do |t|
+    create_table(:timelines_project_associations, id: :integer) do |t|
       t.belongs_to :project_a
       t.belongs_to :project_b
 

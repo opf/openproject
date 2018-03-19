@@ -34,7 +34,7 @@ class RemoveAlternateDatesAndScenarios < ActiveRecord::Migration[5.1]
   end
 
   def down
-    create_table(:scenarios) do |t|
+    create_table(:scenarios, id: :integer) do |t|
       t.column :name,        :string, null: false
       t.column :description, :text
 
@@ -45,7 +45,7 @@ class RemoveAlternateDatesAndScenarios < ActiveRecord::Migration[5.1]
 
     add_index :scenarios, :project_id
 
-    create_table(:alternate_dates) do |t|
+    create_table(:alternate_dates, id: :integer) do |t|
       t.column :start_date, :date, null: false
       t.column :due_date,   :date, null: false
 

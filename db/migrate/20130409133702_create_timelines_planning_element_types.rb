@@ -29,7 +29,7 @@
 
 class CreateTimelinesPlanningElementTypes < ActiveRecord::Migration[5.1]
   def self.up
-    create_table(:timelines_planning_element_types) do |t|
+    create_table(:timelines_planning_element_types, id: :integer) do |t|
       t.column :name,         :string,  null: false
 
       t.column :in_aggregation, :boolean, default: true,  null: false

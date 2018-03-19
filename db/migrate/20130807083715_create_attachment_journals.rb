@@ -29,7 +29,7 @@
 
 class CreateAttachmentJournals < ActiveRecord::Migration[5.1]
   def change
-    create_table :attachment_journals do |t|
+    create_table :attachment_journals, id: :integer do |t|
       t.integer :journal_id,                                   null: false
       t.integer :container_id,                 default: 0,  null: false
       t.string :container_type, limit: 30, default: '', null: false

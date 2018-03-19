@@ -28,9 +28,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddHierarchyPaths < ActiveRecord::Migration[5.0]
+class AddHierarchyPaths < ActiveRecord::Migration[5.1]
   def change
-    create_table :hierarchy_paths do |t|
+    create_table :hierarchy_paths, id: :integer do |t|
       t.belongs_to :work_package, index: { unique: true }
       # (255 * 3) = ca 767 bytes is the max length for an index in mysql 5.6 InnoDB
       t.string :path, null: false, limit: 255

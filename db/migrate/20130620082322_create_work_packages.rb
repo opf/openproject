@@ -29,7 +29,7 @@
 
 class CreateWorkPackages < ActiveRecord::Migration[5.1]
   def up
-    create_table 'work_packages' do |t|
+    create_table 'work_packages', id: :integer do |t|
       # Issue
       t.column :tracker_id, :integer, default: 0, null: false
       t.column :project_id, :integer

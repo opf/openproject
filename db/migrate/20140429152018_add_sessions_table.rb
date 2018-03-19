@@ -28,7 +28,7 @@
 
 class AddSessionsTable < ActiveRecord::Migration[5.1]
   def change
-    create_table :sessions do |t|
+    create_table :sessions, id: :integer do |t|
       t.string :session_id, null: false
       t.text :data
       t.timestamps

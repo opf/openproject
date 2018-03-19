@@ -1,6 +1,6 @@
-class CreateDesignColors < ActiveRecord::Migration[5.0]
+class CreateDesignColors < ActiveRecord::Migration[5.1]
   def change
-    create_table :design_colors do |t|
+    create_table :design_colors, id: :integer do |t|
       t.string :variable
       t.string :hexcode
 

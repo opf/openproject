@@ -1,6 +1,6 @@
-class CreateEnterpriseToken < ActiveRecord::Migration[5.0]
+class CreateEnterpriseToken < ActiveRecord::Migration[5.1]
   def change
-    create_table :enterprise_tokens do |t|
+    create_table :enterprise_tokens, id: :integer do |t|
       t.text :encoded_token
 
       t.timestamps
