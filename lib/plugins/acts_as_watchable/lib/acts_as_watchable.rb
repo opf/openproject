@@ -110,7 +110,7 @@ module Redmine
         # them pop up in every project would be weird.
         def possible_watcher_users
           users = User
-                  .not_builtin
+                  .active_or_registered
 
           if project.is_public?
             users.allowed(self.class.acts_as_watchable_permission, project)
@@ -154,9 +154,9 @@ module Redmine
 
         # Returns true if object is watched by +user+
         def watched_by?(user)
-          !!(user &&
-             (watchers.loaded? && watchers.map(&:user_id).any? { |uid| uid == user.id } ||
-              watcher_user_ids.any? { |uid| uid == user.id }))
+          user.present? &&
+            (watchers.loaded? && watchers.map(&:user_id).any? { |uid| uid == user.id } ||
+             watcher_user_ids.any? { |uid| uid == user.id })
         end
 
         # Returns an array of watchers
