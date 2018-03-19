@@ -160,7 +160,6 @@ See docs/COPYRIGHT.rdoc for more details.
               <label for='<%= "values_#{field}" %>' class='hidden-for-sighted'><%= l(:description_enter_number) %></label>
           <% end %>
         </div>
-        <script type="text/javascript">
         <%= nonced_javascript_tag do %>
           toggle_filter('<%= field %>');
         <% end %>
