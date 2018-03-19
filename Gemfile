@@ -232,7 +232,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'thin', '~> 1.7.2'
   gem 'puma', '~> 3.11.3'
 
   gem 'pry-rails', '~> 0.3.6'
