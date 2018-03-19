@@ -66,7 +66,7 @@ function getFieldset(el) {
 
 function toggleFieldset(el) {
   var fieldset = getFieldset(el);
-  var contentArea = fieldset.find('> div');
+  var contentArea = fieldset.find('> div').not('.form--fieldset-control');
 
   fieldset.toggleClass('collapsed');
   contentArea.slideToggle('fast', null);
@@ -78,7 +78,12 @@ jQuery(document).ready(function() {
   const fieldsets = jQuery('fieldset.form--fieldset.-collapsible');
 
   // Toggle on click
-  fieldsets.on('click', '.form--fieldset-legend', function() { toggleFieldset(this); });
+  fieldsets.on('click', '.form--fieldset-legend', function(evt) {
+    toggleFieldset(this);
+    evt.preventDefault();
+    evt.stopPropagation();
+    return false;
+  });
 
   // Set initial state
   fieldsets
