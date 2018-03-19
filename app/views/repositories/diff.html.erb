@@ -41,7 +41,14 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= render partial: 'common/diff', locals: { diff: @diff, diff_type: @diff_type } %>
 <% end -%>
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Diff', url: permitted_params.repository_diff.to_h, caption: 'Unified diff' %>
+  <% unidiff_link = f.link_to 'Diff', url: permitted_params.repository_diff.to_h, caption: 'Unified diff' %>
+  <% if !@path.blank? %>
+    <% unidiff_link.gsub!('?', '&amp;') %>
+  <% end %>
+  <% wrong_url = CGI::escapeHTML(URI.encode(with_leading_slash(@path))).concat('.diff') %>
+  <% good_url = '.diff'.concat('?path=', URI.encode(without_leading_slash(@path)).gsub('&', '%26')) %>
+  <% unidiff_link.gsub!(wrong_url, good_url) %>
+  <%= unidiff_link.html_safe %>
 <% end %>
 
 <% html_title(h(with_leading_slash(@path)), 'Diff') -%>
