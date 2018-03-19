@@ -101,9 +101,8 @@ module WorkPackage::Parent
 
   def parent_from_id
     if @parent_id
-      @parent_object = WorkPackage.find(@parent_id)
       set_virtual_attribute_was('parent_id', @parent_id)
-      @parent_object
+      @parent_object = WorkPackage.find(@parent_id)
     end
   end
 end
