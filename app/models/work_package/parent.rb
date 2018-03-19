@@ -95,7 +95,7 @@ module WorkPackage::Parent
   def parent_from_relation
     if parent_relation && ((@parent_id && parent_relation.from.id == @parent_id) || !@parent_id)
       set_virtual_attribute_was('parent_id', parent_relation.from_id)
-      parent_relation.from
+      @parent_object = parent_relation.from
     end
   end
 
