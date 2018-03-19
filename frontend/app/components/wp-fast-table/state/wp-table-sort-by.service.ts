@@ -40,7 +40,9 @@ import {combine} from 'reactivestates';
 import {Observable} from 'rxjs';
 import {States} from 'core-components/states.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class WorkPackageTableSortByService extends WorkPackageTableBaseService<WorkPackageTableSortBy> implements WorkPackageQueryStateService {
 
   constructor(readonly states:States,
@@ -140,5 +142,3 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService<W
     return this.availableState.getValueOr([]);
   }
 }
-
-opServicesModule.service('wpTableSortBy', WorkPackageTableSortByService);

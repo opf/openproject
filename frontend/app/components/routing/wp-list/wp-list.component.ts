@@ -55,22 +55,7 @@ import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast
 
 @Component({
   selector: 'wp-list',
-  template: require('!!raw-loader!./wp.list.component.html'),
-  providers: [
-    TableState,
-    AuthorisationService,
-    WorkPackageTableColumnsService,
-    WorkPackageTableGroupByService,
-    WorkPackageTableSortByService,
-    WorkPackageTableFiltersService,
-    WorkPackageTableSumService,
-    WorkPackageTableTimelineService,
-    WorkPackageTableHierarchiesService,
-    WorkPackageTableRelationColumnsService,
-    WorkPackageTablePaginationService,
-    WorkPackageTableAdditionalElementsService,
-    WorkPackagesListChecksumService
-  ]
+  template: require('!!raw-loader!./wp.list.component.html')
 })
 export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
