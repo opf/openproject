@@ -185,7 +185,7 @@ module OpenProject
 
           cmd = ['diff', '-r', "#{identifier_to}:#{identifier_from}",
                  "#{target(path)}@#{identifier_from}"]
-          capture_svn(cmd).lines.map(&:chomp)
+          capture_svn(cmd).lines
         end
 
         def numeric_identifier(identifier, default = '')
