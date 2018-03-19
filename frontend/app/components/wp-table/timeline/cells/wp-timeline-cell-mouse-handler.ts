@@ -27,7 +27,6 @@
 // ++
 
 import {Injector} from '@angular/core';
-import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
 import * as moment from 'moment';
 import {$injectNow} from '../../../angular/angular-injector-bridge.functions';
 import {QueryDmService} from '../../../api/api-v3/hal-resource-dms/query-dm.service';
@@ -43,6 +42,7 @@ import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {WorkPackageCellLabels} from './wp-timeline-cell';
 import Moment = moment.Moment;
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';
@@ -64,7 +64,7 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 renderer:TimelineCellRenderer,
                                                 renderInfo:RenderInfo) {
 
-  const tableState = injector.get(TableStateHolder);
+  const tableState:TableState = injector.get(TableState);
 
   let mouseDownStartDay:number | null = null; // also flag to signal active drag'n'drop
   renderInfo.changeset = new WorkPackageChangeset(renderInfo.workPackage);
@@ -247,7 +247,7 @@ export function registerWorkPackageMouseHandler(this:void,
     return loadingIndicator.table.promise = changeset.save()
       .then((wp) => {
         wpNotificationsService.showSave(wp);
-        const ids = _.map(tableState.get().rendered.value!, row => row.workPackageId);
+        const ids = _.map(tableState.rendered.value!, row => row.workPackageId);
         loadingIndicator.table.promise =
           queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
             wpCacheService.updateWorkPackageList(workPackageCollection.elements);

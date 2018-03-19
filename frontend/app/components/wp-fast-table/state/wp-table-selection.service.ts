@@ -1,19 +1,18 @@
-import {States} from '../../states.service';
 import {opServicesModule} from '../../../angular-modules';
 import {WPTableRowSelectionState} from '../wp-table.interfaces';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {RenderedRow} from '../builders/primary-render-pass';
 import {InputState} from 'reactivestates';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 
 export class WorkPackageTableSelection {
 
   public selectionState:InputState<WPTableRowSelectionState>;
 
-  constructor(public states:States) {
-    this.selectionState = states.globalTable.selection;
+  public constructor(readonly tableState:TableState,
+                     readonly wpCacheService:WorkPackageCacheService) {
+    this.selectionState = tableState.selection;
 
     if (this.selectionState.isPristine()) {
       this.reset();
@@ -43,8 +42,7 @@ export class WorkPackageTableSelection {
    * Get the current work package resource form the selection state.
    */
   public getSelectedWorkPackages():WorkPackageResourceInterface[] {
-    let wpState = this.states.workPackages;
-    return this.getSelectedWorkPackageIds().map(id => wpState.get(id).value!);
+    return this.getSelectedWorkPackageIds().map(id => this.wpCacheService.state(id).value!);
   }
 
   public getSelectedWorkPackageIds():string[] {

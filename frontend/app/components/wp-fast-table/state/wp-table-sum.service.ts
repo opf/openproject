@@ -31,11 +31,12 @@ import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.servi
 import {opServicesModule} from '../../../angular-modules';
 import {WorkPackageTableSum} from '../wp-table-sum';
 import {States} from 'core-components/states.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 export class WorkPackageTableSumService extends WorkPackageTableBaseService<WorkPackageTableSum> implements WorkPackageQueryStateService {
 
-  public constructor(states:States) {
-    super(states);
+  public constructor(tableState:TableState) {
+    super(tableState);
   }
 
 

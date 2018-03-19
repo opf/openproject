@@ -51,6 +51,7 @@ import {
   inlineCreateRowClassName
 } from './inline-create-row-builder';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 export class WorkPackageInlineCreateController {
 
@@ -82,7 +83,7 @@ export class WorkPackageInlineCreateController {
               public $element:ng.IAugmentedJQuery,
               public $timeout:ng.ITimeoutService,
               public FocusHelper:any,
-              public states:States,
+              public tableState:TableState,
               public wpCacheService:WorkPackageCacheService,
               public wpEditing:WorkPackageEditingService,
               public wpCreate:WorkPackageCreateService,
@@ -128,7 +129,7 @@ export class WorkPackageInlineCreateController {
       });
 
     // Watch on this scope when the columns change and refresh this row
-    this.states.globalTable.columns.values$()
+    this.tableState.columns.values$()
       .filter(() => this.isHidden) // Take only when row is inserted
       .takeUntil(scopeDestroyed$(this.$scope)).subscribe(() => {
       const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
@@ -202,7 +203,7 @@ export class WorkPackageInlineCreateController {
   public removeWorkPackageRow() {
     this.currentWorkPackage = null;
     this.table.editing.stopEditing('new');
-    this.states.workPackages.get('new').clear();
+    this.wpCacheService.clearSome('new');
     this.$element.find('.wp-row-new').remove();
   }
 

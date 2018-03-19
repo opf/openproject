@@ -1,10 +1,10 @@
 import {InputState} from 'reactivestates';
 import {opServicesModule} from '../../angular-modules';
-import {States} from '../states.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 export class WorkPackageTableRefreshService {
 
-  constructor(public states:States) {
+  constructor(public tableState:TableState) {
   }
 
   /**
@@ -24,7 +24,7 @@ export class WorkPackageTableRefreshService {
   }
 
   public get state():InputState<boolean[]> {
-    return this.states.globalTable.refreshRequired;
+    return this.tableState.refreshRequired;
   }
 }
 

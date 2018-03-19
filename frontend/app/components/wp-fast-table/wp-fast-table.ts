@@ -1,6 +1,6 @@
 import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {debugLog} from '../../helpers/debug_output';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 
@@ -18,7 +18,7 @@ import {WorkPackageTableRow} from './wp-table.interfaces';
 
 export class WorkPackageTable {
 
-  private readonly tableState = this.injector.get(TableStateHolder).get();
+  private readonly tableState:TableState = this.injector.get(TableState);
 
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   public states:States = this.injector.get(States);

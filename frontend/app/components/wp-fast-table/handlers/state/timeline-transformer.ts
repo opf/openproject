@@ -1,17 +1,17 @@
 import {Injector} from '@angular/core';
-import {States} from '../../../states.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {WorkPackageTableTimelineState} from '../../wp-table-timeline';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 export class TimelineTransformer {
 
-  public states:States = this.injector.get(States);
+  public tableState:TableState = this.injector.get(TableState);
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
 
-    this.states.globalTable.timelineVisible.values$()
-      .takeUntil(this.states.globalTable.stopAllSubscriptions).subscribe((state:WorkPackageTableTimelineState) => {
+    this.tableState.timelineVisible.values$()
+      .takeUntil(this.tableState.stopAllSubscriptions).subscribe((state:WorkPackageTableTimelineState) => {
       this.renderVisibility(state.isVisible);
     });
   }

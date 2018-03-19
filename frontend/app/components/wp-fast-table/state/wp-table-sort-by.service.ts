@@ -39,11 +39,13 @@ import {QueryColumn} from '../../wp-query/query-column';
 import {combine} from 'reactivestates';
 import {Observable} from 'rxjs';
 import {States} from 'core-components/states.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 export class WorkPackageTableSortByService extends WorkPackageTableBaseService<WorkPackageTableSortBy> implements WorkPackageQueryStateService {
 
-  public constructor(states:States) {
-    super(states);
+  constructor(readonly states:States,
+              readonly tableState:TableState) {
+    super(tableState);
   }
 
 

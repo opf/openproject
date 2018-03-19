@@ -37,11 +37,12 @@ import {zoomLevelOrder} from '../../wp-table/timeline/wp-timeline';
 import {WorkPackageTableTimelineState} from './../wp-table-timeline';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {States} from 'core-components/states.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 export class WorkPackageTableTimelineService extends WorkPackageTableBaseService<WorkPackageTableTimelineState> implements WorkPackageQueryStateService {
 
-  public constructor(states:States) {
-    super(states);
+  public constructor(tableState:TableState) {
+    super(tableState);
   }
 
 
@@ -137,11 +138,11 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   }
 
   public toggleAutoZoom() {
-    this.states.globalTable.timelineAutoZoom.putValue(!this.states.globalTable.timelineAutoZoom.value);
+    this.tableState.timelineAutoZoom.putValue(!this.tableState.timelineAutoZoom.value);
   }
 
   public isAutoZoomEnabled():boolean {
-    return this.states.globalTable.timelineAutoZoom.value!;
+    return this.tableState.timelineAutoZoom.value!;
   }
 
   public get current():WorkPackageTableTimelineState {

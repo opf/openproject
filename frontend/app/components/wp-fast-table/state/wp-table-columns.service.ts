@@ -32,12 +32,13 @@ import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.servi
 import {WorkPackageTableColumns} from '../wp-table-columns';
 import {QueryColumn, queryColumnTypes} from '../../wp-query/query-column';
 import {InputState} from 'reactivestates';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {States} from 'core-components/states.service';
 
 export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<WorkPackageTableColumns> implements WorkPackageQueryStateService {
 
-  public constructor(states:States) {
-    super(states);
+  public constructor(readonly states:States, readonly tableState:TableState) {
+    super(tableState);
   }
 
   public get state():InputState<WorkPackageTableColumns> {
