@@ -140,7 +140,7 @@ export class WorkPackageTimelineCellsRenderer {
     return {
       viewParams: this.wpTimeline.viewParameters,
       workPackage: wp,
-      changeset: new WorkPackageChangeset(wp)
+      changeset: new WorkPackageChangeset(this.injector, wp)
     } as RenderInfo;
   }
 }

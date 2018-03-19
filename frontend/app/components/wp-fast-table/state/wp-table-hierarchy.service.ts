@@ -3,6 +3,9 @@ import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-ta
 import {WorkPackageTableHierarchies} from '../wp-table-hierarchies';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
+import {opServicesModule} from 'core-app/angular-modules';
+import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
 export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseService<WorkPackageTableHierarchies> implements WorkPackageQueryStateService {
@@ -114,3 +117,4 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
   }
 }
 
+opServicesModule.service('wpTableHierarchies', downgradeInjectable(WorkPackageTableHierarchiesService));

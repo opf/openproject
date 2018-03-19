@@ -67,7 +67,7 @@ export function registerWorkPackageMouseHandler(this:void,
   const tableState:TableState = injector.get(TableState);
 
   let mouseDownStartDay:number | null = null; // also flag to signal active drag'n'drop
-  renderInfo.changeset = new WorkPackageChangeset(renderInfo.workPackage);
+  renderInfo.changeset = new WorkPackageChangeset(injector, renderInfo.workPackage);
 
   let dateStates:any;
   let placeholderForEmptyCell:HTMLElement;
@@ -228,7 +228,12 @@ export function registerWorkPackageMouseHandler(this:void,
     } else {
       // Persist the changes
       saveWorkPackage(renderInfo.changeset)
-        .finally(() => {
+        .then(() => {
+          renderInfo.changeset.clear();
+          renderer.onMouseDownEnd(labels, renderInfo.changeset);
+          workPackageTimeline.refreshView();
+        })
+        .catch(() => {
           renderInfo.changeset.clear();
           renderer.onMouseDownEnd(labels, renderInfo.changeset);
           workPackageTimeline.refreshView();

@@ -27,26 +27,23 @@
 // ++
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service"
 
 export class BooleanDisplayField extends DisplayField {
 
-  public WorkPackagesHelper:op.WorkPackagesHelper;
-
-  constructor(public resource:HalResource,
-              public name:string,
-              public schema:op.FieldSchema) {
-    super(resource, name, schema);
-
-    this.WorkPackagesHelper = <op.WorkPackagesHelper>this.$injector.get('WorkPackagesHelper');
-  }
-
   public get valueString() {
-    return this.WorkPackagesHelper.formatValue(this.value, 'Boolean');
+    return this.translatedValue();
   }
 
   public get placeholder() {
-    return this.WorkPackagesHelper.formatValue(false, 'Boolean');
+    return this.translatedValue();
+  }
+
+  public translatedValue() {
+    if (this.value) {
+      return this.I18n.t('js.general_text_yes');
+    } else {
+      return this.I18n.t('js.general_text_no');
+    }
   }
 
   public isEmpty():boolean {

@@ -26,20 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpControllersModule} from '../../../angular-modules';
-import {scopedObservable} from '../../../helpers/angular-rx-utils';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../../states.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
-import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {StateService} from '@uirouter/core';
 import {Injector, OnDestroy} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import PathHelper = op.PathHelper;
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 

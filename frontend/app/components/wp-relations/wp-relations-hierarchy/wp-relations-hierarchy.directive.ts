@@ -30,6 +30,7 @@ import {wpDirectivesModule} from "../../../angular-modules";
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 export class WorkPackageRelationsHierarchyController {
   public workPackage:WorkPackageResourceInterface;
@@ -43,7 +44,7 @@ export class WorkPackageRelationsHierarchyController {
               protected $rootScope:ng.IRootScopeService,
               protected $q:ng.IQService,
               protected wpCacheService:WorkPackageCacheService,
-              protected PathHelper:op.PathHelper,
+              protected PathHelper:PathHelperService,
               protected I18n:op.I18n) {
 
     scopedObservable(

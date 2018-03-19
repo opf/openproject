@@ -38,9 +38,4 @@ angular.module('openproject.services')
   .service('StatusService', ['$http', 'PathHelper', require('./status-service')])
   .service('TimezoneService', ['ConfigurationService', 'I18n', require(
     './timezone-service')])
-  .service('ApiNotificationsService', [
-    'NotificationsService',
-    'ApiHelper',
-    require('./api-notifications-service.js')
-  ])
   .service('ConversionService', require('./conversion-service.js'));
