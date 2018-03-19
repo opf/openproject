@@ -26,7 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Directive, ElementRef, Injector, Input} from '@angular/core';
+import {
+  Directive, ElementRef, Inject, Injector, Input, OnChanges, OnDestroy,
+  OnInit
+} from '@angular/core';
 import {UpgradeComponent} from '@angular/upgrade/static';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {opWorkPackagesModule} from '../../angular-modules';
@@ -51,16 +54,19 @@ import {
   inlineCreateRowClassName
 } from './inline-create-row-builder';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {FocusHelperToken} from 'core-app/angular4-transition-utils';
 
-export class WorkPackageInlineCreateController {
 
-  // inputs
+@Directive({
+  selector: '[wpInlineCreate]'
+})
+export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDestroy {
 
-  public projectIdentifier:string;
-
-  public table:WorkPackageTable;
-
-  public hierarchicalInjector:Injector;
+  @Input('wp-inline-create--table') table:WorkPackageTable;
+  @Input('wp-inline-create--project-identifier') projectIdentifier:string;
+  @Input('wp-inline-create--hierarchical-injector') hierarchicalInjector:Injector;
 
   // inner state
 
@@ -78,23 +84,30 @@ export class WorkPackageInlineCreateController {
 
   private timelineBuilder:TimelineRowBuilder;
 
-  constructor(public $scope:ng.IScope,
-              public $element:ng.IAugmentedJQuery,
-              public $timeout:ng.ITimeoutService,
-              public FocusHelper:any,
-              public states:States,
-              public wpCacheService:WorkPackageCacheService,
-              public wpEditing:WorkPackageEditingService,
-              public wpCreate:WorkPackageCreateService,
-              public wpTableColumns:WorkPackageTableColumnsService,
-              private wpTableFilters:WorkPackageTableFiltersService,
-              private wpTableFocus:WorkPackageTableFocusService,
-              private authorisationService:AuthorisationService) {
+  private $element:JQuery;
+
+  constructor(readonly elementRef:ElementRef,
+              readonly injector:Injector,
+              @Inject(FocusHelperToken) readonly FocusHelper:any,
+              readonly tableState:TableState,
+              readonly wpCacheService:WorkPackageCacheService,
+              readonly wpEditing:WorkPackageEditingService,
+              readonly wpCreate:WorkPackageCreateService,
+              readonly wpTableColumns:WorkPackageTableColumnsService,
+              readonly wpTableFilters:WorkPackageTableFiltersService,
+              readonly wpTableFocus:WorkPackageTableFocusService,
+              readonly authorisationService:AuthorisationService) {
   }
 
-  // Will be called by Angular
-  // noinspection JSUnusedGlobalSymbols
-  $onChanges() {
+  ngOnDestroy() {
+    // Compliance
+  }
+
+  ngOnInit() {
+    this.$element = angular.element(this.elementRef.nativeElement);
+  }
+
+  ngOnChanges() {
     if (_.isNil(this.table)) {
       return;
     }
@@ -110,7 +123,8 @@ export class WorkPackageInlineCreateController {
     container.addClass('-inline-create-mirror');
 
     // Remove temporary rows on creation of new work package
-    scopedObservable(this.$scope, this.wpCreate.onNewWorkPackage())
+    this.wpCreate.onNewWorkPackage()
+      .takeUntil(componentDestroyed(this))
       .subscribe((wp:WorkPackageResourceInterface) => {
         if (this.currentWorkPackage && this.currentWorkPackage === wp) {
           // Add next row
@@ -128,9 +142,10 @@ export class WorkPackageInlineCreateController {
       });
 
     // Watch on this scope when the columns change and refresh this row
-    this.states.globalTable.columns.values$()
+    this.tableState.columns.values$()
       .filter(() => this.isHidden) // Take only when row is inserted
-      .takeUntil(scopeDestroyed$(this.$scope)).subscribe(() => {
+      .takeUntil(componentDestroyed(this))
+      .subscribe(() => {
       const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
 
       if (rowElement.length && this.currentWorkPackage) {
@@ -173,13 +188,13 @@ export class WorkPackageInlineCreateController {
         // Set editing context to table
         const context = new TableRowEditContext(
           this.hierarchicalInjector, wp.id, this.rowBuilder.classIdentifier(wp));
-        this.workPackageEditForm = WorkPackageEditForm.createInContext(context, wp, false);
+        this.workPackageEditForm = WorkPackageEditForm.createInContext(this.injector, context, wp, false);
         this.workPackageEditForm.changeset.clear();
 
         const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
         this.$element.append(row);
 
-        this.$timeout(() => {
+        setTimeout(() => {
           this.workPackageEditForm!.activateMissingFields();
           this.hideRow();
         });
@@ -194,7 +209,7 @@ export class WorkPackageInlineCreateController {
     this.focus = true;
     this.removeWorkPackageRow();
     // Manually cancelled, show the row again
-    this.$timeout(() => {
+    setTimeout(() => {
       this.showRow();
     }, 50);
   }
@@ -202,7 +217,7 @@ export class WorkPackageInlineCreateController {
   public removeWorkPackageRow() {
     this.currentWorkPackage = null;
     this.table.editing.stopEditing('new');
-    this.states.workPackages.get('new').clear();
+    this.wpCacheService.clearSome('new');
     this.$element.find('.wp-row-new').remove();
   }
 
@@ -221,38 +236,4 @@ export class WorkPackageInlineCreateController {
   public get isAllowed():boolean {
     return this.authorisationService.can('work_packages', 'createWorkPackage');
   }
-}
-
-function wpInlineCreate():any {
-  return {
-    restrict: 'AE',
-    templateUrl: '/components/wp-inline-create/wp-inline-create.directive.html',
-
-    scope: {
-      table: '=',
-      projectIdentifier: '='
-    },
-
-    bindToController: true,
-    controllerAs: '$ctrl',
-    controller: WorkPackageInlineCreateController
-  };
-}
-
-opWorkPackagesModule.directive('wpInlineCreate', wpInlineCreate);
-
-
-@Directive({
-  selector: '[wpInlineCreate]'
-})
-export class WpInlineCreateDirectiveUpgraded extends UpgradeComponent {
-
-  @Input('wp-inline-create--table') table:WorkPackageTable;
-  @Input('wp-inline-create--project-identifier') projectIdentifier:string;
-  @Input('wp-inline-create--hierarchical-injector') hierarchicalInjector:string;
-
-  constructor(elementRef:ElementRef, injector:Injector) {
-    super('wpInlineCreate', elementRef, injector);
-  }
-
 }

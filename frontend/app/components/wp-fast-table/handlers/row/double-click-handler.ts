@@ -9,6 +9,7 @@ import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {TableEventHandler} from '../table-handler-registry';
+import {LinkHandling} from "core-components/common/link-handling/link-handling";
 
 export class RowDoubleClickHandler implements TableEventHandler {
 
@@ -36,6 +37,11 @@ export class RowDoubleClickHandler implements TableEventHandler {
 
   public handleEvent(table:WorkPackageTable, evt:JQueryEventObject) {
     let target = jQuery(evt.target);
+
+    // Skip clicks with modifiers
+    if (LinkHandling.isClickedWithModifier(evt)) {
+      return true;
+    }
 
     // Shortcut to any clicks within a cell
     // We don't want to handle these.

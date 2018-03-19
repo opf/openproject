@@ -33,7 +33,7 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
     const wpId = element.data('workPackageId');
 
     // Set position args to open at element
-    let position = {of: target};
+    let position = { my: 'left top', at: 'left bottom', of: target };
 
     super.openContextMenu(evt, wpId, position);
 

@@ -1,19 +1,24 @@
 import {States} from '../../states.service';
 import {opServicesModule} from '../../../angular-modules';
-import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {InputState} from 'reactivestates';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {Injectable} from '@angular/core';
+import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 export interface WPFocusState {
   workPackageId:string;
   focusAfterRender:boolean;
 }
 
+@Injectable()
 export class WorkPackageTableFocusService {
 
   public state:InputState<WPFocusState>;
 
   constructor(public states:States,
+              public tableState:TableState,
               public wpTableSelection:WorkPackageTableSelection) {
     this.state = states.focusedWorkPackage;
     this.observeToUpdateFocused();
@@ -67,7 +72,7 @@ export class WorkPackageTableFocusService {
    */
   private observeToUpdateFocused() {
     this
-      .states.globalTable.rendered
+      .tableState.rendered
       .values$()
       .map(state => _.find(state, (row:any) => row.workPackageId))
       .filter(fullRow => !!fullRow && this.wpTableSelection.isEmpty)
@@ -77,4 +82,4 @@ export class WorkPackageTableFocusService {
   }
 }
 
-opServicesModule.service('wpTableFocus', WorkPackageTableFocusService);
+opServicesModule.service('wpTableFocus', downgradeInjectable(WorkPackageTableFocusService));

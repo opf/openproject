@@ -38,25 +38,32 @@ import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.servi
 import {WorkPackageStatesInitializationService} from './wp-states-initialization.service';
 import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
-import {StateParams, StateService} from '@uirouter/core';
+import {StateService} from '@uirouter/core';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {Inject, Injectable} from '@angular/core';
+import {
+  I18nToken, NotificationsServiceToken,
+  UrlParamsHelperToken
+} from 'core-app/angular4-transition-utils';
 
+@Injectable()
 export class WorkPackagesListService {
-  constructor(protected NotificationsService:any,
-              protected UrlParamsHelper:any,
+  constructor(@Inject(NotificationsServiceToken) protected NotificationsService:any,
+              @Inject(UrlParamsHelperToken) protected UrlParamsHelper:any,
+              @Inject(I18nToken) protected I18n:op.I18n,
               protected authorisationService:AuthorisationService,
-              protected $q:ng.IQService,
               protected $state:StateService,
               protected QueryDm:QueryDmService,
               protected QueryFormDm:QueryFormDmService,
               protected states:States,
+              protected tableState:TableState,
               protected wpTablePagination:WorkPackageTablePaginationService,
               protected wpListChecksumService:WorkPackagesListChecksumService,
               protected wpStatesInitialization:WorkPackageStatesInitializationService,
               protected loadingIndicator:LoadingIndicatorService,
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
-              protected I18n:op.I18n,
               protected queryMenu:QueryMenuService) {
   }
 
@@ -146,7 +153,7 @@ export class WorkPackagesListService {
     this.wpListChecksumService.clear();
     this.loadingIndicator.table.promise =
       this.fromQueryParams(this.$state.params, projectIdentifier).then(() => {
-        return this.states.globalTable.rendered.valuesPromise();
+        return this.tableState.rendered.valuesPromise();
       });
   }
 
@@ -273,8 +280,8 @@ export class WorkPackagesListService {
     promise
       .then(query => {
         this.states.query.context.doAndTransition('Query loaded', () => {
-          this.wpStatesInitialization.initialize(query, query.results);
-          return this.states.tableRendering.onQueryUpdated.valuesPromise();
+          this.wpStatesInitialization.initializeAll(query, query.results);
+          return this.tableState.tableRendering.onQueryUpdated.valuesPromise();
         });
 
         return query;
@@ -287,7 +294,8 @@ export class WorkPackagesListService {
     return promise.then((results) => {
       this.states.query.context.doAndTransition('Query loaded', () => {
         this.wpStatesInitialization.updateFromResults(query, results);
-        return this.states.tableRendering.onQueryUpdated.valuesPromise();
+        this.wpStatesInitialization.updateChecksumService();
+        return this.tableState.tableRendering.onQueryUpdated.valuesPromise();
       });
 
       return results;
@@ -309,35 +317,35 @@ export class WorkPackagesListService {
   }
 
   private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId:number, projectIdentifier?:string) {
-    let deferred = this.$q.defer();
-
     this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
-    this.QueryFormDm.loadWithParams(queryProps, queryId, projectIdentifier)
-      .then(form => {
-        this.QueryDm.findDefault({pageSize: 0}, projectIdentifier)
-          .then((query:QueryResource) => {
-            this.wpListInvalidQueryService.restoreQuery(query, form);
+    return new Promise((resolve, reject) => {
+      this.QueryFormDm.loadWithParams(queryProps, queryId, projectIdentifier)
+        .then(form => {
+          this.QueryDm.findDefault({pageSize: 0}, projectIdentifier)
+            .then((query:QueryResource) => {
+              this.wpListInvalidQueryService.restoreQuery(query, form);
 
-            query.results.pageSize = queryProps.pageSize;
-            query.results.total = 0;
+              query.results.pageSize = queryProps.pageSize;
+              query.results.total = 0;
 
-            if (queryId) {
-              query.id = queryId;
-            }
+              if (queryId) {
+                query.id = queryId;
+              }
 
-            this.states.query.context.doAndTransition('Query loaded', () => {
-              this.wpStatesInitialization.initialize(query, query.results);
-              this.wpStatesInitialization.updateStatesFromForm(query, form);
+              this.states.query.context.doAndTransition('Query loaded', () => {
+                this.wpStatesInitialization.initializeAll(query, query.results);
+                this.wpStatesInitialization.updateStatesFromForm(query, form);
 
-              return this.states.tableRendering.onQueryUpdated.valuesPromise();
-            });
+                return this.tableState.tableRendering.onQueryUpdated.valuesPromise();
+              });
 
-            deferred.resolve(query);
-          });
-      });
-
-    return deferred.promise;
+              resolve(query);
+            })
+            .catch(reject);
+        })
+      .catch(reject);
+    });
   }
 
   private createMenuItem(query:QueryResource) {
@@ -354,7 +362,3 @@ export class WorkPackagesListService {
       .remove(query.id.toString());
   }
 }
-
-angular
-  .module('openproject.workPackages.services')
-  .service('wpListService', WorkPackagesListService);

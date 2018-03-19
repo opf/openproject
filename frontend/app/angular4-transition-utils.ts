@@ -26,17 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {InjectionToken} from '@angular/core';
+import {Inject, InjectionToken} from '@angular/core';
 import {IQService, IRootScopeService, ITimeoutService} from 'angular';
 import {StateService} from '@uirouter/core';
 
 export const $rootScopeToken = new InjectionToken<IRootScopeService>('$rootScope');
 export const $qToken = new InjectionToken<IQService>('$q');
 export const $timeoutToken = new InjectionToken<ITimeoutService>('$timeout');
+export const $localeToken = new InjectionToken<any>('$locale');
 export const $stateToken = new InjectionToken<StateService>('$state');
 
 export const I18nToken = new InjectionToken<op.I18n>('I18n');
 export const columnsModalToken = new InjectionToken<any>('columnsModal');
+export const sortingModalToken = new InjectionToken<any>('sortingModal');
+export const groupingModalToken =  new InjectionToken<any>('groupingModal');
+export const shareModalToken = new InjectionToken<any>('shareModal');
+export const saveModalToken = new InjectionToken<any>('saveModal');
+export const settingsModalToken = new InjectionToken<any>('settingsModal');
+export const exportModalToken = new InjectionToken<any>(' exportModal');
+export const timelinesModalToken = new InjectionToken<any>('timelinesModal');
+
 export const FocusHelperToken = new InjectionToken<any>('FocusHelper');
 export const NotificationsServiceToken = new InjectionToken<any>('NotificationsService');
 export const v3PathToken = new InjectionToken<any>('v3Path');
@@ -46,6 +55,13 @@ export const wpMoreMenuServiceToken = new InjectionToken<any>('wpMoreMenuService
 export const TimezoneServiceToken = new InjectionToken<any>('TimezoneService');
 export const $httpToken = new InjectionToken<any>('$http');
 export const halResourceFactoryToken = new InjectionToken<any>('halResourceFactory');
+export const wpDestroyModalToken = new InjectionToken<any>('wpDestroyModal');
+export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');
+export const HookServiceToken = new InjectionToken<any>('HookService');
+export const UrlParamsHelperToken = new InjectionToken<any>('UrlParamsHelper');
+export const QueryResourceToken = new InjectionToken<any>('QueryResource');
+export const QueryFilterInstanceResourceToken = new InjectionToken<any>('QueryFilterInstanceResource');
+export const HalResourceToken = new InjectionToken<any>('HalResource');
 
 export function upgradeService(ng1InjectorName:string, providedType:any) {
   return {

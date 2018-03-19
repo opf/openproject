@@ -6,9 +6,9 @@
   <button class="button dropdown-relative"
           [disabled]="!actionsAvailable"
           [attr.accesskey]="7"
-          hasDropdownMenu
-          [hasDropdownMenu-locals]="{'permittedActions': permittedActions,'actionsAvailable': actionsAvailable, 'triggerMoreMenuAction': triggerMoreMenuAction}"
-          [hasDropdownMenu-target]="'DetailsMoreDropdownMenu'">
+
+          wpSingleContextMenu
+          [wpSingleContextMenu-workPackage]="workPackage">
     <span class="button--text" [textContent]="text.button_more"></span>
     <op-icon icon-classes="button--dropdown-indicator"></op-icon>
   </button>

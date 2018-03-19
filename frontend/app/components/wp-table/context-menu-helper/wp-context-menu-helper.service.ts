@@ -27,50 +27,57 @@
 //++
 import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
+import {Inject, Injectable} from "@angular/core";
+import {PathHelperService} from "core-components/common/path-helper/path-helper.service";
+import {HookServiceToken, UrlParamsHelperToken} from "core-app/angular4-transition-utils";
 
-angular
-  .module('openproject.workPackages.helpers')
-  .factory('WorkPackageContextMenuHelper', WorkPackageContextMenuHelper);
+export type WorkPackageAction = {
+  text:string;
+  icon?:string;
+  link:string;
+  href?:string;
+}
 
-function WorkPackageContextMenuHelper(
-  HookService:any,
-  UrlParamsHelper:any,
-  wpTableTimeline:WorkPackageTableTimelineService,
-  PathHelper:any,
-  I18n: op.I18n) {
+@Injectable()
+export class WorkPackageContextMenuHelperService {
 
-  const BULK_ACTIONS = [
+  private BULK_ACTIONS = [
     {
       text: I18n.t('js.work_packages.bulk_actions.edit'),
       icon: 'edit',
       link: 'update',
-      href: PathHelper.staticBase + '/work_packages/bulk/edit'
+      href: this.PathHelper.staticBase + '/work_packages/bulk/edit'
     },
-    // TODO: reenable watch
     {
       text: I18n.t('js.work_packages.bulk_actions.move'),
       icon: 'move',
       link: 'move',
-      href: PathHelper.staticBase + '/work_packages/move/new'
+      href: this.PathHelper.staticBase + '/work_packages/move/new'
     },
     {
       text: I18n.t('js.work_packages.bulk_actions.copy'),
       icon: 'copy',
       link: 'copy',
-      href: PathHelper.staticBase + '/work_packages/move/new?copy=true'
+      href: this.PathHelper.staticBase + '/work_packages/move/new?copy=true'
     },
     {
       text: I18n.t('js.work_packages.bulk_actions.delete'),
       icon: 'delete',
       link: 'delete',
-      href: PathHelper.staticBase + '/work_packages/bulk?_method=delete'
+      href: this.PathHelper.staticBase + '/work_packages/bulk?_method=delete'
     }
   ];
 
-  function getPermittedActionLinks(workPackage:WorkPackageResourceInterface, permittedActionConstants:any) {
+  constructor(@Inject(HookServiceToken) private HookService:any,
+              @Inject(UrlParamsHelperToken) private UrlParamsHelper:any,
+              private wpTableTimeline:WorkPackageTableTimelineService,
+              private PathHelper:PathHelperService) {
+  }
+
+  public getPermittedActionLinks(workPackage:WorkPackageResourceInterface, permittedActionConstants:any):WorkPackageAction[] {
     var singularPermittedActions:any[] = [];
 
-    var allowedActions = getAllowedActions(workPackage, permittedActionConstants);
+    var allowedActions = this.getAllowedActions(workPackage, permittedActionConstants);
 
     angular.forEach(allowedActions, function(allowedAction) {
       singularPermittedActions.push({
@@ -83,33 +90,33 @@ function WorkPackageContextMenuHelper(
     return singularPermittedActions;
   }
 
-  function getIntersectOfPermittedActions(workPackages:any) {
+  public getIntersectOfPermittedActions(workPackages:any) {
     var bulkPermittedActions:any = [];
 
-    var permittedActions = _.filter(BULK_ACTIONS, function(action:any) {
-      return _.every(workPackages, function(workPackage:WorkPackageResourceInterface) {
-        return getAllowedActions(workPackage, [action]).length >= 1;
+    var permittedActions = _.filter(this.BULK_ACTIONS, (action:any) => {
+      return _.every(workPackages, (workPackage:WorkPackageResourceInterface) => {
+        return this.getAllowedActions(workPackage, [action]).length >= 1;
       });
     });
-    angular.forEach(permittedActions, function(permittedAction:any) {
+
+    angular.forEach(permittedActions, (permittedAction:any) => {
       bulkPermittedActions.push({
         icon: permittedAction.icon,
         text: permittedAction.text,
-        link: getBulkActionLink(permittedAction,
-          workPackages)
+        link: this.getBulkActionLink(permittedAction, workPackages)
       });
     });
 
     return bulkPermittedActions;
   }
 
-  function getBulkActionLink(action:any, workPackages:any) {
+  public getBulkActionLink(action:any, workPackages:any) {
     var workPackageIdParams = {
       'ids[]': workPackages.map(function(wp:any){
         return wp.id;
       })
     };
-    var serializedIdParams = UrlParamsHelper.buildQueryString(workPackageIdParams);
+    var serializedIdParams = this.UrlParamsHelper.buildQueryString(workPackageIdParams);
 
     var linkAndQueryString = action.href.split('?');
     var link = linkAndQueryString.shift();
@@ -118,24 +125,24 @@ function WorkPackageContextMenuHelper(
     return link + '?' + queryParts.join('&');
   }
 
-  function getAllowedActions(workPackage:WorkPackageResourceInterface, actions:any) {
+  public getAllowedActions(workPackage:WorkPackageResourceInterface, actions:any):WorkPackageAction[] {
     var allowedActions:any[] = [];
 
-    angular.forEach(actions, function(action) {
+    angular.forEach(actions, (action) => {
       if (workPackage.hasOwnProperty(action.link)) {
         action.text = action.text || I18n.t('js.button_' + action.icon);
         allowedActions.push(action);
       }
     });
 
-    angular.forEach(HookService.call('workPackageTableContextMenu'), function(action) {
+    angular.forEach(this.HookService.call('workPackageTableContextMenu'), (action) => {
       if (workPackage.hasOwnProperty(action.link)) {
         var index = action.indexBy ? action.indexBy(allowedActions) : allowedActions.length;
         allowedActions.splice(index, 0, action)
       }
     });
 
-    if (workPackage.addRelation && wpTableTimeline.isVisible) {
+    if (workPackage.addRelation && this.wpTableTimeline.isVisible) {
       allowedActions.push({
         icon: "relation-precedes",
         text: I18n.t("js.relation_buttons.add_predecessor"),
@@ -159,15 +166,11 @@ function WorkPackageContextMenuHelper(
     return allowedActions;
   }
 
-  var WorkPackageContextMenuHelper = {
-    getPermittedActions: function (workPackages:WorkPackageResourceInterface[], permittedActionConstants:any) {
-      if (workPackages.length === 1) {
-        return getPermittedActionLinks(workPackages[0], permittedActionConstants);
-      } else if (workPackages.length > 1) {
-        return getIntersectOfPermittedActions(workPackages);
-      }
+  public getPermittedActions(workPackages:WorkPackageResourceInterface[], permittedActionConstants:any):WorkPackageAction[] {
+    if (workPackages.length === 1) {
+      return this.getPermittedActionLinks(workPackages[0], permittedActionConstants);
+    } else {
+      return this.getIntersectOfPermittedActions(workPackages);
     }
-  };
-
-  return WorkPackageContextMenuHelper;
+  }
 }

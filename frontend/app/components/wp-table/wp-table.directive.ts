@@ -27,16 +27,14 @@
 // ++
 
 import {Component, ElementRef, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {QueryGroupByResource} from 'core-components/api/api-v3/hal-resources/query-group-by-resource.service';
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
-import {TableState, TableStateHolder} from 'core-components/wp-table/table-state/table-state';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {debugLog} from '../../helpers/debug_output';
-import {ContextMenuService} from '../context-menus/context-menu.service';
 import {States} from '../states.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
@@ -45,17 +43,15 @@ import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
 import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
+import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
 
 @Component({
   template: require('!!raw-loader!./wp-table.directive.html'),
   selector: 'wp-table',
-  providers: [TableStateHolder]
 })
 export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   @Input() projectIdentifier:string;
-
-  @Input() tableState:TableState;
 
   private $element:JQuery;
 
@@ -69,13 +65,13 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public tbody:JQuery;
 
+  public query:QueryResource;
+
   public timeline:HTMLElement;
 
   public locale:string;
 
   public text:any;
-
-  public query:QueryResource;
 
   public rowcount:number;
 
@@ -89,9 +85,9 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   constructor(private elementRef:ElementRef,
               public injector:Injector,
-              private readonly tableStateHolder:TableStateHolder,
+              readonly tableState:TableState,
               @Inject(columnsModalToken) private columnsModal:any,
-              private contextMenu:ContextMenuService,
+              private opContextMenu:OPContextMenuService,
               private states:States,
               @Inject(I18nToken) private I18n:op.I18n,
               private wpTableGroupBy:WorkPackageTableGroupByService,
@@ -100,7 +96,6 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   }
 
   ngOnInit():void {
-    this.tableStateHolder.set(this.tableState);
     this.$element = jQuery(this.elementRef.nativeElement);
     this.scrollSyncUpdate = createScrollSync(this.$element);
 
@@ -129,7 +124,6 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     };
 
     let statesCombined = combineLatest(
-      this.states.query.resource.values$(),
       this.tableState.results.values$(),
       this.wpTableGroupBy.state.values$(),
       this.wpTableColumns.state.values$(),
@@ -137,8 +131,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
     statesCombined.pipe(
       untilComponentDestroyed(this)
-    ).subscribe(([query, results, groupBy, columns, timelines]) => {
-      this.query = query;
+    ).subscribe(([results, groupBy, columns, timelines]) => {
+      this.query = this.tableState.query!.value!;
       this.rowcount = results.count;
 
       this.groupBy = groupBy.current;
@@ -180,7 +174,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   }
 
   public openColumnsModal() {
-    this.contextMenu.close();
+    this.opContextMenu.close();
     this.columnsModal.activate();
   }
 

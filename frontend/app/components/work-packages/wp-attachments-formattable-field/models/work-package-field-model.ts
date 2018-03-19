@@ -5,13 +5,16 @@ import {MarkupModel} from './markup-model';
 import {WorkPackageCacheService} from '../../work-package-cache.service';
 import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
+import {Injector} from '@angular/core';
 
 export class WorkPackageFieldModel implements IApplyAttachmentMarkup {
-  public wpCacheService:WorkPackageCacheService;
+  public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   public contentToInsert:string;
 
-  constructor(protected workPackage:WorkPackageResourceInterface, protected attribute:string, protected markupModel:MarkupModel) {
-    $injectFields(this, 'wpCacheService');
+  constructor(protected injector:Injector,
+              protected workPackage:WorkPackageResourceInterface,
+              protected attribute:string,
+              protected markupModel:MarkupModel) {
 
     const formattable = workPackage[attribute];
     this.contentToInsert = _.get(formattable, 'raw') as string || '';
@@ -37,7 +40,7 @@ export class WorkPackageFieldModel implements IApplyAttachmentMarkup {
     let value = this.workPackage[this.attribute] || { raw: '', html: '' };
     value.raw = this.contentToInsert;
 
-    const changeset = new WorkPackageChangeset(this.workPackage);
+    const changeset = new WorkPackageChangeset(this.injector, this.workPackage);
     changeset.setValue(this.attribute, value);
 
     changeset
