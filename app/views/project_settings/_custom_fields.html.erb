@@ -56,5 +56,5 @@ See docs/COPYRIGHT.rdoc for more details.
     <p><%= form.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %></p>
   <% end %>
 <% else %>
-  <%= no_results_box %>
+  <%= no_results_box custom_title: t('projects.settings.custom_fields.no_results_title_text') %>
 <% end %>
