@@ -191,6 +191,8 @@ module Redmine
 
     def offsets(line_left, line_right)
       if line_left.present? && line_right.present? && line_left != line_right
+        line_left = escapeHTML(line_left)
+        line_right = escapeHTML(line_right)
         max = [line_left.size, line_right.size].min
         starting = 0
         while starting < max && line_left[starting] == line_right[starting]
@@ -236,7 +238,8 @@ module Redmine
 
     def html_line_left
       if offsets
-        line_left.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
+        l = CGI::escapeHTML(line_left)
+        l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line_left
       end
@@ -244,7 +247,8 @@ module Redmine
 
     def html_line_right
       if offsets
-        line_right.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
+        l = CGI::escapeHTML(line_right)
+        l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line_right
       end
@@ -252,7 +256,8 @@ module Redmine
 
     def html_line
       if offsets
-        line.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
+        l = CGI::escapeHTML(line)
+        l.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line
       end
