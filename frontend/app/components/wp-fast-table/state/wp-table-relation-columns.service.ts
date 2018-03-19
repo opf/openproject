@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opServicesModule} from '../../../angular-modules';
-import {States} from '../../states.service';
 import {WorkPackageTableRelationColumns} from '../wp-table-relation-columns';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableColumnsService} from './wp-table-columns.service';
@@ -42,7 +40,6 @@ import {
   RelationQueryColumn,
   TypeRelationQueryColumn
 } from '../../wp-query/query-column';
-import {IQService} from 'angular';
 import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {
@@ -51,14 +48,16 @@ import {
 } from '../../wp-relations/wp-relations.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
+import {Inject, Injectable} from '@angular/core';
+import {halRequestToken} from 'core-app/angular4-transition-utils';
 
 export type RelationColumnType = 'toType' | 'ofType';
 
+@Injectable()
 export class WorkPackageTableRelationColumnsService extends WorkPackageTableBaseService<WorkPackageTableRelationColumns> {
   constructor(public tableState:TableState,
               public wpTableColumns:WorkPackageTableColumnsService,
-              public $q:IQService,
-              public halRequest:HalRequestService,
+              @Inject(halRequestToken) public halRequest:HalRequestService,
               public wpCacheService:WorkPackageCacheService,
               public wpRelations:WorkPackageRelationsService) {
       super(tableState);
@@ -193,4 +192,3 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
   }
 }
 
-opServicesModule.service('wpTableRelationColumns', WorkPackageTableRelationColumnsService);

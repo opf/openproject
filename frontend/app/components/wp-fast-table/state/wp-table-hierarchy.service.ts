@@ -1,9 +1,10 @@
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {opServicesModule} from '../../../angular-modules';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {WorkPackageTableHierarchies} from '../wp-table-hierarchies';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseService<WorkPackageTableHierarchies> implements WorkPackageQueryStateService {
   public constructor(tableState:TableState) {
     super(tableState);
@@ -113,4 +114,3 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
   }
 }
 
-opServicesModule.service('wpTableHierarchies', WorkPackageTableHierarchiesService);

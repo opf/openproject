@@ -3,12 +3,14 @@ import {opServicesModule} from '../../../angular-modules';
 import {InputState} from 'reactivestates';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {Injectable} from '@angular/core';
 
 export interface WPFocusState {
   workPackageId:string;
   focusAfterRender:boolean;
 }
 
+@Injectable()
 export class WorkPackageTableFocusService {
 
   public state:InputState<WPFocusState>;
@@ -77,5 +79,3 @@ export class WorkPackageTableFocusService {
       });
   }
 }
-
-opServicesModule.service('wpTableFocus', WorkPackageTableFocusService);

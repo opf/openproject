@@ -32,7 +32,9 @@ import {opServicesModule} from '../../../angular-modules';
 import {WorkPackageTableSum} from '../wp-table-sum';
 import {States} from 'core-components/states.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class WorkPackageTableSumService extends WorkPackageTableBaseService<WorkPackageTableSum> implements WorkPackageQueryStateService {
 
   public constructor(tableState:TableState) {
@@ -87,5 +89,3 @@ export class WorkPackageTableSumService extends WorkPackageTableBaseService<Work
     }
   }
 }
-
-opServicesModule.service('wpTableSum', WorkPackageTableSumService);

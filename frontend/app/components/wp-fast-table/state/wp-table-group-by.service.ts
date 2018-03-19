@@ -36,7 +36,9 @@ import {InputState} from 'reactivestates';
 import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
 import {States} from 'core-components/states.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<WorkPackageTableGroupBy> implements WorkPackageQueryStateService {
   public constructor(readonly states:States,
                      readonly tableState:TableState) {
@@ -121,5 +123,3 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<
     return !!(this.current && this.current.id === column.id);
   }
 }
-
-opServicesModule.service('wpTableGroupBy', WorkPackageTableGroupByService);

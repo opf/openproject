@@ -38,7 +38,10 @@ import {WorkPackageTableTimelineState} from './../wp-table-timeline';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {States} from 'core-components/states.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {Injectable} from '@angular/core';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
+@Injectable()
 export class WorkPackageTableTimelineService extends WorkPackageTableBaseService<WorkPackageTableTimelineState> implements WorkPackageQueryStateService {
 
   public constructor(tableState:TableState) {
@@ -148,7 +151,8 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   public get current():WorkPackageTableTimelineState {
     return this.state.value as WorkPackageTableTimelineState;
   }
-
 }
 
-opServicesModule.service('wpTableTimeline', WorkPackageTableTimelineService);
+opServicesModule.service('wpTableTimeline', downgradeInjectable(WorkPackageTableTimelineService));
+
+

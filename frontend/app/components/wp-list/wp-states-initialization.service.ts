@@ -19,7 +19,9 @@ import {WorkPackageTableSortByService} from '../wp-fast-table/state/wp-table-sor
 import {WorkPackageTableAdditionalElementsService} from '../wp-fast-table/state/wp-table-additional-elements.service';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class WorkPackageStatesInitializationService {
   constructor(protected states:States,
               protected tableState:TableState,
@@ -152,7 +154,3 @@ export class WorkPackageStatesInitializationService {
     this.tableState.rendered.clear(reason);
   }
 }
-
-angular
-  .module('openproject.workPackages.services')
-  .service('wpStatesInitialization', WorkPackageStatesInitializationService);

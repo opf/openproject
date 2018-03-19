@@ -34,17 +34,17 @@ import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.servi
 import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
 import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {opServicesModule} from '../../../angular-modules';
-import {States} from '../../states.service';
 import {WorkPackageTableFilters} from '../wp-table-filters';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {InputState} from 'reactivestates';
-import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
+import {Injectable} from '@angular/core';
+import {opServicesModule} from 'core-app/angular-modules';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
+@Injectable()
 export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<WorkPackageTableFilters> implements WorkPackageQueryStateService {
 
-  constructor(readonly tableState:TableState,
-              readonly $q:ng.IQService) {
+  constructor(readonly tableState:TableState) {
     super(tableState);
   }
 
@@ -108,28 +108,28 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
     this.state.putValue(this.currentState);
   }
 
-  private loadCurrentFiltersSchemas(filters:QueryFilterInstanceResource[]):ng.IPromise<{}> {
-    return this.$q.all(_.map(filters,
+  private loadCurrentFiltersSchemas(filters:QueryFilterInstanceResource[]):Promise<{}> {
+    return Promise.all(_.map(filters,
                        (filter:QueryFilterInstanceResource) => this.loadFilterSchema(filter)));
   }
 
-  private loadFilterSchema(filter:QueryFilterInstanceResource):ng.IPromise<{}> {
-    let deferred = this.$q.defer();
+  private loadFilterSchema(filter:QueryFilterInstanceResource):Promise<{}> {
+    return new Promise((resolve, reject) => {
+      filter.schema.$load()
+        .catch(reject)
+        .then(() => {
+        if (_.has(filter, ['values.length', 'currentSchema.values.allowedValues.$load'])) {
+          (filter.currentSchema!.values!.allowedValues as CollectionResource).$load()
+            .then((options:CollectionResource) => {
+              this.setLoadedValues(filter, options);
 
-    filter.schema.$load().then(() => {
-      if (_.has(filter, ['values.length', 'currentSchema.values.allowedValues.$load'])) {
-        (filter.currentSchema!.values!.allowedValues as CollectionResource).$load()
-          .then((options:CollectionResource) => {
-            this.setLoadedValues(filter, options);
-
-            deferred.resolve();
-          });
-      } else {
-        deferred.resolve();
-      }
+              resolve();
+            });
+        } else {
+          resolve();
+        }
+      });
     });
-
-    return deferred.promise;
   }
 
   private setLoadedValues(filter:QueryFilterInstanceResource, options:CollectionResource) {
@@ -146,4 +146,4 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
   }
 }
 
-opServicesModule.service('wpTableFilters', WorkPackageTableFiltersService);
+opServicesModule.service('wpTableFilters', downgradeInjectable(WorkPackageTableFiltersService));

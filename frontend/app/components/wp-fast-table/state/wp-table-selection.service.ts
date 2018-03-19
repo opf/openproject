@@ -1,11 +1,12 @@
-import {opServicesModule} from '../../../angular-modules';
 import {WPTableRowSelectionState} from '../wp-table.interfaces';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {RenderedRow} from '../builders/primary-render-pass';
 import {InputState} from 'reactivestates';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class WorkPackageTableSelection {
 
   public selectionState:InputState<WPTableRowSelectionState>;
@@ -154,4 +155,3 @@ export class WorkPackageTableSelection {
   }
 }
 
-opServicesModule.service('wpTableSelection', WorkPackageTableSelection);
