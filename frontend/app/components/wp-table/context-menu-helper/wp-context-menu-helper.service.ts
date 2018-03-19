@@ -29,7 +29,6 @@ import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/wor
 import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
 import {Inject, Injectable} from "@angular/core";
 import {PathHelperService} from "core-components/common/path-helper/path-helper.service";
-import PathHelper = op.PathHelper;
 import {HookServiceToken, UrlParamsHelperToken} from "core-app/angular4-transition-utils";
 
 export type WorkPackageAction = {

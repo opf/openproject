@@ -154,5 +154,3 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
 }
 
 opServicesModule.service('wpTableTimeline', downgradeInjectable(WorkPackageTableTimelineService));
-
-

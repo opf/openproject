@@ -37,6 +37,8 @@ import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-reso
 import {States} from 'core-components/states.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
+import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
 export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<WorkPackageTableGroupBy> implements WorkPackageQueryStateService {
@@ -123,3 +125,5 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<
     return !!(this.current && this.current.id === column.id);
   }
 }
+
+opServicesModule.service('wpTableGroupBy', downgradeInjectable(WorkPackageTableGroupByService));

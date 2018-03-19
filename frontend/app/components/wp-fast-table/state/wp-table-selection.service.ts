@@ -5,6 +5,9 @@ import {InputState} from 'reactivestates';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {Injectable} from '@angular/core';
+import {opServicesModule} from 'core-app/angular-modules';
+import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
 export class WorkPackageTableSelection {
@@ -155,3 +158,4 @@ export class WorkPackageTableSelection {
   }
 }
 
+opServicesModule.service('wpTableSelection', downgradeInjectable(WorkPackageTableSelection));

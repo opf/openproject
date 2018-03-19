@@ -33,6 +33,7 @@ import {StateService} from '@uirouter/core';
 export const $rootScopeToken = new InjectionToken<IRootScopeService>('$rootScope');
 export const $qToken = new InjectionToken<IQService>('$q');
 export const $timeoutToken = new InjectionToken<ITimeoutService>('$timeout');
+export const $localeToken = new InjectionToken<any>('$locale');
 export const $stateToken = new InjectionToken<StateService>('$state');
 
 export const I18nToken = new InjectionToken<op.I18n>('I18n');
