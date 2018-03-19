@@ -38,10 +38,6 @@ module Pages
       @selector = '.work-packages--details'
     end
 
-    def edit_field(attribute)
-      super(attribute, container)
-    end
-
     def switch_to_tab(tab:)
       find('.tabrow li a', text: tab.upcase).click
     end

@@ -48,8 +48,20 @@ module Pages
       expect(page).to have_selector('.tabrow li.selected', text: tab.to_s.upcase)
     end
 
-    def edit_field(attribute, context)
-      WorkPackageField.new(context, attribute)
+    def edit_field(attribute)
+      WorkPackageField.new(container, attribute)
+    end
+
+    def custom_edit_field(custom_field)
+      edit_field("customField#{custom_field.id}").tap do |field|
+        if custom_field.list?
+          field.field_type = :select
+        end
+      end
+    end
+
+    def container
+      raise NotImplementedError
     end
 
     def expect_hidden_field(attribute)

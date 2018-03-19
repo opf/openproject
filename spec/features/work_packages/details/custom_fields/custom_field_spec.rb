@@ -19,8 +19,8 @@ describe 'custom field inplace editor', js: true do
   }
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
 
-  let(:property_name) { :custom_field_1 }
-  let(:field) { wp_page.edit_field(:customField1) }
+  let(:property_name) { "customField#{custom_field.id}" }
+  let(:field) { wp_page.edit_field(property_name) }
 
   before do
     login_as(user)
@@ -42,8 +42,8 @@ describe 'custom field inplace editor', js: true do
     let(:custom_field) {
       FactoryGirl.create(:text_issue_custom_field, name: 'LongText')
     }
+    let(:field) { WorkPackageTextAreaField.new wp_page, property_name }
     let(:initial_custom_values) { { custom_field.id => 'foo' } }
-    let(:field) { WorkPackageTextAreaField.new wp_page, :customField1 }
 
     it 'can cancel through the button only' do
       # Activate the field
@@ -76,12 +76,12 @@ describe 'custom field inplace editor', js: true do
 
     let(:custom_fields) { [custom_field1, custom_field2] }
     let(:field1) {
-      f = wp_page.edit_field(:customField1)
+      f = wp_page.custom_edit_field(custom_field1)
       f.field_type = 'select'
       f
     }
     let(:field2) {
-      f = wp_page.edit_field(:customField2)
+      f = wp_page.custom_edit_field(custom_field2)
       f.field_type = 'select'
       f
     }
@@ -102,8 +102,8 @@ describe 'custom field inplace editor', js: true do
                     message: I18n.t('js.notice_successful_update'),
                     field: field2
 
-      wp_page.expect_attributes customField1: 'bar',
-                                customField2: 'Y'
+      wp_page.expect_attributes :"customField#{custom_field1.id}" => 'bar',
+                                :"customField#{custom_field2.id}" => 'Y'
 
       field1.activate!
       field1.expect_value("/api/v3/custom_options/#{custom_value('bar')}")
@@ -126,7 +126,6 @@ describe 'custom field inplace editor', js: true do
       FactoryGirl.create(:integer_issue_custom_field, args.merge(name: 'MyNumber'))
     }
     let(:initial_custom_values) { { custom_field.id => 123 } }
-    let(:fieldName) { "customField#{custom_field.id}" }
 
     context 'with length restrictions' do
       let(:args) {
@@ -148,7 +147,7 @@ describe 'custom field inplace editor', js: true do
         # Correct value
         expect_update '9999',
                       message: I18n.t('js.notice_successful_update')
-        wp_page.expect_attributes fieldName => '9999'
+        wp_page.expect_attributes property_name => '9999'
       end
     end
 
@@ -159,19 +158,19 @@ describe 'custom field inplace editor', js: true do
         field.activate!
         expect_update '9999999999',
                       message: I18n.t('js.notice_successful_update')
-        wp_page.expect_attributes fieldName => '9999999999'
+        wp_page.expect_attributes property_name => '9999999999'
 
         # Remove value
         field.activate!
         expect_update '',
                       message: I18n.t('js.notice_successful_update')
-        wp_page.expect_attributes fieldName => '-'
+        wp_page.expect_attributes property_name => '-'
 
         # Zero value
         field.activate_edition
         expect_update '0',
                       message: I18n.t('js.notice_successful_update')
-        wp_page.expect_attributes fieldName => '0'
+        wp_page.expect_attributes property_name => '0'
       end
     end
 
@@ -197,7 +196,6 @@ describe 'custom field inplace editor', js: true do
     }
     let(:args) { {} }
     let(:initial_custom_values) { { custom_field.id => 123.50 } }
-    let(:fieldName) { "customField#{custom_field.id}" }
 
     context 'with english locale' do
       let(:user) { FactoryGirl.create :admin, language: 'en' }

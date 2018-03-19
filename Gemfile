@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.4.2'
+ruby '>= 2.3'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -186,14 +186,14 @@ group :test do
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
   # not possible to upgrade to 3.6+ until rails is 5.1+
-  gem 'rspec', '~> 3.5.0'
+  gem 'rspec', '~> 3.7.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 3.5.2', group: :development
+  gem 'rspec-rails', '~> 3.7.2', group: :development
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.0'
-  gem 'rspec-retry', '~> 0.5.5'
+  gem 'rspec-retry', '~> 0.5.6'
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
@@ -201,7 +201,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 2.15.0'
+  gem 'capybara', '~> 2.18.0'
   gem 'capybara-screenshot', '~> 1.0.14'
   gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
@@ -232,7 +232,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'thin', '~> 1.7.2'
+  gem 'puma', '~> 3.11.3'
 
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-stack_explorer', '~> 0.4.9.2'

@@ -56,14 +56,10 @@ if [ $1 != 'npm' ]; then
   run "bundle exec rake db:migrate"
 fi
 
-# We need npm 4.0 for a bugfix in cross-platform shrinkwrap
-# https://github.com/npm/npm/issues/14042
-run "npm install npm@4.0"
-
-run "for i in {1..3}; do npm install && break || sleep 15; done"
+run "for i in {1..3}; do npm install --silent && break || sleep 15; done"
 
 if [ $1 != 'specs' ] && [ $1 != 'spec_legacy' ]; then
-  run "bundle exec rake assets:precompile"
+  run "bundle exec rake assets:precompile -s"
 else
   # fake result of npm/asset run
   run "mkdir -p app/assets/javascripts/bundles"

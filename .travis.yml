@@ -29,10 +29,13 @@
 language: ruby
 
 rvm:
-  - 2.4.2
+  # 2.4.1 is prebuilt on trust images and result in faster builds
+  # https://docs.travis-ci.com/user/reference/trusty/#Ruby-images
+  - 2.4.1
 
 sudo: required
 dist: trusty
+group: travis_lts
 
 cache:
   bundler: true
@@ -49,26 +52,26 @@ env:
   global:
     - CI=true
     - RAILS_ENV=test
-    - GECKODRIVER_VERSION="0.19.1"
+    - GECKODRIVER_VERSION="0.20.0"
 
   matrix:
     - "TEST_SUITE=npm"
 
 
-    - "TEST_SUITE=spec_legacy       DB=mysql     GROUP_SIZE=1 GROUP=1"
-    - "TEST_SUITE=spec_legacy       DB=postgres  GROUP_SIZE=1 GROUP=1"
-
-    - "TEST_SUITE=cucumber       DB=mysql     GROUP_SIZE=1 GROUP=1"
-    - "TEST_SUITE=cucumber       DB=postgres  GROUP_SIZE=1 GROUP=1"
-
-    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=1"
-    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=1"
-    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=2"
-    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=2"
-    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=3"
-    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=3"
-    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=4"
-    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=4"
+#    - "TEST_SUITE=spec_legacy       DB=mysql     GROUP_SIZE=1 GROUP=1"
+#    - "TEST_SUITE=spec_legacy       DB=postgres  GROUP_SIZE=1 GROUP=1"
+#
+#    - "TEST_SUITE=cucumber       DB=mysql     GROUP_SIZE=1 GROUP=1"
+#    - "TEST_SUITE=cucumber       DB=postgres  GROUP_SIZE=1 GROUP=1"
+#
+#    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=1"
+#    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=1"
+#    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=2"
+#    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=2"
+#    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=3"
+#    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=3"
+#    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=4"
+#    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=4"
 
     - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=1"
     - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=1"
@@ -93,8 +96,8 @@ before_install:
   - tar -xzf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -C geckodriver
   - export PATH=$PATH:$PWD/geckodriver
   - echo `geckodriver --version`
-  # Install Node LTS Boron (6.9.1)
-  - "nvm install 6.9.1"
+  # Install latest Node LTS
+  - "nvm install lts/*"
 
 bundler_args: --binstubs --without development production docker
 
@@ -117,8 +120,6 @@ notifications:
       - secure: "uhO7jqGYIL4QPPWwIzAKGvSuXI0E7n8HD9aoiYUO2nL9t0iW8TjpQ34ht1JhMGBiG8D86vjXXSWB+o0jEBACEYJ6GQhCTo2yuGaXoS3igBVs8Y2XD5M+nOF2OReeJ9RXOn9KvosXGfSxE8KX/6YuvzLKFV6CZL2/RKC2Euqr0MKMeiaGVaUgZxgYbReJsgfqHugZgOIQY7yeMvGoZXgDqj6oDwMyl993XVxoPcGRQV0laOAKN2+ZDo8LmE3xuKfEvmGLtYh+5zrsOTp3YRU7K/BgQlYrvUcYORj4XyzO2UAej/qRS5LqqrK5ZFwuwpH3NJYpFQNS4b0fq5IaA4dKz+N3TzNWp1oOWckE05/LWBWZYl1t8Xto0NIc2mMeSAzhV4CcAOc7W+fCNyCGxsRNpfDD2Tst02aQ+fi5pC3ITS7IskrpA86T+WVckDDjjsROGAUaYUTtMMDzWGcnP0815zoGW4cIGnjwcmCn8w9AE3D1ERUxAagIwLeXDtv2XBxphS58Pfqg1pmfywEVdIUs9DUbJ4WRH/oHnESLB0DG5i2BvHMplNBiBdxpKH7V3cYHyHFgl+ExjwfwLKZw75EyyjwfD7bmJmEUE9YpiXulzP/JRnUiQ5oorQ6fzVva4TTZ4jugc1xImiwpOv60sBSdEI+LnnVMQurhfC3HQSYl/wE="
 
 addons:
-  # Setting latest here due to the switch from old selenium bindings
-  # to Marionette. At the date of this writing, ESR is Firefox 52 and has
-  # bad support for it. Thus we use latest (57.0 as of this writing)
-  firefox: "57.0"
+  # TODO set to next ESR (60) with marionette support
+  firefox: "58.0"
   postgresql: "9.6"

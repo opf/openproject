@@ -294,6 +294,10 @@ function getWebpackMainConfig() {
 
   if (production) {
     console.log("Applying webpack.optimize plugins for production.");
+
+    // Silence stats when running in production mode
+    config.stats = 'errors-only';
+
     // Add compression and optimization plugins
     // to the webpack build.
     config.plugins.push(

@@ -33,6 +33,11 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'rspec/example_disabler'
 require 'test_prof/recipes/rspec/before_all'
+require 'timecop'
+
+##
+# Ensure Timecop is run only with a block to return after
+Timecop.safe_mode = true
 
 ##
 # Start collecting coverage when desired
@@ -67,9 +72,6 @@ RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
-  # We're using DatabaseCleaner, so avoid test wrapping in transctions
-  # cf., spec/support/database_cleaner
-  config.use_transactional_fixtures = false
 
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
