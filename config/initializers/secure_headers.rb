@@ -16,6 +16,15 @@ SecureHeaders::Configuration.default do |config|
   asset_host = OpenProject::Configuration.rails_asset_host
   assets_src << asset_host if asset_host.present?
 
+  # Valid for iframes
+  frame_src = ["'self'"]
+
+  # Allow in-context translations iframe and sources if enabled
+  if OpenProject::Configuration.crowdin_in_context_translations?
+    assets_src += %w[https://cdn.crowdin.com https://crowdin.com]
+    frame_src << 'https://crowdin.com'
+  end
+
   config.csp = {
     preserve_schemes: true,
 
@@ -29,13 +38,13 @@ SecureHeaders::Configuration.default do |config|
     # Form targets can only be self
     form_action: %w('self'),
     # Allow iframe from vimeo (welcome video)
-    frame_src: %w(https://*.vimeo.com 'self'),
+    frame_src: frame_src + %w('self'),
     frame_ancestors: %w('self'),
     # Allow images from anywhere
     img_src: %w(* data:),
     # Allow scripts from self (not inline, but)
     # for now require unsafe-eval for Angular JIT
-    script_src: %w('self' 'unsafe-eval'),
+    script_src: assets_src + %w('unsafe-eval'),
     # Allow unsafe-inline styles
     style_src: assets_src + %w('unsafe-inline'),
   }

@@ -113,7 +113,10 @@ module OpenProject
       'after_login_default_redirect_url' => nil,
       'after_first_login_redirect_url' => nil,
 
-      'main_content_language' => 'english'
+      'main_content_language' => 'english',
+
+      # Allow in-context translations to be loaded with CSP
+      'crowdin_in_context_translations' => true
     }
 
     @config = nil
