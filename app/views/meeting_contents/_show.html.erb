@@ -23,6 +23,11 @@ See doc/COPYRIGHT.md for more details.
   tab ||= locals[:tab_contents] if defined? locals
   content, content_type = tab[:content], tab[:content_type] if tab && tab.present?
 -%>
+
+<% content_for :header_tags do %>
+  <%= javascript_include_tag('meeting/meeting.js') %>
+<% end %>
+
 <div class="meeting_content <%= content_type %>">
   <div>
     <%= toolbar title: l(:"label_#{content_type}") do %>
@@ -31,20 +36,22 @@ See doc/COPYRIGHT.md for more details.
   </div>
 
   <% if can_edit_meeting_content?(content, content_type) -%>
-    <div id="edit-<%= content_type %>" class="edit-<%= content_type %>"<%= " style=\"display: none;\"" unless show_meeting_content_editor?(content, content_type)%>>
+    <div id="edit-<%= content_type %>"
+         class="edit-<%= content_type %>"
+         style="<%= 'display: none' unless show_meeting_content_editor?(content, content_type) %>">
     <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
     </div>
   <% end -%>
 
   <% if saved_meeting_content_text_present?(content) -%>
-    <div id="<%= content_type %>-text" class="wiki show-<%= content_type %>">
+    <div id="<%= content_type %>-text"
+         style="<%= 'display: none' if show_meeting_content_editor?(content, content_type) %>"
+         class="wiki show-<%= content_type %>">
       <%= format_text(content.text, :object => @meeting) %>
     </div>
   <% else -%>
     <%= no_results_box %>
   <% end -%>
-
-  <%= javascript_tag(show_meeting_content_editor?(content, content_type) ? "jQuery('.show-#{content_type}').hide();" : "jQuery('.edit-#{content_type}').hide();") %>
 </div>
 
 <%= render :partial => 'shared/meeting_header' %>

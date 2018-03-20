@@ -92,14 +92,11 @@ module MeetingContentsHelper
 
   def meeting_content_edit_link(content_type)
     content_tag :li, '', class: 'toolbar-item' do
+
       content_tag :button,
                   '',
-                  class: 'button button--edit-agenda',
-                  onclick: "jQuery('.edit-#{content_type}').show();
-                            jQuery('.show-#{content_type}').hide();
-                            jQuery('.button--edit-agenda').addClass('-active');
-                            jQuery('.button--edit-agenda').attr('disabled', true);
-                  return false;" do
+                  data: { 'content-type': content_type },
+                  class: 'button button--edit-agenda' do
         link_to l(:button_edit),
                 '',
                 class: 'icon-context icon-edit',

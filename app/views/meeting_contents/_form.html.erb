@@ -29,13 +29,7 @@ See doc/COPYRIGHT.md for more details.
 <p><%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% path = send("preview_#{content_type}_path", content.meeting) %>
 <%= preview_link path, "#{content_type}_form", { class: 'button preview' } %>
-<%= link_to l(:button_cancel), "#",
-      :onclick => "jQuery('.show-#{content_type}').show();
-                   jQuery('.edit-#{content_type}').hide();
-                   jQuery('.button--edit-agenda').removeClass('-active');
-                   jQuery('.button--edit-agenda').removeAttr('disabled');;
-                   return false;",
-      class: 'button' %></p>
+<%= link_to l(:button_cancel), "#", data: { 'content-type': content_type }, class: 'button button--cancel-agenda' %>
 <%= wikitoolbar_for "#{content_type}_text" %>
 <% end %>
 
