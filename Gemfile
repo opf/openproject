@@ -265,6 +265,8 @@ group :opf_plugins do
 end
 
 group :docker, optional: true do
+  # Puma server
+  gem 'puma', '~> 3.11.3'
   gem 'passenger'
 
   # Used to easily precompile assets
