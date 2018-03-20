@@ -19,6 +19,8 @@ import {Subject} from 'rxjs/Rx';
 import {States} from 'core-components/states.service';
 import {Injectable} from '@angular/core';
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
+import {opServicesModule} from 'core-app/angular-modules';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
 export class TableState extends StatesGroup {
@@ -85,6 +87,8 @@ export class TableState extends StatesGroup {
   // Updater states on user input
   updates = new UserUpdaterStates(this);
 }
+
+opServicesModule.service('globalTableState', downgradeInjectable(TableState));
 
 export class TableRenderingStates {
   constructor(private tableState:TableState) {
