@@ -31,7 +31,7 @@ See doc/COPYRIGHT.md for more details.
     <% content_for block_name do %>
       <div id="<%= block_name %>-form-div" class="textile-form-wrapper" ng-show="$ctrl.formVisible">
         <div class="box-actions">
-          <a href="javascript:"
+          <a href="#"
              ng-click="$ctrl.toggleEditForm(false)"
              class="icon icon-cancel reset-textilizable"
              title=<%= l(:button_cancel) %>></a>
@@ -60,19 +60,19 @@ See doc/COPYRIGHT.md for more details.
           <%= styled_button_tag l(:button_save),
               id: "#{block_name}-form-submit",
               class: '-highlight' %>
-          <a href="javascript:" ng-click="$ctrl.toggleEditForm(false)" class="reset-textilizable button"><%= t(:button_cancel) %></a>
+          <a href="#" ng-click="$ctrl.toggleEditForm(false)" class="reset-textilizable button"><%= t(:button_cancel) %></a>
         <% end %>
       </div>
       <div id="<%= block_name %>-preview-div" class="wiki" ng-show="$ctrl.editing">
         <div class="box-actions" ng-hide="$ctrl.formVisible">
           <% unless User.current.anonymous? %>
-            <a href="javascript:"
+            <a href="#"
                class="icon icon-edit edit-textilizable"
                ng-click="$ctrl.toggleEditForm(true)"
                title="<%= l(:button_edit) %>"></a>
           <% end %>
           <% if User.current.allowed_to?(:edit_project, project) %>
-            <a href="javascript:"
+            <a href="#"
                ng-click="$ctrl.remove()"
                class="icon icon-close remove-block"
                title="<%= t(:button_delete) %>"></a>
