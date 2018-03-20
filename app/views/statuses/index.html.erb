@@ -40,7 +40,7 @@ See docs/COPYRIGHT.rdoc for more details.
   </li>
   <% if WorkPackage.use_status_for_done_ratio? %>
     <li class="toolbar-item">
-      <%= link_to update_work_package_done_ratio_statuses_path, class: 'button', remote: true, method: :post, data: { confirm: l(:text_are_you_sure) } do %>
+      <%= link_to update_work_package_done_ratio_statuses_path, class: 'button', method: :post, data: { confirm: l(:text_are_you_sure) } do %>
         <%= op_icon('button--icon icon-reload') %>
         <span class="button--text"><%= l(:label_update_work_package_done_ratios) %></span>
       <% end %>
@@ -131,7 +131,7 @@ See docs/COPYRIGHT.rdoc for more details.
           <% end %>
         </tbody>
       </table>
-      
+
     </div>
   </div>
   <%= pagination_links_full @statuses %>

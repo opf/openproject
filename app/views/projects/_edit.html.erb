@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= labelled_tabular_form_for @altered_project, url: project_path(@project) do |f| %>
-  <%= render partial: 'form', locals: {
+  <%= render partial: '/projects/form', locals: {
                                 f: f,
                                 project: @altered_project,
                                 render_advanced: false,

@@ -111,15 +111,6 @@ describe RepositoriesController, type: :routing do
     }
   end
 
-  describe 'edit' do
-    it {
-      expect(get('/projects/testproject/repository/edit'))
-        .to route_to(controller: 'repositories',
-                     action: 'edit',
-                     project_id: 'testproject')
-    }
-  end
-
   describe 'create' do
     it {
       expect(post('/projects/testproject/repository/'))

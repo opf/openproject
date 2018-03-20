@@ -73,7 +73,6 @@ See docs/COPYRIGHT.rdoc for more details.
                       <%= labelled_tabular_form_for(:membership,
                                                     url: membership_of_group_path(@group, membership),
                                                     method: :put,
-                                                    remote: true,
                                                     html: {
                                                       id: "member-#{membership.id}-roles-form",
                                                       style: 'display:none;'
@@ -102,14 +101,13 @@ See docs/COPYRIGHT.rdoc for more details.
                       <% end %>
                       <%= link_to l(:button_remove), membership_of_group_path(@group, membership),
                                            method: :delete,
-                                           remote: true,
                                            class: 'icon icon-remove' %>
                     </td>
                   </tr>
             </tbody>
             <% end %>
           </table>
-          
+
         </div>
       </div>
     <% else %>
@@ -118,9 +116,7 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
   <div class="grid-content">
     <% if projects.any? %>
-      <%= styled_form_tag(memberships_of_group_path(@group),
-                                             method: :post,
-                                             remote: true) do %>
+      <%= styled_form_tag(memberships_of_group_path(@group), method: :post) do %>
          <fieldset class="form--fieldset">
             <legend class="form--fieldset-legend"><%=l(:label_project_new)%></legend>
             <%= label_tag "membership_project_id", l(:description_choose_project), class: "hidden-for-sighted" %>

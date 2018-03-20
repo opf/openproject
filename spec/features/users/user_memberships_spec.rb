@@ -58,7 +58,7 @@ feature 'user memberships through user page', type: :feature, js: true do
     user_page.expect_project(project.name)
     user_page.edit_roles!(member, %w())
 
-    expect(page).to have_selector('#errorExplanation', 'Please choose at least one role.')
+    expect(page).to have_selector('.flash.error', text: 'Please choose at least one role.')
   end
 
   context 'when user has an inherited role' do

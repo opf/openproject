@@ -101,7 +101,7 @@ See docs/COPYRIGHT.rdoc for more details.
             <% end %>
           </tbody>
         </table>
-        
+
       </div>
     </div>
     <% if @project.boards.any? %>
@@ -116,7 +116,10 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
     <% end %>
   <% else %>
-    <%= no_results_box(action_url: new_project_board_path(@project), display_action: authorize_for('boards', 'new')) %>
+    <%= no_results_box action_url: new_project_board_path(@project),
+                       display_action: authorize_for('boards', 'new'),
+                       custom_title: t('projects.settings.boards.no_results_title_text'),
+                       custom_action_text: t('projects.settings.boards.no_results_content_text') %>
   <% end %>
 </fieldset>
 

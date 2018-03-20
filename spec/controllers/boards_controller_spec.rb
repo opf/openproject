@@ -68,8 +68,8 @@ describe BoardsController, type: :controller do
 
       it 'should redirect to the settings page if successful' do
         expect(response)
-          .to redirect_to controller: '/projects',
-                          action: 'settings',
+          .to redirect_to controller: '/project_settings',
+                          action: 'show',
                           id: project,
                           tab: 'boards'
       end
@@ -147,8 +147,8 @@ describe BoardsController, type: :controller do
       end
 
       it 'should redirect to the settings page if successful' do
-        expect(response).to redirect_to controller: '/projects',
-                                        action: 'settings',
+        expect(response).to redirect_to controller: '/project_settings',
+                                        action: 'show',
                                         id: board.project,
                                         tab: 'boards'
       end

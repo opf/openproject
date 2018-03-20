@@ -66,6 +66,4 @@ See docs/COPYRIGHT.rdoc for more details.
              id: 'member-add-submit',
              class: 'button -highlight -with-icon icon-checkmark',
              style: roles.any? && (principals.any? && principals.size <= 20) ? "": "display:none" %>
-<%= link_to I18n.t('button_cancel'), '', class: 'button', onClick: 'hideAddMemberForm()', role: 'button' %>
-
-
+<%= link_to I18n.t('button_cancel'), '', class: 'button hide-member-form-button', role: 'button' %>

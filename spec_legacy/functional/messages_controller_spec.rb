@@ -160,11 +160,4 @@ describe MessagesController, type: :controller do
     assert_redirected_to project_board_path('ecookbook', 1)
     assert_nil Message.find_by(id: 1)
   end
-
-  it 'should quote' do
-    session[:user_id] = 2
-    get :quote, params: { board_id: 1, id: 3 }, xhr: true
-    assert_response :success
-    assert_template 'quote'
-  end
 end

@@ -41,8 +41,8 @@ See docs/COPYRIGHT.rdoc for more details.
     <input id="repository-checkout-url"
            type="text" class="-clickable" size="40"
            value="<%= @instructions.checkout_url(true) %>"
-           onclick="this.focus(); this.select();"
            readonly>
+    <% csp_onclick('this.focus(); this.select();', '#repository-checkout-url') %>
     <button class="toolbar-input--affix toolbar-input-group--affix -append"
             title="<%= l(:label_copy_to_clipboard) %>"
             copy-to-clipboard

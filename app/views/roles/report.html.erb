@@ -36,7 +36,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <% perms_by_module.keys.sort.each do |mod| %>
     <% module_name = mod.blank? ? "form--" + I18n.t('attributes.project') : "form--" + l_or_humanize(mod, prefix: 'project_module_').gsub(' ','_') %>
     <fieldset class="form--fieldset -collapsible" id= "<%= module_name %>">
-      <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
+      <legend class="form--fieldset-legend" >
         <%= mod.blank? ? I18n.t('attributes.project') : l_or_humanize(mod, prefix: 'project_module_') %>
       </legend>
       <div class="form--fieldset-control">
@@ -44,7 +44,7 @@ See docs/COPYRIGHT.rdoc for more details.
           (<%= check_all_links module_name %>)
         </span>
       </div>
-    
+
       <div class="generic-table--container">
         <div class="generic-table--results-container">
           <table class="generic-table">

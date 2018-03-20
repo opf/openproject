@@ -115,11 +115,25 @@ See docs/COPYRIGHT.rdoc for more details.
               </td>
               <td class="checkbox">
                 <%= label_tag "cb-#{line_num}", t(:description_compare_from) + ' ' + t(:label_changeset), class: 'hidden-for-sighted' %>
-                <%= radio_button_tag('rev', changeset.identifier, (line_num==1), id: "cb-#{line_num}", onclick: "jQuery('#cbto-#{line_num+1}').attr('checked', true);") if show_diff && (line_num < revisions.size) %>
+                <% if show_diff && (line_num < revisions.size) %>
+                <%= radio_button_tag 'rev',
+                                     changeset.identifier,
+                                     (line_num==1),
+                                     id: "cb-#{line_num}" %>
+                <% csp_onclick("jQuery('#cbto-#{line_num+1}').attr('checked', true);",
+                               "cb-#{line_num}") %>
+                <% end %>
               </td>
               <td class="checkbox">
                 <%= label_tag "cbto-#{line_num}", t(:description_compare_to) + ' ' + t(:label_changeset), class: 'hidden-for-sighted' %>
-                <%= radio_button_tag('rev_to', changeset.identifier, (line_num==2), id: "cbto-#{line_num}", onclick: "if (jQuery('#cb-#{line_num}').attr('checked')) {jQuery('#cb-#{line_num-1}').attr('checked', true)}") if show_diff && (line_num > 1) %>
+                <% if show_diff && (line_num > 1) %>
+                <%= radio_button_tag 'rev_to',
+                                     changeset.identifier,
+                                     (line_num==2),
+                                     id: "cbto-#{line_num}" %>
+                  <% csp_onclick("if (jQuery('#cb-#{line_num}').attr('checked')) {jQuery('#cb-#{line_num-1}').attr('checked', true)}",
+                                 "cbto-#{line_num}") %>
+                <% end %>
               </td>
               <td class="committed_on">
                 <%= format_time(changeset.committed_on) %>

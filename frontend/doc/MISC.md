@@ -19,7 +19,7 @@ There are three ways of passing information from Rails to `angular`:
 This is included by all layouts in `<head>`:
 
 ```
-<%= include_gon %>
+<%= include_gon(nonce: content_security_policy_nonce(:script)) %>
 ```
 
 `gon` will provide arbitrary settings from Rails to all JavaScript functionality, including `angular`. In an `angular` context a `ConfigurationService` is provided for picking up the settings.

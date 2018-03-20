@@ -60,7 +60,7 @@ module Pages
       if selenium_driver?
         begin
           page.driver.browser.switch_to.alert
-        rescue Selenium::WebDriver::Error::NoAlertPresentError
+        rescue ::Selenium::WebDriver::Error::NoSuchAlertError
           false
         end
       end

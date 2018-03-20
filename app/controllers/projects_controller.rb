@@ -30,12 +30,11 @@
 class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :roadmap, only: :roadmap
-  menu_item :settings, only: :settings
 
   before_action :disable_api, except: :level_list
   before_action :find_project, except: [:index, :level_list, :new, :create]
   before_action :authorize, only: [
-    :show, :settings, :edit, :update, :modules, :types, :custom_fields
+    :show, :edit, :update, :modules, :types, :custom_fields
   ]
   before_action :authorize_global, only: [:new, :create]
   before_action :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
@@ -139,10 +138,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def settings
-    @altered_project ||= @project
-  end
-
   def edit; end
 
   def update
@@ -153,41 +148,22 @@ class ProjectsController < ApplicationController
       if params['project'].has_key?('parent_id')
         @altered_project.set_allowed_parent!(params['project']['parent_id'])
       end
-      respond_to do |format|
-        format.html do
-          flash[:notice] = l(:notice_successful_update)
-          redirect_to action: 'settings', id: @altered_project
-        end
-      end
+      flash[:notice] = l(:notice_successful_update)
       OpenProject::Notifications.send('project_updated', project: @altered_project)
-    else
-      respond_to do |format|
-        format.html do
-          load_project_settings
-          render action: 'settings'
-        end
-      end
     end
+
+    redirect_to settings_project_path(@altered_project)
   end
 
   def update_identifier
     @project.attributes = permitted_params.project
 
     if @project.save
-      respond_to do |format|
-        format.html do
-          flash[:notice] = l(:notice_successful_update)
-          redirect_to action: 'settings', id: @project
-        end
-      end
+      flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_to settings_project_path(@project)
       OpenProject::Notifications.send('project_renamed', project: @project)
     else
-      respond_to do |format|
-        format.html do
-          load_project_settings
-          render action: 'identifier'
-        end
-      end
+      render action: 'identifier'
     end
   end
 
@@ -203,8 +179,8 @@ class ProjectsController < ApplicationController
 
   def modules
     @project.enabled_module_names = permitted_params.project[:enabled_module_names]
-    flash[:notice] = l(:notice_successful_update)
-    redirect_to action: 'settings', id: @project, tab: 'modules'
+    flash[:notice] = I18n.t(:notice_successful_update)
+    redirect_to settings_project_path(@project, tab: 'modules')
   end
 
   def custom_fields
@@ -218,7 +194,7 @@ class ProjectsController < ApplicationController
         raise ActiveRecord::Rollback
       end
     end
-    redirect_to action: 'settings', id: @project, tab: 'custom_fields'
+    redirect_to settings_project_path(@project, tab: 'custom_fields')
   end
 
   def archive
@@ -282,15 +258,6 @@ class ProjectsController < ApplicationController
       # try to redirect to the requested menu item
       redirect_to_project_menu_item(@project, params[:jump]) && return
     end
-  end
-
-  def load_project_settings
-    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
-    @category ||= Category.new
-    @member ||= @project.members.new
-    @types = ::Type.all
-    @repository ||= @project.repository
-    @wiki ||= @project.wiki
   end
 
   def hide_project_in_layout

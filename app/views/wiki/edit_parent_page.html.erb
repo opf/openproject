@@ -42,7 +42,7 @@ See docs/COPYRIGHT.rdoc for more details.
             { class: "parent-select" } %>
     </p>
 
-    <%= javascript_tag do -%>
+    <%= nonced_javascript_tag  do -%>
       jQuery(function() {
           var parent_select = jQuery('#wiki_page_parent_id');
           parent_select.attr('size', parent_select.children().length);

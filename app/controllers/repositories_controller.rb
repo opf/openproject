@@ -52,26 +52,11 @@ class RepositoriesController < ApplicationController
 
   rescue_from OpenProject::Scm::Exceptions::ScmError, with: :show_error_command_failed
 
-  def edit
-    service = Scm::RepositoryFactoryService.new(@project, params)
-    if service.build_temporary
-      @repository = service.repository
-    else
-      logger.error("Cannot create repository for #{params[:scm_vendor]}")
-      flash.now[:error] = service.build_error
-    end
-
-    respond_to do |format|
-      format.js { render 'repositories/settings/repository_form' }
-    end
-  end
-
   def update
     @repository = @project.repository
     update_repository(params.fetch(:repository, {}))
-    respond_to do |format|
-      format.js { render 'repositories/settings/repository_form' }
-    end
+
+    redirect_to helpers.settings_repository_tab_path
   end
 
   def create
@@ -84,9 +69,7 @@ class RepositoriesController < ApplicationController
       flash[:error] = service.build_error
     end
 
-    respond_to do |format|
-      format.js { render js: "window.location = '#{settings_repository_tab_path}'" }
-    end
+    redirect_to helpers.settings_repository_tab_path
   end
 
   def committers
@@ -110,7 +93,7 @@ class RepositoriesController < ApplicationController
 
   def destroy_info
     @repository = @project.repository
-    @back_link = settings_repository_tab_path
+    @back_link = helpers.settings_repository_tab_path
   end
 
   def destroy
@@ -120,7 +103,7 @@ class RepositoriesController < ApplicationController
     else
       flash[:error] = repository.errors.full_messages
     end
-    redirect_to settings_repository_tab_path
+    redirect_to helpers.settings_repository_tab_path
   end
 
   def show
@@ -330,9 +313,9 @@ class RepositoriesController < ApplicationController
     @repository.attributes = @repository.class.permitted_params(repo_params)
 
     if @repository.save
-      flash.now[:notice] = l('repositories.update_settings_successful')
+      flash[:notice] = l('repositories.update_settings_successful')
     else
-      flash.now[:error] = @repository.errors.full_messages.join('\n')
+      flash[:error] = @repository.errors.full_messages.join('\n')
     end
   end
 

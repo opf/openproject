@@ -27,9 +27,12 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= content_for :header_tags do %>
+  <%= javascript_include_tag('repository_settings') %>
+<% end %>
+
 <% is_creation_form = @repository.nil? || @repository.new_record? %>
 <%= form_for :repository,
-             remote: true,
              url: { controller: '/repositories',
                     action: is_creation_form ? 'create' : 'update',
                     project_id: @project },

@@ -31,7 +31,8 @@ module TabsHelper
   # Renders tabs and their content
   def render_tabs(tabs)
     if tabs.any?
-      render partial: 'common/tabs', locals: { tabs: tabs }
+      selected_tab = tabs.detect { |t| t[:name] == params[:tab] } if params[:tab].present?
+      render partial: 'common/tabs', locals: { tabs: tabs, selected_tab: selected_tab || tabs.first }
     else
       content_tag 'p', l(:label_no_data), class: 'nodata'
     end

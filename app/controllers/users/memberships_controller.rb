@@ -35,11 +35,11 @@ class Users::MembershipsController < ApplicationController
   before_action :find_user
 
   def update
-    update_or_create(request.patch?)
+    update_or_create(request.patch?, :notice_successful_update)
   end
 
   def create
-    update_or_create(request.post?)
+    update_or_create(request.post?, :notice_successful_create)
   end
 
   def destroy
@@ -47,30 +47,25 @@ class Users::MembershipsController < ApplicationController
 
     if @membership.deletable? && request.delete?
       @membership.destroy && @membership = nil
+      flash[:notice] = I18n.t(:notice_successful_delete)
     end
 
-    respond_to do |format|
-      format.html do
-        redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
-      end
-
-      format.js {}
-    end
+    redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
   end
 
   private
 
-  def update_or_create(save_record)
+  def update_or_create(save_record, message)
     @membership = params[:id].present? ? Member.find(params[:id]) : Member.new(principal: @user)
     service = ::Members::EditMembershipService.new(@membership, save: save_record, current_user: current_user)
-    service.call(attributes: permitted_params.membership)
+    result = service.call(attributes: permitted_params.membership)
 
-    respond_to do |format|
-      format.html do
-        redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
-      end
-      format.js { render 'update_or_create' }
+    if result.success?
+      flash[:notice] = I18n.t(message)
+    else
+      flash[:error] = result.errors.full_messages.join("\n")
     end
+    redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
   end
 
   def find_user

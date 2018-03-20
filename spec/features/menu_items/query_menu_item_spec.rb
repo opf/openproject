@@ -108,7 +108,6 @@ feature 'Query menu items' do
     end
 
     it 'is renaming and reordering the list', js: true do
-      ng_wait
       # Renaming the query should also reorder the queries.  As it is renamed
       # from zzzz to aaaa, it should now be the first query menu item.
       expect(page).to have_selector('li:nth-child(3) a', text: new_name)

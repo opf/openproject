@@ -119,8 +119,12 @@ See docs/COPYRIGHT.rdoc for more details.
               <td class="checkbox">
                 <% if show_diff && (line_num < @versions.size)  %>
                   <label for="<%="cb-#{line_num}"%>" class="hidden-for-sighted"><%= t(:description_compare_from) + ' ' + t(:label_version) + " " + h(ver.version.to_s) %></label>
-                  <%= radio_button_tag('version', ver.version, (line_num==1), id: "cb-#{line_num}", onclick: "jQuery(#'cbto-#{line_num+1}').attr('checked', true);") %>
+                  <%= radio_button_tag 'version',
+                                       ver.version,
+                                       (line_num==1),
+                                       id: "cb-#{line_num}" %>
                 <% end %>
+                <% csp_onclick("jQuery(#'cbto-#{line_num+1}').attr('checked', true);", "#cb-#{line_num}}") %>
               </td>
               <td class="checkbox">
                 <% if show_diff && (line_num > 1) %>

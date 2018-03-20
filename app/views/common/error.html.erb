@@ -30,6 +30,5 @@ See docs/COPYRIGHT.rdoc for more details.
 <h2><%=h @status %></h2>
 <%= render partial: "common/error_base", locals: { error_message: (h @message) } %>
 <%= call_hook(:view_common_error_details, { params: params, project: ((defined? @project) ? @project : nil) }) %>
-<p><a href="javascript:history.back()">Back</a></p>
 
 <% html_title h(@status) %>

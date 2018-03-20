@@ -28,7 +28,7 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= content_for :header_tags do %>
-  <%= include_gon %>
+  <%= include_gon(nonce: content_security_policy_nonce(:script)) %>
   <!-- plug-in specific tags -->
   <%= call_hook :view_work_package_overview_attributes %>
 <% end -%>
