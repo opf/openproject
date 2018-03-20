@@ -17,7 +17,7 @@ SecureHeaders::Configuration.default do |config|
   assets_src << asset_host if asset_host.present?
 
   # Valid for iframes
-  frame_src = ["'self'"]
+  frame_src = %w['self' https://player.vimeo.com]
 
   # Allow in-context translations iframe and sources if enabled
   if OpenProject::Configuration.crowdin_in_context_translations?
