@@ -20,7 +20,7 @@
 require Rails.root.join("db","migrate","migration_utils","migration_squasher").to_s
 require 'open_project/plugins/migration_mapping'
 # This migration aggregates the migrations detailed in MIGRATION_FILES
-class AggregatedMyProjectPageMigrations < ActiveRecord::Migration
+class AggregatedMyProjectPageMigrations < ActiveRecord::Migration[5.0]
 
   MIGRATION_FILES = <<-MIGRATIONS
     20110804151010_add_projects_overviews.rb

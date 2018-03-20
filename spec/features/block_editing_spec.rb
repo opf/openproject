@@ -109,6 +109,9 @@ describe 'My project page editing', type: :feature, js: true do
     drag_to(:members, right, top)
     save_changes.click
 
+    # scrolling so that the flash notice can be 'seen'
+    wrapper = find('#wrapper')
+    scroll_to_element(wrapper)
     expect(page).to have_selector('.flash.notice', text: I18n.t('js.notice_successful_update'))
     expect_block(top, :members)
     expect(page).to have_no_selector('#list-right #block_members')
@@ -144,12 +147,12 @@ describe 'My project page editing', type: :feature, js: true do
 
   it 'should allow to add and edit custom blocks' do
     select.find('option[value=custom_element]').select_option
- 
+
     # edit form should be open
     find('#block_title_a').set 'My title'
     find('#textile_a').set 'My *textile* content'
     find('#a-form-submit').click
- 
+
     # expect changes to be saved
     mypage.expect_notification(message: I18n.t('js.notice_successful_update'))
     mypage.dismiss_notification!
@@ -159,16 +162,16 @@ describe 'My project page editing', type: :feature, js: true do
 
     expect(custom_block).to have_selector('.widget-box--header-title', text: 'My title')
     expect(custom_block).to have_selector('#a-text strong', text: 'textile')
- 
+
     # edit form should be closed
     expect(custom_block).to have_no_selector('#block_title_a', visible: true)
- 
+
     # Toggling the form works
     custom_block.find('.edit-textilizable').click
     expect(custom_block).to have_selector('#block_title_a', visible: true)
     custom_block.find('.textile-form .reset-textilizable').click
     expect(custom_block).to have_no_selector('#block_title_a', visible: true)
-   
+
     # Moving to visible
     drag_to(:a, hidden, right)
 

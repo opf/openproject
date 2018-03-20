@@ -1,6 +1,6 @@
 es:
   button_edit_this_page: "Editar esta página"
-  error_saving_changes: 'No se han podido guardar los cambios: %{errors}'
+  error_saving_changes: "No se han podido guardar los cambios: %{errors}"
   error_textile_not_saved: "No se ha podido guardar el bloque Textile."
   label_hidden_elements: "Elementos ocultos"
   label_visible_elements: "Elementos visibles"
@@ -16,6 +16,7 @@ es:
   label_work_package_tracking: " Seguimiento de paquetes de trabajo"
   label_members: "Miembros"
   label_member_view_all: "Ver todos los miembros"
+  label_no_visible_members: "Este proyecto no tiene ningún miembro visible."
   label_subprojects: "Subproyectos"
   project_page:
     all: "Mostrar todo"

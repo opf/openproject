@@ -1,6 +1,6 @@
 da:
   button_edit_this_page: "Edit this page"
-  error_saving_changes: 'The changes could not be saved: %{errors}'
+  error_saving_changes: "The changes could not be saved: %{errors}"
   error_textile_not_saved: "The textile block could not be saved."
   label_hidden_elements: "Gemte elementer"
   label_visible_elements: "Synlige elementer"
@@ -16,6 +16,7 @@ da:
   label_work_package_tracking: " Work package tracking"
   label_members: "Medlemmer"
   label_member_view_all: "View all members"
+  label_no_visible_members: "This project has no visible members."
   label_subprojects: "Underprojekter"
   project_page:
     all: "Vis alt"

@@ -1,6 +1,6 @@
 ar:
   button_edit_this_page: "تعديل هذه الصفحة"
-  error_saving_changes: 'تعذّر حفظ التغييرات: %{errors}'
+  error_saving_changes: "تعذّر حفظ التغييرات: %{errors}"
   error_textile_not_saved: "The textile block could not be saved."
   label_hidden_elements: "العناصر المخفية"
   label_visible_elements: "العناصر المرئية"
@@ -16,6 +16,7 @@ ar:
   label_work_package_tracking: " تعقُّب مجموعة العمل"
   label_members: "الأعضاء"
   label_member_view_all: "View all members"
+  label_no_visible_members: "This project has no visible members."
   label_subprojects: "المشاريع الفرعية"
   project_page:
     all: "إظهار الجميع"

@@ -47,7 +47,7 @@ class MyProjectsOverviewsController < ApplicationController
 
     if params["attachments"]
       # Attach files and save them
-      attachments = Attachment.attach_files(overview, params["attachments"])
+      attachments = Attachment.attach_files(overview, params["attachments"].to_unsafe_h)
       unless attachments[:unsaved].blank?
         render text: t(:warning_attachments_not_saved, attachments[:unsaved].size), status: 500
       end
@@ -60,7 +60,7 @@ class MyProjectsOverviewsController < ApplicationController
                       block_name: block_name,
                       textile: textile })
    else
-     render text: t(:error_textile_not_saved), status: 400
+     render plain: t(:error_textile_not_saved), status: 400
    end
   end
 
@@ -74,7 +74,7 @@ class MyProjectsOverviewsController < ApplicationController
     elsif block == "custom_element"
       render_new_custom_block
     else
-      render nothing: true
+      head :ok
     end
   end
 
@@ -139,8 +139,8 @@ class MyProjectsOverviewsController < ApplicationController
                        block_name: new_block.first,
                        textile: new_block.last })
     else
-      render text: I18n.t(:error_saving_changes, errors: overview.errors.full_messages.join(', ')),
-                   status: 500
+      render plain: I18n.t(:error_saving_changes, errors: overview.errors.full_messages.join(', ')),
+                    status: 500
     end
   end
 

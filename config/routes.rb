@@ -23,7 +23,7 @@ OpenProject::Application.routes.draw do
   # replace the standard overview-page with the my-project-page
   # careful: do not over-match the reserved path like /projects/new or /projects/level_list, see http://rubular.com/r/1uoiXyApCB
   get 'projects/:id', to: "my_projects_overviews#index" ,
-                      constraints: { id: Regexp.new("(?!(#{Project::RESERVED_IDENTIFIERS.join('|')})$)(\\w|-)+") }
+                      constraints: { format: :html, id: Regexp.new("(?!(#{Project::RESERVED_IDENTIFIERS.join('|')})$)(\\w|-)+") }
 
 
 

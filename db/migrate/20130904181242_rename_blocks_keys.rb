@@ -18,7 +18,7 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-class RenameBlocksKeys < ActiveRecord::Migration
+class RenameBlocksKeys < ActiveRecord::Migration[5.0]
   REPLACED = {
     "issuesassignedtome" => "work_packages_assigned_to_me",
     "issuesreportedbyme" => "work_packages_reported_by_me",

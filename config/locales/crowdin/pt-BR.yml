@@ -1,6 +1,6 @@
 pt-BR:
   button_edit_this_page: "Editar esta página"
-  error_saving_changes: 'Não foi possível salvar as alterações: %{errors}'
+  error_saving_changes: "Não foi possível salvar as alterações: %{errors}"
   error_textile_not_saved: "O bloco textile não pôde ser salvo."
   label_hidden_elements: "Elementos ocultos"
   label_visible_elements: "Elementos visíveis"
@@ -16,6 +16,7 @@ pt-BR:
   label_work_package_tracking: " Acompanhamento de pacote de trabalho"
   label_members: "Membros"
   label_member_view_all: "Ver todos os membros"
+  label_no_visible_members: "Este projeto não possui membros visíveis."
   label_subprojects: "Subprojetos"
   project_page:
     all: "Mostrar todos"

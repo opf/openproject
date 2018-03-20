@@ -1,6 +1,6 @@
 sk:
   button_edit_this_page: "Edit this page"
-  error_saving_changes: 'The changes could not be saved: %{errors}'
+  error_saving_changes: "The changes could not be saved: %{errors}"
   error_textile_not_saved: "The textile block could not be saved."
   label_hidden_elements: "Skryté prvky"
   label_visible_elements: "Viditeľné prvky"
@@ -16,6 +16,7 @@ sk:
   label_work_package_tracking: " Work package tracking"
   label_members: "Členovia"
   label_member_view_all: "View all members"
+  label_no_visible_members: "This project has no visible members."
   label_subprojects: "Podprojekty"
   project_page:
     all: "Zobraziť všetko"

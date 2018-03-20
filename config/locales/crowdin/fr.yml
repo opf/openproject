@@ -1,6 +1,6 @@
 fr:
   button_edit_this_page: "Modifier cette page"
-  error_saving_changes: 'Les modifications n’ont pas pu être enregistrées : %{errors}'
+  error_saving_changes: "Les modifications n’ont pas pu être enregistrées : %{errors}"
   error_textile_not_saved: "Le bloc textile n'a pas pu être enregistré."
   label_hidden_elements: "Éléments masqués"
   label_visible_elements: "Éléments visibles"
@@ -16,6 +16,7 @@ fr:
   label_work_package_tracking: " Suivi des lots de travaux"
   label_members: "Membres"
   label_member_view_all: "Afficher tous les membres"
+  label_no_visible_members: "Ce projet n'a pas de membre visible."
   label_subprojects: "Sous-projets"
   project_page:
     all: "Afficher tout"

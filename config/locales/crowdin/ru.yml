@@ -1,6 +1,6 @@
 ru:
   button_edit_this_page: "Редактировать эту страницу"
-  error_saving_changes: 'Не удалось сохранить изменения: %{errors}'
+  error_saving_changes: "Не удалось сохранить изменения: %{errors}"
   error_textile_not_saved: "Не удалось сохранить textile-блок."
   label_hidden_elements: "Скрытые элементы"
   label_visible_elements: "Видимые элементы"
@@ -16,6 +16,7 @@ ru:
   label_work_package_tracking: " Отслеживание комплекса работ"
   label_members: "Участники"
   label_member_view_all: "Просмотреть всех участников"
+  label_no_visible_members: "В этом проекте нет видимых участников."
   label_subprojects: "Подпроекты"
   project_page:
     all: "Показывать всё"

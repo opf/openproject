@@ -1,6 +1,6 @@
 fi:
   button_edit_this_page: "Muokkaa tätä sivua"
-  error_saving_changes: 'Muutoksia ei voitu tallentaa: %{errors}'
+  error_saving_changes: "Muutoksia ei voitu tallentaa: %{errors}"
   error_textile_not_saved: "The textile block could not be saved."
   label_hidden_elements: "Piilotetut elementit"
   label_visible_elements: "Näkyvät elementit"
@@ -16,6 +16,7 @@ fi:
   label_work_package_tracking: " Työpaketin seuranta"
   label_members: "Jäsenet"
   label_member_view_all: "View all members"
+  label_no_visible_members: "This project has no visible members."
   label_subprojects: "Aliprojektit"
   project_page:
     all: "Näytä kaikki"

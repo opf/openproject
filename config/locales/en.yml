@@ -36,6 +36,7 @@ en:
   label_work_package_tracking: " Work package tracking"
   label_members: "Members"
   label_member_view_all: "View all members"
+  label_no_visible_members: "This project has no visible members."
   label_subprojects: "Subprojects"
 
   project_page:
