@@ -45,7 +45,12 @@ requireGlobals.keys().forEach(requireGlobals);
 
 // load I18n, depending on the html element having a 'lang' attribute
 var documentLang = (angular.element('html').attr('lang') || 'en').toLowerCase();
-require('angular-i18n/angular-locale_' + documentLang + '.js');
+try {
+  require('angular-i18n/angular-locale_' + documentLang + '.js');
+}
+catch(e) {
+  require('angular-i18n/angular-locale_en.js');
+}
 
 import {openprojectModule} from './angular-modules';
 import CacheService = op.CacheService;
