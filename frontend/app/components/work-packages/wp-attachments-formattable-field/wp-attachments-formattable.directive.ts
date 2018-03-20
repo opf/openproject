@@ -16,7 +16,6 @@ import {StateService} from '@uirouter/core';
 export class WpAttachmentsFormattableController {
   constructor(protected $scope:any,
               protected $element:ng.IAugmentedJQuery,
-              protected injector:any,
               protected $rootScope:ng.IRootScopeService,
               protected $location:ng.ILocationService,
               protected wpCacheService:WorkPackageCacheService,
@@ -103,7 +102,7 @@ export class WpAttachmentsFormattableController {
       model = new EditorModel(textarea, new MarkupModel());
     } else {
       viewMode = ViewMode.SHOW;
-      model = new WorkPackageFieldModel(this.injector, this.$scope.workPackage, this.$scope.attribute, new MarkupModel());
+      model = new WorkPackageFieldModel(this.$scope.workPackage, this.$scope.attribute, new MarkupModel());
     }
 
     return [viewMode, model];
