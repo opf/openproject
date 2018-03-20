@@ -34,4 +34,4 @@ EXPOSE 80 5432
 # volumes to export
 VOLUME ["/var/lib/postgresql/9.6/main", "/var/db/openproject"]
 
-CMD ["/usr/src/app/docker/entrypoint"]
+ENTRYPOINT ["/usr/src/app/docker/entrypoint-all-in-one.sh"]
