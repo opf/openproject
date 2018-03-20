@@ -30,10 +30,16 @@ import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-r
 import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-builder';
 import {DisplayField} from '../wp-display-field/wp-display-field.module';
 import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
+import {StateService} from '@uirouter/core';
+import {$stateToken} from 'core-app/angular4-transition-utils';
+import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 
 export class WorkPackageDisplayField extends DisplayField {
 
   public text:{ linkTitle:string, none:string };
+  private $state:StateService = this.$injector.get($stateToken);
+  private keepTab:KeepTabService = this.$injector.get(KeepTabService);
+
   private uiStateBuilder:UiStateLinkBuilder;
 
   constructor(public resource:HalResource,
@@ -41,7 +47,7 @@ export class WorkPackageDisplayField extends DisplayField {
               public schema:op.FieldSchema) {
     super(resource, name, schema);
 
-    this.uiStateBuilder = new UiStateLinkBuilder(this.$injector.get('$state'), this.$injector.get('keepTab'));
+    this.uiStateBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
     this.text = {
       linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen'),
       none: this.I18n.t('js.filter.noneElement')

@@ -27,7 +27,7 @@
 // ++
 
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {StateService, StateParams, TransitionService} from '@uirouter/core';
+import {StateService, TransitionService} from '@uirouter/core';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {auditTime, distinctUntilChanged, filter, withLatestFrom} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';
@@ -51,11 +51,11 @@ import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 
 @Component({
   selector: 'wp-list',
-  template: require('!!raw-loader!./wp.list.component.html'),
-  providers: []
+  template: require('!!raw-loader!./wp.list.component.html')
 })
 export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
@@ -68,11 +68,10 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   };
 
   tableInformationLoaded = false;
-
   selectedTitle?:string;
-  tableState:TableState;
 
   constructor(readonly states:States,
+              readonly tableState:TableState,
               readonly authorisationService:AuthorisationService,
               readonly wpTableRefresh:WorkPackageTableRefreshService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
@@ -91,7 +90,6 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
               @Inject($stateToken) readonly $state:StateService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
 
-    this.tableState = this.states.globalTable;
   }
 
   ngOnInit() {
@@ -144,7 +142,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   }
 
   private setupQueryObservers() {
-    this.states.tableRendering.onQueryUpdated.values$().pipe()
+    this.tableState.tableRendering.onQueryUpdated.values$().pipe()
       .take(1)
       .subscribe(() => this.tableInformationLoaded = true);
 

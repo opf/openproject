@@ -1,0 +1,18 @@
+<div class="work-packages-embedded-view--container">
+      <!-- TABLE + TIMELINE horizontal split -->
+      <wp-table *ngIf="tableInformationLoaded"
+                [projectIdentifier]="projectIdentifier"
+                [tableState]="tableState"
+                class="work-packages-split-view--tabletimeline-content"></wp-table>
+
+      <!-- Footer -->
+      <div class="work-packages-split-view--tabletimeline-footer hide-when-print"
+           *ngIf="tableInformationLoaded">
+        <wp-table-pagination></wp-table-pagination>
+      </div>
+    </div>
+
+    <!-- Details view -->
+    <div class="work-packages-split-view--details-side" ui-view></div>
+  </div>
+</div>

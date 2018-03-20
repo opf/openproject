@@ -31,16 +31,16 @@ import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 
 import * as angular from 'angular';
+import {$localeToken} from 'core-app/angular4-transition-utils';
 
 export class FloatDisplayField extends DisplayField {
 
-  private $locale:angular.ILocaleService;
+  private $locale:angular.ILocaleService = this.$injector.get($localeToken);
 
   constructor(public resource:HalResource,
               public name:string,
               public schema:op.FieldSchema) {
     super(resource, name, schema);
-    $injectFields(this, '$locale');
   }
 
   public get valueString():string {

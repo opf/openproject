@@ -30,6 +30,7 @@ import {EditField} from '../wp-edit-field/wp-edit-field.module';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
 import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 
 export class SelectEditField extends EditField {
   public options:any[];
@@ -37,7 +38,7 @@ export class SelectEditField extends EditField {
   public text:{requiredPlaceholder:string, placeholder:string};
 
   protected initialize() {
-    const I18n:any = this.$injector.get('I18n');
+    const I18n:any = this.$injector.get(I18nToken);
     this.text = {
       requiredPlaceholder: I18n.t('js.placeholders.selection'),
       placeholder: I18n.t('js.placeholders.default')

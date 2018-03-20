@@ -10,6 +10,7 @@ import * as TAngular from 'angular';
 import * as TSinon from 'sinon';
 import * as TMoment from 'moment';
 import {OpenProject} from 'core-app/globals/openproject';
+import {Injector} from '@angular/core';
 
 declare global {
   const _:typeof TLodash;
@@ -22,6 +23,7 @@ declare global {
 declare global {
   interface Window {
     appBasePath:string;
+    ng2Injector:Injector;
     OpenProject:OpenProject;
   }
 }

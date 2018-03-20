@@ -54,11 +54,10 @@
       </tbody>
       <tbody class="results-tbody work-package--results-tbody">
       </tbody>
-      <tbody *ngIf="!!tableElement"
+      <tbody *ngIf="tableElement"
              wpInlineCreate
              [wp-inline-create--table]="workPackageTable"
              [wp-inline-create--project-identifier]="projectIdentifier"
-             [wp-inline-create--hierarchical-injector]="injector"
       >
       </tbody>
       <tfoot>
