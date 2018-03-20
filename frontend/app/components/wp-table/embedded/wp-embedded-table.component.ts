@@ -27,7 +27,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
 
   ngOnInit():void {
     this.loadQuery().then((query:QueryResourceInterface) => {
-      this.wpStatesInitialization.initializeTable(query, query.results);
+      // this.wpStatesInitialization.initializeTable(query, query.results);
     });
   }
 
