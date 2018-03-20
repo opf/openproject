@@ -29,7 +29,7 @@
 
 class CreateChangesetJournals < ActiveRecord::Migration[5.1]
   def change
-    create_table :changeset_journals do |t|
+    create_table :changeset_journals, id: :integer do |t|
       t.integer :journal_id,    null: false
       t.integer :repository_id, null: false
       t.string :revision,      null: false

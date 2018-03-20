@@ -29,7 +29,7 @@
 
 class CreateNewsJournals < ActiveRecord::Migration[5.1]
   def change
-    create_table :news_journals do |t|
+    create_table :news_journals, id: :integer do |t|
       t.integer :journal_id,                                   null: false
       t.integer :project_id
       t.string :title,          limit: 60, default: '', null: false

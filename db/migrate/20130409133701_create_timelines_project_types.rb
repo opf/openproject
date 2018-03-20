@@ -29,7 +29,7 @@
 
 class CreateTimelinesProjectTypes < ActiveRecord::Migration[5.1]
   def self.up
-    create_table(:timelines_project_types) do |t|
+    create_table(:timelines_project_types, id: :integer) do |t|
       t.column :name,               :string,  default: '',   null: false
       t.column :allows_association, :boolean, default: true, null: false
       t.column :position,           :integer, default: 1,    null: false

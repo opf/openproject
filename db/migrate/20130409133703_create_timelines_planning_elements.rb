@@ -29,7 +29,7 @@
 
 class CreateTimelinesPlanningElements < ActiveRecord::Migration[5.1]
   def self.up
-    create_table(:timelines_planning_elements) do |t|
+    create_table(:timelines_planning_elements, id: :integer) do |t|
       t.column :name,        :string,  null: false
       t.column :description, :text
       t.column :planning_element_status_comment, :text

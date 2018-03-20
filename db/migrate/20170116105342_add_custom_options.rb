@@ -32,7 +32,7 @@
 # If a custom field has no possible values then arbitrary values
 # are allowed which may be further restriced by other means other than
 # specific values.
-class AddCustomOptions < ActiveRecord::Migration[5.0]
+class AddCustomOptions < ActiveRecord::Migration[5.1]
   require 'globalize'
 
   class OldCustomField < ActiveRecord::Base
@@ -51,7 +51,7 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
   end
 
   def up
-    create_table table_name do |t|
+    create_table table_name, id: :integer do |t|
       t.integer :custom_field_id
       t.integer :position
       t.boolean :default_value

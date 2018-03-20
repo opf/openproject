@@ -29,7 +29,7 @@
 
 class CreateTimelinesEnabledPlanningElementTypes < ActiveRecord::Migration[5.1]
   def self.up
-    create_table :timelines_enabled_planning_element_types do |t|
+    create_table :timelines_enabled_planning_element_types, id: :integer do |t|
       t.belongs_to :project
       t.belongs_to :planning_element_type, index: { name: 'index_enabled_pe_types_on_pe_type_id' }
 

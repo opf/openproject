@@ -101,7 +101,7 @@ class RemoveJournalColumns < ActiveRecord::Migration[5.1]
       t.string :default_value
     end
 
-    create_table :journal_details do |t|
+    create_table :journal_details, id: :integer do |t|
       t.integer :journal_id,               default: 0,  null: false
       t.string :property,   limit: 30, default: '', null: false
       t.string :prop_key,   limit: 30, default: '', null: false
