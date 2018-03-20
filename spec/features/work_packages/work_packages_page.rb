@@ -102,10 +102,9 @@ class WorkPackagesPage
   end
 
   def select_query_from_dropdown(query)
-    within('.title-container') do
-      find('a').click
-      find('li', text: query.name).click
-    end
+    find('.wp-table--query-menu-link').click
+    expect(page).to have_selector('.ui-menu-item-wrapper', text: query.name, wait: 10)
+    find('.ui-menu-item-wrapper', text: query.name).click
   end
 
   def expect_query(query)

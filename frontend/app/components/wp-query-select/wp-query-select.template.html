@@ -1,11 +1,16 @@
 <div class="dropdown dropdown-relative" id="querySelectDropdown">
   <div class="search-query-wrapper">
-    <label for="title-filter" class="hidden-for-sighted">{{ ::i18n.label }}</label>
+    <label for="query-title-filter"
+           class="hidden-for-sighted"
+           [textContent]="text.label" ></label>
     <input type="text"
            class="ui-autocomplete--input"
+           name="query-title-filter"
            id="query-title-filter"
-           placeholder="{{ i18n.loading }}">
+           [attr.placeholder]="text.loading">
     <i id="magnifier" class="icon-search"></i>
   </div>
-  <p class="query-select-dropdown--no-results" hidden ng-bind="::i18n.no_results"></p>
+  <p class="query-select-dropdown--no-results"
+     hidden
+     [textContent]="text.no_results"></p>
 </div>

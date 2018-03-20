@@ -103,11 +103,13 @@ describe 'Select work package row', type: :feature, js: true, selenium: true do
   def check_all
     find('body').send_keys [:control, 'a']
     expect_row_checked(1, 2, 3)
+    expect(page).to have_no_selector '#work-package-context-menu'
   end
 
   def uncheck_all
     find('body').send_keys [:control, 'd']
     expect_row_unchecked(1, 2, 3)
+    expect(page).to have_no_selector '#work-package-context-menu'
   end
 
   it 'handles selection flows' do

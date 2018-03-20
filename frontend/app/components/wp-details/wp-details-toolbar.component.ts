@@ -25,46 +25,26 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-import {WorkPackageMoreMenuService} from '../work-packages/work-package-more-menu.service';
-
 import {openprojectModule} from '../../angular-modules';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
-import {I18nToken, wpMoreMenuServiceToken} from 'core-app/angular4-transition-utils';
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {Component, Inject, Input} from '@angular/core';
 import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 import {downgradeComponent} from '@angular/upgrade/static';
-
 
 @Component({
   template: require('!!raw-loader!./wp-details-toolbar.html'),
   selector: 'wp-details-toolbar',
 })
-export class WorkPackageSplitViewToolbarComponent implements OnInit {
+export class WorkPackageSplitViewToolbarComponent {
   @Input('workPackage') workPackage:WorkPackageResourceInterface;
-
-  public permittedActions:any;
-  public actionsAvailable:any;
-  public triggerMoreMenuAction:Function;
 
   public text = {
     button_more: this.I18n.t('js.button_more')
   }
 
 constructor(@Inject(I18nToken) readonly I18n:op.I18n,
-  public wpEditing:WorkPackageEditingService,
-  @Inject(wpMoreMenuServiceToken) private wpMoreMenuServiceFactory:any) {
-  }
-
-  ngOnInit() {
-    let wpMoreMenu = new this.wpMoreMenuServiceFactory(this.workPackage) as WorkPackageMoreMenuService;
-
-    wpMoreMenu.initialize().then(() => {
-      this.permittedActions = wpMoreMenu.permittedActions;
-      this.actionsAvailable = wpMoreMenu.actionsAvailable;
-    });
-
-    this.triggerMoreMenuAction = wpMoreMenu.triggerMoreMenuAction.bind(wpMoreMenu);
-  }
+  public wpEditing:WorkPackageEditingService) {}
 }
 
 openprojectModule.directive('wpDetailsToolbar',

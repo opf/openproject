@@ -30,10 +30,15 @@ import {QueryDmService} from '../api/api-v3/hal-resource-dms/query-dm.service';
 import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
 import {States} from '../states.service';
 import {WorkPackagesListService} from '../wp-list/wp-list.service';
-import {ContextMenuService} from '../context-menus/context-menu.service';
 import {LoadingIndicatorService} from '../common/loading-indicator/loading-indicator.service';
 import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
 import {StateService} from '@uirouter/core';
+import {Component, Inject, OnInit} from "@angular/core";
+import {
+  $stateToken, FocusHelperToken, I18nToken,
+  OpContextMenuLocalsToken
+} from "core-app/angular4-transition-utils";
+import {OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";
 
 interface IAutocompleteItem {
   label:string;
@@ -44,43 +49,31 @@ interface IQueryAutocompleteJQuery extends JQuery {
   querycomplete({}):void;
 }
 
-interface MyScope extends ng.IScope {
-  loaded:boolean;
-  i18n:MyI18n;
-}
+@Component({
+  template: require('!!raw-loader!./wp-query-select.template.html')
+})
+export class WorkPackageQuerySelectDropdownComponent implements OnInit {
+  public loaded = false;
+  public text = {
+    loading: this.I18n.t('js.ajax.loading'),
+    label: this.I18n.t('js.toolbar.search_query_label'),
+    scope_global: this.I18n.t('js.label_global_queries'),
+    scope_private: this.I18n.t('js.label_custom_queries'),
+    no_results: this.I18n.t('js.work_packages.query.text_no_results')
+  };
 
-interface MyI18n {
-  loading:string;
-  label:string;
-  scope_global:string;
-  scope_private:string;
-  no_results:string;
-}
+  constructor(readonly QueryDm:QueryDmService,
+              @Inject($stateToken) readonly $state:StateService,
+              @Inject(I18nToken) readonly I18n:op.I18n,
+              @Inject(OpContextMenuLocalsToken) public locals:OpContextMenuLocalsMap,
+              readonly states:States,
+              readonly wpListService:WorkPackagesListService,
+              readonly wpListChecksumService:WorkPackagesListChecksumService,
+              readonly loadingIndicator:LoadingIndicatorService) {
 
-export class WorkPackageQuerySelectController {
-  constructor(private $scope:MyScope,
-              private QueryDm:QueryDmService,
-              private $state:StateService,
-              private states:States,
-              private wpListService:WorkPackagesListService,
-              private contextMenu:ContextMenuService,
-              private I18n:op.I18n,
-              private wpListChecksumService:WorkPackagesListChecksumService,
-              private loadingIndicator:LoadingIndicatorService) {
-
-    this.$scope.loaded = false;
-    this.$scope.i18n = {
-      loading: I18n.t('js.ajax.loading'),
-      label: I18n.t('js.toolbar.search_query_label'),
-      scope_global: I18n.t('js.label_global_queries'),
-      scope_private: I18n.t('js.label_custom_queries'),
-      no_results: I18n.t('js.work_packages.query.text_no_results')
-    };
-
-    this.setup();
   }
 
-  private setup() {
+  public ngOnInit() {
     this.loadQueries().then(collection => {
       let sortedQueries = _.reverse(_.sortBy(collection.elements, 'public'));
       let autocompleteValues = _.map(sortedQueries, (query:any) => { return { label: query.name, query: query }; } );
@@ -123,9 +116,9 @@ export class WorkPackageQuerySelectController {
   private defineJQueryQueryComplete() {
     let labelFunction = (isPublic:boolean) => {
       if (isPublic) {
-        return this.$scope.i18n.scope_global;
+        return this.text.scope_global;
       } else {
-        return this.$scope.i18n.scope_private;
+        return this.text.scope_private;
       }
     };
 
@@ -154,11 +147,11 @@ export class WorkPackageQuerySelectController {
   private loadQuery(query:QueryResource) {
     this.wpListChecksumService.clear();
     this.loadingIndicator.table.promise = this.wpListService.reloadQuery(query);
-    this.contextMenu.close();
+    this.locals.service.close();
   }
 
   private setLoaded() {
-    this.$scope.loaded = true;
-    this.$scope.i18n.loading = '';
+    this.loaded = true;
+    this.text.loading = '';
   }
 }

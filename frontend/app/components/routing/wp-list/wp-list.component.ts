@@ -64,7 +64,6 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   text = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
     'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination'),
-    'search_query_title': this.I18n.t('js.toolbar.search_query_title'),
     'button_settings': this.I18n.t('js.button_settings')
   };
 
