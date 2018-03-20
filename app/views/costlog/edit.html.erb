@@ -106,7 +106,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         <span class="form--field-container">
           <cost-unit-subform obj-id="cost_entry_costs" obj-name="cost_entry[overridden_costs]">
             <% if User.current.allowed_to? :view_cost_rates, @cost_entry.project %>
-              <a href="javascript:;" id="cost_entry_costs" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
+              <a href="#" id="cost_entry_costs" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
                 <%= number_to_currency(@cost_entry.calculated_costs) %>
               </a>
             <% else %>

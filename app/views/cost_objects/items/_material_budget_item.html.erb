@@ -70,7 +70,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <% if User.current.allowed_to? :view_cost_rates, @project %>
     <td class="currency budget-table--fields">
       <cost-unit-subform obj-id="<%= "#{id_prefix}_costs" %>" obj-name="<%= "#{name_prefix}[budget]" %>">
-        <a href="javascript:;" id="<%= "#{id_prefix}_costs" %>" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
+        <a href="#" id="<%= "#{id_prefix}_costs" %>" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
           <%= number_to_currency(material_budget_item.budget || material_budget_item.calculated_costs(@cost_object.fixed_date)) %>
         </a>
       </cost-unit-subform>

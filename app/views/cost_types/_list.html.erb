@@ -84,7 +84,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                 <span class="form-label">
                   <%= Setting.plugin_openproject_costs['costs_currency'] %>
                 </span>
-                <a href="#" onclick="submitFormWithConfirmation(event, this, false);" class="submit_cost_type form-label"><%= icon_wrapper('icon icon-save', I18n.t(:caption_save_rate)) %></a>
+                <button type="submit"
+                        class="button submit_cost_type">
+                  <%= icon_wrapper('icon icon-save', I18n.t(:caption_save_rate)) %>
+                </button>
               <% end %>
             </td>
             <%= content_tag :td, cost_type.is_default? ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "" %>
@@ -93,7 +96,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                                       method: :delete,
                                       html:   { id:    "delete_cost_type_#{cost_type.id}",
                                                 class: 'delete_cost_type' } do |f| %>
-                <a href="#" onclick="submitForm(event, this);" class="submit_cost_type"><%= icon_wrapper('icon icon-locked', I18n.t(:button_lock)) %></a>
+                <button type="submit"
+                        class="button submit_cost_type">
+                  <%= icon_wrapper('icon icon-locked', I18n.t(:button_lock)) %>
+                </button>
               <% end %>
             </td>
           </tr>
@@ -106,7 +112,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     </div>
   </div>
 <%# Moved from assets since this is the only remaining confirmation JS from the old costs code %>
-<%= javascript_tag do %>
+<%= nonced_javascript_tag  do %>
   function submitForm(event, el) {
     submitFormWithConfirmation(event, el, true);
   }
