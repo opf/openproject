@@ -43,9 +43,9 @@ class ExportModalController {
 
   constructor(exportModal:any,
               private UrlParamsHelper:any,
-              private tableState:TableState,
+              private globalTableState:TableState,
               private wpTableColumns:WorkPackageTableColumnsService) {
-    var results = this.tableState.results.value!;
+    var results = this.globalTableState.results.value!;
 
     this.name = 'Export';
     this.closeMe = exportModal.deactivate;

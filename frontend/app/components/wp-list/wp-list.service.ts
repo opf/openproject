@@ -47,6 +47,8 @@ import {
   I18nToken, NotificationsServiceToken,
   UrlParamsHelperToken
 } from 'core-app/angular4-transition-utils';
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {opServicesModule} from 'core-app/angular-modules';
 
 @Injectable()
 export class WorkPackagesListService {
@@ -362,3 +364,5 @@ export class WorkPackagesListService {
       .remove(query.id.toString());
   }
 }
+
+opServicesModule.service('wpListService', downgradeInjectable(WorkPackagesListService));
