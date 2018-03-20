@@ -93,7 +93,7 @@ module OpenProject::Backlogs::Hooks
 
         # This wouldn't be necesary if the schedules plugin didn't disable the
         # contextual hook
-        snippet += javascript_tag(<<-JS)
+        snippet += nonced_javascript_tag(<<-JS)
           (function ($) {
             $(document).ready(function() {
               $('#edit_wiki_page_action').detach().appendTo("div.contextual");

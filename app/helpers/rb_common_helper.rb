@@ -185,7 +185,7 @@ module RbCommonHelper
                    {},
                    class: 'show_burndown_chart button')
 
-    ret += javascript_tag "
+    ret += nonced_javascript_tag "
             jQuery(document).ready(function(){
               var burndown = RB.Factory.initialize(RB.Burndown, jQuery('.show_burndown_chart'));
               burndown.setSprintId(#{sprint.id});

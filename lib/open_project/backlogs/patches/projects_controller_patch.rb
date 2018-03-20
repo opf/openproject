@@ -58,7 +58,7 @@ module OpenProject::Backlogs::Patches::ProjectsControllerPatch
 
       flash[:notice] = l(:notice_successful_update)
 
-      redirect_to action: 'settings', id: @project, tab: 'backlogs_settings'
+      redirect_to controller: '/project_settings', action: 'show', id: @project, tab: 'backlogs_settings'
     end
 
     def rebuild_positions
@@ -73,7 +73,7 @@ module OpenProject::Backlogs::Patches::ProjectsControllerPatch
       logger.error($!)
       logger.error($@)
 
-      redirect_to action: 'settings', id: @project, tab: 'backlogs_settings'
+      redirect_to controller: '/project_settings', action: 'show', id: @project, tab: 'backlogs_settings'
     end
   end
 end
