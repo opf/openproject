@@ -51,7 +51,7 @@ import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {
   WorkPackageInlineCreateComponent,
-} from 'core-components/wp-inline-create/wp-inline-create.directive';
+} from 'core-components/wp-inline-create/wp-inline-create.component';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
@@ -255,6 +255,7 @@ import {WorkPackageEditFieldService} from 'core-components/wp-edit/wp-edit-field
     WorkPackageDisplayFieldService,
     WorkPackageEditFieldService,
     ExpressionService,
+    WorkPackageCreateService,
     upgradeService('authorisationService', AuthorisationService),
     upgradeService('ConfigurationService', ConfigurationService),
     upgradeService('currentProject', CurrentProjectService),
@@ -262,7 +263,6 @@ import {WorkPackageEditFieldService} from 'core-components/wp-edit/wp-edit-field
     upgradeService('QueryDm', QueryDmService),
     upgradeService('queryMenu', QueryMenuService),
     // Split view
-    upgradeService('wpCreate', WorkPackageCreateService),
     upgradeService('firstRoute', FirstRouteService),
     upgradeService('PathHelper', PathHelperService),
     // Activity tab

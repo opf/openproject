@@ -104,7 +104,6 @@ var wpCacheService:WorkPackageCacheService;
 var schemaCacheService:SchemaCacheService;
 var NotificationsService:any;
 var wpNotificationsService:WorkPackageNotificationService;
-var wpCreate:WorkPackageCreateService;
 var AttachmentCollectionResource:any;
 var v3Path:any;
 
@@ -389,7 +388,6 @@ function wpResource(...args:any[]) {
     states,
     apiWorkPackages,
     wpCacheService,
-    wpCreate,
     schemaCacheService,
     NotificationsService,
     wpNotificationsService,
@@ -406,7 +404,6 @@ wpResource.$inject = [
   'states',
   'apiWorkPackages',
   'wpCacheService',
-  'wpCreate',
   'schemaCacheService',
   'NotificationsService',
   'wpNotificationsService',
