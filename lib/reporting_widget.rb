@@ -58,6 +58,7 @@ class ReportingWidget < ActionView::Base
       i._routes = _routes
       i._content_for = @_content_for
       i.controller = respond_to?(:controller) ? controller : self
+      i.request = request
       i.render_with_options(options, &block)
     end
   end

@@ -36,10 +36,9 @@ class Widget::Settings::Fieldset < Widget::Base
                                show_at_id: hash.to_s,
                                icon: "#{@type}-legend-icon",
                                tooltip: "#{@type}-legend-tip",
-                               onclick: 'toggleFieldset(this);',
                                class: 'form--fieldset-legend',
-                               id: hash.to_s) do # FIXME: onclick
-              content_tag(:a, href: 'javascript:') do l(@label) end
+                               id: hash.to_s) do
+              content_tag(:a, href: '#') do l(@label) end
             end
             html + yield
           end)

@@ -39,7 +39,7 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
       box = content_tag :select, select_options, id: "#{filter_class.underscore_name}_select_1" do
         render_widget Widget::Filters::Option, filter, to: box_content unless @options[:lazy]
       end
-      plus = content_tag :a, href: 'javascript:', class: 'form-label filter_multi-select -transparent',
+      plus = content_tag :a, href: '#', class: 'form-label filter_multi-select -transparent',
                              :"data-filter-name" => filter_class.underscore_name,
                              title: l(:description_multi_select) do
               content_tag :span, '', class: 'icon-context icon-button icon-add icon4', title: l(:label_enable_multi_select) do
