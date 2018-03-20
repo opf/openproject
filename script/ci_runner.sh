@@ -48,7 +48,7 @@ case "$TEST_SUITE" in
             bin/parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec/(?!features\/)' spec
             ;;
         features)
-            bin/parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec\/features\/' spec
+            bin/parallel_test --type rspec -o "--seed 68838" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec\/features\/' spec
             ;;
         *)
             bundle exec rake parallel:$TEST_SUITE
