@@ -27,6 +27,7 @@
 // ++
 
 import {
+  Component,
   Directive, ElementRef, Inject, Injector, Input, OnChanges, OnDestroy,
   OnInit
 } from '@angular/core';
@@ -56,17 +57,17 @@ import {
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {FocusHelperToken} from 'core-app/angular4-transition-utils';
+import {FocusHelperToken, I18nToken} from 'core-app/angular4-transition-utils';
 
 
-@Directive({
-  selector: '[wpInlineCreate]'
+@Component({
+  selector: '[wpInlineCreate]',
+  template: require('!!raw-loader!./wp-inline-create.component.html'),
 })
 export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input('wp-inline-create--table') table:WorkPackageTable;
   @Input('wp-inline-create--project-identifier') projectIdentifier:string;
-  @Input('wp-inline-create--hierarchical-injector') hierarchicalInjector:Injector;
 
   // inner state
 
@@ -74,7 +75,9 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   public focus:boolean = false;
 
-  public text:{ create:string };
+  public text = {
+    create: this.I18n.t('js.label_create_work_package')
+  };
 
   private currentWorkPackage:WorkPackageResourceInterface | null;
 
@@ -89,6 +92,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   constructor(readonly elementRef:ElementRef,
               readonly injector:Injector,
               @Inject(FocusHelperToken) readonly FocusHelper:any,
+              @Inject(I18nToken) readonly I18n:op.I18n,
               readonly tableState:TableState,
               readonly wpCacheService:WorkPackageCacheService,
               readonly wpEditing:WorkPackageEditingService,
@@ -112,11 +116,8 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
       return;
     }
 
-    this.rowBuilder = new InlineCreateRowBuilder(this.hierarchicalInjector, this.table);
-    this.timelineBuilder = new TimelineRowBuilder(this.hierarchicalInjector, this.table);
-    this.text = {
-      create: I18n.t('js.label_create_work_package')
-    };
+    this.rowBuilder = new InlineCreateRowBuilder(this.injector, this.table);
+    this.timelineBuilder = new TimelineRowBuilder(this.injector, this.table);
 
     // Mirror the row height in timeline
     const container = jQuery('.wp-table-timeline--body');
@@ -187,7 +188,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
         // Set editing context to table
         const context = new TableRowEditContext(
-          this.hierarchicalInjector, wp.id, this.rowBuilder.classIdentifier(wp));
+          this.injector, wp.id, this.rowBuilder.classIdentifier(wp));
         this.workPackageEditForm = WorkPackageEditForm.createInContext(this.injector, context, wp, false);
         this.workPackageEditForm.changeset.clear();
 
