@@ -206,7 +206,7 @@ GEM
     concurrent-ruby (1.0.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    crass (1.0.2)
+    crass (1.0.3)
     crowdin-api (0.5.0)
       rest-client (~> 2.0)
     cucumber (3.0.1)
@@ -342,7 +342,7 @@ GEM
       sass
       thor
       tilt
-    loofah (2.1.1)
+    loofah (2.2.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.6)
