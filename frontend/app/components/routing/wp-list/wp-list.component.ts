@@ -162,7 +162,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
       this.wpListChecksumService.setToQuery(query, pagination);
     });
 
-    this.states.query.context.fireOnStateChange(this.wpTablePagination.state,
+    this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
       'Query loaded').values$().pipe(
       untilComponentDestroyed(this),
       withLatestFrom(this.states.query.resource.values$())
@@ -185,7 +185,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {
     const queryState = this.states.query.resource;
 
-    this.states.query.context.fireOnStateChange(service.state, 'Query loaded').values$().pipe(
+    this.tableState.ready.fireOnStateChange(service.state, 'Query loaded').values$().pipe(
       untilComponentDestroyed(this),
       filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
     ).subscribe(() => {

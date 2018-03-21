@@ -51,9 +51,14 @@ export class WorkPackageStatesInitializationService {
   public initialize(query:QueryResource, results:WorkPackageCollectionResource) {
     this.clearStates();
 
+    // Update the (global) wp query states
     this.initializeFromQuery(query, results);
 
-    this.updateFromResults(query, results);
+    // Update the (local) table states
+    this.updateTableState(query, results);
+
+    // Ensure checksum for state is correct
+    this.updateChecksum(query, results);
   }
 
   /**
@@ -77,7 +82,7 @@ export class WorkPackageStatesInitializationService {
     this.states.query.available.groupBy.putValue(schema.groupBy.allowedValues);
   }
 
-  public updateFromResults(query:QueryResource, results:WorkPackageCollectionResource) {
+  public updateTableState(query:QueryResource, results:WorkPackageCollectionResource) {
     // Clear table required data states
     this.tableState.additionalRequiredWorkPackages.clear('Clearing additional WPs before updating rows');
 
@@ -98,16 +103,19 @@ export class WorkPackageStatesInitializationService {
 
     this.wpTablePagination.initialize(query, results);
 
-    this.wpListChecksumService.updateIfDifferent(this.states.query.resource.value!, this.wpTablePagination.current);
-
     this.wpTableRelationColumns.initialize();
 
     this.wpTableAdditionalElements.initialize(results.elements);
+  }
+
+  public updateChecksum(query:QueryResource, results:WorkPackageCollectionResource) {
+
+    this.wpListChecksumService.updateIfDifferent(this.states.query.resource.value!, this.wpTablePagination.current);
 
     this.authorisationService.initModelAuth('work_packages', results.$links);
   }
 
-  private initializeFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
+  public initializeFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
     this.states.query.resource.putValue(query);
 
     this.wpTableSum.initialize(query);

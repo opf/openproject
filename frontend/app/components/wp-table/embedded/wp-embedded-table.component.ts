@@ -7,19 +7,44 @@ import {
 } from '../../api/api-v3/hal-resources/query-resource.service';
 import {TableState} from '../table-state/table-state';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
+import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-table/state/wp-table-relation-columns.service';
+import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
+import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
+import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
+import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
+import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
+import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
+import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
+import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 
 @Component({
   selector: 'wp-embedded-table',
   template: require('!!raw-loader!./wp-embedded-table.html'),
-  providers: [TableState]
+  providers: [
+    TableState,
+    WorkPackageStatesInitializationService,
+    WorkPackageTableRelationColumnsService,
+    WorkPackageTablePaginationService,
+    WorkPackageTableGroupByService,
+    WorkPackageTableHierarchiesService,
+    WorkPackageTableSortByService,
+    WorkPackageTableColumnsService,
+    WorkPackageTableFiltersService,
+    WorkPackageTableTimelineService,
+    WorkPackageTableSumService,
+    WorkPackageTableAdditionalElementsService,
+  ]
 })
 export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   @Input('queryId') public queryId:string;
 
   private query:QueryResourceInterface;
   public tableInformationLoaded = false;
+  public projectIdentifier = this.currentProject.identifier;
 
   constructor(readonly QueryDm:QueryDmService,
+              readonly tableState:TableState,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly currentProject:CurrentProjectService) {
 
@@ -27,7 +52,14 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
 
   ngOnInit():void {
     this.loadQuery().then((query:QueryResourceInterface) => {
-      // this.wpStatesInitialization.initializeTable(query, query.results);
+
+      this.tableState.ready.doAndTransition('Query loaded', () => {
+        this.wpStatesInitialization.initializeFromQuery(query, query.results);
+        this.wpStatesInitialization.updateTableState(query, query.results);
+
+        return this.tableState.tableRendering.onQueryUpdated.valuesPromise()
+          .then(() => this.tableInformationLoaded = true);
+      });
     });
   }
 
@@ -38,7 +70,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
     return this.QueryDm.find(
       {},
       this.queryId,
-      this.currentProject.identifier || undefined
+      this.projectIdentifier || undefined
     );
   }
 

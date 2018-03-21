@@ -281,7 +281,7 @@ export class WorkPackagesListService {
   private updateStatesFromQueryOnPromise(promise:ng.IPromise<QueryResource>):ng.IPromise<QueryResource> {
     promise
       .then(query => {
-        this.states.query.context.doAndTransition('Query loaded', () => {
+        this.tableState.ready.doAndTransition('Query loaded', () => {
           this.wpStatesInitialization.initialize(query, query.results);
           return this.tableState.tableRendering.onQueryUpdated.valuesPromise();
         });
@@ -294,8 +294,9 @@ export class WorkPackagesListService {
 
   private updateStatesFromWPListOnPromise(query:QueryResource, promise:ng.IPromise<WorkPackageCollectionResource>):ng.IPromise<WorkPackageCollectionResource> {
     return promise.then((results) => {
-      this.states.query.context.doAndTransition('Query loaded', () => {
-        this.wpStatesInitialization.updateFromResults(query, results);
+      this.tableState.ready.doAndTransition('Query loaded', () => {
+        this.wpStatesInitialization.updateTableState(query, results);
+        this.wpStatesInitialization.updateChecksum(query, results);
         return this.tableState.tableRendering.onQueryUpdated.valuesPromise();
       });
 
@@ -334,7 +335,7 @@ export class WorkPackagesListService {
                 query.id = queryId;
               }
 
-              this.states.query.context.doAndTransition('Query loaded', () => {
+              this.tableState.ready.doAndTransition('Query loaded', () => {
                 this.wpStatesInitialization.initialize(query, query.results);
                 this.wpStatesInitialization.updateStatesFromForm(query, form);
 

@@ -21,11 +21,12 @@ import {Injectable} from '@angular/core';
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {SwitchState} from 'core-components/states/switch-state';
 
 @Injectable()
 export class TableState extends StatesGroup {
 
-  constructor(readonly states:States) {
+  constructor() {
     super();
   }
 
@@ -84,6 +85,9 @@ export class TableState extends StatesGroup {
 
   tableRendering = new TableRenderingStates(this);
 
+  // Current context of table loading
+  ready = new SwitchState<'Query loaded'>();
+
   // Updater states on user input
   updates = new UserUpdaterStates(this);
 }
@@ -113,12 +117,12 @@ export class UserUpdaterStates {
   constructor(private tableState:TableState) {
   }
 
-  columnsUpdates = this.tableState.states.query.context.fireOnStateChange(this.tableState.columns,
+  columnsUpdates = this.tableState.ready.fireOnStateChange(this.tableState.columns,
     'Query loaded');
 
-  hierarchyUpdates = this.tableState.states.query.context.fireOnStateChange(this.tableState.hierarchies,
+  hierarchyUpdates = this.tableState.ready.fireOnStateChange(this.tableState.hierarchies,
     'Query loaded');
 
-  relationUpdates = this.tableState.states.query.context.fireOnStateChange(this.tableState.relationColumns,
+  relationUpdates = this.tableState.ready.fireOnStateChange(this.tableState.relationColumns,
     'Query loaded');
 }

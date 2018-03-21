@@ -85,10 +85,10 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   constructor(private elementRef:ElementRef,
               public injector:Injector,
+              private states:States,
               readonly tableState:TableState,
               @Inject(columnsModalToken) private columnsModal:any,
               private opContextMenu:OPContextMenuService,
-              private states:States,
               @Inject(I18nToken) private I18n:op.I18n,
               private wpTableGroupBy:WorkPackageTableGroupByService,
               private wpTableTimeline:WorkPackageTableTimelineService,
@@ -132,7 +132,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     statesCombined.pipe(
       untilComponentDestroyed(this)
     ).subscribe(([results, groupBy, columns, timelines]) => {
-      this.query = this.tableState.query!.value!;
+      this.query = this.tableState.query.value!;
       this.rowcount = results.count;
 
       this.groupBy = groupBy.current;

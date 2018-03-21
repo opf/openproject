@@ -181,6 +181,7 @@ import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-
 import {WorkPackageFieldService} from 'core-components/wp-field/wp-field.service';
 import ExpressionService from 'core-components/common/xss/expression.service';
 import {WorkPackageEditFieldService} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.service';
+import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
 
 @NgModule({
   imports: [
@@ -373,6 +374,9 @@ import {WorkPackageEditFieldService} from 'core-components/wp-edit/wp-edit-field
 
     // Inline create
     WorkPackageInlineCreateComponent,
+
+    // Embedded table
+    WorkPackageEmbeddedTableComponent,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -412,6 +416,9 @@ import {WorkPackageEditFieldService} from 'core-components/wp-edit/wp-edit-field
 
     OPContextMenuComponent,
     WorkPackageQuerySelectDropdownComponent,
+
+    // Embedded table
+    WorkPackageEmbeddedTableComponent,
   ]
 })
 export class OpenProjectModule {

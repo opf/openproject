@@ -35,9 +35,6 @@ export class States extends StatesGroup {
 
 export class QueryStates {
 
-  // Current context of table loading
-  context = new SwitchState<'Query loaded'>();
-
   // the query associated with the table
   resource = input<QueryResource>();
 
