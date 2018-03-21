@@ -17,6 +17,8 @@ import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/stat
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
 import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
+import {opUiComponentsModule} from 'core-app/angular-modules';
+import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
   selector: 'wp-embedded-table',
@@ -75,3 +77,9 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   }
 
 }
+
+// TODO: remove as this should also work by angular2 only
+opUiComponentsModule.directive(
+  'wpEmbeddedTable',
+  downgradeComponent({component: WorkPackageEmbeddedTableComponent})
+);
