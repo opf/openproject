@@ -34,7 +34,8 @@ production:
   host: localhost
   username: root
   password:
-  encoding: utf8
+  # For MySQL 5.6 or older, set encoding to utf8.
+  encoding: utf8mb4
   variables:
     # These are the default MySql Modes for rails 5.0 only excluding
     # ONLY_FULL_GROUP_BY which would interfere with the current implementation
@@ -55,7 +56,8 @@ development:
   host: localhost
   username: root
   password:
-  encoding: utf8
+  # For MySQL 5.6 or older, set encoding to utf8.
+  encoding: utf8mb4
   variables:
     # These are the default MySql Modes for rails 5.0 only excluding
     # ONLY_FULL_GROUP_BY which would interfere with the current implementation
@@ -79,7 +81,8 @@ test:
   host: localhost
   username: root
   password:
-  encoding: utf8
+  # For MySQL 5.6 or older, set encoding to utf8.
+  encoding: utf8mb4
   pool: 20
   variables:
     # These are the default MySql Modes for rails 5.0 only excluding
