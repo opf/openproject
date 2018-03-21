@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,29 +28,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# script/ci_runner.sh
-#!/bin/sh
+class ProjectEnumerationsController < ApplicationController
+  before_action :find_project_by_project_id
+  before_action :authorize
 
-set -e
+  def update
+    if permitted_params.enumerations.present?
+      Project.transaction do
+        permitted_params.enumerations.each do |id, activity|
+          @project.update_or_create_time_entry_activity(id, activity)
+        end
+      end
+      flash[:notice] = l(:notice_successful_update)
+    end
 
-# Use the current HEAD as input to the seed
-export CI_SEED=$(git rev-parse HEAD | tr -d 'a-z' | cut -b 1-5 | tr -d '0')
+    redirect_to settings_project_path(id: @project, tab: 'activities')
+  end
 
-case "$TEST_SUITE" in
-        npm)
-            npm test
-            ;;
-        spec_legacy)
-            echo "Preparing SCM test repositories for legacy specs"
-            bundle exec rake test:scm:setup:all
-            exec bundle exec rspec -I spec_legacy -o "--seed $CI_SEED" spec_legacy
-            ;;
-        specs)
-            bin/parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec/(?!features\/)' spec
-            ;;
-        features)
-            bin/parallel_test --type rspec -o "--seed 68838" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec\/features\/' spec
-            ;;
-        *)
-            bundle exec rake parallel:$TEST_SUITE
-esac
+  def destroy
+    TimeEntryActivity.bulk_destroy(@project.time_entry_activities)
+
+    flash[:notice] = l(:notice_successful_update)
+
+    redirect_to settings_project_path(id: @project, tab: 'activities')
+  end
+end

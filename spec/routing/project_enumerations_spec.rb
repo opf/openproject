@@ -1,13 +1,12 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,29 +26,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# script/ci_runner.sh
-#!/bin/sh
+require 'spec_helper'
 
-set -e
+describe 'project_enumerations routes', type: :routing do
+  describe 'update' do
+    it 'links PUT /projects/:project_id/enumerations' do
+      expect(put('/projects/64/enumerations'))
+        .to route_to('project_enumerations#update', project_id: '64')
+    end
+  end
 
-# Use the current HEAD as input to the seed
-export CI_SEED=$(git rev-parse HEAD | tr -d 'a-z' | cut -b 1-5 | tr -d '0')
-
-case "$TEST_SUITE" in
-        npm)
-            npm test
-            ;;
-        spec_legacy)
-            echo "Preparing SCM test repositories for legacy specs"
-            bundle exec rake test:scm:setup:all
-            exec bundle exec rspec -I spec_legacy -o "--seed $CI_SEED" spec_legacy
-            ;;
-        specs)
-            bin/parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec/(?!features\/)' spec
-            ;;
-        features)
-            bin/parallel_test --type rspec -o "--seed 68838" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec\/features\/' spec
-            ;;
-        *)
-            bundle exec rake parallel:$TEST_SUITE
-esac
+  describe 'delete' do
+    it 'links DELETE /projects/:project_id/enumerations' do
+      expect(delete('/projects/64/enumerations'))
+        .to route_to('project_enumerations#destroy', project_id: '64')
+    end
+  end
+end
