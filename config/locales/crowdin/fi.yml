@@ -116,6 +116,7 @@ fi:
   label_stories_tasks: "Tarinat/Tehtävät"
   label_task_board: "Tehtävätaulu"
   label_version_setting: "Versiot"
+  label_version: 'Version'
   label_webcal: "Webcal syöte"
   label_wiki: "Wiki"
   permission_view_master_backlog: "Näytä pääasiallinen työjono"

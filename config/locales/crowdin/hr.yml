@@ -116,6 +116,7 @@ hr:
   label_stories_tasks: "Scenariji/Zadaci"
   label_task_board: "Upravitelj zadatcima"
   label_version_setting: "Verzije"
+  label_version: 'Version'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
   permission_view_master_backlog: "Pogledaj glavni backlog"

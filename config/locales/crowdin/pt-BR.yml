@@ -116,6 +116,7 @@ pt-BR:
   label_stories_tasks: "Histórias/tarefas"
   label_task_board: "Quadro de tarefas"
   label_version_setting: "Versões"
+  label_version: 'Version'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
   permission_view_master_backlog: "Visualizar backlog principal"

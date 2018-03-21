@@ -116,6 +116,7 @@ es:
   label_stories_tasks: "Historias/tareas"
   label_task_board: "Panel de tareas"
   label_version_setting: "Versiones"
+  label_version: 'Version'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
   permission_view_master_backlog: "Ver backlog maestro"

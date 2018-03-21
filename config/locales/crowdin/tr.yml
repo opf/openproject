@@ -116,6 +116,7 @@ tr:
   label_stories_tasks: "Öyküler / Görevler"
   label_task_board: "Görev tahtası"
   label_version_setting: "Sürümler"
+  label_version: 'Version'
   label_webcal: "Webcal Yemi"
   label_wiki: "wiki"
   permission_view_master_backlog: "Ana bekleme günlüğünü görüntüleme"

@@ -116,6 +116,7 @@ id:
   label_stories_tasks: "Cerita / Tugas"
   label_task_board: "Papan tugas"
   label_version_setting: "Versi"
+  label_version: 'Version'
   label_webcal: "Webcam Feed"
   label_wiki: "Wiki"
   permission_view_master_backlog: "Lihat backlog master"

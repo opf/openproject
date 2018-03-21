@@ -116,6 +116,7 @@ zh-TW:
   label_stories_tasks: "需求/任務"
   label_task_board: "任務看板"
   label_version_setting: "版本"
+  label_version: 'Version'
   label_webcal: "Webcal 串流"
   label_wiki: "Wiki"
   permission_view_master_backlog: "檢視主待辦事項"

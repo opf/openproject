@@ -116,6 +116,7 @@ ru:
   label_stories_tasks: "Истории/задачи"
   label_task_board: "Панель задач"
   label_version_setting: "Версии"
+  label_version: 'Version'
   label_webcal: "Лента Webcal"
   label_wiki: "Wiki"
   permission_view_master_backlog: "Просмотреть главную невыполненную работу"

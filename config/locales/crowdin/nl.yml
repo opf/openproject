@@ -116,6 +116,7 @@ nl:
   label_stories_tasks: "Verhalen/taken"
   label_task_board: "Taakbord"
   label_version_setting: "Versies"
+  label_version: 'Version'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
   permission_view_master_backlog: "Toon Máster Backlog"

@@ -116,6 +116,7 @@ ar:
   label_stories_tasks: "القصص/ المهمات"
   label_task_board: "لوحة المهمة"
   label_version_setting: "الإصدارات"
+  label_version: 'Version'
   label_webcal: "تغذية Webcal"
   label_wiki: "Wiki"
   permission_view_master_backlog: "عرض العمل الرئيسي المتراكم غير المنجز"

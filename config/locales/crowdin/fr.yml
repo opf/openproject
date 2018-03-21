@@ -116,6 +116,7 @@ fr:
   label_stories_tasks: "Histoires/tâches"
   label_task_board: "Tableau des tâches"
   label_version_setting: "Versions"
+  label_version: 'Version'
   label_webcal: "Flux Webcal"
   label_wiki: "Wiki"
   permission_view_master_backlog: "Afficher le backlog principal"

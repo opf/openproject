@@ -116,6 +116,7 @@ ja:
   label_stories_tasks: "ストーリー/タスク"
   label_task_board: "かんばん"
   label_version_setting: "バージョン"
+  label_version: 'Version'
   label_webcal: "Webcal フィード"
   label_wiki: "Wiki"
   permission_view_master_backlog: "マスター バックログの表示"

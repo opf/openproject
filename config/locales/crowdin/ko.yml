@@ -116,6 +116,7 @@ ko:
   label_stories_tasks: "스토리/작업"
   label_task_board: "작업 보드"
   label_version_setting: "버전"
+  label_version: 'Version'
   label_webcal: "Webcal 피드"
   label_wiki: "위키"
   permission_view_master_backlog: "마스터 백로그 보기"

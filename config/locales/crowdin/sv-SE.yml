@@ -116,6 +116,7 @@ sv:
   label_stories_tasks: "Berättelser/uppgifter"
   label_task_board: "Aktivitetstavla"
   label_version_setting: "Versioner"
+  label_version: 'Version'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
   permission_view_master_backlog: "Visa master backlog"
