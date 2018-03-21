@@ -44,6 +44,10 @@ import {WorkPackageTimelineTableController} from './timeline/container/wp-timeli
 import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
+import {
+  WorkPackageTableConfiguration,
+  WorkPackageTableConfigurationObject
+} from 'core-app/components/wp-table/wp-table-configuration';
 
 @Component({
   template: require('!!raw-loader!./wp-table.directive.html'),
@@ -52,6 +56,7 @@ import {OPContextMenuService} from 'core-components/op-context-menu/op-context-m
 export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   @Input() projectIdentifier:string;
+  @Input() configuration:WorkPackageTableConfigurationObject;
 
   private $element:JQuery;
 
@@ -164,7 +169,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     let t0 = performance.now();
 
     const tbody = this.$element.find('.work-package--results-tbody');
-    this.workPackageTable = new WorkPackageTable(this.injector, this.$element[0], tbody[0], body, controller);
+    this.workPackageTable = new WorkPackageTable(this.injector, this.$element[0], tbody[0], body, controller, this.configuration);
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
     new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);
@@ -176,6 +181,14 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   public openColumnsModal() {
     this.opContextMenu.close();
     this.columnsModal.activate();
+  }
+
+  public get columnMenuEnabled() {
+    return this.workPackageTable && this.workPackageTable.configuration.columnMenuEnabled;
+  }
+
+  public get splitViewEnabled() {
+    return this.workPackageTable && this.workPackageTable.configuration.splitViewEnabled;
   }
 
   private getTableAndTimelineElement():[HTMLElement, HTMLElement] {

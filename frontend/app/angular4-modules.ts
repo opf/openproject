@@ -376,7 +376,7 @@ import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedd
     WorkPackageInlineCreateComponent,
 
     // Embedded table
-    WorkPackageEmbeddedTableComponent,
+    WorkPackageEmbeddedTableComponent
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -418,7 +418,7 @@ import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedd
     WorkPackageQuerySelectDropdownComponent,
 
     // Embedded table
-    WorkPackageEmbeddedTableComponent,
+    WorkPackageEmbeddedTableComponent
   ]
 })
 export class OpenProjectModule {

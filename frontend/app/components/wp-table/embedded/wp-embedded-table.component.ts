@@ -40,6 +40,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 })
 export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   @Input('queryId') public queryId:string;
+  @Input() public configuration:boolean;
 
   private query:QueryResourceInterface;
   public tableInformationLoaded = false;

@@ -39,7 +39,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     };
   }
 
-  public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement {
+  public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement|null {
     switch (column.id) {
       case internalContextMenuColumn.id:
         return this.buildCancelButton();

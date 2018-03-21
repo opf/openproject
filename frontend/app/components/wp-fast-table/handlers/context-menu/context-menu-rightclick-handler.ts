@@ -26,6 +26,9 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
   }
 
   public handleEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
+    if (!table.configuration.contextMenuEnabled) {
+      return false;
+    }
     let target = jQuery(evt.target);
 
     // We want to keep the original context menu on hrefs
@@ -43,7 +46,7 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     const wpId = element.data('workPackageId');
 
     if (wpId) {
-      let [index,] = this.table.findRenderedRow(wpId);
+      let [index, ] = this.table.findRenderedRow(wpId);
 
       if (!this.wpTableSelection.isSelected(wpId)) {
         this.wpTableSelection.setSelection(wpId, index);

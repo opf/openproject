@@ -15,6 +15,7 @@ import {PrimaryRenderPass, RenderedRow} from './builders/primary-render-pass';
 import {WorkPackageTableEditingContext} from './wp-table-editing';
 
 import {WorkPackageTableRow} from './wp-table.interfaces';
+import {WorkPackageTableConfiguration, WorkPackageTableConfigurationObject} from 'core-app/components/wp-table/wp-table-configuration';
 
 export class WorkPackageTable {
 
@@ -26,6 +27,8 @@ export class WorkPackageTable {
 
   public originalRows:string[] = [];
   public originalRowIndex:{ [id:string]:WorkPackageTableRow } = {};
+
+  public configuration:WorkPackageTableConfiguration;
 
   // WP rows builder
   // Ordered by priority
@@ -46,8 +49,10 @@ export class WorkPackageTable {
               public container:HTMLElement,
               public tbody:HTMLElement,
               public timelineBody:HTMLElement,
-              public timelineController:WorkPackageTimelineTableController) {
+              public timelineController:WorkPackageTimelineTableController,
+              public options:WorkPackageTableConfigurationObject) {
 
+    this.configuration = new WorkPackageTableConfiguration(options);
   }
 
   public get renderedRows() {

@@ -56,7 +56,7 @@ export class SingleRowBuilder {
     return this.columns.concat([internalContextMenuColumn]);
   }
 
-  public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement {
+  public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement|null {
 
     // handle relation types
     if (isRelationColumn(column)) {
@@ -66,7 +66,11 @@ export class SingleRowBuilder {
     // Handle property types
     switch (column.id) {
       case internalContextMenuColumn.id:
-        return this.contextLinkBuilder.build(workPackage);
+        if (this.workPackageTable.configuration.splitViewEnabled) {
+          return this.contextLinkBuilder.build(workPackage);
+        } else {
+          return null;
+        }
       default:
         return this.cellBuilder.build(workPackage, column.id);
     }
@@ -127,7 +131,10 @@ export class SingleRowBuilder {
 
       // Otherwise, refresh that cell and append it
       const cell = this.buildCell(workPackage, column);
-      newCells.push(cell);
+
+      if (cell) {
+        newCells.push(cell);
+      }
     });
 
     jRow.prepend(newCells);
@@ -152,7 +159,7 @@ export class SingleRowBuilder {
     }
 
     this.augmentedColumns.forEach((column:QueryColumn) => {
-      let cell:Element;
+      let cell:Element|null;
       let oldCell:JQuery | undefined = cells[column.id];
 
       if (oldCell && oldCell.length) {
@@ -160,7 +167,10 @@ export class SingleRowBuilder {
         jQuery(row).append(oldCell);
       } else {
         cell = this.buildCell(workPackage, column);
-        row.appendChild(cell);
+
+        if (cell) {
+          row.appendChild(cell);
+        }
       }
     });
 

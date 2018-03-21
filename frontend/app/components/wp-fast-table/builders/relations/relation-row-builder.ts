@@ -40,7 +40,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
    * @param column
    * @return {any}
    */
-  public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement {
+  public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement|null {
 
     // handle relation types
     if (isRelationColumn(column)) {

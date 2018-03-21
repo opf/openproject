@@ -35,13 +35,14 @@ import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state
 import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
 import {WorkPackageTableGroupByService} from "core-components/wp-fast-table/state/wp-table-group-by.service";
 import {WorkPackageTableColumnsService} from "core-components/wp-fast-table/state/wp-table-columns.service";
+import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 
 @Directive({
   selector: '[opColumnsContextMenu]'
 })
 export class OpColumnsContextMenu extends OpContextMenuTrigger {
-  @Input('opColumnsContextMenu-columns') public columns:QueryColumn[];
   @Input('opColumnsContextMenu-column') public column:QueryColumn;
+  @Input('opColumnsContextMenu-table') public table:WorkPackageTable;
 
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
@@ -56,6 +57,9 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
   }
 
   protected open(evt:Event) {
+    if (!this.table.configuration.columnMenuEnabled) {
+      return;
+    }
     this.buildItems();
     this.opContextMenu.show(this, evt);
   }
