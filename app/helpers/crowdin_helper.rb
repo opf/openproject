@@ -10,7 +10,11 @@ module CrowdinHelper
       # initial script and setup API calls
       script_src: %w(cdn.crowdin.com crowdin.com),
       # Form action to crowdin, github etc.
-      form_action: %w(https:),
+      form_action: %w[https://crowdin.com
+                      https://accounts.google.com
+                      https://api.twitter.com
+                      https://github.com
+                      https://gitlab.com],
       # Iframe
       frame_src: %w(crowdin.com),
       # CSS loaded from cdn

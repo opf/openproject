@@ -23,7 +23,7 @@ SecureHeaders::Configuration.default do |config|
     preserve_schemes: true,
 
     # Fallback when no value is defined
-    default_src: %w(https: 'self'),
+    default_src: %w('self'),
     # Allowed uri in <base> tag
     base_uri: %w('self'),
 
