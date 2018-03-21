@@ -19,12 +19,6 @@ SecureHeaders::Configuration.default do |config|
   # Valid for iframes
   frame_src = ["'self'"]
 
-  # Allow in-context translations iframe and sources if enabled
-  if OpenProject::Configuration.crowdin_in_context_translations?
-    assets_src += %w[https://cdn.crowdin.com https://crowdin.com]
-    frame_src << 'https://crowdin.com'
-  end
-
   config.csp = {
     preserve_schemes: true,
 

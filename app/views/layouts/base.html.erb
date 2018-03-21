@@ -67,13 +67,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <% end %>
       <% end %>
     <% end %>
-    <% if OpenProject::Configuration.crowdin_in_context_translations? && ::I18n.locale == :lol #the in-context translation pseudo-language %>
-      <%= nonced_javascript_tag do %>
-        var _jipt = [];
-            _jipt.push(['project', 'openproject']);
-      <% end %>
-      <script type="text/javascript" src="https://cdn.crowdin.com/jipt/jipt.js"></script>
-    <% end %>
+    <%= crowdin_in_context_translation %>
   </head>
   <body class="<%= body_css_classes %>" data-relative_url_root="<%= root_path %>" ng-init="projectIdentifier = '<%= (@project.identifier rescue '') %>'">
     <noscript>
