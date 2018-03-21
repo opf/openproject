@@ -2252,7 +2252,7 @@ hr:
   text_journal_aggregation_time_explanation: Kombinirajte journale za prikaz ako je
     njihova razlika starosti manja nego specificirani vremenski raspon. Ovo će također
     odgoditi mail notifikacije za istu količinu vremena.
-  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} promijenjen (%{link})"
   text_journal_deleted: "%{label} izbrisan (%{old})"

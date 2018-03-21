@@ -2057,7 +2057,7 @@ zh-TW:
   text_work_packages_ref_in_commit_messages: 在提交訊息中引用和修復工作項目
   text_journal_added: "%{label} %{value} 已增加"
   text_journal_aggregation_time_explanation: 合併日誌顯示，如果他們的建立時間差小於某固定時間。這也會減慢郵件通知相同時間。
-  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已改變 (%{link})"
   text_journal_deleted: "%{label}已刪除 (%{old})"

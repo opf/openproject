@@ -6,10 +6,10 @@ es:
       loading: Cargando ...
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
-      active: Active %{label} %{name}
+        multi: Añadir "%{name}"
+        single: Seleccionar "%{name}"
+      remove: Eliminar "%{name}"
+      active: Activar %{label} %{name}
     close_popup_title: Cerrar ventana emergente
     close_filter_title: Cerrar filtro
     close_form_title: Cerrar formulario
@@ -72,7 +72,7 @@ es:
           one: Primer criterio de ordenación
           two: Segundo criterio de ordenación
           three: Tercer criterio de ordenación
-      upsale_for_more: For more advanced filters, check out the
+      upsale_for_more: Para el uso de filtros más avanzados, consulte
       upsale_link: Enterprise Edition.
     general_text_no: 'no'
     general_text_yes: sí
@@ -84,7 +84,8 @@ es:
       un comentario.
     label_add_columns: Añadir columnas
     label_add_comment: Agregar comentario
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Escriba un comentario y agregue @ para notificar a otras
+      personas
     label_add_selected_columns: Agregar columnas seleccionadas
     label_added_by: agregado por
     label_added_time_by: Agregado por %{author} %{age}
@@ -235,7 +236,7 @@ es:
       work_package_belongs_to: Este paquete de trabajo pertenece al proyecto %{projectname}.
       click_to_switch_context: Abra este paquete de trabajo en ese proyecto.
       autocompleter:
-        label: Project autocompletion
+        label: Contexto | Solicitar contexto
     text_are_you_sure: "¿Estás seguro?"
     types:
       attribute_groups:

@@ -2021,7 +2021,7 @@ zh:
   text_work_packages_ref_in_commit_messages: 引用和修复工作包中提交消息
   text_journal_added: "%{label} %{value} 已添加"
   text_journal_aggregation_time_explanation: 如果两篇日志的时间差小于指定的时间区间，将它们组合显示。这也将邮件通知延迟同样的时间。
-  text_journal_changed: "%{label} 变更从 %{old} 到 %{new}"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已变更 (%{link})"
   text_journal_deleted: "%{label} 已删除 (%{old})"

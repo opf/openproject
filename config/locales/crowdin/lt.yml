@@ -2281,7 +2281,7 @@ lt:
   text_journal_aggregation_time_explanation: Kombinuoti žurnalus rodymui, ar jų amžius
     skiriasi mažiau nei nustatyta trukmė. Tai taip pat vėlins įspėjimo el. laiškų
     atsiuntimą tokia pat laiko trukme.
-  text_journal_changed: "%{label} pasikeitė iš %{old} į %{new}"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} atnaujintas"
   text_journal_changed_with_diff: "%{label} pasikeitė (%{link})"
   text_journal_deleted: "%{label} ištrintas (%{old})"

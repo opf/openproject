@@ -2271,7 +2271,7 @@ ca:
   text_journal_aggregation_time_explanation: Combina diaris per mostrar si la seva
     diferència de data és inferior el període especificat. Això retardarà també les
     notificacions de correu per la mateixa quantitat de temps.
-  text_journal_changed: "%{label} ha canviat de %{old} a %{new}"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: S'ha actualitzat %{label}
   text_journal_changed_with_diff: "%{label} canviat (%{link})"
   text_journal_deleted: "%{label} s'ha suprimit (%{old})"

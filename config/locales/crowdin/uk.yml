@@ -2260,7 +2260,7 @@ uk:
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
     notifications by the same amount of time.
-  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"

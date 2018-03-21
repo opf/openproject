@@ -2243,7 +2243,7 @@ pt-BR:
   text_journal_aggregation_time_explanation: Combine diários para exibir se a diferença
     de tempo for menor que o intervalo de tempo especificado. Isso também vai atrasar
     as notificações de email pela mesma quantidade de tempo.
-  text_journal_changed: "%{label} alterado de %{old} para %{new}"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
   text_journal_changed_with_diff: "%{label} alterado %{link}"
   text_journal_deleted: "%{label} excluído %{old} "

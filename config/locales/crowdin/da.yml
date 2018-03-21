@@ -2212,7 +2212,7 @@ da:
   text_journal_aggregation_time_explanation: Sammenskriv kladder til visning, hvis
     der er mindre tid mellem det end det angivne. Dette vil desuden forsinke påmindelser
     tilsvrende.
-  text_journal_changed: "%{label} ændret fra %{old} til %{new}"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} opdateret"
   text_journal_changed_with_diff: "%{label} ændret (%{link})"
   text_journal_deleted: "%{label} slettet (%{old})"
