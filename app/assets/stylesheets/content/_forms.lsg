@@ -528,7 +528,7 @@
 <form class="form -bordered">
   <fieldset class="form--fieldset -collapsible -collapsed">
     <legend class="form--fieldset-legend">
-      <a href="javascript:">Less important information</a>
+      <a href="#">Less important information</a>
     </legend>
     <div class="form--field -required" style="display:none">
       <label class="form--label">Field:</label>
@@ -541,7 +541,7 @@
   </fieldset>
   <fieldset class="form--fieldset -collapsible">
     <legend class="form--fieldset-legend">
-      <a href="javascript:">More important information</a>
+      <a href="#">More important information</a>
     </legend>
     <div class="form--field -required">
       <label class="form--label">Field:</label>
@@ -896,8 +896,8 @@ The modifier classes **-middle**, **-wide**, ... can be applied to the form-[inp
 
 ```
 <fieldset id="attachments" class="form--fieldset -collapsible">
-  <legend class="form--fieldset-legend" title="Show/Hide attachments" onclick="toggleFieldset(this);">
-    <a href="javascript:">Files<span class="fieldset-toggle-state-label hidden-for-sighted">expanded</span></a>
+  <legend class="form--fieldset-legend" title="Show/Hide attachments" >
+    <a href="#">Files<span class="fieldset-toggle-state-label hidden-for-sighted">expanded</span></a>
   </legend>
   <div style="">
     <div id="attachments_fields">
@@ -934,7 +934,7 @@ The modifier classes **-middle**, **-wide**, ... can be applied to the form-[inp
         </div>
       </div></div>
     <span class="add_another_file">
-      <a href="#" onclick="addFileField(); return false;">Add another file</a>
+      <a href="#">Add another file</a>
       (Maximum size: 5 MB)
     </span>
   </div>

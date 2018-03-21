@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class NormalizePermissions < ActiveRecord::Migration[5.0]
+class NormalizePermissions < ActiveRecord::Migration[5.1]
   class Role < ActiveRecord::Base
     self.table_name = :roles
 
@@ -41,7 +41,7 @@ class NormalizePermissions < ActiveRecord::Migration[5.0]
   end
 
   def up
-    create_table :role_permissions do |p|
+    create_table :role_permissions, id: :integer do |p|
       p.string :permission
       p.integer :role_id
 

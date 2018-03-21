@@ -67,7 +67,7 @@ describe 'Angular expression escaping', type: :feature do
         it 'does not evaluate the expression' do
           expect(login_field.value).to eq(login_string)
           expect { page.driver.browser.switch_to.alert }
-            .to raise_error(::Selenium::WebDriver::Error::NoAlertPresentError)
+            .to raise_error(::Selenium::WebDriver::Error::NoSuchAlertError)
         end
       end
     end

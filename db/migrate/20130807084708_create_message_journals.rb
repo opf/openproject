@@ -29,7 +29,7 @@
 
 class CreateMessageJournals < ActiveRecord::Migration[5.1]
   def change
-    create_table :message_journals do |t|
+    create_table :message_journals, id: :integer do |t|
       t.integer :journal_id,                       null: false
       t.integer :board_id,                         null: false
       t.integer :parent_id

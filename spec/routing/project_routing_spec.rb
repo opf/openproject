@@ -129,12 +129,6 @@ describe ProjectsController, type: :routing do
 
   describe 'miscellaneous' do
     it do
-      expect(get('/projects/123/settings')).to route_to(
-        controller: 'projects', action: 'settings', id: '123'
-      )
-    end
-
-    it do
       expect(put('projects/123/modules')).to route_to(
         controller: 'projects', action: 'modules', id: '123'
       )
@@ -179,74 +173,6 @@ describe ProjectsController, type: :routing do
         action: 'copy',
         id: '123',
         coming_from: 'admin')
-    end
-  end
-
-  describe 'settings' do
-    it do
-      expect(get('/projects/123/settings/info')).to route_to(
-        controller: 'projects', action: 'settings', id: '123', tab: 'info'
-      )
-    end
-
-    it do
-      expect(get('/projects/123/settings/modules')).to route_to(
-        controller: 'projects', action: 'settings', id: '123', tab: 'modules'
-      )
-    end
-
-    it do
-      expect(get('/projects/123/settings/members')).to route_to(
-        controller: 'projects', action: 'settings', id: '123', tab: 'members'
-      )
-    end
-
-    it do
-      expect(get('/projects/123/settings/custom_fields')).to route_to(
-        controller: 'projects', action: 'settings', id: '123',
-        tab: 'custom_fields'
-      )
-    end
-
-    it do
-      expect(get('/projects/123/settings/versions')).to route_to(
-        controller: 'projects', action: 'settings', id: '123',
-        tab: 'versions'
-      )
-    end
-
-    it do
-      expect(get('/projects/123/settings/categories')).to route_to(
-        controller: 'projects', action: 'settings', id: '123', tab: 'categories'
-      )
-    end
-
-    it do
-      expect(get('/projects/123/settings/repositories')).to route_to(
-        controller: 'projects', action: 'settings', id: '123',
-        tab: 'repositories'
-      )
-    end
-
-    it do
-      expect(get('/projects/123/settings/boards')).to route_to(
-        controller: 'projects', action: 'settings', id: '123',
-        tab: 'boards'
-      )
-    end
-
-    it do
-      expect(get('/projects/123/settings/activities')).to route_to(
-        controller: 'projects', action: 'settings', id: '123',
-        tab: 'activities'
-      )
-    end
-
-    it do
-      expect(get('/projects/123/settings/types')).to route_to(
-        controller: 'projects', action: 'settings', id: '123',
-        tab: 'types'
-      )
     end
   end
 

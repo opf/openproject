@@ -48,7 +48,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <% if entry.dir? %>
         <a class="icon-context dir-expander"
            title="<%= I18n.t('js.label_expand') %>"
-           href="javascript:"
+           href="#"
            data-element="<%= "##{tr_id}" %>"
            aria-label="<%= I18n.t('js.label_expand') %>"
            data-url="<%= url_for(action: 'show',

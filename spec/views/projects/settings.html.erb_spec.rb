@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'projects/settings', type: :view do
+describe 'project_settings/show', type: :view do
   let(:project) { FactoryGirl.build_stubbed(:project) }
 
   describe 'project copy permission' do
@@ -84,6 +84,7 @@ describe 'projects/settings', type: :view do
       assign(:project, project)
       allow(project).to receive(:copy_allowed?).and_return(true)
       allow(User).to receive(:current).and_return(non_admin)
+      allow(view).to receive(:render_tabs).and_return('')
       render
     end
 

@@ -52,25 +52,25 @@ module ProjectsHelper
       {
         name: 'modules',
         action: :select_project_modules,
-        partial: 'projects/settings/modules',
+        partial: 'project_settings/modules',
         label: :label_module_plural
       },
       {
         name: 'custom_fields',
         action: :edit_project,
-        partial: 'projects/settings/custom_fields',
+        partial: 'project_settings/custom_fields',
         label: :label_custom_field_plural
       },
       {
         name: 'versions',
         action: :manage_versions,
-        partial: 'projects/settings/versions',
+        partial: 'project_settings/versions',
         label: :label_version_plural
       },
       {
         name: 'categories',
         action: :manage_categories,
-        partial: 'projects/settings/categories',
+        partial: 'project_settings/categories',
         label: :label_work_package_category_plural
       },
       {
@@ -82,19 +82,19 @@ module ProjectsHelper
       {
         name: 'boards',
         action: :manage_boards,
-        partial: 'projects/settings/boards',
+        partial: 'project_settings/boards',
         label: :label_board_plural
       },
       {
         name: 'activities',
         action: :manage_project_activities,
-        partial: 'projects/settings/activities',
+        partial: 'project_settings/activities',
         label: :enumeration_activities
       },
       {
         name: 'types',
         action: :manage_types,
-        partial: 'projects/settings/types',
+        partial: 'project_settings/types',
         label: :label_work_package_types
       }
     ]
@@ -169,9 +169,9 @@ module ProjectsHelper
   end
 
   def project_more_menu_settings_item(project)
-    if User.current.allowed_to?({ controller: 'projects', action: 'settings' }, project)
+    if User.current.allowed_to?({ controller: '/project_settings', action: 'show' }, project)
       [t(:label_project_settings),
-       { controller: 'projects', action: 'settings', id: project },
+       { controller: '/project_settings', action: 'show', id: project },
        class: 'icon-context icon-settings',
        title: t(:label_project_settings)]
     end

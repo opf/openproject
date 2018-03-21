@@ -2208,7 +2208,7 @@ sv-SE:
   text_journal_aggregation_time_explanation: Kombinera journaler för visning om deras
     åldersskillnad är mindre än det angivna tidsintervallet. Detta fördröjer också
     aviseringar med samma tid.
-  text_journal_changed: "%{label} ändrades från %{old} till %{new}"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} uppdaterades"
   text_journal_changed_with_diff: "%{label} ändrades (%{link})"
   text_journal_deleted: "%{label} raderad (%{old})"

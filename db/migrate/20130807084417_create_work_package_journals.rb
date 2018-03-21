@@ -29,7 +29,7 @@
 
 class CreateWorkPackageJournals < ActiveRecord::Migration[5.1]
   def change
-    create_table :work_package_journals do |t|
+    create_table :work_package_journals, id: :integer do |t|
       t.integer :journal_id,                                      null: false
       t.integer :type_id,                         default: 0,  null: false
       t.integer :project_id,                      default: 0,  null: false

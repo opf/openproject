@@ -26,34 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-jQuery(document).ready(function($) {
-  $("#tab-content-members").submit('#members_add_form', function () {
-    var error = $('.errorExplanation, .flash');
-    if (error) {
-      error.remove();
-    }
-  });
-
-  // Show/Hide content when page is loaded
-  if (window.OpenProject.guardedLocalStorage("showFilter") === "true") {
-    showFilter(filter = findFilter());
-  }
-  else {
-    hideFilter(filter = findFilter());
-    // In case showFilter is not set yet
-    window.OpenProject.guardedLocalStorage("showFilter", 'false')
-  }
-
-  // show member form only when there's an error
-  if (jQuery("#errorExplanation").text() != "") {
-    showAddMemberForm();
-  }
-
-  if (jQuery('#add-member-button').attr('data-trigger-initially')) {
-    showAddMemberForm();
-  }
-});
-
 function toggleMemberFilter() {
   if (window.OpenProject.guardedLocalStorage("showFilter") === "true") {
     window.OpenProject.guardedLocalStorage("showFilter", 'false');
@@ -83,3 +55,49 @@ function hideAddMemberForm() {
   jQuery('#add-member-button').focus();
   jQuery('#add-member-button').prop('disabled', false);
 }
+
+jQuery(document).ready(function($) {
+  $("#tab-content-members").submit('#members_add_form', function () {
+    var error = $('.errorExplanation, .flash');
+    if (error) {
+      error.remove();
+    }
+  });
+
+  // Show/Hide content when page is loaded
+  if (window.OpenProject.guardedLocalStorage("showFilter") === "true") {
+    showFilter(filter = findFilter());
+  }
+  else {
+    hideFilter(filter = findFilter());
+    // In case showFilter is not set yet
+    window.OpenProject.guardedLocalStorage("showFilter", 'false');
+  }
+
+  // Toggle filter
+  $('.toggle-member-filter-link').click(toggleMemberFilter);
+
+
+
+  // Toggle editing row
+  $('.toggle-membership-button').click(function() {
+    var el = $(this);
+    $(el.data('toggleTarget')).toggle();
+    return false;
+  });
+
+  // Show add member form
+  $('#add-member-button').click(showAddMemberForm);
+
+  // Hide member form
+  $('.hide-member-form-button').click(hideAddMemberForm);
+
+  // show member form only when there's an error
+  if (jQuery("#errorExplanation").text() != "") {
+    showAddMemberForm();
+  }
+
+  if (jQuery('#add-member-button').attr('data-trigger-initially')) {
+    showAddMemberForm();
+  }
+});

@@ -62,16 +62,16 @@ de:
   custom_actions:
     actions:
       name: Aktionen
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+      add: Aktion hinzufügen
+    conditions: Bedingungen
+    plural: Benutzerdefinierte Aktionen
+    new: Benutzerdefinierte Aktion hinzufügen
+    edit: Benutzerdefinierte Aktion %{name} bearbeiten
+    execute: "%{name} ausführen"
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: Benutzerdefinierte Aktionen ist eine Enterprise Edition-Funktion
+      description: Benutzerdefinierte Aktionen optimieren tägliche Arbeit durch die
+        Abarbeitung einer Reihe von Einzelschritten in einen Knopf.
   custom_fields:
     text_add_new_custom_field: 'Um neue benutzerdefinierte Felder einem Projekt zuzuweisen,
       müssen Sie diese erst global erstellen, um Sie dann an dieser Stelle aktivieren
@@ -282,8 +282,8 @@ de:
       announcements:
         show_until: Anzeigen bis
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Inhalt des Anhangs
+        attachment_file_name: Dateiname des Anhangs
         downloads: Downloads
         file: Datei
         filename: Datei
@@ -465,12 +465,14 @@ de:
         custom_field:
           at_least_one_custom_option: Mindestens ein Wert muss verfügbar sein.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: "(%{name}) nur ein Wert ist zulässig."
+          empty: "(%{name}) Wert darf nicht leer sein."
+          inclusion: "(%{name}) ist nicht auf einen erlaubten Wert gesetzt."
+          not_an_integer: "(%{name}) ist keine Ganzzahl."
+          smaller_than_or_equal_to: "(%{name}) muss kleiner als oder gleich %{count}
+            sein."
+          greater_than_or_equal_to: "(%{name}) muss größer als oder gleich %{count}
+            sein."
         enterprise_token:
           unreadable: kann nicht gelesen werden. Ist dies ein Enterprise-Edition Support
             Token?
@@ -585,7 +587,7 @@ de:
       attribute_help_text: Hilfe-Text für Attribute
       board: Forum
       comment: Kommentar
-      custom_action: Custom action
+      custom_action: Benutzerdefinierte Aktion
       custom_field: Benutzerdefiniertes Feld
       group: Gruppe
       category: Kategorie
@@ -1019,12 +1021,12 @@ de:
       pdf_with_descriptions: PDF mit Beschreibungen
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotext verfügbar (optional)
+      unrtf: Unrtf verfügbar (optional)
+      catdoc: Catdoc verfügbar (optional)
+      xls2csv: Xls2csv verfügbar (optional)
+      catppt: Catppt verfügbar (optional)
+      tesseract: Tesseract verfügbar (optional)
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: ";"
@@ -2097,7 +2099,7 @@ de:
   setting_feeds_limit: Max. Anzahl Einträge pro Atom-Feed
   setting_file_max_size_displayed: Maximale Größe inline angezeigter Textdateien
   setting_host_name: Hostname
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: Aktivierungs-Mail läuft ab nach
   setting_work_package_done_ratio: Berechne den Arbeitspaket-Fortschritt mittels
   setting_work_package_done_ratio_field: Arbeitspaket-Feld %-erledigt
   setting_work_package_done_ratio_status: Arbeitspaket-Status
@@ -2163,7 +2165,7 @@ de:
   setting_accessibility_mode_for_anonymous: Barrierefreien Modus für nicht angemeldete
     Nutzer aktivieren
   setting_user_format: Benutzer-Anzeigeformat
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: Standard-Zeitzone für Benutzer
   setting_users_deletable_by_admins: Admins können Nutzeraccounts löschen
   setting_users_deletable_by_self: Nutzer können ihren Account löschen
   setting_welcome_text: Text für Willkommens-Block
@@ -2235,7 +2237,7 @@ de:
     nicht transparent sein, da dies auf iOS-Geräten nicht optimal dargestellt wird.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: Datenbank unterstützt TSVector (optional)
   text_default_administrator_account_changed: Administrator-Kennwort geändert
   text_default_encoding: 'Standard: UTF-8'
   text_destroy: Löschen
@@ -2273,7 +2275,7 @@ de:
   text_journal_aggregation_time_explanation: Fasst Änderungen bei der Anzeige zusammen,
     falls ihr Zeitunterschied weniger als die angegebene Zeitspanne beträgt. Der Versand
     von Benachrichtigungen wird um die gleiche Zeit verzögert.
-  text_journal_changed: "%{label} wurde von %{old} zu %{new} geändert"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} aktualisiert"
   text_journal_changed_with_diff: "%{label} geändert (%{link})"
   text_journal_deleted: "%{label} %{old} wurde gelöscht"
@@ -2540,8 +2542,8 @@ de:
       years: Jahre
   title_remove_and_delete_user: Den eingeladenen Benutzer aus dem Projekt entfernen
     und löschen.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'Die Standardzeitzone für neue Benutzer. Kann in
+    den Einstellungen jedes Benutzers geändert werden.
 
 '
   tooltip_resend_invitation: 'Sendet eine weitere Einladungs-Email mit einem neuen
@@ -2615,9 +2617,11 @@ de:
   note_password_login_disabled: Der Passwort-Login wurde per %{configuration} deaktiviert.
   warning: Warnung
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+  warning_registration_token_expired: 'E-Mail mit dem Aktivierungslink ist abgelaufen.
+    Wir haben Ihnen ein neues zu %{email} geschickt. Bitte aktivieren Sie Ihr Konto
+    über den Link in dieser E-Mail.
+
+'
   menu_item: Menüpunkt
   menu_item_setting: Sichtbarkeit
   wiki_menu_item_for: Menüpunkt für die Wikiseite "%{title}"

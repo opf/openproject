@@ -2225,7 +2225,7 @@ hu:
   text_journal_aggregation_time_explanation: Fűzze össze a tartalmat az értesítésekben,
     amennyiben az idő kisebb, mint a megadott érték. Ez ugyanúgy késleltetheti az
     e-mail kiküldését.
-  text_journal_changed: "%{label} megváltozott %{old} -tól %{new} -ig"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} frissítve"
   text_journal_changed_with_diff: "%{label} megváltozott (%{link})"
   text_journal_deleted: "%{label} törölve (%{old})"

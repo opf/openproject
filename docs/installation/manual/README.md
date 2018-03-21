@@ -59,6 +59,13 @@ sudo passwd openproject #(enter desired password)
 
 ## Installation of MySQL
 
+We recommend to use the latest MySQL version (>= 5.7) as it supports
+special charachters such as emojis (emoticons) out of the box.
+
+If your Linux distribution only provides older versions of MySQL it is worth considering 
+[adding MySQL as an `apt` source](https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/).
+
+Once you have your `apt` sources nicely set up install the packages.
 
 ```bash
 [root@host] apt-get install mysql-server libmysqlclient-dev
@@ -77,8 +84,26 @@ the OpenProject database.
 You may replace the string `openproject` with the desired username and
 database name. The password `my_password` should definitely be changed.
 
+**On MySQL version 5.7 or greater (recommended)**
+
+```sql
+mysql> CREATE DATABASE openproject CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+**On MySQL version 5.6 or older (not recommended)**
+
+(!!) No support for emojis (emoticons). See above! If you have to use
+5.6 or older and you need to support special unicode characters you can 
+get there but we don't provide the instructions here as it would bloat 
+this manual.  
+
 ```sql
 mysql> CREATE DATABASE openproject CHARACTER SET utf8;
+```
+
+**Continue For all MySQL versions**
+
+```sql
 mysql> CREATE USER 'openproject'@'localhost' IDENTIFIED BY 'my_password';
 mysql> GRANT ALL PRIVILEGES ON openproject.* TO 'openproject'@'localhost';
 mysql> FLUSH PRIVILEGES;
@@ -166,6 +191,34 @@ Create and configure the database configuration file in config/database.yml
 Now we edit the `config/database.yml` file and insert our database credentials.
 It should look like this (please keep in mind that you have to use the values
 you used above: user, database and password):
+
+**On MySQL version 5.7 or greater (recommended)**
+
+The encoding should be set to `utf8mb4` as we created the DB with that encoding
+a few steps ago. 
+
+```yaml
+production:
+  adapter: mysql2
+  database: openproject
+  host: localhost
+  username: openproject
+  password: my_password
+  encoding: utf8mb4
+
+development:
+  adapter: mysql2
+  database: openproject
+  host: localhost
+  username: openproject
+  password: my_password
+  encoding: utf8mb4
+```
+
+**On MySQL version 5.6 or older (not recommended)**
+
+The encoding should be set to `utf8` as we created the DB with that encoding a
+few steps ago.
 
 ```yaml
 production:

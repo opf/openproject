@@ -212,4 +212,23 @@ describe MessagesController, type: :controller do
       let(:preview_params) { { board_id: board.id, id: message.id, message: {} } }
     end
   end
+
+  describe 'quote' do
+    let(:message) { FactoryGirl.create :message, content: 'foo', subject: 'subject', board: board }
+
+    context 'when allowed' do
+      let(:user) { FactoryGirl.create(:admin) }
+
+      before do
+        login_as user
+      end
+
+      it 'renders the content as json' do
+        get :quote, params: { board_id: board.id, id: message.id }, format: :json
+
+        expect(response).to be_success
+        expect(response.body).to eq '{"subject":"RE: subject","content":" wrote:\n\u003e foo\n\n"}'
+      end
+    end
+  end
 end

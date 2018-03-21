@@ -9,7 +9,7 @@ ru:
         multi: Добавить «%{name}»
         single: Выбрать «%{name}»
       remove: Удалить %{name}
-      active: Active %{label} %{name}
+      active: Активировать %{label} %{name}
     close_popup_title: Закрыть всплывающее
     close_filter_title: Закрыть фильтр
     close_form_title: Закрыть форму

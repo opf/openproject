@@ -34,7 +34,7 @@ class CreateUserPasswords < ActiveRecord::Migration[5.1]
   end
 
   def up
-    create_table :user_passwords do |t|
+    create_table :user_passwords, id: :integer do |t|
       t.integer :user_id, null: false
       t.string :hashed_password, limit: 40
       t.string :salt, limit: 64

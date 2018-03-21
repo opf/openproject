@@ -45,7 +45,8 @@ Redmine::AccessControl.map do |map|
                  require: :loggedin
 
   map.permission :edit_project,
-                 { projects: [:settings, :edit, :update, :custom_fields],
+                 { projects: [:edit, :update, :custom_fields],
+                   project_settings: [:show],
                    members: [:paginate_users] },
                  require: :member
 
@@ -62,7 +63,7 @@ Redmine::AccessControl.map do |map|
                  require: :member
 
   map.permission :manage_versions,
-                 { projects: :settings,
+                 { project_settings: [:show],
                    versions: [:new, :create, :edit, :update,
                               :close_completed, :destroy] },
                  require: :member
@@ -83,7 +84,7 @@ Redmine::AccessControl.map do |map|
   map.project_module :work_package_tracking do |wpt|
     # Issue categories
     wpt.permission :manage_categories,
-                   { projects: :settings,
+                   { project_settings: [:show],
                      categories: [:new, :create, :edit, :update, :destroy] },
                    require: :member
     # Issues

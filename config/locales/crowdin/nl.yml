@@ -2250,7 +2250,7 @@ nl:
   text_journal_aggregation_time_explanation: Tijdschriften voor weergave combineren
     als leeftijdsverschil kleiner dan de opgegeven timespan is. Dit zal ook e-mail
     kennisgevingen door de dezelfde hoeveelheid tijd vertragen.
-  text_journal_changed: "%{label} gewijzigd van %{old} naar %{new}"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} bijgewerkt"
   text_journal_changed_with_diff: "%{label} gewijzigd (%{link})"
   text_journal_deleted: "%{label} verwijderd (%{old})"

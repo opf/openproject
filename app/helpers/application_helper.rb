@@ -98,7 +98,7 @@ module ApplicationHelper
     onclick = "jQuery('##{id}').toggle(); "
     onclick << (options[:focus] ? "jQuery('##{options[:focus]}').focus(); " : 'this.blur(); ')
     onclick << 'return false;'
-    link_to(name, '#', { onclick: onclick }.merge(html_options))
+    link_to_function(name, onclick, html_options)
   end
 
   def delete_link(url, options = {})
@@ -109,15 +109,6 @@ module ApplicationHelper
     }.merge(options)
 
     link_to I18n.t(:button_delete), url, options
-  end
-
-  def image_to_function(name, function, html_options = {})
-    html_options.symbolize_keys!
-    tag(:input, html_options.merge(
-                  type: 'image', src: image_path(name),
-                  onclick: (html_options[:onclick] ? "#{html_options[:onclick]}; " : '') +
-                            "#{function};"
-    ))
   end
 
   def format_activity_title(text)
@@ -190,7 +181,7 @@ module ApplicationHelper
     content_tag :div, html_options do
       if User.current.impaired?
         concat(content_tag('a', join_flash_messages(message),
-                           href: 'javascript:;',
+                           href: '#',
                            class: 'impaired--empty-link'))
         concat(content_tag(:i, '', class: 'icon-close close-handler',
                                    tabindex: '0',
@@ -387,21 +378,17 @@ module ApplicationHelper
              []
            end
 
-    mapped_languages = valid_languages.map { |lang|
-      [ll(lang.to_s, :general_lang_name), lang.to_s]
-    }
+    mapped_languages = valid_languages.map { |lang| translate_language(lang) }
 
-    auto + mapped_languages.sort { |x, y| x.last <=> y.last }
+    auto + mapped_languages.sort_by(&:last)
   end
 
   def all_lang_options_for_select(blank = true)
     initial_lang_options = blank ? [['(auto)', '']] : []
 
-    mapped_languages = all_languages.map { |lang|
-      [ll(lang.to_s, :general_lang_name), lang.to_s]
-    }
+    mapped_languages = all_languages.map { |lang| translate_language(lang) }
 
-    initial_lang_options + mapped_languages.sort { |x, y| x.last <=> y.last }
+    initial_lang_options + mapped_languages.sort_by(&:last)
   end
 
   def labelled_tabular_form_for(record, options = {}, &block)
@@ -468,8 +455,10 @@ module ApplicationHelper
   end
 
   def calendar_for(field_id)
+    # Ensure global AV context exists (when, e.g., called from widget)
+    @_request ||= request
     include_calendar_headers_tags
-    javascript_tag("jQuery(function() { jQuery('##{field_id}').datepicker(); })")
+    nonced_javascript_tag("jQuery(function() { jQuery('##{field_id}').datepicker(); })")
   end
 
   def include_calendar_headers_tags
@@ -490,8 +479,9 @@ module ApplicationHelper
                           '""'
         end
         # FIXME: Get rid of this abomination
-        js = "var CS = { lang: '#{current_language.to_s.downcase}', firstDay: #{start_of_week} };"
-        javascript_tag(js)
+        nonced_javascript_tag do
+          "var CS = { lang: '#{current_language.to_s.downcase}', firstDay: #{start_of_week} };".html_safe
+        end.html_safe
       end
     end
   end
@@ -499,7 +489,8 @@ module ApplicationHelper
   # Returns the javascript tags that are included in the html layout head
   def user_specific_javascript_includes
     tags = ''
-    tags += javascript_tag(%{
+    tags += nonced_javascript_tag do
+      %{
       window.openProject = new OpenProject({
         urlRoot : '#{OpenProject::Configuration.rails_relative_url_root}',
         environment: '#{Rails.env}',
@@ -507,7 +498,8 @@ module ApplicationHelper
       });
       I18n.defaultLocale = "#{I18n.default_locale}";
       I18n.locale = "#{I18n.locale}";
-    })
+      }.html_safe
+    end
 
     tags.html_safe
   end
@@ -597,6 +589,16 @@ module ApplicationHelper
   end
 
   private
+
+  def translate_language(lang_code)
+    # rename in-context translation language name for the language select box
+    if lang_code == Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE &&
+       ::I18n.locale != Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE
+      [Redmine::I18n::IN_CONTEXT_TRANSLATION_NAME, lang_code.to_s]
+    else
+      [ll(lang_code.to_s, :general_lang_name), lang_code.to_s]
+    end
+  end
 
   def wiki_helper
     helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)

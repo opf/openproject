@@ -111,7 +111,7 @@
             <span>Image</span>
           </button>
           <div class="jstb_help">
-            <a href="/help/wiki_syntax" title="Text formatting" class="icon icon-help1" onclick="window.open(&quot;/help/wiki_syntax&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;">
+            <a href="/help/wiki_syntax" title="Text formatting" class="icon icon-help1">
               <span class="hidden-for-sighted">
                 Text formatting
               </span>

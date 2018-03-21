@@ -102,10 +102,9 @@ class WorkPackagesPage
   end
 
   def select_query_from_dropdown(query)
-    within('.title-container') do
-      find('a').click
-      find('li', text: query.name).click
-    end
+    find('.wp-table--query-menu-link').click
+    expect(page).to have_selector('.ui-menu-item-wrapper', text: query.name, wait: 10)
+    find('.ui-menu-item-wrapper', text: query.name).click
   end
 
   def expect_query(query)
@@ -144,9 +143,7 @@ class WorkPackagesPage
 
   def ensure_index_page_loaded
     if Capybara.current_driver == Capybara.javascript_driver
-      extend ::Angular::DSL unless singleton_class.included_modules.include?(::Angular::DSL)
-
-      expect(page).to have_selector('.advanced-filters--filter', visible: false, wait: 8)
+      expect(page).to have_selector('.advanced-filters--filter', visible: :all, wait: 20)
     end
   end
 end

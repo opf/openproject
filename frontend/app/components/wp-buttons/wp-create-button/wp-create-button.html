@@ -3,9 +3,9 @@
           *ngIf="projectIdentifier"
           [disabled]="isDisabled()"
           [attr.aria-label]="text.explanation"
-          hasDropdownMenu
-          [hasDropdownMenu-locals]="{'projectIdentifier': projectIdentifier, 'stateName': stateName}"
-          [hasDropdownMenu-target]="'TypesContextMenu'">
+          opTypesCreateDropdown
+          [projectIdentifier]="projectIdentifier"
+          [stateName]="stateName">
     <op-icon icon-classes="button--icon icon-add"></op-icon>
     <span class="button--text"
           [textContent]="text.createWithDropdown"

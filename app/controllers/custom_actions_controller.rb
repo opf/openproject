@@ -34,6 +34,7 @@ class CustomActionsController < ApplicationController
 
   self._model_object = CustomAction
   before_action :find_model_object, only: %i(edit update destroy)
+  before_action :pad_params, only: %i(create update)
 
   layout 'admin'
 
@@ -98,5 +99,16 @@ class CustomActionsController < ApplicationController
     else
       render_403
     end
+  end
+
+  # If no action/condition is set in the view, the
+  # actions/conditions already existing on a custom action should be removed.
+  # But because it is not feasible to have an empty and hidden hash object in a form
+  # we have to pad the params here.
+  def pad_params
+    return if !params[:custom_action] || params[:custom_action][:move_to]
+
+    params[:custom_action][:conditions] ||= {}
+    params[:custom_action][:actions] ||= {}
   end
 end

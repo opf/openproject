@@ -118,6 +118,7 @@ class ApplicationController < ActionController::Base
                 :check_session_lifetime,
                 :stop_if_feeds_disabled,
                 :set_cache_buster,
+                :action_hooks,
                 :reload_mailer_configuration!
 
   include Redmine::Search::Controller
@@ -697,6 +698,10 @@ class ApplicationController < ActionController::Base
 
       url_for(url_params)
     end
+  end
+
+  def action_hooks
+    call_hook(:application_controller_before_action)
   end
 
   # ActiveSupport load hooks provide plugins with a consistent entry point to patch core classes.

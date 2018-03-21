@@ -48,11 +48,10 @@ describe Users::MembershipsController, type: :controller do
                  project_id: project.id,
                  role_ids: [role.id]
                }
-             },
-             format: 'js'
+             }
       end
 
-      expect(response.status).to eql(200)
+      expect(response).to redirect_to(controller: '/users', action: 'edit', id: user.id, tab: 'memberships')
 
       is_member = user.reload.memberships.any? { |m|
         m.project_id == project.id && m.role_ids.include?(role.id)

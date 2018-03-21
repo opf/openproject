@@ -17,10 +17,9 @@
           <sortHeader [headerColumn]="column"
                       [locale]="column.custom_field && columns.custom_field.name_locale || locale"
 
-                      hasDropdownMenu
-                      [hasDropdownMenu-locals]="{'columns':columns, 'column':column}"
-                      [hasDropdownMenu-collisionContainer]="'.work-packages-tabletimeline--table-side'"
-                      [hasDropdownMenu-target]="'columnContextMenu'">
+                      opColumnsContextMenu
+                      [opColumnsContextMenu-column]="column"
+                      [opColumnsContextMenu-columns]="columns">
           </sortHeader>
         </th>
         <th class="wp-table--context-menu-column -short hide-when-print">

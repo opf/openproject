@@ -2213,7 +2213,7 @@ tr:
   text_journal_aggregation_time_explanation: Yaş farkı belirtilen zaman aralığından
     azsa dergileri görüntü için birleştirin. Bu aynı zamanda posta bildirimlerini
     aynı süreyle erteleyecektir.
-  text_journal_changed: "%{label} %{old} idi %{new} oldu"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} güncellendi"
   text_journal_changed_with_diff: "%{label} değişti ( %{link})"
   text_journal_deleted: "%{label}, ( %{old}) silindi"

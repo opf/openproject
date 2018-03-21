@@ -42,8 +42,7 @@ See docs/COPYRIGHT.rdoc for more details.
                           { data: { confirm: l(:text_are_you_sure) },
                             method: :delete,
                             class: 'delete',
-                            title: l(:button_delete),
-                            remote: true } %>
+                            title: l(:button_delete) } %>
             <% end %>
             <% if options[:author] %>
               <span class="author"><%= h(attachment.author) %>, <%= format_time(attachment.created_on) %></span>

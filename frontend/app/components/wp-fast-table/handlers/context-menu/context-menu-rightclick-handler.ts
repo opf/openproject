@@ -5,8 +5,11 @@ import {timelineCellClassName} from '../../builders/timeline/timeline-row-builde
 import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ContextMenuHandler} from './context-menu-handler';
+import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
 
 export class ContextMenuRightClickHandler extends ContextMenuHandler {
+
+  readonly wpTableSelection = this.injector.get(WorkPackageTableSelection);
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
@@ -40,6 +43,12 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     const wpId = element.data('workPackageId');
 
     if (wpId) {
+      let [index,] = this.table.findRenderedRow(wpId);
+
+      if (!this.wpTableSelection.isSelected(wpId)) {
+        this.wpTableSelection.setSelection(wpId, index);
+      }
+
       super.openContextMenu(evt, wpId);
     }
 

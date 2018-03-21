@@ -33,7 +33,7 @@ class RemoveOpenidEntirely < ActiveRecord::Migration[5.1]
   end
 
   def down
-    create_table 'open_id_authentication_associations', force: true do |t|
+    create_table 'open_id_authentication_associations', force: true, id: :integer do |t|
       t.integer 'issued'
       t.integer 'lifetime'
       t.string 'handle'
@@ -42,7 +42,7 @@ class RemoveOpenidEntirely < ActiveRecord::Migration[5.1]
       t.binary 'secret'
     end
 
-    create_table 'open_id_authentication_nonces', force: true do |t|
+    create_table 'open_id_authentication_nonces', force: true, id: :integer do |t|
       t.integer 'timestamp',  null: false
       t.string 'server_url'
       t.string 'salt',       null: false

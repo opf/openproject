@@ -143,7 +143,7 @@ OpenProject::Application.routes.draw do
       #   settings_project_path(@project, tab: 'members')
       #     => "/projects/1/settings/members"
       #
-      get 'settings(/:tab)', action: 'settings', as: :settings
+      get 'settings(/:tab)', controller: 'project_settings', action: 'show', as: :settings
 
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
@@ -266,8 +266,6 @@ OpenProject::Application.routes.draw do
     end
 
     resource :repository, controller: 'repositories', except: [:new] do
-      get :edit # needed as show is configured manually with a wildcard
-
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info
       get :committers

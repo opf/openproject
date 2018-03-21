@@ -50,7 +50,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= render partial: "projects/form/modules", locals: { form: f } %>
   </section>
 
-  <%= javascript_tag 'observeProjectModules();' %>
+  <%= nonced_javascript_tag 'observeProjectModules();' %>
 <% end %>
 
 <% if ((project.module_enabled?('work_package_tracking')) && render_types) %>

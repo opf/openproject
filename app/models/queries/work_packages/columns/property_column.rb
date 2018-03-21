@@ -107,8 +107,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     },
     fixed_version: {
       association: 'fixed_version',
-      sortable: ["effective_date",
-                 "name"],
+      sortable: ["name"],
       default_order: 'desc',
       groupable: true
     },

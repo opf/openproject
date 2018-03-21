@@ -2206,7 +2206,7 @@ fi:
   text_journal_aggregation_time_explanation: Yhdistele aktiviteettiuutiset jos niiden
     julkaisuajan ero on pienempi kuin syötetty aika. Tämä viivästyttää myös aktiviteettiuutisten
     sähköposti-ilmoituksia samalla aikamäärällä.
-  text_journal_changed: "%{label} muutettu arvosta %{old} arvoon %{new}"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} päivitetty"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} poistettu (%{old})"

@@ -29,7 +29,7 @@
 
 class CreateNormalizedJournals < ActiveRecord::Migration[5.1]
   def change
-    create_table :journals do |t|
+    create_table :journals, id: :integer do |t|
       t.references :journable, polymorphic: true
       t.references :journable_data, polymorphic: true
       t.integer :user_id, default: 0, null: false

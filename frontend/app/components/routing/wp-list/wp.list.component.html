@@ -1,25 +1,7 @@
 <div class="work-packages-list-view--container">
   <div class="toolbar-container">
     <div class="toolbar">
-      <div class="title-container">
-        <div class="text">
-          <h2>
-            <span
-                  hasDropdownMenu
-                  [hasDropdownMenu-locals]="{'selectedTitle': selectedTitle }"
-                  [hasDropdownMenu-collisionContainer]="'#content'"
-                  [hasDropdownMenu-target]="'wpQuerySelectService'">
-              <accessible-by-keyboard
-                linkClass="wp-table--query-menu-link"
-                [linkTitle]="text.search_query_title">
-                <op-icon
-                  icon-classes="icon-pulldown icon-button icon-small hide-when-print"></op-icon>
-                {{ selectedTitle | slice:0:50 }}
-              </accessible-by-keyboard>
-            </span>
-          </h2>
-        </div>
-      </div>
+      <wp-query-selectable-title [selectedTitle]="selectedTitle"></wp-query-selectable-title>
 
       <ul class="toolbar-items hide-when-print"
           *ngIf="tableInformationLoaded">
@@ -50,9 +32,8 @@
           <button id="work-packages-settings-button"
                   title="{{ text.button_settings }}"
                   class="button last work-packages-settings-button toolbar-icon"
-                  hasDropdownMenu
-                  [hasDropdownMenu-locals]="{'query': query}"
-                  [hasDropdownMenu-target]="'SettingsDropdownMenu'">
+                  opSettingsContextMenu
+                  opSettingsContextMenu-query="query">
             <op-icon icon-classes="button--icon icon-show-more"></op-icon>
           </button>
         </li>

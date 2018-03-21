@@ -34,7 +34,18 @@
 module RemovedJsHelpersHelper
   # removed in rails 4.1
   def link_to_function(content, function, html_options = {})
-    onclick = "#{function}; return false;"
-    content_tag(:a, content, html_options.merge(onclick: onclick, href: ''))
+
+    id = html_options.delete(:id) { "link-to-function-#{SecureRandom.uuid}" }
+    csp_onclick(function, "##{id}")
+
+    content_tag(:a, content, html_options.merge(id: id, href: ''))
+  end
+
+  ##
+  # Execute the callback on click
+  def csp_onclick(callback_str, selector)
+    content_for(:additional_js_dom_ready) do
+      "jQuery('#{selector}').click(function() { #{callback_str}; return false; });\n".html_safe
+    end
   end
 end

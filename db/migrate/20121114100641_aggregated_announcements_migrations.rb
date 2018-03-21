@@ -12,7 +12,7 @@ class AggregatedAnnouncementsMigrations < ActiveRecord::Migration[5.1]
   def up
     migration_names = OpenProject::Plugins::MigrationMapping.migration_files_to_migration_names(MIGRATION_FILES, OLD_PLUGIN_NAME)
     Migration::MigrationSquasher.squash(migration_names) do
-      create_table :announcements do |t|
+      create_table :announcements, id: :integer do |t|
         t.text :text
         t.date :show_until
         t.boolean :active, default: false

@@ -300,6 +300,26 @@ describe OpenProject::Configuration do
       OpenProject::Configuration.reload_mailer_configuration!
     end
 
+    it 'allows settings smtp_authentication to none' do
+      Setting.email_delivery_method = :smtp
+      Setting.smtp_authentication = :none
+      Setting.smtp_password = 'old'
+      Setting.smtp_address = 'smtp.example.com'
+      Setting.smtp_domain = 'example.com'
+      Setting.smtp_port = 25
+      Setting.smtp_user_name = 'username'
+      Setting.smtp_enable_starttls_auto = 1
+
+      expect(action_mailer).to receive(:perform_deliveries=).with(true)
+      expect(action_mailer).to receive(:delivery_method=).with(:smtp)
+      OpenProject::Configuration.reload_mailer_configuration!
+      expect(action_mailer.smtp_settings[:smtp_authentication]).to be_nil
+      expect(action_mailer.smtp_settings).to eq(address: 'smtp.example.com',
+                                                port: 25,
+                                                domain: 'example.com',
+                                                enable_starttls_auto: true)
+    end
+
     it 'correctly sets the action mailer configuration based on the settings' do
       Setting.email_delivery_method = :smtp
       Setting.smtp_password = 'p4ssw0rd'

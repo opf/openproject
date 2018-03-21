@@ -20,6 +20,7 @@ engines:
     enabled: true
   tslint:
     enabled: true
+    config: tslint.json
   fixme:
     enabled: true
 ratings:

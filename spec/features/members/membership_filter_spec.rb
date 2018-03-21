@@ -56,10 +56,11 @@ feature 'group memberships through groups page', type: :feature, js: true do
 
   before do
     login_as(admin)
+    members_page.visit!
+    expect_angular_frontend_initialized
   end
 
   scenario 'filters users based on some name attribute' do
-    members_page.visit!
     members_page.open_filters!
 
     members_page.search_for_name 'pan'

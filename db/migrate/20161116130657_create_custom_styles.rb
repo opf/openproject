@@ -1,6 +1,6 @@
-class CreateCustomStyles < ActiveRecord::Migration[5.0]
+class CreateCustomStyles < ActiveRecord::Migration[5.1]
   def change
-    create_table :custom_styles do |t|
+    create_table :custom_styles, id: :integer do |t|
       t.string :logo
 
       t.timestamps

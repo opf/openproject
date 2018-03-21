@@ -96,8 +96,8 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     result << content_tag(:li) {
       link_to l('homescreen.links.shortcuts'),
               '',
-              title: l('homescreen.links.shortcuts'),
-              onClick: 'modalHelperInstance.createModal(\'/help/keyboard_shortcuts\');'
+              class: 'help-link-shortcuts-link',
+              title: l('homescreen.links.shortcuts')
     }
     result << static_link_item(:boards)
     result << static_link_item(:professional_support)

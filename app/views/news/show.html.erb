@@ -32,11 +32,11 @@ See docs/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item">
       <%= link_to(edit_news_path(@news),
         accesskey: accesskey(:edit),
-        class: 'button',
-        onclick: 'jQuery("#edit-news").show(); return false;') do %>
+        class: 'button edit-news-button') do %>
         <%= op_icon('button--icon icon-edit') %>
         <span class="button--text"><%= l(:button_edit) %></span>
       <% end %>
+      <% csp_onclick('jQuery("#edit-news").show()', '.edit-news-button') %>
     </li>
   <% end %>
   <li class="toolbar-item">

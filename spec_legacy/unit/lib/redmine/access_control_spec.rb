@@ -54,6 +54,6 @@ describe Redmine::AccessControl do
     assert_equal :edit_project, perm.name
     assert_nil perm.project_module
     assert perm.actions.is_a?(Array)
-    assert perm.actions.include?('projects/settings')
+    assert perm.actions.include?('project_settings/show')
   end
 end

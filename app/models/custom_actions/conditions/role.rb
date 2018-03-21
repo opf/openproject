@@ -35,8 +35,8 @@ class CustomActions::Conditions::Role < CustomActions::Conditions::Base
 
   def self.custom_action_scope_has_current(work_packages, user)
     CustomAction
-      .includes(:roles)
-      .where(custom_actions_roles: { role_id: roles_in_project(work_packages, user) })
+      .includes(association_key)
+      .where(habtm_table => { key_id => roles_in_project(work_packages, user) })
   end
   private_class_method :custom_action_scope_has_current
 
