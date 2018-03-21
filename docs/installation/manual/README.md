@@ -62,8 +62,7 @@ sudo passwd openproject #(enter desired password)
 We recommend to use the latest MySQL version (>= 5.7) as it supports
 special charachters such as emojis (emoticons) out of the box.
 
-If your Linux distribution does not provide only older version of MySQL
-it is worth considering 
+If your Linux distribution only provides older versions of MySQL it is worth considering 
 [adding MySQL as an `apt` source](https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/).
 
 Once you have your `apt` sources nicely set up install the packages.
