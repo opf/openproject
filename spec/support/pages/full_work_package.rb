@@ -30,9 +30,6 @@ require 'support/pages/abstract_work_package'
 
 module Pages
   class FullWorkPackage < Pages::AbstractWorkPackage
-    def edit_field(attribute)
-      super(attribute, container)
-    end
 
     private
 

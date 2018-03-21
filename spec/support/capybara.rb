@@ -2,6 +2,7 @@ require 'capybara/rspec'
 require 'capybara-screenshot'
 require 'capybara-screenshot/rspec'
 require 'rack_session_access/capybara'
+require 'action_dispatch'
 
 RSpec.configure do |config|
   Capybara.default_max_wait_time = 4
@@ -31,6 +32,20 @@ end
 # Remove old images automatically
 Capybara::Screenshot.prune_strategy = :keep_last_run
 
+# Don't silence puma if we're using it
+Capybara.register_server :single_puma do |app, port, host|
+  require 'rack/handler/puma'
+  Rack::Handler::Puma.run app,
+                          Port: port,
+                          Host: host,
+                          workers: 0,
+                          daemon: false,
+                          Silent: false,
+                          Threads: "0:4",
+                          config_files: ['-']
+end
+Capybara.server = :single_puma
+
 # Set up S3 uploads if desired
 if ENV['OPENPROJECT_ENABLE_CAPYBARA_SCREENSHOT_S3_UPLOADS'] && ENV['AWS_ACCESS_KEY_ID']
   Capybara::Screenshot.s3_configuration = {
@@ -46,12 +61,6 @@ end
 Rails.application.config do
   config.middleware.use RackSessionAccess::Middleware
 end
-
-Capybara.register_server :thin do |app, port, host|
-  require 'rack/handler/thin'
-  Rack::Handler::Thin.run(app, Port: port, Host: host)
-end
-Capybara.server = :thin
 
 Capybara.register_driver :selenium do |app|
   require 'selenium/webdriver'
