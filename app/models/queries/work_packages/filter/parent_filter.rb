@@ -36,6 +36,7 @@ class Queries::WorkPackages::Filter::ParentFilter <
   end
 
   def value_objects
+    return []
     raise NotImplementedError, 'There would be too many candidates'
   end
 
