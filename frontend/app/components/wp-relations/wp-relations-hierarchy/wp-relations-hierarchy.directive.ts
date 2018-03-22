@@ -40,6 +40,12 @@ export class WorkPackageRelationsHierarchyController {
   public canModifyHierarchy = !!this.workPackage.changeParent;
   public canAddRelation = !!this.workPackage.addRelation;
 
+  public childrenQueryProps = {
+    filters: JSON.stringify([{ parent: { operator: '=', values: [this.workPackage.id] }  }]),
+    'columns[]': ['id', 'type', 'subject'],
+    showHierarchies: false
+  };
+
   constructor(protected $scope:ng.IScope,
               protected $rootScope:ng.IRootScopeService,
               protected $q:ng.IQService,

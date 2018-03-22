@@ -21,8 +21,7 @@
         </div>
     </div>
 
-    <wp-embedded-table queryId="5"
-                       [query-props]="{ 'columns[]': ['id', 'type', 'subject'], showHierarchies: false }"
+    <wp-embedded-table [query-props]="$ctrl.childrenQueryProps"
                        [configuration]="{ splitViewEnabled: false, columnMenuEnabled: false, contextMenuEnabled: false }">
     </wp-embedded-table>
 
