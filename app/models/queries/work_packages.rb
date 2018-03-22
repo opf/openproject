@@ -57,6 +57,7 @@ module Queries::WorkPackages
   register.filter Query, filters_module::UpdatedAtFilter
   register.filter Query, filters_module::VersionFilter
   register.filter Query, filters_module::WatcherFilter
+  register.filter Query, filters_module::ParentFilter
 
   columns_module = Queries::WorkPackages::Columns
 
