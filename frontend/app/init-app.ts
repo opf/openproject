@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import ExpressionService from 'core-components/common/xss/expression.service';
+import {ExpressionService} from 'core-components/common/xss/expression.service';
 
 require('./vendors');
 
