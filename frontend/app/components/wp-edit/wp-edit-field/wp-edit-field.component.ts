@@ -62,7 +62,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
   public workPackage:WorkPackageResourceInterface;
   public fieldRenderer = new DisplayFieldRenderer('single-view');
   public editFieldContainerClass = editFieldContainerClass;
-  private active = false;
+  public active = false;
   private $element:ng.IAugmentedJQuery;
 
   constructor(protected states:States,

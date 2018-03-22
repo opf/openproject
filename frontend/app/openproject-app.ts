@@ -36,7 +36,7 @@ import {NgModuleRef} from '@angular/core';
 import {platformBrowser} from '@angular/platform-browser';
 import {openprojectModule} from './angular-modules';
 // import {OpenProjectModule} from './angular4-modules';
-import {OpenProjectModuleNgFactory} from './angular4-modules.ngfactory';
+import {OpenProjectModule} from './angular4-modules';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {getUIRouter} from '@uirouter/angular-hybrid';
 
@@ -64,6 +64,6 @@ jQuery(function () {
   // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
 
   platformBrowser()
-    .bootstrapModule(OpenProjectModuleNgFactory)
+    .bootstrapModule(OpenProjectModule)
     .then(platformRef => bootstrapWithUiRouter(platformRef));
 });

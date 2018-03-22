@@ -199,6 +199,7 @@ function getWebpackMainConfig() {
       new AngularCompilerPlugin({
         tsConfigPath: path.resolve(__dirname, './tsconfig.json'),
         entryModule: 'app/angular4-modules.ts#OpenProjectModule',
+        mainPath: 'app/openproject-app.ts',
         sourceMap: true
       }),
 
