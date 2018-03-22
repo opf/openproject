@@ -76,7 +76,8 @@ export class WorkPackageRelationsHierarchyController {
   }
 
   public text = {
-    hierarchyHeadline: this.I18n.t('js.relations_hierarchy.hierarchy_headline')
+    parentHeadline: this.I18n.t('js.relations_hierarchy.parent_headline'),
+    childrenHeadline: this.I18n.t('js.relations_hierarchy.children_headline')
   };
 }
 

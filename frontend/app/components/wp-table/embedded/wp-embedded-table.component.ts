@@ -44,11 +44,12 @@ import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-reso
 export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   @Input('queryId') public queryId?:string;
   @Input('queryProps') public queryProps:any = {};
-  @Input() public configuration:boolean;
+  @Input() public configuration:any;
 
   private query:QueryResourceInterface;
   public tableInformationLoaded = false;
   public projectIdentifier = this.currentProject.identifier;
+  public showTablePagination = false;
 
   constructor(readonly QueryDm:QueryDmService,
               readonly tableState:TableState,
@@ -84,7 +85,10 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
       this.wpStatesInitialization.updateTableState(query, results);
 
       return this.tableState.tableRendering.onQueryUpdated.valuesPromise()
-        .then(() => this.tableInformationLoaded = true);
+        .then(() => {
+          this.showTablePagination = results.total > results.count;
+          this.tableInformationLoaded = true;
+        });
     });
   }
 
