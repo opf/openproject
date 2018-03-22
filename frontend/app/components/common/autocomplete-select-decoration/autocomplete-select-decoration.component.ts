@@ -38,7 +38,7 @@ interface AutocompleteSelectDecorationItem {
 }
 
 @Component({
-  template: require('!!raw-loader!./autocomplete-select-decoration.component.html'),
+  templateUrl: './autocomplete-select-decoration.component.html',
   selector: 'autocomplete-select-decoration',
 })
 

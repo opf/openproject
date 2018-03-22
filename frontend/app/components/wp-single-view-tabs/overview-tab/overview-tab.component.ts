@@ -33,7 +33,7 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 @Component({
-  template: require('!!raw-loader!./overview-tab.html'),
+  templateUrl: './overview-tab.html',
   selector: 'wp-overview-tab',
 })
 export class WorkPackageOverviewTabComponent implements OnDestroy {

@@ -55,7 +55,7 @@ interface GroupDescriptor {
 }
 
 @Component({
-  template: require('!!raw-loader!./wp-single-view.html'),
+  templateUrl: './wp-single-view.html',
   selector: 'wp-single-view',
 })
 export class WorkPackageSingleViewComponent implements OnInit, OnDestroy  {

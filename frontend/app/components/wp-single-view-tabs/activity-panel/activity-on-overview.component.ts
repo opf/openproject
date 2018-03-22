@@ -36,7 +36,7 @@ import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource
 import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
 
 @Component({
-  template: require('!!raw-loader!./activity-on-overview.html'),
+  templateUrl: './activity-on-overview.html',
   selector: 'newest-activity-on-overview',
 })
 export class NewestActivityOnOverviewComponent extends ActivityPanelBaseController {

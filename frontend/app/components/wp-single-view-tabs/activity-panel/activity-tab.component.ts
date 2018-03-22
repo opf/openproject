@@ -36,7 +36,7 @@ import {ActivityPanelBaseController} from 'core-components/wp-single-view-tabs/a
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
 @Component({
-  template: require('!!raw-loader!./activity-tab.html'),
+  templateUrl: './activity-tab.html',
   selector: 'wp-activity-tab',
 })
 export class WorkPackageActivityTabComponent extends ActivityPanelBaseController implements OnDestroy {

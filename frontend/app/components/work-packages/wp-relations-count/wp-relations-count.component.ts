@@ -8,7 +8,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
 @Component({
-  template: require('!!raw-loader!./wp-relations-count.html'),
+  templateUrl: './wp-relations-count.html',
   selector: 'wp-relations-count',
 })
 export class WorkPackageRelationsCountComponent implements OnInit, OnDestroy {

@@ -35,7 +35,7 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
-  template: require('!!raw-loader!./wp-subject.html'),
+  templateUrl: './wp-subject.html',
   selector: 'wp-subject',
 })
 export class WorkPackageSubjectComponent implements OnInit, OnDestroy {

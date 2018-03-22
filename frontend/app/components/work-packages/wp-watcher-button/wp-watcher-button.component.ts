@@ -35,7 +35,7 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
-  template: require('!!raw-loader!./wp-watcher-button.html'),
+  templateUrl: './wp-watcher-button.html',
   selector: 'wp-watcher-button',
 })
 export class WorkPackageWatcherButtonComponent implements OnInit,  OnDestroy {

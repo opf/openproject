@@ -62,7 +62,7 @@ import {FocusHelperToken, I18nToken} from 'core-app/angular4-transition-utils';
 
 @Component({
   selector: '[wpInlineCreate]',
-  template: require('!!raw-loader!./wp-inline-create.component.html'),
+  templateUrl: './wp-inline-create.component.html',
 })
 export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDestroy {
 

@@ -26,20 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ConfigurationResource} from '../../api/api-v3/hal-resources/configuration-resource.service';
-import {ConfigurationDmService} from '../../api/api-v3/hal-resource-dms/configuration-dm.service';
 import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
 import {wpDirectivesModule} from '../../../angular-modules';
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {Inject, OnDestroy, Component} from '@angular/core';
+import {Component, Inject, OnDestroy} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
-  template: require('!!raw-loader!core-components/table-pagination/table-pagination.component.html'),
+  templateUrl: '../../table-pagination/table-pagination.component.html',
   selector: 'wp-table-pagination'
 })
 export class WorkPackageTablePaginationComponent extends TablePaginationComponent implements OnDestroy {

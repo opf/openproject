@@ -46,7 +46,7 @@ import {createScrollSync} from './wp-table-scroll-sync';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
 
 @Component({
-  template: require('!!raw-loader!./wp-table.directive.html'),
+  templateUrl: './wp-table.directive.html',
   selector: 'wp-table',
 })
 export class WorkPackagesTableController implements OnInit, OnDestroy {

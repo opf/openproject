@@ -34,7 +34,7 @@ import {HideSectionService} from 'core-components/common/hide-section/hide-secti
 
 @Component({
   selector: 'hide-section-link',
-  template: require('!!raw-loader!./hide-section-link.component.html')
+  templateUrl: './hide-section-link.component.html'
 })
 export class HideSectionLinkComponent {
   displayed:boolean = true;

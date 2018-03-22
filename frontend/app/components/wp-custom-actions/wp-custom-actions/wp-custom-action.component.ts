@@ -39,7 +39,7 @@ import {halRequestToken} from 'core-app/angular4-transition-utils';
 
 @Component({
   selector: 'wp-custom-action',
-  template: require('!!raw-loader!./wp-custom-action.component.html')
+  templateUrl: './wp-custom-action.component.html'
 })
 export class WpCustomActionComponent {
 

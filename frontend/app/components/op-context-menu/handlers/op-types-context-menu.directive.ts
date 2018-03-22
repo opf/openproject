@@ -35,6 +35,7 @@ import {TypeResource} from "core-components/api/api-v3/hal-resources/type-resour
 import {CollectionResource} from "core-components/api/api-v3/hal-resources/collection-resource.service";
 import {LinkHandling} from "core-components/common/link-handling/link-handling";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
+import {OpContextMenuLocalsMap} from 'core-components/op-context-menu/op-context-menu.types';
 
 @Directive({
   selector: '[opTypesCreateDropdown]'
@@ -67,13 +68,13 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
       });
   }
 
-  protected open(evt:Event) {
+  public open(evt:Event) {
     this.loadingPromise.then(() => {
       this.opContextMenu.show(this, evt);
     });
   }
 
-  public get locals() {
+  public get locals():OpContextMenuLocalsMap {
     return {
       items: this.items,
       contextMenuId: 'types-context-menu'

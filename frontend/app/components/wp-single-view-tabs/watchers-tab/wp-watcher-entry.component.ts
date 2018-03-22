@@ -32,7 +32,7 @@ import {WorkPackageWatchersTabComponent} from './watchers-tab.component';
 import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
 
 @Component({
-  template: require('!!raw-loader!./wp-watcher-entry.html'),
+  templateUrl: './wp-watcher-entry.html',
   selector: 'wp-watcher-entry',
 })
 export class WorkPackageWatcherEntryComponent implements OnInit {

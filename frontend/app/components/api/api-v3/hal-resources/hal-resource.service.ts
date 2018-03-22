@@ -48,7 +48,6 @@ export class HalResource {
       return element;
     }
 
-
     if (!force && !(element._embedded || element._links)) {
       return element;
     }
@@ -61,7 +60,7 @@ export class HalResource {
     return new HalResource(resource, false);
   }
 
-  public static getEmptyResource(self:{href:string|null} = {href: null}):any {
+  public static getEmptyResource(self:{ href:string|null } = {href: null}):any {
     return {_links: {self: self}};
   }
 
@@ -121,7 +120,7 @@ export class HalResource {
   /**
    * Return the associated state to this HAL resource, if any.
    */
-  public get state(): InputState<this> | null {
+  public get state():InputState<this>|null {
     return null;
   }
 
@@ -187,7 +186,8 @@ export class HalResource {
 
   public $copy() {
     let clone:any = this.constructor
-    return new clone(_.cloneDeep(this.$source), this.$loaded);;
+    return new clone(_.cloneDeep(this.$source), this.$loaded);
+    ;
   }
 
   public $initialize(source:any) {
@@ -213,7 +213,7 @@ export class HalResource {
   /**
    * Specify this resource's embedded keys that should be transformed with resources.
    * Use this to restrict, e.g., links that should not be made properties if you have a custom get/setter.
-  */
+   */
   public $embeddableKeys():string[] {
     const properties = Object.keys(this.$source);
     return _.without(properties, '_links', '_embedded');
@@ -222,7 +222,7 @@ export class HalResource {
   /**
    * Specify this resource's keys that should not be transformed with resources.
    * Use this to restrict, e.g., links that should not be made properties if you have a custom get/setter.
-  */
+   */
   public $linkableKeys():string[] {
     const properties = Object.keys(this.$links);
     return _.without(properties, 'self');
@@ -354,11 +354,13 @@ function initializeResource(halResource:HalResource) {
     });
   }
 
-  function setter(val:HalResource|{ href?: string }, linkName:string) {
+  function setter(val:HalResource|{ href?:string }, linkName:string) {
     if (!val) {
       halResource.$source._links[linkName] = {href: null};
     } else if (_.isArray(val)) {
-      halResource.$source._links[linkName] = val.map((el:any) => { return {href: el.href} });
+      halResource.$source._links[linkName] = val.map((el:any) => {
+        return {href: el.href}
+      });
     } else if (val.hasOwnProperty('$link')) {
       const link = (val as HalResource).$link;
 

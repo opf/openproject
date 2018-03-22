@@ -39,7 +39,7 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
 
 @Component({
-  template: require('!!raw-loader!./watchers-tab.html'),
+  templateUrl: './watchers-tab.html',
   selector: 'wp-watchers-tab',
 })
 export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {

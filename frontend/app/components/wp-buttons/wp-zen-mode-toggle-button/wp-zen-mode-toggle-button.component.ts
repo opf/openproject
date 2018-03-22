@@ -35,7 +35,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 const screenfull:any = require('screenfull/dist/screenfull.js');
 
 @Component({
-  template: require('!!raw-loader!core-components/wp-buttons/wp-button.template.html'),
+  templateUrl: '../wp-button.template.html',
   selector: 'wp-zen-mode-toggle-button',
 })
 export class WorkPackageZenModeButtonComponent extends AbstractWorkPackageButtonComponent {

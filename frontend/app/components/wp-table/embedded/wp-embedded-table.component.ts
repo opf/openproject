@@ -20,7 +20,7 @@ import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast
 
 @Component({
   selector: 'wp-embedded-table',
-  template: require('!!raw-loader!./wp-embedded-table.html'),
+  templateUrl: './wp-embedded-table.html',
   providers: [
     TableState,
     WorkPackageStatesInitializationService,

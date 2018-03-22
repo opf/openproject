@@ -59,7 +59,7 @@ import moment = require('moment');
 
 @Component({
   selector: 'wp-timeline-container',
-  template: require('!!raw-loader!./wp-timeline-container.html')
+  templateUrl: './wp-timeline-container.html'
 })
 export class WorkPackageTimelineTableController implements AfterViewInit, OnDestroy {
 

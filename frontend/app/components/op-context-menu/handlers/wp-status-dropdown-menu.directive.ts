@@ -37,6 +37,7 @@ import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {WorkPackageResourceInterface} from "core-components/api/api-v3/hal-resources/work-package-resource.service";
 import {HalResource} from "core-components/api/api-v3/hal-resources/hal-resource.service";
+import {OpContextMenuLocalsMap} from 'core-components/op-context-menu/op-context-menu.types';
 
 @Directive({
   selector: '[wpStatusDropdown]'
@@ -54,7 +55,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     super(elementRef, opContextMenu);
   }
 
-  protected open(evt:Event) {
+  public open(evt:Event) {
     const changeset = this.wpEditing.changesetFor(this.workPackage);
 
     changeset.getForm().then((form:any) => {
@@ -64,7 +65,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     });
   }
 
-  public get locals() {
+  public get locals():OpContextMenuLocalsMap {
     return {
       items: this.items,
       contextMenuId: 'wp-status-context-menu'

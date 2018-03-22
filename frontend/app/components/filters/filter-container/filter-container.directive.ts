@@ -28,11 +28,11 @@
 
 import {filtersModule} from '../../../angular-modules';
 import {Component} from '@angular/core';
-import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
+import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
-  template: require('!!raw-loader!core-components/filters/filter-container/filter-container.directive.html'),
+  templateUrl: './filter-container.directive.html',
   selector: 'filter-container',
 })
 export class WorkPackageFilterContainerComponent {

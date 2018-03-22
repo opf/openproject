@@ -49,13 +49,11 @@ import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-re
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 
 @Component({
   selector: 'wp-list',
-  template: require('!!raw-loader!./wp.list.component.html')
+  templateUrl: './wp.list.component.html'
 })
 export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
@@ -247,8 +245,3 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   }
 
 }
-
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpList',
-    downgradeComponent({component: WorkPackagesListComponent}));
