@@ -109,7 +109,7 @@ import {WorkPackageDetailsViewButtonComponent} from 'core-components/wp-buttons/
 import {WorkPackageTimelineButtonComponent} from 'core-components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component';
 import {WorkPackageZenModeButtonComponent} from 'core-components/wp-buttons/wp-zen-mode-toggle-button/wp-zen-mode-toggle-button.component';
 import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
-import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
+import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {Ng1QueryFiltersComponentWrapper} from 'core-components/filters/query-filters/query-filters-ng1-wrapper.component';
 import {UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
 import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
@@ -179,9 +179,61 @@ import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-li
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
 import {WorkPackageFieldService} from 'core-components/wp-field/wp-field.service';
-import ExpressionService from 'core-components/common/xss/expression.service';
+import {ExpressionService} from 'core-components/common/xss/expression.service';
 import {WorkPackageEditFieldService} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.service';
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
+import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import {FocusDirectiveUpgraded} from 'core-app/ui_components/focus-directive-upgraded';
+import {
+  upgradeFactoryHalResource,
+  upgradeFactoryQueryResource,
+  upgradeFactoryQueryFilterInstanceResource,
+  upgradeFactory$rootScope,
+  upgradeFactoryI18n,
+  upgradeFactory$state,
+  upgradeFactory$q,
+  upgradeFactory$timeout,
+  upgradeFactory$locale,
+  upgradeFactoryNotificationsService,
+  upgradeFactorycolumnsModal,
+  upgradeFactoryFocusHelper,
+  upgradeFactoryhalRequest,
+  upgradeFactorywpMoreMenuService,
+  upgradeFactoryTimezoneService,
+  upgradeFactoryv3Path,
+  upgradeFactorywpDestroyModal,
+  upgradeFactorysortingModal,
+  upgradeFactorygroupingModal,
+  upgradeFactoryshareModal,
+  upgradeFactorysaveModal,
+  upgradeFactorysettingsModal,
+  upgradeFactoryexportModal,
+  upgradeFactorytimelinesModal,
+  upgradeFactorywpRelations,
+  upgradeFactorystates,
+  upgradeFactorypaginationService,
+  upgradeFactorykeepTab,
+  upgradeFactorytemplateRenderer,
+  upgradeFactorywpDisplayField,
+  upgradeFactorywpNotificationsService,
+  upgradeFactorywpListChecksumService,
+  upgradeFactorywpRelationsHierarchyService,
+  upgradeFactorywpFiltersService,
+  upgradeFactoryloadingIndicator,
+  upgradeFactoryapiWorkPackages,
+  upgradeFactoryauthorisationService,
+  upgradeFactoryConfigurationService,
+  upgradeFactorycurrentProject,
+  upgradeFactoryRootDm,
+  upgradeFactoryQueryDm,
+  upgradeFactoryqueryMenu,
+  upgradeFactoryfirstRoute,
+  upgradeFactoryPathHelper,
+  upgradeFactorywpActivity,
+  upgradeFactoryHookService,
+  upgradeFactoryUrlParamsHelper
+} from 'core-app/angular4-aot-factories';
+import {OpContextMenuHandler} from 'core-components/op-context-menu/op-context-menu-handler';
 
 @NgModule({
   imports: [
@@ -195,46 +247,248 @@ import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedd
   providers: [
     GonRef,
     HideSectionService,
-    upgradeServiceWithToken('HalResource', HalResourceToken),
-    upgradeServiceWithToken('QueryResource', QueryResourceToken),
-    upgradeServiceWithToken('QueryFilterInstanceResource', QueryFilterInstanceResourceToken),
-    upgradeServiceWithToken('$rootScope', $rootScopeToken),
-    upgradeServiceWithToken('I18n', I18nToken),
-    upgradeServiceWithToken('$state', $stateToken),
-    upgradeServiceWithToken('$q', $qToken),
-    upgradeServiceWithToken('$timeout', $timeoutToken),
-    upgradeServiceWithToken('$locale', $localeToken),
-    upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
-    upgradeServiceWithToken('columnsModal', columnsModalToken),
-    upgradeServiceWithToken('FocusHelper', FocusHelperToken),
-    upgradeServiceWithToken('PathHelper', PathHelperToken),
-    upgradeServiceWithToken('halRequest', halRequestToken),
-    upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
-    upgradeServiceWithToken('TimezoneService', TimezoneServiceToken),
-    upgradeServiceWithToken('v3Path', v3PathToken),
-    upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
-    upgradeServiceWithToken('sortingModal', sortingModalToken),
-    upgradeServiceWithToken('groupingModal', groupingModalToken),
-    upgradeServiceWithToken('shareModal', shareModalToken),
-    upgradeServiceWithToken('saveModal', saveModalToken),
-    upgradeServiceWithToken('settingsModal', settingsModalToken),
-    upgradeServiceWithToken('exportModal', exportModalToken),
-    upgradeServiceWithToken('timelinesModal', timelinesModalToken),
-    upgradeService('wpRelations', WorkPackageRelationsService),
+    {
+      provide: HalResourceToken,
+      useFactory: upgradeFactoryHalResource,
+      deps: ['$injector']
+    },
+    {
+      provide: QueryResourceToken,
+      useFactory: upgradeFactoryQueryResource,
+      deps: ['$injector']
+    },
+    {
+      provide: QueryFilterInstanceResourceToken,
+      useFactory: upgradeFactoryQueryFilterInstanceResource,
+      deps: ['$injector']
+    },
+    {
+      provide: $rootScopeToken,
+      useFactory: upgradeFactory$rootScope,
+      deps: ['$injector']
+    },
+    {
+      provide: I18nToken,
+      useFactory: upgradeFactoryI18n,
+      deps: ['$injector']
+    },
+    {
+      provide: $stateToken,
+      useFactory: upgradeFactory$state,
+      deps: ['$injector']
+    },
+    {
+      provide: $qToken,
+      useFactory: upgradeFactory$q,
+      deps: ['$injector']
+    },
+    {
+      provide: $timeoutToken,
+      useFactory: upgradeFactory$timeout,
+      deps: ['$injector']
+    },
+    {
+      provide: $localeToken,
+      useFactory: upgradeFactory$locale,
+      deps: ['$injector']
+    },
+    {
+      provide: NotificationsServiceToken,
+      useFactory: upgradeFactoryNotificationsService,
+      deps: ['$injector']
+    },
+    {
+      provide: columnsModalToken,
+      useFactory: upgradeFactorycolumnsModal,
+      deps: ['$injector']
+    },
+    {
+      provide: FocusHelperToken,
+      useFactory: upgradeFactoryFocusHelper,
+      deps: ['$injector']
+    },
+    {
+      provide: halRequestToken,
+      useFactory: upgradeFactoryhalRequest,
+      deps: ['$injector']
+    },
+    {
+      provide: wpMoreMenuServiceToken,
+      useFactory: upgradeFactorywpMoreMenuService,
+      deps: ['$injector']
+    },
+    {
+      provide: TimezoneServiceToken,
+      useFactory: upgradeFactoryTimezoneService,
+      deps: ['$injector']
+    },
+    {
+      provide: v3PathToken,
+      useFactory: upgradeFactoryv3Path,
+      deps: ['$injector']
+    },
+    {
+      provide: wpDestroyModalToken,
+      useFactory: upgradeFactorywpDestroyModal,
+      deps: ['$injector']
+    },
+    {
+      provide: sortingModalToken,
+      useFactory: upgradeFactorysortingModal,
+      deps: ['$injector']
+    },
+    {
+      provide: groupingModalToken,
+      useFactory: upgradeFactorygroupingModal,
+      deps: ['$injector']
+    },
+    {
+      provide: shareModalToken,
+      useFactory: upgradeFactoryshareModal,
+      deps: ['$injector']
+    },
+    {
+      provide: saveModalToken,
+      useFactory: upgradeFactorysaveModal,
+      deps: ['$injector']
+    },
+    {
+      provide: settingsModalToken,
+      useFactory: upgradeFactorysettingsModal,
+      deps: ['$injector']
+    },
+    {
+      provide: exportModalToken,
+      useFactory: upgradeFactoryexportModal,
+      deps: ['$injector']
+    },
+    {
+      provide: timelinesModalToken,
+      useFactory: upgradeFactorytimelinesModal,
+      deps: ['$injector']
+    },
+    {
+      provide: WorkPackageRelationsService,
+      useFactory: upgradeFactorywpRelations,
+      deps: ['$injector']
+    },
+    {
+      provide: States,
+      useFactory: upgradeFactorystates,
+      deps: ['$injector']
+    },
+    {
+      provide: PaginationService,
+      useFactory: upgradeFactorypaginationService,
+      deps: ['$injector']
+    },
+    {
+      provide: KeepTabService,
+      useFactory: upgradeFactorykeepTab,
+      deps: ['$injector']
+    },
+    {
+      provide: SimpleTemplateRenderer,
+      useFactory: upgradeFactorytemplateRenderer,
+      deps: ['$injector']
+    },
+    {
+      provide: WorkPackageDisplayFieldService,
+      useFactory: upgradeFactorywpDisplayField,
+      deps: ['$injector']
+    },
+    {
+      provide: WorkPackageNotificationService,
+      useFactory: upgradeFactorywpNotificationsService,
+      deps: ['$injector']
+    },
+    {
+      provide: WorkPackagesListChecksumService,
+      useFactory: upgradeFactorywpListChecksumService,
+      deps: ['$injector']
+    },
+    {
+      provide: WorkPackageRelationsHierarchyService,
+      useFactory: upgradeFactorywpRelationsHierarchyService,
+      deps: ['$injector']
+    },
+    {
+      provide: WorkPackageFiltersService,
+      useFactory: upgradeFactorywpFiltersService,
+      deps: ['$injector']
+    },
+    {
+      provide: LoadingIndicatorService,
+      useFactory: upgradeFactoryloadingIndicator,
+      deps: ['$injector']
+    },
+    {
+      provide: ApiWorkPackagesService,
+      useFactory: upgradeFactoryapiWorkPackages,
+      deps: ['$injector']
+    },
+
+    {
+      provide: AuthorisationService,
+      useFactory: upgradeFactoryauthorisationService,
+      deps: ['$injector']
+    },
+    {
+      provide: ConfigurationService,
+      useFactory: upgradeFactoryConfigurationService,
+      deps: ['$injector']
+    },
+    {
+      provide: CurrentProjectService,
+      useFactory: upgradeFactorycurrentProject,
+      deps: ['$injector']
+    },
+    {
+      provide: RootDmService,
+      useFactory: upgradeFactoryRootDm,
+      deps: ['$injector']
+    },
+    {
+      provide: QueryDmService,
+      useFactory: upgradeFactoryQueryDm,
+      deps: ['$injector']
+    },
+    {
+      provide: QueryMenuService,
+      useFactory: upgradeFactoryqueryMenu,
+      deps: ['$injector']
+    },
+    // Split view
+    {
+      provide: FirstRouteService,
+      useFactory: upgradeFactoryfirstRoute,
+      deps: ['$injector']
+    },
+    {
+      provide: PathHelperService,
+      useFactory: upgradeFactoryPathHelper,
+      deps: ['$injector']
+    },
+    // Activity tab
+    {
+      provide: WorkPackagesActivityService,
+      useFactory: upgradeFactorywpActivity,
+      deps: ['$injector']
+    },
+    {
+      provide: HookServiceToken,
+      useFactory: upgradeFactoryHookService,
+      deps: ['$injector']
+    },
+    {
+      provide: UrlParamsHelperToken,
+      useFactory: upgradeFactoryUrlParamsHelper,
+      deps: ['$injector']
+    },
+    // Cache services
     WorkPackageCacheService,
-    WorkPackageEditingService,
     SchemaCacheService,
-    upgradeService('states', States),
-    upgradeService('paginationService', PaginationService),
-    upgradeService('keepTab', KeepTabService),
-    upgradeService('templateRenderer', SimpleTemplateRenderer),
-    upgradeService('wpDisplayField', WorkPackageDisplayFieldService),
-    upgradeService('wpNotificationsService', WorkPackageNotificationService),
-    upgradeService('wpListChecksumService', WorkPackagesListChecksumService),
-    upgradeService('wpRelationsHierarchyService', WorkPackageRelationsHierarchyService),
-    upgradeService('wpFiltersService', WorkPackageFiltersService),
-    upgradeService('loadingIndicator', LoadingIndicatorService),
-    upgradeService('apiWorkPackages', ApiWorkPackagesService),
+    WorkPackageEditingService,
     // Table and query states services
     WorkPackageTableRelationColumnsService,
     WorkPackageTablePaginationService,
@@ -257,21 +511,8 @@ import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedd
     WorkPackageEditFieldService,
     ExpressionService,
     WorkPackageCreateService,
-    upgradeService('authorisationService', AuthorisationService),
-    upgradeService('ConfigurationService', ConfigurationService),
-    upgradeService('currentProject', CurrentProjectService),
-    upgradeService('RootDm', RootDmService),
-    upgradeService('QueryDm', QueryDmService),
-    upgradeService('queryMenu', QueryMenuService),
-    // Split view
-    upgradeService('firstRoute', FirstRouteService),
-    upgradeService('PathHelper', PathHelperService),
-    // Activity tab
-    upgradeService('wpActivity', WorkPackagesActivityService),
     // Context menus
     OPContextMenuService,
-    upgradeServiceWithToken('HookService', HookServiceToken),
-    upgradeServiceWithToken('UrlParamsHelper', UrlParamsHelperToken),
     WorkPackageContextMenuHelperService,
     QueryFormDmService,
     TableState,
@@ -339,6 +580,7 @@ import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedd
     WorkPackageCommentDirectiveUpgraded,
     ActivityEntryDirectiveUpgraded,
     WorkPackageActivityTabComponent,
+    FocusDirectiveUpgraded,
 
     // Relations Tab
     WorkPackageRelationsTabComponent,
@@ -371,6 +613,7 @@ import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedd
     WorkPackageSingleContextMenuDirective,
     WorkPackageQuerySelectableTitleComponent,
     WorkPackageQuerySelectDropdownComponent,
+    OpContextMenuTrigger,
 
     // Inline create
     WorkPackageInlineCreateComponent,
