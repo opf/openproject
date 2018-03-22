@@ -140,7 +140,7 @@ export class WorkPackageResizerController {
 function wpResizer():any {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-resizer/wp-resizer.directive.html',
+    template: `<div class="work-packages--resizer icon-resizer-vertical-lines"></div>`,
     scope: {
       elementClass: '<',
       resizeEvent: '@',

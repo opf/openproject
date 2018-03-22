@@ -33,7 +33,7 @@ function exportModalService(btfModal:any) {
     controller: 'ExportModalController',
     controllerAs: '$ctrl',
     afterFocusOn: '#work-packages-settings-button',
-    templateUrl: '/components/modals/export-modal/export-modal.service.html'
+    template: require('!!html-loader!core-app/templates/components/modals/export-modal.service.html')
   });
 }
 

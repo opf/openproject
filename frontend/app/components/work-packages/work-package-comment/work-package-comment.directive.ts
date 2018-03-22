@@ -152,7 +152,7 @@ function workPackageComment():any {
   return {
     restrict: 'E',
     transclude: true,
-    templateUrl: '/components/work-packages/work-package-comment/work-package-comment.directive.html',
+    template: require('!!html-loader!./work-package-comment.directive.html'),
     scope: {
       workPackage: '='
     },

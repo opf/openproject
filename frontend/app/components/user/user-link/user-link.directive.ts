@@ -38,7 +38,7 @@ interface UserLinkScope {
 function userLink(I18n:op.I18n):any {
   return {
     restrict: 'E',
-    templateUrl: '/components/user/user-link/user-link.directive.html',
+    template: require('!!html-loader!./user-link.directive.html'),
     scope: {
       user: '='
     },

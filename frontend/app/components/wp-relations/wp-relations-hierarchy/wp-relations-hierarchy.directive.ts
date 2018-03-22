@@ -83,7 +83,7 @@ export class WorkPackageRelationsHierarchyController {
 function wpRelationsDirective():any {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.template.html',
+    template: require('!!html-loader!./wp-relations-hierarchy.template.html'),
 
     scope: {
       workPackage: '=',

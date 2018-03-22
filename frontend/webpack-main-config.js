@@ -73,6 +73,9 @@ fs.readdirSync(translations_root).forEach(function (file) {
 var loaders = [
   {
     test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
+    exclude: [
+      path.resolve(__dirname, 'app', 'templates')
+    ],
     include: [
       path.resolve(__dirname, 'app')
     ].concat(_.values(pathConfig.pluginNamesPaths)),
@@ -117,6 +120,51 @@ var loaders = [
     use: ['file-loader']
   },
 ];
+
+for (var k in pathConfig.pluginNamesPaths) {
+  if (pathConfig.pluginNamesPaths.hasOwnProperty(k)) {
+    loaders.push({
+      test: new RegExp('templates\/plugin-' + k.replace(/^openproject\-/, '') + '/.*\.html$'),
+      use: [
+        {
+          loader: 'ngtemplate-loader',
+          options: {
+            module: 'openproject.templates',
+            relativeTo: path.join(pathConfig.pluginNamesPaths[k], 'frontend', 'app')
+          }
+        },
+        {
+          loader: 'html-loader',
+          options: {
+            minimize: false
+          }
+        }
+      ]
+    });
+  }
+}
+-
+  loaders.push({
+    test: /^\.html$/,
+    include: [
+      path.resolve(__dirname, 'app', 'templates')
+    ],
+    use: [
+      {
+        loader: 'ngtemplate-loader',
+        options: {
+          module: 'openproject.templates',
+          relativeTo: path.resolve(__dirname, './app')
+        }
+      },
+      {
+        loader: 'html-loader',
+        options: {
+          minimize: false
+        }
+      }
+    ]
+  });
 
 function getWebpackMainConfig() {
   config = {

@@ -44,7 +44,7 @@ function queryFiltersDirective($timeout:ng.ITimeoutService,
   return {
     restrict: 'E',
     scope: {},
-    templateUrl: '/components/filters/query-filters/query-filters.directive.html',
+    template: require('!!html-loader!core-app/templates/components/query-filters.directive.html'),
 
     link: function (scope:any) {
       scope.I18n = I18n;

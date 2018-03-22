@@ -33,7 +33,7 @@ function shareModalService(btfModal:any) {
     controller: 'ShareModalController',
     controllerAs: '$ctrl',
     afterFocusOn: '#work-packages-settings-button',
-    templateUrl: '/components/modals/share-modal/share-modal.service.html'
+    template: require('!!html-loader!core-app/templates/components/modals/share-modal.service.html')
   });
 }
 

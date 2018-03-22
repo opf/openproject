@@ -38,6 +38,16 @@ module.exports = function() {
       spanClass: '@',
       linkAriaLabel: '@'
     },
-    templateUrl: '/templates/components/accessible_by_keyboard.html'
+    template: `
+      <a data-ng-click='isDisabled || execute({ "$event": $event })'
+         role="link"
+         class='{{ linkClass }}'
+         ng-disabled="isDisabled"
+         title='{{ linkTitle }}'
+         aria-label="{{ linkAriaLabel }}"
+         data-click-on-keypress="[13, 32]"
+         href>
+       <span ng-transclude class='{{ spanClass }}'></span>
+    </a>`
   };
 };

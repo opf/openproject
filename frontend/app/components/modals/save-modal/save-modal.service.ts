@@ -33,7 +33,7 @@ function saveModalService(btfModal:any) {
     controller: 'SaveModalController',
     controllerAs: '$ctrl',
     afterFocusOn: '#work-packages-settings-button',
-    templateUrl: '/components/modals/save-modal/save-modal.service.html'
+    template: require('!!html-loader!core-app/templates/components/modals/save-modal.service.html')
   });
 }
 

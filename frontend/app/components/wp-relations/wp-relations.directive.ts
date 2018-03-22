@@ -145,7 +145,7 @@ export class WorkPackageRelationsController {
 function wpRelationsDirective():any {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-relations/wp-relations.template.html',
+    template: require('!!html-loader!./wp-relations.template.html'),
 
     scope: {
       workPackage: '='

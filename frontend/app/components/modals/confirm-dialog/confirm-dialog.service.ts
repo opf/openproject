@@ -84,7 +84,7 @@ export class ConfirmDialogService {
       closeByEscape: _.defaultTo(options.closeByDocument, true),
       showClose: _.defaultTo(options.closeByDocument, true),
       scope: <IDialogScope> scope,
-      template: '/components/modals/confirm-dialog/confirm-dialog.modal.html',
+      template: require('!!html-loader!core-app/templates/components/modals/confirm-dialog.modal.html'),
       className: 'ngdialog-theme-openproject',
       preCloseCallback: () => {
         if (scope.confirmed) {

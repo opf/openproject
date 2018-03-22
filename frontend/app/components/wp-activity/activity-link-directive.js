@@ -1,7 +1,7 @@
 function activityLink() {
   return {
     restrict: 'E',
-    templateUrl: '/templates/work_packages/activities/_link.html',
+    template: require('!!html-loader!core-app/templates/work_packages/activities/_link.html'),
     scope: {
       workPackage: '=',
       activityNo: '=',

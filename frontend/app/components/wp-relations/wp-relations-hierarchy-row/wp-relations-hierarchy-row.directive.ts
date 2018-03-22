@@ -96,7 +96,7 @@ class WpRelationsHierarchyRowDirectiveController {
 function WpRelationsHierarchyRowDirective():any {
   return {
     restrict:'E',
-    templateUrl:'/components/wp-relations/wp-relations-hierarchy-row/wp-relations-hierarchy-row.template.html',
+    template: require('!!html-loader!./wp-relations-hierarchy-row.template.html'),
     scope:{
       indentBy:'@?',
       workPackage:'=',
