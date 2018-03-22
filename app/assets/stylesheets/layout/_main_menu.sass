@@ -31,12 +31,14 @@ $toggler-width: 40px
 #main-menu
   bottom: auto
   width: $main-menu-width
+  min-width: $main-menu-width
   float: left
   left: 0
   border-right: $main-menu-border-width solid $main-menu-border-color
+  position: relative
 
   // min-height is full height minus header and footer.
-  min-height: calc(100vh - 55px - 55px)
+  min-height: calc(100vh - 55px)
 
   @include varprop(background-color, main-menu-bg-color)
   @include default-transition
@@ -46,8 +48,6 @@ $toggler-width: 40px
     height: calc(100% - 40px)
   %absolute-layout-mode &
     position: relative
-    // In WP list, the footer is just a 5px border:
-    height: calc(100vh - 55px - 5px)
 
     #menu-sidebar
       +allow-vertical-scrolling
@@ -199,6 +199,8 @@ $toggler-width: 40px
     border-color: $main-menu-item-border-color
     height: $main-menu-item-height
     width: calc(#{$main-menu-width} - 1px)
+    position: absolute
+    bottom: 0px
 
     @include varprop(background-color, main-menu-bg-color)
     @include default-transition
@@ -233,6 +235,7 @@ $toggler-width: 40px
 .hidden-navigation
   #main-menu
     width: $main-menu-folded-width
+    min-width: $main-menu-folded-width
     ul
       &.menu_root
         > li

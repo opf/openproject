@@ -111,7 +111,14 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                   class: 'drop-down--help-headline',
                   title: l('top_menu.additional_resources')
     end
-    result << static_link_item(:newsletter, href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=newsletter-help-menu")
+    result << static_link_item(
+      :website,
+      href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=website-help-menu"
+    )
+    result << static_link_item(
+      :newsletter,
+      href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=newsletter-help-menu"
+    )
     result << static_link_item(:blog)
     result << static_link_item(:release_notes)
     result << static_link_item(:report_bug)

@@ -18,6 +18,11 @@
     <%= static_link_to :professional_support %>
   </li>
   <li>
+    <%= link_to(t('label_openproject_website'), "#{OpenProject::Static::Links.links[:website][:href]}/?utm_source=unknown&utm_medium=op-instance&utm_campaign=website-home-screen",
+                { aria: {label: t('label_openproject_website')},
+                  title: t('label_openproject_website')}) %>
+  </li>
+  <li>
     <%= link_to(t('homescreen.links.newsletter'), "#{OpenProject::Static::Links.links[:newsletter][:href]}/?utm_source=unknown&utm_medium=op-instance&utm_campaign=newsletter-home-screen",
           { aria: {label: t('homescreen.links.newsletter')},
             title: t('homescreen.links.newsletter')}) %>

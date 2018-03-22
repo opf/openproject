@@ -48,17 +48,12 @@ body
   width:    100%
   z-index:  20
   overflow: auto
-  padding-bottom: $footer-height
 
   %absolute-layout-mode &
     position: absolute
     top:      55px
     height: calc(100% - 55px)
     overflow: visible
-    padding-bottom: 5px
-    border-bottom-width: 5px
-    border-bottom-style: solid
-    @include varprop(border-bottom-color, footer-bg-color)
 
     #content-wrapper
       &.hidden-navigation

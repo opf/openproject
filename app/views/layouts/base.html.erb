@@ -196,13 +196,6 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= content_for :additional_js_dom_ready %>
     }(jQuery));
     <% end %>
-    <% if (show_decoration) %>
-      <div id="footer">
-        <div class="footer-content">
-          <%= footer_content %>
-        </div>
-      </div>
-    <% end %>
     <%= call_hook :view_layouts_base_body_bottom %>
   </body>
 </html>
