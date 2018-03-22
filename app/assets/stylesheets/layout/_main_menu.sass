@@ -35,7 +35,6 @@ $toggler-width: 40px
   float: left
   left: 0
   border-right: $main-menu-border-width solid $main-menu-border-color
-  position: relative
 
   // min-height is full height minus header and footer.
   min-height: calc(100vh - 55px)
@@ -44,9 +43,10 @@ $toggler-width: 40px
   @include default-transition
 
   #menu-sidebar
-    // 40px is the height of the toggler
-    height: calc(100% - 40px)
+    height: 100%
+    
   %absolute-layout-mode &
+
     position: relative
 
     #menu-sidebar
@@ -194,32 +194,34 @@ $toggler-width: 40px
     float: left
 
   #toggle-project-menu
-    border-width: $main-menu-item-border-width 0 $main-menu-item-border-width $main-menu-item-border-width
-    border-style: solid
-    border-color: $main-menu-item-border-color
-    height: $main-menu-item-height
-    width: calc(#{$main-menu-width} - 1px)
-    position: absolute
-    bottom: 0px
+    border: none
+    background: none
+    height: 100vh
+    width: 30px
+    position: fixed
+    top: 0px
+    left: calc(#{$main-menu-width} - 1px)
+    z-index: 1
+    vertical-align: middle
 
-    @include varprop(background-color, main-menu-bg-color)
     @include default-transition
     &:hover
-      @include varprop(background, main-menu-bg-hover-background)
+      border-left-width: 1px
+      border-left-style: solid
+      @include varprop(border-left-color, primary-color)
     &.show
-      width: calc(#{$main-menu-folded-width} - 1px)
+      left: calc(#{$main-menu-folded-width} - 1px)
       a.navigation-toggler
-        height: 100%
-        padding: 0 10px 0 0
         i:before
-          @include icon-mixin-double-arrow-right
+          @include icon-mixin-arrow-right2
     a.navigation-toggler
       @include default-transition
-      position: relative
-      height: $main-menu-item-height
+      position: absolute
+      top: 0
+      height: 40px
       text-align: right
-      padding: 0 6px 0 0
-
+      padding: 50vh 6px 50vh 0
+      color: $gray-dark
       // Center toggle icon vertically. The element is higher than it looks like.
       line-height: 38px
       font-size: 11px
