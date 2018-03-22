@@ -28,16 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::TypeFilter <
+class Queries::WorkPackages::Filter::ParentFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
+
   def allowed_values
-    @allowed_values ||= begin
-      types.map { |s| [s.name, s.id.to_s] }
-    end
+    raise NotImplementedError, 'There would be too many candidates'
   end
 
-  def available?
-    types.exists?
+  def value_objects
+    raise NotImplementedError, 'There would be too many candidates'
+  end
+
+  def allowed_objects
+    raise NotImplementedError, 'There would be too many candidates'
   end
 
   def type
@@ -49,22 +52,40 @@ class Queries::WorkPackages::Filter::TypeFilter <
   end
 
   def self.key
-    :type_id
+    :parent
   end
 
   def ar_object_filter?
     true
   end
 
-  def value_objects
-    value_ints = values.map(&:to_i)
+  def includes
+    :parent_relation
+  end
 
-    types.select { |t| value_ints.include?(t.id) }
+  def where
+    operator_strategy.sql_for_field(values,
+                                    Relation.table_name,
+                                    'from_id')
+  end
+
+  def allowed_values_subset
+    scope.where(id: values).pluck(:id).map(&:to_s)
   end
 
   private
 
-  def types
-    project.nil? ? ::Type.order('position') : project.rolled_up_types
+  def scope
+    if context.project
+      WorkPackage
+        .visible
+        .for_projects(context.project.self_and_descendants)
+    else
+      WorkPackage.visible
+    end
+  end
+
+  def type_strategy
+    @type_strategy ||= Queries::Filters::Strategies::HugeList.new(self)
   end
 end
