@@ -34,6 +34,7 @@ import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.servi
 import {WorkPackageTablePagination} from '../wp-table-pagination';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {PaginationObject} from 'core-components/api/api-v3/hal-resource-dms/query-dm.service';
 
 interface PaginationUpdateObject {
   page?:number;
@@ -50,6 +51,13 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
 
   public get state() {
     return this.tableState.pagination;
+  }
+
+  public get paginationObject():PaginationObject {
+    return {
+      pageSize: this.current.perPage,
+      offset: this.current.page
+    };
   }
 
   public valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {

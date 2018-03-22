@@ -19,6 +19,9 @@ import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp
 import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 import {opUiComponentsModule} from 'core-app/angular-modules';
 import {downgradeComponent} from '@angular/upgrade/static';
+import {withLatestFrom} from 'rxjs/operators';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
 
 @Component({
   selector: 'wp-embedded-table',
@@ -48,26 +51,42 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
 
   constructor(readonly QueryDm:QueryDmService,
               readonly tableState:TableState,
+              readonly wpTablePagination:WorkPackageTablePaginationService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly currentProject:CurrentProjectService) {
 
   }
 
   ngOnInit():void {
-    this.loadQuery().then((query:QueryResourceInterface) => {
+    // Load initial query
+    this.loadQuery()
+      .then((query:QueryResourceInterface) => this.initializeStates(query, query.results));
 
-      this.tableState.ready.doAndTransition('Query loaded', () => {
-        this.wpStatesInitialization.initializeFromQuery(query, query.results);
-        this.wpStatesInitialization.updateTableState(query, query.results);
-
-        return this.tableState.tableRendering.onQueryUpdated.valuesPromise()
-          .then(() => this.tableInformationLoaded = true);
+    // Reload results on changes to pagination
+    this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
+      'Query loaded').values$().pipe(
+      untilComponentDestroyed(this),
+      withLatestFrom(this.tableState.query.values$())
+    ).subscribe(([pagination, query]) => {
+      this.QueryDm.loadResults(query, this.wpTablePagination.paginationObject)
+        .then((results) => this.initializeStates(query, results));
       });
-    });
   }
 
   ngOnDestroy():void {
   }
+
+  private initializeStates(query:QueryResource, results:WorkPackageCollectionResource) {
+    this.tableState.ready.doAndTransition('Query loaded', () => {
+      this.wpStatesInitialization.clearStates();
+      this.wpStatesInitialization.initializeFromQuery(query, results);
+      this.wpStatesInitialization.updateTableState(query, results);
+
+      return this.tableState.tableRendering.onQueryUpdated.valuesPromise()
+        .then(() => this.tableInformationLoaded = true);
+    });
+  }
+
 
   private loadQuery():Promise<QueryResourceInterface> {
     return this.QueryDm.find(

@@ -99,7 +99,8 @@ export class WorkPackagesListService {
    * Reloads the current query and set the pagination to the first page.
    */
   public reloadQuery(query:QueryResource):ng.IPromise<QueryResource> {
-    let pagination = this.getPaginationInfo();
+    let pagination = this.wpTablePagination.paginationObject;
+
     pagination.offset = 1;
 
     let wpListPromise = this.QueryDm.reload(query, pagination);
@@ -130,7 +131,7 @@ export class WorkPackagesListService {
    * pagination options.
    */
   public reloadCurrentResultsList():ng.IPromise<WorkPackageCollectionResource> {
-    let pagination = this.getPaginationInfo();
+    let pagination = this.wpTablePagination.paginationObject;
     let query = this.currentQuery;
 
     return this.loadResultsList(query, pagination);
@@ -140,7 +141,7 @@ export class WorkPackagesListService {
    * Reload the first page of work packages for the current query
    */
   public loadCurrentResultsListFirstPage():ng.IPromise<WorkPackageCollectionResource> {
-    let pagination = this.getPaginationInfo();
+    let pagination = this.wpTablePagination.paginationObject;
     pagination.offset = 1;
     let query = this.currentQuery;
 
@@ -252,15 +253,6 @@ export class WorkPackagesListService {
     });
 
     return promise;
-  }
-
-  private getPaginationInfo() {
-    let pagination = this.wpTablePagination.current;
-
-    return {
-      pageSize: pagination.perPage,
-      offset: pagination.page
-    };
   }
 
   private conditionallyLoadForm(promise:ng.IPromise<QueryResource>):ng.IPromise<QueryResource> {

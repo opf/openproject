@@ -52,6 +52,7 @@ export class WorkPackageStatesInitializationService {
     this.clearStates();
 
     // Update the (global) wp query states
+    this.states.query.resource.putValue(query);
     this.initializeFromQuery(query, results);
 
     // Update the (local) table states
@@ -116,7 +117,7 @@ export class WorkPackageStatesInitializationService {
   }
 
   public initializeFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
-    this.states.query.resource.putValue(query);
+    this.tableState.query.putValue(query);
 
     this.wpTableSum.initialize(query);
     this.wpTableColumns.initialize(query, results);
@@ -128,7 +129,7 @@ export class WorkPackageStatesInitializationService {
     this.authorisationService.initModelAuth('query', query.$links);
   }
 
-  private clearStates() {
+  public clearStates() {
     const reason = 'Clearing states before re-initialization.';
 
     // Clear immediate input states
