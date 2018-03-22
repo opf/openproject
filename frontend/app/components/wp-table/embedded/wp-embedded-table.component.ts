@@ -42,7 +42,8 @@ import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-reso
   ]
 })
 export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
-  @Input('queryId') public queryId:string;
+  @Input('queryId') public queryId?:string;
+  @Input('queryProps') public queryProps:any = {};
   @Input() public configuration:boolean;
 
   private query:QueryResourceInterface;
@@ -90,7 +91,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
 
   private loadQuery():Promise<QueryResourceInterface> {
     return this.QueryDm.find(
-      {},
+      this.queryProps,
       this.queryId,
       this.projectIdentifier || undefined
     );

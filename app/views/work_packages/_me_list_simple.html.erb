@@ -27,22 +27,14 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% responsible_count = WorkPackage.visible.with_status_open.where(responsible_id: User.current.id).count %>
+<%
+  query_properties = {
+      'columns[]': %w(id project type subject),
+      filters:
+          JSON.dump([{ user_filter => { operator: '=', values: ['me'] } }, { status: { operator: 'o', values: []}}]).to_s
+  }
+%>
 
-<% if defined? block_name %>
-  <%= content_for "#{block_name}-remove-block" %>
-<% end %>
-
-<h3 class="widget-box--header">
-  <%= op_icon('icon-context icon-assigned-to-me') %>
-  <span class="widget-box--header-title"><%=l(:label_responsible_for_work_packages)%> (<%= responsible_count %>)</span>
-</h3>
-
-<%= render partial: 'work_packages/me_list_simple',
-           locals: { user_filter: :responsible } %>
-
-<% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom,
-                            work_packages_responsible_for_path({format: 'atom', key: User.current.rss_key}),
-                            {title: l(:label_responsible_for_work_packages)}) %>
-<% end %>
+<wp-embedded-table [query-props]="<%= query_properties.to_json %>"
+                   [configuration]="{ splitViewEnabled: false, columnMenuEnabled: false, contextMenuEnabled: false }">
+</wp-embedded-table>
