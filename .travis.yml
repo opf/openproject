@@ -52,32 +52,12 @@ env:
     - GECKODRIVER_VERSION="0.19.1"
 
   matrix:
-    - "TEST_SUITE=npm"
-
-
-    - "TEST_SUITE=spec_legacy       DB=mysql     GROUP_SIZE=1 GROUP=1"
-    - "TEST_SUITE=spec_legacy       DB=postgres  GROUP_SIZE=1 GROUP=1"
-
-    - "TEST_SUITE=cucumber       DB=mysql     GROUP_SIZE=1 GROUP=1"
-    - "TEST_SUITE=cucumber       DB=postgres  GROUP_SIZE=1 GROUP=1"
-
-    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=1"
-    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=1"
-    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=2"
-    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=2"
-    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=3"
-    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=3"
-    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=4"
-    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=4"
-
-    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=1"
-    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=1"
-    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=2"
-    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=2"
-    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=3"
-    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=3"
-    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=4"
-    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=4"
+    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=1 BOGUS=1"
+    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=1 BOGUS=2"
+    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=1 BOGUS=3"
+    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=1 BOGUS=4"
+    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=1 BOGUS=5"
+    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=1 BOGUS=6"
 
 
 before_install:
