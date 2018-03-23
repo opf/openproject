@@ -35,8 +35,8 @@ fr:
     label_one_time_password: 'Mot de passe unique'
     label_2fa_enabled: 'Authentification à deux facteurs est active'
     label_2fa_disabled: 'Authentification à deux facteurs non active'
-    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
-    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_otp_delivery_message_sms: "Votre mot de passe à usage unique pour %{app_title} est %{token}"
+    text_otp_delivery_message_voice: "Votre mot de passe à usage unique pour %{app_title} est: %{pause} %{token}. %{pause} Je répète: %{pause} %{token}"
     text_enter_2fa: 'Veuillez entrer le mot de passe unique de votre appareil.'
     text_2fa_enabled: 'Lors de chaque connexion, vous sera demandé d’entrer un jeton OTP sur appareil 2FA défaut.'
     text_2fa_disabled: 'Pour activer l’authentification à deux facteurs, utilisez le bouton ci-dessus pour inscrire un nouvel appareil 2FA. Si vous avez déjà un dispositif, vous devez faire une valeur par défaut.'
