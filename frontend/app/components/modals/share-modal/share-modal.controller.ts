@@ -29,7 +29,7 @@
 import {wpControllersModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 
 export class ShareModalController {
   public query:QueryResource;

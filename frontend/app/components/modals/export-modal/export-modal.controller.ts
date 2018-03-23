@@ -27,19 +27,19 @@
 //++
 
 import {wpControllersModule} from '../../../angular-modules';
-import {WorkPackageCollectionResource} from '../../api/api-v3/hal-resources/wp-collection-resource.service';
-import {HalLink} from '../../api/api-v3/hal-link/hal-link.service';
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
+import {HalLink} from 'core-app/modules/hal/hal-link/hal-link';
 
 interface ExportLink extends HalLink {
   identifier:string;
 }
 
 class ExportModalController {
-  public name: string;
-  public closeMe: Function;
-  public exportOptions: any;
+  public name:string;
+  public closeMe:Function;
+  public exportOptions:any;
 
   constructor(exportModal:any,
               private UrlParamsHelper:any,
@@ -71,9 +71,11 @@ class ExportModalController {
   private addColumnsToHref(href:string) {
     let columns = this.wpTableColumns.getColumns();
 
-    let columnIds = columns.map(function(column) { return column.id; });
+    let columnIds = columns.map(function (column) {
+      return column.id;
+    });
 
-    return href + "&" + this.UrlParamsHelper.buildQueryString({'columns[]': columnIds});
+    return href + "&" + this.UrlParamsHelper.buildQueryString({ 'columns[]': columnIds });
   }
 }
 

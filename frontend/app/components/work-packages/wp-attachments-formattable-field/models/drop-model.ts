@@ -1,5 +1,5 @@
 import IAugmentedJQuery = angular.IAugmentedJQuery;
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 export class DropModel {
   public files:File[];
@@ -16,7 +16,7 @@ export class DropModel {
 
   constructor(protected $location:ng.ILocationService,
               protected dataTransfer:any,
-              protected workPackage:WorkPackageResourceInterface) {
+              protected workPackage:WorkPackageResource) {
     this.files = <File[]>dataTransfer.files;
     this.filesCount = this.files.length;
     this.isUpload = this._isUpload(dataTransfer);

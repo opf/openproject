@@ -29,7 +29,7 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageWatchersTabComponent} from './watchers-tab.component';
-import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 
 @Component({
   template: require('!!raw-loader!./wp-watcher-entry.html'),

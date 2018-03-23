@@ -28,7 +28,7 @@
 
 
 import {filtersModule} from '../../../angular-modules';
-import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 
 export class DatesValueController {
   public filter:QueryFilterInstanceResource;

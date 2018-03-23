@@ -30,19 +30,19 @@ import {StateService} from '@uirouter/core';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {Directive, ElementRef, Inject, Input} from "@angular/core";
 import {$stateToken} from "core-app/angular4-transition-utils";
-import {CollectionResource} from "core-components/api/api-v3/hal-resources/collection-resource.service";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
-import {WorkPackageResourceInterface} from "core-components/api/api-v3/hal-resources/work-package-resource.service";
-import {HalResource} from "core-components/api/api-v3/hal-resources/hal-resource.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 
 @Directive({
   selector: '[wpStatusDropdown]'
 })
 export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
-  @Input('wpStatusDropdown-workPackage') public workPackage:WorkPackageResourceInterface;
+  @Input('wpStatusDropdown-workPackage') public workPackage:WorkPackageResource;
 
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,

@@ -1,24 +1,21 @@
 import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {
-  RelationResource,
-  RelationResourceInterface
-} from '../../api/api-v3/hal-resources/relation-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {keyCodes} from 'core-components/common/keyCodes.enum';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 
 class WpRelationRowDirectiveController {
-  public workPackage:WorkPackageResourceInterface;
-  public relatedWorkPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
+  public relatedWorkPackage:WorkPackageResource;
   public relationType:string;
   public groupByWorkPackageType:boolean;
   public showRelationInfo:boolean = false;
   public showEditForm:boolean = false;
   public availableRelationTypes:{ name:string }[];
-  public selectedRelationType:RelationResourceInterface;
+  public selectedRelationType:RelationResource;
 
   public userInputs = {
     newRelationText: '',
@@ -35,7 +32,7 @@ class WpRelationRowDirectiveController {
     }
   };
 
-  public relation:RelationResourceInterface;
+  public relation:RelationResource;
   public text:Object;
 
   constructor(protected $scope:ng.IScope,
@@ -48,7 +45,7 @@ class WpRelationRowDirectiveController {
               protected I18n:op.I18n,
               protected PathHelper:PathHelperService) {
 
-    this.relation = this.relatedWorkPackage.relatedBy as RelationResourceInterface;
+    this.relation = this.relatedWorkPackage.relatedBy as RelationResource;
     this.text = {
       cancel: I18n.t('js.button_cancel'),
       save: I18n.t('js.button_save'),
@@ -64,7 +61,7 @@ class WpRelationRowDirectiveController {
     this.userInputs.newRelationText = this.relation.description || '';
     this.availableRelationTypes = RelationResource.LOCALIZED_RELATION_TYPES(false);
     this.selectedRelationType = _.find(this.availableRelationTypes,
-      {'name': this.relation.normalizedType(this.workPackage)}) as RelationResourceInterface;
+      {'name': this.relation.normalizedType(this.workPackage)}) as RelationResource;
   };
 
   /**
@@ -108,7 +105,7 @@ class WpRelationRowDirectiveController {
     this.wpRelations.updateRelation(
       this.relation,
       {description: this.userInputs.newRelationText})
-      .then((savedRelation:RelationResourceInterface) => {
+      .then((savedRelation:RelationResource) => {
         this.relation = savedRelation;
         this.relatedWorkPackage.relatedBy = savedRelation;
         this.userInputs.showDescriptionEditForm = false;
@@ -138,14 +135,14 @@ class WpRelationRowDirectiveController {
       this.relatedWorkPackage,
       this.relation,
       this.selectedRelationType.name)
-      .then((savedRelation:RelationResourceInterface) => {
+      .then((savedRelation:RelationResource) => {
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
         this.relatedWorkPackage.relatedBy = savedRelation;
         this.relation = savedRelation;
 
         this.userInputs.showRelationTypesForm = false;
       })
-      .catch((error) => this.wpNotificationsService.handleErrorResponse(error, this.workPackage));
+      .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error, this.workPackage));
   }
 
   public toggleUserDescriptionForm() {

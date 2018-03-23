@@ -38,8 +38,6 @@ import {
   sortingModalToken,
   timelinesModalToken
 } from 'core-app/angular4-transition-utils';
-import {QueryFormResource} from 'core-components/api/api-v3/hal-resources/query-form-resource.service';
-import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
@@ -53,6 +51,8 @@ import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/sta
 import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
+import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 
 @Directive({
   selector: '[opSettingsContextMenu]'

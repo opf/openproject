@@ -28,7 +28,7 @@
 
 import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {States} from '../../states.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
@@ -46,7 +46,7 @@ export class WorkPackageRelationsHierarchyService {
 
   }
 
-  public changeParent(workPackage:WorkPackageResourceInterface, parentId:string | null) {
+  public changeParent(workPackage:WorkPackageResource, parentId:string | null) {
     let payload:any = {
       lockVersion: workPackage.lockVersion
     };
@@ -67,7 +67,7 @@ export class WorkPackageRelationsHierarchyService {
 
     return workPackage
       .changeParent(payload)
-      .then((wp:WorkPackageResourceInterface) => {
+      .then((wp:WorkPackageResource) => {
         this.wpCacheService.updateWorkPackage(wp);
         this.wpNotificationsService.showSave(wp);
         this.wpTableRefresh.request(`Changed parent of ${workPackage.id} to ${parentId}`, true);
@@ -79,15 +79,15 @@ export class WorkPackageRelationsHierarchyService {
       });
   }
 
-  public removeParent(workPackage:WorkPackageResourceInterface) {
+  public removeParent(workPackage:WorkPackageResource) {
     return this.changeParent(workPackage, null);
   }
 
-  public addExistingChildWp(workPackage:WorkPackageResourceInterface, childWpId:string):ng.IPromise<WorkPackageResourceInterface> {
-    const deferred = this.$q.defer<WorkPackageResourceInterface>();
+  public addExistingChildWp(workPackage:WorkPackageResource, childWpId:string):Promise<WorkPackageResource> {
+    const deferred = this.$q.defer<WorkPackageResource>();
     const state = this.wpCacheService.loadWorkPackage(childWpId);
 
-    state.valuesPromise().then((wpToBecomeChild:WorkPackageResourceInterface|undefined) => {
+    state.valuesPromise().then((wpToBecomeChild:WorkPackageResource|undefined) => {
       this.wpTableRefresh.request(`Added new child to ${workPackage.id}`, true);
       this.changeParent(wpToBecomeChild!, workPackage.id).then(wp => deferred.resolve(wp));
     });
@@ -95,7 +95,7 @@ export class WorkPackageRelationsHierarchyService {
     return deferred.promise;
   }
 
-  public addNewChildWp(workPackage:WorkPackageResourceInterface) {
+  public addNewChildWp(workPackage:WorkPackageResource) {
     workPackage.project.$load()
       .then(() => {
         const args = [
@@ -113,7 +113,7 @@ export class WorkPackageRelationsHierarchyService {
       });
   }
 
-  public removeChild(childWorkPackage:WorkPackageResourceInterface) {
+  public removeChild(childWorkPackage:WorkPackageResource) {
     return childWorkPackage.$load().then(() => {
       return childWorkPackage.changeParent({
         _links: {

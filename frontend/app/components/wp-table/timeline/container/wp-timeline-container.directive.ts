@@ -33,8 +33,8 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {filter, map, take, takeUntil, withLatestFrom} from 'rxjs/operators';
 import {I18nToken, NotificationsServiceToken} from '../../../../angular4-transition-utils';
 import {debugLog, timeOutput} from '../../../../helpers/debug_output';
-import {TypeResource} from '../../../api/api-v3/hal-resources/type-resource.service';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../../../states.service';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
 import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
@@ -57,6 +57,7 @@ import {
   zoomLevelOrder
 } from '../wp-timeline';
 import moment = require('moment');
+import {TypeDmService} from 'core-app/modules/dm-services/type-dm.service';
 
 @Component({
   selector: 'wp-timeline-container',
@@ -96,6 +97,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private elementRef:ElementRef,
               private states:States,
               public wpTableDirective:WorkPackagesTableController,
+              public typeDmService:TypeDmService,
               @Inject(NotificationsServiceToken) private NotificationsService:any,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
@@ -176,9 +178,9 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         take(1)
       )
       .subscribe(() => {
-        TypeResource.loadAll().then(() => {
-          this.debouncedRefresh();
-        });
+        this.typeDmService
+          .loadAll()
+          .then(() => this.debouncedRefresh());
       });
   }
 
@@ -276,7 +278,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       });
   }
 
-  startAddRelationPredecessor(start:WorkPackageResourceInterface) {
+  startAddRelationPredecessor(start:WorkPackageResource) {
     this.activateSelectionMode(start.id, end => {
       this.wpRelations
         .addCommonRelation(start as any, 'follows', end.id)
@@ -284,7 +286,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     });
   }
 
-  startAddRelationFollower(start:WorkPackageResourceInterface) {
+  startAddRelationFollower(start:WorkPackageResource) {
     this.activateSelectionMode(start.id, end => {
       this.wpRelations
         .addCommonRelation(start as any, 'precedes', end.id)
@@ -337,10 +339,10 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.refreshView();
   }
 
-  private activateSelectionMode(start:string, callback:(wp:WorkPackageResourceInterface) => any) {
+  private activateSelectionMode(start:string, callback:(wp:WorkPackageResource) => any) {
     start = start.toString(); // old system bug: ID can be a 'number'
 
-    this._viewParameters.activeSelectionMode = (wp:WorkPackageResourceInterface) => {
+    this._viewParameters.activeSelectionMode = (wp:WorkPackageResource) => {
       callback(wp);
       this.resetSelectionMode();
     };

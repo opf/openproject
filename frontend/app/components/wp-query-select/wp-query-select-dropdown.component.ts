@@ -26,8 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryDmService} from '../api/api-v3/hal-resource-dms/query-dm.service';
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {States} from '../states.service';
 import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {LoadingIndicatorService} from '../common/loading-indicator/loading-indicator.service';
@@ -39,6 +38,7 @@ import {
   OpContextMenuLocalsToken
 } from "core-app/angular4-transition-utils";
 import {OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";
+import {QueryDmService} from 'core-app/modules/dm-services/query-dm.service';
 
 interface IAutocompleteItem {
   label:string;

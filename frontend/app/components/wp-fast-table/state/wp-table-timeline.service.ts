@@ -26,20 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opServicesModule} from '../../../angular-modules';
-import {
-  QueryResource,
-  TimelineLabels,
-  TimelineZoomLevel
-} from '../../api/api-v3/hal-resources/query-resource.service';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {zoomLevelOrder} from '../../wp-table/timeline/wp-timeline';
 import {WorkPackageTableTimelineState} from './../wp-table-timeline';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
-import {States} from 'core-components/states.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {Injectable} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {
+  QueryResource, TimelineLabels,
+  TimelineZoomLevel
+} from 'core-app/modules/hal/resources/query-resource';
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class WorkPackageTableTimelineService extends WorkPackageTableBaseService<WorkPackageTableTimelineState> implements WorkPackageQueryStateService {
@@ -102,7 +99,7 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
     this.state.putValue(currentState);
   }
 
-  public getNormalizedLabels(workPackage:WorkPackageResourceInterface) {
+  public getNormalizedLabels(workPackage:WorkPackageResource) {
     let labels:TimelineLabels = _.clone(this.current.defaultLabels);
 
     _.each(this.current.labels, (attribute:string | null, positionAsString:string) => {
@@ -152,5 +149,3 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
     return this.state.value as WorkPackageTableTimelineState;
   }
 }
-
-opServicesModule.service('wpTableTimeline', downgradeInjectable(WorkPackageTableTimelineService));

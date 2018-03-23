@@ -27,7 +27,7 @@ import {$injectFields} from '../../../angular/angular-injector-bridge.functions'
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
 import {States} from '../../../states.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
@@ -171,7 +171,7 @@ export class WorkPackageTimelineCell {
     return cell;
   }
 
-  private cellRenderer(workPackage:WorkPackageResourceInterface):TimelineCellRenderer {
+  private cellRenderer(workPackage:WorkPackageResource):TimelineCellRenderer {
     if (workPackage.isMilestone) {
       return this.renderers.milestone;
     }

@@ -28,9 +28,9 @@
 
 
 import {filtersModule} from '../../../angular-modules';
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
-import {QueryFilterResource} from '../../api/api-v3/hal-resources/query-filter-resource.service';
-import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 
 export class IntegerValueController {
   public filter:QueryFilterInstanceResource;

@@ -1,11 +1,8 @@
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {WorkPackageTableHierarchies} from '../wp-table-hierarchies';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
-import {opServicesModule} from 'core-app/angular-modules';
-import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
-import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
 export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseService<WorkPackageTableHierarchies> implements WorkPackageQueryStateService {
@@ -116,5 +113,3 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
     return new WorkPackageTableHierarchies(false);
   }
 }
-
-opServicesModule.service('wpTableHierarchies', downgradeInjectable(WorkPackageTableHierarchiesService));

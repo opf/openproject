@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {opWorkPackagesModule} from '../../../angular-modules';
@@ -59,7 +59,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
   @Input('wrapperClasses') public wrapperClasses?:string;
   @Input('displayPlaceholder') public displayPlaceholder?:string;
 
-  public workPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
   public fieldRenderer = new DisplayFieldRenderer('single-view');
   public editFieldContainerClass = editFieldContainerClass;
   private active = false;
@@ -175,7 +175,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
     return this.$element.find('.__d_edit_container');
   }
 
-  public reset(workPackage:WorkPackageResourceInterface) {
+  public reset(workPackage:WorkPackageResource) {
     this.workPackage = workPackage;
     this.render();
 

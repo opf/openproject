@@ -29,14 +29,14 @@
 
 import {UpgradeComponent} from '@angular/upgrade/static';
 import {Directive, ElementRef, Injector, Input} from '@angular/core';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
-import {CollectionResource} from 'core-components/api/api-v3/hal-resources/collection-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 
 @Directive({
   selector: 'work-package-comment-upgraded'
 })
 export class WorkPackageCommentDirectiveUpgraded extends UpgradeComponent {
-  @Input('workPackage') public workPackage:WorkPackageResourceInterface;
+  @Input('workPackage') public workPackage:WorkPackageResource;
   @Input('activities') public activities:CollectionResource;
 
   constructor(elementRef:ElementRef, injector:Injector) {

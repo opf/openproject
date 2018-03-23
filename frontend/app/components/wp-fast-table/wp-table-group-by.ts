@@ -26,9 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryGroupByResource} from '../api/api-v3/hal-resources/query-group-by-resource.service';
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
-import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
+import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {WorkPackageTableBaseState} from './wp-table-base';
 import {QueryColumn} from '../wp-query/query-column';
 

@@ -27,7 +27,7 @@
 //++
 
 import {openprojectModule} from '../../../angular-modules';
-import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 
 interface UserLinkScope {
   user:UserResource;

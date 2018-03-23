@@ -32,7 +32,7 @@ import {
   QUERY_SORT_BY_ASC,
   QUERY_SORT_BY_DESC,
   QuerySortByResource
-} from '../../api/api-v3/hal-resources/query-sort-by-resource.service';
+} from 'core-app/modules/hal/resources/query-sort-by-resource';
 import {QueryColumn} from '../../wp-query/query-column';
 
 class SortModalObject {

@@ -26,19 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+require('core-app/angular4-test-setup');
+
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-
-require('../../../angular4-test-setup');
-
+import {ConfigurationDmService} from 'core-app/modules/dm-services/configuration-dm.service';
 import {async, inject, TestBed} from '@angular/core/testing';
 import {$httpToken, $qToken, halResourceFactoryToken, I18nToken, v3PathToken} from 'core-app/angular4-transition-utils';
-import {HalRequestService} from 'core-components/api/api-v3/hal-request/hal-request.service';
-import {ConfigurationDmService} from 'core-components/api/api-v3/hal-resource-dms/configuration-dm.service';
 import {States} from 'core-components/states.service';
 import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
 import {IPaginationOptions, PaginationService} from 'core-components/table-pagination/pagination-service';
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
+import {HalRequestService} from 'core-app/modules/hal/services/hal-request.service';
 
 async function setupMocks(paginationService:PaginationService) {
   sinon.stub(paginationService, 'loadPaginationOptions', async () => {

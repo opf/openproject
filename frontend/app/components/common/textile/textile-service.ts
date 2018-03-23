@@ -27,16 +27,16 @@
 //++
 
 import {PathHelperService} from './../path-helper/path-helper.service';
-import {HalLink} from './../../api/api-v3/hal-link/hal-link.service';
-import {WorkPackageResourceInterface} from 'app/components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageNotificationService} from './../../wp-edit/wp-notification.service';
+import {HalLink} from 'core-app/modules/hal/hal-link/hal-link';
 
 export class TextileService {
   constructor(public $http:ng.IHttpService,
               public wpNotificationsService:WorkPackageNotificationService,
               public PathHelper:PathHelperService) {}
 
-  public renderWithWorkPackageContext(workPackage:WorkPackageResourceInterface, text:string) {
+  public renderWithWorkPackageContext(workPackage:WorkPackageResource, text:string) {
     return this.render(workPackage.previewMarkup, text);
   }
 

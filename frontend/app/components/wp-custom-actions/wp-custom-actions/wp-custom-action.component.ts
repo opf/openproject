@@ -29,13 +29,13 @@
 import {opUiComponentsModule} from '../../../angular-modules';
 
 import {Component, HostListener, Inject, Input} from '@angular/core';
-import {CustomActionResourceInterface} from 'core-components/api/api-v3/hal-resources/custom-action-resource.service';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
-import {HalRequestService} from 'core-components/api/api-v3/hal-request/hal-request.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {halRequestToken} from 'core-app/angular4-transition-utils';
+import {HalRequestService} from 'core-app/modules/hal/services/hal-request.service';
+import {CustomActionResource} from 'core-app/modules/hal/resources/custom-action-resource';
 
 @Component({
   selector: 'wp-custom-action',
@@ -43,17 +43,18 @@ import {halRequestToken} from 'core-app/angular4-transition-utils';
 })
 export class WpCustomActionComponent {
 
-  @Input() workPackage:WorkPackageResourceInterface;
-  @Input() action:CustomActionResourceInterface;
+  @Input() workPackage:WorkPackageResource;
+  @Input() action:CustomActionResource;
 
   constructor(@Inject(halRequestToken) private halRequest:HalRequestService,
               private wpCacheService:WorkPackageCacheService,
               private wpNotificationsService:WorkPackageNotificationService) { }
 
   private fetchAction() {
-    this.halRequest.get(this.action.href!)
+    this.halRequest.get<CustomActionResource>(this.action.href!)
+      .toPromise()
       .then((action) => {
-        this.action = <CustomActionResourceInterface>action;
+        this.action = <CustomActionResource>action;
       });
   }
 
@@ -67,8 +68,9 @@ export class WpCustomActionComponent {
       }
     };
 
-    this.halRequest.post<WorkPackageResourceInterface>(this.action.href + '/execute', payload)
-      .then((savedWp:WorkPackageResourceInterface) => {
+    this.halRequest.post<WorkPackageResource>(this.action.href + '/execute', payload)
+      .toPromise()
+      .then((savedWp:WorkPackageResource) => {
         this.wpNotificationsService.showSave(savedWp, false);
         this.workPackage = savedWp;
         this.wpCacheService.updateWorkPackage(savedWp);

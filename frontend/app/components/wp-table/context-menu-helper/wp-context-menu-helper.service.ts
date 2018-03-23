@@ -25,7 +25,7 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
 import {Inject, Injectable} from "@angular/core";
 import {PathHelperService} from "core-components/common/path-helper/path-helper.service";
@@ -74,7 +74,7 @@ export class WorkPackageContextMenuHelperService {
               private PathHelper:PathHelperService) {
   }
 
-  public getPermittedActionLinks(workPackage:WorkPackageResourceInterface, permittedActionConstants:any):WorkPackageAction[] {
+  public getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:any):WorkPackageAction[] {
     var singularPermittedActions:any[] = [];
 
     var allowedActions = this.getAllowedActions(workPackage, permittedActionConstants);
@@ -94,7 +94,7 @@ export class WorkPackageContextMenuHelperService {
     var bulkPermittedActions:any = [];
 
     var permittedActions = _.filter(this.BULK_ACTIONS, (action:any) => {
-      return _.every(workPackages, (workPackage:WorkPackageResourceInterface) => {
+      return _.every(workPackages, (workPackage:WorkPackageResource) => {
         return this.getAllowedActions(workPackage, [action]).length >= 1;
       });
     });
@@ -125,7 +125,7 @@ export class WorkPackageContextMenuHelperService {
     return link + '?' + queryParts.join('&');
   }
 
-  public getAllowedActions(workPackage:WorkPackageResourceInterface, actions:any):WorkPackageAction[] {
+  public getAllowedActions(workPackage:WorkPackageResource, actions:any):WorkPackageAction[] {
     var allowedActions:any[] = [];
 
     angular.forEach(actions, (action) => {
@@ -166,7 +166,7 @@ export class WorkPackageContextMenuHelperService {
     return allowedActions;
   }
 
-  public getPermittedActions(workPackages:WorkPackageResourceInterface[], permittedActionConstants:any):WorkPackageAction[] {
+  public getPermittedActions(workPackages:WorkPackageResource[], permittedActionConstants:any):WorkPackageAction[] {
     if (workPackages.length === 1) {
       return this.getPermittedActionLinks(workPackages[0], permittedActionConstants);
     } else {

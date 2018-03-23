@@ -1,4 +1,4 @@
-import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {
   DisplayFieldRenderer,
   editFieldContainerClass
@@ -11,7 +11,7 @@ export class CellBuilder {
 
   private fieldRenderer = new DisplayFieldRenderer('table');
 
-  public build(workPackage:WorkPackageResourceInterface, attribute:string) {
+  public build(workPackage:WorkPackageResource, attribute:string) {
     const td = document.createElement('td');
     td.classList.add(tdClassName, wpCellTdClassName, attribute);
 
@@ -25,7 +25,7 @@ export class CellBuilder {
     return td;
   }
 
-  public refresh(container:HTMLElement, workPackage:WorkPackageResourceInterface, attribute:string) {
+  public refresh(container:HTMLElement, workPackage:WorkPackageResource, attribute:string) {
     const displayElement = this.fieldRenderer.render(workPackage, attribute, null);
 
     container.innerHTML = '';

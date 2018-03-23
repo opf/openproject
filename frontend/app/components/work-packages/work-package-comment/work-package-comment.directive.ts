@@ -26,16 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCommentField} from './wp-comment-field.module';
-import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.service';
+import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 import {scopedObservable} from 'core-app/helpers/angular-rx-utils';
 
 export class CommentFieldDirectiveController {
-  public workPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
   public field:WorkPackageCommentField;
 
   protected text:Object;

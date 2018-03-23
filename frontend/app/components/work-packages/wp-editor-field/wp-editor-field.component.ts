@@ -28,12 +28,12 @@
 
 import {opWorkPackagesModule} from './../../../angular-modules';
 import {WorkPackageChangeset} from './../../wp-edit-form/work-package-changeset';
-import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 export class WorkPackageEditorFieldController {
   public wpEditFieldGroup:WorkPackageEditFieldGroupComponent;
-  public workPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
   public attribute:string;
   public wrapperClasses:string;
 

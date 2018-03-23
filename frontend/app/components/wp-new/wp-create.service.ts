@@ -26,35 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {Injectable, Injector} from '@angular/core';
+import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {Observable, Subject} from 'rxjs';
+import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Injectable()
 export class WorkPackageCreateService {
-  protected form:ng.IPromise<HalResource>;
+  protected form:Promise<HalResource>;
 
   // Allow callbacks to happen on newly created work packages
-  protected newWorkPackageCreatedSubject = new Subject<WorkPackageResourceInterface>();
+  protected newWorkPackageCreatedSubject = new Subject<WorkPackageResource>();
 
   constructor(protected injector:Injector,
               protected wpCacheService:WorkPackageCacheService,
               protected apiWorkPackages:ApiWorkPackagesService) {
   }
 
-  public newWorkPackageCreated(wp:WorkPackageResourceInterface) {
+  public newWorkPackageCreated(wp:WorkPackageResource) {
     this.newWorkPackageCreatedSubject.next(wp);
   }
 
-  public onNewWorkPackage():Observable<WorkPackageResourceInterface> {
+  public onNewWorkPackage():Observable<WorkPackageResource> {
     return this.newWorkPackageCreatedSubject.asObservable();
   }
 
@@ -101,7 +97,7 @@ export class WorkPackageCreateService {
     });
   }
 
-  public getEmptyForm(projectIdentifier:string):ng.IPromise<HalResource> {
+  public getEmptyForm(projectIdentifier:string):Promise<HalResource> {
     if (!this.form) {
       this.form = this.apiWorkPackages.emptyCreateForm({}, projectIdentifier);
     }

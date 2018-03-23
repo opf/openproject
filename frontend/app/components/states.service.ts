@@ -3,22 +3,22 @@ import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {combine, derive, input, multiInput, StatesGroup} from 'reactivestates';
 import {mapTo} from 'rxjs/operators';
 import {opServicesModule} from '../angular-modules';
-import {QueryFormResource} from './api/api-v3/hal-resources/query-form-resource.service';
-import {QueryGroupByResource} from './api/api-v3/hal-resources/query-group-by-resource.service';
-import {QueryResource} from './api/api-v3/hal-resources/query-resource.service';
-import {QuerySortByResource} from './api/api-v3/hal-resources/query-sort-by-resource.service';
-import {SchemaResource} from './api/api-v3/hal-resources/schema-resource.service';
-import {TypeResource} from './api/api-v3/hal-resources/type-resource.service';
-import {WorkPackageResourceInterface} from './api/api-v3/hal-resources/work-package-resource.service';
+import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
+import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
+import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {SwitchState} from './states/switch-state';
 import {QueryColumn} from './wp-query/query-column';
+import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 
 export class States extends StatesGroup {
 
   name = 'MainStore';
 
   /* /api/v3/work_packages */
-  workPackages = multiInput<WorkPackageResourceInterface>();
+  workPackages = multiInput<WorkPackageResource>();
 
   /* /api/v3/schemas */
   schemas = multiInput<SchemaResource>();

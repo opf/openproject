@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 import {ToggledMultiselectController} from './filter-toggled-multiselect-value.directive'
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 describe('toggledMultiselect Directive', function() {
     var compile:any, element:any, rootScope:any, scope:any, I18n:any;

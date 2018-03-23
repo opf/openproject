@@ -1,4 +1,4 @@
-import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
+import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
 
 export function groupIdentifier(group:GroupObject) {
   let value = group.value || 'nullValue';

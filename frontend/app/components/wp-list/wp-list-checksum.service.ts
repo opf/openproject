@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTablePagination} from '../wp-fast-table/wp-table-pagination';
 import {StateService} from '@uirouter/core';
 

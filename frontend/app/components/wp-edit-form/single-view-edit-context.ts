@@ -30,7 +30,7 @@ import {StateService} from '@uirouter/core';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
@@ -106,13 +106,13 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     handler.$scope.$evalAsync(() => handler.field = field);
   }
 
-  public async reset(workPackage:WorkPackageResourceInterface, fieldName:string, focus:boolean = false) {
+  public async reset(workPackage:WorkPackageResource, fieldName:string, focus:boolean = false) {
     const ctrl = await this.fieldCtrl(fieldName);
     ctrl.reset(workPackage);
     ctrl.deactivate(focus);
   }
 
-  public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResourceInterface) {
+  public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResource) {
     this.fieldGroup.onSaved(isInitial, savedWorkPackage);
   }
 

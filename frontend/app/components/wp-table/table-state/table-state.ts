@@ -1,8 +1,3 @@
-import {WorkPackageResourceInterface} from 'app/components/api/api-v3/hal-resources/work-package-resource.service';
-import {
-    GroupObject,
-    WorkPackageCollectionResource
-} from 'app/components/api/api-v3/hal-resources/wp-collection-resource.service';
 import {RenderedRow} from 'app/components/wp-fast-table/builders/primary-render-pass';
 import {WorkPackageTableColumns} from 'app/components/wp-fast-table/wp-table-columns';
 import {WorkPackageTableFilters} from 'app/components/wp-fast-table/wp-table-filters';
@@ -16,13 +11,15 @@ import {WorkPackageTableTimelineState} from 'app/components/wp-fast-table/wp-tab
 import {WPTableRowSelectionState} from 'app/components/wp-fast-table/wp-table.interfaces';
 import {combine, derive, input, State, StatesGroup} from 'reactivestates';
 import {Subject} from 'rxjs/Rx';
-import {States} from 'core-components/states.service';
 import {Injectable} from '@angular/core';
-import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
-import {opServicesModule} from 'core-app/angular-modules';
-import {downgradeInjectable} from '@angular/upgrade/static';
 import {SwitchState} from 'core-components/states/switch-state';
 import {mapTo, map} from 'rxjs/operators';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {
+  GroupObject,
+  WorkPackageCollectionResource
+} from 'core-app/modules/hal/resources/wp-collection-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Injectable()
 export class TableState extends StatesGroup {
@@ -39,7 +36,7 @@ export class TableState extends StatesGroup {
   // the results associated with the table
   results = input<WorkPackageCollectionResource>();
   // Set of work package IDs in strict order of appearance
-  rows = input<WorkPackageResourceInterface[]>();
+  rows = input<WorkPackageResource[]>();
   // all groups returned as results
   groups = input<GroupObject[]>();
   // Set of columns in strict order of appearance
@@ -93,8 +90,6 @@ export class TableState extends StatesGroup {
   // Updater states on user input
   updates = new UserUpdaterStates(this);
 }
-
-opServicesModule.service('globalTableState', downgradeInjectable(TableState));
 
 export class TableRenderingStates {
   constructor(private tableState:TableState) {

@@ -27,8 +27,8 @@
 //++
 
 import {Injectable} from '@angular/core';
-import {ConfigurationDmService} from "core-components/api/api-v3/hal-resource-dms/configuration-dm.service";
 import {opServicesModule} from "../../angular-modules";
+import {ConfigurationDmService} from 'core-app/modules/dm-services/configuration-dm.service';
 
 export const DEFAULT_PAGINATION_OPTIONS = {
   maxVisiblePageOptions: 6,
@@ -44,7 +44,7 @@ export interface IPaginationOptions {
 
 @Injectable()
 export class PaginationService {
-  private paginationOptions: IPaginationOptions;
+  private paginationOptions:IPaginationOptions;
 
   constructor(private ConfigurationDm:ConfigurationDmService) {
     const gonPaginationOptions = this.getInitialPageOptions();
@@ -60,7 +60,7 @@ export class PaginationService {
   public getInitialPageOptions():number[] {
     try {
       return (window as any).gon.settings.pagination.per_page_options;
-    } catch(e) {
+    } catch (e) {
       console.log("Can't load initial page options from gon: " + e);
       return [];
     }

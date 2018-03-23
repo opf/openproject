@@ -27,7 +27,6 @@
 // ++
 import {AfterViewInit, Component, ElementRef} from '@angular/core';
 import * as moment from 'moment';
-import {TimelineZoomLevel} from '../../../api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {
   calculatePositionValueForDayCount,
@@ -37,6 +36,7 @@ import {
   TimelineViewParameters
 } from '../wp-timeline';
 import Moment = moment.Moment;
+import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 
 function checkForWeekendHighlight(date:Moment, cell:HTMLElement) {
   const day = date.day();

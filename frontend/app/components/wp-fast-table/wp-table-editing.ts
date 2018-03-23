@@ -1,6 +1,6 @@
 import {Injector} from '@angular/core';
 import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
@@ -33,7 +33,7 @@ export class WorkPackageTableEditingContext {
     }
   }
 
-  public startEditing(workPackage:WorkPackageResourceInterface, classIdentifier:string):WorkPackageEditForm {
+  public startEditing(workPackage:WorkPackageResource, classIdentifier:string):WorkPackageEditForm {
     const wpId = workPackage.id;
     const existing = this.forms[wpId];
     if (existing) {

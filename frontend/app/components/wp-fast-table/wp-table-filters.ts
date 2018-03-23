@@ -26,10 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryFilterResource} from '../api/api-v3/hal-resources/query-filter-resource.service';
-import {QueryFilterInstanceResource} from '../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
-import {QueryFilterInstanceSchemaResource} from '../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
+import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
+import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
 import {WorkPackageTableBaseState} from './wp-table-base';
 
 export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilterInstanceResource[]> {
@@ -37,7 +37,7 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
   public availableSchemas:QueryFilterInstanceSchemaResource[] = [];
   public current:QueryFilterInstanceResource[] = [];
 
-  constructor(filters:QueryFilterInstanceResource[], schema:QuerySchemaResourceInterface) {
+  constructor(filters:QueryFilterInstanceResource[], schema:QuerySchemaResource) {
     super();
     this.current = filters;
     this.availableSchemas = schema.filtersSchemas.elements as any;

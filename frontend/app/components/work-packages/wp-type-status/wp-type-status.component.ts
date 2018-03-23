@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Component, Input} from '@angular/core';
 
 @Component({
@@ -34,5 +34,5 @@ import {Component, Input} from '@angular/core';
   selector: 'wp-type-status',
 })
 export class WorkPackageTypeStatusComponent {
-  @Input('workPackage') workPackage:WorkPackageResourceInterface;
+  @Input('workPackage') workPackage:WorkPackageResource;
 }

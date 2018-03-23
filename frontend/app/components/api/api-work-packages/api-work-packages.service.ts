@@ -26,21 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from '../api-v3/hal-resources/hal-resource.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {opApiModule} from '../../../angular-modules';
-import {HalRequestService} from '../api-v3/hal-request/hal-request.service';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface,
-} from '../api-v3/hal-resources/work-package-resource.service';
-import {
-  WorkPackageCollectionResource,
-  WorkPackageCollectionResourceInterface,
-} from '../api-v3/hal-resources/wp-collection-resource.service';
 import {States} from '../../states.service';
-import IPromise = angular.IPromise;
-import {SchemaResource} from '../api-v3/hal-resources/schema-resource.service';
-import {ApiV3FilterBuilder, buildApiV3Filter} from '../api-v3/api-v3-filter-builder';
+import {buildApiV3Filter} from '../api-v3/api-v3-filter-builder';
+import {HalRequestService} from 'core-app/modules/hal/services/hal-request.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 
 export class ApiWorkPackagesService {
   constructor(protected $q:ng.IQService,
@@ -59,11 +51,7 @@ export class ApiWorkPackagesService {
   public async loadWorkPackageById(id:string, force = false) {
     const url = this.v3Path.wp({wp: id});
 
-    return this.halRequest.get(url, null, {
-      caching: {
-        enabled: !force
-      }
-    }) as Promise<WorkPackageResourceInterface>;
+    return this.halRequest.get<WorkPackageResource>(url).toPromise();
   }
 
   /**
@@ -71,18 +59,16 @@ export class ApiWorkPackagesService {
    * Returns a WP Collection with schemas and results embedded.
    *
    * @param ids
-   * @return {WorkPackageCollectionResourceInterface[]}
+   * @return {WorkPackageCollectionResource[]}
    */
-  public loadWorkPackagesCollectionsFor(ids:string[]) {
+  public loadWorkPackagesCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
     return this.halRequest.getAllPaginated(
       this.v3Path.wps(),
       ids.length,
       {
         filters: buildApiV3Filter('id', '=', ids).toJson(),
-      },
-      {
-        caching: { enabled: false }
-      }) as any;
+      }
+    ) as any; // WorkPackageCollectionResource does not satisfy constraint HalResource[]
   }
 
   /**
@@ -90,8 +76,10 @@ export class ApiWorkPackagesService {
    *
    * @returns An empty work package form resource.
    */
-  public emptyCreateForm(request:any, projectIdentifier?:string):ng.IPromise<HalResource> {
-    return this.halRequest.post(this.v3Path.wp.form({ project: projectIdentifier }), request);
+  public emptyCreateForm(request:any, projectIdentifier?:string):Promise<HalResource> {
+    return this.halRequest
+      .post<HalResource>(this.v3Path.wp.form({ project: projectIdentifier }), request)
+      .toPromise();
   }
 
   /**
@@ -102,29 +90,35 @@ export class ApiWorkPackagesService {
    * @param projectIdentifier: The project to which the work package is initialized
    * @returns An empty work package form resource.
    */
-  public typedCreateForm(typeId:number, projectIdentifier?:string):ng.IPromise<HalResource> {
+  public typedCreateForm(typeId:number, projectIdentifier?:string):Promise<HalResource> {
 
     const typeUrl = this.v3Path.types({type: typeId});
     const request = { _links: { type: { href: typeUrl } } };
 
-    return this.halRequest.post(this.v3Path.wp.form({ project: projectIdentifier }), request);
+    return this.halRequest
+      .post<HalResource>(this.v3Path.wp.form({ project: projectIdentifier }), request)
+      .toPromise();
   }
 
   /**
    * Returns a promise to GET `/api/v3/work_packages/available_projects`.
    */
-  public availableProjects(projectIdentifier?:string):ng.IPromise<HalResource> {
-    return this.halRequest.get(this.v3Path.wp.availableProjects({project: projectIdentifier}));
+  public availableProjects(projectIdentifier?:string):Promise<HalResource> {
+    return this.halRequest
+      .get<HalResource>(this.v3Path.wp.availableProjects({project: projectIdentifier}))
+      .toPromise();
   }
 
   /**
    * Create a work package from a form payload
    *
    * @param payload
-   * @return {ng.IPromise<WorkPackageResource>}
+   * @return {Promise<WorkPackageResource>}
    */
-  public createWorkPackage(payload:any):ng.IPromise<WorkPackageResource> {
-    return this.halRequest.post(this.v3Path.wps(), payload);
+  public createWorkPackage(payload:any):Promise<WorkPackageResource> {
+    return this.halRequest
+      .post<WorkPackageResource>(this.v3Path.wps(), payload)
+      .toPromise();
   }
 }
 

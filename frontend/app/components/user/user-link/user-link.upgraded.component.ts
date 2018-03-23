@@ -28,7 +28,7 @@
 
 import {Component, Directive, ElementRef, Injector, Input, Output} from '@angular/core';
 import {UpgradeComponent} from '@angular/upgrade/static';
-import {UserResource} from 'core-components/api/api-v3/hal-resources/user-resource.service';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 
 @Directive({
   selector: 'user-link'

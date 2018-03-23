@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
 import {Component, Inject, Input} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
@@ -36,7 +36,7 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
   selector: 'wp-status-button',
 })
 export class WorkPackageStatusButtonComponent {
-  @Input('workPackage') public workPackage:WorkPackageResourceInterface;
+  @Input('workPackage') public workPackage:WorkPackageResource;
   @Input('allowed') public allowed:boolean;
 
   public text = {

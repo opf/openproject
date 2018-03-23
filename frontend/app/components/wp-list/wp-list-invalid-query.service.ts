@@ -26,14 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
-import {QueryFormResource} from '../api/api-v3/hal-resources/query-form-resource.service';
-import {QuerySortByResource} from '../api/api-v3/hal-resources/query-sort-by-resource.service';
-import {QueryGroupByResource} from '../api/api-v3/hal-resources/query-group-by-resource.service';
-import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
-import {QueryFilterResource} from '../api/api-v3/hal-resources/query-filter-resource.service';
-import {QueryFilterInstanceResource} from '../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {QueryFilterInstanceSchemaResource} from '../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
+import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
+import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
+import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
+import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
 import {QueryColumn} from '../wp-query/query-column';
 import {Inject, Injectable} from '@angular/core';
 import {

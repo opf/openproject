@@ -2,7 +2,7 @@ import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {debugLog} from '../../helpers/debug_output';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
@@ -69,9 +69,9 @@ export class WorkPackageTable {
    * Build the row index and positions from the given set of ordered work packages.
    * @param rows
    */
-  private buildIndex(rows:WorkPackageResourceInterface[]) {
+  private buildIndex(rows:WorkPackageResource[]) {
     this.originalRowIndex = {};
-    this.originalRows = rows.map((wp:WorkPackageResourceInterface, i:number) => {
+    this.originalRows = rows.map((wp:WorkPackageResource, i:number) => {
       let wpId = wp.id;
       this.originalRowIndex[wpId] = <WorkPackageTableRow> {object: wp, workPackageId: wpId, position: i};
       return wpId;
@@ -82,7 +82,7 @@ export class WorkPackageTable {
    *
    * @param rows
    */
-  public initialSetup(rows:WorkPackageResourceInterface[]) {
+  public initialSetup(rows:WorkPackageResource[]) {
     // Build the row representation
     this.buildIndex(rows);
 
@@ -124,7 +124,7 @@ export class WorkPackageTable {
   /**
    * Redraw single rows for a given work package being updated.
    */
-  public refreshRows(workPackage:WorkPackageResourceInterface) {
+  public refreshRows(workPackage:WorkPackageResource) {
     const pass = this.lastRenderPass;
     if (!pass) {
       debugLog('Trying to refresh a singular row without a previus render pass.');

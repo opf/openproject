@@ -40,6 +40,7 @@ var HappyPack = require('happypack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 // var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+var CircularDependencyPlugin = require('circular-dependency-plugin');
 
 var mode = (process.env['RAILS_ENV'] || 'production').toLowerCase();
 var production = (mode !== 'development');
@@ -290,8 +291,19 @@ function getWebpackMainConfig() {
       ),
 
       // Restrict loaded moment locales to the ones we load from translations
-      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, new RegExp('(' + localeIds.join('|') + ')\.js$', 'i'))
+      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, new RegExp('(' + localeIds.join('|') + ')\.js$', 'i')),
+
+      // Uncomment to analyze current bundle size
       // new BundleAnalyzerPlugin()
+
+      new CircularDependencyPlugin({
+        // exclude detection of files based on a RegExp
+        exclude: /node_modules/,
+        // add errors to webpack instead of warnings
+        failOnError: false,
+        // set the current working directory for displaying module paths
+        cwd: process.cwd(),
+      })
     ]
   };
 

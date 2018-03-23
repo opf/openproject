@@ -4,16 +4,16 @@ import {
 } from 'core-components/wp-table/table-actions/table-action';
 import {opIconElement} from 'core-app/helpers/op-icon-builder';
 import {contextColumnIcon} from 'core-components/wp-fast-table/builders/table-action-renderer';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 import {Injector} from '@angular/core';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 export class OpUnlinkTableAction extends OpTableAction {
 
   constructor(public injector:Injector,
-              public workPackage:WorkPackageResourceInterface,
+              public workPackage:WorkPackageResource,
               public readonly identifier:string,
               private title:string,
-              readonly onClick:(workPackage:WorkPackageResourceInterface) => void) {
+              readonly onClick:(workPackage:WorkPackageResource) => void) {
     super(injector, workPackage);
 
   }
@@ -27,8 +27,8 @@ export class OpUnlinkTableAction extends OpTableAction {
    */
   public static factoryFor(identifier:string,
                            title:string,
-                           onClick:(workPackage:WorkPackageResourceInterface) => void):OpTableActionFactory {
-    return (injector:Injector, workPackage:WorkPackageResourceInterface) => {
+                           onClick:(workPackage:WorkPackageResource) => void):OpTableActionFactory {
+    return (injector:Injector, workPackage:WorkPackageResource) => {
       return new OpUnlinkTableAction(injector,
         workPackage,
         identifier,

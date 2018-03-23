@@ -26,19 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {TextileService} from './../../common/textile/textile-service';
 import {ActivityService} from './../activity-service';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
-import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
 import {WorkPackageCommentField} from 'core-components/work-packages/work-package-comment/wp-comment-field.module';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 export class UserActivityController {
-  public workPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
   public activity:HalResource;
   public activityNo:string;
   public activityLabel:string;

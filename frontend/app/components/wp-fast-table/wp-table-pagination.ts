@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service'
+import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource'
 import {WorkPackageTableBaseState} from './wp-table-base';
 import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
 

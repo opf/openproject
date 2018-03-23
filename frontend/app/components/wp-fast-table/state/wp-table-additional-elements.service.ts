@@ -28,11 +28,10 @@
 
 import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTableColumnsService} from './wp-table-columns.service';
-import {RelationResourceInterface} from '../../api/api-v3/hal-resources/relation-resource.service';
+import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {IQService} from 'angular';
-import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {
   RelationsStateValue,
@@ -43,6 +42,7 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Inject, Injectable} from '@angular/core';
 import {halRequestToken} from 'core-app/angular4-transition-utils';
+import {HalRequestService} from 'core-app/modules/hal/services/hal-request.service';
 
 @Injectable()
 export class WorkPackageTableAdditionalElementsService {
@@ -56,7 +56,7 @@ export class WorkPackageTableAdditionalElementsService {
               readonly wpRelations:WorkPackageRelationsService) {
   }
 
-  public initialize(rows:WorkPackageResourceInterface[]) {
+  public initialize(rows:WorkPackageResource[]) {
     // Add relations to the stack
     Promise.all([
       this.requireInvolvedRelations(rows.map(el => el.id)),
@@ -101,7 +101,7 @@ export class WorkPackageTableAdditionalElementsService {
    * @param rows
    * @return {string[]}
    */
-  private async requireHierarchyElements(rows:WorkPackageResourceInterface[]):Promise<string[]> {
+  private async requireHierarchyElements(rows:WorkPackageResource[]):Promise<string[]> {
     if (!this.wpTableHierarchies.isEnabled) {
       return Promise.resolve([]);
     }
@@ -118,7 +118,7 @@ export class WorkPackageTableAdditionalElementsService {
   private getInvolvedWorkPackages(states:RelationsStateValue[]) {
     const ids:string[] = [];
     _.each(states, (relations:RelationsStateValue) => {
-      _.each(relations, (resource:RelationResourceInterface) => {
+      _.each(relations, (resource:RelationResource) => {
         ids.push(resource.ids.from, resource.ids.to);
       });
     });

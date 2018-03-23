@@ -26,15 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  QUERY_SORT_BY_ASC,
-  QUERY_SORT_BY_DESC,
-  QuerySortByResource
-} from '../api/api-v3/hal-resources/query-sort-by-resource.service';
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
-import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {WorkPackageTableBaseState} from './wp-table-base';
 import {QueryColumn} from '../wp-query/query-column';
+import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
 
 export class WorkPackageTableSortBy extends WorkPackageTableBaseState<QuerySortByResource[]> {
   public current:QuerySortByResource[] = [];

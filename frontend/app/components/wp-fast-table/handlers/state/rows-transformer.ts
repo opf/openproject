@@ -1,7 +1,7 @@
 import {Injector} from '@angular/core';
 import {filter, takeUntil} from 'rxjs/operators';
 import {debugLog} from '../../../../helpers/debug_output';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {States} from 'core-components/states.service';
@@ -20,7 +20,7 @@ export class RowsTransformer {
       .pipe(
         takeUntil(this.tableState.stopAllSubscriptions)
       )
-      .subscribe((rows:WorkPackageResourceInterface[]) => {
+      .subscribe((rows:WorkPackageResource[]) => {
         var t0 = performance.now();
 
         table.initialSetup(rows);
@@ -40,7 +40,7 @@ export class RowsTransformer {
           return;
         }
 
-        this.table.refreshRows(wp);
+        this.table.refreshRows(wp as WorkPackageResource);
       });
   }
 }

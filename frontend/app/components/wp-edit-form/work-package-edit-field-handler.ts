@@ -30,10 +30,6 @@ import {WorkPackageEditForm} from './work-package-edit-form';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {$injectFields} from '../angular/angular-injector-bridge.functions';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {keyCodes} from '../common/keyCodes.enum';
 
 export class WorkPackageEditFieldHandler {

@@ -1,5 +1,5 @@
 
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 export const queryColumnTypes = {
   PROPERTY: 'QueryColumn::Property',
   RELATION_OF_TYPE: 'QueryColumn::RelationOfType',

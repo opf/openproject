@@ -27,7 +27,7 @@
 // ++
 
 import {WorkPackageEditForm} from './work-package-edit-form';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageChangeset} from './work-package-changeset';
 import {combine, deriveRaw, multiInput, State, StatesGroup} from 'reactivestates';
@@ -65,7 +65,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
    * @param {boolean} editAll
    * @return {WorkPackageChangeset} changeset or null if the associated work package id does not exist
    */
-  public changesetFor(oldReference:WorkPackageResourceInterface):WorkPackageChangeset {
+  public changesetFor(oldReference:WorkPackageResource):WorkPackageChangeset {
     const wpId = oldReference.id;
     const workPackage = this.wpCacheService.state(wpId).getValueOr(oldReference);
     const state = this.multiState.get(wpId);
@@ -90,9 +90,9 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
    *  This resource has a read only index signature to make it clear it is NOT
    *  meant for editing.
    *
-   * @return {State<WorkPackageResourceInterface>}
+   * @return {State<WorkPackageResource>}
    */
-  public temporaryEditResource(id:string):State<WorkPackageResourceInterface> {
+  public temporaryEditResource(id:string):State<WorkPackageResource> {
     const combined = combine(this.wpCacheService.state(id), this.state(id));
 
     return deriveRaw(combined,
@@ -116,7 +116,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     }
   }
 
-  public async saveChanges(workPackageId:string):Promise<WorkPackageResourceInterface> {
+  public async saveChanges(workPackageId:string):Promise<WorkPackageResource> {
     const state = this.state(workPackageId);
 
     if (state.hasValue()) {
@@ -129,7 +129,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
 
   protected async load(id:string) {
     return this.wpCacheService.require(id)
-      .then((wp:WorkPackageResourceInterface) => {
+      .then((wp:WorkPackageResource) => {
         return new WorkPackageChangeset(this.injector, wp);
       });
   }

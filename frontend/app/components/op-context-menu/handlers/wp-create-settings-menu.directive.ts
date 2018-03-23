@@ -31,7 +31,7 @@ import {Directive, ElementRef} from "@angular/core";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {States} from "core-components/states.service";
-import {FormResourceInterface} from "core-components/api/api-v3/hal-resources/form-resource.service";
+import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 
 @Directive({
   selector: '[wpCreateSettingsMenu]'
@@ -52,7 +52,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
     if (wp) {
       const changeset = this.wpEditing.changesetFor(wp);
       changeset.getForm().then(
-        (loadedForm:FormResourceInterface) => {
+        (loadedForm:FormResource) => {
           this.buildItems(loadedForm);
           this.opContextMenu.show(this, evt);
         }
@@ -73,7 +73,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
     };
   }
 
-  private buildItems(form:FormResourceInterface) {
+  private buildItems(form:FormResource) {
     this.items = [];
     const configureFormLink = form.configureForm;
     const queryCustomFields = form.customFields;

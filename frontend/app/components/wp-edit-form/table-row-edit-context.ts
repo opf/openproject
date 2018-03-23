@@ -29,7 +29,8 @@
 import {Injector} from '@angular/core';
 import {$qToken, $timeoutToken, FocusHelperToken} from 'core-app/angular4-transition-utils';
 import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {injectorBridge} from '../angular/angular-injector-bridge.functions';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {CellBuilder, editCellContainer, tdClassName} from '../wp-fast-table/builders/cell-builder';
@@ -70,7 +71,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     return this.rowContainer.find(`.${tdClassName}.${fieldName}`).first();
   }
 
-  public activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):ng.IPromise<WorkPackageEditFieldHandler> {
+  public activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
     const deferred = this.$q.defer<WorkPackageEditFieldHandler>();
 
     this.waitForContainer(fieldName)
@@ -119,7 +120,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     handler.$scope.$evalAsync(() => handler.field = field);
   }
 
-  public reset(workPackage:WorkPackageResourceInterface, fieldName:string, focus?:boolean) {
+  public reset(workPackage:WorkPackageResource, fieldName:string, focus?:boolean) {
     const cell = this.findContainer(fieldName);
 
     if (cell.length) {
@@ -142,7 +143,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     return 'subject';
   }
 
-  public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResourceInterface) {
+  public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResource) {
     // Nothing to do here.
   }
 
@@ -167,8 +168,3 @@ export class TableRowEditContext implements WorkPackageEditContext {
     return jQuery(`.${this.classIdentifier}-table`);
   }
 }
-
-// TableRowEditContext.$inject = [
-//   'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh',
-//   'FocusHelper', '$q', '$timeout', 'templateRenderer'
-// ];

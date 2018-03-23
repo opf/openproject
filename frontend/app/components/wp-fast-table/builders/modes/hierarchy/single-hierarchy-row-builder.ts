@@ -1,5 +1,5 @@
 import {Injector} from '@angular/core';
-import {WorkPackageResourceInterface} from '../../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../../../../states.service';
 import {WorkPackageChangeset} from '../../../../wp-edit-form/work-package-changeset';
 import {collapsedGroupClass, hasChildrenInTable} from '../../../helpers/wp-table-hierarchy-helpers';
@@ -40,7 +40,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
    * Refresh a single row after structural changes.
    * Remembers and re-adds the hierarchy indicator if neccessary.
    */
-  public refreshRow(workPackage:WorkPackageResourceInterface, changeset:WorkPackageChangeset, jRow:JQuery):JQuery {
+  public refreshRow(workPackage:WorkPackageResource, changeset:WorkPackageChangeset, jRow:JQuery):JQuery {
     // Remove any old hierarchy
     const newRow = super.refreshRow(workPackage, changeset, jRow);
     newRow.find(`.wp-table--hierarchy-span`).remove();
@@ -52,11 +52,11 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   /**
    * Build the columns on the given empty row
    */
-  public buildEmpty(workPackage:WorkPackageResourceInterface):[HTMLElement, boolean] {
+  public buildEmpty(workPackage:WorkPackageResource):[HTMLElement, boolean] {
     let [element, hidden] = super.buildEmpty(workPackage);
     const state = this.wpTableHierarchies.currentState;
 
-    workPackage.ancestors.forEach((ancestor:WorkPackageResourceInterface) => {
+    workPackage.ancestors.forEach((ancestor:WorkPackageResource) => {
       element.classList.add(`__hierarchy-group-${ancestor.id}`);
 
       if (state.collapsed[ancestor.id]) {
@@ -73,7 +73,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   /**
    * Append an additional ancestor row that is not yet loaded
    */
-  public buildAncestorRow(ancestor:WorkPackageResourceInterface,
+  public buildAncestorRow(ancestor:WorkPackageResource,
                           ancestorGroups:string[],
                           index:number):[HTMLElement, boolean] {
 
@@ -89,7 +89,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
    * @param row
    * @param level
    */
-  private appendHierarchyIndicator(workPackage:WorkPackageResourceInterface, jRow:JQuery, level?:number):void {
+  private appendHierarchyIndicator(workPackage:WorkPackageResource, jRow:JQuery, level?:number):void {
     const hierarchyLevel = level === undefined || null ? workPackage.ancestors.length : level;
     const hierarchyElement = this.buildHierarchyIndicator(workPackage, jRow, hierarchyLevel);
 
@@ -104,7 +104,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   /**
    * Build the hierarchy indicator at the given indentation level.
    */
-  private buildHierarchyIndicator(workPackage:WorkPackageResourceInterface, jRow:JQuery | null, level:number):HTMLElement {
+  private buildHierarchyIndicator(workPackage:WorkPackageResource, jRow:JQuery | null, level:number):HTMLElement {
     const hierarchyIndicator = document.createElement('span');
     const collapsed = this.wpTableHierarchies.collapsed(workPackage.id);
     const indicatorWidth = 25 + (20 * level) + 'px';

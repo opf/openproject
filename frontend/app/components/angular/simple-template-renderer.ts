@@ -55,7 +55,7 @@ export class SimpleTemplateRenderer {
   public renderIsolated(element:JQuery,
                         scope:ng.IScope,
                         template:string,
-                        scopeValues:Object):ng.IPromise<ng.IAugmentedJQuery> {
+                        scopeValues:Object):Promise<ng.IAugmentedJQuery> {
     const deferred = this.$q.defer<ng.IAugmentedJQuery>();
     _.assign(scope, scopeValues);
 

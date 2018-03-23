@@ -31,15 +31,15 @@ import {
   SimpleChanges
 } from '@angular/core';
 import {UpgradeComponent} from '@angular/upgrade/static';
-import {UserResource} from 'core-components/api/api-v3/hal-resources/user-resource.service';
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Directive({
   selector: 'activity-entry-upgraded'
 })
 export class ActivityEntryDirectiveUpgraded extends UpgradeComponent {
-  @Input('workPackage') public workPackage:WorkPackageResourceInterface;
+  @Input('workPackage') public workPackage:WorkPackageResource;
   @Input('activity') public activity:HalResource;
   @Input('activityNo') public activityNo:number;
   @Input('isInitial') public isInitial:boolean;

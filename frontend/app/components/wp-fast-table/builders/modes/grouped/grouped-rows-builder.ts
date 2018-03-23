@@ -1,6 +1,5 @@
 import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
 import {States} from '../../../../states.service';
 import {WorkPackageTableColumnsService} from '../../../state/wp-table-columns.service';
 import {WorkPackageTable} from '../../../wp-fast-table';
@@ -9,6 +8,7 @@ import {RowsBuilder} from '../rows-builder';
 import {GroupHeaderBuilder} from './group-header-builder';
 import {GroupedRenderPass} from './grouped-render-pass';
 import {groupedRowClassName, groupIdentifier} from './grouped-rows-helpers';
+import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 export const rowGroupClassName = 'wp-table--group-header';

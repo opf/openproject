@@ -28,7 +28,7 @@
 
 
 import {filtersModule} from '../../../angular-modules';
-import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {AbstractDateTimeValueController} from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller'
 
 export class DateTimesValueController extends AbstractDateTimeValueController {

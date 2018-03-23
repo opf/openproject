@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {ActivityPanelBaseController} from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
 import {Component, Inject, Input} from '@angular/core';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
 
 @Component({
@@ -40,7 +40,7 @@ import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-pa
   selector: 'newest-activity-on-overview',
 })
 export class NewestActivityOnOverviewComponent extends ActivityPanelBaseController {
-  @Input('workPackage') public workPackage:WorkPackageResourceInterface;
+  @Input('workPackage') public workPackage:WorkPackageResource;
 
   public latestActivityInfo:ActivityEntryInfo[] = [];
 

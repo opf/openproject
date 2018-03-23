@@ -1,4 +1,3 @@
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
@@ -6,13 +5,14 @@ import {PathHelperService} from 'core-components/common/path-helper/path-helper.
 import {Component, ElementRef, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Component({
   selector: 'wp-relation-parent',
   template: require('!!raw-loader!./wp-relations-parent.html')
 })
 export class WpRelationParentComponent implements OnInit, OnDestroy {
-  @Input() public workPackage:WorkPackageResourceInterface;
+  @Input() public workPackage:WorkPackageResource;
   public showEditForm:boolean = false;
   public canModifyHierarchy:boolean = false;
   public selectedWpId:string|null = null;
@@ -62,7 +62,7 @@ export class WpRelationParentComponent implements OnInit, OnDestroy {
     this.isSaving = true;
 
     this.wpRelationsHierarchyService.changeParent(this.workPackage, newParentId)
-      .then((updatedWp:WorkPackageResourceInterface) => {
+      .then((updatedWp:WorkPackageResource) => {
         setTimeout(() =>  angular.element('#hierarchy--parent').focus());
       })
       .catch((err:any) => {

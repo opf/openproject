@@ -27,12 +27,12 @@
 //++
 
 import {wpDirectivesModule} from '../../../angular-modules';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {UploadFile} from '../../api/op-file-upload/op-file-upload.service';
 import IDirective = angular.IDirective;
 
 export class WorkPackageUploadDirectiveController {
-  public workPackage: WorkPackageResourceInterface;
+  public workPackage: WorkPackageResource;
   public text: any;
   public maxFileSize: number;
 

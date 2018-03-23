@@ -27,31 +27,28 @@
 // ++
 
 import {WorkPackageTableRelationColumns} from '../wp-table-relation-columns';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTableColumnsService} from './wp-table-columns.service';
 import {WorkPackageTableBaseService} from './wp-table-base.service';
-import {
-  RelationResource,
-  RelationResourceInterface
-} from '../../api/api-v3/hal-resources/relation-resource.service';
 import {
   QueryColumn,
   queryColumnTypes,
   RelationQueryColumn,
   TypeRelationQueryColumn
 } from '../../wp-query/query-column';
-import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {
   RelationsStateValue,
   WorkPackageRelationsService
 } from '../../wp-relations/wp-relations.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {Inject, Injectable} from '@angular/core';
 import {halRequestToken} from 'core-app/angular4-transition-utils';
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {HalRequestService} from 'core-app/modules/hal/services/hal-request.service';
+import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 
 export type RelationColumnType = 'toType' | 'ofType';
 
@@ -83,7 +80,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
    * @param workPackage
    * @param relation
    */
-  public relationsToExtendFor(workPackage:WorkPackageResourceInterface,
+  public relationsToExtendFor(workPackage:WorkPackageResource,
                               relations:RelationsStateValue|undefined,
                               eachCallback:(relation:RelationResource, column:QueryColumn, type:RelationColumnType) => void) {
     // Only if any relation columns or stored expansion state exist
@@ -119,7 +116,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
    * @param column The relation column to filter for
    * @return The filtered relations
    */
-  public relationsForColumn(workPackage:WorkPackageResourceInterface, relations:RelationsStateValue|undefined, column:QueryColumn) {
+  public relationsForColumn(workPackage:WorkPackageResource, relations:RelationsStateValue|undefined, column:QueryColumn) {
     if (_.isNil(relations)) {
       return [];
     }
@@ -129,7 +126,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     if (type === 'toType') {
       const typeHref = (column as TypeRelationQueryColumn).type.href;
 
-      return _.filter(relations, (relation:RelationResourceInterface) => {
+      return _.filter(relations, (relation:RelationResource) => {
         const denormalized = relation.denormalized(workPackage);
         const target = this.wpCacheService.state(denormalized.targetId).value;
 
@@ -141,7 +138,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     if (type === 'ofType') {
       const relationType = (column as RelationQueryColumn).relationType;
 
-      return _.filter(relations, (relation:RelationResourceInterface) => {
+      return _.filter(relations, (relation:RelationResource) => {
         return relation.denormalized(workPackage).relationType === relationType;
       });
     }

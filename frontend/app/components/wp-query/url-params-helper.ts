@@ -26,9 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {QuerySortByResource} from "../api/api-v3/hal-resources/query-sort-by-resource.service";
-import {QueryResource} from "../api/api-v3/hal-resources/query-resource.service";
 import {PathHelperService} from '../common/path-helper/path-helper.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
 
 export class UrlParamsHelperService {
 

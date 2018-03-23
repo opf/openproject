@@ -27,10 +27,10 @@
 // ++
 
 import {filtersModule} from '../../../angular-modules';
-import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {QueryFilterInstanceSchemaResource} from '../../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
-import {QueryOperatorResource} from '../../api/api-v3/hal-resources/query-operator-resource.service';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operator-resource';
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 
 function queryFilterDirective($animate:any,

@@ -27,9 +27,9 @@
 // ++
 
 import {take} from 'rxjs/operators';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
-import {WorkPackageCreateController} from '../wp-new/wp-create.controller';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
+import {WorkPackageCreateController} from 'core-components/wp-new/wp-create.controller';
 
 export class WorkPackageCopyController extends WorkPackageCreateController {
   protected async newWorkPackageFromParams(stateParams:any) {
@@ -40,12 +40,12 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
           take(1)
         )
         .subscribe(
-          async (wp:WorkPackageResourceInterface) => this.createCopyFrom(wp).then(resolve),
+          async (wp:WorkPackageResource) => this.createCopyFrom(wp).then(resolve),
           reject);
     });
   }
 
-  private async createCopyFrom(wp:WorkPackageResourceInterface) {
+  private async createCopyFrom(wp:WorkPackageResource) {
     const changeset = this.wpEditing.changesetFor(wp);
     return changeset.getForm().then((form:any) => {
       return this.wpCreate.copyWorkPackage(form, wp.project.identifier);

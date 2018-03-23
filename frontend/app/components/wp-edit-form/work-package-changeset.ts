@@ -28,18 +28,14 @@
 
 import {input} from 'reactivestates';
 import {debugLog} from '../../helpers/debug_output';
-import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
-import {FormResourceInterface} from '../api/api-v3/hal-resources/form-resource.service';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {SchemaCacheService} from '../schemas/schema-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {WorkPackageEditingService} from './work-package-editing-service';
 import {Injector} from '@angular/core';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 
 export class WorkPackageChangeset {
   // Injections
@@ -54,14 +50,14 @@ export class WorkPackageChangeset {
   public inFlight:boolean = false;
 
   // The current work package form
-  public wpForm = input<FormResourceInterface>();
+  public wpForm = input<FormResource>();
 
   // The current editing resource
-  public resource:WorkPackageResourceInterface | null;
+  public resource:WorkPackageResource|null;
 
   constructor(readonly injector:Injector,
-              public workPackage:WorkPackageResourceInterface,
-              form?:FormResourceInterface) {
+              public workPackage:WorkPackageResource,
+              form?:FormResource) {
     // New work packages have no schema set yet, so update the form immediately to get one
     if (form !== undefined) {
       this.wpForm.putValue(form);
@@ -124,8 +120,8 @@ export class WorkPackageChangeset {
     return this.changes.hasOwnProperty(key);
   }
 
-  public async getForm():Promise<FormResourceInterface> {
-    this.wpForm.putFromPromiseIfPristine(async() => {
+  public async getForm():Promise<FormResource> {
+    this.wpForm.putFromPromiseIfPristine(() => {
       return this.updateForm();
     });
 
@@ -133,7 +129,7 @@ export class WorkPackageChangeset {
     if (this.wpForm.hasValue()) {
       return Promise.resolve(this.wpForm.value!);
     } else {
-      return new Promise<FormResourceInterface>((resolve) => this.wpForm.valuesPromise().then(resolve));
+      return new Promise<FormResource>((resolve) => this.wpForm.valuesPromise().then(resolve));
     }
   }
 
@@ -141,12 +137,12 @@ export class WorkPackageChangeset {
    * Update the form resource from the API.
    * @return {angular.IPromise<any>}
    */
-  public async updateForm():Promise<FormResourceInterface> {
+  public async updateForm():Promise<FormResource> {
     let payload = this.buildPayloadFromChanges();
 
-    return new Promise<FormResourceInterface>((resolve, reject) => {
+    return new Promise<FormResource>((resolve, reject) => {
       this.workPackage.$links.update(payload)
-        .then((form:FormResourceInterface) => {
+        .then((form:FormResource) => {
           this.wpForm.putValue(form);
           this.buildResource();
 
@@ -160,25 +156,23 @@ export class WorkPackageChangeset {
     });
   }
 
-
-  public async save():Promise<WorkPackageResourceInterface> {
-
+  public async save():Promise<WorkPackageResource> {
     this.inFlight = true;
     const wasNew = this.workPackage.isNew;
 
-    let promise = new Promise<WorkPackageResourceInterface>((resolve, reject) => {
+    let promise = new Promise<WorkPackageResource>((resolve, reject) => {
       this.updateForm()
         .then((form) => {
           const payload = this.buildPayloadFromChanges();
 
           // Reject errors when occurring in form validation
-          const errors = ErrorResource.fromFormResponse(form);
+          const errors = form.getErrors();
           if (errors !== null) {
             return reject(errors);
           }
 
           this.workPackage.$links.updateImmediately(payload)
-            .then(async(savedWp:WorkPackageResourceInterface) => {
+            .then((savedWp:WorkPackageResource) => {
               // Initialize any potentially new HAL values
               this.workPackage.$initialize(savedWp);
 
@@ -205,9 +199,9 @@ export class WorkPackageChangeset {
                 errorsOnForm: false,
                 error: error
               });
-            });
-        })
-        .catch(reject);
+            })
+            .catch(reject);
+        });
     });
 
     promise
@@ -220,7 +214,7 @@ export class WorkPackageChangeset {
   /**
    * Merge the current changes into the payload resource.
    *
-   * @param {FormResourceInterface} form
+   * @param {FormResource} form
    * @return {any}
    */
   private mergeWithPayload(plainPayload:any) {
@@ -328,14 +322,14 @@ export class WorkPackageChangeset {
     let payload:any = this.workPackage.$plain();
 
     if (hasForm) {
-      _.defaultsDeep(payload, this.wpForm.value!.payload.$source);
+
     }
 
     const resource = new WorkPackageResource(this.mergeWithPayload(payload), true);
 
     // Override the schema with the current form, if any.
     resource.overriddenSchema = this.schema;
-    this.resource = (resource as WorkPackageResourceInterface);
+    this.resource = (resource as WorkPackageResource);
     this.wpEditing.updateValue(this.workPackage.id, this);
   }
 }

@@ -30,17 +30,17 @@ import {Component, Inject, Input, OnDestroy} from '@angular/core';
 import {Transition} from '@uirouter/core';
 import {I18nToken} from '../../../angular4-transition-utils';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {ActivityPanelBaseController} from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 @Component({
   template: require('!!raw-loader!./activity-tab.html'),
   selector: 'wp-activity-tab',
 })
 export class WorkPackageActivityTabComponent extends ActivityPanelBaseController implements OnDestroy {
-  public workPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
   public tabName = this.I18n.t('js.work_packages.tabs.activity');
 
   constructor(readonly wpCacheService:WorkPackageCacheService,

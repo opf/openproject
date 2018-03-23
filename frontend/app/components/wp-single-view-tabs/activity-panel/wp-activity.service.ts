@@ -28,8 +28,8 @@
 
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {ActivityEntryInfo} from './activity-entry-info';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 
 export class WorkPackagesActivityService {
@@ -52,8 +52,8 @@ export class WorkPackagesActivityService {
    * Resolves both promises and returns a sorted list of activities
    * whose order depends on the 'commentsSortedInDescendingOrder' property.
    */
-  public aggregateActivities(workPackage:WorkPackageResourceInterface):ng.IPromise<any> {
-    var aggregated:any[] = [], promises:ng.IPromise<any>[] = [];
+  public aggregateActivities(workPackage:WorkPackageResource):Promise<any> {
+    var aggregated:any[] = [], promises:Promise<any>[] = [];
 
     var add = function (data:any) {
       aggregated.push(data.elements);
@@ -85,7 +85,7 @@ export class WorkPackagesActivityService {
 
   // FIXME: ugly hack to enable circumventing cached responses which would return stale activities after a user updated a resource.
   // The correct solution is to rely on states.
-  private hackNonCachedActivities(workPackage:WorkPackageResourceInterface) {
+  private hackNonCachedActivities(workPackage:WorkPackageResource) {
     let newLoadHeaders = () => {
       return { caching: { enabled: false } }
     };

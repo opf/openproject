@@ -26,10 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageEditForm} from './work-package-edit-form';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
@@ -52,7 +49,7 @@ export interface WorkPackageEditContext {
   /**
    * Reset the field and re-render the current WPs value.
    */
-  reset(workPackage:WorkPackageResourceInterface, fieldName:string, focus?:boolean):void;
+  reset(workPackage:WorkPackageResource, fieldName:string, focus?:boolean):void;
 
   /**
    * Return the first relevant field from the given list of attributes.
@@ -62,5 +59,5 @@ export interface WorkPackageEditContext {
   /**
    * Optional callback when the form is being saved
    */
-  onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResourceInterface):void;
+  onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResource):void;
 }

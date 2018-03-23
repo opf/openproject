@@ -26,23 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
+import {TestBed} from '@angular/core/testing';
 
 require('../../angular4-test-setup');
 
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageCacheService} from "./work-package-cache.service";
-import {TestBed} from '@angular/core/testing';
-import {take, takeUntil, takeWhile} from 'rxjs/operators';
+import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
-import {States} from 'core-components/states.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
-import {$q} from '@uirouter/core';
+import {States} from 'core-components/states.service';
+import {take, takeWhile} from 'rxjs/operators';
+import {Injector} from '@angular/core';
 
 describe('WorkPackageCacheService', () => {
+  let injector:Injector;
   let wpCacheService:WorkPackageCacheService;
   let schemaCacheService:SchemaCacheService;
   let dummyWorkPackages:WorkPackageResource[] = [];
@@ -59,12 +57,15 @@ describe('WorkPackageCacheService', () => {
       ]
     });
 
+    injector = TestBed.get(Injector);
     wpCacheService = TestBed.get(WorkPackageCacheService);
     schemaCacheService = TestBed.get(SchemaCacheService);
 
     sinon.stub(schemaCacheService, 'ensureLoaded').returns(Promise.resolve(true));
 
-    const workPackage1 = new WorkPackageResource({
+    const workPackage1 = new WorkPackageResource(
+      injector,
+      {
       id: '1',
       _links: {
         self: ""
@@ -79,12 +80,12 @@ describe('WorkPackageCacheService', () => {
       .pipe(
         take(1)
       )
-      .subscribe((wp:WorkPackageResourceInterface) => {
+      .subscribe((wp:WorkPackageResource) => {
         expect(wp.id).to.eq('1');
         done();
       });
 
-    wpCacheService.updateWorkPackageList(dummyWorkPackages as WorkPackageResourceInterface[]);
+    wpCacheService.updateWorkPackageList(dummyWorkPackages as WorkPackageResource[]);
   });
 
   it('should return/stream a work package every time it gets updated', (done:any) => {
@@ -94,7 +95,7 @@ describe('WorkPackageCacheService', () => {
       .pipe(
         takeWhile((wp) => count < 2)
       )
-      .subscribe((wp:WorkPackageResourceInterface) => {
+      .subscribe((wp:WorkPackageResource) => {
         expect(wp.id).to.eq('1');
 
         count += 1;
@@ -103,8 +104,8 @@ describe('WorkPackageCacheService', () => {
         }
       });
 
-    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]] as WorkPackageResourceInterface[]);
-    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]] as WorkPackageResourceInterface[]);
-    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]] as WorkPackageResourceInterface[]);
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]] as WorkPackageResource[]);
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]] as WorkPackageResource[]);
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]] as WorkPackageResource[]);
   });
 });

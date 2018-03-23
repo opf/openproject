@@ -1,4 +1,4 @@
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTable} from '../wp-fast-table';
 /**
  * Returns the collapsed group class for the given ancestor id
@@ -23,7 +23,7 @@ export function ancestorClassIdentifier(ancestorId:string) {
  * Returns whether any of the children of this work package
  * are visible in the table results.
  */
-export function hasChildrenInTable(workPackage:WorkPackageResourceInterface, table:WorkPackageTable) {
+export function hasChildrenInTable(workPackage:WorkPackageResource, table:WorkPackageTable) {
   if (workPackage.isLeaf) {
     return false; // Work Package has no children at all
   }

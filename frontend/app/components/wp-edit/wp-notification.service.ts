@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {wpServicesModule} from '../../angular-modules';
 import {StateService} from '@uirouter/core';
 
@@ -38,7 +38,7 @@ export class WorkPackageNotificationService {
               protected loadingIndicator:any) {
   }
 
-  public showSave(workPackage: WorkPackageResourceInterface, isCreate:boolean = false) {
+  public showSave(workPackage: WorkPackageResource, isCreate:boolean = false) {
     var message:any = {
       message: this.I18n.t('js.notice_successful_' + (isCreate ? 'create' : 'update')),
     };
@@ -51,7 +51,7 @@ export class WorkPackageNotificationService {
     this.NotificationsService.addSuccess(message);
   }
 
-  public handleRawError(response:any, workPackage?:WorkPackageResourceInterface) {
+  public handleRawError(response:any, workPackage?:WorkPackageResource) {
     if (response && response.data && response.data._type === 'Error') {
       const resource = new ErrorResource(response.data);
       return this.handleErrorResponse(resource, workPackage);
@@ -60,7 +60,7 @@ export class WorkPackageNotificationService {
     this.showGeneralError(response);
   }
 
-  public handleErrorResponse(errorResource:any, workPackage?:WorkPackageResourceInterface) {
+  public handleErrorResponse(errorResource:any, workPackage?:WorkPackageResource) {
     if (!(errorResource instanceof ErrorResource)) {
       return this.showGeneralError(errorResource);
     }
@@ -72,7 +72,7 @@ export class WorkPackageNotificationService {
     this.showApiErrorMessages(errorResource);
   }
 
-  public showError(errorResource:any, workPackage:WorkPackageResourceInterface) {
+  public showError(errorResource:any, workPackage:WorkPackageResource) {
     this.showCustomError(errorResource, workPackage) || this.showApiErrorMessages(errorResource);
   }
 
@@ -93,7 +93,7 @@ export class WorkPackageNotificationService {
     ));
   }
 
-  private showCustomError(errorResource:any, workPackage:WorkPackageResourceInterface) {
+  private showCustomError(errorResource:any, workPackage:WorkPackageResource) {
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
 
       let attributeName = workPackage.schema[errorResource.details.attribute].name;
@@ -125,7 +125,7 @@ export class WorkPackageNotificationService {
     return true;
   }
 
-  private showInFullScreenLink(workPackage:WorkPackageResourceInterface) {
+  private showInFullScreenLink(workPackage:WorkPackageResource) {
     return {
       target: () => {
         this.loadingIndicator.mainPage =

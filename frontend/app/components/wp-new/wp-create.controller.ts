@@ -31,11 +31,9 @@ import {StateService, Transition} from '@uirouter/core';
 import {$stateToken, I18nToken, v3PathToken} from 'core-app/angular4-transition-utils';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil} from 'rxjs/operators';
-import {RootDmService} from '../api/api-v3/hal-resource-dms/root-dm.service';
-import {RootResource} from '../api/api-v3/hal-resources/root-resource.service';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
@@ -43,11 +41,13 @@ import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-value
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageCreateService} from './wp-create.service';
+import {takeUntil} from 'rxjs/operators';
+import {RootDmService} from 'core-app/modules/dm-services/root-dm.service';
 
 export class WorkPackageCreateController implements OnInit, OnDestroy {
   public successState:string;
-  public newWorkPackage:WorkPackageResourceInterface;
-  public parentWorkPackage:WorkPackageResourceInterface;
+  public newWorkPackage:WorkPackageResource;
+  public parentWorkPackage:WorkPackageResource;
   public changeset:WorkPackageChangeset;
 
   public stateParams = this.$transition.params('to');
@@ -115,7 +115,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-
+    // Nothing to do
   }
 
   public switchToFullscreen() {
@@ -141,7 +141,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
 
     return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type).then(changeset => {
       const filter = new WorkPackageFilterValues(changeset, this.wpTableFilters.current, ['type']);
-      return filter.applyDefaultsFromFilters().then(() => changeset) as ng.IPromise<WorkPackageChangeset>;
+      return filter.applyDefaultsFromFilters().then(() => changeset) as Promise<WorkPackageChangeset>;
     });
   }
 

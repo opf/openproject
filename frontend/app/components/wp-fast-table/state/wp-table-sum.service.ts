@@ -27,7 +27,7 @@
 // ++
 
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {opServicesModule} from '../../../angular-modules';
 import {WorkPackageTableSum} from '../wp-table-sum';
 import {States} from 'core-components/states.service';

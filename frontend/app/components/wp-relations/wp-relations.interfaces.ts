@@ -1,5 +1,5 @@
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {RelationResourceInterface} from '../api/api-v3/hal-resources/relation-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 
 export interface RelatedWorkPackagesGroup {
   [key: string] : any;

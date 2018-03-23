@@ -28,16 +28,16 @@
 
 import {WorkPackageTableBaseState} from './wp-table-base';
 import {
-  QueryResourceInterface, TimelineLabels,
+  QueryResource, TimelineLabels,
   TimelineZoomLevel
-} from '../api/api-v3/hal-resources/query-resource.service';
+} from 'core-app/modules/hal/resources/query-resource';
 
 export class WorkPackageTableTimelineState extends WorkPackageTableBaseState<boolean> {
   public visible:boolean;
   public zoomLevel:TimelineZoomLevel;
   public labels:TimelineLabels;
 
-  constructor(query:QueryResourceInterface) {
+  constructor(query:QueryResource) {
     super();
     this.visible = query.timelineVisible;
     this.zoomLevel = query.timelineZoomLevel;

@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {InjectionToken, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -49,9 +49,7 @@ import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-ta
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
-import {
-  WorkPackageInlineCreateComponent,
-} from 'core-components/wp-inline-create/wp-inline-create.component';
+import {WorkPackageInlineCreateComponent,} from 'core-components/wp-inline-create/wp-inline-create.component';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
@@ -71,14 +69,21 @@ import {
   $rootScopeToken,
   $stateToken,
   $timeoutToken,
-  columnsModalToken, exportModalToken,
-  FocusHelperToken, groupingModalToken,
-  halRequestToken, HalResourceToken,
+  columnsModalToken,
+  exportModalToken,
+  FocusHelperToken,
+  groupingModalToken,
+  halRequestToken,
+  HalResourceToken,
   HookServiceToken,
   I18nToken,
   NotificationsServiceToken,
-  PathHelperToken, QueryFilterInstanceResourceToken, QueryResourceToken, saveModalToken,
-  settingsModalToken, shareModalToken,
+  PathHelperToken,
+  QueryFilterInstanceResourceToken,
+  QueryResourceToken,
+  saveModalToken,
+  settingsModalToken,
+  shareModalToken,
   sortingModalToken,
   timelinesModalToken,
   TimezoneServiceToken,
@@ -149,7 +154,6 @@ import {WorkPackageWatcherEntryComponent} from 'core-components/wp-single-view-t
 import {WorkPackageNewFullViewComponent} from 'core-components/wp-new/wp-new-full-view.component';
 import {WorkPackageTypeStatusComponent} from 'core-components/work-packages/wp-type-status/wp-type-status.component';
 import {WorkPackageEditActionsBarComponent} from 'core-components/common/edit-actions-bar/wp-edit-actions-bar.component';
-import {RootDmService} from 'core-components/api/api-v3/hal-resource-dms/root-dm.service';
 import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-full-view.component';
 import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
 import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
@@ -169,10 +173,8 @@ import {WorkPackageCreateSettingsMenuDirective} from 'core-components/op-context
 import {WorkPackageSingleContextMenuDirective} from 'core-components/op-context-menu/wp-context-menu/wp-single-context-menu';
 import {WorkPackageQuerySelectableTitleComponent} from 'core-components/wp-query-select/wp-query-selectable-title.component';
 import {WorkPackageQuerySelectDropdownComponent} from 'core-components/wp-query-select/wp-query-select-dropdown.component';
-import {QueryDmService} from 'core-components/api/api-v3/hal-resource-dms/query-dm.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
-import {QueryFormDmService} from 'core-components/api/api-v3/hal-resource-dms/query-form-dm.service';
 import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
 import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
@@ -188,6 +190,8 @@ import {Ng1RelationsCreateWrapper} from 'core-components/wp-relations/wp-relatio
 import {WpRelationsAutocompleteComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.upgraded.component';
 import {WpRelationAddChildComponent} from 'core-components/wp-relations/wp-relation-add-child/wp-relation-add-child';
 import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relations-parent/wp-relations-parent.component';
+import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
+import {QueryFormDmService} from 'core-app/modules/dm-services/query-form-dm.service';
 
 @NgModule({
   imports: [
@@ -196,7 +200,9 @@ import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relatio
     FormsModule,
     UIRouterUpgradeModule,
     // Angular CDK
-    PortalModule
+    PortalModule,
+    // Hal Module
+    OpenprojectHalModule
   ],
   providers: [
     GonRef,
@@ -267,8 +273,6 @@ import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relatio
     upgradeService('authorisationService', AuthorisationService),
     upgradeService('ConfigurationService', ConfigurationService),
     upgradeService('currentProject', CurrentProjectService),
-    upgradeService('RootDm', RootDmService),
-    upgradeService('QueryDm', QueryDmService),
     upgradeService('queryMenu', QueryMenuService),
     // Split view
     upgradeService('firstRoute', FirstRouteService),

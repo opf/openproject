@@ -1,7 +1,7 @@
 import {Injector} from '@angular/core';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {wpCellTdClassName} from './cell-builder';
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 export const contextMenuTdClassName = 'wp-table--context-menu-td';
 export const contextMenuSpanClassName = 'wp-table--context-menu-span';
@@ -17,7 +17,7 @@ export class TableActionRenderer {
   constructor(public readonly injector:Injector) {
   }
 
-  public build(workPackage:WorkPackageResourceInterface):HTMLElement {
+  public build(workPackage:WorkPackageResource):HTMLElement {
     // Append details button
     let td = document.createElement('td');
     td.classList.add(wpCellTdClassName, contextMenuTdClassName, 'hide-when-print');

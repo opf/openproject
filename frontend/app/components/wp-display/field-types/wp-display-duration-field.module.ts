@@ -27,9 +27,8 @@
 // ++
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {HalResource} from "core-components/api/api-v3/hal-resources/hal-resource.service";
 import {TimezoneServiceToken} from 'core-app/angular4-transition-utils';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 export class DurationDisplayField extends DisplayField {
 

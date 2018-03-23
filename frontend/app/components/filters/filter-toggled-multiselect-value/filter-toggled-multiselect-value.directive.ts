@@ -26,18 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-
 import {filtersModule} from '../../../angular-modules';
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
-import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
-import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {
-  QueryFilterInstanceResource
-} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {RootDmService} from '../../api/api-v3/hal-resource-dms/root-dm.service';
-import {RootResource} from '../../api/api-v3/hal-resources/root-resource.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {PathHelperService} from '../../common/path-helper/path-helper.service';
 import {$injectFields} from '../../angular/angular-injector-bridge.functions';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {RootDmService} from 'core-app/modules/dm-services/root-dm.service';
+import {Injector} from '@angular/core';
 
 export class ToggledMultiselectController {
   // Injected
@@ -51,6 +49,7 @@ export class ToggledMultiselectController {
   public text:{ [key: string]: string; };
 
   constructor(public $scope:ng.IScope,
+              public injector:Injector,
               private I18n:op.I18n,
               private $q:ng.IQService,
               private RootDm:RootDmService) {
@@ -135,7 +134,7 @@ export class ToggledMultiselectController {
       return;
     }
 
-    let me:HalResource = new HalResource({
+    let me:HalResource = new HalResource(this.injector, {
       _links: {
         self: {
           href: this.PathHelper.apiV3UserMePath(),

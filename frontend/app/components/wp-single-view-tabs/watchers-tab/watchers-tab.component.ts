@@ -28,10 +28,10 @@
 
 import {Component, ElementRef, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Transition} from '@uirouter/core';
-import {CollectionResource} from 'core-components/api/api-v3/hal-resources/collection-resource.service';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
-import {UserResource} from 'core-components/api/api-v3/hal-resources/user-resource.service';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
@@ -45,7 +45,7 @@ import {I18nToken} from '../../../angular4-transition-utils';
 })
 export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
   public workPackageId:string;
-  public workPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
 
   public autocompleteInput = '';
   public error = false;

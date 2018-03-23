@@ -1,10 +1,10 @@
 import {Injector} from '@angular/core';
 import {States} from '../../states.service';
-import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageDisplayFieldService} from './../../wp-display/wp-display-field/wp-display-field.service';
 import {tdClassName} from './cell-builder';
 import {WorkPackageTableRelationColumnsService} from '../state/wp-table-relation-columns.service';
-import {RelationResourceInterface} from '../../api/api-v3/hal-resources/relation-resource.service';
+import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {QueryColumn} from '../../wp-query/query-column';
 import {WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
 
@@ -22,7 +22,7 @@ export class RelationCellbuilder {
   constructor(public readonly injector:Injector) {
   }
 
-  public build(workPackage:WorkPackageResourceInterface, column:QueryColumn) {
+  public build(workPackage:WorkPackageResource, column:QueryColumn) {
     const td = document.createElement('td');
     td.classList.add(tdClassName, relationCellTdClassName, column.id);
     td.dataset['columnId'] = column.id;
@@ -58,7 +58,7 @@ export class RelationCellbuilder {
     return indicator;
   }
 
-  private renderBadge(relations:RelationResourceInterface[]) {
+  private renderBadge(relations:RelationResource[]) {
     const badge = document.createElement('span');
     badge.classList.add('wp-table--relation-count');
 

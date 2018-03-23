@@ -28,10 +28,6 @@
 
 import {AfterViewInit, Component, ElementRef, Inject, Input, OnDestroy} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {
-  QUERY_SORT_BY_ASC,
-  QUERY_SORT_BY_DESC
-} from 'core-components/api/api-v3/hal-resources/query-sort-by-resource.service';
 import {RelationQueryColumn, TypeRelationQueryColumn} from 'core-components/wp-query/query-column';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
@@ -40,6 +36,10 @@ import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/
 import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableGroupByService} from './../../wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
+import {
+  QUERY_SORT_BY_ASC,
+  QUERY_SORT_BY_DESC
+} from 'core-app/modules/hal/resources/query-sort-by-resource';
 
 
 @Component({
@@ -224,28 +224,5 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
 
 }
 
-// angular
-//   .module('openproject.workPackages.directives')
-//   .directive('sortHeader', sortHeader);
-//
-// function sortHeader(wpTableHierarchies:WorkPackageTableHierarchiesService,
-//                     wpTableSortBy:WorkPackageTableSortByService,
-//                     wpTableGroupBy:WorkPackageTableGroupByService,
-//                     wpTableRelationColumns:WorkPackageTableRelationColumnsService,
-//                     I18n:op.I18n) {
-//   return {
-//     restrict: 'A',
-//     templateUrl: '/components/wp-table/sort-header/sort-header.directive.html',
-//
-//     scope: {
-//       column: '=headerColumn',
-//       locale: '='
-//     },
-//
-//     link: function(scope:any, element:ng.IAugmentedJQuery) {
-//     }
-//   };
-// }
-//
 
 

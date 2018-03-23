@@ -27,11 +27,11 @@
 //++
 
 import {filtersModule} from '../../../angular-modules';
-import {QueryFilterInstanceSchemaResource} from '../../api/api-v3/hal-resources/query-filter-instance-schema-resource.service'
-import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service'
-import {QueryFilterResource} from '../../api/api-v3/hal-resources/query-filter-resource.service'
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service'
-import {FormResource} from '../../api/api-v3/hal-resources/form-resource.service'
+import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource'
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource'
+import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource'
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource'
+import {FormResource} from 'core-app/modules/hal/resources/form-resource'
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import WorkPackageFiltersService from "../../filters/wp-filters/wp-filters.service";
 

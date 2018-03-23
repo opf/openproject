@@ -28,8 +28,8 @@
 
 import {Component, Inject, OnDestroy} from '@angular/core';
 import {Transition} from '@uirouter/core';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {I18nToken} from '../../../angular4-transition-utils';
@@ -40,7 +40,7 @@ import {I18nToken} from '../../../angular4-transition-utils';
 })
 export class WorkPackageOverviewTabComponent implements OnDestroy {
   public workPackageId:string;
-  public workPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
   public tabName = this.I18n.t('js.label_latest_activity');
 
   public constructor(@Inject(I18nToken) readonly I18n:op.I18n,

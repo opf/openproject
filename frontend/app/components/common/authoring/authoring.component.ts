@@ -29,7 +29,7 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {I18nToken, TimezoneServiceToken} from '../../../angular4-transition-utils';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {opUiComponentsModule} from 'core-app/angular-modules';
 import {downgradeComponent} from '@angular/upgrade/static';
 

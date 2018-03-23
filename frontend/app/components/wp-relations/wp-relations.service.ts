@@ -1,15 +1,12 @@
 import {multiInput, StatesGroup} from 'reactivestates';
-import {
-  RelationResource,
-  RelationResourceInterface
-} from '../api/api-v3/hal-resources/relation-resource.service';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {RelationsDmService} from '../api/api-v3/hal-resource-dms/relations-dm.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
 import {opServicesModule} from '../../angular-modules';
 import {StateCacheService} from '../states/state-cache.service';
+import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
+import {RelationsDmService} from 'core-app/modules/dm-services/relations-dm.service';
 
-export type RelationsStateValue = { [relationId:number]:RelationResourceInterface };
+export type RelationsStateValue = { [relationId:number]:RelationResource };
 
 class RelationStateGroup extends StatesGroup {
   name = 'WP-Relations';
@@ -60,7 +57,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
 
     this.relationsDm
       .loadInvolved(ids)
-      .then((elements:RelationResourceInterface[]) => {
+      .then((elements:RelationResource[]) => {
         this.clearSome(...ids);
         this.accumulateRelationsFromInvolved(ids, elements);
         deferred.resolve();
@@ -72,7 +69,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   /**
    * Remove the given relation.
    */
-  public removeRelation(relation:RelationResourceInterface) {
+  public removeRelation(relation:RelationResource) {
     return relation.delete().then(() => {
       this.removeFromStates(relation);
       this.wpTableRefresh.request(
@@ -85,7 +82,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   /**
    * Update the given relation type, setting new values for from and to
    */
-  public updateRelationType(from:WorkPackageResourceInterface, to:WorkPackageResourceInterface, relation:RelationResourceInterface, type:string) {
+  public updateRelationType(from:WorkPackageResource, to:WorkPackageResource, relation:RelationResource, type:string) {
     const params = {
       _links: {
         from: {href: from.href},
@@ -97,9 +94,9 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     return this.updateRelation(relation, params);
   }
 
-  public updateRelation(relation:RelationResourceInterface, params:{[key:string]: any}) {
+  public updateRelation(relation:RelationResource, params:{[key:string]: any}) {
     return relation.updateImmediately(params)
-      .then((savedRelation:RelationResourceInterface) => {
+      .then((savedRelation:RelationResource) => {
         this.insertIntoStates(savedRelation);
         this.wpTableRefresh.request(
           `Updating relation (${relation.ids.from} to ${relation.ids.to})`,
@@ -109,7 +106,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       });
   }
 
-  public addCommonRelation(workPackage:WorkPackageResourceInterface,
+  public addCommonRelation(workPackage:WorkPackageResource,
                            relationType:string,
                            relatedWpId:string) {
     const params = {
@@ -120,7 +117,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       type: relationType
     };
 
-    return workPackage.addRelation(params).then((relation:RelationResourceInterface) => {
+    return workPackage.addRelation(params).then((relation:RelationResource) => {
       this.insertIntoStates(relation);
       this.wpTableRefresh.request(
         `Adding relation (${relation.ids.from} to ${relation.ids.to})`,
@@ -134,7 +131,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * Merges a single relation
    * @param relation
    */
-  private insertIntoStates(relation:RelationResourceInterface) {
+  private insertIntoStates(relation:RelationResource) {
     _.values(relation.ids).forEach(wpId => {
       this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
         value[relation.id] = relation;
@@ -151,7 +148,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * Remove the given relation from the from/to states
    * @param relation
    */
-  private removeFromStates(relation:RelationResourceInterface) {
+  private removeFromStates(relation:RelationResource) {
     _.values(relation.ids).forEach(wpId => {
       this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
         delete value[relation.id];
@@ -167,7 +164,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * @param wpId The wpId the relations belong to
    * @param relations The relation resource array.
    */
-  private updateRelationsStateTo(wpId:string, relations:RelationResourceInterface[]) {
+  private updateRelationsStateTo(wpId:string, relations:RelationResource[]) {
     const state = this.multiState.get(wpId);
     const relationsToInsert = _.keyBy(relations, r => r.id);
 
@@ -181,7 +178,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    *
    * We need to group relevant relations for work packages based on their to/from filter.
    */
-  private accumulateRelationsFromInvolved(involved:string[], relations:RelationResourceInterface[]) {
+  private accumulateRelationsFromInvolved(involved:string[], relations:RelationResource[]) {
     involved.forEach(id => {
       const relevant = relations.filter(r => r.isInvolved(id));
       this.updateRelationsStateTo(id, relevant);

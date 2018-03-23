@@ -1,7 +1,6 @@
 import {Injector} from '@angular/core';
-import {HalResource} from '../../../../api/api-v3/hal-resources/hal-resource.service';
-import {WorkPackageResourceInterface} from '../../../../api/api-v3/hal-resources/work-package-resource.service';
-import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTable} from '../../../wp-fast-table';
 import {WorkPackageTableRow} from '../../../wp-table.interfaces';
 import {SingleRowBuilder} from '../../rows/single-row-builder';
@@ -9,6 +8,7 @@ import {PlainRenderPass} from '../plain/plain-render-pass';
 import {groupClassNameFor, GroupHeaderBuilder} from './group-header-builder';
 import {collapsedRowClass} from './grouped-rows-builder';
 import {groupByProperty, groupedRowClassName} from './grouped-rows-helpers';
+import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
 
 export class GroupedRenderPass extends PlainRenderPass {
 
@@ -46,7 +46,7 @@ export class GroupedRenderPass extends PlainRenderPass {
    * Find a matching group for the given work package.
    * The API sadly doesn't provide us with the information which group a WP belongs to.
    */
-  private matchingGroup(workPackage:WorkPackageResourceInterface) {
+  private matchingGroup(workPackage:WorkPackageResource) {
     return _.find(this.groups, (group:GroupObject) => {
       let property = workPackage[groupByProperty(group)];
       // explicitly check for undefined as `false` (bool) is a valid value.

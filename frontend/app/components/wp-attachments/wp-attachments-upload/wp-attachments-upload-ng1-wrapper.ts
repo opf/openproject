@@ -32,11 +32,11 @@ import {
   OnInit, SimpleChanges
 } from '@angular/core';
 import {UpgradeComponent} from '@angular/upgrade/static';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Directive({selector: 'ng1-wp-attachments-upload-wrapper'})
 export class Ng1WorkPackageAttachmentsUploadWrapper extends UpgradeComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
-  @Input('workPackage') workPackage:WorkPackageResourceInterface;
+  @Input('workPackage') workPackage:WorkPackageResource;
 
   constructor(@Inject(ElementRef) elementRef:ElementRef, @Inject(Injector) injector:Injector) {
     // We must pass the name of the directive as used by AngularJS to the super

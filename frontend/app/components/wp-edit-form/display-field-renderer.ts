@@ -1,7 +1,7 @@
 import {ProgressTextDisplayField} from './../wp-display/field-types/wp-display-progress-text-field.module';
 import {$injectFields} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageDisplayFieldService} from '../wp-display/wp-display-field/wp-display-field.service';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {DisplayField} from '../wp-display/wp-display-field/wp-display-field.module';
 import {MultipleLinesStringObjectsDisplayField} from '../wp-display/field-types/wp-display-multiple-lines-string-objects-field.module';
 import {WorkPackageChangeset} from './work-package-changeset';
@@ -24,7 +24,7 @@ export class DisplayFieldRenderer {
     $injectFields(this, 'wpDisplayField', 'I18n');
   }
 
-  public render(workPackage:WorkPackageResourceInterface,
+  public render(workPackage:WorkPackageResource,
                 name:string,
                 changeset:WorkPackageChangeset|null,
                 placeholder = cellEmptyPlaceholder):HTMLSpanElement {
@@ -39,7 +39,7 @@ export class DisplayFieldRenderer {
     return span;
   }
 
-  public renderFieldValue(workPackage:WorkPackageResourceInterface,
+  public renderFieldValue(workPackage:WorkPackageResource,
                           name:string,
                           changeset:WorkPackageChangeset|null,
                           placeholder = cellEmptyPlaceholder):[DisplayField|null, HTMLSpanElement] {
@@ -65,7 +65,7 @@ export class DisplayFieldRenderer {
     return [field, span];
   }
 
-  public getField(workPackage:WorkPackageResourceInterface,
+  public getField(workPackage:WorkPackageResource,
                   fieldSchema:op.FieldSchema,
                   name:string,
                   changeset:WorkPackageChangeset|null):DisplayField {
@@ -75,7 +75,7 @@ export class DisplayFieldRenderer {
     return field;
   }
 
-  private getFieldForCurrentContext(workPackage:WorkPackageResourceInterface, fieldSchema:op.FieldSchema, name:string) {
+  private getFieldForCurrentContext(workPackage:WorkPackageResource, fieldSchema:op.FieldSchema, name:string) {
 
     // We handle multi value fields differently in the single view context
     const isMultiLinesField = ['[]CustomOption', '[]User'].indexOf(fieldSchema.type) >= 0;
@@ -99,7 +99,7 @@ export class DisplayFieldRenderer {
     }
   }
 
-  private setSpanAttributes(span:HTMLElement, field:DisplayField, name:string, workPackage:WorkPackageResourceInterface):void {
+  private setSpanAttributes(span:HTMLElement, field:DisplayField, name:string, workPackage:WorkPackageResource):void {
     span.classList.add(cellClassName, displayClassName, 'inplace-edit', 'wp-edit-field', name);
     span.dataset['fieldName'] = name;
 
@@ -122,7 +122,7 @@ export class DisplayFieldRenderer {
     }
   }
 
-  private getAriaLabel(field:DisplayField, workPackage:WorkPackageResourceInterface):string {
+  private getAriaLabel(field:DisplayField, workPackage:WorkPackageResource):string {
     let titleContent;
     let labelContent = this.getLabelContent(field);
 

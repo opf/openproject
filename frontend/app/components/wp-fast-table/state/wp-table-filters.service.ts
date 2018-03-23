@@ -26,20 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  WorkPackageQueryStateService,
-  WorkPackageTableBaseService
-} from './wp-table-base.service';
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
-import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {WorkPackageTableFilters} from '../wp-table-filters';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {InputState} from 'reactivestates';
+import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {Injectable} from '@angular/core';
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {WorkPackageTableFilters} from '../wp-table-filters';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {InputState} from 'reactivestates';
 
 @Injectable()
 export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<WorkPackageTableFilters> implements WorkPackageQueryStateService {
@@ -56,7 +53,7 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
     return undefined;
   }
 
-  public initializeFilters(query:QueryResource, schema:QuerySchemaResourceInterface) {
+  public initializeFilters(query:QueryResource, schema:QuerySchemaResource) {
     let filters = _.map(query.filters, filter => filter.$copy());
 
     this.loadCurrentFiltersSchemas(filters).then(() => {

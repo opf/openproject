@@ -26,14 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {QueryGroupByResource} from '../../api/api-v3/hal-resources/query-group-by-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
 import {opServicesModule} from '../../../angular-modules';
 import {WorkPackageTableGroupBy} from '../wp-table-group-by';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {QueryColumn} from '../../wp-query/query-column';
 import {InputState} from 'reactivestates';
-import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
+import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {States} from 'core-components/states.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';

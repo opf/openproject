@@ -29,20 +29,18 @@
 import {States} from 'core-components/states.service';
 import {combine} from 'reactivestates';
 import {mapTo} from 'rxjs/operators';
-import {opServicesModule} from '../../../angular-modules';
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {
-  QUERY_SORT_BY_ASC,
-  QUERY_SORT_BY_DESC,
-  QuerySortByResource
-} from '../../api/api-v3/hal-resources/query-sort-by-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {WorkPackageTableSortBy} from '../wp-table-sort-by';
 import {QueryColumn} from '../../wp-query/query-column';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import {WorkPackageTableSortBy} from '../wp-table-sort-by';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {Observable} from 'rxjs';
+import {
+  QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC,
+  QuerySortByResource
+} from 'core-app/modules/hal/resources/query-sort-by-resource';
 
 @Injectable()
 export class WorkPackageTableSortByService extends WorkPackageTableBaseService<WorkPackageTableSortBy> implements WorkPackageQueryStateService {
@@ -146,5 +144,3 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService<W
     return this.availableState.getValueOr([]);
   }
 }
-
-opServicesModule.service('wpTableSortBy', downgradeInjectable(WorkPackageTableSortByService));

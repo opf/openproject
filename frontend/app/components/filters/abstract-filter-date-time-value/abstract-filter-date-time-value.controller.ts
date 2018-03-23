@@ -29,7 +29,7 @@
 
 import {filtersModule} from '../../../angular-modules';
 import {Moment} from 'moment';
-import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 
 export abstract class AbstractDateTimeValueController {
   public filter:QueryFilterInstanceResource;

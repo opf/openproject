@@ -30,9 +30,9 @@ import IAugmentedJQuery = angular.IAugmentedJQuery;
 import {IDialogService} from 'ng-dialog';
 import {IDialogScope} from 'ng-dialog';
 import {opUiComponentsModule} from '../../../angular-modules';
-import {HelpTextResourceInterface} from '../../api/api-v3/hal-resources/help-text-resource.service';
-import {HelpTextDmService} from '../../api/api-v3/hal-resource-dms/help-text-dm.service';
 import {AttributeHelpTextsService} from './attribute-help-text.service';
+import {HelpTextDmService} from 'core-app/modules/dm-services/help-text-dm.service';
+import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
 
 export class AttributeHelpTextController {
   // Attribute to show help text for
@@ -100,7 +100,7 @@ export class AttributeHelpTextController {
     }
   }
 
-  private renderModal(resource:HelpTextResourceInterface) {
+  private renderModal(resource:HelpTextResource) {
     this.$scope.resource = resource;
     this.ngDialog.open({
       closeByEscape: true,

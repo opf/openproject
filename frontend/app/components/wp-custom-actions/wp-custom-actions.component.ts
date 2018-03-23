@@ -30,7 +30,7 @@ import {opUiComponentsModule} from '../../angular-modules';
 import {Component} from '@angular/core';
 import {OnInit, Input} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {WorkPackageResource} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Component({
   selector: 'wp-custom-actions',

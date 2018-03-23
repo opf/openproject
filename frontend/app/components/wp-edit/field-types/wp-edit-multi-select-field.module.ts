@@ -27,8 +27,8 @@
 // ++
 
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
-import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 
 export class MultiSelectEditField extends EditField {

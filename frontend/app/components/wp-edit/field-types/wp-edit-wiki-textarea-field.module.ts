@@ -27,7 +27,8 @@
 // ++
 
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
-import {$injectFields} from '../../angular/angular-injector-bridge.functions';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {$injectFields, $injectNow} from '../../angular/angular-injector-bridge.functions';
 import {TextileService} from './../../common/textile/textile-service';
 import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 import {AutoCompleteHelperService} from 'core-components/common/autocomplete/auto-complete-helper.service';

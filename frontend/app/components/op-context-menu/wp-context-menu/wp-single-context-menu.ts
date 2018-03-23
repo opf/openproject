@@ -7,7 +7,7 @@ import {
 } from "core-app/angular4-transition-utils";
 import {LinkHandling} from "core-components/common/link-handling/link-handling";
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {WorkPackageResourceInterface} from "core-components/api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {PERMITTED_CONTEXT_MENU_ACTIONS} from "core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {WorkPackageAuthorization} from "core-components/work-packages/work-package-authorization.service";
@@ -18,7 +18,7 @@ import {StateService} from "@uirouter/core";
   selector: '[wpSingleContextMenu]'
 })
 export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger {
-  @Input('wpSingleContextMenu-workPackage') public workPackage:WorkPackageResourceInterface;
+  @Input('wpSingleContextMenu-workPackage') public workPackage:WorkPackageResource;
 
   constructor(@Inject(HookServiceToken) readonly HookService:any,
               @Inject(wpDestroyModalToken) readonly wpDestroyModal:any,

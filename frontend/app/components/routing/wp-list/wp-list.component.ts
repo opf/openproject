@@ -35,7 +35,7 @@ import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {auditTime, distinctUntilChanged, filter, take, withLatestFrom} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 import {States} from '../../states.service';
 import {WorkPackageQueryStateService} from '../../wp-fast-table/state/wp-table-base.service';

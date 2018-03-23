@@ -1,7 +1,6 @@
 import {Injector} from '@angular/core';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {WorkPackageResourceInterface} from '../../../../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../../../../states.service';
 import {
   ancestorClassIdentifier,
@@ -14,6 +13,7 @@ import {WorkPackageTableHierarchies} from '../../../wp-table-hierarchies';
 import {WorkPackageTableRow} from '../../../wp-table.interfaces';
 import {PrimaryRenderPass, RowRenderInfo} from '../../primary-render-pass';
 import {additionalHierarchyRowClassName, SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
 
@@ -26,10 +26,10 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   public rendered:{ [workPackageId:string]:boolean };
 
   // Remember additional parents inserted that are not part of the results table
-  public additionalParents:{ [workPackageId:string]:WorkPackageResourceInterface };
+  public additionalParents:{ [workPackageId:string]:WorkPackageResource };
 
   // Defer children to be rendered when their parent occurs later in the table
-  public deferred:{ [parentId:string]:WorkPackageResourceInterface[] };
+  public deferred:{ [parentId:string]:WorkPackageResource[] };
 
   // Collapsed state
   private hierarchies:WorkPackageTableHierarchies;
@@ -55,7 +55,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   protected doRender() {
     this.workPackageTable.originalRows.forEach((wpId:string) => {
       const row:WorkPackageTableRow = this.workPackageTable.originalRowIndex[wpId];
-      const workPackage:WorkPackageResourceInterface = row.object;
+      const workPackage:WorkPackageResource = row.object;
 
       // If we need to defer this row, skip it for now
       if (this.deferInsertion(workPackage)) {
@@ -84,7 +84,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    * @param workPackage
    * @returns {boolean}
    */
-  public deferInsertion(workPackage:WorkPackageResourceInterface):boolean {
+  public deferInsertion(workPackage:WorkPackageResource):boolean {
     const ancestors = workPackage.ancestors;
 
     // Will only defer if at least one ancestor exists
@@ -134,13 +134,13 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    * deferred, each of them will be passed through renderCallback.
    * @param workPackage
    */
-  private renderAllDeferredChildren(workPackage:WorkPackageResourceInterface) {
+  private renderAllDeferredChildren(workPackage:WorkPackageResource) {
     const wpId = workPackage.id.toString();
     const deferredChildren = this.deferred[wpId] || [];
 
     // If the work package has deferred children to render,
     // run them through the callback
-    deferredChildren.forEach((child:WorkPackageResourceInterface) => {
+    deferredChildren.forEach((child:WorkPackageResource) => {
       this.insertUnderParent(this.getOrBuildRow(child), child.parent);
 
       // Descend into any children the child WP might have and callback
@@ -148,7 +148,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     });
   }
 
-  private getOrBuildRow(workPackage:WorkPackageResourceInterface) {
+  private getOrBuildRow(workPackage:WorkPackageResource) {
     let row:WorkPackageTableRow = this.workPackageTable.originalRowIndex[workPackage.id];
 
     if (!row) {
@@ -164,7 +164,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     const ancestorGroups:string[] = [];
 
     // Iterate ancestors
-    ancestors.forEach((el:WorkPackageResourceInterface, index:number) => {
+    ancestors.forEach((el:WorkPackageResource, index:number) => {
       const ancestor = this.states.workPackages.get(el.id).value!;
 
 
@@ -206,7 +206,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    * @param row
    * @param parentId
    */
-  private insertUnderParent(row:WorkPackageTableRow, parent:WorkPackageResourceInterface) {
+  private insertUnderParent(row:WorkPackageTableRow, parent:WorkPackageResource) {
     const [tr, hidden] = this.rowBuilder.buildEmpty(row.object);
     row.element = tr;
     this.insertAtExistingHierarchy(row.object, tr, parent, hidden, false);
@@ -217,12 +217,12 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    * @param workPackage
    * @param hidden
    */
-  private markRendered(workPackage:WorkPackageResourceInterface, hidden:boolean = false, isAncestor:boolean = false) {
+  private markRendered(workPackage:WorkPackageResource, hidden:boolean = false, isAncestor:boolean = false) {
     this.rendered[workPackage.id] = true;
     this.renderedOrder.push(this.buildRenderInfo(workPackage, hidden, isAncestor));
   }
 
-  public ancestorClasses(workPackage:WorkPackageResourceInterface) {
+  public ancestorClasses(workPackage:WorkPackageResource) {
     const rowClasses = [hierarchyRootClass(workPackage.id)];
 
     if (_.isArray(workPackage.ancestors)) {
@@ -242,9 +242,9 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   /**
    * Append a row to the given parent hierarchy group.
    */
-  private insertAtExistingHierarchy(workPackage:WorkPackageResourceInterface,
+  private insertAtExistingHierarchy(workPackage:WorkPackageResource,
                                     el:HTMLElement,
-                                    parent:WorkPackageResourceInterface,
+                                    parent:WorkPackageResource,
                                     hidden:boolean,
                                     isAncestor:boolean) {
     // Either append to the hierarchy group root (= the parentID row itself)
@@ -262,7 +262,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     this.rendered[workPackage.id] = true;
   }
 
-  private buildRenderInfo(workPackage:WorkPackageResourceInterface, hidden:boolean, isAncestor:boolean):RowRenderInfo {
+  private buildRenderInfo(workPackage:WorkPackageResource, hidden:boolean, isAncestor:boolean):RowRenderInfo {
     let info:any = {
       workPackage: workPackage,
       renderType: 'primary',

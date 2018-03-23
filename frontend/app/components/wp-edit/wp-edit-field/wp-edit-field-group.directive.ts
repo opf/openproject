@@ -27,7 +27,6 @@
 // ++
 
 import {Component, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
@@ -37,11 +36,11 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {input} from 'reactivestates';
 import {filter, map, take, takeUntil} from 'rxjs/operators';
 import {opWorkPackagesModule} from '../../../angular-modules';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../../states.service';
 import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
 import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {WorkPackageCreateService} from './../../wp-new/wp-create.service';
@@ -51,7 +50,7 @@ import {WorkPackageCreateService} from './../../wp-new/wp-create.service';
   template: '<ng-content></ng-content>'
 })
 export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
-  @Input('workPackage') workPackage:WorkPackageResourceInterface;
+  @Input('workPackage') workPackage:WorkPackageResource;
   @Input('successState') successState?:string;
   @Input('inEditMode') inEditMode:boolean = false;
 
@@ -113,7 +112,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
         .pipe(
           takeUntil(componentDestroyed(this))
         )
-        .subscribe((wp:WorkPackageResourceInterface) => {
+        .subscribe((wp:WorkPackageResource) => {
           this.form.editMode = false;
           this.stopEditingAndLeave(wp, true);
         });
@@ -184,13 +183,13 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
    * for new work packages, ignore them and only stop editing on non-new WPs.
    *
    */
-  public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResourceInterface) {
+  public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResource) {
     if (!isInitial) {
       this.stopEditingAndLeave(savedWorkPackage, false);
     }
   }
 
-  private stopEditingAndLeave(savedWorkPackage:WorkPackageResourceInterface, isInitial:boolean) {
+  private stopEditingAndLeave(savedWorkPackage:WorkPackageResource, isInitial:boolean) {
     this.wpEditing.stopEditing(this.workPackage.id);
 
     if (this.successState) {
@@ -202,7 +201,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     }
   }
 
-  private updateDisplayField(field:WorkPackageEditFieldComponent, wp:WorkPackageResourceInterface) {
+  private updateDisplayField(field:WorkPackageEditFieldComponent, wp:WorkPackageResource) {
     field.workPackage = wp;
     field.render();
   }
@@ -225,10 +224,3 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     return toParams.workPackageId !== undefined && toParams.workPackageId === fromParams.workPackageId;
   }
 }
-
-
-opWorkPackagesModule.directive('wpEditFieldGroupNg1',
-  downgradeComponent({component: WorkPackageEditFieldGroupComponent})
-);
-
-
