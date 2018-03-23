@@ -91,7 +91,8 @@ See docs/COPYRIGHT.rdoc for more details.
                                                        membership.roles.include?(role),
                                                        role.name,
                                                        disabled: membership.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?},
-                                                       no_label: true
+                                                       no_label: true,
+                                                       id: nil
                             %>
                             <%= role %>
                             </label>
