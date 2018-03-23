@@ -78,7 +78,7 @@ export class WorkPackageRelationsController {
       return scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(wpId).values$());
     });
 
-    return zip(observablesToGetZipped);
+    return zip(...observablesToGetZipped);
   }
 
   protected getRelatedWorkPackageId(relation:RelationResourceInterface):string {
