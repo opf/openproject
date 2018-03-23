@@ -61,7 +61,8 @@ See docs/COPYRIGHT.rdoc for more details.
         </div>
       </div>
 
-      <%= styled_button_tag l(@custom_style.logo.present? ? :button_replace : :button_upload), class: "button #{@custom_style.logo.blank? ? '-with-icon icon-add' : ''}" %>
+      <%= styled_button_tag l(@custom_style.logo.present? ? :button_replace : :button_upload),
+                            class: "button #{@custom_style.logo.blank? ? '-with-icon icon-add' : ''}" %>
 
     </fieldset>
   </section>
@@ -77,10 +78,14 @@ See docs/COPYRIGHT.rdoc for more details.
           <label class="form--label"><%= design_color.variable %>:</label>
           <span class="form--field-container">
             <span class="form--text-field-container">
-              <%= styled_text_field_tag "design_colors[]" + design_color.variable, design_color.hexcode, placeholder: DesignColor.defaults[design_color.variable] %>
+              <%= styled_text_field_tag "design_colors[]" + design_color.variable,
+                                        design_color.hexcode,
+                                        placeholder: DesignColor.defaults[design_color.variable] %>
             </span>
           </span>
-          <%= icon_for_color(OpenStruct.new( variable: design_color.variable, hexcode: design_color.get_hexcode ), data: { target: '#color_hexcode' }) %>
+          <%= icon_for_color(OpenStruct.new(variable: design_color.variable,
+                                            hexcode: design_color.get_hexcode),
+                             data: { target: "#design_colors_" + design_color.variable }) %>
           <div class="form--field-instructions">
             <% if design_color.variable == "primary-color" %>
               <%= t("admin.custom_styles.instructions.primary_color") %>
