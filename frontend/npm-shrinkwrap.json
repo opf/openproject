@@ -2920,7 +2920,7 @@
     "jquery-mockjax": {
       "version": "2.2.2",
       "resolved": "https://registry.npmjs.org/jquery-mockjax/-/jquery-mockjax-2.2.2.tgz",
-      "integrity": "sha1-nH0rEDpEz2HJnMeKnueHhQS2CQc=",
+      "integrity": "sha512-stVgUln5bo7g14KjeU45c31nAYlBHAUVBo4JbdoDYIJ3i6Nzlu8mkjKcAviwad9AU1dBEHHpuzA7R6mKcWgvZA==",
       "dev": true,
       "requires": {
         "jquery": "3.3.1"
@@ -3722,7 +3722,7 @@
       "resolved": "https://registry.npmjs.org/ng2-rx-componentdestroyed/-/ng2-rx-componentdestroyed-2.0.1.tgz",
       "integrity": "sha512-YWLWhhI82cY6+c7/cjsCu8WVJvrIvTdUSbGLEdHuJMbmocF6n5aL/uiaSa73ymp9LX6xOw0JYLetMFNG551HGg==",
       "requires": {
-        "rxjs": "5.5.6"
+        "rxjs": "5.5.7"
       }
     },
     "ngtemplate-loader": {
@@ -4410,7 +4410,7 @@
       "requires": {
         "es6-shim": "0.35.3",
         "lodash": "4.17.5",
-        "rxjs": "5.5.6",
+        "rxjs": "5.5.7",
         "ts-lint": "4.5.1"
       }
     },
@@ -4692,9 +4692,9 @@
       }
     },
     "rxjs": {
-      "version": "5.5.6",
-      "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-5.5.6.tgz",
-      "integrity": "sha512-v4Q5HDC0FHAQ7zcBX7T2IL6O5ltl1a2GX4ENjPXg6SjDY69Cmx9v4113C99a4wGF16ClPv5Z8mghuYorVkg/kg==",
+      "version": "5.5.7",
+      "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-5.5.7.tgz",
+      "integrity": "sha512-Hxo2ac8gRQjwjtKgukMIwBRbq5+KAeEV5hXM4obYBOAghev41bDQWgFH4svYiU9UnQ5kNww2LgfyBdevCd2HXA==",
       "requires": {
         "symbol-observable": "1.0.1"
       }
