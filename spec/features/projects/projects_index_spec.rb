@@ -61,6 +61,7 @@ describe 'Projects index page',
                        name: 'Development project',
                        identifier: 'development-project')
   end
+  let(:news) { FactoryGirl.create(:news, project: project) }
 
   def load_and_open_filters(user)
     login_as(user)
@@ -175,6 +176,12 @@ describe 'Projects index page',
     end
 
     feature 'for admins' do
+      before do
+        project.update_attributes(created_on: 7.days.ago)
+
+        news
+      end
+
       scenario 'test that all projects are visible' do
         login_as(admin)
         visit projects_path
@@ -193,6 +200,20 @@ describe 'Projects index page',
         expect(menu).to have_text('New subproject')
         expect(menu).to have_text('Delete')
         expect(menu).to have_text('Archive')
+
+        # Test visibility of admin only properties
+        within('#project-table') do
+          expect(page)
+            .to have_selector('th', text: 'REQUIRED DISK STORAGE')
+          expect(page)
+            .to have_selector('th', text: 'CREATED ON')
+          expect(page)
+            .to have_selector('td', text: project.created_on.strftime('%m/%d/%Y'))
+          expect(page)
+            .to have_selector('th', text: 'LATEST ACTIVITY AT')
+          expect(page)
+            .to have_selector('td', text: news.created_on.strftime('%m/%d/%Y'))
+        end
       end
     end
   end
@@ -625,6 +646,10 @@ describe 'Projects index page',
 
       # Remove public projects from the default list for these scenarios.
       public_project.update_attribute :status, Project::STATUS_ARCHIVED
+
+      project.update_attributes(created_on: 7.days.ago)
+
+      news
     end
 
     scenario 'can see the "More" menu' do
@@ -675,6 +700,20 @@ describe 'Projects index page',
       expect(menu).to_not have_text('Delete')
       expect(menu).to_not have_text('Archive')
       expect(menu).to_not have_text('Unrchive')
+
+      # Test admin only properties are invisible
+      within('#project-table') do
+        expect(page)
+          .to have_no_selector('th', text: 'REQUIRED DISK STORAGE')
+        expect(page)
+          .to have_no_selector('th', text: 'CREATED ON')
+        expect(page)
+          .to have_no_selector('td', text: project.created_on.strftime('%m/%d/%Y'))
+        expect(page)
+          .to have_no_selector('th', text: 'LATEST ACTIVITY AT')
+        expect(page)
+          .to have_no_selector('td', text: news.created_on.strftime('%m/%d/%Y'))
+      end
     end
   end
 
