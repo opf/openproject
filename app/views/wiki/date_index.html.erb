@@ -43,9 +43,6 @@ See docs/COPYRIGHT.rdoc for more details.
     <% end %>
   </ul>
 <% end %>
-<% content_for :sidebar do %>
-  <%= render partial: 'sidebar' %>
-<% end %>
 <% if @pages.any? %>
   <%= other_formats_links do |f| %>
     <%= f.link_to 'Atom', url: {controller: '/activities', action: 'index', show_wiki_edits: 1, key: User.current.rss_key} %>

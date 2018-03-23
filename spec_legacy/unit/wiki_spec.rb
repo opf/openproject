@@ -61,23 +61,4 @@ describe Wiki, type: :model do
     page = FactoryGirl.create(:wiki_page, wiki: wiki, title: '2009\\02\\09')
     assert_equal page, wiki.find_page('2009\\02\\09')
   end
-
-  context '#sidebar' do
-    before do
-      @wiki = Wiki.find(1)
-    end
-
-    it 'should return nil if undefined' do
-      assert_nil @wiki.sidebar
-    end
-
-    it 'should return a WikiPage if defined' do
-      page = @wiki.pages.new(title: 'Sidebar')
-      page.content = WikiContent.new(text: 'Side bar content for test_show_with_sidebar')
-      page.save!
-
-      assert_kind_of WikiPage, @wiki.sidebar
-      assert_equal 'Sidebar', @wiki.sidebar.title
-    end
-  end
 end
