@@ -33,7 +33,7 @@ module Webhooks
         hook = OpenProject::Webhooks.find(params.require 'hook_name')
 
         if hook
-          code = hook.handle(env, params, find_current_user)
+          code = hook.handle(ENV, params, find_current_user)
           head code.is_a?(Integer) ? code : 200
         else
           head :not_found
