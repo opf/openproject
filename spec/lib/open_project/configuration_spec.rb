@@ -243,6 +243,8 @@ describe OpenProject::Configuration do
       Setting[:email_delivery_method] = nil
       # reload configuration to isolate specs
       OpenProject::Configuration.load
+      # clear settings cache to isolate specs
+      Setting.clear_cache
     end
 
     it 'does nothing if no legacy configuration given' do
@@ -292,6 +294,8 @@ describe OpenProject::Configuration do
     after do
       # reload configuration to isolate specs
       OpenProject::Configuration.load
+      # clear settings cache to isolate specs
+      Setting.clear_cache
     end
 
     it 'uses the legacy method to configure email settings' do
