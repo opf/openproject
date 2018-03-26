@@ -27,6 +27,24 @@
 //++
 
 @include breakpoint(680px down)
+  #mobile-main-menu-toggle
+    display: block
+    width: 50px
+    height: $header-height-mobile
+    float: left
+    text-align: center
+    margin-right: -13px
+    a
+      height: $header-height-mobile
+      line-height: $header-height-mobile
+      zoom: 1
+      @include varprop(color, header-item-font-color)
+      @include varprop(font-size, header-item-font-size)
+      text-decoration: none
+      padding: 0 15px
+  .nosidebar
+    #mobile-main-menu-toggle
+      display: none
   #logo
     background-color: transparent
 
