@@ -30,6 +30,7 @@ export interface WorkPackageTableConfigurationObject {
   splitViewEnabled:boolean;
   contextMenuEnabled:boolean;
   columnMenuEnabled:boolean;
+  projectContext:boolean;
 }
 
 export class WorkPackageTableConfiguration {
@@ -37,7 +38,8 @@ export class WorkPackageTableConfiguration {
   config:WorkPackageTableConfigurationObject = {
     splitViewEnabled: true,
     contextMenuEnabled: true,
-    columnMenuEnabled: true
+    columnMenuEnabled: true,
+    projectContext: true
   }
 
   constructor(private providedConfig:WorkPackageTableConfigurationObject) {
@@ -54,5 +56,9 @@ export class WorkPackageTableConfiguration {
 
   get columnMenuEnabled() {
     return this.config.columnMenuEnabled;
+  }
+
+  get projectContext() {
+    return this.config.projectContext;
   }
 }

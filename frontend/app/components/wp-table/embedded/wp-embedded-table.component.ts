@@ -22,6 +22,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 import {withLatestFrom} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
+import {WorkPackageTableConfigurationObject} from 'core-components/wp-table/wp-table-configuration';
 
 @Component({
   selector: 'wp-embedded-table',
@@ -44,11 +45,10 @@ import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-reso
 export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   @Input('queryId') public queryId?:string;
   @Input('queryProps') public queryProps:any = {};
-  @Input() public configuration:any;
+  @Input() public configuration:WorkPackageTableConfigurationObject;
 
   private query:QueryResourceInterface;
   public tableInformationLoaded = false;
-  public projectIdentifier = this.currentProject.identifier;
   public showTablePagination = false;
 
   constructor(readonly QueryDm:QueryDmService,
@@ -78,6 +78,16 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   ngOnDestroy():void {
   }
 
+  get projectIdentifier() {
+    let identifier:string|null = null;
+
+    if (this.configuration['projectContext']) {
+      identifier = this.currentProject.identifier;
+    }
+
+    return identifier || undefined;
+  }
+
   private initializeStates(query:QueryResource, results:WorkPackageCollectionResource) {
     this.tableState.ready.doAndTransition('Query loaded', () => {
       this.wpStatesInitialization.clearStates();
@@ -97,10 +107,9 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
     return this.QueryDm.find(
       this.queryProps,
       this.queryId,
-      this.projectIdentifier || undefined
+      this.projectIdentifier
     );
   }
-
 }
 
 // TODO: remove as this should also work by angular2 only

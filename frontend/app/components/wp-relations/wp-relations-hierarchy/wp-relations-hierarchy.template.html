@@ -22,7 +22,10 @@
     </div>
 
     <wp-embedded-table [query-props]="$ctrl.childrenQueryProps"
-                       [configuration]="{ splitViewEnabled: false, columnMenuEnabled: false, contextMenuEnabled: false }">
+                       [configuration]="{ splitViewEnabled: false,
+                                          columnMenuEnabled: false,
+                                          contextMenuEnabled: false,
+                                          projectContext: false }" >
     </wp-embedded-table>
 
     <wp-relations-create
