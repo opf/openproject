@@ -110,6 +110,10 @@ RSpec.configure do |config|
   # Use colored output
   config.color = true
 
+  config.after(:each) do
+    puts Cocaine::CommandLine.new('ps', 'aux').run()
+  end
+
   # Seed global randomization in this process using the `--seed` CLI option.
   # Setting this allows you to use `--seed` to deterministically reproduce
   # test failures related to randomization by passing the same `--seed` value
