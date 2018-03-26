@@ -47,6 +47,11 @@ describe 'Custom fields reporting', type: :feature, js: true do
                        hours: 2.50
   }
 
+
+  def custom_value_for(cf, str)
+    cf.custom_options.find { |co| co.value == str }.try(:id)
+  end
+
   context 'with multi value cf' do
     let!(:custom_field) do
       FactoryGirl.create(
@@ -59,7 +64,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       )
     end
 
-    let(:initial_custom_values) { { custom_field.id => 1 } }
+    let(:initial_custom_values) { { custom_field.id => custom_value_for(custom_field, 'First option') } }
     let(:cf_id) { "custom_field#{custom_field.id}" }
 
     before do
@@ -140,7 +145,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       let!(:work_package2) {
         FactoryGirl.create :work_package,
                            project: project,
-                           custom_values: { custom_field_2.id => 1}
+                           custom_values: { custom_field_2.id => custom_value_for(custom_field_2, 'A')}
       }
 
       let!(:time_entry1) {
