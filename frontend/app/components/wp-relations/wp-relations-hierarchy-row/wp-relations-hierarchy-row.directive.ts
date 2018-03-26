@@ -5,6 +5,7 @@ import {WorkPackageCacheService} from '../../work-packages/work-package-cache.se
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {scopeDestroyed$, scopedObservable} from '../../../helpers/angular-rx-utils';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {OnInit} from '@angular/core';
 
 class WpRelationsHierarchyRowDirectiveController {
   public workPackage:WorkPackageResourceInterface;
@@ -23,12 +24,7 @@ class WpRelationsHierarchyRowDirectiveController {
               protected I18n:op.I18n,
               protected $q:ng.IQService) {
 
-    this.canModifyHierarchy = !!this.workPackage.changeParent;
 
-    if (this.relatedWorkPackage) {
-      scopedObservable($scope, this.wpCacheService.state(this.relatedWorkPackage.id).values$())
-        .subscribe((wp) => this.relatedWorkPackage = wp);
-    }
   }
 
   public text = {
@@ -39,6 +35,15 @@ class WpRelationsHierarchyRowDirectiveController {
     parent:this.I18n.t('js.relation_labels.parent'),
     children:this.I18n.t('js.relation_labels.children')
   };
+
+  $onInit() {
+    this.canModifyHierarchy = !!this.workPackage.changeParent;
+
+    if (this.relatedWorkPackage) {
+      scopedObservable(this.$scope, this.wpCacheService.state(this.relatedWorkPackage.id).values$())
+        .subscribe((wp) => this.relatedWorkPackage = wp);
+    }
+  }
 
   public get relationReady() {
     return this.relatedWorkPackage && this.relatedWorkPackage.$loaded;

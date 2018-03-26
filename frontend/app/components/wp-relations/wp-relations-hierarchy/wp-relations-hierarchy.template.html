@@ -1,36 +1,38 @@
 <div class="wp-relations-hierarchy-section">
     <div class="attributes-group--header">
         <div class="attributes-group--header-container">
-            <h3 class="attributes-group--header-text">
-                {{ ::$ctrl.text.parentHeadline }}
+            <h3 class="attributes-group--header-text"
+                [textContent]="text.parentHeadline">
             </h3>
         </div>
     </div>
 
-    <wp-relations-hierarchy-row
-            work-package="$ctrl.workPackage"
-            related-work-package="$ctrl.workPackage.parent"
-            relation-type="parent"></wp-relations-hierarchy-row>
+    <ng1-wp-relations-hierarchy-row
+            [workPackage]="workPackage"
+            [relatedWorkPackage]="workPackage.parent"
+            [relationType]="'parent'"></ng1-wp-relations-hierarchy-row>
 </div>
 <div class="wp-relations-hierarchy-section">
     <div class="attributes-group--header">
         <div class="attributes-group--header-container">
-            <h3 class="attributes-group--header-text">
-                {{ ::$ctrl.text.childrenHeadline }}
+            <h3 class="attributes-group--header-text"
+                [textContent]="text.childrenHeadline">
             </h3>
         </div>
     </div>
 
-    <wp-embedded-table [query-props]="$ctrl.childrenQueryProps"
+    <wp-embedded-table #childrenEmbeddedTable
+                       [queryProps]="childrenQueryProps"
+                       [tableActions]="childrenTableActions"
                        [configuration]="{ splitViewEnabled: false,
                                           columnMenuEnabled: false,
                                           contextMenuEnabled: false,
                                           projectContext: false }" >
     </wp-embedded-table>
 
-    <wp-relations-create
-            fixed-relation-type="children"
-            work-package="$ctrl.workPackage"
+    <ng1-wp-relations-create
+            [fixedRelationType]="children"
+            [workPackage]="workPackage"
             template="add-child"
-            ng-if="$ctrl.canModifyHierarchy && $ctrl.canHaveChildren"></wp-relations-create>
+            *ngIf="canModifyHierarchy && canHaveChildren"></ng1-wp-relations-create>
 </div>

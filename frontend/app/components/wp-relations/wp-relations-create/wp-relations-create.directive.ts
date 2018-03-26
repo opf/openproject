@@ -16,9 +16,9 @@ export class WorkPackageRelationsCreateController {
   public fixedRelationType:string;
   public relationTypes = RelationResource.LOCALIZED_RELATION_TYPES(false);
 
-  public canAddChildren = !!this.workPackage.addChild;
-  public canLinkChildren = !!this.workPackage.changeParent;
   public isDisabled = false;
+  public canAddChildren:boolean = false;
+  public canLinkChildren:boolean = false;
 
   constructor(protected I18n:op.I18n,
               protected $scope:ng.IScope,
@@ -29,14 +29,19 @@ export class WorkPackageRelationsCreateController {
               protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpCacheService:WorkPackageCacheService) {
+  }
 
-    if (angular.isDefined(this.fixedRelationType)) {
+  $onInit() {
+    if (this.fixedRelationType) {
       this.selectedRelationType = this.fixedRelationType;
     }
 
-    if (angular.isDefined(this.externalFormToggle)) {
+    if (this.externalFormToggle) {
       this.showRelationsCreateForm = this.externalFormToggle;
     }
+
+    this.canAddChildren = !!this.workPackage.addChild;
+    this.canLinkChildren = !!this.workPackage.changeParent;
   }
 
   public text = {
@@ -123,7 +128,8 @@ function wpRelationsCreate():any {
     restrict: 'E',
 
     templateUrl: (el:ng.IAugmentedJQuery, attrs:ng.IAttributes) => {
-      return '/components/wp-relations/wp-relations-create/' + attrs['template'] + '.template.html';
+      const template = attrs ? attrs['template'] : 'add-child';
+      return '/components/wp-relations/wp-relations-create/' + template + '.template.html';
     },
 
     scope: {

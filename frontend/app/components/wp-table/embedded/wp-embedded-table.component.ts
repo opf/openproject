@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {QueryDmService} from '../../api/api-v3/hal-resource-dms/query-dm.service';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {
@@ -17,18 +17,22 @@ import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/stat
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
 import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
-import {opUiComponentsModule} from 'core-app/angular-modules';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {withLatestFrom} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
 import {WorkPackageTableConfigurationObject} from 'core-components/wp-table/wp-table-configuration';
+import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
+import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
+import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
+import {opUiComponentsModule} from 'core-app/angular-modules';
+import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
   selector: 'wp-embedded-table',
   template: require('!!raw-loader!./wp-embedded-table.html'),
   providers: [
     TableState,
+    OpTableActionsService,
     WorkPackageStatesInitializationService,
     WorkPackageTableRelationColumnsService,
     WorkPackageTablePaginationService,
@@ -40,12 +44,14 @@ import {WorkPackageTableConfigurationObject} from 'core-components/wp-table/wp-t
     WorkPackageTableTimelineService,
     WorkPackageTableSumService,
     WorkPackageTableAdditionalElementsService,
+    WorkPackageTableRefreshService,
   ]
 })
 export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   @Input('queryId') public queryId?:string;
   @Input('queryProps') public queryProps:any = {};
   @Input() public configuration:WorkPackageTableConfigurationObject;
+  @Input() public tableActions?:OpTableActionFactory[];
 
   private query:QueryResourceInterface;
   public tableInformationLoaded = false;
@@ -53,6 +59,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
 
   constructor(readonly QueryDm:QueryDmService,
               readonly tableState:TableState,
+              readonly tableActionsService:OpTableActionsService,
               readonly wpTablePagination:WorkPackageTablePaginationService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly currentProject:CurrentProjectService) {
@@ -60,9 +67,13 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit():void {
+    // Provision embedded table actions
+    if (this.tableActions) {
+      this.tableActionsService.setActions(...this.tableActions);
+    }
+
     // Load initial query
-    this.loadQuery()
-      .then((query:QueryResourceInterface) => this.initializeStates(query, query.results));
+    this.loadQuery();
 
     // Reload results on changes to pagination
     this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
@@ -102,13 +113,19 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
     });
   }
 
+  public refresh(visibly = true) {
+    // TODO loading indicator
+    this.loadQuery();
+  }
 
-  private loadQuery():Promise<QueryResourceInterface> {
-    return this.QueryDm.find(
-      this.queryProps,
-      this.queryId,
-      this.projectIdentifier
-    );
+  private loadQuery() {
+    this.QueryDm
+      .find(
+        this.queryProps,
+        this.queryId,
+        this.projectIdentifier
+      )
+      .then((query:QueryResourceInterface) => this.initializeStates(query, query.results));
   }
 }
 

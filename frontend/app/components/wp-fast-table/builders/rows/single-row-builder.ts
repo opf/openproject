@@ -9,9 +9,9 @@ import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.servi
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {CellBuilder, wpCellTdClassName} from '../cell-builder';
-import {ContextLinkIconBuilder} from '../context-link-icon-builder';
 import {RelationCellbuilder} from '../relation-cell-builder';
 import {checkedClassName} from '../ui-state-link-builder';
+import {TableActionRenderer} from 'core-components/wp-fast-table/builders/table-action-renderer';
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
@@ -35,7 +35,7 @@ export class SingleRowBuilder {
   protected relationCellBuilder = new RelationCellbuilder(this.injector);
 
   // Details Link builder
-  protected contextLinkBuilder = new ContextLinkIconBuilder(this.injector);
+  protected contextLinkBuilder = new TableActionRenderer(this.injector);
 
   constructor(public readonly injector:Injector,
               protected workPackageTable:WorkPackageTable) {

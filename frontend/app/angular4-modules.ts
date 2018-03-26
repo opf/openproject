@@ -182,6 +182,10 @@ import {WorkPackageFieldService} from 'core-components/wp-field/wp-field.service
 import ExpressionService from 'core-components/common/xss/expression.service';
 import {WorkPackageEditFieldService} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.service';
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
+import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
+import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
+import {Ng1RelationsHierarchyRowWrapper} from 'core-components/wp-relations/wp-relations-hierarchy-row/ng1-wp-relations-hierarchy-row.directive';
+import {Ng1RelationsCreateWrapper} from 'core-components/wp-relations/wp-relations-create/ng1-wp-relations-create.directive';
 
 @NgModule({
   imports: [
@@ -257,6 +261,7 @@ import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedd
     WorkPackageEditFieldService,
     ExpressionService,
     WorkPackageCreateService,
+    OpTableActionsService,
     upgradeService('authorisationService', AuthorisationService),
     upgradeService('ConfigurationService', ConfigurationService),
     upgradeService('currentProject', CurrentProjectService),
@@ -343,6 +348,9 @@ import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedd
     // Relations Tab
     WorkPackageRelationsTabComponent,
     Ng1RelationsDirectiveWrapper,
+    Ng1RelationsHierarchyRowWrapper,
+    Ng1RelationsCreateWrapper,
+    WorkPackageRelationsHierarchyComponent,
 
     // Watchers tab
     WorkPackageWatchersTabComponent,
@@ -418,7 +426,10 @@ import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedd
     WorkPackageQuerySelectDropdownComponent,
 
     // Embedded table
-    WorkPackageEmbeddedTableComponent
+    WorkPackageEmbeddedTableComponent,
+
+    // Relations tab (ng1 -> ng2)
+    WorkPackageRelationsHierarchyComponent
   ]
 })
 export class OpenProjectModule {

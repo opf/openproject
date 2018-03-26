@@ -27,35 +27,70 @@
 //++
 
 import {wpDirectivesModule} from "../../../angular-modules";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {OpUnlinkTableAction} from 'core-components/wp-table/table-actions/actions/unlink-table-action';
+import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
+import {Component, Inject, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 
-export class WorkPackageRelationsHierarchyController {
-  public workPackage:WorkPackageResourceInterface;
+@Component({
+  selector: 'wp-relations-hierarchy',
+  template: require('!!raw-loader!./wp-relations-hierarchy.template.html')
+})
+export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy {
+  @Input() public workPackage:WorkPackageResourceInterface;
+  @Input() public relationType:string;
+  @ViewChild('childrenEmbeddedTable') private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
+
   public showEditForm:boolean = false;
-  public workPackagePath = this.PathHelper.workPackagePath;
-  public canHaveChildren = !this.workPackage.isMilestone;
-  public canModifyHierarchy = !!this.workPackage.changeParent;
-  public canAddRelation = !!this.workPackage.addRelation;
+  public workPackagePath:string;
+  public canHaveChildren:boolean;
+  public canModifyHierarchy:boolean;
+  public canAddRelation:boolean;
 
-  public childrenQueryProps = {
-    filters: JSON.stringify([{ parent: { operator: '=', values: [this.workPackage.id] }  }]),
-    'columns[]': ['id', 'type', 'subject'],
-    showHierarchies: false
-  };
+  public childrenQueryProps:any;
 
-  constructor(protected $scope:ng.IScope,
-              protected $rootScope:ng.IRootScopeService,
-              protected $q:ng.IQService,
+  public childrenTableActions = [
+    OpUnlinkTableAction.factoryFor(
+      'remove-child-action',
+      this.I18n.t('js.relation_buttons.remove_child'),
+      (child:WorkPackageResourceInterface) => {
+        this.wpRelationsHierarchyService
+          .removeChild(child)
+          .then(() => this.childrenEmbeddedTable.refresh(true));
+      })
+  ];
+
+  constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected wpCacheService:WorkPackageCacheService,
               protected PathHelper:PathHelperService,
-              protected I18n:op.I18n) {
+              @Inject(I18nToken) protected I18n:op.I18n) {
+  }
 
-    scopedObservable(
-      this.$scope,
-      this.wpCacheService.loadWorkPackage(this.workPackage.id).values$())
+  public text = {
+    parentHeadline: this.I18n.t('js.relations_hierarchy.parent_headline'),
+    childrenHeadline: this.I18n.t('js.relations_hierarchy.children_headline')
+  };
+
+  ngOnInit() {
+    this.workPackagePath = this.PathHelper.workPackagePath(this.workPackage.id);
+    this.canHaveChildren = !this.workPackage.isMilestone;
+    this.canModifyHierarchy = !!this.workPackage.changeParent;
+    this.canAddRelation = !!this.workPackage.addRelation;
+
+    this.childrenQueryProps = {
+      filters: JSON.stringify([{parent: {operator: '=', values: [this.workPackage.id]}}]),
+      'columns[]': ['id', 'type', 'subject'],
+      showHierarchies: false
+    };
+
+    this.wpCacheService.loadWorkPackage(this.workPackage.id).values$()
+      .takeUntil(componentDestroyed(this))
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
 
@@ -64,9 +99,8 @@ export class WorkPackageRelationsHierarchyController {
         if (this.workPackage.parent) {
           toLoad.push(this.workPackage.parent.id);
 
-          scopedObservable(
-            this.$scope,
-            this.wpCacheService.loadWorkPackage(this.workPackage.parent.id).values$())
+          this.wpCacheService.loadWorkPackage(this.workPackage.parent.id).values$()
+            .takeUntil(componentDestroyed(this))
             .take(1)
             .subscribe((parent:WorkPackageResourceInterface) => {
               this.workPackage.parent = parent;
@@ -81,27 +115,11 @@ export class WorkPackageRelationsHierarchyController {
       });
   }
 
-  public text = {
-    parentHeadline: this.I18n.t('js.relations_hierarchy.parent_headline'),
-    childrenHeadline: this.I18n.t('js.relations_hierarchy.children_headline')
-  };
-}
-
-function wpRelationsDirective():any {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.template.html',
-
-    scope: {
-      workPackage: '=',
-      relationType: '@'
-    },
-
-    controller: WorkPackageRelationsHierarchyController,
-    controllerAs: '$ctrl',
-    bindToController: true,
-  };
+  ngOnDestroy() {
+    // Nothing to do
+  }
 }
 
 wpDirectivesModule
-  .directive('wpRelationsHierarchy', wpRelationsDirective);
+  .directive('wpRelationsHierarchy',
+    downgradeComponent({component: WorkPackageRelationsHierarchyComponent}));
