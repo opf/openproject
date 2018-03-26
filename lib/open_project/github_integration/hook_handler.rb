@@ -30,7 +30,7 @@ module OpenProject::GithubIntegration
       return 403 unless user.present?
 
       payload = Hash.new
-      payload.merge! params.require('webhook')
+      payload.merge! params.require('webhook').permit!
       payload.merge! 'user_id' => user.id,
                      'github_event' => event_type,
                      'github_delivery' => event_delivery
