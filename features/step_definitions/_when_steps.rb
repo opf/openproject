@@ -201,7 +201,7 @@ When /^I click on the element with class "([^"]+?)"$/ do |locator|
 end
 
 When /^I confirm the story form$/ do
-  find(:xpath, XPath::HTML.fillable_field('subject')).native.send_key :return
+  find(:css, 'input[name=subject]').native.send_key :return
   step 'I wait for AJAX requests to finish'
   step 'I should not see ".saving"'
 end

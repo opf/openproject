@@ -43,11 +43,6 @@ module OpenProject::Backlogs::Patches::ProjectsControllerPatch
   end
 
   module InstanceMethods
-    def load_project_settings
-      super
-      @statuses = Status.all
-    end
-
     def project_done_statuses
       selected_statuses = (params[:statuses] || []).map { |work_package_status|
         Status.find(work_package_status[:status_id].to_i)

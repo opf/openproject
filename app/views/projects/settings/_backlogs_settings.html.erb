@@ -68,7 +68,7 @@ See doc/COPYRIGHT.rdoc for more details.
           </tr>
         </thead>
         <tbody>
-          <% for status in (@statuses || []) %>
+          <% for status in (Status.all || []) %>
             <tr>
               <td>
                 <%= status.name %>
