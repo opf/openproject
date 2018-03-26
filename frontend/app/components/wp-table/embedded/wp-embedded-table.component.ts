@@ -26,6 +26,8 @@ import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
 import {opUiComponentsModule} from 'core-app/angular-modules';
 import {downgradeComponent} from '@angular/upgrade/static';
+import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
+import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 
 @Component({
   selector: 'wp-embedded-table',
@@ -42,6 +44,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
     WorkPackageTableColumnsService,
     WorkPackageTableFiltersService,
     WorkPackageTableTimelineService,
+    WorkPackageTableSelection,
     WorkPackageTableSumService,
     WorkPackageTableAdditionalElementsService,
     WorkPackageTableRefreshService,
@@ -51,6 +54,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   @Input('queryId') public queryId?:string;
   @Input('queryProps') public queryProps:any = {};
   @Input() public configuration:WorkPackageTableConfigurationObject;
+  @Input() public uniqueEmbeddedTableName:string = `embedded-table-${Date.now()}`;
   @Input() public tableActions?:OpTableActionFactory[];
 
   private query:QueryResourceInterface;
@@ -59,6 +63,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
 
   constructor(readonly QueryDm:QueryDmService,
               readonly tableState:TableState,
+              readonly loadingIndicatorService:LoadingIndicatorService,
               readonly tableActionsService:OpTableActionsService,
               readonly wpTablePagination:WorkPackageTablePaginationService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
@@ -113,13 +118,18 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
     });
   }
 
-  public refresh(visibly = true) {
-    // TODO loading indicator
-    this.loadQuery();
+  public refresh():Promise<any> {
+    return this.loadingIndicator = this.loadQuery();
+  }
+
+  public set loadingIndicator(promise:Promise<any>) {
+    this.loadingIndicatorService
+      .indicator(this.uniqueEmbeddedTableName)
+      .promise = promise;
   }
 
   private loadQuery() {
-    this.QueryDm
+    return this.QueryDm
       .find(
         this.queryProps,
         this.queryId,
@@ -127,6 +137,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
       )
       .then((query:QueryResourceInterface) => this.initializeStates(query, query.results));
   }
+
 }
 
 // TODO: remove as this should also work by angular2 only

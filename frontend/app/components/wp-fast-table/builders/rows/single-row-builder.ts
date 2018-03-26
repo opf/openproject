@@ -66,7 +66,7 @@ export class SingleRowBuilder {
     // Handle property types
     switch (column.id) {
       case internalContextMenuColumn.id:
-        if (this.workPackageTable.configuration.splitViewEnabled) {
+        if (this.workPackageTable.configuration.actionsColumnEnabled) {
           return this.contextLinkBuilder.build(workPackage);
         } else {
           return null;

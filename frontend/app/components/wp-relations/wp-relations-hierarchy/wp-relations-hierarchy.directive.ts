@@ -60,9 +60,9 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
       'remove-child-action',
       this.I18n.t('js.relation_buttons.remove_child'),
       (child:WorkPackageResourceInterface) => {
-        this.wpRelationsHierarchyService
+        this.childrenEmbeddedTable.loadingIndicator = this.wpRelationsHierarchyService
           .removeChild(child)
-          .then(() => this.childrenEmbeddedTable.refresh(true));
+          .then(() => this.childrenEmbeddedTable.refresh());
       })
   ];
 

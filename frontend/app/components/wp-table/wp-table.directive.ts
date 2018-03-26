@@ -187,8 +187,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     return this.workPackageTable && this.workPackageTable.configuration.columnMenuEnabled;
   }
 
-  public get splitViewEnabled() {
-    return this.workPackageTable && this.workPackageTable.configuration.splitViewEnabled;
+  public get actionsColumnEnabled() {
+    return this.workPackageTable && this.workPackageTable.configuration.actionsColumnEnabled;
   }
 
   private getTableAndTimelineElement():[HTMLElement, HTMLElement] {

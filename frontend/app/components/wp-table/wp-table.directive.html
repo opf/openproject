@@ -24,7 +24,7 @@
           </sortHeader>
         </th>
         <th class="wp-table--context-menu-column -short hide-when-print"
-            *ngIf="columnMenuEnabled || splitViewEnabled">
+            *ngIf="columnMenuEnabled || actionsColumnEnabled">
           <div class="generic-table--sort-header-outer">
             <accessible-by-keyboard
                 (execute)="openColumnsModal()"

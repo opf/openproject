@@ -27,7 +27,7 @@
 // ++
 
 export interface WorkPackageTableConfigurationObject {
-  splitViewEnabled:boolean;
+  actionsColumnEnabled:boolean;
   contextMenuEnabled:boolean;
   columnMenuEnabled:boolean;
   projectContext:boolean;
@@ -36,7 +36,7 @@ export interface WorkPackageTableConfigurationObject {
 export class WorkPackageTableConfiguration {
 
   config:WorkPackageTableConfigurationObject = {
-    splitViewEnabled: true,
+    actionsColumnEnabled: true,
     contextMenuEnabled: true,
     columnMenuEnabled: true,
     projectContext: true
@@ -46,8 +46,8 @@ export class WorkPackageTableConfiguration {
     angular.extend(this.config, providedConfig);
   }
 
-  get splitViewEnabled() {
-    return this.config.splitViewEnabled;
+  get actionsColumnEnabled() {
+    return this.config.actionsColumnEnabled;
   }
 
   get contextMenuEnabled() {
