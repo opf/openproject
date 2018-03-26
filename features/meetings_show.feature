@@ -116,20 +116,6 @@ Feature: Show meetings
 
        Then I should not see "Edit" within ".meeting_agenda"
 
-  Scenario: Navigate to a meeting page with a closed agenda and the permission to edit the minutes and save minutes
-      Given the role "user" may have the following rights:
-            | view_meetings          |
-            | create_meeting_minutes |
-        And the meeting "Bobs Meeting" has 1 agenda with:
-            | locked | true |
-
-       When I go to the show page for the meeting called "Bobs Meeting"
-        And I fill in "meeting_minutes[text]" with "Some minutes!"
-        And I click on "Save"
-
-       Then I should see "Minutes" within ".meeting_minutes"
-        And I should see "Some minutes!" within "#meeting_minutes_text"
-
   Scenario: Navigate to a meeting page and view an older version of an agenda
       Given the role "user" may have the following rights:
             | view_meetings |
