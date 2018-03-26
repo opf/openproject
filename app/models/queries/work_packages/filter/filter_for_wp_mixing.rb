@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,35 +28,48 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/abstract_work_package_create'
+module Queries::WorkPackages::Filter::FilterForWpMixin
+  def type
+    :list
+  end
 
-module Pages
-  class SplitWorkPackageCreate < AbstractWorkPackageCreate
-    attr_reader :project
+  def allowed_values
+    raise NotImplementedError, 'There would be too many candidates'
+  end
 
-    def initialize(project:, original_work_package: nil, parent_work_package: nil)
-      @project = project
+  def value_objects
+    scope.find(values)
+  end
 
-      super(original_work_package: original_work_package,
-            parent_work_package: parent_work_package)
+  def allowed_objects
+    raise NotImplementedError, 'There would be too many candidates'
+  end
+
+  def available?
+    scope.exists?
+  end
+
+  def ar_object_filter?
+    true
+  end
+
+  def allowed_values_subset
+    scope.where(id: values).pluck(:id).map(&:to_s)
+  end
+
+  private
+
+  def scope
+    if context.project
+      WorkPackage
+        .visible
+        .for_projects(context.project.self_and_descendants)
+    else
+      WorkPackage.visible
     end
+  end
 
-    def container
-      find('.work-packages--new')
-    end
-
-    private
-
-    def path
-      if original_work_package
-        project_work_packages_path(project) + "/details/#{original_work_package.id}/copy"
-      else
-        path = project_work_packages_path(project) + '/create_new'
-        path += "?parent_id=#{parent_work_package.id}" if parent_work_package
-
-        path
-      end
-    end
+  def type_strategy
+    @type_strategy ||= Queries::Filters::Strategies::HugeList.new(self)
   end
 end

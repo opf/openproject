@@ -28,37 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative './filter_for_wp_mixing'
+
 class Queries::WorkPackages::Filter::ParentFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
 
-  def allowed_values
-    raise NotImplementedError, 'There would be too many candidates'
-  end
-
-  def value_objects
-    return []
-    raise NotImplementedError, 'There would be too many candidates'
-  end
-
-  def allowed_objects
-    raise NotImplementedError, 'There would be too many candidates'
-  end
-
-  def type
-    :list
-  end
-
-  def order
-    3
-  end
-
-  def self.key
-    :parent
-  end
-
-  def ar_object_filter?
-    true
-  end
+  include ::Queries::WorkPackages::Filter::FilterForWpMixin
 
   def includes
     :parent_relation
@@ -68,25 +43,5 @@ class Queries::WorkPackages::Filter::ParentFilter <
     operator_strategy.sql_for_field(values,
                                     Relation.table_name,
                                     'from_id')
-  end
-
-  def allowed_values_subset
-    scope.where(id: values).pluck(:id).map(&:to_s)
-  end
-
-  private
-
-  def scope
-    if context.project
-      WorkPackage
-        .visible
-        .for_projects(context.project.self_and_descendants)
-    else
-      WorkPackage.visible
-    end
-  end
-
-  def type_strategy
-    @type_strategy ||= Queries::Filters::Strategies::HugeList.new(self)
   end
 end

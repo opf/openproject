@@ -48,8 +48,8 @@ describe 'Switching types in work package table', js: true do
     end
 
     let(:type_field) { wp_table.edit_field(work_package, :type) }
-    let(:text_field) { wp_table.edit_field(work_package, :customField1) }
-    let(:req_text_field) { wp_table.edit_field(work_package, :customField2) }
+    let(:text_field) { wp_table.edit_field(work_package, :"customField#{cf_text.id}") }
+    let(:req_text_field) { wp_table.edit_field(work_package, :"customField#{cf_req_text.id}") }
 
     before do
       login_as(user)
@@ -127,8 +127,8 @@ describe 'Switching types in work package table', js: true do
     context 'switching to single view' do
       let(:wp_split) { wp_table.open_split_view(work_package) }
       let(:type_field) { wp_split.edit_field(:type) }
-      let(:text_field) { wp_split.edit_field(:customField1) }
-      let(:req_text_field) { wp_split.edit_field(:customField2) }
+      let(:text_field) { wp_split.edit_field(:"customField#{cf_text.id}") }
+      let(:req_text_field) { wp_split.edit_field(:"customField#{cf_req_text.id}") }
 
       it 'allows editing and cancelling the new required fields' do
         wp_split
@@ -278,6 +278,7 @@ describe 'Switching types in work package table', js: true do
       login_as(user)
 
       visit new_project_work_packages_path(project.identifier, type: type.id)
+      expect_angular_frontend_initialized
     end
 
     it 'can switch to the type with CF list' do

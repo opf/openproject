@@ -115,7 +115,7 @@ See docs/COPYRIGHT.rdoc for more details.
           <tbody>
             <% for version in @project.shared_versions.sort %>
               <tr class="version <%= 'shared' if version.project != @project %>">
-                <td class="name <%=h version.status %><% ' icon-context icon-link' if version.project != @project %>">
+                <td class="name <%=h version.status %><%= ' icon-context icon-link' if version.project != @project %>">
                   <%= link_to_version version %>
                 </td>
                 <td class="date"><%= format_date(version.start_date) %></td>

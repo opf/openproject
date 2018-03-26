@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,34 +28,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/abstract_work_package_create'
+module API
+  module V3
+    module Queries
+      module Schemas
+        class ByWorkPackageFilterDependencyRepresenter <
+          FilterDependencyRepresenter
 
-module Pages
-  class SplitWorkPackageCreate < AbstractWorkPackageCreate
-    attr_reader :project
+          def json_cache_key
+            super + (filter.project.present? ? [filter.project.id] : [])
+          end
 
-    def initialize(project:, original_work_package: nil, parent_work_package: nil)
-      @project = project
+          def href_callback
+            if filter.project
+              api_v3_paths.work_packages_by_project(filter.project.id)
+            else
+              api_v3_paths.work_packages
+            end
+          end
 
-      super(original_work_package: original_work_package,
-            parent_work_package: parent_work_package)
-    end
+          private
 
-    def container
-      find('.work-packages--new')
-    end
-
-    private
-
-    def path
-      if original_work_package
-        project_work_packages_path(project) + "/details/#{original_work_package.id}/copy"
-      else
-        path = project_work_packages_path(project) + '/create_new'
-        path += "?parent_id=#{parent_work_package.id}" if parent_work_package
-
-        path
+          def type
+            '[]WorkPackage'
+          end
+        end
       end
     end
   end

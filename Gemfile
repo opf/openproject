@@ -153,6 +153,9 @@ gem 'cocaine', '~> 0.5.8'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
+# Puma server for development and on paas.
+gem 'puma', '~> 3.11.3'
+
 gem 'nokogiri', '~> 1.8.2'
 
 # carrierwave 0.11.3 should allow to use fog-aws without the rest of the
@@ -189,14 +192,14 @@ group :test do
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
   # not possible to upgrade to 3.6+ until rails is 5.1+
-  gem 'rspec', '~> 3.5.0'
+  gem 'rspec', '~> 3.7.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 3.5.2', group: :development
+  gem 'rspec-rails', '~> 3.7.2', group: :development
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.0'
-  gem 'rspec-retry', '~> 0.5.5'
+  gem 'rspec-retry', '~> 0.5.6'
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
@@ -204,7 +207,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 2.15.0'
+  gem 'capybara', '~> 2.18.0'
   gem 'capybara-screenshot', '~> 1.0.14'
   gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
@@ -234,7 +237,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'thin', '~> 1.7.2'
 
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
@@ -265,10 +267,6 @@ group :opf_plugins do
 end
 
 group :docker, optional: true do
-  # Puma server
-  gem 'puma', '~> 3.11.3'
-  gem 'passenger'
-
   # Used to easily precompile assets
   gem 'sqlite3', require: false
   gem 'rails_12factor', require: !!ENV['HEROKU']

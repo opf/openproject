@@ -30,14 +30,14 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::IdFilter, type: :model do
+describe Queries::WorkPackages::Filter::ParentFilter, type: :model do
   let(:project) { FactoryGirl.build_stubbed(:project) }
   let(:query) do
     FactoryGirl.build_stubbed(:query, project: project)
   end
 
   it_behaves_like 'basic query filter' do
-    let(:class_key) { :id }
+    let(:class_key) { :parent }
     let(:type) { :list }
 
     before do
@@ -235,19 +235,23 @@ describe Queries::WorkPackages::Filter::IdFilter, type: :model do
       end
     end
 
-    describe '#where' do
-      let(:visible_wp) { FactoryGirl.create(:work_package) }
-      let(:other_wp) { FactoryGirl.create(:work_package) }
+    describe '#where and #includes' do
+      let(:parent) { FactoryGirl.create(:work_package) }
+      let(:visible_wp) { FactoryGirl.create(:work_package, parent: parent) }
 
       before do
         visible_wp
-        other_wp
-        instance.values = [visible_wp.id.to_s]
+        instance.values = [parent.id.to_s]
         instance.operator = '='
       end
 
       it 'filters' do
-        expect(WorkPackage.where(instance.where))
+        scope = WorkPackage
+                .references(instance.includes)
+                .includes(instance.includes)
+                .where(instance.where)
+
+        expect(scope)
           .to match_array [visible_wp]
       end
     end

@@ -153,8 +153,4 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= auto_discovery_link_tag(:atom, controller: '/activities', action: 'index', id: @project, show_wiki_edits: 1, format: 'atom', key: User.current.rss_key) %>
 <% end %>
 
-<% content_for :sidebar do %>
-  <%= render partial: 'wiki/sidebar' %>
-<% end %>
-
 <% html_title h(@page.title) %>

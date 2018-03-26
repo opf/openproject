@@ -45,10 +45,6 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= render_page_hierarchy(@pages_by_parent_id, nil, timestamp: true) %>
 </div>
 
-<% content_for :sidebar do %>
-  <%= render partial: 'sidebar' %>
-<% end %>
-
 <% unless @pages.empty? %>
   <%= other_formats_links do |f| %>
     <%= f.link_to 'Atom', url: {controller: '/activities', action: 'index', show_wiki_edits: 1, key: User.current.rss_key} %>

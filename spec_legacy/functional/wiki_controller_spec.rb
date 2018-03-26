@@ -71,17 +71,6 @@ describe WikiController, type: :controller do
                                          alt: 'This is a logo' }
   end
 
-  it 'should show with sidebar' do
-    page = Project.find(1).wiki.pages.new(title: 'Sidebar')
-    page.content = WikiContent.new(text: 'Side bar content for test_show_with_sidebar')
-    page.save!
-
-    get :show, params: { project_id: 1, id: 'Another page' }
-    assert_response :success
-    assert_select 'div', attributes: { id: 'sidebar' },
-               content: /Side bar content for test_show_with_sidebar/
-  end
-
   it 'should show unexistent page without edit right' do
     get :show, params: { project_id: 1, id: 'Unexistent page' }
     assert_response 404

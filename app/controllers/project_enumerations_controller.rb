@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,38 +25,31 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/abstract_work_package_create'
+class ProjectEnumerationsController < ApplicationController
+  before_action :find_project_by_project_id
+  before_action :authorize
 
-module Pages
-  class SplitWorkPackageCreate < AbstractWorkPackageCreate
-    attr_reader :project
-
-    def initialize(project:, original_work_package: nil, parent_work_package: nil)
-      @project = project
-
-      super(original_work_package: original_work_package,
-            parent_work_package: parent_work_package)
-    end
-
-    def container
-      find('.work-packages--new')
-    end
-
-    private
-
-    def path
-      if original_work_package
-        project_work_packages_path(project) + "/details/#{original_work_package.id}/copy"
-      else
-        path = project_work_packages_path(project) + '/create_new'
-        path += "?parent_id=#{parent_work_package.id}" if parent_work_package
-
-        path
+  def update
+    if permitted_params.enumerations.present?
+      Project.transaction do
+        permitted_params.enumerations.each do |id, activity|
+          @project.update_or_create_time_entry_activity(id, activity)
+        end
       end
+      flash[:notice] = l(:notice_successful_update)
     end
+
+    redirect_to settings_project_path(id: @project, tab: 'activities')
+  end
+
+  def destroy
+    TimeEntryActivity.bulk_destroy(@project.time_entry_activities)
+
+    flash[:notice] = l(:notice_successful_update)
+
+    redirect_to settings_project_path(id: @project, tab: 'activities')
   end
 end

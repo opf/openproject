@@ -64,8 +64,8 @@ fr:
       name: Actions
       add: Add action
     conditions: Conditions
-    plural: Custom actions
-    new: New custom action
+    plural: Actions personnalisées
+    new: Nouvelle action personnalisée
     edit: Edit custom action %{name}
     execute: Execute %{name}
     upsale:
@@ -584,7 +584,7 @@ fr:
       attribute_help_text: Attribut d’aide de texte
       board: Forum
       comment: Commentaire
-      custom_action: Custom action
+      custom_action: Action personnalisée
       custom_field: Champ personnalisé
       group: Groupe
       category: Catégorie
