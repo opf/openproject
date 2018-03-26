@@ -92,7 +92,8 @@ body
     position:   absolute
     height:     100%
     width: calc(100% - #{$main-menu-width})
-    margin-left: $main-menu-width
+    width: calc(100% - var(--main-menu-width))
+    @include varprop(margin-left, main-menu-width)
     // Needed for Safari
     left: 0
 
