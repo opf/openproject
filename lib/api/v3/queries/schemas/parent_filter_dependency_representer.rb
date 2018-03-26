@@ -32,7 +32,7 @@ module API
   module V3
     module Queries
       module Schemas
-        class IdFilterDependencyRepresenter < ByWorkPackageFilterDependencyRepresenter; end
+        class ParentFilterDependencyRepresenter < ByWorkPackageFilterDependencyRepresenter; end
       end
     end
   end

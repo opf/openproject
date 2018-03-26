@@ -299,6 +299,12 @@ class WorkPackage < ActiveRecord::Base
     project && type ? (project.all_work_package_custom_fields & type.custom_fields) : []
   end
 
+  # aliasing subject to name
+  # using :alias is not possible as AR will add the subject method later
+  def name
+    subject
+  end
+
   def status_id=(sid)
     self.status = nil
     write_attribute(:status_id, sid)

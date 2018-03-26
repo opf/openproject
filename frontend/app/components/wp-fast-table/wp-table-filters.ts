@@ -78,8 +78,8 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
     let availableFilters = this.availableSchemas
                                .map(schema => (schema.filter.allowedValues as QueryFilterResource[])[0]);
 
-    // We do not use the id filter as of now as we do not have adequate
+    // We do not use the filters id and parent as of now as we do not have adequate
     // means to select the values.
-    return _.filter(availableFilters, filter => filter.id !== 'id');
+    return _.filter(availableFilters, filter => filter.id !== 'id' && filter.id !== 'parent');
   }
 }
