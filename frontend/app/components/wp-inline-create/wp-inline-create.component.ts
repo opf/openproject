@@ -172,6 +172,11 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     });
   }
 
+  public handleAddRowClick() {
+    this.addWorkPackageRow();
+    return false;
+  }
+
   public addWorkPackageRow() {
     this.wpCreate.createNewWorkPackage(this.projectIdentifier).then((changeset:WorkPackageChangeset) => {
       if (!changeset) {
