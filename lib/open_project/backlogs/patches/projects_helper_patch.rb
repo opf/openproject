@@ -47,7 +47,7 @@ module OpenProject::Backlogs::Patches::ProjectsHelperPatch
             settings << {
               name: 'backlogs_settings',
               action: :edit_work_packages,
-              partial: 'projects/settings/backlogs_settings',
+              partial: 'projects/project_settings/backlogs_settings',
               label: 'backlogs.backlog_settings'
             }
           end
