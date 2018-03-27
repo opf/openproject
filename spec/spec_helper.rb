@@ -111,7 +111,12 @@ RSpec.configure do |config|
   config.color = true
 
   config.after(:each) do
-    puts Cocaine::CommandLine.new('ps', 'aux').run()
+    @@previous_commands ||= []
+    new_commands = Cocaine::CommandLine.new('ps', 'axo command').run().split(/\n/)
+
+    puts new_commands - @@previous_commands
+
+    @@previous_commands = new_commands
   end
 
   # Seed global randomization in this process using the `--seed` CLI option.
