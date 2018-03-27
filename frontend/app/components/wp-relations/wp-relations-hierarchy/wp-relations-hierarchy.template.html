@@ -7,12 +7,9 @@
         </div>
     </div>
 
-    <ng1-wp-relations-hierarchy-row
-            [workPackage]="workPackage"
-            [relatedWorkPackage]="workPackage.parent"
-            [relationType]="'parent'"></ng1-wp-relations-hierarchy-row>
+    <wp-relation-parent [workPackage]="workPackage"></wp-relation-parent>
 </div>
-<div class="wp-relations-hierarchy-section">
+<div class="wp-relations-hierarchy-section wp-relations-children-hierarchy">
     <div class="attributes-group--header">
         <div class="attributes-group--header-container">
             <h3 class="attributes-group--header-text"

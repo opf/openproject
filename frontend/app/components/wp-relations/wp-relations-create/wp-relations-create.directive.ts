@@ -17,8 +17,6 @@ export class WorkPackageRelationsCreateController {
   public relationTypes = RelationResource.LOCALIZED_RELATION_TYPES(false);
 
   public isDisabled = false;
-  public canAddChildren:boolean = false;
-  public canLinkChildren:boolean = false;
 
   constructor(protected I18n:op.I18n,
               protected $scope:ng.IScope,
@@ -39,19 +37,12 @@ export class WorkPackageRelationsCreateController {
     if (this.externalFormToggle) {
       this.showRelationsCreateForm = this.externalFormToggle;
     }
-
-    this.canAddChildren = !!this.workPackage.addChild;
-    this.canLinkChildren = !!this.workPackage.changeParent;
   }
 
   public text = {
     save: this.I18n.t('js.relation_buttons.save'),
     abort: this.I18n.t('js.relation_buttons.abort'),
-    addNewChild: this.I18n.t('js.relation_buttons.add_new_child'),
-    addExistingChild: this.I18n.t('js.relation_buttons.add_existing_child'),
-    addNewRelation: this.I18n.t('js.relation_buttons.add_new_relation'),
-    addParent: this.I18n.t('js.relation_buttons.add_parent'),
-    relationType: this.I18n.t('js.relation_labels.relation_type')
+    addNewRelation: this.I18n.t('js.relation_buttons.add_new_relation')
   };
 
   public createRelation() {
@@ -60,44 +51,10 @@ export class WorkPackageRelationsCreateController {
       return;
     }
 
-    let promise;
     this.isDisabled = true;
-    switch (this.selectedRelationType) {
-      case 'parent':
-        promise = this.changeParent();
-        break;
-      case 'children':
-        promise = this.addExistingChildRelation();
-        break;
-      default:
-        promise = this.createCommonRelation();
-    }
-
-    promise.finally(() => {
+    this.createCommonRelation().finally(() => {
       this.isDisabled = false;
     });
-  }
-
-  protected addExistingChildRelation() {
-    return this.wpRelationsHierarchyService.addExistingChildWp(this.workPackage, this.selectedWpId)
-      .then(() => this.wpCacheService.loadWorkPackage(this.workPackage.id, true))
-      .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.workPackage))
-      .finally(() => this.toggleRelationsCreateForm());
-  }
-
-  protected createNewChildWorkPackage() {
-    this.wpRelationsHierarchyService.addNewChildWp(this.workPackage);
-  }
-
-  protected changeParent() {
-    this.toggleRelationsCreateForm();
-    return this.wpRelationsHierarchyService.changeParent(this.workPackage, this.selectedWpId)
-      .then((updatedWp:WorkPackageResourceInterface) => {
-        this.$timeout(() => {
-          angular.element('#hierarchy--parent').focus();
-        });
-      })
-      .catch((err:any) => this.wpNotificationsService.handleErrorResponse(err, this.workPackage));
   }
 
   protected createCommonRelation() {
@@ -128,8 +85,7 @@ function wpRelationsCreate():any {
     restrict: 'E',
 
     templateUrl: (el:ng.IAugmentedJQuery, attrs:ng.IAttributes) => {
-      const template = attrs ? attrs['template'] : 'add-child';
-      return '/components/wp-relations/wp-relations-create/' + template + '.template.html';
+      return '/components/wp-relations/wp-relations-create/' + attrs['template'] + '.template.html';
     },
 
     scope: {

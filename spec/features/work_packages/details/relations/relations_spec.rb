@@ -27,29 +27,7 @@ describe 'Work package relations tab', js: true, selenium: true do
     loading_indicator_saveguard
   end
 
-  def add_hierarchy(container, query, expected_text)
-    # Locate the create row container
-    container = find(container)
 
-    # Enter the query and select the child
-    autocomplete = container.find(".wp-relations--autocomplete")
-    select_autocomplete(autocomplete, query: query, select_text: expected_text)
-
-    container.find('.wp-create-relation--save').click
-
-    expect(page).to have_selector('.wp-relations-hierarchy-subject',
-                                  text: expected_text,
-                                  wait: 10)
-  end
-
-  def remove_hierarchy(selector, removed_text)
-    expect(page).to have_selector(selector, text: removed_text)
-    container = find(selector)
-    container.hover
-
-    container.find('.wp-relation--remove').click
-    expect(page).to have_no_selector(selector, text: removed_text, wait: 10)
-  end
 
   describe 'as admin' do
     let!(:parent) { FactoryGirl.create(:work_package, project: project) }
@@ -63,21 +41,21 @@ describe 'Work package relations tab', js: true, selenium: true do
            text: I18n.t('js.relation_buttons.add_parent')).click
 
       # Add parent
-      add_hierarchy('.wp-relations--parent-form', parent.id, parent.subject)
+      relations.add_hierarchy('.wp-relations--parent-form', parent.id, parent.subject)
 
       ##
       # Add child #1
       find('.work-packages--details .wp-inline-create--add-link',
            text: I18n.t('js.relation_buttons.add_existing_child')).click
 
-      add_hierarchy('.wp-relations--child-form', child.id, child.subject)
+      relations.add_hierarchy('.wp-relations--child-form', child.id, child.subject)
 
       ##
       # Add child #2
       find('.work-packages--details .wp-inline-create--add-link',
            text: I18n.t('js.relation_buttons.add_existing_child')).click
 
-      add_hierarchy('.wp-relations--child-form', child2.subject, child2.subject)
+      relations.add_hierarchy('.wp-relations--child-form', child2.subject, child2.subject)
     end
   end
 
@@ -179,8 +157,7 @@ describe 'Work package relations tab', js: true, selenium: true do
     end
 
     context 'as view-only user, with parent set' do
-      let(:parent) { FactoryGirl.create(:work_package, project: project) }
-      let(:work_package) { FactoryGirl.create(:work_package, parent: parent, project: project) }
+      let(:work_package) { FactoryGirl.create(:work_package, project: project) }
 
       it 'shows no links to create relations' do
         # No create buttons should exist
@@ -188,45 +165,6 @@ describe 'Work package relations tab', js: true, selenium: true do
 
         # Test for add relation
         expect(page).to have_no_selector('#relation--add-relation')
-
-        # Test for add parent
-        expect(page).to have_no_selector('#hierarchy--add-parent')
-
-        # Test for add children
-        expect(page).to have_no_selector('#hierarchy--add-exisiting-child')
-        expect(page).to have_no_selector('#hierarchy--add-new-child')
-
-        # But it should show the linked parent
-        expect(page).to have_selector('.wp-relations-hierarchy-subject', text: parent.subject)
-      end
-    end
-
-    context 'with manage_subtasks permissions' do
-      let(:permissions) { %i(view_work_packages manage_subtasks) }
-      let!(:parent) { FactoryGirl.create(:work_package, project: project) }
-      let!(:child) { FactoryGirl.create(:work_package, project: project) }
-
-      it 'should be able to link parent and children' do
-        # Shows link parent link
-        expect(page).to have_selector('#hierarchy--add-parent')
-        find('.work-packages--details .wp-inline-create--add-link',
-             text: I18n.t('js.relation_buttons.add_parent')).click
-
-        # Add parent
-        add_hierarchy('.wp-relations--parent-form', parent.id, parent.subject)
-
-        ##
-        # Add child
-        find('.work-packages--details .wp-inline-create--add-link',
-             text: I18n.t('js.relation_buttons.add_existing_child')).click
-
-        add_hierarchy('.wp-relations--child-form', child.id, child.subject)
-
-        # Remove parent
-        remove_hierarchy('.relation-row.parent', parent.subject)
-
-        # Remove child
-        remove_hierarchy('.relation-row.child', child.subject)
       end
     end
 
