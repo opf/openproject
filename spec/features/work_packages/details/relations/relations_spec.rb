@@ -27,38 +27,6 @@ describe 'Work package relations tab', js: true, selenium: true do
     loading_indicator_saveguard
   end
 
-
-
-  describe 'as admin' do
-    let!(:parent) { FactoryGirl.create(:work_package, project: project) }
-    let!(:child) { FactoryGirl.create(:work_package, project: project) }
-    let!(:child2) { FactoryGirl.create(:work_package, project: project, subject: 'Something new') }
-
-    it 'allows to mange hierarchy' do
-      # Shows link parent link
-      expect(page).to have_selector('#hierarchy--add-parent')
-      find('.work-packages--details .wp-inline-create--add-link',
-           text: I18n.t('js.relation_buttons.add_parent')).click
-
-      # Add parent
-      relations.add_hierarchy('.wp-relations--parent-form', parent.id, parent.subject)
-
-      ##
-      # Add child #1
-      find('.work-packages--details .wp-inline-create--add-link',
-           text: I18n.t('js.relation_buttons.add_existing_child')).click
-
-      relations.add_hierarchy('.wp-relations--child-form', child.id, child.subject)
-
-      ##
-      # Add child #2
-      find('.work-packages--details .wp-inline-create--add-link',
-           text: I18n.t('js.relation_buttons.add_existing_child')).click
-
-      relations.add_hierarchy('.wp-relations--child-form', child2.subject, child2.subject)
-    end
-  end
-
   describe 'relation group-by toggler' do
     let(:project) { FactoryGirl.create :project, types: [type_1, type_2] }
     let(:type_1) { FactoryGirl.create :type }

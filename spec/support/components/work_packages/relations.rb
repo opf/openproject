@@ -136,20 +136,17 @@ module Components
       end
 
       def remove_parent(removed_text)
-        expect(page).to have_selector('.relation-row.parent', text: removed_text)
-        container = find('.relation-row.parent')
+        expect(page).to have_selector('.relation-row--parent', text: removed_text)
+        container = find('.relation-row--parent')
         container.hover
 
         container.find('.wp-relation--remove').click
-        expect(page).to have_no_selector('.relation-row.parent', text: removed_text, wait: 10)
+        expect(page).to have_no_selector('.relation-row--parent', text: removed_text, wait: 10)
       end
 
       def add_existing_child(work_package)
-        # Click the create button
-        scroll_to_and_click find('.hierarchy--add-exisiting-child')
-
         # Locate the create row container
-        container = find('wp-relations--child-form')
+        container = find('.wp-relations--child-form')
 
         # Enter the query and select the child
         autocomplete = container.find(".wp-relations--autocomplete")
@@ -162,7 +159,7 @@ module Components
         page.within('.wp-relations-children-hierarchy') do
           row = ".wp-row-#{work_package.id}-table"
 
-          find(row).native.hover
+          find(row).hover
           find("#{row} .wp-table-action--unlink").click
           expect(page).to have_no_selector(row, wait: 20)
         end

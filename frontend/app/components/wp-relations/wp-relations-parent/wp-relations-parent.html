@@ -1,5 +1,4 @@
-<div class="relation-row"
-     ng-class="relationClassName"
+<div class="relation-row relation-row--parent"
      focus-within>
     <div class="grid-block v-align hierarchy-item"
          *ngIf="!showEditForm && relationReady">
@@ -10,7 +9,7 @@
                    class="wp-relations--subject-field"
                    [attr.aria-label]="text.parent"
                    [attr.id]="wp-relations-parent-element"
-                   [textContent]="workPackage.subjectWithType">
+                   [textContent]="workPackage.parent.subjectWithType">
                 </a>
             </span>
         </div>
@@ -39,7 +38,7 @@
         </div>
     </div>
 
-    <div *ngIf="!workPackage.parent || showEditForm" class="hide-when-print">
+    <div *ngIf="canModifyHierarchy && (!workPackage.parent || showEditForm)" class="hide-when-print">
       <div class="wp-relations-create-button -full-width"
            *ngIf="!showEditForm">
         <div class="grid-block">
