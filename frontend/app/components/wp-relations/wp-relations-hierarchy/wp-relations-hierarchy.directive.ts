@@ -62,7 +62,7 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
       (child:WorkPackageResourceInterface) => {
         this.childrenEmbeddedTable.loadingIndicator = this.wpRelationsHierarchyService
           .removeChild(child)
-          .then(() => this.childrenEmbeddedTable.refresh());
+          .then(() => this.refreshTable());
       })
   ];
 
@@ -117,6 +117,10 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
 
   ngOnDestroy() {
     // Nothing to do
+  }
+
+  public refreshTable() {
+    this.childrenEmbeddedTable.refresh();
   }
 }
 

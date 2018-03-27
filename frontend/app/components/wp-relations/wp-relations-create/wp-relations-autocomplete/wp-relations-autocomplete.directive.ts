@@ -89,19 +89,19 @@ function wpRelationsAutocompleteDirective(
       function autocompleteWorkPackages(query:string):Promise<WorkPackageResourceInterface[]> {
         element.find('.ui-autocomplete--loading').show();
         return scope.workPackage.available_relation_candidates.$link.$fetch({
-            query: query,
-            type: scope.filterCandidatesFor || scope.selectedRelationType
-          }, {
-            'caching': {
-              enabled: false
-            }
-          }).then((collection:CollectionResource) => {
-            scope.noResults = collection.count === 0;
-            return collection.elements || [];
-          }).catch(() => {
-            return [];
-          }).finally(() => {
-           element.find('.ui-autocomplete--loading').hide();
+          query: query,
+          type: scope.filterCandidatesFor || scope.selectedRelationType
+        }, {
+          'caching': {
+            enabled: false
+          }
+        }).then((collection:CollectionResource) => {
+          scope.noResults = collection.count === 0;
+          return collection.elements || [];
+        }).catch(() => {
+          return [];
+        }).finally(() => {
+          element.find('.ui-autocomplete--loading').hide();
         });
       };
 

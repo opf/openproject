@@ -186,6 +186,8 @@ import {OpTableActionsService} from 'core-components/wp-table/table-actions/tabl
 import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
 import {Ng1RelationsHierarchyRowWrapper} from 'core-components/wp-relations/wp-relations-hierarchy-row/ng1-wp-relations-hierarchy-row.directive';
 import {Ng1RelationsCreateWrapper} from 'core-components/wp-relations/wp-relations-create/ng1-wp-relations-create.directive';
+import {WpRelationsAutocompleteComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.upgraded.component';
+import {WpRelationAddChildComponent} from 'core-components/wp-relations/wp-relation-add-child/wp-relation-add-child';
 
 @NgModule({
   imports: [
@@ -351,6 +353,8 @@ import {Ng1RelationsCreateWrapper} from 'core-components/wp-relations/wp-relatio
     Ng1RelationsHierarchyRowWrapper,
     Ng1RelationsCreateWrapper,
     WorkPackageRelationsHierarchyComponent,
+    WpRelationsAutocompleteComponent,
+    WpRelationAddChildComponent,
 
     // Watchers tab
     WorkPackageWatchersTabComponent,

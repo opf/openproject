@@ -30,9 +30,8 @@
                                           projectContext: false }" >
     </wp-embedded-table>
 
-    <ng1-wp-relations-create
-            [fixedRelationType]="children"
+    <wp-relation-add-child
             [workPackage]="workPackage"
-            template="add-child"
-            *ngIf="canModifyHierarchy && canHaveChildren"></ng1-wp-relations-create>
+            (onAdded)="refreshTable()"
+            *ngIf="canModifyHierarchy && canHaveChildren"></wp-relation-add-child>
 </div>
