@@ -1,8 +1,30 @@
 ---
+version: "2" 
 languages:
   Ruby: true
   JavaScript: true
-engines:
+checks:
+  file-lines:
+    enabled: false
+  method-count:
+    enabled: false
+  method-lines:
+    enabled: false
+  method-complexity:
+    enabled: true
+    config:
+      threshold: 10
+  complex-logic:
+      enabled: true
+      config:
+        threshold: 10
+  # Similar codes trips up at the long TS/angular injection
+  # constructors all the time, which are similar by nature.
+  similar-code:
+    enabled: false
+  identical-code:
+    enabled: true
+plugins:
   rubocop:
     enabled: true
   brakeman:
@@ -35,6 +57,8 @@ exclude_paths:
   - .bundle/**/*
   - lib/plugins/rfpdf/**/*
   - frontend/vendor/**/*
+  - "**/*.d.ts"
+  - "**/node_modules/"
   - spec/**
   - spec_legacy/**/*
   - lib/redcloth3.rb
