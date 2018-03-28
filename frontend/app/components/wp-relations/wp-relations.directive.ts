@@ -38,12 +38,17 @@ import {StateService} from '@uirouter/core';
 
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
+  public relationsPresent:boolean = false;
   public workPackage:WorkPackageResourceInterface;
   public canAddRelation:boolean;
 
   // By default, group by relation type
   public groupByWorkPackageType = false;
   public currentRelations:RelationResourceInterface[] = [];
+
+  public text = {
+    relations_header: this.I18n.t('js.work_packages.tabs.relations')
+  };
 
   constructor(protected $scope:ng.IScope,
               protected $q:ng.IQService,
@@ -108,6 +113,7 @@ export class WorkPackageRelationsController {
           return this.I18n.t('js.relation_labels.' + normalizedType);
         }
       });
+    this.relationsPresent = _.size(this.relationGroups) > 0;
   }
 
   protected loadedRelations(stateValues:RelationsStateValue):void {

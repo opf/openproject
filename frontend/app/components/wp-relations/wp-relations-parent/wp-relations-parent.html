@@ -42,7 +42,7 @@
       <div class="wp-relations-create-button -full-width"
            *ngIf="!showEditForm">
         <div class="grid-block">
-          <div class="grid-content collapse hide-when-print">
+          <div class="grid-content collapse hide-when-print wp-inline-create-button">
             <a class="wp-inline-create--add-link relation-create"
                (click)="showEditForm = true"
                role="button"
@@ -68,7 +68,7 @@
           <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
             <accessible-by-keyboard
               linkClass="wp-create-relation--save"
-              [isDisabled]="isDisabled"
+              [isDisabled]="!selectedWpId || isSaving"
               (execute)="changeParent()"
               aria-hidden="false">
               <op-icon icon-classes="icon-checkmark" [icon-title]="text.save"></op-icon>

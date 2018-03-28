@@ -16,6 +16,7 @@ export class WpRelationParentComponent implements OnInit, OnDestroy {
   public showEditForm:boolean = false;
   public canModifyHierarchy:boolean = false;
   public selectedWpId:string|null = null;
+  public isSaving = false;
 
   constructor(readonly elementRef:ElementRef,
               readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
@@ -58,12 +59,16 @@ export class WpRelationParentComponent implements OnInit, OnDestroy {
     const newParentId = this.selectedWpId;
     this.showEditForm = false;
     this.selectedWpId = null;
+    this.isSaving = true;
 
     this.wpRelationsHierarchyService.changeParent(this.workPackage, newParentId)
       .then((updatedWp:WorkPackageResourceInterface) => {
-        setTimeout(() => angular.element('#hierarchy--parent').focus());
+        setTimeout(() =>  angular.element('#hierarchy--parent').focus());
       })
-      .catch((err:any) => this.wpNotificationsService.handleErrorResponse(err, this.workPackage));
+      .catch((err:any) => {
+        this.wpNotificationsService.handleErrorResponse(err, this.workPackage);
+      })
+      .then(() => this.isSaving = false) // Behaves as .finally()
   }
 
   public get relationReady() {

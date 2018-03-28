@@ -69,12 +69,6 @@
                   uiSrefActive="selected">
                 <a href="" [textContent]="text.tabs.activity"></a>
               </li>
-              <li uiSref="work-packages.show.relations"
-                  [uiParams]="{workPackageId: workPackage.id}"
-                  uiSrefActive="selected">
-                <a href="" [textContent]="text.tabs.relations"></a>
-                <wp-relations-count [wpId]="workPackage.id"></wp-relations-count>
-              </li>
               <li *ngIf="canViewWorkPackageWatchers()"
                   uiSref="work-packages.show.watchers"
                   [uiParams]="{workPackageId: workPackage.id}"
