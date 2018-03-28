@@ -204,8 +204,10 @@ $toggler-width: 40px
     top: 0px
     left: calc(#{$main-menu-width} - 1px)
     left: calc(var(--main-menu-width) - 1px)
-    z-index: 100
     vertical-align: middle
+
+    %absolute-layout-mode &
+      z-index: 100
 
     @include default-transition
     &:hover
