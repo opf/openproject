@@ -77,6 +77,9 @@ Capybara.register_driver :selenium do |app|
   profile['browser.tabs.remote.autostart'] = false
   profile['browser.tabs.remote.autostart.2'] = false
 
+  # only one FF process
+  profile['dom.ipc.processCount'] = 1
+
   # use native instead of synthetic events
   # https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities
   profile.native_events = true
