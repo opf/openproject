@@ -153,9 +153,6 @@ gem 'cocaine', '~> 0.5.8'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-# Puma server for development and on paas.
-gem 'puma', '~> 3.11.3'
-
 gem 'nokogiri', '~> 1.8.2'
 
 # carrierwave 0.11.3 should allow to use fog-aws without the rest of the
