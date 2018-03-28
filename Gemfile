@@ -169,6 +169,7 @@ gem 'openproject-token', '~> 1.0.1'
 gem 'plaintext', '0.1.0'
 
 group :test do
+  gem 'puma', '~> 3.11.3'
   gem 'rack-test', '~> 0.6.3'
   gem 'shoulda-context', '~> 1.2'
   gem 'launchy', '~> 2.4.3'
@@ -234,6 +235,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'thin'
 
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
