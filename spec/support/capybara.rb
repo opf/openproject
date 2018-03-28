@@ -41,7 +41,7 @@ Capybara.register_server :single_puma do |app, port, host|
                           workers: 0,
                           daemon: false,
                           Silent: false,
-                          Threads: "0:4",
+                          Threads: "1:1",
                           config_files: ['-']
 end
 Capybara.server = :single_puma
