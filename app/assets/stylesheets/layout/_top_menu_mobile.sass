@@ -27,13 +27,16 @@
 //++
 
 @include breakpoint(680px down)
+  $hamburger-right: -13px
+  $hamburger-width: 50px
+
   #mobile-main-menu-toggle
     display: block
-    width: 50px
+    width: $hamburger-width
     height: $header-height-mobile
     float: left
     text-align: center
-    margin-right: -13px
+    margin-right: $hamburger-right
     a
       height: $header-height-mobile
       line-height: $header-height-mobile
@@ -75,9 +78,11 @@
     li > a:before
       font-size: 1.25rem !important
       vertical-align: text-bottom
-    li > ul.drop-down--projects
+    li.drop-down > ul.drop-down--projects
       width: 100vw
       border-right: none
+      left: -1 * ($hamburger-width + $hamburger-right)
+      border-left: none
 
   #account-nav-right
     > li
@@ -136,6 +141,7 @@
 
     .project-menu-autocomplete--input-container
       border-right: none !important
+      border-left: none !important
     .project-menu-autocomplete--results
       border-bottom: 2px solid $header-drop-down-border-color !important
 
