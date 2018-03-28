@@ -22,7 +22,7 @@ describe 'Work package relations tab', js: true, selenium: true do
   end
 
   def visit_relations
-    work_packages_page.visit_tab!('relations')
+    work_packages_page.visit_tab!('overview')
     work_packages_page.expect_subject
     loading_indicator_saveguard
   end
@@ -54,15 +54,17 @@ describe 'Work package relations tab', js: true, selenium: true do
     before do
       visit_relations
 
-      work_packages_page.visit_tab!('relations')
+      work_packages_page.visit_tab!('overview')
       work_packages_page.expect_subject
       loading_indicator_saveguard
+
+      scroll_to_element find('.detail-panel--relations')
     end
 
     it 'allows to toggle how relations are grouped' do
       # Expect to be grouped by relation type by default
       expect(page).to have_selector(toggle_btn_selector,
-                                    text: 'Group by work package type', wait: 10)
+                                    text: 'Group by work package type', wait: 20)
 
       expect(page).to have_selector('.relation-group--header', text: 'FOLLOWS')
       expect(page).to have_selector('.relation-group--header', text: 'RELATED TO')
@@ -81,8 +83,7 @@ describe 'Work package relations tab', js: true, selenium: true do
     end
 
     it 'allows to edit relation types when toggled' do
-      find(toggle_btn_selector).click
-      expect(page).to have_selector(toggle_btn_selector, text: 'Group by relation type', wait: 10)
+      expect(page).to have_selector(toggle_btn_selector, text: 'Group by relation type', wait: 20)
 
       # Expect current to be follows and other one related
       expect(page).to have_selector('.relation-row--type', text: 'Follows')
