@@ -67,6 +67,8 @@ export class WorkPackageRelationsController {
         this.loadedRelations(relations);
       });
 
+    this.wpRelations.require(this.workPackage.id);
+
     // Listen for changes to this WP.
     scopedObservable(this.$scope,
       this.wpCacheService.loadWorkPackage(this.workPackage.id).values$())

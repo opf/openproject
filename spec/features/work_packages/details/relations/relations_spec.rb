@@ -83,6 +83,7 @@ describe 'Work package relations tab', js: true, selenium: true do
     end
 
     it 'allows to edit relation types when toggled' do
+      find(toggle_btn_selector).click
       expect(page).to have_selector(toggle_btn_selector, text: 'Group by relation type', wait: 20)
 
       # Expect current to be follows and other one related
