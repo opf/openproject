@@ -68,7 +68,7 @@ export class WpRelationParentComponent implements OnInit, OnDestroy {
       .catch((err:any) => {
         this.wpNotificationsService.handleErrorResponse(err, this.workPackage);
       })
-      .then(() => this.isSaving = false) // Behaves as .finally()
+      .then(() => this.isSaving = false); // Behaves as .finally()
   }
 
   public get relationReady() {
