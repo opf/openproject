@@ -19,9 +19,12 @@
     </div>
 
     <wp-embedded-table #childrenEmbeddedTable
+                       [compactTableStyle]="true"
                        [queryProps]="childrenQueryProps"
                        [tableActions]="childrenTableActions"
                        [configuration]="{ actionsColumnEnabled: true,
+                                          hierarchyToggleEnabled: false,
+                                          inlineCreateEnabled: false,
                                           columnMenuEnabled: false,
                                           contextMenuEnabled: false,
                                           projectContext: false }" >
