@@ -29,7 +29,7 @@
 language: ruby
 
 rvm:
-  - 2.4.2
+  - 2.4.4
 
 sudo: required
 dist: trusty
@@ -95,6 +95,8 @@ before_install:
   - echo `geckodriver --version`
   # Install Node LTS Boron (6.9.1)
   - "nvm install 6.9.1"
+  # work around https://github.com/travis-ci/travis-ci/issues/8969
+  - travis_retry gem update --system
 
 bundler_args: --binstubs --without development production docker
 
