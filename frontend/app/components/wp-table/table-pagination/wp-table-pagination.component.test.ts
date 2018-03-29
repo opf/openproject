@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {BehaviorSubject} from 'rxjs';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 describe.skip('wpTablePagination Directive', function () {
   var compile:any, element:any, rootScope:any, scope:any, paginationService:PaginationService, paginationOptions:any;

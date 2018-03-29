@@ -83,7 +83,7 @@ module Pages
     end
 
     def expect_notification(type: :success, message:)
-      expect(page).to have_selector(".notification-box.-#{type}", text: message, wait: 10)
+      expect(page).to have_selector(".notification-box.-#{type}", text: message, wait: 20)
     end
 
     def dismiss_notification!

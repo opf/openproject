@@ -26,10 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from "../../../angular-modules";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+import {take} from 'rxjs/operators';
+import {wpDirectivesModule} from '../../../angular-modules';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 
 export class WorkPackageRelationsHierarchyController {
   public workPackage:WorkPackageResourceInterface;
@@ -60,7 +61,9 @@ export class WorkPackageRelationsHierarchyController {
           scopedObservable(
             this.$scope,
             this.wpCacheService.loadWorkPackage(this.workPackage.parent.id).values$())
-            .take(1)
+            .pipe(
+              take(1)
+            )
             .subscribe((parent:WorkPackageResourceInterface) => {
               this.workPackage.parent = parent;
             });

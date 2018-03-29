@@ -1,8 +1,8 @@
-import {States} from '../../states.service';
-import {opServicesModule} from '../../../angular-modules';
-import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {InputState} from 'reactivestates';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
+import {InputState} from 'reactivestates';
+import {distinctUntilChanged, filter, map} from 'rxjs/operators';
+import {opServicesModule} from '../../../angular-modules';
+import {States} from '../../states.service';
 
 export interface WPFocusState {
   workPackageId:string;
@@ -33,7 +33,7 @@ export class WorkPackageTableFocusService {
     }
   }
 
-  public get focusedWorkPackage():string|null {
+  public get focusedWorkPackage():string | null {
     const value = this.state.value;
 
     if (value) {
@@ -49,8 +49,10 @@ export class WorkPackageTableFocusService {
 
   public whenChanged() {
     return this.state.values$()
-    .map((val:WPFocusState) => val.workPackageId)
-    .distinctUntilChanged();
+      .pipe(
+        map((val:WPFocusState) => val.workPackageId),
+        distinctUntilChanged()
+      );
   }
 
   public updateFocus(workPackageId:string, setFocusAfterRender:boolean = false) {
@@ -58,7 +60,7 @@ export class WorkPackageTableFocusService {
     if (this.wpTableSelection.isEmpty) {
       this.wpTableSelection.setRowState(workPackageId, true);
     }
-    this.state.putValue({ workPackageId: workPackageId, focusAfterRender: setFocusAfterRender});
+    this.state.putValue({workPackageId: workPackageId, focusAfterRender: setFocusAfterRender});
   }
 
   /**
@@ -69,8 +71,10 @@ export class WorkPackageTableFocusService {
     this
       .states.globalTable.rendered
       .values$()
-      .map(state => _.find(state, (row:any) => row.workPackageId))
-      .filter(fullRow => !!fullRow && this.wpTableSelection.isEmpty)
+      .pipe(
+        map(state => _.find(state, (row:any) => row.workPackageId)),
+        filter(fullRow => !!fullRow && this.wpTableSelection.isEmpty)
+      )
       .subscribe(fullRow => {
         this.updateFocus(fullRow!.workPackageId!);
       });

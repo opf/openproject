@@ -25,17 +25,12 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {opWorkPackagesModule} from "../../angular-modules";
-import {State} from "reactivestates";
-import {Observable, Subject} from "rxjs";
-import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
-import {States} from "../states.service";
-import { WorkPackageNotificationService } from "./../wp-edit/wp-notification.service";
-import { SchemaResource } from "../api/api-v3/hal-resources/schema-resource.service";
-import IScope = angular.IScope;
-import IPromise = angular.IPromise;
-import {WorkPackageResourceInterface} from "core-components/api/api-v3/hal-resources/work-package-resource.service";
+
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {State} from 'reactivestates';
+import {opWorkPackagesModule} from '../../angular-modules';
+import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
+import {States} from '../states.service';
 
 export class SchemaCacheService {
 
@@ -61,7 +56,7 @@ export class SchemaCacheService {
   /**
    * Get the associated schema state of the work package
    *  without initializing a new resource.
-  */
+   */
   state(workPackage:WorkPackageResourceInterface) {
     const schema = workPackage.$links.schema;
     return this.states.schemas.get(schema.href!);

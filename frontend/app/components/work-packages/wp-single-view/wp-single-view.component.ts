@@ -26,19 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {takeUntil} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {CurrentProjectService} from '../../projects/current-project.service';
+import {States} from '../../states.service';
 import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
 import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
-import {WorkPackageCacheService} from '../work-package-cache.service';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
-import {States} from '../../states.service';
-import {CurrentProjectService} from '../../projects/current-project.service';
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
-import {I18nToken} from 'core-app/angular4-transition-utils';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
+import {WorkPackageCacheService} from '../work-package-cache.service';
 
 interface FieldDescriptor {
   name:string;
@@ -58,14 +59,14 @@ interface GroupDescriptor {
   template: require('!!raw-loader!./wp-single-view.html'),
   selector: 'wp-single-view',
 })
-export class WorkPackageSingleViewComponent implements OnInit, OnDestroy  {
+export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   @Input('workPackage') public workPackage:WorkPackageResourceInterface;
 
   // Grouped fields returned from API
   public groupedFields:GroupDescriptor[] = [];
   public projectContext:{
     matches:boolean,
-    href:string|null,
+    href:string | null,
     field?:FieldDescriptor[]
   };
   public text = {
@@ -113,13 +114,15 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy  {
 
     this.wpEditing.temporaryEditResource(this.workPackage.id)
       .values$()
-      .takeUntil(componentDestroyed(this))
+      .pipe(
+        takeUntil(componentDestroyed(this))
+      )
       .subscribe((resource:WorkPackageResourceInterface) => {
         // Prepare the fields that are required always
         const isNew = this.workPackage.isNew;
 
         if (!resource.project) {
-          this.projectContext = { matches: false, href: null };
+          this.projectContext = {matches: false, href: null};
         } else {
           this.projectContext = {
             href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id),
@@ -176,7 +179,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy  {
    * @param index
    * @param elem
    */
-  public trackByName(_index:number, elem:{ name: string }) {
+  public trackByName(_index:number, elem:{ name:string }) {
     return elem.name;
   }
 
@@ -191,7 +194,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy  {
     let id = this.workPackage.project.idFromLink;
     let projectPath = this.PathHelper.projectPath(id);
     let project = `<a href="${projectPath}">${this.workPackage.project.name}<a>`;
-    return this.I18n.t('js.project.work_package_belongs_to', { projectname: project });
+    return this.I18n.t('js.project.work_package_belongs_to', {projectname: project});
   }
 
   /**

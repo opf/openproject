@@ -1,11 +1,9 @@
-import {wpControllersModule} from '../../../angular-modules';
-import {
-  RelationsStateValue,
-  WorkPackageRelationsService
-} from '../../wp-relations/wp-relations.service';
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {takeUntil} from 'rxjs/operators';
+import {wpControllersModule} from '../../../angular-modules';
+import {RelationsStateValue, WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
 
 @Component({
   template: require('!!raw-loader!./wp-relations-count.html'),
@@ -22,7 +20,9 @@ export class WorkPackageRelationsCountComponent implements OnInit, OnDestroy {
     this.wpRelations.require(this.wpId.toString());
 
     this.wpRelations.state(this.wpId.toString()).values$()
-      .takeUntil(componentDestroyed(this))
+      .pipe(
+        takeUntil(componentDestroyed(this))
+      )
       .subscribe((relations:RelationsStateValue) => {
         this.count = _.size(relations);
       });

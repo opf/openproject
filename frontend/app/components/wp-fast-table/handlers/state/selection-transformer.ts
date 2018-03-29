@@ -1,6 +1,7 @@
 import {Injector} from '@angular/core';
 import {FocusHelperToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {takeUntil} from 'rxjs/operators';
 import {States} from '../../../states.service';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {checkedClassName} from '../../builders/ui-state-link-builder';
@@ -23,7 +24,9 @@ export class SelectionTransformer {
 
     // Focus a single selection when active
     this.states.globalTable.rendered.values$()
-      .takeUntil(this.states.globalTable.stopAllSubscriptions)
+      .pipe(
+        takeUntil(this.states.globalTable.stopAllSubscriptions)
+      )
       .subscribe(() => {
 
         this.wpTableFocus.ifShouldFocus((wpId:string) => {
@@ -38,7 +41,9 @@ export class SelectionTransformer {
 
     // Update selection state
     this.wpTableSelection.selectionState.values$()
-      .takeUntil(this.states.globalTable.stopAllSubscriptions)
+      .pipe(
+        takeUntil(this.states.globalTable.stopAllSubscriptions)
+      )
       .subscribe((state:WPTableRowSelectionState) => {
         this.renderSelectionState(state);
       });

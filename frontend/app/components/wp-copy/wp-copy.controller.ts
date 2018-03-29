@@ -26,16 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageCreateController} from "../wp-new/wp-create.controller";
+import {take} from 'rxjs/operators';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
+import {WorkPackageCreateController} from '../wp-new/wp-create.controller';
 
 export class WorkPackageCopyController extends WorkPackageCreateController {
   protected newWorkPackageFromParams(stateParams:any) {
     return new Promise<WorkPackageChangeset>((resolve, reject) => {
       this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId)
         .values$()
-        .take(1)
+        .pipe(
+          take(1)
+        )
         .subscribe(
           (wp:WorkPackageResourceInterface) => this.createCopyFrom(wp).then(resolve),
           reject);

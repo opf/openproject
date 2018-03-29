@@ -49,7 +49,7 @@ env:
   global:
     - CI=true
     - RAILS_ENV=test
-    - GECKODRIVER_VERSION="0.19.1"
+    - GECKODRIVER_VERSION="0.20.0"
 
   matrix:
     - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=1 BOGUS=1"
@@ -96,6 +96,6 @@ notifications:
 addons:
   # Setting latest here due to the switch from old selenium bindings
   # to Marionette. At the date of this writing, ESR is Firefox 52 and has
-  # bad support for it. Thus we use latest (57.0 as of this writing)
-  firefox: "57.0"
+  # bad support for it. Thus we use latest (59.0 as of this writing)
+  firefox: "59.0"
   postgresql: "9.6"
