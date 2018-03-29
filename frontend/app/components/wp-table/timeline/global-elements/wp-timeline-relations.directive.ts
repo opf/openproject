@@ -30,7 +30,8 @@ import {Component, ElementRef, Injector, OnDestroy, OnInit} from '@angular/core'
 import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {State} from 'reactivestates';
-import {Observable} from 'rxjs/Observable';
+import {combineLatest} from 'rxjs/observable/combineLatest';
+import {filter, map, take, takeUntil} from 'rxjs/operators';
 import {States} from '../../../states.service';
 import {RelationsStateValue, WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
 import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
@@ -119,13 +120,15 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
    */
   private setupRelationSubscription() {
     // for all visible WorkPackage rows...
-    Observable.combineLatest(
+    combineLatest(
       this.tableState.get().renderedWorkPackages.values$(),
       this.tableState.get().timelineVisible.values$()
     )
-      .filter(([rendered, timeline]) => timeline.isVisible)
-      .takeUntil(componentDestroyed(this))
-      .map(([rendered, _]) => rendered)
+      .pipe(
+        filter(([rendered, timeline]) => timeline.isVisible),
+        takeUntil(componentDestroyed(this)),
+        map(([rendered, _]) => rendered)
+      )
       .subscribe(list => {
         // ... make sure that the corresponding relations are loaded ...
         const wps = _.compact(list.map(row => row.workPackageId) as string[]);
@@ -137,7 +140,9 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
 
           // ... once they are loaded, display them.
           relationsForWorkPackage.values$()
-            .take(1)
+            .pipe(
+              take(1)
+            )
             .subscribe(() => {
               this.renderWorkPackagesRelations([wpId]);
             });
@@ -146,8 +151,10 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
 
     // When a WorkPackage changes, redraw the corresponding relations
     this.states.workPackages.observeChange()
-      .takeUntil(componentDestroyed(this))
-      .filter(() => this.tableState.get().timelineVisible.mapOr(v => v.visible, false))
+      .pipe(
+        takeUntil(componentDestroyed(this)),
+        filter(() => this.tableState.get().timelineVisible.mapOr(v => v.visible, false))
+      )
       .subscribe(([workPackageId]) => {
         this.renderWorkPackagesRelations([workPackageId]);
       });
