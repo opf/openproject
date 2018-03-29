@@ -28,17 +28,19 @@
 
 import {
   Component,
-  Directive, ElementRef, Inject, Injector, Input, OnChanges, OnDestroy,
+  ElementRef,
+  Inject,
+  Injector,
+  Input,
+  OnChanges,
+  OnDestroy,
   OnInit
 } from '@angular/core';
-import {UpgradeComponent} from '@angular/upgrade/static';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {opWorkPackagesModule} from '../../angular-modules';
-import {scopeDestroyed$, scopedObservable} from '../../helpers/angular-rx-utils';
+import {filter, takeUntil} from 'rxjs/operators';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
@@ -49,16 +51,15 @@ import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
+import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {
   inlineCreateCancelClassName,
   InlineCreateRowBuilder,
   inlineCreateRowClassName
 } from './inline-create-row-builder';
-import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {FocusHelperToken, I18nToken} from 'core-app/angular4-transition-utils';
-
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -144,8 +145,10 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
     // Watch on this scope when the columns change and refresh this row
     this.tableState.columns.values$()
-      .filter(() => this.isHidden) // Take only when row is inserted
-      .takeUntil(componentDestroyed(this))
+      .pipe(
+        filter(() => this.isHidden), // Take only when row is inserted
+        takeUntil(componentDestroyed(this))
+      )
       .subscribe(() => {
       const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
 

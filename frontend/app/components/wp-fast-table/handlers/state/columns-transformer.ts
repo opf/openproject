@@ -1,4 +1,5 @@
 import {Injector} from '@angular/core';
+import {filter, takeUntil} from 'rxjs/operators';
 import {debugLog} from '../../../../helpers/debug_output';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {WorkPackageTable} from '../../wp-fast-table';
@@ -14,8 +15,10 @@ export class ColumnsTransformer {
 
     this.tableState.updates.columnsUpdates
       .values$('Refreshing columns on user request')
-      .filter(() => this.wpTableColumns.hasRelationColumns() === false)
-      .takeUntil(this.tableState.stopAllSubscriptions)
+      .pipe(
+        filter(() => this.wpTableColumns.hasRelationColumns() === false),
+        takeUntil(this.states.globalTable.stopAllSubscriptions)
+      )
       .subscribe(() => {
         if (table.originalRows.length > 0) {
 

@@ -26,7 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Observable} from 'rxjs';
+import {StateService} from '@uirouter/core';
+import {Observable} from 'rxjs/Observable';
+import {zip} from 'rxjs/observable/zip';
+import {take} from 'rxjs/operators';
 import {wpDirectivesModule} from '../../angular-modules';
 import {scopedObservable} from '../../helpers/angular-rx-utils';
 import {RelationResourceInterface} from '../api/api-v3/hal-resources/relation-resource.service';
@@ -34,7 +37,7 @@ import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-pac
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {RelatedWorkPackagesGroup} from './wp-relations.interfaces';
 import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.service';
-import {StateService} from '@uirouter/core';
+
 
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
@@ -44,7 +47,7 @@ export class WorkPackageRelationsController {
 
   // By default, group by relation type
   public groupByWorkPackageType = false;
-  public currentRelations:RelationResourceInterface[] = [];
+  public currentRelations:WorkPackageResourceInterface[] = [];
 
   public text = {
     relations_header: this.I18n.t('js.work_packages.tabs.relations')
@@ -77,18 +80,12 @@ export class WorkPackageRelationsController {
       });
   }
 
-  protected getRelatedWorkPackages(workPackageIds:string[]) {
-    let observablesToGetZipped = workPackageIds.map(wpId => {
+  private getRelatedWorkPackages(workPackageIds:string[]):Observable<WorkPackageResourceInterface[]> {
+    let observablesToGetZipped:Observable<WorkPackageResourceInterface>[] = workPackageIds.map(wpId => {
       return scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(wpId).values$());
     });
 
-    if (observablesToGetZipped.length > 1) {
-      return Observable
-        .zip
-        .apply(Observable, observablesToGetZipped);
-    }
-
-    return observablesToGetZipped[0];
+    return zip(...observablesToGetZipped);
   }
 
   protected getRelatedWorkPackageId(relation:RelationResourceInterface):string {
@@ -134,12 +131,10 @@ export class WorkPackageRelationsController {
     });
 
     this.getRelatedWorkPackages(relatedWpIds)
-      .take(1)
-      .subscribe((relatedWorkPackages:any) => {
-        if (!angular.isArray(relatedWorkPackages)) {
-          relatedWorkPackages = [relatedWorkPackages];
-        }
-
+      .pipe(
+        take(1)
+      )
+      .subscribe((relatedWorkPackages:WorkPackageResourceInterface[]) => {
         this.currentRelations = relatedWorkPackages.map((wp:WorkPackageResourceInterface) => {
           wp.relatedBy = relations[wp.id];
           return wp;

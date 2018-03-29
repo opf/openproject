@@ -26,18 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpServicesModule} from '../../angular-modules';
-import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
+import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
 import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {Observable, Subject} from 'rxjs';
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
 } from '../api/api-v3/hal-resources/work-package-resource.service';
+import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {Injectable, Injector} from '@angular/core';
-import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
 export class WorkPackageCreateService {

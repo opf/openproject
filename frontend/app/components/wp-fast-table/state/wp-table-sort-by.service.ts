@@ -26,23 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
+import {States} from 'core-components/states.service';
+import {combine} from 'reactivestates';
+import {mapTo} from 'rxjs/operators';
+import {opServicesModule} from '../../../angular-modules';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {
   QUERY_SORT_BY_ASC,
   QUERY_SORT_BY_DESC,
   QuerySortByResource
 } from '../../api/api-v3/hal-resources/query-sort-by-resource.service';
-import {opServicesModule} from '../../../angular-modules';
-import {WorkPackageTableSortBy} from '../wp-table-sort-by';
 import {QueryColumn} from '../../wp-query/query-column';
-import {combine} from 'reactivestates';
-import {Observable} from 'rxjs';
-import {States} from 'core-components/states.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
-import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {WorkPackageTableSortBy} from '../wp-table-sort-by';
+import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class WorkPackageTableSortByService extends WorkPackageTableBaseService<WorkPackageTableSortBy> implements WorkPackageQueryStateService {
@@ -64,7 +64,9 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService<W
   public onReadyWithAvailable():Observable<null> {
     return combine(this.state, this.states.query.available.sortBy)
       .values$()
-      .mapTo(null);
+      .pipe(
+        mapTo(null)
+      );
   }
 
   public hasChanged(query:QueryResource) {
@@ -104,11 +106,11 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService<W
     }
   }
 
-  public findAvailableDirection(column:QueryColumn, direction:string):QuerySortByResource|undefined {
+  public findAvailableDirection(column:QueryColumn, direction:string):QuerySortByResource | undefined {
     return _.find(
       this.available,
       (candidate) => (candidate.column.$href === column.$href &&
-      candidate.direction.$href === direction)
+        candidate.direction.$href === direction)
     );
   }
 

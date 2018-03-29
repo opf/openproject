@@ -1,5 +1,7 @@
 import {Injector} from '@angular/core';
 import {scrollTableRowIntoView} from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
+import {distinctUntilChanged, map, takeUntil} from 'rxjs/operators';
+import {States} from '../../../states.service';
 import {indicatorCollapsedClass} from '../../builders/modes/hierarchy/single-hierarchy-row-builder';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {
@@ -21,9 +23,11 @@ export class HierarchyTransformer {
               table:WorkPackageTable) {
     this.tableState.updates.hierarchyUpdates
       .values$('Refreshing hierarchies on user request')
-      .takeUntil(this.tableState.stopAllSubscriptions)
-      .map((state) => state.isEnabled)
-      .distinctUntilChanged()
+      .pipe(
+        takeUntil(this.tableState.stopAllSubscriptions)
+        map((state) => state.isEnabled),
+        distinctUntilChanged()
+      )
       .subscribe(() => {
         // We don't have to reload all results when _disabling_ the hierarchy mode.
         if (!this.wpTableHierarchies.isEnabled) {

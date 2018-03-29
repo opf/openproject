@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opUiComponentsModule} from '../../../../angular-modules';
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {HideSectionDefinition, HideSectionService} from 'core-components/common/hide-section/hide-section.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {HideSectionDefinition, HideSectionService} from 'core-components/common/hide-section/hide-section.service';
+import {combineLatest} from 'rxjs/observable/combineLatest';
 import {Subscription} from 'rxjs/Subscription';
-import {Observable} from 'rxjs/Observable';
+import {opUiComponentsModule} from '../../../../angular-modules';
 
 @Component({
   selector: 'add-section-dropdown',
@@ -40,7 +40,7 @@ import {Observable} from 'rxjs/Observable';
 })
 export class AddSectionDropdownComponent implements OnInit, OnDestroy {
   selectable:HideSectionDefinition[] = [];
-  turnedActive:HideSectionDefinition|null = null;
+  turnedActive:HideSectionDefinition | null = null;
   texts:{ [key:string]:string } = {};
 
   @Input()
@@ -56,13 +56,12 @@ export class AddSectionDropdownComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.allSubscription = Observable.combineLatest(this.hideSections.all$,
-                                                    this.hideSections.displayed$)
-                                     .subscribe(([all, displayed]) => {
-      this.selectable = _.filter(all, all_candidate =>
-        !_.some(displayed, displayed_candidate => all_candidate.key === displayed_candidate.key)
-      ).sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()));
-    });
+    this.allSubscription = combineLatest(this.hideSections.all$, this.hideSections.displayed$)
+      .subscribe(([all, displayed]) => {
+        this.selectable = _.filter(all, all_candidate =>
+          !_.some(displayed, displayed_candidate => all_candidate.key === displayed_candidate.key)
+        ).sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()));
+      });
   }
 
   ngOnDestroy() {
@@ -72,12 +71,14 @@ export class AddSectionDropdownComponent implements OnInit, OnDestroy {
   show() {
     if (this.turnedActive) {
       this.hideSections.show(this.turnedActive);
-      setTimeout(() => { this.turnedActive = null; } );
+      setTimeout(() => {
+        this.turnedActive = null;
+      });
     }
   }
 }
 
 opUiComponentsModule.directive(
   'addSectionDropdown',
-  downgradeComponent({component:AddSectionDropdownComponent})
+  downgradeComponent({component: AddSectionDropdownComponent})
 );

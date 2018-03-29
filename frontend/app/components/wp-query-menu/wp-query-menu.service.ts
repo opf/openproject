@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpServicesModule} from '../../angular-modules';
 import {input} from 'reactivestates';
-import {Injectable} from '@angular/core';
+import {distinctUntilChanged, filter} from 'rxjs/operators';
+import {wpServicesModule} from '../../angular-modules';
 
 export type QueryMenuEvent = {
-  event:'add'|'remove'|'rename';
+  event:'add' | 'remove' | 'rename';
   queryId:string;
   path?:string;
   label?:string;
@@ -42,27 +42,27 @@ export class QueryMenuService {
 
   /**
    * Add a query menu item
-   * @param {string} queryId
-   * @param {string} name
    */
   public add(name:string, path:string, queryId:string) {
-    this.events.putValue({ event: 'add', queryId: queryId, path: path, label: name });
+    this.events.putValue({event: 'add', queryId: queryId, path: path, label: name});
   }
 
   public rename(queryId:string, name:string) {
-    this.events.putValue({ event: 'rename', queryId: queryId, label: name });
+    this.events.putValue({event: 'rename', queryId: queryId, label: name});
   }
 
   public remove(queryId:string) {
-    this.events.putValue({ event: 'remove', queryId: queryId, label: queryId });
+    this.events.putValue({event: 'remove', queryId: queryId, label: queryId});
   }
 
   public on(type:string) {
     return this.events
       .values$()
-      .filter((e:QueryMenuEvent) => e.event === type)
-      .distinctUntilChanged();
+      .pipe(
+        filter((e:QueryMenuEvent) => e.event === type),
+        distinctUntilChanged()
+      );
   }
 }
 
-wpServicesModule.service('queryMenu', QueryMenuService)
+wpServicesModule.service('queryMenu', QueryMenuService);

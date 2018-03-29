@@ -26,15 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {InputState, State} from 'reactivestates';
-import {scopedObservable} from '../../../helpers/angular-rx-utils';
-import {Observable} from 'rxjs';
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {QuerySchemaResourceInterface} from 'core-components/api/api-v3/hal-resources/query-schema-resource.service';
-import {States} from 'core-components/states.service';
 import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
-import {takeUntil} from 'rxjs/operators';
+import {States} from 'core-components/states.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {InputState, State} from 'reactivestates';
+import {Observable} from 'rxjs/Observable';
+import {mapTo, take, takeUntil} from 'rxjs/operators';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
+import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 
 export abstract class WorkPackageTableBaseService<T> {
 
@@ -53,7 +53,7 @@ export abstract class WorkPackageTableBaseService<T> {
    * @param {QueryResource} query
    * @returns {T} Instance of the state value for this type.
    */
-  public abstract valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource):T|undefined;
+  public abstract valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource):T | undefined;
 
   /**
    * Initialize this table state from the given query resource,
@@ -79,7 +79,12 @@ export abstract class WorkPackageTableBaseService<T> {
   }
 
   public onReady(scope:ng.IScope) {
-    return scopedObservable(scope, this.state.values$()).take(1).mapTo(null).toPromise();
+    return scopedObservable(scope, this.state.values$())
+      .pipe(
+        take(1),
+        mapTo(null)
+      )
+      .toPromise();
   }
 }
 

@@ -37,6 +37,7 @@ import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedd
 import {downgradeComponent} from '@angular/upgrade/static';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'wp-relations-hierarchy',
@@ -100,8 +101,9 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
           toLoad.push(this.workPackage.parent.id);
 
           this.wpCacheService.loadWorkPackage(this.workPackage.parent.id).values$()
-            .takeUntil(componentDestroyed(this))
-            .take(1)
+            .pipe(
+              take(1)
+            )
             .subscribe((parent:WorkPackageResourceInterface) => {
               this.workPackage.parent = parent;
             });

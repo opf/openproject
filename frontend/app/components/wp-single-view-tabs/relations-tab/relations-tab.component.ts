@@ -32,6 +32,7 @@ import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nToken} from '../../../angular4-transition-utils';
 import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   template: require('!!raw-loader!./relations-tab.html'),
@@ -50,11 +51,13 @@ export class WorkPackageRelationsTabComponent implements OnInit, OnDestroy {
     const wpId = this.workPackageId || this.$transition.params('to').workPackageId;
     this.wpCacheService.loadWorkPackage(wpId)
       .values$()
-      .takeUntil(componentDestroyed(this))
+      .pipe(
+        takeUntil(componentDestroyed(this))
+      )
       .subscribe((wp) => {
-        this.workPackageId = wp.id;
-        this.workPackage = wp;
-      });
+          this.workPackageId = wp.id;
+          this.workPackage = wp;
+        });
   }
 
   ngOnDestroy() {

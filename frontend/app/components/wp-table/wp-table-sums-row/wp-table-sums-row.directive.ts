@@ -28,6 +28,7 @@
 
 import {AfterViewInit, Directive, ElementRef, Inject, Injector} from '@angular/core';
 import {combine} from 'reactivestates';
+import {takeUntil} from 'rxjs/operators';
 import {I18nToken} from '../../../angular4-transition-utils';
 import {SchemaResource} from '../../api/api-v3/hal-resources/schema-resource.service';
 import {WorkPackageCollectionResourceInterface} from '../../api/api-v3/hal-resources/wp-collection-resource.service';
@@ -68,7 +69,9 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
       this.tableState.sum
     )
       .values$()
-      .takeUntil(this.tableState.stopAllSubscriptions)
+      .pipe(
+        takeUntil(this.tableState.stopAllSubscriptions)
+      )
       .subscribe(([columns, resource, sum]) => {
         if (sum.isEnabled && resource.sumsSchema) {
           resource.sumsSchema.$load().then((schema:SchemaResource) => {

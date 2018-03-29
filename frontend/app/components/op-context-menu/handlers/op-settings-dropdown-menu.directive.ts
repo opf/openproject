@@ -26,28 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {Directive, ElementRef, Inject, Input, OnDestroy} from "@angular/core";
+import {Directive, ElementRef, Inject, Input, OnDestroy} from '@angular/core';
 import {
-  columnsModalToken, exportModalToken, groupingModalToken, I18nToken, saveModalToken,
+  columnsModalToken,
+  exportModalToken,
+  groupingModalToken,
+  I18nToken,
+  saveModalToken,
   settingsModalToken,
   shareModalToken,
-  sortingModalToken, timelinesModalToken
-} from "core-app/angular4-transition-utils";
-import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
-import {QueryColumn} from "core-components/wp-query/query-column";
-import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
-import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
-import {WorkPackageTableGroupByService} from "core-components/wp-fast-table/state/wp-table-group-by.service";
-import {WorkPackageTableColumnsService} from "core-components/wp-fast-table/state/wp-table-columns.service";
-import {AuthorisationService} from "core-components/common/model-auth/model-auth.service";
-import {WorkPackageTableSumService} from "core-components/wp-fast-table/state/wp-table-sum.service";
-import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
-import {QueryResource} from "core-components/api/api-v3/hal-resources/query-resource.service";
-import {QueryFormResource} from "core-components/api/api-v3/hal-resources/query-form-resource.service";
-import {States} from "core-components/states.service";
-import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
-import {componentDestroyed} from "ng2-rx-componentdestroyed";
+  sortingModalToken,
+  timelinesModalToken
+} from 'core-app/angular4-transition-utils';
+import {QueryFormResource} from 'core-components/api/api-v3/hal-resources/query-form-resource.service';
+import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
+import {States} from 'core-components/states.service';
+import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
+import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
+import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
+import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
+import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
+import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {takeUntil} from 'rxjs/operators';
 
 @Directive({
   selector: '[opSettingsContextMenu]'
@@ -88,22 +93,20 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
   ngAfterViewInit():void {
     super.ngAfterViewInit();
 
-    this.states
-      .query
-      .resource
-      .values$()
-      .takeUntil(componentDestroyed(this))
+    this.states.query.resource.values$()
+      .pipe(
+        takeUntil(componentDestroyed(this))
+      )
       .subscribe(queryUpdate => {
         this.query = queryUpdate;
       });
 
     this.loadingPromise = this.states.query.form.valuesPromise();
 
-    this.states
-      .query
-      .form
-      .values$()
-      .takeUntil(componentDestroyed(this))
+    this.states.query.form.values$()
+      .pipe(
+        takeUntil(componentDestroyed(this))
+      )
       .subscribe(formUpdate => {
         this.form = formUpdate;
       });

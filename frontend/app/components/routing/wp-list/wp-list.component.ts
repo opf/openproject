@@ -28,8 +28,13 @@
 
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {StateService, TransitionService} from '@uirouter/core';
+import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {auditTime, distinctUntilChanged, filter, withLatestFrom} from 'rxjs/operators';
+import {auditTime, distinctUntilChanged, filter, take, withLatestFrom} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
@@ -116,7 +121,9 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
       let newId = params.query_id && parseInt(params.query_id);
 
       this.wpListChecksumService
-        .executeIfOutdated(newId, newChecksum, () => this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier));
+        .executeIfOutdated(newId,
+          newChecksum,
+          () => this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier));
     });
   }
 
@@ -124,10 +131,9 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     this.wpTableRefresh.clear('Table controller scope destroyed.');
   }
 
-  public allowed(model:string, permission:string)  {
+  public allowed(model:string, permission:string) {
     return this.authorisationService.can(model, permission);
   }
-
 
   public setAnchorToNextElement() {
     // Skip to next when visible, otherwise skip to previous
@@ -142,8 +148,10 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   }
 
   private setupQueryObservers() {
-    this.tableState.tableRendering.onQueryUpdated.values$().pipe()
-      .take(1)
+    this.tableState.tableRendering.onQueryUpdated.values$()
+      .pipe(
+        take(1)
+      )
       .subscribe(() => this.tableInformationLoaded = true);
 
     // Update the title whenever the query changes

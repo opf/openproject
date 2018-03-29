@@ -22,6 +22,7 @@ import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-reso
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {SwitchState} from 'core-components/states/switch-state';
+import {map} from 'rxjs/operator/map';
 
 @Injectable()
 export class TableState extends StatesGroup {
@@ -63,8 +64,8 @@ export class TableState extends StatesGroup {
   // State to be updated when the table is up to date
   rendered = input<RenderedRow[]>();
 
-  renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $
-    .map(rows => rows.filter(row => !!row.workPackageId)));
+  renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $.pipe(
+    map(rows => rows.filter(row => !!row.workPackageId)));
 
   // State to determine timeline visibility
   timelineVisible = input<WorkPackageTableTimelineState>();
@@ -108,8 +109,7 @@ export class TableRenderingStates {
     this.tableState.additionalRequiredWorkPackages
   );
 
-  onQueryUpdated = derive(this.combinedTableStates, ($, input) => $.mapTo(null));
-
+  onQueryUpdated = derive(this.combinedTableStates, ($, input) => $.pipe(mapTo(null)));
 }
 
 export class UserUpdaterStates {

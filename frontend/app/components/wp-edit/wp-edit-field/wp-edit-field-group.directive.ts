@@ -26,13 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {States} from '../../states.service';
-import {opWorkPackagesModule} from '../../../angular-modules';
-import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
-import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
-import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {StateService, Transition, TransitionService} from '@uirouter/core';
+import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {input} from 'reactivestates';
+import {takeUntil, filter, take, map} from 'rxjs/operators';
+import {opWorkPackagesModule} from '../../../angular-modules';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {States} from '../../states.service';
+import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
+import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
+import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {WorkPackageCreateService} from './../../wp-new/wp-create.service';
@@ -109,16 +118,20 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     // Stop editing whenever a work package was saved
     if (this.inEditMode && this.workPackage.isNew) {
       this.wpCreate.onNewWorkPackage()
-        .takeUntil(componentDestroyed(this))
+        .pipe(
+          takeUntil(componentDestroyed(this))
+        )
         .subscribe((wp:WorkPackageResourceInterface) => {
           this.form.editMode = false;
           this.stopEditingAndLeave(wp, true);
-      });
+        });
     }
 
     this.states.workPackages.get(this.workPackage.id)
       .values$()
-      .takeUntil(componentDestroyed(this))
+      .pipe(
+        takeUntil(componentDestroyed(this)),
+      )
       .subscribe((wp) => {
         _.each(this.fields, (ctrl) => this.updateDisplayField(ctrl, wp));
       });
@@ -149,9 +162,11 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   public waitForField(name:string):Promise<WorkPackageEditFieldComponent> {
     return this.registeredFields
       .values$()
-      .filter(keys => keys.indexOf(name) >= 0)
-      .take(1)
-      .map(() => this.fields[name])
+      .pipe(
+        filter(keys => keys.indexOf(name) >= 0),
+        take(1),
+        map(() => this.fields[name])
+      )
       .toPromise();
   }
 
@@ -218,7 +233,6 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     return toParams.workPackageId !== undefined && toParams.workPackageId === fromParams.workPackageId;
   }
 }
-
 
 
 opWorkPackagesModule.directive('wpEditFieldGroupNg1',

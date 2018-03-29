@@ -1,4 +1,5 @@
 import {Injector} from '@angular/core';
+import {takeUntil} from 'rxjs/operators';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {WorkPackageTableTimelineState} from '../../wp-table-timeline';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
@@ -10,10 +11,13 @@ export class TimelineTransformer {
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
 
-    this.tableState.timelineVisible.values$()
-      .takeUntil(this.tableState.stopAllSubscriptions).subscribe((state:WorkPackageTableTimelineState) => {
-      this.renderVisibility(state.isVisible);
-    });
+   this.tableState.timelineVisible.values$()
+      .pipe(
+        takeUntil(this.tableState.stopAllSubscriptions)
+      )
+      .subscribe((state:WorkPackageTableTimelineState) => {
+        this.renderVisibility(state.isVisible);
+      });
   }
 
   /**

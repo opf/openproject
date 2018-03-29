@@ -30,10 +30,16 @@ import {WorkPackageEditForm} from './work-package-edit-form';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageChangeset} from './work-package-changeset';
-import {StateCacheService} from '../states/state-cache.service';
 import {combine, deriveRaw, multiInput, State, StatesGroup} from 'reactivestates';
+import {map} from 'rxjs/operators';
+import {wpServicesModule} from '../../angular-modules';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {StateCacheService} from '../states/state-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {Injectable, Injector} from '@angular/core';
+import {WorkPackageChangeset} from './work-package-changeset';
+import {WorkPackageEditContext} from './work-package-edit-context';
+import {WorkPackageEditForm} from './work-package-edit-form';
 
 class WPChangesetStates extends StatesGroup {
   name = 'WP-Changesets';
@@ -95,14 +101,16 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     const combined = combine(this.wpCacheService.state(id), this.state(id));
 
     return deriveRaw(combined,
-      ($) =>
-        $.map(([wp, changeset]) => {
-          if (wp && changeset && changeset.resource) {
-            return changeset.resource!;
-          } else {
-            return wp;
-          }
-        })
+      ($) => $
+        .pipe(
+          map(([wp, changeset]) => {
+            if (wp && changeset && changeset.resource) {
+              return changeset.resource!;
+            } else {
+              return wp;
+            }
+          })
+        )
     );
   }
 

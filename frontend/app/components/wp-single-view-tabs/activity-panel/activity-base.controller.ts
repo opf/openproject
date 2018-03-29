@@ -26,13 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {OnDestroy, OnInit} from '@angular/core';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
 import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
+import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {takeUntil} from 'rxjs/operators';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 
 export class ActivityPanelBaseController implements OnInit, OnDestroy {
   public workPackage:WorkPackageResourceInterface;
@@ -65,7 +66,9 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
   ngOnInit() {
     this.wpCacheService.loadWorkPackage(this.workPackageId)
       .values$()
-      .takeUntil(componentDestroyed(this))
+      .pipe(
+        takeUntil(componentDestroyed(this))
+      )
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.wpActivity.aggregateActivities(this.workPackage).then((activities:any) => {

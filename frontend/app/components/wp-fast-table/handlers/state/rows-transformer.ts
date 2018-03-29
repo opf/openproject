@@ -1,4 +1,5 @@
 import {Injector} from '@angular/core';
+import {filter, takeUntil} from 'rxjs/operators';
 import {debugLog} from '../../../../helpers/debug_output';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTable} from '../../wp-fast-table';
@@ -16,7 +17,9 @@ export class RowsTransformer {
     // Redraw table if the current row state changed
     this.tableState.ready.fireOnTransition(this.tableState.rows, 'Query loaded')
       .values$('Initializing table after query was initialized')
-      .takeUntil(this.tableState.stopAllSubscriptions)
+      .pipe(
+        takeUntil(this.tableState.stopAllSubscriptions)
+      )
       .subscribe((rows:WorkPackageResourceInterface[]) => {
         var t0 = performance.now();
 
@@ -28,8 +31,10 @@ export class RowsTransformer {
 
     // Refresh a single row if it exists
     this.states.workPackages.observeChange()
-      .takeUntil(this.tableState.stopAllSubscriptions.asObservable())
-      .filter(() => this.tableState.ready.current === 'Query loaded')
+      .pipe(
+        takeUntil(this.tableState.stopAllSubscriptions.asObservable()),
+        filter(() => this.tableState.ready.current === 'Query loaded')
+      )
       .subscribe(([changedId, wp]) => {
         if (wp === undefined) {
           return;

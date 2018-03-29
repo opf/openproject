@@ -4,8 +4,8 @@ import {InputState} from 'reactivestates';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
-import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {distinctUntilChanged, filter, map} from 'rxjs/operators';
 
 export interface WPFocusState {
   workPackageId:string;
@@ -38,7 +38,7 @@ export class WorkPackageTableFocusService {
     }
   }
 
-  public get focusedWorkPackage():string|null {
+  public get focusedWorkPackage():string | null {
     const value = this.state.value;
 
     if (value) {
@@ -54,8 +54,10 @@ export class WorkPackageTableFocusService {
 
   public whenChanged() {
     return this.state.values$()
-    .map((val:WPFocusState) => val.workPackageId)
-    .distinctUntilChanged();
+      .pipe(
+        map((val:WPFocusState) => val.workPackageId),
+        distinctUntilChanged()
+      );
   }
 
   public updateFocus(workPackageId:string, setFocusAfterRender:boolean = false) {
@@ -63,7 +65,7 @@ export class WorkPackageTableFocusService {
     if (this.wpTableSelection.isEmpty) {
       this.wpTableSelection.setRowState(workPackageId, true);
     }
-    this.state.putValue({ workPackageId: workPackageId, focusAfterRender: setFocusAfterRender});
+    this.state.putValue({workPackageId: workPackageId, focusAfterRender: setFocusAfterRender});
   }
 
   /**
@@ -74,8 +76,10 @@ export class WorkPackageTableFocusService {
     this
       .tableState.rendered
       .values$()
-      .map(state => _.find(state, (row:any) => row.workPackageId))
-      .filter(fullRow => !!fullRow && this.wpTableSelection.isEmpty)
+      .pipe(
+        map(state => _.find(state, (row:any) => row.workPackageId)),
+        filter(fullRow => !!fullRow && this.wpTableSelection.isEmpty)
+      )
       .subscribe(fullRow => {
         this.updateFocus(fullRow!.workPackageId!);
       });

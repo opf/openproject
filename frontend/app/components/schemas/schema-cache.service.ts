@@ -34,6 +34,12 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {opWorkPackagesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
 
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {State} from 'reactivestates';
+import {opWorkPackagesModule} from '../../angular-modules';
+import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
+import {States} from '../states.service';
+
 @Injectable()
 export class SchemaCacheService {
 
@@ -59,7 +65,7 @@ export class SchemaCacheService {
   /**
    * Get the associated schema state of the work package
    *  without initializing a new resource.
-  */
+   */
   state(workPackage:WorkPackageResourceInterface) {
     const schema = workPackage.$links.schema;
     return this.states.schemas.get(schema.href!);

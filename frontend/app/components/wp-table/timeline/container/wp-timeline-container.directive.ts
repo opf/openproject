@@ -30,6 +30,7 @@ import {AfterViewInit, Component, ElementRef, Inject, Injector, OnDestroy} from 
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Moment} from 'moment';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {filter, map, take, takeUntil, withLatestFrom} from 'rxjs/operators';
 import {I18nToken, NotificationsServiceToken} from '../../../../angular4-transition-utils';
 import {debugLog, timeOutput} from '../../../../helpers/debug_output';
 import {TypeResource} from '../../../api/api-v3/hal-resources/type-resource.service';
@@ -136,8 +137,10 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
     // Refresh timeline view after table rendered
     this.tableState.rendered.values$()
-      .takeUntil(this.tableState.stopAllSubscriptions)
-      .filter(() => this.initialized)
+      .pipe(
+        takeUntil(this.tableState.stopAllSubscriptions),
+        filter(() => this.initialized)
+      )
       .subscribe((orderedRows) => {
         // Remember all visible rows in their order of appearance.
         this.workPackageIdOrder = orderedRows.filter(row => !row.hidden);
@@ -145,17 +148,21 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       });
 
     this.tableState.timelineAutoZoom.values$()
-      .takeUntil(this.tableState.stopAllSubscriptions)
-      .filter(() => this.initialized)
-      .filter((enabled:boolean) => enabled)
+      .pipe(
+        takeUntil(this.tableState.stopAllSubscriptions),
+        filter(() => this.initialized),
+        filter((enabled:boolean) => enabled)
+      )
       .subscribe(() => {
         this.refreshView();
       });
 
     // Refresh timeline view when becoming visible
     this.tableState.timelineVisible.values$()
-      .filter((timelineState:WorkPackageTableTimelineState) => timelineState.isVisible)
-      .takeUntil(componentDestroyed(this))
+      .pipe(
+        filter((timelineState:WorkPackageTableTimelineState) => timelineState.isVisible),
+        takeUntil(componentDestroyed(this))
+      )
       .subscribe((timelineState:WorkPackageTableTimelineState) => {
         this.viewParameters.settings.zoomLevel = timelineState.zoomLevel;
         this.debouncedRefresh();
@@ -164,8 +171,10 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     // Load the types whenever the timeline is first visible
     // TODO: Load only necessary types from API
     this.tableState.timelineVisible.values$()
-      .filter((timelineState) => timelineState.isVisible)
-      .take(1)
+      .pipe(
+        filter((timelineState) => timelineState.isVisible),
+        take(1)
+      )
       .subscribe(() => {
         TypeResource.loadAll().then(() => {
           this.debouncedRefresh();
@@ -249,11 +258,13 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   updateOnWorkPackageChanges() {
     this.states.workPackages.observeChange()
-      .withLatestFrom(this.tableState.timelineVisible.values$())
-      .takeUntil(componentDestroyed(this))
-      .filter(([, timelineState]) => this.initialized && timelineState.isVisible)
-      .map(([[wpId]]) => wpId)
-      .filter((wpId) => this.cellsRenderer.hasCell(wpId))
+      .pipe(
+        withLatestFrom(this.tableState.timelineVisible.values$()),
+        takeUntil(componentDestroyed(this)),
+        filter(([, timelineState]) => this.initialized && timelineState.isVisible),
+        map(([[wpId]]) => wpId),
+        filter((wpId) => this.cellsRenderer.hasCell(wpId))
+      )
       .subscribe((wpId) => {
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
         if (viewParamsChanged) {
@@ -361,9 +372,9 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
       // We may still have a reference to a row that, e.g., just got deleted
       const workPackage = this.states.workPackages.get(wpId).value!;
-      const startDate = workPackage.startDate ? moment(workPackage.startDate) :currentParams.now;
-      const dueDate = workPackage.dueDate ? moment(workPackage.dueDate) :currentParams.now;
-      const date = workPackage.date ? moment(workPackage.date) :currentParams.now;
+      const startDate = workPackage.startDate ? moment(workPackage.startDate) : currentParams.now;
+      const dueDate = workPackage.dueDate ? moment(workPackage.dueDate) : currentParams.now;
+      const date = workPackage.date ? moment(workPackage.date) : currentParams.now;
 
       // start date
       newParams.dateDisplayStart = moment.min(

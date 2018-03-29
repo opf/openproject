@@ -25,7 +25,7 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {SchemaCacheService} from './../schemas/schema-cache.service';
+
 import {State} from 'reactivestates';
 import {opWorkPackagesModule} from '../../angular-modules';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
@@ -37,9 +37,17 @@ import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.servic
 import {StateCacheService} from '../states/state-cache.service';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {Injectable} from '@angular/core';
+import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageCollectionResourceInterface} from '../api/api-v3/hal-resources/wp-collection-resource.service';
+import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
+import {States} from '../states.service';
+import {StateCacheService} from '../states/state-cache.service';
+import {SchemaCacheService} from './../schemas/schema-cache.service';
+import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
 
 function getWorkPackageId(id:number | string):string {
-  return (id || "__new_work_package__").toString();
+  return (id || '__new_work_package__').toString();
 }
 
 @Injectable()
@@ -85,7 +93,7 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
       return Promise.reject<any>(null);
     }
 
-    return new Promise<WorkPackageResourceInterface|null>((resolve, reject) => {
+    return new Promise<WorkPackageResourceInterface | null>((resolve, reject) => {
       return workPackage.save()
         .then(() => {
           this.wpNotificationsService.showSave(workPackage);

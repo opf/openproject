@@ -1,6 +1,7 @@
 import {WPFocusState} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {combine, derive, input, multiInput, StatesGroup} from 'reactivestates';
+import {mapTo} from 'rxjs/operators';
 import {opServicesModule} from '../angular-modules';
 import {QueryFormResource} from './api/api-v3/hal-resources/query-form-resource.service';
 import {QueryGroupByResource} from './api/api-v3/hal-resources/query-group-by-resource.service';
@@ -58,8 +59,5 @@ export class QueryAvailableDataStates {
   // Filters remain special, since they require their schema to be loaded
   // Thus the table state is not initialized until all values are available.
 }
-
-
-
 
 opServicesModule.value('states', new States());

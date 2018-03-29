@@ -34,6 +34,7 @@ import {
 } from 'core-components/api/api-v3/hal-resources/query-sort-by-resource.service';
 import {RelationQueryColumn, TypeRelationQueryColumn} from 'core-components/wp-query/query-column';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {takeUntil} from 'rxjs/operators';
 import {WorkPackageTableHierarchiesService} from '../../wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/wp-table-relation-columns.service';
 import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
@@ -92,7 +93,9 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
     this.element = jQuery(this.elementRef.nativeElement);
 
     this.wpTableSortBy.onReadyWithAvailable()
-      .takeUntil(componentDestroyed(this))
+      .pipe(
+        takeUntil(componentDestroyed(this))
+      )
       .subscribe(() => {
         let latestSortElement = this.wpTableSortBy.currentSortBys[0];
 
@@ -135,14 +138,18 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
 
       // Disable hierarchy mode when group by is active
       this.wpTableGroupBy.state.values$()
-        .takeUntil(componentDestroyed(this))
+        .pipe(
+          takeUntil(componentDestroyed(this))
+        )
         .subscribe(() => {
           this.isHierarchyDisabled = this.wpTableGroupBy.isEnabled;
         });
 
       // Update hierarchy icon when updated elsewhere
       this.wpTableHierarchies.state.values$()
-        .takeUntil(componentDestroyed(this))
+        .pipe(
+          takeUntil(componentDestroyed(this))
+        )
         .subscribe(() => {
           this.setHierarchyIcon();
         });
