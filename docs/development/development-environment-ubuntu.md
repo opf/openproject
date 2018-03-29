@@ -22,7 +22,7 @@ We need an active Ruby and Node JS environment to run OpenProject. To this end, 
 
 ## Install Ruby 2.5.
 
-Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby 2.5.0.
+Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby 2.5.
 
 
 **Install rbenv**
@@ -61,13 +61,13 @@ and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-[dev@ubuntu]# rbenv install 2.5.0
+[dev@ubuntu]# rbenv install 2.5.1
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-[dev@ubuntu]# rbenv global 2.5.0
+[dev@ubuntu]# rbenv global 2.5.1
 ```
 
 You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler.
@@ -144,7 +144,7 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 [dev@ubuntu]# ruby --version
-ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-darwin16]
+ruby 2.5.1p57 (2017-12-25 revision 61468) [x86_64-darwin16]
 
 [dev@ubuntu]# bundler --version
 Bundler version 1.16.1
