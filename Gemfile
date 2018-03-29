@@ -234,7 +234,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'puma', '~> 3.11.3'
+  gem 'thin', '~> 1.7.2'
 
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
