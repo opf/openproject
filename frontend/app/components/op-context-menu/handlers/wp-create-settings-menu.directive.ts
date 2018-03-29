@@ -46,7 +46,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
     super(elementRef, opContextMenu);
   }
 
-  protected open(evt:Event) {
+  public open(evt:Event) {
     const wp = this.states.workPackages.get('new').value;
 
     if (wp) {

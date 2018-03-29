@@ -38,17 +38,17 @@ interface AutocompleteSelectDecorationItem {
 }
 
 @Component({
-  template: require('!!raw-loader!./autocomplete-select-decoration.component.html'),
+  templateUrl: './autocomplete-select-decoration.component.html',
   selector: 'autocomplete-select-decoration',
 })
 
 export class AutocompleteSelectDecorationComponent implements OnInit {
 
   public selectedItems:AutocompleteSelectDecorationItem[] = [];
+  public isMulti:boolean = true;
   private allItems:AutocompleteSelectDecorationItem[] = [];
   private $select:any = null;
   private $input:any = null;
-  private isMulti:boolean = true;
   private label:string;
 
   @Input('label') labelOverride:string|null = null;

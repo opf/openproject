@@ -114,7 +114,7 @@ export class AttributeHelpTextController {
 }
 
 opUiComponentsModule.component('attributeHelpText', {
-  templateUrl: '/components/common/help-texts/help-text.directive.html',
+  template: require('!!html-loader!./help-text.directive.html'),
   controller: AttributeHelpTextController,
   controllerAs: '$ctrl',
   bindings: {

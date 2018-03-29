@@ -60,7 +60,7 @@ export class WorkPackageRelationsGroupController {
 function wpRelationsGroupDirective():any {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-relations/wp-relations-group/wp-relations-group.template.html',
+    template: require('!!html-loader!./wp-relations-group.template.html'),
 
     scope: {
       header: '=',

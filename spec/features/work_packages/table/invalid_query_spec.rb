@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Invalid query spec', js: true, retry: 2 do
+describe 'Invalid query spec', js: true do
   let(:user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create :project }
 
@@ -88,6 +88,7 @@ describe 'Invalid query spec', js: true, retry: 2 do
     wp_table.expect_notification(type: :error,
                                  message: I18n.t('js.work_packages.faulty_query.description'))
     wp_table.dismiss_notification!
+
     wp_table.expect_no_work_package_listed
     filters.expect_filter_count 2
 

@@ -34,7 +34,7 @@ import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resou
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
 @Component({
-  template: require('!!raw-loader!./relations-tab.html'),
+  templateUrl: './relations-tab.html',
   selector: 'wp-relations-tab',
 })
 export class WorkPackageRelationsTabComponent implements OnDestroy {

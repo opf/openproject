@@ -34,7 +34,7 @@ import {opUiComponentsModule} from 'core-app/angular-modules';
 import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
-  template: require('!!raw-loader!./authoring.html'),
+  templateUrl: './authoring.html',
   selector: 'authoring',
 })
 export class AuthoringComponent implements OnInit {

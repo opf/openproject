@@ -28,13 +28,16 @@
 
 import {DisplayFieldFactory} from './wp-display-field.module';
 import {WorkPackageFieldService} from "../../wp-field/wp-field.service"
+import {Injectable} from '@angular/core';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
+@Injectable()
 export class WorkPackageDisplayFieldService extends WorkPackageFieldService {
-  public static get fieldFactory() {
+  public get fieldFactory() {
     return DisplayFieldFactory;
   }
 }
 
 angular
   .module('openproject')
-  .service('wpDisplayField', WorkPackageDisplayFieldService);
+  .service('wpDisplayField', downgradeInjectable(WorkPackageDisplayFieldService));

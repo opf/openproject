@@ -27,8 +27,11 @@
 // ++
 
 import {opServicesModule} from '../../../angular-modules';
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {Injectable} from '@angular/core';
 
-export default class ExpressionService {
+@Injectable()
+export class ExpressionService {
 
   // This is what returned by rails-angular-xss when it discoveres double open curly braces
   // See https://github.com/opf/rails-angular-xss for more information.
@@ -49,4 +52,4 @@ export default class ExpressionService {
   }
 }
 
-opServicesModule.service('ExpressionService', ExpressionService);
+opServicesModule.service('ExpressionService', downgradeInjectable(ExpressionService));

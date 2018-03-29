@@ -30,7 +30,7 @@ import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-
 import {Component, Input} from '@angular/core';
 
 @Component({
-  template: require('!!raw-loader!./wp-type-status.html'),
+  templateUrl: './wp-type-status.html',
   selector: 'wp-type-status',
 })
 export class WorkPackageTypeStatusComponent {

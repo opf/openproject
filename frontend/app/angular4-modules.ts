@@ -49,7 +49,9 @@ import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-ta
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
-import {WpInlineCreateDirectiveUpgraded} from 'core-components/wp-inline-create/wp-inline-create.directive';
+import {
+  WorkPackageInlineCreateComponent,
+} from 'core-components/wp-inline-create/wp-inline-create.component';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
@@ -64,17 +66,20 @@ import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-
 import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
 import {WorkPackagesTableController} from 'core-components/wp-table/wp-table.directive';
 import {
+  $localeToken,
   $qToken,
   $rootScopeToken,
   $stateToken,
   $timeoutToken,
   columnsModalToken, exportModalToken,
   FocusHelperToken, groupingModalToken,
-  halRequestToken,
+  halRequestToken, HalResourceToken,
   HookServiceToken,
   I18nToken,
   NotificationsServiceToken,
-  PathHelperToken, saveModalToken, settingsModalToken, shareModalToken, sortingModalToken,
+  PathHelperToken, QueryFilterInstanceResourceToken, QueryResourceToken, saveModalToken,
+  settingsModalToken, shareModalToken,
+  sortingModalToken,
   timelinesModalToken,
   TimezoneServiceToken,
   upgradeService,
@@ -104,7 +109,7 @@ import {WorkPackageDetailsViewButtonComponent} from 'core-components/wp-buttons/
 import {WorkPackageTimelineButtonComponent} from 'core-components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component';
 import {WorkPackageZenModeButtonComponent} from 'core-components/wp-buttons/wp-zen-mode-toggle-button/wp-zen-mode-toggle-button.component';
 import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
-import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
+import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {Ng1QueryFiltersComponentWrapper} from 'core-components/filters/query-filters/query-filters-ng1-wrapper.component';
 import {UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
 import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
@@ -151,20 +156,84 @@ import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy
 import {FocusWithinDirective} from 'core-components/common/focus-within/focus-within.upgraded.directive';
 import {ClickOnKeypressComponent} from 'core-app/ui_components/click-on-keypress-upgraded.component';
 import {AutocompleteSelectDecorationComponent} from 'core-components/common/autocomplete-select-decoration/autocomplete-select-decoration.component';
-import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {PortalModule} from "@angular/cdk/portal";
-import {OPContextMenuComponent} from "core-components/op-context-menu/op-context-menu.component";
-import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import {OpTypesContextMenuDirective} from "core-components/op-context-menu/handlers/op-types-context-menu.directive";
-import {WorkPackageContextMenuHelperService} from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
-import {OpColumnsContextMenu} from "core-components/op-context-menu/handlers/op-columns-context-menu.directive";
-import {OpSettingsMenuDirective} from "core-components/op-context-menu/handlers/op-settings-dropdown-menu.directive";
-import {WorkPackageStatusDropdownDirective} from "core-components/op-context-menu/handlers/wp-status-dropdown-menu.directive";
-import {WorkPackageCreateSettingsMenuDirective} from "core-components/op-context-menu/handlers/wp-create-settings-menu.directive";
-import {WorkPackageSingleContextMenuDirective} from "core-components/op-context-menu/wp-context-menu/wp-single-context-menu";
-import {WorkPackageQuerySelectableTitleComponent} from "core-components/wp-query-select/wp-query-selectable-title.component";
-import {WorkPackageQuerySelectDropdownComponent} from "core-components/wp-query-select/wp-query-select-dropdown.component";
-import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-dm.service";
+import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
+import {PortalModule} from '@angular/cdk/portal';
+import {OPContextMenuComponent} from 'core-components/op-context-menu/op-context-menu.component';
+import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
+import {OpTypesContextMenuDirective} from 'core-components/op-context-menu/handlers/op-types-context-menu.directive';
+import {WorkPackageContextMenuHelperService} from 'core-components/wp-table/context-menu-helper/wp-context-menu-helper.service';
+import {OpColumnsContextMenu} from 'core-components/op-context-menu/handlers/op-columns-context-menu.directive';
+import {OpSettingsMenuDirective} from 'core-components/op-context-menu/handlers/op-settings-dropdown-menu.directive';
+import {WorkPackageStatusDropdownDirective} from 'core-components/op-context-menu/handlers/wp-status-dropdown-menu.directive';
+import {WorkPackageCreateSettingsMenuDirective} from 'core-components/op-context-menu/handlers/wp-create-settings-menu.directive';
+import {WorkPackageSingleContextMenuDirective} from 'core-components/op-context-menu/wp-context-menu/wp-single-context-menu';
+import {WorkPackageQuerySelectableTitleComponent} from 'core-components/wp-query-select/wp-query-selectable-title.component';
+import {WorkPackageQuerySelectDropdownComponent} from 'core-components/wp-query-select/wp-query-select-dropdown.component';
+import {QueryDmService} from 'core-components/api/api-v3/hal-resource-dms/query-dm.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
+import {QueryFormDmService} from 'core-components/api/api-v3/hal-resource-dms/query-form-dm.service';
+import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
+import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
+import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
+import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
+import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
+import {WorkPackageFieldService} from 'core-components/wp-field/wp-field.service';
+import {ExpressionService} from 'core-components/common/xss/expression.service';
+import {WorkPackageEditFieldService} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.service';
+import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
+import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import {FocusDirectiveUpgraded} from 'core-app/ui_components/focus-directive-upgraded';
+import {
+  upgradeFactoryHalResource,
+  upgradeFactoryQueryResource,
+  upgradeFactoryQueryFilterInstanceResource,
+  upgradeFactory$rootScope,
+  upgradeFactoryI18n,
+  upgradeFactory$state,
+  upgradeFactory$q,
+  upgradeFactory$timeout,
+  upgradeFactory$locale,
+  upgradeFactoryNotificationsService,
+  upgradeFactorycolumnsModal,
+  upgradeFactoryFocusHelper,
+  upgradeFactoryhalRequest,
+  upgradeFactorywpMoreMenuService,
+  upgradeFactoryTimezoneService,
+  upgradeFactoryv3Path,
+  upgradeFactorywpDestroyModal,
+  upgradeFactorysortingModal,
+  upgradeFactorygroupingModal,
+  upgradeFactoryshareModal,
+  upgradeFactorysaveModal,
+  upgradeFactorysettingsModal,
+  upgradeFactoryexportModal,
+  upgradeFactorytimelinesModal,
+  upgradeFactorywpRelations,
+  upgradeFactorystates,
+  upgradeFactorypaginationService,
+  upgradeFactorykeepTab,
+  upgradeFactorytemplateRenderer,
+  upgradeFactorywpDisplayField,
+  upgradeFactorywpNotificationsService,
+  upgradeFactorywpListChecksumService,
+  upgradeFactorywpRelationsHierarchyService,
+  upgradeFactorywpFiltersService,
+  upgradeFactoryloadingIndicator,
+  upgradeFactoryapiWorkPackages,
+  upgradeFactoryauthorisationService,
+  upgradeFactoryConfigurationService,
+  upgradeFactorycurrentProject,
+  upgradeFactoryRootDm,
+  upgradeFactoryQueryDm,
+  upgradeFactoryqueryMenu,
+  upgradeFactoryfirstRoute,
+  upgradeFactoryPathHelper,
+  upgradeFactorywpActivity,
+  upgradeFactoryHookService,
+  upgradeFactoryUrlParamsHelper
+} from 'core-app/angular4-aot-factories';
+import {OpContextMenuHandler} from 'core-components/op-context-menu/op-context-menu-handler';
 
 @NgModule({
   imports: [
@@ -178,69 +247,275 @@ import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-
   providers: [
     GonRef,
     HideSectionService,
-    upgradeServiceWithToken('$rootScope', $rootScopeToken),
-    upgradeServiceWithToken('I18n', I18nToken),
-    upgradeServiceWithToken('$state', $stateToken),
-    upgradeServiceWithToken('$q', $qToken),
-    upgradeServiceWithToken('$timeout', $timeoutToken),
-    upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
-    upgradeServiceWithToken('columnsModal', columnsModalToken),
-    upgradeServiceWithToken('FocusHelper', FocusHelperToken),
-    upgradeServiceWithToken('PathHelper', PathHelperToken),
-    upgradeServiceWithToken('halRequest', halRequestToken),
-    upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
-    upgradeServiceWithToken('TimezoneService', TimezoneServiceToken),
-    upgradeServiceWithToken('v3Path', v3PathToken),
-    upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
-    upgradeServiceWithToken('sortingModal', sortingModalToken),
-    upgradeServiceWithToken('groupingModal', groupingModalToken),
-    upgradeServiceWithToken('shareModal', shareModalToken),
-    upgradeServiceWithToken('saveModal', saveModalToken),
-    upgradeServiceWithToken('settingsModal', settingsModalToken),
-    upgradeServiceWithToken('exportModal', exportModalToken),
-    upgradeServiceWithToken('timelinesModal', timelinesModalToken),
-    upgradeService('wpRelations', WorkPackageRelationsService),
-    upgradeService('wpCacheService', WorkPackageCacheService),
-    upgradeService('wpEditing', WorkPackageEditingService),
-    upgradeService('states', States),
-    upgradeService('paginationService', PaginationService),
-    upgradeService('keepTab', KeepTabService),
-    upgradeService('wpTableSelection', WorkPackageTableSelection),
-    upgradeService('wpTableFocus', WorkPackageTableFocusService),
-    upgradeService('wpTablePagination', WorkPackageTablePaginationService),
-    upgradeService('templateRenderer', SimpleTemplateRenderer),
-    upgradeService('wpTableRefresh', WorkPackageTableRefreshService),
-    upgradeService('wpDisplayField', WorkPackageDisplayFieldService),
-    upgradeService('wpTableTimeline', WorkPackageTableTimelineService),
-    upgradeService('wpNotificationsService', WorkPackageNotificationService),
-    upgradeService('wpTableHierarchies', WorkPackageTableHierarchiesService),
-    upgradeService('wpTableSortBy', WorkPackageTableSortByService),
-    upgradeService('wpTableFilters', WorkPackageTableFiltersService),
-    upgradeService('wpTableSum', WorkPackageTableSumService),
-    upgradeService('wpListService', WorkPackagesListService),
-    upgradeService('wpListChecksumService', WorkPackagesListChecksumService),
-    upgradeService('wpRelationsHierarchyService', WorkPackageRelationsHierarchyService),
-    upgradeService('wpFiltersService', WorkPackageFiltersService),
-    upgradeService('loadingIndicator', LoadingIndicatorService),
-    upgradeService('wpTableRelationColumns', WorkPackageTableRelationColumnsService),
-    upgradeService('wpTableGroupBy', WorkPackageTableGroupByService),
-    upgradeService('wpTableColumns', WorkPackageTableColumnsService),
-    upgradeService('authorisationService', AuthorisationService),
-    upgradeService('ConfigurationService', ConfigurationService),
-    upgradeService('currentProject', CurrentProjectService),
-    upgradeService('RootDm', RootDmService),
-    upgradeService('QueryDm', QueryDmService),
+    {
+      provide: HalResourceToken,
+      useFactory: upgradeFactoryHalResource,
+      deps: ['$injector']
+    },
+    {
+      provide: QueryResourceToken,
+      useFactory: upgradeFactoryQueryResource,
+      deps: ['$injector']
+    },
+    {
+      provide: QueryFilterInstanceResourceToken,
+      useFactory: upgradeFactoryQueryFilterInstanceResource,
+      deps: ['$injector']
+    },
+    {
+      provide: $rootScopeToken,
+      useFactory: upgradeFactory$rootScope,
+      deps: ['$injector']
+    },
+    {
+      provide: I18nToken,
+      useFactory: upgradeFactoryI18n,
+      deps: ['$injector']
+    },
+    {
+      provide: $stateToken,
+      useFactory: upgradeFactory$state,
+      deps: ['$injector']
+    },
+    {
+      provide: $qToken,
+      useFactory: upgradeFactory$q,
+      deps: ['$injector']
+    },
+    {
+      provide: $timeoutToken,
+      useFactory: upgradeFactory$timeout,
+      deps: ['$injector']
+    },
+    {
+      provide: $localeToken,
+      useFactory: upgradeFactory$locale,
+      deps: ['$injector']
+    },
+    {
+      provide: NotificationsServiceToken,
+      useFactory: upgradeFactoryNotificationsService,
+      deps: ['$injector']
+    },
+    {
+      provide: columnsModalToken,
+      useFactory: upgradeFactorycolumnsModal,
+      deps: ['$injector']
+    },
+    {
+      provide: FocusHelperToken,
+      useFactory: upgradeFactoryFocusHelper,
+      deps: ['$injector']
+    },
+    {
+      provide: halRequestToken,
+      useFactory: upgradeFactoryhalRequest,
+      deps: ['$injector']
+    },
+    {
+      provide: wpMoreMenuServiceToken,
+      useFactory: upgradeFactorywpMoreMenuService,
+      deps: ['$injector']
+    },
+    {
+      provide: TimezoneServiceToken,
+      useFactory: upgradeFactoryTimezoneService,
+      deps: ['$injector']
+    },
+    {
+      provide: v3PathToken,
+      useFactory: upgradeFactoryv3Path,
+      deps: ['$injector']
+    },
+    {
+      provide: wpDestroyModalToken,
+      useFactory: upgradeFactorywpDestroyModal,
+      deps: ['$injector']
+    },
+    {
+      provide: sortingModalToken,
+      useFactory: upgradeFactorysortingModal,
+      deps: ['$injector']
+    },
+    {
+      provide: groupingModalToken,
+      useFactory: upgradeFactorygroupingModal,
+      deps: ['$injector']
+    },
+    {
+      provide: shareModalToken,
+      useFactory: upgradeFactoryshareModal,
+      deps: ['$injector']
+    },
+    {
+      provide: saveModalToken,
+      useFactory: upgradeFactorysaveModal,
+      deps: ['$injector']
+    },
+    {
+      provide: settingsModalToken,
+      useFactory: upgradeFactorysettingsModal,
+      deps: ['$injector']
+    },
+    {
+      provide: exportModalToken,
+      useFactory: upgradeFactoryexportModal,
+      deps: ['$injector']
+    },
+    {
+      provide: timelinesModalToken,
+      useFactory: upgradeFactorytimelinesModal,
+      deps: ['$injector']
+    },
+    {
+      provide: WorkPackageRelationsService,
+      useFactory: upgradeFactorywpRelations,
+      deps: ['$injector']
+    },
+    {
+      provide: States,
+      useFactory: upgradeFactorystates,
+      deps: ['$injector']
+    },
+    {
+      provide: PaginationService,
+      useFactory: upgradeFactorypaginationService,
+      deps: ['$injector']
+    },
+    {
+      provide: KeepTabService,
+      useFactory: upgradeFactorykeepTab,
+      deps: ['$injector']
+    },
+    {
+      provide: SimpleTemplateRenderer,
+      useFactory: upgradeFactorytemplateRenderer,
+      deps: ['$injector']
+    },
+    {
+      provide: WorkPackageDisplayFieldService,
+      useFactory: upgradeFactorywpDisplayField,
+      deps: ['$injector']
+    },
+    {
+      provide: WorkPackageNotificationService,
+      useFactory: upgradeFactorywpNotificationsService,
+      deps: ['$injector']
+    },
+    {
+      provide: WorkPackagesListChecksumService,
+      useFactory: upgradeFactorywpListChecksumService,
+      deps: ['$injector']
+    },
+    {
+      provide: WorkPackageRelationsHierarchyService,
+      useFactory: upgradeFactorywpRelationsHierarchyService,
+      deps: ['$injector']
+    },
+    {
+      provide: WorkPackageFiltersService,
+      useFactory: upgradeFactorywpFiltersService,
+      deps: ['$injector']
+    },
+    {
+      provide: LoadingIndicatorService,
+      useFactory: upgradeFactoryloadingIndicator,
+      deps: ['$injector']
+    },
+    {
+      provide: ApiWorkPackagesService,
+      useFactory: upgradeFactoryapiWorkPackages,
+      deps: ['$injector']
+    },
+
+    {
+      provide: AuthorisationService,
+      useFactory: upgradeFactoryauthorisationService,
+      deps: ['$injector']
+    },
+    {
+      provide: ConfigurationService,
+      useFactory: upgradeFactoryConfigurationService,
+      deps: ['$injector']
+    },
+    {
+      provide: CurrentProjectService,
+      useFactory: upgradeFactorycurrentProject,
+      deps: ['$injector']
+    },
+    {
+      provide: RootDmService,
+      useFactory: upgradeFactoryRootDm,
+      deps: ['$injector']
+    },
+    {
+      provide: QueryDmService,
+      useFactory: upgradeFactoryQueryDm,
+      deps: ['$injector']
+    },
+    {
+      provide: QueryMenuService,
+      useFactory: upgradeFactoryqueryMenu,
+      deps: ['$injector']
+    },
     // Split view
-    upgradeService('wpCreate', WorkPackageCreateService),
-    upgradeService('firstRoute', FirstRouteService),
-    upgradeService('PathHelper', PathHelperService),
+    {
+      provide: FirstRouteService,
+      useFactory: upgradeFactoryfirstRoute,
+      deps: ['$injector']
+    },
+    {
+      provide: PathHelperService,
+      useFactory: upgradeFactoryPathHelper,
+      deps: ['$injector']
+    },
     // Activity tab
-    upgradeService('wpActivity', WorkPackagesActivityService),
+    {
+      provide: WorkPackagesActivityService,
+      useFactory: upgradeFactorywpActivity,
+      deps: ['$injector']
+    },
+    {
+      provide: HookServiceToken,
+      useFactory: upgradeFactoryHookService,
+      deps: ['$injector']
+    },
+    {
+      provide: UrlParamsHelperToken,
+      useFactory: upgradeFactoryUrlParamsHelper,
+      deps: ['$injector']
+    },
+    // Cache services
+    WorkPackageCacheService,
+    SchemaCacheService,
+    WorkPackageEditingService,
+    // Table and query states services
+    WorkPackageTableRelationColumnsService,
+    WorkPackageTablePaginationService,
+    WorkPackageTableGroupByService,
+    WorkPackageTableHierarchiesService,
+    WorkPackageTableSortByService,
+    WorkPackageTableColumnsService,
+    WorkPackageTableFiltersService,
+    WorkPackageTableTimelineService,
+    WorkPackageTableSumService,
+    WorkPackageStatesInitializationService,
+    WorkPackagesListService,
+    WorkPackageTableRefreshService,
+    WorkPackageTableAdditionalElementsService,
+    WorkPackagesListInvalidQueryService,
+    WorkPackageTableFocusService,
+    WorkPackageTableSelection,
+    WorkPackageFieldService,
+    WorkPackageDisplayFieldService,
+    WorkPackageEditFieldService,
+    ExpressionService,
+    WorkPackageCreateService,
     // Context menus
     OPContextMenuService,
-    upgradeServiceWithToken('HookService', HookServiceToken),
-    upgradeServiceWithToken('UrlParamsHelper', UrlParamsHelperToken),
     WorkPackageContextMenuHelperService,
+    QueryFormDmService,
+    TableState,
   ],
   declarations: [
     WorkPackagesListComponent,
@@ -266,7 +541,6 @@ import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-
     WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
     SortHeaderDirective,
-    WpInlineCreateDirectiveUpgraded,
 
     // Add functionality to rails rendered templates
     HideSectionComponent,
@@ -306,6 +580,7 @@ import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-
     WorkPackageCommentDirectiveUpgraded,
     ActivityEntryDirectiveUpgraded,
     WorkPackageActivityTabComponent,
+    FocusDirectiveUpgraded,
 
     // Relations Tab
     WorkPackageRelationsTabComponent,
@@ -338,6 +613,13 @@ import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-
     WorkPackageSingleContextMenuDirective,
     WorkPackageQuerySelectableTitleComponent,
     WorkPackageQuerySelectDropdownComponent,
+    OpContextMenuTrigger,
+
+    // Inline create
+    WorkPackageInlineCreateComponent,
+
+    // Embedded table
+    WorkPackageEmbeddedTableComponent,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -377,6 +659,9 @@ import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-
 
     OPContextMenuComponent,
     WorkPackageQuerySelectDropdownComponent,
+
+    // Embedded table
+    WorkPackageEmbeddedTableComponent,
   ]
 })
 export class OpenProjectModule {

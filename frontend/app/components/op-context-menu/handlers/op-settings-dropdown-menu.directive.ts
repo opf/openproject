@@ -48,6 +48,7 @@ import {QueryFormResource} from "core-components/api/api-v3/hal-resources/query-
 import {States} from "core-components/states.service";
 import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
 import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {OpContextMenuLocalsMap} from 'core-components/op-context-menu/op-context-menu.types';
 
 @Directive({
   selector: '[opSettingsContextMenu]'
@@ -109,14 +110,14 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       });
   }
 
-  protected open(evt:Event) {
+  public open(evt:Event) {
     this.loadingPromise.then(() => {
       this.buildItems();
       this.opContextMenu.show(this, evt);
     });
   }
 
-  public get locals() {
+  public get locals():OpContextMenuLocalsMap {
     return {
       contextMenuId: 'settingsDropdown',
       items: this.items

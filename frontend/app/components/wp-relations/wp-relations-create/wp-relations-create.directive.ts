@@ -126,6 +126,7 @@ function wpRelationsCreate():any {
       return '/components/wp-relations/wp-relations-create/' + attrs['template'] + '.template.html';
     },
 
+
     scope: {
       workPackage: '=?',
       fixedRelationType: '@?',

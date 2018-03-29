@@ -30,7 +30,7 @@ import {Component} from '@angular/core';
 import {WorkPackageCopyController} from 'core-components/wp-copy/wp-copy.controller';
 
 @Component({
-  template: require('!!raw-loader!../wp-new/wp-new-full-view.html'),
+  templateUrl: '../wp-new/wp-new-full-view.html',
   selector: 'wp-copy-full-view',
   host: { 'class': 'work-packages-page--ui-view' }
 })

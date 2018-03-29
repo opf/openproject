@@ -39,6 +39,8 @@ var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 var HappyPack = require('happypack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
+var AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
+
 
 var mode = (process.env['RAILS_ENV'] || 'production').toLowerCase();
 var production = (mode !== 'development');
@@ -70,17 +72,16 @@ fs.readdirSync(translations_root).forEach(function (file) {
 
 var loaders = [
   {
-    test: /\.tsx?$/,
+    test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
+    exclude: [
+      path.resolve(__dirname, 'app', 'templates')
+    ],
     include: [
-      path.resolve(__dirname, 'app'),
-      path.resolve(__dirname, 'tests')
+      path.resolve(__dirname, 'app')
     ].concat(_.values(pathConfig.pluginNamesPaths)),
     use: [
       {
-        loader: 'ng-annotate-loader'
-      },
-      {
-        loader: 'happypack/loader?id=ts'
+        loader: '@ngtools/webpack'
       }
     ]
   },
@@ -107,6 +108,9 @@ var loaders = [
       }
     ]
   },
+  { test: /\.html$/,
+    loader: 'raw-loader'
+  },
   {
     test: /\.gif$/,
     use: ['file-loader']
@@ -115,15 +119,6 @@ var loaders = [
     test: /\.jpg$/,
     use: ['file-loader']
   },
-  {
-    test: /[\/].*\.js$/,
-    use: [
-      {
-        loader: 'ng-annotate-loader',
-        options: { map: true }
-      }
-    ]
-  }
 ];
 
 for (var k in pathConfig.pluginNamesPaths) {
@@ -148,25 +143,28 @@ for (var k in pathConfig.pluginNamesPaths) {
     });
   }
 }
-
-loaders.push({
-  test: /^((?!templates\/plugin).)*\.html$/,
-  use: [
-    {
-      loader: 'ngtemplate-loader',
-      options: {
-        module: 'openproject.templates',
-        relativeTo: path.resolve(__dirname, './app')
+-
+  loaders.push({
+    test: /^\.html$/,
+    include: [
+      path.resolve(__dirname, 'app', 'templates')
+    ],
+    use: [
+      {
+        loader: 'ngtemplate-loader',
+        options: {
+          module: 'openproject.templates',
+          relativeTo: path.resolve(__dirname, './app')
+        }
+      },
+      {
+        loader: 'html-loader',
+        options: {
+          minimize: false
+        }
       }
-    },
-    {
-      loader: 'html-loader',
-      options: {
-        minimize: false
-      }
-    }
-  ]
-});
+    ]
+  });
 
 function getWebpackMainConfig() {
   config = {
@@ -233,21 +231,6 @@ function getWebpackMainConfig() {
         PRODUCTION: !!production
       }),
 
-      new HappyPack({
-        id: 'ts',
-        threads: 4,
-        loaders: [
-          {
-            path: 'ts-loader',
-            query: {
-              happyPackMode: true,
-              logLevel: 'info',
-              configFile: path.resolve(__dirname, 'tsconfig.json')
-            }
-          }
-        ]
-      }),
-
       // Clean the output directory
       new CleanWebpackPlugin(['bundles'], {
         root: output_root,
@@ -261,12 +244,19 @@ function getWebpackMainConfig() {
           manifest: dllManifest
       }),
 
-      // Parallel type checking for typescript
-      new ForkTsCheckerWebpackPlugin({
-        tsconfig: path.resolve(__dirname, 'tsconfig.json'),
-        // In happyPackMode, ts-loader no longer reports syntactic errors
-        checkSyntacticErrors: true
+      new AngularCompilerPlugin({
+        tsConfigPath: path.resolve(__dirname, './tsconfig.json'),
+        entryModule: 'app/angular4-modules.ts#OpenProjectModule',
+        mainPath: 'app/openproject-app.ts',
+        sourceMap: true
       }),
+
+      // Parallel type checking for typescript
+      // new ForkTsCheckerWebpackPlugin({
+      //   tsconfig: path.resolve(__dirname, 'tsconfig.json'),
+      //   // In happyPackMode, ts-loader no longer reports syntactic errors
+      //   checkSyntacticErrors: true
+      // }),
 
       // Extract CSS into its own bundle
       new ExtractTextPlugin({

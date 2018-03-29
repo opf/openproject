@@ -34,7 +34,7 @@ import {I18nToken} from "core-app/angular4-transition-utils";
 
 @Component({
   selector: 'wp-query-selectable-title',
-  template: require('!!raw-loader!./wp-query-selectable-title.html')
+  templateUrl: './wp-query-selectable-title.html'
 })
 export class WorkPackageQuerySelectableTitleComponent extends OpContextMenuTrigger {
   @Input('selectedTitle') public selectedTitle:string;

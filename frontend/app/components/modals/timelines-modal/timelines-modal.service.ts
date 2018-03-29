@@ -33,7 +33,7 @@ function timelinesModalService(btfModal:any) {
     controller: 'TimelinesModalController',
     controllerAs: '$ctrl',
     afterFocusOn: '#work-packages-settings-button',
-    templateUrl: '/components/modals/timelines-modal/timelines-modal.service.html'
+    template: require('!!html-loader!core-app/templates/components/modals/timelines-modal.service.html')
   });
 }
 

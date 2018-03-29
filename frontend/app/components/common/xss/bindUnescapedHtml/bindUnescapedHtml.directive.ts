@@ -27,7 +27,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import ExpressionService from "../expression.service";
+import {ExpressionService} from "../expression.service";
 function bindUnescapedHtml(ExpressionService:ExpressionService, $sce:ng.ISCEService) {
   var foundationModalLink = function (scope:any) {
     scope.$watch('value', (value:any) => {

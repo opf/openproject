@@ -27,6 +27,9 @@
       "core-components/*": ["./app/components/*"]
     }
   },
+  "angularCompilerOptions": {
+    "strictMetadataEmit" : false
+  },
   "compileOnSave": false,
   "exclude": [
     "node_modules"

@@ -35,6 +35,7 @@ import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state
 import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
 import {WorkPackageTableGroupByService} from "core-components/wp-fast-table/state/wp-table-group-by.service";
 import {WorkPackageTableColumnsService} from "core-components/wp-fast-table/state/wp-table-columns.service";
+import {OpContextMenuLocalsMap} from 'core-components/op-context-menu/op-context-menu.types';
 
 @Directive({
   selector: '[opColumnsContextMenu]'
@@ -55,12 +56,12 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
     super(elementRef, opContextMenu);
   }
 
-  protected open(evt:Event) {
+  public open(evt:Event) {
     this.buildItems();
     this.opContextMenu.show(this, evt);
   }
 
-  public get locals() {
+  public get locals():OpContextMenuLocalsMap {
     return {
       showAnchorRight: this.column && this.column.id !== 'id',
       contextMenuId: 'column-context-menu',
@@ -81,7 +82,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
     };
   }
 
-  protected get afterFocusOn():JQuery {
+  public get afterFocusOn():JQuery {
     return this.$element.find(`#${this.column.id}`);
   }
 

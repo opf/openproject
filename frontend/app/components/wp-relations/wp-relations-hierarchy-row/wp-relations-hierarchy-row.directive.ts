@@ -4,6 +4,7 @@ import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {scopeDestroyed$, scopedObservable} from '../../../helpers/angular-rx-utils';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 class WpRelationsHierarchyRowDirectiveController {
   public workPackage:WorkPackageResourceInterface;
@@ -18,7 +19,7 @@ class WpRelationsHierarchyRowDirectiveController {
               protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
-              protected PathHelper:op.PathHelper,
+              protected PathHelper:PathHelperService,
               protected I18n:op.I18n,
               protected $q:ng.IQService) {
 
@@ -95,7 +96,7 @@ class WpRelationsHierarchyRowDirectiveController {
 function WpRelationsHierarchyRowDirective():any {
   return {
     restrict:'E',
-    templateUrl:'/components/wp-relations/wp-relations-hierarchy-row/wp-relations-hierarchy-row.template.html',
+    template: require('!!html-loader!./wp-relations-hierarchy-row.template.html'),
     scope:{
       indentBy:'@?',
       workPackage:'=',

@@ -36,7 +36,7 @@ import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'add-section-dropdown',
-  template: require('!!raw-loader!./add-section-dropdown.component.html')
+  templateUrl: './add-section-dropdown.component.html'
 })
 export class AddSectionDropdownComponent implements OnInit, OnDestroy {
   selectable:HideSectionDefinition[] = [];

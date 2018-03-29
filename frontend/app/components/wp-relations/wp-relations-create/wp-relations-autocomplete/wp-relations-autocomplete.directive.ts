@@ -41,7 +41,7 @@ function wpRelationsAutocompleteDirective(
   I18n:op.I18n) {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.template.html',
+    template: require('!!html-loader!./wp-relations-autocomplete.template.html'),
     require: ['^wpRelations', '?^wpRelationsHierarchy'],
     scope: {
       selectedWpId: '=',

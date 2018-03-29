@@ -33,7 +33,7 @@ import {QueryFilterResource} from '../../api/api-v3/hal-resources/query-filter-r
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service'
 import {FormResource} from '../../api/api-v3/hal-resources/form-resource.service'
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
-import WorkPackageFiltersService from "../../filters/wp-filters/wp-filters.service";
+import {WorkPackageFiltersService} from "../../filters/wp-filters/wp-filters.service";
 
 function queryFiltersDirective($timeout:ng.ITimeoutService,
                                I18n:op.I18n,
@@ -44,7 +44,7 @@ function queryFiltersDirective($timeout:ng.ITimeoutService,
   return {
     restrict: 'E',
     scope: {},
-    templateUrl: '/components/filters/query-filters/query-filters.directive.html',
+    template: require('!!html-loader!core-app/templates/components/query-filters.directive.html'),
 
     link: function (scope:any) {
       scope.I18n = I18n;

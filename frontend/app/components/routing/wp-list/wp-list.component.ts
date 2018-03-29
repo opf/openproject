@@ -27,7 +27,7 @@
 // ++
 
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {StateService, StateParams, TransitionService} from '@uirouter/core';
+import {StateService, TransitionService} from '@uirouter/core';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {auditTime, distinctUntilChanged, filter, withLatestFrom} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';
@@ -49,13 +49,11 @@ import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-re
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 @Component({
   selector: 'wp-list',
-  template: require('!!raw-loader!./wp.list.component.html'),
-  providers: []
+  templateUrl: './wp.list.component.html'
 })
 export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
@@ -68,11 +66,10 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   };
 
   tableInformationLoaded = false;
-
   selectedTitle?:string;
-  tableState:TableState;
 
   constructor(readonly states:States,
+              readonly tableState:TableState,
               readonly authorisationService:AuthorisationService,
               readonly wpTableRefresh:WorkPackageTableRefreshService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
@@ -91,7 +88,6 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
               @Inject($stateToken) readonly $state:StateService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
 
-    this.tableState = this.states.globalTable;
   }
 
   ngOnInit() {
@@ -144,7 +140,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   }
 
   private setupQueryObservers() {
-    this.states.tableRendering.onQueryUpdated.values$().pipe()
+    this.tableState.tableRendering.onQueryUpdated.values$().pipe()
       .take(1)
       .subscribe(() => this.tableInformationLoaded = true);
 
@@ -164,7 +160,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
       this.wpListChecksumService.setToQuery(query, pagination);
     });
 
-    this.states.query.context.fireOnStateChange(this.wpTablePagination.state,
+    this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
       'Query loaded').values$().pipe(
       untilComponentDestroyed(this),
       withLatestFrom(this.states.query.resource.values$())
@@ -187,7 +183,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {
     const queryState = this.states.query.resource;
 
-    this.states.query.context.fireOnStateChange(service.state, 'Query loaded').values$().pipe(
+    this.tableState.ready.fireOnStateChange(service.state, 'Query loaded').values$().pipe(
       untilComponentDestroyed(this),
       filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
     ).subscribe(() => {
@@ -249,8 +245,3 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   }
 
 }
-
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpList',
-    downgradeComponent({component: WorkPackagesListComponent}));

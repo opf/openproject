@@ -38,7 +38,7 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {$stateToken} from 'core-app/angular4-transition-utils';
 
 @Component({
-  template: require('!!raw-loader!./wp-split-view.html'),
+  templateUrl: './wp-split-view.html',
   selector: 'wp-split-view-entry',
 })
 export class WorkPackageSplitViewComponent extends WorkPackageViewController {

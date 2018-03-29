@@ -274,7 +274,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
 }
 
 wpControllersModule.component('projectMenuAutocomplete', {
-  templateUrl: '/components/projects/project-menu-autocomplete/project-menu-autocomplete.template.html',
+  template: require('!!raw-loader!./project-menu-autocomplete.template.html'),
   controller: ProjectMenuAutocompleteController,
   controllerAs: '$ctrl'
 });

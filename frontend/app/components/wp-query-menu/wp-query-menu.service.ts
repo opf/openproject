@@ -28,6 +28,7 @@
 
 import {wpServicesModule} from '../../angular-modules';
 import {input} from 'reactivestates';
+import {Injectable} from '@angular/core';
 
 export type QueryMenuEvent = {
   event:'add'|'remove'|'rename';

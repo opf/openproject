@@ -32,7 +32,7 @@ function wpDestroyService(btfModal:any) {
   return btfModal({
     controller: 'WorkPackageDestroyModalController',
     controllerAs: '$ctrl',
-    templateUrl: '/components/modals/wp-destroy-modal/wp-destroy-modal.html'
+    template: require('!!html-loader!core-app/templates/components/modals/wp-destroy-modal.html')
   });
 }
 

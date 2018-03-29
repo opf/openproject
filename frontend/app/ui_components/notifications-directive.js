@@ -46,7 +46,7 @@ module.exports = function() {
     scope: true,
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/components/notifications.html',
+    template: require('!!raw-loader!core-app/templates/components/notifications.html'),
     link: notificationsController
   };
 };

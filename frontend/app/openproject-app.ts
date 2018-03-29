@@ -33,9 +33,10 @@ require("./angular4-modules");
 
 
 import {NgModuleRef} from '@angular/core';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {platformBrowser} from '@angular/platform-browser';
 import {openprojectModule} from './angular-modules';
-import {OpenProjectModule} from './angular4-modules';
+// import {OpenProjectModule} from './angular4-modules';
+import {OpenProjectModuleNgFactory} from './angular4-modules.ngfactory';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {getUIRouter} from '@uirouter/angular-hybrid';
 
@@ -52,7 +53,7 @@ openprojectModule
   }]);
 
 export function bootstrapWithUiRouter(platformRef:NgModuleRef<any>): void {
-  const injector = platformRef.injector;
+  const injector = window.ng2Injector = platformRef.injector;
   const upgradeModule = injector.get(UpgradeModule);
 
   upgradeModule.bootstrap(document.body, [ openprojectModule.name ], { strictDi: false });
@@ -61,7 +62,8 @@ export function bootstrapWithUiRouter(platformRef:NgModuleRef<any>): void {
 
 jQuery(function () {
   // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
-  platformBrowserDynamic()
-    .bootstrapModule(OpenProjectModule)
+
+  platformBrowser()
+    .bootstrapModuleFactory(OpenProjectModuleNgFactory)
     .then(platformRef => bootstrapWithUiRouter(platformRef));
 });

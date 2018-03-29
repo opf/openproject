@@ -29,7 +29,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     super(elementRef, opContextMenuService);
   }
 
-  protected open(evt:Event) {
+  public open(evt:Event) {
     this.workPackage.project.$load().then(() => {
       this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 

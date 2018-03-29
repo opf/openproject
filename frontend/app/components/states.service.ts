@@ -28,23 +28,12 @@ export class States extends StatesGroup {
   // Work Package query states
   query = new QueryStates();
 
-  // Work package table states
-  globalTable = new TableState();
-
-  tableRendering = new TableRenderingStates(this);
-
-  // Updater states on user input
-  updates = new UserUpdaterStates(this);
-
   // Current focused work package (e.g, row preselected for details button)
   focusedWorkPackage = input<WPFocusState>();
 
 }
 
 export class QueryStates {
-
-  // Current context of table loading
-  context = new SwitchState<'Query loaded'>();
 
   // the query associated with the table
   resource = input<QueryResource>();
@@ -70,35 +59,7 @@ export class QueryAvailableDataStates {
   // Thus the table state is not initialized until all values are available.
 }
 
-export class TableRenderingStates {
-  constructor(private states:States) {
-  }
 
-  // State when all required input states for the current query are ready
-  private combinedTableStates = combine(
-    this.states.globalTable.rows,
-    this.states.globalTable.columns,
-    this.states.globalTable.sum,
-    this.states.globalTable.groupBy,
-    this.states.globalTable.sortBy,
-    this.states.globalTable.additionalRequiredWorkPackages
-  );
-
-  onQueryUpdated = derive(this.combinedTableStates, ($, input) => $.mapTo(null));
-
-}
-
-export class UserUpdaterStates {
-
-  constructor(private states:States) {
-  }
-
-  columnsUpdates = this.states.query.context.fireOnStateChange(this.states.globalTable.columns, 'Query loaded');
-
-  hierarchyUpdates = this.states.query.context.fireOnStateChange(this.states.globalTable.hierarchies, 'Query loaded');
-
-  relationUpdates = this.states.query.context.fireOnStateChange(this.states.globalTable.relationColumns, 'Query loaded');
-}
 
 
 opServicesModule.value('states', new States());

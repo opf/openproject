@@ -31,7 +31,7 @@ import {Component, EventEmitter, Inject, Output} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 
 @Component({
-  template: require('!!raw-loader!./wp-edit-actions-bar.html'),
+  templateUrl: './wp-edit-actions-bar.html',
   selector: 'wp-edit-actions-bar',
 })
 export class WorkPackageEditActionsBarComponent {
@@ -56,9 +56,12 @@ export class WorkPackageEditActionsBarComponent {
     this.saving = true;
     this.wpEditFieldGroup
       .saveWorkPackage()
-      .finally(() => {
+      .then(() => {
         this.saving = false;
         this.onSave.emit();
+      })
+      .catch(() => {
+        this.saving = false;
       });
   }
 

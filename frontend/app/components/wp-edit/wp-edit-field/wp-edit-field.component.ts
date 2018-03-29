@@ -50,7 +50,7 @@ import {ConfigurationService} from 'core-components/common/config/configuration.
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 
 @Component({
-  template: require('!!raw-loader!./wp-edit-field.html'),
+  templateUrl: './wp-edit-field.html',
   selector: 'wp-edit-field',
 })
 export class WorkPackageEditFieldComponent implements OnInit {
@@ -62,7 +62,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
   public workPackage:WorkPackageResourceInterface;
   public fieldRenderer = new DisplayFieldRenderer('single-view');
   public editFieldContainerClass = editFieldContainerClass;
-  private active = false;
+  public active = false;
   private $element:ng.IAugmentedJQuery;
 
   constructor(protected states:States,

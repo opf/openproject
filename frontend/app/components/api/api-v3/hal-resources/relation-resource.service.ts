@@ -81,8 +81,8 @@ export class RelationResource extends HalResource {
 
   // Links
   public $links: RelationResourceLinks;
-  public to:WorkPackageResource;
-  public from:WorkPackageResource;
+  public to:WorkPackageResourceInterface;
+  public from:WorkPackageResourceInterface;
 
   public normalizedType(workPackage:WorkPackageResourceInterface) {
     return this.denormalized(workPackage).relationType;
@@ -137,7 +137,7 @@ export interface RelationResourceInterface extends RelationResourceLinks, Relati
 }
 
 export interface DenormalizedRelationData {
-  target:WorkPackageResource;
+  target:WorkPackageResourceInterface;
   targetId:string;
   relationType:string;
   reverseRelationType:string;

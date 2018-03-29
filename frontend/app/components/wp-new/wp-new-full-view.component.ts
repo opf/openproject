@@ -30,7 +30,7 @@ import {WorkPackageCreateController} from 'core-components/wp-new/wp-create.cont
 import {Component} from '@angular/core';
 
 @Component({
-  template: require('!!raw-loader!./wp-new-full-view.html'),
+  templateUrl: './wp-new-full-view.html',
   selector: 'wp-new-full-view',
   host: { 'class': 'work-packages-page--ui-view' }
 })

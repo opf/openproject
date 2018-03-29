@@ -17,7 +17,7 @@ import {
 } from "core-components/op-context-menu/op-context-menu.types";
 import {PERMITTED_CONTEXT_MENU_ACTIONS} from "core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions";
 
-export class OpWorkPackageContextMenu extends OpContextMenuHandler {
+export class OpWorkPackageContextMenu implements OpContextMenuHandler {
 
   private states = this.injector.get(States);
   private wpRelationsHierarchyService = this.injector.get(WorkPackageRelationsHierarchyService);
@@ -25,6 +25,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
   private $state = this.injector.get($stateToken);
   private wpTableSelection = this.injector.get(WorkPackageTableSelection);
   private WorkPackageContextMenuHelper = this.injector.get(WorkPackageContextMenuHelperService);
+  private opContextMenuService = this.injector.get(OPContextMenuService);
 
   private workPackage = this.states.workPackages.get(this.workPackageId).value!;
   private selectedWorkPackages = this.getSelectedWorkPackages();
@@ -39,15 +40,34 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
               readonly workPackageId:string,
               public $element:JQuery,
               public additionalPositionArgs:any = {}) {
-    super(injector.get(OPContextMenuService))
   }
 
   public get locals():OpContextMenuLocalsMap {
-    return { contextMenuId: 'work-package-context-menu', items: this.items};
+    return {contextMenuId: 'work-package-context-menu', items: this.items};
+  }
+
+  /**
+   * Open this context menu
+   */
+  public open(evt:Event) {
+    this.opContextMenuService.show(this, evt);
+  }
+
+  public onOpen(menu:JQuery) {
+    menu.find('.menu-item').first().focus();
+  }
+
+  public onClose() {
+    this.$element.focus();
   }
 
   public positionArgs(evt:JQueryEventObject) {
-    let position = super.positionArgs(evt);
+    let position = {
+      my: 'left top',
+      at: 'right bottom',
+      of: evt
+    };
+
     _.assign(position, this.additionalPositionArgs);
 
     return position;
@@ -153,7 +173,8 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
         {
           icon: 'icon-view-split',
           class: 'detailsViewMenuItem',
-          href: this.$state.href('work-packages.list.details.overview', {workPackageId: this.workPackageId}),
+          href: this.$state.href('work-packages.list.details.overview',
+            {workPackageId: this.workPackageId}),
           linkText: I18n.t('js.button_open_details'),
           onClick: ($event:JQueryEventObject) => {
             if (LinkHandling.isClickedWithModifier($event)) {
@@ -179,7 +200,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
 
             this.$state.go(
               'work-packages.show',
-              { workPackageId: this.workPackageId }
+              {workPackageId: this.workPackageId}
             );
             return true;
           }

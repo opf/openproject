@@ -33,7 +33,7 @@ function columnsModalService(btfModal:any) {
     controller: 'ColumnsModalController',
     controllerAs: '$ctrl',
     afterFocusOn: '#work-packages-settings-button',
-    templateUrl: '/components/modals/columns-modal/columns-modal.service.html'
+    template: require('!!html-loader!core-app/templates/components/modals/columns-modal.service.html')
   });
 }
 

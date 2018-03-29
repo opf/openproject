@@ -106,7 +106,7 @@ openprojectModule
           query_id: { dynamic: true },
           query_props: { dynamic: true }
         },
-        templateUrl: '/components/routing/main/work-packages.html',
+        template: `<div ui-view class="work-packages-page--ui-view"></div>`,
         controller: 'WorkPackagesController'
       })
 

@@ -39,11 +39,17 @@ import {QueryColumn} from '../../wp-query/query-column';
 import {combine} from 'reactivestates';
 import {Observable} from 'rxjs';
 import {States} from 'core-components/states.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {Injectable} from '@angular/core';
+import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
+@Injectable()
 export class WorkPackageTableSortByService extends WorkPackageTableBaseService<WorkPackageTableSortBy> implements WorkPackageQueryStateService {
 
-  public constructor(states:States) {
-    super(states);
+  constructor(readonly states:States,
+              readonly tableState:TableState) {
+    super(tableState);
   }
 
 
@@ -139,4 +145,4 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService<W
   }
 }
 
-opServicesModule.service('wpTableSortBy', WorkPackageTableSortByService);
+opServicesModule.service('wpTableSortBy', downgradeInjectable(WorkPackageTableSortByService));

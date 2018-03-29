@@ -38,7 +38,7 @@ export const timelineHeaderCSSClass = 'wp-timeline--header-element';
 
 @Component({
   selector: 'wp-timeline-header',
-  template: require('!!raw-loader!./wp-timeline-header.html'),
+  templateUrl: './wp-timeline-header.html',
 })
 export class WorkPackageTimelineHeaderController implements OnInit {
 

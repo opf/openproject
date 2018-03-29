@@ -49,7 +49,7 @@ function userActivity($uiViewScroll:any,
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/work_packages/activities/_user.html',
+    template: require('!!html-loader!core-app/templates/work_packages/activities/_user.html'),
     scope: {
       workPackage: '=',
       activity: '=',
