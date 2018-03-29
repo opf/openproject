@@ -85,6 +85,8 @@ export class WpRelationsAutocompleteComponent implements OnInit {
       },
       minLength: 0
     }).focus(() => !selected && input.autocomplete('search', input.val()));
+
+    setTimeout(() => input.focus(), 20);
   }
 
   private getIdentifier(workPackage:WorkPackageResourceInterface):string {
