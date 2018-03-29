@@ -33,18 +33,11 @@ end
 Capybara::Screenshot.prune_strategy = :keep_last_run
 
 # Don't silence puma if we're using it
-Capybara.register_server :single_puma do |app, port, host|
-  require 'rack/handler/puma'
-  Rack::Handler::Puma.run app,
-                          Port: port,
-                          Host: host,
-                          workers: 0,
-                          daemon: false,
-                          Silent: false,
-                          Threads: "1:1",
-                          config_files: ['-']
+Capybara.register_server :thin do |app, port, host|
+  require 'rack/handler/thin'
+  Rack::Handler::Thin.run(app, Port: port, Host: host)
 end
-Capybara.server = :single_puma
+Capybara.server = :thin
 
 # Set up S3 uploads if desired
 if ENV['OPENPROJECT_ENABLE_CAPYBARA_SCREENSHOT_S3_UPLOADS'] && ENV['AWS_ACCESS_KEY_ID']
