@@ -56,6 +56,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   @Input() public configuration:WorkPackageTableConfigurationObject;
   @Input() public uniqueEmbeddedTableName:string = `embedded-table-${Date.now()}`;
   @Input() public tableActions?:OpTableActionFactory[];
+  @Input() public compactTableStyle:boolean = false;
 
   private query:QueryResourceInterface;
   public tableInformationLoaded = false;
@@ -72,6 +73,9 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit():void {
+    // Set embedded status in configuration
+    this.configuration.isEmbedded = true;
+
     // Provision embedded table actions
     if (this.tableActions) {
       this.tableActionsService.setActions(...this.tableActions);

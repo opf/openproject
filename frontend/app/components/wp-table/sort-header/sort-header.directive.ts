@@ -156,6 +156,10 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
     return this.table && this.table.configuration.columnMenuEnabled;
   }
 
+  public get displayHierarchyIcon() {
+    return this.table && this.table.configuration.hierarchyToggleEnabled;
+  }
+
   toggleHierarchy(evt:JQueryEventObject) {
     this.wpTableHierarchies.toggleState();
     this.setHierarchyIcon();

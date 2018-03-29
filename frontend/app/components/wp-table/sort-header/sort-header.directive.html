@@ -3,6 +3,7 @@
   <span class="generic-table--sort-header" *ngSwitchCase="'hierarchy'">
     <span
         class="hierarchy-header--icon"
+        *ngIf="displayHierarchyIcon"
         (click)="toggleHierarchy($event)"
         [attr.title]="text.toggleHierarchy"
         tabindex="-1"

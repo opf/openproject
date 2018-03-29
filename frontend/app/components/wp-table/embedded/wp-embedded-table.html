@@ -1,4 +1,5 @@
 <div class="work-packages-embedded-view--container loading-indicator--location"
+     [ngClass]="{ '-compact-tables': compactTableStyle }"
      [attr.data-indicator-name]="uniqueEmbeddedTableName">
   <!-- TABLE + TIMELINE horizontal split -->
   <wp-table *ngIf="tableInformationLoaded"
