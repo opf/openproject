@@ -168,14 +168,14 @@ export class TimelineCellRenderer {
     let direction:'left' | 'right' | 'both' | 'dragright';
 
     // Update the cursor and maybe set start/due values
-    if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
+    if (jQuery(ev.target!).hasClass(classNameLeftHandle)) {
       // only left
       direction = 'left';
       this.workPackageTimeline.forceCursor('col-resize');
       if (changeset.value('startDate') === null) {
         changeset.setValue('startDate', changeset.value('dueDate'));
       }
-    } else if (jQuery(ev.target).hasClass(classNameRightHandle) || dateForCreate) {
+    } else if (jQuery(ev.target!).hasClass(classNameRightHandle) || dateForCreate) {
       // only right
       direction = 'right';
       this.workPackageTimeline.forceCursor('col-resize');
