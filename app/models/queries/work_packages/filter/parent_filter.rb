@@ -28,12 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Schemas
-        class IdFilterDependencyRepresenter < ByWorkPackageFilterDependencyRepresenter; end
-      end
-    end
+require_relative './filter_for_wp_mixing'
+
+class Queries::WorkPackages::Filter::ParentFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
+
+  include ::Queries::WorkPackages::Filter::FilterForWpMixin
+
+  def includes
+    :parent_relation
+  end
+
+  def where
+    operator_strategy.sql_for_field(values,
+                                    Relation.table_name,
+                                    'from_id')
   end
 end

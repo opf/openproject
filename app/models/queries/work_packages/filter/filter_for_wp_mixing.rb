@@ -28,12 +28,48 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Schemas
-        class IdFilterDependencyRepresenter < ByWorkPackageFilterDependencyRepresenter; end
-      end
+module Queries::WorkPackages::Filter::FilterForWpMixin
+  def type
+    :list
+  end
+
+  def allowed_values
+    raise NotImplementedError, 'There would be too many candidates'
+  end
+
+  def value_objects
+    scope.find(values)
+  end
+
+  def allowed_objects
+    raise NotImplementedError, 'There would be too many candidates'
+  end
+
+  def available?
+    scope.exists?
+  end
+
+  def ar_object_filter?
+    true
+  end
+
+  def allowed_values_subset
+    scope.where(id: values).pluck(:id).map(&:to_s)
+  end
+
+  private
+
+  def scope
+    if context.project
+      WorkPackage
+        .visible
+        .for_projects(context.project.self_and_descendants)
+    else
+      WorkPackage.visible
     end
+  end
+
+  def type_strategy
+    @type_strategy ||= Queries::Filters::Strategies::HugeList.new(self)
   end
 end

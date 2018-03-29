@@ -153,9 +153,6 @@ gem 'cocaine', '~> 0.5.8'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-# Puma server for development and on paas.
-gem 'puma', '~> 3.11.3'
-
 gem 'nokogiri', '~> 1.8.2'
 
 # carrierwave 0.11.3 should allow to use fog-aws without the rest of the
@@ -237,6 +234,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'puma', '~> 3.11.3'
 
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
@@ -267,6 +265,7 @@ group :opf_plugins do
 end
 
 group :docker, optional: true do
+  gem 'passenger', '~> 5.2'
   # Used to easily precompile assets
   gem 'sqlite3', require: false
   gem 'rails_12factor', require: !!ENV['HEROKU']

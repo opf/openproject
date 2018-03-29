@@ -371,6 +371,9 @@ GEM
       parallel
     parser (2.4.0.0)
       ast (~> 2.2)
+    passenger (5.2.1)
+      rack
+      rake (>= 0.8.1)
     pdf-core (0.7.0)
     pg (0.21.0)
     plaintext (0.1.0)
@@ -661,6 +664,7 @@ DEPENDENCIES
   openproject-token (~> 1.0.1)
   openproject-translations!
   parallel_tests (~> 2.14.0)
+  passenger (~> 5.2)
   pg (~> 0.21.0)
   plaintext (= 0.1.0)
   prawn (~> 2.2)

@@ -61,16 +61,16 @@ lt:
   custom_actions:
     actions:
       name: Veiksmai
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+      add: Pridėti veiksmą
+    conditions: Sąlygos
+    plural: Pasirinktiniai veiksmai
+    new: Naujas pasirinktinis veiksmas
+    edit: Redaguoti pasirinktinį veiksmą %{name}
+    execute: Vykdyti %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: Pasirinktiniai veiksmai yra „Enterprise Edition“ funkcija
+      description: Pasirinktiniai veiksmai supaprastina kasdienį darbą suderindami
+        atskirus žingsnius į vieną mygtuką.
   custom_fields:
     text_add_new_custom_field: 'Norėdami pridėti naujus pritaikytus laukelius prie
       projekto, pirmiausia reikia juos sukurti. Tik tada yra galimybė juos pridėti
@@ -271,8 +271,8 @@ lt:
       announcements:
         show_until: Rodyti iki
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Prisegto failo turinys
+        attachment_file_name: Prisegto failo vardas
         downloads: Atsisiuntimai
         file: Failas
         filename: Failas
@@ -453,12 +453,12 @@ lt:
         custom_field:
           at_least_one_custom_option: Turi būti prieinama bent viena savybė.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: leidžiama (%{name}) tik viena reikšmė.
+          empty: "(%{name}) reikšmė negali būti tuščia."
+          inclusion: "(%{name}) nenustatyta kaip viena iš leidžiamų reikšmių."
+          not_an_integer: "(%{name}) nėra sveikasis skaičius."
+          smaller_than_or_equal_to: "(%{name}) turi būti mažesnis arba lygus %{count}."
+          greater_than_or_equal_to: "(%{name}) turi būti didesnis arba lygus %{count}."
         enterprise_token:
           unreadable: neįmanoma perskaityti. Ar tai tikrai yra paramos raktas?
         parse_schema_filter_params_service:
@@ -571,7 +571,7 @@ lt:
       attribute_help_text: Atributo pagalbos tekstas
       board: Forumas
       comment: Komentaras
-      custom_action: Custom action
+      custom_action: Pasirinktinis veiksmas
       custom_field: Kliento laukelis
       group: Grupė
       category: Kategorija
@@ -1026,12 +1026,12 @@ lt:
       pdf_with_descriptions: PDF su aprašymu
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdf-į-tekstą pasiekiamas (pasirinktinai)
+      unrtf: Unrtf pasiekiamas (pasirinktinai)
+      catdoc: Catdoc pasiekiamas (pasirinktinai)
+      xls2csv: Xls2csv pasiekiamas (pasirinktinai)
+      catppt: Catppt pasiekiamas (pasirinktinai)
+      tesseract: Tesseract pasiekiamas (pasirinktinai)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -2107,7 +2107,7 @@ lt:
   setting_file_max_size_displayed: Maksimalus tekstinių failų dydis rodomas vienoje
     eilutėje
   setting_host_name: Šeimininko vardas
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: Aktyvavimo laiškas baigia galioti po
   setting_work_package_done_ratio: Skaičiuoti darbų paketo atlikimo santykį su
   setting_work_package_done_ratio_field: Naudoti darbų paketo laukelį
   setting_work_package_done_ratio_status: Naudoti darbų paketo būseną
@@ -2171,7 +2171,7 @@ lt:
   setting_accessibility_mode_for_anonymous: Leisti lengvos prieigos režimą anoniminiams
     vartotojams
   setting_user_format: Vartotojo atvaizdavimo formatas
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: Numatytoji vartotojo laiko juosta
   setting_users_deletable_by_admins: Administratoriai gali ištrinti vartotojų paskyras
   setting_users_deletable_by_self: Vartotojai gali ištrinti savo paskyras
   setting_welcome_text: Pasisveikinimo bloko tekstas
@@ -2243,7 +2243,7 @@ lt:
     naudojant iOS.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: Duomenų bazė leidžia TSVector (pasirinktinai)
   text_default_administrator_account_changed: Administratoriaus numatytoji paskyra
     pakeista
   text_default_encoding: 'Numatytasis: UTF-8'
@@ -2281,7 +2281,7 @@ lt:
   text_journal_aggregation_time_explanation: Kombinuoti žurnalus rodymui, ar jų amžius
     skiriasi mažiau nei nustatyta trukmė. Tai taip pat vėlins įspėjimo el. laiškų
     atsiuntimą tokia pat laiko trukme.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} pakeista iš %{old} </br><strong>į</strong> %{new}"
   text_journal_changed_no_detail: "%{label} atnaujintas"
   text_journal_changed_with_diff: "%{label} pasikeitė (%{link})"
   text_journal_deleted: "%{label} ištrintas (%{old})"
@@ -2543,8 +2543,8 @@ lt:
       years: Metai(-ų)
   title_remove_and_delete_user: Pašalinti pakviestą vartotoją iš projekto ir ištrinti
     jį/ją.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'Numatytoji laiko juosta naujiems vartotojams. Gali
+    būti pakeista vartotojo nustatymuose.
 
 '
   tooltip_resend_invitation: 'Siunčia naują pakvietimo laišką su nauju atpažinimo
@@ -2620,9 +2620,11 @@ lt:
   warning: Įspėjimas
   warning_attachments_not_saved: "%{count} failas (-ai, -ų) negali būti išsaugotas
     (-i)."
-  warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+  warning_registration_token_expired: 'Aktyvavimo el. laiško galiojimas pasibaigė.
+    Išsiuntėme jums naują %{email}. Paspauskite laiške duotą nuorodą, kad aktyvuotumėte
+    savo paskyrą.
+
+'
   menu_item: Meniu punktas
   menu_item_setting: Matomumas
   wiki_menu_item_for: Meniu punktas wiki puslapiui „%{title}“
