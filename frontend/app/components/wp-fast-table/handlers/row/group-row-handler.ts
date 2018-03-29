@@ -4,11 +4,12 @@ import {States} from '../../../states.service';
 import {GroupedRowsBuilder, rowGroupClassName} from '../../builders/modes/grouped/grouped-rows-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {TableEventHandler} from '../table-handler-registry';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 export class GroupRowHandler implements TableEventHandler {
 
   // Injections
-  public states:States = this.injector.get(States);
+  public tableState:TableState = this.injector.get(TableState);
 
   private builder:GroupedRowsBuilder;
 
@@ -47,6 +48,6 @@ export class GroupRowHandler implements TableEventHandler {
   }
 
   private get collapsedState() {
-    return this.states.globalTable.collapsedGroups;
+    return this.tableState.collapsedGroups;
   }
 }

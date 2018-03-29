@@ -56,36 +56,4 @@ describe 'my/page', type: :view do
                                         text: "#{issue.type.name} ##{issue.id}")
     end
   end
-
-  describe 'watched work packages block' do
-    let!(:open_status) { FactoryGirl.create :default_status }
-    let!(:closed_status) { FactoryGirl.create :closed_status }
-
-    let!(:open_wp) { FactoryGirl.create(:work_package, project: project, status: open_status) }
-    let!(:closed_wp) { FactoryGirl.create(:work_package, project: project, status: closed_status) }
-
-    let!(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-    let!(:watching_user) do
-      FactoryGirl.create(:user,
-                         member_in_project: project,
-                         member_through_role: role,
-                         firstname: 'Mahboobeh')
-        .tap do |user|
-        Watcher.create(watchable: open_wp, user: user)
-        Watcher.create(watchable: closed_wp, user: user)
-      end
-    end
-
-    before do
-      allow(User).to receive(:current).and_return(watching_user)
-      assign(:user, watching_user)
-      assign :blocks,  'top' => [], 'left' => ['issueswatched'], 'right' => []
-
-      render
-    end
-
-    it 'should render only one wp' do
-      expect(response).to have_selector('table.work_packages tbody tr', count: 1)
-    end
-  end
 end

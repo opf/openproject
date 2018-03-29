@@ -3,6 +3,7 @@
   <span class="generic-table--sort-header" *ngSwitchCase="'hierarchy'">
     <span
         class="hierarchy-header--icon"
+        *ngIf="displayHierarchyIcon"
         (click)="toggleHierarchy($event)"
         [attr.title]="text.toggleHierarchy"
         tabindex="-1"
@@ -20,7 +21,8 @@
     <a *ngIf="!sortable">{{headerColumn.name}}</a>
 
     <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
-             icon-title="{{ text.openMenu }}"></op-icon>
+             icon-title="{{ text.openMenu }}"
+             *ngIf="displayDropdownIcon"></op-icon>
   </span>
 
   <span class="generic-table--sort-header" *ngSwitchCase="'relation'">
@@ -29,7 +31,8 @@
       {{columnName}}
     </a>
     <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
-             icon-title="{{ text.openMenu }}"></op-icon>
+             icon-title="{{ text.openMenu }}"
+             *ngIf="displayDropdownIcon"></op-icon>
   </span>
 
   <span class="generic-table--sort-header" *ngSwitchDefault>
@@ -45,7 +48,8 @@
     <a *ngIf="!sortable">{{headerColumn.name}}</a>
 
     <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
-             icon-title="{{ text.openMenu }}"></op-icon>
+             icon-title="{{ text.openMenu }}"
+             *ngIf="displayDropdownIcon"></op-icon>
   </span>
 
 </div>

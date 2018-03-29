@@ -26,11 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% reported = WorkPackage.visible.where(author_id: User.current.id)
-                                 .limit(10)
-                                 .includes(:status, :project, :type)
-                                 .order("#{WorkPackage.table_name}.updated_at DESC")
-%>
 
 <% if defined? block_name %>
   <%= content_for "#{block_name}-remove-block" %>
@@ -41,19 +36,9 @@ See docs/COPYRIGHT.rdoc for more details.
   <span class="widget-box--header-title"><%=l(:label_reported_work_packages)%> (<%= @user.reported_work_package_count %>)</span>
 </h3>
 
-<%= render partial: 'work_packages/list_simple',
-           locals: {
-                        work_packages: reported,
-                        list_for: :reported
-                      } %>
+<%= render partial: 'work_packages/me_list_simple',
+           locals: { user_filter: :author } %>
 
-<% if reported.length > 0 %>
-  <div class="generic-table--action-buttons">
-    <%= link_to l(:label_work_package_view_all_reported_by_me),
-                work_packages_reported_by_me_path,
-                class: 'button -highlight-inverted' %>
-  </div>
-<% end %>
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom,
                             work_packages_reported_by_me_path({format: 'atom', key: User.current.rss_key}),

@@ -26,8 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.helpers')
-  .factory('ApiHelper', ['NotificationsService', require('./api-helper')])
-  .factory('WorkPackagesHelper', ['TimezoneService', 'currencyFilter',
-    'CustomFieldHelper', require('./work-packages-helper')
-  ]);
+// Disable CSS containment in the embedded container
+// unless we're setting an external height with overflow, containment will not work.
+.work-packages-embedded-view--container
+  .work-package-table--container
+    contain: initial !important
+
+
+  &.-compact-tables
+    .wp-table--row
+      border-bottom: none !important
+
+    .generic-table--sort-header-outer
+      line-height: 28px
+      height: 28px
+      border-bottom: none
+
+    .wp-table--cell-td
+      height: 28px !important
+      padding-top: 2px
+      padding-bottom: 2px

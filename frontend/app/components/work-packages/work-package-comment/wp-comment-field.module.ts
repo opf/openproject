@@ -35,7 +35,10 @@ export class WorkPackageCommentField extends WikiTextareaEditField {
   public isBusy:boolean = false;
 
   constructor(public workPackage:WorkPackageResourceInterface, protected I18n:op.I18n) {
-    super(new WorkPackageChangeset(workPackage), 'comment', {name: I18n.t('js.label_comment')} as any);
+    super(
+      new WorkPackageChangeset(WorkPackageCommentField.$injector, workPackage),
+      'comment',
+      {name: I18n.t('js.label_comment')} as any);
 
     this.initializeFieldValue();
   }

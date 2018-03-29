@@ -8,6 +8,7 @@ import {
 } from '../../api/api-v3/hal-resources/relation-resource.service';
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {keyCodes} from 'core-components/common/keyCodes.enum';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 class WpRelationRowDirectiveController {
   public workPackage:WorkPackageResourceInterface;
@@ -45,7 +46,7 @@ class WpRelationRowDirectiveController {
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpRelations:WorkPackageRelationsService,
               protected I18n:op.I18n,
-              protected PathHelper:op.PathHelper) {
+              protected PathHelper:PathHelperService) {
 
     this.relation = this.relatedWorkPackage.relatedBy as RelationResourceInterface;
     this.text = {

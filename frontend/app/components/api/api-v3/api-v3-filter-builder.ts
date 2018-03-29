@@ -34,7 +34,7 @@ export interface ApiV3Filter {
 
 export class ApiV3FilterBuilder {
 
-  private filters:ApiV3Filter[] = [];
+  public filters:ApiV3Filter[] = [];
 
   public add(name:string, operator:FilterOperator, values:any):this {
     let newFilter:ApiV3Filter = {};

@@ -27,5 +27,4 @@
 //++
 
 require('./directives');
-require('./helpers');
 require('./models');

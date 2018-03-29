@@ -31,7 +31,6 @@ import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset
 import {WorkPackageTableTimelineService} from '../../../wp-fast-table/state/wp-table-timeline.service';
 import {DisplayFieldRenderer} from '../../../wp-edit-form/display-field-renderer';
 import Moment = moment.Moment;
-import WorkPackagesHelper = op.WorkPackagesHelper;
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -55,7 +54,7 @@ export class TimelineCellRenderer {
   protected dateDisplaysOnMouseMove:{ left?:HTMLElement; right?:HTMLElement } = {};
 
   constructor(public workPackageTimeline:WorkPackageTimelineTableController) {
-    $injectFields(this, 'TimezoneService', 'wpTableTimeline', 'WorkPackagesHelper');
+    $injectFields(this, 'TimezoneService', 'wpTableTimeline');
   }
 
   public get type():string {

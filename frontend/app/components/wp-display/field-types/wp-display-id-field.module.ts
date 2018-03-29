@@ -29,18 +29,24 @@
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-builder';
+import {$stateToken} from 'core-app/angular4-transition-utils';
+import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import {StateService} from '@uirouter/core';
 
 export class IdDisplayField extends DisplayField {
 
   public text:Object;
   private uiStateBuilder:UiStateLinkBuilder;
 
+  private $state:StateService = this.$injector.get($stateToken);
+  private keepTab:KeepTabService = this.$injector.get(KeepTabService);
+
   constructor(public workPackage:WorkPackageResourceInterface,
               public name:string,
               public schema:op.FieldSchema) {
     super(workPackage as any, name, schema);
 
-    this.uiStateBuilder = new UiStateLinkBuilder(this.$injector.get('$state'), this.$injector.get('keepTab'));
+    this.uiStateBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
 
     this.text = {
       linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
