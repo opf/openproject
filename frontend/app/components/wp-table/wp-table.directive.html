@@ -24,14 +24,14 @@
           </sortHeader>
         </th>
         <th class="wp-table--context-menu-column -short hide-when-print"
-            *ngIf="columnMenuEnabled || actionsColumnEnabled">
+            *ngIf="configuration.columnMenuEnabled || configuration.actionsColumnEnabled">
           <div class="generic-table--sort-header-outer">
             <accessible-by-keyboard
                 (execute)="openColumnsModal()"
                 linkClass="wp-table--columns-selection"
                 linkTitle="{{text.addColumns}}"
                 linkAriaLabel="{{text.addColumns}}"
-                *ngIf="columnMenuEnabled">
+                *ngIf="configuration.columnMenuEnabled">
               <op-icon icon-classes="icon-button icon-small icon-add"></op-icon>
             </accessible-by-keyboard>
           </div>
@@ -56,7 +56,7 @@
       </tbody>
       <tbody class="results-tbody work-package--results-tbody">
       </tbody>
-      <tbody *ngIf="tableElement && inlineCreateEnabled"
+      <tbody *ngIf="tableElement && configuration.inlineCreateEnabled"
              wpInlineCreate
              [wp-inline-create--table]="workPackageTable"
              [wp-inline-create--project-identifier]="projectIdentifier"
@@ -68,7 +68,8 @@
     </table>
   </div>
 
-  <div class="work-packages--tabletimeline--timeline--resizer hidden-for-mobile hide-when-print">
+  <div *ngIf="!configuration.isEmbedded"
+       class="work-packages--tabletimeline--timeline--resizer hidden-for-mobile hide-when-print">
     <wp-resizer [elementClass]="'work-packages-tabletimeline--timeline-side'"
                 [resizeEvent]="'wp-resize.timeline'"
                 [localStorageKey]="'openProject-timelineFlexBasis'"></wp-resizer>

@@ -185,18 +185,6 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     this.columnsModal.activate();
   }
 
-  public get columnMenuEnabled() {
-    return this.configuration.columnMenuEnabled;
-  }
-
-  public get actionsColumnEnabled() {
-    return this.configuration.actionsColumnEnabled;
-  }
-
-  public get inlineCreateEnabled() {
-    return this.configuration.inlineCreateEnabled;
-  }
-
   private getTableAndTimelineElement():[HTMLElement, HTMLElement] {
     const $tableSide = this.$element.find('.work-packages-tabletimeline--table-side');
     const $timelineSide = this.$element.find('.work-packages-tabletimeline--timeline-side');

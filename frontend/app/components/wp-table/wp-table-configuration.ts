@@ -35,6 +35,9 @@ export class WorkPackageTableConfiguration {
   public columnMenuEnabled:boolean = true;
   public projectContext:boolean = true;
   public inlineCreateEnabled:boolean = true;
+  public hierarchyToggleEnabled:boolean = true;
+
+  public isEmbedded:boolean = false;
 
   constructor(private providedConfig:WorkPackageTableConfigurationObject) {
     _.each(providedConfig, (value, k) => {
@@ -43,9 +46,3 @@ export class WorkPackageTableConfiguration {
     });
   }
 }
-
-
-let foo:WorkPackageTableConfigurationObject = {
-  actionsColumnEnabled: true,
-  columnMenuEnabled: false
-};
