@@ -1,17 +1,22 @@
 shared_examples 'an accessible inplace editor' do
   it 'triggers edit mode on click' do
+    scroll_to_element(field.display_element)
     field.activate_edition
     expect(field).to be_editing
     field.cancel_by_escape
   end
 
   it 'triggers edit mode on RETURN key' do
+    scroll_to_element(field.display_element)
+
     field.display_element.native.send_keys(:return)
     expect(field).to be_editing
     field.cancel_by_escape
   end
 
   it 'is focusable' do
+    scroll_to_element(field.display_element)
+
     tab_index = field.display_element['tabindex']
     expect(tab_index).to_not be_nil
     expect(tab_index).to_not eq('-1')
