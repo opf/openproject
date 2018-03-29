@@ -25,6 +25,7 @@
     "sinon-chai": "^2.8.0",
     "sorted-object": "^1.0.0",
     "webpack-bundle-analyzer": "2.11.1",
+    "tslint": "5.9.1",
     "webpack-dev-server": "^1.6.5"
   },
   "dependencies": {
@@ -134,6 +135,7 @@
   "scripts": {
     "postinstall": "./node_modules/.bin/webpack --colors --progress  --debug --config webpack-vendors-config.js",
     "pretest": "npm run webpack-with-test",
+    "tslint_typechecks": "tslint -p . -c tslint_typechecks.json",
     "test": "npm run karma",
     "karma": "./scripts/karma-runner.js",
     "webpack": "./node_modules/.bin/webpack --colors --progress",

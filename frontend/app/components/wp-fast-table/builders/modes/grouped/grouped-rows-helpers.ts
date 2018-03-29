@@ -25,7 +25,7 @@ export function groupName(group:GroupObject) {
 }
 
 export function groupByProperty(group:GroupObject):string {
-  return group._links!.groupBy.href.split('/').pop()!;
+  return group._links.groupBy.href.split('/').pop()!;
 }
 
 /**

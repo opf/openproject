@@ -56,7 +56,7 @@ export class ApiWorkPackagesService {
    * @param force Bypass any cached value?
    * @returns {IPromise<any>|IPromise<WorkPackageResource>} A promise for the WorkPackage.
    */
-  public loadWorkPackageById(id:string, force = false) {
+  public async loadWorkPackageById(id:string, force = false) {
     const url = this.v3Path.wp({wp: id});
 
     return this.halRequest.get(url, null, {

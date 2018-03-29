@@ -35,7 +35,7 @@ import {WorkPackageCacheService} from '../../work-packages/work-package-cache.se
 export class WorkPackageRelationsHierarchyController {
   public workPackage:WorkPackageResourceInterface;
   public showEditForm:boolean = false;
-  public workPackagePath = this.PathHelper.workPackagePath;
+  public workPackagePath = this.PathHelper.workPackagePath.bind(this.PathHelper);
   public canHaveChildren = !this.workPackage.isMilestone;
   public canModifyHierarchy = !!this.workPackage.changeParent;
   public canAddRelation = !!this.workPackage.addRelation;

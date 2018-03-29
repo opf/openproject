@@ -26,23 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageEditContext} from './work-package-edit-context';
-import {$injectFields} from '../angular/angular-injector-bridge.functions';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {States} from '../states.service';
-import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
-import {WorkPackageEditForm} from './work-package-edit-form';
-import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
-import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
-import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
-import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
-import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 import {StateService} from '@uirouter/core';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
+import {$injectFields} from '../angular/angular-injector-bridge.functions';
+import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {States} from '../states.service';
+import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
+import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
+import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
+import {WorkPackageEditContext} from './work-package-edit-context';
+import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
+import {WorkPackageEditForm} from './work-package-edit-form';
 
 export class SingleViewEditContext implements WorkPackageEditContext {
 
@@ -120,7 +117,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     this.fieldGroup.onSaved(isInitial, savedWorkPackage);
   }
 
-  public requireVisible(fieldName:string):Promise<undefined> {
+  public async requireVisible(fieldName:string):Promise<undefined> {
     const deferred = this.$q.defer<undefined>();
 
     const interval = setInterval(() => {

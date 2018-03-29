@@ -258,7 +258,7 @@ describe('HalResource service', () => {
         }
       };
       resource = new HalResource(source);
-      (resource as any).resource = null;
+      resource.resource = null;
     });
 
     it('should be null', () => {
@@ -361,8 +361,8 @@ describe('HalResource service', () => {
     });
 
     it('should have a $links property with the keys of its source _links', () => {
-      const transformedLinks = Object.keys(resource!.$links);
-      const plainLinks = Object.keys(source!._links);
+      const transformedLinks = Object.keys(resource.$links);
+      const plainLinks = Object.keys(source._links);
 
       expect(transformedLinks).to.have.members(plainLinks);
     });

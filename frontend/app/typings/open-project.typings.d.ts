@@ -87,7 +87,7 @@ declare namespace op {
    */
   interface I18n {
     t(translateId:string, parameters?:any):string;
-    lookup(translateId:string):boolean;
+    lookup(translateId:string):boolean|undefined;
     locale:string;
   }
 

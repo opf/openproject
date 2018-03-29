@@ -43,8 +43,8 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * Load a set of work package ids into the states, regardless of them being loaded
    * @param workPackageIds
    */
-  protected load(id:string):Promise<RelationsStateValue> {
-    return new Promise((resolve, reject) => {
+  protected async load(id:string):Promise<RelationsStateValue> {
+    return new Promise<RelationsStateValue>((resolve, reject) => {
       this.relationsDm
         .load(id)
         .then(elements => {

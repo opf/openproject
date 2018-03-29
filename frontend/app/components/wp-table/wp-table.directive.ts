@@ -31,6 +31,8 @@ import {columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {QueryGroupByResource} from 'core-components/api/api-v3/hal-resources/query-group-by-resource.service';
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
+import {WorkPackageTableColumns} from 'core-components/wp-fast-table/wp-table-columns';
+import {QueryColumn} from 'core-components/wp-query/query-column';
 import {TableState, TableStateHolder} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs/observable/combineLatest';
@@ -80,7 +82,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public groupBy:QueryGroupByResource | undefined;
 
-  public columns:any;
+  public columns:QueryColumn[];
 
   public numTableColumns:number;
 
@@ -175,7 +177,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);
 
     let t1 = performance.now();
-    debugLog('Render took ' + (t1 - t0) + ' milliseconds.');
+    debugLog('Render took ', t1 - t0, ' milliseconds.');
   }
 
   public openColumnsModal() {

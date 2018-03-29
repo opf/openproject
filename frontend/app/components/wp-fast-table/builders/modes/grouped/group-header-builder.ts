@@ -35,8 +35,8 @@ export class GroupHeaderBuilder {
 
     row.classList.add(rowGroupClassName, groupClassNameFor(group));
     row.id = `wp-table-rowgroup-${group.index}`;
-    row.dataset['groupIndex'] = (group.index as number).toString();
-    row.dataset['groupIdentifier'] = group.identifier as string;
+    row.dataset['groupIndex'] = (group.index).toString();
+    row.dataset['groupIdentifier'] = group.identifier;
     row.innerHTML = `
       <td colspan="${colspan}" class="-no-highlighting">
         <div class="expander icon-context ${togglerIconClass}">

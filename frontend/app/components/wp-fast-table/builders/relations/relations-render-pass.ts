@@ -55,12 +55,12 @@ export class RelationsRenderPass {
       const workPackage = row.workPackage;
       const fromId = workPackage.id;
       const state = this.wpRelations.state(fromId);
-      if (!state.hasValue() || _.size(state.value!) === 0) {
+      if (!state.hasValue() || _.size(state.value) === 0) {
         return;
       }
 
       this.wpTableRelationColumns.relationsToExtendFor(workPackage,
-        state.value!,
+        state.value,
         (relation:RelationResource, column:QueryColumn, type:any) => {
 
           // Build each relation row (currently sorted by order defined in API)

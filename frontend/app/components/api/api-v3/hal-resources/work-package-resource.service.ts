@@ -224,7 +224,7 @@ export class WorkPackageResource extends HalResource {
    */
   public uploadPendingAttachments():ng.IPromise<any> | void {
     if (!this.pendingAttachments.length) {
-      return;
+      return undefined;
     }
 
     const attachments = this.pendingAttachments;

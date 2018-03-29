@@ -101,8 +101,8 @@ export class TimelineCellRenderer {
                           labels:WorkPackageCellLabels,
                           dates:any):void {
 
-    this.assignDate(changeset, 'startDate', dates.startDate!);
-    this.assignDate(changeset, 'dueDate', dates.dueDate!);
+    this.assignDate(changeset, 'startDate', dates.startDate);
+    this.assignDate(changeset, 'dueDate', dates.dueDate);
 
     this.updateLabels(true, labels, changeset);
   }
@@ -141,9 +141,9 @@ export class TimelineCellRenderer {
 
     // avoid negative "overdrag" if only start or due are changed
     if (direction !== 'both') {
-      if (dates.startDate != undefined && dates.startDate.isAfter(dueDate)) {
+      if (dates.startDate !== undefined && dates.startDate.isAfter(dueDate)) {
         dates.startDate = dueDate;
-      } else if (dates.dueDate != undefined && dates.dueDate.isBefore(startDate)) {
+      } else if (dates.dueDate !== undefined && dates.dueDate.isBefore(startDate)) {
         dates.dueDate = startDate;
       }
     }
