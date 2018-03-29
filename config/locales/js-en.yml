@@ -301,7 +301,7 @@ en:
 
     relations_hierarchy:
       parent_headline: "Parent"
-      children_headline: "Children"
+      children_headline: "Subelements"
 
     relation_buttons:
       change_parent: "Change parent"
