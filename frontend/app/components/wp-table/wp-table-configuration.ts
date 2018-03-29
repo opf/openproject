@@ -26,39 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export interface WorkPackageTableConfigurationObject {
-  actionsColumnEnabled:boolean;
-  contextMenuEnabled:boolean;
-  columnMenuEnabled:boolean;
-  projectContext:boolean;
-}
+
+export type WorkPackageTableConfigurationObject = Partial<{ [field in keyof WorkPackageTableConfiguration]:boolean }>;
 
 export class WorkPackageTableConfiguration {
-
-  config:WorkPackageTableConfigurationObject = {
-    actionsColumnEnabled: true,
-    contextMenuEnabled: true,
-    columnMenuEnabled: true,
-    projectContext: true
-  }
+  public actionsColumnEnabled:boolean = true;
+  public contextMenuEnabled:boolean = true;
+  public columnMenuEnabled:boolean = true;
+  public projectContext:boolean = true;
+  public inlineCreateEnabled:boolean = true;
 
   constructor(private providedConfig:WorkPackageTableConfigurationObject) {
-    angular.extend(this.config, providedConfig);
-  }
-
-  get actionsColumnEnabled() {
-    return this.config.actionsColumnEnabled;
-  }
-
-  get contextMenuEnabled() {
-    return this.config.contextMenuEnabled;
-  }
-
-  get columnMenuEnabled() {
-    return this.config.columnMenuEnabled;
-  }
-
-  get projectContext() {
-    return this.config.projectContext;
+    _.each(providedConfig, (value, k) => {
+      let key = (k as keyof WorkPackageTableConfiguration);
+      this[key] = !!value;
+    });
   }
 }
+
+
+let foo:WorkPackageTableConfigurationObject = {
+  actionsColumnEnabled: true,
+  columnMenuEnabled: false
+};

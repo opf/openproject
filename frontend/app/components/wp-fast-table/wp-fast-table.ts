@@ -28,8 +28,6 @@ export class WorkPackageTable {
   public originalRows:string[] = [];
   public originalRowIndex:{ [id:string]:WorkPackageTableRow } = {};
 
-  public configuration:WorkPackageTableConfiguration;
-
   // WP rows builder
   // Ordered by priority
   private builders = [
@@ -50,9 +48,7 @@ export class WorkPackageTable {
               public tbody:HTMLElement,
               public timelineBody:HTMLElement,
               public timelineController:WorkPackageTimelineTableController,
-              public options:WorkPackageTableConfigurationObject) {
-
-    this.configuration = new WorkPackageTableConfiguration(options);
+              public configuration:WorkPackageTableConfiguration) {
   }
 
   public get renderedRows() {

@@ -56,7 +56,8 @@ import {
 export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   @Input() projectIdentifier:string;
-  @Input() configuration:WorkPackageTableConfigurationObject;
+  @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
+  public configuration:WorkPackageTableConfiguration;
 
   private $element:JQuery;
 
@@ -101,6 +102,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   }
 
   ngOnInit():void {
+    this.configuration = new WorkPackageTableConfiguration(this.configurationObject);
     this.$element = jQuery(this.elementRef.nativeElement);
     this.scrollSyncUpdate = createScrollSync(this.$element);
 
@@ -184,11 +186,15 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   }
 
   public get columnMenuEnabled() {
-    return this.workPackageTable && this.workPackageTable.configuration.columnMenuEnabled;
+    return this.configuration.columnMenuEnabled;
   }
 
   public get actionsColumnEnabled() {
-    return this.workPackageTable && this.workPackageTable.configuration.actionsColumnEnabled;
+    return this.configuration.actionsColumnEnabled;
+  }
+
+  public get inlineCreateEnabled() {
+    return this.configuration.inlineCreateEnabled;
   }
 
   private getTableAndTimelineElement():[HTMLElement, HTMLElement] {
