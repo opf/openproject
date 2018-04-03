@@ -19,7 +19,7 @@ fa:
     button_configure-form: Configure form
     button_confirm: Confirm
     button_continue: Continue
-    button_copy: Copy
+    button_copy: کپی
     button_custom-fields: Custom fields
     button_delete: Delete
     button_delete_watcher: حذف ناظر
@@ -31,15 +31,15 @@ fa:
     button_show_view: Fullscreen view
     button_log_time: پیگیری زمان
     button_more: More
-    button_move: Move
+    button_move: انتقال
     button_open_details: بازکردن نمای جزییات
     button_close_details: Close details view
     button_open_fullscreen: Open fullscreen view
-    button_quote: Quote
+    button_quote: نقل قول
     button_save: Save
     button_settings: Settings
     button_uncheck_all: Uncheck all
-    button_update: Update
+    button_update: به روز رسانی
     button_export-pdf: Download PDF
     button_export-atom: Download Atom
     description_available_columns: Available Columns
@@ -96,7 +96,7 @@ fa:
       %{format}'
     label_deactivate: غیر فعال کردن
     label_descending: Descending
-    label_description: Description
+    label_description: توضیحات
     label_cancel_comment: Cancel comment
     label_closed_work_packages: closed
     label_collapse: Collapse
@@ -172,7 +172,7 @@ fa:
     label_warning: Warning
     label_work_package: Work package
     label_work_package_plural: Work packages
-    label_watch: Watch
+    label_watch: نگاه کردن
     label_watch_work_package: دیدن پکیج وظیفه
     label_watcher_added_successfully: ناظر با موفقیت اضافه شد!
     label_watcher_deleted_successfully: ناظر با موفقیت حذف شد!
@@ -410,7 +410,7 @@ fa:
       heading3: Heading 3
       unordered_list: Unordered List
       ordered_list: Ordered List
-      quote: Quote
+      quote: نقل قول
       unquote: Unquote
       preformatted_text: Preformatted Text
       wiki_link: Link to a Wiki page
@@ -484,9 +484,9 @@ fa:
         other: Other
       properties:
         assignee: Assignee
-        author: Author
+        author: نویسنده
         createdAt: Created on
-        description: Description
+        description: توضیحات
         date: تاریخ
         dueDate: موعد مقرر
         estimatedTime: Estimated time

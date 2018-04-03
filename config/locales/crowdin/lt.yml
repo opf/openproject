@@ -1055,7 +1055,7 @@ lt:
       boards: Bendruomenės forumas
       newsletter: Saugos įspėjimai / Naujienos
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Konfigūravimo vadovas
   instructions_after_registration: Galėsite prisijungti, kai tik jūsų paskyra bus
     aktyvuota paspaudžiant %{signin}.
   instructions_after_logout: Galite vėl prisijungti paspausdami %{signin}.

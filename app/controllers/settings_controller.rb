@@ -29,6 +29,7 @@
 
 class SettingsController < ApplicationController
   layout 'admin'
+  menu_item :settings
 
   before_action :require_admin
 

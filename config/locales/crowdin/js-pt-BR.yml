@@ -346,7 +346,7 @@ pt-BR:
           de tempo.
       filter:
         column:
-          assigned_to: Atribuído
+          assigned_to: Atribuição
           type: Tipo
           due_date: Data de término
           name: Nome
@@ -481,7 +481,7 @@ pt-BR:
         estimatesAndTime: Estimativas e Tempo
         other: Outro
       properties:
-        assignee: Atribuído
+        assignee: Atribuição
         author: Autor
         createdAt: Criado em
         description: Descrição

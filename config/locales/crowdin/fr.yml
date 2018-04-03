@@ -1093,7 +1093,7 @@ fr:
   label_all_time: tout le temps
   label_all_words: Tous les mots
   label_always_visible: Toujours affiché
-  label_announcement: Annonce
+  label_announcement: 'Annonce ou avis. '
   label_and_its_subprojects: "%{value} et ses sous-projets"
   label_api_access_key: Clé d'accès API
   label_api_access_key_created_on: Clé d'accès API créé il y a %{value}

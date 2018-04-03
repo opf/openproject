@@ -1054,7 +1054,7 @@ es:
       boards: Foro de la comunidad
       newsletter: Alertas de seguridad / boletín
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Guía de configuración
   instructions_after_registration: Podras entrar tan pronto como tu cuenta halla sido
     activada haciendo clic sobre %{signin}.
   instructions_after_logout: Puedes entrar nuevamente haciendo clic sobre  %{signin}.

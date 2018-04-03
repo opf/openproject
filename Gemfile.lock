@@ -206,7 +206,7 @@ GEM
     concurrent-ruby (1.0.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    crass (1.0.2)
+    crass (1.0.3)
     crowdin-api (0.5.0)
       rest-client (~> 2.0)
     cucumber (3.0.1)
@@ -342,7 +342,7 @@ GEM
       sass
       thor
       tilt
-    loofah (2.1.1)
+    loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.6)
@@ -412,7 +412,7 @@ GEM
       rack (>= 0.4)
     rack-attack (5.0.1)
       rack
-    rack-protection (2.0.0)
+    rack-protection (2.0.1)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -438,8 +438,8 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.0.3)
-      loofah (~> 2.0)
+    rails-html-sanitizer (1.0.4)
+      loofah (~> 2.2, >= 2.2.2)
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
@@ -729,7 +729,7 @@ DEPENDENCIES
   will_paginate (~> 3.1.0)
 
 RUBY VERSION
-   ruby 2.4.2p198
+   ruby 2.4.4p296
 
 BUNDLED WITH
    1.16.1

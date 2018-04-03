@@ -424,7 +424,7 @@ lv:
           start date.
         inclusion: nav iestatīts uz vienu no atļautajām vērtībām.
         invalid: nav derīgs.
-        invalid_url: is not a valid URL.
+        invalid_url: nederīgs URL vietrādis.
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: jābūt mazākam vai vienādam ar %{count}.
         not_a_date: is not a valid date.
@@ -677,7 +677,7 @@ lv:
   button_login: Sign in
   button_move: Move
   button_move_and_follow: Move and follow
-  button_print: Print
+  button_print: Drukāt
   button_quote: Citēt
   button_remove: Noņemt
   button_remove_widget: Noņemt logrīku
@@ -1121,7 +1121,7 @@ lv:
   label_select_main_menu_item: Select new main menu item
   label_select_project: Select a project
   label_required_disk_storage: Nepieciešamā diska krātuve
-  label_send_invitation: Send invitation
+  label_send_invitation: Nosūtīt ielūgumu
   label_change_plural: Changes
   label_change_properties: Change properties
   label_change_status: Change status
@@ -1862,7 +1862,7 @@ lv:
     member_of_group: Assignee's group
     assignee_or_group: Assignee or belonging group
     subproject_id: Subproject
-    name_or_identifier: Name or identifier
+    name_or_identifier: Nosaukumu vai identifikatoru
   repositories:
     at_identifier: pie %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2120,7 +2120,7 @@ lv:
     brute_force_prevention: Automated user blocking
   show_hide_project_menu: Expand/Collapse project menu
   status_active: active
-  status_archived: archived
+  status_archived: arhivēts
   status_invited: uzaicināts
   status_locked: locked
   status_registered: registered
@@ -2601,7 +2601,7 @@ lv:
       multipart_body_error: The request body did not contain the expected multipart
         parts.
       multiple_errors: Multiple field constraints have been violated.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Pielikumu nevar izveidot
       render:
         context_not_parsable: The context provided is not a link to a resource.
         unsupported_context: The resource given is not supported as context.

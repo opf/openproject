@@ -217,7 +217,11 @@ module Redmine
                                                                  nil,
                                                                  nil)
 
-              result << ((provider.respond_to?(:format_event)) ? provider.format_event(event, e, activity) : event)
+              begin
+                result << ((provider.respond_to?(:format_event)) ? provider.format_event(event, e, activity) : event)
+              rescue => e
+                Rails.logger.error "Failed to format_event for #{event.inspect}: #{e}"
+              end
             end
           end
 
