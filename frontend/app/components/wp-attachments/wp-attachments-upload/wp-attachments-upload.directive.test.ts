@@ -57,7 +57,7 @@ describe('wpAttachmentsUpload directive', () => {
         restrict: 'A',
         scope: {ngfChange: '&', ngModel: '='},
 
-        controller: angular.noop,
+        controller: () => angular.noop(),
         controllerAs: '$ctrl',
         bindToController: true
       }));

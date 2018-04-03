@@ -77,7 +77,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
 
   public $onInit() {
     this.dropdownMenu = this.$element.parents('li.drop-down');
-    this.input = this.$element.find('.project-menu-autocomplete--input') as JQuery;
+    this.input = this.$element.find('.project-menu-autocomplete--input');
     this.noResults = angular.element('.project-menu-autocomplete--no-results');
 
     this.dropdownMenu.on('opened', () => this.open());

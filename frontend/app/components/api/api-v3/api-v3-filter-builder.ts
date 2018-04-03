@@ -52,7 +52,7 @@ export class ApiV3FilterBuilder {
   }
 
   public toParams():string {
-    let transformedFilters: string[] = [];
+    let transformedFilters:string[] = [];
 
     transformedFilters = this.filters.map((filter:ApiV3Filter) => {
       return this.serializeFilter(filter);
@@ -61,21 +61,23 @@ export class ApiV3FilterBuilder {
     return `filters=${encodeURI(`[${transformedFilters.join(',')}]`)}`;
   }
 
-  private serializeFilter(filter:ApiV3Filter){
-    let transformedFilter: string;
-    let keys: Array<string>;
+  private serializeFilter(filter:ApiV3Filter) {
+    let transformedFilter:string;
+    let keys:Array<string>;
 
     keys = Object.keys(filter);
 
     let typeName = keys[0];
-    let operatorAndValues: any = filter[typeName];
+    let operatorAndValues:any = filter[typeName];
 
-    transformedFilter = `{"${typeName}":{"operator":"${operatorAndValues['operator']}","values":[${operatorAndValues['values'].map(this.serializeFilterValue).join(',')}]}}`;
+    transformedFilter = `{"${typeName}":{"operator":"${operatorAndValues['operator']}","values":[${operatorAndValues['values']
+      .map((val:any) => this.serializeFilterValue(val))
+      .join(',')}]}}`;
 
     return transformedFilter;
   }
 
-  private serializeFilterValue(filterValue: any){
+  private serializeFilterValue(filterValue:any) {
     return `"${filterValue}"`;
   }
 }

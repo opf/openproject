@@ -38,8 +38,8 @@ import {IPaginationOptions, PaginationService} from 'core-components/table-pagin
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 
-function setupMocks(paginationService:PaginationService) {
-  sinon.stub(paginationService, 'loadPaginationOptions', () => {
+async function setupMocks(paginationService:PaginationService) {
+  sinon.stub(paginationService, 'loadPaginationOptions', async () => {
     const options:IPaginationOptions = {
       perPage: 0,
       perPageOptions: [10, 100, 500, 1000],

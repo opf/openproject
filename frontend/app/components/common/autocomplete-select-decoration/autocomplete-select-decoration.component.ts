@@ -153,7 +153,7 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
     // Disable handling all dashes as dividers
     // https://github.com/jquery/jquery-ui/blob/master/ui/widgets/menu.js#L347
     // as we use them as placeholders.
-    (this.$input.autocomplete('instance')as any).menu._isDivider = (item:JQuery) => false;
+    (this.$input.autocomplete('instance')).menu._isDivider = () => false;
   }
 
   private switchIds() {

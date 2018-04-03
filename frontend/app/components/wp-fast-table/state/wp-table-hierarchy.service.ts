@@ -63,7 +63,7 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
    * Return whether the given wp ID is collapsed.
    */
   public collapsed(wpId:string):boolean {
-    return this.currentState.collapsed[wpId] === true;
+    return this.currentState.collapsed[wpId];
   }
 
   /**
@@ -103,11 +103,11 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
   public get currentState():WorkPackageTableHierarchies {
     const state = this.state.value;
 
-    if (state == null) {
+    if (state === undefined) {
       return this.initialState;
     }
 
-    return state as WorkPackageTableHierarchies;
+    return state;
   }
 
   private get initialState():WorkPackageTableHierarchies {

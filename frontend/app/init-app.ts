@@ -95,7 +95,7 @@ openprojectModule
               //   * when the path is already appended
               //   * when we are getting a template
               if (!config.url.match('(^/templates|\\.html$|^' + window.appBasePath + ')')) {
-                config.url = window.appBasePath + config.url;
+                config.url = window.appBasePath + (config.url as string);
               }
 
               return config || $q.when(config);

@@ -93,7 +93,7 @@ function SortingModalController(this:any,
           availableSort.direction.$href === object.direction
       ));
 
-    wpTableSortBy.set(_.compact(sortElements) as QuerySortByResource[]);
+    wpTableSortBy.set(_.compact(sortElements));
 
     sortingModal.deactivate();
   };

@@ -87,9 +87,9 @@ function wpRelationsAutocompleteDirective(
         } else {
           return '';
         }
-      };
+      }
 
-      function autocompleteWorkPackages(query:string):Promise<WorkPackageResourceInterface[]> {
+      async function autocompleteWorkPackages(query:string):Promise<WorkPackageResourceInterface[]> {
         element.find('.ui-autocomplete--loading').show();
         return scope.workPackage.available_relation_candidates.$link.$fetch({
             query: query,

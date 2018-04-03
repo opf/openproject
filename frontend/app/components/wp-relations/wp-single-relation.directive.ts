@@ -33,7 +33,7 @@ import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-pac
  * between common relations and parent-child relations
  */
 export class WorkPackageSingleRelationController {
-  public workPackagePath = this.PathHelper.workPackagePath;
+  public workPackagePath = this.PathHelper.workPackagePath.bind(this.PathHelper);
 
   constructor(protected PathHelper:op.PathHelper) {
   }

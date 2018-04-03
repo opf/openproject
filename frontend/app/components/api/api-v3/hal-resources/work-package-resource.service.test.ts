@@ -102,7 +102,7 @@ describe('WorkPackageResource service', () => {
   describe('when retrieving `canAddAttachment`', () => {
     beforeEach(createWorkPackage);
 
-    const expectValue = (value:any, prepare = angular.noop) => {
+    const expectValue = (value:any, prepare = () => angular.noop()) => {
       value = value.toString();
 
       beforeEach(prepare);

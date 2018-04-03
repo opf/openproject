@@ -81,7 +81,7 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
   }
 
   public get current():WorkPackageTablePagination {
-    return this.state.value! as WorkPackageTablePagination;
+    return this.state.value!;
   }
 }
 

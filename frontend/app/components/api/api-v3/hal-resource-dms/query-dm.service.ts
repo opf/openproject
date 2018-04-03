@@ -108,7 +108,7 @@ export class QueryDmService {
                                {caching: {enabled: false} });
   }
 
-  public update(query:QueryResource, form:QueryFormResource) {
+  public async update(query:QueryResource, form:QueryFormResource) {
     return new Promise<QueryResource>((resolve, reject) => {
       this.extractPayload(query, form)
         .then(payload => {

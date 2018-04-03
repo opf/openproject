@@ -72,7 +72,7 @@ export abstract class StateCacheService<T> {
    * @param id The value's identifier.
    * @param force Load the value anyway.
    */
-  public require(id:string, force:boolean = false):Promise<T> {
+  public async require(id:string, force:boolean = false):Promise<T> {
     const state = this.multiState.get(id);
 
     // Refresh when stale or being forced
@@ -90,7 +90,7 @@ export abstract class StateCacheService<T> {
    * @param force Load the values anyway
    * @return {Promise<undefined>} An empty promise to mark when the set of states is filled.
    */
-  public requireAll(ids:string[], force:boolean = false):Promise<undefined> {
+  public async requireAll(ids:string[], force:boolean = false):Promise<undefined> {
     let idsToRequest:string[];
 
     if (force) {

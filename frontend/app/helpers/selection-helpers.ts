@@ -13,7 +13,7 @@ export namespace SelectionHelpers {
 
       return hasSelection && isWithin;
     } catch (e) {
-      console.error('Failed to test whether in selection ' + e);
+      console.error('Failed to test whether in selection ', e);
       return false;
     }
   }

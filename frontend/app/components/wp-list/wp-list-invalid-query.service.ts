@@ -51,7 +51,7 @@ export class WorkPackagesListInvalidQueryService {
   }
 
   private restoreFilters(query:QueryResource, payload:QueryResource, querySchema:SchemaResource) {
-    let filters = _.map((payload.filters as QueryFilterInstanceResource[]), filter => {
+    let filters = _.map((payload.filters), filter => {
       let filterInstanceSchema = _.find(querySchema.filtersSchemas.elements, (schema:QueryFilterInstanceSchemaResource) => {
         return (schema.filter.allowedValues as QueryFilterResource[])[0].$href === filter.filter.$href;
       })
@@ -97,7 +97,7 @@ export class WorkPackagesListInvalidQueryService {
   }
 
   private restoreSortBy(query:QueryResource, stubQuery:QueryResource, schema:SchemaResource) {
-    let sortBys = _.map((stubQuery.sortBy as QuerySortByResource[]), sortBy => {
+    let sortBys = _.map((stubQuery.sortBy), sortBy => {
       return _.find((schema.sortBy.allowedValues as QuerySortByResource[]), candidate => {
         return candidate.$href === sortBy.$href;
       })!;
