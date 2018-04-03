@@ -32,14 +32,9 @@ import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageChangeset} from './work-package-changeset';
 import {combine, deriveRaw, multiInput, State, StatesGroup} from 'reactivestates';
 import {map} from 'rxjs/operators';
-import {wpServicesModule} from '../../angular-modules';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {StateCacheService} from '../states/state-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {Injectable, Injector} from '@angular/core';
-import {WorkPackageChangeset} from './work-package-changeset';
-import {WorkPackageEditContext} from './work-package-edit-context';
-import {WorkPackageEditForm} from './work-package-edit-form';
 
 class WPChangesetStates extends StatesGroup {
   name = 'WP-Changesets';

@@ -38,12 +38,6 @@ import {WorkPackageCacheService} from '../../work-packages/work-package-cache.se
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
-import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {Injector, OnDestroy} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
 export class WorkPackageViewController implements OnDestroy {
 

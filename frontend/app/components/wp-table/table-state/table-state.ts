@@ -1,7 +1,7 @@
 import {WorkPackageResourceInterface} from 'app/components/api/api-v3/hal-resources/work-package-resource.service';
 import {
-  GroupObject,
-  WorkPackageCollectionResource
+    GroupObject,
+    WorkPackageCollectionResource
 } from 'app/components/api/api-v3/hal-resources/wp-collection-resource.service';
 import {RenderedRow} from 'app/components/wp-fast-table/builders/primary-render-pass';
 import {WorkPackageTableColumns} from 'app/components/wp-fast-table/wp-table-columns';
@@ -22,7 +22,7 @@ import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-reso
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {SwitchState} from 'core-components/states/switch-state';
-import {map} from 'rxjs/operator/map';
+import {mapTo, map} from 'rxjs/operators';
 
 @Injectable()
 export class TableState extends StatesGroup {
@@ -65,7 +65,8 @@ export class TableState extends StatesGroup {
   rendered = input<RenderedRow[]>();
 
   renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $.pipe(
-    map(rows => rows.filter(row => !!row.workPackageId)));
+    map(rows => rows.filter(row => !!row.workPackageId)))
+  );
 
   // State to determine timeline visibility
   timelineVisible = input<WorkPackageTableTimelineState>();
@@ -109,7 +110,7 @@ export class TableRenderingStates {
     this.tableState.additionalRequiredWorkPackages
   );
 
-  onQueryUpdated = derive(this.combinedTableStates, ($, input) => $.pipe(mapTo(null)));
+  onQueryUpdated = derive(this.combinedTableStates, ($,) => $.pipe(mapTo(null)));
 }
 
 export class UserUpdaterStates {

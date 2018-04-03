@@ -29,7 +29,6 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {StateService, TransitionService} from '@uirouter/core';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
@@ -52,10 +51,6 @@ import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.se
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
-import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
-import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
-import {downgradeComponent} from '@angular/upgrade/static';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 
 @Component({

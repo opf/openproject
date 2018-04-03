@@ -1,14 +1,9 @@
 import {Injector} from '@angular/core';
 import {scrollTableRowIntoView} from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
 import {distinctUntilChanged, map, takeUntil} from 'rxjs/operators';
-import {States} from '../../../states.service';
 import {indicatorCollapsedClass} from '../../builders/modes/hierarchy/single-hierarchy-row-builder';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
-import {
-  collapsedGroupClass,
-  hierarchyGroupClass,
-  hierarchyRootClass
-} from '../../helpers/wp-table-hierarchy-helpers';
+import {collapsedGroupClass, hierarchyGroupClass, hierarchyRootClass} from '../../helpers/wp-table-hierarchy-helpers';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {WorkPackageTableHierarchies} from '../../wp-table-hierarchies';
 import {WorkPackageTableHierarchiesService} from './../../state/wp-table-hierarchy.service';
@@ -24,7 +19,7 @@ export class HierarchyTransformer {
     this.tableState.updates.hierarchyUpdates
       .values$('Refreshing hierarchies on user request')
       .pipe(
-        takeUntil(this.tableState.stopAllSubscriptions)
+        takeUntil(this.tableState.stopAllSubscriptions),
         map((state) => state.isEnabled),
         distinctUntilChanged()
       )

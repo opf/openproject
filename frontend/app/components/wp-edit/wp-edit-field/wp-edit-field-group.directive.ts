@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
@@ -35,7 +35,7 @@ import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-fie
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {input} from 'reactivestates';
-import {takeUntil, filter, take, map} from 'rxjs/operators';
+import {filter, map, take, takeUntil} from 'rxjs/operators';
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../../states.service';
@@ -45,14 +45,6 @@ import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {WorkPackageCreateService} from './../../wp-new/wp-create.service';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {StateService, Transition, TransitionService} from '@uirouter/core';
-import {Component, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
-import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {downgradeComponent} from '@angular/upgrade/static';
-import {ConfigurationService} from 'core-components/common/config/configuration.service';
-import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 
 @Component({
   selector: 'wp-edit-field-group,[wp-edit-field-group]',

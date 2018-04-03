@@ -7,7 +7,7 @@ import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 export class ColumnsTransformer {
 
-  public  tableState:TableState = this.injector.get(TableState);
+  public tableState:TableState = this.injector.get(TableState);
   public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
 
   constructor(public readonly injector:Injector,
@@ -17,7 +17,7 @@ export class ColumnsTransformer {
       .values$('Refreshing columns on user request')
       .pipe(
         filter(() => this.wpTableColumns.hasRelationColumns() === false),
-        takeUntil(this.states.globalTable.stopAllSubscriptions)
+        takeUntil(this.tableState.stopAllSubscriptions)
       )
       .subscribe(() => {
         if (table.originalRows.length > 0) {
