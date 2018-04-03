@@ -20,9 +20,9 @@ We need an active Ruby and Node JS environment to run OpenProject. To this end, 
 [dev@ubuntu]# sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev libmysqlclient-dev libpq-dev libsqlite3-dev libreadline-dev libffi6
 ```
 
-## Install Ruby 2.4.
+## Install Ruby 2.5.
 
-Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby 2.4.2.
+Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby 2.5.
 
 
 **Install rbenv**
@@ -51,23 +51,23 @@ ruby-build is an addon to rbenv that installs ruby versions
 [dev@ubuntu]# git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 ```
 
-**Installing ruby-2.4**
+**Installing ruby-2.5**
 
-With both installed, we can now install the actual ruby version 2.4. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `2.4.2`, which we also require.
+With both installed, we can now install the actual ruby version 2.5. You can check available ruby versions with `rbenv install --list`.
+At the time of this writing, the latest stable version is `2.5.0`, which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-[dev@ubuntu]# rbenv install 2.4.2
+[dev@ubuntu]# rbenv install 2.5.1
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-[dev@ubuntu]# rbenv global 2.4.2
+[dev@ubuntu]# rbenv global 2.5.1
 ```
 
 You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler.
@@ -144,10 +144,10 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 [dev@ubuntu]# ruby --version
-ruby 2.4.1p111 (2017-03-22 revision 58053) [x86_64-linux]
+ruby 2.5.1p57 (2017-12-25 revision 61468) [x86_64-darwin16]
 
 [dev@ubuntu]# bundler --version
-Bundler version 1.15.1
+Bundler version 1.16.1
 
 [dev@ubuntu]# npm --version
 3.10.10
