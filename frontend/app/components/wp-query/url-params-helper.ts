@@ -38,7 +38,9 @@ export class UrlParamsHelperService {
 
   // copied more or less from angular buildUrl
   public buildQueryString(params:any) {
-    if (!params) return undefined;
+    if (!params) {
+      return undefined;
+    }
 
     var parts:string[] = [];
     angular.forEach(params, function (value, key) {

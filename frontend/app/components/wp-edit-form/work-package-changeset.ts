@@ -137,7 +137,7 @@ export class WorkPackageChangeset {
     if (this.wpForm.hasValue()) {
       return Promise.resolve(this.wpForm.value!);
     } else {
-      return new Promise<FormResourceInterface>((resolve,) => this.wpForm.valuesPromise().then(resolve));
+      return new Promise<FormResourceInterface>((resolve) => this.wpForm.valuesPromise().then(resolve));
     }
   }
 
