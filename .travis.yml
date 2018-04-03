@@ -97,6 +97,7 @@ before_install:
   - "nvm install 6.9.1"
   # work around https://github.com/travis-ci/travis-ci/issues/8969
   - travis_retry gem update --system
+  - gem install bundler
 
 bundler_args: --binstubs --without development production docker
 
