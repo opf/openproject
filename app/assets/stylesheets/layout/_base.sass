@@ -48,17 +48,12 @@ body
   width:    100%
   z-index:  20
   overflow: auto
-  padding-bottom: $footer-height
 
   %absolute-layout-mode &
     position: absolute
     top:      55px
     height: calc(100% - 55px)
     overflow: visible
-    padding-bottom: 5px
-    border-bottom-width: 5px
-    border-bottom-style: solid
-    @include varprop(border-bottom-color, footer-bg-color)
 
     #content-wrapper
       &.hidden-navigation
@@ -97,7 +92,8 @@ body
     position:   absolute
     height:     100%
     width: calc(100% - #{$main-menu-width})
-    margin-left: $main-menu-width
+    width: calc(100% - var(--main-menu-width))
+    @include varprop(margin-left, main-menu-width)
     // Needed for Safari
     left: 0
 

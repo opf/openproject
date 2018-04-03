@@ -1309,6 +1309,7 @@ en:
   label_open_menu: "Open menu"
   label_open_work_packages: "open"
   label_open_work_packages_plural: "open"
+  label_openproject_website: "OpenProject website"
   label_optional_description: "Description"
   label_options: "Options"
   label_other: "Other"

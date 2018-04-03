@@ -28,26 +28,27 @@
 
 $toggler-width: 40px
 
+
 #main-menu
   bottom: auto
-  width: $main-menu-width
+  @include varprop(width, main-menu-width)
+  @include varprop(min-width, main-menu-width)
   float: left
   left: 0
   border-right: $main-menu-border-width solid $main-menu-border-color
 
   // min-height is full height minus header and footer.
-  min-height: calc(100vh - 55px - 55px)
+  min-height: calc(100vh - 55px)
 
   @include varprop(background-color, main-menu-bg-color)
   @include default-transition
 
   #menu-sidebar
-    // 40px is the height of the toggler
-    height: calc(100% - 40px)
+    height: 100%
+    
   %absolute-layout-mode &
+
     position: relative
-    // In WP list, the footer is just a 5px border:
-    height: calc(100vh - 55px - 5px)
 
     #menu-sidebar
       +allow-vertical-scrolling
@@ -113,8 +114,9 @@ $toggler-width: 40px
             @extend .small-12
 
           a:not(:only-child):first-of-type
-            @extend .small-10
-
+            flex: 0 0 calc(100% - 40px)
+            max-width: calc(100% - 40px)
+            
         .open .toggler
           .icon-toggler:before
             @include icon-mixin-arrow-up1
@@ -194,30 +196,38 @@ $toggler-width: 40px
     float: left
 
   #toggle-project-menu
-    border-width: $main-menu-item-border-width 0 $main-menu-item-border-width $main-menu-item-border-width
-    border-style: solid
-    border-color: $main-menu-item-border-color
-    height: $main-menu-item-height
-    width: calc(#{$main-menu-width} - 1px)
+    border: none
+    background: none
+    height: 100vh
+    width: 18px
+    position: fixed
+    top: 0px
+    left: calc(#{$main-menu-width} - 1px)
+    left: calc(var(--main-menu-width) - 1px)
+    vertical-align: middle
 
-    @include varprop(background-color, main-menu-bg-color)
+    %absolute-layout-mode &
+      z-index: 100
+
     @include default-transition
     &:hover
-      @include varprop(background, main-menu-bg-hover-background)
+      border-left-width: 2px
+      border-left-style: solid
+      @include varprop(border-left-color, primary-color)
     &.show
-      width: calc(#{$main-menu-folded-width} - 1px)
+      left: calc(#{$main-menu-folded-width} - 1px)
       a.navigation-toggler
-        height: 100%
-        padding: 0 10px 0 0
         i:before
-          @include icon-mixin-double-arrow-right
+          @include icon-mixin-arrow-right2
     a.navigation-toggler
       @include default-transition
-      position: relative
-      height: $main-menu-item-height
+      position: absolute
+      top: 0
+      height: 40px
+      width: 16px
       text-align: right
-      padding: 0 6px 0 0
-
+      padding: 50vh 6px 50vh 0
+      color: $gray-dark
       // Center toggle icon vertically. The element is higher than it looks like.
       line-height: 38px
       font-size: 11px
@@ -233,6 +243,7 @@ $toggler-width: 40px
 .hidden-navigation
   #main-menu
     width: $main-menu-folded-width
+    min-width: $main-menu-folded-width
     ul
       &.menu_root
         > li
