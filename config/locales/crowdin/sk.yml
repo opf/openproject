@@ -254,8 +254,8 @@ sk:
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
           will be ask to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        self: Zadajte váš login %{name} na overenie odstránenia. Po jeho odoslaní
+          bude potrebné potvrdiť svoje heslo.
     error_inactive_activation_by_mail: 'Váš účet ešte nebol aktivovaný. Ak ho chcete
       aktivovať, kliknite na odkaz, ktorý bol doručený na Vašu e-mailovú adresu.
 
@@ -437,7 +437,7 @@ sk:
         inclusion: nie je nastavená na niektorú z povolených hodnôt.
         invalid: je neplatný.
         invalid_url: nie je platnou URL adresou.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url_scheme: 'nie je podporovaný protokol (povolené: %{allowed_schemes}).'
         less_than_or_equal_to: musí byť menšie alebo rovné ako %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -2272,7 +2272,7 @@ sk:
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
     notifications by the same amount of time.
-  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
@@ -2662,7 +2662,7 @@ sk:
         or malformed.
       multipart_body_error: Telo žiadosti neobsahuje očakávaný viacnásobné časti.
       multiple_errors: Boli porušené obmedzenia voči viacerým poliam.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Prílohu sa nepodarilo vytvoriť
       render:
         context_not_parsable: Zadaný kontext nie je odkazom na prostriedok.
         unsupported_context: Zadaný prostriedok nie je podporovaný ako kontext.

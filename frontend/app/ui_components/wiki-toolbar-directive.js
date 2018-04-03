@@ -28,14 +28,10 @@
 
 module.exports = function() {
   var help_link_title = I18n.t('js.inplace.link_formatting_help');
-  var HELP_LINK_ONCLICK = 'window.open(&quot;' + window.appBasePath + '/help/wiki_syntax&quot;, &quot;&quot;, ' +
-                          '&quot;resizable=yes, location=no, width=600, height=640, ' +
-                          'menubar=no, status=no, scrollbars=yes&quot;); return false;',
       HELP_LINK_HTML = jQuery('<button title="' + help_link_title + '"' +
-                              ' class="jstb_help" ' +
+                              ' class="jstb_help formatting-help-link-button" ' +
                               ' type="button" ' +
-                              ' aria-label="' + help_link_title + '"' +
-                              'onclick="' + HELP_LINK_ONCLICK + '"></button>')[0],
+                              ' aria-label="' + help_link_title + '"></button>')[0],
       PREVIEW_ENABLE_TEXT = I18n.t('js.inplace.btn_preview_enable'),
       PREVIEW_DISABLE_TEXT = I18n.t('js.inplace.btn_preview_disable'),
       PREVIEW_BUTTON_CLASS = 'jstb_preview',

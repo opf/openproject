@@ -28,7 +28,7 @@
 
 class ClearIdentityUrlsOnUsers < ActiveRecord::Migration[5.1]
   def up
-    create_table 'legacy_user_identity_urls' do |t|
+    create_table 'legacy_user_identity_urls', id: :integer do |t|
       t.string 'login', limit: 256, default: '',    null: false
       t.string 'identity_url'
     end

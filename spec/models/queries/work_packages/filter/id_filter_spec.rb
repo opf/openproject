@@ -57,7 +57,7 @@ describe Queries::WorkPackages::Filter::IdFilter, type: :model do
           expect(instance).to be_available
         end
 
-        it 'is fals if no work package exists/ is visible' do
+        it 'is false if no work package exists/ is visible' do
           allow(WorkPackage)
             .to receive_message_chain(:visible, :for_projects, :exists?)
             .with(no_args)
@@ -105,8 +105,18 @@ describe Queries::WorkPackages::Filter::IdFilter, type: :model do
     end
 
     describe '#value_object' do
-      it 'raises an error' do
-        expect { instance.value_objects }.to raise_error NotImplementedError
+      let(:visible_wp) { FactoryGirl.build_stubbed(:work_package) }
+
+      it 'returns the work package for the values' do
+        allow(WorkPackage)
+          .to receive_message_chain(:visible, :for_projects, :find)
+          .with(no_args)
+          .with(project)
+          .with(instance.values)
+          .and_return([visible_wp])
+
+        expect(instance.value_objects)
+          .to match_array [visible_wp]
       end
     end
 

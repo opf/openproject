@@ -77,7 +77,7 @@ See docs/COPYRIGHT.rdoc for more details.
                           class="member-<%= membership.id %>--edit-toggle-item">
                       <%=h membership.roles.sort.collect(&:to_s).join(', ') %>
                     </span>
-                    <%= labelled_tabular_form_for(:membership, remote: true,
+                    <%= labelled_tabular_form_for(:membership,
                                                   url: user_membership_path(user_id: @user, id: membership),
                                                   html: { id: "member-#{membership.id}-roles-form",
                                                           class: "member-#{membership.id}--edit-toggle-item",
@@ -91,7 +91,8 @@ See docs/COPYRIGHT.rdoc for more details.
                                                        membership.roles.include?(role),
                                                        role.name,
                                                        disabled: membership.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?},
-                                                       no_label: true
+                                                       no_label: true,
+                                                       id: nil
                             %>
                             <%= role %>
                             </label>
@@ -110,7 +111,6 @@ See docs/COPYRIGHT.rdoc for more details.
                                          class: "member-#{membership.id}--edit-toggle-item user-memberships--edit-button" %>
                     <%= link_to(icon_wrapper('icon icon-remove', t(:button_remove)),
                                 user_membership_path(user_id: @user, id: membership),
-                                remote: true,
                                 method: :delete) if membership.deletable? %>
                   </td>
                 </tr>
@@ -128,7 +128,6 @@ See docs/COPYRIGHT.rdoc for more details.
     <% if projects.any? %>
       <%= labelled_tabular_form_for(:membership,
                                     url: user_memberships_path(user_id: @user),
-                                    remote: true,
                                     html: {id: "new_project_membership"}) do %>
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%=l(:label_project_new)%></legend>

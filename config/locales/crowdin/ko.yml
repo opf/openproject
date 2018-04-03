@@ -2114,7 +2114,7 @@ ko:
   text_journal_added: "%{label} %{value} 추가됨"
   text_journal_aggregation_time_explanation: 해당 기간 차이가 지정된 시간 간격보다 적은 경우 표시를 위해 저널을
     결합합니다. 또한 이렇게 하면 동일한 시간까지 메일 알림이 지연됩니다.
-  text_journal_changed: "%{label}이(가) %{old}에서 %{new}(으)로 변경되었습니다."
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} 업데이트됨"
   text_journal_changed_with_diff: "%{label} 변경됨(%{link})"
   text_journal_deleted: "%{label} 삭제됨(%{old})"

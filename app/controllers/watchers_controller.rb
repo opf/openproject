@@ -64,24 +64,6 @@ class WatchersController < ApplicationController
 
   def set_watcher(user, watching)
     @watched.set_watcher(user, watching)
-
-    respond_to do |format|
-      format.html do redirect_to :back end
-      format.js do
-        if params[:replace].present?
-          if params[:replace].is_a? Array
-            @replace_selectors = params[:replace]
-          else
-            @replace_selectors = params[:replace].split(',').map(&:strip)
-          end
-        else
-          @replace_selectors = ['#watcher']
-        end
-        @user = user
-        render template: 'watchers/set_watcher'
-      end
-    end
-  rescue ::ActionController::RedirectBackError
-    render text: (watching ? 'Watcher added.' : 'Watcher removed.'), layout: true
+    redirect_back(fallback_location: home_url)
   end
 end

@@ -47,7 +47,7 @@ class CategoriesController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_create)
-          redirect_to controller: '/projects', action: 'settings', tab: 'categories', id: @project
+          redirect_to controller: '/project_settings', action: 'show', tab: 'categories', id: @project
         end
         format.js do
           render locals: { project: @project, category: @category }
@@ -69,7 +69,7 @@ class CategoriesController < ApplicationController
     @category.attributes = permitted_params.category
     if @category.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to controller: '/projects', action: 'settings', tab: 'categories', id: @project
+      redirect_to controller: '/project_settings', action: 'show', tab: 'categories', id: @project
     else
       render action: 'edit'
     end
@@ -80,12 +80,12 @@ class CategoriesController < ApplicationController
     if @issue_count == 0
       # No issue assigned to this category
       @category.destroy
-      redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'categories'
+      redirect_to controller: '/project_settings', action: 'show', id: @project, tab: 'categories'
       return
     elsif params[:todo]
       reassign_to = @project.categories.find_by(id: params[:reassign_to_id]) if params[:todo] == 'reassign'
       @category.destroy(reassign_to)
-      redirect_to controller: '/projects', action: 'settings', id: @project, tab: 'categories'
+      redirect_to controller: '/project_settings', action: 'show', id: @project, tab: 'categories'
       return
     end
     @categories = @project.categories - [@category]

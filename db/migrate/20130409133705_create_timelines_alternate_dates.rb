@@ -29,7 +29,7 @@
 
 class CreateTimelinesAlternateDates < ActiveRecord::Migration[5.1]
   def self.up
-    create_table(:timelines_alternate_dates) do |t|
+    create_table(:timelines_alternate_dates, id: :integer) do |t|
       t.column :start_date, :date, null: false
       t.column :end_date,   :date, null: false
 

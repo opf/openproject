@@ -111,6 +111,9 @@ gem 'rack-protection', '~> 2.0.0'
 # https://github.com/kickstarter/rack-attack
 gem 'rack-attack', '~> 5.0.1'
 
+# CSP headers
+gem 'secure_headers', '~> 5.0.5'
+
 # Providing health checks
 gem 'okcomputer', '~> 1.16.0'
 
@@ -195,14 +198,14 @@ group :test do
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
   # not possible to upgrade to 3.6+ until rails is 5.1+
-  gem 'rspec', '~> 3.5.0'
+  gem 'rspec', '~> 3.7.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 3.5.2', group: :development
+  gem 'rspec-rails', '~> 3.7.2', group: :development
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.0'
-  gem 'rspec-retry', '~> 0.5.5'
+  gem 'rspec-retry', '~> 0.5.6'
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
@@ -210,12 +213,11 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 2.15.0'
+  gem 'capybara', '~> 2.18.0'
   gem 'capybara-screenshot', '~> 1.0.14'
   gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
-  gem 'capybara-ng', '~> 0.2.7'
-  gem 'selenium-webdriver', '~> 3.6'
+  gem 'selenium-webdriver', '~> 3.11'
   gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.1.0', require: false
 
@@ -272,8 +274,7 @@ group :opf_plugins do
 end
 
 group :docker, optional: true do
-  gem 'passenger'
-
+  gem 'passenger', '~> 5.2'
   # Used to easily precompile assets
   gem 'sqlite3', require: false
   gem 'rails_12factor', require: !!ENV['HEROKU']

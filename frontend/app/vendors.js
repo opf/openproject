@@ -53,12 +53,10 @@ require('expose-loader?dragula!dragula/dist/dragula.min.js');
 require('angular-animate/angular-animate.min.js');
 require('angular-aria/angular-aria.min.js');
 require('angular-cache/dist/angular-cache.min.js');
-require('angular-context-menu/dist/angular-context-menu.min.js');
 require('angular-dragula/dist/angular-dragula.min.js');
 require('angular-elastic');
 require('angular-modal/modal.min.js');
 require('angular-sanitize/angular-sanitize.min.js');
-require('angular-truncate/src/truncate.js');
 require('@uirouter/angular-hybrid');
 require('ng-file-upload/dist/ng-file-upload.min.js');
 

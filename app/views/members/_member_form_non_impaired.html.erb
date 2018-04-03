@@ -33,7 +33,8 @@ See docs/COPYRIGHT.rdoc for more details.
                      method: :post,
                      html: {id: "members_add_form", class: "form -vertical -bordered -medium-compressed"}) do |f| %>
 
-  <a title="{{ ::I18n.t('js.close_form_title') }}" class="form--close icon-context icon-close" onClick="hideAddMemberForm()"></a>
+  <a title="{{ ::I18n.t('js.close_form_title') }}" class="hide-add-member-form-link form--close icon-context icon-close"></a>
+  <% csp_onclick('hideAddMemberForm()', '.hide-add-member-form-link') %>
   <div id="new-member-message"></div>
   <div class="grid-block">
     <div class="grid-content medium-5 small-12 collapse -flex">

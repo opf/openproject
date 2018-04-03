@@ -63,16 +63,16 @@ es:
   custom_actions:
     actions:
       name: Acciones
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+      add: Añadir Acción
+    conditions: Condiciones
+    plural: Acciones personalizadas
+    new: Nueva Acción personalizada
+    edit: Editar Accion Personalizada %{name}
+    execute: Ejecutar %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: Las Acciones personalizadas son una característica de la Enterprise Edition
+      description: Las Acciones personalizadas agilizan el trabajo diario mediante
+        la combinación de un conjunto de pasos individuales en un único botón.
   custom_fields:
     text_add_new_custom_field: 'Para agregar nuevos campos personalizados a un proyecto,
       primero debe crearlos, y luego añadirlos a este proyecto.
@@ -469,12 +469,13 @@ es:
           at_least_one_custom_option: Como mínimo, tiene que estar disponible una
             opción.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: Solo se permite un valor (%{name}).
+          empty: El valor (%{name}) no puede estar vacío.
+          inclusion: El valor (%{name}) no se ha establecido en uno de los valores
+            permitidos.
+          not_an_integer: "(%{name}) no es un número entero."
+          smaller_than_or_equal_to: "(%{name}) debe ser menor o igual que %{count}."
+          greater_than_or_equal_to: "(%{name}) debe ser mayor o igual que %{count}."
         enterprise_token:
           unreadable: no se puede leer. ¿Seguro que es un token de apoyo?
         parse_schema_filter_params_service:
@@ -590,7 +591,7 @@ es:
       attribute_help_text: Texto de ayuda para atributo
       board: Foro
       comment: Comentario
-      custom_action: Custom action
+      custom_action: Acción personalizada
       custom_field: Campo personalizado
       group: Grupo
       category: Categoría
@@ -1024,12 +1025,12 @@ es:
       pdf_with_descriptions: PDF con descripciones
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotext disponible (opcional)
+      unrtf: Unrtf disponible (opcional)
+      catdoc: Catdoc disponible (opcional)
+      xls2csv: Xls2csv disponible (opcional)
+      catppt: Catppt disponible (opcional)
+      tesseract: Tesseract disponible (opcional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1069,7 +1070,7 @@ es:
       boards: Foro de la comunidad
       newsletter: Alertas de seguridad / boletín
   links:
-    configuration_guide: Configuration guide
+    configuration_guide: Guía de configuración
   instructions_after_registration: Podras entrar tan pronto como tu cuenta halla sido
     activada haciendo clic sobre %{signin}.
   instructions_after_logout: Puedes entrar nuevamente haciendo clic sobre  %{signin}.
@@ -2108,7 +2109,7 @@ es:
   setting_file_max_size_displayed: Tamaño máximo de archivos de texto mostrado en
     linea
   setting_host_name: Nombre de host
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: El e-mail de activación expira después de
   setting_work_package_done_ratio: Calcular la relacion de paquete de trabajo hecho
     con
   setting_work_package_done_ratio_field: Usar el campo de paquete de trabajo
@@ -2178,7 +2179,7 @@ es:
   setting_accessibility_mode_for_anonymous: Activar el modo de accesibilidad para
     usuarios anónimos
   setting_user_format: Formato de visualización de usuarios
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: Zona horaria por defecto de los usuarios
   setting_users_deletable_by_admins: Cuentas de usuario eliminables por administradores
   setting_users_deletable_by_self: Permitir a los usuarios eliminar sus propias cuentas
   setting_welcome_text: Bloque de texto de bienvenida
@@ -2254,7 +2255,7 @@ es:
     transparente, ya que tendrá una apariencia poco adecuada en iOS.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: La Base de datos permite TSVector (opcional)
   text_default_administrator_account_changed: Se ha cambiado la cuenta de administrador
     por defecto
   text_default_encoding: 'Por defecto: UTF-8'
@@ -2294,7 +2295,7 @@ es:
   text_journal_aggregation_time_explanation: Combinar revistas para mostrar sí su
     diferencia de edad es menor que el intervalo de tiempo especificado. Esto también
     retrasará las notificaciones por correo la misma cantidad de tiempo.
-  text_journal_changed: "%{label} cambiada del %{old} al %{new}"
+  text_journal_changed: "%{label} cambiada de %{old} </br><strong>a</strong> %{new}"
   text_journal_changed_no_detail: "% {label} actualizado"
   text_journal_changed_with_diff: "%{label} modificado (% {link})"
   text_journal_deleted: "%{label} eliminado (% {old})"
@@ -2553,8 +2554,8 @@ es:
       quarters: Cuatrimestres
       years: Años
   title_remove_and_delete_user: Eliminar al usurio invitado del proyecto y eliminarlo.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'La zona horaria por defecto para los nuevos usuarios.
+    Puede ser modificada en la configuración del usuario.
 
 '
   tooltip_resend_invitation: 'Envía otro correo electrónico de invitación con un token
@@ -2628,9 +2629,11 @@ es:
     por %{configuration}.
   warning: Alerta
   warning_attachments_not_saved: "%{count} archivo(s) no podrán ser salvados."
-  warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+  warning_registration_token_expired: 'El e-mail de activación ha expirado. Le enviaremos
+    uno nuevo a %{email}. Por favor haga click en el enlace incluido en el mismo para
+    activar su cuenta.
+
+'
   menu_item: Elemento de menú
   menu_item_setting: Visibilidad
   wiki_menu_item_for: Elemento de menú para wiki '%{title}'

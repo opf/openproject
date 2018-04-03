@@ -54,33 +54,9 @@ module WatchersHelper
       l(:button_watch)
 
     link_to(content_tag(:i,'', class: watched ? 'button--icon icon-watched' : ' button--icon icon-unwatched') + ' ' +
-      content_tag(:span, label, class: 'button--text'), path, html_options.merge(remote: true, method: method))
+      content_tag(:span, label, class: 'button--text'), path, html_options.merge(method: method))
 
 
 
-  end
-
-  # Returns HTML for a list of users watching the given object
-  def watchers_list(object)
-    remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
-    lis = object.watcher_users.sort.map { |user|
-      watcher = object.watchers(true).find { |u| u.user_id == user.id }
-      content_tag :li do
-        avatar(user, class: 'avatar-mini') +
-        link_to_user(user, class: 'user') +
-        if remove_allowed
-          ' '.html_safe + link_to(icon_wrapper('icon-context icon-close delete-ctrl',
-                                               l(:button_delete_watcher, name: user.name)),
-                                  watcher_path(watcher),
-                                  method: :delete,
-                                  remote: true,
-                                  title: l(:button_delete_watcher, name: user.name),
-                                  class: 'delete no-decoration-on-hover')
-        else
-          ''.html_safe
-        end
-      end
-    }
-    lis.empty? ? ''.html_safe : content_tag(:ul, lis.reduce(:+))
   end
 end

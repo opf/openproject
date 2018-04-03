@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%# TODO Remove when not needed any more %>
-<script type="text/javascript">
+<%= nonced_javascript_tag do %>
   //<![CDATA[
   function add_filter() {
     var select = jQuery('#add_filter_select');
@@ -102,7 +102,7 @@ See docs/COPYRIGHT.rdoc for more details.
   jQuery(apply_filters_observer);
 
   //]]>
-</script>
+<% end %>
 <ul class="advanced-filters--filters">
   <% query
       .available_filters
@@ -114,7 +114,8 @@ See docs/COPYRIGHT.rdoc for more details.
       <li <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter advanced-filters--filter">
         <% label_value = filter.human_name || WorkPackage.human_attribute_name(filter.class.key) %>
         <label class="advanced-filters--filter-name" title="<%= label_value %>">
-          <%= check_box_tag 'f[]', field, query.has_filter?(field), onclick: "toggle_filter('#{field}');", id: "cb_#{field}" %>
+          <%= check_box_tag 'f[]', field, query.has_filter?(field), id: "cb_#{field}" %>
+          <% csp_onclick("toggle_filter('#{field}');", "#cb_#{field}") %>
           <%= label_value %>
         </label>
         <div class="advanced-filters--filter-operator">
@@ -159,9 +160,9 @@ See docs/COPYRIGHT.rdoc for more details.
               <label for='<%= "values_#{field}" %>' class='hidden-for-sighted'><%= l(:description_enter_number) %></label>
           <% end %>
         </div>
-        <script type="text/javascript">
+        <%= nonced_javascript_tag do %>
           toggle_filter('<%= field %>');
-        </script>
+        <% end %>
       </li>
   <% end %>
 

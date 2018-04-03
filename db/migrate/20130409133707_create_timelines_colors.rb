@@ -29,7 +29,7 @@
 
 class CreateTimelinesColors < ActiveRecord::Migration[5.1]
   def self.up
-    create_table(:timelines_colors) do |t|
+    create_table(:timelines_colors, id: :integer) do |t|
       t.column :name,    :string, null: false
       t.column :hexcode, :string, null: false, length: 7
 

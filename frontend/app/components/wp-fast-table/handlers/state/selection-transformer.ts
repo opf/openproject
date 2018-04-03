@@ -1,6 +1,7 @@
 import {Injector} from '@angular/core';
 import {FocusHelperToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {takeUntil} from 'rxjs/operators';
 import {States} from '../../../states.service';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {checkedClassName} from '../../builders/ui-state-link-builder';
@@ -8,6 +9,7 @@ import {locateTableRow, scrollTableRowIntoView} from '../../helpers/wp-table-row
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {WPTableRowSelectionState} from '../../wp-table.interfaces';
+import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 
 export class SelectionTransformer {
 
@@ -15,13 +17,16 @@ export class SelectionTransformer {
   public wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
   public states:States = this.injector.get(States);
   public FocusHelper:any = this.injector.get(FocusHelperToken);
+  public opContextMenu:OPContextMenuService = this.injector.get(OPContextMenuService);
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
 
     // Focus a single selection when active
     this.states.globalTable.rendered.values$()
-      .takeUntil(this.states.globalTable.stopAllSubscriptions)
+      .pipe(
+        takeUntil(this.states.globalTable.stopAllSubscriptions)
+      )
       .subscribe(() => {
 
         this.wpTableFocus.ifShouldFocus((wpId:string) => {
@@ -36,7 +41,9 @@ export class SelectionTransformer {
 
     // Update selection state
     this.wpTableSelection.selectionState.values$()
-      .takeUntil(this.states.globalTable.stopAllSubscriptions)
+      .pipe(
+        takeUntil(this.states.globalTable.stopAllSubscriptions)
+      )
       .subscribe((state:WPTableRowSelectionState) => {
         this.renderSelectionState(state);
       });
@@ -46,12 +53,14 @@ export class SelectionTransformer {
       this.wpTableSelection.selectAll(table.renderedRows);
 
       e.preventDefault();
+      this.opContextMenu.close();
       return false;
     });
 
     // Bind CTRL+D to deselect all work packages
     Mousetrap.bind(['command+d', 'ctrl+d'], (e) => {
       this.wpTableSelection.reset();
+      this.opContextMenu.close();
       e.preventDefault();
       return false;
     });

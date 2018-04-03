@@ -36,7 +36,6 @@ See docs/COPYRIGHT.rdoc for more details.
       <button id="add-member-button"
               aria-label="<%= I18n.t(:button_add_member) %>"
               title="<%= I18n.t(:button_add_member) %>"
-              onClick="showAddMemberForm()"
               class="button -alt-highlight"
               <%= params[:show_add_members] ? 'data-trigger-initially="true"' : '' %> >
         <%= op_icon('button--icon icon-add') %>
@@ -46,7 +45,10 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
   <% if any_members %>
     <li class="toolbar-item">
-      <button id="filter-member-button" focus title="<%= I18n.t(:description_filter) %>" onClick="toggleMemberFilter()" class="button">
+      <button id="filter-member-button"
+              focus
+              title="<%= I18n.t(:description_filter) %>"
+              class="toggle-member-filter-link button">
         <%= op_icon('button--icon icon-filter') %>
       </button>
     </li>

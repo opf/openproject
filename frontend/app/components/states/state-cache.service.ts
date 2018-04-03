@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -25,20 +25,8 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {SchemaCacheService} from './../schemas/schema-cache.service';
+
 import {InputState, MultiInputState, State} from 'reactivestates';
-import {Observable, Subject} from 'rxjs';
-import {opWorkPackagesModule} from '../../angular-modules';
-import {
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
-import {States} from '../states.service';
-import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
-import IScope = angular.IScope;
-import IPromise = angular.IPromise;
-import {WorkPackageCollectionResourceInterface} from '../api/api-v3/hal-resources/wp-collection-resource.service';
-import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
 
 export abstract class StateCacheService<T> {
   private cacheDurationInMs:number;

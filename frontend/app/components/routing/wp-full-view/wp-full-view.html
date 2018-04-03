@@ -41,12 +41,9 @@
           </li>
           <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
             <button class="button dropdown-relative toolbar-icon"
-                    [disabled]="!actionsAvailable"
                     [attr.title]="text.full_view.button_more"
-
-                    hasDropdownMenu
-                    [hasDropdownMenu-locals]="{'permittedActions': permittedActions,'actionsAvailable': actionsAvailable, 'triggerMoreMenuAction': triggerMoreMenuAction}"
-                    [hasDropdownMenu-target]="'ShowMoreDropdownMenu'">
+                    wpSingleContextMenu
+                    [wpSingleContextMenu-workPackage]="workPackage">
               <op-icon icon-classes="button--icon icon-show-more"></op-icon>
             </button>
           </li>

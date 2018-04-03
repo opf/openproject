@@ -113,7 +113,10 @@ module OpenProject
       'after_login_default_redirect_url' => nil,
       'after_first_login_redirect_url' => nil,
 
-      'main_content_language' => 'english'
+      'main_content_language' => 'english',
+
+      # Allow in-context translations to be loaded with CSP
+      'crowdin_in_context_translations' => true
     }
 
     @config = nil
@@ -286,13 +289,8 @@ module OpenProject
           when :smtp
             ActionMailer::Base.perform_deliveries = true
             ActionMailer::Base.delivery_method = Setting.email_delivery_method
-            %w{address port domain authentication user_name password}.each do |setting|
-              value = Setting["smtp_#{setting}".to_sym]
-              if value.present?
-                ActionMailer::Base.smtp_settings[setting.to_sym] = value
-              end
-            end
-            ActionMailer::Base.smtp_settings[:enable_starttls_auto] = Setting.smtp_enable_starttls_auto?
+
+            reload_smtp_settings!
           when :sendmail
             ActionMailer::Base.perform_deliveries = true
             ActionMailer::Base.delivery_method = Setting.email_delivery_method
@@ -323,6 +321,33 @@ module OpenProject
       end
 
       private
+
+      def reload_smtp_settings!
+        # Correct smtp settings when using authentication :none
+        authentication = Setting.smtp_authentication.try(:to_sym)
+        keys = %i[address port domain authentication user_name password]
+        if authentication == :none
+          # Rails Mailer will croak if passing :none as the authentication.
+          # Instead, it requires to be removed from its settings
+          ActionMailer::Base.smtp_settings.delete :user_name
+          ActionMailer::Base.smtp_settings.delete :password
+          ActionMailer::Base.smtp_settings.delete :authentication
+
+          keys = %i[address port domain]
+        end
+
+        keys.each do |setting|
+          value = Setting["smtp_#{setting}"]
+          if value.present?
+            ActionMailer::Base.smtp_settings[setting] = value
+          else
+            ActionMailer::Base.smtp_settings.delete setting
+          end
+        end
+
+        ActionMailer::Base.smtp_settings[:enable_starttls_auto] = Setting.smtp_enable_starttls_auto?
+      end
+
 
       ##
       # The default source for overriding configuration values

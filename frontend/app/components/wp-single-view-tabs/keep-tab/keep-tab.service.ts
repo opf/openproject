@@ -26,12 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ReplaySubject} from "rxjs";
-import {Transition, StateService, TransitionService} from '@uirouter/core';
+import {StateService, Transition, TransitionService} from '@uirouter/core';
+import {ReplaySubject} from 'rxjs/ReplaySubject';
+
 export class KeepTabService {
   protected currentTab:string = 'overview';
 
-  protected subject = new ReplaySubject<{ [tab: string]: string; }>(1);
+  protected subject = new ReplaySubject<{ [tab:string]:string; }>(1);
 
   constructor(public $state:StateService,
               protected $transitions:TransitionService) {

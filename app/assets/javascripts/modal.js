@@ -260,3 +260,10 @@ var ModalHelper = (function() {
   return ModalHelper;
 })();
 var modalHelperInstance = new ModalHelper();
+
+// Open help modal
+jQuery(function() {
+  jQuery('.help-link-shortcuts-link').click(function() {
+    modalHelperInstance.createModal('/help/keyboard_shortcuts');
+  });
+});

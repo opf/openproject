@@ -45,6 +45,7 @@ feature 'Group memberships through groups page', type: :feature do
   shared_examples 'errors when adding members' do
     scenario 'adding a role without a principal, non impaired', js: true do
       members_page.visit!
+      expect_angular_frontend_initialized
       members_page.add_user! nil, as: 'Manager'
 
       expect(page).to have_text 'choose at least one user or group'

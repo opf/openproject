@@ -27,9 +27,13 @@
 // ++
 
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {StateService, StateParams, TransitionService} from '@uirouter/core';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {StateService, TransitionService} from '@uirouter/core';
+import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {auditTime, distinctUntilChanged, filter, withLatestFrom} from 'rxjs/operators';
+import {auditTime, distinctUntilChanged, filter, take, withLatestFrom} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
@@ -47,10 +51,6 @@ import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.se
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
-import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
-import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
-import {downgradeComponent} from '@angular/upgrade/static';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 @Component({
   selector: 'wp-list',
@@ -64,7 +64,6 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   text = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
     'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination'),
-    'search_query_title': this.I18n.t('js.toolbar.search_query_title'),
     'button_settings': this.I18n.t('js.button_settings')
   };
 
@@ -127,7 +126,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     this.wpTableRefresh.clear('Table controller scope destroyed.');
   }
 
-  public allowed(model:string, permission:string)  {
+  public allowed(model:string, permission:string) {
     return this.authorisationService.can(model, permission);
   }
 
@@ -145,8 +144,10 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   }
 
   private setupQueryObservers() {
-    this.states.tableRendering.onQueryUpdated.values$().pipe()
-      .take(1)
+    this.states.tableRendering.onQueryUpdated.values$()
+      .pipe(
+        take(1)
+      )
       .subscribe(() => this.tableInformationLoaded = true);
 
     // Update the title whenever the query changes

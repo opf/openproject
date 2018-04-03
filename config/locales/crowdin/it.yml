@@ -2290,7 +2290,7 @@ it:
   text_journal_aggregation_time_explanation: Aggrega i rapporti se la loro distanza
     temporale è inferiore all'intervallo di tempo specificato. Questo ritarderà inoltre
     della stessa quantità di tempo anche le notifiche via posta elettronica.
-  text_journal_changed: "%{label} cambiato da %{old} a %{new}"
+  text_journal_changed: modificato da %{old} </br><strong>in</strong> %{new} %{label}
   text_journal_changed_no_detail: "%{label} aggiornata"
   text_journal_changed_with_diff: "%{label} cambiato (%{link})"
   text_journal_deleted: "%{label} cancellato (%{old})"

@@ -1128,7 +1128,7 @@ class RedCloth3 < String
     end
 
     def textile_popup_help( name, windowW, windowH )
-        ' <a target="_blank" href="http://hobix.com/textile/#' + helpvar + '" onclick="window.open(this.href, \'popupwindow\', \'width=' + windowW + ',height=' + windowH + ',scrollbars,resizable\'); return false;">' + name + '</a><br />'
+        ' <a target="_blank" href="http://hobix.com/textile/#' + helpvar + '">' + name + '</a><br />'
     end
 
     # HTML cleansing stuff

@@ -38,30 +38,25 @@ module OpenProject::TextFormatting::Formatters
         true
       end
 
-      def wikitoolbar_for(field_id)
-        heads_for_wiki_formatter
-        url = url_for(controller: '/help', action: 'wiki_syntax')
-        open_help = "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=600, " +
-          "height=640, menubar=no, status=no, scrollbars=yes\"); return false;"
-        help_button = content_tag :button,
-                                  '',
-                                  type: 'button',
-                                  class: 'jstb_help',
-                                  onclick: open_help,
-                                  :'aria-label' => ::I18n.t('js.inplace.link_formatting_help'),
-                                  title: ::I18n.t('js.inplace.link_formatting_help')
+      heads_for_wiki_formatter
+      help_button = content_tag :button,
+                                '',
+                                type: 'button',
+                                class: 'jstb_help formatting-help-link-button',
+                                :'aria-label' => ::I18n.t('js.inplace.link_formatting_help'),
+                                title: ::I18n.t('js.inplace.link_formatting_help')
 
-        javascript_tag(<<-EOF)
-          // initialSetup the toolbar later, so that i18n-js has a chance to set the translations
-          // for the wiki-buttons first.
-          jQuery(document).ready(function(){
-            var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}'));
+      nonced_javascript_tag(<<-EOF)
+            // initialSetup the toolbar later, so that i18n-js has a chance to set the translations
+            // for the wiki-buttons first.
+            jQuery(document).ready(function(){
+              var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}'));
 
-            wikiToolbar.setHelpLink(jQuery('#{escape_javascript help_button}')[0]);
-            wikiToolbar.draw();
-          });
-        EOF
-      end
+              wikiToolbar.setHelpLink(jQuery('#{escape_javascript help_button}')[0]);
+              wikiToolbar.draw();
+            });
+      EOF
+    end
 
       def initial_page_content(_page)
         "h1. #{@page.title}"

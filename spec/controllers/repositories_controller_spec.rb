@@ -68,26 +68,6 @@ describe RepositoriesController, type: :controller do
       allow(controller).to receive(:authorize).and_return(true)
     end
 
-    shared_examples_for 'successful settings response' do
-      it 'is successful' do
-        expect(response).to be_success
-      end
-
-      it 'renders the template' do
-        expect(response).to render_template 'repositories/settings/repository_form'
-      end
-    end
-
-    context 'with #edit' do
-      before do
-        get :edit,
-            params: { project_id: project.id, scm_vendor: 'subversion' },
-            xhr: true
-      end
-
-      it_behaves_like 'successful settings response'
-    end
-
     context 'with #destroy' do
       before do
         allow(repository).to receive(:destroy).and_return(true)
@@ -104,7 +84,9 @@ describe RepositoriesController, type: :controller do
         put :update, params: { project_id: project.id }, xhr: true
       end
 
-      it_behaves_like 'successful settings response'
+      it 'redirects to settings' do
+        expect(response).to redirect_to(controller: '/project_settings', id: project.identifier, action: 'show', tab: 'repository')
+      end
     end
 
     context 'with #create' do
@@ -115,13 +97,11 @@ describe RepositoriesController, type: :controller do
                scm_vendor: 'subversion',
                scm_type: 'local',
                url: 'file:///tmp/repo.svn/'
-             },
-             xhr: true
+             }
       end
 
-      it 'renders a JS redirect' do
-        path = "\/projects\/#{project.identifier}/settings\/repository"
-        expect(response.body).to match(/window\.location = '#{path}'/)
+      it 'redirects to settings' do
+        expect(response).to redirect_to(controller: '/project_settings', id: project.identifier, action: 'show', tab: 'repository')
       end
     end
   end

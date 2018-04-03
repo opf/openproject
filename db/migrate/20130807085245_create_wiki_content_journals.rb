@@ -29,7 +29,7 @@
 
 class CreateWikiContentJournals < ActiveRecord::Migration[5.1]
   def change
-    create_table :wiki_content_journals do |t|
+    create_table :wiki_content_journals, id: :integer do |t|
       t.integer :journal_id,                         null: false
       t.integer :page_id,                            null: false
       t.integer :author_id

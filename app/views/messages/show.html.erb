@@ -45,7 +45,7 @@ See docs/COPYRIGHT.rdoc for more details.
         </li>
         <li class="toolbar-item">
           <% if !@topic.locked? && authorize_for('messages', 'reply') %>
-            <%= link_to({ action: 'quote', id: @topic }, remote: true, method: 'get', class: 'button') do %>
+            <%= link_to({ action: 'quote', id: @topic }, class: 'boards--quote-button button') do %>
               <%= op_icon('button--icon icon-quote') %>
               <span class="button--text"><%= t(:button_quote) %></span>
             <% end %>
@@ -94,10 +94,8 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="message-reply-menu">
         <%= link_to(icon_wrapper('icon-quote', t(:button_quote)),
                   { action: 'quote', id: message },
-                  remote: true,
-                  method: 'get',
                   title: t(:button_quote),
-                  class: 'button -small',
+                  class: 'button boards--quote-button -small',
                   alt: t(:button_quote)) if !@topic.locked? && authorize_for('messages', 'reply') %>
         <%= link_to(icon_wrapper('icon-edit', t(:button_edit)),
                   { action: 'edit', id: message },

@@ -38,9 +38,9 @@ See docs/COPYRIGHT.rdoc for more details.
   </section>
   <section class="form--section">
     <div class="form--field">
-      <%= setting_check_box :mail_handler_api_enabled,
-                            onclick: "jQuery('#settings_mail_handler_api_key').prop('disabled', !this.checked );"
-      %>
+      <%= setting_check_box :mail_handler_api_enabled %>
+      <% csp_onclick("jQuery('#settings_mail_handler_api_key').prop('disabled', !this.checked );",
+                     '#settings_mail_handler_api_enabled') %>
       <div class="form--field-instructions">
         <%= t(:setting_mail_handler_api_description) %>
       </div>

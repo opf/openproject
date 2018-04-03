@@ -75,10 +75,17 @@ class WorkPackageField
     expect(field_container)
       .to have_selector(field_type, wait: 10),
           "Expected WP field input type '#{field_type}' for attribute '#{property_name}'."
+
+    # Also ensure the element is not disabled
+    expect_enabled!
   end
 
   def expect_inactive!
     expect(field_container).to have_no_selector("#{field_type}")
+  end
+
+  def expect_enabled!
+    expect(@context).to have_no_selector "#{@selector} #{input_selector}[disabled]"
   end
 
   def expect_invalid
@@ -101,6 +108,8 @@ class WorkPackageField
   # Set or select the given value.
   # For fields of type select, will check for an option with that value.
   def set_value(content)
+    scroll_to_element(input_element)
+
     if input_element.tag_name == 'select'
       input_element.find(:option, content).select_option
     else

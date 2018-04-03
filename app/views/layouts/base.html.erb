@@ -68,12 +68,12 @@ See docs/COPYRIGHT.rdoc for more details.
         <% end %>
       <% end %>
     <% end %>
-    <% if ::I18n.locale == :lol #the in-context translation pseudo-language %>
-      <script type="text/javascript">
+    <% if OpenProject::Configuration.crowdin_in_context_translations? && ::I18n.locale == :lol #the in-context translation pseudo-language %>
+      <%= nonced_javascript_tag do %>
         var _jipt = [];
             _jipt.push(['project', 'openproject']);
-      </script>
-      <script type="text/javascript" src="//cdn.crowdin.com/jipt/jipt.js"></script>
+      <% end %>
+      <script type="text/javascript" src="https://cdn.crowdin.com/jipt/jipt.js"></script>
     <% end %>
   </head>
   <body class="<%= body_css_classes %>" data-relative_url_root="<%= root_path %>" ng-init="projectIdentifier = '<%= (@project.identifier rescue '') %>'">
@@ -100,8 +100,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <h1 class="hidden-for-sighted">
                 <%= l(:label_top_menu) %>
               </h1>
-              <a href="" onclick="skipMenu();"
-                  class="hidden-for-sighted skip-navigation-link"
+              <a href="" class="hidden-for-sighted skip-navigation-link"
                   aria-label="<%= I18n.t('js.work_packages.jump_marks.label_content') %>">
                     <%= I18n.t('js.work_packages.jump_marks.content') %>
               </a>
@@ -126,7 +125,7 @@ See docs/COPYRIGHT.rdoc for more details.
             <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
             <div id="toggle-project-menu"
           ng-class="{ 'show': !showNavigation }">
-              <a href="javascript:;"
+              <a href="#"
                  title="<%= l(:show_hide_project_menu) %>"
                  class="navigation-toggler"
                  ng-click="mainMenu.toggleNavigation()">
@@ -184,13 +183,18 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
     <%# Properly decides main menu expanded state before its drawn. Fixes flickering side menu
         where menu is first expanded, then being collapsed in angular. %>
-    <%= javascript_tag do %>
+    <%= nonced_javascript_tag do %>
     (function($) {
       var wrapper = $('#wrapper');
       if (window.sessionStorage.getItem('openproject:navigation-toggle') === 'collapsed') {
         $('.can-hide-navigation').addClass('hidden-navigation');
       }
       wrapper.show();
+
+
+      // Wrapper for page-specific JS from deprecated inline functions
+      // no longer available with CSP.
+      <%= content_for :additional_js_dom_ready %>
     }(jQuery));
     <% end %>
     <% if (show_decoration) %>

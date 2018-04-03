@@ -2038,7 +2038,7 @@ ja:
   text_work_packages_ref_in_commit_messages: コミットメッセージ内で作業項目の参照/修正
   text_journal_added: "%{label}で%{value}を追加"
   text_journal_aggregation_time_explanation: 発生時刻の差が指定された期間内であれば、履歴記述を集計して表示する。またメールの通知がこの期間で遅らせます。
-  text_journal_changed: "%{label}を%{old}から%{new}に変更"
+  text_journal_changed: "%{label} が %{old} </br><strong>から</strong> %{new} に変更されました"
   text_journal_changed_no_detail: "%{label}を更新"
   text_journal_changed_with_diff: "%{label}を変更（%{link}）"
   text_journal_deleted: "%{label}を削除（%{old}）"

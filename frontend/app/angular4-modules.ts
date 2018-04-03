@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {NgModule} from '@angular/core';
+import {InjectionToken, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -34,8 +34,6 @@ import {TablePaginationComponent} from 'core-app/components/table-pagination/tab
 import {AccessibleByKeyboardDirectiveUpgraded} from 'core-app/ui_components/accessible-by-keyboard-directive-upgraded';
 import {SimpleTemplateRenderer} from 'core-components/angular/simple-template-renderer';
 import {OpIcon} from 'core-components/common/icon/op-icon';
-import {ContextMenuService} from 'core-components/context-menus/context-menu.service';
-import {HasDropdownMenuDirective} from 'core-components/context-menus/has-dropdown-menu/has-dropdown-menu-directive';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {States} from 'core-components/states.service';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
@@ -70,16 +68,20 @@ import {
   $rootScopeToken,
   $stateToken,
   $timeoutToken,
-  columnsModalToken,
-  FocusHelperToken,
+  columnsModalToken, exportModalToken,
+  FocusHelperToken, groupingModalToken,
   halRequestToken,
+  HookServiceToken,
   I18nToken,
   NotificationsServiceToken,
-  PathHelperToken,
+  PathHelperToken, saveModalToken, settingsModalToken, shareModalToken, sortingModalToken,
+  timelinesModalToken,
   TimezoneServiceToken,
   upgradeService,
   upgradeServiceWithToken,
+  UrlParamsHelperToken,
   v3PathToken,
+  wpDestroyModalToken,
   wpMoreMenuServiceToken
 } from './angular4-transition-utils';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
@@ -149,13 +151,29 @@ import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy
 import {FocusWithinDirective} from 'core-components/common/focus-within/focus-within.upgraded.directive';
 import {ClickOnKeypressComponent} from 'core-app/ui_components/click-on-keypress-upgraded.component';
 import {AutocompleteSelectDecorationComponent} from 'core-components/common/autocomplete-select-decoration/autocomplete-select-decoration.component';
+import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
+import {PortalModule} from "@angular/cdk/portal";
+import {OPContextMenuComponent} from "core-components/op-context-menu/op-context-menu.component";
+import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
+import {OpTypesContextMenuDirective} from "core-components/op-context-menu/handlers/op-types-context-menu.directive";
+import {WorkPackageContextMenuHelperService} from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
+import {OpColumnsContextMenu} from "core-components/op-context-menu/handlers/op-columns-context-menu.directive";
+import {OpSettingsMenuDirective} from "core-components/op-context-menu/handlers/op-settings-dropdown-menu.directive";
+import {WorkPackageStatusDropdownDirective} from "core-components/op-context-menu/handlers/wp-status-dropdown-menu.directive";
+import {WorkPackageCreateSettingsMenuDirective} from "core-components/op-context-menu/handlers/wp-create-settings-menu.directive";
+import {WorkPackageSingleContextMenuDirective} from "core-components/op-context-menu/wp-context-menu/wp-single-context-menu";
+import {WorkPackageQuerySelectableTitleComponent} from "core-components/wp-query-select/wp-query-selectable-title.component";
+import {WorkPackageQuerySelectDropdownComponent} from "core-components/wp-query-select/wp-query-select-dropdown.component";
+import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-dm.service";
 
 @NgModule({
   imports: [
     BrowserModule,
     UpgradeModule,
     FormsModule,
-    UIRouterUpgradeModule
+    UIRouterUpgradeModule,
+    // Angular CDK
+    PortalModule
   ],
   providers: [
     GonRef,
@@ -173,6 +191,14 @@ import {AutocompleteSelectDecorationComponent} from 'core-components/common/auto
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
     upgradeServiceWithToken('TimezoneService', TimezoneServiceToken),
     upgradeServiceWithToken('v3Path', v3PathToken),
+    upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
+    upgradeServiceWithToken('sortingModal', sortingModalToken),
+    upgradeServiceWithToken('groupingModal', groupingModalToken),
+    upgradeServiceWithToken('shareModal', shareModalToken),
+    upgradeServiceWithToken('saveModal', saveModalToken),
+    upgradeServiceWithToken('settingsModal', settingsModalToken),
+    upgradeServiceWithToken('exportModal', exportModalToken),
+    upgradeServiceWithToken('timelinesModal', timelinesModalToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     upgradeService('wpCacheService', WorkPackageCacheService),
     upgradeService('wpEditing', WorkPackageEditingService),
@@ -193,22 +219,28 @@ import {AutocompleteSelectDecorationComponent} from 'core-components/common/auto
     upgradeService('wpTableSum', WorkPackageTableSumService),
     upgradeService('wpListService', WorkPackagesListService),
     upgradeService('wpListChecksumService', WorkPackagesListChecksumService),
+    upgradeService('wpRelationsHierarchyService', WorkPackageRelationsHierarchyService),
     upgradeService('wpFiltersService', WorkPackageFiltersService),
     upgradeService('loadingIndicator', LoadingIndicatorService),
     upgradeService('wpTableRelationColumns', WorkPackageTableRelationColumnsService),
     upgradeService('wpTableGroupBy', WorkPackageTableGroupByService),
     upgradeService('wpTableColumns', WorkPackageTableColumnsService),
-    upgradeService('contextMenu', ContextMenuService),
     upgradeService('authorisationService', AuthorisationService),
     upgradeService('ConfigurationService', ConfigurationService),
     upgradeService('currentProject', CurrentProjectService),
     upgradeService('RootDm', RootDmService),
+    upgradeService('QueryDm', QueryDmService),
     // Split view
     upgradeService('wpCreate', WorkPackageCreateService),
     upgradeService('firstRoute', FirstRouteService),
     upgradeService('PathHelper', PathHelperService),
     // Activity tab
     upgradeService('wpActivity', WorkPackagesActivityService),
+    // Context menus
+    OPContextMenuService,
+    upgradeServiceWithToken('HookService', HookServiceToken),
+    upgradeServiceWithToken('UrlParamsHelper', UrlParamsHelperToken),
+    WorkPackageContextMenuHelperService,
   ],
   declarations: [
     WorkPackagesListComponent,
@@ -234,7 +266,6 @@ import {AutocompleteSelectDecorationComponent} from 'core-components/common/auto
     WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
     SortHeaderDirective,
-    HasDropdownMenuDirective,
     WpInlineCreateDirectiveUpgraded,
 
     // Add functionality to rails rendered templates
@@ -296,6 +327,17 @@ import {AutocompleteSelectDecorationComponent} from 'core-components/common/auto
     // WP Copy
     WorkPackageCopyFullViewComponent,
     WorkPackageCopySplitViewComponent,
+
+    // Context menus
+    OpTypesContextMenuDirective,
+    OPContextMenuComponent,
+    OpColumnsContextMenu,
+    OpSettingsMenuDirective,
+    WorkPackageStatusDropdownDirective,
+    WorkPackageCreateSettingsMenuDirective,
+    WorkPackageSingleContextMenuDirective,
+    WorkPackageQuerySelectableTitleComponent,
+    WorkPackageQuerySelectDropdownComponent,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -332,6 +374,9 @@ import {AutocompleteSelectDecorationComponent} from 'core-components/common/auto
     // WP copy
     WorkPackageCopyFullViewComponent,
     WorkPackageCopySplitViewComponent,
+
+    OPContextMenuComponent,
+    WorkPackageQuerySelectDropdownComponent,
   ]
 })
 export class OpenProjectModule {

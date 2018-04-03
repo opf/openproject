@@ -29,7 +29,7 @@
 
 class CreateTimeEntryJournals < ActiveRecord::Migration[5.1]
   def change
-    create_table :time_entry_journals do |t|
+    create_table :time_entry_journals, id: :integer do |t|
       t.integer :journal_id,      null: false
       t.integer :project_id,      null: false
       t.integer :user_id,         null: false

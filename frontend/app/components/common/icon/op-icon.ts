@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Directive, ElementRef, Injector, Input} from '@angular/core';
+import {Component, ElementRef, Injector, Input} from '@angular/core';
 import {UpgradeComponent} from '@angular/upgrade/static';
 import {opUiComponentsModule} from '../../../angular-modules';
 
@@ -50,15 +50,17 @@ function opIcon() {
 opUiComponentsModule.directive('opIcon', opIcon);
 
 
-@Directive({
-  selector: 'op-icon'
+@Component({
+  selector: 'op-icon',
+  template: `
+      <i [ngClass]="iconClasses" aria-hidden="true"></i>
+      <span
+        class="hidden-for-sighted"
+        [textContent]="iconTitle"
+        *ngIf="iconTitle"></span>
+    `
 })
-export class OpIcon extends UpgradeComponent {
-
+export class OpIcon {
   @Input('icon-classes') iconClasses:string;
   @Input('icon-title') iconTitle:string;
-
-  constructor(elementRef:ElementRef, injector:Injector) {
-    super('opIcon', elementRef, injector);
-  }
 }

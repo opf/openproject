@@ -70,7 +70,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <% end %>
   <% end %>
   <li class="toolbar-item drop-down">
-    <a href="javascript:" aria-haspopup="true" title="<%= t(:label_more) %>" class="button">
+    <a href="#" aria-haspopup="true" title="<%= t(:label_more) %>" class="button">
       <span class="button--text"><%= t(:label_more) %></span>
       <%= op_icon('button--dropdown-indicator') %>
     </a>
@@ -151,10 +151,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, controller: '/activities', action: 'index', id: @project, show_wiki_edits: 1, format: 'atom', key: User.current.rss_key) %>
-<% end %>
-
-<% content_for :sidebar do %>
-  <%= render partial: 'wiki/sidebar' %>
 <% end %>
 
 <% html_title h(@page.title) %>

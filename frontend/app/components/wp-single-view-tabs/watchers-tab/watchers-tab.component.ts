@@ -26,17 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Transition} from '@uirouter/core';
-import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {Component, ElementRef, Inject, OnDestroy, OnInit} from '@angular/core';
-import {I18nToken} from '../../../angular4-transition-utils';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
+import {Transition} from '@uirouter/core';
 import {CollectionResource} from 'core-components/api/api-v3/hal-resources/collection-resource.service';
+import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
 import {UserResource} from 'core-components/api/api-v3/hal-resources/user-resource.service';
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {takeUntil} from 'rxjs/operators';
+import {I18nToken} from '../../../angular4-transition-utils';
 
 @Component({
   template: require('!!raw-loader!./watchers-tab.html'),
@@ -77,7 +78,9 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
     this.workPackageId = this.$transition.params('to').workPackageId;
     this.wpCacheService.loadWorkPackage(this.workPackageId)
       .values$()
-      .takeUntil(componentDestroyed(this))
+      .pipe(
+        takeUntil(componentDestroyed(this))
+      )
       .subscribe((wp) => {
         this.workPackage = wp;
         this.loadCurrentWatchers();
@@ -127,7 +130,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
     } as any);
 
     input.focus(() => input.autocomplete('search', input.val()));
-    (input.autocomplete("instance")as any)._renderItem = (ul:any, item:any) => this.renderWatcherItem(
+    (input.autocomplete('instance')as any)._renderItem = (ul:any, item:any) => this.renderWatcherItem(
       ul,
       item);
   }
@@ -155,7 +158,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
 
     if (item.watcher.avatar) {
       const img = document.createElement('img');
-      img.src = item.watcher.avatar
+      img.src = item.watcher.avatar;
       img.alt = item.watcher.name;
       img.classList.add('avatar-mini');
 
@@ -174,7 +177,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
   }
 
   public autocompleteWatchers(query:string):Promise<any> {
-    let payload:any = {sortBy: JSON.stringify([["name", "asc"]])}
+    let payload:any = {sortBy: JSON.stringify([['name', 'asc']])};
 
     if (query && query.length > 0) {
       let filter = {
@@ -182,7 +185,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
           operator: '~',
           values: query,
         }
-      }
+      };
 
       payload['filters'] = JSON.stringify([filter]);
     }

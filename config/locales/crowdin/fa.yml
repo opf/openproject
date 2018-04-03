@@ -62,14 +62,14 @@ fa:
   custom_actions:
     actions:
       name: اقدامات
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+      add: افزودن عملیات
+    conditions: شرایط
+    plural: اقدامات سفارشی
+    new: افزودن اقدام سفارشی
+    edit: ویرایش عمل سفارشی %{name}
+    execute: اجرای %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
+      title: اقدامات سفارشی از ویژگی های نسخه سازمانی است
       description: Custom actions streamline everyday work by combining a set of individual
         steps into one button.
   custom_fields:
@@ -272,7 +272,7 @@ fa:
       announcements:
         show_until: Display until
       attachment:
-        attachment_content: Attachment content
+        attachment_content: محتوای پیوست
         attachment_file_name: Attachment file name
         downloads: دانلود ها
         file: فایل
@@ -567,7 +567,7 @@ fa:
       attribute_help_text: Attribute help text
       board: تالار گفتگو
       comment: نظر
-      custom_action: Custom action
+      custom_action: اقدام سفارشی
       custom_field: فیلدهای سفارشی
       group: Group
       category: Category
@@ -600,34 +600,34 @@ fa:
     assigned_to: Assignee
     assignee: Assignee
     attachments: Attachments
-    author: Author
+    author: نویسنده
     base: 'General Error:'
     blocks_ids: IDs of blocked work packages
     category: Category
     comment: نظر
     comments: نظر
-    content: Content
+    content: محتوا
     created_at: Created on
     created_on: Created on
     custom_options: مقادیر ممکن
     custom_values: Custom fields
     date: تاریخ
     default_columns: Default columns
-    description: Description
+    description: توضیحات
     display_sums: Display Sums
     due_date: موعد مقرر
     estimated_hours: Estimated time
     estimated_time: Estimated time
-    firstname: First name
+    firstname: نام
     group: Group
     groups: Groups
-    groupname: Group name
+    groupname: نام گروه
     id: شناسه
     is_default: مقدار پیش فرض
-    is_for_all: For all projects
-    is_public: Public
+    is_for_all: نمایش تمام پروژه‌ها
+    is_public: عمومی
     issue: Work package
-    lastname: Last name
+    lastname: نام خانوادگی
     login: Login
     mail: Email
     name: نام
@@ -664,7 +664,7 @@ fa:
   button_close: Close
   button_collapse_all: Collapse all
   button_configure: Configure
-  button_copy: Copy
+  button_copy: کپی
   button_copy_and_follow: Copy and follow
   button_create: Create
   button_create_and_continue: Create and continue
@@ -678,13 +678,13 @@ fa:
   button_filter: Filter
   button_generate: Generate
   button_list: List
-  button_lock: Lock
+  button_lock: قفل کردن
   button_log_time: پیگیری زمان
-  button_login: Sign in
-  button_move: Move
+  button_login: ورود
+  button_move: انتقال
   button_move_and_follow: Move and follow
   button_print: چاپ کردن
-  button_quote: Quote
+  button_quote: نقل قول
   button_remove: Remove
   button_remove_widget: Remove widget
   button_rename: Rename
@@ -702,10 +702,10 @@ fa:
   button_uncheck_all: Uncheck all
   button_unlock: Unlock
   button_unwatch: Unwatch
-  button_update: Update
+  button_update: به روز رسانی
   button_upload: Upload
-  button_view: View
-  button_watch: Watch
+  button_view: مشاهده
+  button_watch: نگاه کردن
   button_manage_menu_entry: Configure menu item
   button_add_menu_entry: Add menu item
   button_configure_menu_entry: Configure menu item
@@ -1151,7 +1151,7 @@ fa:
   label_commits_per_month: Commits per month
   label_confirmation: تاییدیه
   label_contains: contains
-  label_content: Content
+  label_content: محتوا
   label_copied: copied
   label_copy_to_clipboard: Copy to clipboard
   label_copy_same_as_target: Same as target
@@ -1279,7 +1279,7 @@ fa:
   label_loading: Loading...
   label_lock_user: کاربر قفل شده
   label_logged_as: Logged in as
-  label_login: Sign in
+  label_login: ورود
   label_custom_logo: Custom logo
   label_custom_favicon: Custom favicon
   label_custom_touch_icon: Custom touch icon
@@ -1341,7 +1341,7 @@ fa:
   label_open_menu: Open menu
   label_open_work_packages: open
   label_open_work_packages_plural: open
-  label_optional_description: Description
+  label_optional_description: توضیحات
   label_options: Options
   label_other: Other
   label_overall_activity: Overall activity
@@ -2102,7 +2102,7 @@ fa:
   setting_accessibility_mode_for_anonymous: Enable accessibility mode for anonymous
     users
   setting_user_format: Users display format
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: منطقه زمانی پیش فرض کاربران
   setting_users_deletable_by_admins: User accounts deletable by admins
   setting_users_deletable_by_self: Users allowed to delete their accounts
   setting_welcome_text: Welcome block text
@@ -2209,7 +2209,7 @@ fa:
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
     notifications by the same amount of time.
-  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"

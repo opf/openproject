@@ -2281,7 +2281,7 @@ ar:
   text_journal_aggregation_time_explanation: الجمع بين دفاتر اليومية للعرض إذا كان
     الفارق في السن أقل من المدى الزمني المحدد. وهذا أيضا تأخير إعلامات البريد بنفس
     المقدار من الوقت.
-  text_journal_changed: "%{label} تغير من %{old} إلى %{new}"
+  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
   text_journal_changed_no_detail: "%{label} تم تحديثه"
   text_journal_changed_with_diff: "%{label} تغير (%{link})"
   text_journal_deleted: "%{label} تم حذفه (%{old})"

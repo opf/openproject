@@ -29,7 +29,7 @@
 
 class CreateWikiMenuItems < ActiveRecord::Migration[5.1]
   def self.up
-    create_table :wiki_menu_items do |t|
+    create_table :wiki_menu_items, id: :integer do |t|
       t.column :name, :string
       t.column :title, :string
       t.column :parent_id, :integer

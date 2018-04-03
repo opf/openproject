@@ -29,7 +29,7 @@
 
 class CreateTimelinesTimelines < ActiveRecord::Migration[5.1]
   def self.up
-    create_table :timelines_timelines do |t|
+    create_table :timelines_timelines, id: :integer do |t|
       t.column :name,        :string,  null: false
       t.column :content,     :text
 

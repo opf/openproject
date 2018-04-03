@@ -28,48 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::IdFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  def type
-    :list
-  end
+require_relative './filter_for_wp_mixing'
 
-  def allowed_values
-    raise NotImplementedError, 'There would be too many candidates'
-  end
+class Queries::WorkPackages::Filter::IdFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
 
-  def value_objects
-    raise NotImplementedError, 'There would be too many candidates'
-  end
-
-  def allowed_objects
-    raise NotImplementedError, 'There would be too many candidates'
-  end
-
-  def available?
-    scope.exists?
-  end
-
-  def ar_object_filter?
-    true
-  end
-
-  def allowed_values_subset
-    scope.where(id: values).pluck(:id).map(&:to_s)
-  end
-
-  private
-
-  def scope
-    if context.project
-      WorkPackage
-        .visible
-        .for_projects(context.project.self_and_descendants)
-    else
-      WorkPackage.visible
-    end
-  end
-
-  def type_strategy
-    @type_strategy ||= Queries::Filters::Strategies::HugeList.new(self)
-  end
+  include ::Queries::WorkPackages::Filter::FilterForWpMixin
 end

@@ -278,7 +278,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
   private
 
   def run_aggregated_migrations
-    create_table 'attachments', force: true do |t|
+    create_table 'attachments', force: true, id: :integer do |t|
       t.integer 'container_id',                 default: 0,  null: false
       t.string 'container_type', limit: 30, default: '', null: false
       t.string 'filename',                     default: '', null: false
@@ -296,7 +296,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'attachments', ['container_id', 'container_type'], name: 'index_attachments_on_container_id_and_container_type'
     add_index 'attachments', ['created_on'], name: 'index_attachments_on_created_on'
 
-    create_table 'auth_sources', force: true do |t|
+    create_table 'auth_sources', force: true, id: :integer do |t|
       t.string 'type',              limit: 30, default: '',    null: false
       t.string 'name',              limit: 60, default: '',    null: false
       t.string 'host',              limit: 60
@@ -314,7 +314,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
 
     add_index 'auth_sources', ['id', 'type'], name: 'index_auth_sources_on_id_and_type'
 
-    create_table 'boards', force: true do |t|
+    create_table 'boards', force: true, id: :integer do |t|
       t.integer 'project_id',                      null: false
       t.string 'name',            default: '', null: false
       t.string 'description'
@@ -327,7 +327,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'boards', ['last_message_id'], name: 'index_boards_on_last_message_id'
     add_index 'boards', ['project_id'], name: 'boards_project_id'
 
-    create_table 'changes', force: true do |t|
+    create_table 'changes', force: true, id: :integer do |t|
       t.integer 'changeset_id',                               null: false
       t.string 'action',        limit: 1, default: '', null: false
       t.text 'path',                                       null: false
@@ -339,7 +339,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
 
     add_index 'changes', ['changeset_id'], name: 'changesets_changeset_id'
 
-    create_table 'changesets', force: true do |t|
+    create_table 'changesets', force: true, id: :integer do |t|
       t.integer 'repository_id', null: false
       t.string 'revision',      null: false
       t.string 'committer'
@@ -363,7 +363,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
 
     add_index 'changesets_issues', ['changeset_id', 'issue_id'], name: 'changesets_issues_ids', unique: true
 
-    create_table 'comments', force: true do |t|
+    create_table 'comments', force: true, id: :integer do |t|
       t.string 'commented_type', limit: 30, default: '', null: false
       t.integer 'commented_id',                 default: 0,  null: false
       t.integer 'author_id',                    default: 0,  null: false
@@ -375,7 +375,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'comments', ['author_id'], name: 'index_comments_on_author_id'
     add_index 'comments', ['commented_id', 'commented_type'], name: 'index_comments_on_commented_id_and_commented_type'
 
-    create_table 'custom_fields', force: true do |t|
+    create_table 'custom_fields', force: true, id: :integer do |t|
       t.string 'type',            limit: 30, default: '',    null: false
       t.string 'name',            limit: 30, default: '',    null: false
       t.string 'field_format',    limit: 30, default: '',    null: false
@@ -409,7 +409,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
 
     add_index 'custom_fields_trackers', ['custom_field_id', 'tracker_id'], name: 'index_custom_fields_trackers_on_custom_field_id_and_tracker_id'
 
-    create_table 'custom_values', force: true do |t|
+    create_table 'custom_values', force: true, id: :integer do |t|
       t.string 'customized_type', limit: 30, default: '', null: false
       t.integer 'customized_id',                 default: 0,  null: false
       t.integer 'custom_field_id',               default: 0,  null: false
@@ -419,7 +419,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'custom_values', ['custom_field_id'], name: 'index_custom_values_on_custom_field_id'
     add_index 'custom_values', ['customized_type', 'customized_id'], name: 'custom_values_customized'
 
-    create_table 'documents', force: true do |t|
+    create_table 'documents', force: true, id: :integer do |t|
       t.integer 'project_id',                default: 0,  null: false
       t.integer 'category_id',               default: 0,  null: false
       t.string 'title',       limit: 60, default: '', null: false
@@ -431,14 +431,14 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'documents', ['created_on'], name: 'index_documents_on_created_on'
     add_index 'documents', ['project_id'], name: 'documents_project_id'
 
-    create_table 'enabled_modules', force: true do |t|
+    create_table 'enabled_modules', force: true, id: :integer do |t|
       t.integer 'project_id'
       t.string 'name',       null: false
     end
 
     add_index 'enabled_modules', ['project_id'], name: 'enabled_modules_project_id'
 
-    create_table 'enumerations', force: true do |t|
+    create_table 'enumerations', force: true, id: :integer do |t|
       t.string 'name',       limit: 30, default: '',    null: false
       t.integer 'position',                 default: 1
       t.boolean 'is_default',               default: false, null: false
@@ -458,7 +458,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
 
     add_index 'groups_users', ['group_id', 'user_id'], name: 'groups_users_ids', unique: true
 
-    create_table 'issue_categories', force: true do |t|
+    create_table 'issue_categories', force: true, id: :integer do |t|
       t.integer 'project_id',                   default: 0,  null: false
       t.string 'name',           limit: 30, default: '', null: false
       t.integer 'assigned_to_id'
@@ -467,7 +467,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'issue_categories', ['assigned_to_id'], name: 'index_issue_categories_on_assigned_to_id'
     add_index 'issue_categories', ['project_id'], name: 'issue_categories_project_id'
 
-    create_table 'issue_relations', force: true do |t|
+    create_table 'issue_relations', force: true, id: :integer do |t|
       t.integer 'issue_from_id',                 null: false
       t.integer 'issue_to_id',                   null: false
       t.string 'relation_type', default: '', null: false
@@ -477,7 +477,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'issue_relations', ['issue_from_id'], name: 'index_issue_relations_on_issue_from_id'
     add_index 'issue_relations', ['issue_to_id'], name: 'index_issue_relations_on_issue_to_id'
 
-    create_table 'issue_statuses', force: true do |t|
+    create_table 'issue_statuses', force: true, id: :integer do |t|
       t.string 'name',               limit: 30, default: '',    null: false
       t.boolean 'is_closed',                        default: false, null: false
       t.boolean 'is_default',                       default: false, null: false
@@ -489,7 +489,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'issue_statuses', ['is_default'], name: 'index_issue_statuses_on_is_default'
     add_index 'issue_statuses', ['position'], name: 'index_issue_statuses_on_position'
 
-    create_table 'issues', force: true do |t|
+    create_table 'issues', force: true, id: :integer do |t|
       t.integer 'tracker_id',       default: 0,  null: false
       t.integer 'project_id',       default: 0,  null: false
       t.string 'subject',          default: '', null: false
@@ -524,7 +524,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'issues', ['status_id'], name: 'index_issues_on_status_id'
     add_index 'issues', ['tracker_id'], name: 'index_issues_on_tracker_id'
 
-    create_table 'journal_details', force: true do |t|
+    create_table 'journal_details', force: true, id: :integer do |t|
       t.integer 'journal_id',               default: 0,  null: false
       t.string 'property',   limit: 30, default: '', null: false
       t.string 'prop_key',   limit: 30, default: '', null: false
@@ -534,7 +534,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
 
     add_index 'journal_details', ['journal_id'], name: 'journal_details_journal_id'
 
-    create_table 'journals', force: true do |t|
+    create_table 'journals', force: true, id: :integer do |t|
       t.integer 'journaled_id',  default: 0, null: false
       t.integer 'user_id',       default: 0, null: false
       t.text 'notes'
@@ -553,7 +553,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'journals', ['type'], name: 'index_journals_on_type'
     add_index 'journals', ['user_id'], name: 'index_journals_on_user_id'
 
-    create_table 'member_roles', force: true do |t|
+    create_table 'member_roles', force: true, id: :integer do |t|
       t.integer 'member_id',      null: false
       t.integer 'role_id',        null: false
       t.integer 'inherited_from'
@@ -562,7 +562,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'member_roles', ['member_id'], name: 'index_member_roles_on_member_id'
     add_index 'member_roles', ['role_id'], name: 'index_member_roles_on_role_id'
 
-    create_table 'members', force: true do |t|
+    create_table 'members', force: true, id: :integer do |t|
       t.integer 'user_id',           default: 0,     null: false
       t.integer 'project_id',        default: 0,     null: false
       t.datetime 'created_on'
@@ -573,7 +573,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'members', ['user_id', 'project_id'], name: 'index_members_on_user_id_and_project_id', unique: true
     add_index 'members', ['user_id'], name: 'index_members_on_user_id'
 
-    create_table 'messages', force: true do |t|
+    create_table 'messages', force: true, id: :integer do |t|
       t.integer 'board_id',                         null: false
       t.integer 'parent_id'
       t.string 'subject',       default: '',    null: false
@@ -593,7 +593,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'messages', ['last_reply_id'], name: 'index_messages_on_last_reply_id'
     add_index 'messages', ['parent_id'], name: 'messages_parent_id'
 
-    create_table 'news', force: true do |t|
+    create_table 'news', force: true, id: :integer do |t|
       t.integer 'project_id'
       t.string 'title',          limit: 60, default: '', null: false
       t.string 'summary',                      default: ''
@@ -607,7 +607,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'news', ['created_on'], name: 'index_news_on_created_on'
     add_index 'news', ['project_id'], name: 'news_project_id'
 
-    create_table 'open_id_authentication_associations', force: true do |t|
+    create_table 'open_id_authentication_associations', force: true, id: :integer do |t|
       t.integer 'issued'
       t.integer 'lifetime'
       t.string 'handle'
@@ -616,13 +616,13 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
       t.binary 'secret'
     end
 
-    create_table 'open_id_authentication_nonces', force: true do |t|
+    create_table 'open_id_authentication_nonces', force: true, id: :integer do |t|
       t.integer 'timestamp',  null: false
       t.string 'server_url'
       t.string 'salt',       null: false
     end
 
-    create_table 'projects', force: true do |t|
+    create_table 'projects', force: true, id: :integer do |t|
       t.string 'name',        default: '',   null: false
       t.text 'description'
       t.string 'homepage',    default: ''
@@ -647,7 +647,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'projects_trackers', ['project_id', 'tracker_id'], name: 'projects_trackers_unique', unique: true
     add_index 'projects_trackers', ['project_id'], name: 'projects_trackers_project_id'
 
-    create_table 'queries', force: true do |t|
+    create_table 'queries', force: true, id: :integer do |t|
       t.integer 'project_id'
       t.string 'name',          default: '',    null: false
       t.text 'filters'
@@ -661,7 +661,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'queries', ['project_id'], name: 'index_queries_on_project_id'
     add_index 'queries', ['user_id'], name: 'index_queries_on_user_id'
 
-    create_table 'repositories', force: true do |t|
+    create_table 'repositories', force: true, id: :integer do |t|
       t.integer 'project_id',                  default: 0,  null: false
       t.string 'url',                         default: '', null: false
       t.string 'login',         limit: 60, default: ''
@@ -674,7 +674,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
 
     add_index 'repositories', ['project_id'], name: 'index_repositories_on_project_id'
 
-    create_table 'roles', force: true do |t|
+    create_table 'roles', force: true, id: :integer do |t|
       t.string 'name',        limit: 30, default: '',   null: false
       t.integer 'position',                  default: 1
       t.boolean 'assignable',                default: true
@@ -682,7 +682,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
       t.text 'permissions'
     end
 
-    create_table 'settings', force: true do |t|
+    create_table 'settings', force: true, id: :integer do |t|
       t.string 'name',       default: '', null: false
       t.text 'value'
       t.datetime 'updated_on'
@@ -690,7 +690,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
 
     add_index 'settings', ['name'], name: 'index_settings_on_name'
 
-    create_table 'time_entries', force: true do |t|
+    create_table 'time_entries', force: true, id: :integer do |t|
       t.integer 'project_id',  null: false
       t.integer 'user_id',     null: false
       t.integer 'issue_id'
@@ -711,7 +711,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'time_entries', ['project_id'], name: 'time_entries_project_id'
     add_index 'time_entries', ['user_id'], name: 'index_time_entries_on_user_id'
 
-    create_table 'tokens', force: true do |t|
+    create_table 'tokens', force: true, id: :integer do |t|
       t.integer 'user_id',                  default: 0,  null: false
       t.string 'action',     limit: 30, default: '', null: false
       t.string 'value',      limit: 40, default: '', null: false
@@ -720,14 +720,14 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
 
     add_index 'tokens', ['user_id'], name: 'index_tokens_on_user_id'
 
-    create_table 'trackers', force: true do |t|
+    create_table 'trackers', force: true, id: :integer do |t|
       t.string 'name',          limit: 30, default: '',    null: false
       t.boolean 'is_in_chlog',                 default: false, null: false
       t.integer 'position',                    default: 1
       t.boolean 'is_in_roadmap',               default: true,  null: false
     end
 
-    create_table 'user_preferences', force: true do |t|
+    create_table 'user_preferences', force: true, id: :integer do |t|
       t.integer 'user_id',   default: 0,     null: false
       t.text 'others'
       t.boolean 'hide_mail', default: false
@@ -736,7 +736,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
 
     add_index 'user_preferences', ['user_id'], name: 'index_user_preferences_on_user_id'
 
-    create_table 'users', force: true do |t|
+    create_table 'users', force: true, id: :integer do |t|
       t.string 'login',             limit: 30, default: '',    null: false
       t.string 'hashed_password',   limit: 40, default: '',    null: false
       t.string 'firstname',         limit: 30, default: '',    null: false
@@ -759,7 +759,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'users', ['id', 'type'], name: 'index_users_on_id_and_type'
     add_index 'users', ['type'], name: 'index_users_on_type'
 
-    create_table 'versions', force: true do |t|
+    create_table 'versions', force: true, id: :integer do |t|
       t.integer 'project_id',      default: 0,      null: false
       t.string 'name',            default: '',     null: false
       t.string 'description',     default: ''
@@ -775,7 +775,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'versions', ['project_id'], name: 'versions_project_id'
     add_index 'versions', ['sharing'], name: 'index_versions_on_sharing'
 
-    create_table 'watchers', force: true do |t|
+    create_table 'watchers', force: true, id: :integer do |t|
       t.string 'watchable_type', default: '', null: false
       t.integer 'watchable_id',   default: 0,  null: false
       t.integer 'user_id'
@@ -785,7 +785,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'watchers', ['user_id'], name: 'index_watchers_on_user_id'
     add_index 'watchers', ['watchable_id', 'watchable_type'], name: 'index_watchers_on_watchable_id_and_watchable_type'
 
-    create_table 'wiki_content_versions', force: true do |t|
+    create_table 'wiki_content_versions', force: true, id: :integer do |t|
       t.integer 'wiki_content_id',                                        null: false
       t.integer 'page_id',                                                null: false
       t.integer 'author_id'
@@ -799,7 +799,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'wiki_content_versions', ['updated_on'], name: 'index_wiki_content_versions_on_updated_on'
     add_index 'wiki_content_versions', ['wiki_content_id'], name: 'wiki_content_versions_wcid'
 
-    create_table 'wiki_contents', force: true do |t|
+    create_table 'wiki_contents', force: true, id: :integer do |t|
       t.integer 'page_id',                              null: false
       t.integer 'author_id'
       t.text 'text',         limit: 16.megabytes
@@ -810,7 +810,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'wiki_contents', ['author_id'], name: 'index_wiki_contents_on_author_id'
     add_index 'wiki_contents', ['page_id'], name: 'wiki_contents_page_id'
 
-    create_table 'wiki_pages', force: true do |t|
+    create_table 'wiki_pages', force: true, id: :integer do |t|
       t.integer 'wiki_id',                       null: false
       t.string 'title',                         null: false
       t.datetime 'created_on',                    null: false
@@ -822,7 +822,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'wiki_pages', ['wiki_id', 'title'], name: 'wiki_pages_wiki_id_title'
     add_index 'wiki_pages', ['wiki_id'], name: 'index_wiki_pages_on_wiki_id'
 
-    create_table 'wiki_redirects', force: true do |t|
+    create_table 'wiki_redirects', force: true, id: :integer do |t|
       t.integer 'wiki_id',      null: false
       t.string 'title'
       t.string 'redirects_to'
@@ -832,7 +832,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
     add_index 'wiki_redirects', ['wiki_id', 'title'], name: 'wiki_redirects_wiki_id_title'
     add_index 'wiki_redirects', ['wiki_id'], name: 'index_wiki_redirects_on_wiki_id'
 
-    create_table 'wikis', force: true do |t|
+    create_table 'wikis', force: true, id: :integer do |t|
       t.integer 'project_id',                null: false
       t.string 'start_page',                null: false
       t.integer 'status',     default: 1, null: false
@@ -840,7 +840,7 @@ class AggregatedMigrations < ActiveRecord::Migration[5.1]
 
     add_index 'wikis', ['project_id'], name: 'wikis_project_id'
 
-    create_table 'workflows', force: true do |t|
+    create_table 'workflows', force: true, id: :integer do |t|
       t.integer 'tracker_id',    default: 0,     null: false
       t.integer 'old_status_id', default: 0,     null: false
       t.integer 'new_status_id', default: 0,     null: false

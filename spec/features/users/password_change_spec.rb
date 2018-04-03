@@ -36,65 +36,157 @@ describe 'random password generation', type: :feature, js: true do
   let(:user) { FactoryGirl.create :user, password: old_password, password_confirmation: old_password }
   let(:user_page) { ::Pages::Admin::User.new(user.id) }
 
-  before do
-    login_with admin.login, 'adminADMIN!'
+  describe 'as admin user' do
+    before do
+      login_with admin.login, 'adminADMIN!'
+    end
+
+    it 'can log in with a random generated password' do
+      user_page.visit!
+
+      expect(page).to have_selector('#user_password')
+      expect(page).to have_selector('#user_password_confirmation')
+
+      check 'user_assign_random_password'
+
+      expect(page).to have_selector('#user_password[disabled]')
+      expect(page).to have_selector('#user_password_confirmation[disabled]')
+
+      # Remember password for login
+      password = nil
+      expect(OpenProject::Passwords::Generator)
+        .to receive(:random_password)
+              .and_wrap_original { |m, *args| password = m.call(*args) }
+
+      click_on 'Save'
+
+      expect(page).to have_selector('.flash', text: I18n.t(:notice_successful_update))
+      expect(password).to be_present
+
+      # Logout
+      visit signout_path
+      login_with user.login, password
+
+      # Expect password change
+      expect(page).to have_selector('#new_password')
+
+      # Give wrong password
+      fill_in 'password', with: old_password
+      fill_in 'new_password', with: new_password
+      fill_in 'new_password_confirmation', with: new_password
+      click_on 'Save'
+
+      expect(page).to have_content 'Invalid user or password'
+
+      # Give correct password
+      fill_in 'password', with: password
+      fill_in 'new_password', with: new_password
+      fill_in 'new_password_confirmation', with: new_password
+      click_on 'Save'
+
+      expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_password_updated))
+
+      # Logout and sign in with outdated password
+      visit signout_path
+      login_with user.login, password
+      expect(page).to have_content 'Invalid user or password'
+
+      # Logout and sign in with new_passworwd
+      visit signout_path
+      login_with user.login, new_password
+
+      visit my_account_path
+      expect(page).to have_selector('.account-menu-item.selected')
+    end
   end
 
-  it 'can log in with a random generated password' do
-    user_page.visit!
+  ##
+  # Converted from cuke password_complexity_checks.feature
+  context 'as an admin' do
+    before do
+      login_with admin.login, 'adminADMIN!'
+    end
 
-    expect(page).to have_selector('#user_password')
-    expect(page).to have_selector('#user_password_confirmation')
+    it 'can configure and enforce password rules' do
+      visit '/settings'
+      expect_angular_frontend_initialized
 
-    check 'user_assign_random_password'
+      # Go to authentication
+      find('#tab-authentication').click
 
-    expect(page).to have_selector('#user_password[disabled]')
-    expect(page).to have_selector('#user_password_confirmation[disabled]')
+      # Enforce rules
+      # 3 of 'lowercase, uppercase, special'
+      find('.form--check-box[value=uppercase]').set true
+      find('.form--check-box[value=lowercase]').set true
+      find('.form--check-box[value=numeric]').set false
+      find('.form--check-box[value=special]').set true
 
-    # Remember password for login
-    password = nil
-    expect(OpenProject::Passwords::Generator)
-      .to receive(:random_password)
-      .and_wrap_original { |m, *args| password = m.call(*args) }
+      # Set min length to 4
+      find('#settings_password_min_length').set 4
 
-    click_on 'Save'
+      # Set min classes to 3
+      find('#settings_password_min_adhered_rules').set 3
 
-    expect(page).to have_selector('.flash', text: I18n.t(:notice_successful_update))
-    expect(password).to be_present
+      scroll_to_and_click(find('.button', text: 'Save'))
+      expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
 
-    # Logout
-    visit signout_path
-    login_with user.login, password
+      Setting.clear_cache
 
-    # Expect password change
-    expect(page).to have_selector('#new_password')
+      expect(Setting.password_min_length).to eq(4)
+      expect(Setting.password_min_adhered_rules).to eq(3)
+      expect(Setting.password_active_rules).to eq(%w(uppercase lowercase special))
 
-    # Give wrong password
-    fill_in 'password', with: old_password
-    fill_in 'new_password', with: new_password
-    fill_in 'new_password_confirmation', with: new_password
-    click_on 'Save'
+      # Go to user page
+      user_page.visit!
 
-    expect(page).to have_content 'Invalid user or password'
+      expect(page).to have_selector('#user_password')
+      expect(page).to have_selector('#user_password_confirmation')
 
-    # Give correct password
-    fill_in 'password', with: password
-    fill_in 'new_password', with: new_password
-    fill_in 'new_password_confirmation', with: new_password
-    click_on 'Save'
+      # And I try to set my new password to "adminADMIN"
+      fill_in 'user_password', with: 'adminADMIN'
+      fill_in 'user_password_confirmation', with: 'adminADMIN'
+      scroll_to_and_click(find('.button', text: 'Save'))
+      expect(page).to have_selector('#errorExplanation', text: "Password Must contain characters of the following classes")
 
-    expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_password_updated))
+      # 2 of 3 classes
+      fill_in 'user_password', with: 'adminADMIN123'
+      fill_in 'user_password_confirmation', with: 'adminADMIN123'
+      scroll_to_and_click(find('.button', text: 'Save'))
+      expect(page).to have_selector('#errorExplanation', text: "Password Must contain characters of the following classes")
 
-    # Logout and sign in with outdated password
-    visit signout_path
-    login_with user.login, password
-    expect(page).to have_content 'Invalid user or password'
+      # All classes
+      fill_in 'user_password', with: 'adminADMIN!'
+      fill_in 'user_password_confirmation', with: 'adminADMIN!'
+      scroll_to_and_click(find('.button', text: 'Save'))
+      expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
+    end
+  end
 
-    # Logout and sign in with new_passworwd
-    visit signout_path
-    login_with user.login, new_password
+  context 'as a user on his my page' do
+    let(:user_page) { ::Pages::My::PasswordPage.new }
 
-    visit my_account_path
-    expect(page).to have_selector('.account-menu-item.selected')
+    before do
+      login_with user.login, old_password
+      visit '/my/password'
+    end
+
+    context 'with 2 of lowercase, uppercase, and numeric characters',
+            with_settings: {
+              password_active_rules: %w(lowercase uppercase numeric),
+              password_min_adhered_rules: 2,
+              password_min_length: 4
+            } do
+
+      it 'enforces those rules' do
+        # Change to valid password according to spec
+        user_page.change_password(old_password, 'password')
+
+        expect(page).to have_selector('#errorExplanation', text: "Password Must contain characters of the following classes (at least 2 of 3): lowercase (e.g. 'a'), uppercase (e.g. 'A'), numeric (e.g. '1').")
+
+        # Change to valid password according to spec
+        user_page.change_password(old_password, 'Password')
+        expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_password_updated))
+      end
+    end
   end
 end

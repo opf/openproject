@@ -301,7 +301,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-group'
 
   menu.push :settings,
-            { controller: '/projects', action: 'settings' },
+            { controller: '/project_settings', action: 'show' },
             caption: :label_project_settings,
             last: true,
             icon: 'icon2 icon-settings2'

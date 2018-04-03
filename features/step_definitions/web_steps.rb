@@ -438,7 +438,7 @@ Then(/^I should( not )?see a(?:n) alert dialog$/) do |negative|
     begin
       page.driver.browser.switch_to.alert
       expect(negative).to eq(false)
-    rescue Selenium::WebDriver::Error::NoAlertPresentError
+    rescue Selenium::WebDriver::Error::NoSuchAlertError
       expect(negative).to eq(true)
     end
   end

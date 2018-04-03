@@ -2279,7 +2279,7 @@ ru:
   text_journal_aggregation_time_explanation: Объединить журналы для отображения, если
     разница в их возрасте меньше заданного значения. Это приведет к задержке почтовых
     уведомлений на указанное время.
-  text_journal_changed: "%{label} изменено с %{old} на %{new}"
+  text_journal_changed: "%{label} изменено с %{old} </br><strong>на</strong> %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
   text_journal_changed_with_diff: "%{label} изменена (%{link})"
   text_journal_deleted: "%{label} удалена (%{old})"

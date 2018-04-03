@@ -29,7 +29,7 @@
 
 class CreateTimelinesReportings < ActiveRecord::Migration[5.1]
   def self.up
-    create_table(:timelines_reportings) do |t|
+    create_table(:timelines_reportings, id: :integer) do |t|
       t.column :reported_project_status_comment, :text
 
       t.belongs_to :project
