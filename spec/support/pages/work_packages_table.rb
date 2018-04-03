@@ -220,7 +220,7 @@ module Pages
     end
 
     def table_container
-      find('#content .work-package-table--container')
+      find('#content .work-packages-split-view--tabletimeline-side')
     end
 
     def work_package_row_selector(work_package)
