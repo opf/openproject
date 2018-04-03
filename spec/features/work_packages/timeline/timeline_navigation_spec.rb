@@ -261,9 +261,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
         wp_timeline.expect_timeline_element(wp_cat2)
       end
 
-      split_view = wp_table.open_split_view(wp_cat1)
-      split_view.switch_to_tab tab: :relations
-
+      wp_table.open_split_view(wp_cat1)
       relations.remove_relation(wp_cat2)
 
       # Relation should be removed in TL

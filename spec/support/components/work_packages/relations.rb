@@ -60,7 +60,7 @@ module Components
       def hover_action(relatable, action)
         retry_block do
           # Focus type edit to expose buttons
-          span = page.find(".relation-row-#{relatable.id} .relation-row--type")
+          span = page.find(".relation-row-#{relatable.id} .relation-row--type", wait: 20)
           scroll_to_element(span)
           page.driver.browser.action.move_to(span.native).perform
 
