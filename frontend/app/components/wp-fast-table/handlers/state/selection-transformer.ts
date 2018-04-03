@@ -20,7 +20,7 @@ export class SelectionTransformer {
   public opContextMenu:OPContextMenuService = this.injector.get(OPContextMenuService);
 
   constructor(public readonly injector:Injector,
-              table:WorkPackageTable) {
+              public readonly table:WorkPackageTable) {
 
     // Focus a single selection when active
     this.tableState.rendered.values$()
@@ -70,10 +70,12 @@ export class SelectionTransformer {
    * Update all currently visible rows to match the selection state.
    */
   private renderSelectionState(state:WPTableRowSelectionState) {
-    jQuery(`.${tableRowClassName}.${checkedClassName}`).removeClass(checkedClassName);
+    const context = jQuery(this.table.container);
+
+    context.find(`.${tableRowClassName}.${checkedClassName}`).removeClass(checkedClassName);
 
     _.each(state.selected, (selected:boolean, workPackageId:any) => {
-      jQuery(`.${tableRowClassName}[data-work-package-id="${workPackageId}"]`).toggleClass(checkedClassName, selected);
+      context.find(`.${tableRowClassName}[data-work-package-id="${workPackageId}"]`).toggleClass(checkedClassName, selected);
     });
   }
 }
