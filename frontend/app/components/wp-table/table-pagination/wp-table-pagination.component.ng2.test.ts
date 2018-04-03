@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+
 require('../../../angular4-test-setup');
 
 import {async, inject, TestBed} from '@angular/core/testing';
@@ -68,6 +70,7 @@ describe('wpTablePagination Directive', () => {
         PaginationService,
         WorkPackageTablePaginationService,
         ConfigurationDmService,
+        TableState,
         HalRequestService,
         {provide: I18nToken, useValue: (window as any).I18n},
         {provide: v3PathToken, useValue: {}},
