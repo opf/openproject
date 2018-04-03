@@ -102,7 +102,7 @@ export class GroupedRenderPass extends PlainRenderPass {
     let additionalClasses:string[] = [];
 
     let [tr, _] = this.rowBuilder.buildEmpty(row.object);
-    additionalClasses.push(groupedRowClassName(group.index as number));
+    additionalClasses.push(groupedRowClassName(group.index));
 
     if (hidden) {
       additionalClasses.push(collapsedRowClass);

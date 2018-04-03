@@ -69,7 +69,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     return this.tableState.relationColumns;
   }
 
-  public valueFromQuery(query:QueryResource) {
+  public valueFromQuery(query:QueryResource):WorkPackageTableRelationColumns|undefined {
     return undefined;
   }
 

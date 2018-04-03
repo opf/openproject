@@ -33,7 +33,7 @@ export class WpAttachmentsFormattableController {
     // There's a weird TS warning ocurring here:
     // Argument of type 'string' is not assignable to parameter of type '{ [key: string]: any; }'
     // TS appears to be choosing the wrong function declaration
-    ($element as any).on('dragenter dragleave dragover', this.prevDefault);
+    ($element as any).on('dragenter dragleave dragover', (evt:DragEvent) => this.prevDefault(evt));
   }
 
   public $onInit() {

@@ -97,7 +97,7 @@ export class ToggledMultiselectController {
   }
 
   private fetchAllowedValues() {
-    if ((this.filter.currentSchema!.values!.allowedValues! as CollectionResource)['$load']) {
+    if ((this.filter.currentSchema!.values!.allowedValues as CollectionResource)['$load']) {
       this.loadAllowedValues();
     } else {
       this.availableOptions = (this.filter.currentSchema!.values!.allowedValues as HalResource[]);
@@ -106,7 +106,7 @@ export class ToggledMultiselectController {
 
   private loadAllowedValues() {
     let valuesSchema = this.filter.currentSchema!.values!;
-    let loadingPromises = [(valuesSchema.allowedValues! as any).$load()]
+    let loadingPromises = [(valuesSchema.allowedValues as any).$load()];
 
     // If it is a User resource, we want to have the 'me' option.
     // We therefore fetch the current user from the api and copy

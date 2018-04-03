@@ -110,7 +110,7 @@ export class DisplayFieldFactory extends FieldFactory {
       DisplayFieldFactory.defaultType;
     let fieldClass = DisplayFieldFactory.classes[type];
 
-    return (new fieldClass(workPackage as any, fieldName, schema)) as DisplayField;
+    return (new fieldClass(workPackage as any, fieldName, schema));
   }
 
   protected static getSpecificType(type:string):string {

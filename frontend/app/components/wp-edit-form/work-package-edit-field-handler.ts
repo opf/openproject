@@ -57,7 +57,7 @@ export class WorkPackageEditFieldHandler {
               public fieldName:string,
               public field:EditField,
               public element:JQuery,
-              public withErrors:string[]) {
+              public withErrors?:string[]) {
     $injectFields(this, 'I18n', 'ConfigurationService', 'FocusHelper');
 
     this.editContext = form.editContext;

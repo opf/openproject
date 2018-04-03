@@ -48,6 +48,7 @@ import {
   WorkPackageTableConfiguration,
   WorkPackageTableConfigurationObject
 } from 'core-app/components/wp-table/wp-table-configuration';
+import {QueryColumn} from 'core-components/wp-query/query-column';
 
 @Component({
   template: require('!!raw-loader!./wp-table.directive.html'),
@@ -83,7 +84,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public groupBy:QueryGroupByResource | undefined;
 
-  public columns:any;
+  public columns:QueryColumn[];
 
   public numTableColumns:number;
 
@@ -177,7 +178,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);
 
     let t1 = performance.now();
-    debugLog('Render took ' + (t1 - t0) + ' milliseconds.');
+    debugLog('Render took ', t1 - t0, ' milliseconds.');
   }
 
   public openColumnsModal() {

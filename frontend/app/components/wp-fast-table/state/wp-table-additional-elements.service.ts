@@ -81,7 +81,7 @@ export class WorkPackageTableAdditionalElementsService {
    * Requires both the relation resource of the given work package ids as well
    * as the `to` work packages returned from the relations
    */
-  private requireInvolvedRelations(rows:string[]):Promise<string[]> {
+  private async requireInvolvedRelations(rows:string[]):Promise<string[]> {
 
     if (!this.wpTableColumns.hasRelationColumns()) {
       return Promise.resolve([]);
@@ -101,7 +101,7 @@ export class WorkPackageTableAdditionalElementsService {
    * @param rows
    * @return {string[]}
    */
-  private requireHierarchyElements(rows:WorkPackageResourceInterface[]):Promise<string[]> {
+  private async requireHierarchyElements(rows:WorkPackageResourceInterface[]):Promise<string[]> {
     if (!this.wpTableHierarchies.isEnabled) {
       return Promise.resolve([]);
     }

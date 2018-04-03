@@ -45,11 +45,6 @@ export class WorkPackageFieldModel implements IApplyAttachmentMarkup {
     changeset.setValue(this.attribute, value);
 
     changeset
-      .save()
-      .then((wp) => {
-        // Refresh the work package some time later as there is no way to tell
-        // whether the attachment was uploaded successfully AND the field was updated.
-        setTimeout(() => wpCacheService.require(wp.id, true), 150);
-      });
+      .save();
   }
 }

@@ -128,11 +128,11 @@ export class WorkPackageEditFieldComponent implements OnInit {
     return false;
   }
 
-  public activate(noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
+  public async activate(noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
     return this.activateOnForm(this.wpEditFieldGroup.form, noWarnings);
   }
 
-  public activateOnForm(form:WorkPackageEditForm, noWarnings:boolean = false) {
+  public async activateOnForm(form:WorkPackageEditForm, noWarnings:boolean = false) {
     // Activate the field
     const promise = form.activate(this.fieldName, noWarnings);
     promise

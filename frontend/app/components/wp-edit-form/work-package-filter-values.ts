@@ -14,8 +14,8 @@ export class WorkPackageFilterValues {
 
   }
 
-  public applyDefaultsFromFilters() {
-    return this.changeset.getForm().then((form) => {
+  public async applyDefaultsFromFilters() {
+    return this.changeset.getForm().then(async (form) => {
       const promises:Promise<any>[] = [];
       angular.forEach(this.filters, filter => {
         // Ignore any filters except =
@@ -43,7 +43,7 @@ export class WorkPackageFilterValues {
     });
   }
 
-  private setAllowedValueFor(form:FormResourceInterface, field:string, value:string|HalResource) {
+  private async setAllowedValueFor(form:FormResourceInterface, field:string, value:string|HalResource) {
     return this.allowedValuesFor(form, field).then((allowedValues) => {
       let newValue;
 
@@ -63,10 +63,10 @@ export class WorkPackageFilterValues {
     });
   }
 
-  private allowedValuesFor(form:FormResourceInterface, field:string):Promise<HalResource[]> {
+  private async allowedValuesFor(form:FormResourceInterface, field:string):Promise<HalResource[]> {
     const fieldSchema = form.schema[field];
 
-    return new Promise(resolve => {
+    return new Promise<HalResource[]>(resolve => {
       if (!fieldSchema) {
         resolve([]);
       } else if (fieldSchema.allowedValues && fieldSchema.allowedValues['$load']) {

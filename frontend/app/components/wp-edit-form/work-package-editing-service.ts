@@ -100,7 +100,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
         .pipe(
           map(([wp, changeset]) => {
             if (wp && changeset && changeset.resource) {
-              return changeset.resource!;
+              return changeset.resource;
             } else {
               return wp;
             }
@@ -116,7 +116,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     }
   }
 
-  public saveChanges(workPackageId:string):Promise<WorkPackageResourceInterface> {
+  public async saveChanges(workPackageId:string):Promise<WorkPackageResourceInterface> {
     const state = this.state(workPackageId);
 
     if (state.hasValue()) {
@@ -127,7 +127,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     return Promise.reject('No changeset present') as any;
   }
 
-  protected load(id:string) {
+  protected async load(id:string) {
     return this.wpCacheService.require(id)
       .then((wp:WorkPackageResourceInterface) => {
         return new WorkPackageChangeset(this.injector, wp);
@@ -135,7 +135,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
   }
 
   protected loadAll(ids:string[]) {
-    return Promise.all(ids.map(id => this.load(id))) as any;
+    return Promise.all(ids.map(async id => this.load(id))) as any;
   }
 
   protected get multiState() {

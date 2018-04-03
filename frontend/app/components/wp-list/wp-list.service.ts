@@ -214,7 +214,7 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  public save(query?:QueryResource) {
+  public async save(query?:QueryResource) {
     query = query || this.currentQuery;
 
     let form = this.states.query.form.value!;

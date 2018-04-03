@@ -82,7 +82,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
         break;
 
       default:
-        window.location.href = link!;
+        window.location.href = link;
         break;
     }
   }

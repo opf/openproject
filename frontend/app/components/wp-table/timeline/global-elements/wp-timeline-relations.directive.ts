@@ -70,9 +70,7 @@ function newSegment(vp:TimelineViewParameters,
 
   if (DEBUG_DRAW_RELATION_LINES_WITH_COLOR && color !== undefined) {
     segment.style.zIndex = '9999999';
-    if (color !== undefined) {
-      segment.style.backgroundColor = color;
-    }
+    segment.style.backgroundColor = color;
   }
   return segment;
 }
@@ -177,7 +175,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
       relationsList.forEach(relation => {
 
         if (!(relation.type === 'precedes'
-            || relation.type === 'follows')) {
+          || relation.type === 'follows')) {
           return;
         }
 

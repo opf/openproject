@@ -33,7 +33,7 @@ describe('refresh-on-form-changes directive', function() {
   var windowObj = {
     location: '/old/value',
     sessionStorage: {
-      getItem: angular.noop
+      getItem: () => angular.noop()
     },
     openProject: {
       environment: 'test'

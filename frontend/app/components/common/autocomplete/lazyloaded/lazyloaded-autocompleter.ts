@@ -59,7 +59,7 @@ export abstract class ILazyAutocompleterBridge<T> {
       return items;
     }
 
-    return this.fuseInstance.search(term) as any;
+    return this.fuseInstance.search(term);
   }
 
   /**

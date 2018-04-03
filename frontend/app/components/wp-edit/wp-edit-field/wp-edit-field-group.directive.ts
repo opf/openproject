@@ -77,7 +77,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
 
     this.unregisterListener = $transitions.onStart({}, (transition:Transition) => {
       if (!this.editMode) {
-        return;
+        return undefined;
       }
 
       // Show confirmation message when transitioning to a new state
@@ -151,7 +151,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     }
   }
 
-  public waitForField(name:string):Promise<WorkPackageEditFieldComponent> {
+  public async waitForField(name:string):Promise<WorkPackageEditFieldComponent> {
     return this.registeredFields
       .values$()
       .pipe(
@@ -163,7 +163,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   }
 
   public start() {
-    _.each(this.fields, ctrl => this.form.activate(ctrl.fieldName));
+    _.each(this.fields, async ctrl => this.form.activate(ctrl.fieldName));
   }
 
   public stop() {

@@ -89,7 +89,7 @@ export class WorkPackageRelationsHierarchyService {
 
     state.valuesPromise().then((wpToBecomeChild:WorkPackageResourceInterface|undefined) => {
       this.wpTableRefresh.request(`Added new child to ${workPackage.id}`, true);
-      this.changeParent(wpToBecomeChild!, workPackage.id).then(wp => deferred.resolve(wp!));
+      this.changeParent(wpToBecomeChild!, workPackage.id).then(wp => deferred.resolve(wp));
     });
 
     return deferred.promise;

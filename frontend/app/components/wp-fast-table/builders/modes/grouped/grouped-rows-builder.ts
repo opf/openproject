@@ -110,7 +110,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
         group.href = group._links.valueLink;
       }
       group.identifier = groupIdentifier(group);
-      group.collapsed = this.collapsedGroups[group.identifier] === true;
+      group.collapsed = this.collapsedGroups[group.identifier];
       return group;
     });
   }

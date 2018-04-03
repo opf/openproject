@@ -118,7 +118,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
         const elements = this.deferred[parent.id] || [];
         // Append to them the child and all children below
         let newElements = ancestorChain.slice(i + 1, ancestorChain.length);
-        newElements = newElements.map(child => this.wpCacheService.state(child.id).value!);
+        newElements = newElements.map(child => this.wpCacheService.state(child.id).value);
         this.deferred[parent.id] = elements.concat(newElements);
         return true;
       }

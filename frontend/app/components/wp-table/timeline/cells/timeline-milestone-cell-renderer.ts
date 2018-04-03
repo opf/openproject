@@ -65,7 +65,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
                           labels:WorkPackageCellLabels,
                           dates:any):void {
 
-    this.assignDate(changeset, 'date', dates.date!);
+    this.assignDate(changeset, 'date', dates.date);
     this.updateLabels(true, labels, changeset);
   }
 
@@ -148,7 +148,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
   getMarginLeftOfLeftSide(renderInfo:RenderInfo):number {
     const changeset = renderInfo.changeset;
-    let start = moment(changeset.value('date') as any);
+    let start = moment(changeset.value('date'));
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, 'days');
     return calculatePositionValueForDayCountingPx(renderInfo.viewParams, offsetStart);
   }

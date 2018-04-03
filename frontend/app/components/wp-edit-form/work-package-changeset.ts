@@ -26,22 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {input} from 'reactivestates';
+import {debugLog} from '../../helpers/debug_output';
+import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
+import {FormResourceInterface} from '../api/api-v3/hal-resources/form-resource.service';
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
 } from '../api/api-v3/hal-resources/work-package-resource.service';
-import {FormResourceInterface} from '../api/api-v3/hal-resources/form-resource.service';
-import {$injectFields} from '../angular/angular-injector-bridge.functions';
-import {debugLog} from '../../helpers/debug_output';
 import {SchemaCacheService} from '../schemas/schema-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageCreateService} from '../wp-new/wp-create.service';
-import {input} from 'reactivestates';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {WorkPackageEditingService} from './work-package-editing-service';
-import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
-import {CollectionResource} from '../api/api-v3/hal-resources/collection-resource.service';
 import {Injector} from '@angular/core';
 
 export class WorkPackageChangeset {
@@ -53,14 +50,14 @@ export class WorkPackageChangeset {
   public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
 
   // The changeset to be applied to the work package
-  private changes:{[attribute:string]:any} = {};
+  private changes:{ [attribute:string]:any } = {};
   public inFlight:boolean = false;
 
   // The current work package form
   public wpForm = input<FormResourceInterface>();
 
   // The current editing resource
-  public resource:WorkPackageResourceInterface|null;
+  public resource:WorkPackageResourceInterface | null;
 
   constructor(readonly injector:Injector,
               public workPackage:WorkPackageResourceInterface,
@@ -127,7 +124,7 @@ export class WorkPackageChangeset {
     return this.changes.hasOwnProperty(key);
   }
 
-  public getForm():Promise<FormResourceInterface> {
+  public async getForm():Promise<FormResourceInterface> {
     this.wpForm.putFromPromiseIfPristine(() => {
       return this.updateForm();
     });
@@ -136,7 +133,7 @@ export class WorkPackageChangeset {
     if (this.wpForm.hasValue()) {
       return Promise.resolve(this.wpForm.value!);
     } else {
-      return new Promise((resolve, ) => this.wpForm.valuesPromise().then(resolve));
+      return new Promise<FormResourceInterface>((resolve) => this.wpForm.valuesPromise().then(resolve));
     }
   }
 
@@ -275,7 +272,7 @@ export class WorkPackageChangeset {
   }
 
   private get minimalPayload() {
-    return { lockVersion: this.workPackage.lockVersion, _links: {} };
+    return {lockVersion: this.workPackage.lockVersion, _links: {}};
   }
 
   /**
@@ -299,7 +296,7 @@ export class WorkPackageChangeset {
 
       return links;
     } else {
-      return { href: _.get(val, 'href', null) };
+      return {href: _.get(val, 'href', null)};
     }
   }
 

@@ -175,7 +175,7 @@ export class SingleRowBuilder {
     });
 
     // Set the row selection state
-    if (this.wpTableSelection.isSelected(<string>workPackage.id)) {
+    if (this.wpTableSelection.isSelected(workPackage.id)) {
       row.classList.add(checkedClassName);
     }
 

@@ -34,7 +34,7 @@ import {PathHelperService} from 'core-components/common/path-helper/path-helper.
  * between common relations and parent-child relations
  */
 export class WorkPackageSingleRelationController {
-  public workPackagePath = this.PathHelper.workPackagePath;
+  public workPackagePath = this.PathHelper.workPackagePath.bind(this.PathHelper);
 
   constructor(protected PathHelper:PathHelperService) {
   }
