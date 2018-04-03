@@ -5524,9 +5524,9 @@
       "dev": true
     },
     "typescript": {
-      "version": "2.7.1",
-      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.7.1.tgz",
-      "integrity": "sha512-bqB1yS6o9TNA9ZC/MJxM0FZzPnZdtHj0xWK/IZ5khzVqdpGul/R/EIiHRgFXlwTD7PSIaYVnGKq1QgMCu2mnqw=="
+      "version": "2.8.1",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.8.1.tgz",
+      "integrity": "sha512-Ao/f6d/4EPLq0YwzsQz8iXflezpTkQzqAyenTiw4kCUGr1uPiFLC3+fZ+gMZz6eeI/qdRUqvC+HxIJzUAzEFdg=="
     },
     "uglify-js": {
       "version": "2.8.29",
