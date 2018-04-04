@@ -27,14 +27,17 @@
 // ++
 
 import {Field, FieldFactory} from './wp-field.module';
+import {Injectable, Injector} from '@angular/core';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
+@Injectable()
 export class WorkPackageFieldService {
 
   public static get fieldFactory() {
     return FieldFactory;
   }
 
-  constructor(protected $injector:ng.auto.IInjectorService) {
+  constructor(protected injector:Injector) {
   }
 
   public set defaultType(value:string) {
@@ -51,7 +54,7 @@ export class WorkPackageFieldService {
 
   public addFieldType(fieldClass:any, displayType:string, fields:string[]) {
     fieldClass.type = displayType;
-    fieldClass.$injector = this.$injector;
+    fieldClass.$injector = this.injector;
     (this.constructor as typeof WorkPackageFieldService).fieldFactory.register(fieldClass, fields);
     return this;
   }
@@ -64,4 +67,4 @@ export class WorkPackageFieldService {
 
 angular
   .module('openproject')
-  .service('wpField', WorkPackageFieldService);
+  .service('wpField', downgradeInjectable(WorkPackageFieldService));

@@ -47,7 +47,7 @@ export interface WorkPackageEditContext {
   /**
    * Show this required field. E.g., add the necessary column
    */
-  requireVisible(fieldName:string):Promise<undefined>;
+  requireVisible(fieldName:string):Promise<void>;
 
   /**
    * Reset the field and re-render the current WPs value.

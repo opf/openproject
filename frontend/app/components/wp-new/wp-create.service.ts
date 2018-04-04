@@ -28,7 +28,6 @@
 
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
-import {wpServicesModule} from '../../angular-modules';
 import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
 import {
   WorkPackageResource,
@@ -37,14 +36,16 @@ import {
 import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
+import {Injectable, Injector} from '@angular/core';
 
+@Injectable()
 export class WorkPackageCreateService {
   protected form:ng.IPromise<HalResource>;
 
   // Allow callbacks to happen on newly created work packages
   protected newWorkPackageCreatedSubject = new Subject<WorkPackageResourceInterface>();
 
-  constructor(protected $q:ng.IQService,
+  constructor(protected injector:Injector,
               protected wpCacheService:WorkPackageCacheService,
               protected apiWorkPackages:ApiWorkPackagesService) {
   }
@@ -73,7 +74,7 @@ export class WorkPackageCreateService {
     var wp = new WorkPackageResource(form.payload.$plain(), true) as any;
     wp.initializeNewResource(form);
 
-    return new WorkPackageChangeset(wp, form);
+    return new WorkPackageChangeset(this.injector, wp, form);
   }
 
   /**
@@ -89,7 +90,7 @@ export class WorkPackageCreateService {
 
     wp.initializeNewResource(form);
 
-    return new WorkPackageChangeset(wp, form);
+    return new WorkPackageChangeset(this.injector, wp, form);
   }
 
   public copyWorkPackage(copyFromForm:any, projectIdentifier?:string) {
@@ -108,5 +109,3 @@ export class WorkPackageCreateService {
     return this.form;
   }
 }
-
-wpServicesModule.service('wpCreate', WorkPackageCreateService);

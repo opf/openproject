@@ -57,16 +57,5 @@ describe('authorisationService', function() {
       expect(authorisationService.can('query', 'delete')).to.be.false;
       expect(authorisationService.cannot('query', 'delete')).to.be.true;
     });
-
-    it('should call an event on initialisation', function () {
-      var eventCalled = false;
-
-      $rootScope.$on('modelAuthUpdate.my_model', function () {
-        eventCalled = true;
-      });
-
-      authorisationService.initModelAuth('my_model', {});
-      expect(eventCalled).to.be.true;
-    });
   });
 });

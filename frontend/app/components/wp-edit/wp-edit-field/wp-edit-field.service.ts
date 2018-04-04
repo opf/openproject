@@ -31,7 +31,10 @@ import {EditField} from "./wp-edit-field.module";
 import {WorkPackageFieldService} from "../../wp-field/wp-field.service"
 import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
 import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
+import {Injectable} from '@angular/core';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
+@Injectable()
 export class WorkPackageEditFieldService extends WorkPackageFieldService  {
   public static get fieldFactory() {
     return EditFieldFactory;
@@ -42,7 +45,6 @@ export class WorkPackageEditFieldService extends WorkPackageFieldService  {
   }
 }
 
-//TODO: Use 'wpEdit' module
 angular
   .module('openproject')
-  .service('wpEditField', WorkPackageEditFieldService);
+  .service('wpEditField', downgradeInjectable(WorkPackageEditFieldService));

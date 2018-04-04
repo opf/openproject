@@ -31,9 +31,7 @@ import {columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {QueryGroupByResource} from 'core-components/api/api-v3/hal-resources/query-group-by-resource.service';
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
-import {WorkPackageTableColumns} from 'core-components/wp-fast-table/wp-table-columns';
-import {QueryColumn} from 'core-components/wp-query/query-column';
-import {TableState, TableStateHolder} from 'core-components/wp-table/table-state/table-state';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {debugLog} from '../../helpers/debug_output';
@@ -45,18 +43,22 @@ import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
 import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
-import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
+import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
+import {
+  WorkPackageTableConfiguration,
+  WorkPackageTableConfigurationObject
+} from 'core-app/components/wp-table/wp-table-configuration';
+import {QueryColumn} from 'core-components/wp-query/query-column';
 
 @Component({
   template: require('!!raw-loader!./wp-table.directive.html'),
   selector: 'wp-table',
-  providers: [TableStateHolder]
 })
 export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   @Input() projectIdentifier:string;
-
-  @Input() tableState:TableState;
+  @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
+  public configuration:WorkPackageTableConfiguration;
 
   private $element:JQuery;
 
@@ -70,13 +72,13 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public tbody:JQuery;
 
+  public query:QueryResource;
+
   public timeline:HTMLElement;
 
   public locale:string;
 
   public text:any;
-
-  public query:QueryResource;
 
   public rowcount:number;
 
@@ -90,10 +92,10 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   constructor(private elementRef:ElementRef,
               public injector:Injector,
-              private readonly tableStateHolder:TableStateHolder,
+              private states:States,
+              readonly tableState:TableState,
               @Inject(columnsModalToken) private columnsModal:any,
               private opContextMenu:OPContextMenuService,
-              private states:States,
               @Inject(I18nToken) private I18n:op.I18n,
               private wpTableGroupBy:WorkPackageTableGroupByService,
               private wpTableTimeline:WorkPackageTableTimelineService,
@@ -101,7 +103,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   }
 
   ngOnInit():void {
-    this.tableStateHolder.set(this.tableState);
+    this.configuration = new WorkPackageTableConfiguration(this.configurationObject);
     this.$element = jQuery(this.elementRef.nativeElement);
     this.scrollSyncUpdate = createScrollSync(this.$element);
 
@@ -130,7 +132,6 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     };
 
     let statesCombined = combineLatest(
-      this.states.query.resource.values$(),
       this.tableState.results.values$(),
       this.wpTableGroupBy.state.values$(),
       this.wpTableColumns.state.values$(),
@@ -138,8 +139,8 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
     statesCombined.pipe(
       untilComponentDestroyed(this)
-    ).subscribe(([query, results, groupBy, columns, timelines]) => {
-      this.query = query;
+    ).subscribe(([results, groupBy, columns, timelines]) => {
+      this.query = this.tableState.query.value!;
       this.rowcount = results.count;
 
       this.groupBy = groupBy.current;
@@ -171,7 +172,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     let t0 = performance.now();
 
     const tbody = this.$element.find('.work-package--results-tbody');
-    this.workPackageTable = new WorkPackageTable(this.injector, this.$element[0], tbody[0], body, controller);
+    this.workPackageTable = new WorkPackageTable(this.injector, this.$element[0], tbody[0], body, controller, this.configuration);
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
     new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);

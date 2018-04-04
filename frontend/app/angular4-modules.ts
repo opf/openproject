@@ -49,7 +49,9 @@ import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-ta
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
-import {WpInlineCreateDirectiveUpgraded} from 'core-components/wp-inline-create/wp-inline-create.directive';
+import {
+  WorkPackageInlineCreateComponent,
+} from 'core-components/wp-inline-create/wp-inline-create.component';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
@@ -64,17 +66,20 @@ import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-
 import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
 import {WorkPackagesTableController} from 'core-components/wp-table/wp-table.directive';
 import {
+  $localeToken,
   $qToken,
   $rootScopeToken,
   $stateToken,
   $timeoutToken,
   columnsModalToken, exportModalToken,
   FocusHelperToken, groupingModalToken,
-  halRequestToken,
+  halRequestToken, HalResourceToken,
   HookServiceToken,
   I18nToken,
   NotificationsServiceToken,
-  PathHelperToken, saveModalToken, settingsModalToken, shareModalToken, sortingModalToken,
+  PathHelperToken, QueryFilterInstanceResourceToken, QueryResourceToken, saveModalToken,
+  settingsModalToken, shareModalToken,
+  sortingModalToken,
   timelinesModalToken,
   TimezoneServiceToken,
   upgradeService,
@@ -151,20 +156,38 @@ import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy
 import {FocusWithinDirective} from 'core-components/common/focus-within/focus-within.upgraded.directive';
 import {ClickOnKeypressComponent} from 'core-app/ui_components/click-on-keypress-upgraded.component';
 import {AutocompleteSelectDecorationComponent} from 'core-components/common/autocomplete-select-decoration/autocomplete-select-decoration.component';
-import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {PortalModule} from "@angular/cdk/portal";
-import {OPContextMenuComponent} from "core-components/op-context-menu/op-context-menu.component";
-import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import {OpTypesContextMenuDirective} from "core-components/op-context-menu/handlers/op-types-context-menu.directive";
-import {WorkPackageContextMenuHelperService} from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
-import {OpColumnsContextMenu} from "core-components/op-context-menu/handlers/op-columns-context-menu.directive";
-import {OpSettingsMenuDirective} from "core-components/op-context-menu/handlers/op-settings-dropdown-menu.directive";
-import {WorkPackageStatusDropdownDirective} from "core-components/op-context-menu/handlers/wp-status-dropdown-menu.directive";
-import {WorkPackageCreateSettingsMenuDirective} from "core-components/op-context-menu/handlers/wp-create-settings-menu.directive";
-import {WorkPackageSingleContextMenuDirective} from "core-components/op-context-menu/wp-context-menu/wp-single-context-menu";
-import {WorkPackageQuerySelectableTitleComponent} from "core-components/wp-query-select/wp-query-selectable-title.component";
-import {WorkPackageQuerySelectDropdownComponent} from "core-components/wp-query-select/wp-query-select-dropdown.component";
-import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-dm.service";
+import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
+import {PortalModule} from '@angular/cdk/portal';
+import {OPContextMenuComponent} from 'core-components/op-context-menu/op-context-menu.component';
+import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
+import {OpTypesContextMenuDirective} from 'core-components/op-context-menu/handlers/op-types-context-menu.directive';
+import {WorkPackageContextMenuHelperService} from 'core-components/wp-table/context-menu-helper/wp-context-menu-helper.service';
+import {OpColumnsContextMenu} from 'core-components/op-context-menu/handlers/op-columns-context-menu.directive';
+import {OpSettingsMenuDirective} from 'core-components/op-context-menu/handlers/op-settings-dropdown-menu.directive';
+import {WorkPackageStatusDropdownDirective} from 'core-components/op-context-menu/handlers/wp-status-dropdown-menu.directive';
+import {WorkPackageCreateSettingsMenuDirective} from 'core-components/op-context-menu/handlers/wp-create-settings-menu.directive';
+import {WorkPackageSingleContextMenuDirective} from 'core-components/op-context-menu/wp-context-menu/wp-single-context-menu';
+import {WorkPackageQuerySelectableTitleComponent} from 'core-components/wp-query-select/wp-query-selectable-title.component';
+import {WorkPackageQuerySelectDropdownComponent} from 'core-components/wp-query-select/wp-query-select-dropdown.component';
+import {QueryDmService} from 'core-components/api/api-v3/hal-resource-dms/query-dm.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
+import {QueryFormDmService} from 'core-components/api/api-v3/hal-resource-dms/query-form-dm.service';
+import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
+import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
+import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
+import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
+import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
+import {WorkPackageFieldService} from 'core-components/wp-field/wp-field.service';
+import ExpressionService from 'core-components/common/xss/expression.service';
+import {WorkPackageEditFieldService} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.service';
+import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
+import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
+import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
+import {Ng1RelationsCreateWrapper} from 'core-components/wp-relations/wp-relations-create/ng1-wp-relations-create.directive';
+import {WpRelationsAutocompleteComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.upgraded.component';
+import {WpRelationAddChildComponent} from 'core-components/wp-relations/wp-relation-add-child/wp-relation-add-child';
+import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relations-parent/wp-relations-parent.component';
 
 @NgModule({
   imports: [
@@ -178,11 +201,15 @@ import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-
   providers: [
     GonRef,
     HideSectionService,
+    upgradeServiceWithToken('HalResource', HalResourceToken),
+    upgradeServiceWithToken('QueryResource', QueryResourceToken),
+    upgradeServiceWithToken('QueryFilterInstanceResource', QueryFilterInstanceResourceToken),
     upgradeServiceWithToken('$rootScope', $rootScopeToken),
     upgradeServiceWithToken('I18n', I18nToken),
     upgradeServiceWithToken('$state', $stateToken),
     upgradeServiceWithToken('$q', $qToken),
     upgradeServiceWithToken('$timeout', $timeoutToken),
+    upgradeServiceWithToken('$locale', $localeToken),
     upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
     upgradeServiceWithToken('columnsModal', columnsModalToken),
     upgradeServiceWithToken('FocusHelper', FocusHelperToken),
@@ -200,38 +227,50 @@ import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-
     upgradeServiceWithToken('exportModal', exportModalToken),
     upgradeServiceWithToken('timelinesModal', timelinesModalToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
-    upgradeService('wpCacheService', WorkPackageCacheService),
-    upgradeService('wpEditing', WorkPackageEditingService),
+    WorkPackageCacheService,
+    WorkPackageEditingService,
+    SchemaCacheService,
     upgradeService('states', States),
     upgradeService('paginationService', PaginationService),
     upgradeService('keepTab', KeepTabService),
-    upgradeService('wpTableSelection', WorkPackageTableSelection),
-    upgradeService('wpTableFocus', WorkPackageTableFocusService),
-    upgradeService('wpTablePagination', WorkPackageTablePaginationService),
     upgradeService('templateRenderer', SimpleTemplateRenderer),
-    upgradeService('wpTableRefresh', WorkPackageTableRefreshService),
     upgradeService('wpDisplayField', WorkPackageDisplayFieldService),
-    upgradeService('wpTableTimeline', WorkPackageTableTimelineService),
     upgradeService('wpNotificationsService', WorkPackageNotificationService),
-    upgradeService('wpTableHierarchies', WorkPackageTableHierarchiesService),
-    upgradeService('wpTableSortBy', WorkPackageTableSortByService),
-    upgradeService('wpTableFilters', WorkPackageTableFiltersService),
-    upgradeService('wpTableSum', WorkPackageTableSumService),
-    upgradeService('wpListService', WorkPackagesListService),
     upgradeService('wpListChecksumService', WorkPackagesListChecksumService),
     upgradeService('wpRelationsHierarchyService', WorkPackageRelationsHierarchyService),
     upgradeService('wpFiltersService', WorkPackageFiltersService),
     upgradeService('loadingIndicator', LoadingIndicatorService),
-    upgradeService('wpTableRelationColumns', WorkPackageTableRelationColumnsService),
-    upgradeService('wpTableGroupBy', WorkPackageTableGroupByService),
-    upgradeService('wpTableColumns', WorkPackageTableColumnsService),
+    upgradeService('apiWorkPackages', ApiWorkPackagesService),
+    // Table and query states services
+    WorkPackageTableRelationColumnsService,
+    WorkPackageTablePaginationService,
+    WorkPackageTableGroupByService,
+    WorkPackageTableHierarchiesService,
+    WorkPackageTableSortByService,
+    WorkPackageTableColumnsService,
+    WorkPackageTableFiltersService,
+    WorkPackageTableTimelineService,
+    WorkPackageTableSumService,
+    WorkPackageStatesInitializationService,
+    WorkPackagesListService,
+    WorkPackageTableRefreshService,
+    WorkPackageTableAdditionalElementsService,
+    WorkPackagesListInvalidQueryService,
+    WorkPackageTableFocusService,
+    WorkPackageTableSelection,
+    WorkPackageFieldService,
+    WorkPackageDisplayFieldService,
+    WorkPackageEditFieldService,
+    ExpressionService,
+    WorkPackageCreateService,
+    OpTableActionsService,
     upgradeService('authorisationService', AuthorisationService),
     upgradeService('ConfigurationService', ConfigurationService),
     upgradeService('currentProject', CurrentProjectService),
     upgradeService('RootDm', RootDmService),
     upgradeService('QueryDm', QueryDmService),
+    upgradeService('queryMenu', QueryMenuService),
     // Split view
-    upgradeService('wpCreate', WorkPackageCreateService),
     upgradeService('firstRoute', FirstRouteService),
     upgradeService('PathHelper', PathHelperService),
     // Activity tab
@@ -241,6 +280,8 @@ import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-
     upgradeServiceWithToken('HookService', HookServiceToken),
     upgradeServiceWithToken('UrlParamsHelper', UrlParamsHelperToken),
     WorkPackageContextMenuHelperService,
+    QueryFormDmService,
+    TableState,
   ],
   declarations: [
     WorkPackagesListComponent,
@@ -266,7 +307,6 @@ import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-
     WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
     SortHeaderDirective,
-    WpInlineCreateDirectiveUpgraded,
 
     // Add functionality to rails rendered templates
     HideSectionComponent,
@@ -310,6 +350,11 @@ import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-
     // Relations Tab
     WorkPackageRelationsTabComponent,
     Ng1RelationsDirectiveWrapper,
+    Ng1RelationsCreateWrapper,
+    WorkPackageRelationsHierarchyComponent,
+    WpRelationsAutocompleteComponent,
+    WpRelationAddChildComponent,
+    WpRelationParentComponent,
 
     // Watchers tab
     WorkPackageWatchersTabComponent,
@@ -338,6 +383,12 @@ import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-
     WorkPackageSingleContextMenuDirective,
     WorkPackageQuerySelectableTitleComponent,
     WorkPackageQuerySelectDropdownComponent,
+
+    // Inline create
+    WorkPackageInlineCreateComponent,
+
+    // Embedded table
+    WorkPackageEmbeddedTableComponent
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -377,6 +428,12 @@ import {QueryDmService} from "core-components/api/api-v3/hal-resource-dms/query-
 
     OPContextMenuComponent,
     WorkPackageQuerySelectDropdownComponent,
+
+    // Embedded table
+    WorkPackageEmbeddedTableComponent,
+
+    // Relations tab (ng1 -> ng2)
+    WorkPackageRelationsHierarchyComponent
   ]
 })
 export class OpenProjectModule {

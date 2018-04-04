@@ -33,17 +33,16 @@ import {SchemaCacheService} from './../../../schemas/schema-cache.service';
 import {ApiWorkPackagesService} from '../../api-work-packages/api-work-packages.service';
 import {AttachmentCollectionResourceInterface} from './attachment-collection-resource.service';
 import {UploadFile} from '../../op-file-upload/op-file-upload.service';
-import IQService = angular.IQService;
-import IPromise = angular.IPromise;
-import ITimeoutService = angular.ITimeoutService;
 import {States} from '../../../states.service';
 import {SchemaResource} from './schema-resource.service';
 import {TypeResource} from './type-resource.service';
 import {RelationResourceInterface} from './relation-resource.service';
 import {WorkPackageCreateService} from '../../../wp-new/wp-create.service';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
-import {debugLog} from '../../../../helpers/debug_output';
 import {CollectionResource} from "core-components/api/api-v3/hal-resources/collection-resource.service";
+import IQService = angular.IQService;
+import IPromise = angular.IPromise;
+import ITimeoutService = angular.ITimeoutService;
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -105,7 +104,6 @@ var wpCacheService:WorkPackageCacheService;
 var schemaCacheService:SchemaCacheService;
 var NotificationsService:any;
 var wpNotificationsService:WorkPackageNotificationService;
-var wpCreate:WorkPackageCreateService;
 var AttachmentCollectionResource:any;
 var v3Path:any;
 
@@ -390,7 +388,6 @@ function wpResource(...args:any[]) {
     states,
     apiWorkPackages,
     wpCacheService,
-    wpCreate,
     schemaCacheService,
     NotificationsService,
     wpNotificationsService,
@@ -407,7 +404,6 @@ wpResource.$inject = [
   'states',
   'apiWorkPackages',
   'wpCacheService',
-  'wpCreate',
   'schemaCacheService',
   'NotificationsService',
   'wpNotificationsService',

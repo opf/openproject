@@ -1,0 +1,86 @@
+<div class="relation-row relation-row--parent"
+     focus-within>
+    <div class="grid-block v-align hierarchy-item"
+         *ngIf="!showEditForm && relationReady">
+        <div class="grid-content medium-7 collapse" wp-single-relation>
+            <span ng-style="{'padding-left': indentBy + 'px'}"
+                  class="wp-relations-hierarchy-subject">
+                <a ui-sref="work-packages.show.relations({ workPackageId: workPackage.parent.id})"
+                   class="wp-relations--subject-field"
+                   [attr.aria-label]="text.parent"
+                   [attr.id]="wp-relations-parent-element"
+                   [textContent]="workPackage.parent.subjectWithType">
+                </a>
+            </span>
+        </div>
+        <div class="grid-content medium-3 collapse wp-relations-status-field">
+            <wp-edit-field-group [workPackage]="workPackage.parent">
+              <div *ngIf="relationReady">
+                  <wp-edit-field [workPackageId]="workPackage.parent.id"
+                                 fieldName="status">
+                  </wp-edit-field>
+              </div>
+            </wp-edit-field-group>
+        </div>
+        <div class="grid-content medium-2 collapse wp-relations-controls-section focus-within--depending">
+          <accessible-by-keyboard *ngIf="canModifyHierarchy"
+                                  (execute)="showEditForm = true"
+                                  linkClass="wp-relation--edit">
+              <op-icon icon-classes="icon-edit" [icon-title]="text.change_parent"></op-icon>
+          </accessible-by-keyboard>
+
+          <accessible-by-keyboard *ngIf="canModifyHierarchy"
+                                  (execute)="removeParent()"
+                                  linkClass="wp-relation--remove">
+              <op-icon icon-classes="icon-remove"
+                       [icon-title]="text.remove_parent"></op-icon>
+          </accessible-by-keyboard>
+        </div>
+    </div>
+
+    <div *ngIf="canModifyHierarchy && (!workPackage.parent || showEditForm)" class="hide-when-print">
+      <div class="wp-relations-create-button -full-width"
+           *ngIf="!showEditForm">
+        <div class="grid-block">
+          <div class="grid-content collapse hide-when-print wp-inline-create-button">
+            <a class="wp-inline-create--add-link relation-create"
+               (click)="showEditForm = true"
+               role="button"
+               id="hierarchy--add-parent">
+              <op-icon icon-classes="icon icon-add"></op-icon>
+              <span [textContent]="text.add_parent"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="loading-indicator--location"
+           *ngIf="showEditForm"
+           data-indicator-name="relationAddParent">
+        <div class="v-align wp-relations-create--form wp-relations--parent-form">
+          <div class="grid-content medium-10">
+            <wp-relations-autocomplete-upgraded
+              [workPackage]="workPackage"
+              (onWorkPackageIdSelected)="updateSelectedId($event)"
+              loadingPromiseName="relationAddParent"
+              filterCandidatesFor="parent">
+            </wp-relations-autocomplete-upgraded>
+          </div>
+          <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
+            <accessible-by-keyboard
+              linkClass="wp-create-relation--save"
+              [isDisabled]="!selectedWpId || isSaving"
+              (execute)="changeParent()"
+              aria-hidden="false">
+              <op-icon icon-classes="icon-checkmark" [icon-title]="text.save"></op-icon>
+            </accessible-by-keyboard>
+            <accessible-by-keyboard
+              linkClass="wp-create-relation--cancel"
+              (execute)="showEditForm = false"
+              aria-hidden="false">
+              <op-icon icon-classes="icon-remove" [icon-title]="text.abort"></op-icon>
+            </accessible-by-keyboard>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

@@ -36,11 +36,14 @@ export class WorkPackageCommentField extends WikiTextareaEditField {
   public _value:any;
   public isBusy:boolean = false;
 
-  public ConfigurationService:ConfigurationService;
+  public ConfigurationService:ConfigurationService = this.$injector.get(ConfigurationService);
 
   constructor(public workPackage:WorkPackageResourceInterface, protected I18n:op.I18n) {
-    super(new WorkPackageChangeset(workPackage), 'comment', {name: I18n.t('js.label_comment')} as any);
-    $injectFields(this, 'ConfigurationService');
+    super(
+      new WorkPackageChangeset(WorkPackageCommentField.$injector, workPackage),
+      'comment',
+      {name: I18n.t('js.label_comment')} as any
+    );
 
     this.initializeFieldValue();
   }

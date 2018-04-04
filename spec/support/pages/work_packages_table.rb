@@ -171,7 +171,7 @@ module Pages
     end
 
     def row(work_package)
-      table_container.find(".wp-row-#{work_package.id}")
+      table_container.find(".wp-row-#{work_package.id}-table")
     end
 
     def edit_field(work_package, attribute)
@@ -220,7 +220,7 @@ module Pages
     end
 
     def table_container
-      find('#content .work-package-table--container')
+      find('#content .work-packages-split-view--tabletimeline-side')
     end
 
     def work_package_row_selector(work_package)

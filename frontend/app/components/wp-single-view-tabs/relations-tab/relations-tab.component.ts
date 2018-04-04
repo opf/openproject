@@ -26,33 +26,38 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, OnDestroy} from '@angular/core';
 import {Transition} from '@uirouter/core';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {I18nToken} from '../../../angular4-transition-utils';
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
-import {I18nToken} from '../../../angular4-transition-utils';
 
 @Component({
   template: require('!!raw-loader!./relations-tab.html'),
   selector: 'wp-relations-tab',
 })
-export class WorkPackageRelationsTabComponent implements OnDestroy {
-  public workPackageId:string;
+export class WorkPackageRelationsTabComponent implements OnInit, OnDestroy {
+  @Input() public workPackageId?:string;
   public workPackage:WorkPackageResourceInterface;
 
   public constructor(@Inject(I18nToken) readonly I18n:op.I18n,
                      readonly $transition:Transition,
                      readonly wpCacheService:WorkPackageCacheService) {
+  }
 
-    this.workPackageId = this.$transition.params('to').workPackageId;
-    wpCacheService.loadWorkPackage(this.workPackageId)
+  ngOnInit() {
+    const wpId = this.workPackageId || this.$transition.params('to').workPackageId;
+    this.wpCacheService.loadWorkPackage(wpId)
       .values$()
       .pipe(
         takeUntil(componentDestroyed(this))
       )
-      .subscribe((wp) => this.workPackage = wp);
+      .subscribe((wp) => {
+          this.workPackageId = wp.id;
+          this.workPackage = wp;
+        });
   }
 
   ngOnDestroy() {

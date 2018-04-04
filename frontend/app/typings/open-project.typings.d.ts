@@ -120,12 +120,4 @@ declare namespace op {
     showSums?:boolean;
     sortBy?:any[];
   }
-
-  interface PathHelper {
-    workPackagePath(id:any):string;
-  }
-
-  interface WorkPackagesHelper {
-    formatValue(value:any, type:any):string;
-  }
 }

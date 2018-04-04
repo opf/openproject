@@ -30,10 +30,13 @@ import {QueryFormResource} from '../hal-resources/query-form-resource.service';
 import {QueryResource} from '../hal-resources/query-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 import {HalRequestService} from '../hal-request/hal-request.service';
+import {Inject, Injectable} from '@angular/core';
+import {halRequestToken, v3PathToken} from 'core-app/angular4-transition-utils';
 
+@Injectable()
 export class QueryFormDmService {
-  constructor(protected halRequest:HalRequestService,
-              protected v3Path:any) {
+  constructor(@Inject(halRequestToken) protected halRequest:HalRequestService,
+              @Inject(v3PathToken) protected v3Path:any) {
   }
 
   public load(query:QueryResource):ng.IPromise<QueryFormResource> {
@@ -86,5 +89,3 @@ export class QueryFormDmService {
     return this.halRequest.post(href, payload);
   }
 }
-
-opApiModule.service('QueryFormDm', QueryFormDmService);

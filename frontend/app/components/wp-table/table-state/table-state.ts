@@ -1,7 +1,7 @@
 import {WorkPackageResourceInterface} from 'app/components/api/api-v3/hal-resources/work-package-resource.service';
 import {
-  GroupObject,
-  WorkPackageCollectionResource
+    GroupObject,
+    WorkPackageCollectionResource
 } from 'app/components/api/api-v3/hal-resources/wp-collection-resource.service';
 import {RenderedRow} from 'app/components/wp-fast-table/builders/primary-render-pass';
 import {WorkPackageTableColumns} from 'app/components/wp-fast-table/wp-table-columns';
@@ -14,75 +14,116 @@ import {WorkPackageTableSortBy} from 'app/components/wp-fast-table/wp-table-sort
 import {WorkPackageTableSum} from 'app/components/wp-fast-table/wp-table-sum';
 import {WorkPackageTableTimelineState} from 'app/components/wp-fast-table/wp-table-timeline';
 import {WPTableRowSelectionState} from 'app/components/wp-fast-table/wp-table.interfaces';
-import {derive, input, State, StatesGroup} from 'reactivestates';
-import {map} from 'rxjs/operators';
-import {Subject} from 'rxjs/Subject';
+import {combine, derive, input, State, StatesGroup} from 'reactivestates';
+import {Subject} from 'rxjs/Rx';
+import {States} from 'core-components/states.service';
+import {Injectable} from '@angular/core';
+import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
+import {opServicesModule} from 'core-app/angular-modules';
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {SwitchState} from 'core-components/states/switch-state';
+import {mapTo, map} from 'rxjs/operators';
 
+@Injectable()
 export class TableState extends StatesGroup {
 
-    name = 'TableStore';
+  constructor() {
+    super();
+  }
 
-    // the results associated with the table
-    results = input<WorkPackageCollectionResource>();
-    // Set of work package IDs in strict order of appearance
-    rows = input<WorkPackageResourceInterface[]>();
-    // all groups returned as results
-    groups = input<GroupObject[]>();
-    // Set of columns in strict order of appearance
-    columns = input<WorkPackageTableColumns>();
+  name = 'TableStore';
 
-    // Set of filters
-    filters = input<WorkPackageTableFilters>();
-    // Active and available sort by
-    sortBy = input<WorkPackageTableSortBy>();
-    // Active and available group by
-    groupBy = input<WorkPackageTableGroupBy>();
-    // is query summed
-    sum = input<WorkPackageTableSum>();
-    // pagination information
-    pagination = input<WorkPackageTablePagination>();
-    // Table row selection state
-    selection = input<WPTableRowSelectionState>();
-    // Current state of collapsed groups (if any)
-    collapsedGroups = input<{ [identifier:string]:boolean }>();
-    // Hierarchies of table
-    hierarchies = input<WorkPackageTableHierarchies>();
-    // State to be updated when the table is up to date
-    rendered = input<RenderedRow[]>();
+  // The query that results in this table state
+  query = input<QueryResource>();
 
-    renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $.pipe(
-            map(rows => rows.filter(row => !!row.workPackageId)))
-    );
+  // the results associated with the table
+  results = input<WorkPackageCollectionResource>();
+  // Set of work package IDs in strict order of appearance
+  rows = input<WorkPackageResourceInterface[]>();
+  // all groups returned as results
+  groups = input<GroupObject[]>();
+  // Set of columns in strict order of appearance
+  columns = input<WorkPackageTableColumns>();
 
-    // State to determine timeline visibility
-    timelineVisible = input<WorkPackageTableTimelineState>();
+  // Set of filters
+  filters = input<WorkPackageTableFilters>();
+  // Active and available sort by
+  sortBy = input<WorkPackageTableSortBy>();
+  // Active and available group by
+  groupBy = input<WorkPackageTableGroupBy>();
+  // is query summed
+  sum = input<WorkPackageTableSum>();
+  // pagination information
+  pagination = input<WorkPackageTablePagination>();
+  // Table row selection state
+  selection = input<WPTableRowSelectionState>();
+  // Current state of collapsed groups (if any)
+  collapsedGroups = input<{ [identifier:string]:boolean }>();
+  // Hierarchies of table
+  hierarchies = input<WorkPackageTableHierarchies>();
+  // State to be updated when the table is up to date
+  rendered = input<RenderedRow[]>();
 
-    // auto zoom toggle
-    timelineAutoZoom = input<boolean>(true);
+  renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $.pipe(
+    map(rows => rows.filter(row => !!row.workPackageId)))
+  );
 
-    // Subject used to unregister all listeners of states above.
-    stopAllSubscriptions = new Subject();
-    // Fire when table refresh is required
-    refreshRequired = input<boolean[]>();
+  // State to determine timeline visibility
+  timelineVisible = input<WorkPackageTableTimelineState>();
 
-    // Expanded relation columns
-    relationColumns = input<WorkPackageTableRelationColumns>();
+  // auto zoom toggle
+  timelineAutoZoom = input<boolean>(true);
 
-    // Required work packages to be rendered by hierarchy mode + relation columns
-    additionalRequiredWorkPackages = input<null>();
+  // Subject used to unregister all listeners of states above.
+  stopAllSubscriptions = new Subject();
+  // Fire when table refresh is required
+  refreshRequired = input<boolean[]>();
+
+  // Expanded relation columns
+  relationColumns = input<WorkPackageTableRelationColumns>();
+
+  // Required work packages to be rendered by hierarchy mode + relation columns
+  additionalRequiredWorkPackages = input<null>();
+
+  tableRendering = new TableRenderingStates(this);
+
+  // Current context of table loading
+  ready = new SwitchState<'Query loaded'>();
+
+  // Updater states on user input
+  updates = new UserUpdaterStates(this);
 }
 
+opServicesModule.service('globalTableState', downgradeInjectable(TableState));
 
-export class TableStateHolder {
+export class TableRenderingStates {
+  constructor(private tableState:TableState) {
+  }
 
-    private tableState:TableState;
+  // State when all required input states for the current query are ready
+  private combinedTableStates = combine(
+    this.tableState.rows,
+    this.tableState.columns,
+    this.tableState.sum,
+    this.tableState.groupBy,
+    this.tableState.sortBy,
+    this.tableState.additionalRequiredWorkPackages
+  );
 
-    get():TableState {
-        return this.tableState;
-    }
+  onQueryUpdated = derive(this.combinedTableStates, ($,) => $.pipe(mapTo(null)));
+}
 
-    set(tableState:TableState) {
-        this.tableState = tableState;
-    }
+export class UserUpdaterStates {
 
+  constructor(private tableState:TableState) {
+  }
+
+  columnsUpdates = this.tableState.ready.fireOnStateChange(this.tableState.columns,
+    'Query loaded');
+
+  hierarchyUpdates = this.tableState.ready.fireOnStateChange(this.tableState.hierarchies,
+    'Query loaded');
+
+  relationUpdates = this.tableState.ready.fireOnStateChange(this.tableState.relationColumns,
+    'Query loaded');
 }

@@ -1,19 +1,24 @@
-import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
-import {InputState} from 'reactivestates';
-import {distinctUntilChanged, filter, map} from 'rxjs/operators';
-import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
+import {opServicesModule} from '../../../angular-modules';
+import {InputState} from 'reactivestates';
+import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {Injectable} from '@angular/core';
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {distinctUntilChanged, filter, map} from 'rxjs/operators';
 
 export interface WPFocusState {
   workPackageId:string;
   focusAfterRender:boolean;
 }
 
+@Injectable()
 export class WorkPackageTableFocusService {
 
   public state:InputState<WPFocusState>;
 
   constructor(public states:States,
+              public tableState:TableState,
               public wpTableSelection:WorkPackageTableSelection) {
     this.state = states.focusedWorkPackage;
     this.observeToUpdateFocused();
@@ -69,7 +74,7 @@ export class WorkPackageTableFocusService {
    */
   private observeToUpdateFocused() {
     this
-      .states.globalTable.rendered
+      .tableState.rendered
       .values$()
       .pipe(
         map(state => _.find(state, (row:any) => row.workPackageId)),
@@ -81,4 +86,4 @@ export class WorkPackageTableFocusService {
   }
 }
 
-opServicesModule.service('wpTableFocus', WorkPackageTableFocusService);
+opServicesModule.service('wpTableFocus', downgradeInjectable(WorkPackageTableFocusService));

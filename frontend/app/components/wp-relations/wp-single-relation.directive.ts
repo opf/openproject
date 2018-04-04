@@ -28,6 +28,7 @@
 
 import {wpDirectivesModule} from '../../angular-modules';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 /**
  * Contains methods and attributes shared
  * between common relations and parent-child relations
@@ -35,7 +36,7 @@ import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-pac
 export class WorkPackageSingleRelationController {
   public workPackagePath = this.PathHelper.workPackagePath.bind(this.PathHelper);
 
-  constructor(protected PathHelper:op.PathHelper) {
+  constructor(protected PathHelper:PathHelperService) {
   }
 
   public getFullIdentifier(workPackage:WorkPackageResourceInterface, hideType?:boolean) {

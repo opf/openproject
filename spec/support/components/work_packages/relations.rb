@@ -60,7 +60,7 @@ module Components
       def hover_action(relatable, action)
         retry_block do
           # Focus type edit to expose buttons
-          span = page.find(".relation-row-#{relatable.id} .relation-row--type")
+          span = page.find(".relation-row-#{relatable.id} .relation-row--type", wait: 20)
           scroll_to_element(span)
           page.driver.browser.action.move_to(span.native).perform
 
@@ -118,6 +118,51 @@ module Components
 
       def expect_no_relation(relatable)
         expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
+      end
+
+      def add_parent(query, expected_text)
+        # Locate the create row container
+        container = find('.wp-relations--parent-form')
+
+        # Enter the query and select the child
+        autocomplete = container.find(".wp-relations--autocomplete")
+        select_autocomplete(autocomplete, query: query, select_text: expected_text)
+
+        container.find('.wp-create-relation--save').click
+
+        expect(page).to have_selector('.wp-relations-hierarchy-subject',
+                                      text: expected_text,
+                                      wait: 10)
+      end
+
+      def remove_parent(removed_text)
+        expect(page).to have_selector('.relation-row--parent', text: removed_text)
+        container = find('.relation-row--parent')
+        container.hover
+
+        container.find('.wp-relation--remove').click
+        expect(page).to have_no_selector('.relation-row--parent', text: removed_text, wait: 10)
+      end
+
+      def add_existing_child(work_package)
+        # Locate the create row container
+        container = find('.wp-relations--child-form')
+
+        # Enter the query and select the child
+        autocomplete = container.find(".wp-relations--autocomplete")
+        select_autocomplete(autocomplete, query: work_package.id, select_text: work_package.subject)
+
+        container.find('.wp-create-relation--save').click
+      end
+
+      def remove_child(work_package)
+        page.within('.wp-relations-children-hierarchy') do
+          row = ".wp-row-#{work_package.id}-table"
+
+          find(row).hover
+          find("#{row} .wp-table-action--unlink").click
+          expect(page).to have_no_selector(row, wait: 20)
+        end
       end
     end
   end

@@ -18,9 +18,14 @@ import {WorkPackagesListChecksumService} from './wp-list-checksum.service';
 import {WorkPackageTableSortByService} from '../wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableAdditionalElementsService} from '../wp-fast-table/state/wp-table-additional-elements.service';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {Injectable} from '@angular/core';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
+@Injectable()
 export class WorkPackageStatesInitializationService {
   constructor(protected states:States,
+              protected tableState:TableState,
               protected wpTableColumns:WorkPackageTableColumnsService,
               protected wpTableGroupBy:WorkPackageTableGroupByService,
               protected wpTableSortBy:WorkPackageTableSortByService,
@@ -46,9 +51,15 @@ export class WorkPackageStatesInitializationService {
   public initialize(query:QueryResource, results:WorkPackageCollectionResource) {
     this.clearStates();
 
+    // Update the (global) wp query states
+    this.states.query.resource.putValue(query);
     this.initializeFromQuery(query, results);
 
-    this.updateFromResults(query, results);
+    // Update the (local) table states
+    this.updateTableState(query, results);
+
+    // Ensure checksum for state is correct
+    this.updateChecksum(query, results);
   }
 
   /**
@@ -72,37 +83,41 @@ export class WorkPackageStatesInitializationService {
     this.states.query.available.groupBy.putValue(schema.groupBy.allowedValues);
   }
 
-  public updateFromResults(query:QueryResource, results:WorkPackageCollectionResource) {
+  public updateTableState(query:QueryResource, results:WorkPackageCollectionResource) {
     // Clear table required data states
-    this.states.globalTable.additionalRequiredWorkPackages.clear('Clearing additional WPs before updating rows');
+    this.tableState.additionalRequiredWorkPackages.clear('Clearing additional WPs before updating rows');
 
     if (results.schemas) {
       _.each(results.schemas.elements, (schema:SchemaResource) => {
         this.states.schemas.get(schema.href as string).putValue(schema);
       });
     }
+    this.tableState.query.putValue(query);
 
-    this.states.globalTable.rows.putValue(results.elements);
+    this.tableState.rows.putValue(results.elements);
 
     this.wpCacheService.updateWorkPackageList(results.elements);
 
-    this.states.globalTable.results.putValue(results);
+    this.tableState.results.putValue(results);
 
-    this.states.globalTable.groups.putValue(angular.copy(results.groups));
+    this.tableState.groups.putValue(angular.copy(results.groups));
 
     this.wpTablePagination.initialize(query, results);
-
-    this.wpListChecksumService.updateIfDifferent(this.states.query.resource.value!, this.wpTablePagination.current);
 
     this.wpTableRelationColumns.initialize();
 
     this.wpTableAdditionalElements.initialize(results.elements);
+  }
+
+  public updateChecksum(query:QueryResource, results:WorkPackageCollectionResource) {
+
+    this.wpListChecksumService.updateIfDifferent(this.states.query.resource.value!, this.wpTablePagination.current);
 
     this.authorisationService.initModelAuth('work_packages', results.$links);
   }
 
-  private initializeFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
-    this.states.query.resource.putValue(query);
+  public initializeFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
+    this.tableState.query.putValue(query);
 
     this.wpTableSum.initialize(query);
     this.wpTableColumns.initialize(query, results);
@@ -114,24 +129,25 @@ export class WorkPackageStatesInitializationService {
     this.authorisationService.initModelAuth('query', query.$links);
   }
 
-  private clearStates() {
+  public clearStates() {
     const reason = 'Clearing states before re-initialization.';
 
     // Clear immediate input states
-    this.states.globalTable.rows.clear(reason);
-    this.states.globalTable.columns.clear(reason);
-    this.states.globalTable.sortBy.clear(reason);
-    this.states.globalTable.groupBy.clear(reason);
-    this.states.globalTable.sum.clear(reason);
-    this.states.globalTable.results.clear(reason);
-    this.states.globalTable.groups.clear(reason);
-    this.states.globalTable.additionalRequiredWorkPackages.clear(reason);
+    this.tableState.query.clear(reason);
+    this.tableState.rows.clear(reason);
+    this.tableState.columns.clear(reason);
+    this.tableState.sortBy.clear(reason);
+    this.tableState.groupBy.clear(reason);
+    this.tableState.sum.clear(reason);
+    this.tableState.results.clear(reason);
+    this.tableState.groups.clear(reason);
+    this.tableState.additionalRequiredWorkPackages.clear(reason);
 
     // Clear rendered state
-    this.states.globalTable.rendered.clear(reason);
+    this.tableState.rendered.clear(reason);
   }
 }
 
 angular
   .module('openproject.workPackages.services')
-  .service('wpStatesInitialization', WorkPackageStatesInitializationService);
+  .service('wpStatesInitialization', downgradeInjectable(WorkPackageStatesInitializationService));

@@ -44,7 +44,9 @@ module Pages
     end
 
     def expect_row_count(num)
-      expect(page).to have_selector('.wp-timeline-cell', count: num)
+      within(timeline_container) do
+        expect(page).to have_selector('.wp-timeline-cell', count: num)
+      end
     end
 
     def expect_work_package_listed(*work_packages)

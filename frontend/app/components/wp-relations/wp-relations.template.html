@@ -1,5 +1,18 @@
 <div class="loading-indicator--location"
      data-indicator-name="relation-groups">
+
+    <div class="wp-relations-hierarchy-section"
+         ng-if="!$ctrl.relationsPresent">
+        <div class="attributes-group--header">
+            <div class="attributes-group--header-container">
+                <h3 class="attributes-group--header-text"
+                    ng-bind="$ctrl.text.relations_header">
+                </h3>
+            </div>
+        </div>
+    </div>
+
+
     <div ng-repeat="(type, relatedWorkPackages) in $ctrl.relationGroups">
     <wp-relations-group header="type"
                         group-by-work-package-type="$ctrl.groupByWorkPackageType"
@@ -12,5 +25,5 @@
                      work-package="$ctrl.workPackage"
                      template="dynamic-relation-types"></wp-relations-create>
 
-    <wp-relations-hierarchy work-package="$ctrl.workPackage"></wp-relations-hierarchy>
+    <wp-relations-hierarchy [work-package]="$ctrl.workPackage"></wp-relations-hierarchy>
 </div>

@@ -172,11 +172,7 @@ class MyController < ApplicationController
     blocks_on_page = get_current_layout.values.flatten
 
     MyController.available_blocks.each do |block, value|
-      if blocks_on_page.include?(block)
-        @block_options << [l("my.blocks.#{value}", default: [value, value.to_s.humanize]), block.dasherize, disabled: true]
-      else
-        @block_options << [l("my.blocks.#{value}", default: [value, value.to_s.humanize]), block.dasherize]
-      end
+      @block_options << [t("my.blocks.#{value}", default: [value, value.to_s.humanize]), block.dasherize, disabled: blocks_on_page.include?(block)]
     end
   end
 

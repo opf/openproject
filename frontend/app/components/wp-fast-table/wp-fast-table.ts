@@ -1,6 +1,6 @@
 import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {debugLog} from '../../helpers/debug_output';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 
@@ -15,10 +15,11 @@ import {PrimaryRenderPass, RenderedRow} from './builders/primary-render-pass';
 import {WorkPackageTableEditingContext} from './wp-table-editing';
 
 import {WorkPackageTableRow} from './wp-table.interfaces';
+import {WorkPackageTableConfiguration, WorkPackageTableConfigurationObject} from 'core-app/components/wp-table/wp-table-configuration';
 
 export class WorkPackageTable {
 
-  private readonly tableState = this.injector.get(TableStateHolder).get();
+  private readonly tableState:TableState = this.injector.get(TableState);
 
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   public states:States = this.injector.get(States);
@@ -46,8 +47,8 @@ export class WorkPackageTable {
               public container:HTMLElement,
               public tbody:HTMLElement,
               public timelineBody:HTMLElement,
-              public timelineController:WorkPackageTimelineTableController) {
-
+              public timelineController:WorkPackageTimelineTableController,
+              public configuration:WorkPackageTableConfiguration) {
   }
 
   public get renderedRows() {

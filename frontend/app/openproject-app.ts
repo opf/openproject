@@ -52,7 +52,7 @@ openprojectModule
   }]);
 
 export function bootstrapWithUiRouter(platformRef:NgModuleRef<any>): void {
-  const injector = platformRef.injector;
+  const injector = window.ng2Injector = platformRef.injector;
   const upgradeModule = injector.get(UpgradeModule);
 
   upgradeModule.bootstrap(document.body, [ openprojectModule.name ], { strictDi: false });

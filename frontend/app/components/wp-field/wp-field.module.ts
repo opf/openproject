@@ -27,11 +27,11 @@
 // ++
 
 import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
-import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
+import {Injector} from '@angular/core';
 
 export class Field {
   public static type:string;
-  public static $injector:ng.auto.IInjectorService;
+  public static $injector:Injector;
 
   public $onInit(container:JQuery) {}
 
@@ -67,12 +67,8 @@ export class Field {
     return this.isEmpty && !this.schema;
   }
 
-  protected get $injector():ng.auto.IInjectorService {
+  protected get $injector():Injector {
     return (this.constructor as typeof Field).$injector;
-  }
-
-  protected $inject(name:string):any {
-    return this.$injector.get(name);
   }
 
   constructor(public resource:HalResource,

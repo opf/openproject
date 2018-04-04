@@ -27,11 +27,9 @@
 //++
 
 import {wpDirectivesModule} from '../../../../angular-modules';
-import {WorkPackageRelationsController} from "../../wp-relations.directive";
-import {WorkPackageRelationsHierarchyController} from "../../wp-relations-hierarchy/wp-relations-hierarchy.directive";
-import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {CollectionResource} from '../../../api/api-v3/hal-resources/collection-resource.service';
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 
 function wpRelationsAutocompleteDirective(
   $q:ng.IQService,
@@ -42,7 +40,6 @@ function wpRelationsAutocompleteDirective(
   return {
     restrict: 'E',
     templateUrl: '/components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.template.html',
-    require: ['^wpRelations', '?^wpRelationsHierarchy'],
     scope: {
       selectedWpId: '=',
       loadingPromiseName: '@',
@@ -92,19 +89,19 @@ function wpRelationsAutocompleteDirective(
       async function autocompleteWorkPackages(query:string):Promise<WorkPackageResourceInterface[]> {
         element.find('.ui-autocomplete--loading').show();
         return scope.workPackage.available_relation_candidates.$link.$fetch({
-            query: query,
-            type: scope.filterCandidatesFor || scope.selectedRelationType
-          }, {
-            'caching': {
-              enabled: false
-            }
-          }).then((collection:CollectionResource) => {
-            scope.noResults = collection.count === 0;
-            return collection.elements || [];
-          }).catch(() => {
-            return [];
-          }).finally(() => {
-           element.find('.ui-autocomplete--loading').hide();
+          query: query,
+          type: scope.filterCandidatesFor || scope.selectedRelationType
+        }, {
+          'caching': {
+            enabled: false
+          }
+        }).then((collection:CollectionResource) => {
+          scope.noResults = collection.count === 0;
+          return collection.elements || [];
+        }).catch(() => {
+          return [];
+        }).finally(() => {
+          element.find('.ui-autocomplete--loading').hide();
         });
       };
 

@@ -29,10 +29,10 @@
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {HalResource} from "core-components/api/api-v3/hal-resources/hal-resource.service";
+import {TimezoneServiceToken} from 'core-app/angular4-transition-utils';
 
 export class DurationDisplayField extends DisplayField {
 
-  private WorkPackagesHelper:any;
   private TimezoneService:any;
 
   constructor(public resource:HalResource,
@@ -40,12 +40,11 @@ export class DurationDisplayField extends DisplayField {
               public schema:op.FieldSchema) {
     super(resource, name, schema);
 
-    this.WorkPackagesHelper = this.$injector.get('WorkPackagesHelper');
-    this.TimezoneService = this.$injector.get('TimezoneService');
+    this.TimezoneService = this.$injector.get(TimezoneServiceToken);
   }
 
   public get valueString() {
-    return this.WorkPackagesHelper.formatValue(this.value, 'Duration');
+    return this.TimezoneService.formattedDuration(this.value);
   }
 
   public isEmpty():boolean {

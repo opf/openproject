@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
@@ -35,7 +35,7 @@ import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-fie
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {input} from 'reactivestates';
-import {takeUntil, filter, take, map} from 'rxjs/operators';
+import {filter, map, take, takeUntil} from 'rxjs/operators';
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../../states.service';
@@ -61,6 +61,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   private unregisterListener:Function;
 
   constructor(protected states:States,
+              protected injector:Injector,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditing:WorkPackageEditingService,
               protected wpNotificationsService:WorkPackageNotificationService,
@@ -103,8 +104,8 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const context = new SingleViewEditContext(this);
-    this.form = WorkPackageEditForm.createInContext(context, this.workPackage, this.inEditMode);
+    const context = new SingleViewEditContext(this.injector, this);
+    this.form = WorkPackageEditForm.createInContext(this.injector, context, this.workPackage, this.inEditMode);
 
     // Stop editing whenever a work package was saved
     if (this.inEditMode && this.workPackage.isNew) {
@@ -169,7 +170,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     this.wpEditing.stopEditing(this.workPackage.id);
   }
 
-  public saveWorkPackage() {
+  public async saveWorkPackage() {
     const isInitial = this.workPackage.isNew;
     return this.form
       .submit()
