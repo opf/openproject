@@ -64,7 +64,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     split_work_package.visit!
     split_work_package.expect_subject
     # Should be checked in table
-    expect(page).to have_selector(".wp-row-#{work_package.id}.-checked")
+    expect(global_work_packages.table_container).to have_selector(".wp-row-#{work_package.id}.-checked")
 
     # deep link work package show
 

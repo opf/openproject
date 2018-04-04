@@ -28,14 +28,14 @@
 
 import {opApiModule} from '../../../../angular-modules';
 import {HalResource} from './hal-resource.service';
-import {WorkPackageResource} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 
 interface CustomActionResourceEmbedded {
 }
 
 export interface CustomActionResourceLinks extends CustomActionResourceEmbedded {
   self():ng.IPromise<CustomActionResourceInterface>;
-  executeImmediately(payload:any):ng.IPromise<WorkPackageResource>;
+  executeImmediately(payload:any):ng.IPromise<WorkPackageResourceInterface>;
 }
 
 export class CustomActionResource extends HalResource {

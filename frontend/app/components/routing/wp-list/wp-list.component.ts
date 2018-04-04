@@ -27,8 +27,8 @@
 // ++
 
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {StateService, TransitionService} from '@uirouter/core';
+import {downgradeComponent} from '@angular/upgrade/static';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
@@ -51,11 +51,11 @@ import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.se
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
+import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 
 @Component({
   selector: 'wp-list',
-  template: require('!!raw-loader!./wp.list.component.html'),
-  providers: []
+  template: require('!!raw-loader!./wp.list.component.html')
 })
 export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
@@ -68,11 +68,10 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   };
 
   tableInformationLoaded = false;
-
   selectedTitle?:string;
-  tableState:TableState;
 
   constructor(readonly states:States,
+              readonly tableState:TableState,
               readonly authorisationService:AuthorisationService,
               readonly wpTableRefresh:WorkPackageTableRefreshService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
@@ -91,7 +90,6 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
               @Inject($stateToken) readonly $state:StateService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
 
-    this.tableState = this.states.globalTable;
   }
 
   ngOnInit() {
@@ -118,7 +116,9 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
       let newId = params.query_id && parseInt(params.query_id);
 
       this.wpListChecksumService
-        .executeIfOutdated(newId, newChecksum, () => this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier));
+        .executeIfOutdated(newId,
+          newChecksum,
+          () => this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier));
     });
   }
 
@@ -129,7 +129,6 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   public allowed(model:string, permission:string) {
     return this.authorisationService.can(model, permission);
   }
-
 
   public setAnchorToNextElement() {
     // Skip to next when visible, otherwise skip to previous
@@ -144,7 +143,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   }
 
   private setupQueryObservers() {
-    this.states.tableRendering.onQueryUpdated.values$()
+    this.tableState.tableRendering.onQueryUpdated.values$()
       .pipe(
         take(1)
       )
@@ -166,7 +165,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
       this.wpListChecksumService.setToQuery(query, pagination);
     });
 
-    this.states.query.context.fireOnStateChange(this.wpTablePagination.state,
+    this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
       'Query loaded').values$().pipe(
       untilComponentDestroyed(this),
       withLatestFrom(this.states.query.resource.values$())
@@ -189,7 +188,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
   setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {
     const queryState = this.states.query.resource;
 
-    this.states.query.context.fireOnStateChange(service.state, 'Query loaded').values$().pipe(
+    this.tableState.ready.fireOnStateChange(service.state, 'Query loaded').values$().pipe(
       untilComponentDestroyed(this),
       filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
     ).subscribe(() => {

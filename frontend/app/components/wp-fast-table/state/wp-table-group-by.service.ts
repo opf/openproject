@@ -35,12 +35,17 @@ import {QueryColumn} from '../../wp-query/query-column';
 import {InputState} from 'reactivestates';
 import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
 import {States} from 'core-components/states.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {Injectable} from '@angular/core';
+import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
+@Injectable()
 export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<WorkPackageTableGroupBy> implements WorkPackageQueryStateService {
-  public constructor(states:States) {
-    super(states);
+  public constructor(readonly states:States,
+                     readonly tableState:TableState) {
+    super(tableState);
   }
-
 
   public get state():InputState<WorkPackageTableGroupBy> {
     return this.tableState.groupBy;
@@ -75,9 +80,9 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<
 
     // hierarchies and group by are mutually exclusive
     if (groupBy) {
-      var hierarchy = this.states.globalTable.hierarchies.value!;
+      var hierarchy = this.tableState.hierarchies.value!;
       hierarchy.current = false;
-      this.states.globalTable.hierarchies.putValue(hierarchy);
+      this.tableState.hierarchies.putValue(hierarchy);
     }
 
     this.state.putValue(currentState);
@@ -121,4 +126,4 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<
   }
 }
 
-opServicesModule.service('wpTableGroupBy', WorkPackageTableGroupByService);
+opServicesModule.service('wpTableGroupBy', downgradeInjectable(WorkPackageTableGroupByService));

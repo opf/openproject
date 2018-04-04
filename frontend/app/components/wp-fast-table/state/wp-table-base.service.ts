@@ -37,11 +37,8 @@ import {scopedObservable} from '../../../helpers/angular-rx-utils';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 
 export abstract class WorkPackageTableBaseService<T> {
-  protected tableState:TableState;
 
-  constructor(protected states:States) {
-    // TODO Remove global references
-    this.tableState = states.globalTable;
+  constructor(readonly tableState:TableState) {
   }
 
   /**

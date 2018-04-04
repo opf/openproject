@@ -26,30 +26,45 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {scopedObservable} from "../../helpers/angular-rx-utils";
-import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageCacheService} from "./work-package-cache.service";
+import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 
+require('../../angular4-test-setup');
+
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageCacheService} from "./work-package-cache.service";
+import {TestBed} from '@angular/core/testing';
+import {take, takeUntil, takeWhile} from 'rxjs/operators';
+import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
+import {States} from 'core-components/states.service';
+import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {$q} from '@uirouter/core';
 
 describe('WorkPackageCacheService', () => {
-  let wpCacheService: WorkPackageCacheService;
-  let $q: ng.IQService;
-  let $rootScope: ng.IRootScopeService;
-  let WorkPackageResource:any;
-  let dummyWorkPackages: WorkPackageResource[] = [];
+  let wpCacheService:WorkPackageCacheService;
+  let schemaCacheService:SchemaCacheService;
+  let dummyWorkPackages:WorkPackageResource[] = [];
 
-  beforeEach(angular.mock.module('openproject'));
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        States,
+        WorkPackageCacheService,
+        SchemaCacheService,
+        { provide: ApiWorkPackagesService, useValue: {}},
+        { provide: WorkPackageResource, useValue: {}},
+        { provide: WorkPackageNotificationService, useValue: {}}
+      ]
+    });
 
-  beforeEach(angular.mock.inject((_$q_:any, _$rootScope_:any, _wpCacheService_:any, _WorkPackageResource_:any, schemaCacheService:any) => {
-    $rootScope = _$rootScope_;
-    $q = _$q_;
-    wpCacheService = _wpCacheService_;
-    WorkPackageResource = _WorkPackageResource_;
+    wpCacheService = TestBed.get(WorkPackageCacheService);
+    schemaCacheService = TestBed.get(SchemaCacheService);
 
-    sinon.stub(schemaCacheService, 'ensureLoaded').returns($q.when(true));
+    sinon.stub(schemaCacheService, 'ensureLoaded').returns(Promise.resolve(true));
 
-    // dummy 1
-    const workPackage1 = new _WorkPackageResource_({
+    const workPackage1 = new WorkPackageResource({
       id: '1',
       _links: {
         self: ""
@@ -57,58 +72,39 @@ describe('WorkPackageCacheService', () => {
     });
 
     dummyWorkPackages = [workPackage1];
-  }));
+  });
 
-  it('should return a work package after the list has been initialized', function(done:any) {
-    wpCacheService.updateWorkPackageList(dummyWorkPackages as any);
-
-    let workPackage: WorkPackageResource;
-    scopedObservable($rootScope, wpCacheService.loadWorkPackage('1').values$())
-      .subscribe((wp: any) => {
-        workPackage = wp;
-        expect(workPackage.id).to.eq('1');
+  it('returns a work package after the list has been initialized', function(done:any) {
+    wpCacheService.loadWorkPackage('1').values$()
+      .pipe(
+        take(1)
+      )
+      .subscribe((wp:WorkPackageResourceInterface) => {
+        expect(wp.id).to.eq('1');
         done();
       });
 
-    $rootScope.$apply();
+    wpCacheService.updateWorkPackageList(dummyWorkPackages as WorkPackageResourceInterface[]);
   });
 
-
-  // it('should return a work package once the list gets initialized', () => {
-  //   let workPackage: WorkPackageResource = null;
-  //
-  //   wpCacheService.loadWorkPackage(1).observe($rootScope).subscribe(wp => {
-  //     workPackage = wp;
-  //   });
-  //
-  //   expect(workPackage).to.null;
-  //
-  //   wpCacheService.updateWorkPackageList(dummyWorkPackages);
-  //
-  //   expect(workPackage.id).to.eq(1);
-  // });
-
   it('should return/stream a work package every time it gets updated', (done:any) => {
-    let expected = 0;
-    let workPackage: any = new WorkPackageResource({id: '1', _links: {self: ""}});
-    workPackage.dummy = 0;
+    let count = 0;
 
-    wpCacheService.updateWorkPackageList([workPackage]);
-    $rootScope.$apply();
-
-    scopedObservable($rootScope, wpCacheService.loadWorkPackage('1').values$())
-      .subscribe((wp: any) => {
+    wpCacheService.loadWorkPackage('1').values$()
+      .pipe(
+        takeWhile((wp) => count < 2)
+      )
+      .subscribe((wp:WorkPackageResourceInterface) => {
         expect(wp.id).to.eq('1');
-        expect(wp.dummy).to.eq(expected);
 
-        expected += 1;
-        if (expected == 2) {
+        count += 1;
+        if (count === 2) {
           done();
         }
       });
 
-    workPackage.dummy = 1;
-    wpCacheService.updateWorkPackageList([workPackage]);
-    $rootScope.$apply();
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]] as WorkPackageResourceInterface[]);
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]] as WorkPackageResourceInterface[]);
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]] as WorkPackageResourceInterface[]);
   });
 });

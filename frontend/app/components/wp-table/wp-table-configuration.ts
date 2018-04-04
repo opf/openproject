@@ -1,12 +1,12 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2006-2013 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -23,11 +23,26 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
-//++
+// See doc/COPYRIGHT.rdoc for more details.
+// ++
 
-angular.module('openproject.workPackages.helpers')
-  .factory('ApiHelper', ['NotificationsService', require('./api-helper')])
-  .factory('WorkPackagesHelper', ['TimezoneService', 'currencyFilter',
-    'CustomFieldHelper', require('./work-packages-helper')
-  ]);
+
+export type WorkPackageTableConfigurationObject = Partial<{ [field in keyof WorkPackageTableConfiguration]:boolean }>;
+
+export class WorkPackageTableConfiguration {
+  public actionsColumnEnabled:boolean = true;
+  public contextMenuEnabled:boolean = true;
+  public columnMenuEnabled:boolean = true;
+  public projectContext:boolean = true;
+  public inlineCreateEnabled:boolean = true;
+  public hierarchyToggleEnabled:boolean = true;
+
+  public isEmbedded:boolean = false;
+
+  constructor(private providedConfig:WorkPackageTableConfigurationObject) {
+    _.each(providedConfig, (value, k) => {
+      let key = (k as keyof WorkPackageTableConfiguration);
+      this[key] = !!value;
+    });
+  }
+}

@@ -32,13 +32,9 @@ type ModelLinks = {[action:string]:any};
 export class AuthorisationService {
   private links:{[model:string]:ModelLinks} = {};
 
-  constructor(readonly $rootScope:ng.IRootScopeService) {
-  }
-
   public initModelAuth(modelName:string, modelLinks:ModelLinks) {
     this.links[modelName] = modelLinks;
 
-    this.$rootScope.$broadcast('modelAuthUpdate.' + modelName);
   }
 
   public can(modelName:string, action:string) {

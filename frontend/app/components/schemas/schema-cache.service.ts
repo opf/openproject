@@ -25,17 +25,20 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+import {State} from "reactivestates";
+import {States} from "../states.service";
+import {SchemaResource} from "../api/api-v3/hal-resources/schema-resource.service";
+import {WorkPackageResourceInterface} from "core-components/api/api-v3/hal-resources/work-package-resource.service";
+import {Injectable} from '@angular/core';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {opWorkPackagesModule} from 'core-app/angular-modules';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
-import {State} from 'reactivestates';
-import {opWorkPackagesModule} from '../../angular-modules';
-import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
-import {States} from '../states.service';
-
+@Injectable()
 export class SchemaCacheService {
 
   /*@ngInject*/
-  constructor(private states:States, private $q:ng.IQService) {
+  constructor(private states:States) {
   }
 
   /**
@@ -47,7 +50,7 @@ export class SchemaCacheService {
     const state = this.state(workPackage);
 
     if (state.hasValue()) {
-      return this.$q.when(state.value);
+      return Promise.resolve(state.value);
     } else {
       return this.load(workPackage).valuesPromise();
     }
@@ -81,4 +84,4 @@ export class SchemaCacheService {
   }
 }
 
-opWorkPackagesModule.service('schemaCacheService', SchemaCacheService);
+opWorkPackagesModule.service('schemaCacheService', downgradeInjectable(SchemaCacheService));

@@ -1,0 +1,19 @@
+<tr *ngIf="!isHidden && isAllowed"
+    class="wp-inline-create-button-row hide-when-print">
+  <td [attr.colspan]="colspan"
+      class="-no-highlighting">
+    <div class="wp-inline-create-button">
+      <a class="wp-inline-create--add-link"
+              href
+              role="link"
+              focus-ng1-wrapper
+              (click)="handleAddRowClick()"
+              (keydown.enter)="handleAddRowClick()"
+              [attr.disabled]="!isAllowed"
+              [attr.aria-label]="text.create"
+              aria-haspopup="true">
+        <op-icon icon-classes="icon icon-add"></op-icon>
+      </a>
+    </div>
+  </td>
+</tr>

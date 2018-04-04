@@ -1,0 +1,60 @@
+<div>
+    <div class="wp-relations-create-button -full-width"
+         *ngIf="!showRelationsCreateForm">
+        <div class="grid-block">
+            <div class="grid-content collapse hide-when-print"
+                 *ngIf="canAddChildren">
+                <a class="wp-inline-create--add-link relation-create"
+                   (click)="createNewChildWorkPackage()"
+                   role="button"
+                   id="hierarchy--add-new-child">
+                    <op-icon icon-classes="icon icon-add"></op-icon>
+                    <span [textContent]="text.addNewChild"></span>
+                </a>
+            </div>
+            <div class="grid-content collapse hide-when-print"
+                 *ngIf="canLinkChildren">
+                <a class="wp-inline-create--add-link relation-create -focus-after-save"
+                   (click)="toggleRelationsCreateForm()"
+                   role="button"
+                   id="hierarchy--add-exisiting-child">
+                    <op-icon icon-classes="icon icon-add"></op-icon>
+                    <span [textContent]="text.addExistingChild"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="loading-indicator--location"
+             data-indicator-name="relationAddChild">
+      <div class="v-align wp-relations-create--form wp-relations--child-form"
+           *ngIf="showRelationsCreateForm">
+          <div class="grid-content medium-10">
+              <wp-relations-autocomplete-upgraded
+                      [workPackage]="workPackage"
+                      (onWorkPackageIdSelected)="updateSelectedId($event)"
+                      loadingPromiseName="relationAddChild"
+                      filterCandidatesFor="children">
+              </wp-relations-autocomplete-upgraded>
+          </div>
+          <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
+              <accessible-by-keyboard
+                      linkClass="wp-create-relation--save"
+                      [isDisabled]="isDisabled"
+                      (execute)="addExistingChild()"
+                      aria-hidden="false">
+                  <op-icon icon-classes="icon-checkmark" [icon-title]="text.save"></op-icon>
+              </accessible-by-keyboard>
+              <accessible-by-keyboard
+                      linkClass="wp-create-relation--cancel"
+                      (execute)="toggleRelationsCreateForm()"
+                      aria-hidden="false">
+                  <op-icon icon-classes="icon-remove" [icon-title]="text.abort"></op-icon>
+              </accessible-by-keyboard>
+          </div>
+      </div>
+    </div>
+</div>
+
+
+
+

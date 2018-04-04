@@ -26,15 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageEditForm} from './work-package-edit-form';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageEditContext} from './work-package-edit-context';
+import {WorkPackageChangeset} from './work-package-changeset';
 import {combine, deriveRaw, multiInput, State, StatesGroup} from 'reactivestates';
 import {map} from 'rxjs/operators';
-import {wpServicesModule} from '../../angular-modules';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {StateCacheService} from '../states/state-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageChangeset} from './work-package-changeset';
-import {WorkPackageEditContext} from './work-package-edit-context';
-import {WorkPackageEditForm} from './work-package-edit-form';
+import {Injectable, Injector} from '@angular/core';
 
 class WPChangesetStates extends StatesGroup {
   name = 'WP-Changesets';
@@ -47,11 +47,13 @@ class WPChangesetStates extends StatesGroup {
   }
 }
 
+@Injectable()
 export class WorkPackageEditingService extends StateCacheService<WorkPackageChangeset> {
 
   private stateGroup:WPChangesetStates;
 
-  constructor(public wpCacheService:WorkPackageCacheService) {
+  constructor(readonly injector:Injector,
+              readonly wpCacheService:WorkPackageCacheService) {
     super();
     this.stateGroup = new WPChangesetStates();
   }
@@ -69,7 +71,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     const state = this.multiState.get(wpId);
 
     if (state.isPristine()) {
-      state.putValue(new WorkPackageChangeset(workPackage));
+      state.putValue(new WorkPackageChangeset(this.injector, workPackage));
     }
 
     const changeset = state.value!;
@@ -119,7 +121,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
 
     if (state.hasValue()) {
       const changeset = state.value!;
-      return new WorkPackageEditForm(changeset.workPackage).submit();
+      return new WorkPackageEditForm(this.injector, changeset.workPackage).submit();
     }
 
     return Promise.reject('No changeset present') as any;
@@ -128,7 +130,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
   protected async load(id:string) {
     return this.wpCacheService.require(id)
       .then((wp:WorkPackageResourceInterface) => {
-        return new WorkPackageChangeset(wp);
+        return new WorkPackageChangeset(this.injector, wp);
       });
   }
 
@@ -141,4 +143,3 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
   }
 }
 
-wpServicesModule.service('wpEditing', WorkPackageEditingService);

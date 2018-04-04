@@ -4,6 +4,7 @@
   "scripts": {
     "postinstall": "cd frontend && npm install",
     "test": "cd frontend && npm test && cd ..",
+    "tslint_typechecks": "cd frontend && npm run tslint_typechecks && cd ..",
     "karma": "cd frontend && npm run karma && cd ..",
     "webpack": "cd frontend && npm run webpack && cd ..",
     "webpack-watch": "cd frontend && npm run webpack-watch",

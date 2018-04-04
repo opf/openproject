@@ -27,11 +27,10 @@
 //++
 
 import {wpControllersModule} from '../../../angular-modules';
-import {States} from '../../states.service';
 import {WorkPackageCollectionResource} from '../../api/api-v3/hal-resources/wp-collection-resource.service';
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 import {HalLink} from '../../api/api-v3/hal-link/hal-link.service';
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 interface ExportLink extends HalLink {
   identifier:string;
@@ -44,9 +43,9 @@ class ExportModalController {
 
   constructor(exportModal:any,
               private UrlParamsHelper:any,
-              private states:States,
+              private globalTableState:TableState,
               private wpTableColumns:WorkPackageTableColumnsService) {
-    var results = this.states.globalTable.results.value!;
+    var results = this.globalTableState.results.value!;
 
     this.name = 'Export';
     this.closeMe = exportModal.deactivate;

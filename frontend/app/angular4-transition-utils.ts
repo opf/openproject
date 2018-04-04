@@ -33,6 +33,7 @@ import {StateService} from '@uirouter/core';
 export const $rootScopeToken = new InjectionToken<IRootScopeService>('$rootScope');
 export const $qToken = new InjectionToken<IQService>('$q');
 export const $timeoutToken = new InjectionToken<ITimeoutService>('$timeout');
+export const $localeToken = new InjectionToken<any>('$locale');
 export const $stateToken = new InjectionToken<StateService>('$state');
 
 export const I18nToken = new InjectionToken<op.I18n>('I18n');
@@ -58,6 +59,9 @@ export const wpDestroyModalToken = new InjectionToken<any>('wpDestroyModal');
 export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');
 export const HookServiceToken = new InjectionToken<any>('HookService');
 export const UrlParamsHelperToken = new InjectionToken<any>('UrlParamsHelper');
+export const QueryResourceToken = new InjectionToken<any>('QueryResource');
+export const QueryFilterInstanceResourceToken = new InjectionToken<any>('QueryFilterInstanceResource');
+export const HalResourceToken = new InjectionToken<any>('HalResource');
 
 export function upgradeService(ng1InjectorName:string, providedType:any) {
   return {

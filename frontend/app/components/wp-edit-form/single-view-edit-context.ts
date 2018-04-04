@@ -29,37 +29,35 @@
 import {StateService} from '@uirouter/core';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
-import {$injectFields} from '../angular/angular-injector-bridge.functions';
 import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
-import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
-import {WorkPackageEditContext} from './work-package-edit-context';
-import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
-import {WorkPackageEditForm} from './work-package-edit-form';
+import {Injector} from '@angular/core';
+import {$stateToken, FocusHelperToken} from 'core-app/angular4-transition-utils';
+import {WorkPackageEditContext} from 'core-components/wp-edit-form/work-package-edit-context';
+import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
+import {WorkPackageEditForm} from 'core-components/wp-edit-form/work-package-edit-form';
+import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 
 export class SingleViewEditContext implements WorkPackageEditContext {
 
   // Injections
-  public wpTableRefresh:WorkPackageTableRefreshService;
-  public states:States;
-  public FocusHelper:any;
-  public $q:ng.IQService;
-  public $timeout:ng.ITimeoutService;
-  public templateRenderer:SimpleTemplateRenderer;
-  public $state:StateService;
-  public wpNotificationsService:WorkPackageNotificationService;
-  protected wpTableSelection:WorkPackageTableSelection;
+  public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
+  public states:States = this.injector.get(States);
+  public FocusHelper:any = this.injector.get(FocusHelperToken);
+  public templateRenderer:SimpleTemplateRenderer = this.injector.get(SimpleTemplateRenderer);
+  public $state:StateService = this.injector.get($stateToken);
+  public wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
+  protected wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);
 
   // other fields
   public successState:string;
 
-  constructor(public fieldGroup:WorkPackageEditFieldGroupComponent) {
-    $injectFields(this, 'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh',
-      'FocusHelper', '$q', '$timeout', 'templateRenderer', '$state', 'wpNotificationsService', 'wpTableSelection');
+  constructor(readonly injector:Injector,
+              readonly fieldGroup:WorkPackageEditFieldGroupComponent) {
   }
 
   public async activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
@@ -95,7 +93,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
         .then(() => {
           ctrl.editContainer.show();
           // Assure the element is visible
-          this.$timeout(() => {
+          setTimeout(() => {
             resolve(fieldHandler);
           });
         })
@@ -117,19 +115,17 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     this.fieldGroup.onSaved(isInitial, savedWorkPackage);
   }
 
-  public async requireVisible(fieldName:string):Promise<undefined> {
-    const deferred = this.$q.defer<undefined>();
+  public async requireVisible(fieldName:string):Promise<void> {
+    return new Promise<void>((resolve, ) => {
+      const interval = setInterval(() => {
+        const field = this.fieldGroup.fields[fieldName];
 
-    const interval = setInterval(() => {
-      const field = this.fieldGroup.fields[fieldName];
-
-      if (field !== undefined) {
-        clearInterval(interval);
-        deferred.resolve();
-      }
-    }, 50);
-
-    return deferred.promise;
+        if (field !== undefined) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 50);
+    });
   }
 
   public firstField(names:string[]) {

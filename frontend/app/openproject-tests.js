@@ -27,6 +27,7 @@
 //++
 
 require('./init-app');
+require('./ng1-overwritten-injections.ts');
 require('angular-mocks/ngMock');
 require('jquery-mockjax')(jQuery, window);
 

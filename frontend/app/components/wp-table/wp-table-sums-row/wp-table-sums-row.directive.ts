@@ -27,7 +27,6 @@
 // ++
 
 import {AfterViewInit, Directive, ElementRef, Inject, Injector} from '@angular/core';
-import {TableStateHolder} from 'core-components/wp-table/table-state/table-state';
 import {combine} from 'reactivestates';
 import {takeUntil} from 'rxjs/operators';
 import {I18nToken} from '../../../angular4-transition-utils';
@@ -37,20 +36,20 @@ import {States} from '../../states.service';
 import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
 import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageTableColumns} from '../../wp-fast-table/wp-table-columns';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
 
 @Directive({
   selector: '[wpTableSumsRow]'
 })
 export class WorkPackageTableSumsRowController implements AfterViewInit {
 
-  private readonly tableState = this.injector.get(TableStateHolder);
-
   private text:{ sumFor:string, allWorkPackages:string };
 
   private $element:JQuery;
 
   constructor(public readonly injector:Injector,
-              public elementRef:ElementRef,
+              public readonly elementRef:ElementRef,
+              public readonly tableState:TableState,
               private states:States,
               private wpDisplayField:WorkPackageDisplayFieldService,
               @Inject(I18nToken) private I18n:op.I18n) {
@@ -65,13 +64,13 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
     this.$element = jQuery(this.elementRef.nativeElement);
 
     combine(
-      this.tableState.get().columns,
-      this.tableState.get().results,
-      this.tableState.get().sum
+      this.tableState.columns,
+      this.tableState.results,
+      this.tableState.sum
     )
       .values$()
       .pipe(
-        takeUntil(this.tableState.get().stopAllSubscriptions)
+        takeUntil(this.tableState.stopAllSubscriptions)
       )
       .subscribe(([columns, resource, sum]) => {
         if (sum.isEnabled && resource.sumsSchema) {

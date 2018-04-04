@@ -27,8 +27,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% watched = WorkPackage.visible.with_status_open.on_active_project.watched_by(user.id).recently_updated.with_limit(10) %>
-
 <% watched_count = WorkPackage.visible.with_status_open.watched_by(user.id).count %>
 
 <% if defined? block_name %>
@@ -40,16 +38,5 @@ See docs/COPYRIGHT.rdoc for more details.
   <span class="widget-box--header-title"><%=l(:label_watched_work_packages)%> (<%= watched_count %>)</span>
 </h3>
 
-<%= render partial: 'work_packages/list_simple',
-           locals: {
-                        work_packages: watched,
-                        list_for: :watched
-                      } %>
-
-<% if watched.length > 0 %>
-  <div class="generic-table--action-buttons">
-    <%= link_to l(:label_work_package_view_all_watched),
-                work_packages_watched_path,
-                class: 'button -highlight-inverted' %>
-  </div>
-<% end %>
+<%= render partial: 'work_packages/me_list_simple',
+           locals: { user_filter: :watcher } %>

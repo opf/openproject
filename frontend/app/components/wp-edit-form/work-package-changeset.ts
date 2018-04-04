@@ -28,7 +28,6 @@
 
 import {input} from 'reactivestates';
 import {debugLog} from '../../helpers/debug_output';
-import {$injectFields} from '../angular/angular-injector-bridge.functions';
 import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
 import {FormResourceInterface} from '../api/api-v3/hal-resources/form-resource.service';
 import {
@@ -40,15 +39,15 @@ import {WorkPackageCacheService} from '../work-packages/work-package-cache.servi
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageCreateService} from '../wp-new/wp-create.service';
 import {WorkPackageEditingService} from './work-package-editing-service';
+import {Injector} from '@angular/core';
 
 export class WorkPackageChangeset {
   // Injections
-  public $q:ng.IQService;
-  public wpNotificationsService:WorkPackageNotificationService;
-  public schemaCacheService:SchemaCacheService;
-  public wpCacheService:WorkPackageCacheService;
-  public wpCreate:WorkPackageCreateService;
-  public wpEditing:WorkPackageEditingService;
+  public wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
+  public schemaCacheService:SchemaCacheService = this.injector.get(SchemaCacheService);
+  public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
+  public wpCreate:WorkPackageCreateService = this.injector.get(WorkPackageCreateService);
+  public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
 
   // The changeset to be applied to the work package
   private changes:{ [attribute:string]:any } = {};
@@ -60,12 +59,9 @@ export class WorkPackageChangeset {
   // The current editing resource
   public resource:WorkPackageResourceInterface | null;
 
-  constructor(public workPackage:WorkPackageResourceInterface, form?:FormResourceInterface) {
-    $injectFields(
-      this, 'wpNotificationsService', '$q', 'schemaCacheService',
-      'wpCacheService', 'wpCreate', 'wpEditing'
-    );
-
+  constructor(readonly injector:Injector,
+              public workPackage:WorkPackageResourceInterface,
+              form?:FormResourceInterface) {
     // New work packages have no schema set yet, so update the form immediately to get one
     if (form !== undefined) {
       this.wpForm.putValue(form);
@@ -129,7 +125,7 @@ export class WorkPackageChangeset {
   }
 
   public async getForm():Promise<FormResourceInterface> {
-    this.wpForm.putFromPromiseIfPristine(() => {
+    this.wpForm.putFromPromiseIfPristine(async() => {
       return this.updateForm();
     });
 
@@ -145,75 +141,80 @@ export class WorkPackageChangeset {
    * Update the form resource from the API.
    * @return {angular.IPromise<any>}
    */
-  public updateForm():ng.IPromise<FormResourceInterface> {
+  public async updateForm():Promise<FormResourceInterface> {
     let payload = this.buildPayloadFromChanges();
-    var deferred = this.$q.defer<FormResourceInterface>();
 
-    this.workPackage.$links.update(payload)
-      .then((form:FormResourceInterface) => {
-        this.wpForm.putValue(form);
-        this.buildResource();
+    return new Promise<FormResourceInterface>((resolve, reject) => {
+      this.workPackage.$links.update(payload)
+        .then((form:FormResourceInterface) => {
+          this.wpForm.putValue(form);
+          this.buildResource();
 
-        deferred.resolve(form);
-      })
-      .catch((error:any) => {
-        this.wpForm.clear();
-        this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
-        deferred.reject(error);
-      });
-
-    return deferred.promise;
+          resolve(form);
+        })
+        .catch((error:any) => {
+          this.wpForm.clear();
+          this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
+          reject(error);
+        });
+    });
   }
 
 
-  public save():ng.IPromise<WorkPackageResourceInterface> {
-    const deferred = this.$q.defer<WorkPackageResourceInterface>();
+  public async save():Promise<WorkPackageResourceInterface> {
 
     this.inFlight = true;
     const wasNew = this.workPackage.isNew;
-    this.updateForm()
-      .then((form) => {
-        const payload = this.buildPayloadFromChanges();
 
-        // Reject errors when occurring in form validation
-        const errors = ErrorResource.fromFormResponse(form);
-        if (errors !== null) {
-          return deferred.reject(errors);
-        }
+    let promise = new Promise<WorkPackageResourceInterface>((resolve, reject) => {
+      this.updateForm()
+        .then((form) => {
+          const payload = this.buildPayloadFromChanges();
 
-        this.workPackage.$links.updateImmediately(payload)
-          .then((savedWp:WorkPackageResourceInterface) => {
-            // Initialize any potentially new HAL values
-            this.workPackage.$initialize(savedWp);
+          // Reject errors when occurring in form validation
+          const errors = ErrorResource.fromFormResponse(form);
+          if (errors !== null) {
+            return reject(errors);
+          }
 
-            // Ensure the schema is loaded before updating
-            this.schemaCacheService.ensureLoaded(this.workPackage).then(() => {
-              this.workPackage.updateActivities();
+          this.workPackage.$links.updateImmediately(payload)
+            .then(async(savedWp:WorkPackageResourceInterface) => {
+              // Initialize any potentially new HAL values
+              this.workPackage.$initialize(savedWp);
 
-              if (wasNew) {
-                this.workPackage.overriddenSchema = undefined;
-                this.workPackage.uploadAttachmentsAndReload();
-                this.wpCreate.newWorkPackageCreated(this.workPackage);
-              }
+              // Ensure the schema is loaded before updating
+              this.schemaCacheService.ensureLoaded(this.workPackage).then(() => {
+                this.workPackage.updateActivities();
 
-              this.wpCacheService.updateWorkPackage(this.workPackage);
-              this.resource = null;
-              this.clear();
-              deferred.resolve(this.workPackage);
+                if (wasNew) {
+                  this.workPackage.overriddenSchema = undefined;
+                  this.workPackage.uploadAttachmentsAndReload();
+                  this.wpCreate.newWorkPackageCreated(this.workPackage);
+                }
+
+                this.wpCacheService.updateWorkPackage(this.workPackage);
+                this.resource = null;
+                this.clear();
+                resolve(this.workPackage);
+              });
+            })
+            .catch(error => {
+              // Update the resource anyway
+              this.buildResource();
+              reject({
+                errorsOnForm: false,
+                error: error
+              });
             });
-          })
-          .catch(error => {
-            // Update the resource anyway
-            this.buildResource();
-            deferred.reject({
-              errorsOnForm: false,
-              error: error
-            });
-          });
-      })
-      .catch(deferred.reject.bind(deferred));
+        })
+        .catch(reject);
+    });
 
-    return deferred.promise.finally(() => this.inFlight = false);
+    promise
+      .then(() => this.inFlight = false)
+      .catch(() => this.inFlight = false);
+
+    return promise;
   }
 
   /**

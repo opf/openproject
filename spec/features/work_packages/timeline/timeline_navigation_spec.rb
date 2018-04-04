@@ -64,7 +64,6 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
                          type: type2
     end
 
-
     let!(:query) do
       query              = FactoryGirl.build(:query, user: user, project: project)
       query.column_names = ['id', 'type', 'subject']
@@ -256,19 +255,21 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       wp_table.expect_work_package_listed(wp_cat1, wp_cat2, wp_none)
 
       # Expect timeline to have relation between first and second group
-      wp_timeline.expect_timeline_relation(wp_cat1, wp_cat2)
-      wp_timeline.expect_timeline_element(wp_cat1)
-      wp_timeline.expect_timeline_element(wp_cat2)
+      within('.work-packages-split-view--tabletimeline-side') do
+        wp_timeline.expect_timeline_relation(wp_cat1, wp_cat2)
+        wp_timeline.expect_timeline_element(wp_cat1)
+        wp_timeline.expect_timeline_element(wp_cat2)
+      end
 
-      split_view = wp_table.open_split_view(wp_cat1)
-      split_view.switch_to_tab tab: :relations
-
+      wp_table.open_split_view(wp_cat1)
       relations.remove_relation(wp_cat2)
 
       # Relation should be removed in TL
-      wp_timeline.expect_timeline_element(wp_cat1)
-      wp_timeline.expect_timeline_element(wp_cat2)
-      wp_timeline.expect_no_timeline_relation(wp_cat1, wp_cat2)
+      within('.work-packages-split-view--tabletimeline-side') do
+        wp_timeline.expect_timeline_element(wp_cat1)
+        wp_timeline.expect_timeline_element(wp_cat2)
+        wp_timeline.expect_no_timeline_relation(wp_cat1, wp_cat2)
+      end
     end
   end
 end

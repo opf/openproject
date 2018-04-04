@@ -39,6 +39,7 @@ import {WorkPackageTableHierarchiesService} from '../../wp-fast-table/state/wp-t
 import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/wp-table-relation-columns.service';
 import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableGroupByService} from './../../wp-fast-table/state/wp-table-group-by.service';
+import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 
 
 @Component({
@@ -50,6 +51,8 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
   @Input() headerColumn:any;
 
   @Input() locale:string;
+
+  @Input() table:WorkPackageTable;
 
   sortable:boolean;
 
@@ -154,6 +157,14 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
       // Set initial icon
       this.setHierarchyIcon();
     }
+  }
+
+  public get displayDropdownIcon() {
+    return this.table && this.table.configuration.columnMenuEnabled;
+  }
+
+  public get displayHierarchyIcon() {
+    return this.table && this.table.configuration.hierarchyToggleEnabled;
   }
 
   toggleHierarchy(evt:JQueryEventObject) {

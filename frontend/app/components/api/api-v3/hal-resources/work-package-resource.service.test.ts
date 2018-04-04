@@ -310,10 +310,12 @@ describe('WorkPackageResource service', () => {
       describe('when the upload succeeds', () => {
         var removeStub:any;
         var updateWorkPackageStub:any;
+        var updateWorkPackageTouchStub: sinon.SinonStub;
 
         beforeEach(() => {
           updateWorkPackageStub = sinon.stub(wpCacheService, 'updateWorkPackage');
           uploadFilesDeferred.resolve();
+          updateWorkPackageTouchStub = sinon.stub(wpCacheService, 'touch');
           removeStub = sinon.stub(NotificationsService, 'remove');
 
           expectUncachedRequest('activities');
@@ -337,6 +339,7 @@ describe('WorkPackageResource service', () => {
 
         afterEach(() => {
           updateWorkPackageStub.restore();
+          updateWorkPackageTouchStub.restore();
           removeStub.restore();
         });
       });
