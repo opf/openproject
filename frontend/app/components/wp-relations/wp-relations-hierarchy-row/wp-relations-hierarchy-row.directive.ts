@@ -10,7 +10,7 @@ class WpRelationsHierarchyRowDirectiveController {
   public relatedWorkPackage:WorkPackageResourceInterface;
   public relationType:any;
   public showEditForm:boolean = false;
-  public workPackagePath = this.PathHelper.workPackagePath;
+  public workPackagePath = this.PathHelper.workPackagePath.bind(this.PathHelper);
   public canModifyHierarchy:boolean = false;
 
   constructor(protected $scope:ng.IScope,

@@ -122,7 +122,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
     this.$state.go('work-packages.new', this.$state.params);
   }
 
-  protected newWorkPackageFromParams(stateParams:any):Promise<WorkPackageChangeset> {
+  protected async newWorkPackageFromParams(stateParams:any):Promise<WorkPackageChangeset> {
     const type = parseInt(stateParams.type);
 
     // If there is an open edit for this type, continue it

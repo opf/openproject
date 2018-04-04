@@ -70,6 +70,10 @@ module OpenProject
               href: 'https://www.openproject.org/enterprise-edition/',
               label: :label_professional_support
             },
+            website: {
+              href: 'https://www.openproject.org',
+              label: 'label_openproject_website'
+            },
             newsletter: {
               href: 'https://www.openproject.org/newsletter',
               label: 'homescreen.links.newsletter'

@@ -43,7 +43,7 @@ import {OpenProject} from 'core-app/globals/openproject';
     var opts = mergeOptions(options);
     var message = this;
     var topShelf = $("<div/>").addClass(opts.className);
-    var link = $("<a/>").append(' ' + opts.link).attr({"href": opts.url});
+    var link = $("<a/>").append(' ' + (opts.link as string)).attr({"href": opts.url});
 
     if (window.OpenProject.guardedLocalStorage(opts.id)) {
       return;

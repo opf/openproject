@@ -46,7 +46,7 @@ export class ClickOnKeypressComponent implements OnInit {
     });
   }
 
-  private doIfWatchedKey(evt:JQueryKeyEventObject, callback:(evt:JQueryKeyEventObject) => void) {
+  private doIfWatchedKey(evt:JQueryKeyEventObject, callback?:(evt:JQueryKeyEventObject) => void) {
     if (this.keys.indexOf(evt.which) !== -1) {
       evt.stopPropagation();
       evt.preventDefault();

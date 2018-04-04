@@ -104,7 +104,7 @@ describe('relationsDm service', () => {
       });
 
       it('should append the parameters at the end of the requested url', () => {
-        expect($httpBackend.flush).to.throw('No pending request to flush !');
+        expect($httpBackend.flush.bind($httpBackend)).to.throw('No pending request to flush !');
         expect(promise).to.eventually.be.fulfilled.then((relations) => {
           expect(relations).to.be.empty;
         });

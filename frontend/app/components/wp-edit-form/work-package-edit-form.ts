@@ -99,7 +99,7 @@ export class WorkPackageEditForm {
       .subscribe(() => {
         if (!this.changeset.empty) {
           debugLog('Refreshing active edit fields after form update.');
-          _.each(this.activeFields, (_handler, name) => this.refresh(name!));
+          _.each(this.activeFields, (_handler, name) => this.refresh(name));
         }
       });
   }
@@ -119,7 +119,7 @@ export class WorkPackageEditForm {
    * @param fieldName
    * @param noWarnings Ignore warnings if the field cannot be opened
    */
-  public activate(fieldName:string, noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
+  public async activate(fieldName:string, noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
     // @ts-ignore
     // Type 'IPromise<never> | Promise<WorkPackageEditFieldHandler>' is not assignable to type 'WorkPackageEditFieldHandler | PromiseLike<WorkPackageEditFieldHandler>'.
     return this.buildField(fieldName).then((field:EditField) => {
@@ -141,7 +141,7 @@ export class WorkPackageEditForm {
     const handler = this.activeFields[fieldName];
     if (!handler) {
       debugLog(`Trying to refresh ${fieldName}, but is not an active field.`);
-      return;
+      return undefined;
     }
 
     return this.buildField(fieldName).then((field:EditField) => {
@@ -272,7 +272,7 @@ export class WorkPackageEditForm {
 
   private setErrorsForFields(erroneousFields:string[]) {
     // Accumulate errors for the given response
-    let promises:Promise<any>[] = erroneousFields.map((fieldName:string) => {
+    let promises:Promise<any>[] = erroneousFields.map(async (fieldName:string) => {
       return this.editContext.requireVisible(fieldName).then(() => {
         if (this.activeFields[fieldName]) {
           this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
@@ -296,8 +296,8 @@ export class WorkPackageEditForm {
       });
   }
 
-  private buildField(fieldName:string):Promise<EditField> {
-    return new Promise((resolve, reject) => {
+  private async buildField(fieldName:string):Promise<EditField> {
+    return new Promise<EditField>((resolve, reject) => {
       this.changeset.getForm()
         .then((form:FormResourceInterface) => {
           const schemaName = this.changeset.getSchemaName(fieldName);
@@ -311,7 +311,7 @@ export class WorkPackageEditForm {
             this.changeset,
             schemaName,
             fieldSchema
-          ) as EditField;
+          );
 
           resolve(field);
         })
@@ -322,7 +322,7 @@ export class WorkPackageEditForm {
     });
   }
 
-  private renderField(fieldName:string, field:EditField):Promise<WorkPackageEditFieldHandler> {
+  private async renderField(fieldName:string, field:EditField):Promise<WorkPackageEditFieldHandler> {
     const promise = this.editContext.activateField(this,
       field,
       fieldName,

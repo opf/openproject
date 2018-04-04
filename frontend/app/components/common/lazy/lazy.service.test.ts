@@ -59,7 +59,7 @@ describe('lazy service', () => {
       prop: void 0
     };
     lazy(obj, 'prop', () => '');
-    expect((Object as any).getOwnPropertyDescriptor(obj!, 'prop').configurable).to.be.true;
+    expect((Object as any).getOwnPropertyDescriptor(obj, 'prop').configurable).to.be.true;
   });
 
   it('should set the value of the property provided by the setter', () => {

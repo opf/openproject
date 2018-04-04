@@ -19,17 +19,11 @@ SecureHeaders::Configuration.default do |config|
   # Valid for iframes
   frame_src = %w['self' https://player.vimeo.com]
 
-  # Allow in-context translations iframe and sources if enabled
-  if OpenProject::Configuration.crowdin_in_context_translations?
-    assets_src += %w[https://cdn.crowdin.com https://crowdin.com]
-    frame_src << 'https://crowdin.com'
-  end
-
   config.csp = {
     preserve_schemes: true,
 
     # Fallback when no value is defined
-    default_src: %w(https: 'self'),
+    default_src: %w('self'),
     # Allowed uri in <base> tag
     base_uri: %w('self'),
 

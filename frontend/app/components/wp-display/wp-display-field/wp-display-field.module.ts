@@ -95,7 +95,7 @@ export class DisplayField extends Field {
               public schema:op.FieldSchema) {
     super(resource, name, schema);
 
-    this.I18n = <op.I18n>this.$injector.get('I18n');
+    this.I18n = this.$injector.get('I18n');
   }
 }
 
@@ -112,7 +112,7 @@ export class DisplayFieldFactory extends FieldFactory {
       DisplayFieldFactory.defaultType;
     let fieldClass = DisplayFieldFactory.classes[type];
 
-    return (new fieldClass(workPackage as any, fieldName, schema)) as DisplayField;
+    return (new fieldClass(workPackage as any, fieldName, schema));
   }
 
   protected static getSpecificType(type:string):string {

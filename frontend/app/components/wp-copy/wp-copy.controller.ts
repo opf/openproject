@@ -32,7 +32,7 @@ import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageCreateController} from '../wp-new/wp-create.controller';
 
 export class WorkPackageCopyController extends WorkPackageCreateController {
-  protected newWorkPackageFromParams(stateParams:any) {
+  protected async newWorkPackageFromParams(stateParams:any) {
     return new Promise<WorkPackageChangeset>((resolve, reject) => {
       this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId)
         .values$()
@@ -40,12 +40,12 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
           take(1)
         )
         .subscribe(
-          (wp:WorkPackageResourceInterface) => this.createCopyFrom(wp).then(resolve),
+          async (wp:WorkPackageResourceInterface) => this.createCopyFrom(wp).then(resolve),
           reject);
     });
   }
 
-  private createCopyFrom(wp:WorkPackageResourceInterface) {
+  private async createCopyFrom(wp:WorkPackageResourceInterface) {
     const changeset = this.wpEditing.changesetFor(wp);
     return changeset.getForm().then((form:any) => {
       return this.wpCreate.copyWorkPackage(form, wp.project.identifier);

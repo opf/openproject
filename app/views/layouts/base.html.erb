@@ -68,13 +68,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <% end %>
       <% end %>
     <% end %>
-    <% if OpenProject::Configuration.crowdin_in_context_translations? && ::I18n.locale == :lol #the in-context translation pseudo-language %>
-      <%= nonced_javascript_tag do %>
-        var _jipt = [];
-            _jipt.push(['project', 'openproject']);
-      <% end %>
-      <script type="text/javascript" src="https://cdn.crowdin.com/jipt/jipt.js"></script>
-    <% end %>
+    <%= crowdin_in_context_translation %>
   </head>
   <body class="<%= body_css_classes %>" data-relative_url_root="<%= root_path %>" ng-init="projectIdentifier = '<%= (@project.identifier rescue '') %>'">
     <noscript>
@@ -100,6 +94,16 @@ See docs/COPYRIGHT.rdoc for more details.
               <h1 class="hidden-for-sighted">
                 <%= l(:label_top_menu) %>
               </h1>
+              <div id="mobile-main-menu-toggle"
+                   ng-controller="MainMenuController as mainMenu"
+                   ng-click="mainMenu.toggleNavigation()">
+                <a icon="icon-hamburger"
+                   title="<%= l(:show_hide_project_menu) %>"
+                   aria-haspopup="true"
+                   href="">
+                  <i class="icon-hamburger" aria-hidden="true"></i>
+                </a>
+              </div>
               <a href="" class="hidden-for-sighted skip-navigation-link"
                   aria-label="<%= I18n.t('js.work_packages.jump_marks.label_content') %>">
                     <%= I18n.t('js.work_packages.jump_marks.content') %>
@@ -124,12 +128,12 @@ See docs/COPYRIGHT.rdoc for more details.
           <div id="main-menu" ng-controller="MainMenuController as mainMenu">
             <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
             <div id="toggle-project-menu"
-          ng-class="{ 'show': !showNavigation }">
+                 ng-class="{ 'show': !showNavigation }">
               <a href="#"
                  title="<%= l(:show_hide_project_menu) %>"
                  class="navigation-toggler"
                  ng-click="mainMenu.toggleNavigation()">
-                <%= op_icon('icon4 icon-double-arrow-left') %>
+                <%= op_icon('icon4 icon-arrow-left2') %>
               </a>
             </div>
             <div id="menu-sidebar">
@@ -196,13 +200,6 @@ See docs/COPYRIGHT.rdoc for more details.
       // no longer available with CSP.
       <%= content_for :additional_js_dom_ready %>
     }(jQuery));
-    <% end %>
-    <% if (show_decoration) %>
-      <div id="footer">
-        <div class="footer-content">
-          <%= footer_content %>
-        </div>
-      </div>
     <% end %>
     <%= call_hook :view_layouts_base_body_bottom %>
   </body>
