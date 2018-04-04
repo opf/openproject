@@ -104,7 +104,8 @@ module API
 
           property :attribute_groups,
                    type: "[]String",
-                   as: "_attributeGroups"
+                   as: "_attributeGroups",
+                   exec_context: :decorator
 
           schema :lock_version,
                  type: 'Integer',
@@ -250,6 +251,16 @@ module API
                                          },
                                          required: false,
                                          has_default: true
+
+          def attribute_groups
+            represented.attribute_groups.map do |group|
+              {
+                _type: "WorkPackageFormAttributeGroup",
+                name: group[0],
+                attributes: group[1]
+              }
+            end
+          end
         end
       end
     end

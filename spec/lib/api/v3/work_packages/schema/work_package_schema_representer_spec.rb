@@ -36,8 +36,16 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:current_user) do
     FactoryGirl.build(:user, member_in_project: work_package.project)
   end
+  let(:attribute_groups) do
+    [["People", %w(assignee responsible)],
+     ["Estimates and time", %w(estimatedTime spentTime)]]
+  end
   let(:schema) do
-    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
+    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package).tap do |schema|
+      allow(schema)
+        .to receive(:attribute_groups)
+        .and_return(attribute_groups)
+    end
   end
   let(:self_link) { '/a/self/link' }
   let(:base_schema_link) { nil }
@@ -130,6 +138,27 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     describe '_type' do
       it 'is indicated as Schema' do
         is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
+      end
+    end
+
+    describe '_attributeGroups' do
+      it 'renders attribute_groups of the schema' do
+        expected = [
+          {
+            _type: "WorkPackageFormAttributeGroup",
+            name: "People",
+            attributes: %w(assignee responsible)
+          },
+          {
+            _type: "WorkPackageFormAttributeGroup",
+            name: "Estimates and time",
+            attributes: %w(estimatedTime spentTime)
+          }
+        ]
+
+        expect(subject)
+          .to be_json_eql(expected.to_json)
+          .at_path('_attributeGroups')
       end
     end
 
