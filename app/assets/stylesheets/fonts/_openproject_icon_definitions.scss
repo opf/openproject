@@ -1282,165 +1282,171 @@
 .icon-training-consulting:before {
 	content: "\f1d5";
 }
-@mixin icon-mixin-types {
+@mixin icon-mixin-two-factor-authentication {
     content: "\f1d6";
 }
-.icon-types:before {
+.icon-two-factor-authentication:before {
 	content: "\f1d6";
 }
-@mixin icon-mixin-underline {
+@mixin icon-mixin-types {
     content: "\f1d7";
 }
-.icon-underline:before {
+.icon-types:before {
 	content: "\f1d7";
 }
-@mixin icon-mixin-undo {
+@mixin icon-mixin-underline {
     content: "\f1d8";
 }
-.icon-undo:before {
+.icon-underline:before {
 	content: "\f1d8";
 }
-@mixin icon-mixin-unit {
+@mixin icon-mixin-undo {
     content: "\f1d9";
 }
-.icon-unit:before {
+.icon-undo:before {
 	content: "\f1d9";
 }
-@mixin icon-mixin-unlocked {
+@mixin icon-mixin-unit {
     content: "\f1da";
 }
-.icon-unlocked:before {
+.icon-unit:before {
 	content: "\f1da";
 }
-@mixin icon-mixin-unordered-list {
+@mixin icon-mixin-unlocked {
     content: "\f1db";
 }
-.icon-unordered-list:before {
+.icon-unlocked:before {
 	content: "\f1db";
 }
-@mixin icon-mixin-unwatched {
+@mixin icon-mixin-unordered-list {
     content: "\f1dc";
 }
-.icon-unwatched:before {
+.icon-unordered-list:before {
 	content: "\f1dc";
 }
-@mixin icon-mixin-upload {
+@mixin icon-mixin-unwatched {
     content: "\f1dd";
 }
-.icon-upload:before {
+.icon-unwatched:before {
 	content: "\f1dd";
 }
-@mixin icon-mixin-user-minus {
+@mixin icon-mixin-upload {
     content: "\f1de";
 }
-.icon-user-minus:before {
+.icon-upload:before {
 	content: "\f1de";
 }
-@mixin icon-mixin-user-plus {
+@mixin icon-mixin-user-minus {
     content: "\f1df";
 }
-.icon-user-plus:before {
+.icon-user-minus:before {
 	content: "\f1df";
 }
-@mixin icon-mixin-user {
+@mixin icon-mixin-user-plus {
     content: "\f1e0";
 }
-.icon-user:before {
+.icon-user-plus:before {
 	content: "\f1e0";
 }
-@mixin icon-mixin-view-fullscreen {
+@mixin icon-mixin-user {
     content: "\f1e1";
 }
-.icon-view-fullscreen:before {
+.icon-user:before {
 	content: "\f1e1";
 }
-@mixin icon-mixin-view-list {
+@mixin icon-mixin-view-fullscreen {
     content: "\f1e2";
 }
-.icon-view-list:before {
+.icon-view-fullscreen:before {
 	content: "\f1e2";
 }
-@mixin icon-mixin-view-split {
+@mixin icon-mixin-view-list {
     content: "\f1e3";
 }
-.icon-view-split:before {
+.icon-view-list:before {
 	content: "\f1e3";
 }
-@mixin icon-mixin-view-timeline {
+@mixin icon-mixin-view-split {
     content: "\f1e4";
 }
-.icon-view-timeline:before {
+.icon-view-split:before {
 	content: "\f1e4";
 }
-@mixin icon-mixin-warning {
+@mixin icon-mixin-view-timeline {
     content: "\f1e5";
 }
-.icon-warning:before {
+.icon-view-timeline:before {
 	content: "\f1e5";
 }
-@mixin icon-mixin-watched {
+@mixin icon-mixin-warning {
     content: "\f1e6";
 }
-.icon-watched:before {
+.icon-warning:before {
 	content: "\f1e6";
 }
-@mixin icon-mixin-wiki-edit {
+@mixin icon-mixin-watched {
     content: "\f1e7";
 }
-.icon-wiki-edit:before {
+.icon-watched:before {
 	content: "\f1e7";
 }
-@mixin icon-mixin-wiki {
+@mixin icon-mixin-wiki-edit {
     content: "\f1e8";
 }
-.icon-wiki:before {
+.icon-wiki-edit:before {
 	content: "\f1e8";
 }
-@mixin icon-mixin-wiki2 {
+@mixin icon-mixin-wiki {
     content: "\f1e9";
 }
-.icon-wiki2:before {
+.icon-wiki:before {
 	content: "\f1e9";
 }
-@mixin icon-mixin-work-packages {
+@mixin icon-mixin-wiki2 {
     content: "\f1ea";
 }
-.icon-work-packages:before {
+.icon-wiki2:before {
 	content: "\f1ea";
 }
-@mixin icon-mixin-workflow {
+@mixin icon-mixin-work-packages {
     content: "\f1eb";
 }
-.icon-workflow:before {
+.icon-work-packages:before {
 	content: "\f1eb";
 }
-@mixin icon-mixin-yes {
+@mixin icon-mixin-workflow {
     content: "\f1ec";
 }
-.icon-yes:before {
+.icon-workflow:before {
 	content: "\f1ec";
 }
-@mixin icon-mixin-zen-mode {
+@mixin icon-mixin-yes {
     content: "\f1ed";
 }
-.icon-zen-mode:before {
+.icon-yes:before {
 	content: "\f1ed";
 }
-@mixin icon-mixin-zoom-auto {
+@mixin icon-mixin-zen-mode {
     content: "\f1ee";
 }
-.icon-zoom-auto:before {
+.icon-zen-mode:before {
 	content: "\f1ee";
 }
-@mixin icon-mixin-zoom-in {
+@mixin icon-mixin-zoom-auto {
     content: "\f1ef";
 }
-.icon-zoom-in:before {
+.icon-zoom-auto:before {
 	content: "\f1ef";
 }
-@mixin icon-mixin-zoom-out {
+@mixin icon-mixin-zoom-in {
     content: "\f1f0";
 }
-.icon-zoom-out:before {
+.icon-zoom-in:before {
 	content: "\f1f0";
+}
+@mixin icon-mixin-zoom-out {
+    content: "\f1f1";
+}
+.icon-zoom-out:before {
+	content: "\f1f1";
 }
