@@ -140,7 +140,7 @@ describe 'activity comments',
           # Insert new text, need to do this separately.
           edit.input_element.click
 
-          [:enter, 'Comment with', ' ',  '_', 'italic text', '_'].each do |key|
+          [:enter, 'Comment with', ' ',  '_', 'italic text', '_', ' '].each do |key|
             edit.input_element.send_keys key
           end
 
