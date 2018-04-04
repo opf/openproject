@@ -179,7 +179,7 @@ export class WorkPackageEditForm {
    * Save the active changeset.
    * @return {any}
    */
-  public submit():Promise<WorkPackageResourceInterface> {
+  public async submit():Promise<WorkPackageResourceInterface> {
     if (this.changeset.empty && !this.workPackage.isNew) {
       this.closeEditFields();
       return Promise.resolve(this.workPackage);
@@ -192,7 +192,7 @@ export class WorkPackageEditForm {
 
     const openFields = _.keys(this.activeFields);
 
-    return new Promise((resolve, reject) => {
+    return new Promise<WorkPackageResourceInterface>((resolve, reject) => {
       this.changeset.save()
         .then(savedWorkPackage => {
           // Close all current fields

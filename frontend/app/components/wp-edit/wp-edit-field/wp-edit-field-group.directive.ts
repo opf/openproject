@@ -170,7 +170,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     this.wpEditing.stopEditing(this.workPackage.id);
   }
 
-  public saveWorkPackage() {
+  public async saveWorkPackage() {
     const isInitial = this.workPackage.isNew;
     return this.form
       .submit()

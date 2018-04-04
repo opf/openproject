@@ -38,7 +38,7 @@ export class FormattableDisplayField extends DisplayField {
               public schema:op.FieldSchema) {
     super(resource, name, schema);
 
-    this.ExpressionService = <ExpressionService>this.$injector.get(ExpressionService);
+    this.ExpressionService = this.$injector.get(ExpressionService);
   }
 
   public render(element:HTMLElement, displayText:string):void {

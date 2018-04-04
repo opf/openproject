@@ -125,7 +125,7 @@ export class WorkPackageChangeset {
   }
 
   public async getForm():Promise<FormResourceInterface> {
-    this.wpForm.putFromPromiseIfPristine(() => {
+    this.wpForm.putFromPromiseIfPristine(async() => {
       return this.updateForm();
     });
 
@@ -141,10 +141,10 @@ export class WorkPackageChangeset {
    * Update the form resource from the API.
    * @return {angular.IPromise<any>}
    */
-  public updateForm():Promise<FormResourceInterface> {
+  public async updateForm():Promise<FormResourceInterface> {
     let payload = this.buildPayloadFromChanges();
 
-    return new Promise((resolve, reject) => {
+    return new Promise<FormResourceInterface>((resolve, reject) => {
       this.workPackage.$links.update(payload)
         .then((form:FormResourceInterface) => {
           this.wpForm.putValue(form);
@@ -161,7 +161,7 @@ export class WorkPackageChangeset {
   }
 
 
-  public save():Promise<WorkPackageResourceInterface> {
+  public async save():Promise<WorkPackageResourceInterface> {
 
     this.inFlight = true;
     const wasNew = this.workPackage.isNew;
@@ -178,7 +178,7 @@ export class WorkPackageChangeset {
           }
 
           this.workPackage.$links.updateImmediately(payload)
-            .then((savedWp:WorkPackageResourceInterface) => {
+            .then(async(savedWp:WorkPackageResourceInterface) => {
               // Initialize any potentially new HAL values
               this.workPackage.$initialize(savedWp);
 

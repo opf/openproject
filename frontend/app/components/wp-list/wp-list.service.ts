@@ -79,7 +79,7 @@ export class WorkPackagesListService {
     const promise = this.updateStatesFromQueryOnPromise(wpListPromise);
 
     promise
-      .catch(error => {
+      .catch(async (error) => {
         const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(queryParams.query_props);
 
         return this.handleQueryLoadingError(error, queryProps, queryParams.query_id, projectIdentifier);
@@ -108,7 +108,7 @@ export class WorkPackagesListService {
     let promise = this.updateStatesFromQueryOnPromise(wpListPromise);
 
     promise
-      .catch(error => {
+      .catch(async (error) => {
         let projectIdentifier = query.project && query.project.id;
 
         return this.handleQueryLoadingError(error, {}, query.id, projectIdentifier);
@@ -310,7 +310,7 @@ export class WorkPackagesListService {
     }
   }
 
-  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId:number, projectIdentifier?:string) {
+  private async handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId:number, projectIdentifier?:string) {
     this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {

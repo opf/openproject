@@ -122,7 +122,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
     });
   }
 
-  public refresh():Promise<any> {
+  public async refresh():Promise<any> {
     return this.loadingIndicator = this.loadQuery();
   }
 

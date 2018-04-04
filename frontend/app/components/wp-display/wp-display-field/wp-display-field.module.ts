@@ -93,7 +93,7 @@ export class DisplayField extends Field {
               public schema:op.FieldSchema) {
     super(resource, name, schema);
 
-    this.I18n = <op.I18n>this.$injector.get(I18nToken);
+    this.I18n = this.$injector.get(I18nToken);
   }
 }
 
