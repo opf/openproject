@@ -6,7 +6,7 @@ require 'action_dispatch'
 
 RSpec.configure do |config|
   Capybara.default_max_wait_time = 4
-  Capybara.javascript_driver = :selenium
+  Capybara.javascript_driver = :chrome_headless
 
   resized = false
   config.before(:each, js: true) do
@@ -55,7 +55,7 @@ Rails.application.config do
   config.middleware.use RackSessionAccess::Middleware
 end
 
-Capybara.register_driver :selenium do |app|
+Capybara.register_driver :firefox_headless do |app|
   require 'selenium/webdriver'
 
   Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
@@ -101,4 +101,37 @@ Capybara.register_driver :selenium do |app|
     http_client: client,
     desired_capabilities: capabilities
   )
+end
+
+
+Capybara.register_driver :chrome_headless do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+
+  options.add_argument('--headless')
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-gpu')
+  options.add_argument('--disable-popup-blocking')
+  options.add_argument('--window-size=1920,1080')
+
+  options.add_preference(:download,
+                         directory_upgrade: true,
+                         prompt_for_download: false,
+                         default_directory: DownloadedFile::PATH.to_s)
+
+  options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
+
+  driver = Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+
+  bridge = driver.browser.send(:bridge)
+
+  path = '/session/:session_id/chromium/send_command'
+  path[':session_id'] = bridge.session_id
+
+  bridge.http.call(:post, path, cmd: 'Page.setDownloadBehavior',
+                   params: {
+                     behavior: 'allow',
+                     downloadPath: DownloadedFile::PATH.to_s
+                   })
+
+  driver
 end
