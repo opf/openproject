@@ -146,7 +146,7 @@ export class UserActivityController {
   }
 
   // Ensure the nested ng-include has rendered
-  private waitForField():Promise<JQuery> {
+  private async waitForField():Promise<JQuery> {
     const deferred = this.$q.defer<JQuery>();
 
     const interval = setInterval(() => {

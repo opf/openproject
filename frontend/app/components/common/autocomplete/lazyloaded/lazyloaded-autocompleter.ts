@@ -85,7 +85,7 @@ export abstract class ILazyAutocompleterBridge<T> {
   public setup(input:JQuery, items:IAutocompleteItem<T>[]) {
     this.currentPage = 0;
     this.input = input;
-    (this.input as any)[this.widgetName].call(this.input, this.setupParams(items));
+    this.input[this.widgetName].call(this.input, this.setupParams(items));
     const options = {
       shouldSort: true,
       tokenize: false,
