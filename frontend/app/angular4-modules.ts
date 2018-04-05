@@ -188,6 +188,8 @@ import {Ng1RelationsCreateWrapper} from 'core-components/wp-relations/wp-relatio
 import {WpRelationsAutocompleteComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.upgraded.component';
 import {WpRelationAddChildComponent} from 'core-components/wp-relations/wp-relation-add-child/wp-relation-add-child';
 import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relations-parent/wp-relations-parent.component';
+import {OpModalService} from 'core-components/op-modals/op-modal.service';
+import {ColumnsModalComponent} from 'core-components/op-modals/modals/columns-modal.component';
 
 @NgModule({
   imports: [
@@ -282,6 +284,9 @@ import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relatio
     WorkPackageContextMenuHelperService,
     QueryFormDmService,
     TableState,
+
+    // OP Modals service
+    OpModalService,
   ],
   declarations: [
     WorkPackagesListComponent,
@@ -388,7 +393,9 @@ import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relatio
     WorkPackageInlineCreateComponent,
 
     // Embedded table
-    WorkPackageEmbeddedTableComponent
+    WorkPackageEmbeddedTableComponent,
+    // Modals
+    ColumnsModalComponent,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -433,7 +440,10 @@ import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relatio
     WorkPackageEmbeddedTableComponent,
 
     // Relations tab (ng1 -> ng2)
-    WorkPackageRelationsHierarchyComponent
+    WorkPackageRelationsHierarchyComponent,
+
+    // Modals
+    ColumnsModalComponent,
   ]
 })
 export class OpenProjectModule {

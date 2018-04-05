@@ -57,6 +57,7 @@ export const $httpToken = new InjectionToken<any>('$http');
 export const halResourceFactoryToken = new InjectionToken<any>('halResourceFactory');
 export const wpDestroyModalToken = new InjectionToken<any>('wpDestroyModal');
 export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');
+export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 export const HookServiceToken = new InjectionToken<any>('HookService');
 export const UrlParamsHelperToken = new InjectionToken<any>('UrlParamsHelper');
 export const QueryResourceToken = new InjectionToken<any>('QueryResource');
