@@ -27,12 +27,12 @@
             *ngIf="configuration.columnMenuEnabled || configuration.actionsColumnEnabled">
           <div class="generic-table--sort-header-outer">
             <accessible-by-keyboard
-                (execute)="openColumnsModal()"
+                (execute)="openTableConfigurationModal()"
                 linkClass="wp-table--columns-selection"
-                linkTitle="{{text.addColumns}}"
-                linkAriaLabel="{{text.addColumns}}"
+                [linkTitle]="text.addColumns"
+                [linkAriaLabel]="text.configureTable"
                 *ngIf="configuration.columnMenuEnabled">
-              <op-icon icon-classes="icon-button icon-small icon-add"></op-icon>
+              <op-icon icon-classes="icon-button icon-small icon-settings"></op-icon>
             </accessible-by-keyboard>
           </div>
         </th>

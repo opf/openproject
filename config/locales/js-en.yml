@@ -555,10 +555,14 @@ en:
           not_found: "There is no such query"
         text_no_results: "No matching queries were found."
       table:
+        configure_button: 'Configure work package table'
         summary: "Table with rows of work package and columns of work package attributes."
         text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
         text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
         text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
+      table_configuration:
+        button: 'Configure this work package table'
+        modal_title: 'Work package table configuration'
       tabs:
         overview: Overview
         activity: Activity

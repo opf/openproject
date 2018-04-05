@@ -27,7 +27,7 @@
 // ++
 
 import {Component, ElementRef, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
-import {columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {QueryGroupByResource} from 'core-components/api/api-v3/hal-resources/query-group-by-resource.service';
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
@@ -50,7 +50,7 @@ import {
 } from 'core-app/components/wp-table/wp-table-configuration';
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
-
+import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 
 @Component({
   template: require('!!raw-loader!./wp-table.directive.html'),
@@ -124,7 +124,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
         title: I18n.t('js.work_packages.faulty_query.title'),
         description: I18n.t('js.work_packages.faulty_query.description')
       },
-      addColumns: I18n.t('js.label_add_columns'),
+      configureTable: I18n.t('js.work_packages.table_configuration.button'),
       tableSummary: I18n.t('js.work_packages.table.summary'),
       tableSummaryHints: [
         I18n.t('js.work_packages.table.text_inline_edit'),
@@ -183,9 +183,9 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     debugLog('Render took ', t1 - t0, ' milliseconds.');
   }
 
-  public openColumnsModal() {
+  public openTableConfigurationModal() {
     this.opContextMenu.close();
-    this.opModalService.show(ColumnsModalComponent);
+    this.opModalService.show(WpTableConfigurationModalComponent);
   }
 
   private getTableAndTimelineElement():[HTMLElement, HTMLElement] {

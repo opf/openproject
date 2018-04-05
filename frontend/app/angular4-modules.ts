@@ -190,6 +190,11 @@ import {WpRelationAddChildComponent} from 'core-components/wp-relations/wp-relat
 import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relations-parent/wp-relations-parent.component';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {ColumnsModalComponent} from 'core-components/op-modals/modals/columns-modal.component';
+import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configuration-modal/tabs/columns-tab.component';
+import {WpTableConfigurationDisplaySettingsTab} from 'core-components/wp-table/configuration-modal/tabs/display-settings-tab.component';
+import {WpTableConfigurationFiltersTab} from 'core-components/wp-table/configuration-modal/tabs/filters-tab.component';
+import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 
 @NgModule({
   imports: [
@@ -287,6 +292,7 @@ import {ColumnsModalComponent} from 'core-components/op-modals/modals/columns-mo
 
     // OP Modals service
     OpModalService,
+    WpTableConfigurationService,
   ],
   declarations: [
     WorkPackagesListComponent,
@@ -396,6 +402,10 @@ import {ColumnsModalComponent} from 'core-components/op-modals/modals/columns-mo
     WorkPackageEmbeddedTableComponent,
     // Modals
     ColumnsModalComponent,
+    WpTableConfigurationModalComponent,
+    WpTableConfigurationColumnsTab,
+    WpTableConfigurationDisplaySettingsTab,
+    WpTableConfigurationFiltersTab,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -444,6 +454,10 @@ import {ColumnsModalComponent} from 'core-components/op-modals/modals/columns-mo
 
     // Modals
     ColumnsModalComponent,
+    WpTableConfigurationModalComponent,
+    WpTableConfigurationColumnsTab,
+    WpTableConfigurationDisplaySettingsTab,
+    WpTableConfigurationFiltersTab,
   ]
 })
 export class OpenProjectModule {
