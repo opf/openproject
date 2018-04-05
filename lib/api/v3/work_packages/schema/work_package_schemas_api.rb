@@ -114,7 +114,7 @@ module API
                 self_link = api_v3_paths.work_package_schema(@project.id, @type.id)
                 represented_schema = WorkPackageSchemaRepresenter.create(schema,
                                                                          self_link,
-                                                                         current_user: nil)
+                                                                         current_user: current_user)
 
                 with_etag! represented_schema.cache_key
 

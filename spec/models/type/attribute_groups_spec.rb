@@ -83,6 +83,14 @@ describe ::Type, type: :model do
         group_members.nil? || group_members.size.zero?
       end).to be_falsey
     end
+
+    it 'returns the default children query' do
+      children_group = subject.detect { |group| group[0] == :children }
+
+      expect(children_group).to_not be_nil
+      expect(children_group[1].length).to eql 1
+      expect(children_group[1][0]).to be_a(Query)
+    end
   end
 
   describe "#validate_attribute_groups" do

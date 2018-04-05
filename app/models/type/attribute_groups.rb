@@ -54,7 +54,8 @@ module Type::AttributeGroups
         people: :label_people,
         estimates_and_time: :label_estimates_and_time,
         details: :label_details,
-        other: :label_other
+        other: :label_other,
+        children: :'activerecord.attributes.work_package.children'
       }
     end
   end
@@ -94,33 +95,22 @@ module Type::AttributeGroups
   # Read the serialized attribute groups, if customized.
   # Otherwise, return +default_attribute_groups+
   def attribute_groups
-    groups = read_attribute :attribute_groups
-    # The attributes might not be present anymore, for instance when you remove
-    # a plugin leaving an empty group behind. If we did not delete such a
-    # group, the admin saving such a form configuration would encounter an
-    # unexpected/unexplicable validation error.
-    valid_keys = work_package_attributes.keys
-    groups.each do |_, attributes|
-      attributes.select! { |attribute| valid_keys.include? attribute }
-    end
-
-    groups.presence || default_attribute_groups
+    custom_attribute_groups || default_attribute_groups
   end
 
   ##
   # Returns the default +attribute_groups+ put together by
   # the default group map.
   def default_attribute_groups
-    values = work_package_attributes
-             .keys
-             .reject { |key| custom_field?(key) && !has_custom_field?(key) }
-             .group_by { |key| default_group_key(key.to_sym) }
+    values = work_package_attributes_by_default_group_key
 
     ordered = []
-    default_groups.map do |groupkey, label_key|
+    default_groups.each_key do |groupkey|
       members = values[groupkey]
       ordered << [groupkey, members.sort] if members.present?
     end
+
+    ordered << [:children, [Query.new_default]]
 
     ordered
   end
@@ -147,6 +137,20 @@ module Type::AttributeGroups
   end
 
   private
+
+  def custom_attribute_groups
+    groups = read_attribute :attribute_groups
+    # The attributes might not be present anymore, for instance when you remove
+    # a plugin leaving an empty group behind. If we did not delete such a
+    # group, the admin saving such a form configuration would encounter an
+    # unexpected/unexplicable validation error.
+    valid_keys = work_package_attributes.keys
+    groups.each do |_, attributes|
+      attributes.select! { |attribute| valid_keys.include? attribute }
+    end
+
+    groups.presence
+  end
 
   def default_group_key(key)
     if custom_field?(key)
@@ -188,5 +192,12 @@ module Type::AttributeGroups
         end
       end
     end
+  end
+
+  def work_package_attributes_by_default_group_key
+    work_package_attributes
+      .keys
+      .reject { |key| custom_field?(key) && !has_custom_field?(key) }
+      .group_by { |key| default_group_key(key.to_sym) }
   end
 end

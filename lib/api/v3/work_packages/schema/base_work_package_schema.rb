@@ -94,7 +94,11 @@ module API
                 .deep_dup
                 .map do |group|
                 group[1].map! do |prop|
-                  if type.passes_attribute_constraint?(prop, project: project)
+                  next unless prop.is_a?(Query) || type.passes_attribute_constraint?(prop, project: project)
+
+                  if prop.is_a?(Query)
+                    prop
+                  else
                     convert_property(prop)
                   end
                 end
@@ -104,8 +108,6 @@ module API
                 group
               end
             end
-
-            @attribute_groups
           end
 
           private

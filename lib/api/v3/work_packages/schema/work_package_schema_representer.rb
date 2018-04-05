@@ -254,11 +254,12 @@ module API
 
           def attribute_groups
             represented.attribute_groups.map do |group|
-              {
-                _type: "WorkPackageFormAttributeGroup",
-                name: group[0],
-                attributes: group[1]
-              }
+              klass = if group[1][0].is_a?(Query)
+                        ::API::V3::WorkPackages::Schema::FormConfigurations::QueryRepresenter
+                      else
+                        ::API::V3::WorkPackages::Schema::FormConfigurations::AttributeRepresenter
+                      end
+              klass.new(group, current_user: current_user, embed_links: true)
             end
           end
         end

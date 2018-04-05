@@ -31,20 +31,31 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:custom_field) { FactoryGirl.build(:custom_field) }
-  let(:work_package) { FactoryGirl.build(:work_package) }
+  let(:project) { FactoryGirl.build_stubbed(:project_with_types) }
+  let(:type) { FactoryGirl.build_stubbed(:type) }
+  let(:custom_field) { FactoryGirl.build_stubbed(:custom_field) }
+  let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package, project: project, type: project.types.first) }
   let(:current_user) do
-    FactoryGirl.build(:user, member_in_project: work_package.project)
+    FactoryGirl.build_stubbed(:user)
   end
+  let(:attribute_query) { FactoryGirl.build_stubbed(:query) }
   let(:attribute_groups) do
     [["People", %w(assignee responsible)],
-     ["Estimates and time", %w(estimatedTime spentTime)]]
+     ["Estimates and time", %w(estimatedTime spentTime)],
+     ["Children", [attribute_query]]]
   end
   let(:schema) do
     ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package).tap do |schema|
       allow(schema)
         .to receive(:attribute_groups)
         .and_return(attribute_groups)
+      allow(schema)
+        .to receive(:assignable_values)
+        .and_call_original
+      allow(schema)
+        .to receive(:assignable_values)
+        .with(:version, current_user)
+        .and_return([])
     end
   end
   let(:self_link) { '/a/self/link' }
@@ -142,23 +153,40 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe '_attributeGroups' do
-      it 'renders attribute_groups of the schema' do
-        expected = [
-          {
-            _type: "WorkPackageFormAttributeGroup",
-            name: "People",
-            attributes: %w(assignee responsible)
-          },
-          {
-            _type: "WorkPackageFormAttributeGroup",
-            name: "Estimates and time",
-            attributes: %w(estimatedTime spentTime)
-          }
-        ]
+      it 'renders form attribute group elements of the schema' do
+        expect(subject)
+          .to be_json_eql(
+            {
+              _type: "WorkPackageFormAttributeGroup",
+              name: "People",
+              attributes: %w(assignee responsible)
+            }.to_json
+          )
+          .at_path('_attributeGroups/0')
 
         expect(subject)
-          .to be_json_eql(expected.to_json)
-          .at_path('_attributeGroups')
+          .to be_json_eql(
+            {
+              _type: "WorkPackageFormAttributeGroup",
+              name: "Estimates and time",
+              attributes: %w(estimatedTime spentTime)
+            }.to_json
+          )
+          .at_path('_attributeGroups/1')
+      end
+
+      it 'renders form query group elements of the schema' do
+        expect(subject)
+          .to be_json_eql("WorkPackageFormQueryGroup".to_json)
+          .at_path('_attributeGroups/2/_type')
+
+        expect(subject)
+          .to be_json_eql(api_v3_paths.query(attribute_query.id).to_json)
+          .at_path('_attributeGroups/2/_links/query/href')
+
+        expect(subject)
+          .to be_json_eql('Query'.to_json)
+          .at_path('_attributeGroups/2/_embedded/query/_type')
       end
     end
 

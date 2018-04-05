@@ -130,7 +130,6 @@ module Type::Attributes
       end
     end
 
-
     def attr_i18n_key(name)
       if name == 'percentage_done'
         'done_ratio'
