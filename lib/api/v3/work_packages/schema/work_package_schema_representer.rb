@@ -253,7 +253,7 @@ module API
                                          has_default: true
 
           def attribute_groups
-            represented.attribute_groups.map do |group|
+            (represented.attribute_groups || []).map do |group|
               klass = if group[1][0].is_a?(Query)
                         ::API::V3::WorkPackages::Schema::FormConfigurations::QueryRepresenter
                       else

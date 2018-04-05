@@ -62,6 +62,7 @@ export const UrlParamsHelperToken = new InjectionToken<any>('UrlParamsHelper');
 export const QueryResourceToken = new InjectionToken<any>('QueryResource');
 export const QueryFilterInstanceResourceToken = new InjectionToken<any>('QueryFilterInstanceResource');
 export const HalResourceToken = new InjectionToken<any>('HalResource');
+export const UrlParamsHelperServiceToken = new InjectionToken<any>('UrlParamsHelperService');
 
 export function upgradeService(ng1InjectorName:string, providedType:any) {
   return {

@@ -53,6 +53,7 @@ interface FieldDescriptor {
 interface GroupDescriptor {
   name:string;
   members:FieldDescriptor[];
+  type:string;
 }
 
 @Component({
@@ -142,11 +143,21 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.groupedFields = attributeGroups.map((groups:any[]) => {
-          return {
-            name: groups[0],
-            members: this.getFields(resource, groups[1])
-          };
+        this.groupedFields = attributeGroups.map((group:any) => {
+          if (group._type === 'WorkPackageFormAttributeGroup') {
+            return {
+              name: group.name,
+              members: this.getFields(resource, group.attributes),
+              type: group._type
+            };
+          } else {
+            return {
+              name: group.name,
+              query: group._embedded.query,
+              members: ['some placeholder'],
+              type: group._type
+            };
+          }
         });
       });
   }

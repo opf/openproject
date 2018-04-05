@@ -29,6 +29,7 @@
 import {QuerySortByResource} from "../api/api-v3/hal-resources/query-sort-by-resource.service";
 import {QueryResource} from "../api/api-v3/hal-resources/query-resource.service";
 import {PathHelperService} from '../common/path-helper/path-helper.service';
+import {HalLink} from 'core-components/api/api-v3/hal-link/hal-link.service';
 
 export class UrlParamsHelperService {
 
@@ -186,8 +187,7 @@ export class UrlParamsHelperService {
   public buildV3GetQueryFromQueryResource(query:QueryResource, additionalParams:any) {
     var queryData:any = {};
 
-    queryData["columns[]"] = query.columns.map((column:any) => column.id);
-
+    queryData["columns[]"] = this.buildV3GetColumnsFromQueryResource(query);
     queryData.showSums = query.sums;
     queryData.timelineVisible = query.timelineVisible;
     queryData.timelineZoomLevel = query.timelineZoomLevel;
@@ -195,26 +195,10 @@ export class UrlParamsHelperService {
     queryData.groupBy = _.get(query.groupBy, 'id', '');
 
     // Filters
-    const filters = query.filters.map((filter:any) => {
-      let id = filter.filter.$href;
-      id = id.substring(id.lastIndexOf('/') + 1, id.length);
-
-      const operator = filter.operator.id;
-      const values = _.map(filter.values, (v) => this.queryFilterValueToParam(v));
-      const filterHash:any = {};
-      filterHash[id] = {operator: operator, values: values};
-
-      return filterHash;
-    });
-
-    queryData.filters = JSON.stringify(filters);
+    queryData.filters = this.buildV3GetFiltersFromQueryResoure(query);
 
     // Sortation
-    queryData.sortBy = JSON.stringify(query
-      .sortBy
-      .map(function (sort:QuerySortByResource) {
-        return sort.id.split('-')
-      }));
+    queryData.sortBy = this.buildV3GetSortByFromQuery(query);
 
     return angular.extend(queryData, additionalParams);
   }
@@ -235,6 +219,76 @@ export class UrlParamsHelperService {
     } else {
       return value.toString();
     }
+  }
+
+  private buildV3GetColumnsFromQueryResource(query:QueryResource) {
+    if (query.columns) {
+      return query.columns.map((column: any) => column.id);
+    } else if (query._links.columns) {
+      return query._links.columns.map((column:HalLink) => {
+        let id = column.href!;
+
+        return this.idFromHref(id);
+      });
+    }
+  }
+
+  private buildV3GetFiltersFromQueryResoure(query:QueryResource) {
+    let filters = query.filters.map((filter:any) => {
+      let id = this.buildV3GetFilterIdFromFilter(filter);
+      let operator = this.buildV3GetOperatorIdFromFilter(filter);
+      let values = this.buildV3GetValuesFromFilter(filter);
+
+      const filterHash:any = {};
+      filterHash[id] = {operator: operator, values: values};
+
+      return filterHash;
+    });
+
+    return JSON.stringify(filters);
+  }
+
+  private buildV3GetFilterIdFromFilter(filter:any) {
+    let href = filter.filter ? filter.filter.$href : filter._links.filter.href;
+
+    return this.idFromHref(href)
+  }
+
+  private buildV3GetOperatorIdFromFilter(filter:any) {
+    if (filter.operator) {
+      return filter.operator.id;
+    } else {
+      let href = filter._links.operator.href;
+
+      return this.idFromHref(href);
+    }
+  }
+
+  private buildV3GetValuesFromFilter(filter:any) {
+    let values = filter.values ? filter.values : filter._links.values;
+
+    return _.map(values, (v) => this.queryFilterValueToParam(v));
+  }
+
+  private buildV3GetSortByFromQuery(query:QueryResource) {
+    let sortBys = query.sortBy ? query.sortBy : query._links.sortBy;
+    let sortByIds = sortBys.map((sort:QuerySortByResource) => {
+      if (sort.id) {
+        return sort.id;
+      } else {
+        let href = sort.href!;
+
+        let id = this.idFromHref(href);
+
+        return id;
+      }
+    });
+
+    return JSON.stringify(sortByIds.map((id:string) => id.split('-')));
+  }
+
+  private idFromHref(href:string) {
+    return href.substring(href.lastIndexOf('/') + 1, href.length);
   }
 }
 
