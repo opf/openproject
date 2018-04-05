@@ -1,16 +1,16 @@
-  <wp-embedded-table #childrenEmbeddedTable
-                     [compactTableStyle]="true"
-                     [queryProps]="childrenQueryProps"
-                     [tableActions]="childrenTableActions"
-                     [configuration]="{ actionsColumnEnabled: true,
-                                          hierarchyToggleEnabled: false,
-                                          inlineCreateEnabled: false,
-                                          columnMenuEnabled: false,
-                                          contextMenuEnabled: false,
-                                          projectContext: false }" >
-  </wp-embedded-table>
+<wp-embedded-table #childrenEmbeddedTable
+                   [compactTableStyle]="true"
+                   [queryProps]="childrenQueryProps"
+                   [tableActions]="childrenTableActions"
+                   [configuration]="{ actionsColumnEnabled: true,
+                                      hierarchyToggleEnabled: false,
+                                      inlineCreateEnabled: false,
+                                      columnMenuEnabled: false,
+                                      contextMenuEnabled: false,
+                                      projectContext: false }" >
+</wp-embedded-table>
 
-  <wp-relation-add-child
-      [workPackage]="workPackage"
-      (onAdded)="refreshTable()"
-      *ngIf="canModifyHierarchy && canHaveChildren"></wp-relation-add-child>
+<wp-relation-add-child
+    [workPackage]="workPackage"
+    (onAdded)="refreshTable()"
+    *ngIf="canModifyHierarchy && canHaveChildren"></wp-relation-add-child>

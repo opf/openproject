@@ -110,7 +110,7 @@ module Type::AttributeGroups
       ordered << [groupkey, members.sort] if members.present?
     end
 
-    ordered << [:children, [Query.new_default]]
+    ordered << [:children, [default_children_query]]
 
     ordered
   end
@@ -199,5 +199,14 @@ module Type::AttributeGroups
       .keys
       .reject { |key| custom_field?(key) && !has_custom_field?(key) }
       .group_by { |key| default_group_key(key.to_sym) }
+  end
+
+  def default_children_query
+    query = Query.new_default
+    query.column_names = %w(id type subject)
+    query.show_hierarchies = false
+    query.filters = []
+    query.add_filter('parent', '=', '1')
+    query
   end
 end

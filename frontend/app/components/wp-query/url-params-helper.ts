@@ -265,9 +265,12 @@ export class UrlParamsHelperService {
   }
 
   private buildV3GetValuesFromFilter(filter:any) {
-    let values = filter.values ? filter.values : filter._links.values;
+    if (filter.values) {
+      return _.map(filter.values, (v) => this.queryFilterValueToParam(v));
+    } else {
+      return _.map(filter._links.values, (v:any) => this.idFromHref(v.href));
+    }
 
-    return _.map(values, (v) => this.queryFilterValueToParam(v));
   }
 
   private buildV3GetSortByFromQuery(query:QueryResource) {
@@ -288,7 +291,9 @@ export class UrlParamsHelperService {
   }
 
   private idFromHref(href:string) {
-    return href.substring(href.lastIndexOf('/') + 1, href.length);
+    let id = href.substring(href.lastIndexOf('/') + 1, href.length);
+
+    return decodeURIComponent(id);
   }
 }
 

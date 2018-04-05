@@ -69,7 +69,6 @@ export class WorkPackageFormQueryGroupComponent implements OnInit, OnDestroy {
   ];
 
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
-              protected wpCacheService:WorkPackageCacheService,
               protected PathHelper:PathHelperService,
               @Inject(UrlParamsHelperServiceToken) protected queryUrlParamsHelper:UrlParamsHelperService,
               @Inject(I18nToken) protected I18n:op.I18n) {
@@ -79,7 +78,7 @@ export class WorkPackageFormQueryGroupComponent implements OnInit, OnDestroy {
     this.canHaveChildren = !this.workPackage.isMilestone;
     this.canModifyHierarchy = !!this.workPackage.changeParent;
 
-    this.childrenQueryProps = this.queryUrlParamsHelper.buildV3GetQueryFromQueryResource(this.group.query,
+    this.childrenQueryProps = this.queryUrlParamsHelper.buildV3GetQueryFromQueryResource(this.contextualizedQuery,
                                                                                         {})
   }
 
@@ -89,5 +88,17 @@ export class WorkPackageFormQueryGroupComponent implements OnInit, OnDestroy {
 
   public refreshTable() {
     this.childrenEmbeddedTable.refresh();
+  }
+
+  private get contextualizedQuery() {
+    let duppedQuery = _.clone(this.group.query)
+
+    _.each(duppedQuery.filters, (filter) => {
+      if (filter._links.filter.href.endsWith('parent')) {
+        filter._links.values[0].href = this.PathHelper.workPackagePath(this.workPackage.id);
+      }
+    });
+
+    return duppedQuery;
   }
 }

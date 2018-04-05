@@ -46,6 +46,10 @@ module API
                                 end,
                                 getter: ->(*) do
                                   next unless embed_links
+
+                                  # For some reason, the context (query) of the filters
+                                  # are lost. We therefore set it anew:
+                                  query.set_context
                                   ::API::V3::Queries::QueryRepresenter.new(query, current_user: current_user)
                                 end
 
