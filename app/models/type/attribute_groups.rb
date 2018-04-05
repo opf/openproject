@@ -95,7 +95,9 @@ module Type::AttributeGroups
   # Read the serialized attribute groups, if customized.
   # Otherwise, return +default_attribute_groups+
   def attribute_groups
-    custom_attribute_groups || default_attribute_groups
+    groups = custom_attribute_groups || default_attribute_groups
+
+    groups + [[:children, [default_children_query]]]
   end
 
   ##
@@ -109,8 +111,6 @@ module Type::AttributeGroups
       members = values[groupkey]
       ordered << [groupkey, members.sort] if members.present?
     end
-
-    ordered << [:children, [default_children_query]]
 
     ordered
   end
