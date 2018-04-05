@@ -35,7 +35,7 @@ Capybara::Screenshot.prune_strategy = :keep_last_run
 # Don't silence puma if we're using it
 Capybara.register_server :thin do |app, port, host|
   require 'rack/handler/thin'
-  Rack::Handler::Thin.run(app, Port: port, Host: host)
+  Rack::Handler::Thin.run(app, Port: port, Host: host, signals: false)
 end
 Capybara.server = :thin
 
@@ -120,18 +120,21 @@ Capybara.register_driver :chrome_headless do |app|
 
   options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
 
-  driver = Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+  driver = Capybara::Selenium::Driver.new(
+    app,
+    browser: :chrome,
+    http_client: client,
+    options: options
+  )
 
-  bridge = driver.browser.send(:bridge)
+  # Enable file downloads in headless mode
+  # https://bugs.chromium.org/p/chromium/issues/detail?id=696481
+  bridge = driver.browser.send :bridge
 
-  path = '/session/:session_id/chromium/send_command'
-  path[':session_id'] = bridge.session_id
-
-  bridge.http.call(:post, path, cmd: 'Page.setDownloadBehavior',
-                   params: {
-                     behavior: 'allow',
-                     downloadPath: DownloadedFile::PATH.to_s
-                   })
+  bridge.http.call :post,
+                   "/session/#{bridge.session_id}/chromium/send_command",
+                   cmd: 'Page.setDownloadBehavior',
+                   params: { behavior: 'allow', downloadPath: DownloadedFile::PATH.to_s }
 
   driver
 end
