@@ -250,6 +250,12 @@ Redmine::MenuManager.map :project_menu do |menu|
               :'wp-query-menu' => 'wp-query-menu'
             }
 
+  menu.push :all_open_wps,
+            { controller: '/work_packages', action: 'index' },
+            param: :project_id,
+            caption: :label_all_open_wps,
+            parent: :work_packages
+
   menu.push :summary_field,
             { controller: '/work_packages/reports', action: 'report' },
             param: :project_id,

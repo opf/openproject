@@ -1050,6 +1050,7 @@ en:
   label_all: "all"
   label_all_time: "all time"
   label_all_words: "All words"
+  label_all_open_wps: "All open"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
   label_and_its_subprojects: "%{value} and its subprojects"

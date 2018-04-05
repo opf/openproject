@@ -27,30 +27,13 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-function setExpandStatus(expanderObject) {
-  var expander = jQuery(expanderObject);
-  var menuItemWrapper = jQuery(expander).parent();
-  var expanded = jQuery(menuItemWrapper).hasClass('open');
-  var span = expander.find('span.hidden-for-sighted');
-  var title = expanded ? I18n.t('js.label_menu_collapse') : I18n.t('js.label_menu_expand');
-
-  expander.attr('title', title);
-  span.text(title);
-}
-
 function initMainMenuExpandStatus() {
   var wrapper = jQuery('#wrapper')
 
-  jQuery('#main-menu .toggler').each(function(index) {
-    var menu_expander = jQuery(this);
-    var menu_item = menu_expander.closest('li').find('a.selected');
-
-    if (menu_item.length == 1 && !wrapper.hasClass('hidden-navigation')) {
-      menu_expander.trigger('click');
-    } else {
-      setExpandStatus(menu_expander);
-    }
-  });
+  var upToggle = jQuery('ul.menu_root.closed li.open a.arrow-left-to-project');
+  if (upToggle.length == 1 && wrapper.hasClass('hidden-navigation')) {
+    upToggle.trigger('click');
+  }
 }
 
 jQuery(document).ready(function($) {
@@ -63,23 +46,14 @@ jQuery(document).ready(function($) {
     return this;
   };
 
-  var toggler = $('<a class="toggler" href="#"><i class="icon6 icon-toggler icon-arrow-down1" aria-hidden="true"></i><span class="hidden-for-sighted"></span></a>')
+  var toggler = $('<a class="toggler" href="#"><i class="icon6 icon-toggler icon-arrow-right3" aria-hidden="true"></i><span class="hidden-for-sighted"></span></a>')
     .click(function(event) {
       var target = $(this);
-
       if (target.hasClass('toggler')) {
-        var menuItemWrapper = target.parent();
-        var menuParent = menuItemWrapper.toggleClass('open').parent().find('ul').not('ul ul ul');
-
-        menuParent.mySlide();
-        if (menuItemWrapper.hasClass('open')) {
-          menuParent.show();
-          menuParent.find('li > a:first').focus();
-        } else {
-          menuParent.hide();
-        }
-
-        setExpandStatus(target);
+        $(".menu_root li").removeClass('open')
+        $(".menu_root").removeClass('open').addClass('closed');
+        target.closest('li').addClass('open');
+        target.closest('li').find('li > a:first').focus();
       }
       return false;
     });
@@ -110,5 +84,19 @@ jQuery(document).ready(function($) {
     .wrapInner('<span class="ellipsis"/>')
     // 3. reinsert the <span class="toggler"> so that it sits outside of the above
     .after(toggler);
+
+  $('#main-menu ul.menu-children').each(function(_i, child){
+    var title = $(child).parents('li').find('.main-item-wrapper .menu-item--title').text();
+    var header = $('<div class="children-menu-header"></div>');
+    var upLink = $('<a class="arrow-left-to-project" href="#"><i class="icon-arrow-left1" aria-hidden="true"></i></a>');
+    upLink.attr('title', I18n.t('js.label_up'));
+    upLink.click(function(target){
+      $(target).parent('li').first().removeClass('open');
+      $(".menu_root").removeClass('closed').addClass('open');
+    });
+    header.append(upLink);
+    header.append('<span class="parent-node">' + title + '</span>');
+    $(child).before(header);
+  })
 
 });
