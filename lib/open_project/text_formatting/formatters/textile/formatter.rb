@@ -469,12 +469,8 @@ module OpenProject::TextFormatting::Formatters
             div_class << ' right' if $1 == '>'
             div_class << ' left' if $1 == '<'
             out = "<fieldset class='form--fieldset -collapsible'>"
-            out << "<legend class='form--fieldset-legend' title='" +
-              l(:description_toc_toggle) +
-              "<a href='#'>
-                #{l(:label_table_of_contents)}
-              </a>
-              </legend><div>"
+            out << "<legend class='form--fieldset-legend' title='#{l(:description_toc_toggle)}'>"
+            out << "<a href='#'>#{l(:label_table_of_contents)}</a></legend><div>"
             out << "<ul class=\"#{div_class}\"><li>"
             root = headings.map(&:first).min
             current = root
