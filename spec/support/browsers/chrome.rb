@@ -1,5 +1,3 @@
-require 'chromedriver-helper'
-
 # Force the latest version of chromedriver using the chromedriver-helper gem
 Chromedriver.set_version "2.37"
 
