@@ -6,24 +6,7 @@ require 'action_dispatch'
 
 RSpec.configure do |config|
   Capybara.default_max_wait_time = 4
-  Capybara.javascript_driver = :chrome_headless
-
-  resized = false
-  config.before(:each, js: true) do
-    next if resized
-    begin
-      window = Capybara.current_session.current_window
-      unless window.size == [1920, 1080]
-        warn "Resizing Capybara current window to 1920x1080 (Size was #{window.size.inspect})"
-        window.resize_to(1920, 1080)
-      end
-
-      resized = true
-    rescue => e
-      warn "Failed to update page width: #{e}"
-      warn e.backtrace
-    end
-  end
+  Capybara.javascript_driver = :chrome_headless_en
 end
 
 ##
@@ -53,88 +36,4 @@ end
 
 Rails.application.config do
   config.middleware.use RackSessionAccess::Middleware
-end
-
-Capybara.register_driver :firefox_headless do |app|
-  require 'selenium/webdriver'
-
-  Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
-                                              Selenium::WebDriver::Firefox::Binary.path
-
-  capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: true)
-  capabilities["elementScrollBehavior"] = 1
-
-  client = Selenium::WebDriver::Remote::Http::Default.new
-  client.timeout = 180
-
-  profile = Selenium::WebDriver::Firefox::Profile.new
-  profile['intl.accept_languages'] = 'en'
-  profile['browser.download.dir'] = DownloadedFile::PATH.to_s
-  profile['browser.download.folderList'] = 2
-  profile['browser.helperApps.neverAsk.saveToDisk'] = 'text/csv'
-
-  # prevent stale firefoxCP processes
-  profile['browser.tabs.remote.autostart'] = false
-  profile['browser.tabs.remote.autostart.2'] = false
-
-  # only one FF process
-  profile['dom.ipc.processCount'] = 1
-
-  # use native instead of synthetic events
-  # https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities
-  profile.native_events = true
-
-  options = Selenium::WebDriver::Firefox::Options.new
-  options.profile = profile
-
-  unless ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_NO_HEADLESS'])
-    options.args << "--headless"
-  end
-
-  # If you need to trace the webdriver commands, un-comment this line
-  # Selenium::WebDriver.logger.level = :info
-
-  Capybara::Selenium::Driver.new(
-    app,
-    browser: :firefox,
-    options: options,
-    http_client: client,
-    desired_capabilities: capabilities
-  )
-end
-
-
-Capybara.register_driver :chrome_headless do |app|
-  options = Selenium::WebDriver::Chrome::Options.new
-
-  options.add_argument('--headless')
-  options.add_argument('--no-sandbox')
-  options.add_argument('--disable-gpu')
-  options.add_argument('--disable-popup-blocking')
-  options.add_argument('--window-size=1920,1080')
-
-  options.add_preference(:download,
-                         directory_upgrade: true,
-                         prompt_for_download: false,
-                         default_directory: DownloadedFile::PATH.to_s)
-
-  options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
-
-  driver = Capybara::Selenium::Driver.new(
-    app,
-    browser: :chrome,
-    http_client: client,
-    options: options
-  )
-
-  # Enable file downloads in headless mode
-  # https://bugs.chromium.org/p/chromium/issues/detail?id=696481
-  bridge = driver.browser.send :bridge
-
-  bridge.http.call :post,
-                   "/session/#{bridge.session_id}/chromium/send_command",
-                   cmd: 'Page.setDownloadBehavior',
-                   params: { behavior: 'allow', downloadPath: DownloadedFile::PATH.to_s }
-
-  driver
 end
