@@ -195,6 +195,7 @@ import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configura
 import {WpTableConfigurationDisplaySettingsTab} from 'core-components/wp-table/configuration-modal/tabs/display-settings-tab.component';
 import {WpTableConfigurationFiltersTab} from 'core-components/wp-table/configuration-modal/tabs/filters-tab.component';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
+import {WpTableConfigurationSortByTab} from 'core-components/wp-table/configuration-modal/tabs/sort-by-tab.component';
 
 @NgModule({
   imports: [
@@ -406,6 +407,7 @@ import {WpTableConfigurationService} from 'core-components/wp-table/configuratio
     WpTableConfigurationColumnsTab,
     WpTableConfigurationDisplaySettingsTab,
     WpTableConfigurationFiltersTab,
+    WpTableConfigurationSortByTab,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -458,6 +460,7 @@ import {WpTableConfigurationService} from 'core-components/wp-table/configuratio
     WpTableConfigurationColumnsTab,
     WpTableConfigurationDisplaySettingsTab,
     WpTableConfigurationFiltersTab,
+    WpTableConfigurationSortByTab,
   ]
 })
 export class OpenProjectModule {

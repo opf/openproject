@@ -2,6 +2,7 @@ import {Inject, Injectable, Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {WpTableConfigurationDisplaySettingsTab} from 'core-components/wp-table/configuration-modal/tabs/display-settings-tab.component';
 import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configuration-modal/tabs/columns-tab.component';
+import {WpTableConfigurationSortByTab} from 'core-components/wp-table/configuration-modal/tabs/sort-by-tab.component';
 
 export interface WpTableConfigurationTabReference {
   name:string;
@@ -14,9 +15,9 @@ export class WpTableConfigurationService {
 
   public tabs:WpTableConfigurationTabReference[] = [
     {
-      name: 'filters',
-      title: this.I18n.t('js.work_packages.query.filters'),
-      componentClass: WpTableConfigurationDisplaySettingsTab,
+      name: 'sort-by',
+      title: this.I18n.t('js.toolbar.settings.sort_by'),
+      componentClass: WpTableConfigurationSortByTab,
     },
     {
       name: 'columns',

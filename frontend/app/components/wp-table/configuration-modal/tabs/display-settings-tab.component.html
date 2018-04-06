@@ -1,3 +1,34 @@
 <div>
-  Hello display settings!
+  <h4 [textContent]="text.label_group_by"></h4>
+  <form>
+    <div class="form--field -full-width">
+      <label
+          for="selected_columns_new"
+          [textContent]="text.label_group_by"
+          class="form--label hidden-for-sighted">
+      </label>
+      <div class="form--field-container">
+        <div class="form--select-container">
+          <select
+              ng-model="vm.current"
+              focus="true"
+              title="{{ fieldController.editTitle }}"
+              id="selected_columns_new"
+              class="form--select"
+              ng-options="groupBy.name for groupBy in vm.available | orderBy: 'name' track by groupBy.$href">
+              <option value="">{{::I18n.t('js.placeholders.default')}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <button class="button -highlight" ng-click="updateGroupBy()">
+        {{ ::I18n.t('js.modals.button_apply') }}
+      </button>
+      <button class="button" ng-click="$ctrl.closeMe()">
+        {{ ::I18n.t('js.modals.button_cancel') }}
+      </button>
+    </div>
+  </form>
 </div>

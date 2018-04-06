@@ -8,15 +8,11 @@ import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-por
 export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
 
   readonly I18n = this.injector.get(I18nToken);
-  public eeShowBanners:boolean = false;
+
+  const emptyOption = { title: I18n.t('js.inplace.clear_value_label') };
+
   public text = {
-
-    columnsLabel: this.I18n.t('js.label_columns'),
-    selectedColumns: this.I18n.t('js.description_selected_columns'),
-    multiSelectLabel: this.I18n.t('js.work_packages.label_column_multiselect'),
-
-    upsaleRelationColumns: this.I18n.t('js.modals.upsale_relation_columns'),
-    upsaleRelationColumnsLink: this.I18n.t('js.modals.upsale_relation_columns_link')
+    title: this.I18n.t('js.label_group_by')
   };
 
   constructor(readonly injector:Injector) {
@@ -24,7 +20,6 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
   }
 
   public onSave() {
-
   }
 
   ngOnInit() {

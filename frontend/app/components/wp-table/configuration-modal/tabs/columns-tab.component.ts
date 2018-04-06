@@ -36,8 +36,7 @@ export class WpTableConfigurationColumnsTab implements TabComponent {
   }
 
   public onSave() {
-    console.log("These are my columns");
-    console.log("%O", this.selectedColumnMap);
+    this.wpTableColumns.setColumns(this.selectedColumns);
   }
 
   public setSelectedColumn(column:QueryColumn) {

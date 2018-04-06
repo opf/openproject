@@ -563,6 +563,7 @@ en:
       table_configuration:
         button: 'Configure this work package table'
         modal_title: 'Work package table configuration'
+        display_settings: 'Display settings'
       tabs:
         overview: Overview
         activity: Activity
