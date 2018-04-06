@@ -83,7 +83,7 @@ module API
 
               WorkPackageSchemaCollectionRepresenter.new(schemas,
                                                          schemas_path_with_filters_params,
-                                                         current_user: current_user)
+                                                         current_user: nil)
             end
 
             # The schema identifier is an artificial identifier that is composed of a work package's
@@ -114,7 +114,7 @@ module API
                 self_link = api_v3_paths.work_package_schema(@project.id, @type.id)
                 represented_schema = WorkPackageSchemaRepresenter.create(schema,
                                                                          self_link,
-                                                                         current_user: current_user)
+                                                                         current_user: nil)
 
                 with_etag! represented_schema.cache_key
 

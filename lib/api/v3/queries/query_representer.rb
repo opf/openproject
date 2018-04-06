@@ -302,6 +302,8 @@ module API
         private
 
         def allowed_to?(action)
+          return false unless current_user
+
           @policy ||= QueryPolicy.new(current_user)
 
           @policy.allowed?(represented, action)
