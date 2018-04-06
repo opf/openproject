@@ -79,7 +79,11 @@ module OpenProject::Documents
       # Have to apply this one by hand and not via op_engine patches method
       # becauses the op_engine method does not allow for patching something
       # in the lib/open_project directory. Bummer.
-      require 'open_project/documents/patches/text_formatting_patch'
+      require_relative 'patches/text_formatting_patch'
+      OpenProject::Documents::Patches::ColonSeparatorPatch.mixin!
+      OpenProject::Documents::Patches::HashSeparatorPatch.mixin!
+
+      require_dependency 'open_project/documents/patches/textile_converter_patch'
     end
   end
 end
