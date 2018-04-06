@@ -34,6 +34,16 @@ class WorkPackageEditorField < WorkPackageField
     submit_by_click
   end
 
+  def click_and_type_slowly(text)
+    sleep 0.5
+    input_element.click
+
+    sleep 0.5
+    input_element.send_keys text
+
+    sleep 0.5
+  end
+
   def submit_by_click
     target = field_container.find(control_link)
     scroll_to_element(target)
