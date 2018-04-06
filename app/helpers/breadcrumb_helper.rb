@@ -50,7 +50,7 @@ module BreadcrumbHelper
                     end
         content_tag(:li,
                     h(element.to_s),
-                    class: "#{css_class} icon-context icon-small icon-arrow-right5")
+                    class: "#{css_class} icon4 icon-small icon-arrow-right5")
       end
     }
 
