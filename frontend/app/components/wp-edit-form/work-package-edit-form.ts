@@ -190,7 +190,9 @@ export class WorkPackageEditForm {
     // Reset old error notifcations
     this.errorsPerAttribute = {};
 
+    // Notify all fields of upcoming save
     const openFields = _.keys(this.activeFields);
+    _.each(this.activeFields, (handler:WorkPackageEditFieldHandler) => handler.field.onSubmit());
 
     return new Promise<WorkPackageResourceInterface>((resolve, reject) => {
       this.changeset.save()

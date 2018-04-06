@@ -102,6 +102,10 @@ shared_examples 'a cancellable field' do
 end
 
 shared_examples 'a previewable field' do
+  before do
+    skip('Markdown mode does not provide previewing') if Setting.text_formatting == 'markdown'
+  end
+
   it 'can preview the field' do
     field.activate!
 
@@ -120,6 +124,10 @@ end
 
 shared_examples 'a workpackage autocomplete field' do
   let!(:wp2) { FactoryGirl.create(:work_package, project: project, subject: 'AutoFoo') }
+
+  before do
+    skip('Markdown mode does not provide autocompleting') if Setting.text_formatting == 'markdown'
+  end
 
   it 'autocompletes the other work package' do
     field.activate!

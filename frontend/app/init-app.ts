@@ -28,10 +28,12 @@
 
 import ExpressionService from 'core-components/common/xss/expression.service';
 
+// Require vendors for global exposes. DLL handles the extraction
+// into a separate bundle
 require('./vendors');
 
 // Styles for global dependencies
-require('at.js/jquery.atwho.min.css');
+require('at.js/dist/css/jquery.atwho.min.css');
 require('select2/select2.css');
 require('ui-select/dist/select.min.css');
 require('ng-dialog/css/ngDialog.min.css');

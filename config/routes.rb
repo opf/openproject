@@ -276,18 +276,20 @@ OpenProject::Application.routes.draw do
       get '/statistics', action: :stats, as: 'stats'
 
       get '(/revisions/:rev)/diff.:format', action: :diff
-      get '(/revisions/:rev)/diff(/*path)', action: :diff,
-                                            format: false
+      get '(/revisions/:rev)/diff(/*repo_path)',
+          action: :diff,
+          format: false
 
-      get '(/revisions/:rev)/:format/*path', action: :entry,
-                                             format: /raw/,
-                                             rev: /[\w0-9\.\-_]+/
+      get '(/revisions/:rev)/:format/*repo_path',
+          action: :entry,
+          format: /raw/,
+          rev: /[\w0-9\.\-_]+/
 
       %w{diff annotate changes entry browse}.each do |action|
-        get "(/revisions/:rev)/#{action}(/*path)",
+        get "(/revisions/:rev)/#{action}(/*repo_path)",
             format: 'html',
             action: action,
-            constraints: { rev: /[\w0-9\.\-_]+/, path: /.*/ },
+            constraints: { rev: /[\w0-9\.\-_]+/, repo_path: /.*/ },
             as: "#{action}_revision"
       end
 
@@ -295,10 +297,11 @@ OpenProject::Application.routes.draw do
                               action: :revision,
                               as: 'show_revision'
 
-      get '(/revisions/:rev)(/*path)', action: :show,
-                                       format: 'html',
-                                       constraints: { rev: /[\w0-9\.\-_]+/, path: /.*/ },
-                                       as: 'show_revisions_path'
+      get '(/revisions/:rev)(/*repo_path)',
+          action: :show,
+          format: 'html',
+          constraints: { rev: /[\w0-9\.\-_]+/, repo_path: /.*/ },
+          as: 'show_revisions_path'
     end
   end
 

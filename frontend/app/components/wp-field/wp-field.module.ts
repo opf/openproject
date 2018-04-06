@@ -33,6 +33,8 @@ export class Field {
   public static type:string;
   public static $injector:Injector;
 
+  public $onInit(container:JQuery) {}
+
   public get displayName():string {
     return this.schema.name || this.name;
   }

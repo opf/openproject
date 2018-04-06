@@ -1,7 +1,7 @@
 FROM ruby:2.4-stretch
 
-ENV NODE_VERSION="7.7.2"
-ENV BUNDLER_VERSION="1.11.2"
+ENV NODE_VERSION="8.9.1"
+ENV BUNDLER_VERSION="1.16.0"
 ENV APP_USER app
 ENV APP_PATH /usr/src/app
 ENV APP_DATA /var/db/openproject

@@ -49,6 +49,7 @@ npm-debug.log*
 /.project
 /.loadpath
 /app/assets/javascripts/bundles/*.*
+/app/assets/javascripts/editor/*
 /app/assets/javascripts/locales/*.*
 /config/additional_environment.rb
 /config/configuration.yml

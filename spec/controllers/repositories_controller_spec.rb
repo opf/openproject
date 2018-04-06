@@ -252,7 +252,7 @@ describe RepositoriesController, type: :controller do
         let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
 
         before do
-          get :show, params: { project_id: project.identifier, path: path }
+          get :show, params: { project_id: project.identifier, repo_path: path }
         end
 
         context 'with brackets' do
@@ -271,7 +271,7 @@ describe RepositoriesController, type: :controller do
         let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
 
         before do
-          get :changes, params: { project_id: project.identifier, path: path }
+          get :changes, params: { project_id: project.identifier, repo_path: path }
           expect(response).to be_success
         end
 
@@ -301,7 +301,7 @@ describe RepositoriesController, type: :controller do
 
         before do
           allow(Setting).to receive(:repository_checkout_data).and_return(checkout_hash)
-          get :show, params: { project_id: project.identifier, path: 'subversion_test' }
+          get :show, params: { project_id: project.identifier, repo_path: 'subversion_test' }
         end
 
         it 'renders an empty warning view' do
@@ -324,7 +324,7 @@ describe RepositoriesController, type: :controller do
 
     describe '#show' do
       it 'redirects to login while preserving the path' do
-        params = { path: 'aDir/within/aDir', rev: '42', project_id: project.id }
+        params = { repo_path: 'aDir/within/aDir', rev: '42', project_id: project.id }
         get :show, params: params
 
         expect(response)

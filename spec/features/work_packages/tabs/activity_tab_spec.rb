@@ -154,7 +154,7 @@ describe 'Activity tab', js: true, selenium: true do
       it 'can quote a previous comment' do
         activity_tab.hover_action('1', :quote)
 
-        field = WorkPackageTextAreaField.new work_package_page,
+        field = WorkPackageEditorField.new work_package_page,
                                              'comment',
                                              selector: '.work-packages--activity--add-comment'
 

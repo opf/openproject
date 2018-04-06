@@ -1,5 +1,4 @@
 import * as Fuse from 'fuse.js';
-import {timeOutput} from '../../../../helpers/debug_output';
 
 export interface IAutocompleteItem<T> {
   label:string;

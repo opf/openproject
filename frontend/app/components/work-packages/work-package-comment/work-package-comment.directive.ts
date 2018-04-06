@@ -72,8 +72,7 @@ export class CommentFieldDirectiveController {
 
     scopedObservable<string>(this.$scope, this.wpActivityService.quoteEvents.values$())
       .subscribe((quote:string) => {
-      this.resetField(quote);
-      this.editing = true;
+      this.activate(quote);
       this.$element.find('.work-packages--activity--add-comment')[0].scrollIntoView();
     });
   }
@@ -96,10 +95,14 @@ export class CommentFieldDirectiveController {
 
   public activate(withText?:string) {
     this._forceFocus = true;
-    this.resetField(withText);
     this.editing = true;
 
-    this.$timeout(() => this.$element.find('.wp-inline-edit--field').focus());
+    this.resetField(withText);
+
+    this.waitForField()
+      .then(() => {
+        this.field.$onInit(this.$element);
+    });
   }
 
   public get project() {
@@ -112,6 +115,7 @@ export class CommentFieldDirectiveController {
   }
 
   public handleUserSubmit() {
+    this.field.onSubmit();
     if (this.field.isBusy || this.field.isEmpty()) {
       return;
     }
@@ -145,6 +149,22 @@ export class CommentFieldDirectiveController {
     this.editing = false;
     this.field.initializeFieldValue();
     this._forceFocus = true;
+  }
+
+  // Ensure the nested ng-include has rendered
+  private async waitForField():Promise<JQuery> {
+    const deferred = this.$q.defer<JQuery>();
+
+    const interval = setInterval(() => {
+      const container = this.$element.find('.op-ckeditor-element');
+
+      if (container.length > 0) {
+        clearInterval(interval);
+        deferred.resolve(container);
+      }
+    }, 100);
+
+    return deferred.promise;
   }
 }
 

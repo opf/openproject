@@ -29,16 +29,21 @@
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WikiTextareaEditField} from '../../wp-edit/field-types/wp-edit-wiki-textarea-field.module';
 import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
+import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {$injectFields} from 'core-components/angular/angular-injector-bridge.functions';
 
 export class WorkPackageCommentField extends WikiTextareaEditField {
   public _value:any;
   public isBusy:boolean = false;
 
+  public ConfigurationService:ConfigurationService = this.$injector.get(ConfigurationService);
+
   constructor(public workPackage:WorkPackageResourceInterface, protected I18n:op.I18n) {
     super(
       new WorkPackageChangeset(WorkPackageCommentField.$injector, workPackage),
       'comment',
-      {name: I18n.t('js.label_comment')} as any);
+      {name: I18n.t('js.label_comment')} as any
+    );
 
     this.initializeFieldValue();
   }
@@ -53,6 +58,14 @@ export class WorkPackageCommentField extends WikiTextareaEditField {
 
   public get required() {
     return true;
+  }
+
+  public isEmpty():boolean {
+    if (this.ConfigurationService.textFormat() === 'markdown') {
+      return false;
+    } else {
+      return !this.rawValue;
+    }
   }
 
   public initializeFieldValue(withText?:string):void {

@@ -74,7 +74,7 @@ export class ConfigurationService {
     var settings:any = {},
       defaults:any = {
         enabled_modules: [],
-        display: [],
+        display: {},
         user_preferences: {
           impaired: false,
           time_zone: '',
@@ -125,6 +125,10 @@ export class ConfigurationService {
   public dateFormatPresent()  {
     return this.displaySettingPresent('date_format') &&
       this.settings.display.date_format !== '';
+  }
+
+  public textFormat() {
+    return this.settings.display.text_format;
   }
 
   public dateFormat()  {

@@ -33,12 +33,8 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= error_messages_for 'content' %>
 
   <div class="attributes-group">
-    <div class="attributes-group--header">
-      <div class="attributes-group--header-container">
-        <h3 class="attributes-group--header-text"><%= WikiPage.human_attribute_name(:text) %></h3>
-       </div>
-     </div>
-    <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit op-auto-complete', :accesskey => accesskey(:edit) %>
+    <%= f.text_area :text, cols: 100, rows: 25, class: 'wiki-edit op-auto-complete', accesskey:  accesskey(:edit) %>
+    <%= wikitoolbar_for 'content_text' %>
   </div>
 
   <div class="form--field">
@@ -53,7 +49,6 @@ See docs/COPYRIGHT.rdoc for more details.
       { controller: '/wiki', action: 'show', project_id: @project, id: @page },
       class: 'button' %>
   <%= preview_link preview_project_wiki_path(@project, @page), 'wiki_form-preview' %>
-  <%= wikitoolbar_for 'content_text' %>
 <% end %>
 <div id="preview"></div>
 <% content_for :header_tags do %>

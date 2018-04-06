@@ -118,7 +118,7 @@ describe RepositoriesController, 'Git', type: :controller do
   it 'should browse directory' do
     @repository.fetch_changesets
     @repository.reload
-    get :show, params: { project_id: 3, path: 'images' }
+    get :show, params: { project_id: 3, repo_path: 'images' }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:entries)
@@ -134,7 +134,7 @@ describe RepositoriesController, 'Git', type: :controller do
   it 'should browse at given revision' do
     @repository.fetch_changesets
     @repository.reload
-    get :show, params: { project_id: 3, path: 'images', rev: '7234cb2750b63f47bff735edc50a1c0a433c2518' }
+    get :show, params: { project_id: 3, repo_path: 'images', rev: '7234cb2750b63f47bff735edc50a1c0a433c2518' }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:entries)
@@ -144,7 +144,7 @@ describe RepositoriesController, 'Git', type: :controller do
   end
 
   it 'should changes' do
-    get :changes, params: { project_id: 3, path: 'images/edit.png' }
+    get :changes, params: { project_id: 3, repo_path: 'images/edit.png' }
     assert_response :success
     assert_template 'changes'
     assert_select 'div',
@@ -153,7 +153,7 @@ describe RepositoriesController, 'Git', type: :controller do
   end
 
   it 'should entry show' do
-    get :entry, params: { project_id: 3, path: 'sources/watchers_controller.rb' }
+    get :entry, params: { project_id: 3, repo_path: 'sources/watchers_controller.rb' }
     assert_response :success
     assert_template 'entry'
     # Line 19
@@ -164,14 +164,14 @@ describe RepositoriesController, 'Git', type: :controller do
   end
 
   it 'should entry download' do
-    get :entry, params: { project_id: 3, path: 'sources/watchers_controller.rb', format: 'raw' }
+    get :entry, params: { project_id: 3, repo_path: 'sources/watchers_controller.rb', format: 'raw' }
     assert_response :success
     # File content
     assert response.body.include?('WITHOUT ANY WARRANTY')
   end
 
   it 'should directory entry' do
-    get :entry, params: { project_id: 3, path: 'sources' }
+    get :entry, params: { project_id: 3, repo_path: 'sources' }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:entry)
@@ -210,7 +210,7 @@ describe RepositoriesController, 'Git', type: :controller do
   end
 
   it 'should annotate' do
-    get :annotate, params: { project_id: 3, path: 'sources/watchers_controller.rb' }
+    get :annotate, params: { project_id: 3, repo_path: 'sources/watchers_controller.rb' }
     assert_response :success
     assert_template 'annotate'
     # Line 23, changeset 2f9c0091
@@ -223,7 +223,7 @@ describe RepositoriesController, 'Git', type: :controller do
   it 'should annotate at given revision' do
     @repository.fetch_changesets
     @repository.reload
-    get :annotate, params: { project_id: 3, rev: 'deff7', path: 'sources/watchers_controller.rb' }
+    get :annotate, params: { project_id: 3, rev: 'deff7', repo_path: 'sources/watchers_controller.rb' }
     assert_response :success
     assert_template 'annotate'
     assert_select 'div',
@@ -232,7 +232,7 @@ describe RepositoriesController, 'Git', type: :controller do
   end
 
   it 'should annotate binary file' do
-    get :annotate, params: { project_id: 3, path: 'images/edit.png' }
+    get :annotate, params: { project_id: 3, repo_path: 'images/edit.png' }
     assert_response 200
 
     assert_select 'p', attributes: { class: /nodata/ },

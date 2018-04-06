@@ -1,5 +1,6 @@
 class RailsCell < Cell::ViewModel
   include Escaped
+  include ERB::Util
   include ApplicationHelper
   include ActionView::Helpers::TranslationHelper
   include SecureHeaders::ViewHelpers

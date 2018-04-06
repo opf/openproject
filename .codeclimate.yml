@@ -1,5 +1,5 @@
 ---
-version: "2" 
+version: "2"
 languages:
   Ruby: true
   JavaScript: true
@@ -56,6 +56,7 @@ ratings:
 exclude_paths:
   - .bundle/**/*
   - lib/plugins/rfpdf/**/*
+  - app/assets/javascript/vendor/**/*
   - frontend/vendor/**/*
   - "**/*.d.ts"
   - "**/node_modules/"

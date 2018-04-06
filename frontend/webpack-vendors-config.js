@@ -27,23 +27,18 @@
 // ++
 
 var webpack = require('webpack');
-var fs = require('fs');
 var path = require('path');
-var _ = require('lodash');
-var autoprefixer = require('autoprefixer');
 
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 var mode = (process.env['RAILS_ENV'] || 'production').toLowerCase();
 var uglify = (mode !== 'development');
 
-var node_root = path.resolve(__dirname, 'node_modules');
 var output_root = path.resolve(__dirname, '..', 'app', 'assets', 'javascripts');
 var bundle_output = path.resolve(output_root, 'bundles')
 
 function getWebpackVendorsConfig() {
-  config = {
+  var config = {
     entry: {
       vendors: [path.resolve(__dirname, 'app', 'vendors.js')]
     },
@@ -57,7 +52,6 @@ function getWebpackVendorsConfig() {
     resolve: {
       modules: ['node_modules'],
       alias: {
-        'at.js': path.resolve(__dirname, 'vendor', 'at.js'),
         'select2': path.resolve(__dirname, 'vendor', 'select2')
       }
     },

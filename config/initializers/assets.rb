@@ -26,5 +26,6 @@ OpenProject::Application.configure do
     select_list_move.js
     types_checkboxes.js
     work_packages.js
+    vendor/ckeditor/ckeditor.*js
   )
 end
