@@ -72,6 +72,8 @@ class BaseTypeService
     active_cf_ids = []
 
     type.attribute_groups.each do |_, members|
+      next if members[0].is_a?(Query)
+
       members.each do |attribute|
         if attribute.start_with? 'custom_field_'
           active_cf_ids << attribute.gsub(/^custom_field_/, '').to_i
