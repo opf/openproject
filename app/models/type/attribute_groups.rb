@@ -33,7 +33,7 @@ module Type::AttributeGroups
   included do
     validate :validate_attribute_group_names
     validate :validate_attribute_groups
-    serialize :attribute_groups, Array
+    serialize :attribute_groups, ::Type::AttributeGroupsSerializer
 
     # Mapping from AR attribute name to a default group
     # May be extended by plugins
@@ -187,7 +187,7 @@ module Type::AttributeGroups
     valid_attributes = work_package_attributes.keys
     attribute_groups.each do |_, attributes|
       attributes.each do |key|
-        if valid_attributes.exclude? key
+        if key.is_a?(String) && valid_attributes.exclude?(key)
           errors.add(:attribute_groups, :attribute_unknown)
         end
       end
