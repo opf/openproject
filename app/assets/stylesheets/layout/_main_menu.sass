@@ -209,6 +209,8 @@ $toggler-width: 40px
       border-left-width: 2px
       border-left-style: solid
       @include varprop(border-left-color, primary-color)
+      a.navigation-toggler
+        visibility: visible
     &.show
       left: calc(#{$main-menu-folded-width} - 1px)
       a.navigation-toggler
@@ -216,6 +218,7 @@ $toggler-width: 40px
           @include icon-mixin-arrow-right2
     a.navigation-toggler
       @include default-transition
+      visibility: hidden
       position: absolute
       top: 0
       height: 40px
