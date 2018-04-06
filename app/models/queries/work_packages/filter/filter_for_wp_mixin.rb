@@ -38,9 +38,13 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def value_objects
-    sanitized_values = values.reject { |v| v == 'context' }
+    objects = scope.find(no_templated_values)
 
-    scope.find(sanitized_values)
+    if has_templated_value?
+      objects << ::Queries::Filters::TemplatedValue.new(WorkPackage)
+    end
+
+    objects
   end
 
   def allowed_objects
@@ -56,12 +60,10 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def allowed_values_subset
-    sanitized_values = values.reject { |v| v == :context }
+    id_values = scope.where(id: no_templated_values).pluck(:id).map(&:to_s)
 
-    id_values = scope.where(id: sanitized_values).pluck(:id).map(&:to_s)
-
-    if values.include?(:context)
-      id_values + [:context]
+    if has_templated_value?
+      id_values + [templated_value_key]
     else
       id_values
     end
@@ -81,5 +83,17 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
 
   def type_strategy
     @type_strategy ||= Queries::Filters::Strategies::HugeList.new(self)
+  end
+
+  def no_templated_values
+    values.reject { |v| v == templated_value_key }
+  end
+
+  def templated_value_key
+    ::Queries::Filters::TemplatedValue::KEY
+  end
+
+  def has_templated_value?
+    values.include?(templated_value_key)
   end
 end

@@ -77,25 +77,22 @@ module API
                     link: ->(*) {
                       next unless represented.ar_object_filter?
 
-                      represented.value_objects_hash.map do |value_object|
-                        value_object[:href] ||= begin
-                          id = if value_object[:id] == :context
-                                 '{id}'
-                               else
-                                 value_object[:id]
-                               end
-                          api_v3_paths.send(value_object[:identifier], id)
+                      represented.value_objects.map do |value_object|
+                        href = begin
+                          path_name = value_object.class.name.demodulize.underscore
+
+                          api_v3_paths.send(path_name, value_object.id)
                         rescue => e
                           Rails.logger.error "Failed to get href for value_object #{value_object}: #{e}"
                           nil
                         end
 
                         link_object = {
-                          href: value_object[:href],
-                          title: value_object[:name]
+                          href: href,
+                          title: value_object.name
                         }
 
-                        if value_object[:id] == :context
+                        if value_object.is_a?(::Queries::Filters::TemplatedValue)
                           link_object[:templated] = true
                         end
 

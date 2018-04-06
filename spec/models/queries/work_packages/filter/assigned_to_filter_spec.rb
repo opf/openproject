@@ -61,7 +61,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       before do
         allow(User)
           .to receive(:current)
-                .and_return(assignee)
+          .and_return(assignee)
       end
 
       it 'returns the work package' do
@@ -70,11 +70,11 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       end
 
       it 'returns the corrected value object' do
-        objects = instance.value_objects_hash
+        objects = instance.value_objects
 
         expect(objects.size).to eq(1)
-        expect(objects.first[:id]).to eq 'me'
-        expect(objects.first[:name]).to eq 'me'
+        expect(objects.first.id).to eq 'me'
+        expect(objects.first.name).to eq 'me'
       end
     end
 
@@ -96,7 +96,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     context 'for me and user values' do
       let(:user) { FactoryGirl.create :user }
       let(:assignee2) { FactoryGirl.create :user }
-      let(:values) { [assignee.id , user.id, 'me', assignee2.id] }
+      let(:values) { [assignee.id, user.id, 'me', assignee2.id] }
 
       before do
         # Order is important here for ids,
@@ -112,12 +112,9 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       end
 
       it 'returns the mapped value' do
-        objects = instance.value_objects_hash
+        objects = instance.value_objects
 
-        expect(objects.length).to eq(3)
-        expect(objects[0][:id]).to eq assignee.id
-        expect(objects[1][:id]).to eq assignee2.id
-        expect(objects[2][:id]).to eq 'me'
+        expect(objects.map(&:id)).to eql ['me', assignee.id, assignee2.id]
       end
     end
 

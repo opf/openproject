@@ -28,18 +28,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::ParentFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
+class Queries::Filters::TemplatedValue
+  KEY = 'templated'.freeze
 
-  include ::Queries::WorkPackages::Filter::FilterForWpMixin
+  attr_accessor :templated_class
 
-  def includes
-    :parent_relation
+  def initialize(templated_class)
+    self.templated_class = templated_class
   end
 
-  def where
-    operator_strategy.sql_for_field(values,
-                                    Relation.table_name,
-                                    'from_id')
+  def id
+    '{id}'
+  end
+
+  def name
+    nil
+  end
+
+  def class
+    templated_class
   end
 end

@@ -28,18 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::ParentFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
+class Queries::Filters::MeValue
+  KEY = 'me'
 
-  include ::Queries::WorkPackages::Filter::FilterForWpMixin
-
-  def includes
-    :parent_relation
+  def id
+    KEY
   end
 
-  def where
-    operator_strategy.sql_for_field(values,
-                                    Relation.table_name,
-                                    'from_id')
+  def name
+    I18n.t(:label_me)
+  end
+
+  def class
+    User
   end
 end
