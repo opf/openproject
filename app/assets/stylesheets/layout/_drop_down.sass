@@ -75,7 +75,7 @@
     white-space: nowrap
     font-weight: normal
 
-    &:hover, &:focus
+    &:not(.inactive):hover, &:not(.inactive):focus
       background-color: #F0F0F0
       @include varprop(color, context-menu-hover-font-color)
       cursor: pointer
