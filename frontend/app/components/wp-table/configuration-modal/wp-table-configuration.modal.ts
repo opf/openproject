@@ -19,7 +19,7 @@ import {
   WpTableConfigurationTabReference
 } from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {
-  ActiveTabInterface, TabInterface,
+  ActiveTabInterface, TabComponent, TabInterface,
   TabPortalOutlet
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 
@@ -102,6 +102,14 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
   public switchTo(tab:TabInterface) {
     this.tabPortalHost.switchTo(tab);
+  }
+
+  public saveChanges():void {
+    this.tabPortalHost.activeComponents.forEach((component:TabComponent) => {
+      component.onSave();
+    });
+
+    this.closeMe();
   }
 
   /**

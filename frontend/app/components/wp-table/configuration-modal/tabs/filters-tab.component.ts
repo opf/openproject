@@ -1,10 +1,11 @@
 import {Component, Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 
 @Component({
   template: require('!!raw-loader!./filters-tab.component.html')
 })
-export class WpTableConfigurationFiltersTab  {
+export class WpTableConfigurationFiltersTab implements TabComponent  {
 
   readonly I18n = this.injector.get(I18nToken);
   public eeShowBanners:boolean = false;
@@ -24,5 +25,9 @@ export class WpTableConfigurationFiltersTab  {
 
   ngOnInit() {
     this.eeShowBanners = angular.element('body').hasClass('ee-banners-visible');
+  }
+
+  public onSave() {
+
   }
 }

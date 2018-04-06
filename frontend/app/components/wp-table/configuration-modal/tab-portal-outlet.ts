@@ -13,12 +13,16 @@ import {
 
 export interface TabInterface {
   name:string;
-  componentClass:{ new(injector:Injector):any };
+  componentClass:{ new(injector:Injector):TabComponent };
+}
+
+export interface TabComponent {
+  onSave:() => void;
 }
 
 export interface ActiveTabInterface {
-  portal:ComponentPortal<any>;
-  componentRef:ComponentRef<any>;
+  portal:ComponentPortal<TabComponent>;
+  componentRef:ComponentRef<TabComponent>;
   dispose:() => void;
 }
 
@@ -36,6 +40,11 @@ export class TabPortalOutlet {
     private componentFactoryResolver:ComponentFactoryResolver,
     private appRef:ApplicationRef,
     private injector:Injector) {
+  }
+
+  public get activeComponents():TabComponent[] {
+    const tabs = _.values(this.activeTabs);
+    return tabs.map((tab:ActiveTabInterface) => tab.componentRef.instance);
   }
 
   public switchTo(tab:TabInterface) {

@@ -3,11 +3,12 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 
 @Component({
   template: require('!!raw-loader!./columns-tab.component.html')
 })
-export class WpTableConfigurationColumnsTab {
+export class WpTableConfigurationColumnsTab implements TabComponent {
 
   readonly I18n = this.injector.get(I18nToken);
   readonly wpTableColumns = this.injector.get(WorkPackageTableColumnsService);
@@ -32,6 +33,11 @@ export class WpTableConfigurationColumnsTab {
 
   constructor(readonly injector:Injector) {
 
+  }
+
+  public onSave() {
+    console.log("These are my columns");
+    console.log("%O", this.selectedColumnMap);
   }
 
   public setSelectedColumn(column:QueryColumn) {
