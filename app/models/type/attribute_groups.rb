@@ -206,7 +206,7 @@ module Type::AttributeGroups
     query.column_names = %w(id type subject)
     query.show_hierarchies = false
     query.filters = []
-    query.add_filter('parent', '=', '1')
+    query.add_filter('parent', '=', :context)
     query
   end
 end

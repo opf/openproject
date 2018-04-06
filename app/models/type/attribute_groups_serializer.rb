@@ -32,7 +32,7 @@ module Type::AttributeGroupsSerializer
   def self.load(serialized_groups)
     return [] if serialized_groups.nil?
 
-    YAML.safe_load(serialized_groups).each do |group|
+    YAML.safe_load(serialized_groups, [Symbol]).each do |group|
       id = group[1][0].match /query_(\d+)/
 
       if id

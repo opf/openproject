@@ -79,16 +79,27 @@ module API
 
                       represented.value_objects_hash.map do |value_object|
                         value_object[:href] ||= begin
-                          api_v3_paths.send(value_object[:identifier], value_object[:id])
+                          id = if value_object[:id] == :context
+                                 '{id}'
+                               else
+                                 value_object[:id]
+                               end
+                          api_v3_paths.send(value_object[:identifier], id)
                         rescue => e
                           Rails.logger.error "Failed to get href for value_object #{value_object}: #{e}"
                           nil
                         end
 
-                        {
+                        link_object = {
                           href: value_object[:href],
                           title: value_object[:name]
                         }
+
+                        if value_object[:id] == :context
+                          link_object[:templated] = true
+                        end
+
+                        link_object
                       end
                     },
                     setter: ->(fragment:, **) {

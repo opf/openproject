@@ -94,8 +94,8 @@ export class WorkPackageFormQueryGroupComponent implements OnInit, OnDestroy {
     let duppedQuery = _.clone(this.group.query)
 
     _.each(duppedQuery.filters, (filter) => {
-      if (filter._links.filter.href.endsWith('parent')) {
-        filter._links.values[0].href = this.PathHelper.workPackagePath(this.workPackage.id);
+      if (filter._links.values[0].templated) {
+        filter._links.values[0].href = filter._links.values[0].href.replace('{id}', this.workPackage.id);
       }
     });
 

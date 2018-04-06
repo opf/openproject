@@ -38,7 +38,9 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def value_objects
-    scope.find(values)
+    sanitized_values = values.reject { |v| v == 'context' }
+
+    scope.find(sanitized_values)
   end
 
   def allowed_objects
@@ -54,7 +56,15 @@ module Queries::WorkPackages::Filter::FilterForWpMixin
   end
 
   def allowed_values_subset
-    scope.where(id: values).pluck(:id).map(&:to_s)
+    sanitized_values = values.reject { |v| v == :context }
+
+    id_values = scope.where(id: sanitized_values).pluck(:id).map(&:to_s)
+
+    if values.include?(:context)
+      id_values + [:context]
+    else
+      id_values
+    end
   end
 
   private
