@@ -24,6 +24,8 @@ describe "multi select custom values", js: true do
   let(:wp_table) { Pages::WorkPackagesTable.new project }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
   let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+
   let(:user) { FactoryGirl.create :admin }
 
   context "with existing custom values" do
@@ -118,10 +120,7 @@ describe "multi select custom values", js: true do
         expect(page).not_to have_text "onions"
 
         # Group by the CF
-        wp_table.click_setting_item 'Group by ...'
-        select 'Ingredients', from: 'selected_columns_new'
-        click_button 'Apply'
-
+        group_by.enable_via_menu 'Ingredients'
         loading_indicator_saveguard
 
         # Expect changed groups

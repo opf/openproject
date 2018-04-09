@@ -33,7 +33,9 @@ module Components
       include RSpec::Matchers
 
       def enable_hierarchy
-        SettingsMenu.new.open_and_choose('Display hierarchy')
+        ::Components::WorkPackages::TableConfigurationModal.do_and_save do |modal|
+          modal.open_and_set_display_mode :hierarchy
+        end
       end
 
       alias_method :enable_via_menu, :enable_hierarchy
@@ -43,9 +45,9 @@ module Components
       end
 
       def disable_hierarchy
-        find('#work-packages-settings-button').click
-        expect(page).to have_selector('#settingsDropdown .menu-item')
-        page.find('#settingsDropdown a.menu-item', text: 'Hide hierarchy').click
+        ::Components::WorkPackages::TableConfigurationModal.do_and_save do |modal|
+          modal.open_and_set_display_mode :default
+        end
       end
 
       def expect_no_hierarchies

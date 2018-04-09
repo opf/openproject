@@ -205,14 +205,6 @@ module Pages
       click_setting_item /Save$/
     end
 
-    def group_by(name)
-      click_setting_item 'Group by ...'
-
-      select name, from: 'Group by'
-
-      click_button 'Apply'
-    end
-
     def open_filter_section
       unless page.has_selector?('#work-packages-filter-toggle-button.-active')
         click_button('work-packages-filter-toggle-button')

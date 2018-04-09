@@ -32,6 +32,13 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
+      def self.do_and_save
+        new.tap do |modal|
+          yield modal
+          modal.save
+        end
+      end
+
       def open_and_switch_to(name)
         open!
         switch_to(name)
