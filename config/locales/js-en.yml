@@ -568,6 +568,7 @@ en:
         default_mode: "Default mode"
         hierarchy_mode: "Hierarchy mode"
         hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
+        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
       tabs:
         overview: Overview
         activity: Activity
