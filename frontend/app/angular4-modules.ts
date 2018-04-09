@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {InjectionToken, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -49,9 +49,7 @@ import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-ta
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
-import {
-  WorkPackageInlineCreateComponent,
-} from 'core-components/wp-inline-create/wp-inline-create.component';
+import {WorkPackageInlineCreateComponent,} from 'core-components/wp-inline-create/wp-inline-create.component';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
@@ -71,16 +69,20 @@ import {
   $rootScopeToken,
   $stateToken,
   $timeoutToken,
-  columnsModalToken, exportModalToken,
-  FocusHelperToken, groupingModalToken,
-  halRequestToken, HalResourceToken,
+  columnsModalToken,
+  exportModalToken,
+  FocusHelperToken,
+  halRequestToken,
+  HalResourceToken,
   HookServiceToken,
   I18nToken,
   NotificationsServiceToken,
-  PathHelperToken, QueryFilterInstanceResourceToken, QueryResourceToken, saveModalToken,
-  settingsModalToken, shareModalToken,
-  sortingModalToken,
-  timelinesModalToken,
+  PathHelperToken,
+  QueryFilterInstanceResourceToken,
+  QueryResourceToken,
+  saveModalToken,
+  settingsModalToken,
+  shareModalToken,
   TimezoneServiceToken,
   upgradeService,
   upgradeServiceWithToken,
@@ -189,7 +191,6 @@ import {WpRelationsAutocompleteComponent} from 'core-components/wp-relations/wp-
 import {WpRelationAddChildComponent} from 'core-components/wp-relations/wp-relation-add-child/wp-relation-add-child';
 import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relations-parent/wp-relations-parent.component';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
-import {ColumnsModalComponent} from 'core-components/op-modals/modals/columns-modal.component';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configuration-modal/tabs/columns-tab.component';
 import {WpTableConfigurationDisplaySettingsTab} from 'core-components/wp-table/configuration-modal/tabs/display-settings-tab.component';
@@ -228,13 +229,10 @@ import {WpTableConfigurationTimelinesTab} from 'core-components/wp-table/configu
     upgradeServiceWithToken('TimezoneService', TimezoneServiceToken),
     upgradeServiceWithToken('v3Path', v3PathToken),
     upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
-    upgradeServiceWithToken('sortingModal', sortingModalToken),
-    upgradeServiceWithToken('groupingModal', groupingModalToken),
     upgradeServiceWithToken('shareModal', shareModalToken),
     upgradeServiceWithToken('saveModal', saveModalToken),
     upgradeServiceWithToken('settingsModal', settingsModalToken),
     upgradeServiceWithToken('exportModal', exportModalToken),
-    upgradeServiceWithToken('timelinesModal', timelinesModalToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     WorkPackageCacheService,
     WorkPackageEditingService,
@@ -403,7 +401,6 @@ import {WpTableConfigurationTimelinesTab} from 'core-components/wp-table/configu
     // Embedded table
     WorkPackageEmbeddedTableComponent,
     // Modals
-    ColumnsModalComponent,
     WpTableConfigurationModalComponent,
     WpTableConfigurationColumnsTab,
     WpTableConfigurationDisplaySettingsTab,
@@ -457,7 +454,6 @@ import {WpTableConfigurationTimelinesTab} from 'core-components/wp-table/configu
     WorkPackageRelationsHierarchyComponent,
 
     // Modals
-    ColumnsModalComponent,
     WpTableConfigurationModalComponent,
     WpTableConfigurationColumnsTab,
     WpTableConfigurationDisplaySettingsTab,

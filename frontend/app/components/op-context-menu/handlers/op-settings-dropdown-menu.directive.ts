@@ -64,23 +64,13 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
 
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
-              readonly wpTableColumns:WorkPackageTableColumnsService,
-              readonly wpTableSortBy:WorkPackageTableSortByService,
-              readonly wpTableGroupBy:WorkPackageTableGroupByService,
-              readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
-              readonly wpTableTimeline:WorkPackageTableTimelineService,
-              readonly wpTableSum:WorkPackageTableSumService,
               readonly wpListService:WorkPackagesListService,
               readonly authorisationService:AuthorisationService,
               readonly states:States,
-              @Inject(columnsModalToken) readonly columnsModal:any,
-              @Inject(sortingModalToken) readonly sortingModal:any,
-              @Inject(groupingModalToken) readonly groupingModal:any,
               @Inject(shareModalToken) readonly shareModal:any,
               @Inject(saveModalToken) readonly saveModal:any,
               @Inject(settingsModalToken) readonly settingsModal:any,
               @Inject(exportModalToken) readonly exportModal:any,
-              @Inject(timelinesModalToken) readonly timelinesModal:any,
               @Inject(I18nToken) readonly I18n:op.I18n) {
 
     super(elementRef, opContextMenu);
@@ -260,16 +250,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         linkText: this.query.results.customFields && this.query.results.customFields.name,
         icon: 'icon-custom-fields',
         onClick: () => false
-      },
-      {
-        // Timelines modal
-        disabled: !this.wpTableTimeline.isVisible,
-        linkText: this.I18n.t('js.timelines.gantt_chart') + ' ...',
-        icon: 'icon-view-timeline',
-        onClick: () => {
-          this.timelinesModal.activate();
-          return true;
-        }
       }
     ];
   }
