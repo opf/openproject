@@ -32,21 +32,21 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.build_stubbed(:project_with_types) }
-  let(:type) { FactoryGirl.build_stubbed(:type) }
+  let(:wp_type) { project.types.first }
   let(:custom_field) { FactoryGirl.build_stubbed(:custom_field) }
-  let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package, project: project, type: project.types.first) }
+  let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package, project: project, type: wp_type) }
   let(:current_user) do
     FactoryGirl.build_stubbed(:user)
   end
   let(:attribute_query) { FactoryGirl.build_stubbed(:query) }
   let(:attribute_groups) do
-    [["People", %w(assignee responsible)],
-     ["Estimates and time", %w(estimatedTime spentTime)],
-     ["Children", [attribute_query]]]
+    [Type::AttributeGroup.new(wp_type, "People", %w(assignee responsible)),
+     Type::AttributeGroup.new(wp_type, "Estimates and time", %w(estimatedTime spentTime)),
+     Type::QueryGroup.new(wp_type, "Children", attribute_query)]
   end
   let(:schema) do
     ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package).tap do |schema|
-      allow(schema)
+      allow(wp_type)
         .to receive(:attribute_groups)
         .and_return(attribute_groups)
       allow(schema)

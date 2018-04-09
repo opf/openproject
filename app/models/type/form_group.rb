@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,46 +28,33 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      module Schema
-        module FormConfigurations
-          class AttributeRepresenter < ::API::Decorators::Single
-            attr_accessor :project
+class Type::FormGroup
+  attr_accessor :key,
+                :attributes,
+                :type
 
-            def initialize(model, current_user:, project:, embed_links: false)
-              self.project = project
+  def initialize(type, key, attributes)
+    self.key = key
+    self.attributes = attributes
+    self.type = type
+  end
 
-              super(model, current_user: current_user, embed_links: embed_links)
-            end
-
-            property :name,
-                     exec_context: :decorator
-
-            property :attributes,
-                     exec_context: :decorator
-
-            def _type
-              "WorkPackageFormAttributeGroup"
-            end
-
-            def name
-              represented.translated_key
-            end
-
-            def attributes
-              represented.active_members(project).map do |attribute|
-                convert_property(attribute)
-              end
-            end
-
-            def convert_property(attribute)
-              ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
-            end
-          end
-        end
-      end
+  ##
+  # Translate the given attribute group if its internal
+  # (== if it's a symbol)
+  def translated_key
+    if key.is_a? Symbol
+      I18n.t(Type.default_groups[key])
+    else
+      key
     end
+  end
+
+  def members
+    raise NotImplementedError
+  end
+
+  def active_members(project)
+    raise NotImplementedError
   end
 end

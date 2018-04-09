@@ -58,11 +58,11 @@ module API
             end
 
             def name
-              represented[0]
+              represented.translated_key
             end
 
             def query
-              represented[1][0]
+              represented.query
             end
           end
         end

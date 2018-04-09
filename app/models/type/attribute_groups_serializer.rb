@@ -32,25 +32,12 @@ module Type::AttributeGroupsSerializer
   def self.load(serialized_groups)
     return [] if serialized_groups.nil?
 
-    YAML.safe_load(serialized_groups, [Symbol]).each do |group|
-      id = group[1][0].match /query_(\d+)/
-
-      if id
-        group[1][0] = Query.find(id)
-      end
-    end
+    YAML.safe_load(serialized_groups, [Symbol])
   end
 
   def self.dump(groups)
-    serialized_groups = groups.each do |group|
-      if group[1][0].is_a?(Query)
-        query = group[1][0]
-        query.save
+    non_query_groups = groups.reject { |g| g.is_a?(Type::QueryGroup) }
 
-        group[1][0] = 'query_#{query.id}'
-      end
-    end
-
-    YAML.dump(serialized_groups)
+    YAML.dump(non_query_groups)
   end
 end

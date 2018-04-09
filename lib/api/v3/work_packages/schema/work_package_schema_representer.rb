@@ -53,7 +53,7 @@ module API
             def attribute_group(property)
               lambda do
                 key = property.to_s.gsub /^customField/, "custom_field_"
-                represented.attribute_group_map key
+                attribute_group_map key
               end
             end
 
@@ -253,14 +253,28 @@ module API
                                          has_default: true
 
           def attribute_groups
-            (represented.attribute_groups || []).map do |group|
-              klass = if group[1][0].is_a?(Query)
-                        ::API::V3::WorkPackages::Schema::FormConfigurations::QueryRepresenter
-                      else
-                        ::API::V3::WorkPackages::Schema::FormConfigurations::AttributeRepresenter
-                      end
-              klass.new(group, current_user: current_user, embed_links: true)
+            (represented.type && represented.type.attribute_groups || []).map do |group|
+              if group.is_a?(Type::QueryGroup)
+                ::API::V3::WorkPackages::Schema::FormConfigurations::QueryRepresenter
+                  .new(group, current_user: current_user, embed_links: true)
+              else
+                ::API::V3::WorkPackages::Schema::FormConfigurations::AttributeRepresenter
+                  .new(group, current_user: current_user, project: represented.project, embed_links: true)
+              end
             end
+          end
+
+          ##
+          # Return a map of attribute => group name
+          def attribute_group_map(key)
+            return nil if represented.type.nil?
+            @attribute_group_map ||= begin
+              represented.type.attribute_groups.each_with_object({}) do |group, hash|
+                Array(group.active_members(represented.project)).each { |prop| hash[prop] = group.translated_key }
+              end
+            end
+
+            @attribute_group_map[key]
           end
         end
       end

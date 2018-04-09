@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -81,23 +82,14 @@ module Type::AttributeGroups
   end
 
   ##
-  # Translate the given attribute group if its internal
-  # (== if it's a symbol)
-  def translated_attribute_group(groupkey)
-    if groupkey.is_a? Symbol
-      I18n.t(default_groups[groupkey])
-    else
-      groupkey
-    end
-  end
-
-  ##
   # Read the serialized attribute groups, if customized.
   # Otherwise, return +default_attribute_groups+
   def attribute_groups
     groups = custom_attribute_groups || default_attribute_groups
 
-    groups + [[:children, [default_children_query]]]
+    groups = to_attribute_group_class(groups)
+
+    groups + [::Type::QueryGroup.new(self, :children, default_children_query)]
   end
 
   ##
@@ -106,34 +98,15 @@ module Type::AttributeGroups
   def default_attribute_groups
     values = work_package_attributes_by_default_group_key
 
-    ordered = []
-    default_groups.each_key do |groupkey|
+    default_groups.keys.each_with_object([]) do |groupkey, array|
       members = values[groupkey]
-      ordered << [groupkey, members.sort] if members.present?
+      array << [groupkey, members] if members.present?
     end
-
-    ordered
   end
 
-  ##
-  # Collect active and inactive form configuration groups for editing.
-  def form_configuration_groups
-    available = work_package_attributes
-    # First we create a complete list of all attributes.
-    # Later we will remove those that are members of an attribute group.
-    # This way attributes that were created after the las group definitions
-    # will fall back into the inactives group.
-    inactive = available.clone
-
-    active_form = get_active_groups(available, inactive)
-    inactive_form = inactive
-                    .map { |key, attribute| attr_form_map(key, attribute) }
-                    .sort_by { |attr| attr[:translation] }
-
-    {
-      actives: active_form,
-      inactives: inactive_form
-    }
+  # TODO: remove once queries can be configured as well
+  def non_query_attribute_groups
+    attribute_groups.select { |g| g.is_a?(Type::AttributeGroup) }
   end
 
   private
@@ -153,40 +126,25 @@ module Type::AttributeGroups
   end
 
   def default_group_key(key)
-    if custom_field?(key)
+    if CustomField.custom_field_attribute?(key)
       :other
     else
       default_group_map.fetch(key.to_sym, :details)
     end
   end
 
-  ##
-  # Collect active attributes from the current form configuration.
-  # Using the available attributes from +work_package_attributes+,
-  # determines which attributes are not used
-  def get_active_groups(available, inactive)
-    attribute_groups.map do |group|
-      extended_attributes =
-        group.second
-             .select { |key| inactive.delete(key) }
-             .map! { |key| attr_form_map(key, available[key]) }
-
-      [group[0], extended_attributes]
-    end
-  end
-
   def validate_attribute_group_names
     seen = Set.new
-    attribute_groups.each do |group_key, _|
-      errors.add(:attribute_groups, :group_without_name) unless group_key.present?
-      errors.add(:attribute_groups, :duplicate_group, group: group_key) if seen.add?(group_key).nil?
+    attribute_groups.each do |group|
+      errors.add(:attribute_groups, :group_without_name) unless group.key.present?
+      errors.add(:attribute_groups, :duplicate_group, group: group.key) if seen.add?(group.key).nil?
     end
   end
 
   def validate_attribute_groups
     valid_attributes = work_package_attributes.keys
-    attribute_groups.each do |_, attributes|
-      attributes.each do |key|
+    non_query_attribute_groups.each do |group|
+      group.attributes.each do |key|
         if key.is_a?(String) && valid_attributes.exclude?(key)
           errors.add(:attribute_groups, :attribute_unknown)
         end
@@ -197,8 +155,14 @@ module Type::AttributeGroups
   def work_package_attributes_by_default_group_key
     work_package_attributes
       .keys
-      .reject { |key| custom_field?(key) && !has_custom_field?(key) }
+      .reject { |key| CustomField.custom_field_attribute?(key) && !has_custom_field?(key) }
       .group_by { |key| default_group_key(key.to_sym) }
+  end
+
+  def to_attribute_group_class(groups)
+    groups.map do |group|
+      Type::AttributeGroup.new(self, group[0], group[1])
+    end
   end
 
   def default_children_query

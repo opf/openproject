@@ -39,20 +39,71 @@ describe ::Type, type: :model do
   end
 
   describe "#attribute_groups" do
-    it 'returns #default_attribute_groups if not yet set' do
-      expect(type.read_attribute(:attribute_groups)).to be_empty
-      expect(type.attribute_groups).to_not be_empty
-      expect(type.attribute_groups).to eq type.default_attribute_groups
+    shared_examples_for 'appends the children query' do |position|
+      it "at position #{position}" do
+        group = type.attribute_groups[position]
+
+        expect(group.key).to eql :children
+        query = group.members[0]
+
+        expect(query.class).to eql Query
+
+        expect(query.filters.length).to eql(1)
+
+        filter = query.filters[0]
+
+        expect(filter.name).to eql(:parent)
+
+        expect(query.column_names).to eql(%i(id type subject))
+        expect(query.show_hierarchies).to be_falsey
+      end
     end
 
-    it 'removes unknown attributes from a group' do
-      type.attribute_groups = [['foo', ['bar', 'date']]]
-      expect(type.attribute_groups).to eq [['foo', ['date']]]
+    shared_examples_for 'returns default attributes' do
+      it do
+        expect(type.read_attribute(:attribute_groups)).to be_empty
+
+        attribute_groups = type.attribute_groups[0..2].map do |group|
+          [group.key, group.attributes]
+        end
+        expect(attribute_groups).to eql type.default_attribute_groups
+      end
+
+      it_behaves_like 'appends the children query', 3
     end
 
-    it 'keeps groups without attributes' do
-      type.attribute_groups = [['foo', []], ['bar', ['date']]]
-      expect(type.attribute_groups).to eq [['foo', []], ['bar', ['date']]]
+    context 'with attributes provided' do
+      before do
+        type.attribute_groups = [['foo', []], ['bar', %w(blubs date)]]
+      end
+
+      it 'removes unknown attributes from a group' do
+        group = type.attribute_groups[1]
+
+        expect(group.key).to eql 'bar'
+        expect(group.members).to eql ['date']
+      end
+
+      it 'keeps groups without attributes' do
+        group = type.attribute_groups[0]
+
+        expect(group.key).to eql 'foo'
+        expect(group.members).to eql []
+      end
+
+      it_behaves_like 'appends the children query', 2
+    end
+
+    context 'with empty attributes provided' do
+      before do
+        type.attribute_groups = []
+      end
+
+      it_behaves_like 'returns default attributes'
+    end
+
+    context 'with no attributes provided' do
+      it_behaves_like 'returns default attributes'
     end
   end
 
@@ -82,14 +133,6 @@ describe ::Type, type: :model do
         group_members = attribute_group[1]
         group_members.nil? || group_members.size.zero?
       end).to be_falsey
-    end
-
-    it 'returns the default children query' do
-      children_group = subject.detect { |group| group[0] == :children }
-
-      expect(children_group).to_not be_nil
-      expect(children_group[1].length).to eql 1
-      expect(children_group[1][0]).to be_a(Query)
     end
   end
 
@@ -123,52 +166,7 @@ describe ::Type, type: :model do
     it 'passes validation for reset' do
       # A reset is to save an empty Array
       type.attribute_groups = []
-      expect(type.save).to be_truthy
-      expect(type.attribute_groups).to eq type.default_attribute_groups
-    end
-  end
-
-  describe "#form_configuration_groups" do
-    it "returns a Hash with the keys :actives and :inactives Arrays" do
-      expect(type.form_configuration_groups[:actives]).to be_an Array
-      expect(type.form_configuration_groups[:inactives]).to be_an Array
-    end
-
-    describe ":inactives" do
-      subject { type.form_configuration_groups[:inactives] }
-
-      before do
-        type.attribute_groups = [["group one", ["assignee"]]]
-      end
-
-      it 'contains Hashes ordered by key :translation' do
-        # The first left over attribute should currently be "date"
-        expect(subject.first[:translation]).to be_present
-        expect(subject.first[:translation] <= subject.second[:translation]).to be_truthy
-      end
-
-      # The "assignee" is in "group one". It should not appear in :inactives.
-      it 'does not contain attributes that do not exist anymore' do
-        expect(subject.map { |inactive| inactive[:key] }).to_not include "assignee"
-      end
-    end
-
-    describe ":actives" do
-      subject { type.form_configuration_groups[:actives] }
-
-      before do
-        allow(type).to receive(:attribute_groups).and_return [["group one", ["date"]]]
-      end
-
-      it 'has a proper structure' do
-        # The group's name/key
-        expect(subject.first.first).to eq "group one"
-
-        # The groups attributes
-        expect(subject.first.second).to be_an Array
-        expect(subject.first.second.first[:key]).to eq "date"
-        expect(subject.first.second.first[:translation]).to eq "Date"
-      end
+      expect(type).to be_valid
     end
   end
 
@@ -186,10 +184,6 @@ describe ::Type, type: :model do
     it 'can be put into attribute groups' do
       # Enforce fresh lookup of groups
       OpenProject::Cache.clear
-
-      # Is in inactive group
-      form = type.form_configuration_groups
-      expect(form[:inactives][0][:key]).to eq(cf_identifier.to_s)
 
       # Can be enabled
       type.attribute_groups = [['foo', [cf_identifier.to_s]]]

@@ -149,19 +149,6 @@ module Type::Attributes
     end
   end
 
-  def attr_form_map(key, represented)
-    {
-      key: key,
-      is_cf: custom_field?(key),
-      is_required: represented[:required] && !represented[:has_default],
-      translation: self.class.translated_attribute_name(key, represented)
-    }
-  end
-
-  def custom_field?(attribute_name)
-    attribute_name.to_s.start_with? 'custom_field_'
-  end
-
   ##
   # Get all applicale work package attributes
   def work_package_attributes(merge_date: true)
@@ -178,7 +165,7 @@ module Type::Attributes
   # to the constraint validator.
   def passes_attribute_constraint?(attribute, project: nil)
     # Check custom field constraints
-    if custom_field?(attribute) && !project.nil?
+    if CustomField.custom_field_attribute?(attribute) && !project.nil?
       return custom_field_in_project?(attribute, project)
     end
 
