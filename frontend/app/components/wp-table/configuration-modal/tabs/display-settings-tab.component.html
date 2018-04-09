@@ -1,29 +1,62 @@
 <div>
-  <h4 [textContent]="text.label_group_by"></h4>
   <form>
     <div class="form--field -full-width">
-      <label
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="displayMode"
+                 value="default"
+                 name="display_mode_switch">
+          {{ text.display_mode.default }}
+        </label>
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="displayMode"
+                 value="grouped"
+                 name="display_mode_switch">
+          {{ text.display_mode.grouped }}
+        </label>
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="displayMode"
+                 value="hierarchy"
+                 name="display_mode_switch">
+          {{ text.display_mode.hierarchy }}
+        </label>
+      </div>
+    </div>
+    <div *ngIf="displayMode === 'grouped'">
+      <h4 [textContent]="text.label_group_by"></h4>
+      <p [textContent]="text.display_mode.grouped_hint"></p>
+      <div class="form--field -full-width">
+        <label
           for="selected_grouping"
           [textContent]="text.label_group_by"
           class="form--label hidden-for-sighted">
-      </label>
-      <div class="form--field-container">
-        <div class="form--select-container">
-          <select
+        </label>
+        <div class="form--field-container">
+          <div class="form--select-container">
+            <select
               (change)="updateGroup($event.target.value)"
               id="selected_grouping"
               name="selected_grouping"
               class="form--select">
-            <option [textContent]="text.placeholder"
-                    [selected]="currentGroup == null"
-                    [value]=""></option>
-            <option *ngFor="let group of availableGroups"
-                    [textContent]="group.name"
-                    [selected]="currentGroup && currentGroup.href === group.href"
-                    [value]="group.href"></option>
-          </select>
+              <option [textContent]="text.please_select"
+                      [selected]="!currentGroup"
+                      disabled
+                      [value]="''"></option>
+              <option *ngFor="let group of availableGroups"
+                      [textContent]="group.name"
+                      [selected]="currentGroup && currentGroup.href === group.href"
+                      [value]="group.href"></option>
+            </select>
+          </div>
         </div>
       </div>
+    </div>
+    <div *ngIf="displayMode === 'hierarchy'">
+      <h4 [textContent]="text.display_mode.hierarchy_mode"></h4>
+      <p [textContent]="text.display_mode.hierarchy_hint"></p>
     </div>
   </form>
 </div>

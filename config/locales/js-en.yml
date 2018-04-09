@@ -541,7 +541,6 @@ en:
         group: "Group by"
         group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
         hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
-        hierarchy_mode: "Hierarchy mode"
         sort_ascending: "Sort ascending"
         sort_descending: "Sort descending"
         move_column_left: "Move column left"
@@ -564,6 +563,11 @@ en:
         button: 'Configure this work package table'
         modal_title: 'Work package table configuration'
         display_settings: 'Display settings'
+        grouped_mode: "Grouped mode"
+        grouped_hint: "Table results will be grouped by the given attribute."
+        default_mode: "Default mode"
+        hierarchy_mode: "Hierarchy mode"
+        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
       tabs:
         overview: Overview
         activity: Activity

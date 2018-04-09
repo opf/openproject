@@ -21,6 +21,7 @@ export interface TabComponent {
 }
 
 export interface ActiveTabInterface {
+  name:string;
   portal:ComponentPortal<TabComponent>;
   componentRef:ComponentRef<TabComponent>;
   dispose:() => void;
@@ -58,13 +59,13 @@ export class TabPortalOutlet {
     // where we want it to be rendered.
     this.outletElement.innerHTML = '';
     this.outletElement.appendChild(this._getComponentRootNode(instance.componentRef));
+    this.currentTab = instance;
   }
 
   public detach():void {
     const current = this.currentTab;
     if (current !== null) {
       current.portal.setAttachedHost(null);
-      this.appRef.detachView(current.componentRef.hostView);
       this.currentTab = null;
     }
   }
@@ -99,6 +100,7 @@ export class TabPortalOutlet {
     this.appRef.attachView(componentRef.hostView);
 
     return {
+      name: tab.name,
       portal: portal,
       componentRef: componentRef,
       dispose: () => {

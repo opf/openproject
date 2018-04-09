@@ -27,8 +27,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 #
-require_dependency 'query'
-
 module Query::Timelines
   extend ActiveSupport::Concern
 

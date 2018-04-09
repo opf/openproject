@@ -31,7 +31,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
   readonly wpTableSortBy = this.injector.get(WorkPackageTableSortByService);
 
   public text = {
-    title: this.I18n.t('js.label_sorting'),
+    title: this.I18n.t('js.label_sort_by'),
     placeholder: this.I18n.t('js.placeholders.default'),
     sort_criteria_1: this.I18n.t('js.filter.sorting.criteria.one'),
     sort_criteria_2: this.I18n.t('js.filter.sorting.criteria.two'),
