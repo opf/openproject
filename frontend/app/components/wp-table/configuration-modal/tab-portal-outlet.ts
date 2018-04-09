@@ -50,6 +50,7 @@ export class TabPortalOutlet {
 
   public switchTo(name:string) {
     const tab = _.find(this.availableTabs, tab => tab.name === name);
+
     if (!tab) {
       throw(`Trying to swtich to unknown tab ${name}.`);
     }

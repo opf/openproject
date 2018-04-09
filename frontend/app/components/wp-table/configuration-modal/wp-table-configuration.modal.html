@@ -20,7 +20,7 @@
              href="#"
              [ngClass]="{ 'selected': currentTab && tab.name === currentTab.name }"
              [textContent]="tab.title"
-             (click)="switchTo(tab)">
+             (click)="switchTo(tab.name)">
           </a>
       </ul>
       <div class="tabs-buttons" style="display:none;">

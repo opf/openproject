@@ -34,11 +34,11 @@ module Components
 
       def open_and_switch_to(name)
         open!
-        switch(name)
+        switch_to(name)
       end
 
       def open_and_set_display_mode(mode)
-        open_and_switch_to 'Group by'
+        open_and_switch_to 'Display settings'
         choose("display_mode_switch", option: mode)
       end
 
@@ -59,7 +59,7 @@ module Components
         expect(page).to have_no_selector(selector)
       end
 
-      def switch(target)
+      def switch_to(target)
         find("#{selector} .tab-show", text: target).click
       end
 

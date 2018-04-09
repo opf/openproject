@@ -43,14 +43,14 @@ module Components
       def enable_via_menu(name)
         modal = TableConfigurationModal.new
 
-        modal.open_and_set_display_mode 'Grouped mode'
+        modal.open_and_set_display_mode 'grouped'
         select name, from: 'selected_grouping'
         modal.save
       end
 
       def disable_via_menu
         modal = TableConfigurationModal.new
-        modal.open_and_set_display_mode 'Default mode'
+        modal.open_and_set_display_mode 'default'
         modal.save
       end
 
