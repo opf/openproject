@@ -54,7 +54,7 @@ function SortingModalController(this:any,
   $scope.allColumns = [];
   $scope.sortationObjects = [];
 
-  wpTableSortBy.onReady($scope).then(() => {
+  wpTableSortBy.onReady().then(() => {
     $scope.currentSortation = wpTableSortBy.currentSortBys;
     let availableSortation = wpTableSortBy.available;
     let allColumns:QueryColumn[] = _.map(availableSortation, sort => sort.column);

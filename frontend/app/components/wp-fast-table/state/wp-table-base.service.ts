@@ -78,8 +78,8 @@ export abstract class WorkPackageTableBaseService<T> {
     return this.state.values$().pipe(takeUntil(unsubscribe));
   }
 
-  public async onReady(scope:ng.IScope) {
-    return scopedObservable(scope, this.state.values$())
+  public async onReady() {
+    return this.state.values$()
       .pipe(
         take(1),
         mapTo(null)
