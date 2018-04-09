@@ -26,7 +26,41 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {filtersModule} from '../../angular-modules';
+import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {Component, EventEmitter, Inject, Input, Output} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 
-filtersModule
-  .constant('ADD_FILTER_SELECT_INDEX', -1)
+@Component({
+  selector: 'filter-boolean-value',
+  template: require('!!raw-loader!./filter-boolean-value.component.html')
+})
+export class FilterBooleanValueComponent {
+  @Input() public filter:QueryFilterInstanceResource;
+  @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
+
+  public text = {
+    placeholder: this.I18n.t('js.placeholders.selection'),
+    true: this.I18n.t('js.general_text_Yes'),
+    false: this.I18n.t('js.general_text_No')
+  }
+
+  constructor(@Inject(I18nToken) readonly I18n:op.I18n) {
+  }
+
+  public get value() {
+    return this.filter.values[0];
+  }
+
+  public set value(val) {
+    this.filter.values[0] = val;
+    this.filterChanged.emit(this.filter);
+  }
+
+  public get hasNoValue() {
+    return _.isEmpty(this.filter.values);
+  }
+
+  public get availableOptions() {
+    return [true, false];
+  }
+}

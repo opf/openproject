@@ -26,56 +26,51 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-
-import {filtersModule} from '../../../angular-modules';
+import {QueryFilterResource} from '../../api/api-v3/hal-resources/query-filter-resource.service';
 import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {AbstractDateTimeValueController} from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller'
+import {Component, EventEmitter, Inject, Input, OnDestroy, Output} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
-export class DateTimeValueController extends AbstractDateTimeValueController {
+@Component({
+  selector: 'filter-integer-value',
+  template: require('!!raw-loader!./filter-integer-value.component.html')
+})
+export class FilterIntegerValueComponent implements OnDestroy {
+  @Input() public filter:QueryFilterInstanceResource;
+  @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
-  constructor(protected $scope:ng.IScope,
-              protected I18n:op.I18n,
-              protected TimezoneService:any) {
-    super($scope, I18n, TimezoneService);
+  constructor(@Inject(I18nToken) readonly I18n:op.I18n) {
+  }
+
+  ngOnDestroy() {
+    // Nothing to do, added for interface compatibility
   }
 
   public get value() {
-    return this.filter.values[0];
+    return parseInt(this.filter.values[0] as string);
   }
 
   public set value(val) {
-    this.filter.values = [val as string];
-  }
-
-  public get lowerBoundary() {
-    if (this.value && this.TimezoneService.isValidISODateTime(this.value)) {
-      return this.TimezoneService.parseDatetime(this.value);
+    if (typeof(val) === 'number') {
+      this.filter.values = [val.toString()];
     } else {
-      null
+      this.filter.values = [];
     }
+
+    this.filterChanged.emit(this.filter);
   }
 
-  public get upperBoundary() {
-    if (this.value && this.TimezoneService.isValidISODateTime(this.value)) {
-      return this.TimezoneService.parseDatetime(this.value).add(24, 'hours');
-    } else {
-      null
+  public get unit() {
+    switch ((this.filter.schema.filter.allowedValues as QueryFilterResource[])[0].id) {
+      case 'startDate':
+      case 'dueDate':
+      case 'updatedAt':
+      case 'createdAt':
+        return this.I18n.t('js.work_packages.time_relative.days');
+      default:
+        return '';
     }
   }
 }
-
-function dateTimeValue():any {
-  return {
-    restrict: 'E',
-    replace: true,
-    scope: {
-      filter: '=',
-    },
-    templateUrl: '/components/filters/filter-date-time-value/filter-date-time-value.directive.html',
-    controller: DateTimeValueController,
-    bindToController: true,
-    controllerAs: '$ctrl'
-  };
-};
-
-filtersModule.directive('filterDateTimeValue', dateTimeValue);

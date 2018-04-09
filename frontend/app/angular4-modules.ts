@@ -111,7 +111,6 @@ import {WorkPackageTimelineButtonComponent} from 'core-components/wp-buttons/wp-
 import {WorkPackageZenModeButtonComponent} from 'core-components/wp-buttons/wp-zen-mode-toggle-button/wp-zen-mode-toggle-button.component';
 import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
 import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
-import {Ng1QueryFiltersComponentWrapper} from 'core-components/filters/query-filters/query-filters-ng1-wrapper.component';
 import {UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
 import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
 import {WorkPackageBreadcrumbComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb.component';
@@ -197,6 +196,17 @@ import {WpTableConfigurationFiltersTab} from 'core-components/wp-table/configura
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {WpTableConfigurationSortByTab} from 'core-components/wp-table/configuration-modal/tabs/sort-by-tab.component';
 import {WpTableConfigurationTimelinesTab} from 'core-components/wp-table/configuration-modal/tabs/timelines-tab.component';
+import {QueryFilterComponent} from 'core-components/filters/query-filter/query-filter.component';
+import {QueryFiltersComponent} from 'core-components/filters/query-filters/query-filters.component';
+import {FilterDateValueComponent} from 'core-components/filters/filter-date-value/filter-date-value.component';
+import {FilterDateTimeValueComponent} from 'core-components/filters/filter-date-time-value/filter-date-time-value.component';
+import {FilterDateTimesValueComponent} from 'core-components/filters/filter-date-times-value/filter-date-times-value.component';
+import {FilterDatesValueComponent} from 'core-components/filters/filter-dates-value/filter-dates-value.component';
+import {FilterIntegerValueComponent} from 'core-components/filters/filter-integer-value/filter-integer-value.component';
+import {FilterToggledMultiselectValueComponent} from 'core-components/filters/filter-toggled-multiselect-value/filter-toggled-multiselect-value.component';
+import {FilterStringValueComponent} from 'core-components/filters/filter-string-value/filter-string-value.component';
+import {FilterBooleanValueComponent} from 'core-components/filters/filter-boolean-value/filter-boolean-value.component';
+import {OpDatePickerComponent} from 'core-components/wp-edit/op-date-picker/op-date-picker.component';
 
 @NgModule({
   imports: [
@@ -295,6 +305,7 @@ import {WpTableConfigurationTimelinesTab} from 'core-components/wp-table/configu
   declarations: [
     WorkPackagesListComponent,
     OpIcon,
+    OpDatePickerComponent,
     AccessibleByKeyboardDirectiveUpgraded,
     TablePaginationComponent,
     WorkPackageTablePaginationComponent,
@@ -309,13 +320,24 @@ import {WpTableConfigurationTimelinesTab} from 'core-components/wp-table/configu
     WorkPackageDetailsViewButtonComponent,
     WorkPackageTimelineButtonComponent,
     WorkPackageZenModeButtonComponent,
-    WorkPackageFilterContainerComponent,
-    Ng1QueryFiltersComponentWrapper,
     WpResizerDirectiveUpgraded,
     WpCustomActionComponent,
     WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
     SortHeaderDirective,
+
+    // Query filters
+    WorkPackageFilterContainerComponent,
+    QueryFiltersComponent,
+    QueryFilterComponent,
+    FilterBooleanValueComponent,
+    FilterDateValueComponent,
+    FilterDatesValueComponent,
+    FilterDateTimeValueComponent,
+    FilterDateTimesValueComponent,
+    FilterIntegerValueComponent,
+    FilterStringValueComponent,
+    FilterToggledMultiselectValueComponent,
 
     // Add functionality to rails rendered templates
     HideSectionComponent,

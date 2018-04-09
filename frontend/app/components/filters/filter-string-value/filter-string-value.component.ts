@@ -26,29 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// This Angular directive will act as an interface to the "upgraded" AngularJS component
-// query-filters
-import {
-  Directive, DoCheck, ElementRef, Inject, Injector, OnChanges, OnDestroy,
-  OnInit, SimpleChanges
-} from '@angular/core';
-import {UpgradeComponent} from '@angular/upgrade/static';
+import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {Component, Inject, Input, OnDestroy, Output} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
-@Directive({selector: 'ng1-query-filters-wrapper'})
-export class Ng1QueryFiltersComponentWrapper extends UpgradeComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
+@Component({
+  selector: 'filter-string-value',
+  template: require('!!raw-loader!./filter-string-value.component.html')
+})
+export class FilterStringValueComponent implements OnDestroy {
+  @Input() public filter:QueryFilterInstanceResource;
+  @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
-  constructor(@Inject(ElementRef) elementRef:ElementRef, @Inject(Injector) injector:Injector) {
-    // We must pass the name of the directive as used by AngularJS to the super
-    super('queryFilters', elementRef, injector);
+  readonly text = {
+    enter_text: this.I18n.t('js.work_packages.description_enter_text')
+  };
+
+  constructor(@Inject(I18nToken) readonly I18n:op.I18n) {
   }
 
-  // For this class to work when compiled with AoT, we must implement these lifecycle hooks
-  // because the AoT compiler will not realise that the super class implements them
-  ngOnInit() { super.ngOnInit(); }
+  ngOnDestroy() {
+    // Nothing to do, added for interface compatibility
+  }
 
-  ngOnChanges(changes:SimpleChanges) { super.ngOnChanges(changes); }
+  public get value() {
+    return this.filter.values[0];
+  }
 
-  ngDoCheck() { super.ngDoCheck(); }
-
-  ngOnDestroy() { super.ngOnDestroy(); }
+  public set value(val) {
+    this.filter.values[0] = val || '';
+    this.filterChanged.emit(this.filter);
+  }
 }

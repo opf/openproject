@@ -1,0 +1,60 @@
+<fieldset id="filters" *ngIf="filters && filters.current" class="advanced-filters--container">
+  <legend [textContent]="text.selected_filter_list"></legend>
+
+  <a [attr.title]="text.close_form"
+     class="advanced-filters--close icon-context icon-close"
+     (click)="closeFilter()">
+  </a>
+
+  <ul class="advanced-filters--filters">
+    <ng-container *ngFor="let filter of filters.current; let index = index">
+      <li id="filter_{{filter.id}}"
+          query-filter
+          [filter]="filter"
+          (deactivateFilter)="deactivateFilter($event)"
+          (filterChanged)="onFilterUpdated()"
+          class="advanced-filters--filter">
+      </li>
+    </ng-container>
+
+    <li class="advanced-filters--spacer" *ngIf="filters.current.length > 0"></li>
+
+    <li class="advanced-filters--add-filter">
+      <!-- Add filters -->
+      <label for="add_filter_select" aria-hidden="true" class="advanced-filters--add-filter-label">
+        <op-icon icon-classes="icon-add icon4"></op-icon>
+        {{ text.label_filter_add }}:
+      </label>
+      <label for="add_filter_select" class="hidden-for-sighted">
+        {{ text.label_filter_add }}
+        {{ text.open_filter }}
+        {{ text.close_filter }}
+      </label>
+
+      <div class="advanced-filters--add-filter-value">
+        <select class="advanced-filters--select"
+                id="add_filter_select"
+                [ngModel]="filterToBeAdded"
+                (ngModelChange)="onFilterAdded($event)">
+          <option [textContent]="text.please_select" value="" disabled></option>
+          <option *ngFor="let filter of remainingFilters"
+                  [textContent]="filter.name"
+                  [ngValue]="filter">
+          </option>
+        </select>
+      </div>
+
+      <div class="advanced-filters--add-filter-info"
+           *ngIf="eeShowBanners">
+        <div class="notification-box">
+          <div class="notification-box--content">
+            {{ text.upsale_for_more }}
+            <a href="https://www.openproject.org/enterprise-edition/?op_edtion=community-edition&op_referrer=wp-filter#filters"
+               target='blank'
+               [textContent]="text.upsale_link"></a>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</fieldset>

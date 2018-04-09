@@ -26,27 +26,34 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-class OPDatePickerController {
-  public onChange?:Function;
-  public onClose?:Function;
-  public initialDate?:String;
+import {downgradeComponent} from '@angular/upgrade/static';
+import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {TimezoneServiceToken} from 'core-app/angular4-transition-utils';
+import {DatePicker} from 'core-components/wp-edit/op-date-picker/datepicker';
 
+@Component({
+  selector: 'op-date-picker',
+  template: require('!!raw-loader!./op-date-picker.component.html')
+})
+export class OpDatePickerComponent implements OnInit {
+  @Output() public onChange = new EventEmitter<string>();
+  @Output() public onClose = new EventEmitter<string>();
+  @Input() public initialDate?:String;
+
+  private $element:JQuery;
   private datePickerInstance:any;
   private input:JQuery;
 
-  public constructor(private $element:ng.IAugmentedJQuery,
-                     private ConfigurationService:any,
-                     private TimezoneService:any,
-                     private Datepicker:any) {
-    'ngInject';
+  public constructor(private elementRef:ElementRef,
+                     private ConfigurationService:ConfigurationService,
+                     @Inject(TimezoneServiceToken)private TimezoneService:any) {
   }
 
 
-  public $onInit() {
-    // Added for compatibility
-  }
+  ngOnInit() {
+    this.$element = jQuery(this.elementRef.nativeElement);
 
-  public $postLink() {
     // we don't want the date picker in the accessibility mode
     if (!this.ConfigurationService.accessibilityModeEnabled()) {
       this.input = this.$element.find('input');
@@ -73,7 +80,7 @@ class OPDatePickerController {
 
   private callbackIfSet(name:'onChange' | 'onClose') {
     if (this[name]) {
-      this[name]!.bind(this).call();
+      this[name].emit(this.currentValue());
     }
   }
 
@@ -102,20 +109,17 @@ class OPDatePickerController {
       initialValue = this.currentValue();
     }
 
-    this.datePickerInstance = new this.Datepicker(this.input, initialValue, options);
+    this.datePickerInstance = new DatePicker(
+      this.ConfigurationService,
+      this.TimezoneService,
+      this.input,
+      initialValue,
+      options
+    );
     this.datePickerInstance.show();
   }
 }
 
 angular
   .module('openproject')
-  .component('opDatePicker', {
-    templateUrl: '/components/wp-edit/op-date-picker/op-date-picker.directive.html',
-    transclude: true,
-    controller: OPDatePickerController,
-    bindings: {
-      initialDate: '@?',
-      onChange: '&?',
-      onClose: '&?',
-    }
-  });
+  .directive('opDatePicker', downgradeComponent({ component: OpDatePickerComponent }));

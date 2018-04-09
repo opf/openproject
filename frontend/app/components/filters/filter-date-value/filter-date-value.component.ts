@@ -26,63 +26,51 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-
-import {filtersModule} from '../../../angular-modules';
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
-import {QueryFilterResource} from '../../api/api-v3/hal-resources/query-filter-resource.service';
 import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {I18nToken, TimezoneServiceToken} from 'core-app/angular4-transition-utils';
+import {Component, EventEmitter, Inject, Input, OnDestroy, Output} from '@angular/core';
+import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
-export class IntegerValueController {
-  public filter:QueryFilterInstanceResource;
+@Component({
+  selector: 'filter-date-value',
+  template: require('!!raw-loader!./filter-date-value.component.html')
+})
+export class FilterDateValueComponent implements OnDestroy {
+  @Input() public filter:QueryFilterInstanceResource;
+  @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
-  constructor(public $scope:ng.IScope,
-              public I18n:op.I18n) {
+  constructor(@Inject(TimezoneServiceToken) readonly TimezoneService:any,
+              @Inject(I18nToken) readonly I18n:op.I18n) {
+  }
+
+  ngOnDestroy() {
+    // Nothing to do, added for interface compatibility
   }
 
   public get value() {
-    return parseInt(this.filter.values[0] as string);
+    return this.filter.values[0];
   }
 
   public set value(val) {
-    if (typeof(val) === 'number') {
-      this.filter.values = [val.toString()];
+    this.filter.values = [val as string];
+    this.filterChanged.emit(this.filter);
+  }
+
+  public parser(data:any) {
+    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
+      return data;
     } else {
-      this.filter.values = [];
+      return null;
     }
   }
 
-  public get filterModelOptions() {
-    return {
-      updateOn: 'default blur',
-      debounce: {'default': 400, 'blur': 0 }
-    };
-  };
-
-  public get unit() {
-    switch ((this.filter.schema.filter.allowedValues as QueryFilterResource[])[0].id) {
-      case 'startDate':
-      case 'dueDate':
-      case 'updatedAt':
-      case 'createdAt':
-        return this.I18n.t('js.work_packages.time_relative.days');
-      default:
-        return '';
+  public formatter(data:any) {
+    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
+      var d = this.TimezoneService.parseDate(data);
+      return this.TimezoneService.formattedISODate(d);
+    } else {
+      return null;
     }
   }
 }
-
-function integerValue():any {
-  return {
-    restrict: 'E',
-    replace: true,
-    scope: {
-      filter: '=',
-    },
-    templateUrl: '/components/filters/filter-integer-value/filter-integer-value.directive.html',
-    controller: IntegerValueController,
-    bindToController: true,
-    controllerAs: '$ctrl'
-  };
-};
-
-filtersModule.directive('filterIntegerValue', integerValue);

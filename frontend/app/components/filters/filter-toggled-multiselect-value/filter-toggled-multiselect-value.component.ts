@@ -26,43 +26,42 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-
-import {filtersModule} from '../../../angular-modules';
 import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {
-  QueryFilterInstanceResource
-} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
 import {RootDmService} from '../../api/api-v3/hal-resource-dms/root-dm.service';
 import {RootResource} from '../../api/api-v3/hal-resources/root-resource.service';
 import {PathHelperService} from '../../common/path-helper/path-helper.service';
-import {$injectFields} from '../../angular/angular-injector-bridge.functions';
+import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+import {I18nToken, PathHelperToken} from 'core-app/angular4-transition-utils';
+import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 
-export class ToggledMultiselectController {
-  // Injected
-  public PathHelper:PathHelperService;
+@Component({
+  selector: 'filter-toggled-multiselect-value',
+  template: require('!!raw-loader!./filter-toggled-multiselect-value.component.html')
+})
+export class FilterToggledMultiselectValueComponent implements OnInit {
+  @Input() public filter:QueryFilterInstanceResource;
+  @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
-  public isMultiselect: boolean;
-
-  public filter:QueryFilterInstanceResource;
+  public isMultiselect:boolean;
   public availableOptions:HalResource[] = [];
+  public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
 
-  public text:{ [key: string]: string; };
+  readonly text = {
+    placeholder: this.I18n.t('js.placeholders.selection'),
+    enableMulti: this.I18n.t('js.work_packages.label_enable_multi_select'),
+    disableMulti: this.I18n.t('js.work_packages.label_disable_multi_select')
+  };
 
-  constructor(public $scope:ng.IScope,
-              private I18n:op.I18n,
-              private $q:ng.IQService,
-              private RootDm:RootDmService) {
-    $injectFields(this, 'PathHelper');
+  constructor(readonly RootDm:RootDmService,
+              @Inject(PathHelperToken) readonly PathHelper:PathHelperService,
+              @Inject(I18nToken) readonly I18n:op.I18n) {
+  }
+
+  ngOnInit() {
     this.isMultiselect = this.isValueMulti(true);
-
-    this.text = {
-      placeholder: I18n.t('js.placeholders.selection'),
-      enableMulti: I18n.t('js.work_packages.label_enable_multi_select'),
-      disableMulti: I18n.t('js.work_packages.label_disable_multi_select')
-    };
-
     this.fetchAllowedValues();
   }
 
@@ -74,9 +73,9 @@ export class ToggledMultiselectController {
     }
   }
 
-  public set value(val) {
-    let valToSet = Array.isArray(val) ? val as HalResource[] : [val as HalResource]
-    this.filter.values = valToSet;
+  public set value(val:any) {
+    this.filter.values = _.castArray(val);
+    this.filterChanged.emit(this.filter);
   }
 
   public isValueMulti(ignoreStatus = false) {
@@ -86,7 +85,8 @@ export class ToggledMultiselectController {
 
   public toggleMultiselect() {
     this.isMultiselect = !this.isMultiselect;
-  };
+    return false;
+  }
 
   public get hasNoValue() {
     return _.isEmpty(this.filter.values);
@@ -118,7 +118,7 @@ export class ToggledMultiselectController {
       loadingPromises.push(this.RootDm.load());
     }
 
-    this.$q.all(loadingPromises)
+    Promise.all(loadingPromises)
       .then(((resources:Array<HalResource>) => {
         let options = (resources[0] as CollectionResource).elements;
 
@@ -127,7 +127,7 @@ export class ToggledMultiselectController {
         }
 
         this.availableOptions = options;
-      }).bind(this));
+      }));
   }
 
   private addMeValue(options:HalResource[], currentUser:UserResource) {
@@ -147,19 +147,3 @@ export class ToggledMultiselectController {
     options.unshift(me);
   }
 }
-
-function toggledMultiselect():any {
-    return {
-    restrict: 'EA',
-    replace: true,
-    scope: {
-      filter: '=',
-    },
-    templateUrl: '/components/filters/filter-toggled-multiselect-value/filter-toggled-multiselect-value.directive.html',
-    controller: ToggledMultiselectController,
-    bindToController: true,
-    controllerAs: '$ctrl'
-  };
-};
-
-filtersModule.directive('filterToggledMultiselectValue', toggledMultiselect);

@@ -26,10 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {filtersModule} from '../../../angular-modules';
 import {Component} from '@angular/core';
 import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
-import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
   template: require('!!raw-loader!core-components/filters/filter-container/filter-container.directive.html'),
@@ -39,9 +37,3 @@ export class WorkPackageFilterContainerComponent {
   constructor(public wpFiltersService:WorkPackageFiltersService) {
   }
 }
-
-filtersModule.directive(
-  'filterContainer',
-  downgradeComponent({ component: WorkPackageFilterContainerComponent })
-);
-

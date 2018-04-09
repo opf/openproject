@@ -26,79 +26,75 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(TimezoneService, ConfigurationService, $timeout) {
-  var datepickerFormat = 'yy-mm-dd';
+import {ConfigurationService} from '../../common/config/configuration.service';
 
-  function Datepicker(datepickerElem, date, options) {
-    this.date = date;
-    this.datepickerCont = angular.element(datepickerElem);
-    this.datepickerInstance = null;
+export class DatePicker {
+  public datepickerFormat = 'yy-mm-dd';
+
+  private datepickerCont = jQuery(this.datepickerElem);
+  private datepickerInstance:any = null;
+
+  constructor(readonly ConfigurationService:ConfigurationService,
+              readonly TimezoneService:any,
+              private datepickerElem:JQuery,
+              private date:any,
+              private options:any) {
     this.initialize(options);
   }
 
-  Datepicker.prototype.initialize = function(options) {
-    var self = this,
-        firstDayOfWeek = ConfigurationService.startOfWeekPresent() ?
-          ConfigurationService.startOfWeek() :
-          jQuery.datepicker._defaults.firstDay;
+  private initialize(options:any) {
+    const firstDayOfWeek = this.ConfigurationService.startOfWeekPresent() ?
+      this.ConfigurationService.startOfWeek() : (jQuery.datepicker as any)._defaults.firstDay;
 
     var mergedOptions = angular.extend({}, options, {
       firstDay: firstDayOfWeek,
       showWeeks: true,
       changeMonth: true,
       changeYear: true,
-      dateFormat: datepickerFormat,
-      defaultDate: TimezoneService.formattedISODate(self.date),
+      dateFormat: this.datepickerFormat,
+      defaultDate: this.TimezoneService.formattedISODate(this.date),
       showButtonPanel: true
     });
 
     this.datepickerInstance = this.datepickerCont.datepicker(mergedOptions);
-  };
+  }
 
-  Datepicker.prototype.clear = function() {
-    this.datepickerInstance.datepicker('setDate' , null);
-  };
+  private clear() {
+    this.datepickerInstance.datepicker('setDate', null);
+  }
 
-  Datepicker.prototype.hide = function() {
+  private hide() {
     this.datepickerInstance.datepicker('hide');
     this.datepickerCont.scrollParent().off('scroll');
-  };
+  }
 
-  Datepicker.prototype.show = function() {
+  private show() {
     this.datepickerInstance.datepicker('show');
     this.hideDuringScroll();
-  };
+  }
 
-  Datepicker.prototype.reshow = function() {
+  private reshow() {
     this.datepickerInstance.datepicker('show');
-  };
+  }
 
-  Datepicker.prototype.hideDuringScroll = function() {
-    var hide = jQuery.proxy(function() { this.datepickerInstance.datepicker('hide'); }, this),
-        show = jQuery.proxy(function() { this.datepickerInstance.datepicker('show'); }, this),
-        reshowTimeout,
-        scrollParent = this.datepickerCont.scrollParent(),
-        visibleAndActive = jQuery.proxy(this.visibleAndActive, this);
+  private hideDuringScroll() {
+    let reshowTimeout:any = null;
+    let scrollParent = this.datepickerCont.scrollParent();
+    let visibleAndActive = jQuery.proxy(this.visibleAndActive, this);
 
-    scrollParent.scroll(function() {
-      hide();
+    scrollParent.scroll(() => {
+      this.datepickerInstance.datepicker('hide');
+      if (reshowTimeout) {
+        clearTimeout(reshowTimeout);
+      }
 
-      $timeout.cancel(reshowTimeout);
-
-      reshowTimeout = $timeout(function() {
-        if(visibleAndActive()) {
-          show();
-        }
-      }, 50);
+      reshowTimeout = setTimeout(() => this.datepickerInstance.datepicker('show'), 50);
     });
-  };
+  }
 
-  Datepicker.prototype.visibleAndActive = function() {
+  private visibleAndActive() {
     var input = this.datepickerCont;
     return document.elementFromPoint(input.offset().left, input.offset().top) === input[0] &&
       document.activeElement === input[0];
   };
-
-  return Datepicker;
-};
-
+}

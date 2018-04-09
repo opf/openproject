@@ -28,12 +28,12 @@
 
 /*jshint expr: true*/
 
-import {ToggledMultiselectController} from './filter-toggled-multiselect-value.directive'
+// import {ToggledMultiselectController} from './filter-toggled-multiselect-value.directive'
 import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 
 describe('toggledMultiselect Directive', function() {
     var compile:any, element:any, rootScope:any, scope:any, I18n:any;
-    var controller:ToggledMultiselectController;
+    var controller:any;
     var allowedValues:any;
 
     beforeEach(angular.mock.module('openproject.filters',
