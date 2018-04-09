@@ -358,6 +358,7 @@ en:
     timelines:
       gantt_chart: 'Gantt chart'
       labels:
+        title: 'Label configuration'
         bar: 'Bar labels'
         left: 'Left'
         right: 'Right'
@@ -569,6 +570,7 @@ en:
         hierarchy_mode: "Hierarchy mode"
         hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
         display_sums_hint: "Display sums of all summable attributes in a row below the table results."
+        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
       tabs:
         overview: Overview
         activity: Activity

@@ -74,8 +74,12 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
 
   public toggle() {
     let currentState = this.current;
+    this.setVisible(!currentState.isVisible);
+  }
 
-    currentState.toggle();
+  public setVisible(value:boolean) {
+    let currentState = this.current;
+    currentState.visible = value;
 
     this.state.putValue(currentState);
   }

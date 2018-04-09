@@ -3,6 +3,7 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
 import {WpTableConfigurationDisplaySettingsTab} from 'core-components/wp-table/configuration-modal/tabs/display-settings-tab.component';
 import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configuration-modal/tabs/columns-tab.component';
 import {WpTableConfigurationSortByTab} from 'core-components/wp-table/configuration-modal/tabs/sort-by-tab.component';
+import {WpTableConfigurationTimelinesTab} from 'core-components/wp-table/configuration-modal/tabs/timelines-tab.component';
 
 export interface WpTableConfigurationTabReference {
   name:string;
@@ -16,7 +17,7 @@ export class WpTableConfigurationService {
   public tabs:WpTableConfigurationTabReference[] = [
     {
       name: 'sort-by',
-      title: this.I18n.t('js.toolbar.settings.sort_by'),
+      title: this.I18n.t('js.label_sort_by'),
       componentClass: WpTableConfigurationSortByTab,
     },
     {
@@ -26,8 +27,13 @@ export class WpTableConfigurationService {
     },
     {
       name: 'display-settings',
-      title: 'Display settings', // this.I18n.t('js.label_columns'),
+      title: this.I18n.t('js.work_packages.table_configuration.display_settings'),
       componentClass: WpTableConfigurationDisplaySettingsTab,
+    },
+    {
+      name: 'timelines',
+      title: this.I18n.t('js.timelines.gantt_chart'),
+      componentClass: WpTableConfigurationTimelinesTab
     }
   ];
 
