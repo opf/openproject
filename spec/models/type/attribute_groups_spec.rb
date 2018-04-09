@@ -32,6 +32,7 @@ require 'spec_helper'
 
 describe ::Type, type: :model do
   let(:type) { FactoryGirl.build(:type) }
+  let(:admin) { FactoryGirl.create(:admin) }
 
   before do
     # Clear up the request store cache for all_work_package_attributes
@@ -105,6 +106,43 @@ describe ::Type, type: :model do
     context 'with no attributes provided' do
       it_behaves_like 'returns default attributes'
     end
+
+    context 'with a query group' do
+      let(:type) { FactoryGirl.create(:type) }
+      let(:query) { FactoryGirl.build(:global_query, user_id: 0) }
+
+      before do
+        login_as(admin)
+
+        type.attribute_groups = [['some group', [query]]]
+        type.save!
+        type.reload
+      end
+
+      it 'retrieves the query' do
+        # 2 because of the default query
+        expect(type.attribute_groups.length).to eql 2
+
+        expect(type.attribute_groups[0].class).to eql Type::QueryGroup
+        expect(type.attribute_groups[0].key).to eql 'some group'
+        expect(type.attribute_groups[0].query).to eql query
+      end
+
+      it 'removes the former query if a new one is assigned' do
+        new_query = FactoryGirl.build(:global_query, user_id: 0)
+        type.attribute_groups[0].attributes = new_query
+        type.save!
+        type.reload
+
+        expect(type.attribute_groups.length).to eql 2
+
+        expect(type.attribute_groups[0].class).to eql Type::QueryGroup
+        expect(type.attribute_groups[0].key).to eql 'some group'
+        expect(type.attribute_groups[0].query).to eql new_query
+
+        expect(Query.count).to eql 1
+      end
+    end
   end
 
   describe '#default_attribute_groups' do
@@ -142,8 +180,7 @@ describe ::Type, type: :model do
       type.attribute_groups = ['foo']
       expect { type.save }.to raise_exception(NoMethodError)
       # Exampel for invalid structure:
-      type.attribute_groups = [[]]
-      expect { type.save }.to raise_exception(NoMethodError)
+      expect { type.attribute_groups = [[]] }.to raise_exception(NoMethodError)
       # Exampel for invalid group name:
       type.attribute_groups = [['', ['date']]]
       expect(type).not_to be_valid
@@ -156,17 +193,29 @@ describe ::Type, type: :model do
 
     it 'passes validations for known attributes' do
       type.attribute_groups = [['foo', ['date']]]
-      expect(type.save).to be_truthy
+      expect(type).to be_valid
     end
 
     it 'passes validation for defaults' do
-      expect(type.save).to be_truthy
+      expect(type).to be_valid
     end
 
     it 'passes validation for reset' do
       # A reset is to save an empty Array
       type.attribute_groups = []
       expect(type).to be_valid
+    end
+
+    context 'with an invalid query' do
+      let(:query) { FactoryGirl.build(:global_query, name: '') }
+
+      before do
+        type.attribute_groups = [['some name', [query]]]
+      end
+
+      it 'is invalid' do
+        expect(type).to be_invalid
+      end
     end
   end
 
@@ -189,6 +238,22 @@ describe ::Type, type: :model do
       type.attribute_groups = [['foo', [cf_identifier.to_s]]]
       expect(type.save).to be_truthy
       expect(type.read_attribute(:attribute_groups)).not_to be_empty
+    end
+  end
+
+  describe '#destroy' do
+    let(:query) { FactoryGirl.build(:global_query, user_id: 0) }
+
+    before do
+      login_as(admin)
+      type.attribute_groups = [['some name', [query]]]
+      type.save!
+      type.reload
+      type.destroy
+    end
+
+    it 'destroys all queries references by query groups' do
+      expect(Query.find_by(id: query.id)).to be_nil
     end
   end
 end

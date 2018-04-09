@@ -156,7 +156,7 @@ module Components
       end
 
       def remove_child(work_package)
-        page.within('.wp-relations-children-hierarchy') do
+        page.within('wp-query-group') do
           row = ".wp-row-#{work_package.id}-table"
 
           find(row).hover

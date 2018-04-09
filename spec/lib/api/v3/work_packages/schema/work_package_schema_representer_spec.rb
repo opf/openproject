@@ -41,7 +41,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:attribute_query) { FactoryGirl.build_stubbed(:query) }
   let(:attribute_groups) do
     [Type::AttributeGroup.new(wp_type, "People", %w(assignee responsible)),
-     Type::AttributeGroup.new(wp_type, "Estimates and time", %w(estimatedTime spentTime)),
+     Type::AttributeGroup.new(wp_type, "Estimates and time", %w(estimated_time spent_time)),
      Type::QueryGroup.new(wp_type, "Children", attribute_query)]
   end
   let(:schema) do

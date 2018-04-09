@@ -86,10 +86,6 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     description: {
       placeholder: this.I18n.t('js.work_packages.placeholders.description')
     },
-    date: {
-      startDate: this.I18n.t('js.label_no_start_date'),
-      dueDate: this.I18n.t('js.label_no_due_date')
-    },
     infoRow: {
       createdBy: this.I18n.t('js.label_created_by'),
       lastUpdatedOn: this.I18n.t('js.label_last_updated_on')
@@ -154,7 +150,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
             return {
               name: group.name,
               query: group._embedded.query,
-              members: ['some placeholder'],
+              members: [group._embedded.query],
               type: group._type
             };
           }
