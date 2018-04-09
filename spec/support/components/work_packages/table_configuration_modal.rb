@@ -28,50 +28,49 @@
 
 module Components
   module WorkPackages
-    class GroupBy
+    class TableConfigurationModal
       include Capybara::DSL
       include RSpec::Matchers
 
-      def enable_via_header(name)
-        open_table_column_context_menu(name)
-
-        within_column_context_menu do
-          click_link('Group by')
-        end
+      def open_and_switch_to(name)
+        open!
+        switch(name)
       end
 
-      def enable_via_menu(name)
-        modal = TableConfigurationModal.new
-
-        modal.open_and_set_display_mode 'Grouped mode'
-        select name, from: 'selected_grouping'
-        modal.save
+      def open_and_set_display_mode(mode)
+        open_and_switch_to 'Group by'
+        choose("display_mode_switch", option: mode)
       end
 
-      def disable_via_menu
-        modal = TableConfigurationModal.new
-        modal.open_and_set_display_mode 'Default mode'
-        modal.save
+      def open!
+        scroll_to_and_click trigger
+        expect_open
       end
 
-      def expect_not_grouped_by(name)
-        open_table_column_context_menu(name)
+      def save
+        find("#{selector} .button.-highlight").click
+      end
 
-        within_column_context_menu do
-          expect(page).to have_content('Group by')
-        end
+      def expect_open
+        expect(page).to have_selector(selector)
+      end
+
+      def expect_closed
+        expect(page).to have_no_selector(selector)
+      end
+
+      def switch(target)
+        find("#{selector} .tab-show", text: target).click
       end
 
       private
 
-      def open_table_column_context_menu(name)
-        page.find(".generic-table--sort-header ##{name.downcase}").click
+      def trigger
+        find('.wp-table--configuration-modal--trigger')
       end
 
-      def within_column_context_menu
-        page.within('#column-context-menu') do
-          yield
-        end
+      def selector
+        '.wp-table--configuration-modal'
       end
     end
   end

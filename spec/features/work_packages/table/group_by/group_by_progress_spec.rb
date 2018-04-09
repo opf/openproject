@@ -30,9 +30,7 @@ describe 'Work Package group by progress', js: true do
 
   it 'shows group headers for group by progress (regression test #26717)' do
     # Group by category
-    wp_table.click_setting_item 'Group by ...'
-    select 'Progress (%)', from: 'selected_columns_new'
-    click_button 'Apply'
+    group_by.enable_via_menu 'Progress (%)'
 
     # Expect table to be grouped as WP created above
     expect(page).to have_selector('.group--value .count', count: 3)

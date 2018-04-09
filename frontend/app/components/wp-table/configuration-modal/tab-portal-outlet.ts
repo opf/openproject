@@ -48,7 +48,12 @@ export class TabPortalOutlet {
     return tabs.map((tab:ActiveTabInterface) => tab.componentRef.instance);
   }
 
-  public switchTo(tab:TabInterface) {
+  public switchTo(name:string) {
+    const tab = _.find(this.availableTabs, tab => tab.name === name);
+    if (!tab) {
+      throw(`Trying to swtich to unknown tab ${name}.`);
+    }
+
     // Detach any current instance
     this.detach();
 

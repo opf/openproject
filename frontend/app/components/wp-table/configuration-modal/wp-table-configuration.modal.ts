@@ -85,7 +85,10 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
     // Switch to the default tab
     // after a timeout to let the host initialize.
-    setTimeout(() => this.switchTo(this.availableTabs[0]));
+    setTimeout(() => {
+      const initialTab = this.locals['initialTab'] || this.availableTabs[0].name;
+      this.switchTo(initialTab);
+    });
   }
 
   ngOnDestroy() {
@@ -100,8 +103,8 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     return this.tabPortalHost.currentTab;
   }
 
-  public switchTo(tab:TabInterface) {
-    this.tabPortalHost.switchTo(tab);
+  public switchTo(name:string) {
+    this.tabPortalHost.switchTo(name);
   }
 
   public saveChanges():void {

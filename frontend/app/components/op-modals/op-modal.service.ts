@@ -5,7 +5,7 @@ import {
   Injectable,
   Injector
 } from '@angular/core';
-import {ComponentPortal, DomPortalOutlet, PortalInjector} from '@angular/cdk/portal';
+import {ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector} from '@angular/cdk/portal';
 import {TransitionService} from '@uirouter/core';
 import {FocusHelperToken, OpModalLocalsToken} from 'core-app/angular4-transition-utils';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
@@ -39,8 +39,8 @@ export class OpModalService {
     // Listen to any click when should close outside modal
     jQuery(window).click((evt) => {
       if (this.active &&
-          this.active.closeOnOutsideClick &&
-          !this.portalHostElement.contains(evt.target)) {
+        this.active.closeOnOutsideClick &&
+        !this.portalHostElement.contains(evt.target)) {
         this.close();
       }
     });
@@ -56,13 +56,14 @@ export class OpModalService {
   /**
    * Open a Modal reference and append it to the portal
    */
-  public show(modal:any, locals:any = {}) {
+  public show<T extends OpModalComponent>(modal:ComponentType<T>, locals:any = {}):void {
     this.close();
 
     // Create a portal for the given component class and render it
     const portal = new ComponentPortal(modal, null, this.injectorFor(locals));
     const ref:ComponentRef<OpModalComponent> = this.bodyPortalHost.attach(portal) as ComponentRef<OpModalComponent>;
-    this.active = ref.instance;
+    const instance = ref.instance as T;
+    this.active = instance;
     this.portalHostElement.style.display = 'block';
 
     setTimeout(() => {

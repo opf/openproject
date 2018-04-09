@@ -185,7 +185,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public openTableConfigurationModal() {
     this.opContextMenu.close();
-    this.opModalService.show(WpTableConfigurationModalComponent);
+    this.opModalService.show<WpTableConfigurationModalComponent>(WpTableConfigurationModalComponent);
   }
 
   private getTableAndTimelineElement():[HTMLElement, HTMLElement] {
