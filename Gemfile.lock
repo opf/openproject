@@ -221,7 +221,7 @@ GEM
       railties (>= 4, < 5.2)
     cucumber-tag_expressions (1.0.1)
     cucumber-wire (0.0.1)
-    daemons (1.2.4)
+    daemons (1.2.6)
     dalli (2.7.6)
     database_cleaner (1.6.1)
     date_validator (0.9.0)
