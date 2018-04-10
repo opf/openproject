@@ -43,9 +43,9 @@ describe 'Refreshing query menu item', js: true do
   end
 
   it 'allows refreshing the current query (Bug #26921)' do
-    expect(wp_table).to have_work_packages_listed [work_package]
+    wp_table.expect_work_package_listed work_package
     # Instantiate lazy let here
-    expect(wp_table).not_to have_work_packages_listed [other_work_package]
+    wp_table.expect_work_package_not_listed other_work_package
 
     wp_table.save_as('Some query name')
 
@@ -63,6 +63,6 @@ describe 'Refreshing query menu item', js: true do
     query_item = page.find(".query-menu-item[data-query-id='#{last_query.id}']")
     query_item.click
 
-    expect(wp_table).to have_work_packages_listed [work_package, other_work_package]
+    wp_table.expect_work_package_listed work_package, other_work_package
   end
 end
