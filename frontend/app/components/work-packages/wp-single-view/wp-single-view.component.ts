@@ -95,7 +95,6 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   protected firstTimeFocused:boolean = false;
 
   constructor(@Inject(I18nToken) readonly I18n:op.I18n,
-              public wpEditFieldGroup:WorkPackageEditFieldGroupComponent,
               protected currentProject:CurrentProjectService,
               protected PathHelper:PathHelperService,
               protected states:States,
@@ -255,9 +254,4 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
       resource.schema[name]
     ) as DisplayField;
   }
-
-  private get form() {
-    return this.wpEditFieldGroup.form;
-  }
-
 }

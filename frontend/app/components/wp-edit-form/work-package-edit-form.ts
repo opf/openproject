@@ -246,6 +246,7 @@ export class WorkPackageEditForm {
       const handler = this.activeFields[name];
       handler && handler.deactivate();
       this.changeset.reset(name);
+      delete(this.activeFields[name]);
     });
   }
 
