@@ -379,7 +379,7 @@ GEM
       rack
       rake (>= 0.8.1)
     pdf-core (0.7.0)
-    pg (0.21.0)
+    pg (1.0.0)
     plaintext (0.1.0)
       activesupport (> 2.2.1)
       nokogiri (~> 1.8.1)
@@ -675,7 +675,7 @@ DEPENDENCIES
   openproject-translations!
   parallel_tests (~> 2.14.0)
   passenger (~> 5.2)
-  pg (~> 0.21.0)
+  pg (~> 1.0.0)
   plaintext (= 0.1.0)
   prawn (~> 2.2)
   prawn-table (~> 0.2.2)
