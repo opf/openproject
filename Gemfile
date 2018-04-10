@@ -259,7 +259,7 @@ gem 'roar', '~> 1.1.0'
 
 platforms :mri, :mingw, :x64_mingw do
   group :mysql2 do
-    gem 'mysql2', '~> 0.4.4'
+    gem 'mysql2', '~> 0.5.0'
   end
 
   group :postgres do
