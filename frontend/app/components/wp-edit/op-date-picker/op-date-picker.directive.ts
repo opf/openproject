@@ -26,33 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
-import {ConfigurationService} from 'core-components/common/config/configuration.service';
-import {TimezoneServiceToken} from 'core-app/angular4-transition-utils';
+// TODO we still have non-upgraded components depending on the ng1 datepicker
+// Remove when this is no longer the case and migrate to the ng2 component instead.
+
 import {DatePicker} from 'core-components/wp-edit/op-date-picker/datepicker';
 
-@Component({
-  selector: 'op-date-picker',
-  template: require('!!raw-loader!./op-date-picker.component.html')
-})
-export class OpDatePickerComponent implements OnInit {
-  @Output() public onChange = new EventEmitter<string>();
-  @Output() public onClose = new EventEmitter<string>();
-  @Input() public initialDate?:String;
+class OPDatePickerController {
+  public onChange?:Function;
+  public onClose?:Function;
+  public initialDate?:String;
 
-  private $element:JQuery;
   private datePickerInstance:any;
   private input:JQuery;
 
-  public constructor(private elementRef:ElementRef,
-                     private ConfigurationService:ConfigurationService,
-                     @Inject(TimezoneServiceToken)private TimezoneService:any) {
+  public constructor(private $element:ng.IAugmentedJQuery,
+                     private ConfigurationService:any,
+                     private TimezoneService:any) {
+    'ngInject';
   }
 
 
-  ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
+  public $onInit() {
+    // Added for compatibility
+  }
 
+  public $postLink() {
     // we don't want the date picker in the accessibility mode
     if (!this.ConfigurationService.accessibilityModeEnabled()) {
       this.input = this.$element.find('input');
@@ -79,7 +77,7 @@ export class OpDatePickerComponent implements OnInit {
 
   private callbackIfSet(name:'onChange' | 'onClose') {
     if (this[name]) {
-      this[name].emit(this.currentValue());
+      this[name]!.bind(this).call();
     }
   }
 
@@ -118,3 +116,16 @@ export class OpDatePickerComponent implements OnInit {
     this.datePickerInstance.show();
   }
 }
+
+angular
+  .module('openproject')
+  .component('opDatePicker', {
+    templateUrl: '/components/wp-edit/op-date-picker/op-date-picker.directive.html',
+    transclude: true,
+    controller: OPDatePickerController,
+    bindings: {
+      initialDate: '@?',
+      onChange: '&?',
+      onClose: '&?',
+    }
+  });
