@@ -294,7 +294,7 @@ GEM
       actionpack (>= 3.0)
       multi_json
       request_store (>= 1.0)
-    grape (1.0.0)
+    grape (1.0.2)
       activesupport
       builder
       mustermann-grape (~> 1.0.0)
@@ -354,7 +354,7 @@ GEM
     msgpack (1.1.0)
     multi_json (1.12.2)
     multi_test (0.1.2)
-    mustermann (1.0.0)
+    mustermann (1.0.2)
     mustermann-grape (1.0.0)
       mustermann (~> 1.0.0)
     mysql2 (0.5.1)
