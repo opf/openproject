@@ -223,7 +223,7 @@ export class UrlParamsHelperService {
 
   private buildV3GetColumnsFromQueryResource(query:QueryResource) {
     if (query.columns) {
-      return query.columns.map((column: any) => column.id);
+      return query.columns.map((column:any) => column.id);
     } else if (query._links.columns) {
       return query._links.columns.map((column:HalLink) => {
         let id = column.href!;

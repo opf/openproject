@@ -47,9 +47,9 @@ export interface QueryGroupDescriptor {
   selector: 'wp-query-group',
   template: require('!!raw-loader!./wp-query-group.template.html')
 })
-export class WorkPackageFormQueryGroupComponent implements OnInit, OnDestroy {
+export class WorkPackageFormQueryGroupComponent implements OnInit {
   @Input() public workPackage:WorkPackageResourceInterface;
-  @Input() public group:QueryResourceInterface;
+  @Input() public group:QueryGroupDescriptor;
   @ViewChild('childrenEmbeddedTable') private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
 
   public canHaveChildren:boolean;
@@ -79,11 +79,7 @@ export class WorkPackageFormQueryGroupComponent implements OnInit, OnDestroy {
     this.canModifyHierarchy = !!this.workPackage.changeParent;
 
     this.childrenQueryProps = this.queryUrlParamsHelper.buildV3GetQueryFromQueryResource(this.contextualizedQuery,
-                                                                                        {})
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
+                                                                                        {});
   }
 
   public refreshTable() {
@@ -91,7 +87,7 @@ export class WorkPackageFormQueryGroupComponent implements OnInit, OnDestroy {
   }
 
   private get contextualizedQuery() {
-    let duppedQuery = _.clone(this.group.query)
+    let duppedQuery = _.clone(this.group.query);
 
     _.each(duppedQuery.filters, (filter) => {
       if (filter._links.values[0].templated) {

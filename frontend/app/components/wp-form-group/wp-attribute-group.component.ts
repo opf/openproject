@@ -31,26 +31,13 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {DisplayField} from 'core-components/wp-display/wp-display-field/wp-display-field.module';
 import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
-
-interface FieldDescriptor {
-  name:string;
-  label:string;
-  field?:DisplayField;
-  fields?:DisplayField[];
-  spanAll:boolean;
-  multiple:boolean;
-}
-
-interface GroupDescriptor {
-  name:string;
-  members:FieldDescriptor[];
-}
+import {FieldDescriptor, GroupDescriptor} from 'core-components/work-packages/wp-single-view/wp-single-view.component';
 
 @Component({
   template: require('!!raw-loader!./wp-attribute-group.template.html'),
   selector: 'wp-attribute-group',
 })
-export class WorkPackageFormAttributeGroupComponent implements OnInit, OnDestroy {
+export class WorkPackageFormAttributeGroupComponent {
   @Input() public workPackage:WorkPackageResourceInterface;
   @Input() public group:GroupDescriptor;
 
@@ -63,13 +50,6 @@ export class WorkPackageFormAttributeGroupComponent implements OnInit, OnDestroy
 
   constructor(@Inject(I18nToken) readonly I18n:op.I18n,
               public wpEditFieldGroup:WorkPackageEditFieldGroupComponent) {
-  }
-
-  public ngOnInit() {
-  }
-
-  ngOnDestroy() {
-    // Nothing to do
   }
 
   /**

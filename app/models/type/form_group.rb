@@ -54,7 +54,7 @@ class Type::FormGroup
     raise NotImplementedError
   end
 
-  def active_members(project)
+  def active_members(_project)
     raise NotImplementedError
   end
 end

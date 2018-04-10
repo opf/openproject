@@ -41,7 +41,7 @@ import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 
-interface FieldDescriptor {
+export interface FieldDescriptor {
   name:string;
   label:string;
   field?:DisplayField;
@@ -50,7 +50,7 @@ interface FieldDescriptor {
   multiple:boolean;
 }
 
-interface GroupDescriptor {
+export interface GroupDescriptor {
   name:string;
   members:FieldDescriptor[];
   type:string;
@@ -169,15 +169,6 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   public shouldHideGroup(group:GroupDescriptor) {
     // Hide if the group is empty
     return group.members.length === 0;
-  }
-
-  /**
-   * Hide read-only fields, but only when in the create mode
-   * @param {FieldDescriptor} field
-   */
-  public shouldHideField(descriptor:FieldDescriptor) {
-    const field = descriptor.field || descriptor.fields![0];
-    return this.wpEditFieldGroup.inEditMode && !field.writable;
   }
 
   /**

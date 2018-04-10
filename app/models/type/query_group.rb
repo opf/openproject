@@ -51,7 +51,7 @@ class Type::QueryGroup < Type::FormGroup
     [attributes]
   end
 
-  def active_members(project)
+  def active_members(_project)
     [members]
   end
 end
