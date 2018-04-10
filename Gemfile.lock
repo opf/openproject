@@ -191,7 +191,7 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     color-tools (1.3.0)
-    commonmarker (0.17.8)
+    commonmarker (0.17.9)
       ruby-enum (~> 0.5)
     concurrent-ruby (1.0.5)
     crack (0.4.3)
