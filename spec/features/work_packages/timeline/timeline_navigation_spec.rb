@@ -34,6 +34,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
   let(:query_menu) { Components::WorkPackages::QueryMenu.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
+  let(:group_by) { Components::WorkPackages::GroupBy.new }
 
   let(:work_package) do
     FactoryGirl.create :work_package,
@@ -231,9 +232,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(wp_cat1, wp_cat2, wp_none)
 
-      wp_table.click_setting_item 'Group by ...'
-      select 'Category', from: 'selected_columns_new'
-      click_button 'Apply'
+      group_by.enable_via_menu 'Category'
 
       # Expect table to be grouped as WP created above
       expect(page).to have_selector('.group--value .count', count: 3)

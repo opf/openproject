@@ -114,6 +114,8 @@ module Components
             select value, from: "values-#{id}"
           else
             page.all('input').each_with_index do |input, index|
+              input.click
+              sleep(0.5)
               input.set value[index]
               sleep(0.5)
             end

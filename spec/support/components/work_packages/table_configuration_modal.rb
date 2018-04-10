@@ -54,6 +54,17 @@ module Components
         expect_open
       end
 
+      def set_display_sums(enable: true)
+        open_and_switch_to 'Display settings'
+
+        if enable
+          check 'display_sums_switch'
+        else
+          uncheck 'display_sums_switch'
+        end
+        save
+      end
+
       def save
         find("#{selector} .button.-highlight").click
       end

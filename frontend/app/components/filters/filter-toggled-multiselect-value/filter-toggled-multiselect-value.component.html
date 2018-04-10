@@ -27,9 +27,10 @@
           id="values-{{filter.id}}"
           name="v[{{filter.id}}][]"
           class="advanced-filters--select">
-    <option disabled
-            [ngValue]="null"
+    <option [ngValue]="null"
             [textContent]="text.placeholder"
+            disabled
+            selected
             *ngIf="hasNoValue"></option>
     <option *ngFor="let value of availableOptions"
             [textContent]="value.name"

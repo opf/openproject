@@ -47,10 +47,8 @@ module Components
         modal_open? or open_modal
 
         within_modal do
-          page.find('#selected_columns').click
-
           expect(page)
-            .to have_no_selector('li[role=option]', text: name)
+            .to have_no_selector('.form--check-box-container', text: name)
         end
       end
 

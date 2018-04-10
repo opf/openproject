@@ -68,8 +68,10 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
   public get value() {
     if (this.isValueMulti()) {
       return this.filter.values;
-    } else {
+    } else if (this.filter.values.length > 0) {
       return this.filter.values[0];
+    } else {
+      return null;
     }
   }
 
@@ -90,10 +92,6 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
 
   public get hasNoValue() {
     return _.isEmpty(this.filter.values);
-  }
-
-  private setAvailableOptions(options:CollectionResource) {
-    this.availableOptions = options.elements;
   }
 
   private fetchAllowedValues() {

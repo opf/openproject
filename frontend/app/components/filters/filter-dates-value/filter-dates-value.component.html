@@ -16,7 +16,7 @@
   </span>
 
   <op-date-picker (onChange)="end = parser($event)">
-    <input [ngModel]="end"
+    <input [ngModel]="formatter(end)"
            (ngModelChange)="end = parser($event)"
            [disabled]="isLoading"
            required
