@@ -122,7 +122,7 @@ GEM
       tzinfo (~> 1.1)
     acts_as_list (0.9.11)
       activerecord (>= 3.0)
-    acts_as_tree (2.7.0)
+    acts_as_tree (2.7.1)
       activerecord (>= 3.0.0)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
