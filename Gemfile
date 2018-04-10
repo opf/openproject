@@ -74,7 +74,7 @@ gem 'commonmarker', '~> 0.17.8'
 # such as sanitization or additional features
 gem 'html-pipeline', '~> 2.7.1'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 4.5.0'
+gem 'sanitize', '~> 4.6.0'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4'
 

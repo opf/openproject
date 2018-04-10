@@ -364,7 +364,7 @@ GEM
     nio4r (2.3.0)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
-    nokogumbo (1.4.13)
+    nokogumbo (1.5.0)
       nokogiri
     oj (3.5.0)
     okcomputer (1.16.0)
@@ -523,10 +523,10 @@ GEM
     ruby-progressbar (1.9.0)
     rubyzip (1.2.1)
     safe_yaml (1.0.4)
-    sanitize (4.5.0)
+    sanitize (4.6.4)
       crass (~> 1.0.2)
       nokogiri (>= 1.4.4)
-      nokogumbo (~> 1.4.1)
+      nokogumbo (~> 1.4)
     sass (3.5.1)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -710,7 +710,7 @@ DEPENDENCIES
   ruby-duration (~> 3.2.0)
   ruby-progressbar
   rubytree!
-  sanitize (~> 4.5.0)
+  sanitize (~> 4.6.0)
   sass (= 3.5.1)
   sass-rails (~> 5.0.6)
   secure_headers (~> 5.0.5)
