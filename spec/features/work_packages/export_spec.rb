@@ -43,6 +43,9 @@ describe 'work package export', type: :feature do
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+  let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
 
   before do
     wp_1
@@ -93,13 +96,7 @@ describe 'work package export', type: :feature do
   end
 
   it 'shows all work packages grouped by ', js: true, retry: 2 do
-    work_packages_page.open_settings!
-    click_on 'Hide hierarchy'
-
-    work_packages_page.open_settings!
-    click_on 'Group by ...'
-    select 'Type', from: 'selected_columns_new'
-    click_on 'Apply'
+    group_by.enable_via_menu 'Type'
 
     wp_table.expect_work_package_listed(wp_1)
     wp_table.expect_work_package_listed(wp_2)
@@ -149,7 +146,7 @@ describe 'work package export', type: :feature do
   end
 
   it 'exports selected columns', js: true, retry: 2 do
-    work_packages_page.add_column! 'Progress (%)'
+    columns.add 'Progress (%)'
 
     export!
 

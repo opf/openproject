@@ -82,7 +82,8 @@ module Components
       end
 
       def open_modal
-        SettingsMenu.new.open_and_choose('Sort by ...')
+        modal = TableConfigurationModal.new
+        modal.open_and_switch_to 'Sort by'
       end
 
       def cancel_changes

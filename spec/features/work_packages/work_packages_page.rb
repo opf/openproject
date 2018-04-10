@@ -62,26 +62,6 @@ class WorkPackagesPage
     click_on 'work-packages-settings-button'
   end
 
-  def add_column!(name)
-    open_settings!
-    click_on 'Columns ...'
-
-    search_column! name
-    select_found_column! name
-    click_on 'Apply'
-
-    expect(page).to have_selector('.generic-table--sort-header a', text: name.upcase)
-  end
-
-  def search_column!(column)
-    input = find 'input.select2-input.ui-select-search'
-    input.set column
-  end
-
-  def select_found_column!(value)
-    find('.select2-results div', text: value, match: :first).click
-  end
-
   def click_work_packages_menu_item
     find('#main-menu .work-packages').click
   end

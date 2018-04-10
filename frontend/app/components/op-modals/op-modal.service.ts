@@ -9,6 +9,7 @@ import {ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector} from '@
 import {TransitionService} from '@uirouter/core';
 import {FocusHelperToken, OpModalLocalsToken} from 'core-app/angular4-transition-utils';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
+import {keyCodes} from 'core-components/common/keyCodes.enum';
 
 @Injectable()
 export class OpModalService {
@@ -30,10 +31,12 @@ export class OpModalService {
     document.body.appendChild(hostElement);
 
     // Listen to keyups on window to close context menus
-    Mousetrap.bind('escape', () => {
-      if (this.active && this.active.closeOnEscape) {
+    jQuery(window).keydown('keydown', (evt:JQueryKeyEventObject) => {
+      if (this.active && this.active.closeOnEscape && evt.which === keyCodes.ESCAPE) {
         this.close();
       }
+
+      return true;
     });
 
     // Listen to any click when should close outside modal

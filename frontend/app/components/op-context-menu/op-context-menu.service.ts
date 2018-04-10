@@ -8,6 +8,7 @@ import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-m
 import {FocusHelperToken, OpContextMenuLocalsToken} from "core-app/angular4-transition-utils";
 import {OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";
 import {OPContextMenuComponent} from "core-components/op-context-menu/op-context-menu.component";
+import {keyCodes} from 'core-components/common/keyCodes.enum';
 
 @Injectable()
 export class OPContextMenuService {
@@ -42,7 +43,13 @@ export class OPContextMenuService {
     $transitions.onStart({}, () => this.close());
 
     // Listen to keyups on window to close context menus
-    Mousetrap.bind('escape', () => this.close());
+    jQuery(window).keydown('keydown', (evt:JQueryKeyEventObject) => {
+      if (this.active && evt.which === keyCodes.ESCAPE) {
+        this.close();
+      }
+
+      return true;
+    });
 
     // Listen to any click and close the active context menu
     jQuery(window).click((evt) => {

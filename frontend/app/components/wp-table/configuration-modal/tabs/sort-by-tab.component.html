@@ -6,15 +6,15 @@
          *ngFor="let sort of sortationObjects; let index = index">
       <div class="form--field -full-width">
         <label
-          for="modal-sorting-attribute-{{$index}}"
+          for="modal-sorting-attribute-{{index}}"
           [textContent]="text['sort_criteria_' + index]"
           class="form--label hidden-for-sighted">
         </label>
         <div class="form--field-container">
           <div class="form--select-container">
             <select
-              id="modal-sorting-attribute-{{$index}}"
-              name="modal-sorting-attribute-{{$index}}"
+              id="modal-sorting-attribute-{{index}}"
+              name="modal-sorting-attribute-{{index}}"
               (change)="updateSelection(sort, $event.target.value)"
               class="form--select">
               <option *ngIf="!!sort.column.href"
