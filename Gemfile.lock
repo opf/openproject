@@ -366,7 +366,7 @@ GEM
       mini_portile2 (~> 2.3.0)
     nokogumbo (1.4.13)
       nokogiri
-    oj (3.3.8)
+    oj (3.5.0)
     okcomputer (1.16.0)
     openproject-token (1.0.1)
       activemodel (~> 5.0)
@@ -668,7 +668,7 @@ DEPENDENCIES
   net-ldap (~> 0.16.0)
   newrelic_rpm
   nokogiri (~> 1.8.2)
-  oj (~> 3.3.2)
+  oj (~> 3.5.0)
   okcomputer (~> 1.16.0)
   omniauth!
   openproject-token (~> 1.0.1)

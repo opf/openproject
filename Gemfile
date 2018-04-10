@@ -92,7 +92,7 @@ gem 'sys-filesystem', '~> 1.1.4', require: false
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.12.1'
-gem 'oj', '~> 3.3.2'
+gem 'oj', '~> 3.5.0'
 # We rely on this specific version, which is the latest as of now (end of 2016),
 # because we have to apply to it a bugfix which could break things in other versions.
 # This can be removed as soon as said bugfix is integrated into rabl itself.
