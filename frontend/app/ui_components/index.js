@@ -27,8 +27,6 @@
 //++
 
 angular.module('openproject.uiComponents')
-  .directive('accessibleByKeyboard', [require(
-    './accessible-by-keyboard-directive')])
   .directive('accessibleCheckbox', [require('./accessible-checkbox-directive')])
   .directive('accessibleElement', [require('./accessible-element-directive')])
   .directive('copyToClipboard', [

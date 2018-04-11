@@ -1,4 +1,4 @@
-import {Component, Injector} from '@angular/core';
+import {Component, Inject, Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
@@ -11,16 +11,11 @@ import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp
 })
 export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
 
-  readonly I18n = this.injector.get(I18nToken);
-  readonly wpTableGroupBy = this.injector.get(WorkPackageTableGroupByService);
-  readonly wpTableHierarchies = this.injector.get(WorkPackageTableHierarchiesService);
-  readonly wpTableSums = this.injector.get(WorkPackageTableSumService);
-
   // Display mode
   public displayMode:'hierarchy'|'grouped'|'default' = 'default';
 
   // Grouping
-  public currentGroup:QueryGroupByResource|null = null;
+  public currentGroup:QueryGroupByResource|undefined;
   public availableGroups:QueryGroupByResource[] = [];
 
   // Sums row display
@@ -42,7 +37,11 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
     }
   };
 
-  constructor(readonly injector:Injector) {
+  constructor(readonly injector:Injector,
+              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly wpTableGroupBy:WorkPackageTableGroupByService,
+              readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
+              readonly wpTableSums:WorkPackageTableSumService) {
   }
 
   public onSave() {
@@ -50,7 +49,7 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
     this.wpTableHierarchies.setEnabled(this.displayMode === 'hierarchy');
 
     // Update grouping state
-    let group = this.displayMode === 'grouped' ? this.currentGroup : null;
+    let group = this.displayMode === 'grouped' ? this.currentGroup : undefined;
     this.wpTableGroupBy.set(group);
 
     // Update sums state
@@ -58,7 +57,7 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
   }
 
   public updateGroup(href:string) {
-    this.currentGroup = _.find(this.availableGroups, group => group.href === href) || null;
+    this.currentGroup = _.find(this.availableGroups, group => group.href === href);
   }
 
   ngOnInit() {
@@ -68,7 +67,7 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
       this.displayMode = 'grouped';
     }
 
-    this.displaySums = this.wpTableSums.currentSum;
+    this.displaySums = this.wpTableSums.currentSum || false;
 
     this.wpTableGroupBy
       .onReady()

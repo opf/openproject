@@ -4,17 +4,23 @@ import {WpTableConfigurationDisplaySettingsTab} from 'core-components/wp-table/c
 import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configuration-modal/tabs/columns-tab.component';
 import {WpTableConfigurationSortByTab} from 'core-components/wp-table/configuration-modal/tabs/sort-by-tab.component';
 import {WpTableConfigurationTimelinesTab} from 'core-components/wp-table/configuration-modal/tabs/timelines-tab.component';
+import {WpTableConfigurationFiltersTab} from 'core-components/wp-table/configuration-modal/tabs/filters-tab.component';
 
 export interface WpTableConfigurationTabReference {
   name:string;
   title:string;
-  componentClass:{ new(injector:Injector):any };
+  componentClass:{ new(...args:any[]):any };
 }
 
 @Injectable()
 export class WpTableConfigurationService {
 
   public tabs:WpTableConfigurationTabReference[] = [
+    {
+      name: 'filters',
+      title: this.I18n.t('js.work_packages.query.filters'),
+      componentClass: WpTableConfigurationFiltersTab,
+    },
     {
       name: 'sort-by',
       title: this.I18n.t('js.label_sort_by'),

@@ -13,7 +13,7 @@ import {
 
 export interface TabInterface {
   name:string;
-  componentClass:{ new(injector:Injector):TabComponent };
+  componentClass:{ new(...args:any[]):TabComponent };
 }
 
 export interface TabComponent {

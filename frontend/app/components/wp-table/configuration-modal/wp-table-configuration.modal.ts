@@ -4,8 +4,9 @@ import {
   ComponentFactoryResolver,
   ElementRef,
   Inject,
-  InjectionToken,
-  Injector, OnDestroy, OnInit,
+  Injector,
+  OnDestroy,
+  OnInit,
   ViewChild
 } from '@angular/core';
 import {I18nToken, OpModalLocalsToken} from 'core-app/angular4-transition-utils';
@@ -13,17 +14,12 @@ import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
-import {ComponentPortal, DomPortalOutlet, PortalInjector} from '@angular/cdk/portal';
+import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {
-  WpTableConfigurationService,
-  WpTableConfigurationTabReference
-} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
-import {
-  ActiveTabInterface, TabComponent, TabInterface,
+  ActiveTabInterface,
+  TabComponent,
   TabPortalOutlet
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-
-
 
 @Component({
   template: require('!!raw-loader!./wp-table-configuration.modal.html')

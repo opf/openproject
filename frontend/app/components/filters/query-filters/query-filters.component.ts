@@ -28,12 +28,13 @@
 
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import WorkPackageFiltersService from "../../filters/wp-filters/wp-filters.service";
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {QueryFilterInstanceResource} from 'core-components/api/api-v3/hal-resources/query-filter-instance-resource.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageTableFilters} from 'core-components/wp-fast-table/wp-table-filters';
 import {QueryFilterResource} from 'core-components/api/api-v3/hal-resources/query-filter-resource.service';
+import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
 
 const ADD_FILTER_SELECT_INDEX = -1;
 
@@ -42,9 +43,13 @@ const ADD_FILTER_SELECT_INDEX = -1;
   selector: 'query-filters',
   template: require('!!raw-loader!./query-filters.component.html')
 })
-export class QueryFiltersComponent implements OnInit, OnDestroy {
+export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() public filters:WorkPackageTableFilters;
+  @Input() public showCloseFilter:boolean = false;
+  @Output() public filtersChanged = new DebouncedEventEmitter<WorkPackageTableFilters>(componentDestroyed(this));
+
+
   public filterToBeAdded:QueryFilterResource|undefined;
-  public filters:WorkPackageTableFilters = this.wpTableFilters.currentState;
   public remainingFilters:any[] = [];
   public eeShowBanners:boolean = false;
   public focusElementIndex:number = 0;
@@ -68,13 +73,14 @@ export class QueryFiltersComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.eeShowBanners = angular.element('body').hasClass('ee-banners-visible');
-    this.wpTableFilters
-      .observeUntil(componentDestroyed(this))
-      .subscribe(() => this.initialize());
   }
 
   ngOnDestroy() {
     // Nothing to do.
+  }
+
+  ngOnChanges() {
+    this.updateRemainingFilters();
   }
 
   public onFilterAdded(filterToBeAdded:QueryFilterResource) {
@@ -86,7 +92,7 @@ export class QueryFiltersComponent implements OnInit, OnDestroy {
       this.updateFilterFocus(index);
       this.updateRemainingFilters();
 
-      this.wpTableFilters.replaceIfComplete(this.filters);
+      this.filtersChanged.emit(this.filters);
     }
   }
 
@@ -97,22 +103,12 @@ export class QueryFiltersComponent implements OnInit, OnDestroy {
   public deactivateFilter(removedFilter:QueryFilterInstanceResource) {
     let index = this.filters.current.indexOf(removedFilter);
 
+    this.filters.remove(removedFilter);
     if (removedFilter.isCompletelyDefined()) {
-      this.wpTableFilters.remove(removedFilter);
-    } else {
-      this.filters.remove(removedFilter);
+      this.filtersChanged.emit(this.filters);
     }
 
     this.updateFilterFocus(index);
-    this.updateRemainingFilters();
-  }
-
-  public onFilterUpdated() {
-    this.wpTableFilters.replaceIfComplete(this.filters);
-  }
-
-  private initialize() {
-    this.filters = this.wpTableFilters.currentState;
     this.updateRemainingFilters();
   }
 

@@ -1,10 +1,6 @@
-import {Component, Injector} from '@angular/core';
+import {Component, Inject, Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
-import {QueryGroupByResource} from 'core-components/api/api-v3/hal-resources/query-group-by-resource.service';
-import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
-import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {TimelineLabels} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
@@ -14,10 +10,6 @@ import {QueryColumn} from 'core-components/wp-query/query-column';
   template: require('!!raw-loader!./timelines-tab.component.html')
 })
 export class WpTableConfigurationTimelinesTab implements TabComponent {
-
-  readonly I18n = this.injector.get(I18nToken);
-  readonly wpTableTimeline = this.injector.get(WorkPackageTableTimelineService);
-  readonly wpTableColumns = this.injector.get(WorkPackageTableColumnsService);
 
   public timelineVisible:boolean = false;
   public availableAttributes:{ id:string, name:string }[];
@@ -40,7 +32,10 @@ export class WpTableConfigurationTimelinesTab implements TabComponent {
     }
   };
 
-  constructor(readonly injector:Injector) {
+  constructor(readonly injector:Injector,
+              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly wpTableTimeline:WorkPackageTableTimelineService,
+              readonly wpTableColumns:WorkPackageTableColumnsService) {
   }
 
   public onSave() {
@@ -69,6 +64,6 @@ export class WpTableConfigurationTimelinesTab implements TabComponent {
       .allPropertyColumns
       .sort((a:QueryColumn, b:QueryColumn) => a.name.localeCompare(b.name));
 
-    this.availableAttributes = [{id: '', name: this.text.labels.none}].concat(availableColumns);
+    this.availableAttributes = [{ id: '', name: this.text.labels.none }].concat(availableColumns);
   }
 }

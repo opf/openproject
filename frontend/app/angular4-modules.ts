@@ -31,7 +31,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
-import {AccessibleByKeyboardDirectiveUpgraded} from 'core-app/ui_components/accessible-by-keyboard-directive-upgraded';
 import {SimpleTemplateRenderer} from 'core-components/angular/simple-template-renderer';
 import {OpIcon} from 'core-components/common/icon/op-icon';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
@@ -207,6 +206,7 @@ import {FilterToggledMultiselectValueComponent} from 'core-components/filters/fi
 import {FilterStringValueComponent} from 'core-components/filters/filter-string-value/filter-string-value.component';
 import {FilterBooleanValueComponent} from 'core-components/filters/filter-boolean-value/filter-boolean-value.component';
 import {OpDatePickerComponent} from 'core-components/wp-edit/op-date-picker/op-date-picker.component';
+import {AccessibleByKeyboardComponent} from 'core-components/a11y/accessible-by-keyboard.component';
 
 @NgModule({
   imports: [
@@ -306,7 +306,7 @@ import {OpDatePickerComponent} from 'core-components/wp-edit/op-date-picker/op-d
     WorkPackagesListComponent,
     OpIcon,
     OpDatePickerComponent,
-    AccessibleByKeyboardDirectiveUpgraded,
+    AccessibleByKeyboardComponent,
     TablePaginationComponent,
     WorkPackageTablePaginationComponent,
     WorkPackageTimelineHeaderController,

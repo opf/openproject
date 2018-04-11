@@ -1,4 +1,4 @@
-import {Component, Injector} from '@angular/core';
+import {Component, Inject, Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
@@ -9,10 +9,6 @@ import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-por
   template: require('!!raw-loader!./columns-tab.component.html')
 })
 export class WpTableConfigurationColumnsTab implements TabComponent {
-
-  readonly I18n = this.injector.get(I18nToken);
-  readonly wpTableColumns = this.injector.get(WorkPackageTableColumnsService);
-  readonly ConfigurationService = this.injector.get(ConfigurationService);
 
   public availableColumns = this.wpTableColumns.all;
   public unusedColumns = this.wpTableColumns.unused;
@@ -31,8 +27,10 @@ export class WpTableConfigurationColumnsTab implements TabComponent {
     upsaleRelationColumnsLink: this.I18n.t('js.modals.upsale_relation_columns_link')
   };
 
-  constructor(readonly injector:Injector) {
-
+  constructor(readonly injector:Injector,
+              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly wpTableColumns:WorkPackageTableColumnsService,
+              readonly ConfigurationService:ConfigurationService) {
   }
 
   public onSave() {

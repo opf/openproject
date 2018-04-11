@@ -1,7 +1,8 @@
 <fieldset id="filters" *ngIf="filters && filters.current" class="advanced-filters--container">
   <legend [textContent]="text.selected_filter_list"></legend>
 
-  <a [attr.title]="text.close_form"
+  <a *ngIf="showCloseFilter"
+     [attr.title]="text.close_form"
      class="advanced-filters--close icon-context icon-close"
      (click)="closeFilter()">
   </a>
@@ -12,7 +13,7 @@
           query-filter
           [filter]="filter"
           (deactivateFilter)="deactivateFilter($event)"
-          (filterChanged)="onFilterUpdated()"
+          (filterChanged)="filtersChanged.emit(filters)"
           class="advanced-filters--filter">
       </li>
     </ng-container>
