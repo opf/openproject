@@ -223,7 +223,7 @@ GEM
     cucumber-wire (0.0.1)
     daemons (1.2.6)
     dalli (2.7.7)
-    database_cleaner (1.6.1)
+    database_cleaner (1.6.2)
     date_validator (0.9.0)
       activemodel
       activesupport
