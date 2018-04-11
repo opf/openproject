@@ -413,8 +413,8 @@ GEM
       rack
     rack-protection (2.0.1)
       rack
-    rack-test (0.6.3)
-      rack (>= 1.0)
+    rack-test (1.0.0)
+      rack (>= 1.0, < 3)
     rack_session_access (0.2.0)
       builder (>= 2.0.0)
       rack (>= 1.0.0)
@@ -687,7 +687,7 @@ DEPENDENCIES
   rabl (~> 0.13.0)
   rack-attack (~> 5.2.0)
   rack-protection (~> 2.0.0)
-  rack-test (~> 0.6.3)
+  rack-test (~> 1.0.0)
   rack_session_access
   rails (~> 5.1.5)
   rails-angular-xss!

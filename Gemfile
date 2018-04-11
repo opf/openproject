@@ -176,7 +176,7 @@ gem 'openproject-token', '~> 1.0.1'
 gem 'plaintext', '0.1.0'
 
 group :test do
-  gem 'rack-test', '~> 0.6.3'
+  gem 'rack-test', '~> 1.0.0'
   gem 'shoulda-context', '~> 1.2'
   gem 'launchy', '~> 2.4.3'
 
