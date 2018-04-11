@@ -202,7 +202,7 @@ group :test do
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
 
   # Retry failures within the same environment
-  gem 'retriable', '~> 3.0'
+  gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.5.6'
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
