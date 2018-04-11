@@ -560,7 +560,7 @@ GEM
       sprockets (>= 3.0.0)
     sqlite3 (1.3.13)
     stringex (2.7.1)
-    svg-graph (2.1.1)
+    svg-graph (2.1.3)
     sys-filesystem (1.1.8)
       ffi
     test-prof (0.4.8)
