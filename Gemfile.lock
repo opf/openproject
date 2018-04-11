@@ -561,7 +561,7 @@ GEM
     sqlite3 (1.3.13)
     stringex (2.7.1)
     svg-graph (2.1.3)
-    sys-filesystem (1.1.8)
+    sys-filesystem (1.1.9)
       ffi
     test-prof (0.4.8)
     thin (1.7.2)
