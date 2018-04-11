@@ -103,7 +103,7 @@ export class WorkPackageEditFieldHandler {
       return this.form.submit();
     }
 
-    return this.$q.resolve();
+    return Promise.resolve();
   }
 
   /**

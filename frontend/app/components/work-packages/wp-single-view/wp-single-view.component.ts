@@ -29,9 +29,8 @@
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
-import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, map, takeUntil} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {CurrentProjectService} from '../../projects/current-project.service';
@@ -40,6 +39,7 @@ import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.m
 import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
+import {input} from 'reactivestates';
 
 export interface FieldDescriptor {
   name:string;
@@ -56,6 +56,12 @@ export interface GroupDescriptor {
   type:string;
 }
 
+interface ResourceContextChange {
+  isNew:boolean;
+  schema:string|null;
+  project:string|null;
+}
+
 @Component({
   template: require('!!raw-loader!./wp-single-view.html'),
   selector: 'wp-single-view',
@@ -65,6 +71,13 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
 
   // Grouped fields returned from API
   public groupedFields:GroupDescriptor[] = [];
+
+  // State updated when structural changes to the single view may occur.
+  // (e.g., when changing the type or project context).
+  public resourceContextChange = input<ResourceContextChange>();
+
+  // Project context as an indicator
+  // when editing the work package in a different project
   public projectContext:{
     matches:boolean,
     href:string | null,
@@ -108,12 +121,17 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
       this.workPackage.attachments.updateElements();
     }
 
-    this.wpEditing.temporaryEditResource(this.workPackage.id)
+    // Whenever the resource context changes in any way,
+    // update the visible fields.
+    this.resourceContextChange
       .values$()
       .pipe(
-        takeUntil(componentDestroyed(this))
+        takeUntil(componentDestroyed(this)),
+        distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
+        map(() => this.wpEditing.temporaryEditResource(this.workPackage.id).value!)
       )
       .subscribe((resource:WorkPackageResourceInterface) => {
+
         // Prepare the fields that are required always
         const isNew = this.workPackage.isNew;
 
@@ -130,30 +148,19 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
           this.projectContext.field = this.getFields(resource, ['project']);
         }
 
-        // Get attribute groups if they are available (in project context)
         const attributeGroups = resource.schema._attributeGroups;
+        this.groupedFields = this.rebuildGroupedFields(resource, attributeGroups);
+      });
 
-        if (!attributeGroups) {
-          this.groupedFields = [];
-          return;
-        }
-
-        this.groupedFields = attributeGroups.map((group:any) => {
-          if (group._type === 'WorkPackageFormAttributeGroup') {
-            return {
-              name: group.name,
-              members: this.getFields(resource, group.attributes),
-              type: group._type
-            };
-          } else {
-            return {
-              name: group.name,
-              query: group._embedded.query,
-              members: [group._embedded.query],
-              type: group._type
-            };
-          }
-        });
+    // Update the resource context on every update to the temporary resource.
+    // This allows detecting a changed type value in a new work package.
+    this.wpEditing.temporaryEditResource(this.workPackage.id)
+      .values$()
+      .pipe(
+        takeUntil(componentDestroyed(this))
+      )
+      .subscribe((resource:WorkPackageResourceInterface) => {
+        this.resourceContextChange.putValue(this.contextFrom(resource));
       });
   }
 
@@ -192,6 +199,34 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     let projectPath = this.PathHelper.projectPath(id);
     let project = `<a href="${projectPath}">${this.workPackage.project.name}<a>`;
     return this.I18n.t('js.project.work_package_belongs_to', {projectname: project});
+  }
+
+  /**
+   *
+   * @param attributeGroups
+   * @returns {any}
+   */
+  private rebuildGroupedFields(resource:WorkPackageResourceInterface, attributeGroups:any) {
+    if (!attributeGroups) {
+      return [];
+    }
+
+    return attributeGroups.map((group:any) => {
+      if (group._type === 'WorkPackageFormAttributeGroup') {
+        return {
+          name: group.name,
+          members: this.getFields(resource, group.attributes),
+          type: group._type
+        };
+      } else {
+        return {
+          name: group.name,
+          query: group._embedded.query,
+          members: [group._embedded.query],
+          type: group._type
+        };
+      }
+    });
   }
 
   /**
@@ -245,6 +280,34 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     }
 
     return object;
+  }
+
+  /**
+   * Get the current resource context change from the WP resource.
+   * Used to identify changes in the schema or project that may result in visual changes
+   * to the single view.
+   *
+   * @param {WorkPackageResourceInterface} resource
+   * @returns {SchemaContext}
+   */
+  private contextFrom(resource:WorkPackageResourceInterface):ResourceContextChange {
+    let schema = resource.schema;
+
+    let schemaHref:string|null = null;
+    let projectHref:string|null = resource.project.href;
+
+    if (schema.baseSchema) {
+      schemaHref = schema.baseSchema.href;
+    } else {
+      schemaHref = schema.href;
+    }
+
+
+    return {
+      isNew: resource.isNew,
+      schema: schemaHref,
+      project: projectHref
+    };
   }
 
   private displayField(resource:WorkPackageResourceInterface, name:string):DisplayField {
