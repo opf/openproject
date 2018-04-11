@@ -409,7 +409,7 @@ GEM
     rack (2.0.4)
     rack-accept (0.4.5)
       rack (>= 0.4)
-    rack-attack (5.0.1)
+    rack-attack (5.2.0)
       rack
     rack-protection (2.0.1)
       rack
@@ -684,7 +684,7 @@ DEPENDENCIES
   pry-rescue (~> 1.4.5)
   pry-stack_explorer (~> 0.4.9.2)
   rabl (~> 0.13.0)
-  rack-attack (~> 5.0.1)
+  rack-attack (~> 5.2.0)
   rack-protection (~> 2.0.0)
   rack-test (~> 0.6.3)
   rack_session_access
