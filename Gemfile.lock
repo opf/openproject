@@ -577,7 +577,7 @@ GEM
       rails (>= 5.0.4)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2017.2)
+    tzinfo-data (1.2018.4)
       tzinfo (>= 1.0.0)
     uber (0.0.15)
     unf (0.1.4)
@@ -728,7 +728,7 @@ DEPENDENCIES
   timecop (~> 0.9.0)
   transactional_lock!
   typed_dag (~> 2.0.2)
-  tzinfo-data (~> 1.2017.2)
+  tzinfo-data (~> 1.2018.4)
   unicorn
   unicorn-worker-killer
   warden (~> 1.2)
