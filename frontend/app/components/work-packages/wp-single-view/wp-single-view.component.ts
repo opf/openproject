@@ -294,7 +294,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     let schema = resource.schema;
 
     let schemaHref:string|null = null;
-    let projectHref:string|null = resource.project.href;
+    let projectHref:string|null = resource.project && resource.project.href;
 
     if (schema.baseSchema) {
       schemaHref = schema.baseSchema.href;
