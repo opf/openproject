@@ -81,6 +81,7 @@ module Pages
     end
 
     def ensure_page_loaded
+      expect_angular_frontend_initialized
       expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
                                     text: work_package.journals.last.user.name,
                                     minimum: 1,
@@ -184,12 +185,12 @@ module Pages
         cf = CustomField.find $1
 
         if cf.field_format == 'text'
-          WorkPackageTextAreaField.new page, key
+          WorkPackageEditorField.new page, key
         else
           WorkPackageField.new page, key
         end
       elsif key == :description
-        WorkPackageTextAreaField.new page, key
+        WorkPackageEditorField.new page, key
       elsif key == :status
         WorkPackageStatusField.new page
       else

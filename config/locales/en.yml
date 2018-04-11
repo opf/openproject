@@ -2029,6 +2029,11 @@ en:
     session: "Session"
     brute_force_prevention: "Automated user blocking"
 
+  text_formatting:
+    textile: 'Textile'
+    markdown: 'Markdown'
+    plain: 'Plain text'
+
   show_hide_project_menu: "Expand/Collapse project menu"
 
   status_active: "active"

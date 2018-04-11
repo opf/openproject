@@ -38,6 +38,8 @@ export class WorkPackageResizerController {
   public elementClass:string;
   public localStorageKey:string;
 
+  public moving:boolean = false;
+
   constructor(public $element:ng.IAugmentedJQuery) {
   }
 
@@ -79,6 +81,8 @@ export class WorkPackageResizerController {
       // Gettig starting position
       this.oldPosition = e.clientX;
 
+      this.moving = true;
+
       // Necessary to encapsulate this to be able to remove the eventlistener later
       this.mouseMoveHandler = this.resizeElement.bind(this, this.resizingElement);
 
@@ -93,7 +97,11 @@ export class WorkPackageResizerController {
     }
   }
 
-  private handleMouseUp(e:MouseEvent) {
+  private handleMouseUp(e:MouseEvent):boolean {
+    if (!this.moving) {
+      return true;
+    }
+
     // Disable mouse move
     window.removeEventListener('mousemove', this.mouseMoveHandler);
 
@@ -108,9 +116,13 @@ export class WorkPackageResizerController {
       this.elementFlex = parseInt(localStorageValue, 10);
     }
 
+    this.moving = false;
+
     // Send a event that we resized this element
     const event = new Event(this.resizeEvent);
     window.dispatchEvent(event);
+
+    return false;
   }
 
   private resizeElement(element:HTMLElement, e:MouseEvent) {

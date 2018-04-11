@@ -124,7 +124,7 @@ module RepositoriesHelper
         path_param = without_leading_slash(to_path_param(@repository.relative_path(file)))
         text = link_to(h(text),
                        show_revisions_path_project_repository_path(project_id: @project,
-                                                                   path: path_param,
+                                                                   repo_path: path_param,
                                                                    rev: @changeset.identifier),
                        title: l(:label_folder))
 
@@ -139,7 +139,7 @@ module RepositoriesHelper
 
           text = link_to(h(text),
                          entry_revision_project_repository_path(project_id: @project,
-                                                                path: path_param,
+                                                                repo_path: path_param,
                                                                 rev: @changeset.identifier),
                          title: title_text)
         end
@@ -149,7 +149,7 @@ module RepositoriesHelper
         if c.action == 'M'
           text << raw(' (' + link_to(l(:label_diff),
                                      diff_revision_project_repository_path(project_id: @project,
-                                                                           path: path_param,
+                                                                           repo_path: path_param,
                                                                            rev: @changeset.identifier)) + ') ')
         end
 

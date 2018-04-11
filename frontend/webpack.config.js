@@ -30,7 +30,9 @@ var getWebpackMainConfig = require('./webpack-main-config');
 var getWebpackTestConfig = require('./webpack-test-config');
 
 module.exports = function(env) {
-    var configs = [getWebpackMainConfig()];
+    var configs = [
+      getWebpackMainConfig()
+    ];
 
     if (env && env.testconfig) {
         console.log("Adding test config to build");

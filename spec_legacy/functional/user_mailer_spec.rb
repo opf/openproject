@@ -102,55 +102,11 @@ describe UserMailer, type: :mailer do
     end
   end
 
-  it 'should generated links with prefix' do
-    Setting.default_language = 'en'
-    Setting.host_name = 'mydomain.foo/rdm'
-    Setting.protocol = 'http'
-
-    project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
-
-    assert UserMailer.work_package_updated(user, journal).deliver_now
-    assert last_email
-
-    assert_select_email do
-      # link to the main ticket
-      assert_select 'a[href=?]',
-                    "http://mydomain.foo/rdm/work_packages/#{issue.id}",
-                    text: "My Type ##{issue.id}: My awesome Ticket"
-      # link to a description diff
-      assert_select 'li', text: /Description changed/
-      assert_select 'li>a[href=?]',
-                    "http://mydomain.foo/rdm/journals/#{journal.id}/diff/description",
-                    text: 'Details'
-      # link to a referenced ticket
-      assert_select 'a[href=?][title=?]',
-                    "http://mydomain.foo/rdm/work_packages/#{related_issue.id}",
-                    "My related Ticket (#{related_issue.status})",
-                    text: "##{related_issue.id}"
-      # link to a changeset
-      if changeset
-        assert_select 'a[href=?][title=?]',
-                      url_for(controller: 'repositories',
-                              action: 'revision',
-                              project_id: project,
-                              rev: changeset.revision),
-                      'This commit fixes #1, #2 and references #1 and #3',
-                      text: "r#{changeset.revision}"
-      end
-      # link to an attachment
-      assert_select 'a[href=?]',
-                    "http://mydomain.foo/rdm/attachments/#{attachment.id}/#{attachment.filename}",
-                    text: "#{attachment.filename}"
-    end
-  end
-
-  it 'should generated links with prefix and no relative url root' do
-    begin
+  context 'with prefix', with_config: { rails_relative_url_root: '/rdm' } do
+    it 'should generated links with prefix and relative url root' do
       Setting.default_language = 'en'
-      relative_url_root = OpenProject::Configuration['rails_relative_url_root']
-      Setting.host_name = 'mydomain.foo/rdm'
+      Setting.host_name = 'mydomain.foo'
       Setting.protocol = 'http'
-      OpenProject::Configuration['rails_relative_url_root'] = nil
 
       project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
@@ -176,6 +132,7 @@ describe UserMailer, type: :mailer do
         if changeset
           assert_select 'a[href=?][title=?]',
                         url_for(controller: 'repositories',
+                                script_name: '/rdm',
                                 action: 'revision',
                                 project_id: project,
                                 rev: changeset.revision),
@@ -187,9 +144,6 @@ describe UserMailer, type: :mailer do
                       "http://mydomain.foo/rdm/attachments/#{attachment.id}/#{attachment.filename}",
                       text: "#{attachment.filename}"
       end
-    ensure
-      # restore it
-      OpenProject::Configuration['rails_relative_url_root'] = relative_url_root
     end
   end
 

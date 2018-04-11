@@ -47,8 +47,6 @@ gem 'request_store', '~> 1.3.1'
 gem 'warden', '~> 1.2'
 gem 'warden-basic_auth', '~> 0.2.1'
 
-# TODO: adds #auto_link which was deprecated in rails 3.1
-gem 'rails_autolink', '~> 1.1.6'
 gem 'will_paginate', '~> 3.1.0'
 
 gem 'friendly_id', '~> 5.2.1'
@@ -70,6 +68,17 @@ gem 'htmldiff'
 
 # Generate url slugs with #to_url and other string niceties
 gem 'stringex', '~> 2.7.1'
+
+# CommonMark markdown parser with GFM extension
+gem 'commonmarker', '~> 0.17.8'
+# HTML pipeline for transformations on text formatter output
+# such as sanitization or additional features
+gem 'html-pipeline', '~> 2.7.1'
+# HTML sanitization used for html-pipeline
+gem 'sanitize', '~> 4.5.0'
+# HTML autolinking for mails and urls (replaces autolink)
+gem 'rinku', '~> 2.0.4'
+
 
 # generates SVG Graphs
 # used for statistics on svn repositories
@@ -239,7 +248,7 @@ group :development, :test do
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
   gem 'pry-rescue', '~> 1.4.5'
-  gem 'pry-byebug', '~> 3.4.2', platforms: [:mri]
+  gem 'pry-byebug', '~> 3.6.0', platforms: [:mri]
   gem 'bootsnap', '~> 1.1.2', require: false
 end
 

@@ -207,7 +207,7 @@ RAW
                           { controller: 'repositories',
                             action: 'entry',
                             project_id: identifier,
-                            path: 'some/file' },
+                            repo_path: 'some/file' },
                           class: 'source')
     changeset_link = link_to("#{identifier}:r#{changeset.revision}",
                              { controller: 'repositories',

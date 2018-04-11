@@ -132,23 +132,6 @@ describe('workPackageCommentDirectiveTest', function() {
         var readvalue = commentSection.find('.inplace-edit--read-value > span');
         expect(readvalue.text().trim()).to.equal('trans_title');
       });
-
-      describe('when clicking the inplace edit', function() {
-        beforeEach(function() {
-          commentSection.find('.inplace-editing--trigger-link').click();
-        });
-
-        it.skip('does not allow sending comment with an empty message', function() {
-          var saveButton = commentSection.find('.inplace-edit--control--save');
-          var commentField = commentSection.find('textarea').click();
-
-          expect(saveButton.attr('disabled')).to.eq('disabled');
-
-          commentField.val('a useful comment');
-          commentField.trigger('change');
-          expect(saveButton.attr('disabled')).to.be.undefined;
-        });
-      });
     });
   });
 });

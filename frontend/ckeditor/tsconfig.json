@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "ES6",
+    "moduleResolution": "node",
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "noEmitOnError": false,
+    // Increase strictness
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "core-components/*": ["../app/components/*"],
+      "op-ckeditor/*": ["./*"]
+    }
+  },
+  "compileOnSave": false,
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -36,13 +36,11 @@ module ApplicationHelper
   include OpenProject::ObjectLinking
   include OpenProject::SafeParams
   include I18n
+  include ERB::Util
   include Redmine::I18n
   include HookHelper
   include IconsHelper
   include AdditionalUrlHelpers
-
-  extend Forwardable
-  def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action, project: @project)

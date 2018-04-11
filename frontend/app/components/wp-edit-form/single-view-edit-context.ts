@@ -94,6 +94,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
           ctrl.editContainer.show();
           // Assure the element is visible
           setTimeout(() => {
+            field.$onInit(container);
             resolve(fieldHandler);
           });
         })

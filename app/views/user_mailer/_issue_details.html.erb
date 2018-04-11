@@ -50,4 +50,4 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
 </ul>
 
-<%= format_text(issue.description, only_path: false, object: issue, project: issue.project) %>
+<%= format_text(issue.description, attribute: :description, only_path: false, object: issue, project: issue.project) %>
