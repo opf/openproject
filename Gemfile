@@ -191,8 +191,8 @@ group :test do
   # and other niceties
   gem 'test-prof', '~> 0.4.0'
 
-  gem 'cucumber', '~> 3.0.0'
-  gem 'cucumber-rails', '~> 1.5.0', require: false
+  #gem 'cucumber', '~> 3.0.0'
+  #gem 'cucumber-rails', '~> 1.5.0', require: false
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
   # not possible to upgrade to 3.6+ until rails is 5.1+
@@ -211,8 +211,8 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 2.18.0'
-  gem 'capybara-screenshot', '~> 1.0.14'
+  gem 'capybara', '~> 3.0.0'
+  gem 'capybara-screenshot', '~> 1.0.19'
   gem 'fuubar', '~> 2.3.1'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'selenium-webdriver', '~> 3.11'
