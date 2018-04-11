@@ -99,7 +99,9 @@ class WorkPackages::BulkController < ApplicationController
   def destroy_work_packages(work_packages)
     work_packages.each do |work_package|
       begin
-        work_package.reload.destroy
+        WorkPackages::DestroyService
+          .new(user: current_user, work_package: work_package.reload)
+          .call
       rescue ::ActiveRecord::RecordNotFound
         # raised by #reload if work package no longer exists
         # nothing to do, work package was already deleted (eg. by a parent)
