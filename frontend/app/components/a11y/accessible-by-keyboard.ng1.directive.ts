@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,38 +23,37 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+import {opUiComponentsModule} from 'core-app/angular-modules';
 
-describe('accessibleByKeyboard Directive', function() {
-  var compile, element, rootScope, scope;
-
-  beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(angular.mock.module('openproject.templates'));
-
-  beforeEach(inject(function($rootScope, $compile) {
-    var html =
-      '<accessible-by-keyboard link-class="blue"></accessible-by-keyboard>';
-
-    element = angular.element(html);
-    rootScope = $rootScope;
-    scope = $rootScope.$new();
-
-    compile = function() {
-      $compile(element)(scope);
-      scope.$digest();
+opUiComponentsModule.directive(
+  'accessibleByKeyboard',
+  function() {
+    return {
+      restrict: 'E',
+      transclude: true,
+      scope: {
+        execute: '&',
+        isDisabled: '=',
+        linkClass: '@',
+        linkTitle: '@',
+        spanClass: '@',
+        linkAriaLabel: '@'
+      },
+      template: `
+      <a data-ng-click='isDisabled || execute({ "$event": $event })'
+         role="link"
+         class='{{ linkClass }}'
+         ng-disabled="isDisabled"
+         title='{{ linkTitle }}'
+         aria-label="{{ linkAriaLabel }}"
+         data-click-on-keypress="[13, 32]"
+         href>
+         <span ng-transclude class='{{ spanClass }}'></span>
+      </a>
+      `
     };
-  }));
-
-  describe('inner element', function() {
-    beforeEach(function() {
-      compile();
-    });
-
-    it('should render an inner link with specified class', function() {
-      expect(element.find('a').hasClass('blue')).to.be.true;
-    });
-  });
-});
+  }
+);
