@@ -213,7 +213,7 @@ group :test do
 
   gem 'capybara', '~> 2.18.0'
   gem 'capybara-screenshot', '~> 1.0.14'
-  gem 'fuubar', '~> 2.2.0'
+  gem 'fuubar', '~> 2.3.1'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'selenium-webdriver', '~> 3.11'
   gem 'timecop', '~> 0.9.0'
