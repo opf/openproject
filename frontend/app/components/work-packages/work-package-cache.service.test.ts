@@ -28,7 +28,7 @@
 
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 
-require('../../angular4-test-setup');
+require('core-app/angular4-test-setup');
 
 import {
   WorkPackageResource,

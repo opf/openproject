@@ -26,18 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {
-  Component,
-  Directive,
-  ElementRef,
-  EventEmitter,
-  Injector,
-  Input,
-  Output
-} from '@angular/core';
-import {downgradeComponent, UpgradeComponent} from '@angular/upgrade/static';
-import {opUiComponentsModule} from 'core-app/angular-modules';
-import {EventHandlerVars} from '@angular/compiler/src/compiler_util/expression_converter';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'accessible-by-keyboard',
@@ -72,8 +61,3 @@ export class AccessibleByKeyboardComponent {
     return false;
   }
 }
-
-opUiComponentsModule.directive(
-  'accessibleByKeyboard',
-  downgradeComponent({ component: AccessibleByKeyboardComponent })
-);

@@ -28,7 +28,7 @@
 
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 
-require('../../../angular4-test-setup');
+require('core-app/angular4-test-setup');
 
 import {async, inject, TestBed} from '@angular/core/testing';
 import {$httpToken, $qToken, halResourceFactoryToken, I18nToken, v3PathToken} from 'core-app/angular4-transition-utils';
