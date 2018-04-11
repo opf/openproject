@@ -144,8 +144,12 @@ class Relation < ActiveRecord::Base
   end
 
   def self.from_work_package_or_ancestors(work_package)
-    where(from_id: work_package.ancestors_relations.select(:from_id))
-      .or(where(from_id: work_package.id))
+    ancestor_or_self_ids = work_package
+                           .ancestors_relations
+                           .or(where(from_id: work_package.id))
+                           .select(:from_id)
+
+    where(from_id: ancestor_or_self_ids)
   end
 
   def self.from_parent_to_self_and_descendants(work_package)
