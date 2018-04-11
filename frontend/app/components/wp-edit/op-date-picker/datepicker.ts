@@ -80,7 +80,6 @@ export class DatePicker {
   private hideDuringScroll() {
     let reshowTimeout:any = null;
     let scrollParent = this.datepickerCont.scrollParent();
-    let visibleAndActive = jQuery.proxy(this.visibleAndActive, this);
 
     scrollParent.scroll(() => {
       this.datepickerInstance.datepicker('hide');
@@ -88,7 +87,11 @@ export class DatePicker {
         clearTimeout(reshowTimeout);
       }
 
-      reshowTimeout = setTimeout(() => this.datepickerInstance.datepicker('show'), 50);
+      reshowTimeout = setTimeout(() => {
+        if (this.visibleAndActive()) {
+          this.datepickerInstance.datepicker('show');
+        }
+      }, 50);
     });
   }
 
