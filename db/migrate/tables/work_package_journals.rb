@@ -28,16 +28,32 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::WorkPackageJournals < Tables::Base
+  # rubocop:disable Metrics/AbcSize
+  def self.table(migration)
+    create_table migration do |t|
+      t.integer :journal_id, null: false
+      t.integer :type_id, default: 0, null: false
+      t.integer :project_id, default: 0, null: false
+      t.string :subject, default: '', null: false
+      t.text :description
+      t.date :due_date
+      t.integer :category_id
+      t.integer :status_id, default: 0, null: false
+      t.integer :assigned_to_id
+      t.integer :priority_id, default: 0, null: false
+      t.integer :fixed_version_id
+      t.integer :author_id, default: 0, null: false
+      t.integer :done_ratio, default: 0, null: false
+      t.float :estimated_hours
+      t.date :start_date
+      t.integer :parent_id
+      t.integer :responsible_id
+
+      t.index [:journal_id]
+    end
+    # rubocop:enable Metrics/AbcSize
+  end
+end

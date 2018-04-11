@@ -28,16 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+module Aggregated; end
 
-require 'csv'
+class Aggregated::Base
+  def self.migrations
+    raise NotImplementedError
+  end
+
+  def self.normalized_migrations
+    migrations.split.map do |m|
+      m.gsub(/_.*\z/, '').to_i
+    end
+  end
+end

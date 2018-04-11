@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,16 +26,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::MemberRoles < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.integer :member_id, null: false
+      t.integer :role_id, null: false
+      t.integer :inherited_from
+
+      t.index :member_id, name: 'index_member_roles_on_member_id'
+      t.index :role_id, name: 'index_member_roles_on_role_id'
+      t.index :inherited_from
+    end
+  end
+end

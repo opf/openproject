@@ -28,16 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::GroupUsers < Tables::Base
+  def self.id_options
+    { id: false }
+  end
+
+  def self.table(migration)
+    create_table migration do |t|
+      t.integer :group_id, null: false
+      t.integer :user_id, null: false
+
+      t.index %i(group_id user_id), name: :group_user_ids, unique: true
+    end
+  end
+end

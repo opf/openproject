@@ -28,16 +28,21 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::ChangesetsWorkPackages < Tables::Base
+  def self.id_options
+    { id: false }
+  end
+
+  def self.table(migration)
+    create_table migration do |t|
+      t.integer :changeset_id, null: false
+      t.integer :work_package_id, null: false
+
+      t.index %i[changeset_id work_package_id],
+              unique: true,
+              name: :changesets_work_packages_ids
+    end
+  end
+end

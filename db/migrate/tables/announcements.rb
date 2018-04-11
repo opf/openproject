@@ -28,16 +28,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::Announcements < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.text :text
+      t.date :show_until
+      t.boolean :active, default: false
+      t.timestamps null: true # compatibility to pre 5.1 migrations
+
+      t.index %i[show_until active]
+    end
+  end
+end

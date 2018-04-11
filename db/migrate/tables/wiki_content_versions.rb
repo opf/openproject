@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,16 +26,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::WikiContentVersions < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.integer :wiki_content_id, null: false
+      t.integer :page_id, null: false
+      t.integer :author_id
+      t.binary :data, limit: 16.megabytes
+      t.string :compression, limit: 6, default: ''
+      t.string :comments, default: ''
+      t.datetime :updated_on, null: false
+      t.integer :version, null: false
+
+      t.index :updated_on, name: 'index_wiki_content_versions_on_updated_on'
+      t.index :wiki_content_id, name: 'wiki_content_versions_wcid'
+    end
+  end
+end

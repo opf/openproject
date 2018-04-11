@@ -177,7 +177,6 @@ class Setting < ActiveRecord::Base
     @@available_settings.has_key?(name)
   end
 
-  # this should be fixed with globalize plugin
   [:emails_header, :emails_footer].each do |mail|
     src = <<-END_SRC
     def self.localized_#{mail}

@@ -28,16 +28,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::MessageJournals < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.integer :journal_id, null: false
+      t.integer :board_id, null: false
+      t.integer :parent_id
+      t.string :subject, default: '', null: false
+      t.text :content
+      t.integer :author_id
+      t.integer :replies_count, default: 0, null: false
+      t.integer :last_reply_id
+      t.boolean :locked, default: false
+      t.integer :sticky, default: 0
+
+      t.index [:journal_id]
+    end
+  end
+end

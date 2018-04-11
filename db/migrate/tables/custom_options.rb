@@ -28,16 +28,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::CustomOptions < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.integer :custom_field_id
+      t.integer :position
+      t.boolean :default_value
+      t.text :value
+      t.datetime :created_at
+      t.datetime :updated_at
+    end
+  end
+end

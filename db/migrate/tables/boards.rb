@@ -28,16 +28,21 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::Boards < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.integer :project_id, null: false
+      t.string :name, default: '', null: false
+      t.string :description
+      t.integer :position, default: 1
+      t.integer :topics_count, default: 0, null: false
+      t.integer :messages_count, default: 0, null: false
+      t.integer :last_message_id
+
+      t.index :last_message_id, name: 'index_boards_on_last_message_id'
+      t.index :project_id, name: 'boards_project_id'
+    end
+  end
+end

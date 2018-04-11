@@ -28,16 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::EnabledModules < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.integer :project_id
+      t.string :name, null: false
+
+      t.index :project_id, name: 'enabled_modules_project_id'
+      t.index :name, length: 8
+    end
+  end
+end

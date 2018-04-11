@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,16 +26,30 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::Projects < Tables::Base
+  # rubocop:disable Metrics/AbcSize
+  def self.table(migration)
+    create_table migration do |t|
+      t.string :name, default: '', null: false
+      t.text :description
+      t.boolean :is_public, default: true, null: false
+      t.integer :parent_id
+      t.datetime :created_on
+      t.datetime :updated_on
+      t.string :identifier
+      t.integer :status, default: 1, null: false
+      t.integer :lft
+      t.integer :rgt
+      t.belongs_to :project_type, type: :int
+      t.belongs_to :responsible, type: :int
+      t.belongs_to :work_packages_responsible, type: :int
+
+      t.index :lft, name: 'index_projects_on_lft'
+      t.index :rgt, name: 'index_projects_on_rgt'
+      t.index :identifier
+    end
+  end
+  # rubocop:enable Metrics/AbcSize
+end

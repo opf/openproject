@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,16 +26,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::News < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.integer :project_id
+      t.string :title, limit: 60, default: '', null: false
+      t.string :summary, default: ''
+      t.text :description
+      t.integer :author_id, default: 0, null: false
+      t.datetime :created_on
+      t.integer :comments_count, default: 0, null: false
+
+      t.index :author_id, name: 'index_news_on_author_id'
+      t.index :created_on, name: 'index_news_on_created_on'
+      t.index :project_id, name: 'news_project_id'
+      t.index %i[project_id created_on]
+    end
+  end
+end

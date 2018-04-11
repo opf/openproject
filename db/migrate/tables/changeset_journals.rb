@@ -28,16 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::ChangesetJournals < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.integer :journal_id, null: false
+      t.integer :repository_id, null: false
+      t.string :revision, null: false
+      t.string :committer
+      t.datetime :committed_on, null: false
+      t.text :comments
+      t.date :commit_date
+      t.string :scmid
+      t.integer :user_id
+
+      t.index [:journal_id]
+    end
+  end
+end

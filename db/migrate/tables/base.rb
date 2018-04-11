@@ -28,16 +28,26 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+module Tables; end
 
-require 'csv'
+class Tables::Base
+  def self.create(migration)
+    table(migration)
+  end
+
+  def self.table_name
+    name.demodulize.underscore.to_s
+  end
+
+  def self.id_options
+    { id: :integer }
+  end
+
+  def self.create_table(migration, &block)
+    migration.create_table table_name, id_options.merge(bulk: true), &block
+  end
+
+  def self.table(_migration)
+    raise NotImplementedError
+  end
+end

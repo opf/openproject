@@ -28,16 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::CustomFieldsProjects < Tables::Base
+  def self.id_options
+    { id: false }
+  end
+
+  def self.table(migration)
+    create_table migration do |t|
+      t.integer :custom_field_id, default: 0, null: false
+      t.integer :project_id, default: 0, null: false
+
+      t.index %i[custom_field_id project_id],
+              name: 'index_custom_fields_projects_on_custom_field_id_and_project_id'
+    end
+  end
+end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,16 +26,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::Tokens < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.integer :user_id, default: 0, null: false
+      t.string :action, limit: 30, default: '', null: false
+      t.string :value, limit: 40, default: '', null: false
+      t.datetime :created_on, null: false
+
+      t.index :user_id, name: 'index_tokens_on_user_id'
+    end
+  end
+end

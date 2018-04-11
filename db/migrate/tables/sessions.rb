@@ -28,16 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::Sessions < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.string :session_id, null: false
+      t.text :data
+      t.timestamps null: true
+      t.belongs_to :user, type: :int, index: false
+
+      t.index :session_id
+      t.index :updated_at
+    end
+  end
+end

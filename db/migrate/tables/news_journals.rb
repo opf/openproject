@@ -28,16 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::NewsJournals < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.integer :journal_id, null: false
+      t.integer :project_id
+      t.string :title, limit: 60, default: '', null: false
+      t.string :summary, default: ''
+      t.text :description
+      t.integer :author_id, default: 0, null: false
+      t.integer :comments_count, default: 0, null: false
+
+      t.index [:journal_id]
+    end
+  end
+end

@@ -28,16 +28,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'redmine/menu_manager'
-require 'redmine/activity'
-require 'redmine/search'
-require 'open_project/custom_field_format'
-require 'redmine/mime_type'
-require 'redmine/core_ext'
-require 'open_project/design'
-require 'redmine/hook'
-require 'open_project/hooks'
-require 'redmine/plugin'
-require 'redmine/notifiable'
+require_relative 'base'
 
-require 'csv'
+class Tables::Journals < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.references :journable, polymorphic: true, index: false, type: :int
+      t.integer :user_id, default: 0, null: false
+      t.text :notes
+      t.datetime :created_at, null: false
+      t.integer :version, default: 0, null: false
+      t.string :activity_type
+
+      t.index :journable_id
+      t.index :created_at
+      t.index :journable_type
+      t.index :user_id
+      t.index :activity_type
+      t.index %i[journable_type journable_id version], unique: true
+    end
+  end
+end
