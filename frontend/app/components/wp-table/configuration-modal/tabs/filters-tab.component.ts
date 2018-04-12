@@ -3,13 +3,14 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
 import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
+import {WorkPackageTableFilters} from 'core-components/wp-fast-table/wp-table-filters';
 
 @Component({
   template: require('!!raw-loader!./filters-tab.component.html')
 })
 export class WpTableConfigurationFiltersTab implements TabComponent {
 
-  public filters = _.cloneDeep(this.wpTableFilters.currentState);
+  public filters:WorkPackageTableFilters|undefined;
   public eeShowBanners:boolean = false;
 
   public text = {
@@ -29,9 +30,14 @@ export class WpTableConfigurationFiltersTab implements TabComponent {
 
   ngOnInit() {
     this.eeShowBanners = angular.element('body').hasClass('ee-banners-visible');
+    this.wpTableFilters
+      .onReady()
+      .then(() => this.filters = _.cloneDeep(this.wpTableFilters.currentState));
   }
 
   public onSave() {
-    this.wpTableFilters.replaceIfComplete(this.filters);
+    if (this.filters) {
+      this.wpTableFilters.replaceIfComplete(this.filters);
+    }
   }
 }

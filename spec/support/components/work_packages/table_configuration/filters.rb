@@ -28,69 +28,39 @@
 
 module Components
   module WorkPackages
-    class TableConfigurationModal
-      include Capybara::DSL
-      include RSpec::Matchers
+    module TableConfiguration
+      class Filters < ::Components::WorkPackages::Filters
 
-      def self.do_and_save
-        new.tap do |modal|
-          yield modal
+        attr_reader :modal
+
+        def initialize
+          @modal = ::Components::WorkPackages::TableConfigurationModal.new
+        end
+
+        def open
+          modal.open!
+          expect_open
+        end
+
+        def save
           modal.save
         end
-      end
 
-      def open_and_switch_to(name)
-        open!
-        switch_to(name)
-      end
-
-      def open_and_set_display_mode(mode)
-        open_and_switch_to 'Display settings'
-        choose("display_mode_switch", option: mode)
-      end
-
-      def open!
-        scroll_to_and_click trigger
-        expect_open
-      end
-
-      def set_display_sums(enable: true)
-        open_and_switch_to 'Display settings'
-
-        if enable
-          check 'display_sums_switch'
-        else
-          uncheck 'display_sums_switch'
+        def expect_filter_count(count)
+          within(modal.selector) do
+            expect(page).to have_selector('.advanced-filters--filter', count: count)
+          end
         end
-        save
+
+        def expect_open
+          modal.expect_open
+          expect(page).to have_selector('.tab-show.selected', text: 'Filters')
+        end
+
+        def expect_closed
+          modal.expect_closed
+        end
       end
-
-      def save
-        find("#{selector} .button.-highlight").click
-      end
-
-      def expect_open
-        expect(page).to have_selector(selector)
-      end
-
-      def expect_closed
-        expect(page).to have_no_selector(selector)
-      end
-
-      def switch_to(target)
-        find("#{selector} .tab-show", text: target).click
-      end
-
-      def selector
-        '.wp-table--configuration-modal'
-      end
-
-      private
-
-      def trigger
-        find('.wp-table--configuration-modal--trigger')
-      end
-
     end
   end
 end
