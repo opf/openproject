@@ -4,7 +4,6 @@ Chromedriver.set_version "2.37"
 def register_chrome_headless(language)
   name = :"chrome_headless_#{language}"
 
-
   Capybara.register_driver name do |app|
     options = Selenium::WebDriver::Chrome::Options.new
 
