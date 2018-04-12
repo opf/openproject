@@ -88,7 +88,7 @@ import {
   timelinesModalToken,
   TimezoneServiceToken,
   upgradeService,
-  upgradeServiceWithToken,
+  upgradeServiceWithToken, UrlParamsHelperServiceToken,
   UrlParamsHelperToken,
   v3PathToken,
   wpDestroyModalToken,
@@ -192,6 +192,8 @@ import {WpRelationAddChildComponent} from 'core-components/wp-relations/wp-relat
 import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relations-parent/wp-relations-parent.component';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 import {QueryFormDmService} from 'core-app/modules/dm-services/query-form-dm.service';
+import {WorkPackageFormQueryGroupComponent} from 'core-components/wp-form-group/wp-query-group.component';
+import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
 
 @NgModule({
   imports: [
@@ -232,6 +234,7 @@ import {QueryFormDmService} from 'core-app/modules/dm-services/query-form-dm.ser
     upgradeServiceWithToken('settingsModal', settingsModalToken),
     upgradeServiceWithToken('exportModal', exportModalToken),
     upgradeServiceWithToken('timelinesModal', timelinesModalToken),
+    upgradeServiceWithToken('UrlParamsHelper', UrlParamsHelperServiceToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     WorkPackageCacheService,
     WorkPackageEditingService,
@@ -344,6 +347,8 @@ import {QueryFormDmService} from 'core-app/modules/dm-services/query-form-dm.ser
     OpDateTimeUpgradedDirective,
     UserLinkUpgradedComponent,
     ClickOnKeypressComponent,
+    WorkPackageFormQueryGroupComponent,
+    WorkPackageFormAttributeGroupComponent,
 
     // Activity Tab
     NewestActivityOnOverviewComponent,

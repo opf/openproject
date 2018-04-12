@@ -9,29 +9,3 @@
 
     <wp-relation-parent [workPackage]="workPackage"></wp-relation-parent>
 </div>
-<div class="wp-relations-hierarchy-section wp-relations-children-hierarchy">
-    <div class="attributes-group--header">
-        <div class="attributes-group--header-container">
-            <h3 class="attributes-group--header-text"
-                [textContent]="text.childrenHeadline">
-            </h3>
-        </div>
-    </div>
-
-    <wp-embedded-table #childrenEmbeddedTable
-                       [compactTableStyle]="true"
-                       [queryProps]="childrenQueryProps"
-                       [tableActions]="childrenTableActions"
-                       [configuration]="{ actionsColumnEnabled: true,
-                                          hierarchyToggleEnabled: false,
-                                          inlineCreateEnabled: false,
-                                          columnMenuEnabled: false,
-                                          contextMenuEnabled: false,
-                                          projectContext: false }" >
-    </wp-embedded-table>
-
-    <wp-relation-add-child
-            [workPackage]="workPackage"
-            (onAdded)="refreshTable()"
-            *ngIf="canModifyHierarchy && canHaveChildren"></wp-relation-add-child>
-</div>

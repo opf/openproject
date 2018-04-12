@@ -83,7 +83,7 @@ module Migration
       end
 
       def schema_migrations_table_name
-        ActiveRecord::Migrator.schema_migrations_table_name
+        ActiveRecord::SchemaMigration.table_name
       end
 
       def quoted_schema_migrations_table_name

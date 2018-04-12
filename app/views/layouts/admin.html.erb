@@ -27,8 +27,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% local_assigns[:additional_breadcrumb].nil? ? (breadcrumb_paths(link_to(l(:label_administration), controller: '/admin'),
-                     default_breadcrumb)) : (breadcrumb_paths(link_to(l(:label_administration), controller: '/admin'),
+<% local_assigns[:additional_breadcrumb].nil? ? (breadcrumb_paths(l(:label_administration),
+                     default_breadcrumb)) : (breadcrumb_paths(l(:label_administration),
                      default_breadcrumb, local_assigns[:additional_breadcrumb])) %>
 
 <% @page_header_title = l(:label_administration) %>

@@ -41,4 +41,3 @@ require 'redmine/plugin'
 require 'redmine/notifiable'
 
 require 'csv'
-require 'globalize'

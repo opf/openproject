@@ -40,7 +40,6 @@ gem 'coderay', '~> 1.1.2'
 gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'rdoc', '>= 2.4.2'
 
-gem 'globalize', '~> 5.1.0.beta2', require: false
 gem 'omniauth', git: 'https://github.com/oliverguenther/omniauth', ref: '40c6f5f751d2da7cce5444bbd96c390c450440a9'
 gem 'request_store', '~> 1.3.1'
 
@@ -121,7 +120,6 @@ gem 'okcomputer', '~> 1.16.0'
 gem 'rails-angular-xss', git: 'https://github.com/opf/rails-angular-xss', ref: '00b588b8b8b18c0f53fcb5232be1a2c34dbd1fac'
 
 gem 'gon', '~> 6.2.0'
-gem "syck", '~> 1.3.0', require: false
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured

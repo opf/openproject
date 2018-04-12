@@ -96,63 +96,14 @@
       </div>
     </div>
 
-    <div class="-columns-2">
-      <div class="attributes-key-value"
-           [ngClass]="{'-span-all-columns': descriptor.spanAll }"
-           *ngFor="let descriptor of group.members; trackBy:trackByName">
-        <ng-template [ngIf]="!shouldHideField(descriptor)">
-          <div
-              class="attributes-key-value--key"
-              *ngIf="!descriptor.multiple">
-            <wp-replacement-label [fieldName]="descriptor.name">
-              {{ descriptor.label }}
-              <span class="required"
-                    *ngIf="descriptor.field.required && descriptor.field.writable"> *</span>
-              <ng1-attribute-help-text-wrapper [attribute]="descriptor.name" [attributeScope]="'WorkPackage'"></ng1-attribute-help-text-wrapper>
-          </wp-replacement-label>
-          </div>
-          <div *ngIf="!descriptor.multiple"
-               class="attributes-key-value--value-container">
-
-            <wp-edit-field *ngIf="descriptor.field.isFormattable"
-                           class="wp-edit-formattable-field"
-                           [workPackageId]="workPackage.id"
-                           [fieldName]="descriptor.name">
-            </wp-edit-field>
-            <wp-edit-field *ngIf="!descriptor.field.isFormattable"
-                           [workPackageId]="workPackage.id"
-                           [fieldName]="descriptor.name"
-                           [ngClass]="descriptor.field.type === 'text' ? 'wp-edit-field--text' : '' ">
-            </wp-edit-field>
-          </div>
-          <div
-              class="attributes-key-value--key"
-              *ngIf="descriptor.multiple">
-            <wp-replacement-label [fieldName]="descriptor.name">
-              {{ descriptor.label }}
-              <ng1-attribute-help-text-wrapper [attribute]="descriptor.name" [attributeScope]="'WorkPackage'"></ng1-attribute-help-text-wrapper>
-            </wp-replacement-label>
-          </div>
-          <div
-              *ngIf="descriptor.multiple"
-              class="attributes-key-value--value-container -minimal">
-            <wp-edit-field [fieldName]="descriptor.fields[0].name"
-                           [workPackageId]="workPackage.id"
-                           [wrapperClasses]="'-small -shrink'"
-                           [displayPlaceholder]="text[descriptor.name][descriptor.fields[0].name]">
-            </wp-edit-field>
-
-            <span class="attributes-key-value--value-separator"></span>
-
-            <wp-edit-field [fieldName]="descriptor.fields[1].name"
-                           [workPackageId]="workPackage.id"
-                           [wrapperClasses]="'-small -shrink'"
-                           [displayPlaceholder]="text[descriptor.name][descriptor.fields[1].name]">
-            </wp-edit-field>
-          </div>
-        </ng-template>
-      </div>
-    </div>
+    <wp-attribute-group *ngIf="group.type === 'WorkPackageFormAttributeGroup'"
+                        [workPackage]="workPackage"
+                        [group]="group">
+    </wp-attribute-group>
+    <wp-query-group *ngIf="group.type === 'WorkPackageFormQueryGroup'"
+                    [workPackage]="workPackage"
+                    [group]="group">
+    </wp-query-group>
   </div>
 </div>
 
