@@ -569,6 +569,7 @@ describe WorkPackages::BulkController, type: :controller do
 
   describe '#destroy' do
     let(:params) { { 'ids' => '1', 'to_do' => 'blubs' } }
+    let(:service) { double('destroy wp service') }
 
     before do
       expect(controller).to receive(:find_work_packages) do
@@ -581,9 +582,18 @@ describe WorkPackages::BulkController, type: :controller do
     describe 'w/ the cleanup beeing successful' do
       before do
         expect(stub_work_package).to receive(:reload).and_return(stub_work_package)
-        expect(stub_work_package).to receive(:destroy)
 
-        expect(WorkPackage).to receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params['to_do']).and_return true
+        allow(WorkPackages::DestroyService)
+          .to receive(:new)
+          .with(user: user, work_package: stub_work_package)
+          .and_return(service)
+
+        expect(service)
+          .to receive(:call)
+
+        expect(WorkPackage)
+          .to receive(:cleanup_associated_before_destructing_if_required)
+          .with([stub_work_package], user, params['to_do']).and_return true
 
         as_logged_in_user(user) do
           delete :destroy, params: params
