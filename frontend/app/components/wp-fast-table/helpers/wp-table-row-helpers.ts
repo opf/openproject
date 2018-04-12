@@ -33,5 +33,3 @@ export function scrollTableRowIntoView(workPackageId:string):void {
     console.warn("Can't scroll row element into view: " + e);
   }
 }
-
-

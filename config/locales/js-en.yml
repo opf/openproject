@@ -357,6 +357,7 @@ en:
     timelines:
       gantt_chart: 'Gantt chart'
       labels:
+        title: 'Label configuration'
         bar: 'Bar labels'
         left: 'Left'
         right: 'Right'
@@ -540,7 +541,6 @@ en:
         group: "Group by"
         group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
         hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
-        hierarchy_mode: "Hierarchy mode"
         sort_ascending: "Sort ascending"
         sort_descending: "Sort descending"
         move_column_left: "Move column left"
@@ -554,10 +554,22 @@ en:
           not_found: "There is no such query"
         text_no_results: "No matching queries were found."
       table:
+        configure_button: 'Configure work package table'
         summary: "Table with rows of work package and columns of work package attributes."
         text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
         text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
         text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
+      table_configuration:
+        button: 'Configure this work package table'
+        modal_title: 'Work package table configuration'
+        display_settings: 'Display settings'
+        grouped_mode: "Grouped mode"
+        grouped_hint: "Table results will be grouped by the given attribute."
+        default_mode: "Default mode"
+        hierarchy_mode: "Hierarchy mode"
+        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
+        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
+        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
       tabs:
         overview: Overview
         activity: Activity

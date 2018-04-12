@@ -26,16 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-
-import {filtersModule} from '../../../angular-modules';
 import {Moment} from 'moment';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 
 export abstract class AbstractDateTimeValueController {
   public filter:QueryFilterInstanceResource;
 
-  constructor(protected $scope:ng.IScope,
-              protected I18n:op.I18n,
+  constructor(protected I18n:op.I18n,
               protected TimezoneService:any) {
     _.remove(this.filter.values as string[], value => !this.TimezoneService.isValidISODateTime(value));
   }
@@ -43,12 +40,21 @@ export abstract class AbstractDateTimeValueController {
   public abstract get lowerBoundary():Moment
   public abstract get upperBoundary():Moment
 
-  public get filterDateModelOptions() {
-    return {
-        updateOn: 'default change blur',
-        debounce: {'default': 400, 'change': 0, 'blur': 0}
-    };
-  };
+  public isoDateParser(data:string) {
+    if (!this.TimezoneService.isValidISODate(data)) {
+      return '';
+    }
+    var d = this.TimezoneService.parseLocalDateTime(data);
+    return this.TimezoneService.formattedISODateTime(d);
+  }
+
+  public isoDateFormatter(data:string) {
+    if (!this.TimezoneService.isValidISODateTime(data)) {
+      return '';
+    }
+    var d = this.TimezoneService.parseISODatetime(data);
+    return this.TimezoneService.formattedISODate(d);
+  }
 
   public get isTimeZoneDifferent() {
     let value = this.lowerBoundary || this.upperBoundary;

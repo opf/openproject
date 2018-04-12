@@ -54,15 +54,15 @@ describe 'Query menu item', js: true do
       filters.open
       filters.add_filter_by('Version', 'is', version.name)
 
-      expect(wp_table).to have_work_packages_listed [work_package_with_version]
-      expect(wp_table).not_to have_work_packages_listed [work_package_without_version]
+      wp_table.expect_work_package_listed work_package_with_version
+      wp_table.expect_work_package_not_listed work_package_without_version
 
       wp_table.save_as('Some query name')
 
       filters.remove_filter 'version'
       filters.expect_filter_count 1
 
-      expect(wp_table).to have_work_packages_listed [work_package_with_version, work_package_without_version]
+      wp_table.expect_work_package_listed work_package_with_version, work_package_without_version
 
       last_query = Query.last
 
@@ -80,7 +80,7 @@ describe 'Query menu item', js: true do
       filters.remove_filter 'status'
       filters.expect_filter_count 0
 
-      expect(wp_table).to have_work_packages_listed [work_package_with_version, work_package_without_version]
+      wp_table.expect_work_package_listed work_package_with_version, work_package_without_version
 
       # Locate query
       query_item = page.find(".query-menu-item[data-query-id='#{last_query.id}']")
@@ -89,8 +89,8 @@ describe 'Query menu item', js: true do
       # Overrides the query_props
       expect(page.current_url).not_to include('query_props')
 
-      expect(wp_table).to have_work_packages_listed [work_package_with_version]
-      expect(wp_table).not_to have_work_packages_listed [work_package_without_version]
+      wp_table.expect_work_package_listed work_package_with_version
+      wp_table.expect_work_package_not_listed work_package_without_version
 
       filters.expect_filter_count 2
       filters.open

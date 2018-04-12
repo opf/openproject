@@ -1,0 +1,67 @@
+require 'spec_helper'
+
+describe 'Work Package table configuration modal filters spec', js: true do
+  let(:user) { FactoryGirl.create :admin }
+
+  let(:project) { FactoryGirl.create(:project) }
+  let!(:wp_1) { FactoryGirl.create(:work_package, project: project) }
+
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
+  let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
+
+  let!(:query) do
+    query = FactoryGirl.build(:query, user: user, project: project)
+    query.column_names = ['subject', 'done_ratio']
+
+    query.save!
+    query
+  end
+
+  before do
+    login_as(user)
+  end
+
+  context 'by version in project' do
+    let(:version) { FactoryGirl.create :version, project: project }
+    let(:work_package_with_version) { FactoryGirl.create :work_package, project: project, fixed_version: version }
+    let(:work_package_without_version) { FactoryGirl.create :work_package, project: project }
+
+    before do
+      work_package_with_version
+      work_package_without_version
+
+      wp_table.visit!
+    end
+
+    it 'allows filtering, saving, retrieving and altering the saved filter' do
+      wp_table.expect_work_package_listed work_package_with_version, work_package_without_version
+      filters.open
+
+      filters.expect_filter_count 1
+      filters.add_filter_by('Version', 'is', version.name)
+      filters.save
+
+      wp_table.expect_work_package_listed work_package_with_version
+      wp_table.expect_work_package_not_listed work_package_without_version
+
+      wp_table.save_as('Some query name')
+
+      filters.open
+      filters.expect_filter_count 2
+      filters.remove_filter 'version'
+      filters.save
+
+      loading_indicator_saveguard
+      wp_table.expect_work_package_listed work_package_with_version, work_package_without_version
+
+      last_query = Query.last
+
+      wp_table.visit_query(last_query)
+
+      loading_indicator_saveguard
+      wp_table.expect_work_package_listed work_package_with_version
+      wp_table.expect_work_package_not_listed work_package_without_version
+    end
+  end
+end

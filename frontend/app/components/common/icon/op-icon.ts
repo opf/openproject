@@ -26,29 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, Injector, Input} from '@angular/core';
-import {UpgradeComponent} from '@angular/upgrade/static';
-import {opUiComponentsModule} from '../../../angular-modules';
-
-function opIcon() {
-  return {
-    restrict: 'EA',
-    scope: {
-      iconClasses: '@',
-      iconTitle: '@'
-    },
-    link: (_scope:ng.IScope, element:ng.IAugmentedJQuery) => {
-      element.addClass('op-icon--wrapper');
-    },
-    template: `
-      <i class="{{iconClasses}}" aria-hidden="true"></i>
-      <span class="hidden-for-sighted" ng-bind="iconTitle" ng-if="iconTitle"></span>
-    `
-  };
-}
-
-opUiComponentsModule.directive('opIcon', opIcon);
-
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'op-icon',

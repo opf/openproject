@@ -89,12 +89,10 @@ module Components
       end
 
       def remove_filter(field)
-        page.within(filters_selector) do
-          find("#filter_#{field} .advanced-filters--remove-filter-icon").click
-        end
+        find("#filter_#{field} .advanced-filters--remove-filter-icon").click
       end
 
-      private
+      protected
 
       def filter_button
         find(button_selector)
@@ -114,6 +112,8 @@ module Components
             select value, from: "values-#{id}"
           else
             page.all('input').each_with_index do |input, index|
+              input.click
+              sleep(0.5)
               input.set value[index]
               sleep(0.5)
             end

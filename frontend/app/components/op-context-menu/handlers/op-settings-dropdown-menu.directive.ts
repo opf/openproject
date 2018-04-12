@@ -28,26 +28,16 @@
 
 import {Directive, ElementRef, Inject, Input, OnDestroy} from '@angular/core';
 import {
-  columnsModalToken,
   exportModalToken,
-  groupingModalToken,
   I18nToken,
   saveModalToken,
   settingsModalToken,
-  shareModalToken,
-  sortingModalToken,
-  timelinesModalToken
+  shareModalToken
 } from 'core-app/angular4-transition-utils';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
 import {States} from 'core-components/states.service';
-import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
-import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
-import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
-import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
-import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
@@ -64,23 +54,13 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
 
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
-              readonly wpTableColumns:WorkPackageTableColumnsService,
-              readonly wpTableSortBy:WorkPackageTableSortByService,
-              readonly wpTableGroupBy:WorkPackageTableGroupByService,
-              readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
-              readonly wpTableTimeline:WorkPackageTableTimelineService,
-              readonly wpTableSum:WorkPackageTableSumService,
               readonly wpListService:WorkPackagesListService,
               readonly authorisationService:AuthorisationService,
               readonly states:States,
-              @Inject(columnsModalToken) readonly columnsModal:any,
-              @Inject(sortingModalToken) readonly sortingModal:any,
-              @Inject(groupingModalToken) readonly groupingModal:any,
               @Inject(shareModalToken) readonly shareModal:any,
               @Inject(saveModalToken) readonly saveModal:any,
               @Inject(settingsModalToken) readonly settingsModal:any,
               @Inject(exportModalToken) readonly exportModal:any,
-              @Inject(timelinesModalToken) readonly timelinesModal:any,
               @Inject(I18nToken) readonly I18n:op.I18n) {
 
     super(elementRef, opContextMenu);
@@ -167,76 +147,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
 
   private buildItems() {
     this.items = [
-      {
-        // Columns modal
-        linkText: this.I18n.t('js.toolbar.settings.columns'),
-        icon: 'icon-columns',
-        onClick: () => {
-          this.columnsModal.activate();
-          return true;
-        }
-      },
-      {
-        // Sort-by modal
-        linkText: this.I18n.t('js.toolbar.settings.sort_by'),
-        icon: 'icon-sort-by',
-        onClick: () => {
-          this.sortingModal.activate();
-          return true;
-        }
-      },
-      {
-        // Group-by modal
-        linkText: this.I18n.t('js.toolbar.settings.group_by'),
-        icon: 'icon-group-by',
-        onClick: () => {
-          this.groupingModal.activate();
-          return true;
-        }
-      },
-      {
-        // Sums (not active)
-        hidden: !this.wpTableSum.isEnabled,
-        linkText: this.I18n.t('js.toolbar.settings.display_sums'),
-        ariaLabel: this.I18n.t('js.toolbar.settings.display_sums'),
-        icon: 'no-icon',
-        onClick: () => {
-          this.wpTableSum.toggle();
-          return true;
-        }
-      },
-      {
-        // Sums (active)
-        hidden: this.wpTableSum.isEnabled,
-        linkText: this.I18n.t('js.toolbar.settings.display_sums'),
-        ariaLabel: this.I18n.t('js.toolbar.settings.hide_sums'),
-        icon: 'icon-checkmark',
-        onClick: () => {
-          this.wpTableSum.toggle();
-          return true;
-        }
-      },
-      {
-        // Hierarchies (not active)
-        hidden: this.wpTableHierarchies.isEnabled,
-        linkText: this.I18n.t('js.toolbar.settings.display_hierarchy'),
-        icon: 'icon-hierarchy',
-        onClick: () => {
-          this.wpTableHierarchies.setEnabled(true);
-          return true;
-        }
-      },
-      {
-        // Hierarchies (active)
-        hidden: !this.wpTableHierarchies.isEnabled,
-        linkText: this.I18n.t('js.toolbar.settings.hide_hierarchy'),
-        icon: 'icon-no-hierarchy',
-        onClick: () => {
-          this.wpTableHierarchies.setEnabled(false);
-          return true;
-        }
-      },
-      {divider: true},
       {
         // Query save modal
         disabled: this.authorisationService.cannot('query', 'updateImmediately'),
@@ -330,16 +240,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         linkText: this.query.results.customFields && this.query.results.customFields.name,
         icon: 'icon-custom-fields',
         onClick: () => false
-      },
-      {
-        // Timelines modal
-        disabled: !this.wpTableTimeline.isVisible,
-        linkText: this.I18n.t('js.timelines.gantt_chart') + ' ...',
-        icon: 'icon-view-timeline',
-        onClick: () => {
-          this.timelinesModal.activate();
-          return true;
-        }
       }
     ];
   }

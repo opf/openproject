@@ -27,23 +27,6 @@
 #++
 
 shared_context 'work package table helpers' do
-  def sort_wp_table_by(column_name, order: :desc)
-    click_button('Settings')
-    click_link('Sort by ...')
-
-    # Ensure the modal is opened before calling the non waiting 'all' function.
-    find('.ng-modal-window', text: 'Sorting')
-
-    within '#modal-sorting .form--row:first-of-type' do
-      select column_name, from: I18n.t('js.filter.sorting.criteria.one')
-
-      order_name = order == :desc ? 'Descending' : 'Ascending'
-      choose(order_name)
-    end
-
-    click_button('Apply')
-  end
-
   def expect_work_packages_to_be_in_order(order)
     within_wp_table do
       preceeding_elements = order[0..-2]

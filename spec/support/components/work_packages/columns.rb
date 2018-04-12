@@ -47,10 +47,8 @@ module Components
         modal_open? or open_modal
 
         within_modal do
-          page.find('#selected_columns').click
-
           expect(page)
-            .to have_no_selector('li[role=option]', text: name)
+            .to have_no_selector('.form--check-box-container', text: name)
         end
       end
 
@@ -58,11 +56,8 @@ module Components
         modal_open? or open_modal
 
         within_modal do
-          input = find '.select2-search-field input'
-          input.set name
-
-          result = find '.select2-result-label'
-          result.click
+          input = find "input[type=checkbox][title='#{name}'"
+          input.set true
         end
 
         apply
@@ -72,12 +67,8 @@ module Components
         modal_open? or open_modal
 
         within_modal do
-          # This is faster than has_selector but does not wait for anything.
-          # So if problems occur, switch to has_selector?
-          if find('.select2-choices').text.include?(name)
-            find('.select2-search-choice', text: name)
-              .click_link('select2-search-choice-close')
-          end
+          input = find "input[type=checkbox][title='#{name}'"
+          input.set false
         end
 
         apply
@@ -91,13 +82,13 @@ module Components
 
       def open_modal
         @opened = true
-        SettingsMenu.new.open_and_choose('Columns ...')
+        ::Components::WorkPackages::TableConfigurationModal.new.open_and_switch_to 'Columns'
       end
 
       private
 
       def within_modal
-        page.within('.columns-modal') do
+        page.within('.wp-table--configuration-modal') do
           yield
         end
       end

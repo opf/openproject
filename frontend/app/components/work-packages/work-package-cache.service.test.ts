@@ -28,7 +28,7 @@
 
 import {TestBed} from '@angular/core/testing';
 
-require('../../angular4-test-setup');
+require('core-app/angular4-test-setup');
 
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';

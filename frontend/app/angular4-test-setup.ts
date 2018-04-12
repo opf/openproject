@@ -29,6 +29,8 @@
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // !!!! NEVER CHANGE THE ORDER OF THE REQUIRE IMPORTS !!!!
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+// tslint:disable:ordered-imports
 require('angular');
 require('zone.js');
 require('zone.js/dist/long-stack-trace-zone');

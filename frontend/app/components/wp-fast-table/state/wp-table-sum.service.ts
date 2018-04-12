@@ -75,6 +75,13 @@ export class WorkPackageTableSumService extends WorkPackageTableBaseService<Work
     this.state.putValue(currentState);
   }
 
+  public setEnabled(value:boolean) {
+    let currentState = this.current;
+    currentState.current = value;
+
+    this.state.putValue(currentState);
+  }
+
   public get isEnabled() {
     return this.current.isEnabled;
   }

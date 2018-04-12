@@ -11,6 +11,7 @@ describe 'Work Package table group headers', js: true do
   let!(:wp_cat2) { FactoryGirl.create(:work_package, project: project, category: category2) }
   let!(:wp_none) { FactoryGirl.create(:work_package, project: project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
   let!(:query) do
     query              = FactoryGirl.build(:query, user: user, project: project)
@@ -32,9 +33,7 @@ describe 'Work Package table group headers', js: true do
 
   it 'shows group headers for group by category' do
     # Group by category
-    wp_table.click_setting_item 'Group by ...'
-    select 'Category', from: 'selected_columns_new'
-    click_button 'Apply'
+    group_by.enable_via_menu 'Category'
 
     # Expect table to be grouped as WP created above
     expect(page).to have_selector('.group--value .count', count: 3)

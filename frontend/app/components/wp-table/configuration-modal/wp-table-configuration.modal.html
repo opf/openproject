@@ -1,0 +1,44 @@
+<div class="op-modal--container ng-modal-window loading-indicator--location"
+     data-indicator-name="modal">
+  <div class="ng-modal-inner wp-table--configuration-modal" tabindex="0">
+    <div class="modal-header">
+      <a>
+        <i
+            class="icon-close"
+            (click)="closeMe()"
+            [attr.title]="text.closePopup">
+        </i>
+      </a>
+    </div>
+
+    <h3 [textContent]="text.title"></h3>
+
+    <div class="tabs--container">
+      <ul>
+        <li *ngFor="let tab of availableTabs">
+          <a class="tab-show"
+             href="#"
+             [ngClass]="{ 'selected': currentTab && tab.name === currentTab.name }"
+             [textContent]="tab.title"
+             (click)="switchTo(tab.name)">
+          </a>
+      </ul>
+      <div class="tabs-buttons" style="display:none;">
+        <button class="tab-left icon-context icon-arrow-left4"></button>
+        <button class="tab-right icon-context icon-arrow-right5"></button>
+      </div>
+    </div>
+
+    <div class="tab-content" #tabContentOutlet></div>
+    <div class="modal--form-actions">
+      <button class="button -highlight"
+              [textContent]="text.applyButton"
+              (click)="saveChanges()">
+      </button>
+      <button class="button"
+              [textContent]="text.cancelButton"
+              (click)="closeMe()">
+      </button>
+    </div>
+  </div>
+</div>

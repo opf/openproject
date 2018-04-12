@@ -66,8 +66,8 @@ describe 'filter work packages', js: true do
       filters.add_filter_by 'Watcher', 'is', watcher.name
       loading_indicator_saveguard
 
-      expect(wp_table).to have_work_packages_listed [work_package_with_watcher]
-      expect(wp_table).not_to have_work_packages_listed [work_package_without_watcher]
+      wp_table.expect_work_package_listed work_package_with_watcher
+      wp_table.expect_work_package_not_listed work_package_without_watcher
     end
   end
 
@@ -89,23 +89,23 @@ describe 'filter work packages', js: true do
       filters.add_filter_by('Version', 'is', version.name)
 
       loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [work_package_with_version]
-      expect(wp_table).not_to have_work_packages_listed [work_package_without_version]
+      wp_table.expect_work_package_listed work_package_with_version
+      wp_table.expect_work_package_not_listed work_package_without_version
 
       wp_table.save_as('Some query name')
 
       filters.remove_filter 'version'
 
       loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [work_package_with_version, work_package_without_version]
+      wp_table.expect_work_package_listed work_package_with_version, work_package_without_version
 
       last_query = Query.last
 
       wp_table.visit_query(last_query)
 
       loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [work_package_with_version]
-      expect(wp_table).not_to have_work_packages_listed [work_package_without_version]
+      wp_table.expect_work_package_listed work_package_with_version
+      wp_table.expect_work_package_not_listed work_package_without_version
 
       filters.open
 
@@ -114,8 +114,8 @@ describe 'filter work packages', js: true do
       filters.set_operator 'Version', 'is not'
 
       loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [work_package_without_version]
-      expect(wp_table).not_to have_work_packages_listed [work_package_with_version]
+      wp_table.expect_work_package_listed work_package_without_version
+      wp_table.expect_work_package_not_listed work_package_with_version
     end
   end
 
@@ -140,23 +140,23 @@ describe 'filter work packages', js: true do
                             'dueDate')
 
       loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [work_package_with_due_date]
-      expect(wp_table).not_to have_work_packages_listed [work_package_without_due_date]
+      wp_table.expect_work_package_listed work_package_with_due_date
+      wp_table.expect_work_package_not_listed work_package_without_due_date
 
       wp_table.save_as('Some query name')
 
       filters.remove_filter 'dueDate'
 
       loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [work_package_with_due_date, work_package_without_due_date]
+      wp_table.expect_work_package_listed work_package_with_due_date, work_package_without_due_date
 
       last_query = Query.last
 
       wp_table.visit_query(last_query)
 
       loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [work_package_with_due_date]
-      expect(wp_table).not_to have_work_packages_listed [work_package_without_due_date]
+      wp_table.expect_work_package_listed work_package_with_due_date
+      wp_table.expect_work_package_not_listed work_package_without_due_date
 
       filters.open
 
@@ -168,8 +168,8 @@ describe 'filter work packages', js: true do
       filters.set_filter 'Due date', 'in more than', '1', 'dueDate'
 
       loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [work_package_without_due_date]
-      expect(wp_table).not_to have_work_packages_listed [work_package_with_due_date]
+      wp_table.expect_work_package_listed work_package_without_due_date
+      wp_table.expect_work_package_not_listed work_package_with_due_date
     end
   end
 
@@ -224,23 +224,23 @@ describe 'filter work packages', js: true do
                             "customField#{list_cf.id}")
 
       loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [work_package_with_list_value]
-      expect(wp_table).not_to have_work_packages_listed [work_package_with_anti_list_value]
+      wp_table.expect_work_package_listed work_package_with_list_value
+      wp_table.expect_work_package_not_listed work_package_with_anti_list_value
 
       wp_table.save_as('Some query name')
 
       filters.remove_filter "customField#{list_cf.id}"
 
       loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [work_package_with_list_value, work_package_with_anti_list_value]
+      wp_table.expect_work_package_listed work_package_with_list_value, work_package_with_anti_list_value
 
       last_query = Query.last
 
       wp_table.visit_query(last_query)
 
       loading_indicator_saveguard
-      expect(wp_table).to have_work_packages_listed [work_package_with_list_value]
-      expect(wp_table).not_to have_work_packages_listed [work_package_with_anti_list_value]
+      wp_table.expect_work_package_listed work_package_with_list_value
+      wp_table.expect_work_package_not_listed work_package_with_anti_list_value
 
       filters.open
 
@@ -285,8 +285,8 @@ describe 'filter work packages', js: true do
                               'attachmentContent')
 
         loading_indicator_saveguard
-        expect(wp_table).to have_work_packages_listed [wp_with_attachment_a, wp_with_attachment_b]
-        expect(wp_table).not_to have_work_packages_listed [wp_without_attachment]
+        wp_table.expect_work_package_listed wp_with_attachment_a, wp_with_attachment_b
+        wp_table.expect_work_package_not_listed wp_without_attachment
 
         # content contains single hit with numbers
         filters.remove_filter 'attachmentContent'
@@ -297,8 +297,8 @@ describe 'filter work packages', js: true do
                               'attachmentContent')
 
         loading_indicator_saveguard
-        expect(wp_table).to have_work_packages_listed [wp_with_attachment_a]
-        expect(wp_table).not_to have_work_packages_listed [wp_without_attachment, wp_with_attachment_b]
+        wp_table.expect_work_package_listed wp_with_attachment_a
+        wp_table.expect_work_package_not_listed wp_without_attachment, wp_with_attachment_b
 
         filters.remove_filter 'attachmentContent'
 
@@ -309,8 +309,8 @@ describe 'filter work packages', js: true do
                               'attachmentContent')
 
         loading_indicator_saveguard
-        expect(wp_table).to have_work_packages_listed [wp_with_attachment_b]
-        expect(wp_table).not_to have_work_packages_listed [wp_without_attachment, wp_with_attachment_a]
+        wp_table.expect_work_package_listed wp_with_attachment_b
+        wp_table.expect_work_package_not_listed wp_without_attachment, wp_with_attachment_a
 
         filters.remove_filter 'attachmentContent'
 
@@ -321,8 +321,8 @@ describe 'filter work packages', js: true do
                               'attachmentContent')
 
         loading_indicator_saveguard
-        expect(wp_table).to have_work_packages_listed [wp_with_attachment_a]
-        expect(wp_table).not_to have_work_packages_listed [wp_without_attachment, wp_with_attachment_b]
+        wp_table.expect_work_package_listed wp_with_attachment_a
+        wp_table.expect_work_package_not_listed wp_without_attachment, wp_with_attachment_b
 
         filters.remove_filter 'attachmentContent'
 
@@ -333,8 +333,8 @@ describe 'filter work packages', js: true do
                               'attachmentFileName')
 
         loading_indicator_saveguard
-        expect(wp_table).to have_work_packages_listed [wp_with_attachment_a]
-        expect(wp_table).not_to have_work_packages_listed [wp_without_attachment, wp_with_attachment_b]
+        wp_table.expect_work_package_listed wp_with_attachment_a
+        wp_table.expect_work_package_not_listed wp_without_attachment, wp_with_attachment_b
 
         filters.remove_filter 'attachmentFileName'
 
@@ -345,8 +345,8 @@ describe 'filter work packages', js: true do
                               'attachmentFileName')
 
         loading_indicator_saveguard
-        expect(wp_table).to have_work_packages_listed [wp_with_attachment_b]
-        expect(wp_table).not_to have_work_packages_listed [wp_with_attachment_a]
+        wp_table.expect_work_package_listed wp_with_attachment_b
+        wp_table.expect_work_package_not_listed wp_with_attachment_a
       end
     end
 

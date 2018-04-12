@@ -31,7 +31,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
-import {AccessibleByKeyboardDirectiveUpgraded} from 'core-app/ui_components/accessible-by-keyboard-directive-upgraded';
 import {SimpleTemplateRenderer} from 'core-components/angular/simple-template-renderer';
 import {OpIcon} from 'core-components/common/icon/op-icon';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
@@ -51,7 +50,6 @@ import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageInlineCreateComponent,} from 'core-components/wp-inline-create/wp-inline-create.component';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
@@ -69,10 +67,8 @@ import {
   $rootScopeToken,
   $stateToken,
   $timeoutToken,
-  columnsModalToken,
   exportModalToken,
   FocusHelperToken,
-  groupingModalToken,
   halRequestToken,
   HalResourceToken,
   HookServiceToken,
@@ -84,8 +80,6 @@ import {
   saveModalToken,
   settingsModalToken,
   shareModalToken,
-  sortingModalToken,
-  timelinesModalToken,
   TimezoneServiceToken,
   upgradeService,
   upgradeServiceWithToken, UrlParamsHelperServiceToken,
@@ -115,7 +109,6 @@ import {WorkPackageTimelineButtonComponent} from 'core-components/wp-buttons/wp-
 import {WorkPackageZenModeButtonComponent} from 'core-components/wp-buttons/wp-zen-mode-toggle-button/wp-zen-mode-toggle-button.component';
 import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
 import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
-import {Ng1QueryFiltersComponentWrapper} from 'core-components/filters/query-filters/query-filters-ng1-wrapper.component';
 import {UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
 import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
 import {WorkPackageBreadcrumbComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb.component';
@@ -192,8 +185,29 @@ import {WpRelationAddChildComponent} from 'core-components/wp-relations/wp-relat
 import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relations-parent/wp-relations-parent.component';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 import {QueryFormDmService} from 'core-app/modules/dm-services/query-form-dm.service';
+import {OpModalService} from 'core-components/op-modals/op-modal.service';
+import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configuration-modal/tabs/columns-tab.component';
+import {WpTableConfigurationDisplaySettingsTab} from 'core-components/wp-table/configuration-modal/tabs/display-settings-tab.component';
+import {WpTableConfigurationFiltersTab} from 'core-components/wp-table/configuration-modal/tabs/filters-tab.component';
+import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
+import {WpTableConfigurationSortByTab} from 'core-components/wp-table/configuration-modal/tabs/sort-by-tab.component';
+import {WpTableConfigurationTimelinesTab} from 'core-components/wp-table/configuration-modal/tabs/timelines-tab.component';
+import {QueryFilterComponent} from 'core-components/filters/query-filter/query-filter.component';
+import {QueryFiltersComponent} from 'core-components/filters/query-filters/query-filters.component';
+import {FilterDateValueComponent} from 'core-components/filters/filter-date-value/filter-date-value.component';
+import {FilterDateTimeValueComponent} from 'core-components/filters/filter-date-time-value/filter-date-time-value.component';
+import {FilterDateTimesValueComponent} from 'core-components/filters/filter-date-times-value/filter-date-times-value.component';
+import {FilterDatesValueComponent} from 'core-components/filters/filter-dates-value/filter-dates-value.component';
+import {FilterIntegerValueComponent} from 'core-components/filters/filter-integer-value/filter-integer-value.component';
+import {FilterToggledMultiselectValueComponent} from 'core-components/filters/filter-toggled-multiselect-value/filter-toggled-multiselect-value.component';
+import {FilterStringValueComponent} from 'core-components/filters/filter-string-value/filter-string-value.component';
+import {FilterBooleanValueComponent} from 'core-components/filters/filter-boolean-value/filter-boolean-value.component';
+import {OpDatePickerComponent} from 'core-components/wp-edit/op-date-picker/op-date-picker.component';
+import {AccessibleByKeyboardComponent} from 'core-components/a11y/accessible-by-keyboard.component';
 import {WorkPackageFormQueryGroupComponent} from 'core-components/wp-form-group/wp-query-group.component';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
+import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 
 @NgModule({
   imports: [
@@ -219,7 +233,6 @@ import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-gr
     upgradeServiceWithToken('$timeout', $timeoutToken),
     upgradeServiceWithToken('$locale', $localeToken),
     upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
-    upgradeServiceWithToken('columnsModal', columnsModalToken),
     upgradeServiceWithToken('FocusHelper', FocusHelperToken),
     upgradeServiceWithToken('PathHelper', PathHelperToken),
     upgradeServiceWithToken('halRequest', halRequestToken),
@@ -227,13 +240,10 @@ import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-gr
     upgradeServiceWithToken('TimezoneService', TimezoneServiceToken),
     upgradeServiceWithToken('v3Path', v3PathToken),
     upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
-    upgradeServiceWithToken('sortingModal', sortingModalToken),
-    upgradeServiceWithToken('groupingModal', groupingModalToken),
     upgradeServiceWithToken('shareModal', shareModalToken),
     upgradeServiceWithToken('saveModal', saveModalToken),
     upgradeServiceWithToken('settingsModal', settingsModalToken),
     upgradeServiceWithToken('exportModal', exportModalToken),
-    upgradeServiceWithToken('timelinesModal', timelinesModalToken),
     upgradeServiceWithToken('UrlParamsHelper', UrlParamsHelperServiceToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     WorkPackageCacheService,
@@ -289,11 +299,16 @@ import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-gr
     WorkPackageContextMenuHelperService,
     QueryFormDmService,
     TableState,
+
+    // OP Modals service
+    OpModalService,
+    WpTableConfigurationService,
   ],
   declarations: [
     WorkPackagesListComponent,
     OpIcon,
-    AccessibleByKeyboardDirectiveUpgraded,
+    OpDatePickerComponent,
+    AccessibleByKeyboardComponent,
     TablePaginationComponent,
     WorkPackageTablePaginationComponent,
     WorkPackageTimelineHeaderController,
@@ -307,13 +322,24 @@ import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-gr
     WorkPackageDetailsViewButtonComponent,
     WorkPackageTimelineButtonComponent,
     WorkPackageZenModeButtonComponent,
-    WorkPackageFilterContainerComponent,
-    Ng1QueryFiltersComponentWrapper,
     WpResizerDirectiveUpgraded,
     WpCustomActionComponent,
     WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
     SortHeaderDirective,
+
+    // Query filters
+    WorkPackageFilterContainerComponent,
+    QueryFiltersComponent,
+    QueryFilterComponent,
+    FilterBooleanValueComponent,
+    FilterDateValueComponent,
+    FilterDatesValueComponent,
+    FilterDateTimeValueComponent,
+    FilterDateTimesValueComponent,
+    FilterIntegerValueComponent,
+    FilterStringValueComponent,
+    FilterToggledMultiselectValueComponent,
 
     // Add functionality to rails rendered templates
     HideSectionComponent,
@@ -397,7 +423,14 @@ import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-gr
     WorkPackageInlineCreateComponent,
 
     // Embedded table
-    WorkPackageEmbeddedTableComponent
+    WorkPackageEmbeddedTableComponent,
+    // Modals
+    WpTableConfigurationModalComponent,
+    WpTableConfigurationColumnsTab,
+    WpTableConfigurationDisplaySettingsTab,
+    WpTableConfigurationFiltersTab,
+    WpTableConfigurationSortByTab,
+    WpTableConfigurationTimelinesTab,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -442,7 +475,15 @@ import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-gr
     WorkPackageEmbeddedTableComponent,
 
     // Relations tab (ng1 -> ng2)
-    WorkPackageRelationsHierarchyComponent
+    WorkPackageRelationsHierarchyComponent,
+
+    // Modals
+    WpTableConfigurationModalComponent,
+    WpTableConfigurationColumnsTab,
+    WpTableConfigurationDisplaySettingsTab,
+    WpTableConfigurationFiltersTab,
+    WpTableConfigurationSortByTab,
+    WpTableConfigurationTimelinesTab,
   ]
 })
 export class OpenProjectModule {

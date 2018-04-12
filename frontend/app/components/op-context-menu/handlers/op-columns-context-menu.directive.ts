@@ -28,7 +28,7 @@
 
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {Directive, ElementRef, Inject, Input} from "@angular/core";
-import {columnsModalToken, I18nToken} from "core-app/angular4-transition-utils";
+import {I18nToken} from "core-app/angular4-transition-utils";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {QueryColumn} from "core-components/wp-query/query-column";
 import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
@@ -36,6 +36,8 @@ import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/
 import {WorkPackageTableGroupByService} from "core-components/wp-fast-table/state/wp-table-group-by.service";
 import {WorkPackageTableColumnsService} from "core-components/wp-fast-table/state/wp-table-columns.service";
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
+import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {OpModalService} from 'core-components/op-modals/op-modal.service';
 
 @Directive({
   selector: '[opColumnsContextMenu]'
@@ -50,7 +52,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
               readonly wpTableSortBy:WorkPackageTableSortByService,
               readonly wpTableGroupBy:WorkPackageTableGroupByService,
               readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
-              @Inject(columnsModalToken) readonly columnsModal:any,
+              readonly opModalService:OpModalService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
 
     super(elementRef, opContextMenu);
@@ -165,7 +167,10 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         linkText: this.I18n.t('js.work_packages.query.insert_columns'),
         icon: 'icon-columns',
         onClick: () => {
-          this.columnsModal.activate();
+          this.opModalService.show<WpTableConfigurationModalComponent>(
+            WpTableConfigurationModalComponent,
+            { initialTab: 'columns' }
+          );
           return true;
         }
       }
