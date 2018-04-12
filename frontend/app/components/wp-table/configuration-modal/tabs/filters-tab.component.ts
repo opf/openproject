@@ -32,5 +32,6 @@ export class WpTableConfigurationFiltersTab implements TabComponent {
   }
 
   public onSave() {
+    this.wpTableFilters.replaceIfComplete(this.filters);
   }
 }
