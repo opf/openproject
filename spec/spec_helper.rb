@@ -48,6 +48,12 @@
 # the environment at all times before and have no specs that may run outside
 require_relative 'rails_helper'
 
+class CurrentProcesses
+  class_attribute :current
+
+  @current = []
+end
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
@@ -109,6 +115,18 @@ RSpec.configure do |config|
 
   # Use colored output
   config.color = true
+
+  config.after(:each) do
+    previous = CurrentProcesses.current || []
+
+    new_commands = Cocaine::CommandLine.new('ps', 'axo command').run().split(/\n/)
+
+    puts " * =" * 20
+    puts new_commands - previous
+    puts " * =" * 20
+
+    CurrentProcesses.current = new_commands
+  end
 
   # Seed global randomization in this process using the `--seed` CLI option.
   # Setting this allows you to use `--seed` to deterministically reproduce
