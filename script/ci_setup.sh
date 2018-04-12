@@ -76,10 +76,3 @@ else
   run "touch app/assets/javascripts/bundles/openproject-core-app.css"
 fi
 
-if [ $1 = 'npm' ]; then
-  # We need phantomjs 2.0 to get tests passing
-  run "mkdir travis-phantomjs"
-  run "wget https://s3.amazonaws.com/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -O $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2"
-  run "tar -xvf $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -C $PWD/travis-phantomjs"
-  run "export PATH=$PWD/travis-phantomjs:$PATH"
-fi

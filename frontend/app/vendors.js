@@ -35,9 +35,6 @@ require('reflect-metadata');
 require('zone.js');
 require('@angular/core');
 
-// NOTE: currently needed for PhantomJS to support Webpack's style-loader.
-// See: https://github.com/webpack/style-loader/issues/31
-require('phantomjs-polyfill');
 // ES6 Promise polyfill
 require('expose-loader?Promise!es6-promise');
 

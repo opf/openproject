@@ -87,41 +87,10 @@ unless (env_no = ENV['TEST_ENV_NUMBER'].to_i).zero?
   sleep env_no * 5
 end
 
-Capybara.register_driver :selenium do |app|
-  require 'selenium/webdriver'
+require Rails.root.to_s + '/spec/support/downloaded_file'
+require Rails.root.to_s + '/spec/support/browsers/chrome'
 
-  Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
-  Selenium::WebDriver::Firefox::Binary.path
-
-  capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: true)
-  capabilities["elementScrollBehavior"] = 1
-
-  profile = Selenium::WebDriver::Firefox::Profile.new
-  profile['intl.accept_languages'] = 'en'
-
-  # use native instead of synthetic events
-  # https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities
-  profile.native_events = true
-
-  options = Selenium::WebDriver::Firefox::Options.new
-  options.profile = profile
-
-  unless ENV['OPENPROJECT_TESTING_NO_HEADLESS']
-    options.args << "--headless"
-  end
-
-  # If you need to trace the webdriver commands, un-comment this line
-  # Selenium::WebDriver.logger.level = :debug
-
-  Capybara::Selenium::Driver.new(
-    app,
-    browser: :firefox,
-    options: options,
-    desired_capabilities: capabilities
-  )
-end
-
-Capybara.javascript_driver = :selenium
+Capybara.javascript_driver = :chrome_headless_en
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how

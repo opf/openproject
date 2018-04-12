@@ -26,18 +26,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Scrolls a native element into view using JS
-def scroll_to_element(element)
-  script = <<-JS
-    arguments[0].scrollIntoView(true);
-  JS
-  Capybara.current_session.driver.browser.execute_script(script, element.native)
-end
+# Ensuring that send_keys fill in the entire string
+# This may happen with ChromeDriver versions and send_keys
+# https://bugs.chromium.org/p/chromedriver/issues/detail?id=1771
+module SeleniumWorkarounds
+  def ensure_value_is_input_correctly(input, value:)
+    retry_block do
+      # Wait a bit to insert the value
+      sleep(0.5)
+      input.set value
+      sleep(0.5)
 
-def scroll_to_and_click(element)
-  retry_block do
-    scroll_to_element(element)
-    sleep 0.2
-    element.click
+      found_value = input.value
+      raise "Found value #{found_value}, but expected #{value}." unless found_value == value
+    end
   end
 end

@@ -26,11 +26,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative '../../shared/selenium_workarounds'
+
 module Components
   module WorkPackages
     class Filters
       include Capybara::DSL
       include RSpec::Matchers
+      include SeleniumWorkarounds
 
       def open
         filter_button.click
@@ -114,8 +117,8 @@ module Components
             select value, from: "values-#{id}"
           else
             page.all('input').each_with_index do |input, index|
-              input.set value[index]
-              sleep(0.5)
+              # Wait a bit to insert the values
+              ensure_value_is_input_correctly input, value: value[index]
             end
           end
         end
