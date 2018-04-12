@@ -70,7 +70,6 @@ describe('focus Directive', function() {
 
       timeout.flush();
 
-      // NOTE: $(element).is(':focus') is broken in PhantomJS
       expect(doc.activeElement).to.equal(element[0]);
     });
   });
