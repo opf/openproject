@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -31,48 +30,39 @@ module API
   module V3
     module WorkPackages
       module Schema
-        class BaseWorkPackageSchema
-          def project
-            nil
-          end
+        module FormConfigurations
+          class AttributeRepresenter < ::API::Decorators::Single
+            attr_accessor :project
 
-          def type
-            nil
-          end
+            def initialize(model, current_user:, project:, embed_links: false)
+              self.project = project
 
-          def assignable_values(_property, _current_user)
-            nil
-          end
-
-          def assignable_custom_field_values(_custom_field)
-            nil
-          end
-
-          def available_custom_fields
-            []
-          end
-
-          def writable?(property)
-            # Special case for milestones + date property
-            property = :start_date if property.to_sym == :date && milestone?
-
-            @writable_attributes ||= begin
-              contract.writable_attributes
+              super(model, current_user: current_user, embed_links: embed_links)
             end
 
-            property_name = ::API::Utilities::PropertyNameConverter.to_ar_name(property, context: work_package)
+            property :name,
+                     exec_context: :decorator
 
-            @writable_attributes.include?(property_name)
-          end
+            property :attributes,
+                     exec_context: :decorator
 
-          def milestone?
-            false
-          end
+            def _type
+              "WorkPackageFormAttributeGroup"
+            end
 
-          private
+            def name
+              represented.translated_key
+            end
 
-          def contract
-            raise NotImplementedError
+            def attributes
+              represented.active_members(project).map do |attribute|
+                convert_property(attribute)
+              end
+            end
+
+            def convert_property(attribute)
+              ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+            end
           end
         end
       end

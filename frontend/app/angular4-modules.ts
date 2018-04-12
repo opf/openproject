@@ -83,7 +83,7 @@ import {
   timelinesModalToken,
   TimezoneServiceToken,
   upgradeService,
-  upgradeServiceWithToken,
+  upgradeServiceWithToken, UrlParamsHelperServiceToken,
   UrlParamsHelperToken,
   v3PathToken,
   wpDestroyModalToken,
@@ -188,6 +188,8 @@ import {Ng1RelationsCreateWrapper} from 'core-components/wp-relations/wp-relatio
 import {WpRelationsAutocompleteComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.upgraded.component';
 import {WpRelationAddChildComponent} from 'core-components/wp-relations/wp-relation-add-child/wp-relation-add-child';
 import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relations-parent/wp-relations-parent.component';
+import {WorkPackageFormQueryGroupComponent} from 'core-components/wp-form-group/wp-query-group.component';
+import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
 
 @NgModule({
   imports: [
@@ -226,6 +228,7 @@ import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relatio
     upgradeServiceWithToken('settingsModal', settingsModalToken),
     upgradeServiceWithToken('exportModal', exportModalToken),
     upgradeServiceWithToken('timelinesModal', timelinesModalToken),
+    upgradeServiceWithToken('UrlParamsHelper', UrlParamsHelperServiceToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     WorkPackageCacheService,
     WorkPackageEditingService,
@@ -340,6 +343,8 @@ import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relatio
     OpDateTimeUpgradedDirective,
     UserLinkUpgradedComponent,
     ClickOnKeypressComponent,
+    WorkPackageFormQueryGroupComponent,
+    WorkPackageFormAttributeGroupComponent,
 
     // Activity Tab
     NewestActivityOnOverviewComponent,

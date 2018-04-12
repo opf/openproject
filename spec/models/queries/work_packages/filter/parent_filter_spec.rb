@@ -118,6 +118,24 @@ describe Queries::WorkPackages::Filter::ParentFilter, type: :model do
         expect(instance.value_objects)
           .to match_array [visible_wp]
       end
+
+      context "with the 'templated' value" do
+        before do
+          instance.values = ['templated']
+
+          allow(WorkPackage)
+            .to receive_message_chain(:visible, :for_projects, :find)
+            .with(no_args)
+            .with(project)
+            .with([])
+            .and_return([])
+        end
+
+        it 'returns a TemplatedValue object' do
+          expect(instance.value_objects.length).to eql 1
+          expect(instance.value_objects[0].id).to eql '{id}'
+        end
+      end
     end
 
     describe '#allowed_objects' do

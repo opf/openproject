@@ -83,6 +83,22 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
           .to be_json_eql([expected].to_json)
           .at_path('_links/values')
       end
+
+      it "renders templated values as part of the 'values' collection" do
+        allow(filter)
+          .to receive(:value_objects)
+          .and_return([::Queries::Filters::TemplatedValue.new(Status)])
+
+        expected = {
+          href: api_v3_paths.status('{id}'),
+          title: nil,
+          templated: true
+        }
+
+        is_expected
+          .to be_json_eql([expected].to_json)
+                .at_path('_links/values')
+      end
     end
 
     it 'has _type StatusQueryFilter' do

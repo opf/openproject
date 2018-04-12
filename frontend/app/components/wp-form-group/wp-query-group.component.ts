@@ -26,78 +26,75 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from "../../../angular-modules";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {OpUnlinkTableAction} from 'core-components/wp-table/table-actions/actions/unlink-table-action';
 import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {Component, Inject, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
-import {downgradeComponent} from '@angular/upgrade/static';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {I18nToken} from 'core-app/angular4-transition-utils';
-import {take} from 'rxjs/operators';
+import {I18nToken, UrlParamsHelperServiceToken} from 'core-app/angular4-transition-utils';
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {QueryResourceInterface} from 'core-components/api/api-v3/hal-resources/query-resource.service';
+import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
+
+export interface QueryGroupDescriptor {
+  name:string;
+  query:QueryResourceInterface;
+  type:string;
+}
 
 @Component({
-  selector: 'wp-relations-hierarchy',
-  template: require('!!raw-loader!./wp-relations-hierarchy.template.html')
+  selector: 'wp-query-group',
+  template: require('!!raw-loader!./wp-query-group.template.html')
 })
-export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy {
+export class WorkPackageFormQueryGroupComponent implements OnInit {
   @Input() public workPackage:WorkPackageResourceInterface;
-  @Input() public relationType:string;
+  @Input() public group:QueryGroupDescriptor;
+  @ViewChild('childrenEmbeddedTable') private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
 
-  public showEditForm:boolean = false;
-  public workPackagePath:string;
   public canHaveChildren:boolean;
   public canModifyHierarchy:boolean;
-  public canAddRelation:boolean;
 
   public childrenQueryProps:any;
 
+  public childrenTableActions = [
+    OpUnlinkTableAction.factoryFor(
+      'remove-child-action',
+      this.I18n.t('js.relation_buttons.remove_child'),
+      (child:WorkPackageResourceInterface) => {
+        this.childrenEmbeddedTable.loadingIndicator = this.wpRelationsHierarchyService
+          .removeChild(child)
+          .then(() => this.refreshTable());
+      })
+  ];
+
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
-              protected wpCacheService:WorkPackageCacheService,
               protected PathHelper:PathHelperService,
+              @Inject(UrlParamsHelperServiceToken) protected queryUrlParamsHelper:UrlParamsHelperService,
               @Inject(I18nToken) protected I18n:op.I18n) {
   }
 
-  public text = {
-    parentHeadline: this.I18n.t('js.relations_hierarchy.parent_headline')
-  };
-
   ngOnInit() {
-    this.workPackagePath = this.PathHelper.workPackagePath(this.workPackage.id);
+    this.canHaveChildren = !this.workPackage.isMilestone;
     this.canModifyHierarchy = !!this.workPackage.changeParent;
-    this.canAddRelation = !!this.workPackage.addRelation;
 
-    this.wpCacheService.loadWorkPackage(this.workPackage.id).values$()
-      .takeUntil(componentDestroyed(this))
-      .subscribe((wp:WorkPackageResourceInterface) => {
-        this.workPackage = wp;
-
-        let toLoad:string[] = [];
-
-        if (this.workPackage.parent) {
-          toLoad.push(this.workPackage.parent.id);
-
-          this.wpCacheService.loadWorkPackage(this.workPackage.parent.id).values$()
-            .pipe(
-              take(1)
-            )
-            .subscribe((parent:WorkPackageResourceInterface) => {
-              this.workPackage.parent = parent;
-            });
-        }
-
-        this.wpCacheService.requireAll(toLoad);
-      });
+    this.childrenQueryProps = this.queryUrlParamsHelper.buildV3GetQueryFromQueryResource(this.contextualizedQuery,
+                                                                                        {});
   }
 
-  ngOnDestroy() {
-    // nothing to do
+  public refreshTable() {
+    this.childrenEmbeddedTable.refresh();
+  }
+
+  private get contextualizedQuery() {
+    let duppedQuery = _.clone(this.group.query);
+
+    _.each(duppedQuery.filters, (filter) => {
+      if (filter._links.values[0].templated) {
+        filter._links.values[0].href = filter._links.values[0].href.replace('{id}', this.workPackage.id);
+      }
+    });
+
+    return duppedQuery;
   }
 }
-
-wpDirectivesModule
-  .directive('wpRelationsHierarchy',
-    downgradeComponent({component: WorkPackageRelationsHierarchyComponent}));

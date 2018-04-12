@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -31,48 +30,40 @@ module API
   module V3
     module WorkPackages
       module Schema
-        class BaseWorkPackageSchema
-          def project
-            nil
-          end
+        module FormConfigurations
+          class QueryRepresenter < ::API::Decorators::Single
+            include API::Decorators::LinkedResource
 
-          def type
-            nil
-          end
+            property :name,
+                     exec_context: :decorator
 
-          def assignable_values(_property, _current_user)
-            nil
-          end
+            associated_resource :query,
+                                link: ->(*) do
+                                  {
+                                    href: api_v3_paths.query(query.id),
+                                    title: query.name
+                                  }
+                                end,
+                                getter: ->(*) do
+                                  next unless embed_links
 
-          def assignable_custom_field_values(_custom_field)
-            nil
-          end
+                                  # For some reason, the context (query) of the filters
+                                  # are lost. We therefore set it anew:
+                                  query.set_context
+                                  ::API::V3::Queries::QueryRepresenter.new(query, current_user: current_user)
+                                end
 
-          def available_custom_fields
-            []
-          end
-
-          def writable?(property)
-            # Special case for milestones + date property
-            property = :start_date if property.to_sym == :date && milestone?
-
-            @writable_attributes ||= begin
-              contract.writable_attributes
+            def _type
+              "WorkPackageFormQueryGroup"
             end
 
-            property_name = ::API::Utilities::PropertyNameConverter.to_ar_name(property, context: work_package)
+            def name
+              represented.translated_key
+            end
 
-            @writable_attributes.include?(property_name)
-          end
-
-          def milestone?
-            false
-          end
-
-          private
-
-          def contract
-            raise NotImplementedError
+            def query
+              represented.query
+            end
           end
         end
       end

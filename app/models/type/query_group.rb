@@ -28,72 +28,30 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::WorkPackages::Filter::FilterForWpMixin
-  def type
-    :list
+class Type::QueryGroup < Type::FormGroup
+  MEMBER_PREFIX = 'query_'.freeze
+
+  def self.query_attribute?(name)
+    name.to_s.match?(/#{Type::QueryGroup::MEMBER_PREFIX}(\d+)/)
   end
 
-  def allowed_values
-    raise NotImplementedError, 'There would be too many candidates'
+  def self.query_attribute_id(name)
+    match = name.to_s.match(/#{Type::QueryGroup::MEMBER_PREFIX}(\d+)/)
+
+    match ? match[1] : nil
   end
 
-  def value_objects
-    objects = scope.find(no_templated_values)
-
-    if has_templated_value?
-      objects << ::Queries::Filters::TemplatedValue.new(WorkPackage)
-    end
-
-    objects
+  def query_attribute_name
+    :"query_#{query.id}"
   end
 
-  def allowed_objects
-    raise NotImplementedError, 'There would be too many candidates'
+  alias :query :attributes
+
+  def members
+    [attributes]
   end
 
-  def available?
-    scope.exists?
-  end
-
-  def ar_object_filter?
-    true
-  end
-
-  def allowed_values_subset
-    id_values = scope.where(id: no_templated_values).pluck(:id).map(&:to_s)
-
-    if has_templated_value?
-      id_values + [templated_value_key]
-    else
-      id_values
-    end
-  end
-
-  private
-
-  def scope
-    if context.project
-      WorkPackage
-        .visible
-        .for_projects(context.project.self_and_descendants)
-    else
-      WorkPackage.visible
-    end
-  end
-
-  def type_strategy
-    @type_strategy ||= Queries::Filters::Strategies::HugeList.new(self)
-  end
-
-  def no_templated_values
-    values.reject { |v| v == templated_value_key }
-  end
-
-  def templated_value_key
-    ::Queries::Filters::TemplatedValue::KEY
-  end
-
-  def has_templated_value?
-    values.include?(templated_value_key)
+  def active_members(_project)
+    [members]
   end
 end

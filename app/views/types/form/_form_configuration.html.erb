@@ -27,9 +27,10 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% form_attributes = @type.form_configuration_groups %>
+<% form_attributes = form_configuration_groups(@type) %>
+
 <section class="form--section">
-  <%= f.hidden_field :attribute_groups, value: @type.attribute_groups.map { |group| [group[0], group[1], (group[0].is_a? Symbol)] }.to_json %>
+  <%= f.hidden_field :attribute_groups, value: @type.non_query_attribute_groups.map { |group| [group.key, group.attributes, (group.key.is_a? Symbol)] }.to_json %>
   <div id="types-form-configuration" op-drag-scroll ng-controller="TypesFormConfigurationCtrl" ng-init="upsaleLink = <%= '"' + OpenProject::Static::Links.links[:upsale][:href] +  "/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration" + '"' %>">
     <div class="grid-block wrap">
       <div class="grid-content small-12 large-10">
@@ -114,16 +115,16 @@ See docs/COPYRIGHT.rdoc for more details.
         </div>
         <div id="draggable-groups" dragula='"groups"'>
           <% form_attributes[:actives].each do |group, attributes| %>
-            <div class="type-form-conf-group" data-original-key="<%= group.to_s %>" data-key="<%= group %>" data-key-is-symbol="<%= group.is_a? Symbol %>">
+            <div class="type-form-conf-group" data-original-key="<%= group.key.to_s %>" data-key="<%= group.key %>" data-key-is-symbol="<%= group.key.is_a? Symbol %>">
               <div class="group-head">
                 <span class="group-handle icon-toggle"></span>
                 <group-edit-in-place
-                  name="<%= @type.translated_attribute_group(group) %>"
-                  key="<%= group %>"
+                  name="<%= group.translated_key %>"
+                  key="<%= group.key %>"
                   onvaluechange="groupNameChange"
                   onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
                   class="group-name">
-                  <%= @type.translated_attribute_group(group) %>
+                  <%= group.translated_key %>
                 </group-edit-in-place>
                 <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
               </div>

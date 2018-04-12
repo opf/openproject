@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,55 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      module Schema
-        class BaseWorkPackageSchema
-          def project
-            nil
-          end
+class Type::AttributeGroup < Type::FormGroup
+  def members
+    # The attributes might not be present anymore, for instance when you remove
+    # a plugin leaving an empty group behind. If we did not delete such a
+    # group, the admin saving such a form configuration would encounter an
+    # unexpected/unexplicable validation error.
+    valid_keys = type.work_package_attributes.keys
 
-          def type
-            nil
-          end
+    (attributes & valid_keys).sort
+  end
 
-          def assignable_values(_property, _current_user)
-            nil
-          end
-
-          def assignable_custom_field_values(_custom_field)
-            nil
-          end
-
-          def available_custom_fields
-            []
-          end
-
-          def writable?(property)
-            # Special case for milestones + date property
-            property = :start_date if property.to_sym == :date && milestone?
-
-            @writable_attributes ||= begin
-              contract.writable_attributes
-            end
-
-            property_name = ::API::Utilities::PropertyNameConverter.to_ar_name(property, context: work_package)
-
-            @writable_attributes.include?(property_name)
-          end
-
-          def milestone?
-            false
-          end
-
-          private
-
-          def contract
-            raise NotImplementedError
-          end
-        end
-      end
+  def active_members(project)
+    members.select do |prop|
+      type.passes_attribute_constraint?(prop, project: project)
     end
   end
 end

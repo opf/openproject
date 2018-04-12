@@ -28,72 +28,33 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::WorkPackages::Filter::FilterForWpMixin
-  def type
-    :list
+class Type::FormGroup
+  attr_accessor :key,
+                :attributes,
+                :type
+
+  def initialize(type, key, attributes)
+    self.key = key
+    self.attributes = attributes
+    self.type = type
   end
 
-  def allowed_values
-    raise NotImplementedError, 'There would be too many candidates'
-  end
-
-  def value_objects
-    objects = scope.find(no_templated_values)
-
-    if has_templated_value?
-      objects << ::Queries::Filters::TemplatedValue.new(WorkPackage)
-    end
-
-    objects
-  end
-
-  def allowed_objects
-    raise NotImplementedError, 'There would be too many candidates'
-  end
-
-  def available?
-    scope.exists?
-  end
-
-  def ar_object_filter?
-    true
-  end
-
-  def allowed_values_subset
-    id_values = scope.where(id: no_templated_values).pluck(:id).map(&:to_s)
-
-    if has_templated_value?
-      id_values + [templated_value_key]
+  ##
+  # Translate the given attribute group if its internal
+  # (== if it's a symbol)
+  def translated_key
+    if key.is_a? Symbol
+      I18n.t(Type.default_groups[key])
     else
-      id_values
+      key
     end
   end
 
-  private
-
-  def scope
-    if context.project
-      WorkPackage
-        .visible
-        .for_projects(context.project.self_and_descendants)
-    else
-      WorkPackage.visible
-    end
+  def members
+    raise NotImplementedError
   end
 
-  def type_strategy
-    @type_strategy ||= Queries::Filters::Strategies::HugeList.new(self)
-  end
-
-  def no_templated_values
-    values.reject { |v| v == templated_value_key }
-  end
-
-  def templated_value_key
-    ::Queries::Filters::TemplatedValue::KEY
-  end
-
-  def has_templated_value?
-    values.include?(templated_value_key)
+  def active_members(_project)
+    raise NotImplementedError
   end
 end

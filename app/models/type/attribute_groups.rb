@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -31,6 +32,8 @@ module Type::AttributeGroups
   extend ActiveSupport::Concern
 
   included do
+    before_save :write_attribute_groups_objects
+    after_destroy :remove_attribute_groups_queries
     validate :validate_attribute_group_names
     validate :validate_attribute_groups
     serialize :attribute_groups, Array
@@ -54,7 +57,8 @@ module Type::AttributeGroups
         people: :label_people,
         estimates_and_time: :label_estimates_and_time,
         details: :label_details,
-        other: :label_other
+        other: :label_other,
+        children: :'activerecord.attributes.work_package.children'
       }
     end
   end
@@ -80,113 +84,182 @@ module Type::AttributeGroups
   end
 
   ##
-  # Translate the given attribute group if its internal
-  # (== if it's a symbol)
-  def translated_attribute_group(groupkey)
-    if groupkey.is_a? Symbol
-      I18n.t(default_groups[groupkey])
-    else
-      groupkey
-    end
-  end
-
-  ##
   # Read the serialized attribute groups, if customized.
   # Otherwise, return +default_attribute_groups+
   def attribute_groups
-    groups = read_attribute :attribute_groups
-    # The attributes might not be present anymore, for instance when you remove
-    # a plugin leaving an empty group behind. If we did not delete such a
-    # group, the admin saving such a form configuration would encounter an
-    # unexpected/unexplicable validation error.
-    valid_keys = work_package_attributes.keys
-    groups.each do |_, attributes|
-      attributes.select! { |attribute| valid_keys.include? attribute }
+    self.attribute_groups_objects ||= begin
+      groups = custom_attribute_groups || default_attribute_groups
+
+      to_attribute_group_class(groups)
     end
 
-    groups.presence || default_attribute_groups
+    # TODO: move appending of children default query to #default_attribute_groups
+    # once query groups can be configured
+    attribute_groups_objects + [::Type::QueryGroup.new(self, :children, default_children_query)]
+  end
+
+  def attribute_groups=(groups)
+    self.attribute_groups_objects = groups.empty? ? nil : to_attribute_group_class(groups)
   end
 
   ##
   # Returns the default +attribute_groups+ put together by
   # the default group map.
   def default_attribute_groups
-    values = work_package_attributes
-             .keys
-             .reject { |key| custom_field?(key) && !has_custom_field?(key) }
-             .group_by { |key| default_group_key(key.to_sym) }
+    values = work_package_attributes_by_default_group_key
 
-    ordered = []
-    default_groups.map do |groupkey, label_key|
+    default_groups.keys.each_with_object([]) do |groupkey, array|
       members = values[groupkey]
-      ordered << [groupkey, members.sort] if members.present?
+      array << [groupkey, members] if members.present?
     end
-
-    ordered
   end
 
-  ##
-  # Collect active and inactive form configuration groups for editing.
-  def form_configuration_groups
-    available = work_package_attributes
-    # First we create a complete list of all attributes.
-    # Later we will remove those that are members of an attribute group.
-    # This way attributes that were created after the las group definitions
-    # will fall back into the inactives group.
-    inactive = available.clone
-
-    active_form = get_active_groups(available, inactive)
-    inactive_form = inactive
-                    .map { |key, attribute| attr_form_map(key, attribute) }
-                    .sort_by { |attr| attr[:translation] }
-
-    {
-      actives: active_form,
-      inactives: inactive_form
-    }
+  # TODO: remove once queries can be configured as well
+  def non_query_attribute_groups
+    attribute_groups.select { |g| g.is_a?(Type::AttributeGroup) }
   end
+
+  def reload(*args)
+    self.attribute_groups_objects = nil
+    super
+  end
+
+  protected
+
+  attr_accessor :attribute_groups_objects
 
   private
 
+  def write_attribute_groups_objects
+    return if attribute_groups_objects.nil?
+
+    groups = attribute_groups_objects.map do |group|
+      attributes = if group.is_a?(Type::QueryGroup)
+                     query = group.query
+
+                     query.save
+
+                     [group.query_attribute_name]
+                   else
+                     group.attributes
+                   end
+      [group.key, attributes]
+    end
+
+    write_attribute(:attribute_groups, groups) if groups != default_attribute_groups
+
+    cleanup_query_groups_queries
+  end
+
+  def custom_attribute_groups
+    read_attribute(:attribute_groups).presence
+  end
+
   def default_group_key(key)
-    if custom_field?(key)
+    if CustomField.custom_field_attribute?(key)
       :other
     else
       default_group_map.fetch(key.to_sym, :details)
     end
   end
 
-  ##
-  # Collect active attributes from the current form configuration.
-  # Using the available attributes from +work_package_attributes+,
-  # determines which attributes are not used
-  def get_active_groups(available, inactive)
-    attribute_groups.map do |group|
-      extended_attributes =
-        group.second
-             .select { |key| inactive.delete(key) }
-             .map! { |key| attr_form_map(key, available[key]) }
-
-      [group[0], extended_attributes]
-    end
-  end
-
   def validate_attribute_group_names
     seen = Set.new
-    attribute_groups.each do |group_key, _|
-      errors.add(:attribute_groups, :group_without_name) unless group_key.present?
-      errors.add(:attribute_groups, :duplicate_group, group: group_key) if seen.add?(group_key).nil?
+    attribute_groups.each do |group|
+      errors.add(:attribute_groups, :group_without_name) unless group.key.present?
+      errors.add(:attribute_groups, :duplicate_group, group: group.key) if seen.add?(group.key).nil?
     end
   end
 
   def validate_attribute_groups
-    valid_attributes = work_package_attributes.keys
-    attribute_groups.each do |_, attributes|
-      attributes.each do |key|
-        if valid_attributes.exclude? key
-          errors.add(:attribute_groups, :attribute_unknown)
-        end
+    attribute_groups_objects.each do |group|
+      if group.is_a?(Type::QueryGroup)
+        validate_query_group(group)
+      else
+        validate_attribute_group(group)
       end
     end
+  end
+
+  def validate_query_group(group)
+    query = group.query
+
+    contract_class = query.persisted? ? Queries::UpdateContract : Queries::CreateContract
+    contract = contract_class.new(query, User.current)
+
+    unless contract.validate
+      errors.add(:attribute_groups, :query_invalid)
+    end
+  end
+
+  def validate_attribute_group(group)
+    valid_attributes = work_package_attributes.keys
+
+    group.attributes.each do |key|
+      if key.is_a?(String) && valid_attributes.exclude?(key)
+        errors.add(:attribute_groups, :attribute_unknown)
+      end
+    end
+  end
+
+  def work_package_attributes_by_default_group_key
+    work_package_attributes
+      .keys
+      .reject { |key| CustomField.custom_field_attribute?(key) && !has_custom_field?(key) }
+      .group_by { |key| default_group_key(key.to_sym) }
+  end
+
+  def to_attribute_group_class(groups)
+    groups.map do |group|
+      attributes = group[1]
+      first_attribute = attributes[0]
+      key = group[0]
+
+      if first_attribute.is_a?(Query)
+        new_query_group(key, first_attribute)
+      elsif first_attribute.is_a?(Symbol) && Type::QueryGroup.query_attribute?(first_attribute)
+        query = Query.find_by(id: Type::QueryGroup.query_attribute_id(first_attribute))
+        new_query_group(key, query)
+      else
+        new_attribute_group(key, attributes)
+      end
+    end
+  end
+
+  def default_children_query
+    query = Query.new_default
+    query.column_names = %w(id type subject)
+    query.show_hierarchies = false
+    query.filters = []
+    query.add_filter('parent', '=', ::Queries::Filters::TemplatedValue::KEY)
+    query
+  end
+
+  def new_attribute_group(key, attributes)
+    Type::AttributeGroup.new(self, key, attributes)
+  end
+
+  def new_query_group(key, query)
+    Type::QueryGroup.new(self, key, query)
+  end
+
+  def cleanup_query_groups_queries
+    return unless attribute_groups_changed?
+
+    new_groups = read_attribute(:attribute_groups)
+    old_groups = attribute_groups_was
+
+    ids = (old_groups.map(&:last).flatten - new_groups.map(&:last).flatten)
+          .map { |k| ::Type::QueryGroup.query_attribute_id(k) }
+          .compact
+
+    Query.destroy(ids)
+  end
+
+  def remove_attribute_groups_queries
+    attribute_groups
+      .select { |g| g.is_a?(Type::QueryGroup) }
+      .map(&:query)
+      .each(&:destroy)
   end
 end
