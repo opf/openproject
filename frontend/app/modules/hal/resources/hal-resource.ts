@@ -27,9 +27,7 @@
 //++
 
 import {InputState} from "reactivestates";
-import {HalResourceFactoryService} from 'core-app/modules/hal/services/hal-resource-factory.service';
 import {HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
-import {HalLinkService} from 'core-app/modules/hal/hal-link/hal-link.service';
 import {Injector} from '@angular/core';
 import {States} from 'core-components/states.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
@@ -39,16 +37,14 @@ export class HalResource {
   [attribute:string]:any;
   public _type:string;
 
-  protected readonly halLinkService:HalLinkService = this.injector.get(HalLinkService);
-  protected readonly halResourceFactory:HalResourceFactoryService = this.injector.get(HalResourceFactoryService);
   protected readonly states:States = this.injector.get(States);
   protected readonly I18n:op.I18n = this.injector.get(I18nToken);
 
   constructor(public injector:Injector,
-              public $source:any = HalResource.getEmptyResource(),
+              public source:any = HalResource.getEmptyResource(),
               public $loaded:boolean = true) {
-    this.$initialize($source);
-  }
+    this.$source = source.$source || source;
+
 
   public static get attributeTypes():{[attrName:string]:string} {
     return {};
@@ -168,16 +164,6 @@ export class HalResource {
     return angular.copy(this.$source);
   }
 
-  public $copy():this {
-    const copy = _.cloneDeep(this.$source);
-    return this.halResourceFactory.createHalResource(copy, this.$loaded) as this;
-  }
-
-  public $initialize(source:any) {
-    this.$source = source.$source || source;
-    initializeHalResource(this, this.halResourceFactory, this.halLinkService);
-  }
-
   /**
    * Specify this resource's embedded keys that should be transformed with resources.
    * Use this to restrict, e.g., links that should not be made properties if you have a custom get/setter.
@@ -194,16 +180,5 @@ export class HalResource {
   public $linkableKeys():string[] {
     const properties = Object.keys(this.$links);
     return _.without(properties, 'self');
-  }
-
-  /**
-   * Get a linked resource from its HalLink with the correct ype
-   */
-  public createLinkedResource(linkName:string, link:HalLinkInterface) {
-    const resource = HalResource.getEmptyResource();
-    const type = this.constructor._type;
-    resource._links.self = link;
-
-    return this.halResourceFactory.createLinkedHalResource(resource, type, linkName);
   }
 }

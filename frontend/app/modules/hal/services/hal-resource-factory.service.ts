@@ -33,6 +33,7 @@ import {
   halResourceDefaultConfig, HalResourceFactoryConfigInterface,
 } from 'core-app/modules/hal/services/hal-resource-factory.config';
 import {HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
+import {initializeHalResource} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 @Injectable()
 export class HalResourceFactoryService {
@@ -61,8 +62,8 @@ export class HalResourceFactoryService {
    *
    * @returns {HalResource}
    */
-  public get defaultClass() {
-    return HalResource;
+  public defaultClass<T = HalResource>():{ new(...args:any[]):T } {
+    return HalResource as any;
   }
 
   /**
@@ -73,17 +74,34 @@ export class HalResourceFactoryService {
    * @param source
    * @returns {HalResource}
    */
-  public createHalResource(source:any, loaded:boolean = false, force:boolean = false):HalResource|null {
+  public createHalResource<T extends HalResource>(source:any, loaded:boolean = false, force:boolean = false):T {
     if (_.isNil(source)) {
-      return null;
+      source = HalResource.getEmptyResource();
     }
 
     if (!force && !(source._embedded || source._links)) {
       return source;
     }
 
-    const resourceClass = this.getResourceClassOfType(source._type);
-    return new resourceClass(this.injector, source);
+    const resourceClass = this.getResourceClassOfType<T>(source._type);
+
+    // Build the hal resource
+    let instance = new resourceClass(this.injector, source);
+
+    // Initialize it
+    initializeHalResource(instance, this, this.halLink);
+    return instance;
+  }
+
+  /**
+   * Create a HalResource from the copied source of the given, other HalResource.
+   *
+   * @param {HalResource} other
+   * @returns A HalResource with the identitical copied source of other.
+   */
+  public copyResource<T extends HalResource>(other:T):T {
+    const copy = _.cloneDeep(other.$source);
+    return this.createHalResource(copy, other.$loaded) as T;
   }
 
   /**
@@ -99,14 +117,14 @@ export class HalResourceFactoryService {
 
 
   /**
-   * Create an unloaded HalResource that is a linked property of its parent.
-   *
-   * @param source
-   * @param parentType
-   * @param linkName
+   * Get a linked resource from its HalLink with the correct ype
    */
-  public createLinkedHalResource(source:any, parentType:string, linkName:string):HalResource {
-    const resourceClass = this.getResourceClassOfAttribute(parentType, linkName);
+  public createLinkedResource(linkName:string, link:HalLinkInterface) {
+    const source = HalResource.getEmptyResource();
+    const type = this.constructor._type;
+    source._links.self = link;
+
+    const resourceClass = this.getResourceClassOfAttribute(type, linkName);
     return new resourceClass(this.injector, source, false);
   }
 
@@ -116,7 +134,7 @@ export class HalResourceFactoryService {
    * @param type
    * @returns {HalResource}
    */
-  protected getResourceClassOfType(type:string):typeof HalResource {
+  protected getResourceClassOfType<T extends HalResource>(type:string):{ new(...args:any[]):T } {
     const config = this.config[type];
     return (config && config.cls) ? config.cls : this.defaultClass;
   }
@@ -129,7 +147,7 @@ export class HalResourceFactoryService {
    * @param attribute
    * @returns {any}
    */
-  protected getResourceClassOfAttribute(type:string, attribute:string):typeof HalResource {
+  protected getResourceClassOfAttribute<T extends HalResource = HalResource>(type:string, attribute:string):{ new(...args:any[]):T } {
     const typeConfig = this.config[type];
     const types = (typeConfig && typeConfig.attrTypes) || {};
     const resourceRef = types[attribute];
@@ -138,6 +156,6 @@ export class HalResourceFactoryService {
       return this.getResourceClassOfType(resourceRef);
     }
 
-    return this.defaultClass;
+    return this.defaultClass();
   }
 }

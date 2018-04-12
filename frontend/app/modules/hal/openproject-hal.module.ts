@@ -37,9 +37,9 @@ import {HalResourceFactoryService} from 'core-app/modules/hal/services/hal-resou
   providers: [
     BrowserModule,
     HttpClientModule,
+    HalResourceFactoryService,
     HalLinkService,
     HalRequestService,
-    HalResourceFactoryService,
   ]
 })
 export class OpenprojectHalModule { }

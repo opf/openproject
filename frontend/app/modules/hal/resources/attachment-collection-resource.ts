@@ -26,9 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {UploadFile, UploadResult} from 'core-components/api/op-file-upload/op-file-upload.service';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 export class AttachmentCollectionResource extends CollectionResource {
 
