@@ -31,7 +31,7 @@ module OpenProject
     module CacheKey
       def self.key(*parts)
         ['openproject',
-         OpenProject::VERSION] + parts
+         OpenProject::VERSION] + parts.flatten
       end
 
       def self.expand(ar_models)
