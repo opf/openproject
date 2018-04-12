@@ -82,10 +82,6 @@ env:
 
 before_install:
 
-  - "echo `firefox -v`"
-  - "export DISPLAY=:99.0"
-  - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x1080x16"
-  - "echo `xdpyinfo -display :99 | grep 'dimensions' | awk '{ print $2 }'`"
   # Install geckodriver
   - echo "Installing geckodriver ${GECKODRIVER_VERSION}"
   - wget https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz
@@ -120,8 +116,5 @@ notifications:
       - secure: "uhO7jqGYIL4QPPWwIzAKGvSuXI0E7n8HD9aoiYUO2nL9t0iW8TjpQ34ht1JhMGBiG8D86vjXXSWB+o0jEBACEYJ6GQhCTo2yuGaXoS3igBVs8Y2XD5M+nOF2OReeJ9RXOn9KvosXGfSxE8KX/6YuvzLKFV6CZL2/RKC2Euqr0MKMeiaGVaUgZxgYbReJsgfqHugZgOIQY7yeMvGoZXgDqj6oDwMyl993XVxoPcGRQV0laOAKN2+ZDo8LmE3xuKfEvmGLtYh+5zrsOTp3YRU7K/BgQlYrvUcYORj4XyzO2UAej/qRS5LqqrK5ZFwuwpH3NJYpFQNS4b0fq5IaA4dKz+N3TzNWp1oOWckE05/LWBWZYl1t8Xto0NIc2mMeSAzhV4CcAOc7W+fCNyCGxsRNpfDD2Tst02aQ+fi5pC3ITS7IskrpA86T+WVckDDjjsROGAUaYUTtMMDzWGcnP0815zoGW4cIGnjwcmCn8w9AE3D1ERUxAagIwLeXDtv2XBxphS58Pfqg1pmfywEVdIUs9DUbJ4WRH/oHnESLB0DG5i2BvHMplNBiBdxpKH7V3cYHyHFgl+ExjwfwLKZw75EyyjwfD7bmJmEUE9YpiXulzP/JRnUiQ5oorQ6fzVva4TTZ4jugc1xImiwpOv60sBSdEI+LnnVMQurhfC3HQSYl/wE="
 
 addons:
-  # Setting latest here due to the switch from old selenium bindings
-  # to Marionette. At the date of this writing, ESR is Firefox 52 and has
-  # bad support for it. Thus we use latest (59.0 as of this writing)
-  firefox: "59.0"
+  chrome: stable
   postgresql: "9.6"

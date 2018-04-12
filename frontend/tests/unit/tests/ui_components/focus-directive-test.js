@@ -29,12 +29,10 @@
 /*jshint expr: true*/
 
 describe('focus Directive', function() {
-  var doc, compile, element, rootScope, scope, disabledButton, timeout, body;
+  var doc, compile, element, rootScope, scope, timeout, body;
 
   var input = '<input type="text" name="testInput" focus id="focusTest"></input>',
-      button = '<button class="button" focus disabled="true"></button>';
   element = angular.element(input);
-  disabledButton = angular.element(button);
 
   beforeEach(angular.mock.module('openproject.uiComponents'));
   beforeEach(angular.mock.module('openproject.templates'));
@@ -53,7 +51,7 @@ describe('focus Directive', function() {
     rootScope = $rootScope;
     scope = $rootScope.$new();
     body = angular.element(doc.body);
-    body.append(disabledButton).append(element);
+    body.append(element);
 
     compile = $compile;
     timeout = $timeout;
@@ -72,17 +70,7 @@ describe('focus Directive', function() {
 
       timeout.flush();
 
-      // NOTE: $(element).is(':focus') is broken in PhantomJS
       expect(doc.activeElement).to.equal(element[0]);
-    });
-
-    it('should focus disabled button', function(){
-      compile(disabledButton)(scope);
-      scope.$digest();
-
-      timeout.flush();
-
-      expect(doc.activeElement).to.equal(disabledButton[0]);
     });
   });
 });
