@@ -32,14 +32,13 @@ import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations
 import {Component, Inject, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
 import {I18nToken, UrlParamsHelperServiceToken} from 'core-app/angular4-transition-utils';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {QueryResourceInterface} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 
 export interface QueryGroupDescriptor {
   name:string;
-  query:QueryResourceInterface;
+  query:QueryResource;
   type:string;
 }
 
@@ -48,7 +47,7 @@ export interface QueryGroupDescriptor {
   template: require('!!raw-loader!./wp-query-group.template.html')
 })
 export class WorkPackageFormQueryGroupComponent implements OnInit {
-  @Input() public workPackage:WorkPackageResourceInterface;
+  @Input() public workPackage:WorkPackageResource;
   @Input() public group:QueryGroupDescriptor;
   @ViewChild('childrenEmbeddedTable') private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
 
@@ -61,7 +60,7 @@ export class WorkPackageFormQueryGroupComponent implements OnInit {
     OpUnlinkTableAction.factoryFor(
       'remove-child-action',
       this.I18n.t('js.relation_buttons.remove_child'),
-      (child:WorkPackageResourceInterface) => {
+      (child:WorkPackageResource) => {
         this.childrenEmbeddedTable.loadingIndicator = this.wpRelationsHierarchyService
           .removeChild(child)
           .then(() => this.refreshTable());

@@ -30,10 +30,12 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {wpServicesModule} from '../../angular-modules';
 import {StateService} from '@uirouter/core';
+import {HalResourceFactoryService} from 'core-app/modules/hal/services/hal-resource-factory.service';
 
 export class WorkPackageNotificationService {
   constructor(protected I18n:op.I18n,
               protected $state:StateService,
+              protected halResourceFactory:HalResourceFactoryService,
               protected NotificationsService:any,
               protected loadingIndicator:any) {
   }
@@ -53,7 +55,7 @@ export class WorkPackageNotificationService {
 
   public handleRawError(response:any, workPackage?:WorkPackageResource) {
     if (response && response.data && response.data._type === 'Error') {
-      const resource = new ErrorResource(response.data);
+      const resource = this.halResourceFactory.createHalResourceOfType(ErrorResource, response.data);
       return this.handleErrorResponse(resource, workPackage);
     }
 

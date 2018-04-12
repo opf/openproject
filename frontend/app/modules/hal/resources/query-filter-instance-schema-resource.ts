@@ -33,6 +33,8 @@ import {
 } from 'core-app/modules/hal/resources/schema-resource';
 import {SchemaDependencyResource} from 'core-app/modules/hal/resources/schema-dependency-resource';
 import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operator-resource';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 interface QueryFilterInstanceSchemaResourceLinks {
   filter:QueryFilterResource;
@@ -51,12 +53,37 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
     return this.operator.allowedValues;
   }
 
-  public $initialize(source:any) {
-    super.$initialize(source);
+  public $postInitialize(source:any) {
+    super.$postInitialize(source);
 
     if (source._dependencies) {
-      this.dependency = new SchemaDependencyResource(this.injector, source._dependencies[0]);
+      this.dependency = new SchemaDependencyResource(this.injector, source._dependencies[0], true, this.halInitializer);
     }
+  }
+
+  public getFilter():QueryFilterInstanceResource {
+    let operator = (this.operator.allowedValues as HalResource[])[0];
+    let filter = (this.filter.allowedValues as HalResource[])[0];
+    let source:any = {
+      name: filter.name,
+      _links: {
+        filter: filter.$plain()._links.self,
+        schema: this.$plain()._links.self,
+        operator: operator.$plain()._links.self
+      }
+    }
+
+    if (this.definesAllowedValues()) {
+      source._links['values'] = [];
+    } else {
+      source['values'] = [];
+    }
+
+    let newFilter = new QueryFilterInstanceResource(this.injector, source, true, this.halInitializer);
+
+    newFilter.schema = this;
+
+    return newFilter;
   }
 
   public isValueRequired():boolean {
@@ -74,6 +101,11 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
 
     _.merge(resultingSchema, staticSchema, dependentSchema);
 
-    return new QueryFilterInstanceSchemaResource(this.injector, resultingSchema);
+    return new QueryFilterInstanceSchemaResource(this.injector, resultingSchema, true, this.halInitializer);
+  }
+
+  private definesAllowedValues() {
+    return _.some(this._dependencies[0].dependencies,
+      (dependency:any) => dependency.values && dependency.values._links && dependency.values._links.allowedValues);
   }
 }

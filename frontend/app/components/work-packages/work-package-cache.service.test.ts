@@ -66,11 +66,14 @@ describe('WorkPackageCacheService', () => {
     const workPackage1 = new WorkPackageResource(
       injector,
       {
-      id: '1',
-      _links: {
-        self: ""
-      }
-    });
+        id: '1',
+        _links: {
+          self: ""
+        }
+      },
+      true,
+      (wp:WorkPackageResource) => undefined
+    );
 
     dummyWorkPackages = [workPackage1];
   });

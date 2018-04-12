@@ -171,22 +171,9 @@ export class WorkPackageResource extends HalResource {
 
   /**
    * Initialise the work package resource.
-   *
-   * Make the attachments an `AttachmentCollectionResource`. This should actually
-   * be done automatically, but the backend does not provide typed collections yet.
    */
-  public $initialize(source:any) {
-    super.$initialize(source);
-
-    var attachments:{ $source:any, $loaded:boolean } = this.attachments || {
-        $source: void 0,
-        $loaded: false
-      };
-    this.attachments = new AttachmentCollectionResource(
-      this.injector,
-      attachments.$source,
-      attachments.$loaded
-    );
+  public $postInitialize(source:any) {
+    super.$postInitialize(source);
   }
 
   /**

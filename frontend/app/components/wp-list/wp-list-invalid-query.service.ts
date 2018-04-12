@@ -66,7 +66,7 @@ export class WorkPackagesListInvalidQueryService {
         return null;
       }
 
-      let recreatedFilter = this.QueryFilterInstanceResource.fromSchema(filterInstanceSchema);
+      let recreatedFilter = filterInstanceSchema.getFilter();
 
       let operator = _.find(filterInstanceSchema.operator.allowedValues, operator => {
         return operator.$href === filter.operator.$href;

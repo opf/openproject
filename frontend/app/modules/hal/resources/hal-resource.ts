@@ -31,27 +31,39 @@ import {HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
 import {Injector} from '@angular/core';
 import {States} from 'core-components/states.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {initializeHalResource} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 export class HalResource {
   [attribute:string]:any;
+
   public _type:string;
 
   protected readonly states:States = this.injector.get(States);
   protected readonly I18n:op.I18n = this.injector.get(I18nToken);
 
-  constructor(public injector:Injector,
-              public source:any = HalResource.getEmptyResource(),
-              public $loaded:boolean = true) {
+  /**
+   * Constructs and initializes the HalResource. For this, the halResoureFactory is required.
+   *
+   * However, We can't inject the HalResourceFactory here because it itself depends on this class.
+   * So if you need to initialize a HalResource, use +HalResourceFactory.createHalResource+ instead.
+   *
+   * @param {Injector} injector
+   * @param source
+   * @param {boolean} $loaded
+   * @param {Function} initializer The initializer callback to HAL-transform all linked and embedded resources.
+   *
+   */
+  public constructor(public injector:Injector,
+                     public source:any,
+                     public $loaded:boolean,
+                     public halInitializer:(halResource:any) => void) {
     this.$source = source.$source || source;
+    halInitializer(this);
 
-
-  public static get attributeTypes():{[attrName:string]:string} {
-    return {};
+    this.$postInitialize();
   }
 
-  public static getEmptyResource(self:{ href:string|null } = {href: null}):any {
-    return {_links: {self: self}};
+  public static getEmptyResource(self:{ href:string|null } = { href: null }):any {
+    return { _links: { self: self } };
   }
 
   public $links:any = {};
@@ -125,7 +137,7 @@ export class HalResource {
     state.putFromPromiseIfPristine(() => this.$loadResource(force));
 
     return <Promise<this>> state.valuesPromise().then(source => {
-      this.$initialize(source);
+      this.$postInitialize(source);
       this.$loaded = true;
       return this;
     });
@@ -146,7 +158,7 @@ export class HalResource {
     this.$loaded = false;
     this.$self = this.$links.self({}).then((source:any) => {
       this.$loaded = true;
-      this.$initialize(source);
+      this.$postInitialize(source);
       return this;
     });
 

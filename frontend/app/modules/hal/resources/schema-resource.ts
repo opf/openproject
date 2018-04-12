@@ -40,8 +40,8 @@ export class SchemaResource extends HalResource {
     return _.keys(this.$source).filter(name => name.indexOf('_') !== 0);
   }
 
-  public $initialize(source:any) {
-    super.$initialize(source);
+  public $postInitialize(source:any) {
+    super.$postInitialize(source);
 
     initializeSchemaResource(this);
   }

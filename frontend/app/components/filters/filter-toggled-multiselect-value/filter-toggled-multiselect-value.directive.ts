@@ -36,6 +36,7 @@ import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {RootDmService} from 'core-app/modules/dm-services/root-dm.service';
 import {Injector} from '@angular/core';
+import {HalResourceFactoryService} from 'core-app/modules/hal/services/hal-resource-factory.service';
 
 export class ToggledMultiselectController {
   // Injected

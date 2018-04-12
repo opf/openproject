@@ -48,9 +48,9 @@ export class FormResource extends HalResource {
 
     let resource;
     if (count === 1) {
-      resource = new ErrorResource(this.injector, errors[0], true);
+      resource = new ErrorResource(this.injector, errors[0], true, this.halInitializer);
     } else {
-      resource = new ErrorResource(this.injector, {});
+      resource = new ErrorResource(this.injector, {}, true, this.halInitializer);
       resource.errorIdentifier = v3ErrorIdentifierMultipleErrors;
       resource.errors = errors;
     }

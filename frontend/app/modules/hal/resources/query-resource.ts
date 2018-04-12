@@ -69,9 +69,12 @@ export class QueryResource extends HalResource {
   public public:boolean;
   public project:ProjectResource;
 
-  public $initialize(source:any) {
-    super.$initialize(source);
+  public $postInitialize(source:any) {
+    super.$postInitialize(source);
 
-    this.filters = source.filters.map((filter:Object) => new QueryFilterInstanceResource(this.injector, filter));
+    this.filters =
+      source
+        .filters
+        .map((filter:Object) => new QueryFilterInstanceResource(this.injector, filter, true,  this.halInitializer));
   }
 }

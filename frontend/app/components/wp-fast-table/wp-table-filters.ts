@@ -45,9 +45,9 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
 
   public add(filter:QueryFilterResource) {
     let schema = _.find(this.availableSchemas,
-                        schema => (schema.filter.allowedValues as QueryFilterResource[])[0].href === filter.href);
+                        schema => (schema.filter.allowedValues as QueryFilterResource[])[0].href === filter.href)!;
 
-    let newFilter = QueryFilterInstanceResource.fromSchema(schema!);
+    let newFilter = schema.getFilter();
 
     this.current.push(newFilter);
 
