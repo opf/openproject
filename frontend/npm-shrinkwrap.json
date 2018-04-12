@@ -3834,7 +3834,7 @@
     "jquery-mockjax": {
       "version": "2.2.2",
       "resolved": "https://registry.npmjs.org/jquery-mockjax/-/jquery-mockjax-2.2.2.tgz",
-      "integrity": "sha512-stVgUln5bo7g14KjeU45c31nAYlBHAUVBo4JbdoDYIJ3i6Nzlu8mkjKcAviwad9AU1dBEHHpuzA7R6mKcWgvZA==",
+      "integrity": "sha1-nH0rEDpEz2HJnMeKnueHhQS2CQc=",
       "dev": true,
       "requires": {
         "jquery": "3.3.1"
