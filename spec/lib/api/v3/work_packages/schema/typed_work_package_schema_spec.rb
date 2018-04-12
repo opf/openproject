@@ -103,19 +103,4 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
       expect(subject.assignable_custom_field_values(version_cf)).to be_nil
     end
   end
-
-  describe '#attribute_groups' do
-    it "has no side effects on type's #attribute_groups" do
-      before = [["People", ["assignee", "responsible"]],
-                ["Estimates and time", ["estimated_time", "spent_time"]],
-                ["Details", ["category", "date", "priority", "version"]],
-                ["Other", ["percentage_done"]]]
-
-      type.attribute_groups = before
-
-      subject.attribute_groups
-
-      expect(type.attribute_groups).to eql before
-    end
-  end
 end

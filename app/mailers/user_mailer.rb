@@ -28,7 +28,7 @@
 #++
 
 class UserMailer < BaseMailer
-  helper :application,  # for format_text
+  helper :application, # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
   helper IssuesHelper
@@ -363,9 +363,9 @@ class UserMailer < BaseMailer
 
   def self.mail_timestamp(object)
     if object.respond_to? :created_at
-      timestamp = object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
+      object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
     else
-      timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
+      object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
     end
   end
 

@@ -83,7 +83,7 @@ module API
 
               WorkPackageSchemaCollectionRepresenter.new(schemas,
                                                          schemas_path_with_filters_params,
-                                                         current_user: current_user)
+                                                         current_user: nil)
             end
 
             # The schema identifier is an artificial identifier that is composed of a work package's

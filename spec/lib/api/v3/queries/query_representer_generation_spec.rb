@@ -34,8 +34,9 @@ describe ::API::V3::Queries::QueryRepresenter do
   let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
   let(:project) { FactoryGirl.build_stubbed(:project) }
   let(:user) { double('current_user', allowed_to?: true, admin: true, admin?: true) }
+  let(:embed_links) { true }
   let(:representer) do
-    described_class.new(query, current_user: user, embed_links: true)
+    described_class.new(query, current_user: user, embed_links: embed_links)
   end
 
   let(:permissions) { [] }
@@ -195,6 +196,15 @@ describe ::API::V3::Queries::QueryRepresenter do
             let(:link) { 'delete' }
           end
         end
+
+        context 'when no user is provided' do
+          let(:user) { nil }
+          let(:embed_links) { false }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'delete' }
+          end
+        end
       end
 
       describe 'updateImmediately action link' do
@@ -226,6 +236,15 @@ describe ::API::V3::Queries::QueryRepresenter do
 
         context 'when not allowed to update' do
           let(:permissions) { [] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'updateImmediately' }
+          end
+        end
+
+        context 'when no user is provided' do
+          let(:user) { nil }
+          let(:embed_links) { false }
 
           it_behaves_like 'has no link' do
             let(:link) { 'updateImmediately' }

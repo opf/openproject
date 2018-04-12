@@ -50,7 +50,6 @@ import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageInlineCreateComponent,} from 'core-components/wp-inline-create/wp-inline-create.component';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
@@ -83,7 +82,7 @@ import {
   shareModalToken,
   TimezoneServiceToken,
   upgradeService,
-  upgradeServiceWithToken,
+  upgradeServiceWithToken, UrlParamsHelperServiceToken,
   UrlParamsHelperToken,
   v3PathToken,
   wpDestroyModalToken,
@@ -207,6 +206,9 @@ import {FilterStringValueComponent} from 'core-components/filters/filter-string-
 import {FilterBooleanValueComponent} from 'core-components/filters/filter-boolean-value/filter-boolean-value.component';
 import {OpDatePickerComponent} from 'core-components/wp-edit/op-date-picker/op-date-picker.component';
 import {AccessibleByKeyboardComponent} from 'core-components/a11y/accessible-by-keyboard.component';
+import {WorkPackageFormQueryGroupComponent} from 'core-components/wp-form-group/wp-query-group.component';
+import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
+import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 
 @NgModule({
   imports: [
@@ -241,6 +243,7 @@ import {AccessibleByKeyboardComponent} from 'core-components/a11y/accessible-by-
     upgradeServiceWithToken('saveModal', saveModalToken),
     upgradeServiceWithToken('settingsModal', settingsModalToken),
     upgradeServiceWithToken('exportModal', exportModalToken),
+    upgradeServiceWithToken('UrlParamsHelper', UrlParamsHelperServiceToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     WorkPackageCacheService,
     WorkPackageEditingService,
@@ -371,6 +374,8 @@ import {AccessibleByKeyboardComponent} from 'core-components/a11y/accessible-by-
     OpDateTimeUpgradedDirective,
     UserLinkUpgradedComponent,
     ClickOnKeypressComponent,
+    WorkPackageFormQueryGroupComponent,
+    WorkPackageFormAttributeGroupComponent,
 
     // Activity Tab
     NewestActivityOnOverviewComponent,

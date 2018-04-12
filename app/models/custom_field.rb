@@ -211,6 +211,10 @@ class CustomField < ActiveRecord::Base
     end
   end
 
+  def self.custom_field_attribute?(attribute_name)
+    attribute_name.to_s =~ /custom_field_\d+/
+  end
+
   # to move in project_custom_field
   def self.for_all(options = {})
     where(is_for_all: true)

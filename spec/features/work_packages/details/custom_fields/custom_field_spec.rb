@@ -5,18 +5,18 @@ require 'features/work_packages/details/inplace_editor/shared_examples'
 describe 'custom field inplace editor', js: true do
   let(:user) { FactoryGirl.create :admin }
   let(:type) { FactoryGirl.create(:type_standard, custom_fields: custom_fields) }
-  let(:project) {
+  let(:project) do
     FactoryGirl.create :project,
                        types: [type],
                        work_package_custom_fields: custom_fields
-  }
+  end
   let(:custom_fields) { [custom_field] }
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.create :work_package,
                        type: type,
                        project: project,
                        custom_values: initial_custom_values
-  }
+  end
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
 
   let(:property_name) { "customField#{custom_field.id}" }
@@ -39,9 +39,9 @@ describe 'custom field inplace editor', js: true do
   end
 
   describe 'long text' do
-    let(:custom_field) {
+    let(:custom_field) do
       FactoryGirl.create(:text_issue_custom_field, name: 'LongText')
-    }
+    end
     let(:field) { WorkPackageEditorField.new wp_page, property_name }
     let(:initial_custom_values) { { custom_field.id => 'foo' } }
 
@@ -63,28 +63,28 @@ describe 'custom field inplace editor', js: true do
   end
 
   describe 'custom field lists' do
-    let(:custom_field1) {
+    let(:custom_field1) do
       FactoryGirl.create(:list_wp_custom_field,
-                        is_required: false,
-                        possible_values: %w(foo bar baz))
-    }
-    let(:custom_field2) {
+                         is_required: false,
+                         possible_values: %w(foo bar baz))
+    end
+    let(:custom_field2) do
       FactoryGirl.create(:list_wp_custom_field,
-                        is_required: false,
-                        possible_values: %w(X Y Z))
-    }
+                         is_required: false,
+                         possible_values: %w(X Y Z))
+    end
 
     let(:custom_fields) { [custom_field1, custom_field2] }
-    let(:field1) {
+    let(:field1) do
       f = wp_page.custom_edit_field(custom_field1)
       f.field_type = 'select'
       f
-    }
-    let(:field2) {
+    end
+    let(:field2) do
       f = wp_page.custom_edit_field(custom_field2)
       f.field_type = 'select'
       f
-    }
+    end
     let(:initial_custom_values) { {} }
 
     def custom_value(value)
@@ -117,20 +117,19 @@ describe 'custom field inplace editor', js: true do
 
       wp_page.expect_attributes :"customField#{custom_field1.id}" => 'bar',
                                 :"customField#{custom_field2.id}" => 'X'
-
     end
   end
 
   describe 'integer type' do
-    let(:custom_field) {
+    let(:custom_field) do
       FactoryGirl.create(:integer_issue_custom_field, args.merge(name: 'MyNumber'))
-    }
+    end
     let(:initial_custom_values) { { custom_field.id => 123 } }
 
     context 'with length restrictions' do
-      let(:args) {
+      let(:args) do
         { min_length: 2, max_length: 5 }
-      }
+      end
 
       it 'renders errors for invalid entries' do
         field.activate!
@@ -189,11 +188,10 @@ describe 'custom field inplace editor', js: true do
     end
   end
 
-
   describe 'float type' do
-    let(:custom_field) {
+    let(:custom_field) do
       FactoryGirl.create(:float_wp_custom_field, args.merge(name: 'MyFloat'))
-    }
+    end
     let(:args) { {} }
     let(:initial_custom_values) { { custom_field.id => 123.50 } }
 

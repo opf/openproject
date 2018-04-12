@@ -46,7 +46,6 @@ import {take} from 'rxjs/operators';
 export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy {
   @Input() public workPackage:WorkPackageResourceInterface;
   @Input() public relationType:string;
-  @ViewChild('childrenEmbeddedTable') private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
 
   public showEditForm:boolean = false;
   public workPackagePath:string;
@@ -56,17 +55,6 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
 
   public childrenQueryProps:any;
 
-  public childrenTableActions = [
-    OpUnlinkTableAction.factoryFor(
-      'remove-child-action',
-      this.I18n.t('js.relation_buttons.remove_child'),
-      (child:WorkPackageResourceInterface) => {
-        this.childrenEmbeddedTable.loadingIndicator = this.wpRelationsHierarchyService
-          .removeChild(child)
-          .then(() => this.refreshTable());
-      })
-  ];
-
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected wpCacheService:WorkPackageCacheService,
               protected PathHelper:PathHelperService,
@@ -74,21 +62,13 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
   }
 
   public text = {
-    parentHeadline: this.I18n.t('js.relations_hierarchy.parent_headline'),
-    childrenHeadline: this.I18n.t('js.relations_hierarchy.children_headline')
+    parentHeadline: this.I18n.t('js.relations_hierarchy.parent_headline')
   };
 
   ngOnInit() {
     this.workPackagePath = this.PathHelper.workPackagePath(this.workPackage.id);
-    this.canHaveChildren = !this.workPackage.isMilestone;
     this.canModifyHierarchy = !!this.workPackage.changeParent;
     this.canAddRelation = !!this.workPackage.addRelation;
-
-    this.childrenQueryProps = {
-      filters: JSON.stringify([{parent: {operator: '=', values: [this.workPackage.id]}}]),
-      'columns[]': ['id', 'type', 'subject'],
-      showHierarchies: false
-    };
 
     this.wpCacheService.loadWorkPackage(this.workPackage.id).values$()
       .takeUntil(componentDestroyed(this))
@@ -109,20 +89,12 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
             });
         }
 
-        if (this.workPackage.children) {
-          toLoad.push(...this.workPackage.children.map(child => child.id));
-        }
-
         this.wpCacheService.requireAll(toLoad);
       });
   }
 
   ngOnDestroy() {
-    // Nothing to do
-  }
-
-  public refreshTable() {
-    this.childrenEmbeddedTable.refresh();
+    // nothing to do
   }
 }
 

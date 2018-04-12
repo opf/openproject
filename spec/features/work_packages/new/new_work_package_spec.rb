@@ -9,9 +9,9 @@ describe 'new work package', js: true do
   let(:types) { [type_task, type_bug] }
   let!(:status) { FactoryGirl.create(:status, is_default: true) }
   let!(:priority) { FactoryGirl.create(:priority, is_default: true) }
-  let!(:project) {
+  let!(:project) do
     FactoryGirl.create(:project, types: types)
-  }
+  end
 
   let(:user) { FactoryGirl.create :admin }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
@@ -138,31 +138,31 @@ describe 'new work package', js: true do
       end
 
       context 'custom fields' do
-        let(:custom_field1) {
+        let(:custom_field1) do
           FactoryGirl.create(
             :work_package_custom_field,
             field_format: 'string',
             is_required: true,
             is_for_all: true
           )
-        }
-        let(:custom_field2) {
+        end
+        let(:custom_field2) do
           FactoryGirl.create(
             :work_package_custom_field,
             field_format: 'list',
             possible_values: %w(foo bar xyz),
             is_required: false,
             is_for_all: true)
-        }
-        let(:custom_fields) {
+        end
+        let(:custom_fields) do
           [custom_field1, custom_field2]
-        }
+        end
         let(:type_task) { FactoryGirl.create(:type_task, custom_fields: custom_fields) }
-        let(:project) {
+        let(:project) do
           FactoryGirl.create(:project,
                              types: types,
                              work_package_custom_fields: custom_fields)
-        }
+        end
 
         it do
           ids = custom_fields.map(&:id)
@@ -268,14 +268,14 @@ describe 'new work package', js: true do
     let(:role) { FactoryGirl.create :role, permissions: %i(view_work_packages) }
     let(:wp_page) { ::Pages::Page.new }
 
-    let(:paths) {
+    let(:paths) do
       [
         new_work_packages_path,
         new_split_work_packages_path,
         new_project_work_packages_path(project),
         new_split_project_work_packages_path(project)
       ]
-    }
+    end
 
     it 'shows a 403 error on creation paths' do
       paths.each do |path|
@@ -289,14 +289,14 @@ describe 'new work package', js: true do
     let(:user) { FactoryGirl.create(:anonymous) }
     let(:wp_page) { ::Pages::Page.new }
 
-    let(:paths) {
+    let(:paths) do
       [
         new_work_packages_path,
         new_split_work_packages_path,
         new_project_work_packages_path(project),
         new_split_project_work_packages_path(project)
       ]
-    }
+    end
 
     it 'shows a 403 error on creation paths' do
       paths.each do |path|

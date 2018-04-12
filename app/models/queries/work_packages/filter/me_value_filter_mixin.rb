@@ -31,45 +31,20 @@
 ##
 # Mixin to a filter or strategy
 module Queries::WorkPackages::Filter::MeValueFilterMixin
-  # The 'me' value is passed to the frontend
-  ME_VALUE = 'me'.freeze
-
   ##
   # Return whether the current values object has a me value
   def has_me_value?
-    values.include? ME_VALUE
+    values.include? me_value_key
   end
 
   ##
   # Return the AR principal values with the me_value being replaced
   def value_objects
-    prepared_values = values.map { |value| value == ME_VALUE ? User.current.id : value }
-    Principal.where(id: prepared_values)
-  end
+    principals = Principal.where(id: no_me_values).to_a
 
-  ##
-  # Returns a hash of the value objects with the me value referenced
-  # in order for the representer to identify it.
-  def value_objects_hash
-    objects = super
+    principals.unshift(::Queries::Filters::MeValue.new) if has_me_value?
 
-    # Replace me value identifier
-    if has_me_value?
-      search = User.current.id
-      objects.each do |value_object|
-        if value_object[:id] == search
-          value_object[:id] = ME_VALUE
-          value_object[:name] = me_label
-          break
-        end
-      end
-    end
-
-    objects
-  end
-
-  def values
-    super
+    principals
   end
 
   ##
@@ -78,7 +53,7 @@ module Queries::WorkPackages::Filter::MeValueFilterMixin
   def values_replaced
     vals = values.clone
 
-    if vals.delete(ME_VALUE)
+    if vals.delete(me_value_key)
       if User.current.logged?
         vals.push(User.current.id.to_s)
       else
@@ -100,8 +75,19 @@ module Queries::WorkPackages::Filter::MeValueFilterMixin
   def me_allowed_value
     values = []
     if User.current.logged?
-      values << [me_label, ME_VALUE]
+      values << [me_label, me_value_key]
     end
     values
+  end
+
+  def no_me_values
+    sanitized_values = values.reject { |v| v == me_value_key }
+    sanitized_values = sanitized_values.reject { |v| v == User.current.id.to_s } if has_me_value?
+
+    sanitized_values
+  end
+
+  def me_value_key
+    ::Queries::Filters::MeValue::KEY
   end
 end

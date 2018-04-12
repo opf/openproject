@@ -275,7 +275,7 @@ describe 'form configuration', type: :feature, js: true do
 
         # Test the actual type backend
         type.reload
-        expect(type.attribute_groups.map { |el| el[0] })
+        expect(type.attribute_groups.map { |el| el.key })
           .to include('Cool Stuff', :estimates_and_time, 'Whatever', 'New Group')
 
         # Visit work package with that type
