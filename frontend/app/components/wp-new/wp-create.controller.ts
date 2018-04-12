@@ -42,7 +42,8 @@ import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageCreateService} from './wp-create.service';
 import {takeUntil} from 'rxjs/operators';
-import {RootDmService} from 'core-app/modules/dm-services/root-dm.service';
+import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
+
 
 export class WorkPackageCreateController implements OnInit, OnDestroy {
   public successState:string;

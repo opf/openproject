@@ -57,7 +57,7 @@ import {
   zoomLevelOrder
 } from '../wp-timeline';
 import moment = require('moment');
-import {TypeDmService} from 'core-app/modules/dm-services/type-dm.service';
+import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 
 @Component({
   selector: 'wp-timeline-container',

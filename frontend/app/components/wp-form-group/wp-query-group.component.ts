@@ -31,7 +31,7 @@ import {OpUnlinkTableAction} from 'core-components/wp-table/table-actions/action
 import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {Component, Inject, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
-import {I18nToken, UrlParamsHelperServiceToken} from 'core-app/angular4-transition-utils';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
@@ -69,7 +69,7 @@ export class WorkPackageFormQueryGroupComponent implements OnInit {
 
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected PathHelper:PathHelperService,
-              @Inject(UrlParamsHelperServiceToken) protected queryUrlParamsHelper:UrlParamsHelperService,
+              protected queryUrlParamsHelper:UrlParamsHelperService,
               @Inject(I18nToken) protected I18n:op.I18n) {
   }
 

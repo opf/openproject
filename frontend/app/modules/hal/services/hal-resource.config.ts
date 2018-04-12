@@ -48,6 +48,7 @@ import {
   HalResourceFactoryConfigInterface,
   HalResourceService
 } from 'core-app/modules/hal/services/hal-resource.service';
+import {Injectable} from '@angular/core';
 
 
 
@@ -143,12 +144,12 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   }
 };
 
-export function initializeDefaultHalConfig(halResourceFactory:HalResourceService) {
-  return ():Promise<void> => {
-    return new Promise((resolve,) => {
-      _.each(halResourceDefaultConfig, (value, key) => {
-        halResourceFactory.registerResource(key, halResourceDefaultConfig[key]);
-      });
-    });
-  };
-};
+// TODO refactor into app initializer when fully converted
+// as APP_INITIALIZER breaks async ng1 bootstrapping we currently need.
+@Injectable()
+export class HalResourceConfig {
+  constructor(halResourceService:HalResourceService) {
+    _.each(halResourceDefaultConfig, (value, key) => halResourceService.registerResource(key, value));
+  }
+}
+

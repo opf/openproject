@@ -26,37 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+
+
 import {Inject, Injectable} from '@angular/core';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {ConfigurationResource} from 'core-app/modules/hal/resources/configuration-resource';
 import {v3PathToken} from 'core-app/angular4-transition-utils';
-import {RootResource} from 'core-app/modules/hal/resources/root-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
-import {States} from 'core-components/states.service';
 
 @Injectable()
-export class TypeDmService {
-  constructor(protected halRequest:HalResourceService,
-              protected states:States,
+export class ConfigurationDmService {
+  constructor(protected halResourceService:HalResourceService,
               @Inject(v3PathToken) protected v3Path:any) {
   }
 
-  public loadAll():Promise<TypeResource[]> {
-    const typeUrl = this.v3Path.types();
-
-    return this.halRequest
-      .get<CollectionResource<TypeResource>>(typeUrl)
-      .toPromise()
-      .then((result:CollectionResource<TypeResource>) => {
-        // TODO move into a TypeCacheService
-        _.each(result.elements, (type) => this.states.types.get(type.href!).putValue(type));
-        return result.elements;
-      });
-  }
-
-  public load():Promise<RootResource> {
-    return this.halRequest
-      .get<RootResource>(this.v3Path.root())
-      .toPromise();
+  public load():Promise<ConfigurationResource> {
+    return this.halResourceService.get<ConfigurationResource>(this.v3Path.configuration()).toPromise();
   }
 }

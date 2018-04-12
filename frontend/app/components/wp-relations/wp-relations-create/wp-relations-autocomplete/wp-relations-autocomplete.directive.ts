@@ -91,10 +91,6 @@ function wpRelationsAutocompleteDirective(
         return scope.workPackage.available_relation_candidates.$link.$fetch({
           query: query,
           type: scope.filterCandidatesFor || scope.selectedRelationType
-        }, {
-          'caching': {
-            enabled: false
-          }
         }).then((collection:CollectionResource) => {
           scope.noResults = collection.count === 0;
           return collection.elements || [];

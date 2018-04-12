@@ -18,7 +18,6 @@ import {WorkPackageTableAdditionalElementsService} from '../wp-fast-table/state/
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
-import {downgradeInjectable} from '@angular/upgrade/static';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 
 @Injectable()
@@ -146,7 +145,3 @@ export class WorkPackageStatesInitializationService {
     this.tableState.rendered.clear(reason);
   }
 }
-
-angular
-  .module('openproject.workPackages.services')
-  .service('wpStatesInitialization', downgradeInjectable(WorkPackageStatesInitializationService));

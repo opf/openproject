@@ -41,7 +41,6 @@ import {WorkPackageTableHierarchiesService} from './wp-table-hierarchy.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Inject, Injectable} from '@angular/core';
-import {halRequestToken} from 'core-app/angular4-transition-utils';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 @Injectable()
@@ -51,7 +50,7 @@ export class WorkPackageTableAdditionalElementsService {
               readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
               readonly wpNotificationsService:WorkPackageNotificationService,
-              @Inject(halRequestToken) readonly halRequest:HalResourceService,
+              readonly halResourceService:HalResourceService,
               readonly wpCacheService:WorkPackageCacheService,
               readonly wpRelations:WorkPackageRelationsService) {
   }

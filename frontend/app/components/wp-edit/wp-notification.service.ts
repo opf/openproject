@@ -31,13 +31,21 @@ import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {wpServicesModule} from '../../angular-modules';
 import {StateService} from '@uirouter/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {Inject, Injectable} from '@angular/core';
+import {
+  $stateToken,
+  I18nToken,
+  NotificationsServiceToken
+} from 'core-app/angular4-transition-utils';
+import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
 
+@Injectable()
 export class WorkPackageNotificationService {
-  constructor(protected I18n:op.I18n,
-              protected $state:StateService,
+  constructor(@Inject(I18nToken) protected I18n:op.I18n,
+              @Inject($stateToken) protected $state:StateService,
               protected halResourceService:HalResourceService,
-              protected NotificationsService:any,
-              protected loadingIndicator:any) {
+              @Inject(NotificationsServiceToken) protected NotificationsService:any,
+              protected loadingIndicator:LoadingIndicatorService) {
   }
 
   public showSave(workPackage: WorkPackageResource, isCreate:boolean = false) {
@@ -130,12 +138,10 @@ export class WorkPackageNotificationService {
   private showInFullScreenLink(workPackage:WorkPackageResource) {
     return {
       target: () => {
-        this.loadingIndicator.mainPage =
+        this.loadingIndicator.table.promise =
           this.$state.go('work-packages.show.activity', { workPackageId: workPackage.id });
       },
       text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
     };
   }
 }
-
-wpServicesModule.service('wpNotificationsService', WorkPackageNotificationService);

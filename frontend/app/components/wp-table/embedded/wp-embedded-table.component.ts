@@ -23,7 +23,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {QueryDmService} from 'core-app/modules/dm-services/query-dm.service';
+import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 
 @Component({

@@ -41,7 +41,7 @@ import {FormsModule} from '@angular/forms';
 import {OpIcon} from 'core-components/common/icon/op-icon';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {RootDmService} from 'core-app/modules/dm-services/root-dm.service';
+import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 
 require('core-app/angular4-test-setup');
 

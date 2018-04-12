@@ -28,7 +28,6 @@
 
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
@@ -51,7 +50,6 @@ import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.se
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
-import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 
 @Component({
   selector: 'wp-list',
@@ -248,10 +246,4 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
       this.selectedTitle = I18n.t('js.label_work_package_plural');
     }
   }
-
 }
-
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpList',
-    downgradeComponent({component: WorkPackagesListComponent}));

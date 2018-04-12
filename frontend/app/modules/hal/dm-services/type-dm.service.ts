@@ -28,17 +28,34 @@
 
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Inject, Injectable} from '@angular/core';
-import {v3PathToken} from 'core-app/angular4-transition-utils';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
+import {States} from 'core-app/components/states.service';
+import {v3PathToken} from 'core-app/angular4-transition-utils';
 
 @Injectable()
-export class RootDmService {
-  constructor(protected halRequest:HalResourceService,
+export class TypeDmService {
+  constructor(protected halResourceService:HalResourceService,
+              protected states:States,
               @Inject(v3PathToken) protected v3Path:any) {
   }
 
+  public loadAll():Promise<TypeResource[]> {
+    const typeUrl = this.v3Path.types();
+
+    return this.halResourceService
+      .get<CollectionResource<TypeResource>>(typeUrl)
+      .toPromise()
+      .then((result:CollectionResource<TypeResource>) => {
+        // TODO move into a TypeCacheService
+        _.each(result.elements, (type) => this.states.types.get(type.href!).putValue(type));
+        return result.elements;
+      });
+  }
+
   public load():Promise<RootResource> {
-    return this.halRequest
+    return this.halResourceService
       .get<RootResource>(this.v3Path.root())
       .toPromise();
   }

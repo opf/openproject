@@ -30,10 +30,14 @@ import {PathHelperService} from '../common/path-helper/path-helper.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
 import {HalLink} from 'core-app/modules/hal/hal-link/hal-link';
+import {Injectable} from '@angular/core';
+import {PaginationService} from 'core-components/table-pagination/pagination-service';
 
+@Injectable()
 export class UrlParamsHelperService {
 
-  public constructor(public paginationService:any, public PathHelper:PathHelperService) {
+  public constructor(public paginationService:PaginationService,
+                     public PathHelper:PathHelperService) {
 
   }
 
@@ -296,6 +300,3 @@ export class UrlParamsHelperService {
     return decodeURIComponent(id);
   }
 }
-
-angular.module('openproject.helpers')
-  .service('UrlParamsHelper', UrlParamsHelperService);

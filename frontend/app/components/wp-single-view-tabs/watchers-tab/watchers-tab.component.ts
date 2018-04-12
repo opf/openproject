@@ -193,7 +193,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
     return new Promise<UserResource[]>((resolve, reject) => {
       this.workPackage.availableWatchers
         .$link
-        .$fetch(payload, {caching: {enabled: false}})
+        .$fetch(payload)
         .then((collection:CollectionResource<UserResource>) => {
           this.noResults = collection.count === 0;
           resolve(collection.elements);

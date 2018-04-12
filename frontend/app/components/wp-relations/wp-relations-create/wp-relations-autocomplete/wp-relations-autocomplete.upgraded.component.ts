@@ -103,10 +103,6 @@ export class WpRelationsAutocompleteComponent implements OnInit {
     return this.workPackage.available_relation_candidates.$link.$fetch({
       query: query,
       type: this.filterCandidatesFor || this.selectedRelationType
-    }, {
-      'caching': {
-        enabled: false
-      }
     }).then((collection:CollectionResource) => {
       this.noResults = collection.count === 0;
       this.$element.find('.ui-autocomplete--loading').hide();

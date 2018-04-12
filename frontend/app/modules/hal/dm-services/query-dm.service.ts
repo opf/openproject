@@ -27,14 +27,15 @@
 //++
 
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {PayloadDmService} from 'core-app/modules/dm-services/payload-dm.service';
+import {PayloadDmService} from 'core-app/modules/hal/dm-services/payload-dm.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {ApiV3FilterBuilder} from 'core-components/api/api-v3/api-v3-filter-builder';
-import {v3PathToken} from 'core-app/angular4-transition-utils';
+import {ApiV3FilterBuilder} from 'core-app/components/api/api-v3/api-v3-filter-builder';
 import {Inject} from '@angular/core';
+import {v3PathToken} from 'core-app/angular4-transition-utils';
+import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 
 export interface PaginationObject {
   pageSize:number;
@@ -42,9 +43,9 @@ export interface PaginationObject {
 }
 
 export class QueryDmService {
-  constructor(protected halRequest:HalResourceService,
+  constructor(protected halResourceService:HalResourceService,
               @Inject(v3PathToken) protected v3Path:any,
-              protected UrlParamsHelper:any,
+              protected UrlParamsHelper:UrlParamsHelperService,
               protected PayloadDm:PayloadDmService) {
   }
 
@@ -57,7 +58,7 @@ export class QueryDmService {
       path = this.v3Path.queries.default({project: projectIdentifier});
     }
 
-    return this.halRequest
+    return this.halResourceService
       .get<QueryResource>(path, queryData)
       .toPromise();
   }
@@ -69,7 +70,7 @@ export class QueryDmService {
   public reload(query:QueryResource, pagination:PaginationObject):Promise<QueryResource> {
     let path = this.v3Path.queries({query: query.id});
 
-    return this.halRequest
+    return this.halResourceService
       .get<QueryResource>(path, pagination)
       .toPromise();
   }
@@ -83,8 +84,8 @@ export class QueryDmService {
 
     var url = URI(query.results.href!).path();
 
-    return this.halRequest
-      .get<WorkPackageCollectionResource>(url, queryData, {caching: {enabled: false} })
+    return this.halResourceService
+      .get<WorkPackageCollectionResource>(url, queryData)
       .toPromise();
   }
 
@@ -104,7 +105,7 @@ export class QueryDmService {
       }
     ];
 
-    return this.halRequest
+    return this.halResourceService
       .get<WorkPackageCollectionResource>(this.v3Path.wps(), {filters: JSON.stringify(filters)})
       .toPromise();
   }
@@ -114,7 +115,7 @@ export class QueryDmService {
       this.extractPayload(query, form)
         .then(payload => {
           let path = this.v3Path.queries({ query: query.id });
-          this.halRequest.patch<QueryResource>(path, payload)
+          this.halResourceService.patch<QueryResource>(path, payload)
             .toPromise()
             .then(resolve)
             .catch(reject)
@@ -127,7 +128,7 @@ export class QueryDmService {
     return this.extractPayload(query, form).then(payload => {
       let path = this.v3Path.queries();
 
-      return this.halRequest
+      return this.halResourceService
         .post<QueryResource>(path, payload)
         .toPromise();
     });
@@ -157,9 +158,8 @@ export class QueryDmService {
     }
 
     let urlQuery = { filters: filters.toJson() };
-    let caching = { caching: {enabled: false} };
 
-    return this.halRequest
+    return this.halResourceService
       .get<CollectionResource>(this.v3Path.queries(), urlQuery)
       .toPromise();
   }

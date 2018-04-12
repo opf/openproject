@@ -27,8 +27,7 @@
 //++
 
 import {Injectable} from '@angular/core';
-import {opServicesModule} from "../../angular-modules";
-import {ConfigurationDmService} from 'core-app/modules/dm-services/configuration-dm.service';
+import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
 
 export const DEFAULT_PAGINATION_OPTIONS = {
   maxVisiblePageOptions: 6,
@@ -120,5 +119,3 @@ export class PaginationService {
     });
   }
 }
-
-opServicesModule.service('paginationService', PaginationService);

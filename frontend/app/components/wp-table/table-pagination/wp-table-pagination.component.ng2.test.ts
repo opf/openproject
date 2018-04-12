@@ -29,7 +29,7 @@
 require('core-app/angular4-test-setup');
 
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {ConfigurationDmService} from 'core-app/modules/dm-services/configuration-dm.service';
+import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
 import {async, inject, TestBed} from '@angular/core/testing';
 import {$httpToken, $qToken, halResourceFactoryToken, I18nToken, v3PathToken} from 'core-app/angular4-transition-utils';
 import {States} from 'core-components/states.service';

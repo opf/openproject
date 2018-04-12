@@ -28,22 +28,21 @@
 
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Inject, Injectable} from '@angular/core';
-import {v3PathToken} from 'core-app/angular4-transition-utils';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {buildApiV3Filter} from 'core-components/api/api-v3/api-v3-filter-builder';
+import {buildApiV3Filter} from 'core-app/components/api/api-v3/api-v3-filter-builder';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {v3PathToken} from 'core-app/angular4-transition-utils';
 
 @Injectable()
 export class RelationsDmService {
 
-  constructor(private halRequest:HalResourceService,
-              @Inject(v3PathToken) private v3Path:any,
-              private $q:ng.IQService) {
+  constructor(private halResourceService:HalResourceService,
+              @Inject(v3PathToken) private v3Path:any) {
 
   }
 
   public load(workPackageId:string):Promise<RelationResource[]> {
-    return this.halRequest.get<CollectionResource<RelationResource>>(
+    return this.halResourceService.get<CollectionResource<RelationResource>>(
       this.v3Path.wp.relations({wp: workPackageId}), {})
       .toPromise()
       .then((collection:CollectionResource<RelationResource>) => collection.elements);
@@ -53,10 +52,10 @@ export class RelationsDmService {
     let validIds = _.filter(workPackageIds, id => /\d+/.test(id));
 
     if (validIds.length === 0) {
-      return this.$q.resolve([]);
+      return Promise.resolve([]);
     }
 
-    return this.halRequest.get<CollectionResource<RelationResource>>(
+    return this.halResourceService.get<CollectionResource<RelationResource>>(
       '/api/v3/relations',
       {
         filters: buildApiV3Filter('involved', '=', validIds).toJson()

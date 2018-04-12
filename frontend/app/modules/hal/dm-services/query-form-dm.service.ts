@@ -28,13 +28,13 @@
 
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Inject, Injectable} from '@angular/core';
-import {v3PathToken} from 'core-app/angular4-transition-utils';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
+import {v3PathToken} from 'core-app/angular4-transition-utils';
 
 @Injectable()
 export class QueryFormDmService {
-  constructor(readonly halRequest:HalResourceService,
+  constructor(readonly halResourceService:HalResourceService,
               @Inject(v3PathToken) protected v3Path:any) {
   }
 
@@ -85,7 +85,7 @@ export class QueryFormDmService {
 
     href = URI(href).search(params).toString();
 
-    return this.halRequest
+    return this.halResourceService
       .post<QueryFormResource>(href, payload)
       .toPromise();
   }

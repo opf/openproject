@@ -4,7 +4,7 @@ import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-reque
 import {opServicesModule} from '../../angular-modules';
 import {StateCacheService} from '../states/state-cache.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {RelationsDmService} from 'core-app/modules/dm-services/relations-dm.service';
+import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.service';
 
 export type RelationsStateValue = { [relationId:number]:RelationResource };
 

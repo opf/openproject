@@ -31,7 +31,7 @@ import {IDialogService} from 'ng-dialog';
 import {IDialogScope} from 'ng-dialog';
 import {opUiComponentsModule} from '../../../angular-modules';
 import {AttributeHelpTextsService} from './attribute-help-text.service';
-import {HelpTextDmService} from 'core-app/modules/dm-services/help-text-dm.service';
+import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
 import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
 
 export class AttributeHelpTextController {

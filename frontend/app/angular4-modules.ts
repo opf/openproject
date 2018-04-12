@@ -69,8 +69,6 @@ import {
   $timeoutToken,
   exportModalToken,
   FocusHelperToken,
-  halRequestToken,
-  HalResourceToken,
   HookServiceToken,
   I18nToken,
   NotificationsServiceToken,
@@ -82,9 +80,8 @@ import {
   shareModalToken,
   TimezoneServiceToken,
   upgradeService,
-  upgradeServiceWithToken, UrlParamsHelperServiceToken,
-  UrlParamsHelperToken,
-  v3PathToken,
+  upgradeServiceWithToken,
+  UrlParamsHelperToken, v3PathToken,
   wpDestroyModalToken,
   wpMoreMenuServiceToken
 } from './angular4-transition-utils';
@@ -184,7 +181,7 @@ import {WpRelationsAutocompleteComponent} from 'core-components/wp-relations/wp-
 import {WpRelationAddChildComponent} from 'core-components/wp-relations/wp-relation-add-child/wp-relation-add-child';
 import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relations-parent/wp-relations-parent.component';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
-import {QueryFormDmService} from 'core-app/modules/dm-services/query-form-dm.service';
+import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configuration-modal/tabs/columns-tab.component';
@@ -208,6 +205,8 @@ import {AccessibleByKeyboardComponent} from 'core-components/a11y/accessible-by-
 import {WorkPackageFormQueryGroupComponent} from 'core-components/wp-form-group/wp-query-group.component';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
+import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
+import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.directive';
 
 @NgModule({
   imports: [
@@ -223,7 +222,6 @@ import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relat
   providers: [
     GonRef,
     HideSectionService,
-    upgradeServiceWithToken('HalResource', HalResourceToken),
     upgradeServiceWithToken('QueryResource', QueryResourceToken),
     upgradeServiceWithToken('QueryFilterInstanceResource', QueryFilterInstanceResourceToken),
     upgradeServiceWithToken('$rootScope', $rootScopeToken),
@@ -235,31 +233,30 @@ import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relat
     upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
     upgradeServiceWithToken('FocusHelper', FocusHelperToken),
     upgradeServiceWithToken('PathHelper', PathHelperToken),
-    upgradeServiceWithToken('halRequest', halRequestToken),
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
     upgradeServiceWithToken('TimezoneService', TimezoneServiceToken),
-    upgradeServiceWithToken('v3Path', v3PathToken),
     upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
     upgradeServiceWithToken('shareModal', shareModalToken),
     upgradeServiceWithToken('saveModal', saveModalToken),
     upgradeServiceWithToken('settingsModal', settingsModalToken),
     upgradeServiceWithToken('exportModal', exportModalToken),
-    upgradeServiceWithToken('UrlParamsHelper', UrlParamsHelperServiceToken),
+    upgradeServiceWithToken('v3Path', v3PathToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
+    UrlParamsHelperService,
     WorkPackageCacheService,
     WorkPackageEditingService,
     SchemaCacheService,
     upgradeService('states', States),
-    upgradeService('paginationService', PaginationService),
+    PaginationService,
     upgradeService('keepTab', KeepTabService),
     upgradeService('templateRenderer', SimpleTemplateRenderer),
     upgradeService('wpDisplayField', WorkPackageDisplayFieldService),
-    upgradeService('wpNotificationsService', WorkPackageNotificationService),
-    upgradeService('wpListChecksumService', WorkPackagesListChecksumService),
+    WorkPackageNotificationService,
+    WorkPackagesListChecksumService,
     upgradeService('wpRelationsHierarchyService', WorkPackageRelationsHierarchyService),
     upgradeService('wpFiltersService', WorkPackageFiltersService),
     upgradeService('loadingIndicator', LoadingIndicatorService),
-    upgradeService('apiWorkPackages', ApiWorkPackagesService),
+    ApiWorkPackagesService,
     // Table and query states services
     WorkPackageTableRelationColumnsService,
     WorkPackageTablePaginationService,
@@ -286,7 +283,8 @@ import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relat
     upgradeService('authorisationService', AuthorisationService),
     upgradeService('ConfigurationService', ConfigurationService),
     upgradeService('currentProject', CurrentProjectService),
-    upgradeService('queryMenu', QueryMenuService),
+    QueryMenuService,
+    WpQueryMenuDirective,
     // Split view
     upgradeService('firstRoute', FirstRouteService),
     upgradeService('PathHelper', PathHelperService),

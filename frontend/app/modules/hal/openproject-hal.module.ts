@@ -26,11 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, InjectionToken, NgModule} from '@angular/core';
+import {InjectionToken, NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
-import {initializeDefaultHalConfig} from 'core-app/modules/hal/services/hal-resource.config';
+import {HalResourceConfig} from 'core-app/modules/hal/services/hal-resource.config';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
+import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
+import {PayloadDmService} from 'core-app/modules/hal/dm-services/payload-dm.service';
+import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
+import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
+import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.service';
+import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
+import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
+import {upgradeServiceWithToken, v3PathToken} from 'core-app/angular4-transition-utils';
 
 @NgModule({
   imports: [
@@ -39,7 +48,16 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
   ],
   providers: [
     HalResourceService,
-    { provide: APP_INITIALIZER, useFactory: initializeDefaultHalConfig, deps: [HalResourceService], multi: true },
+    HalResourceConfig,
+    upgradeServiceWithToken('v3Path', v3PathToken),
+    ConfigurationDmService,
+    HelpTextDmService,
+    PayloadDmService,
+    QueryDmService,
+    QueryFormDmService,
+    RelationsDmService,
+    RootDmService,
+    TypeDmService
   ]
 })
 export class OpenprojectHalModule { }

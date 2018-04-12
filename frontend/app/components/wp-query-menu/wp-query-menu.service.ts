@@ -28,7 +28,7 @@
 
 import {input} from 'reactivestates';
 import {distinctUntilChanged, filter} from 'rxjs/operators';
-import {wpServicesModule} from '../../angular-modules';
+import {Injectable} from '@angular/core';
 
 export type QueryMenuEvent = {
   event:'add' | 'remove' | 'rename';
@@ -37,6 +37,7 @@ export type QueryMenuEvent = {
   label?:string;
 };
 
+@Injectable()
 export class QueryMenuService {
   private events = input<QueryMenuEvent>();
 
@@ -64,5 +65,3 @@ export class QueryMenuService {
       );
   }
 }
-
-wpServicesModule.service('queryMenu', QueryMenuService);

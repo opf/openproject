@@ -180,7 +180,19 @@ export class PathHelperService {
   }
 
   public apiV3WorkPackagePath(workPackageId:string|number) {
-    return this.apiV3 + '/work_packages/' + workPackageId;
+    return this.apiV3WorkPackagesPath() + '/' + workPackageId;
+  }
+
+  public apiV3WorkPackagesPath() {
+    return this.apiV3 + '/work_packages';
+  }
+
+  public apiV3WorkPackagesFormPath(projectIdentifier?:string) {
+    if (projectIdentifier) {
+      return this.apiV3ProjectPath + '/work_packages/form';
+    } else {
+      return this.apiV3WorkPackagesPath() + '/form';
+    }
   }
 
   public apiV3ProjectPath(projectIdentifier:string) {

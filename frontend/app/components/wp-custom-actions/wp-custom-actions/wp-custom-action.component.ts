@@ -33,7 +33,6 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {halRequestToken} from 'core-app/angular4-transition-utils';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {CustomActionResource} from 'core-app/modules/hal/resources/custom-action-resource';
 
@@ -46,12 +45,12 @@ export class WpCustomActionComponent {
   @Input() workPackage:WorkPackageResource;
   @Input() action:CustomActionResource;
 
-  constructor(@Inject(halRequestToken) private halRequest:HalResourceService,
+  constructor(private halResourceService:HalResourceService,
               private wpCacheService:WorkPackageCacheService,
               private wpNotificationsService:WorkPackageNotificationService) { }
 
   private fetchAction() {
-    this.halRequest.get<CustomActionResource>(this.action.href!)
+    this.halResourceService.get<CustomActionResource>(this.action.href!)
       .toPromise()
       .then((action) => {
         this.action = <CustomActionResource>action;
@@ -68,7 +67,7 @@ export class WpCustomActionComponent {
       }
     };
 
-    this.halRequest.post<WorkPackageResource>(this.action.href + '/execute', payload)
+    this.halResourceService.post<WorkPackageResource>(this.action.href + '/execute', payload)
       .toPromise()
       .then((savedWp:WorkPackageResource) => {
         this.wpNotificationsService.showSave(savedWp, false);

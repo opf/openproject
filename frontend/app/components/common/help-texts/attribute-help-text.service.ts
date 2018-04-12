@@ -28,7 +28,7 @@
 
 import {input} from 'reactivestates';
 import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
-import {HelpTextDmService} from 'core-app/modules/dm-services/help-text-dm.service';
+import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
 import {Injectable} from '@angular/core';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 

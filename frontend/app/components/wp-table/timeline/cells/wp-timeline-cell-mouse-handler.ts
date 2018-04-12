@@ -40,7 +40,7 @@ import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {WorkPackageCellLabels} from './wp-timeline-cell';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {QueryDmService} from 'core-app/modules/dm-services/query-dm.service';
+import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import Moment = moment.Moment;
 
 export const classNameBar = 'bar';

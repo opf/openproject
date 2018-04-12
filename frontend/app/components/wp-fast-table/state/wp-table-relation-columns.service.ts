@@ -42,8 +42,7 @@ import {
   WorkPackageRelationsService
 } from '../../wp-relations/wp-relations.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {Inject, Injectable} from '@angular/core';
-import {halRequestToken} from 'core-app/angular4-transition-utils';
+import {Injectable} from '@angular/core';
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
@@ -56,7 +55,7 @@ export type RelationColumnType = 'toType' | 'ofType';
 export class WorkPackageTableRelationColumnsService extends WorkPackageTableBaseService<WorkPackageTableRelationColumns> {
   constructor(public tableState:TableState,
               public wpTableColumns:WorkPackageTableColumnsService,
-              @Inject(halRequestToken) public halRequest:HalResourceService,
+              public halResourceService:HalResourceService,
               public wpCacheService:WorkPackageCacheService,
               public wpRelations:WorkPackageRelationsService) {
       super(tableState);

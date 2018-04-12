@@ -33,16 +33,16 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 import {States} from '../../states.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {StateService} from '@uirouter/core';
+import {$stateToken, v3PathToken} from 'core-app/angular4-transition-utils';
+import {Inject} from '@angular/core';
 
 export class WorkPackageRelationsHierarchyService {
-  constructor(protected $state:StateService,
-              protected $q:ng.IQService,
+  constructor(@Inject($stateToken) protected $state:StateService,
               protected states:States,
               protected wpTableRefresh:WorkPackageTableRefreshService,
-              protected $rootScope:ng.IRootScopeService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpCacheService:WorkPackageCacheService,
-              protected v3Path:any) {
+              @Inject(v3PathToken) protected v3Path:any) {
 
   }
 
@@ -75,7 +75,7 @@ export class WorkPackageRelationsHierarchyService {
       })
       .catch((error) => {
         this.wpNotificationsService.handleErrorResponse(error, workPackage);
-        return this.$q.reject(error);
+        return Promise.reject(error);
       });
   }
 
@@ -84,15 +84,17 @@ export class WorkPackageRelationsHierarchyService {
   }
 
   public addExistingChildWp(workPackage:WorkPackageResource, childWpId:string):Promise<WorkPackageResource> {
-    const deferred = this.$q.defer<WorkPackageResource>();
     const state = this.wpCacheService.loadWorkPackage(childWpId);
 
-    state.valuesPromise().then((wpToBecomeChild:WorkPackageResource|undefined) => {
-      this.wpTableRefresh.request(`Added new child to ${workPackage.id}`, true);
-      this.changeParent(wpToBecomeChild!, workPackage.id).then(wp => deferred.resolve(wp));
-    });
+    return new Promise((resolve, reject) => {
+      state.valuesPromise().then((wpToBecomeChild:WorkPackageResource|undefined) => {
+        this.wpTableRefresh.request(`Added new child to ${workPackage.id}`, true);
 
-    return deferred.promise;
+        return this.changeParent(wpToBecomeChild!, workPackage.id)
+          .then(wp => resolve(wp))
+          .catch(reject);
+      });
+    });
   }
 
   public addNewChildWp(workPackage:WorkPackageResource) {
@@ -127,12 +129,8 @@ export class WorkPackageRelationsHierarchyService {
       })
       .catch((error) => {
         this.wpNotificationsService.handleErrorResponse(error, childWorkPackage);
-        return this.$q.reject(error);
+        return Promise.reject(error);
       });
     });
   }
 }
-
-wpDirectivesModule.service('wpRelationsHierarchyService', WorkPackageRelationsHierarchyService);
-
-

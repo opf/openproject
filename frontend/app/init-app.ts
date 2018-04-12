@@ -55,8 +55,6 @@ catch(e) {
 }
 
 import {openprojectModule} from './angular-modules';
-import CacheService = op.CacheService;
-import {getUIRouter} from '@uirouter/angular-hybrid';
 import {whenDebugging} from 'core-app/helpers/debug_output';
 import {enableReactiveStatesLogging} from 'reactivestates';
 
@@ -115,14 +113,12 @@ openprojectModule
       '$window',
       'TimezoneService',
       'ExpressionService',
-      'CacheService',
       'KeyboardShortcutService',
       function($http:ng.IHttpService,
                $rootScope:any,
                $window:ng.IWindowService,
                TimezoneService:any,
                ExpressionService:ExpressionService,
-               CacheService:CacheService,
                KeyboardShortcutService:any) {
 
         $http.defaults.headers!.common.Accept = 'application/json';
@@ -144,11 +140,6 @@ openprojectModule
 
         TimezoneService.setupLocale();
         KeyboardShortcutService.activate();
-
-        // Disable the CacheService for test environment
-        if (window.OpenProject.environment === 'test') {
-          CacheService.disableCaching();
-        }
 
         angular.element('body').addClass('__ng-bootstrap-has-run');
 

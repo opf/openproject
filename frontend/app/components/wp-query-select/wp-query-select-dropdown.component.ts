@@ -38,7 +38,7 @@ import {
   OpContextMenuLocalsToken
 } from "core-app/angular4-transition-utils";
 import {OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";
-import {QueryDmService} from 'core-app/modules/dm-services/query-dm.service';
+import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 
 interface IAutocompleteItem {
   label:string;

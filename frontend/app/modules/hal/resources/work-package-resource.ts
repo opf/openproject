@@ -29,8 +29,7 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {
   I18nToken,
-  NotificationsServiceToken,
-  v3PathToken
+  NotificationsServiceToken, v3PathToken,
 } from 'core-app/angular4-transition-utils';
 import {AttachmentCollectionResource} from 'core-app/modules/hal/resources/attachment-collection-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';

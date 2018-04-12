@@ -26,20 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-
-
-import {Inject, Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {Inject, Injectable} from '@angular/core';
+import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {v3PathToken} from 'core-app/angular4-transition-utils';
-import {ConfigurationResource} from 'core-app/modules/hal/resources/configuration-resource';
 
 @Injectable()
-export class ConfigurationDmService {
-  constructor(protected halRequest:HalResourceService,
+export class RootDmService {
+  constructor(protected halResourceService:HalResourceService,
               @Inject(v3PathToken) protected v3Path:any) {
   }
 
-  public load():Promise<ConfigurationResource> {
-    return this.halRequest.get<ConfigurationResource>(this.v3Path.configuration()).toPromise();
+  public load():Promise<RootResource> {
+    return this.halResourceService
+      .get<RootResource>(this.v3Path.root())
+      .toPromise();
   }
 }

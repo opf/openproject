@@ -46,10 +46,8 @@ import {
   NotificationsServiceToken,
   UrlParamsHelperToken
 } from 'core-app/angular4-transition-utils';
-import {downgradeInjectable} from '@angular/upgrade/static';
-import {opServicesModule} from 'core-app/angular-modules';
-import {QueryFormDmService} from 'core-app/modules/dm-services/query-form-dm.service';
-import {PaginationObject, QueryDmService} from 'core-app/modules/dm-services/query-dm.service';
+import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
+import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 
 @Injectable()
 export class WorkPackagesListService {
@@ -365,5 +363,3 @@ export class WorkPackagesListService {
       .remove(query.id.toString());
   }
 }
-
-opServicesModule.service('wpListService', downgradeInjectable(WorkPackagesListService));
