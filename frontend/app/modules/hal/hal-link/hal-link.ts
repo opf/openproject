@@ -28,10 +28,9 @@
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {
-  HalRequestService,
   HTTPSupportedMethods
-} from 'core-app/modules/hal/services/hal-request.service';
-import {HalLinkService} from 'core-app/modules/hal/hal-link/hal-link.service';
+} from 'core-app/modules/hal/services/hal-resource.service';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 export interface HalLinkInterface {
   href:string|null;
@@ -48,7 +47,7 @@ export interface CallableHalLink extends HalLinkInterface {
 }
 
 export class HalLink implements HalLinkInterface {
-  constructor(public halLinkService:HalLinkService,
+  constructor(public halResourceService:HalResourceService,
               public href:string|null = null,
               public title:string = '',
               public method:HTTPSupportedMethods = 'get',
@@ -59,11 +58,27 @@ export class HalLink implements HalLinkInterface {
   }
 
   /**
+   * Create the HalLink from an object with the HalLinkInterface.
+   */
+  public static fromObject(halResourceService:HalResourceService, link:HalLinkInterface):HalLink {
+    return new HalLink(
+      halResourceService,
+      link.href,
+      link.title,
+      link.method,
+      link.templated,
+      link.payload,
+      link.type,
+      link.identifier
+    );
+  }
+
+  /**
    * Fetch the resource.
    */
   public $fetch(...params:any[]):Promise<HalResource> {
     const [data, headers] = params;
-    return this.halLinkService.halRequestService
+    return this.halResourceService
       .request(this.method, this.href as string, data, headers)
       .toPromise();
   }
@@ -84,15 +99,18 @@ export class HalLink implements HalLinkInterface {
       href = href.replace(regexp, value);
     });
 
-    return this.halLinkService.callable({
-      href: href,
-      title: this.title,
-      method: this.method,
-      templated: false,
-      payload: this.payload,
-      type: this.type,
-      identifier: this.identifier
-    });
+    return HalLink.fromObject(
+      this.halResourceService,
+      {
+        href: href,
+        title: this.title,
+        method: this.method,
+        templated: false,
+        payload: this.payload,
+        type: this.type,
+        identifier: this.identifier
+      }
+    ).$callable();
   }
 
   /**

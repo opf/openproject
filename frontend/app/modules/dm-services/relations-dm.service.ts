@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalRequestService} from 'core-app/modules/hal/services/hal-request.service';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Inject, Injectable} from '@angular/core';
 import {v3PathToken} from 'core-app/angular4-transition-utils';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
@@ -36,7 +36,7 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 @Injectable()
 export class RelationsDmService {
 
-  constructor(private halRequest:HalRequestService,
+  constructor(private halRequest:HalResourceService,
               @Inject(v3PathToken) private v3Path:any,
               private $q:ng.IQService) {
 

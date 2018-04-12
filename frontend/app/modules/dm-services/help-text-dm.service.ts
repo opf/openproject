@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalRequestService} from 'core-app/modules/hal/services/hal-request.service';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
 
 export class HelpTextDmService {
-  constructor(protected halRequest:HalRequestService,
+  constructor(protected halRequest:HalResourceService,
               protected v3Path:any) {
   }
 

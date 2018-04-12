@@ -26,20 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {NgModule} from '@angular/core';
-import {HalLinkService} from 'core-app/modules/hal/hal-link/hal-link.service';
+import {APP_INITIALIZER, InjectionToken, NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
-import {HalRequestService} from 'core-app/modules/hal/services/hal-request.service';
-import {HalResourceFactoryService} from 'core-app/modules/hal/services/hal-resource-factory.service';
+import {initializeDefaultHalConfig} from 'core-app/modules/hal/services/hal-resource.config';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 @NgModule({
-  providers: [
+  imports: [
     BrowserModule,
     HttpClientModule,
-    HalResourceFactoryService,
-    HalLinkService,
-    HalRequestService,
+  ],
+  providers: [
+    HalResourceService,
+    { provide: APP_INITIALIZER, useFactory: initializeDefaultHalConfig, deps: [HalResourceService], multi: true },
   ]
 })
 export class OpenprojectHalModule { }

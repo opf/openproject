@@ -29,13 +29,13 @@
 
 
 import {Inject, Injectable} from '@angular/core';
-import {HalRequestService} from 'core-app/modules/hal/services/hal-request.service';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {v3PathToken} from 'core-app/angular4-transition-utils';
 import {ConfigurationResource} from 'core-app/modules/hal/resources/configuration-resource';
 
 @Injectable()
 export class ConfigurationDmService {
-  constructor(protected halRequest:HalRequestService,
+  constructor(protected halRequest:HalResourceService,
               @Inject(v3PathToken) protected v3Path:any) {
   }
 

@@ -75,6 +75,6 @@ export class QueryResource extends HalResource {
     this.filters =
       source
         .filters
-        .map((filter:Object) => new QueryFilterInstanceResource(this.injector, filter, true,  this.halInitializer));
+        .map((filter:Object) => new QueryFilterInstanceResource(this.injector, filter, true, this.halInitializer));
   }
 }

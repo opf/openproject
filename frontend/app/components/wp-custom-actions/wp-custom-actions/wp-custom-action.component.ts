@@ -34,7 +34,7 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {halRequestToken} from 'core-app/angular4-transition-utils';
-import {HalRequestService} from 'core-app/modules/hal/services/hal-request.service';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {CustomActionResource} from 'core-app/modules/hal/resources/custom-action-resource';
 
 @Component({
@@ -46,7 +46,7 @@ export class WpCustomActionComponent {
   @Input() workPackage:WorkPackageResource;
   @Input() action:CustomActionResource;
 
-  constructor(@Inject(halRequestToken) private halRequest:HalRequestService,
+  constructor(@Inject(halRequestToken) private halRequest:HalResourceService,
               private wpCacheService:WorkPackageCacheService,
               private wpNotificationsService:WorkPackageNotificationService) { }
 

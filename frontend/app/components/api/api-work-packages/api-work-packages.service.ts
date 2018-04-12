@@ -30,13 +30,13 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {opApiModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {buildApiV3Filter} from '../api-v3/api-v3-filter-builder';
-import {HalRequestService} from 'core-app/modules/hal/services/hal-request.service';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 
 export class ApiWorkPackagesService {
   constructor(protected $q:ng.IQService,
-              protected halRequest:HalRequestService,
+              protected halRequest:HalResourceService,
               protected v3Path:any,
               protected states:States) {
   }

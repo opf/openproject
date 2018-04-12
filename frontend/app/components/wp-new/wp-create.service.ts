@@ -33,7 +33,7 @@ import {WorkPackageCacheService} from '../work-packages/work-package-cache.servi
 import {Observable, Subject} from 'rxjs';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {HalResourceFactoryService} from 'core-app/modules/hal/services/hal-resource-factory.service';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 @Injectable()
 export class WorkPackageCreateService {
@@ -44,7 +44,7 @@ export class WorkPackageCreateService {
 
   constructor(protected injector:Injector,
               protected wpCacheService:WorkPackageCacheService,
-              protected halResourceFactory:HalResourceFactoryService,
+              protected halResourceService:HalResourceService,
               protected apiWorkPackages:ApiWorkPackagesService) {
   }
 
@@ -69,7 +69,7 @@ export class WorkPackageCreateService {
   }
 
   public fromCreateForm(form:any) {
-    let wp = this.halResourceFactory.createHalResourceOfType(WorkPackageResource, form.payload.$plain);
+    let wp = this.halResourceService.createHalResourceOfType(WorkPackageResource, form.payload.$plain);
     wp.initializeNewResource(form);
 
     return new WorkPackageChangeset(this.injector, wp, form);
@@ -81,7 +81,7 @@ export class WorkPackageCreateService {
    * @param form Work Package create form
    */
   public copyFrom(otherForm:any, form:any) {
-    let wp = this.halResourceFactory.createHalResourceOfType(WorkPackageResource, otherForm.payload.$plain);
+    let wp = this.halResourceService.createHalResourceOfType(WorkPackageResource, otherForm.payload.$plain);
 
     // Override values from form payload
     wp.lockVersion = form.payload.lockVersion;

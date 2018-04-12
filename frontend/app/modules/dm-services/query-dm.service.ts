@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalRequestService} from 'core-app/modules/hal/services/hal-request.service';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {PayloadDmService} from 'core-app/modules/dm-services/payload-dm.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
@@ -42,7 +42,7 @@ export interface PaginationObject {
 }
 
 export class QueryDmService {
-  constructor(protected halRequest:HalRequestService,
+  constructor(protected halRequest:HalResourceService,
               @Inject(v3PathToken) protected v3Path:any,
               protected UrlParamsHelper:any,
               protected PayloadDm:PayloadDmService) {

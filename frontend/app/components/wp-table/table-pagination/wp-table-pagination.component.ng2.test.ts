@@ -37,7 +37,7 @@ import {PaginationInstance} from 'core-components/table-pagination/pagination-in
 import {IPaginationOptions, PaginationService} from 'core-components/table-pagination/pagination-service';
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
-import {HalRequestService} from 'core-app/modules/hal/services/hal-request.service';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 async function setupMocks(paginationService:PaginationService) {
   sinon.stub(paginationService, 'loadPaginationOptions', async () => {
@@ -70,7 +70,7 @@ describe('wpTablePagination Directive', () => {
         WorkPackageTablePaginationService,
         ConfigurationDmService,
         TableState,
-        HalRequestService,
+        HalResourceService,
         {provide: I18nToken, useValue: (window as any).I18n},
         {provide: v3PathToken, useValue: {}},
         {provide: $qToken, useValue: {}},

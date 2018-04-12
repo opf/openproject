@@ -36,7 +36,7 @@ import {WorkPackageEditingService} from './work-package-editing-service';
 import {Injector} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {FormResource} from 'core-app/modules/hal/resources/form-resource';
-import {HalResourceFactoryService} from 'core-app/modules/hal/services/hal-resource-factory.service';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 export class WorkPackageChangeset {
   // Injections
@@ -45,7 +45,7 @@ export class WorkPackageChangeset {
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   public wpCreate:WorkPackageCreateService = this.injector.get(WorkPackageCreateService);
   public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
-  public halResourceFactory:HalResourceFactoryService = this.injector.get(HalResourceFactoryService);
+  public halResourceService:HalResourceService = this.injector.get(HalResourceService);
 
   // The changeset to be applied to the work package
   private changes:{ [attribute:string]:any } = {};
@@ -327,7 +327,7 @@ export class WorkPackageChangeset {
 
     }
 
-    const resource = this.halResourceFactory.createHalResourceOfType(WorkPackageResource, this.mergeWithPayload(payload));
+    const resource = this.halResourceService.createHalResourceOfType(WorkPackageResource, this.mergeWithPayload(payload));
 
     // Override the schema with the current form, if any.
     resource.overriddenSchema = this.schema;

@@ -57,8 +57,11 @@ export class HalResource {
                      public $loaded:boolean,
                      public halInitializer:(halResource:any) => void) {
     this.$source = source.$source || source;
+
+    // Initialize the HalResource
     halInitializer(this);
 
+    // Perform any further initialization beyond the properties
     this.$postInitialize();
   }
 

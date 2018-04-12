@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,35 +24,167 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
 import {Injectable, Injector} from '@angular/core';
-import {HalLinkService} from 'core-app/modules/hal/hal-link/hal-link.service';
+import {HttpClient} from '@angular/common/http';
+import {tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {
-  halResourceDefaultConfig, HalResourceFactoryConfigInterface,
-} from 'core-app/modules/hal/services/hal-resource-factory.config';
-import {HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
-import {initializeHalResource} from 'core-app/modules/hal/helpers/hal-resource-builder';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
+import {HalResourceBuilder} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
-export interface HalResourceClass<T extends HalResource = HalResource> {
-  new(injector:Injector,
-      source:any,
-      $loaded:boolean,
-      halInitializer:(halResource:T) => void):T;
+export interface HalResourceFactoryConfigInterface {
+  cls?:any;
+  attrTypes?:{ [attrName:string]:string };
 }
 
+export interface HalResourceClass<T extends HalResource = HalResource> {
+  new(injector:Injector, source:any, $loaded:boolean, halInitializer:(halResource:T) => void):T;
+}
+
+export type HTTPSupportedMethods = 'get'|'post'|'put'|'patch'|'delete';
+
 @Injectable()
-export class HalResourceFactoryService {
+export class HalResourceService {
 
   /**
    * List of all known hal resources, extendable.
    */
-  private config = halResourceDefaultConfig;
+  private config:{ [typeName:string]:HalResourceFactoryConfigInterface } = {};
 
-  constructor(readonly halLink:HalLinkService,
-              readonly injector:Injector) {
 
+  constructor(readonly injector:Injector,
+              readonly http:HttpClient) {
+  }
+
+  /**
+   * Perform a HTTP request and return a HalResource promise.
+   */
+  public request<T extends HalResource>(method:HTTPSupportedMethods, href:string, data?:any, headers:any = {}):Observable<T> {
+    const config:any = {
+      method: method,
+      url: href,
+      body: data || {},
+      headers: headers,
+      withCredentials: true,
+      responseType: 'json'
+    };
+
+    const createResource = (response:any) => {
+      if (!response.data) {
+        return response;
+      }
+
+      return this.createHalResource(response.data);
+    };
+
+    return this.http.request<T>(method, href, config)
+      .pipe(
+        tap(
+          data => createResource(data),
+          error => createResource(error)
+        )
+      ) as Observable<T>;
+  }
+
+  /**
+   * Perform a GET request and return a resource promise.
+   *
+   * @param href
+   * @param params
+   * @param headers
+   * @returns {Promise<HalResource>}
+   */
+  public get<T extends HalResource>(href:string, params?:any, headers?:any):Observable<T> {
+    return this.request('get', href, params, headers);
+  }
+
+  /**
+   * Return all potential pages to the request, when the elements returned from API is smaller
+   * than the expected.
+   *
+   * @param href
+   * @param expected The expected number of elements
+   * @param params
+   * @param headers
+   * @return {Promise<CollectionResource[]>}
+   */
+  public async getAllPaginated<T extends HalResource[]>(href:string, expected:number, params:any = {}, headers:any = {}) {
+    // Total number retrieved
+    let retrieved = 0;
+    // Current offset page
+    let page = 1;
+    // Accumulated results
+    const allResults:CollectionResource[] = [];
+    // If possible, request all at once.
+    params.pageSize = expected;
+
+    while (retrieved < expected) {
+      params.offset = page;
+
+      const promise = this.request<CollectionResource>('get', href, params, headers).toPromise();
+      const results = await promise;
+
+      if (results.count === 0) {
+        throw 'No more results for this query, but expected more.';
+      }
+
+      allResults.push(results as CollectionResource);
+
+      retrieved += results.count;
+      page += 1;
+    }
+
+    return allResults;
+  }
+
+  /**
+   * Perform a PUT request and return a resource promise.
+   * @param href
+   * @param data
+   * @param headers
+   * @returns {Promise<HalResource>}
+   */
+  public put<T extends HalResource>(href:string, data?:any, headers?:any):Observable<T> {
+    return this.request('put', href, data, headers);
+  }
+
+  /**
+   * Perform a POST request and return a resource promise.
+   *
+   * @param href
+   * @param data
+   * @param headers
+   * @returns {Promise<HalResource>}
+   */
+  public post<T extends HalResource>(href:string, data?:any, headers?:any):Observable<T> {
+    return this.request('post', href, data, headers);
+  }
+
+  /**
+   * Perform a PATCH request and return a resource promise.
+   *
+   * @param href
+   * @param data
+   * @param headers
+   * @returns {Promise<HalResource>}
+   */
+  public patch<T extends HalResource>(href:string, data?:any, headers?:any):Observable<T> {
+    return this.request('patch', href, data, headers);
+  }
+
+  /**
+   * Perform a DELETE request and return a resource promise
+   *
+   * @param href
+   * @param data
+   * @param headers
+   * @returns {Promise<HalResource>}
+   */
+  public delete<T extends HalResource>(href:string, data?:any, headers?:any):Observable<T> {
+    return this.request('delete', href, data, headers);
   }
 
   /**
@@ -91,13 +223,8 @@ export class HalResourceFactoryService {
   }
 
   public createHalResourceOfType<T extends HalResource = HalResource>(resourceClass:HalResourceClass<T>, source:any, loaded:boolean = false) {
-    // Create the initialization function
-    const initializer = (instance:T) => initializeHalResource(instance, this, this.halLink);
-
-    // Build the hal resource
-    let instance = new resourceClass(this.injector, source, loaded, initializer);
-
-    return instance;
+    const initializer = (halResource:T) => HalResourceBuilder.initialize(this, halResource);
+    return new resourceClass(this.injector, source, loaded, initializer);
   }
 
   /**
@@ -118,7 +245,7 @@ export class HalResourceFactoryService {
    * @returns {HalResource}
    */
   public fromLink(link:HalLinkInterface) {
-    const resource = HalResource.getEmptyResource(this.halLink.fromObject(link));
+    const resource = HalResource.getEmptyResource(HalLink.fromObject(this, link));
     return this.createHalResource(resource, false);
   }
 

@@ -36,7 +36,7 @@ import {RootDmService} from 'core-app/modules/dm-services/root-dm.service';
 import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {I18nToken, PathHelperToken} from 'core-app/angular4-transition-utils';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
-import {HalResourceFactoryService} from 'core-app/modules/hal/services/hal-resource-factory.service';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 @Component({
   selector: 'filter-toggled-multiselect-value',
@@ -57,7 +57,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
   };
 
   constructor(readonly RootDm:RootDmService,
-              readonly halResourceFactory:HalResourceFactoryService,
+              readonly halResourceService:HalResourceService,
               @Inject(PathHelperToken) readonly PathHelper:PathHelperService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
   }
@@ -135,7 +135,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
       return;
     }
 
-    let me:HalResource = this.halResourceFactory.createHalResourceOfType(
+    let me:HalResource = this.halResourceService.createHalResourceOfType(
       HalResource,
       {
         _links: {

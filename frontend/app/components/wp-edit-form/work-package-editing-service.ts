@@ -116,17 +116,6 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     }
   }
 
-  public async saveChanges(workPackageId:string):Promise<WorkPackageResource> {
-    const state = this.state(workPackageId);
-
-    if (state.hasValue()) {
-      const changeset = state.value!;
-      return new WorkPackageEditForm(this.injector, changeset.workPackage).submit();
-    }
-
-    return Promise.reject('No changeset present') as any;
-  }
-
   protected async load(id:string) {
     return this.wpCacheService.require(id)
       .then((wp:WorkPackageResource) => {

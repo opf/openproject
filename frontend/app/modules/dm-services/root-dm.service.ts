@@ -26,14 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalRequestService} from 'core-app/modules/hal/services/hal-request.service';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Inject, Injectable} from '@angular/core';
 import {v3PathToken} from 'core-app/angular4-transition-utils';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 
 @Injectable()
 export class RootDmService {
-  constructor(protected halRequest:HalRequestService,
+  constructor(protected halRequest:HalResourceService,
               @Inject(v3PathToken) protected v3Path:any) {
   }
 

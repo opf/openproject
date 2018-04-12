@@ -44,13 +44,14 @@ import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operator-resource';
 import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
 import {CustomActionResource} from 'core-app/modules/hal/resources/custom-action-resource';
+import {
+  HalResourceFactoryConfigInterface,
+  HalResourceService
+} from 'core-app/modules/hal/services/hal-resource.service';
 
-export interface HalResourceFactoryConfigInterface {
-  cls?:any;
-  attrTypes?:{ [attrName:string]:string };
-}
 
-export const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
+
+const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
     cls: WorkPackageResource,
     attrTypes: {
@@ -140,4 +141,14 @@ export const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConf
   CustomAction: {
     cls: CustomActionResource
   }
+};
+
+export function initializeDefaultHalConfig(halResourceFactory:HalResourceService) {
+  return ():Promise<void> => {
+    return new Promise((resolve,) => {
+      _.each(halResourceDefaultConfig, (value, key) => {
+        halResourceFactory.registerResource(key, halResourceDefaultConfig[key]);
+      });
+    });
+  };
 };
