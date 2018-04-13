@@ -95,7 +95,7 @@ describe 'Projects autocomplete page', type: :feature, js: true do
 
     # find terms at the end of project names
     top_menu.search 'END'
-    with(top_menu.search_results) do
+    within(top_menu.search_results) do
       expect(page).to have_selector(
         '.ui-menu-item-wrapper',
         text: 'Very long project name with term at the END'
