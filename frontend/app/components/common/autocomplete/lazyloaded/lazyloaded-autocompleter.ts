@@ -119,7 +119,7 @@ export abstract class ILazyAutocompleterBridge<T> {
       tokenize: false,
       threshold: 0.2,
       location: 0,
-      distance: 10000, // allow the term to appear anywere
+      distance: 10000, // allow the term to appear anywhere
       maxPatternLength: 16,
       minMatchCharLength: 2,
       keys: ['label']
