@@ -60,7 +60,7 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     ]
 
     names.map do |name|
-      identifier = name.gsub(/[ \-]+/, "-")
+      identifier = name.gsub(/[ \-]+/, "-").downcase
 
       FactoryGirl.create :project, name: name, identifier: identifier
     end
