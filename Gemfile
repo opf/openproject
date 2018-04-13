@@ -41,7 +41,7 @@ gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee
 gem 'rdoc', '>= 2.4.2'
 
 gem 'omniauth', git: 'https://github.com/oliverguenther/omniauth', ref: '40c6f5f751d2da7cce5444bbd96c390c450440a9'
-gem 'request_store', '~> 1.3.1'
+gem 'request_store', '~> 1.4.1'
 
 gem 'warden', '~> 1.2'
 gem 'warden-basic_auth', '~> 0.2.1'
@@ -60,7 +60,7 @@ gem 'color-tools', '~> 1.3.0', require: 'color'
 gem 'ruby-progressbar'
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2017.2'
+gem 'tzinfo-data', '~> 1.2018.4'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
@@ -74,7 +74,7 @@ gem 'commonmarker', '~> 0.17.8'
 # such as sanitization or additional features
 gem 'html-pipeline', '~> 2.7.1'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 4.5.0'
+gem 'sanitize', '~> 4.6.0'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4'
 
@@ -92,7 +92,7 @@ gem 'sys-filesystem', '~> 1.1.4', require: false
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.12.1'
-gem 'oj', '~> 3.3.2'
+gem 'oj', '~> 3.5.0'
 # We rely on this specific version, which is the latest as of now (end of 2016),
 # because we have to apply to it a bugfix which could break things in other versions.
 # This can be removed as soon as said bugfix is integrated into rabl itself.
@@ -108,7 +108,7 @@ gem 'rack-protection', '~> 2.0.0'
 # It allows whitelisting, blacklisting, throttling, and tracking based
 # on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack', '~> 5.0.1'
+gem 'rack-attack', '~> 5.2.0'
 
 # CSP headers
 gem 'secure_headers', '~> 5.0.5'
@@ -154,7 +154,7 @@ gem 'sass-rails', '~> 5.0.6'
 gem 'sprockets', '~> 3.7.0'
 
 # small wrapper around the command line
-gem 'cocaine', '~> 0.5.8'
+gem 'cocaine', '~> 0.6.0'
 
 # required by Procfile, for deployment on heroku or packaging with packager.io.
 # also, better than thin since we can control worker concurrency.
@@ -176,7 +176,7 @@ gem 'openproject-token', '~> 1.0.1'
 gem 'plaintext', '0.1.0'
 
 group :test do
-  gem 'rack-test', '~> 0.6.3'
+  gem 'rack-test', '~> 1.0.0'
   gem 'shoulda-context', '~> 1.2'
   gem 'launchy', '~> 2.4.3'
 
@@ -202,7 +202,7 @@ group :test do
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
 
   # Retry failures within the same environment
-  gem 'retriable', '~> 3.0'
+  gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.5.6'
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
@@ -213,9 +213,11 @@ group :test do
 
   gem 'capybara', '~> 2.18.0'
   gem 'capybara-screenshot', '~> 1.0.14'
-  gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
+  gem 'chromedriver-helper', '~> 1.2.0'
   gem 'selenium-webdriver', '~> 3.11'
+
+  gem 'fuubar', '~> 2.3.1'
   gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.1.0', require: false
 
@@ -224,7 +226,7 @@ group :test do
   gem 'json_spec', '~> 1.1.4'
   gem 'equivalent-xml', '~> 0.6'
 
-  gem 'parallel_tests', '~> 2.14.0'
+  gem 'parallel_tests', '~> 2.21.3'
 end
 
 group :ldap do
@@ -259,11 +261,11 @@ gem 'roar', '~> 1.1.0'
 
 platforms :mri, :mingw, :x64_mingw do
   group :mysql2 do
-    gem 'mysql2', '~> 0.4.4'
+    gem 'mysql2', '~> 0.5.0'
   end
 
   group :postgres do
-    gem 'pg', '~> 0.21.0'
+    gem 'pg', '~> 1.0.0'
   end
 end
 

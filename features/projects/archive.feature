@@ -35,7 +35,7 @@ Feature: Navigating to reports page
       | name | SubProject |
       | identifier | parent_project_1_sub_1 |
 
-@javascript @selenium
+@javascript
   Scenario: Archiving and unarchiving a project with a subproject
     Given I am already admin
     When I go to the projects page

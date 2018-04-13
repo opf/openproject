@@ -189,11 +189,11 @@ describe 'Projects index page',
         expect(page).to have_text(public_project.name)
         expect(page).to have_text(project.name)
 
-        # because we use css opacity we can not test for the visibility changes
-        expect(page).to have_selector('.icon-show-more-horizontal')
-
         # Test visiblity of 'more' menu list items
-        page.first('tbody tr .icon-show-more-horizontal').click
+        item = page.first('tbody tr .icon-show-more-horizontal', visible: :all)
+        item.hover
+        item.click
+
         menu = page.first('tbody tr .project-actions')
         expect(menu).to have_text('Copy')
         expect(menu).to have_text('Project settings')

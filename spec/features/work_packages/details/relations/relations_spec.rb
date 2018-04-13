@@ -206,9 +206,19 @@ describe 'Work package relations tab', js: true, selenium: true do
 
         loading_indicator_saveguard
 
+        # Wait for the relations table to be present
+        sleep 2
+        expect(page).to have_selector('.wp-relations--subject-field')
+
+        scroll_to_element find('.detail-panel--relations')
+
         ## Toggle description again
-        relations.hover_action(relatable, :info)
-        created_row = relations.find_row(relatable)
+        retry_block do
+          relations.hover_action(relatable, :info)
+          created_row = relations.find_row(relatable)
+
+          find'.wp-relation--description-read-value'
+        end
 
         created_row.find('.wp-relation--description-read-value',
                          text: 'my description!').click

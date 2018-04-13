@@ -73,8 +73,8 @@ describe 'filter work packages', js: true do
 
   context 'by version in project' do
     let(:version) { FactoryGirl.create :version, project: project }
-    let(:work_package_with_version) { FactoryGirl.create :work_package, project: project, fixed_version: version }
-    let(:work_package_without_version) { FactoryGirl.create :work_package, project: project }
+    let(:work_package_with_version) { FactoryGirl.create :work_package, project: project, subject: 'With version', fixed_version: version }
+    let(:work_package_without_version) { FactoryGirl.create :work_package, subject: 'Without version', project: project }
 
     before do
       work_package_with_version
@@ -254,9 +254,9 @@ describe 'filter work packages', js: true do
   context 'by attachment content' do
     let(:attachment_a) { FactoryGirl.create(:attachment, filename: 'attachment-first.pdf') }
     let(:attachment_b) { FactoryGirl.create(:attachment, filename: 'attachment-second.pdf') }
-    let(:wp_with_attachment_a) { FactoryGirl.create :work_package, project: project, attachments: [attachment_a] }
-    let(:wp_with_attachment_b) { FactoryGirl.create :work_package, project: project, attachments: [attachment_b] }
-    let(:wp_without_attachment) { FactoryGirl.create :work_package, project: project}
+    let(:wp_with_attachment_a) { FactoryGirl.create :work_package, subject: 'WP attachment A', project: project, attachments: [attachment_a] }
+    let(:wp_with_attachment_b) { FactoryGirl.create :work_package, subject: 'WP attachment B', project: project, attachments: [attachment_b] }
+    let(:wp_without_attachment) { FactoryGirl.create :work_package, subject: 'WP no attachment', project: project}
     let(:wp_table) { ::Pages::WorkPackagesTable.new }
 
     before do

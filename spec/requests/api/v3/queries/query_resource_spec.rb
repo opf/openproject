@@ -95,7 +95,7 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
       let(:path) do
         filter = [project: { operator: "=", values: [project.id.to_s] }].to_json
 
-        "#{api_v3_paths.queries}?filters=#{filter}"
+        "#{api_v3_paths.queries}?filters=#{URI::escape(filter)}"
       end
 
       let(:prepare) do
@@ -126,7 +126,7 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
       let(:path) do
         filter = [project: { operator: "!*", values: [] }].to_json
 
-        "#{api_v3_paths.queries}?filters=#{filter}"
+        "#{api_v3_paths.queries}?filters=#{URI::escape(filter)}"
       end
 
       let(:prepare) do

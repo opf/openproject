@@ -41,21 +41,21 @@ describe 'activity comments',
 
       describe 'submitting comment' do
         it 'does not submit with enter' do
-          comment_field.input_element.set 'this is a comment'
+          comment_field.click_and_type_slowly 'this is a comment'
           comment_field.submit_by_enter
 
           expect(page).to_not have_selector('.user-comment .message', text: 'this is a comment')
         end
 
         it 'submits with click' do
-          comment_field.input_element.set 'this is a comment!1'
+          comment_field.click_and_type_slowly 'this is a comment!1'
           comment_field.submit_by_click
 
           expect(page).to have_selector('.user-comment .message', text: 'this is a comment!1')
         end
 
         it 'submits comments repeatedly' do
-          comment_field.input_element.set 'this is my first comment!1'
+          comment_field.click_and_type_slowly 'this is my first comment!1'
           comment_field.submit_by_click
 
           expect(page).to have_selector('.user-comment > .message', count: 2)
@@ -66,7 +66,7 @@ describe 'activity comments',
           comment_field.activate!
           expect(comment_field.editing?).to be true
 
-          comment_field.input_element.set 'this is my second comment!1'
+          comment_field.click_and_type_slowly 'this is my second comment!1'
           comment_field.submit_by_click
 
           expect(page).to have_selector('.user-comment > .message', count: 3)
@@ -147,8 +147,6 @@ describe 'activity comments',
           edit.submit_by_click
           expect(page).to have_selector('.user-comment .message strong', text: 'bold text')
           expect(page).to have_selector('.user-comment .message em', text: 'italic text')
-          expect(page).to have_selector('.user-comment .message',
-                                        text: 'Comment with bold text Comment with italic text')
         end
       end
     end
@@ -168,6 +166,7 @@ describe 'activity comments',
         expect(comment_field.editing?).to be true
 
         # Add our comment
+        expect(comment_field.input_element).to have_selector('blockquote')
         quote = comment_field.input_element[:innerHTML]
         expect(quote).to eq '<p>Anonymous wrote:</p><blockquote><p>the first comment in this WP</p></blockquote>'
 
