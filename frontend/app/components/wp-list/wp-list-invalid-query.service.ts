@@ -36,18 +36,14 @@ import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-
 import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
 import {QueryColumn} from '../wp-query/query-column';
 import {Inject, Injectable} from '@angular/core';
-import {
-  QueryFilterInstanceResourceToken,
-  QueryResourceToken
-} from 'core-app/angular4-transition-utils';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 @Injectable()
 export class WorkPackagesListInvalidQueryService {
-  constructor(@Inject(QueryResourceToken) protected QueryResource:QueryResource,
-              @Inject(QueryFilterInstanceResourceToken) protected QueryFilterInstanceResource:QueryFilterInstanceResource) {}
+  constructor(protected halResourceService:HalResourceService) {}
 
   public restoreQuery(query:QueryResource, form:QueryFormResource) {
-    let payload = new (this.QueryResource as any)(form.payload);
+    let payload = this.halResourceService.createHalResourceOfType(QueryResource, form.payload);
 
     this.restoreFilters(query, payload, form.schema);
     this.restoreColumns(query, payload, form.schema);

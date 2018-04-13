@@ -26,30 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opApiModule} from '../../../angular-modules';
-import {PathBuilderService} from '../path-builder/path-builder.service';
+import {
+  SimpleResource,
+  SimpleResourceCollection
+} from 'core-components/common/path-helper/apiv3/path-resources';
 
-/**
- * Provide paths for the API requests.
- */
-export class ApiPathsServiceProvider {
-  /**
-   * Configuration object for the pathBuilder service
-   * @type {any}
-   */
-  public pathConfig:any = {};
+export class Apiv3UsersPaths extends SimpleResourceCollection {
+  constructor(basePath:string) {
+    super(basePath, 'users');
+  }
 
-  /**
-   * Return the service.
-   *
-   * @param appBasePath
-   * @param pathBuilder
-   * @return {Array}
-   */
-  public $get(appBasePath:string, pathBuilder:PathBuilderService) {
-    const config:any = pathBuilder.buildPaths({base: [appBasePath, this.pathConfig]});
-    return config.base;
+  // Static paths
+
+  // /api/v3/users/me
+  public readonly me = this.path + '/me';
+
+  // /api/v3/users/:userId
+  public id(userId:string|number) {
+    return new SimpleResource(this.path, userId);
   }
 }
-
-opApiModule.provider('apiPaths', ApiPathsServiceProvider);

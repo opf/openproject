@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,18 +24,18 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {opApiModule} from '../../../angular-modules';
+import {SimpleResourceCollection} from 'core-components/common/path-helper/apiv3/path-resources';
+import {Apiv3ProjectPaths} from 'core-components/common/path-helper/apiv3/projects/apiv3-project-paths';
 
-/**
- * This is a apiPaths.v3 convenience wrapper.
- *
- * @param apiPaths
- * @return {Array|api.v3}
- */
-function v3PathsService(apiPaths:{v3: any }) {
-  return apiPaths.v3;
+export class Apiv3ProjectsPaths extends SimpleResourceCollection<Apiv3ProjectPaths> {
+  constructor(basePath:string) {
+    super(basePath, 'projects');
+  }
+
+  // /api/v3/projects/:projectIdentifier
+  public id(projectIdentifier:string|number):Apiv3ProjectPaths {
+    return new Apiv3ProjectPaths(this.path, projectIdentifier);
+  }
 }
-
-opApiModule.factory('v3Path', v3PathsService);

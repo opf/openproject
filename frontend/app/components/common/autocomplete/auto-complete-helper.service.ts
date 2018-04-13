@@ -45,7 +45,7 @@ export class AutoCompleteHelperService {
       textarea: textarea,
       callbacks: {
         remoteFilter: (query:string, callback:Function) => {
-          const url:string = this.PathHelper.apiv3MentionablePrincipalsPath(projectId, query);
+          const url:string = this.PathHelper.api.v3.principals(projectId, query);
           this.$http.get(url)
             .then((response:any) => {
               if (response && response.data) {

@@ -39,12 +39,6 @@ export class SchemaResource extends HalResource {
   public get availableAttributes() {
     return _.keys(this.$source).filter(name => name.indexOf('_') !== 0);
   }
-
-  public $postInitialize(source:any) {
-    super.$postInitialize(source);
-
-    initializeSchemaResource(this);
-  }
 }
 
 export class SchemaAttributeObject {
@@ -54,21 +48,4 @@ export class SchemaAttributeObject {
   public hasDefault:boolean;
   public writable:boolean;
   public allowedValues:HalResource[] | CollectionResource;
-}
-
-function initializeSchemaResource(halResource:SchemaResource) {
-  proxyProperties();
-
-  function proxyProperties() {
-    _.without(Object.keys(halResource.$source), '_links', '_embedded').forEach(property => {
-      Object.defineProperty(halResource, property, {
-        get() {
-          return this.halResourceFactory.createHalResource(halResource.$source[property]);
-        },
-
-        enumerable: true,
-        configurable: true
-      });
-    });
-  }
 }

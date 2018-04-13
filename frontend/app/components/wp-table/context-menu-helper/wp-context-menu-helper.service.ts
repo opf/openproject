@@ -29,7 +29,8 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
 import {Inject, Injectable} from "@angular/core";
 import {PathHelperService} from "core-components/common/path-helper/path-helper.service";
-import {HookServiceToken, UrlParamsHelperToken} from "core-app/angular4-transition-utils";
+import {HookServiceToken} from "core-app/angular4-transition-utils";
+import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 
 export type WorkPackageAction = {
   text:string;
@@ -69,7 +70,7 @@ export class WorkPackageContextMenuHelperService {
   ];
 
   constructor(@Inject(HookServiceToken) private HookService:any,
-              @Inject(UrlParamsHelperToken) private UrlParamsHelper:any,
+              private UrlParamsHelper:UrlParamsHelperService,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private PathHelper:PathHelperService) {
   }

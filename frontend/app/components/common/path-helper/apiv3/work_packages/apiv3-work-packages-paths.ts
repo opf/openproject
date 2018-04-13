@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,29 +24,29 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {opApiModule} from '../../../angular-modules';
+import {ApiV3WorkPackagePaths} from 'core-components/common/path-helper/apiv3/work_packages/apiv3-work-package-paths';
+import {
+  SimpleResource,
+  SimpleResourceCollection
+} from 'core-components/common/path-helper/apiv3/path-resources';
 
-describe('v3Path service', () => {
-  var v3Path:any;
-  var apiPaths:any;
+export class ApiV3WorkPackagesPaths extends SimpleResourceCollection<ApiV3WorkPackagePaths> {
+  // Base path
+  public readonly path:string;
 
-  beforeEach(angular.mock.module(opApiModule.name));
-  beforeEach(angular.mock.inject(function (_v3Path_:any, _apiPaths_:any) {
-    [v3Path, apiPaths] = _.toArray(arguments);
-  }));
+  constructor(basePath:string) {
+    super(basePath, 'work_packages');
+  }
 
-  it('should exist', () => {
-    expect(v3Path).to.exist;
-  });
+  // Static paths
 
-  it('should be the same object as apiPaths.v3', () => {
-    expect(v3Path).to.equal(apiPaths.v3);
-  });
+  // /api/v3/(projects/:projectIdentifier)/work_packages/form
+  public readonly form = new SimpleResource(this.path, 'form');
 
-  it('should return the same value as apiPats.v3', () => {
-    expect(v3Path()).to.equal(apiPaths.v3());
-  });
-});
-
+  // /api/v3/(projects/:projectIdentifier)/work_packages/:workPackageId
+  public id(workPackageId:string|number):ApiV3WorkPackagePaths {
+    return new ApiV3WorkPackagePaths(this.path, workPackageId);
+  }
+}

@@ -50,7 +50,7 @@ export class ApiWorkPackagesService {
    * @returns {IPromise<any>|IPromise<WorkPackageResource>} A promise for the WorkPackage.
    */
   public async loadWorkPackageById(id:string, force = false) {
-    const url = this.pathHelper.apiV3WorkPackagePath(id);
+    const url = this.pathHelper.api.v3.work_packages.id(id).toString();
 
     return this.halResourceService.get<WorkPackageResource>(url).toPromise();
   }
@@ -64,7 +64,7 @@ export class ApiWorkPackagesService {
    */
   public loadWorkPackagesCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
     return this.halResourceService.getAllPaginated(
-      this.pathHelper.apiV3WorkPackagesPath(),
+      this.pathHelper.api.v3.work_packages.toString(),
       ids.length,
       {
         filters: buildApiV3Filter('id', '=', ids).toJson(),
@@ -79,7 +79,7 @@ export class ApiWorkPackagesService {
    */
   public emptyCreateForm(request:any, projectIdentifier?:string):Promise<HalResource> {
     return this.halResourceService
-      .post<HalResource>(this.pathHelper.apiV3WorkPackagesFormPath(projectIdentifier), request)
+      .post<HalResource>(this.workPackagesFormPath(projectIdentifier), request)
       .toPromise();
   }
 
@@ -93,20 +93,11 @@ export class ApiWorkPackagesService {
    */
   public typedCreateForm(typeId:number, projectIdentifier?:string):Promise<HalResource> {
 
-    const typeUrl = this.v3Path.types({type: typeId});
+    const typeUrl = this.pathHelper.api.v3.types.id(typeId).toString();
     const request = { _links: { type: { href: typeUrl } } };
 
     return this.halResourceService
-      .post<HalResource>(this.pathHelper.apiV3WorkPackagesFormPath(projectIdentifier), request)
-      .toPromise();
-  }
-
-  /**
-   * Returns a promise to GET `/api/v3/work_packages/available_projects`.
-   */
-  public availableProjects(projectIdentifier?:string):Promise<HalResource> {
-    return this.halResourceService
-      .get<HalResource>(this.v3Path.wp.availableProjects({project: projectIdentifier}))
+      .post<HalResource>(this.workPackagesFormPath(projectIdentifier), request)
       .toPromise();
   }
 
@@ -118,7 +109,15 @@ export class ApiWorkPackagesService {
    */
   public createWorkPackage(payload:any):Promise<WorkPackageResource> {
     return this.halResourceService
-      .post<WorkPackageResource>(this.v3Path.wps(), payload)
+      .post<WorkPackageResource>(this.pathHelper.api.v3.work_packages.path, payload)
       .toPromise();
+  }
+
+  private workPackagesFormPath(projectIdentifier?:string):string {
+    if (projectIdentifier) {
+      return this.pathHelper.api.v3.projects.id(projectIdentifier).work_packages.form.toString();
+    } else {
+      return this.pathHelper.api.v3.work_packages.form.toString();
+    }
   }
 }

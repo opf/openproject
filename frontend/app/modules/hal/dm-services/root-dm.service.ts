@@ -29,17 +29,18 @@
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Inject, Injectable} from '@angular/core';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
-import {v3PathToken} from 'core-app/angular4-transition-utils';
+import {PathHelperToken} from 'core-app/angular4-transition-utils';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 @Injectable()
 export class RootDmService {
   constructor(protected halResourceService:HalResourceService,
-              @Inject(v3PathToken) protected v3Path:any) {
+              @Inject(PathHelperToken) protected pathHelper:PathHelperService) {
   }
 
   public load():Promise<RootResource> {
     return this.halResourceService
-      .get<RootResource>(this.v3Path.root())
+      .get<RootResource>(this.pathHelper.api.v3.root.toString())
       .toPromise();
   }
 }

@@ -44,16 +44,16 @@ import {Inject, Injectable} from '@angular/core';
 import {
   I18nToken,
   NotificationsServiceToken,
-  UrlParamsHelperToken
 } from 'core-app/angular4-transition-utils';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
+import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 
 @Injectable()
 export class WorkPackagesListService {
   constructor(@Inject(NotificationsServiceToken) protected NotificationsService:any,
-              @Inject(UrlParamsHelperToken) protected UrlParamsHelper:any,
               @Inject(I18nToken) protected I18n:op.I18n,
+              protected UrlParamsHelper:UrlParamsHelperService,
               protected authorisationService:AuthorisationService,
               protected $state:StateService,
               protected QueryDm:QueryDmService,

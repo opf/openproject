@@ -34,8 +34,9 @@ import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resou
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {ApiV3FilterBuilder} from 'core-app/components/api/api-v3/api-v3-filter-builder';
 import {Inject} from '@angular/core';
-import {v3PathToken} from 'core-app/angular4-transition-utils';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperToken} from 'core-app/angular4-transition-utils';
 
 export interface PaginationObject {
   pageSize:number;
@@ -44,7 +45,7 @@ export interface PaginationObject {
 
 export class QueryDmService {
   constructor(protected halResourceService:HalResourceService,
-              @Inject(v3PathToken) protected v3Path:any,
+              @Inject(PathHelperToken) protected pathHelper:PathHelperService,
               protected UrlParamsHelper:UrlParamsHelperService,
               protected PayloadDm:PayloadDmService) {
   }
@@ -53,9 +54,9 @@ export class QueryDmService {
     let path:string;
 
     if (queryId) {
-      path = this.v3Path.queries({query: queryId});
+      path = this.pathHelper.api.v3.queries.id(queryId).toString();
     } else {
-      path = this.v3Path.queries.default({project: projectIdentifier});
+      path = this.pathHelper.api.v3.withOptionalProject(projectIdentifier).queries.default.toString();
     }
 
     return this.halResourceService
@@ -68,7 +69,7 @@ export class QueryDmService {
   }
 
   public reload(query:QueryResource, pagination:PaginationObject):Promise<QueryResource> {
-    let path = this.v3Path.queries({query: query.id});
+    let path = this.pathHelper.api.v3.queries.id(query.id).toString();
 
     return this.halResourceService
       .get<QueryResource>(path, pagination)
@@ -106,7 +107,7 @@ export class QueryDmService {
     ];
 
     return this.halResourceService
-      .get<WorkPackageCollectionResource>(this.v3Path.wps(), {filters: JSON.stringify(filters)})
+      .get<WorkPackageCollectionResource>(this.pathHelper.api.v3.work_packages.toString(), {filters: JSON.stringify(filters)})
       .toPromise();
   }
 
@@ -114,11 +115,11 @@ export class QueryDmService {
     return new Promise<QueryResource>((resolve, reject) => {
       this.extractPayload(query, form)
         .then(payload => {
-          let path = this.v3Path.queries({ query: query.id });
+          let path:string = this.pathHelper.api.v3.queries.id(query.id).toString();
           this.halResourceService.patch<QueryResource>(path, payload)
             .toPromise()
             .then(resolve)
-            .catch(reject)
+            .catch(reject);
         })
         .catch(reject);
     });
@@ -126,7 +127,7 @@ export class QueryDmService {
 
   public create(query:QueryResource, form:QueryFormResource):Promise<QueryResource> {
     return this.extractPayload(query, form).then(payload => {
-      let path = this.v3Path.queries();
+      let path:string = this.pathHelper.api.v3.queries.toString();
 
       return this.halResourceService
         .post<QueryResource>(path, payload)
@@ -160,7 +161,7 @@ export class QueryDmService {
     let urlQuery = { filters: filters.toJson() };
 
     return this.halResourceService
-      .get<CollectionResource>(this.v3Path.queries(), urlQuery)
+      .get<CollectionResource>(this.pathHelper.api.v3.queries.toString(), urlQuery)
       .toPromise();
   }
 

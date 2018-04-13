@@ -140,7 +140,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
       {
         _links: {
           self: {
-            href: this.PathHelper.apiV3UserMePath(),
+            href: this.PathHelper.api.v3.users.me,
             title: this.I18n.t('js.label_me')
           }
         }

@@ -30,22 +30,23 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
 import {Inject} from '@angular/core';
-import {v3PathToken} from 'core-app/angular4-transition-utils';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperToken} from 'core-app/angular4-transition-utils';
 
 export class HelpTextDmService {
   constructor(protected halResourceService:HalResourceService,
-              @Inject(v3PathToken) readonly v3Path:any) {
+              @Inject(PathHelperToken) protected pathHelper:PathHelperService) {
   }
 
   public loadAll():Promise<CollectionResource<HelpTextResource>> {
     return this.halResourceService
-      .get<CollectionResource<HelpTextResource>>(this.v3Path.help_texts())
+      .get<CollectionResource<HelpTextResource>>(this.pathHelper.api.v3.help_texts.toString())
       .toPromise();
   }
 
   public load(helpTextId:string):Promise<HelpTextResource> {
     return this.halResourceService
-      .get<HelpTextResource>(this.v3Path.help_texts({ id: helpTextId}))
+      .get<HelpTextResource>(this.pathHelper.api.v3.help_texts.id(helpTextId).toString())
       .toPromise();
   }
 }

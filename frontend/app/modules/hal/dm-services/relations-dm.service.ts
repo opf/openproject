@@ -31,19 +31,22 @@ import {Inject, Injectable} from '@angular/core';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {buildApiV3Filter} from 'core-app/components/api/api-v3/api-v3-filter-builder';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {v3PathToken} from 'core-app/angular4-transition-utils';
+import {opServicesModule} from 'core-app/angular-modules';
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {PathHelperToken} from 'core-app/angular4-transition-utils';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 @Injectable()
 export class RelationsDmService {
 
   constructor(private halResourceService:HalResourceService,
-              @Inject(v3PathToken) private v3Path:any) {
+              @Inject(PathHelperToken) private pathHelper:PathHelperService) {
 
   }
 
   public load(workPackageId:string):Promise<RelationResource[]> {
     return this.halResourceService.get<CollectionResource<RelationResource>>(
-      this.v3Path.wp.relations({wp: workPackageId}), {})
+      this.pathHelper.api.v3.work_packages.id(workPackageId).relations, {})
       .toPromise()
       .then((collection:CollectionResource<RelationResource>) => collection.elements);
   }
@@ -64,3 +67,5 @@ export class RelationsDmService {
       .then((collection:CollectionResource<RelationResource>) => collection.elements);
   }
 }
+
+opServicesModule.service('relationsDm', downgradeInjectable(RelationsDmService));

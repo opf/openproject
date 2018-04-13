@@ -31,15 +31,16 @@
 import {Inject, Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {ConfigurationResource} from 'core-app/modules/hal/resources/configuration-resource';
-import {v3PathToken} from 'core-app/angular4-transition-utils';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperToken} from 'core-app/angular4-transition-utils';
 
 @Injectable()
 export class ConfigurationDmService {
   constructor(protected halResourceService:HalResourceService,
-              @Inject(v3PathToken) protected v3Path:any) {
+              @Inject(PathHelperToken) protected pathHelper:PathHelperService) {
   }
 
   public load():Promise<ConfigurationResource> {
-    return this.halResourceService.get<ConfigurationResource>(this.v3Path.configuration()).toPromise();
+    return this.halResourceService.get<ConfigurationResource>(this.pathHelper.api.v3.configuration.toString()).toPromise();
   }
 }

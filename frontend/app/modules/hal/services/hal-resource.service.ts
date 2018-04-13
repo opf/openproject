@@ -27,22 +27,20 @@
 //++
 
 import {Injectable, Injector} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {tap} from 'rxjs/operators';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {catchError, map, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {HalResource, HalResourceClass} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
-import {HalResourceBuilder} from 'core-app/modules/hal/helpers/hal-resource-builder';
+import {ErrorObservable} from 'rxjs/observable/ErrorObservable';
+import {initializeHalProperties} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 export interface HalResourceFactoryConfigInterface {
   cls?:any;
   attrTypes?:{ [attrName:string]:string };
 }
 
-export interface HalResourceClass<T extends HalResource = HalResource> {
-  new(injector:Injector, source:any, $loaded:boolean, halInitializer:(halResource:T) => void):T;
-}
 
 export type HTTPSupportedMethods = 'get'|'post'|'put'|'patch'|'delete';
 
@@ -72,20 +70,13 @@ export class HalResourceService {
       responseType: 'json'
     };
 
-    const createResource = (response:any) => {
-      if (!response.data) {
-        return response;
-      }
-
-      return this.createHalResource(response.data);
-    };
-
     return this.http.request<T>(method, href, config)
       .pipe(
-        tap(
-          data => createResource(data),
-          error => createResource(error)
-        )
+        map((data:any) => this.createHalResource(data)),
+        catchError((error:HttpErrorResponse) => {
+          console.error(`Failed to ${method} ${href}: ${error.name}`);
+          return new ErrorObservable(this.createHalResource(error.error));
+        })
       ) as Observable<T>;
   }
 
@@ -201,7 +192,7 @@ export class HalResourceService {
    *
    * @returns {HalResource}
    */
-  public defaultClass():HalResourceClass<HalResource> {
+  public get defaultClass():HalResourceClass<HalResource> {
     return HalResource;
   }
 
@@ -223,19 +214,8 @@ export class HalResourceService {
   }
 
   public createHalResourceOfType<T extends HalResource = HalResource>(resourceClass:HalResourceClass<T>, source:any, loaded:boolean = false) {
-    const initializer = (halResource:T) => HalResourceBuilder.initialize(this, halResource);
+    const initializer = (halResource:T) => initializeHalProperties(this, halResource);
     return new resourceClass(this.injector, source, loaded, initializer);
-  }
-
-  /**
-   * Create a HalResource from the copied source of the given, other HalResource.
-   *
-   * @param {HalResource} other
-   * @returns A HalResource with the identitical copied source of other.
-   */
-  public copyResource<T extends HalResource>(other:T):T {
-    const copy = _.cloneDeep(other.$source);
-    return this.createHalResource<T>(copy, other.$loaded);
   }
 
   /**
@@ -289,6 +269,6 @@ export class HalResourceService {
       return this.getResourceClassOfType(resourceRef);
     }
 
-    return this.defaultClass();
+    return this.defaultClass;
   }
 }

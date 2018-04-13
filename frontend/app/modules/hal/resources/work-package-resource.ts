@@ -29,7 +29,7 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {
   I18nToken,
-  NotificationsServiceToken, v3PathToken,
+  NotificationsServiceToken, PathHelperToken,
 } from 'core-app/angular4-transition-utils';
 import {AttachmentCollectionResource} from 'core-app/modules/hal/resources/attachment-collection-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
@@ -43,6 +43,7 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -116,7 +117,7 @@ export class WorkPackageResource extends HalResource {
   readonly NotificationsService:any  = this.injector.get(NotificationsServiceToken);
   readonly wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
   readonly wpCreate:WorkPackageCreateService = this.injector.get(WorkPackageCreateService);
-  readonly v3Path:any  = this.injector.get(v3PathToken);
+  readonly pathHelper:PathHelperService = this.injector.get(PathHelperToken);
 
   public get id():string {
     return this.$source.id || this.idFromLink;
@@ -166,13 +167,6 @@ export class WorkPackageResource extends HalResource {
    */
   public get canAddAttachments():boolean {
     return !!this.$links.addAttachment || this.isNew;
-  }
-
-  /**
-   * Initialise the work package resource.
-   */
-  public $postInitialize(source:any) {
-    super.$postInitialize(source);
   }
 
   /**

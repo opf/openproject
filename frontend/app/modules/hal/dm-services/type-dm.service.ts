@@ -32,17 +32,18 @@ import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {States} from 'core-app/components/states.service';
-import {v3PathToken} from 'core-app/angular4-transition-utils';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperToken} from 'core-app/angular4-transition-utils';
 
 @Injectable()
 export class TypeDmService {
   constructor(protected halResourceService:HalResourceService,
               protected states:States,
-              @Inject(v3PathToken) protected v3Path:any) {
+              @Inject(PathHelperToken) protected pathHelper:PathHelperService) {
   }
 
   public loadAll():Promise<TypeResource[]> {
-    const typeUrl = this.v3Path.types();
+    const typeUrl = this.pathHelper.api.v3.types.toString();
 
     return this.halResourceService
       .get<CollectionResource<TypeResource>>(typeUrl)
@@ -56,7 +57,7 @@ export class TypeDmService {
 
   public load():Promise<RootResource> {
     return this.halResourceService
-      .get<RootResource>(this.v3Path.root())
+      .get<RootResource>(this.pathHelper.api.v3.root.toString())
       .toPromise();
   }
 }

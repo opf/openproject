@@ -54,7 +54,7 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
   }
 
   public initializeFilters(query:QueryResource, schema:QuerySchemaResource) {
-    let filters = _.map(query.filters, filter => filter.$copy());
+    let filters = _.map(query.filters, filter => filter.$copy<QueryFilterInstanceResource>());
 
     this.loadCurrentFiltersSchemas(filters).then(() => {
       let newState = new WorkPackageTableFilters(filters, schema);

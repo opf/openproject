@@ -26,30 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opApiModule, opServicesModule} from '../../../angular-modules';
+import {
+  SimpleResource,
+  SimpleResourceCollection
+} from 'core-components/common/path-helper/apiv3/path-resources';
+import {Apiv3QueryPaths} from 'core-components/common/path-helper/apiv3/queries/apiv3-query-paths';
 
-describe('apiPaths', () => {
-  var apiPaths:any;
-  var appBasePath:string;
+export class Apiv3QueriesPaths extends SimpleResourceCollection<Apiv3QueryPaths> {
+  constructor(basePath:string) {
+    super(basePath, 'queries');
+  }
 
-  beforeEach(angular.mock.module(
-    opApiModule.name,
-    opServicesModule.name
-  ));
+  // Static paths
+  readonly form = new SimpleResource(this.path, 'form');
 
-  beforeEach(angular.mock.inject(function (_apiPaths_:any, _appBasePath_:any) {
-    [apiPaths, appBasePath] = _.toArray(arguments);
-  }));
+  readonly default = new SimpleResource(this.path, 'default');
 
-  it('should exist', () => {
-    expect(apiPaths).to.exist;
-  });
-
-  it('should have a `v3` property', () => {
-    expect(apiPaths).to.have.property('v3');
-  });
-
-  it('should return the appBasePath', () => {
-    expect(apiPaths()).to.equal(appBasePath);
-  });
-});
+  // /api/v3/users/:userId
+  public id(userId:string|number):Apiv3QueryPaths {
+    return new Apiv3QueryPaths(this.path, userId);
+  }
+}

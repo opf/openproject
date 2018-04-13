@@ -26,30 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {PathHelperService} from './path-helper.service';
+import {SimpleResource} from 'core-components/common/path-helper/apiv3/path-resources';
 
-describe('PathHelper', function() {
-  var PathHelper:PathHelperService;
+export class Apiv3QueryPaths extends SimpleResource {
+  constructor(basePath:string, queryId:string|number) {
+    super(basePath, queryId);
+  }
 
-  beforeEach(angular.mock.module('openproject.helpers'));
-  beforeEach(inject(function(_PathHelper_:PathHelperService) {
-    PathHelper = _PathHelper_;
-  }));
-
-  context('apiV3', function() {
-    var projectIdentifier = 'majora';
-
-    it('should provide the project\'s path', function() {
-      expect(PathHelper.api.v3.projects.id(projectIdentifier).path).to.equal('/api/v3/projects/majora');
-    });
-
-    it('should provide a path to the project\'s mentionable principals', function() {
-      var projectId = '1';
-      var term = 'Maria';
-
-      expect(
-        PathHelper.api.v3.principals(projectId, term)
-      ).to.equal('/api/v3/principals?filters=' +  encodeURI('[{"status":{"operator":"!","values":["0","3"]}},{"member":{"operator":"=","values":["1"]}},{"type":{"operator":"=","values":["User","Group"]}},{"id":{"operator":"!","values":["me"]}},{"name":{"operator":"~","values":["Maria"]}}]&sortBy=[["name","asc"]]&offset=1&pageSize=10'));
-    });
-  });
-});
+  // Static paths
+  readonly form = new SimpleResource(this.path, 'form');
+}

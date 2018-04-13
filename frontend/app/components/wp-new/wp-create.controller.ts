@@ -28,7 +28,7 @@
 
 import {Inject, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
-import {$stateToken, I18nToken, v3PathToken} from 'core-app/angular4-transition-utils';
+import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {States} from '../states.service';
@@ -59,14 +59,13 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   constructor(readonly $transition:Transition,
               @Inject($stateToken) readonly $state:StateService,
               @Inject(I18nToken) readonly I18n:op.I18n,
-              @Inject(v3PathToken) protected v3Path:any,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected states:States,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditing:WorkPackageEditingService,
               protected wpTableFilters:WorkPackageTableFiltersService,
               protected wpCacheService:WorkPackageCacheService,
-              protected PathHelper:PathHelperService,
+              protected pathHelper:PathHelperService,
               protected RootDm:RootDmService) {
 
   }
@@ -84,7 +83,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
         if (this.stateParams['parent_id']) {
           this.changeset.setValue(
             'parent',
-            {href: this.v3Path.wp({wp: this.stateParams['parent_id']})}
+            { href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path }
           );
         }
 
@@ -105,7 +104,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
           this.RootDm.load().then((root:RootResource) => {
             if (!root.user) {
               // Not logged in
-              let url = URI(this.PathHelper.loginPath());
+              let url = URI(this.pathHelper.loginPath());
               url.search({back_url: url});
               window.location.href = url.toString();
             }

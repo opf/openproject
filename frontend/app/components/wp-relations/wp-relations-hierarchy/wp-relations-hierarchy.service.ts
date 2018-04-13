@@ -33,16 +33,17 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 import {States} from '../../states.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {StateService} from '@uirouter/core';
-import {$stateToken, v3PathToken} from 'core-app/angular4-transition-utils';
+import {$stateToken, PathHelperToken} from 'core-app/angular4-transition-utils';
 import {Inject} from '@angular/core';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 export class WorkPackageRelationsHierarchyService {
   constructor(@Inject($stateToken) protected $state:StateService,
               protected states:States,
               protected wpTableRefresh:WorkPackageTableRefreshService,
               protected wpNotificationsService:WorkPackageNotificationService,
-              protected wpCacheService:WorkPackageCacheService,
-              @Inject(v3PathToken) protected v3Path:any) {
+              @Inject(PathHelperToken) protected pathHelper:PathHelperService,
+              protected wpCacheService:WorkPackageCacheService) {
 
   }
 
@@ -54,7 +55,7 @@ export class WorkPackageRelationsHierarchyService {
     if (parentId) {
       payload['_links'] = {
         parent: {
-            href: this.v3Path.wp({wp: parentId})
+            href: this.pathHelper.api.v3.work_packages.id(parentId).toString()
         }
       };
     } else {

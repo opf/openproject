@@ -53,8 +53,8 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
     return this.operator.allowedValues;
   }
 
-  public $postInitialize(source:any) {
-    super.$postInitialize(source);
+  public $initialize(source:any) {
+    super.$initialize(source);
 
     if (source._dependencies) {
       this.dependency = new SchemaDependencyResource(this.injector, source._dependencies[0], true, this.halInitializer);

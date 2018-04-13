@@ -32,6 +32,11 @@ import {Injector} from '@angular/core';
 import {States} from 'core-components/states.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 
+
+export interface HalResourceClass<T extends HalResource = HalResource> {
+  new(injector:Injector, source:any, $loaded:boolean, halInitializer:(halResource:T) => void):T;
+}
+
 export class HalResource {
   [attribute:string]:any;
 
@@ -56,13 +61,7 @@ export class HalResource {
                      public source:any,
                      public $loaded:boolean,
                      public halInitializer:(halResource:any) => void) {
-    this.$source = source.$source || source;
-
-    // Initialize the HalResource
-    halInitializer(this);
-
-    // Perform any further initialization beyond the properties
-    this.$postInitialize();
+    this.$initialize(source);
   }
 
   public static getEmptyResource(self:{ href:string|null } = { href: null }):any {
@@ -85,6 +84,24 @@ export class HalResource {
     }
 
     return '';
+  }
+
+  public $initialize(source:any) {
+    this.$source = source.$source || source;
+    this.halInitializer(this);
+  }
+
+  /**
+   * Create a HalResource from the copied source of the given, other HalResource.
+   *
+   * @param {HalResource} other
+   * @returns A HalResource with the identitical copied source of other.
+   */
+  public $copy<T extends HalResource = HalResource>():T {
+    const copy = _.cloneDeep(this.$source);
+    let clone:HalResourceClass<T>  = this.constructor as any;
+
+    return new clone(this.injector, copy, this.$loaded, this.halInitializer);
   }
 
   public get $isHal():boolean {
@@ -140,7 +157,7 @@ export class HalResource {
     state.putFromPromiseIfPristine(() => this.$loadResource(force));
 
     return <Promise<this>> state.valuesPromise().then(source => {
-      this.$postInitialize(source);
+      this.$initialize(source);
       this.$loaded = true;
       return this;
     });
@@ -161,7 +178,7 @@ export class HalResource {
     this.$loaded = false;
     this.$self = this.$links.self({}).then((source:any) => {
       this.$loaded = true;
-      this.$postInitialize(source);
+      this.$initialize(source);
       return this;
     });
 

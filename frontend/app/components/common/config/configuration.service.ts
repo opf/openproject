@@ -34,7 +34,7 @@ export class ConfigurationService {
   // TODO: this currently saves the request between page reloads,
   // but could easily be stored in localStorage
   private cache:any;
-  private path:string = this.PathHelper.apiConfigurationPath();
+  private path:string = this.PathHelper.api.v3.configuration.toString();
   public settings = this.initSettings();
 
   public constructor(private $q:ng.IQService,

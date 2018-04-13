@@ -26,30 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {PathHelperService} from './path-helper.service';
+import {SimpleResource} from 'core-components/common/path-helper/apiv3/path-resources';
 
-describe('PathHelper', function() {
-  var PathHelper:PathHelperService;
+export class ApiV3WorkPackagePaths extends SimpleResource {
+  constructor(basePath:string, readonly workPackageId:string|number) {
+    super(basePath, workPackageId);
+  }
 
-  beforeEach(angular.mock.module('openproject.helpers'));
-  beforeEach(inject(function(_PathHelper_:PathHelperService) {
-    PathHelper = _PathHelper_;
-  }));
+  // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/relations
+  public readonly relations = this.path + '/relations';
 
-  context('apiV3', function() {
-    var projectIdentifier = 'majora';
+  // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/revisions
+  public readonly revisions = this.path + '/revisions';
 
-    it('should provide the project\'s path', function() {
-      expect(PathHelper.api.v3.projects.id(projectIdentifier).path).to.equal('/api/v3/projects/majora');
-    });
+  // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/activities
+  public readonly activities = this.path + '/activities';
 
-    it('should provide a path to the project\'s mentionable principals', function() {
-      var projectId = '1';
-      var term = 'Maria';
+  // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/available_watchers
+  public readonly available_watchers = this.path + '/available_watchers';
 
-      expect(
-        PathHelper.api.v3.principals(projectId, term)
-      ).to.equal('/api/v3/principals?filters=' +  encodeURI('[{"status":{"operator":"!","values":["0","3"]}},{"member":{"operator":"=","values":["1"]}},{"type":{"operator":"=","values":["User","Group"]}},{"id":{"operator":"!","values":["me"]}},{"name":{"operator":"~","values":["Maria"]}}]&sortBy=[["name","asc"]]&offset=1&pageSize=10'));
-    });
-  });
-});
+  // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/available_projects
+  public readonly available_projects = this.path + '/available_projects';
+
+}

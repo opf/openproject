@@ -29,7 +29,6 @@
 import {
   $httpToken,
   $qToken,
-  halResourceFactoryToken,
   I18nToken,
   PathHelperToken
 } from 'core-app/angular4-transition-utils';
@@ -42,6 +41,7 @@ import {OpIcon} from 'core-components/common/icon/op-icon';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 require('core-app/angular4-test-setup');
 
@@ -83,7 +83,7 @@ describe('FilterToggledMultiselectValueComponent', () => {
         { provide: RootDmService, useValue: {} },
         { provide: $qToken, useValue: {} },
         { provide: $httpToken, useValue: {} },
-        { provide: halResourceFactoryToken, useValue: {} },
+        { provide: HalResourceService, useValue: {} }
       ]
     })
       .compileComponents()

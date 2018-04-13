@@ -30,12 +30,13 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {Inject, Injectable} from '@angular/core';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
-import {v3PathToken} from 'core-app/angular4-transition-utils';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperToken} from 'core-app/angular4-transition-utils';
 
 @Injectable()
 export class QueryFormDmService {
   constructor(readonly halResourceService:HalResourceService,
-              @Inject(v3PathToken) protected v3Path:any) {
+              @Inject(PathHelperToken) protected pathHelper:PathHelperService) {
   }
 
   public load(query:QueryResource):Promise<QueryFormResource> {
@@ -70,19 +71,12 @@ export class QueryFormDmService {
     if (projectIdentifier) {
       payload['_links'] = {
         'project': {
-          'href': this.v3Path.project({project: projectIdentifier})
+          'href': this.pathHelper.api.v3.projects.id(projectIdentifier).toString()
         }
       };
     }
 
-    let href:string;
-
-    if (queryId) {
-      href = this.v3Path.queries.form({ query: queryId });
-    } else {
-      href = this.v3Path.queries.form();
-    }
-
+    let href:string = this.pathHelper.api.v3.queries.optionalId(queryId).form.toString();
     href = URI(href).search(params).toString();
 
     return this.halResourceService

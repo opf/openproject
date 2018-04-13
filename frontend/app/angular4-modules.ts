@@ -73,15 +73,12 @@ import {
   I18nToken,
   NotificationsServiceToken,
   PathHelperToken,
-  QueryFilterInstanceResourceToken,
-  QueryResourceToken,
   saveModalToken,
   settingsModalToken,
   shareModalToken,
   TimezoneServiceToken,
   upgradeService,
   upgradeServiceWithToken,
-  UrlParamsHelperToken, v3PathToken,
   wpDestroyModalToken,
   wpMoreMenuServiceToken
 } from './angular4-transition-utils';
@@ -222,8 +219,6 @@ import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.
   providers: [
     GonRef,
     HideSectionService,
-    upgradeServiceWithToken('QueryResource', QueryResourceToken),
-    upgradeServiceWithToken('QueryFilterInstanceResource', QueryFilterInstanceResourceToken),
     upgradeServiceWithToken('$rootScope', $rootScopeToken),
     upgradeServiceWithToken('I18n', I18nToken),
     upgradeServiceWithToken('$state', $stateToken),
@@ -240,7 +235,6 @@ import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.
     upgradeServiceWithToken('saveModal', saveModalToken),
     upgradeServiceWithToken('settingsModal', settingsModalToken),
     upgradeServiceWithToken('exportModal', exportModalToken),
-    upgradeServiceWithToken('v3Path', v3PathToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     UrlParamsHelperService,
     WorkPackageCacheService,
@@ -293,7 +287,6 @@ import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.
     // Context menus
     OPContextMenuService,
     upgradeServiceWithToken('HookService', HookServiceToken),
-    upgradeServiceWithToken('UrlParamsHelper', UrlParamsHelperToken),
     WorkPackageContextMenuHelperService,
     QueryFormDmService,
     TableState,

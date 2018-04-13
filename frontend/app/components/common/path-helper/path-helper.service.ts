@@ -26,21 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ApiV3FilterBuilder} from '../../api/api-v3/api-v3-filter-builder';
+import {ApiV3Paths} from 'core-components/common/path-helper/apiv3/apiv3-paths';
 
 export class PathHelperService {
   public readonly appBasePath:string;
+  public readonly api:{ v3:ApiV3Paths };
 
   constructor() {
     this.appBasePath = window.appBasePath ? window.appBasePath : '';
+    this.api = {
+      v3: new ApiV3Paths(this.appBasePath)
+    };
   }
 
   public get staticBase() {
     return this.appBasePath;
-  }
-
-  public get apiV3() {
-    return this.appBasePath + '/api/v3';
   }
 
   public boardPath(projectIdentifier:string, boardIdentifier:string) {
@@ -172,65 +172,6 @@ export class PathHelperService {
 
   public projectLevelListPath() {
     return this.projectsPath() +  '/level_list.json';
-  }
-
-  // API V3
-  public apiConfigurationPath() {
-    return this.apiV3 + '/configuration';
-  }
-
-  public apiV3WorkPackagePath(workPackageId:string|number) {
-    return this.apiV3WorkPackagesPath() + '/' + workPackageId;
-  }
-
-  public apiV3WorkPackagesPath() {
-    return this.apiV3 + '/work_packages';
-  }
-
-  public apiV3WorkPackagesFormPath(projectIdentifier?:string) {
-    if (projectIdentifier) {
-      return this.apiV3ProjectPath + '/work_packages/form';
-    } else {
-      return this.apiV3WorkPackagesPath() + '/form';
-    }
-  }
-
-  public apiV3ProjectPath(projectIdentifier:string) {
-    return this.apiV3 + '/projects/' + projectIdentifier;
-  }
-
-  public apiV3ProjectCategoriesPath(projectIdentifier:string) {
-    return this.apiV3ProjectPath(projectIdentifier) + '/categories';
-  }
-
-  public apiV3UserPath(userId:string|number) {
-    return this.apiV3 + '/users/' + userId;
-  }
-
-  public apiv3MentionablePrincipalsPath(projectId:string|number, term:string|null) {
-    let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
-    // Only real and activated users:
-    filters.add('status', '!', ['0', '3']);
-    // that are members of that project:
-    filters.add('member', '=', [projectId.toString()]);
-    // That are users:
-    filters.add('type', '=', ['User', 'Group']);
-    // That are not the current user:
-    filters.add('id', '!', ['me']);
-
-    if (term && term.length > 0) {
-      // Containing the that substring:
-      filters.add('name', '~', [term]);
-    }
-    return this.apiV3 + '/principals' + '?' + filters.toParams() + encodeURI('&sortBy=[["name","asc"]]&offset=1&pageSize=10');
-  }
-
-  public apiV3UserMePath() {
-    return this.apiV3UserPath('me');
-  }
-
-  public apiV3StatusesPath() {
-    return this.apiV3 + '/statuses';
   }
 }
 

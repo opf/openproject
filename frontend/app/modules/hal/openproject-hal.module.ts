@@ -26,10 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {InjectionToken, NgModule} from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
-import {HalResourceConfig} from 'core-app/modules/hal/services/hal-resource.config';
+import {
+  initializeHalResourceConfig
+} from 'core-app/modules/hal/services/hal-resource.config';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
 import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
@@ -39,7 +41,7 @@ import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm
 import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.service';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
-import {upgradeServiceWithToken, v3PathToken} from 'core-app/angular4-transition-utils';
+import {OpenProjectHeaderInterceptor} from 'core-app/modules/hal/http/openproject-header-interceptor';
 
 @NgModule({
   imports: [
@@ -48,8 +50,8 @@ import {upgradeServiceWithToken, v3PathToken} from 'core-app/angular4-transition
   ],
   providers: [
     HalResourceService,
-    HalResourceConfig,
-    upgradeServiceWithToken('v3Path', v3PathToken),
+    { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
+    { provide: APP_INITIALIZER, useFactory: initializeHalResourceConfig, deps: [HalResourceService], multi: true },
     ConfigurationDmService,
     HelpTextDmService,
     PayloadDmService,
