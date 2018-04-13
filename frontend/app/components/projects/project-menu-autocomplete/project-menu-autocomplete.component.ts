@@ -196,7 +196,6 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
    */
   protected augmentedResultSet(items:ProjectAutocompleteItem[], matched:ProjectAutocompleteItem[]) {
     const matches = matched.map(el => el.object.identifier);
-    console.log(matches);
     const matchedParents = _.flatten(matched.map(el => el.object.parents));
 
     const results:ProjectAutocompleteItem[] = [];
