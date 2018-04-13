@@ -81,7 +81,7 @@ export abstract class ILazyAutocompleterBridge<T> {
     const str:string = term.toLowerCase();
 
     items.forEach(e => {
-      if (e.label.toLowerCase().indexOf(str) != -1) {
+      if (e.label.toLowerCase().indexOf(str) !== -1) {
         results.push(e);
       }
     });
