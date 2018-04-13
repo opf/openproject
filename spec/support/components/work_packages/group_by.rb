@@ -41,14 +41,17 @@ module Components
       end
 
       def enable_via_menu(name)
-        SettingsMenu.new.open_and_choose('Group by ...')
+        modal = TableConfigurationModal.new
 
-        select name, from: 'selected_columns_new'
-        click_button 'Apply'
+        modal.open_and_set_display_mode 'grouped'
+        select name, from: 'selected_grouping'
+        modal.save
       end
 
       def disable_via_menu
-        enable_via_menu '-'
+        modal = TableConfigurationModal.new
+        modal.open_and_set_display_mode 'default'
+        modal.save
       end
 
       def expect_not_grouped_by(name)

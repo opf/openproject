@@ -75,12 +75,6 @@ module Pages
       expect(rows.map { |el| el['data-work-package-id'] }).to match_array(ids.map(&:to_s))
     end
 
-    def has_work_packages_listed?(work_packages)
-      work_packages.all? do |wp|
-        has_selector?(".wp-row-#{wp.id} td.subject", text: wp.subject, wait: 20)
-      end
-    end
-
     def expect_no_work_package_listed
       within(table_container) do
         expect(page).to have_selector('#empty-row-notification')
@@ -203,14 +197,6 @@ module Pages
 
     def save
       click_setting_item /Save$/
-    end
-
-    def group_by(name)
-      click_setting_item 'Group by ...'
-
-      select name, from: 'Group by'
-
-      click_button 'Apply'
     end
 
     def open_filter_section

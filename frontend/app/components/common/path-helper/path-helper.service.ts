@@ -31,8 +31,8 @@ import {ApiV3FilterBuilder} from '../../api/api-v3/api-v3-filter-builder';
 export class PathHelperService {
   public readonly appBasePath:string;
 
-  constructor(public $window:ng.IWindowService) {
-    this.appBasePath = $window.appBasePath ? $window.appBasePath : '';
+  constructor() {
+    this.appBasePath = window.appBasePath ? window.appBasePath : '';
   }
 
   public get staticBase() {

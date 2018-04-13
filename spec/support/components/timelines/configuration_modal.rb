@@ -35,11 +35,11 @@ module Components
       attr_reader :settings_menu
 
       def initialize
-        @settings_menu = ::Components::WorkPackages::SettingsMenu.new
+        @modal = ::Components::WorkPackages::TableConfigurationModal.new
       end
 
       def open!
-        @settings_menu.open_and_choose 'Gantt chart ...'
+        @modal.open_and_switch_to 'Gantt chart'
       end
 
       def get_select(position)

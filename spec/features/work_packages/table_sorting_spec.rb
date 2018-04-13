@@ -52,6 +52,7 @@ describe 'Select work package row', type: :feature, js: true do
                                    name: 'zzz_version')
     end
     let(:columns) { ::Components::WorkPackages::Columns.new }
+    let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
     before do
       login_as(user)
@@ -74,8 +75,8 @@ describe 'Select work package row', type: :feature, js: true do
       it 'sorts by version although version is not selected as a column' do
         columns.remove 'Version'
 
-        sort_wp_table_by('Version')
-
+        sort_by.open_modal
+        sort_by.update_nth_criteria(0, 'Version')
         expect_work_packages_to_be_in_order([work_package_1, work_package_2])
       end
     end

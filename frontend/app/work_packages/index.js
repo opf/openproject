@@ -27,4 +27,3 @@
 //++
 
 require('./directives');
-require('./models');

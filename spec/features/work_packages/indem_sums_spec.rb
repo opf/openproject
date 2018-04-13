@@ -43,6 +43,8 @@ RSpec.feature 'Work package index sums', js: true do
   }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
 
   before do
     login_as(admin)
@@ -52,32 +54,15 @@ RSpec.feature 'Work package index sums', js: true do
   end
 
   scenario 'calculates summs correctly' do
-    expect(page).to have_content('Work packages')
+    wp_table.expect_work_package_listed work_package_1, work_package_2
 
-    within('.work-packages-list-view--container') do
-      expect(page).to have_content(work_package_1.subject)
-      expect(page).to have_content(work_package_2.subject)
-    end
-
-    # name of the settings dropdown menu
-    dropdown_id = 'settings'
+    # Add estimated time column
+    columns.add 'Estimated time'
 
     # Trigger action from action menu dropdown
-    find("#work-packages-settings-button").click
-    find("##{dropdown_id}Dropdown").click_link 'Columns'
+    modal.set_display_sums enable: true
 
-    within('.ng-modal-inner') do
-      find('input.select2-input').click
-
-      s2_result = find('ul.select2-result-single li', text: 'Estimated time')
-      s2_result.click
-
-      click_on 'Apply'
-    end
-
-    # Trigger action from action menu dropdown
-    find("#work-packages-settings-button").click
-    find("##{dropdown_id}Dropdown").click_link 'Display sums'
+    wp_table.expect_work_package_listed work_package_1, work_package_2
 
     within('.sum.group.all') do
       expect(page).to have_content('Sum for all work packages')

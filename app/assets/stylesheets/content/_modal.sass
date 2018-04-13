@@ -107,28 +107,6 @@ $ng-modal-image-width:   $ng-modal-image-height
   .form--space.-left-spacing
     padding-left: 1rem
 
-  #modal-sorting
-    min-height: 120px
-    .select2-container
-      float: left
-      margin-right: 20px
-      margin-bottom: 0px
-      @media(min-width: 1801px)
-        width: 300px
-      @media(max-width: 1800px)
-        width: 280px
-      @media(max-width: 1400px)
-        width: 230px
-      @media(max-width: 1100px)
-        width: 160px
-      @media(max-width: 800px)
-        width: 120px
-    label.option-label
-      float: left
-      margin-right: 20px
-      input
-        margin-top: 0px
-
   .columns-modal-content
     margin-bottom: 15px
     label
@@ -254,3 +232,17 @@ ul.export-options
 
   .modal--footer
     justify-content: inherit
+
+.wp-table--configuration-modal
+  min-height: 120px
+  max-height: 90vh
+  width: 75vh
+
+  label.option-label
+    float: left
+    margin-right: 20px
+    input
+      margin-top: 0px
+
+  .modal--form-actions
+    margin: 1em 0

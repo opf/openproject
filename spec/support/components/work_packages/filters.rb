@@ -92,12 +92,10 @@ module Components
       end
 
       def remove_filter(field)
-        page.within(filters_selector) do
-          find("#filter_#{field} .advanced-filters--remove-filter-icon").click
-        end
+        find("#filter_#{field} .advanced-filters--remove-filter-icon").click
       end
 
-      private
+      protected
 
       def filter_button
         find(button_selector)

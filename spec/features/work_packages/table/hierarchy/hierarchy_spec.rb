@@ -180,6 +180,7 @@ describe 'Work Package table hierarchy', js: true do
     end
     let(:permissions) { %i(view_work_packages add_work_packages) }
     let(:role) { FactoryGirl.create :role, permissions: permissions }
+    let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
     let!(:query) do
       query              = FactoryGirl.build(:query, user: user, project: project)
@@ -233,7 +234,7 @@ describe 'Work Package table hierarchy', js: true do
       hierarchy.toggle_row(root_assigned)
 
       # Sort descending
-      sort_wp_table_by 'Assignee', order: :desc
+      sort_by.update_criteria([ 'Assignee', descending: true])
       loading_indicator_saveguard
       wp_table.expect_work_package_listed(root, root_assigned)
 

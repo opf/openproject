@@ -26,6 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+// TODO we still have non-upgraded components depending on the ng1 datepicker
+// Remove when this is no longer the case and migrate to the ng2 component instead.
+
+import {DatePicker} from 'core-components/wp-edit/op-date-picker/datepicker';
+
 class OPDatePickerController {
   public onChange?:Function;
   public onClose?:Function;
@@ -36,8 +41,7 @@ class OPDatePickerController {
 
   public constructor(private $element:ng.IAugmentedJQuery,
                      private ConfigurationService:any,
-                     private TimezoneService:any,
-                     private Datepicker:any) {
+                     private TimezoneService:any) {
     'ngInject';
   }
 
@@ -102,7 +106,13 @@ class OPDatePickerController {
       initialValue = this.currentValue();
     }
 
-    this.datePickerInstance = new this.Datepicker(this.input, initialValue, options);
+    this.datePickerInstance = new DatePicker(
+      this.ConfigurationService,
+      this.TimezoneService,
+      this.input,
+      initialValue,
+      options
+    );
     this.datePickerInstance.show();
   }
 }

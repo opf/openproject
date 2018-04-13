@@ -6,6 +6,7 @@ describe 'Refreshing in inline-create row', flaky: true, js: true do
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:columns) { ::Components::WorkPackages::Columns.new }
 
   let!(:query) do
     query              = FactoryGirl.build(:query, user: user, project: project)
@@ -32,7 +33,7 @@ describe 'Refreshing in inline-create row', flaky: true, js: true do
     expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.subject')
     expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.category')
 
-    work_packages_page.add_column! 'Progress (%)'
+    columns.add 'Progress (%)'
     expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.wp-table--cell-td.percentageDone')
   end
 end

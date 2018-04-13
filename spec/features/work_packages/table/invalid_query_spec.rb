@@ -6,6 +6,7 @@ describe 'Invalid query spec', js: true do
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
   let(:member) do
     FactoryGirl.create(:member,
@@ -96,7 +97,7 @@ describe 'Invalid query spec', js: true do
     filters.expect_filter_by('Assignee', 'is', I18n.t('js.placeholders.selection'))
     filters.expect_filter_by('Status', 'is', [status.name, status2.name])
 
-    wp_table.group_by('Assignee')
+    group_by.enable_via_menu('Assignee')
     sleep(0.3)
     filters.set_filter('Assignee', 'is', user.name)
     sleep(0.3)
