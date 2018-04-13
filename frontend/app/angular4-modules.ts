@@ -64,9 +64,9 @@ import {WorkPackagesTableController} from 'core-components/wp-table/wp-table.dir
 import {
   $localeToken,
   $qToken,
-  $rootScopeToken,
+  $rootScopeToken, $sceToken,
   $stateToken,
-  $timeoutToken,
+  $timeoutToken, AutoCompleteHelperServiceToken,
   exportModalToken,
   FocusHelperToken,
   HookServiceToken,
@@ -75,7 +75,7 @@ import {
   PathHelperToken,
   saveModalToken,
   settingsModalToken,
-  shareModalToken,
+  shareModalToken, TextileServiceToken,
   TimezoneServiceToken,
   upgradeService,
   upgradeServiceWithToken,
@@ -120,7 +120,6 @@ import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-ta
 import {CurrentProjectService} from 'core-components/projects/current-project.service';
 import {WorkPackageSingleViewComponent} from 'core-components/work-packages/wp-single-view/wp-single-view.component';
 import {WorkPackageStatusButtonComponent} from 'core-components/wp-buttons/wp-status-button/wp-status-button.component';
-import {Ng1AttributeHelpTextWrapper} from 'core-components/common/help-texts/attribute-help-text-ng1-wrapper';
 import {WorkPackageReplacementLabelComponent} from 'core-components/wp-edit/wp-edit-field/wp-replacement-label.component';
 import {AuthoringComponent} from 'core-components/common/authoring/authoring.component';
 import {Ng1WorkPackageAttachmentsUploadWrapper} from 'core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload-ng1-wrapper';
@@ -204,6 +203,10 @@ import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-gr
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.directive';
+import {AutoCompleteHelperService} from 'core-components/common/autocomplete/auto-complete-helper.service';
+import {AttributeHelpTextComponent} from 'core-components/common/help-texts/attribute-help-text.component';
+import {AttributeHelpTextModal} from 'core-components/common/help-texts/attribute-help-text.modal';
+import {AttributeHelpTextsService} from 'core-components/common/help-texts/attribute-help-text.service';
 
 @NgModule({
   imports: [
@@ -222,9 +225,12 @@ import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.
     upgradeServiceWithToken('$rootScope', $rootScopeToken),
     upgradeServiceWithToken('I18n', I18nToken),
     upgradeServiceWithToken('$state', $stateToken),
+    upgradeServiceWithToken('$sce', $sceToken),
     upgradeServiceWithToken('$q', $qToken),
     upgradeServiceWithToken('$timeout', $timeoutToken),
     upgradeServiceWithToken('$locale', $localeToken),
+    upgradeServiceWithToken('TextileService', TextileServiceToken),
+    upgradeServiceWithToken('AutoCompleteHelperService', AutoCompleteHelperServiceToken),
     upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
     upgradeServiceWithToken('FocusHelper', FocusHelperToken),
     upgradeServiceWithToken('PathHelper', PathHelperToken),
@@ -247,7 +253,7 @@ import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.
     upgradeService('wpDisplayField', WorkPackageDisplayFieldService),
     WorkPackageNotificationService,
     WorkPackagesListChecksumService,
-    upgradeService('wpRelationsHierarchyService', WorkPackageRelationsHierarchyService),
+    WorkPackageRelationsHierarchyService,
     upgradeService('wpFiltersService', WorkPackageFiltersService),
     upgradeService('loadingIndicator', LoadingIndicatorService),
     ApiWorkPackagesService,
@@ -275,7 +281,7 @@ import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.
     WorkPackageCreateService,
     OpTableActionsService,
     upgradeService('authorisationService', AuthorisationService),
-    upgradeService('ConfigurationService', ConfigurationService),
+    ConfigurationService,
     upgradeService('currentProject', CurrentProjectService),
     QueryMenuService,
     WpQueryMenuDirective,
@@ -294,6 +300,8 @@ import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.
     // OP Modals service
     OpModalService,
     WpTableConfigurationService,
+
+    AttributeHelpTextsService,
   ],
   declarations: [
     WorkPackagesListComponent,
@@ -354,7 +362,7 @@ import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.
     WorkPackageOverviewTabComponent,
     WorkPackageSingleViewComponent,
     WorkPackageStatusButtonComponent,
-    Ng1AttributeHelpTextWrapper,
+    AttributeHelpTextComponent,
     WorkPackageReplacementLabelComponent,
     FocusWithinDirective,
     AuthoringComponent,
@@ -422,6 +430,7 @@ import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.
     WpTableConfigurationFiltersTab,
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
+    AttributeHelpTextModal,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -475,6 +484,7 @@ import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.
     WpTableConfigurationFiltersTab,
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
+    AttributeHelpTextModal,
   ]
 })
 export class OpenProjectModule {

@@ -1,10 +1,11 @@
 import {ProgressTextDisplayField} from './../wp-display/field-types/wp-display-progress-text-field.module';
-import {$injectFields} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageDisplayFieldService} from '../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {DisplayField} from '../wp-display/wp-display-field/wp-display-field.module';
 import {MultipleLinesStringObjectsDisplayField} from '../wp-display/field-types/wp-display-multiple-lines-string-objects-field.module';
 import {WorkPackageChangeset} from './work-package-changeset';
+import {Injector} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
@@ -17,11 +18,10 @@ export const cellEmptyPlaceholder = '-';
 
 export class DisplayFieldRenderer {
 
-  public wpDisplayField:WorkPackageDisplayFieldService;
-  public I18n:op.I18n;
+  readonly wpDisplayField:WorkPackageDisplayFieldService = this.injector.get(WorkPackageDisplayFieldService);
+  readonly I18n:op.I18n = this.injector.get(I18nToken);
 
-  constructor(public context:'table' | 'single-view' | 'timeline') {
-    $injectFields(this, 'wpDisplayField', 'I18n');
+  constructor(readonly injector:Injector, public context:'table' | 'single-view' | 'timeline') {
   }
 
   public render(workPackage:WorkPackageResource,

@@ -12,7 +12,7 @@ export class WpTableConfigurationColumnsTab implements TabComponent {
 
   public availableColumns = this.wpTableColumns.all;
   public unusedColumns = this.wpTableColumns.unused;
-  public selectedColumns = angular.copy(this.wpTableColumns.getColumns());
+  public selectedColumns = _.cloneDeep(this.wpTableColumns.getColumns());
 
   public impaired = this.ConfigurationService.accessibilityModeEnabled();
   public selectedColumnMap:{ [id:string]:boolean } = {};

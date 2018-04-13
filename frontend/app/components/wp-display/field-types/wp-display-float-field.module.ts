@@ -28,7 +28,6 @@
 
 import {DisplayField} from '../wp-display-field/wp-display-field.module';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 
 import * as angular from 'angular';
 import {$localeToken} from 'core-app/angular4-transition-utils';

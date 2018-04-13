@@ -108,7 +108,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
       component.onSave();
     });
 
-    this.closeMe();
+    this.service.close();
   }
 
   /**

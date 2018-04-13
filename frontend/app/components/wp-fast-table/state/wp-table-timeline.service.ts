@@ -31,9 +31,9 @@ import {zoomLevelOrder} from '../../wp-table/timeline/wp-timeline';
 import {WorkPackageTableTimelineState} from './../wp-table-timeline';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {downgradeInjectable} from '@angular/upgrade/static';
 import {
-  QueryResource, TimelineLabels,
+  QueryResource,
+  TimelineLabels,
   TimelineZoomLevel
 } from 'core-app/modules/hal/resources/query-resource';
 import {Injectable} from '@angular/core';

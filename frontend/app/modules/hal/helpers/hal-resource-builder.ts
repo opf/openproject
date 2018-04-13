@@ -52,8 +52,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
           const link:any = halResource.$links[linkName].$link || halResource.$links[linkName];
 
           if (Array.isArray(link)) {
-            var items = link.map(item => halResourceService.createLinkedResource(linkName,
-              item.$link));
+            var items = link.map(item => halResourceService.createLinkedResource(halResource.constructor._type, linkName, item.$link));
             var property:HalResource[] = new ObservableArray(...items).on('change', () => {
               property.forEach(item => {
                 if (!item.$link) {
@@ -72,7 +71,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
               return HalLink.fromObject(halResourceService, link).$callable();
             }
 
-            return halResourceService.createLinkedResource(linkName, link);
+            return halResourceService.createLinkedResource(halResource.constructor._type, linkName, link);
           }
 
           return null;
@@ -144,7 +143,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
       halResource.$source._links[linkName] = { href: null };
     } else if (_.isArray(val)) {
       halResource.$source._links[linkName] = val.map((el:any) => {
-        return { href: el.href }
+        return { href: el.href };
       });
     } else if (val.hasOwnProperty('$link')) {
       const link = (val as HalResource).$link;

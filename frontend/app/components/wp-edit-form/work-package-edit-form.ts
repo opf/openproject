@@ -27,7 +27,6 @@
 // ++
 
 import {Subscription} from 'rxjs/Subscription';
-import {$injectFields} from '../angular/angular-injector-bridge.functions';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';

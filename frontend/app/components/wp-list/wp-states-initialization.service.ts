@@ -98,7 +98,7 @@ export class WorkPackageStatesInitializationService {
 
     this.tableState.results.putValue(results);
 
-    this.tableState.groups.putValue(angular.copy(results.groups));
+    this.tableState.groups.putValue(results.groups);
 
     this.wpTablePagination.initialize(query, results);
 

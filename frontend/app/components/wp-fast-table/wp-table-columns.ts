@@ -43,7 +43,7 @@ export class WorkPackageTableColumns extends WorkPackageTableBaseState<QueryColu
 
   public update(query:QueryResource|null, schema?:QuerySchemaResource) {
     if (query) {
-      this.current = angular.copy(query.columns);
+      this.current = _.cloneDeep(query.columns);
     }
   }
 

@@ -36,8 +36,7 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 export class AttributeHelpTextsService {
   private helpTexts = input<HelpTextResource[]>();
 
-  constructor(private helpTextDm:HelpTextDmService,
-              private $q:ng.IQService) {
+  constructor(private helpTextDm:HelpTextDmService) {
   }
 
   /**
@@ -47,19 +46,18 @@ export class AttributeHelpTextsService {
    * @param scope
    */
   public require(attribute:string, scope:string):Promise<HelpTextResource|undefined> {
-    const deferred = this.$q.defer<HelpTextResource|undefined>();
-
-    if (this.helpTexts.isPristine()) {
-      this.helpTextDm.loadAll()
-        .then((resources:CollectionResource<HelpTextResource>) => {
-          this.helpTexts.putValue(resources.elements as any);
-          deferred.resolve(this.find(attribute, scope));
-        });
-    } else {
-      deferred.resolve(this.find(attribute, scope));
-    }
-
-    return deferred.promise;
+    return new Promise<HelpTextResource>((resolve, reject) => {
+      if (this.helpTexts.isPristine()) {
+        this.helpTextDm.loadAll()
+          .then((resources:CollectionResource<HelpTextResource>) => {
+            this.helpTexts.putValue(resources.elements as any);
+            resolve(this.find(attribute, scope));
+          })
+          .catch(reject);
+      } else {
+        resolve(this.find(attribute, scope));
+      }
+    });
   }
 
   private find(attribute:string, scope:string):HelpTextResource|undefined {

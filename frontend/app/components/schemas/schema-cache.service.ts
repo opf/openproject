@@ -73,7 +73,7 @@ export class SchemaCacheService {
     }
 
     state.putFromPromiseIfPristine(() => {
-      const resource = workPackage.createLinkedResource('schema', workPackage.$links.schema.$link);
+      const resource = workPackage.createLinkedResource('WorkPackage', 'schema', workPackage.$links.schema.$link);
       return resource.$load() as any;
     });
 

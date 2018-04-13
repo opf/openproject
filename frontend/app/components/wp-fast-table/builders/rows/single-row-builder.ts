@@ -30,7 +30,7 @@ export class SingleRowBuilder {
   public I18n:op.I18n = this.injector.get(I18nToken);
 
   // Cell builder instance
-  protected cellBuilder = new CellBuilder();
+  protected cellBuilder = new CellBuilder(this.injector);
   // Relation cell builder instance
   protected relationCellBuilder = new RelationCellbuilder(this.injector);
 

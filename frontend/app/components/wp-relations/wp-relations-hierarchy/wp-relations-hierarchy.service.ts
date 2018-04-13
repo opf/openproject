@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
@@ -34,9 +33,12 @@ import {States} from '../../states.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {StateService} from '@uirouter/core';
 import {$stateToken, PathHelperToken} from 'core-app/angular4-transition-utils';
-import {Inject} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {opServicesModule} from 'core-app/angular-modules';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
+@Injectable()
 export class WorkPackageRelationsHierarchyService {
   constructor(@Inject($stateToken) protected $state:StateService,
               protected states:States,
@@ -135,3 +137,5 @@ export class WorkPackageRelationsHierarchyService {
     });
   }
 }
+
+opServicesModule.service('wpRelationsHierarchyService', downgradeInjectable(WorkPackageRelationsHierarchyService));

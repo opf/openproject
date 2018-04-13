@@ -32,7 +32,7 @@ import {UploadFile, UploadResult} from 'core-components/api/op-file-upload/op-fi
 
 export class AttachmentCollectionResource extends CollectionResource {
 
-  readonly opFileUplaod = this.injector.get('opFileUploadToken'); // TODO
+  readonly opFileUplaod = window.OpenProject.Helpers.Angular.injector.get('opFileUpload');
 
   /**
    * Upload the given files to the $href property of this resource.

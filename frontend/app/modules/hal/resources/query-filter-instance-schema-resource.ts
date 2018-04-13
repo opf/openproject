@@ -67,9 +67,9 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
     let source:any = {
       name: filter.name,
       _links: {
-        filter: filter.$plain()._links.self,
-        schema: this.$plain()._links.self,
-        operator: operator.$plain()._links.self
+        filter: filter.$source._links.self,
+        schema: this.$source._links.self,
+        operator: operator.$source._links.self
       }
     }
 

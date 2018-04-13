@@ -28,21 +28,19 @@
 
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {WorkPackageTableBaseState} from './wp-table-base';
-import {QueryColumn} from '../wp-query/query-column';
 
 export class WorkPackageTableGroupBy extends WorkPackageTableBaseState<QueryGroupByResource | undefined> {
   public current:QueryGroupByResource | undefined;
 
   constructor(query:QueryResource) {
     super();
-    this.current = angular.copy(query.groupBy);
+    this.current = _.cloneDeep(query.groupBy);
   }
 
   public update(query:QueryResource|null) {
     if (query) {
-      this.current = angular.copy(query.groupBy);
+      this.current = _.cloneDeep(query.groupBy);
     }
   }
 }

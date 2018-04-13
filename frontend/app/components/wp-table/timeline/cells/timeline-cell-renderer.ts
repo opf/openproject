@@ -1,5 +1,4 @@
 import * as moment from 'moment';
-import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {
   calculatePositionValueForDayCount,
@@ -31,6 +30,8 @@ import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset
 import {WorkPackageTableTimelineService} from '../../../wp-fast-table/state/wp-table-timeline.service';
 import {DisplayFieldRenderer} from '../../../wp-edit-form/display-field-renderer';
 import Moment = moment.Moment;
+import {Injector} from '@angular/core';
+import {TimezoneServiceToken} from 'core-app/angular4-transition-utils';
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -47,14 +48,14 @@ function calculateForegroundColor(backgroundColor:string):string {
 }
 
 export class TimelineCellRenderer {
-  public TimezoneService:any;
-  public wpTableTimeline:WorkPackageTableTimelineService;
-  public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer('timeline');
+  readonly TimezoneService = this.injector.get(TimezoneServiceToken);
+  readonly wpTableTimeline:WorkPackageTableTimelineService = this.injector.get(WorkPackageTableTimelineService);
+  public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer(this.injector, 'timeline');
 
   protected dateDisplaysOnMouseMove:{ left?:HTMLElement; right?:HTMLElement } = {};
 
-  constructor(public workPackageTimeline:WorkPackageTimelineTableController) {
-    $injectFields(this, 'TimezoneService', 'wpTableTimeline');
+  constructor(readonly injector:Injector,
+              readonly workPackageTimeline:WorkPackageTimelineTableController) {
   }
 
   public get type():string {

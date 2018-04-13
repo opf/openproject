@@ -26,52 +26,43 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import IAugmentedJQuery = angular.IAugmentedJQuery;
-import {IDialogService} from 'ng-dialog';
-import {IDialogScope} from 'ng-dialog';
 import {opUiComponentsModule} from '../../../angular-modules';
 import {AttributeHelpTextsService} from './attribute-help-text.service';
 import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
-import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
+import {Component, ElementRef, Inject, Input} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {OpModalService} from 'core-components/op-modals/op-modal.service';
+import {AttributeHelpTextModal} from 'core-components/common/help-texts/attribute-help-text.modal';
+import {downgradeComponent} from '@angular/upgrade/static';
 
-export class AttributeHelpTextController {
+@Component({
+  selector: 'attribute-help-text',
+  template: require('!!raw-loader!./help-text.directive.html')
+})
+export class AttributeHelpTextComponent {
   // Attribute to show help text for
-  public attribute:string;
-  public optionaltitle?:string;
+  @Input() public attribute:string;
+  @Input() public additionalLabel?:string;
+
   // Scope to search for
-  public attributeScope:string;
+  @Input() public attributeScope:string;
   // Load single id entry if given
-  public helpTextId?:string;
-  public additionalLabel?:string;
+  @Input() public helpTextId?:string;
 
+  public optionaltitle?:string;
   public exists:boolean = false;
-  public text:any;
 
-  constructor(protected $element:IAugmentedJQuery,
-              protected $scope:any,
+  readonly text = {
+    open_dialog: this.I18n.t('js.help_texts.show_modal'),
+    'edit': this.I18n.t('js.button_edit'),
+    'close': this.I18n.t('js.button_close')
+  };
+
+  constructor(protected elementRef:ElementRef,
               protected helpTextDm:HelpTextDmService,
               protected attributeHelpTexts:AttributeHelpTextsService,
-              protected $q:angular.IQService,
-              protected ngDialog:IDialogService,
-              protected I18n:op.I18n) {
-
-    this.text = {
-      open_dialog: I18n.t('js.help_texts.show_modal')
-    };
-
-    this.$scope.text = {
-      'edit': I18n.t('js.button_edit'),
-      'close': I18n.t('js.button_close')
-    };
-
-    // Prevent event bubbling so that we can e.g.
-    // avoid it bubbling to the newly focused element handler on close.
-    this.$scope.close = (event:JQueryEventObject) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      this.ngDialog.close('');
-    };
+              protected opModalService:OpModalService,
+              @Inject(I18nToken) readonly I18n:op.I18n) {
   }
 
   public $onInit() {
@@ -88,7 +79,7 @@ export class AttributeHelpTextController {
 
   public handleClick() {
     this.load().then((resource) => {
-      this.renderModal(resource!);
+      this.opModalService.show(AttributeHelpTextModal, { helpText: resource });
     });
   }
 
@@ -99,28 +90,6 @@ export class AttributeHelpTextController {
       return this.attributeHelpTexts.require(this.attribute, this.attributeScope);
     }
   }
-
-  private renderModal(resource:HelpTextResource) {
-    this.$scope.resource = resource;
-    this.ngDialog.open({
-      closeByEscape: true,
-      showClose: false,
-      closeByDocument: true,
-      scope: <IDialogScope> this.$scope,
-      template: '/components/common/help-texts/help-text.modal.html',
-      className: 'ngdialog-theme-openproject -light -wide'
-    });
-  }
 }
 
-opUiComponentsModule.component('attributeHelpText', {
-  templateUrl: '/components/common/help-texts/help-text.directive.html',
-  controller: AttributeHelpTextController,
-  controllerAs: '$ctrl',
-  bindings: {
-    attribute: '<',
-    attributeScope: '@',
-    helpTextId: '@?',
-    additionalLabel: '@?'
-  }
-});
+opUiComponentsModule.component('attributeHelpText', downgradeComponent({ component: AttributeHelpTextComponent }));

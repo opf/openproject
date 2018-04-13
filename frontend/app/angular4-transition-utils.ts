@@ -35,6 +35,7 @@ export const $qToken = new InjectionToken<IQService>('$q');
 export const $timeoutToken = new InjectionToken<ITimeoutService>('$timeout');
 export const $localeToken = new InjectionToken<any>('$locale');
 export const $stateToken = new InjectionToken<StateService>('$state');
+export const $sceToken = new InjectionToken<ng.ISCEService>('$sceToken');
 
 export const I18nToken = new InjectionToken<op.I18n>('I18n');
 export const shareModalToken = new InjectionToken<any>('shareModal');
@@ -42,6 +43,8 @@ export const saveModalToken = new InjectionToken<any>('saveModal');
 export const settingsModalToken = new InjectionToken<any>('settingsModal');
 export const exportModalToken = new InjectionToken<any>(' exportModal');
 
+export const AutoCompleteHelperServiceToken = new InjectionToken<any>('AutoCompleteHelperServiceToken');
+export const TextileServiceToken = new InjectionToken<any>('TextileServiceToken');
 export const FocusHelperToken = new InjectionToken<any>('FocusHelper');
 export const NotificationsServiceToken = new InjectionToken<any>('NotificationsService');
 export const PathHelperToken = new InjectionToken<any>('PathHelper');

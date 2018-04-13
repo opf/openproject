@@ -28,7 +28,12 @@
 
 import {opConfigModule} from '../../../angular-modules';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {Inject, Injectable} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {HttpClient} from '@angular/common/http';
 
+@Injectable()
 export class ConfigurationService {
   // fetches configuration from the ApiV3 endpoint
   // TODO: this currently saves the request between page reloads,
@@ -37,36 +42,29 @@ export class ConfigurationService {
   private path:string = this.PathHelper.api.v3.configuration.toString();
   public settings = this.initSettings();
 
-  public constructor(private $q:ng.IQService,
-                     private $http:ng.IHttpService,
-                     private $window:ng.IWindowService,
-                     private PathHelper:PathHelperService,
-                     private I18n:op.I18n) {
+  public constructor(readonly http:HttpClient,
+                     readonly PathHelper:PathHelperService,
+                     @Inject(I18nToken) readonly I18n:op.I18n) {
 
   }
 
   public fetchSettings () {
-    var data = this.$q.defer();
-    let resolve = this.$http.get(this.path) as any;
-    resolve.success(function (settings:any) {
-      data.resolve(settings);
-    }).error(function (err:any) {
-      data.reject(err);
-    });
-    return data.promise;
+    return this.http.get<any>(this.path).toPromise();
   }
 
   public api() {
-    var settings = this.$q.defer();
-    if (this.cache) {
-      settings.resolve(this.cache);
-    } else {
-      this.fetchSettings().then((data:any) => {
-        this.cache = data;
-        settings.resolve(data);
-      });
-    }
-    return settings.promise;
+    return new Promise((resolve, reject) => {
+      if (this.cache) {
+        resolve(this.cache);
+      } else {
+        this.fetchSettings()
+          .then((data:any) => {
+            this.cache = data;
+            resolve(data);
+          })
+          .catch(reject);
+      }
+    });
   }
 
   public initSettings() {
@@ -170,4 +168,4 @@ export class ConfigurationService {
   }
 }
 
-opConfigModule.service('ConfigurationService', ConfigurationService);
+opConfigModule.service('ConfigurationService', downgradeInjectable(ConfigurationService));

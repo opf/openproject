@@ -27,12 +27,15 @@
 // ++
 
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {$injectFields, $injectNow} from '../../angular/angular-injector-bridge.functions';
 import {TextileService} from './../../common/textile/textile-service';
-import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 import {AutoCompleteHelperService} from 'core-components/common/autocomplete/auto-complete-helper.service';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {
+  $httpToken,
+  $sceToken, AutoCompleteHelperServiceToken,
+  I18nToken,
+  TextileServiceToken
+} from 'core-app/angular4-transition-utils';
 
 export class WikiTextareaEditField extends EditField {
 
@@ -40,13 +43,12 @@ export class WikiTextareaEditField extends EditField {
   public template:string;
 
   // Dependencies
-  protected $sce:ng.ISCEService;
-  protected $http:ng.IHttpService;
-  protected textileService:TextileService;
-  protected $timeout:ng.ITimeoutService;
-  protected I18n:op.I18n;
-  protected AutoCompleteHelper:AutoCompleteHelperService;
-  protected ConfigurationService:ConfigurationService;
+  readonly $sce:ng.ISCEService = this.$injector.get($sceToken);
+  readonly $http:ng.IHttpService = this.$injector.get($httpToken);
+  readonly textileService:TextileService  = this.$injector.get(TextileServiceToken);
+  readonly I18n:op.I18n = this.$injector.get(I18nToken);
+  readonly AutoCompleteHelper:AutoCompleteHelperService = this.$injector.get(AutoCompleteHelperServiceToken);
+  readonly ConfigurationService:ConfigurationService = this.$injector.get(ConfigurationService);
 
   // Values used in template
   public isBusy:boolean = false;
@@ -60,8 +62,6 @@ export class WikiTextareaEditField extends EditField {
   public ckeditor:any;
 
   protected initialize() {
-    $injectFields(this, '$sce', '$http', 'textileService', '$timeout', 'AutoCompleteHelper', 'I18n', 'ConfigurationService');
-
     this.wysiwig = this.ConfigurationService.textFormat() === 'markdown';
     this.setupTemplate();
 
@@ -149,7 +149,7 @@ export class WikiTextareaEditField extends EditField {
   }
 
   public submitUnlessInPreview(form:any) {
-    this.$timeout(() => {
+    setTimeout(() => {
       if (!this.isPreview) {
         form.submit();
       }

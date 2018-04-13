@@ -110,7 +110,7 @@ export class CommentFieldDirectiveController {
   }
 
   public resetField(withText?:string) {
-    this.field = new WorkPackageCommentField(this.workPackage, I18n);
+    this.field = new WorkPackageCommentField(this.workPackage);
     this.field.initializeFieldValue(withText);
   }
 

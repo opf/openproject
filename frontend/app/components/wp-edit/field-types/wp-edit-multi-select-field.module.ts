@@ -29,7 +29,7 @@
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {$injectFields} from '../../angular/angular-injector-bridge.functions';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 
 export class MultiSelectEditField extends EditField {
   public options:any[];
@@ -38,12 +38,11 @@ export class MultiSelectEditField extends EditField {
   public isMultiselect: boolean;
 
   // Dependencies
-  public I18n:op.I18n;
+  readonly I18n:op.I18n = this.$injector.get(I18nToken);
 
   public currentValueInvalid:boolean = false;
 
   protected initialize() {
-    $injectFields(this, 'I18n');
     this.isMultiselect = this.isValueMulti();
 
     this.text = {

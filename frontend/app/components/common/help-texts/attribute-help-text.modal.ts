@@ -26,33 +26,34 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
-import {WorkPackageTableBaseState} from './wp-table-base';
-import {QueryColumn} from '../wp-query/query-column';
-import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
+import {Component, ElementRef, Inject} from '@angular/core';
+import {I18nToken, OpModalLocalsToken} from 'core-app/angular4-transition-utils';
+import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
+import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
+import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
 
-export class WorkPackageTableSortBy extends WorkPackageTableBaseState<QuerySortByResource[]> {
-  public current:QuerySortByResource[] = [];
+@Component({
+  template: require('!!raw-loader!./help-text.modal.html')
+})
+export class AttributeHelpTextModal extends OpModalComponent {
 
-  constructor(query:QueryResource) {
-    super();
-    this.current = _.cloneDeep(query.sortBy);
-  }
+  /* Close on escape? */
+  public closeOnEscape = false;
 
-  public addCurrent(sortBy:QuerySortByResource) {
-    this.current.unshift(sortBy);
+  /* Close on outside click */
+  public closeOnOutsideClick = false;
 
-    this.current = _.uniqBy(this.current,
-                            sortBy => sortBy.column.$href)
-                          .slice(0, 3);
-  }
+  readonly text = {
+    'edit': this.I18n.t('js.button_edit'),
+    'close': this.I18n.t('js.button_close')
+  };
 
-  public setCurrent(sortBys:QuerySortByResource[]) {
-    this.current = [];
+  public attributeHelpText:HelpTextResource = this.locals.helpText;
 
-    _.reverse(sortBys);
-
-    _.each(sortBys, sortBy => this.addCurrent(sortBy));
+  constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly elementRef:ElementRef) {
+    super(locals, elementRef);
   }
 }
+

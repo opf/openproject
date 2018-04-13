@@ -43,7 +43,7 @@ import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing
 import {SelectionHelpers} from '../../../helpers/selection-helpers';
 import {debugLog} from '../../../helpers/debug_output';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, Injector, Input, OnInit} from '@angular/core';
 import {I18nToken, NotificationsServiceToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
@@ -60,12 +60,13 @@ export class WorkPackageEditFieldComponent implements OnInit {
   @Input('displayPlaceholder') public displayPlaceholder?:string;
 
   public workPackage:WorkPackageResource;
-  public fieldRenderer = new DisplayFieldRenderer('single-view');
+  public fieldRenderer = new DisplayFieldRenderer(this.injector, 'single-view');
   public editFieldContainerClass = editFieldContainerClass;
   private active = false;
   private $element:ng.IAugmentedJQuery;
 
   constructor(protected states:States,
+              protected injector:Injector,
               protected elementRef:ElementRef,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected ConfigurationService:ConfigurationService,
@@ -183,8 +184,3 @@ export class WorkPackageEditFieldComponent implements OnInit {
   }
 
 }
-
-opWorkPackagesModule.component('wpEditField',
-  downgradeComponent({component: WorkPackageEditFieldComponent})
-);
-

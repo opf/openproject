@@ -32,8 +32,8 @@ export abstract class OpModalComponent implements OnInit {
     return true;
   }
 
-  public closeMe() {
-    this.service.close();
+  public closeMe(evt:Event) {
+    this.service.close(evt);
   }
 
   public onOpen(modalElement:JQuery) {

@@ -30,7 +30,6 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WikiTextareaEditField} from '../../wp-edit/field-types/wp-edit-wiki-textarea-field.module';
 import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
-import {$injectFields} from 'core-components/angular/angular-injector-bridge.functions';
 
 export class WorkPackageCommentField extends WikiTextareaEditField {
   public _value:any;
@@ -38,7 +37,7 @@ export class WorkPackageCommentField extends WikiTextareaEditField {
 
   public ConfigurationService:ConfigurationService = this.$injector.get(ConfigurationService);
 
-  constructor(public workPackage:WorkPackageResource, protected I18n:op.I18n) {
+  constructor(public workPackage:WorkPackageResource) {
     super(
       new WorkPackageChangeset(WorkPackageCommentField.$injector, workPackage),
       'comment',

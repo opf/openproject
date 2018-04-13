@@ -49,7 +49,7 @@ export class CurrentProjectService {
 
   public get apiv3Path():string|null {
     if (this.current) {
-      return this.PathHelper.apiV3ProjectPath(this.current.id);
+      return this.PathHelper.api.v3.projects.id(this.current.id).toString();
     }
 
     return null;

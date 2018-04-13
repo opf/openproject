@@ -49,6 +49,7 @@ import {
   HalResourceService
 } from 'core-app/modules/hal/services/hal-resource.service';
 import {Injectable} from '@angular/core';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
@@ -63,16 +64,19 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
     }
   },
   Activity: {
+    cls: HalResource,
     attrTypes: {
       user: 'User'
     }
   },
   'Activity::Comment': {
+    cls: HalResource,
     attrTypes: {
       user: 'User'
     }
   },
   'Activity::Revision': {
+    cls: HalResource,
     attrTypes: {
       user: 'User'
     }

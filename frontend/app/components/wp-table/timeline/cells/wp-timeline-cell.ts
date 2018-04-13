@@ -1,5 +1,3 @@
-import {Injector} from '@angular/core';
-import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -38,6 +36,7 @@ import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
 import {registerWorkPackageMouseHandler} from './wp-timeline-cell-mouse-handler';
+import {Injector} from '@angular/core';
 
 export const classNameLeftLabel = 'labelLeft';
 export const classNameRightContainer = 'containerRight';
@@ -62,11 +61,11 @@ export class WorkPackageCellLabels {
 }
 
 export class WorkPackageTimelineCell {
-  public wpCacheService:WorkPackageCacheService;
-  public wpTableRefresh:WorkPackageTableRefreshService;
-  public wpNotificationsService:WorkPackageNotificationService;
-  public states:States;
-  public loadingIndicator:LoadingIndicatorService;
+  readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
+  readonly wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
+  readonly wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
+  readonly states:States = this.injector.get(States);
+  readonly loadingIndicator:LoadingIndicatorService = this.injector.get(LoadingIndicatorService);
 
   private wpElement:HTMLDivElement | null = null;
 
@@ -81,8 +80,6 @@ export class WorkPackageTimelineCell {
               public latestRenderInfo:RenderInfo,
               public classIdentifier:string,
               public workPackageId:string) {
-    $injectFields(this, 'loadingIndicator', 'wpCacheService', 'wpNotificationsService',
-      'wpTableRefresh', 'states', 'TimezoneService');
   }
 
   getMarginLeftOfLeftSide():number {

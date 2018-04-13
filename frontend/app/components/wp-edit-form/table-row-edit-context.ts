@@ -29,7 +29,6 @@
 import {Injector} from '@angular/core';
 import {$qToken, $timeoutToken, FocusHelperToken} from 'core-app/angular4-transition-utils';
 import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
-import {injectorBridge} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
@@ -55,7 +54,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
   public successState:string;
 
   // Use cell builder to reset edit fields
-  private cellBuilder = new CellBuilder();
+  private cellBuilder = new CellBuilder(this.injector);
 
   constructor(public readonly injector:Injector,
               public workPackageId:string,
@@ -86,6 +85,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
 
         // Create a field handler for the newly active field
         const fieldHandler = new WorkPackageEditFieldHandler(
+          this.injector,
           form,
           fieldName,
           field,

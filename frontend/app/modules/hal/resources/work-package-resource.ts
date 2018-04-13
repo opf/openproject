@@ -48,46 +48,60 @@ import {PathHelperService} from 'core-components/common/path-helper/path-helper.
 interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
   ancestors:WorkPackageResource[];
-  assignee:HalResource | any;
+  assignee:HalResource|any;
   attachments:AttachmentCollectionResource;
-  author:HalResource | any;
-  availableWatchers:HalResource | any;
-  category:HalResource | any;
+  author:HalResource|any;
+  availableWatchers:HalResource|any;
+  category:HalResource|any;
   children:WorkPackageResource[];
-  parent:HalResource | any;
-  priority:HalResource | any;
-  project:HalResource | any;
+  parent:HalResource|any;
+  priority:HalResource|any;
+  project:HalResource|any;
   relations:CollectionResource;
-  responsible:HalResource | any;
-  revisions:CollectionResource | any;
-  status:HalResource | any;
-  timeEntries:HalResource[] | any[];
+  responsible:HalResource|any;
+  revisions:CollectionResource|any;
+  status:HalResource|any;
+  timeEntries:HalResource[]|any[];
   type:TypeResource;
-  version:HalResource | any;
+  version:HalResource|any;
   watchers:CollectionResource;
   // For regular work packages
   startDate:string;
   dueDate:string;
   // Only for milestones
   date:string;
-  relatedBy:RelationResource | null;
+  relatedBy:RelationResource|null;
 }
 
 interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
   addAttachment(attachment:HalResource):Promise<any>;
+
   addChild(child:HalResource):Promise<any>;
-  addComment(comment:{comment:string}, headers?:any):Promise<any>;
+
+  addComment(comment:{ comment:string }, headers?:any):Promise<any>;
+
   addRelation(relation:any):Promise<any>;
+
   addWatcher(watcher:HalResource):Promise<any>;
+
   changeParent(params:any):Promise<any>;
+
   copy():Promise<WorkPackageResource>;
+
   delete():Promise<any>;
+
   logTime():Promise<any>;
+
   move():Promise<any>;
+
   removeWatcher():Promise<any>;
+
   self():Promise<any>;
+
   update(payload:any):Promise<any>;
+
   updateImmediately(payload:any):Promise<any>;
+
   watch():Promise<any>;
 }
 
@@ -114,8 +128,9 @@ export class WorkPackageResource extends HalResource {
   readonly apiWorkPackages:ApiWorkPackagesService = this.injector.get(ApiWorkPackagesService);
   readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   readonly schemaCacheService:SchemaCacheService = this.injector.get(SchemaCacheService);
-  readonly NotificationsService:any  = this.injector.get(NotificationsServiceToken);
-  readonly wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
+  readonly NotificationsService:any = this.injector.get(NotificationsServiceToken);
+  readonly wpNotificationsService:WorkPackageNotificationService = this.injector.get(
+    WorkPackageNotificationService);
   readonly wpCreate:WorkPackageCreateService = this.injector.get(WorkPackageCreateService);
   readonly pathHelper:PathHelperService = this.injector.get(PathHelperToken);
 
@@ -196,7 +211,7 @@ export class WorkPackageResource extends HalResource {
    * Upload the pending attachments if the work package exists.
    * Do nothing, if the work package is being created.
    */
-  public uploadPendingAttachments():Promise<any> | void {
+  public uploadPendingAttachments():Promise<any>|void {
     if (!this.pendingAttachments.length) {
       return undefined;
     }
@@ -211,7 +226,7 @@ export class WorkPackageResource extends HalResource {
    * Return an updated AttachmentCollectionResource.
    */
   public uploadAttachments(files:UploadFile[]):Promise<any> {
-    const {uploads, finished} = this.attachments.upload(files);
+    const { uploads, finished } = this.attachments.upload(files);
     const message = I18n.t('js.label_upload_notification', this);
     const notification = this.NotificationsService.addWorkPackageUpload(message, uploads);
 
@@ -317,6 +332,18 @@ export class WorkPackageResource extends HalResource {
     this['updateImmediately'] = this.$links.updateImmediately = (payload) => {
       return this.apiWorkPackages.createWorkPackage(payload);
     };
+  }
+
+  public $initialize(source:any) {
+    super.$initialize(source);
+
+    let attachments = this.attachments || { $source: {} };
+    this.attachments = new AttachmentCollectionResource(
+      this.injector,
+      attachments,
+      false,
+      this.halInitializer
+    );
   }
 
   /**

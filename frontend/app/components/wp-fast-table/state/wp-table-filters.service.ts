@@ -64,7 +64,7 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
   }
 
   public hasChanged(query:QueryResource) {
-    const comparer = (filter:QueryFilterInstanceResource[]) => filter.map(el => el.$plain());
+    const comparer = (filter:QueryFilterInstanceResource[]) => filter.map(el => el.$source);
 
     return !_.isEqual(
       comparer(query.filters),

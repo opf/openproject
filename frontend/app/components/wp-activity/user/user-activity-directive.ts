@@ -45,7 +45,7 @@ export class UserActivityController {
 
   public inEdit = false;
   public inEditMode = false;
-  public userCanEdit= false;
+  public userCanEdit = false;
   public userCanQuote = false;
 
   public userId:string|number;
@@ -113,7 +113,7 @@ export class UserActivityController {
   }
 
   public resetField(withText?:string) {
-    this.field = new WorkPackageCommentField(this.workPackage, I18n);
+    this.field = new WorkPackageCommentField(this.workPackage);
     this.field.initializeFieldValue(withText);
   }
 

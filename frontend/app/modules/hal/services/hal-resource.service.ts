@@ -75,7 +75,8 @@ export class HalResourceService {
         map((data:any) => this.createHalResource(data)),
         catchError((error:HttpErrorResponse) => {
           console.error(`Failed to ${method} ${href}: ${error.name}`);
-          return new ErrorObservable(this.createHalResource(error.error));
+          // return new ErrorObservable(this.createHalResource(error.error));
+          return null as any;
         })
       ) as Observable<T>;
   }
@@ -183,6 +184,7 @@ export class HalResourceService {
    * @param {HalResourceStatic} resource
    */
   public registerResource(key:string, entry:HalResourceFactoryConfigInterface) {
+    entry.cls._type = key;
     this.config[key] = entry;
   }
 
@@ -193,7 +195,9 @@ export class HalResourceService {
    * @returns {HalResource}
    */
   public get defaultClass():HalResourceClass<HalResource> {
-    return HalResource;
+    let defaultCls:HalResourceClass = HalResource;
+    defaultCls._type = 'HalResource';
+    return defaultCls;
   }
 
   /**
@@ -232,12 +236,11 @@ export class HalResourceService {
   /**
    * Get a linked resource from its HalLink with the correct ype
    */
-  public createLinkedResource(linkName:string, link:HalLinkInterface) {
+  public createLinkedResource(thisType:string, linkName:string, link:HalLinkInterface) {
     const source = HalResource.getEmptyResource();
-    const type = this.constructor._type;
     source._links.self = link;
 
-    const resourceClass = this.getResourceClassOfAttribute(type, linkName);
+    const resourceClass = this.getResourceClassOfAttribute(thisType, linkName);
     return this.createHalResourceOfType(resourceClass, source, false);
   }
 

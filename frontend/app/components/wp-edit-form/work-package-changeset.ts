@@ -321,7 +321,7 @@ export class WorkPackageChangeset {
     }
 
     const hasForm = this.wpForm.hasValue();
-    let payload:any = this.workPackage.$plain();
+    let payload:any = this.workPackage.$source;
 
     if (hasForm) {
 

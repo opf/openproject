@@ -34,6 +34,7 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
 
 
 export interface HalResourceClass<T extends HalResource = HalResource> {
+  _type:string;
   new(injector:Injector, source:any, $loaded:boolean, halInitializer:(halResource:T) => void):T;
 }
 
@@ -156,7 +157,7 @@ export class HalResource {
     // Otherwise, we risk returning a promise, that will never be resolved.
     state.putFromPromiseIfPristine(() => this.$loadResource(force));
 
-    return <Promise<this>> state.valuesPromise().then(source => {
+    return <Promise<this>> state.valuesPromise().then((source:any) => {
       this.$initialize(source);
       this.$loaded = true;
       return this;
@@ -178,7 +179,7 @@ export class HalResource {
     this.$loaded = false;
     this.$self = this.$links.self({}).then((source:any) => {
       this.$loaded = true;
-      this.$initialize(source);
+      this.$initialize(source.$source);
       return this;
     });
 
@@ -190,10 +191,6 @@ export class HalResource {
    */
   public $update() {
     return this.$load(true);
-  }
-
-  public $plain() {
-    return angular.copy(this.$source);
   }
 
   /**

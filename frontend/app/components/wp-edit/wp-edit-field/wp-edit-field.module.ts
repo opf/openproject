@@ -28,17 +28,16 @@
 
 import {Field, FieldFactory} from '../../wp-field/wp-field.module';
 import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
-import {$injectFields} from '../../angular/angular-injector-bridge.functions';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 
 export class EditField extends Field {
   public template:string;
-  protected I18n:op.I18n;
+  readonly I18n:op.I18n = this.$injector.get(I18nToken);
 
   constructor(public changeset:WorkPackageChangeset,
               public name:string,
               public schema:op.FieldSchema) {
     super(changeset.workPackage as any, name, schema);
-    $injectFields(this, 'I18n');
     this.initialize();
   }
 

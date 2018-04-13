@@ -66,6 +66,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
 
     // Create a field handler for the newly active field
     const fieldHandler = new WorkPackageEditFieldHandler(
+      this.injector,
       form,
       fieldName,
       field,
