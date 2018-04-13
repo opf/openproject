@@ -173,6 +173,7 @@ en:
     label_not_equals: "is not"
     label_on: "on"
     label_open_menu: "Open menu"
+    label_open_context_menu: "Open context menu"
     label_open_work_packages: "open"
     label_password: "Password"
     label_previous: "Previous"
