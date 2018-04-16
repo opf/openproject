@@ -131,17 +131,16 @@ export class CommentFieldDirectiveController {
           this.wpCacheService.updateWorkPackage(this.workPackage);
         });
         this._forceFocus = true;
+        this.field.isBusy = false;
       })
       .catch((error:any) => {
+        this.field.isBusy = false;
         if (error instanceof ErrorResource) {
           this.wpNotificationsService.showError(error, this.workPackage);
         }
         else {
           this.NotificationsService.addError(this.I18n.t('js.work_packages.comment_send_failed'));
         }
-      })
-      .finally(() => {
-        this.field.isBusy = false;
       });
   }
 

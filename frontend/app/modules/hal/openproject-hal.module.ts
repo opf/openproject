@@ -42,6 +42,7 @@ import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {OpenProjectHeaderInterceptor} from 'core-app/modules/hal/http/openproject-header-interceptor';
+import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
 
 @NgModule({
   imports: [
@@ -56,6 +57,7 @@ import {OpenProjectHeaderInterceptor} from 'core-app/modules/hal/http/openprojec
     HelpTextDmService,
     PayloadDmService,
     QueryDmService,
+    UserDmService,
     QueryFormDmService,
     RelationsDmService,
     RootDmService,

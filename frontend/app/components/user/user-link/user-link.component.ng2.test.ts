@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,7 +24,75 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
+
+import {UserLinkComponent} from './user-link.component';
+
+require('core-app/angular4-test-setup');
+
+import {async, TestBed} from '@angular/core/testing';
+import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
+import {I18nToken, PathHelperToken} from '../../../angular4-transition-utils';
+import {UserResource} from '../../../modules/hal/resources/user-resource';
+
+describe('UserLinkComponent component test', () => {
+  const I18nStub = {
+    t: sinon.stub()
+      .withArgs('js.label_author', { author: 'First Last' })
+      .returns('Author: First Last')
+  };
+
+  const PathHelperStub = {
+    userPath: sinon.stub()
+      .withArgs('1')
+      .returns('/users/1')
+  };
+
+  beforeEach(async(() => {
+
+    // noinspection JSIgnoredPromiseFromCall
+    TestBed.configureTestingModule({
+      declarations: [
+        UserLinkComponent
+      ],
+      providers: [
+        { provide: I18nToken, useValue: I18nStub },
+        { provide: PathHelperToken, useValue: PathHelperStub },
+      ]
+    }).compileComponents();
+  }));
+
+  describe('inner element', function() {
+    let app:UserLinkComponent;
+    let fixture:ComponentFixture<UserLinkComponent>
+    let element:JQuery;
+
+    let user = {
+      name: 'First Last',
+      href: '/api/v3/users/1',
+      idFromLink: '1',
+    } as UserResource;
+
+    it('should render an inner link with specified classes', function() {
+      fixture = TestBed.createComponent(UserLinkComponent);
+      app = fixture.debugElement.componentInstance;
+      element = jQuery(fixture.elementRef.nativeElement);
+
+      app.user = user;
+      fixture.detectChanges();
+
+      const link = element.find('a');
+
+      expect(link.text()).to.equal('First Last');
+      expect(link.attr('title')).to.equal('Author: First Last');
+      expect(link.attr('href')).to.equal('/users/1');
+    });
+  });
+});
+
+
+
+
 
 describe('userLink Directive', function () {
   var user:any, userLoadFn:any, link:any, $q, compile:any, element, scope;

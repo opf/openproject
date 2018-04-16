@@ -5,6 +5,13 @@ import {HalLink} from 'core-app/modules/hal/hal-link/hal-link';
 
 const ObservableArray:any = require('observable-array');
 
+interface HalSource {
+  _links:any;
+  _embedded:any;
+  _type?:string;
+  type?:any;
+}
+
 export function initializeHalProperties<T extends HalResource>(halResourceService:HalResourceService, halResource:T) {
     setSource();
     setupLinks();
@@ -23,16 +30,24 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
     }
   }
 
+  function asHalResource(value?:HalSource, loaded:boolean = true):HalResource|HalSource|undefined|null {
+    if (_.isNil(value)) {
+      return value;
+    }
+
+    if (value._links || value._embedded || value._type || value.type) {
+      return halResourceService.createHalResource(value, loaded);
+    }
+
+    return value;
+  }
+
   function proxyProperties() {
     halResource.$embeddableKeys().forEach((property:any) => {
       Object.defineProperty(halResource, property, {
         get() {
           const value = halResource.$source[property];
-          if (value && (value._type || value.type)) {
-            return halResourceService.createHalResource(value);
-          } else {
-            return value;
-          }
+          return asHalResource(value, true);
         },
 
         set(value) {
@@ -125,16 +140,15 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
         if (child && (child._embedded || child._links)) {
           OpenprojectHalModuleHelpers.lazy(element,
             name,
-            () => halResourceService.createHalResource(child));
+            () =>  halResourceService.createHalResource(child));
         }
       });
 
       if (Array.isArray(element)) {
-        return element.map((source) => halResourceService.createHalResource(source,
-          true));
+        return element.map((source) => asHalResource(source, true));
       }
 
-      return halResourceService.createHalResource(element);
+      return asHalResource(element, true);
     });
   }
 

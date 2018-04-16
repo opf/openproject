@@ -126,7 +126,7 @@ import {Ng1WorkPackageAttachmentsUploadWrapper} from 'core-components/wp-attachm
 import {WorkPackageAttachmentListComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list.component';
 import {WorkPackageAttachmentListItemComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list-item.component';
 import {OpDateTimeUpgradedDirective} from 'core-components/common/date/op-date-time.upgraded.directive';
-import {UserLinkUpgradedComponent} from 'core-components/user/user-link/user-link.upgraded.component';
+import {UserLinkComponent} from 'core-components/user/user-link/user-link.component';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {NewestActivityOnOverviewComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-on-overview.component';
 import {WorkPackageCommentDirectiveUpgraded} from 'core-components/work-packages/work-package-comment/work-package-comment.directive.upgraded';
@@ -207,6 +207,7 @@ import {AutoCompleteHelperService} from 'core-components/common/autocomplete/aut
 import {AttributeHelpTextComponent} from 'core-components/common/help-texts/attribute-help-text.component';
 import {AttributeHelpTextModal} from 'core-components/common/help-texts/attribute-help-text.modal';
 import {AttributeHelpTextsService} from 'core-components/common/help-texts/attribute-help-text.service';
+import {UserCacheService} from 'core-components/user/user-cache.service';
 
 @NgModule({
   imports: [
@@ -229,8 +230,8 @@ import {AttributeHelpTextsService} from 'core-components/common/help-texts/attri
     upgradeServiceWithToken('$q', $qToken),
     upgradeServiceWithToken('$timeout', $timeoutToken),
     upgradeServiceWithToken('$locale', $localeToken),
-    upgradeServiceWithToken('TextileService', TextileServiceToken),
-    upgradeServiceWithToken('AutoCompleteHelperService', AutoCompleteHelperServiceToken),
+    upgradeServiceWithToken('textileService', TextileServiceToken),
+    upgradeServiceWithToken('AutoCompleteHelper', AutoCompleteHelperServiceToken),
     upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
     upgradeServiceWithToken('FocusHelper', FocusHelperToken),
     upgradeServiceWithToken('PathHelper', PathHelperToken),
@@ -246,6 +247,7 @@ import {AttributeHelpTextsService} from 'core-components/common/help-texts/attri
     WorkPackageCacheService,
     WorkPackageEditingService,
     SchemaCacheService,
+    UserCacheService,
     upgradeService('states', States),
     PaginationService,
     upgradeService('keepTab', KeepTabService),
@@ -370,7 +372,7 @@ import {AttributeHelpTextsService} from 'core-components/common/help-texts/attri
     WorkPackageAttachmentListComponent,
     WorkPackageAttachmentListItemComponent,
     OpDateTimeUpgradedDirective,
-    UserLinkUpgradedComponent,
+    UserLinkComponent,
     ClickOnKeypressComponent,
     WorkPackageFormQueryGroupComponent,
     WorkPackageFormAttributeGroupComponent,

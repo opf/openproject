@@ -72,11 +72,10 @@ export class HalResourceService {
 
     return this.http.request<T>(method, href, config)
       .pipe(
-        map((data:any) => this.createHalResource(data)),
+        map((response:any) => this.createHalResource(response)),
         catchError((error:HttpErrorResponse) => {
           console.error(`Failed to ${method} ${href}: ${error.name}`);
-          // return new ErrorObservable(this.createHalResource(error.error));
-          return null as any;
+          return new ErrorObservable(this.createHalResource(error.error));
         })
       ) as Observable<T>;
   }
@@ -209,7 +208,7 @@ export class HalResourceService {
    * @returns {HalResource}
    */
   public createHalResource<T extends HalResource = HalResource>(source:any, loaded:boolean = true):T {
-    if (_.isNil(source)) {
+    if (_.isNil(source) || _.isEmpty(source)) {
       source = HalResource.getEmptyResource();
     }
 

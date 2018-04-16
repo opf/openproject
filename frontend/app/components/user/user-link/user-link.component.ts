@@ -1,12 +1,12 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2006-2017 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -26,40 +26,34 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {InputState} from 'reactivestates';
+import {Component, Inject, Input} from '@angular/core';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import {I18nToken, PathHelperToken} from 'core-app/angular4-transition-utils';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
-export class UserResource extends HalResource {
+@Component({
+  selector: 'user-link',
+  template: `
+    <a [attr.href]="href"
+       [attr.title]="label"
+       [textContent]="user.name">
+    </a>
+  `
+})
+export class UserLinkComponent {
+  @Input() user:UserResource;
 
-  // Properties
-  public id:number|string;
-  public login:string;
-  public firstName:string;
-  public lastName:string;
+  public href:string;
+  public label:string;
   public name:string;
-  public email:string;
-  public avatar:string;
-  public status:string;
 
-  // Links
-  public lock:HalResource;
-  public unlock:HalResource;
-  public delete:HalResource;
-  public showUser:HalResource;
-
-  public static get active_user_statuses() {
-    return ['active', 'registered'];
+  constructor(@Inject(PathHelperToken) readonly pathHelper:PathHelperService,
+              @Inject(I18nToken) readonly I18n:op.I18n) {
   }
 
-  public get state():InputState<this> {
-    return this.states.users.get(this.href as string) as any;
-  }
-
-  public get showUserPath() {
-    return this.showUser.$link.href;
-  }
-
-  public get isActive() {
-    return UserResource.active_user_statuses.indexOf(this.status) >= 0;
+  ngOnInit() {
+    this.href = this.pathHelper.userPath(this.user.idFromLink);
+    this.name = this.user.name;
+    this.label = this.I18n.t('js.label_author', { author: this.name });
   }
 }

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,34 +24,32 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
-
-import {openprojectModule} from '../../../angular-modules';
+// ++
+import {MultiInputState} from "reactivestates";
+import {Injectable} from '@angular/core';
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import {StateCacheService} from 'core-components/states/state-cache.service';
+import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
+import {States} from 'core-components/states.service';
 
-interface UserLinkScope {
-  user:UserResource;
-  href:string|null,
-  text:{};
+@Injectable()
+export class UserCacheService extends StateCacheService<UserResource>  {
+
+  constructor(readonly states:States,
+              readonly userDmService:UserDmService) {
+    super();
+  }
+
+  protected load(id:number|string):Promise<UserResource> {
+    return this.userDmService.load(id);
+  }
+
+  protected loadAll(ids:string[]):Promise<undefined> {
+    const promises = ids.map(id => this.load(id));
+    return Promise.all(promises).then(() => undefined);
+  }
+
+  protected get multiState():MultiInputState<UserResource> {
+    return this.states.users;
+  }
 }
-
-function userLink(I18n:op.I18n):any {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/user/user-link/user-link.directive.html',
-    scope: {
-      user: '='
-    },
-    link: function(scope:UserLinkScope) {
-      scope.user.$load().then(() => {
-        scope.href = scope.user.showUser.href;
-      });
-      scope.text = {
-        name: scope.user.name,
-        label: I18n.t('js.label_author', { author: scope.user.name })
-      };
-    }
-  };
-};
-
-openprojectModule.directive('userLink', userLink);
