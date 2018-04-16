@@ -26,35 +26,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rack_session_access/capybara'
+require 'support/pages/page'
 
-module AuthenticationHelpers
-  def login_as(user)
-    if is_a? RSpec::Rails::FeatureExampleGroup
-      # If we want to mock having finished the login process
-      # we must set the user_id in rack.session accordingly
-      # Otherwise e.g. calls to Warden will behave unexpectantly
-      # as they will login AnonymousUser
-      page.set_rack_session(user_id: user.id, updated_at: Time.now)
-    end
-
-    allow(User).to receive(:current).and_return(user)
-  end
-
-  def login_with(login, password)
-    visit '/login'
-    within('#login-form') do
-      fill_in 'username', with: login
-      fill_in 'password', with: password
-      click_button I18n.t(:button_login)
+module Pages
+  class Home < Page
+    def path
+      "/"
     end
   end
-
-  def logout
-    visit signout_path
-  end
-end
-
-RSpec.configure do |config|
-  config.include AuthenticationHelpers
 end
