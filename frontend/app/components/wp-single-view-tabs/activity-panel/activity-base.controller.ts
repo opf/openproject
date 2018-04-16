@@ -71,7 +71,7 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
       )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
-        this.wpActivity.aggregateActivities(this.workPackage).then((activities:any) => {
+        this.wpActivity.require(this.workPackage).then((activities:any) => {
           this.updateActivities(activities);
         });
       });

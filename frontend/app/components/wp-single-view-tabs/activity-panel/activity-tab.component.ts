@@ -26,15 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, Input, OnDestroy} from '@angular/core';
+import {Component, Inject, OnDestroy} from '@angular/core';
 import {Transition} from '@uirouter/core';
 import {I18nToken} from '../../../angular4-transition-utils';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {ActivityPanelBaseController} from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+
 @Component({
   template: require('!!raw-loader!./activity-tab.html'),
   selector: 'wp-activity-tab',

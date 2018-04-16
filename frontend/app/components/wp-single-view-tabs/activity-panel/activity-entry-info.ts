@@ -26,10 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import { DatePipe } from '@angular/common';
+
+
 export class ActivityEntryInfo {
 
-  constructor(public $filter:ng.IFilterService,
-              public isReversed:boolean,
+  constructor(public isReversed:boolean,
               public activities:any[],
               public activity:any,
               public index:number) {
@@ -76,7 +78,7 @@ export class ActivityEntryInfo {
   }
 
   protected activityDate(activity:any) {
-    return this.$filter('date')(activity.createdAt, 'longDate');
+    return new DatePipe(I18n.locale).transform(activity.createdAt, 'longDate');
   }
 
   protected orderedIndex(activityNo: number, forceReverse:boolean = false) {

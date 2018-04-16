@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -64,9 +64,11 @@ import {WorkPackagesTableController} from 'core-components/wp-table/wp-table.dir
 import {
   $localeToken,
   $qToken,
-  $rootScopeToken, $sceToken,
+  $rootScopeToken,
+  $sceToken,
   $stateToken,
-  $timeoutToken, AutoCompleteHelperServiceToken,
+  $timeoutToken,
+  AutoCompleteHelperServiceToken,
   exportModalToken,
   FocusHelperToken,
   HookServiceToken,
@@ -75,7 +77,8 @@ import {
   PathHelperToken,
   saveModalToken,
   settingsModalToken,
-  shareModalToken, TextileServiceToken,
+  shareModalToken,
+  TextileServiceToken,
   TimezoneServiceToken,
   upgradeService,
   upgradeServiceWithToken,
@@ -203,7 +206,6 @@ import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-gr
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.directive';
-import {AutoCompleteHelperService} from 'core-components/common/autocomplete/auto-complete-helper.service';
 import {AttributeHelpTextComponent} from 'core-components/common/help-texts/attribute-help-text.component';
 import {AttributeHelpTextModal} from 'core-components/common/help-texts/attribute-help-text.modal';
 import {AttributeHelpTextsService} from 'core-components/common/help-texts/attribute-help-text.service';
@@ -221,6 +223,7 @@ import {UserCacheService} from 'core-components/user/user-cache.service';
     OpenprojectHalModule
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: I18n.locale },
     GonRef,
     HideSectionService,
     upgradeServiceWithToken('$rootScope', $rootScopeToken),
@@ -290,8 +293,7 @@ import {UserCacheService} from 'core-components/user/user-cache.service';
     // Split view
     upgradeService('firstRoute', FirstRouteService),
     upgradeService('PathHelper', PathHelperService),
-    // Activity tab
-    upgradeService('wpActivity', WorkPackagesActivityService),
+    WorkPackagesActivityService,
     // Context menus
     OPContextMenuService,
     upgradeServiceWithToken('HookService', HookServiceToken),
