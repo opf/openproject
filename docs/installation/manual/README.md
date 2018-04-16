@@ -69,7 +69,7 @@ If your Linux distribution only provides older versions of MySQL it is worth con
 Once you have your `apt` sources nicely set up install the packages.
 
 ```bash
-[root@host] apt-get install mysql-server libmysqlclient-dev
+[root@host] apt-get install mysql-server libmysqlclient-dev mysql-client
 ```
 
 During the installation you will be asked to set the root password.
