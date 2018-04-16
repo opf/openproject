@@ -49,6 +49,10 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
   public dependency:SchemaDependencyResource;
   public values:SchemaAttributeObject|null;
 
+  public get _type() {
+    return 'QueryFilterInstanceSchema';
+  }
+
   public get availableOperators() {
     return this.operator.allowedValues;
   }
@@ -57,7 +61,7 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
     super.$initialize(source);
 
     if (source._dependencies) {
-      this.dependency = new SchemaDependencyResource(this.injector, source._dependencies[0], true, this.halInitializer);
+      this.dependency = new SchemaDependencyResource(this.injector, source._dependencies[0], true, this.halInitializer, 'SchemaDependency');
     }
   }
 
@@ -79,7 +83,7 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
       source['values'] = [];
     }
 
-    let newFilter = new QueryFilterInstanceResource(this.injector, source, true, this.halInitializer);
+    let newFilter = new QueryFilterInstanceResource(this.injector, source, true, this.halInitializer, 'QueryFilterInstance');
 
     newFilter.schema = this;
 
@@ -101,7 +105,7 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
 
     _.merge(resultingSchema, staticSchema, dependentSchema);
 
-    return new QueryFilterInstanceSchemaResource(this.injector, resultingSchema, true, this.halInitializer);
+    return new QueryFilterInstanceSchemaResource(this.injector, resultingSchema, true, this.halInitializer, 'QueryFilterInstanceSchema');
   }
 
   private definesAllowedValues() {

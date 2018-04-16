@@ -135,8 +135,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
       return;
     }
 
-    let me:HalResource = this.halResourceService.createHalResourceOfType(
-      HalResource,
+    let me:HalResource = this.halResourceService.createHalResource(
       {
         _links: {
           self: {

@@ -72,7 +72,8 @@ describe('WorkPackageCacheService', () => {
         }
       },
       true,
-      (wp:WorkPackageResource) => undefined
+      (wp:WorkPackageResource) => undefined,
+      'WorkPackage'
     );
 
     dummyWorkPackages = [workPackage1];

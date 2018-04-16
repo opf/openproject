@@ -67,7 +67,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
           const link:any = halResource.$links[linkName].$link || halResource.$links[linkName];
 
           if (Array.isArray(link)) {
-            var items = link.map(item => halResourceService.createLinkedResource(halResource.constructor._type, linkName, item.$link));
+            var items = link.map(item => halResourceService.createLinkedResource(halResource, linkName, item.$link));
             var property:HalResource[] = new ObservableArray(...items).on('change', () => {
               property.forEach(item => {
                 if (!item.$link) {
@@ -86,7 +86,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
               return HalLink.fromObject(halResourceService, link).$callable();
             }
 
-            return halResourceService.createLinkedResource(halResource.constructor._type, linkName, link);
+            return halResourceService.createLinkedResource(halResource, linkName, link);
           }
 
           return null;
@@ -136,16 +136,19 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
 
   function setupEmbedded() {
     setupProperty('embedded', element => {
-      angular.forEach(element, (child:any, name:string) => {
-        if (child && (child._embedded || child._links)) {
-          OpenprojectHalModuleHelpers.lazy(element,
-            name,
-            () =>  halResourceService.createHalResource(child));
-        }
-      });
 
       if (Array.isArray(element)) {
         return element.map((source) => asHalResource(source, true));
+      }
+
+      if (_.isObject(element)) {
+        angular.forEach(element, (child:any, name:string) => {
+          if (child && (child._embedded || child._links)) {
+            OpenprojectHalModuleHelpers.lazy(element,
+              name,
+              () => halResourceService.createHalResource(child));
+          }
+        });
       }
 
       return asHalResource(element, true);

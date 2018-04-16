@@ -183,7 +183,6 @@ export class HalResourceService {
    * @param {HalResourceStatic} resource
    */
   public registerResource(key:string, entry:HalResourceFactoryConfigInterface) {
-    entry.cls._type = key;
     this.config[key] = entry;
   }
 
@@ -195,30 +194,33 @@ export class HalResourceService {
    */
   public get defaultClass():HalResourceClass<HalResource> {
     let defaultCls:HalResourceClass = HalResource;
-    defaultCls._type = 'HalResource';
     return defaultCls;
   }
 
   /**
    * Create a HalResource from a source object.
-   * If a _type attribute is defined and the type is configured, the
-   * respective class will be used for instantiation.
+   * If the APIv3 _type attribute is defined and the type is configured,
+   * the respective class will be used for instantiation.
+   *
    *
    * @param source
    * @returns {HalResource}
    */
   public createHalResource<T extends HalResource = HalResource>(source:any, loaded:boolean = true):T {
-    if (_.isNil(source) || _.isEmpty(source)) {
+    if (_.isNil(source)) {
       source = HalResource.getEmptyResource();
     }
 
-    const resourceClass = this.getResourceClassOfType<T>(source._type);
-    return this.createHalResourceOfType<T>(resourceClass, source, loaded);
+    const type = source._type || 'HalResource';
+    return this.createHalResourceOfType<T>(type, source, loaded);
   }
 
-  public createHalResourceOfType<T extends HalResource = HalResource>(resourceClass:HalResourceClass<T>, source:any, loaded:boolean = false) {
+  public createHalResourceOfType<T extends HalResource = HalResource>(type:string, source:any, loaded:boolean = false) {
+    const resourceClass:HalResourceClass<T> = this.getResourceClassOfType(type);
     const initializer = (halResource:T) => initializeHalProperties(this, halResource);
-    return new resourceClass(this.injector, source, loaded, initializer);
+    let resource = new resourceClass(this.injector, source, loaded, initializer, type);
+
+    return resource;
   }
 
   /**
@@ -233,14 +235,16 @@ export class HalResourceService {
   }
 
   /**
-   * Get a linked resource from its HalLink with the correct ype
+   * Get a linked resource from its HalLink with the correct type.
    */
-  public createLinkedResource(thisType:string, linkName:string, link:HalLinkInterface) {
+  public createLinkedResource<T extends HalResource = HalResource>(halResource:T, linkName:string, link:HalLinkInterface) {
     const source = HalResource.getEmptyResource();
+    const fromType = halResource.$halType;
+    const toType = this.getResourceClassOfAttribute(fromType, linkName) || 'HalResource';
+
     source._links.self = link;
 
-    const resourceClass = this.getResourceClassOfAttribute(thisType, linkName);
-    return this.createHalResourceOfType(resourceClass, source, false);
+    return this.createHalResourceOfType(toType, source, false);
   }
 
   /**
@@ -255,22 +259,15 @@ export class HalResourceService {
   }
 
   /**
-   * Get the resource class for an attribute.
-   * Return the default class, if it does not exist.
+   * Get the hal type for an attribute.
    *
    * @param type
    * @param attribute
    * @returns {any}
    */
-  protected getResourceClassOfAttribute<T extends HalResource = HalResource>(type:string, attribute:string):HalResourceClass<T>|HalResourceClass<HalResource> {
+  protected getResourceClassOfAttribute<T extends HalResource = HalResource>(type:string, attribute:string):string|null {
     const typeConfig = this.config[type];
     const types = (typeConfig && typeConfig.attrTypes) || {};
-    const resourceRef = types[attribute];
-
-    if (resourceRef) {
-      return this.getResourceClassOfType(resourceRef);
-    }
-
-    return this.defaultClass;
+    return types[attribute];
   }
 }

@@ -34,14 +34,25 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
 
 
 export interface HalResourceClass<T extends HalResource = HalResource> {
-  _type:string;
-  new(injector:Injector, source:any, $loaded:boolean, halInitializer:(halResource:T) => void):T;
+  new(injector:Injector,
+      source:any,
+      $loaded:boolean,
+      halInitializer:(halResource:T) => void,
+      $halType:string):T;
 }
 
 export class HalResource {
   [attribute:string]:any;
 
+  // The API type reported from API
   public _type:string;
+
+  // The HalResource that this type maps to
+  // This will almost always be equal to _type, however may be different for dynamic types
+  // e.g., { _type: 'StatusFilterInstance', $halType: 'QueryFilterInstance' }.
+  //
+  // This is required for attributes to be correctly mapped according to their configuration.
+  public $halType:string;
 
   protected readonly states:States = this.injector.get(States);
   protected readonly I18n:op.I18n = this.injector.get(I18nToken);
@@ -53,6 +64,7 @@ export class HalResource {
    * So if you need to initialize a HalResource, use +HalResourceFactory.createHalResource+ instead.
    *
    * @param {Injector} injector
+   * @param $halType The HalResource type that this instance maps to
    * @param source
    * @param {boolean} $loaded
    * @param {Function} initializer The initializer callback to HAL-transform all linked and embedded resources.
@@ -61,7 +73,9 @@ export class HalResource {
   public constructor(public injector:Injector,
                      public source:any,
                      public $loaded:boolean,
-                     public halInitializer:(halResource:any) => void) {
+                     public halInitializer:(halResource:any) => void,
+                     $halType:string) {
+    this.$halType = $halType;
     this.$initialize(source);
   }
 
@@ -102,7 +116,7 @@ export class HalResource {
     const copy = _.cloneDeep(this.$source);
     let clone:HalResourceClass<T>  = this.constructor as any;
 
-    return new clone(this.injector, copy, this.$loaded, this.halInitializer);
+    return new clone(this.injector, copy, this.$loaded, this.halInitializer, this.$halType);
   }
 
   public get $isHal():boolean {

@@ -32,10 +32,9 @@ import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
 import {QueryColumn} from '../wp-query/query-column';
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 @Injectable()
@@ -43,7 +42,7 @@ export class WorkPackagesListInvalidQueryService {
   constructor(protected halResourceService:HalResourceService) {}
 
   public restoreQuery(query:QueryResource, form:QueryFormResource) {
-    let payload = this.halResourceService.createHalResourceOfType(QueryResource, form.payload);
+    let payload = this.halResourceService.createHalResourceOfType<QueryResource>('Query', form.payload);
 
     this.restoreFilters(query, payload, form.schema);
     this.restoreColumns(query, payload, form.schema);

@@ -30,12 +30,13 @@ import {States} from "../states.service";
 import {Injectable} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 @Injectable()
 export class SchemaCacheService {
 
-  /*@ngInject*/
-  constructor(private states:States) {
+  constructor(readonly states:States,
+              readonly halResourceService:HalResourceService) {
   }
 
   /**
@@ -73,7 +74,7 @@ export class SchemaCacheService {
     }
 
     state.putFromPromiseIfPristine(() => {
-      const resource = workPackage.createLinkedResource('WorkPackage', 'schema', workPackage.$links.schema.$link);
+      const resource = this.halResourceService.createLinkedResource(workPackage, 'schema', workPackage.$links.schema.$link);
       return resource.$load() as any;
     });
 

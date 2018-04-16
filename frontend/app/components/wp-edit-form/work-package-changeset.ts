@@ -327,7 +327,7 @@ export class WorkPackageChangeset {
 
     }
 
-    const resource = this.halResourceService.createHalResourceOfType(WorkPackageResource, this.mergeWithPayload(payload));
+    const resource = this.halResourceService.createHalResourceOfType('WorkPackage', this.mergeWithPayload(payload));
 
     // Override the schema with the current form, if any.
     resource.overriddenSchema = this.schema;

@@ -37,13 +37,13 @@ import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-c
 interface QueryResourceEmbedded {
   results:WorkPackageCollectionResource;
   columns:QueryColumn[];
-  groupBy:QueryGroupByResource | undefined;
+  groupBy:QueryGroupByResource|undefined;
   project:ProjectResource;
   sortBy:QuerySortByResource[];
   filters:QueryFilterInstanceResource[];
 }
 
-export type TimelineZoomLevel = 'days' | 'weeks' | 'months' | 'quarters' | 'years';
+export type TimelineZoomLevel = 'days'|'weeks'|'months'|'quarters'|'years';
 
 export interface TimelineLabels {
   left:string|null;
@@ -51,13 +51,12 @@ export interface TimelineLabels {
   farRight:string|null;
 }
 
-
 export class QueryResource extends HalResource {
   public $embedded:QueryResourceEmbedded;
   public id:number;
   public results:WorkPackageCollectionResource;
   public columns:QueryColumn[];
-  public groupBy:QueryGroupByResource | undefined;
+  public groupBy:QueryGroupByResource|undefined;
   public sortBy:QuerySortByResource[];
   public filters:QueryFilterInstanceResource[];
   public starred:boolean;
@@ -74,6 +73,13 @@ export class QueryResource extends HalResource {
 
     this.filters = this
       .filters
-      .map((filter:Object) => new QueryFilterInstanceResource(this.injector, filter, true, this.halInitializer));
+      .map((filter:Object) => new QueryFilterInstanceResource(
+          this.injector,
+          filter,
+          true,
+          this.halInitializer,
+          'QueryFilterInstance'
+        )
+      );
   }
 }

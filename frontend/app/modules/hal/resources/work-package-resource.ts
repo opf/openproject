@@ -342,7 +342,8 @@ export class WorkPackageResource extends HalResource {
       this.injector,
       attachments,
       false,
-      this.halInitializer
+      this.halInitializer,
+      'HalResource'
     );
   }
 

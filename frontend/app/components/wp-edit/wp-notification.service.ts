@@ -49,7 +49,7 @@ export class WorkPackageNotificationService {
               protected loadingIndicator:LoadingIndicatorService) {
   }
 
-  public showSave(workPackage: WorkPackageResource, isCreate:boolean = false) {
+  public showSave(workPackage:WorkPackageResource, isCreate:boolean = false) {
     var message:any = {
       message: this.I18n.t('js.notice_successful_' + (isCreate ? 'create' : 'update')),
     };
@@ -64,7 +64,7 @@ export class WorkPackageNotificationService {
 
   public handleRawError(response:any, workPackage?:WorkPackageResource) {
     if (response && response.data && response.data._type === 'Error') {
-      const resource = this.halResourceService.createHalResourceOfType(ErrorResource, response.data);
+      const resource = this.halResourceService.createHalResource(response.data);
       return this.handleErrorResponse(resource, workPackage);
     }
 
@@ -116,7 +116,7 @@ export class WorkPackageNotificationService {
       }
 
       this.NotificationsService.addError(this.I18n.t(i18nString,
-        {attribute: attributeName}));
+        { attribute: attributeName }));
 
       return true;
     }
@@ -147,4 +147,5 @@ export class WorkPackageNotificationService {
   }
 }
 
-opServicesModule.service('wpNotificationsService', downgradeInjectable(WorkPackageNotificationService));
+opServicesModule.service('wpNotificationsService',
+  downgradeInjectable(WorkPackageNotificationService));
