@@ -95,7 +95,7 @@ jQuery(document).ready(function($) {
       $(".menu_root").removeClass('closed').addClass('open');
     });
     header.append(upLink);
-    header.append('<span class="parent-node">' + title + '</span>');
+    header.append('<span class="parent-node ellipsis">' + title + '</span>');
     $(child).before(header);
   })
 
