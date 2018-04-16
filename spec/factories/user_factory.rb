@@ -39,8 +39,8 @@ FactoryGirl.define do
     sequence(:mail) do |n| "bob#{n}.bobbit@bob.com" end
     password 'adminADMIN!'
     password_confirmation 'adminADMIN!'
-    created_on Time.now
-    updated_on Time.now
+    created_on { Time.now }
+    updated_on { Time.now }
 
     mail_notification(OpenProject::VERSION::MAJOR > 0 ? 'all' : true)
 
