@@ -48,6 +48,7 @@ sudo passwd openproject #(enter desired password)
                     libncurses5-dev automake                        \
                     imagemagick libmagickcore-dev libmagickwand-dev \
                     libtool bison libffi-dev git curl               \
+                    poppler-utils unrtf tesseract-ocr catdoc        \
                     libxml2 libxml2-dev libxslt1-dev # nokogiri
 ```
 
