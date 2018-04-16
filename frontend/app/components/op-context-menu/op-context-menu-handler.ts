@@ -32,7 +32,7 @@ export abstract class OpContextMenuHandler {
     return {
       my: 'left top',
       at: 'right bottom',
-      of: openerEvent
+      of: this.$element
     };
   }
 
