@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {LOCALE_ID, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -224,7 +224,6 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
     OpenprojectHalModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: I18n.locale },
     GonRef,
     HideSectionService,
     upgradeServiceWithToken('$rootScope', $rootScopeToken),

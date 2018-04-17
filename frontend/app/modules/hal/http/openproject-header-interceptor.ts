@@ -4,7 +4,7 @@ import {
   HttpHandler,
   HttpRequest,
 } from '@angular/common/http';
-import {Observable} from 'rxjs/observable';
+import {Observable} from 'rxjs';
 
 export class OpenProjectHeaderInterceptor implements HttpInterceptor {
   intercept(req:HttpRequest<any>, next:HttpHandler):Observable<HttpEvent<any>> {
