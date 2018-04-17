@@ -296,14 +296,16 @@ function getWebpackMainConfig() {
       // Uncomment to analyze current bundle size
       // new BundleAnalyzerPlugin()
 
-      new CircularDependencyPlugin({
-        // exclude detection of files based on a RegExp
-        exclude: /node_modules/,
-        // add errors to webpack instead of warnings
-        failOnError: false,
-        // set the current working directory for displaying module paths
-        cwd: process.cwd(),
-      })
+      // Uncomment to analyze potential cyclic dependencies between, e.g., Angular services.
+      // For simple imports in webpack, these are not a problem.
+      // new CircularDependencyPlugin({
+      //   // exclude detection of files based on a RegExp
+      //   exclude: /node_modules/,
+      //   // add errors to webpack instead of warnings
+      //   failOnError: false,
+      //   // set the current working directory for displaying module paths
+      //   cwd: process.cwd(),
+      // })
     ]
   };
 

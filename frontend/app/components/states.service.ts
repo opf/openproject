@@ -10,10 +10,14 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {QueryColumn} from './wp-query/query-column';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
 
 export class States extends StatesGroup {
 
   name = 'MainStore';
+
+  /* /api/v3/projects */
+  projects = multiInput<ProjectResource>();
 
   /* /api/v3/work_packages */
   workPackages = multiInput<WorkPackageResource>();

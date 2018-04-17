@@ -38,6 +38,7 @@ import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing
 import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {ProjectCacheService} from 'core-components/projects/project-cache.service';
 
 export class WorkPackageViewController implements OnDestroy {
 
@@ -49,6 +50,7 @@ export class WorkPackageViewController implements OnDestroy {
   public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
   protected wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
   protected wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
+  protected projectCacheService:ProjectCacheService = this.injector.get(ProjectCacheService);
 
   // Static texts
   public text:any = {};
@@ -98,7 +100,9 @@ export class WorkPackageViewController implements OnDestroy {
    */
   protected init() {
     // Set elements
-    this.workPackage.project.$load().then(() => {
+    this.projectCacheService
+      .require(this.workPackage.project.idFromHref)
+      .then(() => {
       this.projectIdentifier = this.workPackage.project.identifier;
     });
 

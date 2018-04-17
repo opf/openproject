@@ -211,6 +211,7 @@ import {AttributeHelpTextModal} from 'core-components/common/help-texts/attribut
 import {AttributeHelpTextsService} from 'core-components/common/help-texts/attribute-help-text.service';
 import {UserCacheService} from 'core-components/user/user-cache.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
+import {ProjectCacheService} from 'core-components/projects/project-cache.service';
 
 @NgModule({
   imports: [
@@ -251,6 +252,7 @@ import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/wa
     WorkPackageCacheService,
     WorkPackageEditingService,
     SchemaCacheService,
+    ProjectCacheService,
     UserCacheService,
     upgradeService('states', States),
     PaginationService,

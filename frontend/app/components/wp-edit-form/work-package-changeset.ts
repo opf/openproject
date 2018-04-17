@@ -323,10 +323,6 @@ export class WorkPackageChangeset {
     const hasForm = this.wpForm.hasValue();
     let payload:any = this.workPackage.$source;
 
-    if (hasForm) {
-
-    }
-
     const resource = this.halResourceService.createHalResourceOfType('WorkPackage', this.mergeWithPayload(payload));
 
     // Override the schema with the current form, if any.
