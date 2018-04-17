@@ -31,8 +31,14 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
+interface ValueOption {
+  name:string;
+  href:string;
+}
+
 export class SelectEditField extends EditField {
   public options:any[];
+  public valueOptions:ValueOption[];
   public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html';
   public text:{requiredPlaceholder:string, placeholder:string};
 
@@ -64,13 +70,15 @@ export class SelectEditField extends EditField {
   }
 
   public set selectedOption(val) {
+    const option = _.find(this.options, o => o.href === val.href);
+
     // Special case 'null' value, which angular
     // only understands in ng-options as an empty string.
-    if (val && val.href === '') {
-      val.href = null;
+    if (option && option.href === '') {
+      option.href = null;
     }
 
-    this.value = val;
+    this.value = option;
   }
 
   private setValues(availableValues:any[], sortValuesByName = false) {
@@ -84,6 +92,9 @@ export class SelectEditField extends EditField {
 
     this.options = availableValues;
     this.addEmptyOption();
+    this.valueOptions = this.options.map(el => {
+      return { name: el.name, href: el.href }
+    });
   }
 
   public get currentValueInvalid():boolean {

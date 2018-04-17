@@ -113,10 +113,13 @@ export class HalResource {
    * @returns A HalResource with the identitical copied source of other.
    */
   public $copy<T extends HalResource = HalResource>():T {
-    const copy = _.cloneDeep(this.$source);
     let clone:HalResourceClass<T>  = this.constructor as any;
 
-    return new clone(this.injector, copy, this.$loaded, this.halInitializer, this.$halType);
+    return new clone(this.injector, this.$plain(), this.$loaded, this.halInitializer, this.$halType);
+  }
+
+  public $plain():any {
+    return _.cloneDeep(this.$source);
   }
 
   public get $isHal():boolean {

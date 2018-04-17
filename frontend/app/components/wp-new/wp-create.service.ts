@@ -69,7 +69,7 @@ export class WorkPackageCreateService {
   }
 
   public fromCreateForm(form:any) {
-    let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', form.payload.$plain);
+    let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', form.payload.$plain());
     wp.initializeNewResource(form);
 
     return new WorkPackageChangeset(this.injector, wp, form);
@@ -81,7 +81,7 @@ export class WorkPackageCreateService {
    * @param form Work Package create form
    */
   public copyFrom(otherForm:any, form:any) {
-    let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', otherForm.payload.$plain);
+    let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', otherForm.payload.$plain());
 
     // Override values from form payload
     wp.lockVersion = form.payload.lockVersion;
