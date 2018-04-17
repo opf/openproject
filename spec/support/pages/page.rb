@@ -26,7 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 module Pages
   class Page
     include Capybara::DSL

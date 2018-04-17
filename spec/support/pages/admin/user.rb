@@ -102,6 +102,12 @@ module Pages
       def select_project!(project_name)
         select(project_name, from: 'membership_project_id')
       end
+
+      def activate!
+        within '.toolbar-items' do
+          click_button 'Activate'
+        end
+      end
     end
   end
 end

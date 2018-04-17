@@ -1,6 +1,6 @@
 <!---- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Testing OpenProject
 
-OpenProject uses automated tests throughout the stack.
+OpenProject uses automated tests throughout the stack. Tests that are executed in the browser (npm frontend, rspec integration and cucumber tests) require to have Chrome installed.
 
 ## Frontend tests
 
@@ -46,7 +46,7 @@ If you want a single test run, you can use `npm run`:
 
     npm run karma
 
-By default tests will be run with PhantomJS and Firefox. To start a server or
+By default tests will be run with a headless Chrome. To start a server or
 for more options, such as another browser, invoke the karma executable directly:
 
     ./node_modules/karma/bin/karma start
@@ -68,25 +68,24 @@ You can run the specs with the following commands:
 
 We use Capybara for integration tests as rspec feature specs. They are automatically executed with Capybara when `js: true` is set.
 
-#### Selenium, Firefox, Geckodriver
+#### Selenium, Chrome
 
-Capybara uses Selenium to drive the browser and perform the actions we describe in each spec. Previously, we have used Firefox 45 ESR, that had a direct webdriver bridge to talk to Selenium.
+For the javascript dependent integration tests, you have to install Chrome, to run them locally.
 
-With Firefox 48, this bridge has been removed and replaced with geckodriver, a separate executable to control the Firefox instance remotely. There are still bugs in the communication between Selenium and geckodriver (such as key sending, double clicking, etc.). Thus, you should make sure to use a recent Firefox. At the time of this writing, Firefox 57 is almost released as stable with lots of fixes for geckodriver and headless mode.
+Capybara uses Selenium to drive the browser and perform the actions we describe in each spec. Previously, we have used Firefox as the browser driven by Selenium.
 
-While we want to support the latest ESR (and also test with that version), this is impossible since ESR 52 still has lots of bugs regarding chromedriver compatiblity that breaks our tests. The travis configuration thus also specifies the latest stable version. As soon as possible, revert the configuration to latest-esr again.
+Due to flaky test results on Travis (`No output has been received in the last 10m0s`), we switched to using Chrome for the time being. Because most developers already employ Chrome while developing and Firefox ESR being another supported browser, we would have preferred to stick to Firefox for the tests and will try to do so as soon as test results become reproducible again.
 
-To run the tests locally, you have to install the latest geckodriver and Firefox.
 
 **Headless mode**
 
-Firefox tests through Selenium are run with Firefox as `--headless` by default. To override this and watch the Firefox instance. set the ENV variable `OPENPROJECT_TESTING_NO_HEADLESS=1`.
+Firefox tests through Selenium are run with Chrome as `--headless` by default. To override this and watch the Chrome instance set the ENV variable `OPENPROJECT_TESTING_NO_HEADLESS=1`.
 
 ### Cucumber
 
 **Note:** *We do not write new cucumber features. The current plan is to move away from
 cucumber towards regular specs using Capybara. For the time being however, please keep the existing
-cucumber features green or write your feature specs in Capybara for any  code that is not already
+cucumber features green but write feature specs in Capybara for any code that is not already
 covered by cucumber.*
 
 The cucumber features can be run using rake. You can run the following
@@ -152,18 +151,18 @@ directly in the same process, so this reduces the time until the features are
 running a bit (5-10 seconds) due to the Rails environment only being loaded
 once.
 
-#### JavaScript and Firebug
+#### Selenium
 
 To activate selenium as test driver to test javascript on web pages, you can add
-@javascript above the scenario like the following example shows:
+`@javascript above the scenario like the following example shows:
 
     @javascript
     Scenario: Testing something with Javascript
       When I ...
 
+#### Debugging
+
 You can always start a debugger using the step "And I start debugging".
-If you need Firebug and Firepath while debugging a scenario, just replace
-@javascript with @firebug.
 
 ### Parallel testing
 
