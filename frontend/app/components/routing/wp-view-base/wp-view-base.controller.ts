@@ -101,7 +101,7 @@ export class WorkPackageViewController implements OnDestroy {
   protected init() {
     // Set elements
     this.projectCacheService
-      .require(this.workPackage.project.idFromHref)
+      .require(this.workPackage.project.idFromLink)
       .then(() => {
       this.projectIdentifier = this.workPackage.project.identifier;
     });
