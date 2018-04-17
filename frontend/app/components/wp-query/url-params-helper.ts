@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {PathHelperService} from '../common/path-helper/path-helper.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
 import {HalLink} from 'core-app/modules/hal/hal-link/hal-link';
@@ -36,9 +35,7 @@ import {PaginationService} from 'core-components/table-pagination/pagination-ser
 @Injectable()
 export class UrlParamsHelperService {
 
-  public constructor(public paginationService:PaginationService,
-                     public PathHelper:PathHelperService) {
-
+  public constructor(public paginationService:PaginationService) {
   }
 
   // copied more or less from angular buildUrl
@@ -161,7 +158,7 @@ export class UrlParamsHelperService {
           // the array check is only there for backwards compatibility reasons.
           // Nowadays, it will always be an array;
           var vs = Array.isArray(urlFilter.v) ? urlFilter.v : [urlFilter.v];
-          angular.extend(attributes, {values: vs});
+          angular.extend(attributes, { values: vs });
         }
         const filterData:any = {};
         filterData[urlFilter.n] = attributes;
@@ -244,7 +241,7 @@ export class UrlParamsHelperService {
       let values = this.buildV3GetValuesFromFilter(filter);
 
       const filterHash:any = {};
-      filterHash[id] = {operator: operator, values: values};
+      filterHash[id] = { operator: operator, values: values };
 
       return filterHash;
     });
@@ -255,7 +252,7 @@ export class UrlParamsHelperService {
   private buildV3GetFilterIdFromFilter(filter:any) {
     let href = filter.filter ? filter.filter.$href : filter._links.filter.href;
 
-    return this.idFromHref(href)
+    return this.idFromHref(href);
   }
 
   private buildV3GetOperatorIdFromFilter(filter:any) {

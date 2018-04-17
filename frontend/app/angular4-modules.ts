@@ -295,7 +295,7 @@ import {ProjectCacheService} from 'core-components/projects/project-cache.servic
     WpQueryMenuDirective,
     // Split view
     upgradeService('firstRoute', FirstRouteService),
-    upgradeService('PathHelper', PathHelperService),
+    PathHelperService,
     WorkPackagesActivityService,
     WorkPackageWatchersService,
     // Context menus

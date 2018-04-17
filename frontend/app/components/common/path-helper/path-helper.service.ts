@@ -27,7 +27,9 @@
 // ++
 
 import {ApiV3Paths} from 'core-components/common/path-helper/apiv3/apiv3-paths';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class PathHelperService {
   public readonly appBasePath:string;
   public readonly api:{ v3:ApiV3Paths };

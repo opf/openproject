@@ -28,14 +28,16 @@
 
 /*jshint expr: true*/
 
-describe('UrlParamsHelper', function() {
-  let UrlParamsHelper:any, PathHelper:any;
+import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 
-  beforeEach(angular.mock.module('openproject.helpers', 'openproject.models'));
-  beforeEach(inject(function(_UrlParamsHelper_:any, _PathHelper_:any) {
-    UrlParamsHelper = _UrlParamsHelper_;
-    PathHelper = _PathHelper_;
-  }));
+describe('UrlParamsHelper', function() {
+  const paginationStub = {
+    getPerPage: sinon.stub()
+      .returns(20)
+  } as any;
+
+  let UrlParamsHelper = new UrlParamsHelperService(paginationStub);
+  let queryString;
 
   describe('buildQueryString', function() {
     const params = {
@@ -45,7 +47,7 @@ describe('UrlParamsHelper', function() {
     let queryString:string;
 
     beforeEach(function() {
-      queryString = UrlParamsHelper.buildQueryString(params);
+      queryString = UrlParamsHelper.buildQueryString(params)!;
     });
 
     it('concatenates propertys with \'&\'', function() {

@@ -26,18 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-
-
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {ConfigurationResource} from 'core-app/modules/hal/resources/configuration-resource';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
-import {PathHelperToken} from 'core-app/angular4-transition-utils';
 
 @Injectable()
 export class ConfigurationDmService {
   constructor(protected halResourceService:HalResourceService,
-              @Inject(PathHelperToken) protected pathHelper:PathHelperService) {
+              protected pathHelper:PathHelperService) {
   }
 
   public load():Promise<ConfigurationResource> {

@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {HttpClientModule} from '@angular/common/http';
+
 require('core-app/angular4-test-setup');
 
 import {TableState} from 'core-components/wp-table/table-state/table-state';
@@ -38,6 +40,7 @@ import {IPaginationOptions, PaginationService} from 'core-components/table-pagin
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 async function setupMocks(paginationService:PaginationService) {
   sinon.stub(paginationService, 'loadPaginationOptions', async () => {
@@ -61,16 +64,20 @@ describe('wpTablePagination Directive', () => {
 
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
+      imports: [
+        HttpClientModule
+      ],
       declarations: [
         WorkPackageTablePaginationComponent
       ],
       providers: [
         States,
         PaginationService,
+        PathHelperService,
         WorkPackageTablePaginationService,
+        HalResourceService,
         ConfigurationDmService,
         TableState,
-        HalResourceService,
         {provide: I18nToken, useValue: (window as any).I18n},
         {provide: $qToken, useValue: {}},
         {provide: $httpToken, useValue: {}},
