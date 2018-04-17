@@ -31,16 +31,22 @@ import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
 import {WorkPackageTableBaseState} from './wp-table-base';
+import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilterInstanceResource[]> {
 
-  public availableSchemas:QueryFilterInstanceSchemaResource[] = [];
   public current:QueryFilterInstanceResource[] = [];
 
-  constructor(filters:QueryFilterInstanceResource[], schema:QuerySchemaResource) {
+  constructor(filters:QueryFilterInstanceResource[], public availableSchemas:QueryFilterInstanceSchemaResource[]) {
     super();
     this.current = filters;
-    this.availableSchemas = schema.filtersSchemas.elements as any;
+  }
+
+  public $copy() {
+    return new WorkPackageTableFilters(
+      cloneHalResourceCollection<QueryFilterInstanceResource>(this.current),
+      cloneHalResourceCollection<QueryFilterInstanceSchemaResource>(this.availableSchemas),
+    );
   }
 
   public add(filter:QueryFilterResource) {

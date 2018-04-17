@@ -4,6 +4,7 @@ import {QueryColumn} from 'core-components/wp-query/query-column';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
+import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 @Component({
   template: require('!!raw-loader!./columns-tab.component.html')
@@ -12,7 +13,7 @@ export class WpTableConfigurationColumnsTab implements TabComponent {
 
   public availableColumns = this.wpTableColumns.all;
   public unusedColumns = this.wpTableColumns.unused;
-  public selectedColumns = _.cloneDeep(this.wpTableColumns.getColumns());
+  public selectedColumns = cloneHalResourceCollection<QueryColumn>(this.wpTableColumns.getColumns());
 
   public impaired = this.ConfigurationService.accessibilityModeEnabled();
   public selectedColumnMap:{ [id:string]:boolean } = {};

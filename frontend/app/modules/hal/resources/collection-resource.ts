@@ -40,6 +40,10 @@ export class CollectionResource<T = HalResource> extends HalResource {
    * This is useful, as angular does not recognize update made by $load.
    */
   public updateElements() {
-    return this.$load().then((collection:this) => this.elements = collection.elements);
+    if (this.$href) {
+      return this.$load().then((collection:this) => this.elements = collection.elements);
+    } else {
+      return Promise.resolve();
+    }
   }
 }

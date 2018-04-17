@@ -41,6 +41,7 @@ import {
   QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC,
   QuerySortByResource
 } from 'core-app/modules/hal/resources/query-sort-by-resource';
+import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 @Injectable()
 export class WorkPackageTableSortByService extends WorkPackageTableBaseService<WorkPackageTableSortBy> implements WorkPackageQueryStateService {
@@ -77,7 +78,7 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService<W
   }
 
   public applyToQuery(query:QueryResource) {
-    query.sortBy = _.cloneDeep(this.current.current);
+    query.sortBy = cloneHalResourceCollection<QuerySortByResource>(this.current.current);
     return true;
   }
 

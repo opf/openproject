@@ -12,13 +12,29 @@ interface HalSource {
   type?:any;
 }
 
+export function cloneHalResourceCollection<T extends HalResource>(values:T[]|undefined):T[] {
+  if (_.isNil(values)) {
+    return [];
+  } else {
+    return values.map(v => v.$copy() as T);
+  }
+}
+
+export function cloneHalResource<T extends HalResource>(value:T|undefined):T|undefined {
+  if (_.isNil(value)) {
+    return value;
+  } else {
+    return value.$copy() as T;
+  }
+}
+
 export function initializeHalProperties<T extends HalResource>(halResourceService:HalResourceService, halResource:T) {
-    setSource();
-    setupLinks();
-    setupEmbedded();
-    proxyProperties();
-    setLinksAsProperties();
-    setEmbeddedAsProperties();
+  setSource();
+  setupLinks();
+  setupEmbedded();
+  proxyProperties();
+  setLinksAsProperties();
+  setEmbeddedAsProperties();
 
   function setSource() {
     if (!halResource.$source._links) {
@@ -67,7 +83,9 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
           const link:any = halResource.$links[linkName].$link || halResource.$links[linkName];
 
           if (Array.isArray(link)) {
-            var items = link.map(item => halResourceService.createLinkedResource(halResource, linkName, item.$link));
+            var items = link.map(item => halResourceService.createLinkedResource(halResource,
+              linkName,
+              item.$link));
             var property:HalResource[] = new ObservableArray(...items).on('change', () => {
               property.forEach(item => {
                 if (!item.$link) {

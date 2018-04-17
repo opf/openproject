@@ -37,6 +37,7 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {WorkPackageTableFilters} from '../wp-table-filters';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {InputState} from 'reactivestates';
+import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 @Injectable()
 export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<WorkPackageTableFilters> implements WorkPackageQueryStateService {
@@ -57,7 +58,7 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
     let filters = _.map(query.filters, filter => filter.$copy<QueryFilterInstanceResource>());
 
     this.loadCurrentFiltersSchemas(filters).then(() => {
-      let newState = new WorkPackageTableFilters(filters, schema);
+      let newState = new WorkPackageTableFilters(filters, schema.filtersSchemas.elements);
 
       this.state.putValue(newState);
     });
@@ -73,7 +74,7 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
   }
 
   public applyToQuery(query:QueryResource) {
-    query.filters = _.cloneDeep(this.current);
+    query.filters = this.current;
     return true;
   }
 
@@ -83,7 +84,7 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
 
   public get current():QueryFilterInstanceResource[]{
     if (this.currentState) {
-      return _.map(this.currentState.current, filter => filter.$copy());
+      return cloneHalResourceCollection<QueryFilterInstanceResource>(this.currentState.current);
     } else {
       return [];
     }

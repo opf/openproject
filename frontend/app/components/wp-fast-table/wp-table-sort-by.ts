@@ -31,13 +31,14 @@ import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-r
 import {WorkPackageTableBaseState} from './wp-table-base';
 import {QueryColumn} from '../wp-query/query-column';
 import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
+import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 export class WorkPackageTableSortBy extends WorkPackageTableBaseState<QuerySortByResource[]> {
   public current:QuerySortByResource[] = [];
 
   constructor(query:QueryResource) {
     super();
-    this.current = _.cloneDeep(query.sortBy);
+    this.current = cloneHalResourceCollection<QuerySortByResource>(query.sortBy);
   }
 
   public addCurrent(sortBy:QuerySortByResource) {

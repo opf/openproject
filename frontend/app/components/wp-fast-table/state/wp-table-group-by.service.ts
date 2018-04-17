@@ -39,6 +39,7 @@ import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {cloneHalResource} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 @Injectable()
 export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<WorkPackageTableGroupBy> implements WorkPackageQueryStateService {
@@ -65,7 +66,7 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<
   }
 
   public applyToQuery(query:QueryResource) {
-    query.groupBy = _.cloneDeep(this.current);
+    query.groupBy = cloneHalResource<QueryGroupByResource>(this.current);
     return true;
   }
 

@@ -30,6 +30,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {WorkPackageTableBaseState} from './wp-table-base';
 import {QueryColumn} from '../wp-query/query-column';
+import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 export class WorkPackageTableColumns extends WorkPackageTableBaseState<QueryColumn[]> {
 
@@ -43,7 +44,7 @@ export class WorkPackageTableColumns extends WorkPackageTableBaseState<QueryColu
 
   public update(query:QueryResource|null, schema?:QuerySchemaResource) {
     if (query) {
-      this.current = _.cloneDeep(query.columns);
+      this.current = cloneHalResourceCollection<QueryColumn>(query.columns);
     }
   }
 
