@@ -176,7 +176,7 @@ export class WorkPackageChangeset {
           this.workPackage.$links.updateImmediately(payload)
             .then((savedWp:WorkPackageResource) => {
               // Initialize any potentially new HAL values
-              this.workPackage.$reInitialize(savedWp.$source);
+              this.workPackage.$initialize(savedWp.$source);
 
               // Ensure the schema is loaded before updating
               this.schemaCacheService.ensureLoaded(this.workPackage).then(() => {
