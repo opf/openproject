@@ -108,7 +108,6 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     within(top_menu.search_results) do
       expect(page).to have_selector('.ui-state-disabled .ui-menu-item-wrapper', text: '<strong>foobar</strong>')
       expect(page).to have_selector('.ui-menu-item-wrapper.ui-state-active', text: '» Plain other project')
-      expect(page).to have_selector('.ui-menu-item-wrapper', text: 'Plain project')
     end
 
     # find terms at the end of project names
