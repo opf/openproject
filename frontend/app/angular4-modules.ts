@@ -210,6 +210,7 @@ import {AttributeHelpTextComponent} from 'core-components/common/help-texts/attr
 import {AttributeHelpTextModal} from 'core-components/common/help-texts/attribute-help-text.modal';
 import {AttributeHelpTextsService} from 'core-components/common/help-texts/attribute-help-text.service';
 import {UserCacheService} from 'core-components/user/user-cache.service';
+import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 
 @NgModule({
   imports: [
@@ -294,6 +295,7 @@ import {UserCacheService} from 'core-components/user/user-cache.service';
     upgradeService('firstRoute', FirstRouteService),
     upgradeService('PathHelper', PathHelperService),
     WorkPackagesActivityService,
+    WorkPackageWatchersService,
     // Context menus
     OPContextMenuService,
     upgradeServiceWithToken('HookService', HookServiceToken),

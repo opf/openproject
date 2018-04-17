@@ -38,6 +38,7 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {I18nToken} from '../../../angular4-transition-utils';
+import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 
 @Component({
   template: require('!!raw-loader!./watchers-tab.html'),
@@ -66,6 +67,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
 
   public constructor(@Inject(I18nToken) readonly I18n:op.I18n,
                      readonly elementRef:ElementRef,
+                     readonly wpWatchersService:WorkPackageWatchersService,
                      readonly $transition:Transition,
                      readonly wpNotificationsService:WorkPackageNotificationService,
                      readonly loadingIndicator:LoadingIndicatorService,
@@ -98,9 +100,9 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.workPackage.watchers.$load()
-      .then((collection:CollectionResource) => {
-        this.watching = collection.elements;
+    this.wpWatchersService.require(this.workPackage)
+      .then((watchers:HalResource[]) => {
+        this.watching = watchers;
       })
       .catch((error:any) => {
         this.wpNotificationsService.showError(error, this.workPackage);

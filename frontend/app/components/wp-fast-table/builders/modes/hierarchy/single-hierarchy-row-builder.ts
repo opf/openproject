@@ -98,7 +98,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
       .prepend(hierarchyElement);
 
     // Assure that the content is still visble when the hierarchy indentation is very large
-    jRow.find('td.subject')[0].style.minWidth =  125 + (20 * hierarchyLevel) + 'px';
+    jRow.find('td.subject').css('minWidth', 125 + (20 * hierarchyLevel) + 'px');
   }
 
   /**

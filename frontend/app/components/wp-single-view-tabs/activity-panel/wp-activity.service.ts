@@ -29,21 +29,17 @@
 import {ActivityEntryInfo} from './activity-entry-info';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {Injectable} from '@angular/core';
-import {input, InputState} from 'reactivestates';
+import {Inject, Injectable} from '@angular/core';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {TimezoneServiceToken} from 'core-app/angular4-transition-utils';
+import {WorkPackageLinkedResourceCache} from 'core-components/wp-single-view-tabs/wp-linked-resource-cache.service';
 
 @Injectable()
-export class WorkPackagesActivityService {
+export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<HalResource[]> {
 
-  // Cache activities for the last work package
-  // to allow fast switching between work packages without refreshing.
-  protected cache:{ id:string|null, state:InputState<HalResource[]> } = {
-    id: null,
-    state: input<HalResource[]>()
-  };
-
-  constructor(public ConfigurationService:ConfigurationService) {
+  constructor(public ConfigurationService:ConfigurationService,
+              @Inject(TimezoneServiceToken) readonly timezoneService:any) {
+    super();
   }
 
   public get order() {
@@ -54,30 +50,12 @@ export class WorkPackagesActivityService {
     return this.ConfigurationService.commentsSortedInDescendingOrder();
   }
 
-  public require(workPackage:WorkPackageResource):Promise<HalResource[]> {
-    const id = workPackage.id.toString();
-    const state = this.cache.state;
-    const cached = this.cache.id !== id && state.hasValue() || !state.isValueOlderThan(120 * 1000);
-
-    if (cached) {
-      return state.values$().toPromise();
-    } else {
-      return this.loadActivities(workPackage)
-        .then((results:HalResource[]) => {
-          state.putValue(results);
-          this.cache.id = id;
-
-          return results;
-        });
-    }
-  }
-
   /**
    * Aggregate user and revision activities for the given work package resource.
    * Resolves both promises and returns a sorted list of activities
    * whose order depends on the 'commentsSortedInDescendingOrder' property.
    */
-  protected loadActivities(workPackage:WorkPackageResource):Promise<HalResource[]> {
+  protected load(workPackage:WorkPackageResource):Promise<HalResource[]> {
     var aggregated:any[] = [], promises:Promise<any>[] = [];
 
     var add = function (data:any) {
@@ -105,6 +83,6 @@ export class WorkPackagesActivityService {
   }
 
   public info(activities:HalResource[], activity:HalResource, index:number) {
-    return new ActivityEntryInfo(this.isReversed, activities, activity, index);
-  };
+    return new ActivityEntryInfo(this.timezoneService, this.isReversed, activities, activity, index);
+  }
 }

@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import { DatePipe } from '@angular/common';
-
+import {DatePipe} from '@angular/common';
 
 export class ActivityEntryInfo {
 
-  constructor(public isReversed:boolean,
+  constructor(public timezoneService:any,
+              public isReversed:boolean,
               public activities:any[],
               public activity:any,
               public index:number) {
@@ -78,10 +78,10 @@ export class ActivityEntryInfo {
   }
 
   protected activityDate(activity:any) {
-    return new DatePipe(I18n.locale).transform(activity.createdAt, 'longDate');
+    return this.timezoneService.formattedDatetime(activity.createdAt);
   }
 
-  protected orderedIndex(activityNo: number, forceReverse:boolean = false) {
+  protected orderedIndex(activityNo:number, forceReverse:boolean = false) {
     if (forceReverse || this.isReversed) {
       return this.activities.length - activityNo;
     }

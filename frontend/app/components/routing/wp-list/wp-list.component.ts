@@ -107,7 +107,6 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
     // Listen for param changes
     this.$transitions.onSuccess({}, (transition) => {
-      console.log('Updating params!' + transition.to().name);
 
       const params = transition.params('to');
       let newChecksum = params.query_props;
