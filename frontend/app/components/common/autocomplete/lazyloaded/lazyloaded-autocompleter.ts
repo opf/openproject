@@ -57,9 +57,36 @@ export abstract class ILazyAutocompleterBridge<T> {
   private fuzzySearch(items:IAutocompleteItem<T>[], term:string) {
     if (term === '') {
       return items;
+    } else if (term.length >= 3) {
+      const literalMatches = this.literalSearch(items, term);
+
+      if (literalMatches.length > 0) {
+        return literalMatches as any;
+      }
     }
 
     return this.fuseInstance.search(term) as any;
+  }
+
+  /**
+   * Filters the given list of items so that only items whose label contains
+   * the exact search term (case insensitive).
+   *
+   * @param items Items to be searched
+   * @param term Search term
+   * @return The subset of the given items matching the search term.
+   */
+  private literalSearch(items:IAutocompleteItem<T>[], term:string) {
+    const results:IAutocompleteItem<T>[] = [];
+    const str:string = term.toLowerCase();
+
+    items.forEach(e => {
+      if (e.label.toLowerCase().indexOf(str) !== -1) {
+        results.push(e);
+      }
+    });
+
+    return results;
   }
 
   /**
@@ -92,7 +119,7 @@ export abstract class ILazyAutocompleterBridge<T> {
       tokenize: false,
       threshold: 0.2,
       location: 0,
-      distance: 100,
+      distance: 10000, // allow the term to appear anywhere
       maxPatternLength: 16,
       minMatchCharLength: 2,
       keys: ['label']
