@@ -28,9 +28,10 @@
 
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {Component, Inject, Input, OnDestroy, Output} from '@angular/core';
-import {I18nToken, TimezoneServiceToken} from 'core-app/angular4-transition-utils';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 @Component({
   selector: 'filter-dates-value',
@@ -44,7 +45,7 @@ export class FilterDatesValueComponent implements OnDestroy {
     spacer: this.I18n.t('js.filter.value_spacer')
   };
 
-  constructor(@Inject(TimezoneServiceToken) readonly TimezoneService:any,
+  constructor(readonly timezoneService:TimezoneService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
   }
 
@@ -80,8 +81,8 @@ export class FilterDatesValueComponent implements OnDestroy {
 
   public formatter(data:any) {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
-      var d = this.TimezoneService.parseDate(data);
-      return this.TimezoneService.formattedISODate(d);
+      var d = this.timezoneService.parseDate(data);
+      return this.timezoneService.formattedISODate(d);
     } else {
       return null;
     }

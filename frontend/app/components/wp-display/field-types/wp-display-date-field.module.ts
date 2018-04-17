@@ -27,15 +27,15 @@
 // ++
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
-import {TimezoneServiceToken} from 'core-app/angular4-transition-utils';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 export class DateDisplayField extends DisplayField {
 
-  private TimezoneService = this.$injector.get(TimezoneServiceToken);
+  private timezoneService = this.$injector.get(TimezoneService);
 
   public get valueString() {
     if (this.value) {
-      return this.TimezoneService.formattedDate(this.value);
+      return this.timezoneService.formattedDate(this.value);
     } else {
       return '';
     }

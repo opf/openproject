@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,24 +23,39 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opUiComponentsModule} from '../../../angular-modules';
+import {Component, Input} from '@angular/core';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {opUiComponentsModule} from 'core-app/angular-modules';
+import {downgradeComponent} from '@angular/upgrade/static';
 
-function opDateTimeDirective($compile:ng.ICompileService, TimezoneService:any) {
-  return {
-    restrict: 'EA',
-    scope: { dateTimeValue: '=' },
-    // Note: we cannot reuse op-date here as this does not apply the user's configured timezone
-    template: '<span title="{{ date }} {{ time }}"><span>{{date}}</span> <span>{{time}}</span></span>',
-    link: function(scope:any, element:ng.IAugmentedJQuery) {
-      var c = TimezoneService.formattedDatetimeComponents(scope.dateTimeValue);
-      scope.date = c[0];
-      scope.time = c[1];
-      $compile(element.contents())(scope);
-    }
-  };
+@Component({
+  selector: 'op-date-time',
+  template: `
+    <span title="{{date}} {{ time }}">
+      <span [textContent]="date"></span>
+      <span [textContent]="time"></span>
+    </span>'
+  `
+})
+export class OpDateTimeComponent {
+
+  @Input('dateTimeValue') dateTimeValue:any;
+
+  public date:any;
+  public time:any;
+
+  constructor(readonly timezoneService:TimezoneService) {
+  }
+
+  ngOnInit() {
+    var c = this.timezoneService.formattedDatetimeComponents(this.dateTimeValue);
+    this.date = c[0];
+    this.time = c[1];
+  }
 }
 
-opUiComponentsModule.directive('opDateTime', opDateTimeDirective);
+opUiComponentsModule.directive('opDateTime',
+  downgradeComponent({ component: OpDateTimeComponent}));

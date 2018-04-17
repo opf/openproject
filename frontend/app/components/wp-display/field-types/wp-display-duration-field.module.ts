@@ -27,26 +27,26 @@
 // ++
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
-import {TimezoneServiceToken} from 'core-app/angular4-transition-utils';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 export class DurationDisplayField extends DisplayField {
 
-  private TimezoneService:any;
+  private timezoneService:TimezoneService;
 
   constructor(public resource:HalResource,
               public name:string,
               public schema:op.FieldSchema) {
     super(resource, name, schema);
 
-    this.TimezoneService = this.$injector.get(TimezoneServiceToken);
+    this.timezoneService = this.$injector.get(TimezoneService);
   }
 
   public get valueString() {
-    return this.TimezoneService.formattedDuration(this.value);
+    return this.timezoneService.formattedDuration(this.value);
   }
 
   public isEmpty():boolean {
-    return this.TimezoneService.toHours(this.value) === 0;
+    return this.timezoneService.toHours(this.value) === 0;
   }
 }

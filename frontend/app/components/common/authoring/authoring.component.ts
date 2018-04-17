@@ -27,11 +27,12 @@
 //++
 
 import {Component, Inject, Input, OnInit} from '@angular/core';
-import {I18nToken, TimezoneServiceToken} from '../../../angular4-transition-utils';
+import {I18nToken} from '../../../angular4-transition-utils';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {opUiComponentsModule} from 'core-app/angular-modules';
 import {downgradeComponent} from '@angular/upgrade/static';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 @Component({
   template: require('!!raw-loader!./authoring.html'),
@@ -52,12 +53,12 @@ export class AuthoringComponent implements OnInit {
 
   public constructor(readonly PathHelper:PathHelperService,
                      @Inject(I18nToken) readonly I18n:op.I18n,
-                     @Inject(TimezoneServiceToken) readonly TimezoneService:any) {
+                     readonly timezoneService:TimezoneService) {
 
   }
 
   ngOnInit() {
-    this.createdOnTime = this.TimezoneService.parseDatetime(this.createdOn);
+    this.createdOnTime = this.timezoneService.parseDatetime(this.createdOn);
     this.timeago = this.createdOnTime.fromNow();
     this.time = this.createdOnTime.format('LLL');
     this.userLink = this.PathHelper.userPath(this.author.id);

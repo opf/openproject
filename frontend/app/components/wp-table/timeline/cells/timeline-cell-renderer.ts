@@ -31,7 +31,7 @@ import {WorkPackageTableTimelineService} from '../../../wp-fast-table/state/wp-t
 import {DisplayFieldRenderer} from '../../../wp-edit-form/display-field-renderer';
 import Moment = moment.Moment;
 import {Injector} from '@angular/core';
-import {TimezoneServiceToken} from 'core-app/angular4-transition-utils';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -48,7 +48,7 @@ function calculateForegroundColor(backgroundColor:string):string {
 }
 
 export class TimelineCellRenderer {
-  readonly TimezoneService = this.injector.get(TimezoneServiceToken);
+  readonly TimezoneService = this.injector.get(TimezoneService);
   readonly wpTableTimeline:WorkPackageTableTimelineService = this.injector.get(WorkPackageTableTimelineService);
   public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer(this.injector, 'timeline');
 

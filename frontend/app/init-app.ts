@@ -57,6 +57,7 @@ catch(e) {
 import {openprojectModule} from './angular-modules';
 import {whenDebugging} from 'core-app/helpers/debug_output';
 import {enableReactiveStatesLogging} from 'reactivestates';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
@@ -117,7 +118,7 @@ openprojectModule
       function($http:ng.IHttpService,
                $rootScope:any,
                $window:ng.IWindowService,
-               TimezoneService:any,
+               timezoneService:TimezoneService,
                ExpressionService:ExpressionService,
                KeyboardShortcutService:any) {
 
@@ -138,7 +139,7 @@ openprojectModule
               'collapsed';
         }
 
-        TimezoneService.setupLocale();
+        timezoneService.setupLocale();
         KeyboardShortcutService.activate();
 
         angular.element('body').addClass('__ng-bootstrap-has-run');

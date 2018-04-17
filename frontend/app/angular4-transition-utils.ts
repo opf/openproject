@@ -49,7 +49,6 @@ export const FocusHelperToken = new InjectionToken<any>('FocusHelper');
 export const NotificationsServiceToken = new InjectionToken<any>('NotificationsService');
 export const PathHelperToken = new InjectionToken<any>('PathHelper');
 export const wpMoreMenuServiceToken = new InjectionToken<any>('wpMoreMenuService');
-export const TimezoneServiceToken = new InjectionToken<any>('TimezoneService');
 export const $httpToken = new InjectionToken<any>('$http');
 export const wpDestroyModalToken = new InjectionToken<any>('wpDestroyModal');
 export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');

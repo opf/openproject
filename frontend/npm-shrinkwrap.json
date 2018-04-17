@@ -139,6 +139,14 @@
       "resolved": "https://registry.npmjs.org/@types/mocha/-/mocha-2.2.48.tgz",
       "integrity": "sha512-nlK/iyETgafGli8Zh9zJVCTicvU3iajSkRwOh3Hhiva598CMqNJ4NcVCGMTGKpGpTYj/9R8RLzS9NAykSSCqGw=="
     },
+    "@types/moment-timezone": {
+      "version": "0.5.4",
+      "resolved": "https://registry.npmjs.org/@types/moment-timezone/-/moment-timezone-0.5.4.tgz",
+      "integrity": "sha512-GXWxTNJaN6A6CSa7+8a0ZGN5yGozW3So7fFHrXE/1c976Nx4hv2470Bx/q6/nmNNOYbcuKT61P0kRNf4cQTirw==",
+      "requires": {
+        "moment": "2.20.1"
+      }
+    },
     "@types/mousetrap": {
       "version": "1.6.0",
       "resolved": "https://registry.npmjs.org/@types/mousetrap/-/mousetrap-1.6.0.tgz",
@@ -3572,7 +3580,7 @@
     "jquery-mockjax": {
       "version": "2.2.2",
       "resolved": "https://registry.npmjs.org/jquery-mockjax/-/jquery-mockjax-2.2.2.tgz",
-      "integrity": "sha1-nH0rEDpEz2HJnMeKnueHhQS2CQc=",
+      "integrity": "sha512-stVgUln5bo7g14KjeU45c31nAYlBHAUVBo4JbdoDYIJ3i6Nzlu8mkjKcAviwad9AU1dBEHHpuzA7R6mKcWgvZA==",
       "dev": true,
       "requires": {
         "jquery": "3.3.1"

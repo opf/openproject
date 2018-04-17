@@ -31,14 +31,14 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {Inject, Injectable} from '@angular/core';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
-import {TimezoneServiceToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageLinkedResourceCache} from 'core-components/wp-single-view-tabs/wp-linked-resource-cache.service';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 @Injectable()
 export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<HalResource[]> {
 
   constructor(public ConfigurationService:ConfigurationService,
-              @Inject(TimezoneServiceToken) readonly timezoneService:any) {
+              readonly timezoneService:TimezoneService) {
     super();
   }
 

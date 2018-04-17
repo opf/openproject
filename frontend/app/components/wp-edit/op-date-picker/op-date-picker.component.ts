@@ -28,8 +28,8 @@
 
 import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
-import {TimezoneServiceToken} from 'core-app/angular4-transition-utils';
 import {DatePicker} from 'core-components/wp-edit/op-date-picker/datepicker';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 @Component({
   selector: 'op-date-picker',
@@ -38,7 +38,7 @@ import {DatePicker} from 'core-components/wp-edit/op-date-picker/datepicker';
 export class OpDatePickerComponent implements OnInit {
   @Output() public onChange = new EventEmitter<string>();
   @Output() public onClose = new EventEmitter<string>();
-  @Input() public initialDate?:String;
+  @Input() public initialDate?:string;
 
   private $element:JQuery;
   private datePickerInstance:any;
@@ -46,7 +46,7 @@ export class OpDatePickerComponent implements OnInit {
 
   public constructor(private elementRef:ElementRef,
                      private ConfigurationService:ConfigurationService,
-                     @Inject(TimezoneServiceToken)private TimezoneService:any) {
+                     private timezoneService:TimezoneService) {
   }
 
 
@@ -103,14 +103,14 @@ export class OpDatePickerComponent implements OnInit {
 
     let initialValue;
     if (this.isEmpty && this.initialDate) {
-      initialValue = this.TimezoneService.parseISODate(this.initialDate).toDate();
+      initialValue = this.timezoneService.parseISODate(this.initialDate).toDate();
     } else {
       initialValue = this.currentValue();
     }
 
     this.datePickerInstance = new DatePicker(
       this.ConfigurationService,
-      this.TimezoneService,
+      this.timezoneService,
       this.input,
       initialValue,
       options

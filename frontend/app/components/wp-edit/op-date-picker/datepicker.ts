@@ -27,6 +27,7 @@
 //++
 
 import {ConfigurationService} from '../../common/config/configuration.service';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 export class DatePicker {
   public datepickerFormat = 'yy-mm-dd';
@@ -35,7 +36,7 @@ export class DatePicker {
   private datepickerInstance:any = null;
 
   constructor(readonly ConfigurationService:ConfigurationService,
-              readonly TimezoneService:any,
+              readonly timezoneService:TimezoneService,
               private datepickerElem:JQuery,
               private date:any,
               private options:any) {
@@ -52,7 +53,7 @@ export class DatePicker {
       changeMonth: true,
       changeYear: true,
       dateFormat: this.datepickerFormat,
-      defaultDate: this.TimezoneService.formattedISODate(this.date),
+      defaultDate: this.timezoneService.formattedISODate(this.date),
       showButtonPanel: true
     });
 

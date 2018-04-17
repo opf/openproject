@@ -79,7 +79,6 @@ import {
   settingsModalToken,
   shareModalToken,
   TextileServiceToken,
-  TimezoneServiceToken,
   upgradeService,
   upgradeServiceWithToken,
   wpDestroyModalToken,
@@ -128,7 +127,7 @@ import {AuthoringComponent} from 'core-components/common/authoring/authoring.com
 import {Ng1WorkPackageAttachmentsUploadWrapper} from 'core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload-ng1-wrapper';
 import {WorkPackageAttachmentListComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list.component';
 import {WorkPackageAttachmentListItemComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list-item.component';
-import {OpDateTimeUpgradedDirective} from 'core-components/common/date/op-date-time.upgraded.directive';
+import {OpDateTimeComponent} from 'core-components/common/date/op-date-time.component';
 import {UserLinkComponent} from 'core-components/user/user-link/user-link.component';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {NewestActivityOnOverviewComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-on-overview.component';
@@ -212,6 +211,7 @@ import {AttributeHelpTextsService} from 'core-components/common/help-texts/attri
 import {UserCacheService} from 'core-components/user/user-cache.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {ProjectCacheService} from 'core-components/projects/project-cache.service';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 @NgModule({
   imports: [
@@ -241,7 +241,7 @@ import {ProjectCacheService} from 'core-components/projects/project-cache.servic
     upgradeServiceWithToken('FocusHelper', FocusHelperToken),
     upgradeServiceWithToken('PathHelper', PathHelperToken),
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
-    upgradeServiceWithToken('TimezoneService', TimezoneServiceToken),
+    TimezoneService,
     upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
     upgradeServiceWithToken('shareModal', shareModalToken),
     upgradeServiceWithToken('saveModal', saveModalToken),
@@ -377,7 +377,7 @@ import {ProjectCacheService} from 'core-components/projects/project-cache.servic
     Ng1WorkPackageAttachmentsUploadWrapper,
     WorkPackageAttachmentListComponent,
     WorkPackageAttachmentListItemComponent,
-    OpDateTimeUpgradedDirective,
+    OpDateTimeComponent,
     UserLinkComponent,
     ClickOnKeypressComponent,
     WorkPackageFormQueryGroupComponent,

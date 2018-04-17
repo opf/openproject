@@ -26,11 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DatePipe} from '@angular/common';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 export class ActivityEntryInfo {
 
-  constructor(public timezoneService:any,
+  constructor(public timezoneService:TimezoneService,
               public isReversed:boolean,
               public activities:any[],
               public activity:any,

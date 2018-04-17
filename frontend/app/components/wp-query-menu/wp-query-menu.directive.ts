@@ -33,7 +33,7 @@ import {
   QueryMenuService
 } from 'core-components/wp-query-menu/wp-query-menu.service';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
-import {Directive, ElementRef, Inject} from '@angular/core';
+import {Directive, ElementRef, Inject, OnInit} from '@angular/core';
 import {$stateToken} from 'core-app/angular4-transition-utils';
 
 export const QUERY_MENU_ITEM_TYPE = 'query-menu-item';
@@ -41,8 +41,8 @@ export const QUERY_MENU_ITEM_TYPE = 'query-menu-item';
 @Directive({
   selector: '[wp-query-menu]'
 })
-export class WpQueryMenuDirective {
-  private currentQueryId?:string;
+export class WpQueryMenuDirective implements OnInit {
+  private currentQueryId:string|null = null;
   private uiRouteStateName = 'work-packages.list';
   private container:ng.IAugmentedJQuery;
 
@@ -55,17 +55,16 @@ export class WpQueryMenuDirective {
               protected wpListChecksumService:WorkPackagesListChecksumService) {
   }
 
-  public $onInit() {
+  public ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.container = this.$element.parent().find('ul.menu-children');
 
     this.$transitions.onStart({}, (transition:Transition)  => {
       const queryId = transition.params('to').queryId;
-      this.currentQueryId = queryId;
-      this.setSelectedState();
+      this.onQueryIdChanged(queryId);
     });
 
-      this.queryMenu
+    this.queryMenu
       .on('remove')
       .subscribe((e:QueryMenuEvent) => this.removeItem(e));
 
@@ -86,6 +85,11 @@ export class WpQueryMenuDirective {
       event.preventDefault();
       return false;
     });
+  }
+
+  public onQueryIdChanged(queryId:string|null) {
+    this.currentQueryId = queryId;
+    this.setSelectedState();
   }
 
   private removeItem(e:QueryMenuEvent) {
