@@ -38,21 +38,38 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 import {States} from 'core-components/states.service';
 import {take, takeWhile} from 'rxjs/operators';
 import {Injector} from '@angular/core';
+import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {
+  I18nToken,
+  NotificationsServiceToken,
+} from 'core-app/angular4-transition-utils';
+import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 describe('WorkPackageCacheService', () => {
   let injector:Injector;
   let wpCacheService:WorkPackageCacheService;
+  let apiWorkPackagesService:ApiWorkPackagesService;
   let schemaCacheService:SchemaCacheService;
   let dummyWorkPackages:WorkPackageResource[] = [];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        OpenprojectHalModule,
+      ],
       providers: [
         States,
+        HalResourceService,
         WorkPackageCacheService,
         SchemaCacheService,
-        { provide: ApiWorkPackagesService, useValue: {}},
+        ApiWorkPackagesService,
+        { provide: PathHelperService, useValue: {} },
+        { provide: I18nToken, useValue: {} },
         { provide: WorkPackageResource, useValue: {}},
+        { provide: WorkPackageCreateService, useValue: {}},
+        { provide: NotificationsServiceToken, useValue: {}},
         { provide: WorkPackageNotificationService, useValue: {}}
       ]
     });
@@ -60,7 +77,9 @@ describe('WorkPackageCacheService', () => {
     injector = TestBed.get(Injector);
     wpCacheService = TestBed.get(WorkPackageCacheService);
     schemaCacheService = TestBed.get(SchemaCacheService);
+    apiWorkPackagesService = TestBed.get(ApiWorkPackagesService);
 
+    sinon.stub(apiWorkPackagesService, 'loadWorkPackageById').returns(Promise.resolve(true));
     sinon.stub(schemaCacheService, 'ensureLoaded').returns(Promise.resolve(true));
 
     const workPackage1 = new WorkPackageResource(

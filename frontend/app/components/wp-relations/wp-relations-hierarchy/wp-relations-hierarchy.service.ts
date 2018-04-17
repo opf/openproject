@@ -32,7 +32,7 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 import {States} from '../../states.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {StateService} from '@uirouter/core';
-import {$stateToken, PathHelperToken} from 'core-app/angular4-transition-utils';
+import {$stateToken} from 'core-app/angular4-transition-utils';
 import {Inject, Injectable} from '@angular/core';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {opServicesModule} from 'core-app/angular-modules';
@@ -44,7 +44,7 @@ export class WorkPackageRelationsHierarchyService {
               protected states:States,
               protected wpTableRefresh:WorkPackageTableRefreshService,
               protected wpNotificationsService:WorkPackageNotificationService,
-              @Inject(PathHelperToken) protected pathHelper:PathHelperService,
+              protected pathHelper:PathHelperService,
               protected wpCacheService:WorkPackageCacheService) {
 
   }

@@ -30,7 +30,6 @@ import {
   $httpToken,
   $qToken,
   I18nToken,
-  PathHelperToken
 } from 'core-app/angular4-transition-utils';
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
@@ -42,6 +41,7 @@ import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 require('core-app/angular4-test-setup');
 
@@ -79,7 +79,7 @@ describe('FilterToggledMultiselectValueComponent', () => {
       ],
       providers: [
         { provide: I18nToken, useValue: I18nStub },
-        { provide: PathHelperToken, useValue: {} },
+        { provide: PathHelperService, useValue: {} },
         { provide: RootDmService, useValue: {} },
         { provide: $qToken, useValue: {} },
         { provide: $httpToken, useValue: {} },

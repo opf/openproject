@@ -109,20 +109,14 @@ openprojectModule
       }
     ])
     .run([
-      '$http',
       '$rootScope',
       '$window',
-      'TimezoneService',
       'ExpressionService',
       'KeyboardShortcutService',
-      function($http:ng.IHttpService,
-               $rootScope:any,
+      function($rootScope:any,
                $window:ng.IWindowService,
-               timezoneService:TimezoneService,
                ExpressionService:ExpressionService,
                KeyboardShortcutService:any) {
-
-        $http.defaults.headers!.common.Accept = 'application/json';
 
         // Set the escaping target of opening double curly braces
         // This is what returned by rails-angular-xss when it discoveres double open curly braces
@@ -139,7 +133,6 @@ openprojectModule
               'collapsed';
         }
 
-        timezoneService.setupLocale();
         KeyboardShortcutService.activate();
 
         angular.element('body').addClass('__ng-bootstrap-has-run');

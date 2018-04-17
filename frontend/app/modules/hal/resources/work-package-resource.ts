@@ -27,10 +27,7 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {
-  I18nToken,
-  NotificationsServiceToken, PathHelperToken,
-} from 'core-app/angular4-transition-utils';
+import {I18nToken, NotificationsServiceToken,} from 'core-app/angular4-transition-utils';
 import {AttachmentCollectionResource} from 'core-app/modules/hal/resources/attachment-collection-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
@@ -132,7 +129,7 @@ export class WorkPackageResource extends HalResource {
   readonly wpNotificationsService:WorkPackageNotificationService = this.injector.get(
     WorkPackageNotificationService);
   readonly wpCreate:WorkPackageCreateService = this.injector.get(WorkPackageCreateService);
-  readonly pathHelper:PathHelperService = this.injector.get(PathHelperToken);
+  readonly pathHelper:PathHelperService = this.injector.get(PathHelperService);
 
   public get id():string {
     return this.$source.id || this.idFromLink;
@@ -226,7 +223,11 @@ export class WorkPackageResource extends HalResource {
    * Return an updated AttachmentCollectionResource.
    */
   public uploadAttachments(files:UploadFile[]):Promise<any> {
-    const { uploads, finished } = this.attachments.upload(files);
+    const href = this.attachments.$href!;
+    // TODO upgrade
+    const opFileUplaod = angular.element('body').injector().get('opFileUpload');
+
+    const { uploads, finished } = this.opFileUpload.upload(href, files);
     const message = I18n.t('js.label_upload_notification', this);
     const notification = this.NotificationsService.addWorkPackageUpload(message, uploads);
 

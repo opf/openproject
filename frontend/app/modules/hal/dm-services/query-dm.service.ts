@@ -33,19 +33,19 @@ import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-c
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {ApiV3FilterBuilder} from 'core-app/components/api/api-v3/api-v3-filter-builder';
-import {Inject} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
-import {PathHelperToken} from 'core-app/angular4-transition-utils';
 
 export interface PaginationObject {
   pageSize:number;
   offset:number;
 }
 
+@Injectable()
 export class QueryDmService {
   constructor(protected halResourceService:HalResourceService,
-              @Inject(PathHelperToken) protected pathHelper:PathHelperService,
+              protected pathHelper:PathHelperService,
               protected UrlParamsHelper:UrlParamsHelperService,
               protected PayloadDm:PayloadDmService) {
   }

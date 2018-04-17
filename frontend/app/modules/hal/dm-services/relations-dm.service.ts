@@ -33,14 +33,13 @@ import {buildApiV3Filter} from 'core-app/components/api/api-v3/api-v3-filter-bui
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import {PathHelperToken} from 'core-app/angular4-transition-utils';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 @Injectable()
 export class RelationsDmService {
 
   constructor(private halResourceService:HalResourceService,
-              @Inject(PathHelperToken) private pathHelper:PathHelperService) {
+              private pathHelper:PathHelperService) {
 
   }
 

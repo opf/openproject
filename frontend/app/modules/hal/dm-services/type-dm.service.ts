@@ -33,13 +33,12 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {States} from 'core-app/components/states.service';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
-import {PathHelperToken} from 'core-app/angular4-transition-utils';
 
 @Injectable()
 export class TypeDmService {
   constructor(protected halResourceService:HalResourceService,
               protected states:States,
-              @Inject(PathHelperToken) protected pathHelper:PathHelperService) {
+              protected pathHelper:PathHelperService) {
   }
 
   public loadAll():Promise<TypeResource[]> {

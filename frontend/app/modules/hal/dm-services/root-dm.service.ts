@@ -29,13 +29,12 @@
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Inject, Injectable} from '@angular/core';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
-import {PathHelperToken} from 'core-app/angular4-transition-utils';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 @Injectable()
 export class RootDmService {
   constructor(protected halResourceService:HalResourceService,
-              @Inject(PathHelperToken) protected pathHelper:PathHelperService) {
+              protected pathHelper:PathHelperService) {
   }
 
   public load():Promise<RootResource> {

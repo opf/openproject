@@ -28,18 +28,9 @@
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {UploadFile, UploadResult} from 'core-components/api/op-file-upload/op-file-upload.service';
 
 export class AttachmentCollectionResource extends CollectionResource {
 
-  readonly opFileUplaod = window.OpenProject.Helpers.Angular.injector.get('opFileUpload');
-
-  /**
-   * Upload the given files to the $href property of this resource.
-   */
-  public upload(files:UploadFile[]):UploadResult {
-    return this.opFileUpload.upload(this.$href as string, files);
-  }
 }
 
 export interface AttachmentCollectionResource {

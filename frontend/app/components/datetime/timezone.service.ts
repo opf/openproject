@@ -36,6 +36,7 @@ import {downgradeInjectable} from '@angular/upgrade/static';
 export class TimezoneService {
   constructor(readonly ConfigurationService:ConfigurationService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
+    this.setupLocale();
   }
 
   public setupLocale() {

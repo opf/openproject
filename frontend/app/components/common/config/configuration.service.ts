@@ -26,11 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opConfigModule} from '../../../angular-modules';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {Inject, Injectable} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {downgradeInjectable} from '@angular/upgrade/static';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable()
@@ -167,5 +165,3 @@ export class ConfigurationService {
     return '';
   }
 }
-
-opConfigModule.service('ConfigurationService', downgradeInjectable(ConfigurationService));

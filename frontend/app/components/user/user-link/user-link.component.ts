@@ -28,7 +28,7 @@
 
 import {Component, Inject, Input} from '@angular/core';
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {I18nToken, PathHelperToken} from 'core-app/angular4-transition-utils';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 @Component({
@@ -47,7 +47,7 @@ export class UserLinkComponent {
   public label:string;
   public name:string;
 
-  constructor(@Inject(PathHelperToken) readonly pathHelper:PathHelperService,
+  constructor(readonly pathHelper:PathHelperService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
   }
 

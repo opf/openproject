@@ -29,13 +29,12 @@
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Inject, Injectable} from '@angular/core';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
-import {PathHelperToken} from 'core-app/angular4-transition-utils';
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 
 @Injectable()
 export class UserDmService {
   constructor(protected halResourceService:HalResourceService,
-              @Inject(PathHelperToken) protected pathHelper:PathHelperService) {
+              protected pathHelper:PathHelperService) {
   }
 
   public load(id:number|string):Promise<UserResource> {

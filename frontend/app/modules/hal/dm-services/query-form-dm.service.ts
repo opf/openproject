@@ -31,12 +31,11 @@ import {Inject, Injectable} from '@angular/core';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
-import {PathHelperToken} from 'core-app/angular4-transition-utils';
 
 @Injectable()
 export class QueryFormDmService {
   constructor(readonly halResourceService:HalResourceService,
-              @Inject(PathHelperToken) protected pathHelper:PathHelperService) {
+              protected pathHelper:PathHelperService) {
   }
 
   public load(query:QueryResource):Promise<QueryFormResource> {

@@ -36,8 +36,6 @@ angular.module('openproject.uiComponents')
     'ConfigurationService',
     require('./copy-to-clipboard-directive')
   ])
-  .directive('opDate', ['TimezoneService', require('./date/date-directive')])
-  .directive('opTime', ['TimezoneService', require('./date/time-directive')])
   .directive('emptyElement', [require('./empty-element-directive')])
   .constant('ENTER_KEY', 13)
   .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])
@@ -54,7 +52,6 @@ angular.module('openproject.uiComponents')
   .directive('modalLoading', ['I18n', require('./modal-loading-directive')])
   .directive('persistentToggle', [
     '$timeout',
-    'CacheService',
     require('./persistent-toggle-directive')]
   )
   .constant('LABEL_MAX_CHARS', 40)

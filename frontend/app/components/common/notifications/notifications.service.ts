@@ -27,12 +27,15 @@
 // ++
 
 import {opServicesModule} from '../../../angular-modules';
+import {ConfigurationService} from 'core-components/common/config/configuration.service';
 
 export function removeSuccessFlashMessages() {
   jQuery('.flash.notice').remove();
 }
 
-function NotificationsService($rootScope:ng.IRootScopeService, $timeout:ng.ITimeoutService, ConfigurationService:any) {
+function NotificationsService($rootScope:ng.IRootScopeService,
+                              $timeout:ng.ITimeoutService,
+                              ConfigurationService:ConfigurationService) {
   var createNotification = function (message:any) {
       if (typeof message === 'string') {
         return {message: message};

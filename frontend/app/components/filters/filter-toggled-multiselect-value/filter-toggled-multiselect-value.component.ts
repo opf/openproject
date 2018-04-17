@@ -34,7 +34,7 @@ import {PathHelperService} from '../../common/path-helper/path-helper.service';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
-import {I18nToken, PathHelperToken} from 'core-app/angular4-transition-utils';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
@@ -58,7 +58,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
 
   constructor(readonly RootDm:RootDmService,
               readonly halResourceService:HalResourceService,
-              @Inject(PathHelperToken) readonly PathHelper:PathHelperService,
+              readonly PathHelper:PathHelperService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
   }
 

@@ -32,8 +32,9 @@ require('core-app/angular4-test-setup');
 
 import {async, TestBed} from '@angular/core/testing';
 import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
-import {I18nToken, PathHelperToken} from '../../../angular4-transition-utils';
+import {I18nToken} from '../../../angular4-transition-utils';
 import {UserResource} from '../../../modules/hal/resources/user-resource';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 describe('UserLinkComponent component test', () => {
   const I18nStub = {
@@ -57,7 +58,7 @@ describe('UserLinkComponent component test', () => {
       ],
       providers: [
         { provide: I18nToken, useValue: I18nStub },
-        { provide: PathHelperToken, useValue: PathHelperStub },
+        { provide: PathHelperService, useValue: PathHelperStub },
       ]
     }).compileComponents();
   }));
@@ -89,49 +90,3 @@ describe('UserLinkComponent component test', () => {
     });
   });
 });
-
-
-
-
-
-describe('userLink Directive', function () {
-  var user:any, userLoadFn:any, link:any, $q, compile:any, element, scope;
-
-  beforeEach(angular.mock.module('openproject'));
-
-  beforeEach(inject(function ($rootScope:any, $compile:any, _$q_:any) {
-    $q = _$q_;
-    var html = '<user-link user="user"></user-link>';
-
-    userLoadFn = sinon.stub().returns($q.when(true));
-    user = {
-      name: 'First Last',
-      href: '/api/v3/users/1',
-      $load: userLoadFn,
-      showUser: {href: '/some/path'}
-    };
-
-    compile = function () {
-      element = angular.element(html);
-      scope = $rootScope.$new();
-      scope.user = user;
-
-      $compile(element)(scope);
-      scope.$digest();
-      link = element.find('a');
-    };
-  }));
-
-  describe('when loading', function () {
-    beforeEach(function () {
-      compile();
-    });
-
-    it('should render the user name', function () {
-      expect(link.text()).to.equal(user.name);
-      expect(userLoadFn).to.have.been.called;
-      expect(link.attr('href')).to.equal(user.showUser.href);
-    });
-  });
-});
-
