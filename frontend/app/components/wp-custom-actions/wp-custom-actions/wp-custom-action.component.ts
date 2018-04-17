@@ -53,7 +53,7 @@ export class WpCustomActionComponent {
     this.halResourceService.get<CustomActionResource>(this.action.href!)
       .toPromise()
       .then((action) => {
-        this.action = <CustomActionResource>action;
+        this.action = action;
       });
   }
 

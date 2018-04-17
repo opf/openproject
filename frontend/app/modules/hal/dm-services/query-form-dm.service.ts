@@ -38,7 +38,7 @@ export class QueryFormDmService {
               protected pathHelper:PathHelperService) {
   }
 
-  public load(query:QueryResource):Promise<QueryFormResource> {
+  public async load(query:QueryResource):Promise<QueryFormResource> {
     // We need a valid payload so that we
     // can check whether form saving is possible.
     // The query needs a name to be valid.
@@ -57,7 +57,7 @@ export class QueryFormDmService {
     return query.$links.update(payload);
   }
 
-  public loadWithParams(params:{}, queryId?:number, projectIdentifier?:string):Promise<QueryFormResource> {
+  public async loadWithParams(params:{}, queryId?:number, projectIdentifier?:string):Promise<QueryFormResource> {
     // We need a valid payload so that we
     // can check whether form saving is possible.
     // The query needs a name to be valid.

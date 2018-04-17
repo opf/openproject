@@ -37,7 +37,7 @@ export class UserDmService {
               protected pathHelper:PathHelperService) {
   }
 
-  public load(id:number|string):Promise<UserResource> {
+  public async load(id:number|string):Promise<UserResource> {
     const path = this.pathHelper.api.v3.users.id(id).toString();
 
     return this.halResourceService

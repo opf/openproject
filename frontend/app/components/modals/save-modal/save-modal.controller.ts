@@ -63,7 +63,7 @@ function SaveModalController(this:any,
 
     wpListService
       .create(query, name)
-      .then((savedQuery:QueryResource) => {
+      .then(async (savedQuery:QueryResource) => {
         if ($scope.isStarred && !savedQuery.starred) {
           return wpListService.toggleStarred(savedQuery).then(() => saveModal.deactivate());
         }

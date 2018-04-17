@@ -70,7 +70,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     return this.rowContainer.find(`.${tdClassName}.${fieldName}`).first();
   }
 
-  public activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
+  public async activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
     const deferred = this.$q.defer<WorkPackageEditFieldHandler>();
 
     this.waitForContainer(fieldName)

@@ -55,7 +55,7 @@ export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<
    * Resolves both promises and returns a sorted list of activities
    * whose order depends on the 'commentsSortedInDescendingOrder' property.
    */
-  protected load(workPackage:WorkPackageResource):Promise<HalResource[]> {
+  protected async load(workPackage:WorkPackageResource):Promise<HalResource[]> {
     var aggregated:any[] = [], promises:Promise<any>[] = [];
 
     var add = function (data:any) {

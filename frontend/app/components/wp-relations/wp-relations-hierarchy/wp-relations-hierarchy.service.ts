@@ -49,7 +49,7 @@ export class WorkPackageRelationsHierarchyService {
 
   }
 
-  public changeParent(workPackage:WorkPackageResource, parentId:string | null) {
+  public async changeParent(workPackage:WorkPackageResource, parentId:string | null) {
     let payload:any = {
       lockVersion: workPackage.lockVersion
     };
@@ -76,21 +76,21 @@ export class WorkPackageRelationsHierarchyService {
         this.wpTableRefresh.request(`Changed parent of ${workPackage.id} to ${parentId}`, true);
         return wp;
       })
-      .catch((error) => {
+      .catch(async (error) => {
         this.wpNotificationsService.handleErrorResponse(error, workPackage);
         return Promise.reject(error);
       });
   }
 
-  public removeParent(workPackage:WorkPackageResource) {
+  public async removeParent(workPackage:WorkPackageResource) {
     return this.changeParent(workPackage, null);
   }
 
-  public addExistingChildWp(workPackage:WorkPackageResource, childWpId:string):Promise<WorkPackageResource> {
+  public async addExistingChildWp(workPackage:WorkPackageResource, childWpId:string):Promise<WorkPackageResource> {
     const state = this.wpCacheService.loadWorkPackage(childWpId);
 
-    return new Promise((resolve, reject) => {
-      state.valuesPromise().then((wpToBecomeChild:WorkPackageResource|undefined) => {
+    return new Promise<WorkPackageResource>((resolve, reject) => {
+      state.valuesPromise().then(async (wpToBecomeChild:WorkPackageResource|undefined) => {
         this.wpTableRefresh.request(`Added new child to ${workPackage.id}`, true);
 
         return this.changeParent(wpToBecomeChild!, workPackage.id)
@@ -118,8 +118,8 @@ export class WorkPackageRelationsHierarchyService {
       });
   }
 
-  public removeChild(childWorkPackage:WorkPackageResource) {
-    return childWorkPackage.$load().then(() => {
+  public async removeChild(childWorkPackage:WorkPackageResource) {
+    return childWorkPackage.$load().then(async () => {
       return childWorkPackage.changeParent({
         _links: {
           parent: {
@@ -130,7 +130,7 @@ export class WorkPackageRelationsHierarchyService {
       }).then(wp => {
         this.wpCacheService.updateWorkPackage(wp);
       })
-      .catch((error) => {
+      .catch(async (error) => {
         this.wpNotificationsService.handleErrorResponse(error, childWorkPackage);
         return Promise.reject(error);
       });

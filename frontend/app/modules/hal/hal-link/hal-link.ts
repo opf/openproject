@@ -76,7 +76,7 @@ export class HalLink implements HalLinkInterface {
   /**
    * Fetch the resource.
    */
-  public $fetch(...params:any[]):Promise<HalResource> {
+  public async $fetch(...params:any[]):Promise<HalResource> {
     const [data, headers] = params;
     return this.halResourceService
       .request(this.method, this.href as string, data, headers)
@@ -119,7 +119,7 @@ export class HalLink implements HalLinkInterface {
    * @returns {CallableHalLink}
    */
   public $callable():CallableHalLink {
-    const linkFunc:any = (...params:any[]) => this.$fetch(...params);
+    const linkFunc:any = async (...params:any[]) => this.$fetch(...params);
 
     _.extend(linkFunc, {
       $link: this,

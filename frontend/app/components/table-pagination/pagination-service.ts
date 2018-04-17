@@ -112,7 +112,7 @@ export class PaginationService {
     this.paginationOptions.perPageOptions = perPageOptions;
   }
 
-  public loadPaginationOptions() {
+  public async loadPaginationOptions() {
     return this.ConfigurationDm.load().then((configuration:any) => {
       this.setPerPageOptions(configuration.perPageOptions);
       return this.paginationOptions;

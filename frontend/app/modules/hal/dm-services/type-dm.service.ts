@@ -41,7 +41,7 @@ export class TypeDmService {
               protected pathHelper:PathHelperService) {
   }
 
-  public loadAll():Promise<TypeResource[]> {
+  public async loadAll():Promise<TypeResource[]> {
     const typeUrl = this.pathHelper.api.v3.types.toString();
 
     return this.halResourceService
@@ -54,7 +54,7 @@ export class TypeDmService {
       });
   }
 
-  public load():Promise<RootResource> {
+  public async load():Promise<RootResource> {
     return this.halResourceService
       .get<RootResource>(this.pathHelper.api.v3.root.toString())
       .toPromise();

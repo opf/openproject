@@ -122,7 +122,7 @@ export class HalResourceService {
         throw 'No more results for this query, but expected more.';
       }
 
-      allResults.push(results as CollectionResource);
+      allResults.push(results);
 
       retrieved += results.count;
       page += 1;

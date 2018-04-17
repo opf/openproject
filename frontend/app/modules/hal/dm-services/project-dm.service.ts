@@ -37,7 +37,7 @@ export class ProjectDmService {
               protected pathHelper:PathHelperService) {
   }
 
-  public load(id:string|number):Promise<ProjectResource> {
+  public async load(id:string|number):Promise<ProjectResource> {
     return this.halResourceService
       .get<ProjectResource>(this.pathHelper.api.v3.projects.id(id).toString())
       .toPromise();

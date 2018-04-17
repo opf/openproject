@@ -123,7 +123,7 @@ export class WorkPackageChangeset {
   }
 
   public async getForm():Promise<FormResource> {
-    this.wpForm.putFromPromiseIfPristine(() => {
+    this.wpForm.putFromPromiseIfPristine(async () => {
       return this.updateForm();
     });
 

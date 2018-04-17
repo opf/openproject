@@ -40,12 +40,12 @@ export class UserCacheService extends StateCacheService<UserResource>  {
     super();
   }
 
-  protected load(id:number|string):Promise<UserResource> {
+  protected async load(id:number|string):Promise<UserResource> {
     return this.userDmService.load(id);
   }
 
-  protected loadAll(ids:string[]):Promise<undefined> {
-    const promises = ids.map(id => this.load(id));
+  protected async loadAll(ids:string[]):Promise<undefined> {
+    const promises = ids.map(async id => this.load(id));
     return Promise.all(promises).then(() => undefined);
   }
 

@@ -129,7 +129,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
       .promise = promise;
   }
 
-  private loadQuery() {
+  private async loadQuery() {
     return this.QueryDm
       .find(
         this.queryProps,

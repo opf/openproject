@@ -53,7 +53,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
   public buildEmptyRelationRow(from:WorkPackageResource, relation:RelationResource, type:RelationColumnType):[HTMLElement, WorkPackageResource] {
     const denormalized = relation.denormalized(from);
 
-    const to = this.states.workPackages.get(denormalized.targetId).value! as WorkPackageResource;
+    const to = this.states.workPackages.get(denormalized.targetId).value!;
 
     // Let the primary row builder build the row
     const row = this.createEmptyRelationRow(from, to);

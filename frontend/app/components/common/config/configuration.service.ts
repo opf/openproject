@@ -46,11 +46,11 @@ export class ConfigurationService {
 
   }
 
-  public fetchSettings () {
+  public async fetchSettings () {
     return this.http.get<any>(this.path).toPromise();
   }
 
-  public api() {
+  public async api() {
     return new Promise((resolve, reject) => {
       if (this.cache) {
         resolve(this.cache);

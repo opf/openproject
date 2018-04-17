@@ -56,13 +56,13 @@ export class WorkPackageCreateService {
     return this.newWorkPackageCreatedSubject.asObservable();
   }
 
-  public createNewWorkPackage(projectIdentifier:string) {
+  public async createNewWorkPackage(projectIdentifier:string) {
     return this.getEmptyForm(projectIdentifier).then(form => {
       return this.fromCreateForm(form);
     });
   }
 
-  public createNewTypedWorkPackage(projectIdentifier:string, type:number) {
+  public async createNewTypedWorkPackage(projectIdentifier:string, type:number) {
     return this.apiWorkPackages.typedCreateForm(type, projectIdentifier).then(form => {
       return this.fromCreateForm(form);
     });
@@ -91,7 +91,7 @@ export class WorkPackageCreateService {
     return new WorkPackageChangeset(this.injector, wp, form);
   }
 
-  public copyWorkPackage(copyFromForm:any, projectIdentifier?:string) {
+  public async copyWorkPackage(copyFromForm:any, projectIdentifier?:string) {
     let request = copyFromForm.payload.$source;
 
     return this.apiWorkPackages.emptyCreateForm(request, projectIdentifier).then(form => {
@@ -99,7 +99,7 @@ export class WorkPackageCreateService {
     });
   }
 
-  public getEmptyForm(projectIdentifier:string):Promise<HalResource> {
+  public async getEmptyForm(projectIdentifier:string):Promise<HalResource> {
     if (!this.form) {
       this.form = this.apiWorkPackages.emptyCreateForm({}, projectIdentifier);
     }

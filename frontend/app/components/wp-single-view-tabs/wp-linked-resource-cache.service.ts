@@ -50,7 +50,7 @@ export abstract class WorkPackageLinkedResourceCache<T> {
    * @param {WorkPackageResource} workPackage
    * @returns {Promise<T>}
    */
-  public require(workPackage:WorkPackageResource):Promise<T> {
+  public async require(workPackage:WorkPackageResource):Promise<T> {
     const id = workPackage.id.toString();
     const state = this.cache.state;
 
@@ -66,7 +66,7 @@ export abstract class WorkPackageLinkedResourceCache<T> {
 
     // Ensure value is loaded only once
     this.cache.id = id;
-    this.cache.state.putFromPromiseIfPristine(() => this.load(workPackage));
+    this.cache.state.putFromPromiseIfPristine(async () => this.load(workPackage));
 
     return this.cache.state
       .values$()

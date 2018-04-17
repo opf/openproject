@@ -40,7 +40,7 @@ export class RowsTransformer {
           return;
         }
 
-        this.table.refreshRows(wp as WorkPackageResource);
+        this.table.refreshRows(wp);
       });
   }
 }

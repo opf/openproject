@@ -45,7 +45,7 @@ export class AttributeHelpTextsService {
    * @param attribute
    * @param scope
    */
-  public require(attribute:string, scope:string):Promise<HelpTextResource|undefined> {
+  public async require(attribute:string, scope:string):Promise<HelpTextResource|undefined> {
     return new Promise<HelpTextResource>((resolve, reject) => {
       if (this.helpTexts.isPristine()) {
         this.helpTextDm.loadAll()

@@ -16,7 +16,7 @@ export function cloneHalResourceCollection<T extends HalResource>(values:T[]|und
   if (_.isNil(values)) {
     return [];
   } else {
-    return values.map(v => v.$copy() as T);
+    return values.map(v => v.$copy<T>());
   }
 }
 
@@ -24,7 +24,7 @@ export function cloneHalResource<T extends HalResource>(value:T|undefined):T|und
   if (_.isNil(value)) {
     return value;
   } else {
-    return value.$copy() as T;
+    return value.$copy<T>();
   }
 }
 

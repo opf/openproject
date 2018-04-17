@@ -123,11 +123,11 @@ export class RelationResource extends HalResource {
     };
   }
 
-  public updateDescription(description:string) {
+  public async updateDescription(description:string) {
     return this.$links.updateImmediately({description: description});
   }
 
-  public updateType(type:any) {
+  public async updateType(type:any) {
     return this.$links.updateImmediately({type: type});
   }
 }

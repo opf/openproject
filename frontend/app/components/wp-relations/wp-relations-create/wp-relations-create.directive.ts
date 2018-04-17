@@ -57,7 +57,7 @@ export class WorkPackageRelationsCreateController {
       .then(() => this.isDisabled = false);
   }
 
-  protected createCommonRelation() {
+  protected async createCommonRelation() {
     return this.wpRelations.addCommonRelation(this.workPackage,
       this.selectedRelationType,
       this.selectedWpId)

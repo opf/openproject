@@ -62,7 +62,7 @@ export class ConfirmDialogService {
   /**
    * Confirm an action with an ng dialog with the given options
    */
-  public confirm(options:ConfirmDialogOptions):Promise<void> {
+  public async confirm(options:ConfirmDialogOptions):Promise<void> {
     const deferred = this.$q.defer<void>();
     const scope:any = this.$rootScope.$new();
     let dialog:IDialogOpenResult;

@@ -27,8 +27,7 @@
 // ++
 
 import {opUiComponentsModule} from '../../angular-modules';
-import {Component} from '@angular/core';
-import {OnInit, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 

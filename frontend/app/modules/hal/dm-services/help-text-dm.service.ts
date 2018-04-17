@@ -38,13 +38,13 @@ export class HelpTextDmService {
               protected pathHelper:PathHelperService) {
   }
 
-  public loadAll():Promise<CollectionResource<HelpTextResource>> {
+  public async loadAll():Promise<CollectionResource<HelpTextResource>> {
     return this.halResourceService
       .get<CollectionResource<HelpTextResource>>(this.pathHelper.api.v3.help_texts.toString())
       .toPromise();
   }
 
-  public load(helpTextId:string):Promise<HelpTextResource> {
+  public async load(helpTextId:string):Promise<HelpTextResource> {
     return this.halResourceService
       .get<HelpTextResource>(this.pathHelper.api.v3.help_texts.id(helpTextId).toString())
       .toPromise();

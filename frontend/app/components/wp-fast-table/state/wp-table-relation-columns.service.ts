@@ -103,7 +103,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
 
     if (type !== null) {
       _.each(this.relationsForColumn(workPackage, relations, column),
-        (relation) => eachCallback(relation as RelationResource, column, type));
+        (relation) => eachCallback(relation, column, type));
     }
   }
 

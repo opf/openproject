@@ -47,7 +47,7 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
 
   private async createCopyFrom(wp:WorkPackageResource) {
     const changeset = this.wpEditing.changesetFor(wp);
-    return changeset.getForm().then((form:any) => {
+    return changeset.getForm().then(async (form:any) => {
       return this.wpCreate.copyWorkPackage(form, wp.project.identifier);
     });
   }

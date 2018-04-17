@@ -83,7 +83,7 @@ export class AttributeHelpTextComponent {
     });
   }
 
-  private load() {
+  private async load() {
     if (this.helpTextId) {
       return this.helpTextDm.load(this.helpTextId);
     } else {

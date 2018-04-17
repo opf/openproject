@@ -222,7 +222,7 @@ export class WorkPackageResource extends HalResource {
    * Upload the given attachments, update the resource and notify the user.
    * Return an updated AttachmentCollectionResource.
    */
-  public uploadAttachments(files:UploadFile[]):Promise<any> {
+  public async uploadAttachments(files:UploadFile[]):Promise<any> {
     const href = this.attachments.$href!;
     // TODO upgrade
     const opFileUplaod = angular.element('body').injector().get('opFileUpload');
@@ -232,7 +232,7 @@ export class WorkPackageResource extends HalResource {
     const notification = this.NotificationsService.addWorkPackageUpload(message, uploads);
 
     return finished
-      .then(() => {
+      .then(async () => {
         setTimeout(() => this.NotificationsService.remove(notification), 700);
         return this.updateAttachments();
       })
@@ -276,7 +276,7 @@ export class WorkPackageResource extends HalResource {
    * Return a promise that returns the linked resources as properties.
    * Return a rejected promise, if the resource is not a property of the work package.
    */
-  public updateLinkedResources(...resourceNames:string[]):Promise<any> {
+  public async updateLinkedResources(...resourceNames:string[]):Promise<any> {
     const resources:{ [id:string]:Promise<HalResource> } = {};
 
     resourceNames.forEach(name => {
@@ -299,7 +299,7 @@ export class WorkPackageResource extends HalResource {
    * Return a promise that returns the activities. Reject, if the work package has
    * no activities.
    */
-  public updateActivities():Promise<HalResource> {
+  public async updateActivities():Promise<HalResource> {
     return this
       .updateLinkedResources('activities')
       .then((resources:any) => resources.activities);
@@ -312,7 +312,7 @@ export class WorkPackageResource extends HalResource {
    * Return a promise that returns the attachments. Reject, if the work package has
    * no attachments.
    */
-  public updateAttachments():Promise<HalResource> {
+  public async updateAttachments():Promise<HalResource> {
     return this
       .updateLinkedResources('activities', 'attachments')
       .then((resources:any) => resources.attachments);
@@ -330,7 +330,7 @@ export class WorkPackageResource extends HalResource {
     // Set update link to form
     this['update'] = this.$links.update = form.$links.self;
     // Use POST /work_packages for saving link
-    this['updateImmediately'] = this.$links.updateImmediately = (payload) => {
+    this['updateImmediately'] = this.$links.updateImmediately = async (payload) => {
       return this.apiWorkPackages.createWorkPackage(payload);
     };
   }

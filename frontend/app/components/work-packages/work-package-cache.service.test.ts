@@ -108,7 +108,7 @@ describe('WorkPackageCacheService', () => {
         done();
       });
 
-    wpCacheService.updateWorkPackageList(dummyWorkPackages as WorkPackageResource[]);
+    wpCacheService.updateWorkPackageList(dummyWorkPackages);
   });
 
   it('should return/stream a work package every time it gets updated', (done:any) => {
@@ -127,8 +127,8 @@ describe('WorkPackageCacheService', () => {
         }
       });
 
-    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]] as WorkPackageResource[]);
-    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]] as WorkPackageResource[]);
-    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]] as WorkPackageResource[]);
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]]);
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]]);
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]]);
   });
 });
