@@ -30,9 +30,11 @@ import {EditField} from '../wp-edit-field/wp-edit-field.module';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {ValueOption} from 'core-components/wp-edit/field-types/wp-edit-select-field.module';
 
 export class MultiSelectEditField extends EditField {
   public options:any[];
+  public valueOptions:ValueOption[];
   public template:string = '/components/wp-edit/field-types/wp-edit-multi-select-field.directive.html';
   public text:{requiredPlaceholder:string, placeholder:string, save:string, cancel:string};
   public isMultiselect: boolean;
@@ -78,16 +80,30 @@ export class MultiSelectEditField extends EditField {
     }
   }
 
-  public set value(val) {
-    this.changeset.setValue(this.name, this.parseValue(val));
+  public get selectedOption() {
+    return this.value;
   }
 
-  protected parseValue(val:any) {
-    if (Array.isArray(val)) {
-      return val;
-    } else {
-      return [val];
-    }
+  /**
+   * Map the ValueOption to the actual HalResource option
+   * @param val
+   */
+  public set selectedOption(val:ValueOption|ValueOption[]) {
+    let selected:any;
+    let mapper = (val:ValueOption) => {
+      let option = _.find(this.options, o => o.href === val.href);
+
+      // Special case 'null' value, which angular
+      // only understands in ng-options as an empty string.
+      if (option && option.href === '') {
+        option.href = null;
+      }
+
+      return option;
+    };
+
+    const value = _.castArray(val).map(el => mapper(el));
+    this.changeset.setValue(this.name, value);
   }
 
   public isValueMulti() {
@@ -110,6 +126,9 @@ export class MultiSelectEditField extends EditField {
 
     this.options = availableValues;
     this.addEmptyOption();
+    this.valueOptions = this.options.map(el => {
+      return { name: el.name, href: el.href };
+    });
     this.checkCurrentValueValidity();
   }
 

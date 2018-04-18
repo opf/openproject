@@ -31,7 +31,7 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
-interface ValueOption {
+export interface ValueOption {
   name:string;
   href:string;
 }
