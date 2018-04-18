@@ -91,21 +91,19 @@ export class MultiSelectEditField extends EditField {
    */
   public buildSelectedOption() {
     const value:HalResource|HalResource[] = this.changeset.value(this.name);
-    const finder = (val:{ href:string|null }) => _.find(this.valueOptions,
-      (valueOption) => valueOption.href === val.href)!;
 
     if (this.isMultiselect) {
       if (!Array.isArray(value)) {
-        return [finder(value)];
+        return [this.findValueOption(value)];
       }
 
-      return value.map(val => finder(val));
+      return value.map(val => this.findValueOption(val));
     }
 
     if (!Array.isArray(value)) {
-      return finder(value);
+      return this.findValueOption(value);
     } else if (value.length > 0) {
-      return finder(value[0]);
+      return this.findValueOption(value[0]);
     }
 
     return this.nullOption;
@@ -146,6 +144,16 @@ export class MultiSelectEditField extends EditField {
   public toggleMultiselect() {
     this.isMultiselect = !this.isMultiselect;
     this._selectedOption = this.buildSelectedOption();
+  }
+
+  private findValueOption(option?:HalResource):ValueOption {
+    let result;
+
+    if (option) {
+      result = _.find(this.valueOptions, (valueOption) => valueOption.href === option.href)!;
+    }
+    
+    return result || this.nullOption;
   }
 
   private setValues(availableValues:any[], sortValuesByName:boolean = false) {
