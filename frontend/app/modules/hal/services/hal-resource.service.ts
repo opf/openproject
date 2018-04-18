@@ -35,6 +35,7 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
 import {ErrorObservable} from 'rxjs/observable/ErrorObservable';
 import {initializeHalProperties} from 'core-app/modules/hal/helpers/hal-resource-builder';
+import {URLParamsEncoder} from 'core-app/modules/hal/services/url-params-encoder';
 
 export interface HalResourceFactoryConfigInterface {
   cls?:any;
@@ -112,7 +113,7 @@ export class HalResourceService {
   public get<T extends HalResource>(href:string, params?:any, headers?:any):Observable<T> {
     const config:HTTPClientOptions = {
       headers: headers,
-      params: new HttpParams({ fromObject: params }),
+      params: new HttpParams({ encoder: new URLParamsEncoder(), fromObject: params }),
       withCredentials: true,
       responseType: 'json'
     }

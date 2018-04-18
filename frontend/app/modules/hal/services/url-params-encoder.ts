@@ -26,26 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {HttpParameterCodec} from '@angular/common/http';
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-
-export class QueryOperatorResource extends HalResource {
-  public get id():string {
-    return this.$source.id || this.idFromLink;
+export class URLParamsEncoder implements HttpParameterCodec {
+  encodeKey(key:string):string {
+    return encodeURIComponent(key);
   }
 
-  public get idFromLink():string {
-    if (this.$href) {
-      const idPart = HalResource.idFromLink(this.$href);
-      return decodeURIComponent(idPart);
-    }
-
-    return '';
+  encodeValue(value:string):string {
+    return encodeURIComponent(value);
   }
 
+  decodeKey(key:string):string {
+    return decodeURIComponent(key);
+  }
 
-  public set id(val:string) {
-    this.$source.id = val;
+  decodeValue(value:string):string {
+    return decodeURIComponent(value);
   }
 }
+
+
 

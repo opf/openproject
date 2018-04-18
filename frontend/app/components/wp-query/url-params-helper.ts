@@ -33,6 +33,7 @@ import {Injectable} from '@angular/core';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {opServicesModule} from 'core-app/angular-modules';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 
 @Injectable()
 export class UrlParamsHelperService {
@@ -237,7 +238,7 @@ export class UrlParamsHelperService {
   }
 
   private buildV3GetFiltersFromQueryResoure(query:QueryResource) {
-    let filters = query.filters.map((filter:any) => {
+    let filters = query.filters.map((filter:QueryFilterInstanceResource) => {
       let id = this.buildV3GetFilterIdFromFilter(filter);
       let operator = this.buildV3GetOperatorIdFromFilter(filter);
       let values = this.buildV3GetValuesFromFilter(filter);
@@ -251,13 +252,13 @@ export class UrlParamsHelperService {
     return JSON.stringify(filters);
   }
 
-  private buildV3GetFilterIdFromFilter(filter:any) {
+  private buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
     let href = filter.filter ? filter.filter.$href : filter._links.filter.href;
 
     return this.idFromHref(href);
   }
 
-  private buildV3GetOperatorIdFromFilter(filter:any) {
+  private buildV3GetOperatorIdFromFilter(filter:QueryFilterInstanceResource) {
     if (filter.operator) {
       return filter.operator.id;
     } else {
@@ -267,9 +268,9 @@ export class UrlParamsHelperService {
     }
   }
 
-  private buildV3GetValuesFromFilter(filter:any) {
+  private buildV3GetValuesFromFilter(filter:QueryFilterInstanceResource) {
     if (filter.values) {
-      return _.map(filter.values, (v) => this.queryFilterValueToParam(v));
+      return _.map(filter.values, (v:any) => this.queryFilterValueToParam(v));
     } else {
       return _.map(filter._links.values, (v:any) => this.idFromHref(v.href));
     }
