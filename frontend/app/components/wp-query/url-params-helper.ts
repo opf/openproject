@@ -31,6 +31,8 @@ import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-
 import {HalLink} from 'core-app/modules/hal/hal-link/hal-link';
 import {Injectable} from '@angular/core';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {opServicesModule} from 'core-app/angular-modules';
 
 @Injectable()
 export class UrlParamsHelperService {
@@ -297,3 +299,5 @@ export class UrlParamsHelperService {
     return decodeURIComponent(id);
   }
 }
+
+opServicesModule.service('UrlParamsHelper', downgradeInjectable(UrlParamsHelperService));
