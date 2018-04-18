@@ -225,9 +225,9 @@ export class WorkPackageResource extends HalResource {
   public async uploadAttachments(files:UploadFile[]):Promise<any> {
     const href = this.attachments.$href!;
     // TODO upgrade
-    const opFileUplaod = angular.element('body').injector().get('opFileUpload');
+    const opFileUpload:any = angular.element('body').injector().get('opFileUpload');
 
-    const { uploads, finished } = this.opFileUpload.upload(href, files);
+    const { uploads, finished } = opFileUpload.upload(href, files);
     const message = I18n.t('js.label_upload_notification', this);
     const notification = this.NotificationsService.addWorkPackageUpload(message, uploads);
 

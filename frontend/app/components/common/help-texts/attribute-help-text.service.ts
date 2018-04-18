@@ -46,18 +46,17 @@ export class AttributeHelpTextsService {
    * @param scope
    */
   public async require(attribute:string, scope:string):Promise<HelpTextResource|undefined> {
-    return new Promise<HelpTextResource>((resolve, reject) => {
-      if (this.helpTexts.isPristine()) {
-        this.helpTextDm.loadAll()
-          .then((resources:CollectionResource<HelpTextResource>) => {
-            this.helpTexts.putValue(resources.elements as any);
-            resolve(this.find(attribute, scope));
-          })
-          .catch(reject);
-      } else {
-        resolve(this.find(attribute, scope));
-      }
-    });
+      this.helpTexts.putFromPromiseIfPristine(async () =>
+        this.helpTextDm
+          .loadAll()
+          .then((resources:CollectionResource<HelpTextResource>) => resources.elements)
+      );
+
+      return new Promise<HelpTextResource|undefined>((resolve, reject) => {
+        this.helpTexts
+          .valuesPromise()
+          .then(() => resolve(this.find(attribute, scope)));
+       });
   }
 
   private find(attribute:string, scope:string):HelpTextResource|undefined {

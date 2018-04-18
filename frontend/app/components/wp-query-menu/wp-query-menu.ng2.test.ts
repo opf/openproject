@@ -45,7 +45,7 @@ import {$stateToken} from 'core-app/angular4-transition-utils';
 })
 class WpQueryMenuTestComponent { }
 
-describe.only('wp-query-menu', () => {
+describe('wp-query-menu', () => {
   let app:WpQueryMenuTestComponent;
   let fixture:ComponentFixture<WpQueryMenuTestComponent>;
   let element:JQuery;
