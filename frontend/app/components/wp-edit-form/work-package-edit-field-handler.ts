@@ -95,12 +95,12 @@ export class WorkPackageEditFieldHandler {
    * Handle a user submitting the field (e.g, ng-change)
    */
   public async handleUserSubmit():Promise<any> {
-    if (!(this.form.editMode && this.field.inFlight)) {
-      this.field.onSubmit();
-      return this.form.submit();
+    if (this.field.inFlight || this.form.editMode) {
+      return Promise.resolve();
     }
 
-    return Promise.resolve();
+    this.field.onSubmit();
+    return this.form.submit();
   }
 
   /**

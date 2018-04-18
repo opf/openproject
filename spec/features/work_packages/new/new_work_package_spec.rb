@@ -71,6 +71,7 @@ describe 'new work package', js: true do
   shared_examples 'work package creation workflow' do
     before do
       create_method.call('Task', project.name)
+
       expect(page).to have_selector(safeguard_selector, wait: 10)
     end
 
