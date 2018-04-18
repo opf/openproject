@@ -1,16 +1,27 @@
-<div class="attribute-help-text--modal">
-  <div>
-    <div class="modal--header">
-      <span class="icon-context icon-help1"></span>
-      <h2 class="ellipsis" [textContent]="helpText.attributeCaption"></h2>
+<div class="op-modal--container ng-modal-window loading-indicator--location"
+     data-indicator-name="modal">
+  <div class="ng-modal-inner attribute-help-text--modal" tabindex="0">
+    <div class="modal-header">
+      <a>
+        <i
+          class="icon-close"
+          (click)="closeMe($event)"
+          [attr.title]="text.close">
+        </i>
+      </a>
     </div>
+
+    <h3>
+      <span class="icon-context icon-help1"></span>
+      <span class="ellipsis" [textContent]="helpText.attributeCaption"></span>
+    </h3>
 
     <div class="modal--main -formattable"
          tabindex="0"
          [innerHtml]="helpText.helpText.html">
     </div>
 
-    <div class="modal--footer">
+    <div class="modal--form-actions">
       <a class="help-text--edit-button button"
          *ngIf="helpText.editText"
          [attr.href]="helpText.editText && helpText.editText.$link.href"
@@ -20,10 +31,4 @@
       </a>
     </div>
   </div>
-
-  <a class="ngdialog-close"
-     href=""
-     [attr.title]="text.close"
-     ng-click="closeMe($event)">
-  </a>
 </div>

@@ -48,7 +48,7 @@ export class AttributeHelpTextModal extends OpModalComponent {
     'close': this.I18n.t('js.button_close')
   };
 
-  public attributeHelpText:HelpTextResource = this.locals.helpText;
+  public helpText:HelpTextResource = this.locals.helpText;
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               @Inject(I18nToken) readonly I18n:op.I18n,

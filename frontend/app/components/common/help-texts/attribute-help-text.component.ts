@@ -29,7 +29,7 @@
 import {opUiComponentsModule} from '../../../angular-modules';
 import {AttributeHelpTextsService} from './attribute-help-text.service';
 import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
-import {Component, ElementRef, Inject, Input} from '@angular/core';
+import {Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {AttributeHelpTextModal} from 'core-components/common/help-texts/attribute-help-text.modal';
@@ -39,7 +39,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
   selector: 'attribute-help-text',
   template: require('!!raw-loader!./help-text.directive.html')
 })
-export class AttributeHelpTextComponent {
+export class AttributeHelpTextComponent implements OnInit {
   // Attribute to show help text for
   @Input() public attribute:string;
   @Input() public additionalLabel?:string;
@@ -65,7 +65,7 @@ export class AttributeHelpTextComponent {
               @Inject(I18nToken) readonly I18n:op.I18n) {
   }
 
-  public $onInit() {
+  ngOnInit() {
     if (this.helpTextId) {
       this.exists = true;
     } else {
