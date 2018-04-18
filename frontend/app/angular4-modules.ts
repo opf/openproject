@@ -502,6 +502,7 @@ import {UploadProgressComponent} from 'core-components/common/notifications/uplo
 
     // Notifications
     NotificationsContainerComponent,
+    OpDateTimeComponent,
   ]
 })
 export class OpenProjectModule {

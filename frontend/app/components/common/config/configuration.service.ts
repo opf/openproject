@@ -30,6 +30,8 @@ import {PathHelperService} from 'core-components/common/path-helper/path-helper.
 import {Inject, Injectable} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {HttpClient} from '@angular/common/http';
+import {opServicesModule} from 'core-app/angular-modules';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
 export class ConfigurationService {
@@ -165,3 +167,5 @@ export class ConfigurationService {
     return '';
   }
 }
+
+opServicesModule.service('ConfigurationService', downgradeInjectable(ConfigurationService));

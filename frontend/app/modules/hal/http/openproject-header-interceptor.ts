@@ -8,14 +8,19 @@ import {Observable} from 'rxjs';
 
 export class OpenProjectHeaderInterceptor implements HttpInterceptor {
   intercept(req:HttpRequest<any>, next:HttpHandler):Observable<HttpEvent<any>> {
-    const csrf_token:string = jQuery('meta[name=csrf-token]').attr('content');
+    const csrf_token:string|undefined = jQuery('meta[name=csrf-token]').attr('content');
+
+    let newHeaders = req.headers
+      .set('X-Authentication-Scheme', 'Session')
+      .set('X-Requested-With', 'XMLHttpRequest');
+
+    if (csrf_token) {
+      newHeaders.set('X-CSRF-TOKEN',  csrf_token);
+    }
 
     // Clone the request to add the new header
     const clonedRequest = req.clone({
-      headers: req.headers
-        .set('X-Authentication-Scheme', 'Session')
-        .set('X-Requested-With', 'XMLHttpRequest')
-        .set('X-CSRF-TOKEN',  csrf_token)
+      headers: newHeaders
     });
 
     // Pass the cloned request instead of the original request to the next handle
