@@ -501,6 +501,9 @@ import {UploadProgressComponent} from 'core-components/common/notifications/uplo
     // Notifications
     NotificationsContainerComponent,
     OpDateTimeComponent,
+
+    // Entries for ng1 downgraded components
+    AttributeHelpTextComponent,
   ]
 })
 export class OpenProjectModule {

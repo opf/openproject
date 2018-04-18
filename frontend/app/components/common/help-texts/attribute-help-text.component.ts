@@ -92,4 +92,7 @@ export class AttributeHelpTextComponent implements OnInit {
   }
 }
 
-opUiComponentsModule.component('attributeHelpText', downgradeComponent({ component: AttributeHelpTextComponent }));
+opUiComponentsModule.directive(
+  'attributeHelpText',
+  downgradeComponent({ component: AttributeHelpTextComponent })
+);
