@@ -293,19 +293,6 @@ export class WorkPackageResource extends HalResource {
   }
 
   /**
-   * Get updated activities from the server and inform the cache service about the work
-   * package update.
-   *
-   * Return a promise that returns the activities. Reject, if the work package has
-   * no activities.
-   */
-  public async updateActivities():Promise<HalResource> {
-    return this
-      .updateLinkedResources('activities')
-      .then((resources:any) => resources.activities);
-  }
-
-  /**
    * Get updated attachments and activities from the server and inform the cache service
    * about the update.
    *

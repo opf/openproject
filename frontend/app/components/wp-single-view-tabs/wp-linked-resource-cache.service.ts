@@ -74,6 +74,12 @@ export abstract class WorkPackageLinkedResourceCache<T> {
       .toPromise();
   }
 
+  public clear(workPackageId:string|number) {
+    if (this.cache.id === workPackageId.toString()) {
+      this.cache.state.clear();
+    }
+  }
+
   /**
    * Return whether the given work package is cached.
    * @param {string} workPackageId

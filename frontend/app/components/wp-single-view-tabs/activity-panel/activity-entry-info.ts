@@ -78,7 +78,8 @@ export class ActivityEntryInfo {
   }
 
   protected activityDate(activity:any) {
-    return this.timezoneService.formattedDatetime(activity.createdAt);
+    // Force long date regardless of current date settings for headers
+    return moment(activity.createdAt).format('LL');
   }
 
   protected orderedIndex(activityNo:number, forceReverse:boolean = false) {

@@ -35,6 +35,7 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 import {downgradeComponent} from '@angular/upgrade/static';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {CustomActionResource} from 'core-app/modules/hal/resources/custom-action-resource';
+import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 
 @Component({
   selector: 'wp-custom-action',
@@ -47,6 +48,7 @@ export class WpCustomActionComponent {
 
   constructor(private halResourceService:HalResourceService,
               private wpCacheService:WorkPackageCacheService,
+              private wpActivity:WorkPackagesActivityService,
               private wpNotificationsService:WorkPackageNotificationService) { }
 
   private fetchAction() {
@@ -72,6 +74,7 @@ export class WpCustomActionComponent {
       .then((savedWp:WorkPackageResource) => {
         this.wpNotificationsService.showSave(savedWp, false);
         this.workPackage = savedWp;
+        this.wpActivity.clear(this.workPackage.id);
         this.wpCacheService.updateWorkPackage(savedWp);
       }).catch((errorResource:any) => {
         this.wpNotificationsService.handleErrorResponse(errorResource, this.workPackage);

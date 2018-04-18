@@ -37,6 +37,7 @@ import {Injector} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 
 export class WorkPackageChangeset {
   // Injections
@@ -45,6 +46,7 @@ export class WorkPackageChangeset {
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   public wpCreate:WorkPackageCreateService = this.injector.get(WorkPackageCreateService);
   public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
+  public wpActivity:WorkPackagesActivityService = this.injector.get(WorkPackagesActivityService);
   public halResourceService:HalResourceService = this.injector.get(HalResourceService);
 
   // The changeset to be applied to the work package
@@ -187,6 +189,7 @@ export class WorkPackageChangeset {
                   this.wpCreate.newWorkPackageCreated(this.workPackage);
                 }
 
+                this.wpActivity.clear(this.workPackage.id);
                 this.wpCacheService.updateWorkPackage(this.workPackage);
                 this.resource = null;
                 this.clear();
