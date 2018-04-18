@@ -93,11 +93,11 @@ function wpRelationsAutocompleteDirective(
           type: scope.filterCandidatesFor || scope.selectedRelationType
         }).then((collection:CollectionResource) => {
           scope.noResults = collection.count === 0;
+          element.find('.ui-autocomplete--loading').hide();
           return collection.elements || [];
         }).catch(() => {
-          return [];
-        }).finally(() => {
           element.find('.ui-autocomplete--loading').hide();
+          return [];
         });
       };
 

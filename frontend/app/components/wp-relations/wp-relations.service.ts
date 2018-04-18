@@ -5,6 +5,7 @@ import {opServicesModule} from '../../angular-modules';
 import {StateCacheService} from '../states/state-cache.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.service';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 export type RelationsStateValue = { [relationId:number]:RelationResource };
 
@@ -27,7 +28,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   constructor(private relationsDm:RelationsDmService,
               private wpTableRefresh:WorkPackageTableRefreshService,
               private $q:ng.IQService,
-              private PathHelper:any) {
+              private PathHelper:PathHelperService) {
     super();
     this.relationStates = new RelationStateGroup();
   }
@@ -112,7 +113,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     const params = {
       _links: {
         from: {href: workPackage.href},
-        to: {href: this.PathHelper.apiV3WorkPackagePath(relatedWpId)}
+        to: {href: this.PathHelper.api.v3.work_packages.id(relatedWpId).toString() }
       },
       type: relationType
     };

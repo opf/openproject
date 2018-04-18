@@ -73,6 +73,13 @@ export class HalResourceService {
    * Perform a HTTP request and return a HalResource promise.
    */
   public request<T extends HalResource>(method:HTTPSupportedMethods, href:string, data?:any, headers:any = {}):Observable<T> {
+
+    // HttpClient requires us to create HttpParams instead of passing data for get
+    // so forward to that method instead.
+    if (method === 'get') {
+      return this.get(href, data, headers);
+    }
+
     const config:HTTPClientOptions = {
       body: data || {},
       headers: headers,

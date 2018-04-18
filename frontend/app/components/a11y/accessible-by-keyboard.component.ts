@@ -35,7 +35,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
      (keydown.enter)="handleClick($event)"
      role="link"
      [ngClass]="linkClass"
-     [attr.disabled]="isDisabled"
+     [attr.disabled]="isDisabled || undefined"
      [attr.title]="linkTitle"
      [attr.aria-label]="linkAriaLabel"
      href>
