@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {HalResource, HalResourceClass} from 'core-app/modules/hal/resources/hal-resource';
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
 import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
 import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operator-resource';
@@ -37,6 +37,17 @@ export class QueryFilterInstanceResource extends HalResource {
   public values:HalResource[]|string[];
   public schema:QueryFilterInstanceSchemaResource;
   private memoizedCurrentSchemas:{ [key:string]:QueryFilterInstanceSchemaResource } = {};
+
+  /**
+   * Create a copied filter, taking over the manually set schema instance.
+   */
+  public $copy<T extends HalResource = HalResource>():T {
+    let clone:T = super.$copy<T>();
+    clone.schema = this.schema;
+
+    return clone;
+  }
+
 
   public get id():string {
     return this.filter.id;

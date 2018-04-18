@@ -43,10 +43,10 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
   }
 
   public $copy() {
-    return new WorkPackageTableFilters(
-      cloneHalResourceCollection<QueryFilterInstanceResource>(this.current),
-      cloneHalResourceCollection<QueryFilterInstanceSchemaResource>(this.availableSchemas),
-    );
+    let filters = cloneHalResourceCollection<QueryFilterInstanceResource>(this.current);
+    let availableSchemas = cloneHalResourceCollection<QueryFilterInstanceSchemaResource>(this.availableSchemas);
+
+    return new WorkPackageTableFilters(filters, availableSchemas);
   }
 
   public add(filter:QueryFilterResource) {
