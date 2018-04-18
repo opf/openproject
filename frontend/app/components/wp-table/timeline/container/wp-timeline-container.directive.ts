@@ -31,9 +31,8 @@ import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Moment} from 'moment';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {filter, map, take, takeUntil, withLatestFrom} from 'rxjs/operators';
-import {I18nToken, NotificationsServiceToken} from '../../../../angular4-transition-utils';
+import {I18nToken} from '../../../../angular4-transition-utils';
 import {debugLog, timeOutput} from '../../../../helpers/debug_output';
-import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../../../states.service';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
@@ -56,8 +55,12 @@ import {
   TimelineViewParameters,
   zoomLevelOrder
 } from '../wp-timeline';
-import moment = require('moment');
 import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
+import {
+  INotification,
+  NotificationsService
+} from 'core-components/common/notifications/notifications.service';
+import moment = require('moment');
 
 @Component({
   selector: 'wp-timeline-container',
@@ -85,7 +88,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   public timelineBody:JQuery;
 
-  private selectionParams = {
+  private selectionParams: { notification: INotification|null } = {
     notification: null
   };
 
@@ -98,7 +101,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private states:States,
               public wpTableDirective:WorkPackagesTableController,
               public typeDmService:TypeDmService,
-              @Inject(NotificationsServiceToken) private NotificationsService:any,
+              private NotificationsService:NotificationsService,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService,
@@ -330,7 +333,9 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this._viewParameters.activeSelectionMode = null;
     this._viewParameters.selectionModeStart = null;
 
-    this.NotificationsService.remove(this.selectionParams.notification);
+    if (this.selectionParams.notification) {
+      this.NotificationsService.remove(this.selectionParams.notification);
+    }
 
     Mousetrap.unbind('esc');
 

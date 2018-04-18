@@ -43,15 +43,15 @@ import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Inject, Injectable} from '@angular/core';
 import {
   I18nToken,
-  NotificationsServiceToken,
 } from 'core-app/angular4-transition-utils';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
+import {NotificationsService} from 'core-components/common/notifications/notifications.service';
 
 @Injectable()
 export class WorkPackagesListService {
-  constructor(@Inject(NotificationsServiceToken) protected NotificationsService:any,
+  constructor(protected NotificationsService:NotificationsService,
               @Inject(I18nToken) protected I18n:op.I18n,
               protected UrlParamsHelper:UrlParamsHelperService,
               protected authorisationService:AuthorisationService,

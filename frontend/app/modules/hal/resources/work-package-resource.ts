@@ -27,7 +27,7 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {I18nToken, NotificationsServiceToken,} from 'core-app/angular4-transition-utils';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {AttachmentCollectionResource} from 'core-app/modules/hal/resources/attachment-collection-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
@@ -41,6 +41,7 @@ import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {NotificationsService} from 'core-components/common/notifications/notifications.service';
 
 interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -125,7 +126,7 @@ export class WorkPackageResource extends HalResource {
   readonly apiWorkPackages:ApiWorkPackagesService = this.injector.get(ApiWorkPackagesService);
   readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
   readonly schemaCacheService:SchemaCacheService = this.injector.get(SchemaCacheService);
-  readonly NotificationsService:any = this.injector.get(NotificationsServiceToken);
+  readonly NotificationsService:NotificationsService = this.injector.get(NotificationsService);
   readonly wpNotificationsService:WorkPackageNotificationService = this.injector.get(
     WorkPackageNotificationService);
   readonly wpCreate:WorkPackageCreateService = this.injector.get(WorkPackageCreateService);

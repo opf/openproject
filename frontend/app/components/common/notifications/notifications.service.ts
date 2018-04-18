@@ -26,130 +26,115 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opServicesModule} from '../../../angular-modules';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {input, State} from 'reactivestates';
+import {Injectable} from '@angular/core';
 
 export function removeSuccessFlashMessages() {
   jQuery('.flash.notice').remove();
 }
 
-function NotificationsService($rootScope:ng.IRootScopeService,
-                              $timeout:ng.ITimeoutService,
-                              ConfigurationService:ConfigurationService) {
-  var createNotification = function (message:any) {
-      if (typeof message === 'string') {
-        return {message: message};
-      }
-      return message;
-    },
-    createSuccessNotification = function (message:any) {
-      return _.extend(createNotification(message), {type: 'success'});
-    },
-    createWarningNotification = function (message:any) {
-      return _.extend(createNotification(message), {type: 'warning'});
-    },
-    createErrorNotification = function (message:any, errors : Array<any>) {
-      return _.extend(createNotification(message), {
-        type: 'error',
-        errors: errors
-      });
-    },
-    createNoticeNotification = function (message:any) {
-      return _.extend(createNotification(message), {type: 'info'});
-    },
-    createWorkPackageUploadNotification = function (message:any, uploads:Array<any>) {
-      if (!uploads.length) {
-        throw new Error('Cannot create an upload notification without uploads!');
-      }
-      return _.extend(createNotification(message), {
-        type: 'upload',
-        uploads: uploads
-      });
-    },
-    broadcast = function (event:any, data:any) {
-      $rootScope.$broadcast(event, data);
-    },
-    currentNotifications:any = [],
-    notificationAdded = function (newNotification:any) {
-      var toRemove = currentNotifications.slice(0);
-      _.each(toRemove, function (existingNotification:any) {
-        if (newNotification.type === 'success' || newNotification.type === 'error') {
-          remove(existingNotification);
-        }
-      });
+export type NotificationType = 'success'|'error'|'warning'|'info'|'upload';
 
-      currentNotifications.push(newNotification);
-    },
-    notificationRemoved = function (removedNotification:any) {
-      _.remove(currentNotifications, function (element:any) {
-        return element === removedNotification;
-      });
-    },
-    clearNotifications = function () {
-      currentNotifications.forEach(function (notification:any) {
-        remove(notification);
-      });
-    };
+export interface INotification {
+  message:string;
+  link?:{ text:string, target:Function };
+  type:NotificationType;
+  data?:any;
+};
 
-  $rootScope.$on('notification.remove', function (_e, notification) {
-    notificationRemoved(notification);
-  });
+@Injectable()
+export class NotificationsService {
 
-  $rootScope.$on('notifications.clearAll', function () {
-    clearNotifications();
-  });
+  // The current stack of notifications
+  private stack = input<INotification[]>([]);
 
-  // public
-  var add = function (message:any, timeoutAfter = 5000) {
-      // Remove flash messages
-      removeSuccessFlashMessages();
+  constructor(readonly configurationService:ConfigurationService) {
+  }
 
-      var notification = createNotification(message);
-      broadcast('notification.add', notification);
-      notificationAdded(notification);
-      if (message.type === 'success' && ConfigurationService.autoHidePopups()) {
-        $timeout(() => remove(notification), timeoutAfter);
-      }
-      return notification;
-    },
-    addError = function (message:any, errors : Array<any> = []) {
-      // depite the Typescript annotation,
-      // errors might still be string
-      if (!Array.isArray(errors)) {
-        errors = [errors];
-      }
+  /**
+   * Get a read-only view of the current stack of notifications.
+   */
+  public get current():State<INotification[]> {
+    return this.stack;
+  }
 
-      return add(createErrorNotification(message, errors));
-    },
-    addWarning = function (message:any) {
-      return add(createWarningNotification(message));
-    },
-    addSuccess = function (message:any) {
-      return add(createSuccessNotification(message));
-    },
-    addNotice = function (message:any) {
-      return add(createNoticeNotification(message));
-    },
-    addWorkPackageUpload = function (message:any, uploads : Array<any>) {
-      return add(createWorkPackageUploadNotification(message, uploads));
-    },
-    remove = function (notification:any) {
-      broadcast('notification.remove', notification);
-    },
-    clear = function () {
-      broadcast('notification.clearAll', null);
-    };
+  public add(notification:INotification, timeoutAfter = 5000) {
+    // Remove flash messages
+    removeSuccessFlashMessages();
 
-  return {
-    add: add,
-    remove: remove,
-    clear: clear,
-    addError: addError,
-    addWarning: addWarning,
-    addSuccess: addSuccess,
-    addNotice: addNotice,
-    addWorkPackageUpload: addWorkPackageUpload
-  };
+    this.stack.doModify((current) => {
+      let nextValue = [notification].concat(current);
+      _.remove(nextValue, (n, i) =>
+        i > 0 && (n.type === 'success' || n.type === 'error')
+      );
+      return nextValue;
+    });
+
+    // auto-hide if success
+    if (notification.type === 'success' && this.configurationService.autoHidePopups()) {
+      setTimeout(() => this.remove(notification), timeoutAfter);
+    }
+
+    return notification;
+  }
+
+  public addError(message:INotification|string, errors:any[]|string = []) {
+    if (!Array.isArray(errors)) {
+      errors = [errors];
+    }
+
+    let notification:INotification = this.createNotification(message, 'error');
+    notification.data = errors;
+
+    return this.add(notification);
+  }
+
+  public addWarning(message:INotification|string) {
+    return this.add(this.createNotification(message, 'warning'));
+  }
+
+  public addSuccess(message:INotification|string) {
+    return this.add(this.createNotification(message, 'success'));
+  }
+
+  public addNotice(message:INotification|string) {
+    return this.add(this.createNotification(message, 'info'));
+  }
+
+  public addWorkPackageUpload(message:INotification|string, uploads:any[]) {
+    return this.add(this.createWorkPackageUploadNotification(message, uploads));
+  }
+
+  public remove(notification:INotification) {
+    this.stack.doModify((current) => {
+      _.remove(current, n => n === notification);
+      return current;
+    });
+  }
+
+  public clear() {
+    this.stack.putValue([]);
+  }
+
+  private createNotification(message:INotification|string, type:NotificationType):INotification {
+    if (typeof message === 'string') {
+      return { message: message, type: type };
+    } else {
+      message.type = type;
+    }
+
+    return message;
+  }
+
+  private createWorkPackageUploadNotification(message:INotification|string, uploads:any[]) {
+    if (!uploads.length) {
+      throw new Error('Cannot create an upload notification without uploads!');
+    }
+
+    let notification = this.createNotification(message, 'upload');
+    notification.data = uploads;
+
+    return notification;
+  }
 }
-
-opServicesModule.factory('NotificationsService', NotificationsService);

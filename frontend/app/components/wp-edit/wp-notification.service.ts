@@ -34,18 +34,18 @@ import {Inject, Injectable} from '@angular/core';
 import {
   $stateToken,
   I18nToken,
-  NotificationsServiceToken
 } from 'core-app/angular4-transition-utils';
 import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {NotificationsService} from 'core-components/common/notifications/notifications.service';
 
 @Injectable()
 export class WorkPackageNotificationService {
   constructor(@Inject(I18nToken) protected I18n:op.I18n,
               @Inject($stateToken) protected $state:StateService,
               protected halResourceService:HalResourceService,
-              @Inject(NotificationsServiceToken) protected NotificationsService:any,
+              protected NotificationsService:NotificationsService,
               protected loadingIndicator:LoadingIndicatorService) {
   }
 

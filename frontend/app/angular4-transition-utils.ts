@@ -46,7 +46,6 @@ export const exportModalToken = new InjectionToken<any>(' exportModal');
 export const AutoCompleteHelperServiceToken = new InjectionToken<any>('AutoCompleteHelperServiceToken');
 export const TextileServiceToken = new InjectionToken<any>('TextileServiceToken');
 export const FocusHelperToken = new InjectionToken<any>('FocusHelper');
-export const NotificationsServiceToken = new InjectionToken<any>('NotificationsService');
 export const wpMoreMenuServiceToken = new InjectionToken<any>('wpMoreMenuService');
 export const $httpToken = new InjectionToken<any>('$http');
 export const wpDestroyModalToken = new InjectionToken<any>('wpDestroyModal');

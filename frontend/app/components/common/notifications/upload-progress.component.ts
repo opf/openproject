@@ -26,35 +26,47 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
-  'use strict';
-  var uploadProgressController = function(scope) {
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
-    scope.upload.progress(function(details) {
+@Component({
+  selector: 'notifications-upload-progress',
+  template: `
+  <li>
+    <span class="filename" [textContent]="file"></span>
+    <progress [hidden]="completed" max="100" [value]="value">{{value}}%</progress>
+    <span class="upload-completed" *ngIf="completed || error">
+      <op-icon icon-classes="icon-close" *ngIf="error"></op-icon>
+      <op-icon icon-classes="icon-checkmark" *ngIf="completed"></op-icon>
+    </span>
+  </li>
+  `
+})
+export class UploadProgressComponent implements OnInit {
+  @Input() public upload:any;
+  @Output() public onError = new EventEmitter<any>();
+  @Output() public onSuccess = new EventEmitter<any>();
+
+  public file:string = '';
+  public value:number = 0;
+  public completed = false;
+
+  ngOnInit() {
+    this.upload.progress((details:any) => {
       var file = details.config.file || details.config.data.file;
-      scope.file = _.get(file, 'name', '');
+      this.file = _.get(file, 'name', '');
       if (details.lengthComputable) {
-        scope.value = Math.round(details.loaded / details.total * 100);
+        this.value = Math.round(details.loaded / details.total * 100);
       } else {
         // dummy value if not computable
-        scope.value = 10;
+        this.value = 10;
       }
-    }).success(function() {
-      scope.value = 100;
-      scope.completed = true;
-      scope.$emit('upload.finished');
-    }).error(function() {
-      scope.error = true;
-      scope.$emit('upload.error');
+    }).success(() => {
+      this.value = 100;
+      this.completed = true;
+      this.onSuccess.emit();
+    }).error(() => {
+      this.onError.emit();
     });
-  };
+  }
+}
 
-  return {
-    scope: {
-      upload: '='
-    },
-    link: uploadProgressController,
-    replace: true,
-    templateUrl: '/templates/components/upload-progress.html'
-  };
-};

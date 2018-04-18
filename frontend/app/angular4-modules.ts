@@ -73,7 +73,6 @@ import {
   FocusHelperToken,
   HookServiceToken,
   I18nToken,
-  NotificationsServiceToken,
   saveModalToken,
   settingsModalToken,
   shareModalToken,
@@ -211,6 +210,10 @@ import {UserCacheService} from 'core-components/user/user-cache.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import {ProjectCacheService} from 'core-components/projects/project-cache.service';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {NotificationsService} from 'core-components/common/notifications/notifications.service';
+import {NotificationComponent} from 'core-components/common/notifications/notification.component';
+import {NotificationsContainerComponent} from 'core-components/common/notifications/notifications-container.component';
+import {UploadProgressComponent} from 'core-components/common/notifications/upload-progress.component';
 
 @NgModule({
   imports: [
@@ -235,7 +238,7 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
     upgradeServiceWithToken('$locale', $localeToken),
     upgradeServiceWithToken('textileService', TextileServiceToken),
     upgradeServiceWithToken('AutoCompleteHelper', AutoCompleteHelperServiceToken),
-    upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
+    NotificationsService,
     upgradeServiceWithToken('FocusHelper', FocusHelperToken),
     PathHelperService,
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
@@ -437,6 +440,11 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
+
+    // Notifications
+    NotificationsContainerComponent,
+    NotificationComponent,
+    UploadProgressComponent,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -491,6 +499,9 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
+
+    // Notifications
+    NotificationsContainerComponent,
   ]
 })
 export class OpenProjectModule {

@@ -42,10 +42,10 @@ import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module'
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {
   I18nToken,
-  NotificationsServiceToken,
 } from 'core-app/angular4-transition-utils';
 import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {NotificationsService} from 'core-components/common/notifications/notifications.service';
 
 describe('WorkPackageCacheService', () => {
   let injector:Injector;
@@ -69,7 +69,7 @@ describe('WorkPackageCacheService', () => {
         { provide: I18nToken, useValue: {} },
         { provide: WorkPackageResource, useValue: {}},
         { provide: WorkPackageCreateService, useValue: {}},
-        { provide: NotificationsServiceToken, useValue: {}},
+        { provide: NotificationsService, useValue: {}},
         { provide: WorkPackageNotificationService, useValue: {}}
       ]
     });
