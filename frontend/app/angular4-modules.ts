@@ -202,7 +202,6 @@ import {WorkPackageFormQueryGroupComponent} from 'core-components/wp-form-group/
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
-import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.directive';
 import {AttributeHelpTextComponent} from 'core-components/common/help-texts/attribute-help-text.component';
 import {AttributeHelpTextModal} from 'core-components/common/help-texts/attribute-help-text.modal';
 import {AttributeHelpTextsService} from 'core-components/common/help-texts/attribute-help-text.service';
@@ -293,7 +292,6 @@ import {UploadProgressComponent} from 'core-components/common/notifications/uplo
     ConfigurationService,
     upgradeService('currentProject', CurrentProjectService),
     QueryMenuService,
-    WpQueryMenuDirective,
     // Split view
     upgradeService('firstRoute', FirstRouteService),
     PathHelperService,

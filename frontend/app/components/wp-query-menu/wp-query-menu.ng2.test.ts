@@ -28,9 +28,8 @@
 
 /*jshint expr: true*/
 
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
-import {WpQueryMenuDirective} from 'core-components/wp-query-menu/wp-query-menu.directive';
 import {Component} from '@angular/core';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {TransitionService} from '@uirouter/core';
@@ -38,21 +37,23 @@ import {$stateToken} from 'core-app/angular4-transition-utils';
 
 @Component({
   template: `
-    <div id="main-menu-work-packages-wrapper">
-      <a id="main-menu-work-packages" wp-query-menu>Work packages</a>
+    <li>
+      <div id="main-menu-work-packages-wrapper">
+        <a id="main-menu-work-packages">Work packages</a>
+      </div>
       <ul class="menu-children"></ul>'
-    </div>
+    </li>
   `
 })
 class WpQueryMenuTestComponent { }
 
-describe('wp-query-menu directive', () => {
+describe('wp-query-menu', () => {
   let app:WpQueryMenuTestComponent;
-  let fixture:ComponentFixture<WpQueryMenuTestComponent>
+  let fixture:ComponentFixture<WpQueryMenuTestComponent>;
   let element:JQuery;
   let menuContainer:JQuery;
 
-  let queryMenuService = new QueryMenuService();
+  let queryMenuService:QueryMenuService;
   let transitionCallback:(id:any) => any;
 
   const $transitionStub = {
@@ -68,8 +69,7 @@ describe('wp-query-menu directive', () => {
     // noinspection JSIgnoredPromiseFromCall
     return TestBed.configureTestingModule({
       declarations: [
-        WpQueryMenuTestComponent,
-        WpQueryMenuDirective
+        WpQueryMenuTestComponent
       ],
       providers: [
         { provide: $stateToken, useValue: { go: (...args:any[]) => undefined } },
@@ -79,6 +79,7 @@ describe('wp-query-menu directive', () => {
       ]
     }).compileComponents()
       .then(() => {
+        queryMenuService = TestBed.get(QueryMenuService);
         fixture = TestBed.createComponent(WpQueryMenuTestComponent);
         app = fixture.debugElement.componentInstance;
         element = jQuery(fixture.elementRef.nativeElement);
