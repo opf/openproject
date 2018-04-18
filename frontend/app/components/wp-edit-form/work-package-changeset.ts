@@ -180,7 +180,6 @@ export class WorkPackageChangeset {
 
               // Ensure the schema is loaded before updating
               this.schemaCacheService.ensureLoaded(this.workPackage).then(() => {
-                this.workPackage.updateActivities();
 
                 if (wasNew) {
                   this.workPackage.overriddenSchema = undefined;

@@ -33,6 +33,7 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 import {scopedObservable} from 'core-app/helpers/angular-rx-utils';
+import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 
 export class CommentFieldDirectiveController {
   public workPackage:WorkPackageResource;
@@ -51,6 +52,7 @@ export class CommentFieldDirectiveController {
               protected $q:ng.IQService,
               protected $element:ng.IAugmentedJQuery,
               protected wpActivityService:any,
+              protected wpLinkedActivities:WorkPackagesActivityService,
               protected ConfigurationService:any,
               protected loadingIndicator:LoadingIndicatorService,
               protected wpCacheService:WorkPackageCacheService,
@@ -127,9 +129,8 @@ export class CommentFieldDirectiveController {
         this.editing = false;
         this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
 
-        this.workPackage.activities.$load(true).then(() => {
-          this.wpCacheService.updateWorkPackage(this.workPackage);
-        });
+        this.wpLinkedActivities.require(this.workPackage, true);
+        this.wpCacheService.updateWorkPackage(this.workPackage);
         this._forceFocus = true;
         this.field.isBusy = false;
       })

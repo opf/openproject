@@ -33,6 +33,8 @@ import {Inject, Injectable} from '@angular/core';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
 import {WorkPackageLinkedResourceCache} from 'core-components/wp-single-view-tabs/wp-linked-resource-cache.service';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {opServicesModule} from 'core-app/angular-modules';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
 export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<HalResource[]> {
@@ -62,10 +64,10 @@ export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<
       aggregated.push(data.elements);
     };
 
-    promises.push(workPackage.activities.$load().then(add));
+    promises.push(workPackage.activities.$update().then(add));
 
     if (workPackage.revisions) {
-      promises.push(workPackage.revisions.$load().then(add));
+      promises.push(workPackage.revisions.$update().then(add));
     }
     return Promise.all(promises).then(() => {
       return this.sortedActivityList(aggregated);
@@ -86,3 +88,5 @@ export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<
     return new ActivityEntryInfo(this.timezoneService, this.isReversed, activities, activity, index);
   }
 }
+
+opServicesModule.service('wpLinkedActivities', downgradeInjectable(WorkPackagesActivityService));

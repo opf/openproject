@@ -35,6 +35,7 @@ import {ConfigurationService} from 'core-components/common/config/configuration.
 import {WorkPackageCommentField} from 'core-components/work-packages/work-package-comment/wp-comment-field.module';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 
 export class UserActivityController {
   public workPackage:WorkPackageResource;
@@ -72,6 +73,7 @@ export class UserActivityController {
               readonly $sce:ng.ISCEService,
               readonly I18n:op.I18n,
               readonly PathHelper:PathHelperService,
+              readonly wpLinkedActivities:WorkPackagesActivityService,
               readonly wpActivityService:ActivityService,
               readonly wpCacheService:WorkPackageCacheService,
               readonly ConfigurationService:ConfigurationService,
@@ -167,8 +169,9 @@ export class UserActivityController {
   public updateComment() {
     this.wpActivityService.updateComment(this.activity, this.field.rawValue || '')
       .then(() => {
-      this.workPackage.updateActivities();
-      this.inEdit = false;
+        this.wpLinkedActivities.require(this.workPackage, true);
+        this.wpCacheService.updateWorkPackage(this.workPackage);
+        this.inEdit = false;
     });
     this.focusEditIcon();
   }

@@ -50,18 +50,18 @@ export abstract class WorkPackageLinkedResourceCache<T> {
    * @param {WorkPackageResource} workPackage
    * @returns {Promise<T>}
    */
-  public async require(workPackage:WorkPackageResource):Promise<T> {
+  public async require(workPackage:WorkPackageResource, force:boolean = false):Promise<T> {
     const id = workPackage.id.toString();
     const state = this.cache.state;
+
+    // Clear cache if requesting different resource
+    if (force || this.cache.id !== id) {
+      state.clear();
+    }
 
     // Return cached value if id matches and value is present
     if (this.isCached(id)) {
       return Promise.resolve(state.value!);
-    }
-
-    // Clear cache if requesting different resource
-    if (this.cache.id !== id) {
-      state.clear();
     }
 
     // Ensure value is loaded only once
