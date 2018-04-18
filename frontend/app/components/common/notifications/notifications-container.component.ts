@@ -67,6 +67,6 @@ export class NotificationsContainerComponent implements OnDestroy {
 
 opUiComponentsModule
   .directive(
-    'notificationsConatiner',
+    'notificationsContainer',
      downgradeComponent({ component: NotificationsContainerComponent })
   );
