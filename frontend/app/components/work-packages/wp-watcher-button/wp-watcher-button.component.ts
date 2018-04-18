@@ -32,6 +32,7 @@ import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
+import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 
 @Component({
   template: require('!!raw-loader!./wp-watcher-button.html'),
@@ -49,7 +50,8 @@ export class WorkPackageWatcherButtonComponent implements OnInit,  OnDestroy {
   public watchIconClass:string;
 
   constructor(@Inject(I18nToken) readonly I18n:op.I18n,
-              public wpCacheService:WorkPackageCacheService) {
+              readonly wpWatchersService:WorkPackageWatchersService,
+              readonly wpCacheService:WorkPackageCacheService) {
   }
 
   ngOnInit() {
@@ -80,6 +82,7 @@ export class WorkPackageWatcherButtonComponent implements OnInit,  OnDestroy {
     const toggleLink = this.nextStateLink();
 
     toggleLink(toggleLink.$link.payload).then(() => {
+      this.wpWatchersService.clear(this.workPackage.id);
       this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
     });
   }
