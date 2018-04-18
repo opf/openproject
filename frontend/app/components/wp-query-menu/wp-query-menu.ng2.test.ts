@@ -37,17 +37,15 @@ import {$stateToken} from 'core-app/angular4-transition-utils';
 
 @Component({
   template: `
-    <li>
-      <div id="main-menu-work-packages-wrapper">
-        <a id="main-menu-work-packages">Work packages</a>
-      </div>
+    <div id="main-menu-work-packages-wrapper">
+      <a id="main-menu-work-packages">Work packages</a>
       <ul class="menu-children"></ul>'
-    </li>
+    </div>
   `
 })
 class WpQueryMenuTestComponent { }
 
-describe('wp-query-menu', () => {
+describe.only('wp-query-menu', () => {
   let app:WpQueryMenuTestComponent;
   let fixture:ComponentFixture<WpQueryMenuTestComponent>;
   let element:JQuery;
@@ -59,7 +57,7 @@ describe('wp-query-menu', () => {
   const $transitionStub = {
     onStart: (criteria:any, callback:(transition:any) => any) => {
       transitionCallback = (id:any) => callback({
-        params: (val:string) => { return { queryId: id }; }
+        params: (val:string) => { return { query_id: id }; }
       } as any);
     }
   };
@@ -75,7 +73,7 @@ describe('wp-query-menu', () => {
         { provide: $stateToken, useValue: { go: (...args:any[]) => undefined } },
         { provide: WorkPackagesListChecksumService, useValue: { clear: () => undefined } },
         { provide: TransitionService, useValue: $transitionStub },
-        { provide: QueryMenuService, useValue: queryMenuService },
+        QueryMenuService,
       ]
     }).compileComponents()
       .then(() => {
@@ -84,6 +82,7 @@ describe('wp-query-menu', () => {
         app = fixture.debugElement.componentInstance;
         element = jQuery(fixture.elementRef.nativeElement);
         menuContainer = element.find('ul.menu-children');
+        queryMenuService.initialize();
       });
   }));
 
@@ -94,6 +93,7 @@ describe('wp-query-menu', () => {
         objectId = '1';
 
     var generateMenuItem = function() {
+      queryMenuService = TestBed.get(QueryMenuService);
       queryMenuService.add(title, path, objectId);
       fixture.detectChanges();
 

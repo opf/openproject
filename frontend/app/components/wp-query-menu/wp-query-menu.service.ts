@@ -46,7 +46,7 @@ export class QueryMenuService {
 
   private currentQueryId:string|null = null;
   private uiRouteStateName = 'work-packages.list';
-  private container = jQuery('#main-menu-work-packages').parent().find('ul.menu-children');
+  private container:JQuery;
 
   constructor(@Inject($stateToken) protected $state:StateService,
                protected $transitions:TransitionService,
@@ -56,6 +56,8 @@ export class QueryMenuService {
       const queryId = transition.params('to').query_id;
       this.onQueryIdChanged(queryId);
     });
+
+    this.initialize();
 
     this.container.on('click', `.${QUERY_MENU_ITEM_TYPE}`, (event) => {
       if (LinkHandling.isClickedWithModifier(event) || LinkHandling.isOutsideAngular()) {
@@ -67,6 +69,10 @@ export class QueryMenuService {
       return false;
     });
 
+  }
+
+  public initialize() {
+    this.container = jQuery('#main-menu-work-packages').parent().find('ul.menu-children');
   }
 
   /**

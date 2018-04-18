@@ -152,7 +152,7 @@ export class MultiSelectEditField extends EditField {
     if (option) {
       result = _.find(this.valueOptions, (valueOption) => valueOption.href === option.href)!;
     }
-    
+
     return result || this.nullOption;
   }
 
