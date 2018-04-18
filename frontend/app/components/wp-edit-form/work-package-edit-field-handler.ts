@@ -95,7 +95,7 @@ export class WorkPackageEditFieldHandler {
    * Handle a user submitting the field (e.g, ng-change)
    */
   public async handleUserSubmit():Promise<any> {
-    if (!this.form.editMode) {
+    if (!(this.form.editMode && this.field.inFlight)) {
       this.field.onSubmit();
       return this.form.submit();
     }

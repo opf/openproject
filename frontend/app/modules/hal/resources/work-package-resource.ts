@@ -114,7 +114,6 @@ export class WorkPackageResource extends HalResource {
   public updatedAt:Date;
   public lockVersion:number;
   public description:any;
-  public inFlight:boolean;
   public activities:CollectionResource;
   public attachments:AttachmentCollectionResource;
 
