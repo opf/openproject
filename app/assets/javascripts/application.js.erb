@@ -318,12 +318,6 @@ jQuery(document).ready(function($) {
       }, 200);
   });
 
-  $.fn.mySlide = function(callback) {
-    this.slideToggle(animationRate,callback);
-
-    return this;
-  };
-
   // Do not close the login window when using it
   jQuery('#nav-login-content').click(function(event){
     event.stopPropagation();
