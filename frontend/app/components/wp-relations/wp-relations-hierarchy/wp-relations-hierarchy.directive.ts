@@ -34,6 +34,8 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {take} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {opWorkPackagesModule} from 'core-app/angular-modules';
+import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
   selector: 'wp-relations-hierarchy',
@@ -93,3 +95,8 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
     // nothing to do
   }
 }
+
+opWorkPackagesModule.directive(
+  'wpRelationsHierarchy',
+  downgradeComponent({ component: WorkPackageRelationsHierarchyComponent })
+);

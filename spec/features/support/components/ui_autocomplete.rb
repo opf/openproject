@@ -37,7 +37,7 @@ module Components
 
       ##
       # Find the open dropdown
-      scroll_to_element(page.find('.ui-autocomplete', visible: :all))
+      scroll_to_element(page.find('.ui-autocomplete'))
       page.find('.ui-autocomplete', visible: true)
     end
 
