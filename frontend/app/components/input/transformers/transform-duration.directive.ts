@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,20 +24,33 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {EditField} from "../wp-edit-field/wp-edit-field.module";
-import moment = require('moment');
-import {I18nToken} from 'core-app/angular4-transition-utils';
-import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {Duration} from 'moment';
 
-export class DurationEditField extends EditField {
+function transformDuration() {
+  return {
+    restrict:'A',
+    require: 'ngModel',
+    link: function(
+      scope:ng.IScope,
+      element:ng.IAugmentedJQuery,
+      attrs:ng.IAttributes,
+      ngModelController:any) {
+      ngModelController.$parsers.push(function(value:any):Duration|void {
+        if (!isNaN(value)) {
+          let floatValue = parseFloat(value);
+          return moment.duration(floatValue, 'hours');
+        }
+      });
 
-  readonly TimezoneService:TimezoneService = this.$injector.get(TimezoneService);
+      ngModelController.$formatters.push(function(value:any) {
+        return Number(moment.duration(value).asHours().toFixed(2));
+      });
+    }
+  };
+};
 
-  protected parseValue(val:moment.Moment|null) {
-    return val === null ? null : val.toISOString();
-  }
-
-  public template:string = '/components/wp-edit/field-types/wp-edit-duration-field.directive.html';
-}
+angular
+  .module('openproject')
+  .directive('transformDurationValue', transformDuration);
