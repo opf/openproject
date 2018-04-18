@@ -51,7 +51,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
       return value;
     }
 
-    if (value._links || value._embedded || value._type || value.type) {
+    if (value._links || value._embedded || value._type) {
       return halResourceService.createHalResource(value, loaded);
     }
 
@@ -164,7 +164,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
           if (child && (child._embedded || child._links)) {
             OpenprojectHalModuleHelpers.lazy(element,
               name,
-              () => halResourceService.createHalResource(child));
+              () => asHalResource(child, true));
           }
         });
       }

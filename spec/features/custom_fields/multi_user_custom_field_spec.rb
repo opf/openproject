@@ -72,8 +72,14 @@ describe "multi select custom values", js: true do
 
       sel = page.find(:select)
 
+      sleep 2
+
       sel.unselect "Anton Lupin"
+
+      sleep 2
       sel.select "Cooper Quatermaine"
+
+      sleep 2
 
       click_on "Reviewer: Save"
 

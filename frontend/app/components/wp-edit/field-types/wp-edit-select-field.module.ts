@@ -33,7 +33,7 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 export interface ValueOption {
   name:string;
-  href:string;
+  href:string|null;
 }
 
 export class SelectEditField extends EditField {
@@ -66,10 +66,11 @@ export class SelectEditField extends EditField {
   }
 
   public get selectedOption() {
-    return this.value;
+    const href = this.value ? this.value.href : null;
+    return _.find(this.valueOptions, o => o.href === href)!;
   }
 
-  public set selectedOption(val) {
+  public set selectedOption(val:ValueOption) {
     const option = _.find(this.options, o => o.href === val.href);
 
     // Special case 'null' value, which angular
@@ -93,7 +94,7 @@ export class SelectEditField extends EditField {
     this.options = availableValues;
     this.addEmptyOption();
     this.valueOptions = this.options.map(el => {
-      return { name: el.name, href: el.href }
+      return { name: el.name, href: el.href };
     });
   }
 
