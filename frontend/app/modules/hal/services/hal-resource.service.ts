@@ -27,7 +27,7 @@
 //++
 
 import {Injectable, Injector} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {catchError, map, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {HalResource, HalResourceClass} from 'core-app/modules/hal/resources/hal-resource';
@@ -41,8 +41,21 @@ export interface HalResourceFactoryConfigInterface {
   attrTypes?:{ [attrName:string]:string };
 }
 
-
 export type HTTPSupportedMethods = 'get'|'post'|'put'|'patch'|'delete';
+
+export interface HTTPClientOptions {
+  body?:any;
+  headers?:HttpHeaders|{
+    [header:string]:string|string[];
+  };
+  observe?:any;
+  params?:HttpParams|{
+    [param:string]:string|string[];
+  };
+  reportProgress?:boolean;
+  withCredentials?:boolean;
+  responseType:any;
+}
 
 @Injectable()
 export class HalResourceService {
@@ -52,7 +65,6 @@ export class HalResourceService {
    */
   private config:{ [typeName:string]:HalResourceFactoryConfigInterface } = {};
 
-
   constructor(readonly injector:Injector,
               readonly http:HttpClient) {
   }
@@ -61,15 +73,17 @@ export class HalResourceService {
    * Perform a HTTP request and return a HalResource promise.
    */
   public request<T extends HalResource>(method:HTTPSupportedMethods, href:string, data?:any, headers:any = {}):Observable<T> {
-    const config:any = {
-      method: method,
-      url: href,
+    const config:HTTPClientOptions = {
       body: data || {},
       headers: headers,
       withCredentials: true,
       responseType: 'json'
     };
 
+    return this._request(method, href, config);
+  }
+
+  private _request<T>(method:HTTPSupportedMethods, href:string, config:HTTPClientOptions):Observable<T> {
     return this.http.request<T>(method, href, config)
       .pipe(
         map((response:any) => this.createHalResource(response)),
@@ -77,7 +91,7 @@ export class HalResourceService {
           console.error(`Failed to ${method} ${href}: ${error.name}`);
           return new ErrorObservable(this.createHalResource(error.error));
         })
-      ) as Observable<T>;
+      );
   }
 
   /**
@@ -89,7 +103,14 @@ export class HalResourceService {
    * @returns {Promise<HalResource>}
    */
   public get<T extends HalResource>(href:string, params?:any, headers?:any):Observable<T> {
-    return this.request('get', href, params, headers);
+    const config:HTTPClientOptions = {
+      headers: headers,
+      params: new HttpParams({ fromObject: params }),
+      withCredentials: true,
+      responseType: 'json'
+    }
+
+    return this._request('get', href, config);
   }
 
   /**

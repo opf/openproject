@@ -48,6 +48,8 @@ import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm
 import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {NotificationsService} from 'core-components/common/notifications/notifications.service';
+import {opServicesModule} from 'core-app/angular-modules';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
 export class WorkPackagesListService {
@@ -363,3 +365,5 @@ export class WorkPackagesListService {
       .remove(query.id.toString());
   }
 }
+
+opServicesModule.service('wpListService', downgradeInjectable(WorkPackagesListService));

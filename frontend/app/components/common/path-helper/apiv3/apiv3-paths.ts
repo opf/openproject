@@ -45,7 +45,7 @@ export class ApiV3Paths {
   public readonly configuration = new SimpleResource(this.apiV3Base, 'configuration');
 
   // /api/v3/root
-  public readonly root = new SimpleResource(this.apiV3Base, 'root');
+  public readonly root = new SimpleResource(this.apiV3Base, '');
 
   // /api/v3/statuses
   public readonly statuses = new SimpleResourceCollection(this.apiV3Base, 'statuses');

@@ -28,7 +28,6 @@
 
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
 import {WorkPackageTableBaseState} from './wp-table-base';
 import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
