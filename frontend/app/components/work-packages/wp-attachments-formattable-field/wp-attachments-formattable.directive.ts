@@ -1,5 +1,5 @@
 import {InsertMode, ViewMode} from './wp-attachments-formattable.enums';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import {openprojectModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../work-package-cache.service';
@@ -47,7 +47,7 @@ export class WpAttachmentsFormattableController {
     const [, editor] = this.getEditor();
 
     const originalEvent = (evt.originalEvent as DragEvent);
-    const workPackage:WorkPackageResourceInterface = this.$scope.workPackage;
+    const workPackage:WorkPackageResource = this.$scope.workPackage;
     const dropData:DropModel = new DropModel(this.$location,
       originalEvent.dataTransfer,
       workPackage);
@@ -109,7 +109,7 @@ export class WpAttachmentsFormattableController {
   }
 
   protected uploadAndInsert(files:UploadFile[], model:EditorModel | WorkPackageFieldModel) {
-    const wp = this.$scope.workPackage as WorkPackageResourceInterface;
+    const wp = this.$scope.workPackage as WorkPackageResource;
     if (wp.isNew) {
       return this.insertDelayedAttachments(files, model, wp);
     }
@@ -160,7 +160,7 @@ export class WpAttachmentsFormattableController {
     }
   }
 
-  protected insertDelayedAttachments(files:UploadFile[], description:any, workPackage:WorkPackageResourceInterface):void {
+  protected insertDelayedAttachments(files:UploadFile[], description:any, workPackage:WorkPackageResource):void {
     for (var i = 0; i < files.length; i++) {
       var currentFile = new SingleAttachmentModel(files[i]);
       var insertMode = currentFile.isAnImage ? InsertMode.INLINE : InsertMode.ATTACHMENT;

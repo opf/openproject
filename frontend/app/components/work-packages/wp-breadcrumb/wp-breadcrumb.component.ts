@@ -29,14 +29,14 @@
 import {wpControllersModule} from '../../../angular-modules';
 import {Component, Input} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Component({
   template: require('!!raw-loader!./wp-breadcrumb.html'),
   selector: 'wp-breadcrumb',
 })
 export class WorkPackageBreadcrumbComponent {
-  @Input('workPackage') workPackage:WorkPackageResourceInterface;
+  @Input('workPackage') workPackage:WorkPackageResource;
 }
 
 wpControllersModule.directive(

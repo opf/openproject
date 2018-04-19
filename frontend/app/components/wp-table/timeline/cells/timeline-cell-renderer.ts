@@ -1,6 +1,5 @@
 import * as moment from 'moment';
-import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {
   calculatePositionValueForDayCount,
   calculatePositionValueForDayCountingPx,
@@ -31,6 +30,8 @@ import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset
 import {WorkPackageTableTimelineService} from '../../../wp-fast-table/state/wp-table-timeline.service';
 import {DisplayFieldRenderer} from '../../../wp-edit-form/display-field-renderer';
 import Moment = moment.Moment;
+import {Injector} from '@angular/core';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -47,14 +48,14 @@ function calculateForegroundColor(backgroundColor:string):string {
 }
 
 export class TimelineCellRenderer {
-  public TimezoneService:any;
-  public wpTableTimeline:WorkPackageTableTimelineService;
-  public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer('timeline');
+  readonly TimezoneService = this.injector.get(TimezoneService);
+  readonly wpTableTimeline:WorkPackageTableTimelineService = this.injector.get(WorkPackageTableTimelineService);
+  public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer(this.injector, 'timeline');
 
   protected dateDisplaysOnMouseMove:{ left?:HTMLElement; right?:HTMLElement } = {};
 
-  constructor(public workPackageTimeline:WorkPackageTimelineTableController) {
-    $injectFields(this, 'TimezoneService', 'wpTableTimeline');
+  constructor(readonly injector:Injector,
+              readonly workPackageTimeline:WorkPackageTimelineTableController) {
   }
 
   public get type():string {
@@ -65,11 +66,11 @@ export class TimelineCellRenderer {
     return 'rgba(50, 50, 50, 0.1)';
   }
 
-  public canMoveDates(wp:WorkPackageResourceInterface) {
+  public canMoveDates(wp:WorkPackageResource) {
     return wp.schema.startDate.writable && wp.schema.dueDate.writable;
   }
 
-  public isEmpty(wp:WorkPackageResourceInterface) {
+  public isEmpty(wp:WorkPackageResource) {
     const start = moment(wp.startDate as any);
     const due = moment(wp.dueDate as any);
     const noStartAndDueValues = _.isNaN(start.valueOf()) && _.isNaN(due.valueOf());
@@ -371,7 +372,7 @@ export class TimelineCellRenderer {
     return labels;
   }
 
-  protected typeColor(wp:WorkPackageResourceInterface):string {
+  protected typeColor(wp:WorkPackageResource):string {
     let type = wp.type && wp.type.state.value;
     if (type && type.color) {
       return type.color;

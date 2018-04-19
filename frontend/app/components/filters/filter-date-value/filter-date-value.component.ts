@@ -26,11 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {I18nToken, TimezoneServiceToken} from 'core-app/angular4-transition-utils';
-import {Component, EventEmitter, Inject, Input, OnDestroy, Output} from '@angular/core';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {Component, Inject, Input, OnDestroy, Output} from '@angular/core';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 @Component({
   selector: 'filter-date-value',
@@ -40,7 +41,7 @@ export class FilterDateValueComponent implements OnDestroy {
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
-  constructor(@Inject(TimezoneServiceToken) readonly TimezoneService:any,
+  constructor(readonly timezoneService:TimezoneService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
   }
 
@@ -67,8 +68,8 @@ export class FilterDateValueComponent implements OnDestroy {
 
   public formatter(data:any) {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
-      var d = this.TimezoneService.parseDate(data);
-      return this.TimezoneService.formattedISODate(d);
+      var d = this.timezoneService.parseDate(data);
+      return this.timezoneService.formattedISODate(d);
     } else {
       return null;
     }

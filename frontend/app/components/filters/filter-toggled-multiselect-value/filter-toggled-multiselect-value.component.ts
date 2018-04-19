@@ -26,16 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
-import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
-import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {RootDmService} from '../../api/api-v3/hal-resource-dms/root-dm.service';
-import {RootResource} from '../../api/api-v3/hal-resources/root-resource.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {PathHelperService} from '../../common/path-helper/path-helper.service';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
-import {I18nToken, PathHelperToken} from 'core-app/angular4-transition-utils';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 @Component({
   selector: 'filter-toggled-multiselect-value',
@@ -56,7 +57,8 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
   };
 
   constructor(readonly RootDm:RootDmService,
-              @Inject(PathHelperToken) readonly PathHelper:PathHelperService,
+              readonly halResourceService:HalResourceService,
+              readonly PathHelper:PathHelperService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
   }
 
@@ -133,14 +135,16 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
       return;
     }
 
-    let me:HalResource = new HalResource({
-      _links: {
-        self: {
-          href: this.PathHelper.apiV3UserMePath(),
-          title: this.I18n.t('js.label_me')
+    let me:HalResource = this.halResourceService.createHalResource(
+      {
+        _links: {
+          self: {
+            href: this.PathHelper.api.v3.users.me,
+            title: this.I18n.t('js.label_me')
+          }
         }
-      }
-    }, true);
+      }, true
+    );
 
     options.unshift(me);
   }

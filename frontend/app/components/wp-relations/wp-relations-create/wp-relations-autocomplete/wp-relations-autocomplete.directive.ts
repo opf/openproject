@@ -27,9 +27,9 @@
 //++
 
 import {wpDirectivesModule} from '../../../../angular-modules';
-import {CollectionResource} from '../../../api/api-v3/hal-resources/collection-resource.service';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 function wpRelationsAutocompleteDirective(
   $q:ng.IQService,
@@ -54,7 +54,7 @@ function wpRelationsAutocompleteDirective(
       scope.options = [];
       scope.relatedWps = [];
 
-      let input = jQuery('.wp-relations--autocomplete')
+      let input = jQuery('.wp-relations--autocomplete');
       let selected = false;
 
       input.autocomplete({
@@ -78,7 +78,7 @@ function wpRelationsAutocompleteDirective(
         minLength: 0
       }).focus(() => !selected && input.autocomplete('search', input.val()));
 
-      function getIdentifier(workPackage:WorkPackageResourceInterface):string {
+      function getIdentifier(workPackage:WorkPackageResource):string {
         if (workPackage) {
           return `#${workPackage.id} - ${workPackage.subject}`;
         } else {
@@ -86,22 +86,18 @@ function wpRelationsAutocompleteDirective(
         }
       }
 
-      async function autocompleteWorkPackages(query:string):Promise<WorkPackageResourceInterface[]> {
+      async function autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
         element.find('.ui-autocomplete--loading').show();
         return scope.workPackage.available_relation_candidates.$link.$fetch({
           query: query,
           type: scope.filterCandidatesFor || scope.selectedRelationType
-        }, {
-          'caching': {
-            enabled: false
-          }
         }).then((collection:CollectionResource) => {
           scope.noResults = collection.count === 0;
+          element.find('.ui-autocomplete--loading').hide();
           return collection.elements || [];
         }).catch(() => {
-          return [];
-        }).finally(() => {
           element.find('.ui-autocomplete--loading').hide();
+          return [];
         });
       };
 

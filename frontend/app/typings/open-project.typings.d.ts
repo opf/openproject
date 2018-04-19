@@ -92,17 +92,6 @@ declare namespace op {
     locale:string;
   }
 
-  interface CacheService {
-    temporaryCache():any;
-    localStorage():any;
-    memoryStorage():any;
-    customCache(identifier:any, params:any):any;
-    isCacheDisabled():any;
-    enableCaching():any;
-    disableCaching():any;
-    cachedPromise(promiseFn:any, key:any, options?:any):any;
-  }
-
   interface FieldSchema {
     type:string;
     writable:boolean;

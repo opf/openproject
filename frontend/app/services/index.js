@@ -36,6 +36,4 @@ angular.module('openproject.services')
     require('./keyboard-shortcut-service')])
   .service('SortService', require('./sort-service'))
   .service('StatusService', ['$http', 'PathHelper', require('./status-service')])
-  .service('TimezoneService', ['ConfigurationService', 'I18n', require(
-    './timezone-service')])
   .service('ConversionService', require('./conversion-service.js'));

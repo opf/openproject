@@ -1,6 +1,6 @@
 import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
 import {
@@ -39,7 +39,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     };
   }
 
-  public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement|null {
+  public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLElement|null {
     switch (column.id) {
       case internalContextMenuColumn.id:
         return this.buildCancelButton();
@@ -48,7 +48,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     }
   }
 
-  public buildNew(workPackage:WorkPackageResourceInterface, form:WorkPackageEditForm):[HTMLElement, boolean] {
+  public buildNew(workPackage:WorkPackageResource, form:WorkPackageEditForm):[HTMLElement, boolean] {
     // Get any existing edit state for this work package
     const [row, hidden] = this.buildEmpty(workPackage);
 
@@ -61,7 +61,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
    * @param workPackage
    * @returns {any}
    */
-  public createEmptyRow(workPackage:WorkPackageResourceInterface) {
+  public createEmptyRow(workPackage:WorkPackageResource) {
     const identifier = this.classIdentifier(workPackage);
     const tr = document.createElement('tr');
     tr.id = rowId(workPackage.id);

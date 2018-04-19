@@ -28,13 +28,13 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 import {States} from '../../states.service';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService} from '@uirouter/core';
 
 export class WorkPackageDestroyModalController {
   public text:any;
-  public workPackages:WorkPackageResourceInterface[];
+  public workPackages:WorkPackageResource[];
   public workPackageLabel:string;
 
   constructor(private $scope:any,
@@ -57,11 +57,11 @@ export class WorkPackageDestroyModalController {
       title: I18n.t('js.modals.destroy_work_package.title', { label: this.workPackageLabel }),
       text: I18n.t('js.modals.destroy_work_package.text', { label: this.workPackageLabel, count: this.workPackages.length }),
 
-      childCount: (wp:WorkPackageResourceInterface) => {
+      childCount: (wp:WorkPackageResource) => {
         const count = this.children(wp).length;
         return this.I18n.t('js.units.child_work_packages', {count: count});
       },
-      hasChildren: (wp:WorkPackageResourceInterface) =>
+      hasChildren: (wp:WorkPackageResource) =>
         I18n.t('js.modals.destroy_work_package.has_children', {childUnits: this.text.childCount(wp) }),
       deletesChildren: I18n.t('js.modals.destroy_work_package.deletes_children')
     };
@@ -89,10 +89,10 @@ export class WorkPackageDestroyModalController {
       });
   }
 
-  public childLabel (workPackage:WorkPackageResourceInterface) {
+  public childLabel (workPackage:WorkPackageResource) {
   }
 
-  public children(workPackage:WorkPackageResourceInterface) {
+  public children(workPackage:WorkPackageResource) {
     if (workPackage.hasOwnProperty('children')) {
       return workPackage.children;
     } else {

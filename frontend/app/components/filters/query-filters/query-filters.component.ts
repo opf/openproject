@@ -29,11 +29,11 @@
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import WorkPackageFiltersService from "../../filters/wp-filters/wp-filters.service";
 import {Component, Inject, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
-import {QueryFilterInstanceResource} from 'core-components/api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageTableFilters} from 'core-components/wp-fast-table/wp-table-filters';
-import {QueryFilterResource} from 'core-components/api/api-v3/hal-resources/query-filter-resource.service';
+import {QueryFilterResource} from  'core-app/modules/hal/resources/query-filter-resource';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
 
 const ADD_FILTER_SELECT_INDEX = -1;

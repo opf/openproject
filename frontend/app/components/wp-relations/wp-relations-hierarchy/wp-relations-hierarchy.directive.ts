@@ -26,25 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from "../../../angular-modules";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
-import {OpUnlinkTableAction} from 'core-components/wp-table/table-actions/actions/unlink-table-action';
 import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
-import {Component, Inject, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
-import {downgradeComponent} from '@angular/upgrade/static';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {take} from 'rxjs/operators';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {opWorkPackagesModule} from 'core-app/angular-modules';
+import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
   selector: 'wp-relations-hierarchy',
   template: require('!!raw-loader!./wp-relations-hierarchy.template.html')
 })
 export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy {
-  @Input() public workPackage:WorkPackageResourceInterface;
+  @Input() public workPackage:WorkPackageResource;
   @Input() public relationType:string;
 
   public showEditForm:boolean = false;
@@ -72,7 +70,7 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
 
     this.wpCacheService.loadWorkPackage(this.workPackage.id).values$()
       .takeUntil(componentDestroyed(this))
-      .subscribe((wp:WorkPackageResourceInterface) => {
+      .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
 
         let toLoad:string[] = [];
@@ -84,7 +82,7 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
             .pipe(
               take(1)
             )
-            .subscribe((parent:WorkPackageResourceInterface) => {
+            .subscribe((parent:WorkPackageResource) => {
               this.workPackage.parent = parent;
             });
         }
@@ -98,6 +96,7 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
   }
 }
 
-wpDirectivesModule
-  .directive('wpRelationsHierarchy',
-    downgradeComponent({component: WorkPackageRelationsHierarchyComponent}));
+opWorkPackagesModule.directive(
+  'wpRelationsHierarchy',
+  downgradeComponent({ component: WorkPackageRelationsHierarchyComponent })
+);

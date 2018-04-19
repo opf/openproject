@@ -26,13 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {$currentInjector} from "core-components/angular/angular-injector-bridge.functions";
-
 export class OpenProjectAngularHelpers {
   private memoizedCompileScope: any = null;
 
   public get injector() {
-    return $currentInjector();
+    return (window as any).ngInjector || angular.element(document.body).injector();
   }
 
   public get compileScope() {

@@ -26,13 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-builder';
 import {DisplayField} from '../wp-display-field/wp-display-field.module';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
 import {StateService} from '@uirouter/core';
 import {$stateToken} from 'core-app/angular4-transition-utils';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 export class WorkPackageDisplayField extends DisplayField {
 

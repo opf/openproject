@@ -27,11 +27,15 @@
 // ++
 
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
-import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 import {TextileService} from './../../common/textile/textile-service';
-import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 import {AutoCompleteHelperService} from 'core-components/common/autocomplete/auto-complete-helper.service';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {
+  $sceToken,
+  AutoCompleteHelperServiceToken,
+  I18nToken,
+  TextileServiceToken
+} from 'core-app/angular4-transition-utils';
 
 export class WikiTextareaEditField extends EditField {
 
@@ -39,13 +43,12 @@ export class WikiTextareaEditField extends EditField {
   public template:string;
 
   // Dependencies
-  protected $sce:ng.ISCEService;
-  protected $http:ng.IHttpService;
-  protected textileService:TextileService;
-  protected $timeout:ng.ITimeoutService;
-  protected I18n:op.I18n;
-  protected AutoCompleteHelper:AutoCompleteHelperService;
-  protected ConfigurationService:ConfigurationService;
+  readonly $sce:ng.ISCEService = this.$injector.get($sceToken);
+  readonly textileService:TextileService = this.$injector.get(TextileServiceToken);
+  readonly I18n:op.I18n = this.$injector.get(I18nToken);
+  readonly AutoCompleteHelper:AutoCompleteHelperService = this.$injector.get(
+    AutoCompleteHelperServiceToken);
+  readonly ConfigurationService:ConfigurationService = this.$injector.get(ConfigurationService);
 
   // Values used in template
   public isBusy:boolean = false;
@@ -54,20 +57,18 @@ export class WikiTextareaEditField extends EditField {
   public text:Object;
   public wysiwig:boolean;
 
-
   // CKEditor instance
   public ckeditor:any;
 
   protected initialize() {
-    $injectFields(this, '$sce', '$http', 'textileService', '$timeout', 'AutoCompleteHelper', 'I18n', 'ConfigurationService');
-
-    this.wysiwig = this.ConfigurationService.textFormat() === 'markdown';
+    const configurationService:ConfigurationService = this.$injector.get(ConfigurationService);
+    this.wysiwig = configurationService.textFormat() === 'markdown';
     this.setupTemplate();
 
     this.text = {
       attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
-      save: this.I18n.t('js.inplace.button_save', {attribute: this.schema.name}),
-      cancel: this.I18n.t('js.inplace.button_cancel', {attribute: this.schema.name})
+      save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
+      cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
     };
   }
 
@@ -132,7 +133,7 @@ export class WikiTextareaEditField extends EditField {
   }
 
   public set rawValue(val:string) {
-    this.value = {raw: val};
+    this.value = { raw: val };
   }
 
   public get isFormattable() {
@@ -148,7 +149,7 @@ export class WikiTextareaEditField extends EditField {
   }
 
   public submitUnlessInPreview(form:any) {
-    this.$timeout(() => {
+    setTimeout(() => {
       if (!this.isPreview) {
         form.submit();
       }
@@ -170,9 +171,10 @@ export class WikiTextareaEditField extends EditField {
 
         this.textileService.render(link, this.rawValue)
           .then((result:any) => {
+            this.isBusy = false;
             this.previewHtml = this.$sce.trustAsHtml(result.data);
           })
-          .finally(() => {
+          .catch(() => {
             this.isBusy = false;
           });
       });

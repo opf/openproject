@@ -27,12 +27,10 @@
 // ++
 
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {UIRouterGlobals} from '@uirouter/core';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
-import {opWorkPackagesModule} from '../../../angular-modules';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 
 @Component({
@@ -40,7 +38,7 @@ import {WorkPackageCacheService} from '../work-package-cache.service';
   selector: 'wp-subject',
 })
 export class WorkPackageSubjectComponent implements OnInit, OnDestroy {
-  @Input('workPackage') workPackage:WorkPackageResourceInterface;
+  @Input('workPackage') workPackage:WorkPackageResource;
 
   constructor(protected uiRouterGlobals:UIRouterGlobals,
               protected wpCacheService:WorkPackageCacheService) {
@@ -57,15 +55,9 @@ export class WorkPackageSubjectComponent implements OnInit, OnDestroy {
         .pipe(
           takeUntil(componentDestroyed(this))
         )
-        .subscribe((wp:WorkPackageResourceInterface) => {
+        .subscribe((wp:WorkPackageResource) => {
           this.workPackage = wp;
         });
     }
   }
 }
-
-opWorkPackagesModule.directive(
-  'wpSubject',
-  downgradeComponent({component: WorkPackageSubjectComponent})
-);
-

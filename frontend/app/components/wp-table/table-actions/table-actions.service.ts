@@ -4,7 +4,7 @@ import {
 } from 'core-components/wp-table/table-actions/table-action';
 import {OpDetailsTableAction} from 'core-components/wp-table/table-actions/actions/details-table-action';
 import {OpContextMenuTableAction} from 'core-components/wp-table/table-actions/actions/context-menu-table-action';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Injectable()
 export class OpTableActionsService {
@@ -31,7 +31,7 @@ export class OpTableActionsService {
    * Render actions for the given work package.
    * @param {WorkPackageResource} workPackage
    */
-  public render(workPackage:WorkPackageResourceInterface):HTMLElement[] {
+  public render(workPackage:WorkPackageResource):HTMLElement[] {
     return this.actions.map((factory) => factory(this.injector, workPackage).buildElement());
   }
 }

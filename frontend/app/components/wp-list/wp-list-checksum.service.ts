@@ -26,14 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTablePagination} from '../wp-fast-table/wp-table-pagination';
 import {StateService} from '@uirouter/core';
+import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
+import {Inject, Injectable} from '@angular/core';
+import {$stateToken} from 'core-app/angular4-transition-utils';
 
-
+@Injectable()
 export class WorkPackagesListChecksumService {
-  constructor(protected UrlParamsHelper:any,
-              protected $state:StateService) {
+  constructor(protected UrlParamsHelper:UrlParamsHelperService,
+              @Inject($stateToken) protected $state:StateService) {
   }
 
   public id:number | null;
@@ -147,7 +150,3 @@ export class WorkPackagesListChecksumService {
     this.$state.go('.', {query_props: checksum, query_id: id}, {notify: false});
   }
 }
-
-angular
-  .module('openproject.workPackages.services')
-  .service('wpListChecksumService', WorkPackagesListChecksumService);

@@ -27,9 +27,9 @@
 // ++
 
 import {Component, ElementRef, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {QueryGroupByResource} from 'core-components/api/api-v3/hal-resources/query-group-by-resource.service';
-import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';

@@ -28,8 +28,6 @@
 
 import {Injector} from '@angular/core';
 import * as moment from 'moment';
-import {$injectNow} from '../../../angular/angular-injector-bridge.functions';
-import {QueryDmService} from '../../../api/api-v3/hal-resource-dms/query-dm.service';
 import {keyCodes} from '../../../common/keyCodes.enum';
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
 import {States} from '../../../states.service';
@@ -41,8 +39,9 @@ import {WorkPackageTimelineTableController} from '../container/wp-timeline-conta
 import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {WorkPackageCellLabels} from './wp-timeline-cell';
-import Moment = moment.Moment;
 import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
+import Moment = moment.Moment;
 
 export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';
@@ -226,25 +225,23 @@ export function registerWorkPackageMouseHandler(this:void,
       renderer.onMouseDownEnd(labels, renderInfo.changeset);
       workPackageTimeline.refreshView();
     } else {
+      const stopAndRefresh = () => {
+        renderInfo.changeset.clear();
+        renderer.onMouseDownEnd(labels, renderInfo.changeset);
+        workPackageTimeline.refreshView();
+      };
+
       // Persist the changes
       saveWorkPackage(renderInfo.changeset)
-        .then(() => {
-          renderInfo.changeset.clear();
-          renderer.onMouseDownEnd(labels, renderInfo.changeset);
-          workPackageTimeline.refreshView();
-        })
-        .catch(() => {
-          renderInfo.changeset.clear();
-          renderer.onMouseDownEnd(labels, renderInfo.changeset);
-          workPackageTimeline.refreshView();
-        });
+        .then(stopAndRefresh)
+        .catch(stopAndRefresh);
     }
 
   }
 
   async function saveWorkPackage(changeset:WorkPackageChangeset) {
-    const queryDm:QueryDmService = $injectNow('QueryDm');
-    const states:States = $injectNow('states');
+    const queryDm:QueryDmService = injector.get(QueryDmService);
+    const states:States = injector.get(States);
 
     // Remmeber the time before saving the work package to know which work packages to update
     const updatedAt = moment().toISOString();

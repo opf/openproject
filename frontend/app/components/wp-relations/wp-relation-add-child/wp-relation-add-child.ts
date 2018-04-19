@@ -1,17 +1,17 @@
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Component({
   selector: 'wp-relation-add-child',
   template: require('!!raw-loader!./wp-relation-add-child.html')
 })
 export class WpRelationAddChildComponent implements OnInit {
-  @Input() public workPackage:WorkPackageResourceInterface;
+  @Input() public workPackage:WorkPackageResource;
   @Output() public onAdded = new EventEmitter<string>();
 
   public showRelationsCreateForm: boolean = false;

@@ -30,7 +30,7 @@ import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table
 import {Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
-import {QueryFilterResource} from 'core-components/api/api-v3/hal-resources/query-filter-resource.service';
+import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 
 @Component({

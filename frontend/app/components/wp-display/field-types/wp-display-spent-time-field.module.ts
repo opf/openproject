@@ -26,10 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {DurationDisplayField} from './wp-display-duration-field.module';
-import {HalResource} from "core-components/api/api-v3/hal-resources/hal-resource.service";
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 export class SpentTimeDisplayField extends DurationDisplayField {
   public template: string = '/components/wp-display/field-types/wp-display-spent-time-field.directive.html';

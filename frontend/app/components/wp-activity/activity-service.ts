@@ -28,9 +28,9 @@
 /* globals URI */
 
 import {opServicesModule} from './../../angular-modules';
-import {WorkPackageResourceInterface} from 'app/components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {input} from 'reactivestates';
 
 export class ActivityService {
@@ -47,7 +47,7 @@ export class ActivityService {
     private $q:ng.IQService) {
     }
 
-  public createComment(workPackage:WorkPackageResourceInterface, comment:string) {
+  public async createComment(workPackage:WorkPackageResource, comment:string) {
     return workPackage.addComment(
       { comment: comment},
       { 'Content-Type': 'application/json; charset=UTF-8' }
@@ -76,7 +76,7 @@ export class ActivityService {
     }).catch((error:any) => this.errorAndReject(error));
   }
 
-  private errorAndReject(error:HalResource, workPackage?:WorkPackageResourceInterface) {
+  private errorAndReject(error:HalResource, workPackage?:WorkPackageResource) {
     this.wpNotificationsService.handleErrorResponse(error, workPackage);
 
     // returning a reject will enable to correctly work with subsequent then/catch handlers.

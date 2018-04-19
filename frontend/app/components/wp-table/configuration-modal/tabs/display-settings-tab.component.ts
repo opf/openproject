@@ -2,7 +2,7 @@ import {Component, Inject, Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
-import {QueryGroupByResource} from 'core-components/api/api-v3/hal-resources/query-group-by-resource.service';
+import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
 import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
 

@@ -1,6 +1,6 @@
 import {wpDirectivesModule} from '../../../angular-modules';
-import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp-relations-hierarchy.service';
@@ -8,11 +8,11 @@ import {WorkPackageRelationsService} from '../wp-relations.service';
 
 export class WorkPackageRelationsCreateController {
 
-  public showRelationsCreateForm: boolean = false;
-  public workPackage:WorkPackageResourceInterface;
+  public showRelationsCreateForm:boolean = false;
+  public workPackage:WorkPackageResource;
   public selectedRelationType:string = RelationResource.DEFAULT();
   public selectedWpId:string;
-  public externalFormToggle: boolean;
+  public externalFormToggle:boolean;
   public fixedRelationType:string;
   public relationTypes = RelationResource.LOCALIZED_RELATION_TYPES(false);
 
@@ -47,23 +47,28 @@ export class WorkPackageRelationsCreateController {
 
   public createRelation() {
 
-    if (!this.selectedRelationType || ! this.selectedWpId) {
+    if (!this.selectedRelationType || !this.selectedWpId) {
       return;
     }
 
     this.isDisabled = true;
-    this.createCommonRelation().finally(() => {
-      this.isDisabled = false;
-    });
+    this.createCommonRelation()
+      .catch(() => this.isDisabled = false)
+      .then(() => this.isDisabled = false);
   }
 
-  protected createCommonRelation() {
-    return this.wpRelations.addCommonRelation(this.workPackage, this.selectedRelationType, this.selectedWpId)
+  protected async createCommonRelation() {
+    return this.wpRelations.addCommonRelation(this.workPackage,
+      this.selectedRelationType,
+      this.selectedWpId)
       .then(relation => {
         this.wpNotificationsService.showSave(this.workPackage);
+        this.toggleRelationsCreateForm();
       })
-      .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.workPackage))
-      .finally(() => this.toggleRelationsCreateForm());
+      .catch(err => {
+        this.wpNotificationsService.handleErrorResponse(err, this.workPackage);
+        this.toggleRelationsCreateForm();
+      });
   }
 
   public toggleRelationsCreateForm() {

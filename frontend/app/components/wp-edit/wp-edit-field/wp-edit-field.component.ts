@@ -26,10 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-notification.service';
-import {opWorkPackagesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
 import {
@@ -42,12 +41,12 @@ import {WorkPackageEditFieldHandler} from '../../wp-edit-form/work-package-edit-
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {SelectionHelpers} from '../../../helpers/selection-helpers';
 import {debugLog} from '../../../helpers/debug_output';
-import {downgradeComponent} from '@angular/upgrade/static';
-import {Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
-import {I18nToken, NotificationsServiceToken} from 'core-app/angular4-transition-utils';
+import {Component, ElementRef, Inject, Injector, Input, OnInit} from '@angular/core';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
+import {NotificationsService} from 'core-components/common/notifications/notifications.service';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 
 @Component({
   template: require('!!raw-loader!./wp-edit-field.html'),
@@ -59,13 +58,14 @@ export class WorkPackageEditFieldComponent implements OnInit {
   @Input('wrapperClasses') public wrapperClasses?:string;
   @Input('displayPlaceholder') public displayPlaceholder?:string;
 
-  public workPackage:WorkPackageResourceInterface;
-  public fieldRenderer = new DisplayFieldRenderer('single-view');
+  public workPackage:WorkPackageResource;
+  public fieldRenderer = new DisplayFieldRenderer(this.injector, 'single-view');
   public editFieldContainerClass = editFieldContainerClass;
   private active = false;
   private $element:ng.IAugmentedJQuery;
 
   constructor(protected states:States,
+              protected injector:Injector,
               protected elementRef:ElementRef,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected ConfigurationService:ConfigurationService,
@@ -74,7 +74,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
               protected wpCacheService:WorkPackageCacheService,
               // Get parent field group from injector
               protected wpEditFieldGroup:WorkPackageEditFieldGroupComponent,
-              @Inject(NotificationsServiceToken) protected NotificationsService:any,
+              protected NotificationsService:NotificationsService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
 
   }
@@ -175,7 +175,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
     return this.$element.find('.__d_edit_container');
   }
 
-  public reset(workPackage:WorkPackageResourceInterface) {
+  public reset(workPackage:WorkPackageResource) {
     this.workPackage = workPackage;
     this.render();
 
@@ -183,8 +183,3 @@ export class WorkPackageEditFieldComponent implements OnInit {
   }
 
 }
-
-opWorkPackagesModule.component('wpEditField',
-  downgradeComponent({component: WorkPackageEditFieldComponent})
-);
-

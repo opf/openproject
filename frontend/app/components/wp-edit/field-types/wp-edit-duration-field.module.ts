@@ -28,11 +28,15 @@
 
 import {EditField} from "../wp-edit-field/wp-edit-field.module";
 import moment = require('moment');
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 export class DurationEditField extends EditField {
 
-  protected parseValue(val:moment.Moment) {
-    return val.toISOString();
+  readonly TimezoneService:TimezoneService = this.$injector.get(TimezoneService);
+
+  protected parseValue(val:moment.Moment|null) {
+    return val === null ? null : val.toISOString();
   }
 
   public template:string = '/components/wp-edit/field-types/wp-edit-duration-field.directive.html';

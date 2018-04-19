@@ -1,7 +1,7 @@
 import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {timeOutput} from '../../../helpers/debug_output';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../../states.service';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageTable} from '../wp-fast-table';
@@ -17,10 +17,10 @@ export interface RowRenderInfo {
   // Additional classes to be added by any secondary render passes
   additionalClasses:string[];
   // If this row is a work package, contains a reference to the rendered WP
-  workPackage:WorkPackageResourceInterface | null;
+  workPackage:WorkPackageResource | null;
   // If this is an additional row not present, this contains a reference to the WP
   // it originated from
-  belongsTo?:WorkPackageResourceInterface;
+  belongsTo?:WorkPackageResource;
   // The type of row this was rendered from
   renderType:RenderedRowType;
   // Marks if the row is currently hidden to the user
@@ -88,7 +88,7 @@ export abstract class PrimaryRenderPass {
    * Refresh a single row using the render pass it was originally created from.
    * @param row
    */
-  public refresh(row:RowRenderInfo, workPackage:WorkPackageResourceInterface, body:HTMLElement) {
+  public refresh(row:RowRenderInfo, workPackage:WorkPackageResource, body:HTMLElement) {
     let oldRow = jQuery(body).find(`.${row.classIdentifier}`);
     let replacement:JQuery | null = null;
     let editing = this.wpEditing.changesetFor(workPackage);
@@ -156,7 +156,7 @@ export abstract class PrimaryRenderPass {
    * @param rowClasses Additional classes to apply to the timeline row for mirroring purposes
    * @param hidden whether the row was rendered hidden
    */
-  protected appendRow(workPackage:WorkPackageResourceInterface,
+  protected appendRow(workPackage:WorkPackageResource,
                       row:HTMLElement,
                       additionalClasses:string[] = [],
                       hidden:boolean = false) {

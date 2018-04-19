@@ -26,19 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {CollectionResource} from '../../../api/api-v3/hal-resources/collection-resource.service';
-import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 
 @Component({
   selector: 'wp-relations-autocomplete-upgraded',
   template: require('!!raw-loader!./wp-relations-autocomplete.upgraded.html')
 })
 export class WpRelationsAutocompleteComponent implements OnInit {
-  @Input() workPackage:WorkPackageResourceInterface;
+  @Input() workPackage:WorkPackageResource;
   @Input() loadingPromiseName:string;
   @Input() selectedRelationType:string;
   @Input() filterCandidatesFor:string;
@@ -89,7 +89,7 @@ export class WpRelationsAutocompleteComponent implements OnInit {
     setTimeout(() => input.focus(), 20);
   }
 
-  private getIdentifier(workPackage:WorkPackageResourceInterface):string {
+  private getIdentifier(workPackage:WorkPackageResource):string {
     if (workPackage) {
       return `#${workPackage.id} - ${workPackage.subject}`;
     } else {
@@ -97,16 +97,12 @@ export class WpRelationsAutocompleteComponent implements OnInit {
     }
   }
 
-  private async autocompleteWorkPackages(query:string):Promise<WorkPackageResourceInterface[]> {
+  private async autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
     this.$element.find('.ui-autocomplete--loading').show();
 
     return this.workPackage.available_relation_candidates.$link.$fetch({
       query: query,
       type: this.filterCandidatesFor || this.selectedRelationType
-    }, {
-      'caching': {
-        enabled: false
-      }
     }).then((collection:CollectionResource) => {
       this.noResults = collection.count === 0;
       this.$element.find('.ui-autocomplete--loading').hide();

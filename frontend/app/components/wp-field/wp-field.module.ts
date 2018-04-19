@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
 import {Injector} from '@angular/core';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 export class Field {
   public static type:string;

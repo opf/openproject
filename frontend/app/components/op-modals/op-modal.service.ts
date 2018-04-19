@@ -33,7 +33,7 @@ export class OpModalService {
     // Listen to keyups on window to close context menus
     jQuery(window).keydown('keydown', (evt:JQueryKeyEventObject) => {
       if (this.active && this.active.closeOnEscape && evt.which === keyCodes.ESCAPE) {
-        this.close();
+        this.close(evt);
       }
 
       return true;
@@ -44,7 +44,7 @@ export class OpModalService {
       if (this.active &&
         this.active.closeOnOutsideClick &&
         !this.portalHostElement.contains(evt.target)) {
-        this.close();
+        this.close(evt);
       }
     });
 
@@ -82,12 +82,17 @@ export class OpModalService {
   /**
    * Closes currently open modal window
    */
-  public close() {
+  public close(evt?:Event) {
     // Detach any component currently in the portal
     if (this.active && this.active.onClose()) {
       this.bodyPortalHost.detach();
       this.portalHostElement.style.display = 'none';
       this.active = null;
+
+      if (evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+      }
     }
   }
 

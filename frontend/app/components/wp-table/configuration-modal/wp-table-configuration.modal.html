@@ -5,7 +5,7 @@
       <a>
         <i
             class="icon-close"
-            (click)="closeMe()"
+            (click)="closeMe($event)"
             [attr.title]="text.closePopup">
         </i>
       </a>
@@ -37,7 +37,7 @@
       </button>
       <button class="button"
               [textContent]="text.cancelButton"
-              (click)="closeMe()">
+              (click)="closeMe($event)">
       </button>
     </div>
   </div>

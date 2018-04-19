@@ -28,7 +28,7 @@
 
 import {Duration} from 'moment';
 
-function transformDuration(TimezoneService:any) {
+function transformDuration() {
   return {
     restrict:'A',
     require: 'ngModel',
@@ -45,7 +45,7 @@ function transformDuration(TimezoneService:any) {
       });
 
       ngModelController.$formatters.push(function(value:any) {
-        return TimezoneService.toHours(value);
+        return Number(moment.duration(value).asHours().toFixed(2));
       });
     }
   };

@@ -52,14 +52,14 @@ module Components
 
     def open!
       container.find(".help-text--for-#{help_text.attribute_name}").click
-      expect(page).to have_selector('.attribute-help-text--modal .modal--header', text: help_text.attribute_caption)
+      expect(page).to have_selector('.attribute-help-text--modal h3', text: help_text.attribute_caption)
     end
 
     def close!
       within modal_container do
-        page.find('.ngdialog-close').click
+        page.find('.icon-close').click
       end
-      expect(page).to have_no_selector('.attribute-help-text--modal .modal--header', text: help_text.attribute_caption)
+      expect(page).to have_no_selector('.attribute-help-text--modal h3', text: help_text.attribute_caption)
     end
 
     def expect_edit(admin:)

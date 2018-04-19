@@ -29,7 +29,7 @@ import {openprojectModule} from '../../angular-modules';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {Component, Inject, Input} from '@angular/core';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
@@ -37,7 +37,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
   selector: 'wp-details-toolbar',
 })
 export class WorkPackageSplitViewToolbarComponent {
-  @Input('workPackage') workPackage:WorkPackageResourceInterface;
+  @Input('workPackage') workPackage:WorkPackageResource;
 
   public text = {
     button_more: this.I18n.t('js.button_more')

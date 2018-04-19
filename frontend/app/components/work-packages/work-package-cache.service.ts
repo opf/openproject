@@ -28,23 +28,23 @@
 
 import {State} from 'reactivestates';
 import {opWorkPackagesModule} from '../../angular-modules';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
 import {States} from '../states.service';
 import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
-import {WorkPackageCollectionResourceInterface} from '../api/api-v3/hal-resources/wp-collection-resource.service';
-import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
 import {StateCacheService} from '../states/state-cache.service';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import {Injectable} from '@angular/core';
 import {SchemaCacheService} from './../schemas/schema-cache.service';
+import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
+import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {Injectable} from '@angular/core';
 
 function getWorkPackageId(id:number | string):string {
   return (id || '__new_work_package__').toString();
 }
 
 @Injectable()
-export class WorkPackageCacheService extends StateCacheService<WorkPackageResourceInterface> {
+export class WorkPackageCacheService extends StateCacheService<WorkPackageResource> {
 
   /*@ngInject*/
   constructor(private states:States,
@@ -54,15 +54,15 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     super();
   }
 
-  public updateValue(id:string, val:WorkPackageResourceInterface) {
+  public updateValue(id:string, val:WorkPackageResource) {
     this.updateWorkPackageList([val]);
   }
 
-  updateWorkPackage(wp:WorkPackageResourceInterface) {
+  updateWorkPackage(wp:WorkPackageResource) {
     this.updateWorkPackageList([wp]);
   }
 
-  updateWorkPackageList(list:WorkPackageResourceInterface[]) {
+  updateWorkPackageList(list:WorkPackageResource[]) {
     for (var i of list) {
       const wp = i;
       const workPackageId = getWorkPackageId(wp.id);
@@ -81,12 +81,12 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     }
   }
 
-  async saveWorkPackage(workPackage:WorkPackageResourceInterface):Promise<WorkPackageResourceInterface | null> {
+  async saveWorkPackage(workPackage:WorkPackageResource):Promise<WorkPackageResource | null> {
     if (!(workPackage.dirty || workPackage.isNew)) {
       return Promise.reject<any>(null);
     }
 
-    return new Promise<WorkPackageResourceInterface | null>((resolve, reject) => {
+    return new Promise<WorkPackageResource | null>((resolve, reject) => {
       return workPackage.save()
         .then(() => {
           this.wpNotificationsService.showSave(workPackage);
@@ -104,7 +104,7 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
    *
    * @deprecated
    */
-  loadWorkPackage(workPackageId:string, forceUpdate = false):State<WorkPackageResourceInterface> {
+  loadWorkPackage(workPackageId:string, forceUpdate = false):State<WorkPackageResource> {
     const state = this.state(workPackageId);
 
     // Several services involved in the creation of work packages
@@ -122,7 +122,7 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     return new Promise<undefined>((resolve, reject) => {
       this.apiWorkPackages
         .loadWorkPackagesCollectionsFor(_.uniq(ids))
-        .then((pagedResults:WorkPackageCollectionResourceInterface[]) => {
+        .then((pagedResults:WorkPackageCollectionResource[]) => {
           _.each(pagedResults, (results) => {
             if (results.schemas) {
               _.each(results.schemas.elements, (schema:SchemaResource) => {
@@ -141,9 +141,9 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
   }
 
   protected async load(id:string) {
-    return new Promise<WorkPackageResourceInterface>((resolve, reject) => {
+    return new Promise<WorkPackageResource>((resolve, reject) => {
       this.apiWorkPackages.loadWorkPackageById(id, true)
-        .then((workPackage:WorkPackageResourceInterface) => {
+        .then((workPackage:WorkPackageResource) => {
           this.schemaCacheService.ensureLoaded(workPackage).then(() => {
             this.multiState.get(id).putValue(workPackage);
             resolve(workPackage);

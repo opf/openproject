@@ -1,30 +1,35 @@
 import {WPFocusState} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {combine, derive, input, multiInput, StatesGroup} from 'reactivestates';
-import {mapTo} from 'rxjs/operators';
+import {input, multiInput, StatesGroup} from 'reactivestates';
 import {opServicesModule} from '../angular-modules';
-import {QueryFormResource} from './api/api-v3/hal-resources/query-form-resource.service';
-import {QueryGroupByResource} from './api/api-v3/hal-resources/query-group-by-resource.service';
-import {QueryResource} from './api/api-v3/hal-resources/query-resource.service';
-import {QuerySortByResource} from './api/api-v3/hal-resources/query-sort-by-resource.service';
-import {SchemaResource} from './api/api-v3/hal-resources/schema-resource.service';
-import {TypeResource} from './api/api-v3/hal-resources/type-resource.service';
-import {WorkPackageResourceInterface} from './api/api-v3/hal-resources/work-package-resource.service';
-import {SwitchState} from './states/switch-state';
+import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
+import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
+import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {QueryColumn} from './wp-query/query-column';
+import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
 
 export class States extends StatesGroup {
 
   name = 'MainStore';
 
+  /* /api/v3/projects */
+  projects = multiInput<ProjectResource>();
+
   /* /api/v3/work_packages */
-  workPackages = multiInput<WorkPackageResourceInterface>();
+  workPackages = multiInput<WorkPackageResource>();
 
   /* /api/v3/schemas */
   schemas = multiInput<SchemaResource>();
 
   /* /api/v3/types */
   types = multiInput<TypeResource>();
+
+  /* /api/v3/users */
+  users = multiInput<UserResource>();
 
   // Work Package query states
   query = new QueryStates();

@@ -29,14 +29,14 @@
 /*jshint expr: true*/
 
 describe('persistentToggle Directive', function() {
-  var compile, element, scope, CacheService;
+  var compile, element, scope;
   var mockStorage = {};
 
   beforeEach(angular.mock.module('openproject.api'));
   beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.services'));
   beforeEach(angular.mock.module('openproject.templates'));
 
-  beforeEach(inject(function($rootScope, $compile, _CacheService_) {
+  beforeEach(inject(function($rootScope, $compile) {
     var html = '<persistent-toggle identifier="test.foobar">' +
       '<a class="persistent-toggle--click-handler"></a>' +
       '<div class="persistent-toggle--notification"></div>' +
@@ -44,7 +44,6 @@ describe('persistentToggle Directive', function() {
 
     element = angular.element(html);
     scope = $rootScope.$new();
-    CacheService = _CacheService_;
 
     compile = function() {
       $compile(element)(scope);
@@ -71,7 +70,7 @@ describe('persistentToggle Directive', function() {
     });
 
     it('shows when no value is set', function() {
-      var value = CacheService.localStorage().get('test.foobar');
+      var value = window.OpenProject.guardedLocalStorage('test.foobar');
       expect(value).to.not.be.ok;
       expect(notification.prop('hidden')).to.be.false;
     });
@@ -81,8 +80,8 @@ describe('persistentToggle Directive', function() {
       scope.$apply();
 
       expect(notification.prop('hidden')).to.be.true;
-      var value = CacheService.localStorage().get('test.foobar');
-      expect(value).to.equal(true);
+      var value = window.OpenProject.guardedLocalStorage('test.foobar');
+      expect(value).to.equal('true');
     });
   });
 });

@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {
   calculatePositionValueForDayCountingPx,
   RenderInfo,
@@ -25,13 +25,13 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return 'milestone';
   }
 
-  public isEmpty(wp:WorkPackageResourceInterface) {
+  public isEmpty(wp:WorkPackageResource) {
     const date = moment(wp.date as any);
     const noDateValue = _.isNaN(date.valueOf());
     return noDateValue;
   }
 
-  public canMoveDates(wp:WorkPackageResourceInterface) {
+  public canMoveDates(wp:WorkPackageResource) {
     return wp.schema.date.writable;
   }
 

@@ -29,9 +29,9 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 import * as moment from 'moment';
-import {TimelineZoomLevel} from '../../../api/api-v3/hal-resources/query-resource.service';
 import {calculatePositionValueForDayCount, getTimeSlicesForHeader, TimelineViewParameters} from '../wp-timeline';
 import Moment = moment.Moment;
+import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 
 
 export const timelineHeaderCSSClass = 'wp-timeline--header-element';

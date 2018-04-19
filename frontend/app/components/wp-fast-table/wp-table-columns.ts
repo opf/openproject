@@ -26,10 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
-import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {WorkPackageTableBaseState} from './wp-table-base';
 import {QueryColumn} from '../wp-query/query-column';
+import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 export class WorkPackageTableColumns extends WorkPackageTableBaseState<QueryColumn[]> {
 
@@ -41,9 +42,9 @@ export class WorkPackageTableColumns extends WorkPackageTableBaseState<QueryColu
     this.update(query);
   }
 
-  public update(query:QueryResource|null, schema?:QuerySchemaResourceInterface) {
+  public update(query:QueryResource|null, schema?:QuerySchemaResource) {
     if (query) {
-      this.current = angular.copy(query.columns);
+      this.current = cloneHalResourceCollection<QueryColumn>(query.columns);
     }
   }
 

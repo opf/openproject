@@ -28,7 +28,7 @@
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 import ExpressionService from "../../common/xss/expression.service";
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 export class FormattableDisplayField extends DisplayField {
   protected ExpressionService:ExpressionService;

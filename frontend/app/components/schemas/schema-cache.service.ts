@@ -27,18 +27,16 @@
 // ++
 import {State} from "reactivestates";
 import {States} from "../states.service";
-import {SchemaResource} from "../api/api-v3/hal-resources/schema-resource.service";
-import {WorkPackageResourceInterface} from "core-components/api/api-v3/hal-resources/work-package-resource.service";
 import {Injectable} from '@angular/core';
-import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {opWorkPackagesModule} from 'core-app/angular-modules';
-import {downgradeInjectable} from '@angular/upgrade/static';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 @Injectable()
 export class SchemaCacheService {
 
-  /*@ngInject*/
-  constructor(private states:States) {
+  constructor(readonly states:States,
+              readonly halResourceService:HalResourceService) {
   }
 
   /**
@@ -46,7 +44,7 @@ export class SchemaCacheService {
    * @param href The schema's href.
    * @return A promise with the loaded schema.
    */
-  ensureLoaded(workPackage:WorkPackageResourceInterface):PromiseLike<any> {
+  ensureLoaded(workPackage:WorkPackageResource):PromiseLike<any> {
     const state = this.state(workPackage);
 
     if (state.hasValue()) {
@@ -59,8 +57,8 @@ export class SchemaCacheService {
   /**
    * Get the associated schema state of the work package
    *  without initializing a new resource.
-   */
-  state(workPackage:WorkPackageResourceInterface) {
+  */
+  state(workPackage:WorkPackageResource) {
     const schema = workPackage.$links.schema;
     return this.states.schemas.get(schema.href!);
   }
@@ -68,7 +66,7 @@ export class SchemaCacheService {
   /**
    * Load the associated schema for the given work package, if needed.
    */
-  load(workPackage:WorkPackageResourceInterface, forceUpdate = false):State<SchemaResource> {
+  load(workPackage:WorkPackageResource, forceUpdate = false):State<SchemaResource> {
     const state = this.state(workPackage);
 
     if (forceUpdate) {
@@ -76,12 +74,10 @@ export class SchemaCacheService {
     }
 
     state.putFromPromiseIfPristine(() => {
-      const resource = workPackage.createLinkedResource('schema', workPackage.$links.schema.$link);
+      const resource = this.halResourceService.createLinkedResource(workPackage, 'schema', workPackage.$links.schema.$link);
       return resource.$load() as any;
     });
 
     return state;
   }
 }
-
-opWorkPackagesModule.service('schemaCacheService', downgradeInjectable(SchemaCacheService));

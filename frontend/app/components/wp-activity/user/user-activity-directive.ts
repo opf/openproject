@@ -26,19 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {TextileService} from './../../common/textile/textile-service';
 import {ActivityService} from './../activity-service';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
-import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
 import {WorkPackageCommentField} from 'core-components/work-packages/work-package-comment/wp-comment-field.module';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 
 export class UserActivityController {
-  public workPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
   public activity:HalResource;
   public activityNo:string;
   public activityLabel:string;
@@ -46,7 +46,7 @@ export class UserActivityController {
 
   public inEdit = false;
   public inEditMode = false;
-  public userCanEdit= false;
+  public userCanEdit = false;
   public userCanQuote = false;
 
   public userId:string|number;
@@ -73,6 +73,7 @@ export class UserActivityController {
               readonly $sce:ng.ISCEService,
               readonly I18n:op.I18n,
               readonly PathHelper:PathHelperService,
+              readonly wpLinkedActivities:WorkPackagesActivityService,
               readonly wpActivityService:ActivityService,
               readonly wpCacheService:WorkPackageCacheService,
               readonly ConfigurationService:ConfigurationService,
@@ -114,7 +115,7 @@ export class UserActivityController {
   }
 
   public resetField(withText?:string) {
-    this.field = new WorkPackageCommentField(this.workPackage, I18n);
+    this.field = new WorkPackageCommentField(this.workPackage);
     this.field.initializeFieldValue(withText);
   }
 
@@ -168,8 +169,9 @@ export class UserActivityController {
   public updateComment() {
     this.wpActivityService.updateComment(this.activity, this.field.rawValue || '')
       .then(() => {
-      this.workPackage.updateActivities();
-      this.inEdit = false;
+        this.wpLinkedActivities.require(this.workPackage, true);
+        this.wpCacheService.updateWorkPackage(this.workPackage);
+        this.inEdit = false;
     });
     this.focusEditIcon();
   }

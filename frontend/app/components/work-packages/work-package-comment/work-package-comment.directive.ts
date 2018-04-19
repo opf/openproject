@@ -26,16 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCommentField} from './wp-comment-field.module';
-import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.service';
+import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 import {scopedObservable} from 'core-app/helpers/angular-rx-utils';
+import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 
 export class CommentFieldDirectiveController {
-  public workPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
   public field:WorkPackageCommentField;
 
   protected text:Object;
@@ -51,6 +52,7 @@ export class CommentFieldDirectiveController {
               protected $q:ng.IQService,
               protected $element:ng.IAugmentedJQuery,
               protected wpActivityService:any,
+              protected wpLinkedActivities:WorkPackagesActivityService,
               protected ConfigurationService:any,
               protected loadingIndicator:LoadingIndicatorService,
               protected wpCacheService:WorkPackageCacheService,
@@ -110,7 +112,7 @@ export class CommentFieldDirectiveController {
   }
 
   public resetField(withText?:string) {
-    this.field = new WorkPackageCommentField(this.workPackage, I18n);
+    this.field = new WorkPackageCommentField(this.workPackage);
     this.field.initializeFieldValue(withText);
   }
 
@@ -127,21 +129,19 @@ export class CommentFieldDirectiveController {
         this.editing = false;
         this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
 
-        this.workPackage.activities.$load(true).then(() => {
-          this.wpCacheService.updateWorkPackage(this.workPackage);
-        });
+        this.wpLinkedActivities.require(this.workPackage, true);
+        this.wpCacheService.updateWorkPackage(this.workPackage);
         this._forceFocus = true;
+        this.field.isBusy = false;
       })
       .catch((error:any) => {
+        this.field.isBusy = false;
         if (error instanceof ErrorResource) {
           this.wpNotificationsService.showError(error, this.workPackage);
         }
         else {
           this.NotificationsService.addError(this.I18n.t('js.work_packages.comment_send_failed'));
         }
-      })
-      .finally(() => {
-        this.field.isBusy = false;
       });
   }
 

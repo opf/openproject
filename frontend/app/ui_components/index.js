@@ -36,8 +36,6 @@ angular.module('openproject.uiComponents')
     'ConfigurationService',
     require('./copy-to-clipboard-directive')
   ])
-  .directive('opDate', ['TimezoneService', require('./date/date-directive')])
-  .directive('opTime', ['TimezoneService', require('./date/time-directive')])
   .directive('emptyElement', [require('./empty-element-directive')])
   .constant('ENTER_KEY', 13)
   .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])
@@ -54,7 +52,6 @@ angular.module('openproject.uiComponents')
   .directive('modalLoading', ['I18n', require('./modal-loading-directive')])
   .directive('persistentToggle', [
     '$timeout',
-    'CacheService',
     require('./persistent-toggle-directive')]
   )
   .constant('LABEL_MAX_CHARS', 40)
@@ -79,9 +76,6 @@ angular.module('openproject.uiComponents')
   .directive('userField', ['PathHelper', require('./user-field-directive')])
   .directive('wikiToolbar', [require('./wiki-toolbar-directive')])
   .directive('zoomSlider', ['I18n', require('./zoom-slider-directive')])
-  .directive('clickNotification', ['$timeout','NotificationsService', require('./click-notification-directive')])
-  .directive('notifications', [require('./notifications-directive')])
-  .directive('uploadProgress', [require('./upload-progress-directive')])
   .directive('attachmentIcon', [require('./attachment-icon-directive')])
   .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))
   .directive('highlightCol', [require('./highlight-col-directive')])

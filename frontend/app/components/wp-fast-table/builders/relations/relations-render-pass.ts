@@ -1,6 +1,6 @@
 import {Injector} from '@angular/core';
-import {RelationResource} from '../../../api/api-v3/hal-resources/relation-resource.service';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
@@ -104,7 +104,7 @@ export class RelationsRenderPass {
   }
 
   public refreshRelationRow(renderedRow:RelationRenderInfo,
-                            workPackage:WorkPackageResourceInterface,
+                            workPackage:WorkPackageResource,
                             changeset:WorkPackageChangeset,
                             oldRow:JQuery) {
     const newRow = this.relationRowBuilder.refreshRow(workPackage, changeset, oldRow);

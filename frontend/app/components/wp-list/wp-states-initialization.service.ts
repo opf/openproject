@@ -6,12 +6,10 @@ import {WorkPackageTableSumService} from '../wp-fast-table/state/wp-table-sum.se
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
-import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service';
-import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
-import {QueryFormResource} from '../api/api-v3/hal-resources/query-form-resource.service';
-import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
-import {QueryFilterInstanceSchemaResource} from '../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
+import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
+import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageTableRelationColumnsService} from '../wp-fast-table/state/wp-table-relation-columns.service';
 import {WorkPackagesListChecksumService} from './wp-list-checksum.service';
@@ -20,7 +18,7 @@ import {WorkPackageTableAdditionalElementsService} from '../wp-fast-table/state/
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
-import {downgradeInjectable} from '@angular/upgrade/static';
+import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
@@ -69,10 +67,10 @@ export class WorkPackageStatesInitializationService {
    * @param form
    */
   public updateStatesFromForm(query:QueryResource, form:QueryFormResource) {
-    let schema = form.schema as QuerySchemaResourceInterface;
+    let schema:QuerySchemaResource = form.schema as any;
 
-    _.each(schema.filtersSchemas.elements, (schema:QueryFilterInstanceSchemaResource) => {
-      this.states.schemas.get(schema.href as string).putValue(schema);
+    _.each(schema.filtersSchemas.elements, (schema) => {
+      this.states.schemas.get(schema.$href as string).putValue(schema as any);
     });
 
     this.wpTableFilters.initializeFilters(query, schema);
@@ -100,7 +98,7 @@ export class WorkPackageStatesInitializationService {
 
     this.tableState.results.putValue(results);
 
-    this.tableState.groups.putValue(angular.copy(results.groups));
+    this.tableState.groups.putValue(results.groups);
 
     this.wpTablePagination.initialize(query, results);
 
@@ -147,7 +145,3 @@ export class WorkPackageStatesInitializationService {
     this.tableState.rendered.clear(reason);
   }
 }
-
-angular
-  .module('openproject.workPackages.services')
-  .service('wpStatesInitialization', downgradeInjectable(WorkPackageStatesInitializationService));

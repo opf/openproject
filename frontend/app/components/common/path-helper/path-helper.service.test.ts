@@ -40,13 +40,7 @@ describe('PathHelper', function() {
     var projectIdentifier = 'majora';
 
     it('should provide the project\'s path', function() {
-      expect(PathHelper.apiV3ProjectPath(projectIdentifier)).to.equal('/api/v3/projects/majora');
-    });
-
-    it('should provide a path to the project\'s categories', function() {
-      expect(
-        PathHelper.apiV3ProjectCategoriesPath(projectIdentifier)
-      ).to.equal('/api/v3/projects/majora/categories');
+      expect(PathHelper.api.v3.projects.id(projectIdentifier).path).to.equal('/api/v3/projects/majora');
     });
 
     it('should provide a path to the project\'s mentionable principals', function() {
@@ -54,7 +48,7 @@ describe('PathHelper', function() {
       var term = 'Maria';
 
       expect(
-        PathHelper.apiv3MentionablePrincipalsPath(projectId, term)
+        PathHelper.api.v3.principals(projectId, term)
       ).to.equal('/api/v3/principals?filters=' +  encodeURI('[{"status":{"operator":"!","values":["0","3"]}},{"member":{"operator":"=","values":["1"]}},{"type":{"operator":"=","values":["User","Group"]}},{"id":{"operator":"!","values":["me"]}},{"name":{"operator":"~","values":["Maria"]}}]&sortBy=[["name","asc"]]&offset=1&pageSize=10'));
     });
   });

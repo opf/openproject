@@ -30,8 +30,7 @@ import {wpControllersModule} from '../../../angular-modules';
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {States} from '../../states.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {QueryDmService} from '../../api/api-v3/hal-resource-dms/query-dm.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 
 function SaveModalController(this:any,
                              $scope:any,
@@ -64,7 +63,7 @@ function SaveModalController(this:any,
 
     wpListService
       .create(query, name)
-      .then((savedQuery:QueryResource) => {
+      .then(async (savedQuery:QueryResource) => {
         if ($scope.isStarred && !savedQuery.starred) {
           return wpListService.toggleStarred(savedQuery).then(() => saveModal.deactivate());
         }
@@ -73,7 +72,7 @@ function SaveModalController(this:any,
         return $q.when(true);
       })
       .catch((error:any) => wpNotificationsService.handleErrorResponse(error))
-      .finally(() => this.isBusy = false);
+      .then(() => this.isBusy = false); // Same as .finally()
   };
 }
 

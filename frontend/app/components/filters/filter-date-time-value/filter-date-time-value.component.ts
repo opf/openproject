@@ -26,12 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {AbstractDateTimeValueController} from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller'
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {AbstractDateTimeValueController} from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller'
 import {Component, EventEmitter, Inject, Input, OnDestroy, Output} from '@angular/core';
-import {I18nToken, TimezoneServiceToken} from 'core-app/angular4-transition-utils';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 @Component({
   selector: 'filter-date-time-value',
@@ -42,8 +43,8 @@ export class FilterDateTimeValueComponent extends AbstractDateTimeValueControlle
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
   constructor(@Inject(I18nToken) readonly I18n:op.I18n,
-              @Inject(TimezoneServiceToken) readonly TimezoneService:any) {
-    super(I18n, TimezoneService);
+              readonly timezoneService:TimezoneService) {
+    super(I18n, timezoneService);
   }
 
   ngOnDestroy() {
@@ -54,20 +55,28 @@ export class FilterDateTimeValueComponent extends AbstractDateTimeValueControlle
     return this.filter.values[0];
   }
 
+  public get valueString() {
+    return this.filter.values[0].toString();
+  }
+
   public set value(val) {
     this.filter.values = [val as string];
     this.filterChanged.emit(this.filter);
   }
 
   public get lowerBoundary() {
-    if (this.value && this.TimezoneService.isValidISODateTime(this.value)) {
-      return this.TimezoneService.parseDatetime(this.value);
+    if (this.value && this.timezoneService.isValidISODateTime(this.valueString)) {
+      return this.timezoneService.parseDatetime(this.valueString);
     }
+
+    return null;
   }
 
   public get upperBoundary() {
-    if (this.value && this.TimezoneService.isValidISODateTime(this.value)) {
-      return this.TimezoneService.parseDatetime(this.value).add(24, 'hours');
+    if (this.value && this.timezoneService.isValidISODateTime(this.valueString)) {
+      return this.timezoneService.parseDatetime(this.valueString).add(24, 'hours');
     }
+
+    return null;
   }
 }

@@ -26,15 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QuerySchemaResourceInterface} from 'core-components/api/api-v3/hal-resources/query-schema-resource.service';
-import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
-import {States} from 'core-components/states.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {InputState, State} from 'reactivestates';
-import {Observable} from 'rxjs/Observable';
 import {mapTo, take, takeUntil} from 'rxjs/operators';
 import {scopedObservable} from '../../../helpers/angular-rx-utils';
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {Observable} from 'rxjs';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
+import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 
 export abstract class WorkPackageTableBaseService<T> {
 
@@ -60,9 +59,9 @@ export abstract class WorkPackageTableBaseService<T> {
    * and possibly the associated schema.
    *
    * @param {QueryResource} query
-   * @param {QuerySchemaResourceInterface} schema
+   * @param {QuerySchemaResource} schema
    */
-  public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResourceInterface) {
+  public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
     this.state.putValue(this.valueFromQuery(query, results)!);
   }
 

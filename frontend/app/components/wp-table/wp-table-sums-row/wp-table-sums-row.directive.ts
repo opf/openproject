@@ -30,8 +30,8 @@ import {AfterViewInit, Directive, ElementRef, Inject, Injector} from '@angular/c
 import {combine} from 'reactivestates';
 import {takeUntil} from 'rxjs/operators';
 import {I18nToken} from '../../../angular4-transition-utils';
-import {SchemaResource} from '../../api/api-v3/hal-resources/schema-resource.service';
-import {WorkPackageCollectionResourceInterface} from '../../api/api-v3/hal-resources/wp-collection-resource.service';
+import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
+import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {States} from '../../states.service';
 import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
 import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
@@ -87,12 +87,12 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
     this.$element.empty();
   }
 
-  private refresh(columns:WorkPackageTableColumns, resource:WorkPackageCollectionResourceInterface, schema:SchemaResource) {
+  private refresh(columns:WorkPackageTableColumns, resource:WorkPackageCollectionResource, schema:SchemaResource) {
     this.clear();
     this.render(columns, resource, schema);
   }
 
-  private render(columns:WorkPackageTableColumns, resource:WorkPackageCollectionResourceInterface, schema:SchemaResource) {
+  private render(columns:WorkPackageTableColumns, resource:WorkPackageCollectionResource, schema:SchemaResource) {
     this.$element[0].classList.add('sum', 'group', 'all', 'issue', 'work_package');
 
     // build

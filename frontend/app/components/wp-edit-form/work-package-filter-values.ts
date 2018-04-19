@@ -1,10 +1,8 @@
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
-import {CollectionResource} from '../api/api-v3/hal-resources/collection-resource.service';
-import {FormResourceInterface} from '../api/api-v3/hal-resources/form-resource.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {WorkPackageChangeset} from './work-package-changeset';
-import {
-  QueryFilterInstanceResource,
-} from '../api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 
 export class WorkPackageFilterValues {
 
@@ -43,7 +41,7 @@ export class WorkPackageFilterValues {
     });
   }
 
-  private async setAllowedValueFor(form:FormResourceInterface, field:string, value:string|HalResource) {
+  private async setAllowedValueFor(form:FormResource, field:string, value:string|HalResource) {
     return this.allowedValuesFor(form, field).then((allowedValues) => {
       let newValue;
 
@@ -63,7 +61,7 @@ export class WorkPackageFilterValues {
     });
   }
 
-  private async allowedValuesFor(form:FormResourceInterface, field:string):Promise<HalResource[]> {
+  private async allowedValuesFor(form:FormResource, field:string):Promise<HalResource[]> {
     const fieldSchema = form.schema[field];
 
     return new Promise<HalResource[]>(resolve => {

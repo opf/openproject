@@ -26,28 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
-import {QueryFormResource} from '../api/api-v3/hal-resources/query-form-resource.service';
-import {QuerySortByResource} from '../api/api-v3/hal-resources/query-sort-by-resource.service';
-import {QueryGroupByResource} from '../api/api-v3/hal-resources/query-group-by-resource.service';
-import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
-import {QueryFilterResource} from '../api/api-v3/hal-resources/query-filter-resource.service';
-import {QueryFilterInstanceResource} from '../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {QueryFilterInstanceSchemaResource} from '../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
+import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
+import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
+import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
+import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
+import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
 import {QueryColumn} from '../wp-query/query-column';
-import {Inject, Injectable} from '@angular/core';
-import {
-  QueryFilterInstanceResourceToken,
-  QueryResourceToken
-} from 'core-app/angular4-transition-utils';
+import {Injectable} from '@angular/core';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 @Injectable()
 export class WorkPackagesListInvalidQueryService {
-  constructor(@Inject(QueryResourceToken) protected QueryResource:QueryResource,
-              @Inject(QueryFilterInstanceResourceToken) protected QueryFilterInstanceResource:QueryFilterInstanceResource) {}
+  constructor(protected halResourceService:HalResourceService) {}
 
   public restoreQuery(query:QueryResource, form:QueryFormResource) {
-    let payload = new (this.QueryResource as any)(form.payload);
+    let payload = this.halResourceService.createHalResourceOfType<QueryResource>('Query', form.payload);
 
     this.restoreFilters(query, payload, form.schema);
     this.restoreColumns(query, payload, form.schema);
@@ -66,7 +61,7 @@ export class WorkPackagesListInvalidQueryService {
         return null;
       }
 
-      let recreatedFilter = this.QueryFilterInstanceResource.fromSchema(filterInstanceSchema);
+      let recreatedFilter = filterInstanceSchema.getFilter();
 
       let operator = _.find(filterInstanceSchema.operator.allowedValues, operator => {
         return operator.$href === filter.operator.$href;

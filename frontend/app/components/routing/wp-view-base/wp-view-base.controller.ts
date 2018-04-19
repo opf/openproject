@@ -32,12 +32,13 @@ import {PathHelperService} from 'core-components/common/path-helper/path-helper.
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../../states.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {ProjectCacheService} from 'core-components/projects/project-cache.service';
 
 export class WorkPackageViewController implements OnDestroy {
 
@@ -49,12 +50,13 @@ export class WorkPackageViewController implements OnDestroy {
   public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
   protected wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
   protected wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
+  protected projectCacheService:ProjectCacheService = this.injector.get(ProjectCacheService);
 
   // Static texts
   public text:any = {};
 
   // Work package resource to be loaded from the cache
-  public workPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
   public projectIdentifier:string;
 
   protected focusAnchorLabel:string;
@@ -77,7 +79,7 @@ export class WorkPackageViewController implements OnDestroy {
       .pipe(
         takeUntil(componentDestroyed(this))
       )
-      .subscribe((wp:WorkPackageResourceInterface) => {
+      .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
         this.init();
       });
@@ -98,7 +100,9 @@ export class WorkPackageViewController implements OnDestroy {
    */
   protected init() {
     // Set elements
-    this.workPackage.project.$load().then(() => {
+    this.projectCacheService
+      .require(this.workPackage.project.idFromLink)
+      .then(() => {
       this.projectIdentifier = this.workPackage.project.identifier;
     });
 

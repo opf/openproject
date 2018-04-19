@@ -29,12 +29,12 @@
 import {Injectable} from '@angular/core';
 import {WorkPackageTableBaseService,} from './wp-table-base.service';
 import {opServicesModule} from '../../../angular-modules';
-import {WorkPackageCollectionResource} from '../../api/api-v3/hal-resources/wp-collection-resource.service'
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource'
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTablePagination} from '../wp-table-pagination';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import {PaginationObject} from 'core-components/api/api-v3/hal-resource-dms/query-dm.service';
+import {PaginationObject} from 'core-app/modules/hal/dm-services/query-dm.service';
 
 interface PaginationUpdateObject {
   page?:number;

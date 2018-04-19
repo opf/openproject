@@ -27,33 +27,34 @@
 //++
 
 import {Moment} from 'moment';
-import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 export abstract class AbstractDateTimeValueController {
   public filter:QueryFilterInstanceResource;
 
   constructor(protected I18n:op.I18n,
-              protected TimezoneService:any) {
-    _.remove(this.filter.values as string[], value => !this.TimezoneService.isValidISODateTime(value));
+              protected timezoneService:TimezoneService) {
+    _.remove(this.filter.values as string[], value => !this.timezoneService.isValidISODateTime(value));
   }
 
-  public abstract get lowerBoundary():Moment
-  public abstract get upperBoundary():Moment
+  public abstract get lowerBoundary():Moment|null;
+  public abstract get upperBoundary():Moment|null;
 
   public isoDateParser(data:string) {
-    if (!this.TimezoneService.isValidISODate(data)) {
+    if (!this.timezoneService.isValidISODate(data)) {
       return '';
     }
-    var d = this.TimezoneService.parseLocalDateTime(data);
-    return this.TimezoneService.formattedISODateTime(d);
+    var d = this.timezoneService.parseLocalDateTime(data);
+    return this.timezoneService.formattedISODateTime(d);
   }
 
   public isoDateFormatter(data:string) {
-    if (!this.TimezoneService.isValidISODateTime(data)) {
+    if (!this.timezoneService.isValidISODateTime(data)) {
       return '';
     }
-    var d = this.TimezoneService.parseISODatetime(data);
-    return this.TimezoneService.formattedISODate(d);
+    var d = this.timezoneService.parseISODatetime(data);
+    return this.timezoneService.formattedISODate(d);
   }
 
   public get isTimeZoneDifferent() {
@@ -75,10 +76,12 @@ export abstract class AbstractDateTimeValueController {
       return this.I18n.t('js.filter.time_zone_converted.only_end',
                          { to: this.upperBoundary.format('YYYY-MM-DD HH:mm') });
 
-    } else {
+    } else if(this.lowerBoundary) {
       return this.I18n.t('js.filter.time_zone_converted.only_start',
                          { from: this.lowerBoundary.format('YYYY-MM-DD HH:mm') });
 
     }
+
+    return '';
   }
 }

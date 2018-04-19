@@ -1,16 +1,13 @@
 import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {RelationResource} from '../../../api/api-v3/hal-resources/relation-resource.service';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {States} from '../../../states.service';
 import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
 import {RelationColumnType} from '../../state/wp-table-relation-columns.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {wpCellTdClassName} from '../cell-builder';
 import {commonRowClassName, SingleRowBuilder, tableRowClassName} from '../rows/single-row-builder';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 export function relationGroupClass(workPackageId:string) {
   return `__relations-expanded-from-${workPackageId}`;
@@ -40,7 +37,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
    * @param column
    * @return {any}
    */
-  public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement|null {
+  public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLElement|null {
 
     // handle relation types
     if (isRelationColumn(column)) {
@@ -53,7 +50,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
   /**
    * Build the columns on the given empty row
    */
-  public buildEmptyRelationRow(from:WorkPackageResourceInterface, relation:RelationResource, type:RelationColumnType):[HTMLElement, WorkPackageResourceInterface] {
+  public buildEmptyRelationRow(from:WorkPackageResource, relation:RelationResource, type:RelationColumnType):[HTMLElement, WorkPackageResource] {
     const denormalized = relation.denormalized(from);
 
     const to = this.states.workPackages.get(denormalized.targetId).value!;
@@ -70,7 +67,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
    * @param workPackage
    * @returns {any}
    */
-  public createEmptyRelationRow(from:WorkPackageResourceInterface, to:WorkPackageResourceInterface) {
+  public createEmptyRelationRow(from:WorkPackageResource, to:WorkPackageResource) {
     const identifier = this.relationClassIdentifier(from, to);
     let tr = document.createElement('tr');
     tr.dataset['workPackageId'] = to.id;
@@ -87,7 +84,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
     return tr;
   }
 
-  public relationClassIdentifier(from:WorkPackageResourceInterface, to:WorkPackageResourceInterface) {
+  public relationClassIdentifier(from:WorkPackageResource, to:WorkPackageResource) {
     return relationIdentifier(to.id, from.id);
   }
 
@@ -97,7 +94,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
    * @param denormalized
    * @param type
    */
-  public appendRelationLabel(jRow:JQuery, from:WorkPackageResourceInterface, relation:RelationResource, columnId:string, type:RelationColumnType) {
+  public appendRelationLabel(jRow:JQuery, from:WorkPackageResource, relation:RelationResource, columnId:string, type:RelationColumnType) {
     const denormalized = relation.denormalized(from);
     let typeLabel = '';
 

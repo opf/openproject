@@ -26,19 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
-import {wpServicesModule} from '../../angular-modules';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {StateService} from '@uirouter/core';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {Inject, Injectable} from '@angular/core';
+import {
+  $stateToken,
+  I18nToken,
+} from 'core-app/angular4-transition-utils';
+import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
+import {opServicesModule} from 'core-app/angular-modules';
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {NotificationsService} from 'core-components/common/notifications/notifications.service';
 
+@Injectable()
 export class WorkPackageNotificationService {
-  constructor(protected I18n:op.I18n,
-              protected $state:StateService,
-              protected NotificationsService:any,
-              protected loadingIndicator:any) {
+  constructor(@Inject(I18nToken) protected I18n:op.I18n,
+              @Inject($stateToken) protected $state:StateService,
+              protected halResourceService:HalResourceService,
+              protected NotificationsService:NotificationsService,
+              protected loadingIndicator:LoadingIndicatorService) {
   }
 
-  public showSave(workPackage: WorkPackageResourceInterface, isCreate:boolean = false) {
+  public showSave(workPackage:WorkPackageResource, isCreate:boolean = false) {
     var message:any = {
       message: this.I18n.t('js.notice_successful_' + (isCreate ? 'create' : 'update')),
     };
@@ -51,16 +62,16 @@ export class WorkPackageNotificationService {
     this.NotificationsService.addSuccess(message);
   }
 
-  public handleRawError(response:any, workPackage?:WorkPackageResourceInterface) {
+  public handleRawError(response:any, workPackage?:WorkPackageResource) {
     if (response && response.data && response.data._type === 'Error') {
-      const resource = new ErrorResource(response.data);
+      const resource = this.halResourceService.createHalResource(response.data);
       return this.handleErrorResponse(resource, workPackage);
     }
 
     this.showGeneralError(response);
   }
 
-  public handleErrorResponse(errorResource:any, workPackage?:WorkPackageResourceInterface) {
+  public handleErrorResponse(errorResource:any, workPackage?:WorkPackageResource) {
     if (!(errorResource instanceof ErrorResource)) {
       return this.showGeneralError(errorResource);
     }
@@ -72,7 +83,7 @@ export class WorkPackageNotificationService {
     this.showApiErrorMessages(errorResource);
   }
 
-  public showError(errorResource:any, workPackage:WorkPackageResourceInterface) {
+  public showError(errorResource:any, workPackage:WorkPackageResource) {
     this.showCustomError(errorResource, workPackage) || this.showApiErrorMessages(errorResource);
   }
 
@@ -93,7 +104,7 @@ export class WorkPackageNotificationService {
     ));
   }
 
-  private showCustomError(errorResource:any, workPackage:WorkPackageResourceInterface) {
+  private showCustomError(errorResource:any, workPackage:WorkPackageResource) {
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
 
       let attributeName = workPackage.schema[errorResource.details.attribute].name;
@@ -105,7 +116,7 @@ export class WorkPackageNotificationService {
       }
 
       this.NotificationsService.addError(this.I18n.t(i18nString,
-        {attribute: attributeName}));
+        { attribute: attributeName }));
 
       return true;
     }
@@ -125,10 +136,10 @@ export class WorkPackageNotificationService {
     return true;
   }
 
-  private showInFullScreenLink(workPackage:WorkPackageResourceInterface) {
+  private showInFullScreenLink(workPackage:WorkPackageResource) {
     return {
       target: () => {
-        this.loadingIndicator.mainPage =
+        this.loadingIndicator.table.promise =
           this.$state.go('work-packages.show.activity', { workPackageId: workPackage.id });
       },
       text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
@@ -136,4 +147,5 @@ export class WorkPackageNotificationService {
   }
 }
 
-wpServicesModule.service('wpNotificationsService', WorkPackageNotificationService);
+opServicesModule.service('wpNotificationsService',
+  downgradeInjectable(WorkPackageNotificationService));

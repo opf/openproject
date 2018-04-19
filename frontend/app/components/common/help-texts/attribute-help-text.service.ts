@@ -26,17 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opUiComponentsModule} from '../../../angular-modules';
-import {HelpTextResourceInterface} from '../../api/api-v3/hal-resources/help-text-resource.service';
-import {HelpTextDmService} from '../../api/api-v3/hal-resource-dms/help-text-dm.service';
 import {input} from 'reactivestates';
-import {CollectionResource} from "core-components/api/api-v3/hal-resources/collection-resource.service";
+import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
+import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
+import {Injectable} from '@angular/core';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 
+@Injectable()
 export class AttributeHelpTextsService {
-  private helpTexts = input<HelpTextResourceInterface[]>();
+  private helpTexts = input<HelpTextResource[]>();
 
-  constructor(private helpTextDm:HelpTextDmService,
-              private $q:ng.IQService) {
+  constructor(private helpTextDm:HelpTextDmService) {
   }
 
   /**
@@ -45,26 +45,22 @@ export class AttributeHelpTextsService {
    * @param attribute
    * @param scope
    */
-  public require(attribute:string, scope:string):ng.IPromise<HelpTextResourceInterface|undefined> {
-    const deferred = this.$q.defer<HelpTextResourceInterface|undefined>();
+  public async require(attribute:string, scope:string):Promise<HelpTextResource|undefined> {
+      this.helpTexts.putFromPromiseIfPristine(async () =>
+        this.helpTextDm
+          .loadAll()
+          .then((resources:CollectionResource<HelpTextResource>) => resources.elements)
+      );
 
-    if (this.helpTexts.isPristine()) {
-      this.helpTextDm.loadAll()
-        .then((resources:CollectionResource<HelpTextResourceInterface>) => {
-          this.helpTexts.putValue(resources.elements as any);
-          deferred.resolve(this.find(attribute, scope));
-        });
-    } else {
-      deferred.resolve(this.find(attribute, scope));
-    }
-
-    return deferred.promise;
+      return new Promise<HelpTextResource|undefined>((resolve, reject) => {
+        this.helpTexts
+          .valuesPromise()
+          .then(() => resolve(this.find(attribute, scope)));
+       });
   }
 
-  private find(attribute:string, scope:string):HelpTextResourceInterface|undefined {
+  private find(attribute:string, scope:string):HelpTextResource|undefined {
     const value = this.helpTexts.getValueOr([]);
     return _.find(value, (element) => element.scope === scope && element.attribute === attribute);
   }
 }
-
-opUiComponentsModule.service('attributeHelpTexts', AttributeHelpTextsService);

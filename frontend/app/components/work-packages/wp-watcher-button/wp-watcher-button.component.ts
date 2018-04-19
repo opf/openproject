@@ -26,21 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {WorkPackageCacheService} from '../work-package-cache.service';
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
-import {wpDirectivesModule} from '../../../angular-modules';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageCacheService} from '../work-package-cache.service';
+import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 
 @Component({
   template: require('!!raw-loader!./wp-watcher-button.html'),
   selector: 'wp-watcher-button',
 })
-export class WorkPackageWatcherButtonComponent implements OnInit, OnDestroy {
-  @Input('workPackage') public workPackage:WorkPackageResourceInterface;
+export class WorkPackageWatcherButtonComponent implements OnInit,  OnDestroy {
+  @Input('workPackage') public workPackage:WorkPackageResource;
   @Input('showText') public showText:boolean = false;
   @Input('disabled') public disabled:boolean = false;
 
@@ -51,7 +50,8 @@ export class WorkPackageWatcherButtonComponent implements OnInit, OnDestroy {
   public watchIconClass:string;
 
   constructor(@Inject(I18nToken) readonly I18n:op.I18n,
-              public wpCacheService:WorkPackageCacheService) {
+              readonly wpWatchersService:WorkPackageWatchersService,
+              readonly wpCacheService:WorkPackageCacheService) {
   }
 
   ngOnInit() {
@@ -60,7 +60,7 @@ export class WorkPackageWatcherButtonComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(componentDestroyed(this))
       )
-      .subscribe((wp:WorkPackageResourceInterface) => {
+      .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
         this.setWatchStatus();
       });
@@ -82,6 +82,7 @@ export class WorkPackageWatcherButtonComponent implements OnInit, OnDestroy {
     const toggleLink = this.nextStateLink();
 
     toggleLink(toggleLink.$link.payload).then(() => {
+      this.wpWatchersService.clear(this.workPackage.id);
       this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
     });
   }
@@ -108,7 +109,3 @@ export class WorkPackageWatcherButtonComponent implements OnInit, OnDestroy {
     }
   }
 }
-
-wpDirectivesModule.directive('wpWatcherButton',
-  downgradeComponent({component: WorkPackageWatcherButtonComponent})
-);

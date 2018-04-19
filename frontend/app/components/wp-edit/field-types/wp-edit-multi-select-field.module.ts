@@ -27,23 +27,26 @@
 // ++
 
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
-import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
-import {$injectFields} from '../../angular/angular-injector-bridge.functions';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {ValueOption} from 'core-components/wp-edit/field-types/wp-edit-select-field.module';
 
 export class MultiSelectEditField extends EditField {
   public options:any[];
+  public valueOptions:ValueOption[];
   public template:string = '/components/wp-edit/field-types/wp-edit-multi-select-field.directive.html';
-  public text:{requiredPlaceholder:string, placeholder:string, save:string, cancel:string};
-  public isMultiselect: boolean;
+  public text:{ requiredPlaceholder:string, placeholder:string, save:string, cancel:string };
+  public isMultiselect:boolean;
 
   // Dependencies
-  public I18n:op.I18n;
+  readonly I18n:op.I18n = this.$injector.get(I18nToken);
 
   public currentValueInvalid:boolean = false;
+  private nullOption:ValueOption;
+  private _selectedOption:ValueOption|ValueOption[];
 
   protected initialize() {
-    $injectFields(this, 'I18n');
     this.isMultiselect = this.isValueMulti();
 
     this.text = {
@@ -52,6 +55,8 @@ export class MultiSelectEditField extends EditField {
       save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
       cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
     };
+
+    this.nullOption = { name: this.text.placeholder, href: null };
 
     if (angular.isArray(this.schema.allowedValues)) {
       this.setValues(this.schema.allowedValues);
@@ -79,16 +84,56 @@ export class MultiSelectEditField extends EditField {
     }
   }
 
-  public set value(val) {
-    this.changeset.setValue(this.name, this.parseValue(val));
+  /**
+   * Map the selected hal resource(s) to the value options so that ngOptions will track them.
+   * We cannot pass the HalResources themselves as angular will copy them on every digest due to trackBy
+   * @returns {any}
+   */
+  public buildSelectedOption() {
+    const value:HalResource|HalResource[] = this.changeset.value(this.name);
+
+    if (this.isMultiselect) {
+      if (!Array.isArray(value)) {
+        return [this.findValueOption(value)];
+      }
+
+      return value.map(val => this.findValueOption(val));
+    }
+
+    if (!Array.isArray(value)) {
+      return this.findValueOption(value);
+    } else if (value.length > 0) {
+      return this.findValueOption(value[0]);
+    }
+
+    return this.nullOption;
   }
 
-  protected parseValue(val:any) {
-    if (Array.isArray(val)) {
-      return val;
-    } else {
-      return [val];
-    }
+  public get selectedOption() {
+    return this._selectedOption;
+  }
+
+  /**
+   * Map the ValueOption to the actual HalResource option
+   * @param val
+   */
+  public set selectedOption(val:ValueOption|ValueOption[]) {
+    this._selectedOption = val;
+    let selected:any;
+    let mapper = (val:ValueOption) => {
+      let option = _.find(this.options, o => o.href === val.href) || this.nullOption;
+
+      // Special case 'null' value, which angular
+      // only understands in ng-options as an empty string.
+      if (option && option.href === '') {
+        option.href = null;
+      }
+
+      return option;
+    };
+
+    const value = _.castArray(val).map(el => mapper(el));
+    this.changeset.setValue(this.name, value);
   }
 
   public isValueMulti() {
@@ -98,11 +143,22 @@ export class MultiSelectEditField extends EditField {
 
   public toggleMultiselect() {
     this.isMultiselect = !this.isMultiselect;
-  };
+    this._selectedOption = this.buildSelectedOption();
+  }
+
+  private findValueOption(option?:HalResource):ValueOption {
+    let result;
+
+    if (option) {
+      result = _.find(this.valueOptions, (valueOption) => valueOption.href === option.href)!;
+    }
+
+    return result || this.nullOption;
+  }
 
   private setValues(availableValues:any[], sortValuesByName:boolean = false) {
     if (sortValuesByName) {
-      availableValues.sort(function(a:any, b:any) {
+      availableValues.sort(function (a:any, b:any) {
         var nameA = a.name.toLowerCase();
         var nameB = b.name.toLowerCase();
         return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
@@ -111,17 +167,24 @@ export class MultiSelectEditField extends EditField {
 
     this.options = availableValues;
     this.addEmptyOption();
+    this.valueOptions = this.options.map(el => {
+      return { name: el.name, href: el.href };
+    });
+    this._selectedOption = this.buildSelectedOption();
     this.checkCurrentValueValidity();
   }
 
   private checkCurrentValueValidity() {
-    if(this.value) {
+    if (this.value) {
       this.currentValueInvalid = !!(
         // (If value AND)
         // MultiSelect AND there is no value which href is not in the options hrefs OR
         // SingleSelect AND the given values href is not within the options hrefs
-        (this.isMultiselect && !_.some(this.value, (value:HalResource) => { return _.some(this.options, (option) => (option.href === value.href)) })) ||
-        (!this.isMultiselect && !_.some(this.options, (option) => (option.href === this.value.href)))
+        (this.isMultiselect && !_.some(this.value, (value:HalResource) => {
+          return _.some(this.options, (option) => (option.href === value.href))
+        })) ||
+        (!this.isMultiselect && !_.some(this.options,
+          (option) => (option.href === this.value.href)))
       );
     }
     else {
@@ -140,10 +203,7 @@ export class MultiSelectEditField extends EditField {
     // the option if one is returned / exists already.
     const emptyOption = _.find(this.options, { name: this.text.placeholder });
     if (emptyOption === undefined) {
-      this.options.unshift({
-        name: this.text.placeholder,
-        href: null
-      });
+      this.options.unshift(this.nullOption);
     }
   }
 }

@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {AbstractDateTimeValueController} from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller'
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {AbstractDateTimeValueController} from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller'
 import {Component, Inject, Input, OnDestroy, Output} from '@angular/core';
-import {TimezoneServiceToken} from 'core-app/angular4-transition-utils';
 import {I18nToken} from '../../../angular4-transition-utils';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 @Component({
   selector: 'filter-date-times-value',
@@ -47,8 +47,8 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
   };
 
   constructor(@Inject(I18nToken) readonly I18n:op.I18n,
-              @Inject(TimezoneServiceToken) readonly TimezoneService:any) {
-    super(I18n, TimezoneService);
+              readonly timezoneService:TimezoneService) {
+    super(I18n, timezoneService);
   }
 
   ngOnDestroy() {
@@ -74,16 +74,16 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
   }
 
   public get lowerBoundary() {
-    if (this.begin && this.TimezoneService.isValidISODateTime(this.begin)) {
-      return this.TimezoneService.parseDatetime(this.begin);
+    if (this.begin && this.timezoneService.isValidISODateTime(this.begin.toString())) {
+      return this.timezoneService.parseDatetime(this.begin.toString());
     } else {
       return null;
     }
   }
 
   public get upperBoundary() {
-    if (this.end && this.TimezoneService.isValidISODateTime(this.end)) {
-      return this.TimezoneService.parseDatetime(this.end);
+    if (this.end && this.timezoneService.isValidISODateTime(this.end.toString())) {
+      return this.timezoneService.parseDatetime(this.end.toString());
     } else {
       return null;
     }

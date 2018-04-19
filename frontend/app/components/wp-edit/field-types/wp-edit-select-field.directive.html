@@ -2,7 +2,7 @@
         ng-model-options="{ getterSetter:true }"
         class="wp-inline-edit--field form--select"
         wp-edit-field-requirements="vm.field.schema"
-        ng-options="value as (value.name || value.value) for value in vm.field.options track by value.href"
+        ng-options="value as (value.name || value.value) for value in vm.field.valueOptions track by value.href"
         ng-change="vm.handleUserSubmit()"
         ng-required="vm.field.required"
         ng-focus="vm.handleUserFocus()"

@@ -1,19 +1,16 @@
 import {InsertMode} from '../wp-attachments-formattable.enums';
 import {IApplyAttachmentMarkup} from '../wp-attachments-formattable.interfaces';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {MarkupModel} from './markup-model';
 import {WorkPackageCacheService} from '../../work-package-cache.service';
-import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
-import {Injector} from '@angular/core';
 
 export class WorkPackageFieldModel implements IApplyAttachmentMarkup {
   public contentToInsert:string;
 
-  constructor(protected workPackage:WorkPackageResourceInterface,
+  constructor(protected workPackage:WorkPackageResource,
               protected attribute:string,
               protected markupModel:MarkupModel) {
-
 
     const formattable = workPackage[attribute];
     this.contentToInsert = _.get(formattable, 'raw') as string || '';

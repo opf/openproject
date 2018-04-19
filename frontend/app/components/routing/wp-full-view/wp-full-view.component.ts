@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService} from '@uirouter/core';
-import {TypeResource} from 'core-components/api/api-v3/hal-resources/type-resource.service';
+import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {Component, Inject, Injector} from '@angular/core';
 import {$stateToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
@@ -97,7 +97,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageViewController {
     this.$state.go('work-packages.list', this.$state.params);
   }
 
-  private setWorkPackageScopeProperties(wp:WorkPackageResourceInterface) {
+  private setWorkPackageScopeProperties(wp:WorkPackageResource) {
     this.isWatched = wp.hasOwnProperty('unwatch');
     this.displayWatchButton = wp.hasOwnProperty('unwatch') || wp.hasOwnProperty('watch');
 

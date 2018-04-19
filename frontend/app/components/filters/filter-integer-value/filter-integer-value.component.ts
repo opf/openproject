@@ -26,8 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryFilterResource} from '../../api/api-v3/hal-resources/query-filter-resource.service';
-import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
+
+import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {Component, EventEmitter, Inject, Input, OnDestroy, Output} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';

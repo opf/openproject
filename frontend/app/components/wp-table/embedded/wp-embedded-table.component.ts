@@ -1,10 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {QueryDmService} from '../../api/api-v3/hal-resource-dms/query-dm.service';
 import {CurrentProjectService} from '../../projects/current-project.service';
-import {
-  QueryResource,
-  QueryResourceInterface
-} from '../../api/api-v3/hal-resources/query-resource.service';
 import {TableState} from '../table-state/table-state';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
 import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-table/state/wp-table-relation-columns.service';
@@ -19,7 +14,6 @@ import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp
 import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 import {withLatestFrom} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {WorkPackageCollectionResource} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
 import {WorkPackageTableConfigurationObject} from 'core-components/wp-table/wp-table-configuration';
 import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
 import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
@@ -28,6 +22,9 @@ import {opUiComponentsModule} from 'core-app/angular-modules';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
+import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 
 @Component({
   selector: 'wp-embedded-table',
@@ -58,7 +55,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   @Input() public tableActions?:OpTableActionFactory[];
   @Input() public compactTableStyle:boolean = false;
 
-  private query:QueryResourceInterface;
+  private query:QueryResource;
   public tableInformationLoaded = false;
   public showTablePagination = false;
 
@@ -132,14 +129,14 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
       .promise = promise;
   }
 
-  private loadQuery() {
+  private async loadQuery() {
     return this.QueryDm
       .find(
         this.queryProps,
         this.queryId,
         this.projectIdentifier
       )
-      .then((query:QueryResourceInterface) => this.initializeStates(query, query.results));
+      .then((query:QueryResource) => this.initializeStates(query, query.results));
   }
 
 }

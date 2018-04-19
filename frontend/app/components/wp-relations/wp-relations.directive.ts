@@ -32,8 +32,8 @@ import {zip} from 'rxjs/observable/zip';
 import {take} from 'rxjs/operators';
 import {wpDirectivesModule} from '../../angular-modules';
 import {scopedObservable} from '../../helpers/angular-rx-utils';
-import {RelationResourceInterface} from '../api/api-v3/hal-resources/relation-resource.service';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {RelatedWorkPackagesGroup} from './wp-relations.interfaces';
 import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.service';
@@ -42,16 +42,16 @@ import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.s
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
   public relationsPresent:boolean = false;
-  public workPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
   public canAddRelation:boolean;
 
   // By default, group by relation type
   public groupByWorkPackageType = false;
-  public currentRelations:WorkPackageResourceInterface[] = [];
 
   public text = {
     relations_header: this.I18n.t('js.work_packages.tabs.relations')
   };
+  public currentRelations:WorkPackageResource[] = [];
 
   constructor(protected $scope:ng.IScope,
               protected $q:ng.IQService,
@@ -75,20 +75,20 @@ export class WorkPackageRelationsController {
     // Listen for changes to this WP.
     scopedObservable(this.$scope,
       this.wpCacheService.loadWorkPackage(this.workPackage.id).values$())
-      .subscribe((wp:WorkPackageResourceInterface) => {
+      .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
       });
   }
 
-  private getRelatedWorkPackages(workPackageIds:string[]):Observable<WorkPackageResourceInterface[]> {
-    let observablesToGetZipped:Observable<WorkPackageResourceInterface>[] = workPackageIds.map(wpId => {
+  private getRelatedWorkPackages(workPackageIds:string[]):Observable<WorkPackageResource[]> {
+    let observablesToGetZipped:Observable<WorkPackageResource>[] = workPackageIds.map(wpId => {
       return scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(wpId).values$());
     });
 
     return zip(...observablesToGetZipped);
   }
 
-  protected getRelatedWorkPackageId(relation:RelationResourceInterface):string {
+  protected getRelatedWorkPackageId(relation:RelationResource):string {
     const involved = relation.ids;
     return (relation.to.href === this.workPackage.href) ? involved.from : involved.to;
   }
@@ -104,11 +104,11 @@ export class WorkPackageRelationsController {
     }
 
     this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations,
-      (wp:WorkPackageResourceInterface) => {
+      (wp:WorkPackageResource) => {
         if (this.groupByWorkPackageType) {
           return wp.type.name;
         } else {
-          var normalizedType = (wp.relatedBy as RelationResourceInterface).normalizedType(this.workPackage);
+          var normalizedType = (wp.relatedBy as RelationResource).normalizedType(this.workPackage);
           return this.I18n.t('js.relation_labels.' + normalizedType);
         }
       });
@@ -124,7 +124,7 @@ export class WorkPackageRelationsController {
       return this.buildRelationGroups();
     }
 
-    _.each(stateValues, (relation:RelationResourceInterface) => {
+    _.each(stateValues, (relation:RelationResource) => {
       const relatedWpId = this.getRelatedWorkPackageId(relation);
       relatedWpIds.push(relatedWpId);
       relations[relatedWpId] = relation;
@@ -134,8 +134,8 @@ export class WorkPackageRelationsController {
       .pipe(
         take(1)
       )
-      .subscribe((relatedWorkPackages:WorkPackageResourceInterface[]) => {
-        this.currentRelations = relatedWorkPackages.map((wp:WorkPackageResourceInterface) => {
+      .subscribe((relatedWorkPackages:WorkPackageResource[]) => {
+        this.currentRelations = relatedWorkPackages.map((wp:WorkPackageResource) => {
           wp.relatedBy = relations[wp.id];
           return wp;
         });

@@ -26,9 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {input} from 'reactivestates';
-import {distinctUntilChanged, filter} from 'rxjs/operators';
-import {wpServicesModule} from '../../angular-modules';
+import {Inject, Injectable} from '@angular/core';
+import {StateService, Transition, TransitionService} from '@uirouter/core';
+import {$stateToken} from 'core-app/angular4-transition-utils';
+import {LinkHandling} from 'core-components/common/link-handling/link-handling';
+import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
+
+export const QUERY_MENU_ITEM_TYPE = 'query-menu-item';
 
 export type QueryMenuEvent = {
   event:'add' | 'remove' | 'rename';
@@ -37,32 +41,159 @@ export type QueryMenuEvent = {
   label?:string;
 };
 
+@Injectable()
 export class QueryMenuService {
-  private events = input<QueryMenuEvent>();
+
+  private currentQueryId:string|null = null;
+  private uiRouteStateName = 'work-packages.list';
+  private container:JQuery;
+
+  constructor(@Inject($stateToken) protected $state:StateService,
+               protected $transitions:TransitionService,
+               protected wpListChecksumService:WorkPackagesListChecksumService) {
+
+    this.$transitions.onStart({}, (transition:Transition)  => {
+      const queryId = transition.params('to').query_id;
+      this.onQueryIdChanged(queryId);
+    });
+
+    this.initialize();
+
+    this.container.on('click', `.${QUERY_MENU_ITEM_TYPE}`, (event) => {
+      if (LinkHandling.isClickedWithModifier(event) || LinkHandling.isOutsideAngular()) {
+        return true;
+      }
+
+      this.switchOrReload(jQuery(event.target));
+      event.preventDefault();
+      return false;
+    });
+
+  }
+
+  public initialize() {
+    this.container = jQuery('#main-menu-work-packages').parent().find('ul.menu-children');
+  }
 
   /**
    * Add a query menu item
    */
   public add(name:string, path:string, queryId:string) {
-    this.events.putValue({event: 'add', queryId: queryId, path: path, label: name});
+    const item = this.buildItem(queryId, name);
+    const previous = this.previousMenuItem(name);
+
+    if (previous) {
+      jQuery(item).insertAfter(previous);
+    } else {
+      this.container.append(item);
+    }
+
+    this.setSelectedState();
   }
 
   public rename(queryId:string, name:string) {
-    this.events.putValue({event: 'rename', queryId: queryId, label: name});
+    this.findItem(queryId)
+      .find('.menu-item--title')
+      .text(name);
   }
 
   public remove(queryId:string) {
-    this.events.putValue({event: 'remove', queryId: queryId, label: queryId});
+    this.removeItem(queryId);
   }
 
-  public on(type:string) {
-    return this.events
-      .values$()
-      .pipe(
-        filter((e:QueryMenuEvent) => e.event === type),
-        distinctUntilChanged()
-      );
+  public onQueryIdChanged(queryId:string|null) {
+    this.currentQueryId = queryId;
+    this.setSelectedState();
   }
+
+  private removeItem(queryId:string) {
+    const item = this.findItem(queryId);
+    this.setSelectedState();
+  }
+
+  private setSelectedState() {
+    // Set WP menu to selected if no current query id set
+    if (this.currentQueryId) {
+      jQuery('#main-menu-work-packages').removeClass('selected');
+    }
+
+    // Update all queries children
+    const queries = this.container.find('.query-menu-item');
+    queries.toggleClass('selected', false);
+    if (this.currentQueryId) {
+      queries.filter(`#wp-query-menu-item-${this.currentQueryId}`).addClass('selected');
+    }
+  }
+
+  private buildItem(queryId:string, name:string) {
+    const li = document.createElement('li');
+
+    const link = document.createElement('a');
+    link.id = `wp-query-menu-item-${queryId}`;
+    link.classList.add(QUERY_MENU_ITEM_TYPE);
+    link.dataset.queryId = queryId;
+
+    const span = document.createElement('span');
+    span.classList.add('menu-item--title', 'ellipsis');
+    span.textContent = name;
+
+    link.appendChild(span);
+    li.appendChild(link);
+
+    return li;
+  }
+
+  private findItem(queryId:string) {
+    return this.container.find(`#wp-query-menu-item-${queryId}`);
+  }
+
+  private switchOrReload(item:JQuery) {
+    const queryId = item.data('queryId').toString();
+    let opts = {reload: false};
+
+    if (queryId === this.currentQueryId) {
+      this.wpListChecksumService.clear();
+      opts.reload = true;
+    }
+
+    this.$state.go(
+      this.uiRouteStateName,
+      {query_props: null, query_id: queryId },
+      opts
+    );
+  }
+
+  /**
+   * previousMenuItem
+   *
+   * Returns the menu item within the factories's container that has a title
+   * alphabetically before the provided title. The considered menu items have
+   * the type (css class) this factory is responsible for.
+   *
+   * Params
+   *  * title: The string used for comparing.
+   */
+  public previousMenuItem(title:string):ng.IAugmentedJQuery|null {
+    const allItems = this.container.find('li');
+
+    if (allItems.length === 0) {
+      return null;
+    }
+
+    let previousElement = angular.element(allItems[allItems.length - 1]);
+    let i = allItems.length - 2;
+
+    for (i; i >= 0; i--) {
+      if ((title > previousElement.find('a').attr('title')) ||
+        (previousElement.find('.' + QUERY_MENU_ITEM_TYPE).length === 0)) {
+        return previousElement;
+      }
+      else {
+        previousElement = angular.element(allItems[i]);
+      }
+    }
+
+    return previousElement;
+  }
+
 }
-
-wpServicesModule.service('queryMenu', QueryMenuService);

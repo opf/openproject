@@ -11,9 +11,9 @@
     <wp-status-button *ngIf="!workPackage.isNew"
                       [workPackage]="workPackage"
                       [allowed]="workPackage.isEditable"></wp-status-button>
-    <ng1-attribute-help-text-wrapper [attribute]="'status'"
-                                     [attributeScope]="'WorkPackage'"
-                                     *ngIf="!workPackage.isNew"></ng1-attribute-help-text-wrapper>
+    <attribute-help-text [attribute]="'status'"
+                         [attributeScope]="'WorkPackage'"
+                         *ngIf="!workPackage.isNew"></attribute-help-text>
 
     <div class="work-packages--info-row"
          *ngIf="!workPackage.isNew">
@@ -43,8 +43,8 @@
             {{ descriptor.label }}
             <span class="required"
                   *ngIf="descriptor.field.required && descriptor.field.writable">*</span>
-            <ng1-attribute-help-text-wrapper [attribute]="descriptor.name"
-                                             [attributeScope]="'WorkPackage'"></ng1-attribute-help-text-wrapper>
+            <attribute-help-text [attribute]="descriptor.name"
+                                 [attributeScope]="'WorkPackage'"></attribute-help-text>
           </wp-replacement-label>
         </div>
         <div class="attributes-key-value--value-container">
@@ -100,14 +100,15 @@
                         [workPackage]="workPackage"
                         [group]="group">
     </wp-attribute-group>
-    <wp-query-group *ngIf="group.type === 'WorkPackageFormQueryGroup'"
+    <wp-query-group *ngIf="!workPackage.isNew && group.type === 'WorkPackageFormQueryGroup'"
                     [workPackage]="workPackage"
                     [group]="group">
     </wp-query-group>
   </div>
 </div>
 
-<wp-relations-tab [workPackageId]="workPackage.id"></wp-relations-tab>
+<wp-relations-tab *ngIf="!workPackage.isNew"
+                  [workPackageId]="workPackage.id"></wp-relations-tab>
 
 <div class="work-packages--attachments attributes-group">
   <div class="work-packages--atachments-container">

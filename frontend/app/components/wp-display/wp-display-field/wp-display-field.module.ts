@@ -26,9 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {Field, FieldFactory} from '../../wp-field/wp-field.module';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
 import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
@@ -102,7 +102,7 @@ export class DisplayFieldFactory extends FieldFactory {
   protected static fields:{ [field:string]:string } = {};
   protected static classes:{ [type:string]:typeof DisplayField } = {};
 
-  public static create(workPackage:WorkPackageResourceInterface,
+  public static create(workPackage:WorkPackageResource,
                        fieldName:string,
                        schema:op.FieldSchema):DisplayField {
     let type = DisplayFieldFactory.getSpecificType(fieldName) ||

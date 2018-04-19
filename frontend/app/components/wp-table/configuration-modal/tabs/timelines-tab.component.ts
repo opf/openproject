@@ -2,7 +2,7 @@ import {Component, Inject, Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
-import {TimelineLabels} from 'core-components/api/api-v3/hal-resources/query-resource.service';
+import {TimelineLabels} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {QueryColumn} from 'core-components/wp-query/query-column';
 

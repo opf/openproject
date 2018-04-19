@@ -27,13 +27,18 @@
 // ++
 
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+
+export interface ValueOption {
+  name:string;
+  href:string|null;
+}
 
 export class SelectEditField extends EditField {
   public options:any[];
+  public valueOptions:ValueOption[];
   public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html';
   public text:{requiredPlaceholder:string, placeholder:string};
 
@@ -61,17 +66,20 @@ export class SelectEditField extends EditField {
   }
 
   public get selectedOption() {
-    return this.value;
+    const href = this.value ? this.value.href : null;
+    return _.find(this.valueOptions, o => o.href === href)!;
   }
 
-  public set selectedOption(val) {
+  public set selectedOption(val:ValueOption) {
+    const option = _.find(this.options, o => o.href === val.href);
+
     // Special case 'null' value, which angular
     // only understands in ng-options as an empty string.
-    if (val && val.href === '') {
-      val.href = null;
+    if (option && option.href === '') {
+      option.href = null;
     }
 
-    this.value = val;
+    this.value = option;
   }
 
   private setValues(availableValues:any[], sortValuesByName = false) {
@@ -85,6 +93,9 @@ export class SelectEditField extends EditField {
 
     this.options = availableValues;
     this.addEmptyOption();
+    this.valueOptions = this.options.map(el => {
+      return { name: el.name, href: el.href };
+    });
   }
 
   public get currentValueInvalid():boolean {

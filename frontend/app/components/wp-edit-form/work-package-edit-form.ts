@@ -27,8 +27,7 @@
 // ++
 
 import {Subscription} from 'rxjs/Subscription';
-import {$injectFields, injectorBridge} from '../angular/angular-injector-bridge.functions';
-import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
+import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
@@ -38,9 +37,9 @@ import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {debugLog} from '../../helpers/debug_output';
 import {WorkPackageChangeset} from './work-package-changeset';
-import {FormResourceInterface} from '../api/api-v3/hal-resources/form-resource.service';
+import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {WorkPackageEditingService} from './work-package-editing-service';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
 import {Injector} from '@angular/core';
 
@@ -71,7 +70,7 @@ export class WorkPackageEditForm {
 
   public static createInContext(injector:Injector,
                                 editContext:WorkPackageEditContext,
-                                wp:WorkPackageResourceInterface,
+                                wp:WorkPackageResource,
                                 editMode:boolean = false) {
 
     const form = new WorkPackageEditForm(injector, wp, editMode);
@@ -81,12 +80,12 @@ export class WorkPackageEditForm {
   }
 
   constructor(readonly injector:Injector,
-              public workPackage:WorkPackageResourceInterface,
+              public workPackage:WorkPackageResource,
               public editMode:boolean = false) {
 
     this.wpSubscription = this.wpCacheService.state(workPackage.id)
       .values$()
-      .subscribe((wp:WorkPackageResourceInterface) => {
+      .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
       });
 
@@ -179,7 +178,7 @@ export class WorkPackageEditForm {
    * Save the active changeset.
    * @return {any}
    */
-  public async submit():Promise<WorkPackageResourceInterface> {
+  public async submit():Promise<WorkPackageResource> {
     if (this.changeset.empty && !this.workPackage.isNew) {
       this.closeEditFields();
       return Promise.resolve(this.workPackage);
@@ -194,7 +193,7 @@ export class WorkPackageEditForm {
     const openFields = _.keys(this.activeFields);
     _.each(this.activeFields, (handler:WorkPackageEditFieldHandler) => handler.field.onSubmit());
 
-    return new Promise<WorkPackageResourceInterface>((resolve, reject) => {
+    return new Promise<WorkPackageResource>((resolve, reject) => {
       this.changeset.save()
         .then(savedWorkPackage => {
           // Close all current fields
@@ -297,7 +296,7 @@ export class WorkPackageEditForm {
   private async buildField(fieldName:string):Promise<EditField> {
     return new Promise<EditField>((resolve, reject) => {
       this.changeset.getForm()
-        .then((form:FormResourceInterface) => {
+        .then((form:FormResource) => {
           const schemaName = this.changeset.getSchemaName(fieldName);
           const fieldSchema = form.schema[schemaName];
 

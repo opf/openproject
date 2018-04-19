@@ -27,16 +27,16 @@
 // ++
 
 import {OnDestroy, OnInit} from '@angular/core';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 
 export class ActivityPanelBaseController implements OnInit, OnDestroy {
-  public workPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
   public workPackageId:string;
 
   // All activities retrieved for the work package
@@ -69,9 +69,9 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
       .pipe(
         takeUntil(componentDestroyed(this))
       )
-      .subscribe((wp:WorkPackageResourceInterface) => {
+      .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
-        this.wpActivity.aggregateActivities(this.workPackage).then((activities:any) => {
+        this.wpActivity.require(this.workPackage).then((activities:any) => {
           this.updateActivities(activities);
         });
       });

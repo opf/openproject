@@ -15,7 +15,7 @@
   <span class="user" ng-if="!vm.userActive">{{ vm.userName }}</span>
   <span class="date">
     {{ vm.isInitial ? I18n.t('js.label_created_on') : I18n.t('js.label_updated_on') }}
-    <op-date-time date-time-value="vm.activity.createdAt" /></span>
+    <op-date-time [date-time-value]="vm.activity.createdAt" /></span>
   <div class="comments-number">
     <activity-link work-package="vm.workPackage"
                    activity-no="vm.activityNo"

@@ -39,7 +39,7 @@ import {
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {filter, takeUntil} from 'rxjs/operators';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
@@ -80,7 +80,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     create: this.I18n.t('js.label_create_work_package')
   };
 
-  private currentWorkPackage:WorkPackageResourceInterface | null;
+  private currentWorkPackage:WorkPackageResource | null;
 
   private workPackageEditForm:WorkPackageEditForm | undefined;
 
@@ -126,8 +126,10 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
     // Remove temporary rows on creation of new work package
     this.wpCreate.onNewWorkPackage()
-      .takeUntil(componentDestroyed(this))
-      .subscribe((wp:WorkPackageResourceInterface) => {
+      .pipe(
+        takeUntil(componentDestroyed(this))
+      )
+      .subscribe((wp:WorkPackageResource) => {
         if (this.currentWorkPackage && this.currentWorkPackage === wp) {
           // Add next row
           this.removeWorkPackageRow();

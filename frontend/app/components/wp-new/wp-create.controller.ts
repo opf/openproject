@@ -28,14 +28,12 @@
 
 import {Inject, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
-import {$stateToken, I18nToken, v3PathToken} from 'core-app/angular4-transition-utils';
+import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil} from 'rxjs/operators';
-import {RootDmService} from '../api/api-v3/hal-resource-dms/root-dm.service';
-import {RootResource} from '../api/api-v3/hal-resources/root-resource.service';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
@@ -43,11 +41,14 @@ import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-value
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageCreateService} from './wp-create.service';
+import {takeUntil} from 'rxjs/operators';
+import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
+
 
 export class WorkPackageCreateController implements OnInit, OnDestroy {
   public successState:string;
-  public newWorkPackage:WorkPackageResourceInterface;
-  public parentWorkPackage:WorkPackageResourceInterface;
+  public newWorkPackage:WorkPackageResource;
+  public parentWorkPackage:WorkPackageResource;
   public changeset:WorkPackageChangeset;
 
   public stateParams = this.$transition.params('to');
@@ -58,14 +59,13 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   constructor(readonly $transition:Transition,
               @Inject($stateToken) readonly $state:StateService,
               @Inject(I18nToken) readonly I18n:op.I18n,
-              @Inject(v3PathToken) protected v3Path:any,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected states:States,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditing:WorkPackageEditingService,
               protected wpTableFilters:WorkPackageTableFiltersService,
               protected wpCacheService:WorkPackageCacheService,
-              protected PathHelper:PathHelperService,
+              protected pathHelper:PathHelperService,
               protected RootDm:RootDmService) {
 
   }
@@ -83,7 +83,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
         if (this.stateParams['parent_id']) {
           this.changeset.setValue(
             'parent',
-            {href: this.v3Path.wp({wp: this.stateParams['parent_id']})}
+            { href: this.pathHelper.api.v3.work_packages.id(this.stateParams['parent_id']).path }
           );
         }
 
@@ -104,7 +104,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
           this.RootDm.load().then((root:RootResource) => {
             if (!root.user) {
               // Not logged in
-              let url = URI(this.PathHelper.loginPath());
+              let url = URI(this.pathHelper.loginPath());
               url.search({back_url: url});
               window.location.href = url.toString();
             }
@@ -115,7 +115,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-
+    // Nothing to do
   }
 
   public switchToFullscreen() {
@@ -139,9 +139,9 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
       }
     }
 
-    return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type).then(changeset => {
+    return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type).then(async changeset => {
       const filter = new WorkPackageFilterValues(changeset, this.wpTableFilters.current, ['type']);
-      return filter.applyDefaultsFromFilters().then(() => changeset) as ng.IPromise<WorkPackageChangeset>;
+      return filter.applyDefaultsFromFilters().then(() => changeset);
     });
   }
 

@@ -26,18 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($timeout, CacheService) {
+module.exports = function($timeout) {
   return {
     restrict: 'EA',
     link: function(scope, element, attributes) {
       var clickHandler = element.find('.persistent-toggle--click-handler'),
-          targetNotification = element.find('.persistent-toggle--notification'),
-          cache = CacheService.localStorage();
+          targetNotification = element.find('.persistent-toggle--notification');
 
-      scope.isHidden = cache.get(attributes.identifier);
+      scope.isHidden = window.OpenProject.guardedLocalStorage(attributes.identifier) == 'true';
 
       function toggle(isNowHidden) {
-        cache.put(attributes.identifier, isNowHidden);
+        window.OpenProject.guardedLocalStorage(attributes.identifier, (!!isNowHidden).toString());
 
         scope.$apply(function() {
           scope.isHidden = isNowHidden;

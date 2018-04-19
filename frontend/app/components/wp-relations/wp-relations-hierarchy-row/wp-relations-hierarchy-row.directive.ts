@@ -1,4 +1,4 @@
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
@@ -7,8 +7,8 @@ import {scopedObservable} from '../../../helpers/angular-rx-utils';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 class WpRelationsHierarchyRowDirectiveController {
-  public workPackage:WorkPackageResourceInterface;
-  public relatedWorkPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
+  public relatedWorkPackage:WorkPackageResource;
   public relationType:any;
   public showEditForm:boolean = false;
   public workPackagePath = this.PathHelper.workPackagePath.bind(this.PathHelper);

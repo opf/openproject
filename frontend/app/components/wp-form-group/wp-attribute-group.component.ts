@@ -29,18 +29,18 @@
 import {Component, Inject, Input} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 import {
   FieldDescriptor,
   GroupDescriptor
 } from 'core-components/work-packages/wp-single-view/wp-single-view.component';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Component({
   template: require('!!raw-loader!./wp-attribute-group.template.html'),
   selector: 'wp-attribute-group',
 })
 export class WorkPackageFormAttributeGroupComponent {
-  @Input() public workPackage:WorkPackageResourceInterface;
+  @Input() public workPackage:WorkPackageResource;
   @Input() public group:GroupDescriptor;
 
   public text = {

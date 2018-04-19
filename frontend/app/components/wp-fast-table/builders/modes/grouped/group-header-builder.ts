@@ -1,7 +1,7 @@
 import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
 import {groupName} from './grouped-rows-helpers';
+import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
 
 export const rowGroupClassName = 'wp-table--group-header';
 

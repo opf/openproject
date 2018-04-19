@@ -26,9 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {TimezoneService} from 'core-components/datetime/timezone.service';
+
 export class ActivityEntryInfo {
 
-  constructor(public $filter:ng.IFilterService,
+  constructor(public timezoneService:TimezoneService,
               public isReversed:boolean,
               public activities:any[],
               public activity:any,
@@ -76,10 +78,11 @@ export class ActivityEntryInfo {
   }
 
   protected activityDate(activity:any) {
-    return this.$filter('date')(activity.createdAt, 'longDate');
+    // Force long date regardless of current date settings for headers
+    return moment(activity.createdAt).format('LL');
   }
 
-  protected orderedIndex(activityNo: number, forceReverse:boolean = false) {
+  protected orderedIndex(activityNo:number, forceReverse:boolean = false) {
     if (forceReverse || this.isReversed) {
       return this.activities.length - activityNo;
     }

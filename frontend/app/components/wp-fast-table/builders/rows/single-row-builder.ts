@@ -2,7 +2,7 @@ import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {locateTableRowByIdentifier} from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
 import {debugLog} from '../../../../helpers/debug_output';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
@@ -30,7 +30,7 @@ export class SingleRowBuilder {
   public I18n:op.I18n = this.injector.get(I18nToken);
 
   // Cell builder instance
-  protected cellBuilder = new CellBuilder();
+  protected cellBuilder = new CellBuilder(this.injector);
   // Relation cell builder instance
   protected relationCellBuilder = new RelationCellbuilder(this.injector);
 
@@ -56,8 +56,7 @@ export class SingleRowBuilder {
     return this.columns.concat([internalContextMenuColumn]);
   }
 
-  public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement|null {
-
+  public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLElement|null {
     // handle relation types
     if (isRelationColumn(column)) {
       return this.relationCellBuilder.build(workPackage, column);
@@ -79,7 +78,7 @@ export class SingleRowBuilder {
   /**
    * Build the columns on the given empty row
    */
-  public buildEmpty(workPackage:WorkPackageResourceInterface):[HTMLElement, boolean] {
+  public buildEmpty(workPackage:WorkPackageResource):[HTMLElement, boolean] {
     let row = this.createEmptyRow(workPackage);
     return this.buildEmptyRow(workPackage, row);
   }
@@ -89,7 +88,7 @@ export class SingleRowBuilder {
    * @param workPackage
    * @returns {any}
    */
-  public createEmptyRow(workPackage:WorkPackageResourceInterface) {
+  public createEmptyRow(workPackage:WorkPackageResource) {
     const identifier = this.classIdentifier(workPackage);
     let tr = document.createElement('tr');
     tr.setAttribute('tabindex', '0');
@@ -106,14 +105,14 @@ export class SingleRowBuilder {
     return tr;
   }
 
-  public classIdentifier(workPackage:WorkPackageResourceInterface) {
+  public classIdentifier(workPackage:WorkPackageResource) {
     return `wp-row-${workPackage.id}`;
   }
 
   /**
    * Refresh a row that is currently being edited, that is, some edit fields may be open
    */
-  public refreshRow(workPackage:WorkPackageResourceInterface, changeset:WorkPackageChangeset, jRow:JQuery):JQuery {
+  public refreshRow(workPackage:WorkPackageResource, changeset:WorkPackageChangeset, jRow:JQuery):JQuery {
     // Detach all current edit cells
     const cells = jRow.find(`.${wpCellTdClassName}`).detach();
 
@@ -145,7 +144,7 @@ export class SingleRowBuilder {
     return changeset && changeset.isOverridden(column.id);
   }
 
-  protected buildEmptyRow(workPackage:WorkPackageResourceInterface, row:HTMLElement):[HTMLElement, boolean] {
+  protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLElement):[HTMLElement, boolean] {
     const changeset = this.workPackageTable.editing.changeset(workPackage.id);
     let cells:{ [attribute:string]:JQuery } = {};
 
@@ -160,7 +159,7 @@ export class SingleRowBuilder {
 
     this.augmentedColumns.forEach((column:QueryColumn) => {
       let cell:Element|null;
-      let oldCell:JQuery | undefined = cells[column.id];
+      let oldCell:JQuery|undefined = cells[column.id];
 
       if (oldCell && oldCell.length) {
         debugLog(`Rendering previous open column ${column.id} on ${workPackage.id}`);

@@ -26,52 +26,50 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {Injectable, Injector} from '@angular/core';
+import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {Observable, Subject} from 'rxjs';
+import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 @Injectable()
 export class WorkPackageCreateService {
-  protected form:ng.IPromise<HalResource>;
+  protected form:Promise<HalResource>;
 
   // Allow callbacks to happen on newly created work packages
-  protected newWorkPackageCreatedSubject = new Subject<WorkPackageResourceInterface>();
+  protected newWorkPackageCreatedSubject = new Subject<WorkPackageResource>();
 
   constructor(protected injector:Injector,
               protected wpCacheService:WorkPackageCacheService,
+              protected halResourceService:HalResourceService,
               protected apiWorkPackages:ApiWorkPackagesService) {
   }
 
-  public newWorkPackageCreated(wp:WorkPackageResourceInterface) {
+  public newWorkPackageCreated(wp:WorkPackageResource) {
     this.newWorkPackageCreatedSubject.next(wp);
   }
 
-  public onNewWorkPackage():Observable<WorkPackageResourceInterface> {
+  public onNewWorkPackage():Observable<WorkPackageResource> {
     return this.newWorkPackageCreatedSubject.asObservable();
   }
 
-  public createNewWorkPackage(projectIdentifier:string) {
+  public async createNewWorkPackage(projectIdentifier:string) {
     return this.getEmptyForm(projectIdentifier).then(form => {
       return this.fromCreateForm(form);
     });
   }
 
-  public createNewTypedWorkPackage(projectIdentifier:string, type:number) {
+  public async createNewTypedWorkPackage(projectIdentifier:string, type:number) {
     return this.apiWorkPackages.typedCreateForm(type, projectIdentifier).then(form => {
       return this.fromCreateForm(form);
     });
   }
 
   public fromCreateForm(form:any) {
-    var wp = new WorkPackageResource(form.payload.$plain(), true) as any;
+    let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', form.payload.$plain());
     wp.initializeNewResource(form);
 
     return new WorkPackageChangeset(this.injector, wp, form);
@@ -83,7 +81,7 @@ export class WorkPackageCreateService {
    * @param form Work Package create form
    */
   public copyFrom(otherForm:any, form:any) {
-    var wp = new WorkPackageResource(otherForm.payload.$plain(), true) as any;
+    let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', otherForm.payload.$plain());
 
     // Override values from form payload
     wp.lockVersion = form.payload.lockVersion;
@@ -93,15 +91,15 @@ export class WorkPackageCreateService {
     return new WorkPackageChangeset(this.injector, wp, form);
   }
 
-  public copyWorkPackage(copyFromForm:any, projectIdentifier?:string) {
-    var request = copyFromForm.payload.$source;
+  public async copyWorkPackage(copyFromForm:any, projectIdentifier?:string) {
+    let request = copyFromForm.payload.$source;
 
     return this.apiWorkPackages.emptyCreateForm(request, projectIdentifier).then(form => {
       return this.copyFrom(copyFromForm, form);
     });
   }
 
-  public getEmptyForm(projectIdentifier:string):ng.IPromise<HalResource> {
+  public async getEmptyForm(projectIdentifier:string):Promise<HalResource> {
     if (!this.form) {
       this.form = this.apiWorkPackages.emptyCreateForm({}, projectIdentifier);
     }

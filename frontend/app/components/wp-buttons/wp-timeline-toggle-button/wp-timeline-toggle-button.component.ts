@@ -27,12 +27,12 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
-import {TimelineZoomLevel} from '../../api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
 import {AbstractWorkPackageButtonComponent, ButtonControllerText} from '../wp-buttons.module';
 import {Component, Inject} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {downgradeComponent} from '@angular/upgrade/static';
+import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 
 interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;

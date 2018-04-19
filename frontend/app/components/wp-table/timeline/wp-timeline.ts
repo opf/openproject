@@ -27,14 +27,11 @@
 // ++
 import * as moment from 'moment';
 import {InputState, MultiInputState} from 'reactivestates';
-import {TimelineZoomLevel} from '../../api/api-v3/hal-resources/query-resource.service';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
 import {RenderedRow} from '../../wp-fast-table/builders/primary-render-pass';
 import Moment = moment.Moment;
+import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
 
 export const timelineElementCssClass = 'timeline-element';
 export const timelineGridElementCssClass = 'wp-timeline--grid-element';
@@ -87,7 +84,7 @@ export class TimelineViewParameters {
 
   settings:TimelineViewParametersSettings = new TimelineViewParametersSettings();
 
-  activeSelectionMode:null | ((wp:WorkPackageResourceInterface) => any) = null;
+  activeSelectionMode:null | ((wp:WorkPackageResource) => any) = null;
 
   selectionModeStart:null | string = null;
 
@@ -115,7 +112,7 @@ export class TimelineViewParameters {
  */
 export interface RenderInfo {
   viewParams:TimelineViewParameters;
-  workPackage:WorkPackageResourceInterface;
+  workPackage:WorkPackageResource;
   changeset:WorkPackageChangeset;
 }
 
@@ -177,7 +174,7 @@ export function getTimeSlicesForHeader(vp:TimelineViewParameters,
 }
 
 export function calculateDaySpan(visibleWorkPackages:RenderedRow[],
-                                 loadedWorkPackages:MultiInputState<WorkPackageResourceInterface>):number {
+                                 loadedWorkPackages:MultiInputState<WorkPackageResource>):number {
   let earliest:Moment = moment();
   let latest:Moment = moment();
 
@@ -187,8 +184,8 @@ export function calculateDaySpan(visibleWorkPackages:RenderedRow[],
     if (!wpId) {
       return;
     }
-    const workPackageState:InputState<WorkPackageResourceInterface> = loadedWorkPackages.get(wpId);
-    const workPackage:WorkPackageResourceInterface = workPackageState.value!;
+    const workPackageState:InputState<WorkPackageResource> = loadedWorkPackages.get(wpId);
+    const workPackage:WorkPackageResource = workPackageState.value!;
 
     const start = workPackage.startDate ? workPackage.startDate : workPackage.date;
     if (start && moment(start).isBefore(earliest)) {

@@ -26,16 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Component, Input, OnInit} from '@angular/core';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 @Component({
   template: require('!!raw-loader!./wp-attachment-list.html'),
   selector: 'wp-attachment-list',
 })
 export class WorkPackageAttachmentListComponent implements OnInit {
-  @Input('workPackage') public workPackage:WorkPackageResourceInterface;
+  @Input('workPackage') public workPackage:WorkPackageResource;
 
   ngOnInit() {
     if (this.workPackage.attachments) {

@@ -55,10 +55,9 @@ catch(e) {
 }
 
 import {openprojectModule} from './angular-modules';
-import CacheService = op.CacheService;
-import {getUIRouter} from '@uirouter/angular-hybrid';
 import {whenDebugging} from 'core-app/helpers/debug_output';
 import {enableReactiveStatesLogging} from 'reactivestates';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
@@ -110,22 +109,14 @@ openprojectModule
       }
     ])
     .run([
-      '$http',
       '$rootScope',
       '$window',
-      'TimezoneService',
       'ExpressionService',
-      'CacheService',
       'KeyboardShortcutService',
-      function($http:ng.IHttpService,
-               $rootScope:any,
+      function($rootScope:any,
                $window:ng.IWindowService,
-               TimezoneService:any,
                ExpressionService:ExpressionService,
-               CacheService:CacheService,
                KeyboardShortcutService:any) {
-
-        $http.defaults.headers!.common.Accept = 'application/json';
 
         // Set the escaping target of opening double curly braces
         // This is what returned by rails-angular-xss when it discoveres double open curly braces
@@ -142,13 +133,7 @@ openprojectModule
               'collapsed';
         }
 
-        TimezoneService.setupLocale();
         KeyboardShortcutService.activate();
-
-        // Disable the CacheService for test environment
-        if (window.OpenProject.environment === 'test') {
-          CacheService.disableCaching();
-        }
 
         angular.element('body').addClass('__ng-bootstrap-has-run');
 

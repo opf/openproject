@@ -26,17 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opWorkPackagesModule} from '../../../angular-modules';
 import {ActivityEntryInfo} from './activity-entry-info';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {Inject, Injectable} from '@angular/core';
+import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {WorkPackageLinkedResourceCache} from 'core-components/wp-single-view-tabs/wp-linked-resource-cache.service';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {opServicesModule} from 'core-app/angular-modules';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
+@Injectable()
+export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<HalResource[]> {
 
-export class WorkPackagesActivityService {
-
-  constructor(public ConfigurationService:any,
-              public $filter:ng.IFilterService,
-              public $q:ng.IQService) {
+  constructor(public ConfigurationService:ConfigurationService,
+              readonly timezoneService:TimezoneService) {
+    super();
   }
 
   public get order() {
@@ -52,45 +57,36 @@ export class WorkPackagesActivityService {
    * Resolves both promises and returns a sorted list of activities
    * whose order depends on the 'commentsSortedInDescendingOrder' property.
    */
-  public aggregateActivities(workPackage:WorkPackageResourceInterface):ng.IPromise<any> {
-    var aggregated:any[] = [], promises:ng.IPromise<any>[] = [];
+  protected async load(workPackage:WorkPackageResource):Promise<HalResource[]> {
+    var aggregated:any[] = [], promises:Promise<any>[] = [];
 
     var add = function (data:any) {
       aggregated.push(data.elements);
     };
 
-    this.hackNonCachedActivities(workPackage);
-
-    promises.push(workPackage.activities.$load().then(add));
+    promises.push(workPackage.activities.$update().then(add));
 
     if (workPackage.revisions) {
-      promises.push(workPackage.revisions.$load().then(add));
+      promises.push(workPackage.revisions.$update().then(add));
     }
-    return this.$q.all(promises).then(() => {
+    return Promise.all(promises).then(() => {
       return this.sortedActivityList(aggregated);
     });
   }
 
-  protected sortedActivityList(activities:any, attr:string = 'createdAt') {
-    return this.$filter('orderBy')(
-      _.flatten(activities),
-      attr,
-      this.isReversed
-    );
+  protected sortedActivityList(activities:HalResource[], attr:string = 'createdAt'):HalResource[] {
+    let sorted = _.sortBy(_.flatten(activities), attr);
+
+    if (this.isReversed) {
+      return sorted.reverse();
+    } else {
+      return sorted;
+    }
   }
 
   public info(activities:HalResource[], activity:HalResource, index:number) {
-    return new ActivityEntryInfo(this.$filter, this.isReversed, activities, activity, index);
-  };
-
-  // FIXME: ugly hack to enable circumventing cached responses which would return stale activities after a user updated a resource.
-  // The correct solution is to rely on states.
-  private hackNonCachedActivities(workPackage:WorkPackageResourceInterface) {
-    let newLoadHeaders = () => {
-      return { caching: { enabled: false } }
-    };
-    workPackage.activities['$loadHeaders'] = newLoadHeaders;
+    return new ActivityEntryInfo(this.timezoneService, this.isReversed, activities, activity, index);
   }
 }
 
-opWorkPackagesModule.service('wpActivity', WorkPackagesActivityService);
+opServicesModule.service('wpLinkedActivities', downgradeInjectable(WorkPackagesActivityService));

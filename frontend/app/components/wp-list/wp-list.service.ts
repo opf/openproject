@@ -26,13 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
-import {QueryFormResource} from '../api/api-v3/hal-resources/query-form-resource.service';
-import {PaginationObject, QueryDmService} from '../api/api-v3/hal-resource-dms/query-dm.service';
-import {QueryFormDmService} from '../api/api-v3/hal-resource-dms/query-form-dm.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {States} from '../states.service';
-import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
-import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service';
+import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
+import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
 import {WorkPackageStatesInitializationService} from './wp-states-initialization.service';
@@ -44,17 +42,20 @@ import {LoadingIndicatorService} from 'core-components/common/loading-indicator/
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Inject, Injectable} from '@angular/core';
 import {
-  I18nToken, NotificationsServiceToken,
-  UrlParamsHelperToken
+  I18nToken,
 } from 'core-app/angular4-transition-utils';
-import {downgradeInjectable} from '@angular/upgrade/static';
+import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
+import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
+import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
+import {NotificationsService} from 'core-components/common/notifications/notifications.service';
 import {opServicesModule} from 'core-app/angular-modules';
+import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
 export class WorkPackagesListService {
-  constructor(@Inject(NotificationsServiceToken) protected NotificationsService:any,
-              @Inject(UrlParamsHelperToken) protected UrlParamsHelper:any,
+  constructor(protected NotificationsService:NotificationsService,
               @Inject(I18nToken) protected I18n:op.I18n,
+              protected UrlParamsHelper:UrlParamsHelperService,
               protected authorisationService:AuthorisationService,
               protected $state:StateService,
               protected QueryDm:QueryDmService,
@@ -73,7 +74,7 @@ export class WorkPackagesListService {
    * Load a query.
    * The query is either a persisted query, identified by the query_id parameter, or the default query. Both will be modified by the parameters in the query_props parameter.
    */
-  public fromQueryParams(queryParams:any, projectIdentifier ?:string):ng.IPromise<QueryResource> {
+  public async fromQueryParams(queryParams:any, projectIdentifier ?:string):Promise<QueryResource> {
     const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(queryParams.query_props);
     const wpListPromise = this.QueryDm.find(queryData, queryParams.query_id, projectIdentifier);
     const promise = this.updateStatesFromQueryOnPromise(wpListPromise);
@@ -91,16 +92,15 @@ export class WorkPackagesListService {
   /**
    * Load the default query.
    */
-  public loadDefaultQuery(projectIdentifier ?:string):ng.IPromise<QueryResource> {
+  public async loadDefaultQuery(projectIdentifier ?:string):Promise<QueryResource> {
     return this.fromQueryParams({}, projectIdentifier);
   }
 
   /**
    * Reloads the current query and set the pagination to the first page.
    */
-  public reloadQuery(query:QueryResource):ng.IPromise<QueryResource> {
-    let pagination = this.wpTablePagination.paginationObject;
-
+  public async reloadQuery(query:QueryResource):Promise<QueryResource> {
+    let pagination = this.getPaginationInfo();
     pagination.offset = 1;
 
     let wpListPromise = this.QueryDm.reload(query, pagination);
@@ -120,7 +120,7 @@ export class WorkPackagesListService {
   /**
    * Update the list from an existing query object.
    */
-  public loadResultsList(query:QueryResource, additionalParams:PaginationObject):ng.IPromise<WorkPackageCollectionResource> {
+  public async loadResultsList(query:QueryResource, additionalParams:PaginationObject):Promise<WorkPackageCollectionResource> {
     let wpListPromise = this.QueryDm.loadResults(query, additionalParams);
 
     return this.updateStatesFromWPListOnPromise(query, wpListPromise);
@@ -130,8 +130,8 @@ export class WorkPackagesListService {
    * Reload the list of work packages for the current query keeping the
    * pagination options.
    */
-  public reloadCurrentResultsList():ng.IPromise<WorkPackageCollectionResource> {
-    let pagination = this.wpTablePagination.paginationObject;
+  public async reloadCurrentResultsList():Promise<WorkPackageCollectionResource> {
+    let pagination = this.getPaginationInfo();
     let query = this.currentQuery;
 
     return this.loadResultsList(query, pagination);
@@ -140,8 +140,8 @@ export class WorkPackagesListService {
   /**
    * Reload the first page of work packages for the current query
    */
-  public loadCurrentResultsListFirstPage():ng.IPromise<WorkPackageCollectionResource> {
-    let pagination = this.wpTablePagination.paginationObject;
+  public async loadCurrentResultsListFirstPage():Promise<WorkPackageCollectionResource> {
+    let pagination = this.getPaginationInfo();
     pagination.offset = 1;
     let query = this.currentQuery;
 
@@ -160,7 +160,7 @@ export class WorkPackagesListService {
       });
   }
 
-  public loadForm(query:QueryResource):ng.IPromise<QueryFormResource> {
+  public async loadForm(query:QueryResource):Promise<QueryFormResource> {
     return this.QueryFormDm.load(query).then((form:QueryFormResource) => {
       this.wpStatesInitialization.updateStatesFromForm(query, form);
 
@@ -172,7 +172,7 @@ export class WorkPackagesListService {
    * Persist the current query in the backend.
    * After the update, the new query is reloaded (e.g. for the work packages)
    */
-  public create(query:QueryResource, name:string):ng.IPromise<QueryResource> {
+  public async create(query:QueryResource, name:string):Promise<QueryResource> {
     let form = this.states.query.form.value!;
 
     query.name = name;
@@ -192,7 +192,7 @@ export class WorkPackagesListService {
   /**
    * Destroy the current query.
    */
-  public delete() {
+  public async delete() {
     let query = this.currentQuery;
 
     let promise = this.QueryDm.delete(query);
@@ -241,7 +241,7 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  public toggleStarred(query:QueryResource):ng.IPromise<any> {
+  public async toggleStarred(query:QueryResource):Promise<any> {
     let promise = this.QueryDm.toggleStarred(query);
 
     promise.then((query:QueryResource) => {
@@ -255,13 +255,22 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  private conditionallyLoadForm(promise:ng.IPromise<QueryResource>):ng.IPromise<QueryResource> {
+  private getPaginationInfo() {
+    let pagination = this.wpTablePagination.current;
+
+    return {
+      pageSize: pagination.perPage,
+      offset: pagination.page
+    };
+  }
+
+  private async conditionallyLoadForm(promise:Promise<QueryResource>):Promise<QueryResource> {
     promise.then(query => {
 
       let currentForm = this.states.query.form.value;
 
       if (!currentForm || query.$links.update.$href !== currentForm.$href) {
-        setTimeout(() => this.loadForm(query), 0);
+        setTimeout(async () => this.loadForm(query), 0);
       }
 
       return query;
@@ -270,7 +279,7 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  private updateStatesFromQueryOnPromise(promise:ng.IPromise<QueryResource>):ng.IPromise<QueryResource> {
+  private async updateStatesFromQueryOnPromise(promise:Promise<QueryResource>):Promise<QueryResource> {
     promise
       .then(query => {
         this.tableState.ready.doAndTransition('Query loaded', () => {
@@ -284,7 +293,7 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  private updateStatesFromWPListOnPromise(query:QueryResource, promise:ng.IPromise<WorkPackageCollectionResource>):ng.IPromise<WorkPackageCollectionResource> {
+  private async updateStatesFromWPListOnPromise(query:QueryResource, promise:Promise<WorkPackageCollectionResource>):Promise<WorkPackageCollectionResource> {
     return promise.then((results) => {
       this.tableState.ready.doAndTransition('Query loaded', () => {
         this.wpStatesInitialization.updateTableState(query, results);
@@ -338,7 +347,7 @@ export class WorkPackagesListService {
             })
             .catch(reject);
         })
-      .catch(reject);
+        .catch(reject);
     });
   }
 

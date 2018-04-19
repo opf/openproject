@@ -30,18 +30,19 @@
 // Remove when this is no longer the case and migrate to the ng2 component instead.
 
 import {DatePicker} from 'core-components/wp-edit/op-date-picker/datepicker';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 class OPDatePickerController {
   public onChange?:Function;
   public onClose?:Function;
-  public initialDate?:String;
+  public initialDate?:string;
 
   private datePickerInstance:any;
   private input:JQuery;
 
   public constructor(private $element:ng.IAugmentedJQuery,
                      private ConfigurationService:any,
-                     private TimezoneService:any) {
+                     private timezoneService:TimezoneService) {
     'ngInject';
   }
 
@@ -101,14 +102,14 @@ class OPDatePickerController {
 
     let initialValue;
     if (this.isEmpty && this.initialDate) {
-      initialValue = this.TimezoneService.parseISODate(this.initialDate).toDate();
+      initialValue = this.timezoneService.parseISODate(this.initialDate).toDate();
     } else {
       initialValue = this.currentValue();
     }
 
     this.datePickerInstance = new DatePicker(
       this.ConfigurationService,
-      this.TimezoneService,
+      this.timezoneService,
       this.input,
       initialValue,
       options

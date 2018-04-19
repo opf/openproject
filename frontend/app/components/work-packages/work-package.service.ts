@@ -55,7 +55,6 @@ function WorkPackageService($http:ng.IHttpService,
         url: url,
         params: params,
         headers: {
-          'caching': {enabled: false},
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }).then(function (response) {

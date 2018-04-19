@@ -26,19 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {HttpClientModule} from '@angular/common/http';
 
 require('core-app/angular4-test-setup');
 
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
 import {async, inject, TestBed} from '@angular/core/testing';
-import {$httpToken, $qToken, halResourceFactoryToken, I18nToken, v3PathToken} from 'core-app/angular4-transition-utils';
-import {HalRequestService} from 'core-components/api/api-v3/hal-request/hal-request.service';
-import {ConfigurationDmService} from 'core-components/api/api-v3/hal-resource-dms/configuration-dm.service';
+import {$httpToken, $qToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {States} from 'core-components/states.service';
 import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
 import {IPaginationOptions, PaginationService} from 'core-components/table-pagination/pagination-service';
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
 async function setupMocks(paginationService:PaginationService) {
   sinon.stub(paginationService, 'loadPaginationOptions', async () => {
@@ -62,21 +64,23 @@ describe('wpTablePagination Directive', () => {
 
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
+      imports: [
+        HttpClientModule
+      ],
       declarations: [
         WorkPackageTablePaginationComponent
       ],
       providers: [
         States,
         PaginationService,
+        PathHelperService,
         WorkPackageTablePaginationService,
+        HalResourceService,
         ConfigurationDmService,
         TableState,
-        HalRequestService,
         {provide: I18nToken, useValue: (window as any).I18n},
-        {provide: v3PathToken, useValue: {}},
         {provide: $qToken, useValue: {}},
         {provide: $httpToken, useValue: {}},
-        {provide: halResourceFactoryToken, useValue: {}},
       ]
     }).compileComponents();
   }));

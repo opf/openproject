@@ -5,7 +5,7 @@ import {
   QUERY_SORT_BY_ASC,
   QUERY_SORT_BY_DESC,
   QuerySortByResource
-} from 'core-components/api/api-v3/hal-resources/query-sort-by-resource.service';
+} from 'core-app/modules/hal/resources/query-sort-by-resource';
 import {take} from 'rxjs/operators';
 import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
 import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';

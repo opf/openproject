@@ -28,16 +28,17 @@
 
 import {Component, ElementRef, Inject, OnDestroy, OnInit} from '@angular/core';
 import {Transition} from '@uirouter/core';
-import {CollectionResource} from 'core-components/api/api-v3/hal-resources/collection-resource.service';
-import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service';
-import {UserResource} from 'core-components/api/api-v3/hal-resources/user-resource.service';
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {I18nToken} from '../../../angular4-transition-utils';
+import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 
 @Component({
   template: require('!!raw-loader!./watchers-tab.html'),
@@ -45,7 +46,7 @@ import {I18nToken} from '../../../angular4-transition-utils';
 })
 export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
   public workPackageId:string;
-  public workPackage:WorkPackageResourceInterface;
+  public workPackage:WorkPackageResource;
 
   public autocompleteInput = '';
   public error = false;
@@ -66,6 +67,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
 
   public constructor(@Inject(I18nToken) readonly I18n:op.I18n,
                      readonly elementRef:ElementRef,
+                     readonly wpWatchersService:WorkPackageWatchersService,
                      readonly $transition:Transition,
                      readonly wpNotificationsService:WorkPackageNotificationService,
                      readonly loadingIndicator:LoadingIndicatorService,
@@ -98,9 +100,9 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.workPackage.watchers.$load()
-      .then((collection:CollectionResource) => {
-        this.watching = collection.elements;
+    this.wpWatchersService.require(this.workPackage)
+      .then((watchers:HalResource[]) => {
+        this.watching = watchers;
       })
       .catch((error:any) => {
         this.wpNotificationsService.showError(error, this.workPackage);
@@ -193,7 +195,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
     return new Promise<UserResource[]>((resolve, reject) => {
       this.workPackage.availableWatchers
         .$link
-        .$fetch(payload, {caching: {enabled: false}})
+        .$fetch(payload)
         .then((collection:CollectionResource<UserResource>) => {
           this.noResults = collection.count === 0;
           resolve(collection.elements);
@@ -207,6 +209,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
       .then(() => {
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been added
+        this.wpWatchersService.require(this.workPackage, true);
         this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
         this.autocompleteInput = '';
       })
@@ -222,6 +225,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
 
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been removed
+        this.wpWatchersService.require(this.workPackage, true);
         this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
       })
       .catch((error:any) => this.wpNotificationsService.showError(error, this.workPackage));

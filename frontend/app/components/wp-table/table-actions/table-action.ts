@@ -1,15 +1,15 @@
-import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
-export type OpTableActionFactory = (i:Injector, wp:WorkPackageResourceInterface) => OpTableAction;
+export type OpTableActionFactory = (i:Injector, wp:WorkPackageResource) => OpTableAction;
 
 export abstract class OpTableAction {
 
   public I18n:op.I18n = this.injector.get(I18nToken);
 
   constructor(readonly injector:Injector,
-              readonly workPackage:WorkPackageResourceInterface) {
+              readonly workPackage:WorkPackageResource) {
   }
 
   /** Identifier to uniquely identify the action */

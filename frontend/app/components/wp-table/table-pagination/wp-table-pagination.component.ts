@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ConfigurationResource} from '../../api/api-v3/hal-resources/configuration-resource.service';
-import {ConfigurationDmService} from '../../api/api-v3/hal-resource-dms/configuration-dm.service';
 import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
 import {wpDirectivesModule} from '../../../angular-modules';

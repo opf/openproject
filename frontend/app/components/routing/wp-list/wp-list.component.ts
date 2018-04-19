@@ -28,14 +28,13 @@
 
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {auditTime, distinctUntilChanged, filter, take, withLatestFrom} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 import {States} from '../../states.service';
 import {WorkPackageQueryStateService} from '../../wp-fast-table/state/wp-table-base.service';
@@ -51,7 +50,6 @@ import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.se
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
-import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 
 @Component({
   selector: 'wp-list',
@@ -109,7 +107,6 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
 
     // Listen for param changes
     this.$transitions.onSuccess({}, (transition) => {
-      console.log('Updating params!' + transition.to().name);
 
       const params = transition.params('to');
       let newChecksum = params.query_props;
@@ -225,11 +222,11 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateResults() {
+  async updateResults() {
     return this.wpListService.reloadCurrentResultsList();
   }
 
-  updateToFirstResultsPage() {
+  async updateToFirstResultsPage() {
     return this.wpListService.loadCurrentResultsListFirstPage();
   }
 
@@ -248,10 +245,4 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
       this.selectedTitle = I18n.t('js.label_work_package_plural');
     }
   }
-
 }
-
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpList',
-    downgradeComponent({component: WorkPackagesListComponent}));

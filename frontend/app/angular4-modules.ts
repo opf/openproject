@@ -65,26 +65,20 @@ import {
   $localeToken,
   $qToken,
   $rootScopeToken,
+  $sceToken,
   $stateToken,
   $timeoutToken,
+  AutoCompleteHelperServiceToken,
   exportModalToken,
   FocusHelperToken,
-  halRequestToken,
-  HalResourceToken,
   HookServiceToken,
   I18nToken,
-  NotificationsServiceToken,
-  PathHelperToken,
-  QueryFilterInstanceResourceToken,
-  QueryResourceToken,
   saveModalToken,
   settingsModalToken,
   shareModalToken,
-  TimezoneServiceToken,
+  TextileServiceToken,
   upgradeService,
-  upgradeServiceWithToken, UrlParamsHelperServiceToken,
-  UrlParamsHelperToken,
-  v3PathToken,
+  upgradeServiceWithToken,
   wpDestroyModalToken,
   wpMoreMenuServiceToken
 } from './angular4-transition-utils';
@@ -126,14 +120,13 @@ import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-ta
 import {CurrentProjectService} from 'core-components/projects/current-project.service';
 import {WorkPackageSingleViewComponent} from 'core-components/work-packages/wp-single-view/wp-single-view.component';
 import {WorkPackageStatusButtonComponent} from 'core-components/wp-buttons/wp-status-button/wp-status-button.component';
-import {Ng1AttributeHelpTextWrapper} from 'core-components/common/help-texts/attribute-help-text-ng1-wrapper';
 import {WorkPackageReplacementLabelComponent} from 'core-components/wp-edit/wp-edit-field/wp-replacement-label.component';
 import {AuthoringComponent} from 'core-components/common/authoring/authoring.component';
 import {Ng1WorkPackageAttachmentsUploadWrapper} from 'core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload-ng1-wrapper';
 import {WorkPackageAttachmentListComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list.component';
 import {WorkPackageAttachmentListItemComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list-item.component';
-import {OpDateTimeUpgradedDirective} from 'core-components/common/date/op-date-time.upgraded.directive';
-import {UserLinkUpgradedComponent} from 'core-components/user/user-link/user-link.upgraded.component';
+import {OpDateTimeComponent} from 'core-components/common/date/op-date-time.component';
+import {UserLinkComponent} from 'core-components/user/user-link/user-link.component';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {NewestActivityOnOverviewComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-on-overview.component';
 import {WorkPackageCommentDirectiveUpgraded} from 'core-components/work-packages/work-package-comment/work-package-comment.directive.upgraded';
@@ -147,7 +140,6 @@ import {WorkPackageWatcherEntryComponent} from 'core-components/wp-single-view-t
 import {WorkPackageNewFullViewComponent} from 'core-components/wp-new/wp-new-full-view.component';
 import {WorkPackageTypeStatusComponent} from 'core-components/work-packages/wp-type-status/wp-type-status.component';
 import {WorkPackageEditActionsBarComponent} from 'core-components/common/edit-actions-bar/wp-edit-actions-bar.component';
-import {RootDmService} from 'core-components/api/api-v3/hal-resource-dms/root-dm.service';
 import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-full-view.component';
 import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
 import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
@@ -167,10 +159,8 @@ import {WorkPackageCreateSettingsMenuDirective} from 'core-components/op-context
 import {WorkPackageSingleContextMenuDirective} from 'core-components/op-context-menu/wp-context-menu/wp-single-context-menu';
 import {WorkPackageQuerySelectableTitleComponent} from 'core-components/wp-query-select/wp-query-selectable-title.component';
 import {WorkPackageQuerySelectDropdownComponent} from 'core-components/wp-query-select/wp-query-select-dropdown.component';
-import {QueryDmService} from 'core-components/api/api-v3/hal-resource-dms/query-dm.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
-import {QueryFormDmService} from 'core-components/api/api-v3/hal-resource-dms/query-form-dm.service';
 import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
 import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
@@ -186,6 +176,8 @@ import {Ng1RelationsCreateWrapper} from 'core-components/wp-relations/wp-relatio
 import {WpRelationsAutocompleteComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.upgraded.component';
 import {WpRelationAddChildComponent} from 'core-components/wp-relations/wp-relation-add-child/wp-relation-add-child';
 import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relations-parent/wp-relations-parent.component';
+import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
+import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configuration-modal/tabs/columns-tab.component';
@@ -209,6 +201,18 @@ import {AccessibleByKeyboardComponent} from 'core-components/a11y/accessible-by-
 import {WorkPackageFormQueryGroupComponent} from 'core-components/wp-form-group/wp-query-group.component';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
+import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
+import {AttributeHelpTextComponent} from 'core-components/common/help-texts/attribute-help-text.component';
+import {AttributeHelpTextModal} from 'core-components/common/help-texts/attribute-help-text.modal';
+import {AttributeHelpTextsService} from 'core-components/common/help-texts/attribute-help-text.service';
+import {UserCacheService} from 'core-components/user/user-cache.service';
+import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
+import {ProjectCacheService} from 'core-components/projects/project-cache.service';
+import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {NotificationsService} from 'core-components/common/notifications/notifications.service';
+import {NotificationComponent} from 'core-components/common/notifications/notification.component';
+import {NotificationsContainerComponent} from 'core-components/common/notifications/notifications-container.component';
+import {UploadProgressComponent} from 'core-components/common/notifications/upload-progress.component';
 
 @NgModule({
   imports: [
@@ -217,48 +221,50 @@ import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relat
     FormsModule,
     UIRouterUpgradeModule,
     // Angular CDK
-    PortalModule
+    PortalModule,
+    // Hal Module
+    OpenprojectHalModule
   ],
   providers: [
     GonRef,
     HideSectionService,
-    upgradeServiceWithToken('HalResource', HalResourceToken),
-    upgradeServiceWithToken('QueryResource', QueryResourceToken),
-    upgradeServiceWithToken('QueryFilterInstanceResource', QueryFilterInstanceResourceToken),
     upgradeServiceWithToken('$rootScope', $rootScopeToken),
     upgradeServiceWithToken('I18n', I18nToken),
     upgradeServiceWithToken('$state', $stateToken),
+    upgradeServiceWithToken('$sce', $sceToken),
     upgradeServiceWithToken('$q', $qToken),
     upgradeServiceWithToken('$timeout', $timeoutToken),
     upgradeServiceWithToken('$locale', $localeToken),
-    upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
+    upgradeServiceWithToken('textileService', TextileServiceToken),
+    upgradeServiceWithToken('AutoCompleteHelper', AutoCompleteHelperServiceToken),
+    NotificationsService,
     upgradeServiceWithToken('FocusHelper', FocusHelperToken),
-    upgradeServiceWithToken('PathHelper', PathHelperToken),
-    upgradeServiceWithToken('halRequest', halRequestToken),
+    PathHelperService,
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
-    upgradeServiceWithToken('TimezoneService', TimezoneServiceToken),
-    upgradeServiceWithToken('v3Path', v3PathToken),
+    TimezoneService,
     upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
     upgradeServiceWithToken('shareModal', shareModalToken),
     upgradeServiceWithToken('saveModal', saveModalToken),
     upgradeServiceWithToken('settingsModal', settingsModalToken),
     upgradeServiceWithToken('exportModal', exportModalToken),
-    upgradeServiceWithToken('UrlParamsHelper', UrlParamsHelperServiceToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
+    UrlParamsHelperService,
     WorkPackageCacheService,
     WorkPackageEditingService,
     SchemaCacheService,
+    ProjectCacheService,
+    UserCacheService,
     upgradeService('states', States),
-    upgradeService('paginationService', PaginationService),
+    PaginationService,
     upgradeService('keepTab', KeepTabService),
     upgradeService('templateRenderer', SimpleTemplateRenderer),
     upgradeService('wpDisplayField', WorkPackageDisplayFieldService),
-    upgradeService('wpNotificationsService', WorkPackageNotificationService),
-    upgradeService('wpListChecksumService', WorkPackagesListChecksumService),
-    upgradeService('wpRelationsHierarchyService', WorkPackageRelationsHierarchyService),
+    WorkPackageNotificationService,
+    WorkPackagesListChecksumService,
+    WorkPackageRelationsHierarchyService,
     upgradeService('wpFiltersService', WorkPackageFiltersService),
     upgradeService('loadingIndicator', LoadingIndicatorService),
-    upgradeService('apiWorkPackages', ApiWorkPackagesService),
+    ApiWorkPackagesService,
     // Table and query states services
     WorkPackageTableRelationColumnsService,
     WorkPackageTablePaginationService,
@@ -283,20 +289,17 @@ import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relat
     WorkPackageCreateService,
     OpTableActionsService,
     upgradeService('authorisationService', AuthorisationService),
-    upgradeService('ConfigurationService', ConfigurationService),
+    ConfigurationService,
     upgradeService('currentProject', CurrentProjectService),
-    upgradeService('RootDm', RootDmService),
-    upgradeService('QueryDm', QueryDmService),
-    upgradeService('queryMenu', QueryMenuService),
+    QueryMenuService,
     // Split view
     upgradeService('firstRoute', FirstRouteService),
-    upgradeService('PathHelper', PathHelperService),
-    // Activity tab
-    upgradeService('wpActivity', WorkPackagesActivityService),
+    PathHelperService,
+    WorkPackagesActivityService,
+    WorkPackageWatchersService,
     // Context menus
     OPContextMenuService,
     upgradeServiceWithToken('HookService', HookServiceToken),
-    upgradeServiceWithToken('UrlParamsHelper', UrlParamsHelperToken),
     WorkPackageContextMenuHelperService,
     QueryFormDmService,
     TableState,
@@ -304,6 +307,8 @@ import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relat
     // OP Modals service
     OpModalService,
     WpTableConfigurationService,
+
+    AttributeHelpTextsService,
   ],
   declarations: [
     WorkPackagesListComponent,
@@ -364,15 +369,15 @@ import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relat
     WorkPackageOverviewTabComponent,
     WorkPackageSingleViewComponent,
     WorkPackageStatusButtonComponent,
-    Ng1AttributeHelpTextWrapper,
+    AttributeHelpTextComponent,
     WorkPackageReplacementLabelComponent,
     FocusWithinDirective,
     AuthoringComponent,
     Ng1WorkPackageAttachmentsUploadWrapper,
     WorkPackageAttachmentListComponent,
     WorkPackageAttachmentListItemComponent,
-    OpDateTimeUpgradedDirective,
-    UserLinkUpgradedComponent,
+    OpDateTimeComponent,
+    UserLinkComponent,
     ClickOnKeypressComponent,
     WorkPackageFormQueryGroupComponent,
     WorkPackageFormAttributeGroupComponent,
@@ -432,6 +437,12 @@ import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relat
     WpTableConfigurationFiltersTab,
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
+    AttributeHelpTextModal,
+
+    // Notifications
+    NotificationsContainerComponent,
+    NotificationComponent,
+    UploadProgressComponent,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -485,6 +496,14 @@ import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relat
     WpTableConfigurationFiltersTab,
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
+    AttributeHelpTextModal,
+
+    // Notifications
+    NotificationsContainerComponent,
+    OpDateTimeComponent,
+
+    // Entries for ng1 downgraded components
+    AttributeHelpTextComponent,
   ]
 })
 export class OpenProjectModule {

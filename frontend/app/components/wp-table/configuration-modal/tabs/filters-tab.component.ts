@@ -32,7 +32,7 @@ export class WpTableConfigurationFiltersTab implements TabComponent {
     this.eeShowBanners = angular.element('body').hasClass('ee-banners-visible');
     this.wpTableFilters
       .onReady()
-      .then(() => this.filters = _.cloneDeep(this.wpTableFilters.currentState));
+      .then(() => this.filters = this.wpTableFilters.currentState.$copy());
   }
 
   public onSave() {

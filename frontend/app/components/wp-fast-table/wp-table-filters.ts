@@ -26,28 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryFilterResource} from '../api/api-v3/hal-resources/query-filter-resource.service';
-import {QueryFilterInstanceResource} from '../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
-import {QueryFilterInstanceSchemaResource} from '../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
+import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
 import {WorkPackageTableBaseState} from './wp-table-base';
+import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilterInstanceResource[]> {
 
-  public availableSchemas:QueryFilterInstanceSchemaResource[] = [];
   public current:QueryFilterInstanceResource[] = [];
 
-  constructor(filters:QueryFilterInstanceResource[], schema:QuerySchemaResourceInterface) {
+  constructor(filters:QueryFilterInstanceResource[], public availableSchemas:QueryFilterInstanceSchemaResource[]) {
     super();
     this.current = filters;
-    this.availableSchemas = schema.filtersSchemas.elements as any;
+  }
+
+  public $copy() {
+    let filters = cloneHalResourceCollection<QueryFilterInstanceResource>(this.current);
+    let availableSchemas = cloneHalResourceCollection<QueryFilterInstanceSchemaResource>(this.availableSchemas);
+
+    return new WorkPackageTableFilters(filters, availableSchemas);
   }
 
   public add(filter:QueryFilterResource) {
     let schema = _.find(this.availableSchemas,
-                        schema => (schema.filter.allowedValues as QueryFilterResource[])[0].href === filter.href);
+                        schema => (schema.filter.allowedValues as QueryFilterResource[])[0].href === filter.href)!;
 
-    let newFilter = QueryFilterInstanceResource.fromSchema(schema!);
+    let newFilter = schema.getFilter();
 
     this.current.push(newFilter);
 

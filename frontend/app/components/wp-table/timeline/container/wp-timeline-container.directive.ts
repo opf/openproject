@@ -31,10 +31,9 @@ import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Moment} from 'moment';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {filter, map, take, takeUntil, withLatestFrom} from 'rxjs/operators';
-import {I18nToken, NotificationsServiceToken} from '../../../../angular4-transition-utils';
+import {I18nToken} from '../../../../angular4-transition-utils';
 import {debugLog, timeOutput} from '../../../../helpers/debug_output';
-import {TypeResource} from '../../../api/api-v3/hal-resources/type-resource.service';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../../../states.service';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
 import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
@@ -56,6 +55,11 @@ import {
   TimelineViewParameters,
   zoomLevelOrder
 } from '../wp-timeline';
+import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
+import {
+  INotification,
+  NotificationsService
+} from 'core-components/common/notifications/notifications.service';
 import moment = require('moment');
 
 @Component({
@@ -84,7 +88,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   public timelineBody:JQuery;
 
-  private selectionParams = {
+  private selectionParams: { notification: INotification|null } = {
     notification: null
   };
 
@@ -96,7 +100,8 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private elementRef:ElementRef,
               private states:States,
               public wpTableDirective:WorkPackagesTableController,
-              @Inject(NotificationsServiceToken) private NotificationsService:any,
+              public typeDmService:TypeDmService,
+              private NotificationsService:NotificationsService,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService,
@@ -176,9 +181,9 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         take(1)
       )
       .subscribe(() => {
-        TypeResource.loadAll().then(() => {
-          this.debouncedRefresh();
-        });
+        this.typeDmService
+          .loadAll()
+          .then(() => this.debouncedRefresh());
       });
   }
 
@@ -276,7 +281,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       });
   }
 
-  startAddRelationPredecessor(start:WorkPackageResourceInterface) {
+  startAddRelationPredecessor(start:WorkPackageResource) {
     this.activateSelectionMode(start.id, end => {
       this.wpRelations
         .addCommonRelation(start as any, 'follows', end.id)
@@ -284,7 +289,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     });
   }
 
-  startAddRelationFollower(start:WorkPackageResourceInterface) {
+  startAddRelationFollower(start:WorkPackageResource) {
     this.activateSelectionMode(start.id, end => {
       this.wpRelations
         .addCommonRelation(start as any, 'precedes', end.id)
@@ -328,7 +333,9 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this._viewParameters.activeSelectionMode = null;
     this._viewParameters.selectionModeStart = null;
 
-    this.NotificationsService.remove(this.selectionParams.notification);
+    if (this.selectionParams.notification) {
+      this.NotificationsService.remove(this.selectionParams.notification);
+    }
 
     Mousetrap.unbind('esc');
 
@@ -337,10 +344,10 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     this.refreshView();
   }
 
-  private activateSelectionMode(start:string, callback:(wp:WorkPackageResourceInterface) => any) {
+  private activateSelectionMode(start:string, callback:(wp:WorkPackageResource) => any) {
     start = start.toString(); // old system bug: ID can be a 'number'
 
-    this._viewParameters.activeSelectionMode = (wp:WorkPackageResourceInterface) => {
+    this._viewParameters.activeSelectionMode = (wp:WorkPackageResource) => {
       callback(wp);
       this.resetSelectionMode();
     };

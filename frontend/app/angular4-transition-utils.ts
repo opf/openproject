@@ -35,6 +35,7 @@ export const $qToken = new InjectionToken<IQService>('$q');
 export const $timeoutToken = new InjectionToken<ITimeoutService>('$timeout');
 export const $localeToken = new InjectionToken<any>('$locale');
 export const $stateToken = new InjectionToken<StateService>('$state');
+export const $sceToken = new InjectionToken<ng.ISCEService>('$sceToken');
 
 export const I18nToken = new InjectionToken<op.I18n>('I18n');
 export const shareModalToken = new InjectionToken<any>('shareModal');
@@ -42,24 +43,15 @@ export const saveModalToken = new InjectionToken<any>('saveModal');
 export const settingsModalToken = new InjectionToken<any>('settingsModal');
 export const exportModalToken = new InjectionToken<any>(' exportModal');
 
+export const AutoCompleteHelperServiceToken = new InjectionToken<any>('AutoCompleteHelperServiceToken');
+export const TextileServiceToken = new InjectionToken<any>('TextileServiceToken');
 export const FocusHelperToken = new InjectionToken<any>('FocusHelper');
-export const NotificationsServiceToken = new InjectionToken<any>('NotificationsService');
-export const v3PathToken = new InjectionToken<any>('v3Path');
-export const PathHelperToken = new InjectionToken<any>('PathHelper');
-export const halRequestToken = new InjectionToken<any>('halRequest');
 export const wpMoreMenuServiceToken = new InjectionToken<any>('wpMoreMenuService');
-export const TimezoneServiceToken = new InjectionToken<any>('TimezoneService');
 export const $httpToken = new InjectionToken<any>('$http');
-export const halResourceFactoryToken = new InjectionToken<any>('halResourceFactory');
 export const wpDestroyModalToken = new InjectionToken<any>('wpDestroyModal');
 export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 export const HookServiceToken = new InjectionToken<any>('HookService');
-export const UrlParamsHelperToken = new InjectionToken<any>('UrlParamsHelper');
-export const QueryResourceToken = new InjectionToken<any>('QueryResource');
-export const QueryFilterInstanceResourceToken = new InjectionToken<any>('QueryFilterInstanceResource');
-export const HalResourceToken = new InjectionToken<any>('HalResource');
-export const UrlParamsHelperServiceToken = new InjectionToken<any>('UrlParamsHelperService');
 
 export function upgradeService(ng1InjectorName:string, providedType:any) {
   return {
@@ -72,7 +64,14 @@ export function upgradeService(ng1InjectorName:string, providedType:any) {
 export function upgradeServiceWithToken(ng1InjectorName:string, token:InjectionToken<any>) {
   return {
     provide: token,
-    useFactory: (i:any) => i.get(ng1InjectorName),
+    useFactory: (i:any) => {
+      try {
+        return i.get(ng1InjectorName);
+      } catch (e) {
+        console.trace("Failed to inject service " + ng1InjectorName);
+        throw e;
+      }
+    },
     deps: ['$injector']
   };
 }

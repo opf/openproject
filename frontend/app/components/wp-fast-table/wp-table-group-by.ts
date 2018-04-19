@@ -26,23 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryGroupByResource} from '../api/api-v3/hal-resources/query-group-by-resource.service';
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
-import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
+import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTableBaseState} from './wp-table-base';
-import {QueryColumn} from '../wp-query/query-column';
+import {cloneHalResource} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 export class WorkPackageTableGroupBy extends WorkPackageTableBaseState<QueryGroupByResource | undefined> {
   public current:QueryGroupByResource | undefined;
 
   constructor(query:QueryResource) {
     super();
-    this.current = angular.copy(query.groupBy);
+    this.current = cloneHalResource<QueryGroupByResource>(query.groupBy);
   }
 
   public update(query:QueryResource|null) {
     if (query) {
-      this.current = angular.copy(query.groupBy);
+      this.current = cloneHalResource<QueryGroupByResource>(query.groupBy);
     }
   }
 }

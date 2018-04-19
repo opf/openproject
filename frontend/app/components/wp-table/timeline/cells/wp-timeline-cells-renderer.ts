@@ -47,8 +47,8 @@ export class WorkPackageTimelineCellsRenderer {
 
   constructor(public readonly injector:Injector, private wpTimeline:WorkPackageTimelineTableController) {
     this.cellRenderers = {
-      milestone: new TimelineMilestoneCellRenderer(wpTimeline),
-      generic: new TimelineCellRenderer(wpTimeline)
+      milestone: new TimelineMilestoneCellRenderer(this.injector, wpTimeline),
+      generic: new TimelineCellRenderer(this.injector, wpTimeline)
     };
   }
 

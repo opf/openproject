@@ -27,13 +27,13 @@
 //++
 
 import {wpDirectivesModule} from '../../../angular-modules';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageRelationsController} from '../wp-relations.directive';
 
 
 export class WorkPackageRelationsGroupController {
-  public relatedWorkPackages:Array<WorkPackageResourceInterface>;
-  public workPackage:WorkPackageResourceInterface;
+  public relatedWorkPackages:Array<WorkPackageResource>;
+  public workPackage:WorkPackageResource;
   public header:string;
   public firstGroup:boolean;
   public groupByWorkPackageType:boolean;

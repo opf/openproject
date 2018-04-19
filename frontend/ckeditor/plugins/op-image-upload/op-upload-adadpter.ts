@@ -12,7 +12,7 @@ export class OpenProjectUploadAdapter {
   constructor(public loader:IFileLoader, public editor:any) {
     // Save Loader instance to update upload progress.
     this.loader = loader;
-    $injectFields(this, 'Upload');
+    // $injectFields(this, 'Upload');
   }
 
   public get uploadUrl() {

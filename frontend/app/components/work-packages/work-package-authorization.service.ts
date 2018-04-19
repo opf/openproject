@@ -28,7 +28,7 @@
 
 
 import {opWorkPackagesModule} from '../../angular-modules';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {StateService} from '@uirouter/core';
 
 var $state:StateService;
@@ -38,7 +38,7 @@ export class WorkPackageAuthorization {
 
   public project:any;
 
-  constructor(public workPackage:WorkPackageResourceInterface) {
+  constructor(public workPackage:WorkPackageResource) {
     this.project = workPackage.project;
   }
 

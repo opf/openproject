@@ -32,9 +32,9 @@ import {PathHelperService} from 'core-components/common/path-helper/path-helper.
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {distinctUntilChanged, map, takeUntil} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {States} from '../../states.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
 import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
@@ -67,7 +67,7 @@ interface ResourceContextChange {
   selector: 'wp-single-view',
 })
 export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
-  @Input('workPackage') public workPackage:WorkPackageResourceInterface;
+  @Input('workPackage') public workPackage:WorkPackageResource;
 
   // Grouped fields returned from API
   public groupedFields:GroupDescriptor[] = [];
@@ -130,8 +130,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
         distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
         map(() => this.wpEditing.temporaryEditResource(this.workPackage.id).value!)
       )
-      .subscribe((resource:WorkPackageResourceInterface) => {
-
+      .subscribe((resource:WorkPackageResource) => {
         // Prepare the fields that are required always
         const isNew = this.workPackage.isNew;
 
@@ -159,7 +158,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(componentDestroyed(this))
       )
-      .subscribe((resource:WorkPackageResourceInterface) => {
+      .subscribe((resource:WorkPackageResource) => {
         this.resourceContextChange.putValue(this.contextFrom(resource));
       });
   }
@@ -206,7 +205,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
    * @param attributeGroups
    * @returns {any}
    */
-  private rebuildGroupedFields(resource:WorkPackageResourceInterface, attributeGroups:any) {
+  private rebuildGroupedFields(resource:WorkPackageResource, attributeGroups:any) {
     if (!attributeGroups) {
       return [];
     }
@@ -233,7 +232,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
    * Maps the grouped fields into their display fields.
    * May return multiple fields (for the date virtual field).
    */
-  private getFields(resource:WorkPackageResourceInterface, fieldNames:string[]):FieldDescriptor[] {
+  private getFields(resource:WorkPackageResource, fieldNames:string[]):FieldDescriptor[] {
     const descriptors:FieldDescriptor[] = [];
 
     fieldNames.forEach((fieldName:string) => {
@@ -265,7 +264,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
    * 'date' field vs. all other types which should display a
    * combined 'start' and 'due' date field.
    */
-  private getDateField(resource:WorkPackageResourceInterface):FieldDescriptor {
+  private getDateField(resource:WorkPackageResource):FieldDescriptor {
     let object:any = {
       name: 'date',
       label: this.I18n.t('js.work_packages.properties.date'),
@@ -287,10 +286,10 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
    * Used to identify changes in the schema or project that may result in visual changes
    * to the single view.
    *
-   * @param {WorkPackageResourceInterface} resource
+   * @param {WorkPackageResource} resource
    * @returns {SchemaContext}
    */
-  private contextFrom(resource:WorkPackageResourceInterface):ResourceContextChange {
+  private contextFrom(resource:WorkPackageResource):ResourceContextChange {
     let schema = resource.schema;
 
     let schemaHref:string|null = null;
@@ -310,7 +309,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     };
   }
 
-  private displayField(resource:WorkPackageResourceInterface, name:string):DisplayField {
+  private displayField(resource:WorkPackageResource, name:string):DisplayField {
     return this.wpDisplayField.getField(
       resource,
       name,
