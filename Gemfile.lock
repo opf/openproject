@@ -65,11 +65,6 @@ GIT
       activesupport (>= 3.0)
       rspec-mocks (>= 2.99, < 4.0)
 
-PATH
-  remote: ../plugins/openproject-costs
-  specs:
-    openproject-costs (8.0.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -684,7 +679,6 @@ DEPENDENCIES
   oj (~> 3.5.0)
   okcomputer (~> 1.16.0)
   omniauth!
-  openproject-costs!
   openproject-token (~> 1.0.1)
   openproject-translations!
   parallel_tests (~> 2.21.3)
