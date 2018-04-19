@@ -217,6 +217,13 @@ function getWebpackMainConfig() {
     },
 
     plugins: [
+      // added to avoid module-duplication with plugins
+      new webpack.optimize.CommonsChunkPlugin({
+        name: "common",
+        filename: "openproject-common.js",
+        minChunks: 2
+      }),
+
       // Add a simple fail plugin to return a status code of 2 if
       // errors are detected (this includes TS warnings)
       // It is ONLY executed when `ENV[CI]` is set or `--bail` is used.
