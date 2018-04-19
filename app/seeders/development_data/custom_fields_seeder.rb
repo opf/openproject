@@ -105,7 +105,7 @@ module DevelopmentData
     end
 
     def extend_group(type, group)
-      groups = type.attribute_groups
+      groups = type.send(:custom_attribute_groups) || type.default_attribute_groups
       groups << group
       type.attribute_groups = groups
     end
