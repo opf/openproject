@@ -51,7 +51,7 @@ export class CostsByTypeDisplayField extends DisplayField {
               public schema:op.FieldSchema) {
     super(resource, name, schema);
 
-    this.wpCacheService = <WorkPackageCacheService>this.$injector.get('wpCacheService');
+    this.wpCacheService = <WorkPackageCacheService>this.$injector.get(WorkPackageCacheService);
 
     this.loadIfNecessary();
   }
