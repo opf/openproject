@@ -13,7 +13,8 @@
 
     <h3 [textContent]="text.title"></h3>
 
-    <div class="tabs--container">
+    <div *ngIf="!!tabPortalHost"
+         class="tabs--container">
       <ul>
         <li *ngFor="let tab of availableTabs">
           <a class="tab-show"

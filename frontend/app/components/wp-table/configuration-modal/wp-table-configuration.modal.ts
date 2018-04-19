@@ -2,7 +2,7 @@ import {
   ApplicationRef,
   Component,
   ComponentFactoryResolver,
-  ElementRef,
+  ElementRef, EventEmitter,
   Inject,
   Injector,
   OnDestroy,
@@ -20,6 +20,11 @@ import {
   TabComponent,
   TabPortalOutlet
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
+import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
+import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
+import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
 
 @Component({
   template: require('!!raw-loader!./wp-table-configuration.modal.html')
@@ -48,6 +53,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     upsaleRelationColumnsLink: this.I18n.t('js.modals.upsale_relation_columns_link')
   };
 
+  public onDataUpdated = new EventEmitter<void>();
   public impaired = this.ConfigurationService.accessibilityModeEnabled();
   public selectedColumnMap:{ [id:string]:boolean } = {};
 
@@ -62,6 +68,10 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
               readonly injector:Injector,
               readonly appRef:ApplicationRef,
               readonly componentFactoryResolver:ComponentFactoryResolver,
+              readonly loadingIndicator:LoadingIndicatorService,
+              readonly tableState:TableState,
+              readonly queryFormDm:QueryFormDmService,
+              readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
               readonly ConfigurationService:ConfigurationService,
               readonly elementRef:ElementRef) {
@@ -79,15 +89,15 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
       this.injector
     );
 
-    // Switch to the default tab
-    // after a timeout to let the host initialize.
-    setTimeout(() => {
-      const initialTab = this.locals['initialTab'] || this.availableTabs[0].name;
-      this.switchTo(initialTab);
-    });
+    this.loadingIndicator.indicator('modal').promise = this.loadForm()
+      .then(() => {
+        const initialTab = this.locals['initialTab'] || this.availableTabs[0].name;
+        this.switchTo(initialTab);
+      });
   }
 
   ngOnDestroy() {
+    this.onDataUpdated.complete();
     this.tabPortalHost.dispose();
   }
 
@@ -108,6 +118,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
       component.onSave();
     });
 
+    this.onDataUpdated.emit();
     this.service.close();
   }
 
@@ -129,5 +140,14 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
   protected get afterFocusOn():JQuery {
     return this.$element;
+  }
+
+  protected loadForm() {
+    const query = this.tableState.query.value!;
+    return this.queryFormDm.load(query).then((form:QueryFormResource) => {
+      this.wpStatesInitialization.updateStatesFromForm(query, form);
+
+      return form;
+    });
   }
 }

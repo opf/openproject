@@ -64,7 +64,7 @@ export class UrlParamsHelperService {
     return parts.join('&');
   }
 
-  public encodeQueryJsonParams(query:QueryResource, additional:any) {
+  public encodeQueryJsonParams(query:QueryResource, additional:any = {}) {
     var paramsData:any = {
       c: query.columns.map(function (column) {
         return column.id;
@@ -188,7 +188,7 @@ export class UrlParamsHelperService {
     return queryData;
   }
 
-  public buildV3GetQueryFromQueryResource(query:QueryResource, additionalParams:any) {
+  public buildV3GetQueryFromQueryResource(query:QueryResource, additionalParams:any = {}) {
     var queryData:any = {};
 
     queryData["columns[]"] = this.buildV3GetColumnsFromQueryResource(query);
