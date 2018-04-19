@@ -188,9 +188,12 @@ export class WorkPackageResource extends HalResource {
    * Removing it from the elements array assures that the view gets updated immediately.
    * If an error occurs, the user gets notified and the attachment is pushed to the elements.
    */
-  public removeAttachment(attachment:any) {
+  public async removeAttachment(attachment:any):Promise<any> {
+    _.pull(this.attachments.elements, attachment);
+    _.pull(this.pendingAttachments, attachment);
+
     if (attachment.$isHal) {
-      attachment.delete()
+      return attachment.delete()
         .then(() => {
           this.updateAttachments();
         })
@@ -199,9 +202,7 @@ export class WorkPackageResource extends HalResource {
           this.attachments.elements.push(attachment);
         });
     }
-
-    _.pull(this.attachments.elements, attachment);
-    _.pull(this.pendingAttachments, attachment);
+    return Promise.resolve();
   }
 
   /**
@@ -223,11 +224,8 @@ export class WorkPackageResource extends HalResource {
    * Return an updated AttachmentCollectionResource.
    */
   public async uploadAttachments(files:UploadFile[]):Promise<any> {
-    const href = this.attachments.$href!;
-    // TODO upgrade
-    const opFileUpload:any = angular.element('body').injector().get('opFileUpload');
+    const { uploads, finished } = this.performUpload(files);
 
-    const { uploads, finished } = opFileUpload.upload(href, files);
     const message = I18n.t('js.label_upload_notification', this);
     const notification = this.NotificationsService.addWorkPackageUpload(message, uploads);
 
@@ -239,6 +237,14 @@ export class WorkPackageResource extends HalResource {
       .catch((error:any) => {
         this.wpNotificationsService.handleRawError(error, this as any);
       });
+  }
+
+  private performUpload(files:UploadFile[]) {
+    const href = this.attachments.$href!;
+    // TODO upgrade
+    const opFileUpload:any = angular.element('body').injector().get('opFileUpload');
+
+    return opFileUpload.upload(href, files);
   }
 
   /**

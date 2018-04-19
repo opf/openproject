@@ -116,7 +116,7 @@ export class HalResourceService {
       params: new HttpParams({ encoder: new URLParamsEncoder(), fromObject: params }),
       withCredentials: true,
       responseType: 'json'
-    }
+    };
 
     return this._request('get', href, config);
   }
