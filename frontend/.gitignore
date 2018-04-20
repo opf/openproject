@@ -8,6 +8,7 @@
 /tests/unit/tests/typescript
 /tmp
 
+/tests/openproject-common.js
 /tests/openproject-test-bundle.js
 /tests/openproject-main.css
 /tests/openproject-tests.css
