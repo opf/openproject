@@ -35,8 +35,6 @@ describe 'API v3 User resource', type: :request, content_type: :json do
 
   let(:current_user) { FactoryGirl.create(:user) }
   let(:user) { FactoryGirl.create(:user) }
-  let(:model) { ::API::V3::Users::UserModel.new(user) }
-  let(:representer) { ::API::V3::Users::UserRepresenter.new(model) }
 
   subject(:response) { last_response }
 

@@ -522,6 +522,14 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  describe 'group paths' do
+    describe '#group' do
+      subject { helper.group 1 }
+
+      it_behaves_like 'api v3 path', '/groups/1'
+    end
+  end
+
   describe '#version' do
     subject { helper.version 42 }
 

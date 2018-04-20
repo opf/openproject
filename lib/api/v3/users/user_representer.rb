@@ -28,15 +28,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module V3
     module Users
-      class UserRepresenter < ::API::Decorators::Single
+      class UserRepresenter < ::API::V3::Principals::PrincipalRepresenter
         include AvatarHelper
-        include ::API::Caching::CachedRepresenter
 
         cached_representer key_parts: %i(auth_source)
 
@@ -97,16 +93,13 @@ module API
 
         link :auth_source,
              cache_if: -> { current_user_is_admin } do
-          next unless represented.is_a?(User) && represented.auth_source
+          next unless represented.auth_source
 
           {
             href: "/api/v3/auth_sources/#{represented.auth_source_id}",
             title: represented.auth_source.name
           }
         end
-
-        property :id,
-                 render_nil: true
 
         property :login,
                  exec_context: :decorator,
@@ -124,9 +117,6 @@ module API
                  setter: ->(fragment:, represented:, **) { represented.admin = fragment },
                  cache_if: -> { current_user_is_admin }
 
-        property :subtype,
-                 getter: ->(*) { type },
-                 render_nil: true
         property :firstName,
                  exec_context: :decorator,
                  getter: ->(*) { represented.firstname },
@@ -141,36 +131,15 @@ module API
                  render_nil: false,
                  cache_if: -> { current_user_is_admin_or_self }
 
-        property :name,
-                 render_nil: true
-
         property :mail,
                  as: :email,
                  render_nil: true,
-                 # FIXME: remove the "is_a?" as soon as we have a dedicated group representer
-                 getter: ->(*) {
-                   if is_a?(User) && !pref.hide_mail
-                     mail
-                   end
-                 }
+                 getter: ->(*) { pref.hide_mail ? nil : mail }
+
         property :avatar,
                  exec_context: :decorator,
                  getter: ->(*) { avatar_url(represented) },
                  render_nil: true
-
-        property :created_on,
-                 exec_context: :decorator,
-                 as: 'createdAt',
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) },
-                 render_nil: false,
-                 cache_if: -> { current_user_is_admin_or_self }
-
-        property :updated_on,
-                 exec_context: :decorator,
-                 as: 'updatedAt',
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on) },
-                 render_nil: false,
-                 cache_if: -> { current_user_is_admin_or_self }
 
         property :status,
                  getter: ->(*) { status_name },
@@ -183,7 +152,6 @@ module API
                  getter: ->(*) { represented.identity_url },
                  setter: ->(fragment:, represented:, **) { represented.identity_url = fragment },
                  render_nil: true,
-                 if: ->(*) { represented.is_a?(User) },
                  cache_if: -> { current_user_is_admin_or_self }
 
         # Write-only properties
@@ -235,20 +203,6 @@ module API
 
         def _type
           'User'
-        end
-
-        def current_user_is_admin_or_self
-          current_user_is_admin || represented.id == current_user.id
-        end
-
-        def current_user_is_admin
-          current_user.admin?
-        end
-
-        private
-
-        def work_package
-          @work_package
         end
 
         def current_user_can_delete_represented?

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -29,9 +28,36 @@
 
 module API
   module V3
-    module Users
-      class UserCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        include API::V3::Principals::GroupOrUserElements
+    module Groups
+      class GroupsAPI < ::API::OpenProjectAPI
+        helpers ::API::Utilities::ParamsHelper
+
+        resources :groups do
+          params do
+            requires :id, desc: 'Group\'s id'
+          end
+          route_param :id do
+            helpers do
+              def group_scope
+                if current_user.allowed_to_globally?(:manage_members)
+                  Group.all
+                else
+                  Group
+                    .in_project(Project.allowed_to(current_user, :view_members))
+                end
+              end
+
+              def requested_user
+                group_scope.find(params[:id])
+              end
+            end
+
+            get do
+              GroupRepresenter
+                .new(requested_user, current_user: current_user)
+            end
+          end
+        end
       end
     end
   end

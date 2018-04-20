@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -29,9 +30,11 @@
 
 module API
   module V3
-    module Users
-      class UserCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        include API::V3::Principals::GroupOrUserElements
+    module Groups
+      class GroupRepresenter < ::API::V3::Principals::PrincipalRepresenter
+        def _type
+          'Group'
+        end
       end
     end
   end
