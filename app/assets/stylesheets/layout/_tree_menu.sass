@@ -1,0 +1,76 @@
+#main-menu ul ul.menu-children ul.pages-hierarchy,
+.pages-hierarchy
+  $hierarchy-span-width: 25px
+  .tree-menu--title
+    display: inline-block
+    width: calc(100% - #{$hierarchy-span-width})
+    vertical-align: bottom
+
+  .tree-menu--hierarchy-span
+    display: inline-block
+    width: $hierarchy-span-width
+    padding-left: 8px
+    line-height: $main-menu-item-height
+
+  .tree-menu--hierarchy-indicator-icon,
+  .tree-menu--leaf-indicator
+    line-height: $main-menu-item-height
+
+
+  // Style the hierarchy group indicator arrow
+  // default: open arrow down
+  // collapsed: right arrow
+  .tree-menu--hierarchy-indicator
+    @include varprop(color, main-menu-font-color)
+
+    &:hover
+      text-decoration: none
+
+  // Toggle the indicator accessibility texts
+  // accordingly
+  .tree-menu--hierarchy-indicator-collapsed
+    display: none
+
+  .-hierarchy-collapsed
+    .tree-menu--hierarchy-indicator-expanded
+      display: none
+    .tree-menu--hierarchy-indicator-collapsed
+      display: inline-block
+  // END accessibility rules
+
+  .tree-menu--hierarchy-indicator-icon
+    @include icon-common
+    @extend .icon-arrow-down1
+    font-size: 0.6rem
+
+  &.-with-hierarchy
+    .-with-hierarchy
+      padding-left: 1rem
+
+
+  &.-hierarchy-collapsed > li
+    > .tree-menu--item > .tree-menu--hierarchy-span > .tree-menu--hierarchy-indicator > .tree-menu--hierarchy-indicator-icon
+      @include icon-common
+      @extend .icon-arrow-right2
+      font-size: 0.6rem
+    > ul.-with-hierarchy
+      display: none
+
+  > li,
+  > li:hover
+    background: transparent
+
+  .tree-menu--item
+    display: inline-block
+    width: 100%
+    border-radius: 3px
+    line-height: $main-menu-item-height
+    height: $main-menu-item-height
+    &:hover
+      @include varprop(color, main-menu-hover-font-color)
+      @include varprop(background, main-menu-bg-hover-background)
+
+
+
+
+

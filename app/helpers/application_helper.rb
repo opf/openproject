@@ -137,15 +137,38 @@ module ApplicationHelper
   def render_page_hierarchy(pages, node = nil, options = {})
     return '' unless pages[node]
 
-    content_tag :ul, class: 'pages-hierarchy' do
+    content_tag :ul, class: "pages-hierarchy #{options[:collapsible] ? '-with-hierarchy' : ''} -hierarchy-expanded" do
       pages[node].map { |page|
         content_tag :li do
+          is_parent = pages[page.id]
           title = if options[:timestamp] && page.updated_on
                     l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on))
                   end
-          concat link_to(page.title, project_wiki_path(page.project, page),
-                         title: title)
-          concat render_page_hierarchy(pages, page.id, options) if pages[page.id]
+          item = content_tag(:span, class: 'tree-menu--item') do
+            if options[:collapsible]
+              icon_spans = []
+              hierarchy_span_content = nil
+              if is_parent
+                icon_spans << content_tag(:span, '', 'aria-hidden': true, class: 'tree-menu--hierarchy-indicator-icon')
+                icon_spans << content_tag(:span, 'Expanded. Click to collapse', class: 'tree-menu--hierarchy-indicator-expanded hidden-for-sighted')
+                icon_spans << content_tag(:span, 'Collapsed. Click to show', class: 'tree-menu--hierarchy-indicator-collapsed hidden-for-sighted')
+                hierarchy_span_content = content_tag(:a, icon_spans.join.html_safe, tabindex: 0, role: 'button', class: 'tree-menu--hierarchy-indicator')
+              else
+                hierarchy_span_content = content_tag(:span, tabindex: 0, class: 'tree-menu--leaf-indicator') do
+                  content_tag(:span, 'Hierarchy leaf', class: 'hidden-for-sighted')
+                end
+              end
+              concat content_tag(:span, hierarchy_span_content, class: 'tree-menu--hierarchy-span')
+            end
+
+            concat link_to(page.title,
+                           project_wiki_path(page.project, page),
+                           title: title,
+                             class: 'tree-menu--title ellipsis') do
+            end
+          end
+          concat item
+          concat render_page_hierarchy(pages, page.id, options) if is_parent
         end
       }.join.html_safe
     end

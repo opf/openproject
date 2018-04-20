@@ -1501,6 +1501,7 @@ en:
   label_wiki_show_menu_item: "Show as menu item in project navigation"
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
+  label_wiki_start: "Start page"
   label_work_package: "Work package"
   label_work_package_added: "Work package added"
   label_work_package_attachments: "Work package attachments"

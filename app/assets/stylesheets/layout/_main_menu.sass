@@ -140,7 +140,16 @@ $toggler-width: 40px
       &.unattached
         border-top: 1px solid #ddd
       li
-        //@include default-transition
+        &.partial
+          // NEEDS CLEANUP: resetting styles in partials.
+          background: initial
+          &:hover,
+          li,
+          li:hover
+            background: initial
+            a
+              @include varprop(color, main-menu-font-color)
+              padding: initial
 
         &:hover
           @include varprop(background, main-menu-child-bg-hover-color)
@@ -162,7 +171,7 @@ $toggler-width: 40px
 
         a
           // children have no icon so we need to push them right.
-          padding-left: 20px
+          padding-left: 32px
 
           &:hover
             text-decoration: none
@@ -191,26 +200,26 @@ $toggler-width: 40px
     float: left
 
   #toggle-project-menu
-    border: none
     background: none
     height: 100vh
     width: 18px
     position: fixed
     top: 0px
-    left: calc(#{$main-menu-width} - 1px)
-    left: calc(var(--main-menu-width) - 1px)
+    border-left-width: 2px
+    border-left-style: solid
+    border-left-color: transparent
+    left: calc(#{$main-menu-width} - 2px)
+    left: calc(var(--main-menu-width) - 2px)
     vertical-align: middle
+    opacity: 0
 
     %absolute-layout-mode &
       z-index: 100
 
     @include default-transition
     &:hover
-      border-left-width: 2px
-      border-left-style: solid
       @include varprop(border-left-color, primary-color)
-      a.navigation-toggler
-        visibility: visible
+      opacity: 1
     &.show
       left: calc(#{$main-menu-folded-width} - 1px)
       a.navigation-toggler
@@ -218,7 +227,6 @@ $toggler-width: 40px
           @include icon-mixin-arrow-right2
     a.navigation-toggler
       @include default-transition
-      visibility: hidden
       position: absolute
       top: 0
       height: 40px
@@ -351,6 +359,11 @@ $arrow-left-width: 40px
     li a
       padding: 0
 
+.menu-wiki-pages-tree
+  border-top: $main-menu-border-width solid $main-menu-border-color
+  padding-top: 7px
+  padding-left: 7px
+  padding-right: 7px
 
 
 // #main.hidden-navigation

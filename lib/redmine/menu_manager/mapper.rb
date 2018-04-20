@@ -49,6 +49,7 @@ class Redmine::MenuManager::Mapper
   #   eg. children: Proc.new {|project| [Redmine::MenuManager::MenuItem.new(...)] }
   # * last: menu item will stay at the end (eg. last: true)
   # * html_options: a hash of html options that are passed to link_to
+  # * partial: A partial that shall be rendered at that position
   def push(name, url, options = {})
     options = options.dup
 

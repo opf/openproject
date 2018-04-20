@@ -40,7 +40,7 @@ module Redmine::MenuManager::MenuHelper
   # Renders the application main menu
   def render_main_menu(project)
     if project
-      build_wiki_menus(project)
+      # build_wiki_menus(project)
       build_work_packages_menu(project)
     end
     render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
@@ -78,7 +78,6 @@ module Redmine::MenuManager::MenuHelper
   def render_menu(menu, project = nil)
     links = []
     classes = ''
-
     menu_items_for(menu, project) do |node|
       links << render_menu_node(node, project)
     end
@@ -149,7 +148,11 @@ module Redmine::MenuManager::MenuHelper
       render_menu_node_with_children(node, project)
     else
       caption, url, selected = extract_node_details(node, project)
-      content_tag('li', render_single_menu_node(node, caption, url, selected))
+      if node.partial
+        content_tag('li', render(partial: node.partial), class: 'partial')
+      else
+        content_tag('li', render_single_menu_node(node, caption, url, selected))
+      end
     end
   end
 

@@ -293,6 +293,24 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.repository && !p.repository.new_record? },
             icon: 'icon2 icon-folder-open'
 
+  menu.push :wiki,
+            { controller: '/wiki', action: 'show', id: 'wiki' },
+            param: :project_id,
+            if: Proc.new { |p| p.module_enabled?('wiki') },
+            icon: 'icon2 icon-wiki'
+
+  menu.push :wiki_start,
+            { controller: '/wiki', action: 'show', id: 'wiki' },
+            param: :project_id,
+            caption: :label_wiki_start,
+            parent: :wiki
+
+  menu.push :wiki_menu_partial,
+            { controller: '/wiki', action: 'show' },
+            param: :project_id,
+            parent: :wiki,
+            partial: 'wiki/menu_pages_tree'
+
   menu.push :time_entries,
             { controller: '/timelog', action: 'index' },
             param: :project_id,
