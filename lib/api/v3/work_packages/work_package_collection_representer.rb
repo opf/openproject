@@ -194,7 +194,9 @@ module API
         def representation_formats
           formats = [
             representation_format_pdf,
+            representation_format_pdf_attachments,
             representation_format_pdf_description,
+            representation_format_pdf_description_attachments,
             representation_format_csv
           ]
 
@@ -227,12 +229,27 @@ module API
                                 mime_type: 'application/pdf'
         end
 
+        def representation_format_pdf_attachments
+          representation_format 'pdf',
+                                i18n_key: 'pdf_with_attachments',
+                                mime_type: 'application/pdf',
+                                url_query_extras: 'show_attachments=true'
+        end
+
         def representation_format_pdf_description
           representation_format 'pdf-with-descriptions',
                                 format: 'pdf',
                                 i18n_key: 'pdf_with_descriptions',
                                 mime_type: 'application/pdf',
                                 url_query_extras: 'show_descriptions=true'
+        end
+
+        def representation_format_pdf_description_attachments
+          representation_format 'pdf-with-descriptions',
+                                format: 'pdf',
+                                i18n_key: 'pdf_with_descriptions_and_attachments',
+                                mime_type: 'application/pdf',
+                                url_query_extras: 'show_descriptions=true&show_attachments=true'
         end
 
         def representation_format_csv
