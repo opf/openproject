@@ -236,7 +236,8 @@ ul.export-options
 .wp-table--configuration-modal
   min-height: 120px
   max-height: 90vh
-  width: 75vh
+  width: 50vw
+  overflow-x: auto
 
   label.option-label
     float: left
@@ -246,3 +247,11 @@ ul.export-options
 
   .modal--form-actions
     margin: 1em 0
+
+  .advanced-filters--filter,
+  .advanced-filters--add-filter
+    max-width: 100%
+
+@include breakpoint (680px down)
+  .wp-table--configuration-modal
+    width: 90vw
