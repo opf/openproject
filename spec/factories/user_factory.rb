@@ -27,20 +27,13 @@
 #++
 
 FactoryGirl.define do
-  factory :user do
-    transient do
-      member_in_project nil
-      member_in_projects nil
-      member_through_role nil
-    end
+  factory :user, parent: :principal, class: User do
     firstname 'Bob'
     lastname 'Bobbit'
     sequence(:login) do |n| "bob#{n}" end
     sequence(:mail) do |n| "bob#{n}.bobbit@bob.com" end
     password 'adminADMIN!'
     password_confirmation 'adminADMIN!'
-    created_on { Time.now }
-    updated_on { Time.now }
 
     mail_notification(OpenProject::VERSION::MAJOR > 0 ? 'all' : true)
 
@@ -48,17 +41,6 @@ FactoryGirl.define do
     status User::STATUSES[:active]
     admin false
     first_login false if User.table_exists? and User.columns.map(&:name).include? 'first_login'
-
-    callback(:after_build) do |user, evaluator| # this is also done after :create
-      (projects = evaluator.member_in_projects || [])
-      projects << evaluator.member_in_project if evaluator.member_in_project
-      if !projects.empty?
-        role = evaluator.member_through_role || FactoryGirl.build(:role, permissions: [:view_work_packages, :edit_work_packages])
-        projects.each do |project|
-          project.add_member! user, role if project
-        end
-      end
-    end
 
     factory :admin do
       firstname 'OpenProject'
@@ -87,6 +69,7 @@ FactoryGirl.define do
       status User::STATUSES[:invited]
     end
   end
+
   factory :anonymous, class: AnonymousUser do
     status User::STATUSES[:builtin]
     initialize_with { User.anonymous }

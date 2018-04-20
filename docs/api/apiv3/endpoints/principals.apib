@@ -2,15 +2,13 @@
 
 Principals are the superclass of groups and users.
 
-Currently, OpenProject represents groups the same way it represents users. This is subject to change.
-
 ## Linked Properties
 
-See [user](#users)
+See [user](#users) and [group](#groups)
 
 ## Local Properties
 
-See [user](#users)
+See [user](#users) and [group](#groups)
 
 ## Principals [/api/v3/principals{?filters}]
 
@@ -28,7 +26,6 @@ See [user](#users)
                     "id": 4,
                     "login": "Eliza92778",
                     "admin": false,
-                    "subtype": "User",
                     "firstName": "Danika",
                     "lastName": "O'Keefe",
                     "name": "Danika O'Keefe",
@@ -69,7 +66,6 @@ See [user](#users)
                     "id": 2,
                     "login": "Sebastian9686",
                     "admin": false,
-                    "subtype": "User",
                     "firstName": "Peggie",
                     "lastName": "Feeney",
                     "name": "Peggie Feeney",
@@ -106,39 +102,17 @@ See [user](#users)
                     }
                   },
                   {
-                    "_type": "User",
-                    "id": 9,
-                    "login": "",
-                    "admin": false,
-                    "subtype": "Group",
-                    "firstName": "",
-                    "lastName": "Group 1",
-                    "name": "Group 1",
-                    "email": null,
-                    "avatar": "",
-                    "createdAt": "2015-09-23T11:06:36Z",
-                    "updatedAt": "2015-09-23T11:06:36Z",
-                    "status": "active",
-                    "_links": {
-                      "self": {
-                        "href": "/api/v3/users/9",
-                        "title": "Group 1"
-                      },
-                      "showUser": {
-                        "href": "/users/9",
-                        "type": "text/html"
-                      },
-                      "updateImmediately": {
-                        "href": "/api/v3/users/9",
-                        "title": "Update ",
-                        "method": "patch"
-                      },
-                      "delete": {
-                        "href": "/api/v3/users/9",
-                        "title": "Delete ",
-                        "method": "delete"
+                      "_type": "Group",
+                      "id": 9,
+                      "name": "The group",
+                      "createdAt": "2015-09-23T11:06:36Z",
+                      "updatedAt": "2015-09-23T11:06:36Z",
+                      "_links": {
+                          "self": {
+                              "href": "/api/v3/groups/9",
+                              "title": "The group"
+                          }
                       }
-                    }
                   }
                 ]
               },

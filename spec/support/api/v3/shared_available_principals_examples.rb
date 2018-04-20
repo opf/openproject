@@ -55,17 +55,17 @@ shared_examples_for 'available principals' do |principals|
   end
 
   describe 'response' do
-    shared_examples_for "returns available #{principals}" do |total, count|
+    shared_examples_for "returns available #{principals}" do |total, count, klass|
       include_context "request available #{principals}"
 
-      it_behaves_like 'API V3 collection response', total, count, 'User'
+      it_behaves_like 'API V3 collection response', total, count, klass
     end
 
     describe 'users' do
       context 'single user' do
         # The current user
 
-        it_behaves_like "returns available #{principals}", 1, 1
+        it_behaves_like "returns available #{principals}", 1, 1, 'User'
       end
 
       context 'multiple users' do
@@ -74,7 +74,7 @@ shared_examples_for 'available principals' do |principals|
           # and the current user
         end
 
-        it_behaves_like "returns available #{principals}", 2, 2
+        it_behaves_like "returns available #{principals}", 2, 2, 'User'
       end
     end
 
@@ -87,7 +87,7 @@ shared_examples_for 'available principals' do |principals|
         end
 
         # current user and group
-        it_behaves_like "returns available #{principals}", 2, 2
+        it_behaves_like "returns available #{principals}", 2, 2, 'Group'
       end
 
       context 'without work_package_group_assignment' do
@@ -96,7 +96,7 @@ shared_examples_for 'available principals' do |principals|
         end
 
         # Only the current user
-        it_behaves_like "returns available #{principals}", 1, 1
+        it_behaves_like "returns available #{principals}", 1, 1, 'User'
       end
     end
   end

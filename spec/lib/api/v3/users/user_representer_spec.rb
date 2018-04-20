@@ -91,9 +91,10 @@ describe ::API::V3::Users::UserRepresenter do
     end
 
     describe 'email' do
+      let(:user) { FactoryGirl.build_stubbed(:user, status: 1, preference: preference) }
+
       context 'user shows his E-Mail address' do
         let(:preference) { FactoryGirl.build(:user_preference, hide_mail: false) }
-        let(:user) { FactoryGirl.build_stubbed(:user, status: 1, preference: preference) }
 
         it 'shows the users E-Mail address' do
           is_expected.to be_json_eql(user.mail.to_json).at_path('email')
@@ -102,7 +103,6 @@ describe ::API::V3::Users::UserRepresenter do
 
       context 'user hides his E-Mail address' do
         let(:preference) { FactoryGirl.build(:user_preference, hide_mail: true) }
-        let(:user) { FactoryGirl.build_stubbed(:user, status: 1, preference: preference) }
 
         it 'does not render the users E-Mail address' do
           is_expected.to be_json_eql(nil.to_json).at_path('email')
