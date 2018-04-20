@@ -68,6 +68,7 @@ else
   # fake result of npm/asset run
   run "mkdir -p app/assets/javascripts/bundles"
   run "touch app/assets/javascripts/bundles/openproject-core-app.js"
+  run "touch app/assets/javascripts/bundles/openproject-common.js"
   run "touch app/assets/javascripts/bundles/openproject-vendors.js"
   run "mkdir -p app/assets/javascripts/locales"
   run "touch app/assets/javascripts/locales/en.js"
