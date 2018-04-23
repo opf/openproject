@@ -86,6 +86,10 @@ See docs/COPYRIGHT.rdoc for more details.
               <%= op_icon('button--icon icon-add') %>
               <span class="button--text"><%= t('types.edit.add_group') %></span>
             </button>
+            <button type="button" class="form-configuration--add-group button -alt-highlight" ng-click="addQuery($event)">
+              <%= op_icon('button--icon icon-add') %>
+              <span class="button--text"><%= t('types.edit.add_query') %></span>
+            </button>
           <% else %>
             <button type="button" class="form-configuration--add-group button -alt-highlight" ng-click="showEEOnlyHint()">
               <%= op_icon('button--icon icon-add') %>
@@ -111,6 +115,29 @@ See docs/COPYRIGHT.rdoc for more details.
             <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
           </div>
           <div class="attributes" dragula='"attributes"'>
+          </div>
+        </div>
+        <div id="type-form-conf-query-template"
+             class="type-form-conf-group type-form-query-group"
+             data-original-key=""
+             data-key=""
+             data-key-is-symbol="false">
+          <div class="group-head">
+            <span class="group-handle icon-toggle"></span>
+            <group-edit-in-place
+              name=""
+              key=""
+              onvaluechange="groupNameChange"
+              onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
+              class="group-name">
+            </group-edit-in-place>
+            <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
+          </div>
+          <div class="type-form-query" data-query="">
+            <span ng-click="editQuery($event)">
+              <%= op_icon('button--icon icon-add') %>
+              <%= t('types.edit.edit_query') %>
+            </span>
           </div>
         </div>
         <div id="draggable-groups" dragula='"groups"'>

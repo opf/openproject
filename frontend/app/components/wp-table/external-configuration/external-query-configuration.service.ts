@@ -57,7 +57,7 @@ export class ExternalQueryConfigurationService {
   /**
    * Open a Modal reference and append it to the portal
    */
-  public show<T extends OpModalComponent>(originator:JQuery, currentQuery:any):void {
+  public show(originator:JQuery, currentQuery:any):void {
     this.detach();
 
     // Create a portal for the given component class and render it

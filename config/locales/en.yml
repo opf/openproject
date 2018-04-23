@@ -199,6 +199,8 @@ en:
       projects: "Projects"
       enabled_projects: "Enabled projects"
       add_group: "Add group"
+      add_query: "Add new query group"
+      edit_query: "Edit embedded query"
       reset: "Reset to defaults"
 
   versions:

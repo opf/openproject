@@ -28,6 +28,7 @@ import { ConfirmDialogService } from './../../modals/confirm-dialog/confirm-dial
 //++
 
 import {openprojectModule} from '../../../angular-modules';
+import {ExternalQueryConfigurationService} from "core-components/wp-table/external-configuration/external-query-configuration.service";
 const autoScroll:any = require('dom-autoscroller');
 
 function typesFormConfigurationCtrl(
@@ -37,6 +38,7 @@ function typesFormConfigurationCtrl(
   $scope:any,
   $element:any,
   confirmDialog:ConfirmDialogService,
+  externalQueryConfiguration:ExternalQueryConfigurationService,
   $window:ng.IWindowService,
   $compile:any,
   $timeout:ng.ITimeoutService) {
@@ -112,6 +114,30 @@ function typesFormConfigurationCtrl(
 
     draggableGroups.prepend(newGroup);
     $compile(newGroup)($scope);
+  };
+
+  $scope.addQuery = (event:any) => {
+    let newGroup:JQuery = angular.element('#type-form-conf-query-template').clone();
+
+    let draggableGroups:JQuery = angular.element('#draggable-groups');
+    let randomId:string = Math.ceil(Math.random() * 10000000).toString();
+
+    // Remove the id of the template:
+    newGroup.attr('id', null);
+    // Every group needs a key and an original-key:
+    newGroup.attr('data-key', randomId);
+    newGroup.attr('data-original-key', randomId);
+    angular.element('group-edit-in-place', newGroup).attr('key', randomId);
+
+    draggableGroups.prepend(newGroup);
+    $compile(newGroup)($scope);
+  };
+
+  $scope.editQuery = (event:JQueryEventObject) => {
+    const originator = jQuery(event.target).closest('.type-form-query');
+    const currentQuery = originator.data('query') || {};
+
+    externalQueryConfiguration.show(originator, currentQuery);
   };
 
   $scope.updateHiddenFields = ():void => {
