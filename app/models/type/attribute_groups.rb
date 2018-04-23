@@ -114,11 +114,6 @@ module Type::AttributeGroups
     end
   end
 
-  # TODO: remove once queries can be configured as well
-  def non_query_attribute_groups
-    attribute_groups.select { |g| g.is_a?(Type::AttributeGroup) }
-  end
-
   def reload(*args)
     self.attribute_groups_objects = nil
     super

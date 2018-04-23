@@ -144,7 +144,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
       return this.tableState.tableRendering.onQueryUpdated.valuesPromise()
         .then(() => {
           this.showTablePagination = results.total > results.count;
-          this.tableInformationLoaded = this.configuration.tableVisible === true;
+          this.tableInformationLoaded = this.configuration.tableVisible;
         });
     });
   }
@@ -170,7 +170,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
     return this.QueryDm
       .find(
         this.queryProps,
-        this.queryId,
+        this.queryId || '',
         this.projectIdentifier
       )
       .then((query:QueryResource) => this.initializeStates(query, query.results));

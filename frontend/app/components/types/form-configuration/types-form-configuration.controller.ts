@@ -153,16 +153,7 @@ function typesFormConfigurationCtrl(
     // When the user edited the query at least once, the up-to-date query is persisted in queryProps dataset
     let currentQuery = originator.data('queryProps');
 
-    if (!currentQuery) {
-      try {
-        currentQuery = JSON.parse(persistentQuery);
-      } catch(e) {
-        console.log("Failed to parse existing query params: " + e);
-        currentQuery = {};
-      }
-    }
-
-    return currentQuery;
+    return currentQuery || persistentQuery || {};
   }
 
   $scope.updateHiddenFields = ():boolean => {
