@@ -31,21 +31,7 @@ class PrincipalRolesController < ApplicationController
     call_hook :principal_roles_controller_create_before_respond,
               principal_roles: @principal_roles
 
-    respond_to_create @principal_roles unless performed?
-  end
-
-  def update
-    @principal_role = PrincipalRole.find(principle_role_params[:id])
-
-    call_hook :principal_roles_controller_update_before_save,
-              principal_role: @principal_role
-
-    @principal_role.update_attributes(principle_role_params) unless performed?
-
-    call_hook :principal_roles_controller_update_before_respond,
-              principal_role: @principal_role
-
-    respond_to_update @principal_role unless performed?
+    redirect_to_edit_user(@user) unless performed?
   end
 
   def destroy
@@ -61,7 +47,7 @@ class PrincipalRolesController < ApplicationController
     call_hook :principal_roles_controller_destroy_before_respond,
               principal_role: @principal_role
 
-    respond_to_destroy @principal_role unless performed?
+    redirect_to_edit_user(@user) unless performed?
   end
 
   private
@@ -83,31 +69,11 @@ class PrincipalRolesController < ApplicationController
     principal_roles
   end
 
-  def respond_to_create(principal_roles)
-    respond_to do |format|
-      format.js do
-        render locals: { principal_roles: principal_roles }
-      end
-    end
-  end
-
-  def respond_to_update(role)
-    respond_to do |format|
-      format.js do
-        render locals: { role: role }
-      end
-    end
-  end
-
-  def respond_to_destroy(principal_role)
-    respond_to do |format|
-      format.js do
-        render locals: { principal_role: principal_role }
-      end
-    end
-  end
-
   private
+
+  def redirect_to_edit_user(user)
+    redirect_to tab_edit_user_path user, tab: 'global_roles'
+  end
 
   def principle_role_params
     params.require(:principal_role).permit(*PermittedParams.permitted_attributes[:global_roles_principal_role])

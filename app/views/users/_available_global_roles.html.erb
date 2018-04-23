@@ -31,7 +31,7 @@ end%>
       </span>
     <% else %>
       <span id="additional_principal_roles">
-        <%= form_for(:principal_roles, :url => principal_roles_path, :method => :post, :remote => :true) do %>
+        <%= form_for(:principal_roles, :url => principal_roles_path, :method => :post) do %>
           <%= hidden_field_tag 'principal_role[principal_id]', user.id %>
           <% available_additional_global_roles(global_roles, user).each do |role| %>
             <%= render :partial => 'users/available_global_role', :locals => {:role => role} %>
