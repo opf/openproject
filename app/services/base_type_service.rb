@@ -75,17 +75,14 @@ class BaseTypeService
 
   def transform_query_params_to_query(groups)
     groups.each_with_index do |(_name, attributes), index|
-      next if attributes.length != 1
+      next unless attributes.is_a? Hash
+      next if attributes.values.compact.empty?
 
-      parsed = parse_potential_query_params(attributes[0])
-
-      next if parsed.values.compact.empty?
-
-      query = ::API::V3::ParseQueryParamsService
-              .new
-              .call(parsed)
+      parsed_params = ::API::V3::ParseQueryParamsService
+              .call(attributes.with_indifferent_access)
               .result
 
+      query = nil # TODO use parsed_params to update query
       query.add_filter('parent', '=', ::Queries::Filters::TemplatedValue::KEY)
 
       groups[index][1] = [query]
@@ -108,12 +105,5 @@ class BaseTypeService
     end
 
     type.custom_field_ids = active_cf_ids.uniq
-  end
-
-  def parse_potential_query_params(string)
-    JSON::parse(string)
-  rescue JSON::ParserError
-    # not a query
-    {}
   end
 end
