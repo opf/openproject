@@ -43,6 +43,12 @@ function typesFormConfigurationCtrl(
   $compile:any,
   $timeout:ng.ITimeoutService) {
 
+  // Hook on form submit
+  const form = jQuery('#types-form-configuration').closest('form');
+  form.submit(() => {
+    return !$scope.updateHiddenFields();
+  });
+
   // Setup autoscroll
   var scroll = autoScroll(window, {
     margin: 20,
@@ -135,7 +141,13 @@ function typesFormConfigurationCtrl(
 
   $scope.editQuery = (event:JQueryEventObject) => {
     const originator = jQuery(event.target).closest('.type-form-query');
+    const currentQuery = $scope.extractQuery(originator);
 
+
+    externalQueryConfiguration.show(originator, currentQuery);
+  };
+
+  $scope.extractQuery = (originator:JQuery) => {
     // When the query has never been edited, the query props are stringified in the query dataset
     let persistentQuery = originator.data('query');
     // When the user edited the query at least once, the up-to-date query is persisted in queryProps dataset
@@ -150,24 +162,25 @@ function typesFormConfigurationCtrl(
       }
     }
 
-    externalQueryConfiguration.show(originator, currentQuery);
-  };
+    return currentQuery;
+  }
 
-  $scope.updateHiddenFields = ():void => {
+  $scope.updateHiddenFields = ():boolean => {
     let groups:HTMLElement[] = angular.element('.type-form-conf-group').not('#type-form-conf-group-template').toArray();
     let seenGroupNames:{[name:string]:boolean} = {};
     let newAttrGroups:Array<Array<(string | Array<string> | boolean)>> = [];
     let inputAttributeGroups:JQuery;
+    let hasError = false;
 
     // Clean up previous error states
     NotificationsService.clear();
 
     // Extract new grouping from DOM structure, starting
     // with the active groups.
-    groups.forEach((group:HTMLElement) => {
-      let groupKey:string = angular.element(group).attr('data-key');
-      let keyIsSymbol:boolean = JSON.parse(angular.element(group).attr('data-key-is-symbol'));
-      let attributes:HTMLElement[] = angular.element('.type-form-conf-attribute', group).toArray();
+    groups.forEach((groupEl:HTMLElement) => {
+      let group:JQuery = jQuery(groupEl);
+      let groupKey:string = group.attr('data-key');
+      let keyIsSymbol:boolean = JSON.parse(group.attr('data-key-is-symbol'));
       let attrKeys:string[] = [];
 
       angular.element(group).removeClass('-error');
@@ -176,17 +189,31 @@ function typesFormConfigurationCtrl(
         return;
       }
 
+
       if (seenGroupNames[groupKey.toLowerCase()]) {
         NotificationsService.addError(
           I18n.t('js.types.attribute_groups.error_duplicate_group_name', { group: groupKey })
         );
         angular.element(group).addClass('-error');
+        hasError = true;
         return;
       }
 
       seenGroupNames[groupKey.toLowerCase()] = true;
-      attributes.forEach((attribute:HTMLElement) => {
-        let attr:JQuery = angular.element(attribute);
+
+      // For query groups, serialize the changed query, if any
+      if (group.hasClass('type-form-query-group')) {
+        const originator = group.find('.type-form-query');
+        const queryProps = $scope.extractQuery(originator);
+
+        newAttrGroups.push([groupKey, queryProps]);
+        return;
+      }
+
+
+      // For attribute groups, extract the attributes
+      group.find('.type-form-conf-attribute').each((i, attribute) => {
+        let attr:JQuery = jQuery(attribute);
         let key:string = attr.attr('data-key');
         attrKeys.push(key);
       });
@@ -198,6 +225,8 @@ function typesFormConfigurationCtrl(
     inputAttributeGroups = angular.element('input#type_attribute_groups').first();
 
     inputAttributeGroups.val(JSON.stringify(newAttrGroups));
+
+    return hasError;
   };
 
   $scope.groupNameChange = function(key:string, newValue:string):void {
