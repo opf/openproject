@@ -14,7 +14,10 @@ import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp
 import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 import {withLatestFrom} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {WorkPackageTableConfigurationObject} from 'core-components/wp-table/wp-table-configuration';
+import {
+  WorkPackageTableConfiguration,
+  WorkPackageTableConfigurationObject
+} from 'core-components/wp-table/wp-table-configuration';
 import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
 import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
@@ -53,7 +56,7 @@ import {OpModalService} from 'core-components/op-modals/op-modal.service';
 export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   @Input('queryId') public queryId?:string;
   @Input('queryProps') public queryProps:any = {};
-  @Input() public configuration:WorkPackageTableConfigurationObject;
+  @Input('configuration') private providedConfiguration:WorkPackageTableConfigurationObject;
   @Input() public uniqueEmbeddedTableName:string = `embedded-table-${Date.now()}`;
   @Input() public tableActions:OpTableActionFactory[] = [];
   @Input() public compactTableStyle:boolean = false;
@@ -61,6 +64,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   private query:QueryResource;
   public tableInformationLoaded = false;
   public showTablePagination = false;
+  public configuration:WorkPackageTableConfiguration;
 
   constructor(readonly QueryDm:QueryDmService,
               readonly tableState:TableState,
@@ -76,6 +80,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit():void {
+    this.configuration = new WorkPackageTableConfiguration(this.providedConfiguration)
     // Set embedded status in configuration
     this.configuration.isEmbedded = true;
 
