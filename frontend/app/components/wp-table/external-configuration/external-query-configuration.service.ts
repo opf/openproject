@@ -65,7 +65,7 @@ export class ExternalQueryConfigurationService {
       ExternalQueryConfigurationComponent,
       null,
       this.injectorFor({ originator: originator, currentQuery: currentQuery }));
-    this.bodyPortalHost.attach(portal);
+    const ref = this.bodyPortalHost.attach(portal);
     this._portalHostElement.style.display = 'block';
   }
 
