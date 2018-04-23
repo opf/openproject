@@ -45,7 +45,7 @@ describe 'form configuration', type: :feature, js: true do
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
-  let(:add_button) { page.find '.form-configuration--add-group' }
+  let(:add_button) { page.find 'a', text: I18n.t('types.edit.add_group') }
   let(:reset_button) { page.find '.form-configuration--reset' }
   let(:inactive_group) { page.find '#type-form-conf-inactive-group' }
   let(:inactive_drop) { page.find '#type-form-conf-inactive-group .attributes' }
@@ -112,8 +112,9 @@ describe 'form configuration', type: :feature, js: true do
       .perform
   end
 
-  def add_group(name, expect: true)
+  def add_attribute_group(name, expect: true)
     add_button.click
+    find('a.form-configuration--add-group', text: I18n.t('types.edit.add_group')).click
     input = find('.group-edit-in-place--input')
     input.set(name)
     input.send_keys(:return)
@@ -191,8 +192,8 @@ describe 'form configuration', type: :feature, js: true do
       end
 
       it 'detects errors for duplicate group names' do
-        add_group('New Group')
-        add_group('New Group', expect: false) # would fail since two selectors exist now
+        add_attribute_group('New Group')
+        add_attribute_group('New Group', expect: false) # would fail since two selectors exist now
 
         expect(page).to have_selector("#{group_selector('New Group')}.-error", count: 1)
       end
@@ -239,7 +240,7 @@ describe 'form configuration', type: :feature, js: true do
         expect(page).to have_no_selector('.group-edit-handler', text: 'FOOBAR')
 
         # Create new group
-        add_group('New Group')
+        add_attribute_group('New Group')
         move_to(:category, 'New Group')
 
         # Delete attribute from group
@@ -340,7 +341,7 @@ describe 'form configuration', type: :feature, js: true do
         expect_inactive(cf_identifier)
 
         # Add into new group
-        add_group('New Group')
+        add_attribute_group('New Group')
         move_to(cf_identifier, 'New Group')
         expect_attribute(key: cf_identifier)
 
@@ -348,7 +349,6 @@ describe 'form configuration', type: :feature, js: true do
         expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
       end
     end
-
 
     describe 'custom fields' do
       let(:project_settings_page) { ProjectSettingsPage.new(project) }
@@ -369,7 +369,7 @@ describe 'form configuration', type: :feature, js: true do
         expect_inactive(cf_identifier)
 
         # Add into new group
-        add_group('New Group')
+        add_attribute_group('New Group')
         move_to(cf_identifier, 'New Group')
 
         # Make visible
