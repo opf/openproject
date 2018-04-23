@@ -38,7 +38,7 @@ describe ApplicationHelper do
   include Rails.application.routes.url_helpers
 
 
-  describe ".format_text" do
+  describe ".format_text", with_settings: { text_formatting: 'markdown' } do
     let(:project) { FactoryGirl.create :valid_project }
     let(:identifier) { project.identifier }
     let(:role) {
