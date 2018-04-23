@@ -40,9 +40,9 @@ describe ::Type, type: :model do
   end
 
   describe "#attribute_groups" do
-    shared_examples_for 'appends the children query' do |position|
-      it "at position #{position}" do
-        group = type.attribute_groups[position]
+    shared_examples_for 'appends the children query' do
+      it "at position" do
+        group = type.attribute_groups.last
 
         expect(group.key).to eql :children
         query = group.members[0]
@@ -64,13 +64,13 @@ describe ::Type, type: :model do
       it do
         expect(type.read_attribute(:attribute_groups)).to be_empty
 
-        attribute_groups = type.attribute_groups[0..2].map do |group|
+        attribute_groups = type.attribute_groups.select{ |g| g.is_a?(Type::AttributeGroup) }.map do |group|
           [group.key, group.attributes]
         end
         expect(attribute_groups).to eql type.default_attribute_groups
       end
 
-      it_behaves_like 'appends the children query', 3
+      it_behaves_like 'appends the children query'
     end
 
     context 'with attributes provided' do
@@ -92,7 +92,7 @@ describe ::Type, type: :model do
         expect(group.members).to eql []
       end
 
-      it_behaves_like 'appends the children query', 2
+      it_behaves_like 'appends the children query'
     end
 
     context 'with empty attributes provided' do
