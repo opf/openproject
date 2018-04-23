@@ -38,30 +38,58 @@ class BaseTypeService
 
   def update(permitted_params = {}, unsafe_params = {})
     success = Type.transaction do
-      permitted = permitted_params
-      permitted.delete(:attribute_groups)
-
-      type.attributes = permitted
-
-      if unsafe_params[:attribute_groups].present?
-        type.attribute_groups =
-          JSON.parse(unsafe_params[:attribute_groups])
-              .map do |group|
-                [(group[2] ? group[0].to_sym : group[0]), group[1]]
-              end
-      end
-
+      set_permitted_params(permitted_params)
+      set_attribute_groups(unsafe_params)
       set_active_custom_fields
 
-      if type.save
-        true
-      else
-        raise ActiveRecord::Rollback
-      end
+      type.save or raise(ActiveRecord::Rollback)
     end
 
     ServiceResult.new(success: success,
                       errors: type.errors)
+  end
+
+  def set_permitted_params(params)
+    permitted = params
+    permitted.delete(:attribute_groups)
+
+    type.attributes = permitted
+  end
+
+  def set_attribute_groups(params)
+    groups = parse_attribute_groups_params(params)
+    type.attribute_groups = groups if groups
+  end
+
+  def parse_attribute_groups_params(params)
+    return unless params[:attribute_groups].present?
+
+    groups = JSON
+             .parse(params[:attribute_groups])
+             .map { |group| [(group[2] ? group[0].to_sym : group[0]), group[1]] }
+
+    transform_query_params_to_query(groups)
+
+    groups
+  end
+
+  def transform_query_params_to_query(groups)
+    groups.each_with_index do |(_name, attributes), index|
+      next if attributes.length != 1
+
+      parsed = parse_potential_query_params(attributes[0])
+
+      next if parsed.values.compact.empty?
+
+      query = ::API::V3::ParseQueryParamsService
+              .new
+              .call(parsed)
+              .result
+
+      query.add_filter('parent', '=', ::Queries::Filters::TemplatedValue::KEY)
+
+      groups[index][1] = [query]
+    end
   end
 
   ##
@@ -80,5 +108,12 @@ class BaseTypeService
     end
 
     type.custom_field_ids = active_cf_ids.uniq
+  end
+
+  def parse_potential_query_params(string)
+    JSON::parse(string)
+  rescue JSON::ParserError
+    # not a query
+    {}
   end
 end

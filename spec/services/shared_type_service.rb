@@ -50,8 +50,8 @@ shared_examples_for 'type service' do
     end
 
     describe 'custom fields' do
-      let!(:cf1) { FactoryGirl.create :work_package_custom_field, field_format: 'text' }
-      let!(:cf2) { FactoryGirl.create :work_package_custom_field, field_format: 'text' }
+      let(:cf1) { FactoryGirl.create :work_package_custom_field, field_format: 'text' }
+      let(:cf2) { FactoryGirl.create :work_package_custom_field, field_format: 'text' }
 
       it 'enables the custom fields that are passed via attribute_groups' do
         unsafe_params = {
@@ -61,11 +61,59 @@ shared_examples_for 'type service' do
           ].to_json
         }
 
+        allow(type)
+          .to receive(:work_package_attributes)
+          .and_return("custom_field_#{cf1.id}" => {}, "custom_field_#{cf2.id}" => {})
+
         expect(type)
           .to receive(:custom_field_ids=)
           .with([cf1.id, cf2.id])
 
         instance.call(permitted_params: {}, unsafe_params: unsafe_params)
+      end
+    end
+
+    describe 'query group' do
+      let(:query_params) do
+        sort_by = JSON::dump(['status:desc'])
+        filters = JSON::dump([{ 'status_id' => { 'operator' => '=', 'values' => %w(1 2) } }])
+
+        { 'sortBy' => sort_by, 'filters' => filters }
+      end
+      let(:query_group_params) do
+        ['group1', [JSON::dump(query_params)]]
+      end
+      let(:unsafe_params) { { attribute_groups: [query_group_params].to_json } }
+      let(:query) { FactoryGirl.build_stubbed(:query) }
+      let(:service_result) { ServiceResult.new(success: true, result: query) }
+
+      before do
+        parse_service = double('ParseQueryParamsService')
+        allow(::API::V3::ParseQueryParamsService)
+          .to receive(:new)
+          .and_return(parse_service)
+
+        allow(parse_service)
+          .to receive(:call)
+          .with(query_params)
+          .and_return(service_result)
+      end
+
+      it 'assigns the fully parsed query to the type\'s attribute group and adds the parent filter' do
+        instance.call(permitted_params: {}, unsafe_params: unsafe_params)
+
+        expect(type.attribute_groups[0].query)
+          .to eql query
+
+        expect(query.filters.length)
+          .to eql 1
+
+        expect(query.filters[0].name)
+          .to eql :parent
+        expect(query.filters[0].operator)
+          .to eql '='
+        expect(query.filters[0].values)
+          .to eql [::Queries::Filters::TemplatedValue::KEY]
       end
     end
 

@@ -107,22 +107,22 @@ describe ::API::V3::ParseQueryParamsService,
     context 'with columns' do
       context 'as columns' do
         it_behaves_like 'transforms' do
-          let(:params) { { columns: ['status', 'assignee'] } }
-          let(:expected) { { columns: ['status', 'assigned_to'] } }
+          let(:params) { { columns: %w(status assignee) } }
+          let(:expected) { { columns: %w(status assigned_to) } }
         end
       end
 
       context 'as "c"' do
         it_behaves_like 'transforms' do
-          let(:params) { { c: ['status', 'assignee'] } }
-          let(:expected) { { columns: ['status', 'assigned_to'] } }
+          let(:params) { { c: %w(status assignee) } }
+          let(:expected) { { columns: %w(status assigned_to) } }
         end
       end
 
       context 'as column_names' do
         it_behaves_like 'transforms' do
-          let(:params) { { column_names: ['status', 'assignee'] } }
-          let(:expected) { { columns: ['status', 'assigned_to'] } }
+          let(:params) { { column_names: %w(status assignee) } }
+          let(:expected) { { columns: %w(status assigned_to) } }
         end
       end
     end
@@ -130,15 +130,15 @@ describe ::API::V3::ParseQueryParamsService,
     context 'with sort' do
       context 'as sortBy in comma separated value' do
         it_behaves_like 'transforms' do
-          let(:params) { { sortBy: JSON::dump([['status', 'desc']]) } }
-          let(:expected) { { sort_by: [['status', 'desc']] } }
+          let(:params) { { sortBy: JSON::dump([%w(status desc)]) } }
+          let(:expected) { { sort_by: [%w(status desc)] } }
         end
       end
 
       context 'as sortBy in colon concatenated value' do
         it_behaves_like 'transforms' do
           let(:params) { { sortBy: JSON::dump(['status:desc']) } }
-          let(:expected) { { sort_by: [['status', 'desc']] } }
+          let(:expected) { { sort_by: [%w(status desc)] } }
         end
       end
 
@@ -167,10 +167,10 @@ describe ::API::V3::ParseQueryParamsService,
           it_behaves_like 'transforms' do
             let(:params) do
               { filters: JSON::dump([{ 'status_id' => { 'operator' => '=',
-                                                        'values' => ['1', '2'] } }]) }
+                                                        'values' => %w(1 2) } }]) }
             end
             let(:expected) do
-              { filters: [{ field: 'status_id', operator: '=', values: ['1', '2'] }] }
+              { filters: [{ field: 'status_id', operator: '=', values: %w(1 2) }] }
             end
           end
         end
@@ -179,40 +179,40 @@ describe ::API::V3::ParseQueryParamsService,
           it_behaves_like 'transforms' do
             let(:params) do
               { filters: JSON::dump([{ 'status' => { 'operator' => '=',
-                                                     'values' => ['1', '2'] } }]) }
+                                                     'values' => %w(1 2) } }]) }
             end
             let(:expected) do
-              { filters: [{ field: 'status_id', operator: '=', values: ['1', '2'] }] }
+              { filters: [{ field: 'status_id', operator: '=', values: %w(1 2) }] }
             end
           end
 
           it_behaves_like 'transforms' do
             let(:params) do
               { filters: JSON::dump([{ 'subprojectId' => { 'operator' => '=',
-                                                           'values' => ['1', '2'] } }]) }
+                                                           'values' => %w(1 2) } }]) }
             end
             let(:expected) do
-              { filters: [{ field: 'subproject_id', operator: '=', values: ['1', '2'] }] }
+              { filters: [{ field: 'subproject_id', operator: '=', values: %w(1 2) }] }
             end
           end
 
           it_behaves_like 'transforms' do
             let(:params) do
               { filters: JSON::dump([{ 'watcher' => { 'operator' => '=',
-                                                      'values' => ['1', '2'] } }]) }
+                                                      'values' => %w(1 2) } }]) }
             end
             let(:expected) do
-              { filters: [{ field: 'watcher_id', operator: '=', values: ['1', '2'] }] }
+              { filters: [{ field: 'watcher_id', operator: '=', values: %w(1 2) }] }
             end
           end
 
           it_behaves_like 'transforms' do
             let(:params) do
               { filters: JSON::dump([{ 'custom_field_1' => { 'operator' => '=',
-                                                             'values' => ['1', '2'] } }]) }
+                                                             'values' => %w(1 2) } }]) }
             end
             let(:expected) do
-              { filters: [{ field: 'cf_1', operator: '=', values: ['1', '2'] }] }
+              { filters: [{ field: 'cf_1', operator: '=', values: %w(1 2) }] }
             end
           end
         end
@@ -220,7 +220,7 @@ describe ::API::V3::ParseQueryParamsService,
         context 'with an invalid JSON' do
           let(:params) do
             { filters: 'faulty' + JSON::dump([{ 'status' => { 'operator' => '=',
-                                                              'values' => ['1', '2'] } }]) }
+                                                              'values' => %w(1 2) } }]) }
           end
 
           it 'is not success' do
