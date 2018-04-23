@@ -89,7 +89,7 @@ export class WorkPackageFormQueryGroupComponent implements OnInit {
     let duppedQuery = _.clone(this.group.query);
 
     _.each(duppedQuery.filters, (filter) => {
-      if (filter._links.values[0].templated) {
+      if (filter._links.values[0] && filter._links.values[0].templated) {
         filter._links.values[0].href = filter._links.values[0].href.replace('{id}', this.workPackage.id);
       }
     });
