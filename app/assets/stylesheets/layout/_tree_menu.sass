@@ -1,9 +1,11 @@
-
 #main-menu ul ul.menu-children ul.pages-hierarchy,
+div.wiki ul.pages-hierarchy,
 .pages-hierarchy
+
   $hierarchy-span-width: 25px
   $tree-menu-item-height: 30px
   line-height: $tree-menu-item-height
+
   .tree-menu--title
     display: inline-block
     width: calc(100% - #{$hierarchy-span-width})
@@ -66,6 +68,7 @@
   > li,
   > li:hover
     background: transparent
+    list-style-type: none
 
   .tree-menu--item
     display: inline-block

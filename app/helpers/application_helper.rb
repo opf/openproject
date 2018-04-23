@@ -136,6 +136,8 @@ module ApplicationHelper
 
   def render_page_hierarchy(pages, node = nil, options = {})
     return '' unless pages[node]
+    # TODO: Decide if this option shall be removed.
+    options[:collapsible] = true
 
     content_tag :ul, class: "pages-hierarchy #{options[:collapsible] ? '-with-hierarchy' : ''} -hierarchy-expanded" do
       pages[node].map { |page|
