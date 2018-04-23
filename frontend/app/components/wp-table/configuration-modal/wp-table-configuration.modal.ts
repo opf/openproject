@@ -142,7 +142,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     return this.$element;
   }
 
-  protected loadForm() {
+  protected async loadForm() {
     const query = this.tableState.query.value!;
     return this.queryFormDm.load(query).then((form:QueryFormResource) => {
       this.wpStatesInitialization.updateStatesFromForm(query, form);
