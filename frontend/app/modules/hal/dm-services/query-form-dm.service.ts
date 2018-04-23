@@ -64,7 +64,7 @@ export class QueryFormDmService {
     let payload:any = {};
 
     if (!queryId) {
-      payload['name'] = '!!!__O__o__O__!!!'
+      payload['name'] = '!!!__O__o__O__!!!';
     }
 
     if (projectIdentifier) {

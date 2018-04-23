@@ -155,6 +155,13 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   }
 
   private async loadQuery() {
+
+    // HACK: Decrease loading time of queries when results are not needed.
+    // We should allow the backend to disable results embedding instead.
+    if (!this.configuration.tableVisible) {
+      this.queryProps.pageSize = 1;
+    }
+
     return this.QueryDm
       .find(
         this.queryProps,
