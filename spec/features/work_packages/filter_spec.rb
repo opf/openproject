@@ -93,21 +93,21 @@ describe 'Filter by backlog type', js: true do
 
     filters.add_filter_by('Backlog type', 'is', 'Story', 'backlogsWorkPackageType')
 
-    expect(wp_table).to have_work_packages_listed [work_package_with_story_type]
-    expect(wp_table).not_to have_work_packages_listed [work_package_with_task_type]
+    wp_table.expect_work_package_listed work_package_with_story_type
+    wp_table.expect_work_package_not_listed work_package_with_task_type
 
     wp_table.save_as('Some query name')
 
     filters.remove_filter 'backlogsWorkPackageType'
 
-    expect(wp_table).to have_work_packages_listed [work_package_with_story_type, work_package_with_task_type]
+    wp_table.expect_work_package_listed work_package_with_story_type, work_package_with_task_type
 
     last_query = Query.last
 
     wp_table.visit_query(last_query)
 
-    expect(wp_table).to have_work_packages_listed [work_package_with_story_type]
-    expect(wp_table).not_to have_work_packages_listed [work_package_with_task_type]
+    wp_table.expect_work_package_listed work_package_with_story_type
+    wp_table.expect_work_package_not_listed work_package_with_task_type
 
     filters.open
 
