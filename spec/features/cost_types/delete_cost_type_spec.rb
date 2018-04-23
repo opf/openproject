@@ -35,11 +35,8 @@ describe 'deleting a cost type', type: :feature, js: true do
     visit cost_types_path
 
     within ("#delete_cost_type_#{cost_type.id}") do
-      scroll_to_and_click(find('a.submit_cost_type'))
+      scroll_to_and_click(find('button.submit_cost_type'))
     end
-
-    # confirm "really delete?"
-    page.driver.browser.switch_to.alert.accept
 
     # Expect no results if not locked
     expect_angular_frontend_initialized
