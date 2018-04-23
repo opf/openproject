@@ -45,8 +45,8 @@
       @include varprop(font-size, header-item-font-size)
       text-decoration: none
       padding: 0 15px
-  .nosidebar
-    #mobile-main-menu-toggle
+
+    .nosidebar &
       display: none
   #logo
     background-color: transparent
@@ -83,6 +83,8 @@
       border-right: none
       left: -1 * ($hamburger-width + $hamburger-right)
       border-left: none
+      .nosidebar &
+        left: 0px
 
   #account-nav-right
     > li
