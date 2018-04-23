@@ -135,7 +135,20 @@ function typesFormConfigurationCtrl(
 
   $scope.editQuery = (event:JQueryEventObject) => {
     const originator = jQuery(event.target).closest('.type-form-query');
-    const currentQuery = originator.data('query') || {};
+
+    // When the query has never been edited, the query props are stringified in the query dataset
+    let persistentQuery = originator.data('query');
+    // When the user edited the query at least once, the up-to-date query is persisted in queryProps dataset
+    let currentQuery = originator.data('queryProps');
+
+    if (!currentQuery) {
+      try {
+        currentQuery = JSON.parse(persistentQuery);
+      } catch(e) {
+        console.log("Failed to parse existing query params: " + e);
+        currentQuery = {};
+      }
+    }
 
     externalQueryConfiguration.show(originator, currentQuery);
   };
