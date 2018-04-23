@@ -78,11 +78,14 @@ class BaseTypeService
       next unless attributes.is_a? Hash
       next if attributes.values.compact.empty?
 
-      parsed_params = ::API::V3::ParseQueryParamsService
-              .call(attributes.with_indifferent_access)
-              .result
+      # HACK: provide user via parameters
+      # have sensible name (although it should never be visible)
+      call = ::API::V3::UpdateQueryFromV3ParamsService
+             .new(Query.new_default(name: 'some_name'), User.current)
+             .call(attributes.with_indifferent_access)
 
-      query = nil # TODO use parsed_params to update query
+      query = call.result
+
       query.add_filter('parent', '=', ::Queries::Filters::TemplatedValue::KEY)
 
       groups[index][1] = [query]

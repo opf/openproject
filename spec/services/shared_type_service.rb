@@ -81,7 +81,7 @@ shared_examples_for 'type service' do
         { 'sortBy' => sort_by, 'filters' => filters }
       end
       let(:query_group_params) do
-        ['group1', [JSON::dump(query_params)]]
+        ['group1', query_params]
       end
       let(:unsafe_params) { { attribute_groups: [query_group_params].to_json } }
       let(:query) { FactoryGirl.build_stubbed(:query) }
@@ -89,8 +89,9 @@ shared_examples_for 'type service' do
 
       before do
         parse_service = double('ParseQueryParamsService')
-        allow(::API::V3::ParseQueryParamsService)
+        allow(::API::V3::UpdateQueryFromV3ParamsService)
           .to receive(:new)
+          .with(anything, anything)
           .and_return(parse_service)
 
         allow(parse_service)
