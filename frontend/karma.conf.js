@@ -55,6 +55,7 @@ module.exports = function (config) {
       'tests/unit/tests/asset_functions.js',
 
       '../app/assets/javascripts/bundles/openproject-vendors.js',
+      '../app/assets/javascripts/bundles/openproject-common.js',
 
       'tests/openproject-test-bundle.js',
 
