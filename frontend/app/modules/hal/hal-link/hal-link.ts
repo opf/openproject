@@ -62,7 +62,7 @@ export class HalLink implements HalLinkInterface {
    */
   public static fromObject(halResourceService:HalResourceService, link:HalLinkInterface):HalLink {
     return new HalLink(
-      (method:HTTPSupportedMethods, href:string, data:any, headers:any) =>
+  async (method:HTTPSupportedMethods, href:string, data:any, headers:any) =>
         halResourceService.request(method, href, data, headers).toPromise(),
       link.href,
       link.title,
