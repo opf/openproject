@@ -30,19 +30,19 @@ import {ConfirmDialogService} from './../../modals/confirm-dialog/confirm-dialog
 import {openprojectModule} from '../../../angular-modules';
 import {ExternalQueryConfigurationService} from "core-components/wp-table/external-configuration/external-query-configuration.service";
 
-const autoScroll: any = require('dom-autoscroller');
+const autoScroll:any = require('dom-autoscroller');
 
 function typesFormConfigurationCtrl(
-  dragulaService: any,
-  NotificationsService: any,
-  I18n: op.I18n,
-  $scope: any,
-  $element: any,
-  confirmDialog: ConfirmDialogService,
-  externalQueryConfiguration: ExternalQueryConfigurationService,
-  $window: ng.IWindowService,
-  $compile: any,
-  $timeout: ng.ITimeoutService) {
+  dragulaService:any,
+  NotificationsService:any,
+  I18n:op.I18n,
+  $scope:any,
+  $element:any,
+  confirmDialog:ConfirmDialogService,
+  externalQueryConfiguration:ExternalQueryConfigurationService,
+  $window:ng.IWindowService,
+  $compile:any,
+  $timeout:ng.ITimeoutService) {
 
   // Hook on form submit
   const form = jQuery('#types-form-configuration').closest('form');
@@ -55,7 +55,7 @@ function typesFormConfigurationCtrl(
     margin: 20,
     maxSpeed: 5,
     scrollWhenOutside: true,
-    autoScroll: function (this: any) {
+    autoScroll: function(this:any) {
       const groups = dragulaService.find($scope, 'groups').drake;
       const attributes = dragulaService.find($scope, 'attributes').drake;
       return this.down && (groups.dragging || attributes.dragging);
@@ -63,50 +63,50 @@ function typesFormConfigurationCtrl(
   });
 
   dragulaService.options($scope, 'groups', {
-    moves: function (el: any, container: any, handle: any) {
+    moves: function(el:any, container:any, handle:any) {
       const editing = angular.element(el).find('.group-edit-in-place--input').length > 0;
       return !editing && handle.classList.contains('group-handle');
     }
   });
 
   dragulaService.options($scope, 'attributes', {
-    moves: function (el: any, container: any, handle: any) {
+    moves: function(el:any, container:any, handle:any) {
       return handle.classList.contains('attribute-handle');
     }
   });
 
-  $scope.resetToDefault = ($event: JQueryEventObject): boolean => {
+  $scope.resetToDefault = ($event:JQueryEventObject):boolean => {
     confirmDialog
       .confirm({
-          text: {
-            title: I18n.t('js.types.attribute_groups.reset_title'),
-            text: I18n.t('js.types.attribute_groups.confirm_reset'),
-            button_continue: I18n.t('js.label_reset')
-          }
-        }).then(() => {
-          angular.element('input#type_attribute_groups').first().val(JSON.stringify([]));
+        text: {
+          title: I18n.t('js.types.attribute_groups.reset_title'),
+          text: I18n.t('js.types.attribute_groups.confirm_reset'),
+          button_continue: I18n.t('js.label_reset')
+        }
+      }).then(() => {
+      angular.element('input#type_attribute_groups').first().val(JSON.stringify([]));
 
-          // Disable our form handler that updates the attribute groups
-          form.off('submit.typeformupdater');
-          form.submit();
-        })
-      .catch(() => undefined /* Cancelled */ );
+      // Disable our form handler that updates the attribute groups
+      form.off('submit.typeformupdater');
+      form.submit();
+    })
+      .catch(() => undefined /* Cancelled */);
 
     $event.preventDefault();
     return false;
   };
 
-  $scope.deactivateAttribute = ($event: any) => {
+  $scope.deactivateAttribute = ($event:any) => {
     angular.element($event.target)
       .parents('.type-form-conf-attribute')
       .appendTo('#type-form-conf-inactive-group .attributes');
     $scope.updateHiddenFields();
   };
 
-  $scope.deleteGroup = ($event: any): void => {
-    let group: JQuery = angular.element($event.target).parents('.type-form-conf-group');
-    let attributes: JQuery = angular.element('.attributes', group).children();
-    let inactiveAttributes: JQuery = angular.element('#type-form-conf-inactive-group .attributes');
+  $scope.deleteGroup = ($event:any):void => {
+    let group:JQuery = angular.element($event.target).parents('.type-form-conf-group');
+    let attributes:JQuery = angular.element('.attributes', group).children();
+    let inactiveAttributes:JQuery = angular.element('#type-form-conf-inactive-group .attributes');
 
     inactiveAttributes.prepend(attributes);
 
@@ -114,10 +114,10 @@ function typesFormConfigurationCtrl(
     $scope.updateHiddenFields();
   };
 
-  $scope.addGroup = (event: any) => {
-    let newGroup: JQuery = angular.element('#type-form-conf-group-template').clone();
-    let draggableGroups: JQuery = angular.element('#draggable-groups');
-    let randomId: string = Math.ceil(Math.random() * 10000000).toString();
+  $scope.addGroup = (event:any) => {
+    let newGroup:JQuery = angular.element('#type-form-conf-group-template').clone();
+    let draggableGroups:JQuery = angular.element('#draggable-groups');
+    let randomId:string = Math.ceil(Math.random() * 10000000).toString();
 
     // Remove the id of the template:
     newGroup.attr('id', null);
@@ -130,11 +130,11 @@ function typesFormConfigurationCtrl(
     $compile(newGroup)($scope);
   };
 
-  $scope.addQuery = (event: any) => {
-    let newGroup: JQuery = angular.element('#type-form-conf-query-template').clone();
+  $scope.addQuery = (event:any) => {
+    let newGroup:JQuery = angular.element('#type-form-conf-query-template').clone();
 
-    let draggableGroups: JQuery = angular.element('#draggable-groups');
-    let randomId: string = Math.ceil(Math.random() * 10000000).toString();
+    let draggableGroups:JQuery = angular.element('#draggable-groups');
+    let randomId:string = Math.ceil(Math.random() * 10000000).toString();
 
     // Remove the id of the template:
     newGroup.attr('id', null);
@@ -147,7 +147,7 @@ function typesFormConfigurationCtrl(
     $compile(newGroup)($scope);
   };
 
-  $scope.editQuery = (event: JQueryEventObject) => {
+  $scope.editQuery = (event:JQueryEventObject) => {
     const originator = jQuery(event.target).closest('.type-form-query');
     const currentQuery = $scope.extractQuery(originator);
 
@@ -155,7 +155,7 @@ function typesFormConfigurationCtrl(
     externalQueryConfiguration.show(originator, currentQuery);
   };
 
-  $scope.extractQuery = (originator: JQuery) => {
+  $scope.extractQuery = (originator:JQuery) => {
     // When the query has never been edited, the query props are stringified in the query dataset
     let persistentQuery = originator.data('query');
     // When the user edited the query at least once, the up-to-date query is persisted in queryProps dataset
@@ -164,11 +164,11 @@ function typesFormConfigurationCtrl(
     return currentQuery || persistentQuery || {};
   }
 
-  $scope.updateHiddenFields = (): boolean => {
-    let groups: HTMLElement[] = angular.element('.type-form-conf-group').not('#type-form-conf-group-template').toArray();
-    let seenGroupNames: { [name: string]: boolean } = {};
-    let newAttrGroups: Array<Array<(string | Array<string> | boolean)>> = [];
-    let inputAttributeGroups: JQuery;
+  $scope.updateHiddenFields = ():boolean => {
+    let groups:HTMLElement[] = angular.element('.type-form-conf-group').not('#type-form-conf-group-template').toArray();
+    let seenGroupNames:{ [name:string]:boolean } = {};
+    let newAttrGroups:Array<Array<(string | Array<string> | boolean)>> = [];
+    let inputAttributeGroups:JQuery;
     let hasError = false;
 
     // Clean up previous error states
@@ -176,11 +176,11 @@ function typesFormConfigurationCtrl(
 
     // Extract new grouping from DOM structure, starting
     // with the active groups.
-    groups.forEach((groupEl: HTMLElement) => {
-      let group: JQuery = jQuery(groupEl);
-      let groupKey: string = group.attr('data-key');
-      let keyIsSymbol: boolean = JSON.parse(group.attr('data-key-is-symbol'));
-      let attrKeys: string[] = [];
+    groups.forEach((groupEl:HTMLElement) => {
+      let group:JQuery = jQuery(groupEl);
+      let groupKey:string = group.attr('data-key');
+      let keyIsSymbol:boolean = JSON.parse(group.attr('data-key-is-symbol'));
+      let attrKeys:string[] = [];
 
       angular.element(group).removeClass('-error');
       if (groupKey == null || groupKey.length === 0) {
@@ -212,8 +212,8 @@ function typesFormConfigurationCtrl(
 
       // For attribute groups, extract the attributes
       group.find('.type-form-conf-attribute').each((i, attribute) => {
-        let attr: JQuery = jQuery(attribute);
-        let key: string = attr.attr('data-key');
+        let attr:JQuery = jQuery(attribute);
+        let key:string = attr.attr('data-key');
         attrKeys.push(key);
       });
 
@@ -228,14 +228,14 @@ function typesFormConfigurationCtrl(
     return hasError;
   };
 
-  $scope.groupNameChange = function (key: string, newValue: string): void {
+  $scope.groupNameChange = function(key:string, newValue:string):void {
     jQuery(`.type-form-conf-group[data-original-key="${key}"]`)
       .attr('data-key', newValue)
       .attr('data-key-is-symbol', "false");
     $scope.updateHiddenFields();
   };
 
-  $scope.showEEOnlyHint = function (): void {
+  $scope.showEEOnlyHint = function():void {
     confirmDialog.confirm({
       text: {
         title: I18n.t('js.types.attribute_groups.upgrade_to_ee'),

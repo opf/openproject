@@ -80,7 +80,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit():void {
-    this.configuration = new WorkPackageTableConfiguration(this.providedConfiguration)
+    this.configuration = new WorkPackageTableConfiguration(this.providedConfiguration);
     // Set embedded status in configuration
     this.configuration.isEmbedded = true;
 
