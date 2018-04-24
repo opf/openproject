@@ -106,10 +106,14 @@ module Type::AttributeGroups
   def default_attribute_groups
     values = work_package_attributes_by_default_group_key
 
-    default_groups.keys.each_with_object([]) do |groupkey, array|
+    groups = default_groups.keys.each_with_object([]) do |groupkey, array|
       members = values[groupkey]
       array << [groupkey, members] if members.present?
     end
+
+    groups << [:children, [default_children_query]]
+
+    groups
   end
 
   def reload(*args)
@@ -221,6 +225,8 @@ module Type::AttributeGroups
 
   def default_children_query
     query = Query.new_default
+    query.name = 'children'
+    query.is_public = false
     query.column_names = %w(id type subject)
     query.show_hierarchies = false
     query.filters = []
