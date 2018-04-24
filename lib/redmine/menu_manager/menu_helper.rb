@@ -40,7 +40,7 @@ module Redmine::MenuManager::MenuHelper
   # Renders the application main menu
   def render_main_menu(project)
     if project
-      # build_wiki_menus(project)
+      build_wiki_menus(project)
       build_work_packages_menu(project)
     end
     render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)

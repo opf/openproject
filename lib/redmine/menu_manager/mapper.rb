@@ -48,6 +48,7 @@ class Redmine::MenuManager::Mapper
   # * children: a Proc that is called before rendering the item. The Proc should return an array of MenuItems, which will be added as children to this item.
   #   eg. children: Proc.new {|project| [Redmine::MenuManager::MenuItem.new(...)] }
   # * last: menu item will stay at the end (eg. last: true)
+  # * first: menu item will stay at the top (eg. first: true)
   # * html_options: a hash of html options that are passed to link_to
   # * partial: A partial that shall be rendered at that position
   def push(name, url, options = {})

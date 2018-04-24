@@ -39,6 +39,21 @@ module Redmine::MenuManager::WikiMenuHelper
         main_item.children.each do |child|
           push_wiki_menu_subitem(menu, main_item, child)
         end
+
+        menu.push :wiki_start,
+                  { controller: '/wiki', action: 'show', id: main_item.slug },
+                  param: :project_id,
+                  caption: t(:label_wiki_start),
+                  parent: main_item.menu_identifier,
+                  first: true
+
+        if project.wiki.pages.any?
+          menu.push :wiki_menu_partial,
+                    { controller: '/wiki', action: 'show' },
+                    param: :project_id,
+                    parent: main_item.menu_identifier,
+                    partial: 'wiki/menu_pages_tree'
+        end
       end
     end
   end
