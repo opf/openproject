@@ -99,7 +99,7 @@ class BaseTypeService
   def set_active_custom_fields
     active_cf_ids = []
 
-    type.non_query_attribute_groups.each do |group|
+    type.attribute_groups.each do |group|
       group.members.each do |attribute|
         if CustomField.custom_field_attribute? attribute
           active_cf_ids << attribute.gsub(/^custom_field_/, '').to_i
