@@ -30,11 +30,11 @@ require 'spec_helper'
 require 'features/projects/project_settings_page'
 
 describe 'form configuration', type: :feature, js: true do
-  let(:admin) {FactoryGirl.create :admin}
-  let(:type) {FactoryGirl.create :type}
+  let(:admin) { FactoryGirl.create :admin }
+  let(:type) { FactoryGirl.create :type }
 
-  let(:project) {FactoryGirl.create :project, types: [type]}
-  let(:category) {FactoryGirl.create :category, project: project}
+  let(:project) { FactoryGirl.create :project, types: [type] }
+  let(:category) { FactoryGirl.create :category, project: project }
   let(:work_package) do
     FactoryGirl.create :work_package,
                        project: project,
@@ -43,8 +43,8 @@ describe 'form configuration', type: :feature, js: true do
                        category: category
   end
 
-  let(:wp_page) {Pages::FullWorkPackage.new(work_package)}
-  let(:form) {::Components::Admin::TypeConfigurationForm.new}
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+  let(:form) { ::Components::Admin::TypeConfigurationForm.new }
 
   describe "with EE token" do
     before do
@@ -52,7 +52,7 @@ describe 'form configuration', type: :feature, js: true do
     end
 
     describe 'default configuration' do
-      let(:dialog) {::NgConfirmationDialog.new}
+      let(:dialog) { ::NgConfirmationDialog.new }
       before do
         login_as(admin)
         visit edit_type_tab_path(id: type.id, tab: "form_configuration")
@@ -152,28 +152,28 @@ describe 'form configuration', type: :feature, js: true do
         form.expect_no_attribute('assignee', 'Cool Stuff')
 
         form.expect_group 'Cool Stuff',
-                     'Cool Stuff',
-                     { key: :responsible, translation: 'Responsible' }
+                          'Cool Stuff',
+                          { key: :responsible, translation: 'Responsible' }
 
         form.expect_group 'estimates_and_time',
-                     'Estimates and time',
-                     { key: :estimated_time, translation: 'Estimated time' },
-                     { key: :spent_time, translation: 'Spent time' }
+                          'Estimates and time',
+                          { key: :estimated_time, translation: 'Estimated time' },
+                          { key: :spent_time, translation: 'Spent time' }
 
         form.expect_group 'Whatever',
-                     'Whatever',
-                     { key: :date, translation: 'Date' },
-                     { key: :percentage_done, translation: 'Progress (%)' }
+                          'Whatever',
+                          { key: :date, translation: 'Date' },
+                          { key: :percentage_done, translation: 'Progress (%)' }
 
         form.expect_group 'New Group',
-                     'New Group',
-                     { key: :category, translation: 'Category' }
+                          'New Group',
+                          { key: :category, translation: 'Category' }
 
         form.expect_inactive(:version)
 
         # Test the actual type backend
         type.reload
-        expect(type.attribute_groups.map {|el| el.key})
+        expect(type.attribute_groups.map { |el| el.key })
           .to include('Cool Stuff', :estimates_and_time, 'Whatever', 'New Group')
 
         # Visit work package with that type
@@ -220,10 +220,10 @@ describe 'form configuration', type: :feature, js: true do
     end
 
     describe 'required custom field' do
-      let(:custom_fields) {[custom_field]}
-      let(:custom_field) {FactoryGirl.create(:integer_issue_custom_field, is_required: true, name: 'MyNumber')}
-      let(:cf_identifier) {"custom_field_#{custom_field.id}"}
-      let(:cf_identifier_api) {"customField#{custom_field.id}"}
+      let(:custom_fields) { [custom_field] }
+      let(:custom_field) { FactoryGirl.create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
+      let(:cf_identifier) { "custom_field_#{custom_field.id}" }
+      let(:cf_identifier_api) { "customField#{custom_field.id}" }
 
       before do
         project
@@ -248,12 +248,12 @@ describe 'form configuration', type: :feature, js: true do
     end
 
     describe 'custom fields' do
-      let(:project_settings_page) {ProjectSettingsPage.new(project)}
+      let(:project_settings_page) { ProjectSettingsPage.new(project) }
 
-      let(:custom_fields) {[custom_field]}
-      let(:custom_field) {FactoryGirl.create(:integer_issue_custom_field, name: 'MyNumber')}
-      let(:cf_identifier) {"custom_field_#{custom_field.id}"}
-      let(:cf_identifier_api) {"customField#{custom_field.id}"}
+      let(:custom_fields) { [custom_field] }
+      let(:custom_field) { FactoryGirl.create(:integer_issue_custom_field, name: 'MyNumber') }
+      let(:cf_identifier) { "custom_field_#{custom_field.id}" }
+      let(:cf_identifier_api) { "customField#{custom_field.id}" }
 
       before do
         project
@@ -336,7 +336,7 @@ describe 'form configuration', type: :feature, js: true do
   end
 
   describe "without EE token" do
-    let(:dialog) {::NgConfirmationDialog.new}
+    let(:dialog) { ::NgConfirmationDialog.new }
 
     it "should disable adding and renaming groups" do
       with_enterprise_token(nil)

@@ -32,6 +32,8 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
+      def initialize; end
+
       def add_button_dropdown
         page.find '.form-configuration--add-group', text: I18n.t(:label_group)
       end
@@ -119,6 +121,22 @@ module Components
           .move_to(target.native)
           .release
           .perform
+      end
+
+      def add_query_group(name, expect: true)
+        add_button_dropdown.click
+        add_subelements_button.click
+
+        input = find('.group-edit-in-place--input')
+        input.set(name)
+        input.send_keys(:return)
+
+        expect_group(name, name) if expect
+      end
+
+      def edit_query_group(name)
+        group = find_group(name)
+        group.find('.type-form-query-group--edit-button').click
       end
 
       def add_attribute_group(name, expect: true)
