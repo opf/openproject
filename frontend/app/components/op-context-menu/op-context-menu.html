@@ -11,7 +11,7 @@
            tabindex="0"
            [ngClass]="{ 'inactive': item.disabled }"
            [attr.href]="item.href || ''"
-           [attr.disabled]="item.disabled"
+           [attr.aria-disabled]="item.disabled"
            [attr.aria-label]="item.ariaLabel || item.linkText"
            (keydown.enter)="handleClick(item, $event)"
            (click)="handleClick(item, $event)">

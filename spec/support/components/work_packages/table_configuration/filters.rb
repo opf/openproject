@@ -26,6 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative '../filters'
+
+
 module Components
   module WorkPackages
     module TableConfiguration
