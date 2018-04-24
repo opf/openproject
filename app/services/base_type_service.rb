@@ -73,7 +73,7 @@ class BaseTypeService
   end
 
   def parse_attribute_groups_params(params)
-    return unless params[:attribute_groups].present?
+    return if params[:attribute_groups].nil?
 
     transform_query_params_to_query(params[:attribute_groups])
   end

@@ -97,7 +97,9 @@ module Type::AttributeGroups
   end
 
   def attribute_groups=(groups)
-    self.attribute_groups_objects = groups.empty? ? nil : to_attribute_group_class(groups)
+    new_groups = groups.empty? ? default_attribute_groups : groups
+
+    self.attribute_groups_objects = to_attribute_group_class(new_groups)
   end
 
   ##
@@ -128,8 +130,6 @@ module Type::AttributeGroups
   private
 
   def write_attribute_groups_objects
-    return if attribute_groups_objects.nil?
-
     groups = attribute_groups_objects.map do |group|
       attributes = if group.is_a?(Type::QueryGroup)
                      query = group.query
@@ -143,7 +143,11 @@ module Type::AttributeGroups
       [group.key, attributes]
     end
 
-    write_attribute(:attribute_groups, groups) if groups != default_attribute_groups
+    if groups == default_attribute_groups
+      groups = nil
+    end
+
+    write_attribute(:attribute_groups, groups)
 
     cleanup_query_groups_queries
   end
