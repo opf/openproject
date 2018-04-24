@@ -25,6 +25,7 @@ import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 
 @Component({
   template: require('!!raw-loader!./wp-table-configuration.modal.html')
@@ -72,6 +73,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
               readonly tableState:TableState,
               readonly queryFormDm:QueryFormDmService,
               readonly wpStatesInitialization:WorkPackageStatesInitializationService,
+              readonly wpNotificationsService:WorkPackageNotificationService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
               readonly ConfigurationService:ConfigurationService,
               readonly elementRef:ElementRef) {
@@ -144,10 +146,13 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
   protected async loadForm() {
     const query = this.tableState.query.value!;
-    return this.queryFormDm.load(query).then((form:QueryFormResource) => {
-      this.wpStatesInitialization.updateStatesFromForm(query, form);
+    return this.queryFormDm
+      .load(query)
+      .then((form:QueryFormResource) => {
+          this.wpStatesInitialization.updateStatesFromForm(query, form);
 
-      return form;
-    });
+          return form;
+        })
+      .catch((error) => this.wpNotificationsService.handleRawError(error));
   }
 }
