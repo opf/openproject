@@ -162,7 +162,7 @@ function typesFormConfigurationCtrl(
     let currentQuery = originator.data('queryProps');
 
     return currentQuery || persistentQuery || {};
-  }
+  };
 
   $scope.updateHiddenFields = ():boolean => {
     let groups:HTMLElement[] = angular.element('.type-form-conf-group').not('#type-form-conf-group-template').toArray();
