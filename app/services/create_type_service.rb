@@ -28,7 +28,17 @@
 #++
 
 class CreateTypeService < BaseTypeService
-  def initialize
+  def initialize(user)
+    super
     self.type = Type.new
+  end
+
+  private
+
+  def after_type_save(params)
+    # workflow copy
+    if params[:copy_workflow_from].present? && (copy_from = ::Type.find_by(id: params[:copy_workflow_from]))
+      type.workflows.copy_from_type(copy_from)
+    end
   end
 end

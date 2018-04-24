@@ -37,16 +37,20 @@ shared_examples_for 'type service' do
         .and_return(success)
     end
 
-    it 'returns a success service result' do
-      expect(instance.call).to be_success
+    it 'is successful' do
+      expect(instance.call({})).to be_success
+    end
+
+    it 'yields the block with success' do
+      expect(instance.call({}) { |call| call.success? }).to be_truthy
     end
 
     it 'set the values provided on the call' do
-      permitted_params = { name: 'blubs blubs' }
+      params = { name: 'blubs blubs' }
 
-      instance.call(permitted_params: permitted_params)
+      instance.call(params)
 
-      expect(type.name).to eql permitted_params[:name]
+      expect(type.name).to eql params[:name]
     end
 
     describe 'custom fields' do
@@ -54,11 +58,11 @@ shared_examples_for 'type service' do
       let(:cf2) { FactoryGirl.create :work_package_custom_field, field_format: 'text' }
 
       it 'enables the custom fields that are passed via attribute_groups' do
-        unsafe_params = {
+        params = {
           attribute_groups: [
             ['group1', ["custom_field_#{cf1.id}", 'custom_field_54']],
             ['group2', ["custom_field_#{cf2.id}"]]
-          ].to_json
+          ]
         }
 
         allow(type)
@@ -69,7 +73,7 @@ shared_examples_for 'type service' do
           .to receive(:custom_field_ids=)
           .with([cf1.id, cf2.id])
 
-        instance.call(permitted_params: {}, unsafe_params: unsafe_params)
+        instance.call(params)
       end
     end
 
@@ -83,7 +87,7 @@ shared_examples_for 'type service' do
       let(:query_group_params) do
         ['group1', query_params]
       end
-      let(:unsafe_params) { { attribute_groups: [query_group_params].to_json } }
+      let(:params) { { attribute_groups: [query_group_params] } }
       let(:query) { FactoryGirl.build_stubbed(:query) }
       let(:service_result) { ServiceResult.new(success: true, result: query) }
 
@@ -101,7 +105,7 @@ shared_examples_for 'type service' do
       end
 
       it 'assigns the fully parsed query to the type\'s attribute group and adds the parent filter' do
-        instance.call(permitted_params: {}, unsafe_params: unsafe_params)
+        instance.call(params)
 
         expect(type.attribute_groups[0].query)
           .to eql query
@@ -121,8 +125,10 @@ shared_examples_for 'type service' do
     context 'on failure' do
       let(:success) { false }
 
+      subject { instance.call({}) }
+
       it 'returns a failed service result' do
-        expect(instance.call).not_to be_success
+        expect(subject).not_to be_success
       end
 
       it 'returns the errors of the type' do
@@ -131,7 +137,7 @@ shared_examples_for 'type service' do
           .to receive(:errors)
           .and_return(type_errors)
 
-        expect(instance.call.errors).to eql type_errors
+        expect(subject.errors).to eql type_errors
       end
     end
   end

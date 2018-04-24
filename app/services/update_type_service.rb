@@ -28,7 +28,15 @@
 #++
 
 class UpdateTypeService < BaseTypeService
-  def initialize(type:)
+  def initialize(type, user)
+    super(user: user)
     self.type = type
+  end
+
+  def call(params)
+    # forbid renaming if it is a standard type
+    params[:type].delete :name if type.is_standard?
+
+    super
   end
 end

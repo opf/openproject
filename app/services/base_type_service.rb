@@ -28,32 +28,43 @@
 #++
 
 class BaseTypeService
-  attr_accessor :type
+  include Shared::BlockService
 
-  def call(permitted_params: {}, unsafe_params: {})
-    update(permitted_params, unsafe_params)
+  attr_accessor :type, :user
+
+  def initialize(user)
+    self.user = user
+  end
+
+  def call(params, &block)
+    result = update(params)
+
+    block_with_result(result, &block)
   end
 
   private
 
-  def update(permitted_params = {}, unsafe_params = {})
+  def update(params)
     success = Type.transaction do
-      set_permitted_params(permitted_params)
-      set_attribute_groups(unsafe_params)
+      set_scalar_params(params)
+      set_attribute_groups(params)
       set_active_custom_fields
 
-      type.save or raise(ActiveRecord::Rollback)
+      if type.save
+        after_type_save(params)
+        true
+      else
+        raise(ActiveRecord::Rollback)
+      end
     end
 
     ServiceResult.new(success: success,
-                      errors: type.errors)
+                      errors: type.errors,
+                      result: type)
   end
 
-  def set_permitted_params(params)
-    permitted = params
-    permitted.delete(:attribute_groups)
-
-    type.attributes = permitted
+  def set_scalar_params(params)
+    type.attributes = params.except(:attribute_groups)
   end
 
   def set_attribute_groups(params)
@@ -64,13 +75,11 @@ class BaseTypeService
   def parse_attribute_groups_params(params)
     return unless params[:attribute_groups].present?
 
-    groups = JSON
-             .parse(params[:attribute_groups])
-             .map { |group| [(group[2] ? group[0].to_sym : group[0]), group[1]] }
+    transform_query_params_to_query(params[:attribute_groups])
+  end
 
-    transform_query_params_to_query(groups)
-
-    groups
+  def after_type_save(_params)
+    # noop to be overwritten by subclasses
   end
 
   def transform_query_params_to_query(groups)
@@ -78,10 +87,9 @@ class BaseTypeService
       next unless attributes.is_a? Hash
       next if attributes.values.compact.empty?
 
-      # HACK: provide user via parameters
-      # have sensible name (although it should never be visible)
+      # HACK: have sensible name (although it should never be visible)
       call = ::API::V3::UpdateQueryFromV3ParamsService
-             .new(Query.new_default(name: 'some_name'), User.current)
+             .new(Query.new_default(name: 'some_name'), user)
              .call(attributes.with_indifferent_access)
 
       query = call.result

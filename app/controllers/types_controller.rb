@@ -43,28 +43,25 @@ class TypesController < ApplicationController
   end
 
   def new
-    @type = ::Type.new(params[:type])
-    @types = ::Type.order('position')
-    @projects = Project.all
+    @type = Type.new(params[:type])
+    load_projects_and_types
   end
 
   def create
-    service = CreateTypeService.new
-    result = service.call(permitted_params: permitted_params.type)
-    @type = service.type
+    CreateTypeService
+      .new(current_user)
+      .call(permitted_params.type_create) do |call|
 
-    if result.success?
-      # workflow copy
-      if !params[:copy_workflow_from].blank? && (copy_from = ::Type.find_by(id: params[:copy_workflow_from]))
-        @type = service.type
-        @type.workflows.copy_from_type(copy_from)
+      @type = call.result
+
+      call.on_success do
+        redirect_to_type_tab_path(@type, t(:notice_successful_create))
       end
-      flash[:notice] = t(:notice_successful_create)
-      redirect_to edit_type_tab_path(id: @type.id, tab: 'settings')
-    else
-      @types = ::Type.order('position')
-      @projects = Project.all
-      render action: 'new'
+
+      call.on_failure do
+        load_projects_and_types
+        render action: 'new'
+      end
     end
   end
 
@@ -81,21 +78,20 @@ class TypesController < ApplicationController
   end
 
   def update
-    @tab = params["tab"] || "settings"
     @type = ::Type.find(params[:id])
 
-    # forbid renaming if it is a standard type
-    params[:type].delete :name if @type.is_standard?
+    UpdateTypeService
+      .new(@type, current_user)
+      .call(permitted_params.type) do |call|
 
-    service = UpdateTypeService.new(type: @type)
+      call.on_success do
+        redirect_to_type_tab_path(@type, t(:notice_successful_update))
+      end
 
-    result = service.call(permitted_params: permitted_params.type, unsafe_params: params[:type])
-    if result.success?
-      redirect_to(edit_type_tab_path(id: @type.id, tab: @tab),
-                  notice: t(:notice_successful_update))
-    else
-      @projects = Project.all
-      render action: 'edit'
+      call.on_failure do
+        @projects = Project.all
+        render action: 'edit'
+      end
     end
   end
 
@@ -105,7 +101,7 @@ class TypesController < ApplicationController
     if @type.update_attributes(permitted_params.type_move)
       flash[:notice] = l(:notice_successful_update)
     else
-      flash.now[:error] = l('type_could_not_be_saved')
+      flash.now[:error] = t('type_could_not_be_saved')
       render action: 'edit'
     end
     redirect_to types_path
@@ -120,16 +116,27 @@ class TypesController < ApplicationController
       @type.destroy
       flash[:notice] = l(:notice_successful_delete)
     else
-      if @type.is_standard?
-        flash[:error] = t(:error_can_not_delete_standard_type)
-      else
-        flash[:error] = t(:error_can_not_delete_type)
-      end
+      flash[:error] = if @type.is_standard?
+                        t(:error_can_not_delete_standard_type)
+                      else
+                        t(:error_can_not_delete_type)
+                      end
     end
     redirect_to action: 'index'
   end
 
   protected
+
+  def load_projects_and_types
+    @types = ::Type.order('position')
+    @projects = Project.all
+  end
+
+  def redirect_to_type_tab_path(type, notice)
+    tab = params["tab"] || "settings"
+    redirect_to(edit_type_tab_path(type, tab: tab),
+                notice: notice)
+  end
 
   def default_breadcrumb
     if action_name == 'index'
