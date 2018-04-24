@@ -113,8 +113,9 @@ describe "POST /api/v3/queries", type: :request do
     end
 
     it 'should create the query correctly' do
-      query = Query.first
+      query = Query.find_by(name: params[:name])
 
+      expect(query).to be_present
       expect(query.group_by_column.name).to eq :assigned_to
       expect(query.sort_criteria).to eq [["id", "desc"], ["assigned_to", "asc"]]
       expect(query.columns.map(&:name)).to eq [:id, :subject, :status, :assigned_to]

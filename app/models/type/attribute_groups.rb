@@ -132,22 +132,11 @@ module Type::AttributeGroups
   def write_attribute_groups_objects
     return if attribute_groups_objects.nil?
 
-    groups = attribute_groups_objects.map do |group|
-      attributes = if group.is_a?(Type::QueryGroup)
-                     query = group.query
-
-                     query.save
-
-                     [group.query_attribute_name]
-                   else
-                     group.attributes
-                   end
-      [group.key, attributes]
-    end
-
-    if groups == default_attribute_groups
-      groups = nil
-    end
+    groups = if attribute_groups_objects == to_attribute_group_class(default_attribute_groups)
+               nil
+             else
+               to_attribute_group_array(attribute_groups_objects)
+             end
 
     write_attribute(:attribute_groups, groups)
 
@@ -226,6 +215,21 @@ module Type::AttributeGroups
       else
         new_attribute_group(key, attributes)
       end
+    end
+  end
+
+  def to_attribute_group_array(groups)
+    groups.map do |group|
+      attributes = if group.is_a?(Type::QueryGroup)
+                     query = group.query
+
+                     query.save
+
+                     [group.query_attribute_name]
+                   else
+                     group.attributes
+                   end
+      [group.key, attributes]
     end
   end
 
