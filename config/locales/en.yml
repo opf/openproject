@@ -198,8 +198,8 @@ en:
       form_configuration: "Form configuration"
       projects: "Projects"
       enabled_projects: "Enabled projects"
-      add_group: "Add group"
-      add_query: "Add new query group"
+      add_group: "Add attribute group"
+      add_subelements: "Add subelements group"
       edit_query: "Edit embedded query"
       reset: "Reset to defaults"
 

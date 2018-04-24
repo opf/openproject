@@ -45,13 +45,18 @@ describe 'form configuration', type: :feature, js: true do
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
-  let(:add_button) { page.find 'a', text: I18n.t('types.edit.add_group') }
+  let(:add_button_dropdown) { page.find '.form-configuration--add-group', text: I18n.t(:label_group) }
+  let(:add_attribute_group_button) { page.find 'a', text: I18n.t('types.edit.add_group') }
+  let(:add_subelements_button) { page.find 'a', text: I18n.t('types.edit.add_subelements') }
   let(:reset_button) { page.find '.form-configuration--reset' }
   let(:inactive_group) { page.find '#type-form-conf-inactive-group' }
   let(:inactive_drop) { page.find '#type-form-conf-inactive-group .attributes' }
 
-  def group_selector(name)
-    ".type-form-conf-group[data-key='#{name}']"
+  def find_group(name)
+    head = page.find('.group-head', text: name.upcase)
+
+    # Return the parent of the group-head
+    head.find(:xpath, '..')
   end
 
   def checkbox_selector(attribute)
@@ -63,7 +68,7 @@ describe 'form configuration', type: :feature, js: true do
   end
 
   def find_group_handle(label)
-    page.find("#{group_selector(label)} .group-handle")
+    find_group(label).find(".group-handle")
   end
 
   def find_attribute_handle(attribute)
@@ -80,7 +85,7 @@ describe 'form configuration', type: :feature, js: true do
 
   def move_to(attribute, group_label)
     handle = find_attribute_handle(attribute)
-    group = find(group_selector(group_label))
+    group = find_group(group_label)
     drag_and_drop(handle, group)
     expect_group(group_label, group_label, key: attribute)
   end
@@ -113,13 +118,20 @@ describe 'form configuration', type: :feature, js: true do
   end
 
   def add_attribute_group(name, expect: true)
-    add_button.click
-    find('a.form-configuration--add-group', text: I18n.t('types.edit.add_group')).click
+    add_button_dropdown.click
+    add_attribute_group_button.click
+
     input = find('.group-edit-in-place--input')
     input.set(name)
     input.send_keys(:return)
 
     expect_group(name, name) if expect
+  end
+
+  def save_changes
+    # Save configuration
+    # click_button doesn't seem to work when the button is out of view!?
+    scroll_to_and_click find('.form-configuration--save')
   end
 
   def rename_group(from, to)
@@ -134,13 +146,13 @@ describe 'form configuration', type: :feature, js: true do
   end
 
   def expect_no_attribute(attribute, group)
-    expect(page).not_to have_selector("#{group_selector(group)} #{attribute_selector(attribute)}")
+    expect(find_group(group)).not_to have_selector("#{attribute_selector(attribute)}")
   end
 
   def expect_group(label, translation, *attributes)
-    expect(page).to have_selector("#{group_selector(label)} .group-edit-handler", text: translation.upcase)
+    expect(find_group(translation)).to have_selector(".group-edit-handler", text: translation.upcase)
 
-    within group_selector(label) do
+    within find_group(translation) do
       attributes.each do |attribute|
         expect_attribute(attribute)
       end
@@ -171,7 +183,8 @@ describe 'form configuration', type: :feature, js: true do
         reset_button.click
         dialog.expect_open
         dialog.cancel
-        expect(page).to have_selector(group_selector('Whatever'))
+
+        expect(page).to have_selector('span.group-edit-handler', text: 'WHATEVER')
 
         # Click the dialog again after some time
         # Otherwise this may cause issues due to the animation,
@@ -186,7 +199,7 @@ describe 'form configuration', type: :feature, js: true do
         # Wait for page reload
         sleep 1
 
-        expect(page).to have_no_selector(group_selector('Whatever'))
+        expect(page).to have_no_selector('.group-head', text: 'WHATEVER')
         expect_group('details', 'Details')
         expect_attribute(key: :assignee)
       end
@@ -195,7 +208,9 @@ describe 'form configuration', type: :feature, js: true do
         add_attribute_group('New Group')
         add_attribute_group('New Group', expect: false) # would fail since two selectors exist now
 
-        expect(page).to have_selector("#{group_selector('New Group')}.-error", count: 1)
+        save_changes
+
+        expect(page).to have_selector(".type-form-conf-group.-error", count: 1)
       end
 
       it 'allows modification of the form configuration' do
@@ -247,8 +262,7 @@ describe 'form configuration', type: :feature, js: true do
         remove_attribute('assignee')
 
         # Save configuration
-        # click_button doesn't seem to work when the button is out of view!?
-        page.execute_script('jQuery(".form-configuration--save").click()')
+        save_changes
         expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
 
         # Expect configuration to be correct now
@@ -375,7 +389,7 @@ describe 'form configuration', type: :feature, js: true do
         # Make visible
         expect_attribute(key: cf_identifier)
 
-        page.execute_script('jQuery(".form-configuration--save").click()')
+        save_changes
         expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
       end
 

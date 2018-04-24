@@ -81,8 +81,10 @@ See docs/COPYRIGHT.rdoc for more details.
           </button>
         </li>
         <li class="toolbar-item drop-down">
-          <a ng-click="showGroupsContextMenu($event)" class="button -alt-highlight" aria-haspopup="true">
-            <span class="button--text"><%= t('types.edit.add_group') %></span>
+          <a ng-click="showGroupsContextMenu($event)"
+             class="form-configuration--add-group button -alt-highlight" aria-haspopup="true">
+            <%= op_icon('button--icon icon-add') %>
+            <span class="button--text"><%= t(:label_group) %></span>
             <%= op_icon('button--dropdown-indicator') %>
           </a>
           <ul class="menu-drop-down-container">
@@ -94,7 +96,7 @@ See docs/COPYRIGHT.rdoc for more details.
             </li>
             <li>
               <a class="form-configuration--add-group" ng-click="<%= show_hint ? 'showEEOnlyHint()' : 'addQuery($event)' %>">
-                <%= t('types.edit.add_query') %>
+                <%= t('types.edit.add_subelements') %>
               </a>
             </li>
           </ul>

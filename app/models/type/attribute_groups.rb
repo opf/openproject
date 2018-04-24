@@ -93,9 +93,7 @@ module Type::AttributeGroups
       to_attribute_group_class(groups)
     end
 
-    # TODO: move appending of children default query to #default_attribute_groups
-    # once query groups can be configured
-    attribute_groups_objects + [::Type::QueryGroup.new(self, :children, default_children_query)]
+    attribute_groups_objects
   end
 
   def attribute_groups=(groups)
