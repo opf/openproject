@@ -62,7 +62,7 @@ Feature: Backlog Settings
     And I am already logged in as "padme"
 
   @javascript
-  Scenario: One can select which status indicate that an work_package is done
+  Scenario: One can select which status indicate that a work_package is done
     Given there is 1 project with:
         | name  | parent  |
     And I am working in project "parent"
