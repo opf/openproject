@@ -41,8 +41,7 @@ function typesFormConfigurationCtrl(
   confirmDialog:ConfirmDialogService,
   externalQueryConfiguration:ExternalQueryConfigurationService,
   $window:ng.IWindowService,
-  $compile:any,
-  $timeout:ng.ITimeoutService) {
+  $compile:any) {
 
   // Hook on form submit
   const form = jQuery('#types-form-configuration').closest('form');
