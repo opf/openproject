@@ -255,17 +255,6 @@ class PermittedParams
     whitelisted
   end
 
-  def type_create(args = {})
-    whitelisted = type(args)
-
-    type_params = params.require(:type)
-    if type_params[:copy_workflow_from]
-      whitelisted[:copy_workflow_from] = type_params[:copy_workflow_from]
-    end
-
-    whitelisted
-  end
-
   def type_move
     params.require(:type).permit(*self.class.permitted_attributes[:move_to])
   end

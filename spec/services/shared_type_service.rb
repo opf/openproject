@@ -29,6 +29,7 @@
 
 shared_examples_for 'type service' do
   let(:success) { true }
+  let(:params) { {} }
 
   describe '#call' do
     before do
@@ -38,33 +39,34 @@ shared_examples_for 'type service' do
     end
 
     it 'is successful' do
-      expect(instance.call({})).to be_success
+      expect(service_call).to be_success
     end
 
     it 'yields the block with success' do
-      expect(instance.call({}) { |call| call.success? }).to be_truthy
+      expect(service_call { |call| call.success? }).to be_truthy
     end
 
-    it 'set the values provided on the call' do
-      params = { name: 'blubs blubs' }
+    describe 'with attributes' do
+      let(:params) { { name: 'blubs blubs' } }
 
-      instance.call(params)
+      it 'set the values provided on the call' do
+        service_call
 
-      expect(type.name).to eql params[:name]
+        expect(type.name).to eql params[:name]
+      end
     end
 
     describe 'custom fields' do
       let(:cf1) { FactoryGirl.create :work_package_custom_field, field_format: 'text' }
       let(:cf2) { FactoryGirl.create :work_package_custom_field, field_format: 'text' }
+      let(:params) do
+        {
+          attribute_groups: [['group1', ["custom_field_#{cf1.id}", 'custom_field_54']],
+                             ['group2', ["custom_field_#{cf2.id}"]]]
+        }
+      end
 
       it 'enables the custom fields that are passed via attribute_groups' do
-        params = {
-          attribute_groups: [
-            ['group1', ["custom_field_#{cf1.id}", 'custom_field_54']],
-            ['group2', ["custom_field_#{cf2.id}"]]
-          ]
-        }
-
         allow(type)
           .to receive(:work_package_attributes)
           .and_return("custom_field_#{cf1.id}" => {}, "custom_field_#{cf2.id}" => {})
@@ -73,7 +75,7 @@ shared_examples_for 'type service' do
           .to receive(:custom_field_ids=)
           .with([cf1.id, cf2.id])
 
-        instance.call(params)
+        service_call
       end
     end
 
@@ -105,7 +107,7 @@ shared_examples_for 'type service' do
       end
 
       it 'assigns the fully parsed query to the type\'s attribute group and adds the parent filter' do
-        instance.call(params)
+        service_call
 
         expect(type.attribute_groups[0].query)
           .to eql query
@@ -125,7 +127,7 @@ shared_examples_for 'type service' do
     context 'on failure' do
       let(:success) { false }
 
-      subject { instance.call({}) }
+      subject { service_call }
 
       it 'returns a failed service result' do
         expect(subject).not_to be_success

@@ -50,7 +50,7 @@ class TypesController < ApplicationController
   def create
     CreateTypeService
       .new(current_user)
-      .call(permitted_params.type_create) do |call|
+      .call(permitted_type_params, copy_workflow_from: params[:copy_workflow_from]) do |call|
 
       @type = call.result
 
@@ -82,7 +82,7 @@ class TypesController < ApplicationController
 
     UpdateTypeService
       .new(@type, current_user)
-      .call(permitted_params.type) do |call|
+      .call(permitted_type_params) do |call|
 
       call.on_success do
         redirect_to_type_tab_path(@type, t(:notice_successful_update))
@@ -126,6 +126,12 @@ class TypesController < ApplicationController
   end
 
   protected
+
+  def permitted_type_params
+    # having to call #to_unsafe_h as a query hash the attribute_groups
+    # parameters would otherwise still be an ActiveSupport::Parameter
+    permitted_params.type.to_unsafe_h
+  end
 
   def load_projects_and_types
     @types = ::Type.order('position')

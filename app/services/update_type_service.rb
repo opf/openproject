@@ -37,6 +37,6 @@ class UpdateTypeService < BaseTypeService
     # forbid renaming if it is a standard type
     params[:type].delete :name if type.is_standard?
 
-    super
+    super(params, {})
   end
 end

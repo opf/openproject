@@ -35,6 +35,7 @@ describe CreateTypeService do
   let(:user) { FactoryGirl.build_stubbed(:user) }
 
   let(:instance) { described_class.new(user) }
+  let(:service_call) { instance.call(params, {}) }
 
   it_behaves_like 'type service'
 end

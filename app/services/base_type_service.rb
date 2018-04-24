@@ -36,22 +36,22 @@ class BaseTypeService
     self.user = user
   end
 
-  def call(params, &block)
-    result = update(params)
+  def call(params, options, &block)
+    result = update(params, options)
 
     block_with_result(result, &block)
   end
 
   private
 
-  def update(params)
+  def update(params, options)
     success = Type.transaction do
       set_scalar_params(params)
       set_attribute_groups(params)
       set_active_custom_fields
 
       if type.save
-        after_type_save(params)
+        after_type_save(params, options)
         true
       else
         raise(ActiveRecord::Rollback)
@@ -78,7 +78,7 @@ class BaseTypeService
     transform_query_params_to_query(params[:attribute_groups])
   end
 
-  def after_type_save(_params)
+  def after_type_save(_params, _options)
     # noop to be overwritten by subclasses
   end
 
