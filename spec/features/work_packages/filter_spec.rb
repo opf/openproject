@@ -68,7 +68,6 @@ describe 'Filter by backlog type', js: true do
                       type: story_type,
                       project: project)
   end
-
   let(:work_package_with_task_type) do
     FactoryBot.create(:work_package,
                       type: task_type,
