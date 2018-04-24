@@ -83,7 +83,9 @@ describe 'form subelements configuration', type: :feature, js: true do
       wp_page.ensure_page_loaded
 
       wp_page.expect_group('Subtasks')
-      embedded_table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+      table_container = find(".attributes-group[data-group-name='Subtasks']")
+                        .find('.work-packages-embedded-view--container')
+      embedded_table = Pages::EmbeddedWorkPackagesTable.new(table_container)
       embedded_table.expect_work_package_listed subtask
       embedded_table.expect_work_package_not_listed subbug
 
