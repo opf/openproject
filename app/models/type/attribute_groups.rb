@@ -130,6 +130,8 @@ module Type::AttributeGroups
   private
 
   def write_attribute_groups_objects
+    return if attribute_groups_objects.nil?
+
     groups = attribute_groups_objects.map do |group|
       attributes = if group.is_a?(Type::QueryGroup)
                      query = group.query
