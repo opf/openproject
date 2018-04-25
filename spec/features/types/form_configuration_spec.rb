@@ -52,7 +52,7 @@ describe 'form configuration', type: :feature, js: true do
     end
 
     describe 'default configuration' do
-      let(:dialog) { ::NgConfirmationDialog.new }
+      let(:dialog) { ::Components::ConfirmationDialog.new }
       before do
         login_as(admin)
         visit edit_type_tab_path(id: type.id, tab: "form_configuration")
@@ -336,7 +336,7 @@ describe 'form configuration', type: :feature, js: true do
   end
 
   describe "without EE token" do
-    let(:dialog) { ::NgConfirmationDialog.new }
+    let(:dialog) { ::Components::ConfirmationDialog.new }
 
     it "should disable adding and renaming groups" do
       with_enterprise_token(nil)

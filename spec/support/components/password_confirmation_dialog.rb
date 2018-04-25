@@ -31,6 +31,8 @@ module Components
     include Capybara::DSL
     include RSpec::Matchers
 
+    def initialize; end
+
     def confirm_flow_with(password, should_fail: false)
       expect_open
 
@@ -50,13 +52,13 @@ module Components
     end
 
     def submit_button
-      page.find('.request-for-confirmation--submit-button')
+      page.find('.confirm-form-submit--continue')
     end
 
     private
 
     def selector
-      '.request-for-confirmation--modal'
+      '.password-confirm-dialog--modal'
     end
 
     def submit(should_fail)
