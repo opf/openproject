@@ -216,6 +216,8 @@ import {UploadProgressComponent} from 'core-components/common/notifications/uplo
 import {ExternalQueryConfigurationComponent} from 'core-components/wp-table/external-configuration/external-query-configuration.component';
 import {ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
 import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-export.modal";
+import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
+import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 
 @NgModule({
   imports: [
@@ -310,6 +312,7 @@ import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-e
     // OP Modals service
     OpModalService,
     WpTableConfigurationService,
+    ConfirmDialogService,
 
     AttributeHelpTextsService,
     // External query configuration
@@ -444,6 +447,7 @@ import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-e
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
     WpTableExportModal,
+    ConfirmDialogModal,
 
     // Notifications
     NotificationsContainerComponent,
@@ -507,6 +511,7 @@ import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-e
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
     WpTableExportModal,
+    ConfirmDialogModal,
 
     // Notifications
     NotificationsContainerComponent,

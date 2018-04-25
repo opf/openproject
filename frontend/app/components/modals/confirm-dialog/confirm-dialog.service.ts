@@ -26,80 +26,34 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import IAugmentedJQuery = angular.IAugmentedJQuery;
-import { IDialogOpenResult, IDialogService } from 'ng-dialog';
-import {IDialogScope} from 'ng-dialog';
+import {ConfirmDialogModal, ConfirmDialogOptions} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
+import {downgradeInjectable} from "@angular/upgrade/static";
+import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {Injectable} from "@angular/core";
 
-export interface ConfirmDialogOptions {
-  text:{
-    title:string;
-    text:string;
-    button_continue?:string;
-    button_cancel?:string;
-  };
-  closeByEscape?:boolean;
-  showClose?:boolean;
-  closeByDocument?:boolean;
-}
-
+@Injectable()
 export class ConfirmDialogService {
 
-  private defaultTexts:any;
-
-  constructor(protected $rootScope:ng.IRootScopeService,
-              protected $q:angular.IQService,
-              protected ngDialog:IDialogService,
-              protected I18n:op.I18n) {
-
-    this.defaultTexts = {
-      title: I18n.t('js.modals.form_submit.title'),
-      text: I18n.t('js.modals.form_submit.text'),
-      button_continue: I18n.t('js.button_continue'),
-      button_cancel: I18n.t('js.button_cancel')
-    };
+  constructor(readonly opModalService:OpModalService) {
   }
 
   /**
    * Confirm an action with an ng dialog with the given options
    */
   public async confirm(options:ConfirmDialogOptions):Promise<void> {
-    const deferred = this.$q.defer<void>();
-    const scope:any = this.$rootScope.$new();
-    let dialog:IDialogOpenResult;
-
-    scope.text = options.text;
-    _.defaults(scope.text, this.defaultTexts);
-    scope.confirmAndClose = () => {
-      scope.confirmed = true;
-      dialog.close();
-    };
-
-    scope.cancel = () => {
-      scope.confirmed = false;
-      dialog.close();
-    };
-
-
-    dialog = this.ngDialog.open({
-      closeByEscape: _.defaultTo(options.closeByDocument, true),
-      showClose: _.defaultTo(options.closeByDocument, true),
-      scope: <IDialogScope> scope,
-      template: '/components/modals/confirm-dialog/confirm-dialog.modal.html',
-      className: 'ngdialog-theme-openproject',
-      preCloseCallback: () => {
-        if (scope.confirmed) {
-          deferred.resolve();
+    return new Promise<void>((resolve, reject) => {
+      const confirmModal = this.opModalService.show(ConfirmDialogModal, { options: options });
+      confirmModal.closingEvent.subscribe((modal:ConfirmDialogModal) => {
+        if (modal.confirmed) {
+          resolve();
         } else {
-          deferred.reject();
+          reject();
         }
-        return true;
-      }
+      });
     });
-
-    return deferred.promise;
   }
 }
 
 angular
   .module('openproject.uiComponents')
-  .service('confirmDialog', ConfirmDialogService);
+  .service('confirmDialog', downgradeInjectable(ConfirmDialogService));

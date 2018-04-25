@@ -234,7 +234,7 @@ function typesFormConfigurationCtrl(
     $scope.updateHiddenFields();
   };
 
-  $scope.showEEOnlyHint = function():void {
+  $scope.showEEOnlyHint = function(evt:JQueryEventObject):void {
     confirmDialog.confirm({
       text: {
         title: I18n.t('js.types.attribute_groups.upgrade_to_ee'),
@@ -244,7 +244,8 @@ function typesFormConfigurationCtrl(
       }
     }).then(() => {
       window.location.href = $scope.upsaleLink;
-    });
+    })
+    .catch(() => undefined /* Not confirmed */);
   }
 };
 

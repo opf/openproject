@@ -41,7 +41,7 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
+    super.ngOnInit();
 
     this.tableState.results
       .valuesPromise()
