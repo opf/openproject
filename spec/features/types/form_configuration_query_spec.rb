@@ -90,18 +90,31 @@ describe 'form subelements configuration', type: :feature, js: true do
       embedded_table.expect_work_package_not_listed subbug
 
       # Go back to type configuration
-      # visit edit_type_tab_path(id: type.id, tab: "form_configuration")
+      visit edit_type_tab_path(id: type_bug.id, tab: "form_configuration")
 
       # Edit query to remove filters
-      # TODO error due to templated filter
-      # form.edit_query_group('Subtasks')
+      form.edit_query_group('Subtasks')
+
+      # Expect filter still there
+      modal.expect_open
+      filters.expect_filter_count 2
+      filters.expect_filter_by 'Type', 'is', type_task.name
+
+      # Remove the filter again
+      filters.remove_filter 'type'
+      filters.save
 
       # Save changes
-      # form.save_changes
+      form.save_changes
 
       # Visit wp_page again, expect both listed
-      # embedded_table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
-      # embedded_table.expect_work_package_listed subtask, subbug
+      wp_page.visit!
+      wp_page.ensure_page_loaded
+
+      wp_page.expect_group('Subtasks') do
+        embedded_table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+        embedded_table.expect_work_package_listed subtask, subbug
+      end
     end
   end
 end

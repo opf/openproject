@@ -106,6 +106,9 @@ module ::TypesHelper
   end
 
   def query_to_query_props(query)
+    # Remove the templated filter since we can't yet handle it in the frontend
+    query.filters.delete_if(&:templated?)
+
     ::API::V3::Queries::QueryParamsRepresenter.new(query).to_h
   end
 
