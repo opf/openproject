@@ -43,6 +43,8 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-export.modal";
 
 @Directive({
   selector: '[opSettingsContextMenu]'
@@ -54,13 +56,13 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
 
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
+              readonly opModalService:OpModalService,
               readonly wpListService:WorkPackagesListService,
               readonly authorisationService:AuthorisationService,
               readonly states:States,
               @Inject(shareModalToken) readonly shareModal:any,
               @Inject(saveModalToken) readonly saveModal:any,
               @Inject(settingsModalToken) readonly settingsModal:any,
-              @Inject(exportModalToken) readonly exportModal:any,
               @Inject(I18nToken) readonly I18n:op.I18n) {
 
     super(elementRef, opContextMenu);
@@ -197,7 +199,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         icon: 'icon-export',
         onClick: ($event:JQueryEventObject) => {
           if (this.allowWorkPackageAction($event, 'representations')) {
-            this.exportModal.activate();
+            this.opModalService.show(WpTableExportModal);
           }
 
           return true;

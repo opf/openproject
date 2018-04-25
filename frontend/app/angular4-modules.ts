@@ -215,6 +215,7 @@ import {NotificationsContainerComponent} from 'core-components/common/notificati
 import {UploadProgressComponent} from 'core-components/common/notifications/upload-progress.component';
 import {ExternalQueryConfigurationComponent} from 'core-components/wp-table/external-configuration/external-query-configuration.component';
 import {ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
+import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-export.modal";
 
 @NgModule({
   imports: [
@@ -442,6 +443,7 @@ import {ExternalQueryConfigurationService} from 'core-components/wp-table/extern
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
+    WpTableExportModal,
 
     // Notifications
     NotificationsContainerComponent,
@@ -504,6 +506,7 @@ import {ExternalQueryConfigurationService} from 'core-components/wp-table/extern
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
+    WpTableExportModal,
 
     // Notifications
     NotificationsContainerComponent,
