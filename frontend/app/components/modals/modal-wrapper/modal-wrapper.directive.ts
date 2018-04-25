@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {IDialogService} from 'ng-dialog';
 import {opUiComponentsModule} from '../../../angular-modules';
-import IAugmentedJQuery = angular.IAugmentedJQuery;
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
 
