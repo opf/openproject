@@ -26,7 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<modal-wrapper iframe-url="<%= OpenProject::Configuration.onboarding_video_url %>" modal-params="{ appendClassName: 'onboarding-modal modal-wrapper' }">
+<modal-wrapper iframe-url="<%= OpenProject::Configuration.onboarding_video_url %>"
+               modal-class-name="onboarding-modal -highlight">
   <li>
     <%= link_to l(:label_video),
                 '',

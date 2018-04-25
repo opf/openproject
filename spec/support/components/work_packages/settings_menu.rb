@@ -35,7 +35,7 @@ module Components
       def open_and_save_query(name)
         open!
         find("#{selector} .menu-item", text: 'Save', match: :prefer_exact).click
-        page.within('.ng-modal-inner') do
+        page.within('.op-modal--modal-container') do
           find('#save-query-name').set name
           click_on 'Save'
         end

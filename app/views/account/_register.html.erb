@@ -33,11 +33,16 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= back_url_hidden_field_tag %>
     <%= error_messages_for :user %>
 
-    <div class="modal--header">
+    <div class="op-modal--modal-header">
       <%= homescreen_user_avatar %>
       <h2><%= I18n.t('onboarding.welcome') %></h2>
+      <a class="dynamic-content-modal--close-button"
+         title="<%= t('js.close_popup_title') %>"
+         aria-label="<%= t('js.close_popup_title') %>">
+        <%= op_icon('icon-close') %>
+      </a>
     </div>
-    <div class="modal--main">
+    <div class="op-modal--modal-body">
       <h2><%= t(:label_register) %></h2>
       <section class="form--section">
         <% if @user.auth_source_id.nil? %>
@@ -96,7 +101,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
         <%= render partial: 'account/auth_providers', locals: { omniauth_title: I18n.t('account.signup_with_auth_provider'), wide: true } %>
     </div>
-    <div class="modal--footer">
+    <div class="op-modal--modal-footer">
       <%= render partial: 'account/footer' %>
     </div>
   <% end %>

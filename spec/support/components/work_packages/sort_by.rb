@@ -87,13 +87,13 @@ module Components
       end
 
       def cancel_changes
-        page.within('.ng-modal-inner') do
+        page.within('.op-modal--modal-container') do
           click_on 'Cancel'
         end
       end
 
       def apply_changes
-        page.within('.ng-modal-inner') do
+        page.within('.op-modal--modal-container') do
           click_on 'Apply'
         end
       end

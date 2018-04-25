@@ -1,9 +1,9 @@
-<div class="op-modal--container confirm-form-submit--modal ng-modal-window ngdialog-theme-openproject">
-  <div class="ng-modal-inner wp-table--configuration-modal loading-indicator--location"
+<div class="op-modal--portal confirm-form-submit--modal  ngdialog-theme-openproject">
+  <div class="op-modal--modal-container confirm-dialog--modal loading-indicator--location"
        data-indicator-name="modal"
        tabindex="0">
-    <div class="modal-header">
-      <a *ngIf="showClose">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button" *ngIf="showClose">
         <i
             class="icon-close"
             (click)="closeMe($event)"
@@ -13,10 +13,10 @@
       <h3 class="icon-context icon-attention" [textContent]="text.title"></h3>
     </div>
 
-    <div class="ngdialog-body modal--main">
+    <div class="ngdialog-body op-modal--modal-body">
       <p [textContent]="text.text"></p>
     </div>
-    <div class="modal--footer">
+    <div class="op-modal--modal-footer">
       <button class="confirm-form-submit--cancel button"
               (click)="closeMe($event)"
               [textContent]="text.button_cancel"

@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<modal-wrapper initialize="true" modal-params="{ appendClassName: 'registration-modal modal-wrapper' }">
+<modal-wrapper initialize="true" modal-class-name="registration-modal modal-wrapper">
   <% @user ||= User.new %>
   <%= render partial: '/account/register' %>
 </modal-wrapper>

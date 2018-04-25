@@ -243,38 +243,6 @@ Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the
   end
 end
 
-Given /^I select to see [cC]olumn "([^\"]*)"$/ do |column_name|
-  within('.ng-modal-inner') do
-    find('input.select2-input').click
-  end
-
-  s2_result = find('ul.select2-result-single li', text: column_name)
-  s2_result.click
-end
-
-Given /^I select to not see [cC]olumn "([^\"]*)"$/ do |_column_name|
-  pending
-end
-
-Given /^I select to see [cC]olumn(?:s)?$/ do |table|
-  result = []
-  table.raw.each do |_perm|
-    perm = _perm.first
-    unless perm.blank?
-      result.push(perm)
-    end
-  end
-
-  result.each do |column_name|
-    within('.ng-modal-inner') do
-      find('input.select2-input').click
-    end
-
-    s2_result = find('ul.select2-result-single li', text: column_name)
-    s2_result.click
-  end
-end
-
 Given /^I start debugging$/ do
   save_and_open_page
   require 'pry'

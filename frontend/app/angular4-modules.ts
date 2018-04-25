@@ -218,6 +218,7 @@ import {ExternalQueryConfigurationService} from 'core-components/wp-table/extern
 import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-export.modal";
 import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
+import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
 
 @NgModule({
   imports: [
@@ -448,6 +449,7 @@ import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confir
     AttributeHelpTextModal,
     WpTableExportModal,
     ConfirmDialogModal,
+    DynamicContentModal,
 
     // Notifications
     NotificationsContainerComponent,
@@ -511,6 +513,7 @@ import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confir
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
     WpTableExportModal,
+    DynamicContentModal,
     ConfirmDialogModal,
 
     // Notifications
