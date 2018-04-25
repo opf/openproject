@@ -54,7 +54,7 @@ export class ConfirmDialogModal extends OpModalComponent {
 
   private options:ConfirmDialogOptions;
 
-  public text = {
+  public text:{ [key:string]: string } = {
     title: this.I18n.t('js.modals.form_submit.title'),
     text: this.I18n.t('js.modals.form_submit.text'),
     button_continue: this.I18n.t('js.button_continue'),
@@ -68,7 +68,7 @@ export class ConfirmDialogModal extends OpModalComponent {
 
     super(locals, elementRef);
 
-    this.options = locals.options;
+    this.options = locals.options || {};
     this.closeOnEscape = _.defaultTo(this.options.closeByEscape, true);
     this.closeOnOutsideClick = _.defaultTo(this.options.closeByDocument, true);
     this.showClose = _.defaultTo(this.options.showClose, true);

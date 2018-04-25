@@ -219,6 +219,7 @@ import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-e
 import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
+import {PasswordConfirmationModal} from "core-components/modals/request-for-confirmation/password-confirmation.modal";
 
 @NgModule({
   imports: [
@@ -450,6 +451,7 @@ import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-
     WpTableExportModal,
     ConfirmDialogModal,
     DynamicContentModal,
+    PasswordConfirmationModal,
 
     // Notifications
     NotificationsContainerComponent,
@@ -515,6 +517,7 @@ import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-
     WpTableExportModal,
     DynamicContentModal,
     ConfirmDialogModal,
+    PasswordConfirmationModal,
 
     // Notifications
     NotificationsContainerComponent,
