@@ -1,0 +1,46 @@
+<div class="op-modal--portal ">
+  <div class="op-modal--modal-container wp-table--configuration-modal loading-indicator--location"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button">
+        <i
+            class="icon-close"
+            (click)="closeMe($event)"
+            [attr.title]="text.closePopup">
+        </i>
+      </a>
+    </div>
+
+    <form name="modalRenameQueryForm" class="form">
+      <h3 [textContent]="text.title"></h3>
+      <div class="form--field -required">
+        <label class="form--label" for="save-query-name" [textContent]="text.label_name"></label>
+        <div class="form--field-container">
+          <div class="form--text-field-container">
+            <input
+                class="form--text-field"
+                type="text"
+                name="save-query-name"
+                id="save-query-name"
+                #queryNameField
+                [(ngModel)]="queryName"
+                required/>
+          </div>
+        </div>
+      </div>
+
+      <div class="form--space">
+        <button class="button -highlight -with-icon icon-checkmark"
+                (click)="updateQuery($event)"
+                [textContent]="text.button_submit"
+                [disabled]="isBusy || !queryName">
+        </button>
+        <button class="button"
+                [textContent]="text.button_cancel"
+                (click)="closeMe($event)">
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

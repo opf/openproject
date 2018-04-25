@@ -69,12 +69,9 @@ import {
   $stateToken,
   $timeoutToken,
   AutoCompleteHelperServiceToken,
-  exportModalToken,
   FocusHelperToken,
   HookServiceToken,
   I18nToken,
-  saveModalToken,
-  settingsModalToken,
   TextileServiceToken,
   upgradeService,
   upgradeServiceWithToken,
@@ -222,6 +219,7 @@ import {PasswordConfirmationModal} from "core-components/modals/request-for-conf
 import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
 import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
 import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing-form.component";
+import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename-query.modal";
 
 @NgModule({
   imports: [
@@ -252,7 +250,6 @@ import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
     TimezoneService,
     upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
-    upgradeServiceWithToken('settingsModal', settingsModalToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     UrlParamsHelperService,
     WorkPackageCacheService,
@@ -454,6 +451,7 @@ import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing
     QuerySharingModal,
     SaveQueryModal,
     QuerySharingForm,
+    RenameQueryModal,
 
     // Notifications
     NotificationsContainerComponent,
@@ -522,6 +520,7 @@ import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing
     PasswordConfirmationModal,
     QuerySharingModal,
     SaveQueryModal,
+    RenameQueryModal,
 
     // Notifications
     NotificationsContainerComponent,
