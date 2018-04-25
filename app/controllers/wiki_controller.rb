@@ -73,10 +73,6 @@ class WikiController < ApplicationController
     controller.current_menu_item_sym :related_page
   end
 
-  current_menu_item :show do |controller|
-    :wiki_menu_partial
-  end
-
   current_menu_item do |controller|
     controller.current_menu_item_sym :page
   end

@@ -13,6 +13,10 @@ div.wiki ul.pages-hierarchy,
     height: $tree-menu-item-height
     line-height: $tree-menu-item-height
 
+  .tree-menu--item.-selected
+    .tree-menu--title
+      @include varprop(color, main-menu-selected-font-color)
+
   .tree-menu--hierarchy-span
     display: inline-block
     width: $hierarchy-span-width
@@ -76,6 +80,9 @@ div.wiki ul.pages-hierarchy,
     border-radius: 3px
     line-height: $tree-menu-item-height
     height: $tree-menu-item-height
+    &.-selected
+      @include varprop(background, main-menu-bg-selected-background)
+
     &:hover
       @include varprop(color, main-menu-hover-font-color)
       @include varprop(background, main-menu-bg-hover-background)

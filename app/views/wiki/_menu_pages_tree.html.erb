@@ -2,5 +2,5 @@
   <div class="main-menu--segment-header"><%= t('label_table_of_contents') %></div>
   <% pages = @project.wiki.pages.with_updated_on.order('title').includes(wiki: :project)
      pages_by_parent_id = pages.group_by(&:parent_id) %>
-  <%= render_page_hierarchy(pages_by_parent_id, nil, timestamp: false, collapsible: true) %>
+  <%= render_page_hierarchy(pages_by_parent_id, nil, timestamp: false) %>
 </div>
