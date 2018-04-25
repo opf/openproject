@@ -53,7 +53,7 @@ export class RequestForConfirmationController {
     const confirmModal = this.opModalService.show(PasswordConfirmationModal);
     confirmModal.closingEvent.subscribe((modal:PasswordConfirmationModal) => {
       if (modal.confirmed) {
-        this.appendPassword(modal.password_confirmation);
+        this.appendPassword(modal.password_confirmation!);
         this.$element.trigger('submit');
       }
     });

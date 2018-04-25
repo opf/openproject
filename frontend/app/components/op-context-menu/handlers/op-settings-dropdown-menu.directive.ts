@@ -27,13 +27,7 @@
 //++
 
 import {Directive, ElementRef, Inject, Input, OnDestroy} from '@angular/core';
-import {
-  exportModalToken,
-  I18nToken,
-  saveModalToken,
-  settingsModalToken,
-  shareModalToken
-} from 'core-app/angular4-transition-utils';
+import {I18nToken, settingsModalToken,} from 'core-app/angular4-transition-utils';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
@@ -45,6 +39,8 @@ import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resou
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-export.modal";
+import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
+import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
 
 @Directive({
   selector: '[opSettingsContextMenu]'
@@ -60,8 +56,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
               readonly wpListService:WorkPackagesListService,
               readonly authorisationService:AuthorisationService,
               readonly states:States,
-              @Inject(shareModalToken) readonly shareModal:any,
-              @Inject(saveModalToken) readonly saveModal:any,
               @Inject(settingsModalToken) readonly settingsModal:any,
               @Inject(I18nToken) readonly I18n:op.I18n) {
 
@@ -157,7 +151,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         onClick: ($event:JQueryEventObject) => {
           const query = this.query;
           if (!query.id && this.allowQueryAction($event, 'updateImmediately')) {
-            this.saveModal.activate();
+            this.opModalService.show(SaveQueryModal);
           } else if (query.id && this.allowQueryAction($event, 'updateImmediately')) {
             this.wpListService.save(query);
           }
@@ -172,7 +166,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         icon: 'icon-save',
         onClick: ($event:JQueryEventObject) => {
           if (this.allowFormAction($event, 'commit')) {
-            this.saveModal.activate();
+            this.opModalService.show(SaveQueryModal);
           }
 
           return true;
@@ -212,7 +206,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         icon: 'icon-publish',
         onClick: ($event:JQueryEventObject) => {
           if (this.allowQueryAction($event, 'unstar') || this.allowQueryAction($event, 'star')) {
-            this.shareModal.activate();
+            this.opModalService.show(QuerySharingModal);
           }
 
           return true;

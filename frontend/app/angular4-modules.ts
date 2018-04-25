@@ -75,7 +75,6 @@ import {
   I18nToken,
   saveModalToken,
   settingsModalToken,
-  shareModalToken,
   TextileServiceToken,
   upgradeService,
   upgradeServiceWithToken,
@@ -220,6 +219,9 @@ import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
 import {PasswordConfirmationModal} from "core-components/modals/request-for-confirmation/password-confirmation.modal";
+import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
+import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
+import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing-form.component";
 
 @NgModule({
   imports: [
@@ -250,10 +252,7 @@ import {PasswordConfirmationModal} from "core-components/modals/request-for-conf
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
     TimezoneService,
     upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
-    upgradeServiceWithToken('shareModal', shareModalToken),
-    upgradeServiceWithToken('saveModal', saveModalToken),
     upgradeServiceWithToken('settingsModal', settingsModalToken),
-    upgradeServiceWithToken('exportModal', exportModalToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     UrlParamsHelperService,
     WorkPackageCacheService,
@@ -452,6 +451,9 @@ import {PasswordConfirmationModal} from "core-components/modals/request-for-conf
     ConfirmDialogModal,
     DynamicContentModal,
     PasswordConfirmationModal,
+    QuerySharingModal,
+    SaveQueryModal,
+    QuerySharingForm,
 
     // Notifications
     NotificationsContainerComponent,
@@ -518,6 +520,8 @@ import {PasswordConfirmationModal} from "core-components/modals/request-for-conf
     DynamicContentModal,
     ConfirmDialogModal,
     PasswordConfirmationModal,
+    QuerySharingModal,
+    SaveQueryModal,
 
     // Notifications
     NotificationsContainerComponent,

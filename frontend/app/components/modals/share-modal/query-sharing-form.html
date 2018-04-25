@@ -5,24 +5,24 @@
         <input type="checkbox"
                name="is_public"
                id="show-public"
-               ng-model="$ctrl.isPublic"
-               ng-change="$ctrl.changed()"
-               ng-disabled="!$ctrl.canPublish"
+               [ngModel]="isPublic"
+               (ngModelChange)="updatePublic($event)"
+               [disabled]="!canPublish"
                class="form--check-box" />
       </div>
-      {{ ::$ctrl.text.visibleForOthers }}
+      {{ text.visibleForOthers }}
     </label>
     <label class="form--label-with-check-box">
       <div class="form--check-box-container">
         <input type="checkbox"
                name="show_in_menu"
                id="show-in-menu"
-               ng-model="$ctrl.isStarred"
-               ng-change="$ctrl.changed()"
-               ng-disabled="!$ctrl.canStar"
+               [ngModel]="isStarred"
+               (ngModelChange)="updateStarred($event)"
+               [disabled]="!canStar"
                class="form--check-box" />
       </div>
-      {{ ::$ctrl.text.showInMenu }}
+      {{ text.showInMenu }}
     </label>
   </div>
 </div>
