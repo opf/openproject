@@ -7,7 +7,13 @@ def register_chrome_headless(language)
   Capybara.register_driver name do |app|
     options = Selenium::WebDriver::Chrome::Options.new
 
-    unless ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_NO_HEADLESS'])
+    if ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_NO_HEADLESS'])
+      # Maximize the window however large the available space is
+      options.add_argument('--start-maximized')
+      # Open dev tools for quick access
+      options.add_argument('--auto-open-devtools-for-tabs')
+    else
+      options.add_argument('--window-size=1920,1080')
       options.add_argument('--headless')
       options.add_argument('--disable-gpu')
     end
@@ -15,7 +21,6 @@ def register_chrome_headless(language)
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-gpu')
     options.add_argument('--disable-popup-blocking')
-    options.add_argument('--window-size=1920,1080')
     options.add_argument("--lang=#{language}")
 
     options.add_preference(:download,

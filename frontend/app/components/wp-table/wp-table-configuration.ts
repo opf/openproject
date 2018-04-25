@@ -30,13 +30,28 @@
 export type WorkPackageTableConfigurationObject = Partial<{ [field in keyof WorkPackageTableConfiguration]:boolean }>;
 
 export class WorkPackageTableConfiguration {
+  /** Render the table results, set to false when only wanting the table initialization */
+  public tableVisible:boolean = true;
+
+  /** Render the action column (last column) with the actions defined in the TableActionsService */
   public actionsColumnEnabled:boolean = true;
+
+  /** Whether the work package context menu is enabled*/
   public contextMenuEnabled:boolean = true;
+
+  /** Whether the column dropdown menu is enabled*/
   public columnMenuEnabled:boolean = true;
+
+  /** Whether the query should be resolved using the current project identifier */
   public projectContext:boolean = true;
+
+  /** Whether inline create is enabled*/
   public inlineCreateEnabled:boolean = true;
+
+  /** Whether the hierarchy toggler item in the subject column is enabled */
   public hierarchyToggleEnabled:boolean = true;
 
+  /** Whether this table is in an embedded context*/
   public isEmbedded:boolean = false;
 
   constructor(private providedConfig:WorkPackageTableConfigurationObject) {

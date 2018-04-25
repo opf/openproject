@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,37 +26,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Type::QueryGroup < Type::FormGroup
-  MEMBER_PREFIX = 'query_'.freeze
+require 'support/pages/page'
+require 'support/pages/work_packages_table'
 
-  def self.query_attribute?(name)
-    name.to_s.match?(/#{Type::QueryGroup::MEMBER_PREFIX}(\d+)/)
-  end
+module Pages
+  class EmbeddedWorkPackagesTable < WorkPackagesTable
+    attr_reader :context
 
-  def self.query_attribute_id(name)
-    match = name.to_s.match(/#{Type::QueryGroup::MEMBER_PREFIX}(\d+)/)
+    def initialize(context, project = nil)
+      super(project)
+      @context = context
+    end
 
-    match ? match[1] : nil
-  end
-
-  def query_attribute_name
-    :"query_#{query.id}"
-  end
-
-  def ==(other)
-    other.is_a?(self.class) &&
-      key == other.key &&
-      type == other.type &&
-      query.to_json == other.attributes.to_json
-  end
-
-  alias :query :attributes
-
-  def members
-    [attributes]
-  end
-
-  def active_members(_project)
-    [members]
+    def table_container
+      context.find('.work-package-table')
+    end
   end
 end

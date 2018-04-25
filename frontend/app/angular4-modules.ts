@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -213,6 +213,8 @@ import {NotificationsService} from 'core-components/common/notifications/notific
 import {NotificationComponent} from 'core-components/common/notifications/notification.component';
 import {NotificationsContainerComponent} from 'core-components/common/notifications/notifications-container.component';
 import {UploadProgressComponent} from 'core-components/common/notifications/upload-progress.component';
+import {ExternalQueryConfigurationComponent} from 'core-components/wp-table/external-configuration/external-query-configuration.component';
+import {ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
 
 @NgModule({
   imports: [
@@ -309,6 +311,8 @@ import {UploadProgressComponent} from 'core-components/common/notifications/uplo
     WpTableConfigurationService,
 
     AttributeHelpTextsService,
+    // External query configuration
+    ExternalQueryConfigurationService,
   ],
   declarations: [
     WorkPackagesListComponent,
@@ -443,6 +447,9 @@ import {UploadProgressComponent} from 'core-components/common/notifications/uplo
     NotificationsContainerComponent,
     NotificationComponent,
     UploadProgressComponent,
+
+    // External query configuration
+    ExternalQueryConfigurationComponent,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -504,6 +511,9 @@ import {UploadProgressComponent} from 'core-components/common/notifications/uplo
 
     // Entries for ng1 downgraded components
     AttributeHelpTextComponent,
+
+    // External query configuration
+    ExternalQueryConfigurationComponent,
   ]
 })
 export class OpenProjectModule {

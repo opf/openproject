@@ -67,7 +67,8 @@ describe ::Type, type: :model do
         attribute_groups = type.attribute_groups.select{ |g| g.is_a?(Type::AttributeGroup) }.map do |group|
           [group.key, group.attributes]
         end
-        expect(attribute_groups).to eql type.default_attribute_groups
+
+        expect(attribute_groups).to eql type.default_attribute_groups[0...-1]
       end
 
       it_behaves_like 'appends the children query'
@@ -92,7 +93,9 @@ describe ::Type, type: :model do
         expect(group.members).to eql []
       end
 
-      it_behaves_like 'appends the children query'
+      it 'does not have a children query' do
+        expect(type.attribute_groups.detect { |group| group.key == :children }).to be_nil
+      end
     end
 
     context 'with empty attributes provided' do
@@ -120,8 +123,7 @@ describe ::Type, type: :model do
       end
 
       it 'retrieves the query' do
-        # 2 because of the default query
-        expect(type.attribute_groups.length).to eql 2
+        expect(type.attribute_groups.length).to eql 1
 
         expect(type.attribute_groups[0].class).to eql Type::QueryGroup
         expect(type.attribute_groups[0].key).to eql 'some group'
@@ -134,7 +136,7 @@ describe ::Type, type: :model do
         type.save!
         type.reload
 
-        expect(type.attribute_groups.length).to eql 2
+        expect(type.attribute_groups.length).to eql 1
 
         expect(type.attribute_groups[0].class).to eql Type::QueryGroup
         expect(type.attribute_groups[0].key).to eql 'some group'

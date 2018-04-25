@@ -39,6 +39,13 @@ class Type::AttributeGroup < Type::FormGroup
     (attributes & valid_keys).sort
   end
 
+  def ==(other)
+    other.is_a?(self.class) &&
+      key == other.key &&
+      type == other.type &&
+      attributes == other.attributes
+  end
+
   def active_members(project)
     members.select do |prop|
       type.passes_attribute_constraint?(prop, project: project)

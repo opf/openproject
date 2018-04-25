@@ -97,6 +97,30 @@ describe PermittedParams, type: :model do
     end
   end
 
+  describe '#type' do
+    let(:attribute) { :type }
+    let(:hash) do
+      attribute_groups = JSON.dump([['group1', ['attributes group 1'], false],
+                                    ['group2', ['attributes_group 2'], true]])
+
+      { name: 'blubs',
+        is_in_roadmap: 'true',
+        in_aggregation: 'true',
+        is_milestone: 'true',
+        color_id: '1',
+        project_ids: %w(2 3 4),
+        attribute_groups: attribute_groups }.with_indifferent_access
+    end
+    let(:allowed_params) do
+      attribute_groups = [['group1', ['attributes group 1']],
+                          [:group2, ['attributes_group 2']]]
+
+      hash.merge(attribute_groups: attribute_groups)
+    end
+
+    it_behaves_like 'allows params'
+  end
+
   describe '#project_type' do
     let(:attribute) { :project_type }
 

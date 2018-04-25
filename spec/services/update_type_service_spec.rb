@@ -32,8 +32,10 @@ require 'services/shared_type_service'
 
 describe UpdateTypeService do
   let(:type) { FactoryGirl.build_stubbed(:type) }
+  let(:user) { FactoryGirl.build_stubbed(:user) }
 
-  let(:instance) { described_class.new(type: type) }
+  let(:instance) { described_class.new(type, user) }
+  let(:service_call) { instance.call(params) }
 
   it_behaves_like 'type service'
 end

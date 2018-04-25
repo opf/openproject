@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {TableState} from '../table-state/table-state';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
@@ -14,7 +14,10 @@ import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp
 import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
 import {withLatestFrom} from 'rxjs/operators';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
-import {WorkPackageTableConfigurationObject} from 'core-components/wp-table/wp-table-configuration';
+import {
+  WorkPackageTableConfiguration,
+  WorkPackageTableConfigurationObject
+} from 'core-components/wp-table/wp-table-configuration';
 import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
 import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
@@ -25,6 +28,9 @@ import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
+import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
+import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {OpModalService} from 'core-components/op-modals/op-modal.service';
 
 @Component({
   selector: 'wp-embedded-table',
@@ -50,17 +56,21 @@ import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-c
 export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   @Input('queryId') public queryId?:string;
   @Input('queryProps') public queryProps:any = {};
-  @Input() public configuration:WorkPackageTableConfigurationObject;
+  @Input('configuration') private providedConfiguration:WorkPackageTableConfigurationObject;
   @Input() public uniqueEmbeddedTableName:string = `embedded-table-${Date.now()}`;
-  @Input() public tableActions?:OpTableActionFactory[];
+  @Input() public tableActions:OpTableActionFactory[] = [];
   @Input() public compactTableStyle:boolean = false;
 
   private query:QueryResource;
   public tableInformationLoaded = false;
   public showTablePagination = false;
+  public configuration:WorkPackageTableConfiguration;
 
   constructor(readonly QueryDm:QueryDmService,
               readonly tableState:TableState,
+              readonly injector:Injector,
+              readonly opModalService:OpModalService,
+              readonly urlParamsHelper:UrlParamsHelperService,
               readonly loadingIndicatorService:LoadingIndicatorService,
               readonly tableActionsService:OpTableActionsService,
               readonly wpTablePagination:WorkPackageTablePaginationService,
@@ -70,6 +80,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit():void {
+    this.configuration = new WorkPackageTableConfiguration(this.providedConfiguration);
     // Set embedded status in configuration
     this.configuration.isEmbedded = true;
 
@@ -89,20 +100,39 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
     ).subscribe(([pagination, query]) => {
       this.QueryDm.loadResults(query, this.wpTablePagination.paginationObject)
         .then((results) => this.initializeStates(query, results));
-      });
+    });
   }
 
   ngOnDestroy():void {
   }
 
+  public openConfigurationModal(onUpdated:() => void) {
+    this.tableState.query
+      .valuesPromise()
+      .then(() => {
+        const modal = this.opModalService
+          .show<WpTableConfigurationModalComponent>(WpTableConfigurationModalComponent, {}, this.injector);
+
+        // Detach this component when the modal closes and pass along the query data
+        modal.onDataUpdated.subscribe(onUpdated);
+      });
+  }
+
   get projectIdentifier() {
     let identifier:string|null = null;
 
-    if (this.configuration['projectContext']) {
+    if (this.configuration.projectContext) {
       identifier = this.currentProject.identifier;
     }
 
     return identifier || undefined;
+  }
+
+  public buildQueryProps() {
+    const query = this.tableState.query.value!;
+    this.wpStatesInitialization.applyToQuery(query);
+
+    return this.urlParamsHelper.buildV3GetQueryFromQueryResource(query);
   }
 
   private initializeStates(query:QueryResource, results:WorkPackageCollectionResource) {
@@ -114,7 +144,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
       return this.tableState.tableRendering.onQueryUpdated.valuesPromise()
         .then(() => {
           this.showTablePagination = results.total > results.count;
-          this.tableInformationLoaded = true;
+          this.tableInformationLoaded = this.configuration.tableVisible;
         });
     });
   }
@@ -130,10 +160,17 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
   }
 
   private async loadQuery() {
+
+    // HACK: Decrease loading time of queries when results are not needed.
+    // We should allow the backend to disable results embedding instead.
+    if (!this.configuration.tableVisible) {
+      this.queryProps.pageSize = 1;
+    }
+
     return this.QueryDm
       .find(
         this.queryProps,
-        this.queryId,
+        this.queryId || '',
         this.projectIdentifier
       )
       .then((query:QueryResource) => this.initializeStates(query, query.results));
@@ -144,5 +181,5 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
 // TODO: remove as this should also work by angular2 only
 opUiComponentsModule.directive(
   'wpEmbeddedTable',
-  downgradeComponent({component: WorkPackageEmbeddedTableComponent})
+  downgradeComponent({ component: WorkPackageEmbeddedTableComponent })
 );

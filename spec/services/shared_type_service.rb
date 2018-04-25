@@ -29,6 +29,7 @@
 
 shared_examples_for 'type service' do
   let(:success) { true }
+  let(:params) { {} }
 
   describe '#call' do
     before do
@@ -37,43 +38,99 @@ shared_examples_for 'type service' do
         .and_return(success)
     end
 
-    it 'returns a success service result' do
-      expect(instance.call).to be_success
+    it 'is successful' do
+      expect(service_call).to be_success
     end
 
-    it 'set the values provided on the call' do
-      permitted_params = { name: 'blubs blubs' }
+    it 'yields the block with success' do
+      expect(service_call { |call| call.success? }).to be_truthy
+    end
 
-      instance.call(permitted_params: permitted_params)
+    describe 'with attributes' do
+      let(:params) { { name: 'blubs blubs' } }
 
-      expect(type.name).to eql permitted_params[:name]
+      it 'set the values provided on the call' do
+        service_call
+
+        expect(type.name).to eql params[:name]
+      end
     end
 
     describe 'custom fields' do
-      let!(:cf1) { FactoryGirl.create :work_package_custom_field, field_format: 'text' }
-      let!(:cf2) { FactoryGirl.create :work_package_custom_field, field_format: 'text' }
+      let(:cf1) { FactoryGirl.create :work_package_custom_field, field_format: 'text' }
+      let(:cf2) { FactoryGirl.create :work_package_custom_field, field_format: 'text' }
+      let(:params) do
+        {
+          attribute_groups: [['group1', ["custom_field_#{cf1.id}", 'custom_field_54']],
+                             ['group2', ["custom_field_#{cf2.id}"]]]
+        }
+      end
 
       it 'enables the custom fields that are passed via attribute_groups' do
-        unsafe_params = {
-          attribute_groups: [
-            ['group1', ["custom_field_#{cf1.id}", 'custom_field_54']],
-            ['group2', ["custom_field_#{cf2.id}"]]
-          ].to_json
-        }
+        allow(type)
+          .to receive(:work_package_attributes)
+          .and_return("custom_field_#{cf1.id}" => {}, "custom_field_#{cf2.id}" => {})
 
         expect(type)
           .to receive(:custom_field_ids=)
           .with([cf1.id, cf2.id])
 
-        instance.call(permitted_params: {}, unsafe_params: unsafe_params)
+        service_call
+      end
+    end
+
+    describe 'query group' do
+      let(:query_params) do
+        sort_by = JSON::dump(['status:desc'])
+        filters = JSON::dump([{ 'status_id' => { 'operator' => '=', 'values' => %w(1 2) } }])
+
+        { 'sortBy' => sort_by, 'filters' => filters }
+      end
+      let(:query_group_params) do
+        ['group1', query_params]
+      end
+      let(:params) { { attribute_groups: [query_group_params] } }
+      let(:query) { FactoryGirl.build_stubbed(:query) }
+      let(:service_result) { ServiceResult.new(success: true, result: query) }
+
+      before do
+        parse_service = double('ParseQueryParamsService')
+        allow(::API::V3::UpdateQueryFromV3ParamsService)
+          .to receive(:new)
+          .with(anything, anything)
+          .and_return(parse_service)
+
+        allow(parse_service)
+          .to receive(:call)
+          .with(query_params)
+          .and_return(service_result)
+      end
+
+      it 'assigns the fully parsed query to the type\'s attribute group and adds the parent filter' do
+        service_call
+
+        expect(type.attribute_groups[0].query)
+          .to eql query
+
+        expect(query.filters.length)
+          .to eql 1
+
+        expect(query.filters[0].name)
+          .to eql :parent
+        expect(query.filters[0].operator)
+          .to eql '='
+        expect(query.filters[0].values)
+          .to eql [::Queries::Filters::TemplatedValue::KEY]
       end
     end
 
     context 'on failure' do
       let(:success) { false }
 
+      subject { service_call }
+
       it 'returns a failed service result' do
-        expect(instance.call).not_to be_success
+        expect(subject).not_to be_success
       end
 
       it 'returns the errors of the type' do
@@ -82,7 +139,7 @@ shared_examples_for 'type service' do
           .to receive(:errors)
           .and_return(type_errors)
 
-        expect(instance.call.errors).to eql type_errors
+        expect(subject.errors).to eql type_errors
       end
     end
   end

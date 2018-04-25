@@ -32,6 +32,8 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
+      def initialize; end
+
       def self.do_and_save
         new.tap do |modal|
           yield modal

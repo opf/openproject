@@ -59,11 +59,11 @@ export class OpModalService {
   /**
    * Open a Modal reference and append it to the portal
    */
-  public show<T extends OpModalComponent>(modal:ComponentType<T>, locals:any = {}):void {
+  public show<T extends OpModalComponent>(modal:ComponentType<T>, locals:any = {}, injector:Injector = this.injector):T {
     this.close();
 
     // Create a portal for the given component class and render it
-    const portal = new ComponentPortal(modal, null, this.injectorFor(locals));
+    const portal = new ComponentPortal(modal, null, this.injectorFor(injector, locals));
     const ref:ComponentRef<OpModalComponent> = this.bodyPortalHost.attach(portal) as ComponentRef<OpModalComponent>;
     const instance = ref.instance as T;
     this.active = instance;
@@ -73,6 +73,8 @@ export class OpModalService {
       // Focus on the first element
       this.active && this.active.onOpen(this.activeModal);
     });
+
+    return this.active as T;
   }
 
   public isActive(modal:OpModalComponent) {
@@ -106,7 +108,7 @@ export class OpModalService {
    * This allows callers to pass data into the newly created modal.
    *
    */
-  private injectorFor(data:any) {
+  private injectorFor(injector:Injector, data:any) {
     const injectorTokens = new WeakMap();
     // Pass the service because otherwise we're getting a cyclic dependency between the portal
     // host service and the bound portal
@@ -114,6 +116,6 @@ export class OpModalService {
 
     injectorTokens.set(OpModalLocalsToken, data);
 
-    return new PortalInjector(this.injector, injectorTokens);
+    return new PortalInjector(injector, injectorTokens);
   }
 }
