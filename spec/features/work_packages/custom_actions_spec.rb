@@ -259,7 +259,7 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.expect_attributes priority: immediate_priority.name,
                               status: default_status.name,
                               assignee: '-',
-                              "customField#{list_custom_field.id}" => selected_list_custom_field_options.map(&:name).join(' ')
+                              "customField#{list_custom_field.id}" => selected_list_custom_field_options.map(&:name).join("\n")
 
     expect(page)
       .to have_selector('.work-package-details-activities-activity-contents a.user-mention', text: other_member_user.name)

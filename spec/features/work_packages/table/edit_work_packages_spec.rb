@@ -170,7 +170,7 @@ describe 'Inline editing work packages', js: true do
       cf_text_name = custom_fields.last.name
       wp_table.expect_notification(
         type:    :error,
-        message: "#{cf_list_name} can't be blank. #{cf_text_name} can't be blank."
+        message: "#{cf_list_name} can't be blank.\n#{cf_text_name} can't be blank."
       )
 
       expect(page).to have_selector('th a', text: cf_list_name.upcase)

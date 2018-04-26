@@ -64,7 +64,7 @@ describe MyController, type: :controller do
   end
 
   it "should log in given user" do
-    expect(response.body).to have_text("Login h.wurst")
+    expect(response.body.squish).to have_content("Login   h.wurst")
   end
 
   shared_examples "auth source sso failure" do
