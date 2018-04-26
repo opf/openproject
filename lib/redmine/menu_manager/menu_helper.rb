@@ -160,7 +160,8 @@ module Redmine::MenuManager::MenuHelper
     caption, url, selected = extract_node_details(node, project)
     html_options = {}
     if selected || any_item_selected?(node.children)
-      html_options[:class] = 'open selected'
+      html_options[:class] = 'open'
+      selected = true
     end
     content_tag :li, html_options do
       # Standard children
