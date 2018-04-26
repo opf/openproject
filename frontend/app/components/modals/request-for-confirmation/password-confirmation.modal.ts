@@ -26,34 +26,42 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ConfirmDialogModal, ConfirmDialogOptions} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
-import {downgradeInjectable} from "@angular/upgrade/static";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {Injectable} from "@angular/core";
+import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
+import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 
-@Injectable()
-export class ConfirmDialogService {
+@Component({
+  template: require('!!raw-loader!./password-confirmation.modal.html')
+})
+export class PasswordConfirmationModal extends ConfirmDialogModal implements OnInit {
 
-  constructor(readonly opModalService:OpModalService) {
+  public password_confirmation:string|null = null;
+
+  @ViewChild('passwordConfirmationField') passwordConfirmationField:ElementRef;
+
+  public ngOnInit() {
+    super.ngOnInit();
+
+    this.text.title = I18n.t('js.password_confirmation.title');
+    this.text.field_description = I18n.t('js.password_confirmation.field_description');
+    this.text.confirm_button = I18n.t('js.button_confirm');
+    this.text.password = I18n.t('js.label_password');
+
+    this.closeOnEscape = false;
+    this.closeOnOutsideClick = false;
+    this.showClose = false;
   }
 
-  /**
-   * Confirm an action with an ng dialog with the given options
-   */
-  public async confirm(options:ConfirmDialogOptions):Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      const confirmModal = this.opModalService.show(ConfirmDialogModal, { options: options });
-      confirmModal.closingEvent.subscribe((modal:ConfirmDialogModal) => {
-        if (modal.confirmed) {
-          resolve();
-        } else {
-          reject();
-        }
-      });
-    });
+  public confirmAndClose(evt:JQueryEventObject) {
+    if (this.passwordValuePresent()) {
+      super.confirmAndClose(evt);
+    }
+  }
+
+  public onOpen() {
+    this.passwordConfirmationField.nativeElement.focus();
+  }
+
+  public passwordValuePresent() {
+    return this.password_confirmation !== null && this.password_confirmation.length > 0;
   }
 }
-
-angular
-  .module('openproject.uiComponents')
-  .service('confirmDialog', downgradeInjectable(ConfirmDialogService));

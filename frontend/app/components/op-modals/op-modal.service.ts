@@ -10,6 +10,8 @@ import {TransitionService} from '@uirouter/core';
 import {FocusHelperToken, OpModalLocalsToken} from 'core-app/angular4-transition-utils';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {keyCodes} from 'core-components/common/keyCodes.enum';
+import {opServicesModule} from "core-app/angular-modules";
+import {downgradeInjectable} from "@angular/upgrade/static";
 
 @Injectable()
 export class OpModalService {
@@ -19,6 +21,9 @@ export class OpModalService {
   private portalHostElement:HTMLElement;
   // And a reference to the actual portal host interface on top of the element
   private bodyPortalHost:DomPortalOutlet;
+
+  // Remember when we're opening a new modal to avoid the outside click bubbling up.
+  private opening:boolean = false;
 
   constructor(private componentFactoryResolver:ComponentFactoryResolver,
               @Inject(FocusHelperToken) readonly FocusHelper:any,
@@ -42,6 +47,7 @@ export class OpModalService {
     // Listen to any click when should close outside modal
     jQuery(window).click((evt) => {
       if (this.active &&
+        !this.opening &&
         this.active.closeOnOutsideClick &&
         !this.portalHostElement.contains(evt.target)) {
         this.close(evt);
@@ -62,6 +68,9 @@ export class OpModalService {
   public show<T extends OpModalComponent>(modal:ComponentType<T>, locals:any = {}, injector:Injector = this.injector):T {
     this.close();
 
+    // Prevent closing events during the opening time frame.
+    this.opening = true;
+
     // Create a portal for the given component class and render it
     const portal = new ComponentPortal(modal, null, this.injectorFor(injector, locals));
     const ref:ComponentRef<OpModalComponent> = this.bodyPortalHost.attach(portal) as ComponentRef<OpModalComponent>;
@@ -72,7 +81,10 @@ export class OpModalService {
     setTimeout(() => {
       // Focus on the first element
       this.active && this.active.onOpen(this.activeModal);
-    });
+
+      // Mark that we've opened the modal now
+      this.opening = false;
+    }, 20);
 
     return this.active as T;
   }
@@ -87,6 +99,7 @@ export class OpModalService {
   public close(evt?:Event) {
     // Detach any component currently in the portal
     if (this.active && this.active.onClose()) {
+      this.active.closingEvent.emit(this.active);
       this.bodyPortalHost.detach();
       this.portalHostElement.style.display = 'none';
       this.active = null;
@@ -99,7 +112,7 @@ export class OpModalService {
   }
 
   public get activeModal():JQuery {
-    return jQuery(this.portalHostElement).find('.op-modal--container');
+    return jQuery(this.portalHostElement).find('.op-modal--portal');
   }
 
   /**
@@ -119,3 +132,5 @@ export class OpModalService {
     return new PortalInjector(injector, injectorTokens);
   }
 }
+
+opServicesModule.service('opModalService', downgradeInjectable(OpModalService));

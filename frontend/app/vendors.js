@@ -90,7 +90,5 @@ require('select2/select2.min.js');
 
 require('ui-select/dist/select.min.js');
 
-require('ng-dialog/js/ngDialog.min.js');
-
 require('expose-loader?URI!URIjs');
 require('URIjs/src/URITemplate');

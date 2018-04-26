@@ -26,34 +26,41 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ConfirmDialogModal, ConfirmDialogOptions} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
-import {downgradeInjectable} from "@angular/upgrade/static";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {Injectable} from "@angular/core";
+import {Component, ElementRef, Inject, OnDestroy, OnInit} from "@angular/core";
+import {I18nToken, OpModalLocalsToken} from "core-app/angular4-transition-utils";
+import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
+import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 
-@Injectable()
-export class ConfirmDialogService {
+@Component({
+  template: require('!!raw-loader!./dynamic-content.modal.html')
+})
+export class DynamicContentModal extends OpModalComponent implements OnInit, OnDestroy {
+  constructor(readonly elementRef:ElementRef,
+              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+              @Inject(I18nToken) readonly I18n:op.I18n) {
 
-  constructor(readonly opModalService:OpModalService) {
+    super(locals, elementRef);
   }
 
-  /**
-   * Confirm an action with an ng dialog with the given options
-   */
-  public async confirm(options:ConfirmDialogOptions):Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      const confirmModal = this.opModalService.show(ConfirmDialogModal, { options: options });
-      confirmModal.closingEvent.subscribe((modal:ConfirmDialogModal) => {
-        if (modal.confirmed) {
-          resolve();
-        } else {
-          reject();
-        }
-      });
+
+  ngOnInit() {
+    super.ngOnInit();
+
+    // Append the dynamic body
+    this.$element
+      .find('.dynamic-content-modal--wrapper')
+      .addClass(this.locals.modalClassName)
+      .append(this.locals.modalBody);
+
+    // Register click listeners
+    jQuery(document.body).on('click.opdynamicmodal', '.dynamic-content-modal--close-button', (evt) => {
+      this.closeMe(evt);
     });
   }
-}
 
-angular
-  .module('openproject.uiComponents')
-  .service('confirmDialog', downgradeInjectable(ConfirmDialogService));
+  ngOnDestroy() {
+    jQuery(document.body).off('click.opdynamicmodal');
+    super.ngOnDestroy();
+  }
+
+}

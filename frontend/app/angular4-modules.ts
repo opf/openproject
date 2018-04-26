@@ -69,13 +69,9 @@ import {
   $stateToken,
   $timeoutToken,
   AutoCompleteHelperServiceToken,
-  exportModalToken,
   FocusHelperToken,
   HookServiceToken,
   I18nToken,
-  saveModalToken,
-  settingsModalToken,
-  shareModalToken,
   TextileServiceToken,
   upgradeService,
   upgradeServiceWithToken,
@@ -215,6 +211,15 @@ import {NotificationsContainerComponent} from 'core-components/common/notificati
 import {UploadProgressComponent} from 'core-components/common/notifications/upload-progress.component';
 import {ExternalQueryConfigurationComponent} from 'core-components/wp-table/external-configuration/external-query-configuration.component';
 import {ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
+import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-export.modal";
+import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
+import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
+import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
+import {PasswordConfirmationModal} from "core-components/modals/request-for-confirmation/password-confirmation.modal";
+import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
+import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
+import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing-form.component";
+import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename-query.modal";
 
 @NgModule({
   imports: [
@@ -245,10 +250,6 @@ import {ExternalQueryConfigurationService} from 'core-components/wp-table/extern
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
     TimezoneService,
     upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
-    upgradeServiceWithToken('shareModal', shareModalToken),
-    upgradeServiceWithToken('saveModal', saveModalToken),
-    upgradeServiceWithToken('settingsModal', settingsModalToken),
-    upgradeServiceWithToken('exportModal', exportModalToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     UrlParamsHelperService,
     WorkPackageCacheService,
@@ -309,6 +310,7 @@ import {ExternalQueryConfigurationService} from 'core-components/wp-table/extern
     // OP Modals service
     OpModalService,
     WpTableConfigurationService,
+    ConfirmDialogService,
 
     AttributeHelpTextsService,
     // External query configuration
@@ -442,6 +444,14 @@ import {ExternalQueryConfigurationService} from 'core-components/wp-table/extern
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
+    WpTableExportModal,
+    ConfirmDialogModal,
+    DynamicContentModal,
+    PasswordConfirmationModal,
+    QuerySharingModal,
+    SaveQueryModal,
+    QuerySharingForm,
+    RenameQueryModal,
 
     // Notifications
     NotificationsContainerComponent,
@@ -504,6 +514,13 @@ import {ExternalQueryConfigurationService} from 'core-components/wp-table/extern
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
+    WpTableExportModal,
+    DynamicContentModal,
+    ConfirmDialogModal,
+    PasswordConfirmationModal,
+    QuerySharingModal,
+    SaveQueryModal,
+    RenameQueryModal,
 
     // Notifications
     NotificationsContainerComponent,

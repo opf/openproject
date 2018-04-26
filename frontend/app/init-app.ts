@@ -36,7 +36,6 @@ require('./vendors');
 require('at.js/dist/css/jquery.atwho.min.css');
 require('select2/select2.css');
 require('ui-select/dist/select.min.css');
-require('ng-dialog/css/ngDialog.min.css');
 require('jquery-ui/themes/base/core.css');
 require('jquery-ui/themes/base/datepicker.css');
 require('jquery-ui/themes/base/dialog.css');

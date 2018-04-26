@@ -83,6 +83,7 @@ en:
     description_subwork_package: "Child of work package #%{id}"
     error:
       internal: "An internal error has occurred."
+      query_saving: "The query could not be saved."
     filter:
       description:
         text_open_filter: "Open this filter with 'ALT' and arrow keys."

@@ -26,9 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import IAugmentedJQuery = angular.IAugmentedJQuery;
-import {IDialogService} from 'ng-dialog';
-import {IDialogScope} from 'ng-dialog';
 import {opUiComponentsModule} from '../../angular-modules';
 
 export interface ICkeditorInstance {

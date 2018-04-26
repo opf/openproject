@@ -27,33 +27,21 @@
 // ++
 
 import IAugmentedJQuery = angular.IAugmentedJQuery;
-import {IDialogService} from 'ng-dialog';
-import {IDialogScope} from 'ng-dialog';
+import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {PasswordConfirmationModal} from "core-components/modals/request-for-confirmation/password-confirmation.modal";
 
 export class RequestForConfirmationController {
 
   // Allow original form submission after dialog was closed
   private passwordConfirmed = false;
 
-  constructor(protected $element:IAugmentedJQuery,
-              protected $scope:any,
-              protected $http:angular.IHttpService,
-              protected $q:angular.IQService,
-              protected ngDialog:IDialogService,
-              protected I18n:op.I18n) {
+  constructor(readonly $element:IAugmentedJQuery,
+              readonly opModalService:OpModalService) {
 
-    this.$scope['text'] = {
-      title_confirmation: I18n.t('js.password_confirmation.title'),
-      field_description: I18n.t('js.password_confirmation.field_description'),
-      confirm_button: I18n.t('js.button_confirm'),
-      password: I18n.t('js.label_password')
-    };
+  }
 
-    this.$scope['dialog'] = {
-      password_value: ''
-    };
-
-    $element.submit((evt) => {
+  public $onInit() {
+    this.$element.submit((evt) => {
       if (!this.passwordConfirmed) {
         evt.preventDefault();
         this.openConfirmationDialog();
@@ -61,22 +49,12 @@ export class RequestForConfirmationController {
     });
   }
 
-  public $onInit() {
-    // Created for interface compliance
-  }
-
   public openConfirmationDialog() {
-    this.ngDialog.open({
-      closeByEscape: false,
-      showClose: false,
-      closeByDocument: false,
-      scope: <IDialogScope> this.$scope,
-      template: '/components/modals/request-for-confirmation/request-for-confirmation.modal.html',
-      className: 'ngdialog-theme-openproject',
-      preCloseCallback: () => {
-        this.appendPassword();
-        this.$element.submit();
-        return true;
+    const confirmModal = this.opModalService.show(PasswordConfirmationModal);
+    confirmModal.closingEvent.subscribe((modal:PasswordConfirmationModal) => {
+      if (modal.confirmed) {
+        this.appendPassword(modal.password_confirmation!);
+        this.$element.trigger('submit');
       }
     });
   }
@@ -84,11 +62,11 @@ export class RequestForConfirmationController {
   /**
    * Post the confirmation to the endpoint
    */
-  private appendPassword() {
+  private appendPassword(value:string) {
     angular.element('<input>').attr({
       type: 'hidden',
       name: '_password_confirmation',
-      value: this.$scope['dialog'].password_value
+      value: value
     }).appendTo(this.$element);
     this.passwordConfirmed = true;
   }
