@@ -39,7 +39,7 @@ module OpenProject::TextFormatting::Formatters
       end
 
       def wikitoolbar_for(field_id)
-        tag 'op-ckeditor-form', 'textarea-selector': "##{field_id}"
+        content_tag 'op-ckeditor-form', '', 'textarea-selector': "##{field_id}"
       end
 
       def initial_page_content(_page)
