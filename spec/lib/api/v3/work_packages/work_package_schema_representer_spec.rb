@@ -227,29 +227,4 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
   end
-
-  describe '#cache_key' do
-    def joined_cache_key
-      representer.cache_key.join('/')
-    end
-
-    before do
-      allow(work_package.project)
-        .to receive(:module_enabled?)
-        .and_return false
-
-      original_cache_key
-    end
-
-    let(:original_cache_key) { joined_cache_key }
-
-    it 'changes depending on whether costs is enabled or not' do
-      allow(work_package.project)
-        .to receive(:module_enabled?)
-        .with('costs_module')
-        .and_return true
-
-      expect(joined_cache_key).to_not eql(original_cache_key)
-    end
-  end
 end

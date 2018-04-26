@@ -24,6 +24,11 @@ module API::V3::CostsAPIUserPermissionCheck
     user_has_cost_object_permissions?
   end
 
+  # overriding core's method to also factor in :view_own_time_entries
+  def view_time_entries_allowed?
+    user_has_time_entry_permissions?
+  end
+
   private
 
   def user_has_time_entry_permissions?

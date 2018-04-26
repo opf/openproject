@@ -147,12 +147,13 @@ module OpenProject::Costs
     extend_api_response(:v3, :work_packages, :work_package) do
       include Redmine::I18n
       include ActionView::Helpers::NumberHelper
-      include API::V3::CostsAPIUserPermissionCheck
+      prepend API::V3::CostsAPIUserPermissionCheck
 
-      link :logCosts do
+      link :logCosts,
+           cache_if: -> {
+             current_user_allowed_to(:log_costs, context: represented.project) ||
+               current_user_allowed_to(:log_own_costs, context: represented.project) } do
         next unless represented.costs_enabled? && represented.persisted?
-        next unless current_user_allowed_to(:log_costs, context: represented.project) ||
-                    current_user_allowed_to(:log_own_costs, context: represented.project)
 
         {
           href: new_work_packages_cost_entry_path(represented),
@@ -161,25 +162,15 @@ module OpenProject::Costs
         }
       end
 
-      link :showCosts do
+      link :showCosts,
+           cache_if: -> { current_user_allowed_to(:view_cost_entries, context: represented.project) ||
+                          current_user_allowed_to(:view_own_cost_entries, context: represented.project) } do
         next unless represented.costs_enabled? && represented.persisted?
-        next unless current_user_allowed_to(:view_cost_entries, context: represented.project) ||
-            current_user_allowed_to(:view_own_cost_entries, context: represented.project)
 
         {
             href: work_packages_cost_entries_path(represented),
             type: 'text/html',
             title: "Show cost entries"
-        }
-      end
-
-      link :timeEntries do
-        next unless user_has_time_entry_permissions? &&
-                    represented.persisted?
-        {
-          href: work_package_time_entries_path(represented.id),
-          type: 'text/html',
-          title: 'Time entries'
         }
       end
 
@@ -193,19 +184,22 @@ module OpenProject::Costs
                exec_context: :decorator,
                if: ->(*) { labor_costs_visible? },
                skip_parse: true,
-               render_nil: true
+               render_nil: true,
+               uncacheable: true
 
       property :material_costs,
                exec_context: :decorator,
                if: ->(*) { material_costs_visible? },
                skip_parse: true,
-               render_nil: true
+               render_nil: true,
+               uncacheable: true
 
       property :overall_costs,
                exec_context: :decorator,
                if: ->(*) { overall_costs_visible? },
                skip_parse: true,
-               render_nil: true
+               render_nil: true,
+               uncacheable: true
 
       resource :costsByType,
                link: ->(*) {
@@ -220,10 +214,6 @@ module OpenProject::Costs
                },
                setter: ->(*) {},
                skip_render: ->(*) { !costs_by_type_visible? }
-
-      property :spent_time,
-               if: ->(_) { user_has_time_entry_permissions? },
-               inherit: true
 
       send(:define_method, :overall_costs) do
         number_to_currency(represented.overall_costs)
@@ -338,14 +328,6 @@ module OpenProject::Costs
                if: ->(*) {
                  ::Setting.work_package_list_summable_columns.include?('material_costs')
                }
-    end
-
-    add_api_representer_cache_key(:v3, :work_packages, :schema, :work_package_schema) do
-      if represented.project.module_enabled?('costs_module')
-        ['costs_enabled']
-      else
-        ['costs_not_enabled']
-      end
     end
 
     assets %w(costs/costs.css)
