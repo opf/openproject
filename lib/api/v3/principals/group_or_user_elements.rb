@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,14 +28,32 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
-  module Cache
-    def self.fetch(*parts, &block)
-      Rails.cache.fetch(CacheKey.key(*parts), &block)
-    end
+module API
+  module V3
+    module Principals
+      module GroupOrUserElements
+        extend ::ActiveSupport::Concern
 
-    def self.clear
-      Rails.cache.clear
+        included do
+          collection :elements,
+                     getter: ->(*) {
+                       represented.map do |model|
+                         representer_class = case model
+                                             when User
+                                               ::API::V3::Users::UserRepresenter
+                                             when Group
+                                               ::API::V3::Groups::GroupRepresenter
+                                             else
+                                               raise "unsupported type"
+                                             end
+
+                         representer_class.new(model, current_user: current_user)
+                       end
+                     },
+                     exec_context: :decorator,
+                     embedded: true
+        end
+      end
     end
   end
 end

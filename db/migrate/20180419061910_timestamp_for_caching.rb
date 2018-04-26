@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,17 +23,26 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
-  module Cache
-    def self.fetch(*parts, &block)
-      Rails.cache.fetch(CacheKey.key(*parts), &block)
+class TimestampForCaching < ActiveRecord::Migration[5.1]
+  def change
+    [Enumeration, Status, Category, AuthSource].each do |model|
+      add_timestamps(model)
+    end
+  end
+
+  def add_timestamps(model)
+    table = model.table_name
+
+    change_table table do |t|
+      t.timestamps null: true
     end
 
-    def self.clear
-      Rails.cache.clear
-    end
+    model.update_all(updated_at: Time.now, created_at: Time.now)
+
+    change_column_null table, :created_at, false
+    change_column_null table, :updated_at, false
   end
 end

@@ -116,11 +116,9 @@ module API
                                                                          self_link,
                                                                          current_user: nil)
 
-                with_etag! represented_schema.cache_key
+                with_etag! represented_schema.json_cache_key
 
-                cache(represented_schema.cache_key) do
-                  represented_schema
-                end
+                represented_schema
               end
             end
 

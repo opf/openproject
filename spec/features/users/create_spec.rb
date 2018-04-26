@@ -45,7 +45,7 @@ describe 'create users', type: :feature, selenium: true do
     it 'creates the user' do
       expect(page).to have_selector('.flash', text: 'Successful creation.')
 
-      new_user = User.order('created_on DESC').first
+      new_user = User.order('id DESC').first
 
       expect(current_path).to eql(edit_user_path(new_user.id))
     end

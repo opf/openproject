@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe Status, type: :model do
+  let(:stubbed_status) { FactoryGirl.build_stubbed(:status) }
+
   describe '.new_statuses_allowed' do
     let(:role) { FactoryGirl.create(:role) }
     let(:type) { FactoryGirl.create(:type) }
@@ -82,6 +84,17 @@ describe Status, type: :model do
     it 'should respect workflows w/ author and w/ assignee' do
       expect(Status.new_statuses_allowed(status, [role], type, true, true))
         .to match_array([statuses[1], statuses[2], statuses[3]])
+    end
+  end
+
+  describe '#cache_key' do
+    it 'updates when the updated_at field changes' do
+      old_cache_key = stubbed_status.cache_key
+
+      stubbed_status.updated_at = Time.now
+
+      expect(stubbed_status.cache_key)
+        .not_to eql old_cache_key
     end
   end
 end

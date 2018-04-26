@@ -34,6 +34,8 @@ module API
       class WorkPackagePayloadRepresenter < WorkPackageRepresenter
         include ::API::Utilities::PayloadRepresenter
 
+        cached_representer disabled: true
+
         def writeable_attributes
           super + ["date"]
         end

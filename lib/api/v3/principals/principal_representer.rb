@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -32,40 +33,47 @@ require 'roar/json/hal'
 
 module API
   module V3
-    module Categories
-      class CategoryRepresenter < ::API::Decorators::Single
+    module Principals
+      class PrincipalRepresenter < ::API::Decorators::Single
+        include AvatarHelper
         include ::API::Caching::CachedRepresenter
 
-        cached_representer key_parts: %i(assigned_to project)
-
-        link :self do
-          {
-            href: api_v3_paths.category(represented.id),
-            title: represented.name
-          }
+        def self.create(user, current_user:)
+          new(user, current_user: current_user)
         end
 
-        link :project do
-          {
-            href: api_v3_paths.project(represented.project.id),
-            title: represented.project.name
-          }
+        def initialize(user, current_user:)
+          super(user, current_user: current_user)
         end
 
-        link :defaultAssignee do
-          next unless represented.assigned_to
+        self_link
 
-          {
-            href: api_v3_paths.user(represented.assigned_to.id),
-            title: represented.assigned_to.name
-          }
+        property :id,
+                 render_nil: true
+
+        property :name,
+                 render_nil: true
+
+        property :created_on,
+                 exec_context: :decorator,
+                 as: 'createdAt',
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) },
+                 render_nil: false,
+                 cache_if: -> { current_user_is_admin_or_self }
+
+        property :updated_on,
+                 exec_context: :decorator,
+                 as: 'updatedAt',
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on) },
+                 render_nil: false,
+                 cache_if: -> { current_user_is_admin_or_self }
+
+        def current_user_is_admin_or_self
+          current_user_is_admin || represented.id == current_user.id
         end
 
-        property :id, render_nil: true
-        property :name, render_nil: true
-
-        def _type
-          'Category'
+        def current_user_is_admin
+          current_user.admin?
         end
       end
     end

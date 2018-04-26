@@ -321,11 +321,14 @@ module API
 
           class << self
             alias :groups :users
-            alias :group :user
           end
 
           def self.user_lock(id)
             "#{user(id)}/lock"
+          end
+
+          def self.group(id)
+            "#{root}/groups/#{id}"
           end
 
           def self.version(version_id)

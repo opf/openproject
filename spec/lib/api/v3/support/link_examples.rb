@@ -32,21 +32,26 @@ require 'spec_helper'
 # it does not work as intended (setting user has no effect, but by chance :role overrides base spec)
 # it does not check the actual href/method
 shared_examples_for 'action link' do
-  let(:role) { FactoryGirl.create(:role, permissions: %i(view_work_packages edit_work_packages)) }
+  let(:permissions) { %i(view_work_packages edit_work_packages) }
   let(:user) do
-    FactoryGirl.create(:user, member_in_project: project,
-                              member_through_role: role)
+    FactoryGirl.build_stubbed(:user)
   end
 
   let(:href) { nil }
 
-  before { login_as(user) }
+  before do
+    login_as(user)
+    allow(user)
+      .to receive(:allowed_to?) do |permission, project|
+      permissions.include?(permission)
+    end
+  end
 
   it { expect(subject).not_to have_json_path("_links/#{action}/href") }
 
   describe 'with permission' do
     before do
-      role.add_permission! permission
+      permissions << permission
     end
 
     it { expect(subject).to have_json_path("_links/#{action}/href") }

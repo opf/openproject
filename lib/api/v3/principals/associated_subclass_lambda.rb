@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,14 +28,27 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
-  module Cache
-    def self.fetch(*parts, &block)
-      Rails.cache.fetch(CacheKey.key(*parts), &block)
-    end
+module API
+  module V3
+    module Principals
+      module AssociatedSubclassLambda
+        def self.getter(name)
+          ->(*) {
+            instance = represented.send(name)
 
-    def self.clear
-      Rails.cache.clear
+            case instance
+            when User
+              ::API::V3::Users::UserRepresenter.new(represented.send(name), current_user: current_user)
+            when Group
+              ::API::V3::Groups::GroupRepresenter.new(represented.send(name), current_user: current_user)
+            when NilClass
+              nil
+            else
+              raise "undefined subclass for #{instance}"
+            end
+          }
+        end
+      end
     end
   end
 end
