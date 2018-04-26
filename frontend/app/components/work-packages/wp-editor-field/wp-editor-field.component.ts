@@ -67,7 +67,7 @@ export class WorkPackageEditorFieldController {
 
   public $onInit() {
     const element = this.$element.find('.op-ckeditor-element');
-    (window as any).BalloonEditor
+    window.OPBalloonEditor
       .create(element[0])
       .then((editor:any) => {
         this.ckeditor = editor;

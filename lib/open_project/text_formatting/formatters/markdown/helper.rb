@@ -31,7 +31,7 @@ module OpenProject::TextFormatting::Formatters
   module Markdown
     module Helper
       def text_formatting_js_includes
-        javascript_include_tag 'vendor/ckeditor/ckeditor.js', async: true
+        javascript_include_tag 'vendor/ckeditor/ckeditor.js'
       end
 
       def text_formatting_has_preview?

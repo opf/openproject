@@ -96,7 +96,7 @@ export class WikiTextareaEditField extends EditField {
 
   public setupMarkdownEditor(container:JQuery) {
     const element = container.find('.op-ckeditor-element');
-    (window as any).BalloonEditor
+    window.OPBalloonEditor
       .create(element[0])
       .then((editor:any) => {
         editor.config['openProject'] = {
