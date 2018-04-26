@@ -231,14 +231,6 @@ module OpenProject::Backlogs
     add_api_attribute on: :work_package, ar_name: :story_points
     add_api_attribute on: :work_package, ar_name: :remaining_hours, writeable: ->(*) { model.leaf? }
 
-    add_api_representer_cache_key(:v3, :work_packages, :schema, :work_package_schema) do
-      if represented.project.module_enabled?('backlogs')
-        ['backlogs_enabled']
-      else
-        ['backlogs_not_enabled']
-      end
-    end
-
     add_api_path :backlogs_type do |id|
       # There is no api endpoint for this url
       "#{root}/backlogs_types/#{id}"
