@@ -1,5 +1,3 @@
-import {Directive, ElementRef, Injector, Input} from '@angular/core';
-import {UpgradeComponent} from '@angular/upgrade/static';
 //-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,23 +25,31 @@ import {UpgradeComponent} from '@angular/upgrade/static';
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-import {openprojectModule} from '../../angular-modules';
 
-export class WorkPackageResizerController {
+import {Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+
+@Component({
+  selector: 'wp-resizer',
+  template: `<div class="work-packages--resizer icon-resizer-vertical-lines"></div>`
+})
+
+export class WpResizerDirective implements OnInit, OnDestroy {
+  @Input() elementClass:string;
+  @Input() resizeEvent:string;
+  @Input() localStorageKey:string;
+
   private resizingElement:HTMLElement;
   private elementFlex:number;
   private oldPosition:number;
   private mouseMoveHandler:any;
-  public resizeEvent:string;
-  public elementClass:string;
-  public localStorageKey:string;
+  private element:HTMLElement;
 
   public moving:boolean = false;
 
-  constructor(public $element:ng.IAugmentedJQuery) {
+  constructor(private elementRef:ElementRef) {
   }
 
-  $onInit() {
+  ngOnInit() {
     // Get element
     this.resizingElement = <HTMLElement>document.getElementsByClassName(this.elementClass)[0];
 
@@ -63,15 +69,15 @@ export class WorkPackageResizerController {
     this.resizingElement.classList.toggle('-columns-2', this.elementFlex > 700);
 
     // Add event listener
-    this.$element[0].addEventListener('mousedown', this.handleMouseDown.bind(this));
-    window.addEventListener('mouseup', this.handleMouseUp.bind(this));
+    this.element = this.elementRef.nativeElement;
   }
 
-  $onDestroy() {
+  ngOnDestroy() {
     // Reset the style when killing this directive, otherwise the style remains
     this.resizingElement.style.flexBasis = null;
   }
 
+  @HostListener('mousedown', ['$event'])
   private handleMouseDown(e:MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
@@ -97,6 +103,7 @@ export class WorkPackageResizerController {
     }
   }
 
+  @HostListener('window:mouseup', ['$event'])
   private handleMouseUp(e:MouseEvent):boolean {
     if (!this.moving) {
       return true;
@@ -106,7 +113,7 @@ export class WorkPackageResizerController {
     window.removeEventListener('mousemove', this.mouseMoveHandler);
 
     // Change cursor icon back
-    document.getElementsByTagName("body")[0].style.cursor = 'auto';
+    document.body.style.cursor = 'auto';
 
     // Take care at the end that the elemntFlex-Value is the same as the acutal value
     // When the mouseup is outside the container these values will differ
@@ -146,39 +153,5 @@ export class WorkPackageResizerController {
 
     // Set new width
     element.style.flexBasis = newValue + 'px';
-  }
-}
-
-function wpResizer():any {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-resizer/wp-resizer.directive.html',
-    scope: {
-      elementClass: '<',
-      resizeEvent: '@',
-      localStorageKey: '<'
-    },
-
-    bindToController: true,
-    controllerAs: '$ctrl',
-    controller: WorkPackageResizerController
-  };
-}
-
-openprojectModule.directive('wpResizer', wpResizer);
-
-@Directive({
-  selector: 'wp-resizer'
-})
-export class WpResizerDirectiveUpgraded extends UpgradeComponent {
-
-  @Input() elementClass:string;
-
-  @Input() resizeEvent:string;
-
-  @Input() localStorageKey:string;
-
-  constructor(elementRef:ElementRef, injector:Injector) {
-    super('wpResizer', elementRef, injector);
   }
 }
