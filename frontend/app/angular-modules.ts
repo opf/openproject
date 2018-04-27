@@ -44,8 +44,7 @@ export const opServicesModule = angular.module('openproject.services', [
   'openproject.helpers',
   'openproject.workPackages.config',
   'openproject.workPackages.helpers',
-  'openproject.api',
-  'angular-cache'
+  'openproject.api'
 ]);
 angular.module('openproject.helpers', ['openproject.services']);
 
