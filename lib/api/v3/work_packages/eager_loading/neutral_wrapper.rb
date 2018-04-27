@@ -31,13 +31,23 @@
 module API
   module V3
     module WorkPackages
-      class WorkPackageListRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
+      module EagerLoading
+        class NeutralWrapper < SimpleDelegator
+          private_class_method :new
 
-        def initialize(models, self_link, current_user:)
-          super
+          def wrapped?
+            true
+          end
 
-          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap(represented, current_user)
+          class << self
+            def wrap_one(work_package, _current_user)
+              new(work_package)
+            end
+
+            def name
+              "WorkPackage"
+            end
+          end
         end
       end
     end

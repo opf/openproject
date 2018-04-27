@@ -31,13 +31,17 @@
 module API
   module V3
     module WorkPackages
-      class WorkPackageListRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
+      module EagerLoading
+        class Ancestor < Base
+          def apply(work_package)
+            work_package.work_package_ancestors = ancestors[work_package.id] || []
+          end
 
-        def initialize(models, self_link, current_user:)
-          super
+          private
 
-          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap(represented, current_user)
+          def ancestors
+            @ancestors ||= WorkPackage.aggregate_ancestors(work_packages.map(&:id), User.current)
+          end
         end
       end
     end

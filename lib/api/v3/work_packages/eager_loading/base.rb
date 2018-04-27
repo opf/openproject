@@ -31,14 +31,26 @@
 module API
   module V3
     module WorkPackages
-      class WorkPackageListRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
+      module EagerLoading
+        class Base < SimpleDelegator
+          def initialize(work_packages)
+            self.work_packages = work_packages
+          end
 
-        def initialize(models, self_link, current_user:)
-          super
+          def apply(_work_package)
+            raise NotImplementedError
+          end
 
-          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap(represented, current_user)
+          def self.module
+            NoOp
+          end
+
+          protected
+
+          attr_accessor :work_packages
         end
+
+        module NoOp; end
       end
     end
   end

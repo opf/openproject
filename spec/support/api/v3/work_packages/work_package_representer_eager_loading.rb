@@ -28,18 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      class WorkPackageListRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
+shared_context 'eager loaded work package representer' do
+  before do
+    allow(::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper)
+      .to receive(:wrap_one) do |work_package, user|
+      allow(work_package)
+        .to receive(:cache_checksum)
+        .and_return(srand)
 
-        def initialize(models, self_link, current_user:)
-          super
-
-          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap(represented, current_user)
-        end
-      end
+      work_package
     end
   end
 end

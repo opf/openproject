@@ -31,13 +31,24 @@
 module API
   module V3
     module WorkPackages
-      class WorkPackageListRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
+      module EagerLoading
+        class Hierarchy < Base
+          def apply(work_package)
+            work_package.association(:children).loaded!
+            work_package.association(:children).target = children(work_package.id)
+          end
 
-        def initialize(models, self_link, current_user:)
-          super
+          private
 
-          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap(represented, current_user)
+          def children(id)
+            @children ||= WorkPackage
+                          .joins(:parent_relation)
+                          .where(relations: { from_id: work_packages.map(&:id) })
+                          .select(:id, :subject, :project_id, :from_id)
+                          .group_by(&:from_id).to_h
+
+            @children[id] || []
+          end
         end
       end
     end

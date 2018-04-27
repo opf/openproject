@@ -64,11 +64,38 @@ shared_examples_for 'action link' do
   end
 end
 
-shared_examples_for 'has an untitled action link' do
-  it_behaves_like 'has an untitled link'
+shared_context 'action link shared' do
+  let(:all_permissions) { Redmine::AccessControl.permissions.map(&:name) }
+  let(:permissions) { all_permissions }
+  let(:action_link_user) do
+    defined?(user) ? user : FactoryBot.build_stubbed(:user)
+  end
+
+  before do
+    login_as(action_link_user)
+    allow(action_link_user)
+      .to receive(:allowed_to?) do |permission, _project|
+      permissions.include?(permission)
+    end
+  end
 
   it 'indicates the desired method' do
-    is_expected.to be_json_eql(method.to_json).at_path("_links/#{link}/method")
+    verb = begin
+             # the standard method #method on an object interferes
+             # with the let named 'method' conditionally defined
+             method
+           rescue ArgumentError
+             :get
+           end
+
+    if verb != :get
+      is_expected
+        .to be_json_eql(method.to_json)
+        .at_path("_links/#{link}/method")
+    else
+      is_expected
+        .not_to have_json_path("_links/#{link}/method")
+    end
   end
 
   describe 'without permission' do
@@ -76,6 +103,18 @@ shared_examples_for 'has an untitled action link' do
 
     it_behaves_like 'has no link'
   end
+end
+
+shared_examples_for 'has an untitled action link' do
+  include_context 'action link shared'
+
+  it_behaves_like 'has an untitled link'
+end
+
+shared_examples_for 'has a titled action link' do
+  include_context 'action link shared'
+
+  it_behaves_like 'has a titled link'
 end
 
 shared_examples_for 'has a titled link' do

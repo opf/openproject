@@ -35,6 +35,8 @@ module API
         module LinkValueGetter
           def self.new(custom_field, path_method)
             ->(*) do
+              next unless represented.available_custom_fields.include?(custom_field)
+
               # we can't use the generated accessor (e.g. represented.send :custom_field_1) here,
               # because we need to generate a link even if the id does not belong to an existing
               # object (that behaviour is only required for form payloads)

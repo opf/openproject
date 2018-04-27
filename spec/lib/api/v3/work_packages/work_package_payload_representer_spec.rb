@@ -32,12 +32,16 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:work_package) do
-    FactoryBot.build_stubbed(:work_package,
-                              start_date: Date.today.to_datetime,
-                              due_date: Date.today.to_datetime,
-                              created_at: DateTime.now,
-                              updated_at: DateTime.now,
-                              type: FactoryBot.build_stubbed(:type))
+    FactoryBot.build_stubbed(:stubbed_work_package,
+                             start_date: Date.today.to_datetime,
+                             due_date: Date.today.to_datetime,
+                             created_at: DateTime.now,
+                             updated_at: DateTime.now,
+                             type: FactoryBot.build_stubbed(:type)) do |wp|
+      allow(wp)
+        .to receive(:available_custom_fields)
+        .and_return(available_custom_fields)
+    end
   end
 
   let(:user) do
@@ -48,6 +52,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
       .create(work_package, current_user: user)
   end
+
+  let(:available_custom_fields) { [] }
 
   before do
     allow(work_package).to receive(:lock_version).and_return(1)
@@ -232,8 +238,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         context 'no due date' do
           let(:work_package) do
             FactoryBot.build_stubbed(:work_package,
-                                      type: FactoryBot.build_stubbed(:type),
-                                      due_date: nil)
+                                     type: FactoryBot.build_stubbed(:type),
+                                     due_date: nil)
           end
 
           it 'renders as null' do
@@ -399,9 +405,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     end
 
     describe 'custom fields' do
+      let(:available_custom_fields) { [FactoryBot.build_stubbed(:int_wp_custom_field)] }
       it 'uses a CustomFieldInjector' do
-        expected_method = :create_value_representer
-        expect(::API::V3::Utilities::CustomFieldInjector).to receive(expected_method)
+        expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_value_representer)
           .and_call_original
         representer.to_json
       end
