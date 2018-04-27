@@ -1,14 +1,15 @@
 <div class="work-packages-embedded-view--container loading-indicator--location"
-     *ngIf="tableInformationLoaded"
      [ngClass]="{ '-compact-tables': compactTableStyle }"
      [attr.data-indicator-name]="uniqueEmbeddedTableName">
-  <!-- TABLE + TIMELINE horizontal split -->
-  <wp-table [projectIdentifier]="projectIdentifier"
-            [configuration]="configuration"
-            class="work-packages-split-view--tabletimeline-content"></wp-table>
+  <ng-container *ngIf="tableInformationLoaded">
+    <!-- TABLE + TIMELINE horizontal split -->
+    <wp-table [projectIdentifier]="projectIdentifier"
+              [configuration]="configuration"
+              class="work-packages-split-view--tabletimeline-content"></wp-table>
 
-  <!-- Footer -->
-  <div class="work-packages-split-view--tabletimeline-footer hide-when-print">
-    <wp-table-pagination *ngIf="showTablePagination"></wp-table-pagination>
-  </div>
+    <!-- Footer -->
+    <div class="work-packages-split-view--tabletimeline-footer hide-when-print">
+      <wp-table-pagination></wp-table-pagination>
+    </div>
+  </ng-container>
 </div>
