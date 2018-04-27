@@ -116,7 +116,7 @@ describe "multi select custom values", js: true do
         hierarchy.expect_no_hierarchies
 
         # Should show truncated values
-        expect(page).to have_text "ham, pineapple, ... 3"
+        expect(page).to have_text "ham, pineapple, ...\n3"
         expect(page).not_to have_text "onions"
 
         # Group by the CF
@@ -182,7 +182,7 @@ describe "multi select custom values", js: true do
         expect(field.display_element).to have_text('pineapple')
         expect(field.display_element).to have_text('mushrooms')
 
-        table_edit_field.expect_state_text ', ... 4'
+        table_edit_field.expect_state_text ", ...\n4"
       end
     end
   end

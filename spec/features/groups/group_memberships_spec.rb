@@ -90,7 +90,7 @@ feature 'group memberships through groups page', type: :feature do
 
       group_page.remove_from_project! 'Project 1'
       expect(page).to have_text 'Successful deletion'
-      expect(page).to have_text ' There are currently no projects part of this group.'
+      expect(page).to have_text 'There are currently no projects part of this group.'
     end
   end
 end

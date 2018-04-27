@@ -135,7 +135,7 @@ describe 'edit work package', js: true do
                               status: status2.name,
                               version: version.name,
                               category: category.name
-    wp_page.expect_activity_message("Status changed from #{status.name} to #{status2.name}")
+    wp_page.expect_activity_message("Status changed from #{status.name}\nto #{status2.name}")
   end
 
   it 'correctly assigns and un-assigns users' do
@@ -180,7 +180,6 @@ describe 'edit work package', js: true do
 
       wp_page.expect_notification message: "#{custom_field.name} can't be blank.",
                                   type: 'error'
-
 
       cf_field = wp_page.edit_field("customField#{custom_field.id}")
       cf_field.expect_active!
