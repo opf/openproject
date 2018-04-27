@@ -365,11 +365,6 @@
       "integrity": "sha1-oOHdDqVf137np1fXVTbF6WTIb4E=",
       "dev": true
     },
-    "angular-ui-bootstrap": {
-      "version": "2.5.6",
-      "resolved": "https://registry.npmjs.org/angular-ui-bootstrap/-/angular-ui-bootstrap-2.5.6.tgz",
-      "integrity": "sha512-yzcHpPMLQl0232nDzm5P4iAFTFQ9dMw0QgFLuKYbDj9M0xJ62z0oudYD/Lvh1pWfRsukiytP4Xj6BHOSrSXP8A=="
-    },
     "animation-frame-polyfill": {
       "version": "1.0.1",
       "resolved": "https://registry.npmjs.org/animation-frame-polyfill/-/animation-frame-polyfill-1.0.1.tgz",
@@ -5088,12 +5083,6 @@
           }
         }
       }
-    },
-    "sorted-object": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/sorted-object/-/sorted-object-1.0.0.tgz",
-      "integrity": "sha1-XR9PnB+yzUiWWWcwTiEutEz7bQU=",
-      "dev": true
     },
     "source-list-map": {
       "version": "2.0.0",
