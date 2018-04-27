@@ -33,7 +33,4 @@ angular.module('openproject.services')
     '$rootScope',
     '$timeout',
     'PathHelper',
-    require('./keyboard-shortcut-service')])
-  .service('SortService', require('./sort-service'))
-  .service('StatusService', ['$http', 'PathHelper', require('./status-service')])
-  .service('ConversionService', require('./conversion-service.js'));
+    require('./keyboard-shortcut-service')]);
