@@ -74,8 +74,7 @@ export const wpControllersModule = angular.module('openproject.workPackages.cont
   'openproject.workPackages.helpers',
   'openproject.services',
   'openproject.workPackages.config',
-  'openproject.layout',
-  'btford.modal'
+  'openproject.layout'
 ]);
 angular.module('openproject.workPackages.models', []);
 export const wpDirectivesModule = angular.module('openproject.workPackages.directives', [
@@ -138,7 +137,6 @@ export const openprojectModule = angular.module('openproject', [
   'openproject.timeEntries',
   'ngAnimate',
   'ngAria',
-  'ngSanitize',
   angularDragula(angular),
   'openproject.layout',
   'openproject.api',
