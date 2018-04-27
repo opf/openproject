@@ -52,7 +52,6 @@ require('angular-aria/angular-aria.min.js');
 require('angular-cache/dist/angular-cache.min.js');
 require('angular-dragula/dist/angular-dragula.min.js');
 require('angular-elastic');
-require('angular-modal/modal.min.js');
 require('angular-sanitize/angular-sanitize.min.js');
 require('@uirouter/angular-hybrid');
 require('ng-file-upload/dist/ng-file-upload.min.js');
