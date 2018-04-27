@@ -1,4 +1,4 @@
-import {Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {TableState} from '../table-state/table-state';
 import {WorkPackageStatesInitializationService} from '../../wp-list/wp-states-initialization.service';
@@ -53,7 +53,7 @@ import {OpModalService} from 'core-components/op-modals/op-modal.service';
     WorkPackageTableRefreshService,
   ]
 })
-export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
+export class WorkPackageEmbeddedTableComponent implements AfterViewInit, OnDestroy {
   @Input('queryId') public queryId?:string;
   @Input('queryProps') public queryProps:any = {};
   @Input('configuration') private providedConfiguration:WorkPackageTableConfigurationObject;
@@ -79,7 +79,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnInit():void {
+  ngAfterViewInit():void {
     this.configuration = new WorkPackageTableConfiguration(this.providedConfiguration);
     // Set embedded status in configuration
     this.configuration.isEmbedded = true;
@@ -167,13 +167,16 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, OnDestroy {
       this.queryProps.pageSize = 1;
     }
 
-    return this.QueryDm
+    const promise = this.loadingIndicator = this.QueryDm
       .find(
         this.queryProps,
         this.queryId || '',
         this.projectIdentifier
       )
       .then((query:QueryResource) => this.initializeStates(query, query.results));
+
+    this.loadingIndicator = promise;
+    return promise;
   }
 
 }
