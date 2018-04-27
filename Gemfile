@@ -169,7 +169,7 @@ gem 'fog-aws'
 gem 'carrierwave', '~> 1.2.2'
 
 # Require aws-sdk for SMS and other features
-gem 'aws-sdk', '~> 2.10.1'
+gem 'aws-sdk', '~> 2.11.39'
 
 gem 'openproject-token', '~> 1.0.1'
 
