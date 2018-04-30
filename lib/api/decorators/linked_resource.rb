@@ -61,11 +61,12 @@ module API
                      getter:,
                      setter:,
                      link:,
+                     uncacheable_link: false,
                      show_if: ->(*) { true },
                      skip_render: nil,
                      embedded: true)
 
-          link(name.to_s.camelize(:lower), &link)
+          link(link_attr(name, uncacheable_link), &link)
 
           property name,
                    exec_context: :decorator,
@@ -74,18 +75,20 @@ module API
                    if: show_if,
                    skip_render: ->(*) { !embed_links || (skip_render && instance_exec(&skip_render)) },
                    linked_resource: true,
-                   embedded: embedded
+                   embedded: embedded,
+                   uncacheable: true
         end
 
         def resources(name,
                       getter:,
                       setter:,
                       link:,
+                      uncacheable_link: false,
                       show_if: ->(*) { true },
                       skip_render: nil,
                       embedded: true)
 
-          links(name.to_s.camelize(:lower), &link)
+          links(link_attr(name, uncacheable_link), &link)
 
           property name,
                    exec_context: :decorator,
@@ -94,7 +97,8 @@ module API
                    if: show_if,
                    skip_render: ->(*) { !embed_links || (skip_render && instance_exec(&skip_render)) },
                    linked_resource: true,
-                   embedded: embedded
+                   embedded: embedded,
+                   uncacheable: true
         end
 
         def resource_link(name,
@@ -117,6 +121,7 @@ module API
                                 skip_render: ->(*) { false },
                                 skip_link: skip_render,
                                 link_title_attribute: :name,
+                                uncacheable_link: false,
                                 getter: associated_resource_default_getter(name, representer),
                                 setter: associated_resource_default_setter(name, as, v3_path),
                                 link: associated_resource_default_link(name, v3_path, skip_link, link_title_attribute))
@@ -125,7 +130,15 @@ module API
                    getter: getter,
                    setter: setter,
                    link: link,
+                   uncacheable_link: uncacheable_link,
                    skip_render: skip_render)
+        end
+
+        def link_attr(name, uncacheable)
+          links_attr = { rel: name.to_s.camelize(:lower) }
+          links_attr[:uncacheable] = true if uncacheable
+
+          links_attr
         end
 
         def associated_resource_default_getter(name,
@@ -133,7 +146,7 @@ module API
           representer ||= default_representer(name)
 
           ->(*) do
-            if represented.send(name) && embed_links
+            if embed_links && represented.send(name)
               representer.new(represented.send(name), current_user: current_user)
             end
           end

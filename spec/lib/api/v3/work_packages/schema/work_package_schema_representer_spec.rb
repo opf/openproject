@@ -425,20 +425,33 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'spentTime' do
-      before do
-        # don't fail the test for other allowed_to calls than the expected ones
-        allow(current_user).to receive(:allowed_to?).and_return false
+      context 'with \'time_tracking\' enabled' do
+        before do
+          allow(project)
+            .to receive(:module_enabled?)
+            .and_return(true)
+        end
 
-        allow(current_user).to receive(:allowed_to?).with(:view_time_entries, work_package.project)
-          .and_return true
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'spentTime' }
+          let(:type) { 'Duration' }
+          let(:name) { I18n.t('activerecord.attributes.work_package.spent_time') }
+          let(:required) { false }
+          let(:writable) { false }
+        end
       end
 
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'spentTime' }
-        let(:type) { 'Duration' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.spent_time') }
-        let(:required) { false }
-        let(:writable) { false }
+      context 'with \'time_tracking\' disabled' do
+        before do
+          allow(project)
+            .to receive(:module_enabled?) do |name|
+            name != 'time_tracking'
+          end
+        end
+
+        it 'has no date attribute' do
+          is_expected.to_not have_json_path('spentTime')
+        end
       end
     end
 
@@ -734,9 +747,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
 
-  describe '#cache_key' do
+  describe '#json_cache_key' do
     def joined_cache_key
-      representer.cache_key.join('/')
+      representer.json_cache_key.join('/')
     end
 
     before do
@@ -751,6 +764,12 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     it 'changes when the project changes' do
       work_package.project = FactoryGirl.build_stubbed(:project)
+
+      expect(joined_cache_key).to_not eql(original_cache_key)
+    end
+
+    it 'changes when the project updates' do
+      work_package.project.updated_on += 1.hour
 
       expect(joined_cache_key).to_not eql(original_cache_key)
     end

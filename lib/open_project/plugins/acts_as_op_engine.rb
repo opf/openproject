@@ -253,7 +253,7 @@ module OpenProject::Plugins
       def add_api_representer_cache_key(*path,
                                         &keys)
         mod = Module.new
-        mod.send :define_method, :cache_key do
+        mod.send :define_method, :json_cache_key do
           if defined?(super)
             existing = super()
 

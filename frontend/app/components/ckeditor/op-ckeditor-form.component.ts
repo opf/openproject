@@ -26,9 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import IAugmentedJQuery = angular.IAugmentedJQuery;
-import {IDialogService} from 'ng-dialog';
-import {IDialogScope} from 'ng-dialog';
 import {opUiComponentsModule} from '../../angular-modules';
 
 export interface ICkeditorInstance {
@@ -42,8 +39,8 @@ export interface ICkeditorStatic {
 
 declare global {
   interface Window {
-    BalloonEditor:ICkeditorStatic;
-    ClassicEditor:ICkeditorStatic;
+    OPBalloonEditor:ICkeditorStatic;
+    OPClassicEditor:ICkeditorStatic;
   }
 }
 
@@ -77,7 +74,7 @@ export class OpCkeditorFormComponent {
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
     this.wrappedTextArea.hide();
     const wrapper = this.$element.find(`.${ckEditorReplacementClass}`);
-    window.ClassicEditor
+    window.OPClassicEditor
       .create(wrapper[0])
       .then(this.setup.bind(this))
       .catch((error:any) => {

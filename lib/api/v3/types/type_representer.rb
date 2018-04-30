@@ -31,6 +31,8 @@ module API
   module V3
     module Types
       class TypeRepresenter < ::API::Decorators::Single
+        include ::API::Caching::CachedRepresenter
+
         self_link
 
         property :id

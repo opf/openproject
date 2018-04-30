@@ -406,6 +406,15 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         representer.to_json
       end
     end
+
+    describe 'caching' do
+      it 'does not cache' do
+        expect(Rails.cache)
+          .not_to receive(:fetch)
+
+        representer.to_json
+      end
+    end
   end
 
   describe 'parsing' do

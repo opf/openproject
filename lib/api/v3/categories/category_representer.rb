@@ -34,10 +34,14 @@ module API
   module V3
     module Categories
       class CategoryRepresenter < ::API::Decorators::Single
+        include ::API::Caching::CachedRepresenter
+
+        cached_representer key_parts: %i(assigned_to project)
+
         link :self do
           {
             href: api_v3_paths.category(represented.id),
-            title: "#{represented.name}"
+            title: represented.name
           }
         end
 
@@ -49,10 +53,12 @@ module API
         end
 
         link :defaultAssignee do
+          next unless represented.assigned_to
+
           {
             href: api_v3_paths.user(represented.assigned_to.id),
             title: represented.assigned_to.name
-          } if represented.assigned_to
+          }
         end
 
         property :id, render_nil: true

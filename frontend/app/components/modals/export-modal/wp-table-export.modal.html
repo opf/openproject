@@ -1,0 +1,27 @@
+<div class="op-modal--portal ">
+  <div class="op-modal--modal-container wp-table--configuration-modal loading-indicator--location"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button">
+        <i
+            class="icon-close"
+            (click)="closeMe($event)"
+            [attr.title]="text.closePopup">
+        </i>
+      </a>
+    </div>
+
+    <h3 [textContent]="text.title"></h3>
+
+    <ul *ngIf="exportOptions" class="export-options">
+      <li *ngFor="let option of exportOptions">
+        <a [attr.href]="option.url"
+           id="export-{{ option.identifier }}">
+          <op-icon icon-classes="icon-export-{{ option.identifier }} icon-big"></op-icon>
+          <span class="export-label" [textContent]="option.label"></span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

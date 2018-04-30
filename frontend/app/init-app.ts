@@ -36,7 +36,6 @@ require('./vendors');
 require('at.js/dist/css/jquery.atwho.min.css');
 require('select2/select2.css');
 require('ui-select/dist/select.min.css');
-require('ng-dialog/css/ngDialog.min.css');
 require('jquery-ui/themes/base/core.css');
 require('jquery-ui/themes/base/datepicker.css');
 require('jquery-ui/themes/base/dialog.css');
@@ -58,6 +57,7 @@ import {openprojectModule} from './angular-modules';
 import {whenDebugging} from 'core-app/helpers/debug_output';
 import {enableReactiveStatesLogging} from 'reactivestates';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
@@ -111,10 +111,12 @@ openprojectModule
     .run([
       '$rootScope',
       '$window',
+      'externalQueryConfiguration',
       'ExpressionService',
       'KeyboardShortcutService',
       function($rootScope:any,
                $window:ng.IWindowService,
+               externalQueryConfiguration:ExternalQueryConfigurationService,
                ExpressionService:ExpressionService,
                KeyboardShortcutService:any) {
 
@@ -132,6 +134,9 @@ openprojectModule
               $window.sessionStorage.getItem('openproject:navigation-toggle') !==
               'collapsed';
         }
+
+        // Setup query configuration listener
+        externalQueryConfiguration.setupListener();
 
         KeyboardShortcutService.activate();
 

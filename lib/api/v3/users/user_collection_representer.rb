@@ -31,7 +31,7 @@ module API
   module V3
     module Users
       class UserCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Users::UserRepresenter
+        include API::V3::Principals::GroupOrUserElements
       end
     end
   end

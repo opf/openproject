@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Priorities::PriorityRepresenter do
-  let(:priority) { FactoryGirl.build(:priority) }
+  let(:priority) { FactoryGirl.build_stubbed(:priority) }
   let(:representer) { described_class.new(priority, current_user: double('current_user')) }
 
   include API::V3::Utilities::PathHelper
@@ -68,6 +68,40 @@ describe ::API::V3::Priorities::PriorityRepresenter do
       end
       it 'should have an active flag' do
         is_expected.to be_json_eql(priority.active.to_json).at_path('isActive')
+      end
+    end
+
+    describe 'caching' do
+      it 'is based on the representer\'s cache_key' do
+        expect(OpenProject::Cache)
+          .to receive(:fetch)
+          .with(representer.json_cache_key)
+          .and_call_original
+
+        representer.to_json
+      end
+
+      describe '#json_cache_key' do
+        let!(:former_cache_key) { representer.json_cache_key }
+
+        it 'includes the name of the representer class' do
+          expect(representer.json_cache_key)
+            .to include('API', 'V3', 'Priorities', 'PriorityRepresenter')
+        end
+
+        it 'changes when the locale changes' do
+          I18n.with_locale(:fr) do
+            expect(representer.json_cache_key)
+              .not_to eql former_cache_key
+          end
+        end
+
+        it 'changes when the priority is updated' do
+          priority.updated_at = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
       end
     end
   end

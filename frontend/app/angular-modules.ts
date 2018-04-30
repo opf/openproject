@@ -156,7 +156,6 @@ export const openprojectModule = angular.module('openproject', [
   'ngAria',
   'ngSanitize',
   angularDragula(angular),
-  'ngDialog',
   'openproject.layout',
   'openproject.api',
   'openproject.templates',

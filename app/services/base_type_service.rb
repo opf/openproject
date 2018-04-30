@@ -6,7 +6,7 @@
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
-# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# OpenProject is a fork of ChilittProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
@@ -28,40 +28,76 @@
 #++
 
 class BaseTypeService
-  attr_accessor :type
+  include Shared::BlockService
 
-  def call(permitted_params: {}, unsafe_params: {})
-    update(permitted_params, unsafe_params)
+  attr_accessor :type, :user
+
+  def initialize(user)
+    self.user = user
+  end
+
+  def call(params, options, &block)
+    result = update(params, options)
+
+    block_with_result(result, &block)
   end
 
   private
 
-  def update(permitted_params = {}, unsafe_params = {})
+  def update(params, options)
     success = Type.transaction do
-      permitted = permitted_params
-      permitted.delete(:attribute_groups)
-
-      type.attributes = permitted
-
-      if unsafe_params[:attribute_groups].present?
-        type.attribute_groups =
-          JSON.parse(unsafe_params[:attribute_groups])
-              .map do |group|
-                [(group[2] ? group[0].to_sym : group[0]), group[1]]
-              end
-      end
-
+      set_scalar_params(params)
+      set_attribute_groups(params)
       set_active_custom_fields
 
       if type.save
+        after_type_save(params, options)
         true
       else
-        raise ActiveRecord::Rollback
+        raise(ActiveRecord::Rollback)
       end
     end
 
     ServiceResult.new(success: success,
-                      errors: type.errors)
+                      errors: type.errors,
+                      result: type)
+  end
+
+  def set_scalar_params(params)
+    type.attributes = params.except(:attribute_groups)
+  end
+
+  def set_attribute_groups(params)
+    groups = parse_attribute_groups_params(params)
+    type.attribute_groups = groups if groups
+  end
+
+  def parse_attribute_groups_params(params)
+    return if params[:attribute_groups].nil?
+
+    transform_query_params_to_query(params[:attribute_groups])
+  end
+
+  def after_type_save(_params, _options)
+    # noop to be overwritten by subclasses
+  end
+
+  def transform_query_params_to_query(groups)
+    groups.each_with_index do |(_name, attributes), index|
+      next unless attributes.is_a? Hash
+      next if attributes.values.compact.empty?
+
+      # HACK: have sensible name (although it should never be visible)
+      call = ::API::V3::UpdateQueryFromV3ParamsService
+             .new(Query.new_default(name: 'some_name'), user)
+             .call(attributes.with_indifferent_access)
+
+      query = call.result
+
+      query.add_filter('parent', '=', ::Queries::Filters::TemplatedValue::KEY)
+
+      groups[index][1] = [query]
+    end
   end
 
   ##
@@ -71,7 +107,7 @@ class BaseTypeService
   def set_active_custom_fields
     active_cf_ids = []
 
-    type.non_query_attribute_groups.each do |group|
+    type.attribute_groups.each do |group|
       group.members.each do |attribute|
         if CustomField.custom_field_attribute? attribute
           active_cf_ids << attribute.gsub(/^custom_field_/, '').to_i

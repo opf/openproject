@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Categories::CategoryRepresenter do
-  let(:category) { FactoryGirl.build(:category) }
+  let(:category) { FactoryGirl.build_stubbed(:category) }
   let(:user) { FactoryGirl.build(:user) }
   let(:representer) { described_class.new(category, current_user: double('current_user')) }
 
@@ -67,7 +67,7 @@ describe ::API::V3::Categories::CategoryRepresenter do
 
     context 'default assignee set' do
       let(:category) {
-        FactoryGirl.build(:category, assigned_to: user)
+        FactoryGirl.build_stubbed(:category, assigned_to: user)
       }
       it_behaves_like 'category has core values'
 
@@ -76,6 +76,59 @@ describe ::API::V3::Categories::CategoryRepresenter do
       end
       it 'should display the name of its default assignee' do
         expect(subject).to have_json_path('_links/defaultAssignee/title')
+      end
+    end
+
+    describe 'caching' do
+      it 'is based on the representer\'s cache_key' do
+        expect(OpenProject::Cache)
+          .to receive(:fetch)
+          .with(representer.json_cache_key)
+          .and_call_original
+
+        representer.to_json
+      end
+
+      describe '#json_cache_key' do
+        let(:assigned_to) { FactoryGirl.build_stubbed(:user) }
+
+        before do
+          category.assigned_to = assigned_to
+        end
+        let!(:former_cache_key) { representer.json_cache_key }
+
+        it 'includes the name of the representer class' do
+          expect(representer.json_cache_key)
+            .to include('API', 'V3', 'Categories', 'CategoryRepresenter')
+        end
+
+        it 'changes when the locale changes' do
+          I18n.with_locale(:fr) do
+            expect(representer.json_cache_key)
+              .not_to eql former_cache_key
+          end
+        end
+
+        it 'changes when the category is updated' do
+          category.updated_at = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the category\'s project is updated' do
+          category.project.updated_on = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the category\'s assigned_to is updated' do
+          category.assigned_to.updated_on = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
       end
     end
   end

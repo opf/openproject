@@ -339,8 +339,13 @@ describe CustomActions::Actions::CustomField, type: :model do
 
       context 'for a non required field' do
         it 'is the list of options and an empty placeholder' do
-          expect(instance.allowed_values)
-            .to eql(expected.unshift(value: nil, label: '-'))
+
+          # Sort values because order may change due to dubious reasons
+          # e.g., in https://travis-ci.org/opf/openproject-ce/jobs/370488567
+          sort_by_fn = ->(value) { value[:label] }
+
+          expect(instance.allowed_values.sort_by(&sort_by_fn))
+            .to eql(expected.unshift(value: nil, label: '-').sort_by(&sort_by_fn))
         end
       end
 

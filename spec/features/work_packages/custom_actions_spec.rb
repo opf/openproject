@@ -246,12 +246,13 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.dismiss_notification!
 
     ## Bump the lockVersion and by that force a conflict.
-    WorkPackage.where(id: work_package.id).update_all(lock_version: 10)
+    WorkPackage.where(id: work_package.id).update_all(lock_version: 10, updated_at: Time.now)
 
     wp_page.click_custom_action('Escalate')
 
     wp_page.expect_notification type: :error, message: I18n.t('api_v3.errors.code_409')
 
+    visit "/"
     wp_page.visit!
 
     wp_page.click_custom_action('Escalate')
@@ -259,7 +260,7 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.expect_attributes priority: immediate_priority.name,
                               status: default_status.name,
                               assignee: '-',
-                              "customField#{list_custom_field.id}" => selected_list_custom_field_options.map(&:name).join(' ')
+                              "customField#{list_custom_field.id}" => selected_list_custom_field_options.map(&:name).join("\n")
 
     expect(page)
       .to have_selector('.work-package-details-activities-activity-contents a.user-mention', text: other_member_user.name)

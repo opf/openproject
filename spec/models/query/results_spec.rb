@@ -396,6 +396,10 @@ describe ::Query::Results, type: :model do
       let(:work_package7) { FactoryGirl.create(:work_package, project: project_1, subject: '7') }
       let(:work_package8) { FactoryGirl.create(:work_package, project: project_1, subject: '8') }
       let(:work_package9) { FactoryGirl.create(:work_package, project: project_1, parent: work_package8, subject: '9') }
+      let(:work_packages) do
+        [work_package1, work_package2, work_package3, work_package4, work_package5,
+         work_package6, work_package7, work_package8, work_package9]
+      end
 
       # While we set a second sort criteria, it will be ignored as the sorting works solely on the id of the ancestors and
       # the work package itself
@@ -403,29 +407,18 @@ describe ::Query::Results, type: :model do
 
       before do
         allow(User).to receive(:current).and_return(user_1)
-
-        # intentionally messing with the id
-        work_package8
-        work_package9
-        work_package1
-        work_package4
-        work_package5
-        work_package3
-        work_package6
-        work_package2
-        work_package7
       end
 
       it 'sorts depth first by parent (id) where the second criteria is unfortunately ignored' do
-        expected_order = [work_package8,
-                          work_package9,
-                          work_package1,
-                          work_package4,
-                          work_package5,
-                          work_package6,
-                          work_package2,
-                          work_package3,
-                          work_package7]
+        # Reimplementing the algorithm of how the production code sorts lexically on ids (e.g. '15' before '7').
+        # This is necessary as the ids are not fixed and might span order of magnitude boundaries.
+        paths = work_packages.map do |wp|
+          # Only need to include 'relations.hierarchy' in the projection
+          # to satisfy PG needing to have all ORDER BY columns included on DISTINCT.
+          [(wp.ancestors.order("relations.hierarchy DESC").pluck(:id, 'relations.hierarchy').map(&:first) << wp.id).join(' '), wp]
+        end
+
+        expected_order = paths.sort_by(&:first).map(&:second).flatten
 
         expect(query_results.sorted_work_packages)
           .to match expected_order

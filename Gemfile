@@ -169,7 +169,7 @@ gem 'fog-aws'
 gem 'carrierwave', '~> 1.2.2'
 
 # Require aws-sdk for SMS and other features
-gem 'aws-sdk', '~> 2.10.1'
+gem 'aws-sdk', '~> 2.11.39'
 
 gem 'openproject-token', '~> 1.0.1'
 
@@ -192,7 +192,7 @@ group :test do
   gem 'test-prof', '~> 0.4.0'
 
   gem 'cucumber', '~> 3.0.0'
-  gem 'cucumber-rails', '~> 1.5.0', require: false
+  gem 'cucumber-rails', '~> 1.6.0', require: false
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
   # not possible to upgrade to 3.6+ until rails is 5.1+
@@ -211,8 +211,8 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 2.18.0'
-  gem 'capybara-screenshot', '~> 1.0.14'
+  gem 'capybara', '~> 3.0.0'
+  gem 'capybara-screenshot', '~> 1.0.17'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'chromedriver-helper', '~> 1.2.0'
   gem 'selenium-webdriver', '~> 3.11'
@@ -221,7 +221,7 @@ group :test do
   gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.1.0', require: false
 
-  gem 'simplecov', '~> 0.14.0', require: false
+  gem 'simplecov', '~> 0.16.0', require: false
   gem 'shoulda-matchers', '~> 3.1', require: nil
   gem 'json_spec', '~> 1.1.4'
   gem 'equivalent-xml', '~> 0.6'

@@ -30,10 +30,10 @@ See docs/COPYRIGHT.rdoc for more details.
 <% form_attributes = form_configuration_groups(@type) %>
 
 <section class="form--section">
-  <%= f.hidden_field :attribute_groups, value: @type.non_query_attribute_groups.map { |group| [group.key, group.attributes, (group.key.is_a? Symbol)] }.to_json %>
+  <%= f.hidden_field :attribute_groups, value: attribute_groups_as_json(@type) %>
   <div id="types-form-configuration" op-drag-scroll ng-controller="TypesFormConfigurationCtrl" ng-init="upsaleLink = <%= '"' + OpenProject::Static::Links.links[:upsale][:href] +  "/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration" + '"' %>">
-    <div class="grid-block wrap">
-      <div class="grid-content small-12 large-10">
+    <div class="grid-block -visible-overflow wrap">
+      <div class="grid-content -visible-overflow small-12 large-10">
       <div class="notification-box -info">
         <div class="notification-box--content">
           <p><%= t('text_form_configuration') %></p>
@@ -73,25 +73,33 @@ See docs/COPYRIGHT.rdoc for more details.
         </div>
       <% end %>
 
-      <%= toolbar title: '' do %>
+      <%= toolbar title: '', html: { class: '-with-dropdown' } do %>
         <li class="toolbar-item">
-          <button type="button" class="form-configuration--reset button" ng-click="resetToDefault($event)">
+          <button type="button -alt-highlight" class="form-configuration--reset button" ng-click="resetToDefault($event)">
             <%= op_icon('button--icon icon-undo') %>
             <span class="button--text"><%= t('types.edit.reset') %></span>
           </button>
         </li>
-        <li class="toolbar-item">
-          <% if EnterpriseToken.allows_to?(:edit_attribute_groups) %>
-            <button type="button" class="form-configuration--add-group button -alt-highlight" ng-click="addGroup($event)">
-              <%= op_icon('button--icon icon-add') %>
-              <span class="button--text"><%= t('types.edit.add_group') %></span>
-            </button>
-          <% else %>
-            <button type="button" class="form-configuration--add-group button -alt-highlight" ng-click="showEEOnlyHint()">
-              <%= op_icon('button--icon icon-add') %>
-              <span class="button--text"><%= t('types.edit.add_group') %></span>
-            </button>
-          <% end %>
+        <li class="toolbar-item drop-down">
+          <a ng-click="showGroupsContextMenu($event)"
+             class="form-configuration--add-group button -alt-highlight" aria-haspopup="true">
+            <%= op_icon('button--icon icon-add') %>
+            <span class="button--text"><%= t(:label_group) %></span>
+            <%= op_icon('button--dropdown-indicator') %>
+          </a>
+          <ul class="menu-drop-down-container">
+            <% show_hint = !EnterpriseToken.allows_to?(:edit_attribute_groups) %>
+            <li>
+              <a class="form-configuration--add-group" ng-click="<%= show_hint ? 'showEEOnlyHint()' : 'addGroup($event)' %>">
+                <%= t('types.edit.add_group') %>
+              </a>
+            </li>
+            <li>
+              <a class="form-configuration--add-group" ng-click="<%= show_hint ? 'showEEOnlyHint()' : 'addQuery($event)' %>">
+                <%= t('types.edit.add_subelements') %>
+              </a>
+            </li>
+          </ul>
         </li>
       <% end %>
       </div>
@@ -113,36 +121,36 @@ See docs/COPYRIGHT.rdoc for more details.
           <div class="attributes" dragula='"attributes"'>
           </div>
         </div>
+        <div id="type-form-conf-query-template"
+             class="type-form-conf-group type-form-query-group"
+             data-original-key=""
+             data-key=""
+             data-key-is-symbol="false">
+          <div class="group-head">
+            <span class="group-handle icon-toggle"></span>
+            <group-edit-in-place
+              name=""
+              key=""
+              onvaluechange="groupNameChange"
+              onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
+              class="group-name">
+            </group-edit-in-place>
+            <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
+          </div>
+          <div class="type-form-query" data-query="">
+            <span class="type-form-query-group--edit-button" ng-click="editQuery($event)">
+              <%= op_icon('button--icon icon-edit') %>
+              <%= t('types.edit.edit_query') %>
+            </span>
+          </div>
+        </div>
         <div id="draggable-groups" dragula='"groups"'>
           <% form_attributes[:actives].each do |group, attributes| %>
-            <div class="type-form-conf-group" data-original-key="<%= group.key.to_s %>" data-key="<%= group.key %>" data-key-is-symbol="<%= group.key.is_a? Symbol %>">
-              <div class="group-head">
-                <span class="group-handle icon-toggle"></span>
-                <group-edit-in-place
-                  name="<%= group.translated_key %>"
-                  key="<%= group.key %>"
-                  onvaluechange="groupNameChange"
-                  onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
-                  class="group-name">
-                  <%= group.translated_key %>
-                </group-edit-in-place>
-                <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
-              </div>
-              <div class="attributes" dragula='"attributes"'>
-                <% attributes.each do |attribute| %>
-                  <div class="type-form-conf-attribute" data-key="<%= attribute[:key] %>">
-                    <span class="attribute-handle icon-toggle"></span>
-                    <span class="attribute-name">
-                      <%= attribute[:translation] %>
-                      <% if attribute[:is_cf] %>
-                        <span class="attribute-cf-label"><%= CustomField.model_name.human %></span>
-                      <% end %>
-                    </span>
-                    <span class="delete-attribute icon-small icon-close" ng-click="deactivateAttribute($event)"></span>
-                  </div>
-                <% end %>
-              </div>
-            </div> <!-- END attribute group -->
+            <% if group.is_a? ::Type::QueryGroup %>
+              <%= render partial: 'types/form/query_group', locals: { group: group, query: attributes } %>
+            <% else %>
+              <%= render partial: 'types/form/attribute_group', locals: { group: group, attributes: attributes } %>
+            <% end %>
           <% end %>
         </div>
       </div>

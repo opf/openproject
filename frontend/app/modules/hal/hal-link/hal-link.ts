@@ -33,7 +33,7 @@ import {
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 export interface HalLinkInterface {
-  href:string|null;
+  href:string | null;
   method:HTTPSupportedMethods;
   title?:string;
   templated?:boolean;
@@ -47,8 +47,8 @@ export interface CallableHalLink extends HalLinkInterface {
 }
 
 export class HalLink implements HalLinkInterface {
-  constructor(public halResourceService:HalResourceService,
-              public href:string|null = null,
+  constructor(public requestMethod:(method:HTTPSupportedMethods, href:string, data:any, headers:any) => Promise<HalResource>,
+              public href:string | null = null,
               public title:string = '',
               public method:HTTPSupportedMethods = 'get',
               public templated:boolean = false,
@@ -62,7 +62,8 @@ export class HalLink implements HalLinkInterface {
    */
   public static fromObject(halResourceService:HalResourceService, link:HalLinkInterface):HalLink {
     return new HalLink(
-      halResourceService,
+  async (method:HTTPSupportedMethods, href:string, data:any, headers:any) =>
+        halResourceService.request(method, href, data, headers).toPromise(),
       link.href,
       link.title,
       link.method,
@@ -78,9 +79,7 @@ export class HalLink implements HalLinkInterface {
    */
   public async $fetch(...params:any[]):Promise<HalResource> {
     const [data, headers] = params;
-    return this.halResourceService
-      .request(this.method, this.href as string, data, headers)
-      .toPromise();
+    return this.requestMethod(this.method, this.href as string, data, headers);
   }
 
   /**
@@ -99,17 +98,15 @@ export class HalLink implements HalLinkInterface {
       href = href.replace(regexp, value);
     });
 
-    return HalLink.fromObject(
-      this.halResourceService,
-      {
-        href: href,
-        title: this.title,
-        method: this.method,
-        templated: false,
-        payload: this.payload,
-        type: this.type,
-        identifier: this.identifier
-      }
+    return new HalLink(
+      this.requestMethod,
+      href,
+      this.title,
+      this.method,
+      false,
+      this.payload,
+      this.type,
+      this.identifier
     ).$callable();
   }
 

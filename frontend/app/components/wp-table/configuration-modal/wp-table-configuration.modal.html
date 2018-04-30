@@ -1,8 +1,9 @@
-<div class="op-modal--container ng-modal-window loading-indicator--location"
-     data-indicator-name="modal">
-  <div class="ng-modal-inner wp-table--configuration-modal" tabindex="0">
-    <div class="modal-header">
-      <a>
+<div class="op-modal--portal ">
+  <div class="op-modal--modal-container -wide wp-table--configuration-modal loading-indicator--location"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button">
         <i
             class="icon-close"
             (click)="closeMe($event)"
@@ -13,7 +14,8 @@
 
     <h3 [textContent]="text.title"></h3>
 
-    <div class="tabs--container">
+    <div *ngIf="!!tabPortalHost"
+         class="tabs--container">
       <ul>
         <li *ngFor="let tab of availableTabs">
           <a class="tab-show"

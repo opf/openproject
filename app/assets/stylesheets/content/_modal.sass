@@ -26,96 +26,116 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-$ng-modal-padding:       3em
-$ng-modal-background:    $body-background
-$ng-modal-close-color:   $light-gray
-$ng-modal-image-height:  135px
-$ng-modal-image-width:   $ng-modal-image-height
+$ng-modal-padding: 3em
+$ng-modal-background: $body-background
+$ng-modal-close-color: $light-gray
+$ng-modal-image-height: 135px
+$ng-modal-image-width: $ng-modal-image-height
 
-// Based on code by Kasper Mikiewicz
-
-.ng-modal-open
-  overflow: hidden
-
-.ng-modal-window
+// The portal element of a modal element
+// ( = the outer element should span the entire view )
+.op-modal--portal
   // overlay
-  +position(fixed, 0 0 0 0)
-  background: rgba(0, 0, 0, 0.5)
+  position: fixed
+  left: 0
+  top: 0
+  right: 0
+  bottom: 0
+  background: rgba(0, 0, 0, 0.75)
   text-align: left
   z-index: 10000
 
-  .ng-modal-bg
-    +position(absolute, 0 0 0 0)
-    cursor: pointer
+  // Center modal content vertically and horizontally
+  display: flex
+  align-items: center
+  justify-content: center
 
-  &.ng-enter
-    transition: opacity 0.25s ease
-    opacity: 0
-    visibility: hidden
-
-  &.ng-enter.ng-enter-active
-    opacity: 1
-    visibility: visible
-
-    .ng-modal-inner
-      top: 0
-
-  &.columns-modal
-    .ng-modal-inner
-      overflow: visible
-
-.ng-modal-inner
+// The inner modal element containing header, body, and footer
+// This is placed within --portal
+.op-modal--modal-container
   transition: opacity 0.25s ease
   background: $ng-modal-background
   margin: auto
+  width: 40%
   max-height: 95%
   position: relative
-  width: 95%
-  max-height: 75vh
   padding: $ng-modal-padding / 2
-  margin-top: 5%
   overflow-y: auto
   overflow-x: hidden
-  //+media($medium-screen)
-  //padding: $ng-modal-padding
-  //width: 50%
-  //max-height: 50%
-  //margin-top: 10em
 
-  //+media($large-screen)
-  width: 40%
+  &.-wide
+    width: 95%
+    min-height: 40vh
 
-  .form
-    position: initial
-  .modal-header
-    padding: 0
-    i
-      float: right
-      cursor: pointer
-      @include varprop(color, body-font-color)
-      &:hover
-        @include varprop(color, content-link-color)
+.op-modal--modal-header
+  padding: 0
 
-  .select2-container
-    margin: 0 0 10px 0
+.op-modal--modal-body
+  margin: 1em 0
+  padding: 0 1.5rem
 
-  .modal-inner-scrolling-container
-    max-height: 40vh
-    overflow-y: auto
+  &.-formattable
+    p:last-of-type
+      margin-bottom: 0px
 
+.op-modal--modal-footer
+  margin: 1em 0
+  padding: 0 1.5rem
 
-  .form--space.-left-spacing
-    padding-left: 1rem
+.op-modal--modal-close-button
+  float: right
+  cursor: pointer
+  @include varprop(color, body-font-color)
+  &:hover
+    text-decoration: none
+    @include varprop(color, content-link-color)
 
-  .columns-modal-content
-    margin-bottom: 15px
-    label
-      display: inline
-      padding-right: 30px
-  .ee-relation-columns-upsale
-    margin-top: -0.7rem
-    padding-bottom: 1rem
+// Highlighted modal style matching header menu
+.op-modal--modal-container.-highlight
+  padding: 0
 
+  // Overridden header styles
+  .op-modal--modal-header
+    display: flex
+    align-items: center
+    height: $header-height
+    padding-left: 1.5rem
+    border-bottom-style: solid
+    @include varprop(background-color, header-bg-color)
+    @include varprop(border-bottom-width, header-border-bottom-width)
+    @include varprop(border-bottom-color, header-border-bottom-color)
+
+    *
+      @include varprop(color, header-item-font-color)
+      height: $header-height
+      line-height: $header-height
+
+  .op-modal--modal-close-button
+    float: none
+    position: absolute
+    right: 1rem
+    top: 0
+
+  .avatar,
+  .icon-context
+    margin-right: 0.5rem
+
+  .op-modal--modal-close-button
+    @include varprop(line-height, header-height)
+    @include varprop(color, header-item-font-color)
+
+// Specific styles for columns-modal
+.columns-modal-content
+  margin-bottom: 15px
+  label
+    display: inline
+    padding-right: 30px
+
+.ee-relation-columns-upsale
+  margin-top: -0.7rem
+  padding-bottom: 1rem
+
+// Specific styles for export-modal
 ul.export-options
   margin: 0
   padding: 20px 0
@@ -138,7 +158,6 @@ ul.export-options
         padding: 10px 0 0 0
 
 // Legacy styles for jQuery UI modal
-
 .ui-dialog.ui-widget
   overflow: visible
 
@@ -146,93 +165,12 @@ ul.export-options
 #modalIframe
   border: 0
 
+// Hide modal content forwarded from rails
+// for the dynamic modal
+.modal-wrapper--content
+  display: none
 
-//
-// Styles for the new modal used for example for onboarding or the registration form
-//
-
-// Align ngDialog's close button
-.modal-wrapper .ngdialog-close,
-.ngdialog-theme-openproject .ngdialog-close
-  @include varprop(line-height, header-height)
-  @include varprop(color, header-item-font-color)
-
-.modal--header
-  display: flex
-  align-items: center
-  @include varprop(background-color, header-bg-color)
-  height: $header-height
-  padding-left: 1.5rem
-  border-bottom-style: solid
-  @include varprop(border-bottom-width, header-border-bottom-width)
-  @include varprop(border-bottom-color, header-border-bottom-color)
-
-  h2
-    @include varprop(color, header-item-font-color)
-    padding: 0
-    font-size: 1.25rem
-    line-height: $header-height
-
-  .avatar,
-  .icon-context
-    margin-right: 0.5rem
-
-.modal--main
-  margin: 1em 0
-  padding: 0 1.5rem
-
-  &.-formattable
-    p:last-of-type
-      margin-bottom: 0px
-
-.modal--footer
-  margin: 1em 0
-  padding: 0 1.5rem
-
-.ngdialog-theme-openproject.-light
-
-  .modal--header
-    background-color: $body-background
-    padding: 0
-    margin: 0 1.5rem
-    margin-top: 1.5rem
-    height: 33px
-    border-bottom: 1px solid #dddddd
-
-    *
-      background-color: $body-background
-      line-height: 25px
-      font-size: 18px
-      padding-bottom: 6px
-
-    h2
-      color: $body-font-color
-      color: var(--body-font-color)
-      font-weight: normal
-
-    .icon-context
-      @include varprop(color, content-icon-color)
-      font-size: 1rem
-      margin-right: 0
-
-  .ngdialog-close
-    color: $body-font-color
-    color: var(--body-font-color)
-    padding-right: 0.75rem
-    margin-top: 1.5rem
-    line-height: 25px
-
-  .modal--footer
-    margin: 1em 0 0.5em 0
-
-.ngdialog-theme-openproject.-wide
-
-  .ngdialog-content
-    width: 40%
-
-  .modal--footer
-    justify-content: inherit
-
+// Specific styles for the table configuration modal
 .wp-table--configuration-modal
   min-height: 120px
   max-height: 90vh
@@ -252,6 +190,6 @@ ul.export-options
   .advanced-filters--add-filter
     max-width: 100%
 
-@include breakpoint (680px down)
+@include breakpoint(680px down)
   .wp-table--configuration-modal
     width: 90vw

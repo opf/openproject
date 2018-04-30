@@ -26,34 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {IDialogService} from 'ng-dialog';
 import {opUiComponentsModule} from '../../../angular-modules';
-import IAugmentedJQuery = angular.IAugmentedJQuery;
+import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
 
 export class ModalWrapperController {
-  private modalBody: string;
-  public modal: any;
-  public modalParams: any;
-  public activationLinkId: string;
-
+  public activationLinkId:string;
   public iframeSelector = '.iframe-target-wrapper';
 
-  private modalOptions: any = {
-    plain: true,
-    closeByEscape: true,
-    closeByDocument: false,
-    className: 'ngdialog-theme-openproject'
-  };
+  private modalBody:string;
+  public modalClassName = 'ngdialog-theme-openproject';
 
   constructor(protected $element:ng.IAugmentedJQuery,
-              protected $scope:ng.IScope,
-              protected $attrs: ng.IAttributes,
-              protected ngDialog: IDialogService) {
+              protected $attrs:ng.IAttributes,
+              protected opModalService:OpModalService) {
 
     // Find activation link
     var activationLink = $element.find('.modal-wrapper--activation-link');
     if (this.activationLinkId) {
       activationLink = jQuery(this.activationLinkId);
+    }
+
+    // Set modal class name
+    if ($attrs['modalClassName']) {
+      this.modalClassName = $attrs['modalClassName'];
     }
 
     // Set template from wrapped element
@@ -64,9 +60,6 @@ export class ModalWrapperController {
       this.appendIframe($attrs['iframeUrl']);
     }
 
-    angular.extend(this.modalOptions, this.modalParams || {});
-    this.modalOptions.template = this.modalBody;
-
     if (!!$attrs['initialize']) {
       this.initialize();
     }
@@ -76,15 +69,15 @@ export class ModalWrapperController {
   }
 
   public initialize() {
-    this.modal = this.ngDialog.open(this.modalOptions);
+    this.opModalService.show(DynamicContentModal, { modalBody: this.modalBody, modalClassName: this.modalClassName });
   }
 
   private appendIframe(url:string) {
     let subdom = angular.element(this.modalBody);
-    let iframe = angular.element('<iframe frameborder="0" height="305" allowfullscreen>></iframe>');
+    let iframe = angular.element('<iframe frameborder="0" height="400" allowfullscreen>></iframe>');
     iframe.attr('src', url);
 
-    subdom.find(this.iframeSelector).append(iframe);;
+    subdom.find(this.iframeSelector).append(iframe);
 
     this.modalBody = subdom.html();
   }

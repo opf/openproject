@@ -241,7 +241,18 @@ class PermittedParams
 
   def type(args = {})
     permitted = permitted_attributes(:type, args)
-    params.require(:type).permit(*permitted)
+
+    type_params = params.require(:type)
+
+    whitelisted = type_params.permit(*permitted)
+
+    if type_params[:attribute_groups]
+      whitelisted[:attribute_groups] = JSON
+                                       .parse(type_params[:attribute_groups])
+                                       .map { |group| [(group[2] ? group[0].to_sym : group[0]), group[1]] }
+    end
+
+    whitelisted
   end
 
   def type_move
@@ -592,8 +603,7 @@ class PermittedParams
           :is_milestone,
           :is_default,
           :color_id,
-          project_ids: [],
-          custom_field_ids: []
+          project_ids: []
         ],
         user: %i(
           firstname

@@ -69,6 +69,21 @@ module ::TypesHelper
     }
   end
 
+  def attribute_groups_as_json(type)
+    type
+      .attribute_groups
+      .map { |group|
+
+      attributes = group.attributes
+
+      if group.is_a? ::Type::QueryGroup
+        attributes = query_to_query_props(group.attributes)
+      end
+
+      [group.key, attributes, (group.key.is_a? Symbol)]
+    }.to_json
+  end
+
   private
 
   ##
@@ -76,14 +91,25 @@ module ::TypesHelper
   # Using the available attributes from +work_package_attributes+,
   # determines which attributes are not used
   def get_active_groups(type, available, inactive)
-    type.non_query_attribute_groups.map do |group|
-      extended_attributes =
-        group.attributes
-             .select { |key| inactive.delete(key) }
-             .map! { |key| attr_form_map(key, available[key]) }
+    type.attribute_groups.map do |group|
+      if group.is_a? ::Type::QueryGroup
+        [group, query_to_query_props(group.attributes)]
+      else
+        extended_attributes =
+          group.attributes
+            .select { |key| inactive.delete(key) }
+            .map! { |key| attr_form_map(key, available[key]) }
 
-      [group, extended_attributes]
+        [group, extended_attributes]
+      end
     end
+  end
+
+  def query_to_query_props(query)
+    # Remove the templated filter since we can't yet handle it in the frontend
+    query.filters.delete_if(&:templated?)
+
+    ::API::V3::Queries::QueryParamsRepresenter.new(query).to_h
   end
 
   def attr_form_map(key, represented)

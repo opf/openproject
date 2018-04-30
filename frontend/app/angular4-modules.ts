@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -70,13 +70,9 @@ import {
   $stateToken,
   $timeoutToken,
   AutoCompleteHelperServiceToken,
-  exportModalToken,
   FocusHelperToken,
   HookServiceToken,
   I18nToken,
-  saveModalToken,
-  settingsModalToken,
-  shareModalToken,
   TextileServiceToken,
   upgradeService,
   upgradeServiceWithToken,
@@ -214,6 +210,17 @@ import {NotificationsService} from 'core-components/common/notifications/notific
 import {NotificationComponent} from 'core-components/common/notifications/notification.component';
 import {NotificationsContainerComponent} from 'core-components/common/notifications/notifications-container.component';
 import {UploadProgressComponent} from 'core-components/common/notifications/upload-progress.component';
+import {ExternalQueryConfigurationComponent} from 'core-components/wp-table/external-configuration/external-query-configuration.component';
+import {ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
+import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-export.modal";
+import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
+import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
+import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
+import {PasswordConfirmationModal} from "core-components/modals/request-for-confirmation/password-confirmation.modal";
+import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
+import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
+import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing-form.component";
+import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename-query.modal";
 
 @NgModule({
   imports: [
@@ -244,10 +251,6 @@ import {UploadProgressComponent} from 'core-components/common/notifications/uplo
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
     TimezoneService,
     upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
-    upgradeServiceWithToken('shareModal', shareModalToken),
-    upgradeServiceWithToken('saveModal', saveModalToken),
-    upgradeServiceWithToken('settingsModal', settingsModalToken),
-    upgradeServiceWithToken('exportModal', exportModalToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     UrlParamsHelperService,
     WorkPackageCacheService,
@@ -308,8 +311,11 @@ import {UploadProgressComponent} from 'core-components/common/notifications/uplo
     // OP Modals service
     OpModalService,
     WpTableConfigurationService,
+    ConfirmDialogService,
 
     AttributeHelpTextsService,
+    // External query configuration
+    ExternalQueryConfigurationService,
   ],
   declarations: [
     WorkPackagesListComponent,
@@ -440,11 +446,22 @@ import {UploadProgressComponent} from 'core-components/common/notifications/uplo
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
+    WpTableExportModal,
+    ConfirmDialogModal,
+    DynamicContentModal,
+    PasswordConfirmationModal,
+    QuerySharingModal,
+    SaveQueryModal,
+    QuerySharingForm,
+    RenameQueryModal,
 
     // Notifications
     NotificationsContainerComponent,
     NotificationComponent,
     UploadProgressComponent,
+
+    // External query configuration
+    ExternalQueryConfigurationComponent,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -499,6 +516,13 @@ import {UploadProgressComponent} from 'core-components/common/notifications/uplo
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
+    WpTableExportModal,
+    DynamicContentModal,
+    ConfirmDialogModal,
+    PasswordConfirmationModal,
+    QuerySharingModal,
+    SaveQueryModal,
+    RenameQueryModal,
 
     // Notifications
     NotificationsContainerComponent,
@@ -506,6 +530,9 @@ import {UploadProgressComponent} from 'core-components/common/notifications/uplo
 
     // Entries for ng1 downgraded components
     AttributeHelpTextComponent,
+
+    // External query configuration
+    ExternalQueryConfigurationComponent,
 
     // Main menu
     MainMenuResizerDirective
