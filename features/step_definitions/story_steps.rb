@@ -37,10 +37,10 @@ Then(/^the available status of the story called "(.+?)" should be the following:
   # the order of the available status is important
   story = Story.find_by(subject: story_name)
 
-  expected = table.raw.flatten.join(' ')
-
   within("#story_#{story.id} .editors") do
-    should have_field('status_id', text: expected)
+    table.raw.flatten.each do |option_text|
+      should have_select('status_id', text: option_text)
+    end
   end
 end
 
