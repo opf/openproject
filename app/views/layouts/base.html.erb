@@ -202,5 +202,12 @@ See docs/COPYRIGHT.rdoc for more details.
     }(jQuery));
     <% end %>
     <%= call_hook :view_layouts_base_body_bottom %>
+
+    <script type="text/javascript" src="inline.bundle.js"></script>
+    <script type="text/javascript" src="polyfills.bundle.js"></script>
+    <script type="text/javascript" src="styles.bundle.js"></script>
+    <script type="text/javascript" src="vendor.bundle.js"></script>
+    <script type="text/javascript" src="main.bundle.js"></script>
+
   </body>
 </html>

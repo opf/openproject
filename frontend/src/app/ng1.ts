@@ -1,8 +1,6 @@
-import 'angular';
-import {AppComponent} from './app.component';
 import {downgradeComponent} from '@angular/upgrade/static';
-
-declare const angular: any;
+import * as angular from 'angular';
+import {AppComponent} from './app.component';
 
 
 export class Ng1DirectiveController {
@@ -10,7 +8,7 @@ export class Ng1DirectiveController {
 }
 
 
-function ng1Directive(): any {
+function ng1Directive():any {
   return {
     restrict: 'E',
     template: `
