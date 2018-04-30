@@ -29,7 +29,8 @@
 $toggler-width: 40px
 
 
-#main-menu
+#main-menu,
+.main-menu
   bottom: auto
   @include varprop(width, main-menu-width)
   @include varprop(min-width, main-menu-width)
@@ -41,7 +42,7 @@ $toggler-width: 40px
   min-height: calc(100vh - 55px)
 
   @include varprop(background-color, main-menu-bg-color)
-  @include default-transition
+  //@include default-transition
 
   #menu-sidebar
     height: 100%
@@ -82,7 +83,7 @@ $toggler-width: 40px
 
           display: flex
 
-          @include default-transition
+          //@include default-transition
 
           &:hover
             @if $main-menu-enable-toggle-highlighting != true
@@ -94,7 +95,7 @@ $toggler-width: 40px
 
 
           a
-            @include default-transition
+            //@include default-transition
 
             &.selected, &.selected + a
               @include varprop(background, main-menu-bg-selected-background)
@@ -160,7 +161,7 @@ $toggler-width: 40px
               @include varprop(color, main-menu-bg-hover-background)
 
         > a
-          @include default-transition
+          //@include default-transition
 
           &.selected, &.selected + a
             @include varprop(background, main-menu-bg-selected-background)
@@ -217,7 +218,7 @@ $toggler-width: 40px
     %absolute-layout-mode &
       z-index: 100
 
-    @include default-transition
+    //@include default-transition
     &:hover
       @include varprop(border-left-color, primary-color)
       opacity: 1
@@ -227,7 +228,7 @@ $toggler-width: 40px
         i:before
           @include icon-mixin-arrow-right2
     a.navigation-toggler
-      @include default-transition
+      //@include default-transition
       position: absolute
       top: 0
       height: 40px
@@ -373,6 +374,31 @@ $arrow-left-width: 40px
   padding-left: $hierarchy-span-width
   font-size: 0.8rem
 
+.main-menu--resizer,
+main-menu-resizer
+  background: none
+  height: 100vh
+  width: 18px
+  position: fixed
+  top: 0px
+  border-left-width: 2px
+  border-left-style: solid
+  border-left-color: transparent
+  left: calc(#{$main-menu-width} - 2px)
+  left: calc(var(--main-menu-width) - 2px)
+  vertical-align: middle
+  opacity: 0
+  z-index: 1
+  cursor: col-resize
+  %absolute-layout-mode &
+    z-index: 100
+
+  //@include default-transition
+  &:hover
+    @include varprop(border-left-color, primary-color)
+    opacity: 1
+  &.show
+    left: calc(#{$main-menu-folded-width} - 1px)
 
 // #main.hidden-navigation
 //   #main-menu

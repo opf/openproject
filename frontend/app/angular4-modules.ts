@@ -50,7 +50,8 @@ import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageInlineCreateComponent,} from 'core-components/wp-inline-create/wp-inline-create.component';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import {WpResizerDirective} from 'core-components/wp-resizer/wp-resizer.component';
+import {WpResizerDirective} from 'core-components/resizer/wp-resizer.component';
+import {MainMenuResizerDirective} from 'core-components/resizer/main-menu-resizer.component';
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
@@ -329,6 +330,7 @@ import {UploadProgressComponent} from 'core-components/common/notifications/uplo
     WorkPackageTimelineButtonComponent,
     WorkPackageZenModeButtonComponent,
     WpResizerDirective,
+    MainMenuResizerDirective,
     WpCustomActionComponent,
     WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
@@ -504,7 +506,11 @@ import {UploadProgressComponent} from 'core-components/common/notifications/uplo
 
     // Entries for ng1 downgraded components
     AttributeHelpTextComponent,
-  ]
+
+    // Main menu
+    MainMenuResizerDirective
+  ],
+  bootstrap: [MainMenuResizerDirective]
 })
 export class OpenProjectModule {
   constructor(private upgrade:UpgradeModule) {

@@ -125,17 +125,21 @@ See docs/COPYRIGHT.rdoc for more details.
            class="<%= initial_classes %>"
            ng-class="{ 'hidden-navigation': !showNavigation }">
         <% if (side_displayed && show_decoration) %>
-          <div id="main-menu" ng-controller="MainMenuController as mainMenu">
+          <div id="main-menu" class="main-menu" ng-controller="MainMenuController as mainMenu">
             <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
-            <div id="toggle-project-menu"
-                 ng-class="{ 'show': !showNavigation }">
-              <a href="#"
-                 title="<%= l(:show_hide_project_menu) %>"
-                 class="navigation-toggler"
-                 ng-click="mainMenu.toggleNavigation()">
-                <%= op_icon('icon4 icon-arrow-left2') %>
-              </a>
-            </div>
+            <main-menu-resizer [element-class]="main-menu"
+                        [resize-event]="main-menu-resize"
+                        [local-storage-key]="openProject-mainMenuWidth">
+            </main-menu-resizer>
+            <!--<div id="toggle-project-menu"-->
+                 <!--ng-class="{ 'show': !showNavigation }">-->
+              <!--<a href="#"-->
+                 <!--title="<%= l(:show_hide_project_menu) %>"-->
+                 <!--class="navigation-toggler"-->
+                 <!--ng-click="mainMenu.toggleNavigation()">-->
+                <!--<%= op_icon('icon4 icon-arrow-left2') %>-->
+              <!--</a>-->
+            <!--</div>-->
             <div id="menu-sidebar">
               <%= main_menu %>
               <%= content_for :main_menu %>
