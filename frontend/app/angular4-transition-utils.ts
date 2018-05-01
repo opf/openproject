@@ -43,7 +43,6 @@ export const AutoCompleteHelperServiceToken = new InjectionToken<any>('AutoCompl
 export const TextileServiceToken = new InjectionToken<any>('TextileServiceToken');
 export const wpMoreMenuServiceToken = new InjectionToken<any>('wpMoreMenuService');
 export const $httpToken = new InjectionToken<any>('$http');
-export const wpDestroyModalToken = new InjectionToken<any>('wpDestroyModal');
 export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 export const HookServiceToken = new InjectionToken<any>('HookService');

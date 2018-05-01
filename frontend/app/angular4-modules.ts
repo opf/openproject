@@ -74,7 +74,6 @@ import {
   TextileServiceToken,
   upgradeService,
   upgradeServiceWithToken, WorkPackageServiceToken,
-  wpDestroyModalToken,
   wpMoreMenuServiceToken
 } from './angular4-transition-utils';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
@@ -220,6 +219,7 @@ import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal
 import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing-form.component";
 import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename-query.modal";
 import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 
 @NgModule({
   imports: [
@@ -250,7 +250,6 @@ import {FocusHelperService} from 'core-components/common/focus/focus-helper';
     PathHelperService,
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
     TimezoneService,
-    upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     UrlParamsHelperService,
     WorkPackageCacheService,
@@ -453,6 +452,7 @@ import {FocusHelperService} from 'core-components/common/focus/focus-helper';
     SaveQueryModal,
     QuerySharingForm,
     RenameQueryModal,
+    WpDestroyModal,
 
     // Notifications
     NotificationsContainerComponent,
@@ -522,6 +522,7 @@ import {FocusHelperService} from 'core-components/common/focus/focus-helper';
     QuerySharingModal,
     SaveQueryModal,
     RenameQueryModal,
+    WpDestroyModal,
 
     // Notifications
     NotificationsContainerComponent,

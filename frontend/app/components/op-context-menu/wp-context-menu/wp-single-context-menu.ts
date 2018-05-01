@@ -2,8 +2,7 @@ import {Directive, ElementRef, Inject, Input} from "@angular/core";
 import {WorkPackageAction} from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
 import {
   $stateToken,
-  HookServiceToken,
-  wpDestroyModalToken
+  HookServiceToken
 } from "core-app/angular4-transition-utils";
 import {LinkHandling} from "core-components/common/link-handling/link-handling";
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
@@ -13,6 +12,8 @@ import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-
 import {WorkPackageAuthorization} from "core-components/work-packages/work-package-authorization.service";
 import {AuthorisationService} from "core-components/common/model-auth/model-auth.service";
 import {StateService} from "@uirouter/core";
+import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 
 @Directive({
   selector: '[wpSingleContextMenu]'
@@ -21,9 +22,9 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   @Input('wpSingleContextMenu-workPackage') public workPackage:WorkPackageResource;
 
   constructor(@Inject(HookServiceToken) readonly HookService:any,
-              @Inject(wpDestroyModalToken) readonly wpDestroyModal:any,
               @Inject($stateToken) readonly $state:StateService,
               readonly elementRef:ElementRef,
+              readonly opModalService:OpModalService,
               readonly opContextMenuService:OPContextMenuService,
               readonly authorisationService:AuthorisationService) {
     super(elementRef, opContextMenuService);
@@ -50,7 +51,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         this.$state.go('work-packages.copy', {copiedFromWorkPackageId: this.workPackage.id});
         break;
       case 'delete':
-        this.wpDestroyModal.activate({workPackages: [this.workPackage]});
+        this.opModalService.show(WpDestroyModal, {workPackages: [this.workPackage]});
         break;
 
       default:
@@ -78,7 +79,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
   private getPermittedPluginActions(authorization:WorkPackageAuthorization) {
     var pluginActions:WorkPackageAction[] = [];
-    angular.forEach(this.HookService.call('workPackageDetailsMoreMenu'), function (action) {
+    angular.forEach(this.HookService.call('workPackageDetailsMoreMenu'), function(action) {
       pluginActions = pluginActions.concat(action);
     });
 
