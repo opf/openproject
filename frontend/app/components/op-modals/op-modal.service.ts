@@ -7,11 +7,12 @@ import {
 } from '@angular/core';
 import {ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector} from '@angular/cdk/portal';
 import {TransitionService} from '@uirouter/core';
-import {FocusHelperToken, OpModalLocalsToken} from 'core-app/angular4-transition-utils';
+import {OpModalLocalsToken} from 'core-app/angular4-transition-utils';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {keyCodes} from 'core-components/common/keyCodes.enum';
 import {opServicesModule} from "core-app/angular-modules";
 import {downgradeInjectable} from "@angular/upgrade/static";
+import {FocusHelperService} from 'core-components/common/focus/focus-helper';
 
 @Injectable()
 export class OpModalService {
@@ -26,7 +27,7 @@ export class OpModalService {
   private opening:boolean = false;
 
   constructor(private componentFactoryResolver:ComponentFactoryResolver,
-              @Inject(FocusHelperToken) readonly FocusHelper:any,
+              readonly FocusHelper:FocusHelperService,
               private appRef:ApplicationRef,
               private $transitions:TransitionService,
               private injector:Injector) {

@@ -38,28 +38,20 @@ module.exports = function(FocusHelper) {
   }
 
   function updateFocus(scope, element, attrs) {
-    if (element.hasClass('ui-select-multiple')) {
-      return element.find('input.ui-select-search').focus();
-    }
-
     var condition = (attrs.focus) ? scope.$eval(attrs.focus) : true;
 
     if (condition) {
-      if (isSelect2Element(attrs)) {
-        FocusHelper.focusSelect2Element(element);
-      } else {
-        var prio = 0;
-        if (attrs.focusPriority) {
-          prio = scope.$eval(attrs.focusPriority);
-          // Special case: Treat 'true' as 1 for convenience
-          if (prio === true) {
-            prio = 1;
-          } else {
-            prio = Number.parseInt(prio);
-          }
+      var prio = 0;
+      if (attrs.focusPriority) {
+        prio = scope.$eval(attrs.focusPriority);
+        // Special case: Treat 'true' as 1 for convenience
+        if (prio === true) {
+          prio = 1;
+        } else {
+          prio = Number.parseInt(prio);
         }
-        FocusHelper.focusElement(element, prio);
       }
+      FocusHelper.focusElement(element, prio);
     }
   }
 

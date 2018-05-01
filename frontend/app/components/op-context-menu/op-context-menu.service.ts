@@ -5,10 +5,11 @@ import {
 import {ComponentPortal, DomPortalOutlet, PortalInjector} from "@angular/cdk/portal";
 import {TransitionService} from "@uirouter/core";
 import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-menu-handler";
-import {FocusHelperToken, OpContextMenuLocalsToken} from "core-app/angular4-transition-utils";
+import {OpContextMenuLocalsToken} from "core-app/angular4-transition-utils";
 import {OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";
 import {OPContextMenuComponent} from "core-components/op-context-menu/op-context-menu.component";
 import {keyCodes} from 'core-components/common/keyCodes.enum';
+import {FocusHelperService} from 'core-components/common/focus/focus-helper';
 
 @Injectable()
 export class OPContextMenuService {
@@ -23,7 +24,7 @@ export class OPContextMenuService {
   private isOpening = false;
 
   constructor(private componentFactoryResolver:ComponentFactoryResolver,
-              @Inject(FocusHelperToken) readonly FocusHelper:any,
+              readonly FocusHelper:FocusHelperService,
               private appRef:ApplicationRef,
               private $transitions:TransitionService,
               private injector:Injector) {

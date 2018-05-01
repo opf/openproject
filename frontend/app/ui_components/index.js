@@ -40,9 +40,6 @@ angular.module('openproject.uiComponents')
     'FocusHelper',
     require('./focus-directive')
   ])
-  .constant('FOCUSABLE_SELECTOR', 'a, button, :input, [tabindex], select')
-  .service('FocusHelper', ['$timeout', 'FOCUSABLE_SELECTOR', require(
-    './focus-helper')])
   .service('I18n', [require('./i18n')])
   .directive('persistentToggle', [
     '$timeout',

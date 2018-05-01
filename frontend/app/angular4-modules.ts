@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -69,12 +69,11 @@ import {
   $stateToken,
   $timeoutToken,
   AutoCompleteHelperServiceToken,
-  FocusHelperToken,
   HookServiceToken,
   I18nToken,
   TextileServiceToken,
   upgradeService,
-  upgradeServiceWithToken,
+  upgradeServiceWithToken, WorkPackageServiceToken,
   wpDestroyModalToken,
   wpMoreMenuServiceToken
 } from './angular4-transition-utils';
@@ -220,6 +219,7 @@ import {QuerySharingModal} from "core-components/modals/share-modal/query-sharin
 import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
 import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing-form.component";
 import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename-query.modal";
+import {FocusHelperService} from 'core-components/common/focus/focus-helper';
 
 @NgModule({
   imports: [
@@ -243,9 +243,10 @@ import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename
     upgradeServiceWithToken('$timeout', $timeoutToken),
     upgradeServiceWithToken('$locale', $localeToken),
     upgradeServiceWithToken('textileService', TextileServiceToken),
+    upgradeServiceWithToken('WorkPackageService', WorkPackageServiceToken),
     upgradeServiceWithToken('AutoCompleteHelper', AutoCompleteHelperServiceToken),
     NotificationsService,
-    upgradeServiceWithToken('FocusHelper', FocusHelperToken),
+    FocusHelperService,
     PathHelperService,
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
     TimezoneService,

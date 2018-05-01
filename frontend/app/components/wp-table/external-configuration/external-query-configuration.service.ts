@@ -1,11 +1,11 @@
 import {ApplicationRef, ComponentFactoryResolver, Inject, Injectable, InjectionToken, Injector} from '@angular/core';
 import {ComponentPortal, DomPortalOutlet, PortalInjector} from '@angular/cdk/portal';
 import {TransitionService} from '@uirouter/core';
-import {FocusHelperToken} from 'core-app/angular4-transition-utils';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {ExternalQueryConfigurationComponent} from 'core-components/wp-table/external-configuration/external-query-configuration.component';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {opServicesModule} from 'core-app/angular-modules';
+import {FocusHelperService} from 'core-components/common/focus/focus-helper';
 
 export const external_table_trigger_class = 'external-table-configuration--container';
 export const OpQueryConfigurationLocals = new InjectionToken<any>('OpQueryConfigurationLocals');
@@ -20,7 +20,7 @@ export class ExternalQueryConfigurationService {
   private _bodyPortalHost:DomPortalOutlet;
 
   constructor(private componentFactoryResolver:ComponentFactoryResolver,
-              @Inject(FocusHelperToken) readonly FocusHelper:any,
+              readonly FocusHelper:FocusHelperService,
               private appRef:ApplicationRef,
               private $transitions:TransitionService,
               private injector:Injector) {
