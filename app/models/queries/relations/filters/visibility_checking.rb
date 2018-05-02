@@ -1,7 +1,8 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,27 +25,36 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Queries
   module Relations
     module Filters
-      class FromFilter < ::Queries::Relations::Filters::RelationFilter
-        include ::Queries::Relations::Filters::VisibilityChecking
-
-        def type
-          :integer
+      module VisibilityChecking
+        def visibility_checked?
+          true
         end
 
-        def self.key
-          :from_id
+        def where
+          integer_values = values.map(&:to_i)
+
+          visible_sql = WorkPackage.visible(User.current).select(:id).to_sql
+
+          operator_string = case operator
+                            when "="
+                              "IN"
+                            when "!"
+                              "NOT IN"
+                            end
+
+          visibility_checked_sql(operator_string, values, visible_sql)
         end
 
         private
 
-        def visibility_checked_sql(operator, values, visible_sql)
-          ["from_id #{operator} (?) AND to_id IN (#{visible_sql})", values]
+        def visibility_checked_sql(_operator, _values, _visible_sql)
+          raise NotImplementedError
         end
       end
     end
