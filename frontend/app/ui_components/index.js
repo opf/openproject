@@ -36,10 +36,6 @@ angular.module('openproject.uiComponents')
   ])
   .constant('ENTER_KEY', 13)
   .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])
-  .directive('focus', [
-    'FocusHelper',
-    require('./focus-directive')
-  ])
   .service('I18n', [require('./i18n')])
   .directive('persistentToggle', [
     '$timeout',
