@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -69,13 +69,11 @@ import {
   $stateToken,
   $timeoutToken,
   AutoCompleteHelperServiceToken,
-  FocusHelperToken,
   HookServiceToken,
   I18nToken,
   TextileServiceToken,
   upgradeService,
-  upgradeServiceWithToken,
-  wpDestroyModalToken,
+  upgradeServiceWithToken, WorkPackageServiceToken,
   wpMoreMenuServiceToken
 } from './angular4-transition-utils';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
@@ -220,6 +218,8 @@ import {QuerySharingModal} from "core-components/modals/share-modal/query-sharin
 import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
 import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing-form.component";
 import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename-query.modal";
+import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 
 @NgModule({
   imports: [
@@ -243,13 +243,13 @@ import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename
     upgradeServiceWithToken('$timeout', $timeoutToken),
     upgradeServiceWithToken('$locale', $localeToken),
     upgradeServiceWithToken('textileService', TextileServiceToken),
+    upgradeServiceWithToken('WorkPackageService', WorkPackageServiceToken),
     upgradeServiceWithToken('AutoCompleteHelper', AutoCompleteHelperServiceToken),
     NotificationsService,
-    upgradeServiceWithToken('FocusHelper', FocusHelperToken),
+    FocusHelperService,
     PathHelperService,
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
     TimezoneService,
-    upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     UrlParamsHelperService,
     WorkPackageCacheService,
@@ -452,6 +452,7 @@ import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename
     SaveQueryModal,
     QuerySharingForm,
     RenameQueryModal,
+    WpDestroyModal,
 
     // Notifications
     NotificationsContainerComponent,
@@ -521,6 +522,7 @@ import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename
     QuerySharingModal,
     SaveQueryModal,
     RenameQueryModal,
+    WpDestroyModal,
 
     // Notifications
     NotificationsContainerComponent,

@@ -27,8 +27,6 @@
 //++
 
 angular.module('openproject.uiComponents')
-  .directive('accessibleCheckbox', [require('./accessible-checkbox-directive')])
-  .directive('accessibleElement', [require('./accessible-element-directive')])
   .directive('copyToClipboard', [
     'I18n',
     '$timeout',
@@ -36,48 +34,17 @@ angular.module('openproject.uiComponents')
     'ConfigurationService',
     require('./copy-to-clipboard-directive')
   ])
-  .directive('emptyElement', [require('./empty-element-directive')])
   .constant('ENTER_KEY', 13)
   .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])
   .directive('focus', [
     'FocusHelper',
     require('./focus-directive')
   ])
-  .constant('FOCUSABLE_SELECTOR', 'a, button, :input, [tabindex], select')
-  .service('FocusHelper', ['$timeout', 'FOCUSABLE_SELECTOR', require(
-    './focus-helper')])
   .service('I18n', [require('./i18n')])
-  .directive('inaccessibleByTab', [require('./inaccessible-by-tab-directive')])
-  .directive('modal', [require('./modal-directive')])
-  .directive('modalLoading', ['I18n', require('./modal-loading-directive')])
   .directive('persistentToggle', [
     '$timeout',
     require('./persistent-toggle-directive')]
   )
-  .constant('LABEL_MAX_CHARS', 40)
-  .constant('KEY_CODES', {
-    enter: 13,
-    up: 38,
-    down: 40
-  })
-  .directive('selectableTitle', [require('./selectable-title-directive')])
-  .constant('DOUBLE_CLICK_DELAY', 300)
-  // Thanks to http://stackoverflow.com/a/20445344
-  .directive('singleClick', [
-    'DOUBLE_CLICK_DELAY',
-    '$parse',
-    '$timeout',
-    require('./single-click')
-  ])
-  .directive('slideToggle', [require('./slide-toggle')])
-  .directive('sortLink', ['I18n', 'SortService', require(
-    './sort-link-directive')])
-  .constant('ESC_KEY', 27)
-  .directive('userField', ['PathHelper', require('./user-field-directive')])
   .directive('wikiToolbar', [require('./wiki-toolbar-directive')])
-  .directive('zoomSlider', ['I18n', require('./zoom-slider-directive')])
-  .directive('attachmentIcon', [require('./attachment-icon-directive')])
-  .filter('ancestorsExpanded', require('./filters/ancestors-expanded-filter'))
   .directive('highlightCol', [require('./highlight-col-directive')])
-  .directive('confirmPopup', ['$window', require('./confirm-popup-directive')])
   .directive('clickOnKeypress', [require('./click-on-keypress-directive')]);

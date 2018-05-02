@@ -27,7 +27,7 @@
 // ++
 
 import {Injector} from '@angular/core';
-import {$qToken, $timeoutToken, FocusHelperToken} from 'core-app/angular4-transition-utils';
+import {$qToken, $timeoutToken} from 'core-app/angular4-transition-utils';
 import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
@@ -38,6 +38,7 @@ import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-reque
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {WorkPackageEditForm} from './work-package-edit-form';
+import {FocusHelperService} from 'core-components/common/focus/focus-helper';
 
 export class TableRowEditContext implements WorkPackageEditContext {
 
@@ -46,7 +47,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
   public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
   public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
   public states:States = this.injector.get(States);
-  public FocusHelper:any = this.injector.get(FocusHelperToken);
+  public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   public $q:ng.IQService = this.injector.get($qToken);
   public $timeout:ng.ITimeoutService = this.injector.get($timeoutToken);
 

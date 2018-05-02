@@ -34,7 +34,7 @@ describe('authorisationService', function() {
 
   var authorisationService:AuthorisationService, $rootScope:ng.IRootScopeService, query:any;
 
-  beforeEach(angular.mock.module('openproject.services', 'openproject.models'));
+  beforeEach(angular.mock.module('openproject.services'));
 
   beforeEach(inject(function(_authorisationService_:AuthorisationService, _$rootScope_:ng.IRootScopeService){
     authorisationService = _authorisationService_;

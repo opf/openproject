@@ -44,19 +44,9 @@ export const opServicesModule = angular.module('openproject.services', [
   'openproject.helpers',
   'openproject.workPackages.config',
   'openproject.workPackages.helpers',
-  'openproject.api',
-  'angular-cache',
-  'openproject.filters'
+  'openproject.api'
 ]);
 angular.module('openproject.helpers', ['openproject.services']);
-
-export const opModelsModule = angular.module('openproject.models', [
-  'openproject.workPackages.config',
-  'openproject.services'
-]);
-export const opViewModelsModule = angular.module('openproject.viewModels', [
-  'openproject.services'
-]);
 
 // work packages
 export const opWorkPackagesModule = angular.module('openproject.workPackages', [
@@ -81,13 +71,10 @@ angular.module('openproject.workPackages.filters', [
 ]);
 angular.module('openproject.workPackages.config', []);
 export const wpControllersModule = angular.module('openproject.workPackages.controllers', [
-  'openproject.models',
-  'openproject.viewModels',
   'openproject.workPackages.helpers',
   'openproject.services',
   'openproject.workPackages.config',
-  'openproject.layout',
-  'btford.modal'
+  'openproject.layout'
 ]);
 angular.module('openproject.workPackages.models', []);
 export const wpDirectivesModule = angular.module('openproject.workPackages.directives', [
@@ -133,10 +120,6 @@ export const opNotificationsModule = angular.module('openproject.notifications',
 angular.module('openproject.inplace-edit', []);
 angular.module('openproject.responsive', []);
 
-export const filtersModule = angular.module('openproject.filters', [
-  'openproject.models'
-]);
-
 export const wpButtonsModule = angular.module('openproject.wpButtons',
   ['ui.router', 'ui.router.upgrade', 'openproject.services']);
 
@@ -154,7 +137,6 @@ export const openprojectModule = angular.module('openproject', [
   'openproject.timeEntries',
   'ngAnimate',
   'ngAria',
-  'ngSanitize',
   angularDragula(angular),
   'openproject.layout',
   'openproject.api',
@@ -163,7 +145,6 @@ export const openprojectModule = angular.module('openproject', [
   'openproject.inplace-edit',
   wpButtonsModule.name,
   'openproject.responsive',
-  filtersModule.name
 ]);
 
 export default openprojectModule;

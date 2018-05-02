@@ -6,7 +6,7 @@ import {
 import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
 import {States} from "core-components/states.service";
 import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import {$stateToken, wpDestroyModalToken} from "core-app/angular4-transition-utils";
+import {$stateToken} from "core-app/angular4-transition-utils";
 import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
 import {LinkHandling} from "core-components/common/link-handling/link-handling";
 import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-menu-handler";
@@ -16,12 +16,14 @@ import {
   OpContextMenuLocalsMap
 } from "core-components/op-context-menu/op-context-menu.types";
 import {PERMITTED_CONTEXT_MENU_ACTIONS} from "core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions";
+import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 
 export class OpWorkPackageContextMenu extends OpContextMenuHandler {
 
   private states = this.injector.get(States);
   private wpRelationsHierarchyService = this.injector.get(WorkPackageRelationsHierarchyService);
-  private wpDestroyModal = this.injector.get(wpDestroyModalToken);
+  private opModalService:OpModalService = this.injector.get(OpModalService);
   private $state = this.injector.get($stateToken);
   private wpTableSelection = this.injector.get(WorkPackageTableSelection);
   private WorkPackageContextMenuHelper = this.injector.get(WorkPackageContextMenuHelperService);
@@ -89,7 +91,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
 
   private deleteSelectedWorkPackages() {
     var selected = this.getSelectedWorkPackages();
-    this.wpDestroyModal.activate({workPackages: selected});
+    this.opModalService.show(WpDestroyModal, {workPackages: selected});
   }
 
   private editSelectedWorkPackages(link:any) {
