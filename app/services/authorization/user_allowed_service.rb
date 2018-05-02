@@ -64,14 +64,14 @@ class Authorization::UserAllowedService
 
     if context.nil? && options[:global]
       allowed_to_globally?(action, options)
+    elsif context.is_a? Project
+      allowed_to_in_project?(action, context, options)
     elsif context.respond_to?(:to_a)
       context = context.to_a
       # Authorize if user is authorized on every element of the array
       context.present? && context.all? do |project|
         allowed_to?(action, project, options)
       end
-    elsif context.is_a? Project
-      allowed_to_in_project?(action, context, options)
     else
       false
     end
@@ -128,7 +128,7 @@ class Authorization::UserAllowedService
 
   def supported_context?(context, options)
     (context.nil? && options[:global]) ||
-      (!context.nil? && context.respond_to?(:to_a)) ||
-      context.is_a?(Project)
+      context.is_a?(Project) ||
+      (!context.nil? && context.respond_to?(:to_a))
   end
 end
