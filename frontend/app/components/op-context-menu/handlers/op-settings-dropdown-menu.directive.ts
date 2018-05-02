@@ -214,7 +214,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       },
       {
         // Settings modal
-        disabled: !this.query.id || this.authorisationService.cannot('query', 'update'),
+        disabled: !this.query.id || this.authorisationService.cannot('query', 'updateImmediately'),
         linkText: this.I18n.t('js.toolbar.settings.page_settings'),
         icon: 'icon-settings',
         onClick: ($event:JQueryEventObject) => {
@@ -231,7 +231,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       },
       {
         // Settings modal
-        disabled: !this.query.results.customFields,
+        hidden: !this.query.results.customFields,
         href: this.query.results.customFields && this.query.results.customFields.href,
         linkText: this.query.results.customFields && this.query.results.customFields.name,
         icon: 'icon-custom-fields',

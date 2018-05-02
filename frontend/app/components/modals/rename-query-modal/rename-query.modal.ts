@@ -90,6 +90,6 @@ export class RenameQueryModal extends OpModalComponent implements OnInit {
       .then(() => {
         this.closeMe($event);
       })
-      .catch((error) => this.wpNotificationsService.handleRawError(error));
+      .catch((error) => this.wpNotificationsService.handleErrorResponse(error));
   };
 }
