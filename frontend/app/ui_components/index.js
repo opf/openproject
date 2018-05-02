@@ -42,5 +42,4 @@ angular.module('openproject.uiComponents')
     require('./persistent-toggle-directive')]
   )
   .directive('wikiToolbar', [require('./wiki-toolbar-directive')])
-  .directive('highlightCol', [require('./highlight-col-directive')])
-  .directive('clickOnKeypress', [require('./click-on-keypress-directive')]);
+  .directive('highlightCol', [require('./highlight-col-directive')]);

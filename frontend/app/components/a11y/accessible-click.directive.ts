@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -23,36 +23,23 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
-  'use strict';
+import {Directive, EventEmitter, HostListener, Output} from '@angular/core';
+import {keyCodes} from "core-components/common/keyCodes.enum";
 
-  return {
-    restrict: 'A',
-    link: function(scope, element, attr) {
-      var doIfWatchedKey = function(keyEvent, callback) {
-        if (attr.clickOnKeypress.indexOf(keyEvent.which) !== -1){
-          keyEvent.stopPropagation();
-          keyEvent.preventDefault();
+@Directive({
+  selector: '[accessibleClick]',
+})
+export class AccessibleClickDirective {
+  @Output('accessibleClick') onClick = new EventEmitter<JQueryEventObject>();
 
-          if (callback !== undefined) {
-            callback(keyEvent);
-          }
-        }
-      };
-
-      element.on('keydown', function(keyEvent) {
-        doIfWatchedKey(keyEvent);
-      });
-
-      element.on('keyup', function(keyEvent) {
-        doIfWatchedKey(keyEvent, function() {
-          angular.element(keyEvent.target).click();
-        });
-      });
+  @HostListener('click', ['$event'])
+  @HostListener('keyup', ['$event'])
+  public handleClick(event:JQueryEventObject) {
+    if (event.type === 'click' || event.which === keyCodes.ENTER || event.which === keyCodes.SPACE) {
+      this.onClick.emit(event);
     }
-  };
-};
-
+  }
+}

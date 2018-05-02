@@ -137,7 +137,6 @@ import {WorkPackageEditActionsBarComponent} from 'core-components/common/edit-ac
 import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-full-view.component';
 import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
 import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
-import {ClickOnKeypressComponent} from 'core-app/ui_components/click-on-keypress-upgraded.component';
 import {AutocompleteSelectDecorationComponent} from 'core-components/common/autocomplete-select-decoration/autocomplete-select-decoration.component';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
 import {PortalModule} from '@angular/cdk/portal';
@@ -220,6 +219,7 @@ import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename
 import {FocusHelperService} from 'core-components/common/focus/focus-helper';
 import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 import {FocusWithinDirective} from "core-components/common/focus/focus-within.upgraded.directive";
+import {AccessibleClickDirective} from "core-components/a11y/accessible-click.directive";
 
 @NgModule({
   imports: [
@@ -321,6 +321,7 @@ import {FocusWithinDirective} from "core-components/common/focus/focus-within.up
     OpIcon,
     OpDatePickerComponent,
     AccessibleByKeyboardComponent,
+    AccessibleClickDirective,
     TablePaginationComponent,
     WorkPackageTablePaginationComponent,
     WorkPackageTimelineHeaderController,
@@ -384,7 +385,6 @@ import {FocusWithinDirective} from "core-components/common/focus/focus-within.up
     WorkPackageAttachmentListItemComponent,
     OpDateTimeComponent,
     UserLinkComponent,
-    ClickOnKeypressComponent,
     WorkPackageFormQueryGroupComponent,
     WorkPackageFormAttributeGroupComponent,
 
