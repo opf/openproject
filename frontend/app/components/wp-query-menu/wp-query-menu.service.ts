@@ -108,6 +108,7 @@ export class QueryMenuService {
 
   private removeItem(queryId:string) {
     const item = this.findItem(queryId);
+    item.remove();
     this.setSelectedState();
   }
 
