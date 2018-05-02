@@ -30,16 +30,13 @@ import {Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit}
 
 @Component({
   selector: 'main-menu-resizer',
-  template: `<div class="main-menu--resizer icon-resizer-vertical-lines"></div>`
+  template: `<div class="main-menu--resizer"></div>`
 })
 
 export class MainMenuResizerDirective implements OnInit, OnDestroy {
-  @Input("element-class") elementClass:string;
-  @Input("resize-event") resizeEvent:string;
-  @Input("local-storage-key") localStorageKey:string;
-  public elementClass:string;
-  public resizeEvent:string;
-  public localStorageKey:string;
+  private elementClass:string;
+  private resizeEvent:string;
+  private localStorageKey:string;
 
   private resizingElement:HTMLElement;
   private elementWidth:number;
@@ -54,10 +51,9 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // TODO: Clean this up when we finally move to Angular 5 and this Component is no entrypoint anymore.
-    this.elementClass    = this.elementRef.nativeElement.getAttribute('[element-class]');
-    this.resizeEvent     = this.elementRef.nativeElement.getAttribute('[resize-event]');
-    this.localStorageKey = this.elementRef.nativeElement.getAttribute('[local-storage-key]');
+    this.elementClass    = "main-menu";
+    this.resizeEvent     = "main-menu-resize";
+    this.localStorageKey = "openProject-mainMenuWidth";
 
     this.htmlNode = <HTMLElement>document.getElementsByTagName('html')[0];
 
