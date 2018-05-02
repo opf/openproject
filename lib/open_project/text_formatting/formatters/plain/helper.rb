@@ -29,8 +29,9 @@
 
 module OpenProject::TextFormatting::Formatters
   module Plain
-    module Helper
+    class Helper
       def wikitoolbar_for(_field_id)
+        ''.html_safe
       end
 
       def text_formatting_has_preview?
@@ -40,10 +41,7 @@ module OpenProject::TextFormatting::Formatters
       def text_formatting_js_includes
       end
 
-      def heads_for_wiki_formatter
-      end
-
-      def initial_page_content(page)
+      def self.initial_page_content(page)
         page.title.to_s
       end
     end

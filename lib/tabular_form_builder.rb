@@ -45,6 +45,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       label = label_for_field(field, label_options)
       input = super(field, input_options, *args)
 
+      if options[:with_text_formatting]
+        input.concat text_formatting_wrapper options[:id]
+      end
+
       (label + container_wrap_field(input, selector, options))
     end
   end
@@ -168,6 +172,16 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     classes.strip
   end
 
+  ##
+  # Create a wrapper for the text formatting toolbar for this field
+  def text_formatting_wrapper(target_id)
+    return ''.html_safe unless target_id.present?
+
+    format = Setting.text_formatting
+    helper = ::OpenProject::TextFormatting::Formatters.helper_for(format).new(@template)
+    helper.wikitoolbar_for target_id
+  end
+
   def field_css_class(selector)
     if TEXT_LIKE_FIELDS.include?(selector)
       "form--text-field -#{selector.to_s.gsub(/_field$/, '')}"
@@ -196,7 +210,9 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     label_for_field_prefix(content, options)
 
     label_options[:lang] = options[:lang]
-    label_options.reject! do |_k, v| v.nil? end
+    label_options.reject! do |_k, v|
+      v.nil?
+    end
 
     @template.label(@object_name, field, content, label_options)
   end
