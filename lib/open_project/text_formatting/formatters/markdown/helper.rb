@@ -29,9 +29,16 @@
 
 module OpenProject::TextFormatting::Formatters
   module Markdown
-    module Helper
+    class Helper
+      attr_reader :view_context
+
+      def initialize(view_context)
+        @view_context = view_context
+      end
+
+
       def text_formatting_js_includes
-        javascript_include_tag 'vendor/ckeditor/ckeditor.js'
+        view_context.javascript_include_tag 'vendor/ckeditor/ckeditor.js'
       end
 
       def text_formatting_has_preview?
@@ -39,11 +46,11 @@ module OpenProject::TextFormatting::Formatters
       end
 
       def wikitoolbar_for(field_id)
-        content_tag 'op-ckeditor-form', '', 'textarea-selector': "##{field_id}"
+        view_context.content_tag 'op-ckeditor-form', '', 'textarea-selector': "##{field_id}"
       end
 
-      def initial_page_content(_page)
-        "h1. #{@page.title}"
+      def self.initial_page_content(page)
+        "# #{page.title}"
       end
     end
   end

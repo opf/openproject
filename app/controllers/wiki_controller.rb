@@ -436,8 +436,7 @@ class WikiController < ApplicationController
   # Returns the default content of a new wiki page
   def initial_page_content(page)
     helper = OpenProject::TextFormatting::Formatters.helper_for(Setting.text_formatting)
-    extend helper unless self.instance_of?(helper)
-    helper.instance_method(:initial_page_content).bind(self).call(page)
+    helper.initial_page_content page
   end
 
   def load_pages_for_index

@@ -187,6 +187,26 @@ describe TabularFormBuilder do
 JJ Abrams</textarea>
       }).at_path('textarea')
     end
+
+    context 'when requesting a text formatting wrapper', with_settings: { text_formatting: :markdown } do
+      let(:options) { { title: 'Name', class: 'custom-class', with_text_formatting: true } }
+
+      context 'an id is missing' do
+        it 'does not output the wrapper' do
+          expect(output).to have_selector 'textarea'
+          expect(output).to have_no_selector 'op-ckeditor-form'
+        end
+      end
+
+      context 'with id present' do
+        let(:options) { { id: 'my-id', title: 'Name', class: 'custom-class', with_text_formatting: true } }
+
+        it 'outputs the wysiwyg wrapper' do
+          expect(output).to have_selector 'textarea'
+          expect(output).to have_selector 'op-ckeditor-form'
+        end
+      end
+    end
   end
 
   describe '#select' do
