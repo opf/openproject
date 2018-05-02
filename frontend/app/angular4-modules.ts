@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {APP_INITIALIZER, ApplicationRef, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -536,17 +536,20 @@ import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename
 
     // Main menu
     MainMenuResizerDirective
-  ],
-  bootstrap: [MainMenuResizerDirective]
+  ]
 })
 export class OpenProjectModule {
   constructor(private upgrade:UpgradeModule) {
   }
 
   // noinspection JSUnusedGlobalSymbols
-  ngDoBootstrap() {
+  ngDoBootstrap(appRef:ApplicationRef) {
     // Already done in openproject-app.ts
     // this.upgrade.bootstrap(document.body, ['openproject'], {strictDi: false});
+
+    if (document.getElementsByTagName('main-menu-resizer').length > 0) {
+      appRef.bootstrap(MainMenuResizerDirective);
+    }
   }
 }
 
