@@ -26,43 +26,31 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-module.exports = function(FocusHelper) {
+import {AfterViewInit, Directive, ElementRef, Input} from "@angular/core";
+import {FocusHelperService} from "core-components/common/focus/focus-helper";
+import {opUiComponentsModule} from "core-app/angular-modules";
+import {downgradeAttributeDirective} from "core-components/angular/downgrade-attribute-directive";
 
-  function isSelect2Element(attrs) {
-    var select2attributes = Object.keys(attrs).filter(function(attribute) {
-      return attribute.search(/select2/i) >= 0;
-    });
+@Directive({
+  selector: '[focus]'
+})
+export class FocusDirective implements AfterViewInit {
+  @Input('focus') condition:boolean;
+  @Input('focusPriority') priority?:number = 0;
 
-    return select2attributes.length > 0;
+  constructor(readonly FocusHelper:FocusHelperService,
+              readonly elementRef:ElementRef) {
   }
 
-  function updateFocus(scope, element, attrs) {
-    var condition = (attrs.focus) ? scope.$eval(attrs.focus) : true;
-
-    if (condition) {
-      var prio = 0;
-      if (attrs.focusPriority) {
-        prio = scope.$eval(attrs.focusPriority);
-        // Special case: Treat 'true' as 1 for convenience
-        if (prio === true) {
-          prio = 1;
-        } else {
-          prio = Number.parseInt(prio);
-        }
-      }
-      FocusHelper.focusElement(element, prio);
-    }
+  ngAfterViewInit() {
+    this.updateFocus();
   }
 
-  return {
-    link: function(scope, element, attrs) {
-
-      updateFocus(scope, element, attrs);
-
-      scope.$on('updateFocus', function() {
-        updateFocus(scope, element, attrs);
-      });
+  private updateFocus() {
+    if (this.condition) {
+      this.FocusHelper.focusElement(this.elementRef.nativeElement, this.priority);
     }
-  };
-};
+  }
+}
+
+opUiComponentsModule. directive('focus', downgradeAttributeDirective(FocusDirective));
