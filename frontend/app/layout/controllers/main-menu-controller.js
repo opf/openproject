@@ -27,13 +27,16 @@
 //++
 
 module.exports = function($rootScope, $window) {
-  var downToggler = null;
+  var htmlNode = document.getElementsByTagName('html')[0];
 
   this.toggleNavigation = function() {
-    if ($rootScope.showNavigation) {
-      downToggler = hideSubMenuEntries();
-    } else {
-      showSubMenuEntries(downToggler);
+    if (!$rootScope.showNavigation) {
+      // Regain default width: Expand to default menu width if collapsed slimmer than default width.
+      var savedMainMenuWidth = parseInt(window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth"));
+      if (savedMainMenuWidth < 230) {
+        htmlNode.style.setProperty("--main-menu-width", '230px');
+        window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth"), '230';
+      }
     }
     $rootScope.showNavigation = !$rootScope.showNavigation;
     $rootScope.$broadcast('openproject.layout.navigationToggled', $rootScope.showNavigation);
@@ -41,20 +44,3 @@ module.exports = function($rootScope, $window) {
       !$rootScope.showNavigation ? 'collapsed' : 'expanded');
   };
 };
-
-function hideSubMenuEntries() {
-  var upToggler = jQuery('ul.menu_root.closed > li.open .arrow-left-to-project');
-  var downToggler = null;
-  if (upToggler.length > 0) {
-    downToggler = upToggler.parents('li.open').first().find('a.toggler');
-    upToggler.trigger('click');
-  }
-
-  return downToggler;
-}
-
-function showSubMenuEntries(downToggler) {
-  if (downToggler !== null) {
-    downToggler.trigger('click');
-  }
-}

@@ -27,27 +27,8 @@
 //++
 
 @include breakpoint(680px down)
-  $hamburger-right: -13px
+  $hamburger-right: -3px
   $hamburger-width: 50px
-
-  #mobile-main-menu-toggle
-    display: block
-    width: $hamburger-width
-    height: $header-height-mobile
-    float: left
-    text-align: center
-    margin-right: $hamburger-right
-    a
-      height: $header-height-mobile
-      line-height: $header-height-mobile
-      zoom: 1
-      @include varprop(color, header-item-font-color)
-      @include varprop(font-size, header-item-font-size)
-      text-decoration: none
-      padding: 0 15px
-
-    .nosidebar &
-      display: none
   #logo
     background-color: transparent
 

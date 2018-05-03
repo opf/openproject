@@ -41,9 +41,9 @@
   // Search input wrapper
   .project-menu-autocomplete--input-container
     padding: 12px 0
-    border: 1px solid $header-drop-down-border-color
-    // Border to complete the menu look
-    border-right: 2px solid $header-drop-down-border-color
+    border-width: 1px 2px 1px 2px
+    border-style: solid
+    border-color: $header-drop-down-border-color
 
   // Search input
   input.project-menu-autocomplete--input
@@ -70,11 +70,12 @@
     overflow-y: auto
     // Override the computed width of the input, but span the entire width
     // of the dropdown
-    width: 398px !important
+    width: 396px !important
     padding-top: 5px
     // Borders to complete the menu look
     border-right: 2px solid $header-drop-down-border-color
     border-bottom: 2px solid $header-drop-down-border-color
+    border-left: 2px solid $header-drop-down-border-color
 
   // Cut off result element width
   .ui-menu-item-wrapper

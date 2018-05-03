@@ -27,22 +27,20 @@
 //++
 
 @include breakpoint(680px down)
-  #toggle-project-menu.show + #menu-sidebar
-    display: none
 
-  #main-menu
+  .main-menu
     position: absolute !important
     min-height: 0
     z-index: 11
     border-bottom: 1px solid $main-menu-border-color
     %absolute-layout-mode &
       height: auto
-    #toggle-project-menu
-      display: none
 
-  .hidden-navigation #main-menu
-    overflow: hidden
-    border-bottom: 0
+  .hidden-navigation .main-menu
+    display: none
 
   .main-item-wrapper a
     width: 100%
+
+  .main-menu--resizer
+    display: none

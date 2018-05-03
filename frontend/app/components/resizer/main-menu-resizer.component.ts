@@ -30,7 +30,16 @@ import {Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit}
 
 @Component({
   selector: 'main-menu-resizer',
-  template: `<div class="main-menu--resizer"></div>`
+  template: `
+    <div class="main-menu--resizer" ng-class="{ 'show': !showNavigation }">
+      <a href="#"
+         title="<%= l(:show_hide_project_menu) %>"
+         class="main-menu--navigation-toggler"
+         ng-click="mainMenu.toggleNavigation()">
+        <i class="icon4 icon-arrow-left2" aria-hidden="true"></i>
+      </a>
+    </div>
+  `
 })
 
 export class MainMenuResizerDirective implements OnInit, OnDestroy {
@@ -140,15 +149,15 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
 
     let collapsedState = sessionStorage.getItem('openproject:navigation-toggle');
     if (collapsedState == 'collapsed') {
-      if (this.elementWidth > 80) {
+      if (this.elementWidth > 10) {
         jQuery('#mobile-main-menu-toggle').click();
         this.setWidth(element, this.elementWidth);
       } else {
-        this.setWidth(this.resizingElement, 50);
+        this.setWidth(this.resizingElement, 0);
       }
-    } else if (this.elementWidth <= 80) {
+    } else if (this.elementWidth <= 10) {
       jQuery('#mobile-main-menu-toggle').click();
-      this.setWidth(this.resizingElement, 50);
+      this.setWidth(this.resizingElement, 0);
     } else {
       this.setWidth(element, this.elementWidth);
     }
@@ -156,7 +165,7 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
 
   private setWidth(element:HTMLElement, width:number) {
     let viewportWidth = document.documentElement.clientWidth;
-    let newValue = width < 50 ? 50 : width;
+    let newValue = width <= 10 ? 0 : width;
     newValue = newValue >= viewportWidth - 150 ? viewportWidth - 150 : newValue;
 
     window.OpenProject.guardedLocalStorage(this.localStorageKey, String(newValue));

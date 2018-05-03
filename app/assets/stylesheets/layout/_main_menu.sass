@@ -28,8 +28,6 @@
 
 $toggler-width: 40px
 
-
-#main-menu,
 .main-menu
   bottom: auto
   @include varprop(width, main-menu-width)
@@ -42,13 +40,11 @@ $toggler-width: 40px
   min-height: calc(100vh - 55px)
 
   @include varprop(background-color, main-menu-bg-color)
-  //@include default-transition
 
   #menu-sidebar
     height: 100%
     
   %absolute-layout-mode &
-
     position: relative
 
     #menu-sidebar
@@ -99,6 +95,10 @@ $toggler-width: 40px
 
             &.selected, &.selected + a
               @include varprop(background, main-menu-bg-selected-background)
+
+              // This is a hack to avoid "leaking" the left padding's background when menu is collapsed.
+              .hidden-navigation &
+                background: none
 
               &:hover
                 @include varprop(background, main-menu-bg-hover-background)
@@ -192,55 +192,15 @@ $toggler-width: 40px
     font-weight: normal
     font-size: $main-menu-font-size
     font-style: normal
+    &:hover
+      text-decoration: none
 
   .toggler
     width: $toggler-width
     height: $main-menu-item-height
     text-align: center
-  .sub-menu-heading
-    float: left
+    overflow: hidden
 
-  #toggle-project-menu
-    background: none
-    height: 100vh
-    width: 18px
-    position: fixed
-    top: 0px
-    border-left-width: 2px
-    border-left-style: solid
-    border-left-color: transparent
-    left: calc(#{$main-menu-width} - 2px)
-    left: calc(var(--main-menu-width) - 2px)
-    vertical-align: middle
-    opacity: 0
-    z-index: 1
-
-    %absolute-layout-mode &
-      z-index: 100
-
-    //@include default-transition
-    &:hover
-      @include varprop(border-left-color, primary-color)
-      opacity: 1
-    &.show
-      left: calc(#{$main-menu-folded-width} - 1px)
-      a.navigation-toggler
-        i:before
-          @include icon-mixin-arrow-right2
-    a.navigation-toggler
-      //@include default-transition
-      position: absolute
-      top: 0
-      height: 40px
-      width: 16px
-      text-align: right
-      padding: 50vh 6px 50vh 0
-      color: $gray-dark
-      // Center toggle icon vertically. The element is higher than it looks like.
-      line-height: 38px
-      font-size: 11px
-      &:hover
-        @include varprop(color, main-menu-navigation-toggler-font-hover-color)
   .toggle-follow
     position: absolute
     width: 140px
@@ -249,7 +209,7 @@ $toggler-width: 40px
     padding: 0
 
 $arrow-left-width: 40px
-#main-menu
+.main-menu
   ul.menu_root
     &.closed
       li
@@ -294,14 +254,14 @@ $arrow-left-width: 40px
 
 
 .hidden-navigation
-  #main-menu
+  .main-menu
     width: $main-menu-folded-width
     min-width: $main-menu-folded-width
     ul
       &.menu_root
         > li
           .main-item-wrapper
-            a:not(:only-child):first-of-type
+            a:not(:only-child)
               @extend .small-12
 
           .ellipsis
@@ -374,8 +334,7 @@ $arrow-left-width: 40px
   padding-left: $hierarchy-span-width
   font-size: 0.8rem
 
-.main-menu--resizer,
-main-menu-resizer
+.main-menu--resizer
   background: none
   height: 100vh
   width: 18px
@@ -395,10 +354,36 @@ main-menu-resizer
 
   //@include default-transition
   &:hover
-    @include varprop(border-left-color, primary-color)
+    @include varprop(border-left-color, main-menu-resizer-color)
     opacity: 1
   &.show
-    left: calc(#{$main-menu-folded-width} - 1px)
+    left: $main-menu-folded-width
+
+
+.main-menu--navigation-toggler
+  .hidden-navigation &
+    i:before
+      @include icon-mixin-arrow-right2
+
+
+.main-menu--navigation-toggler
+  //@include default-transition
+  position: absolute
+  top: 0
+  height: 40px
+  width: 16px
+  text-align: right
+  margin-top: 50vh
+  padding: 0 6px 0 0
+  color: $gray-dark
+  // Center toggle icon vertically. The element is higher than it looks like.
+  line-height: 38px
+  font-size: 11px
+  &:hover
+    @include varprop(color, main-menu-navigation-toggler-font-hover-color)
+  %absolute-layout-mode &
+    z-index: 100
+
 
 // #main.hidden-navigation
 //   #main-menu

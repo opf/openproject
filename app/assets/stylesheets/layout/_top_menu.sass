@@ -26,9 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-#mobile-main-menu-toggle
-  display: none
-
 #logo
   width: 230px
   @include varprop(height, header-height)
@@ -100,7 +97,7 @@
         float: none
     > ul.drop-down--projects
       width: 400px
-      left: 0
+      left: -2px
       box-shadow: none
 
   li.drop-down
@@ -258,8 +255,9 @@ input.top-menu-search--input
     max-width: calc((100vW/2) - 115px)
 
   #projects-menu
-    padding-right: 34px
+    padding-right: 15px
     font-weight: bold
+    padding-left: 6px
 
     .button--dropdown-text
       float: left
@@ -306,6 +304,28 @@ input.top-menu-search--input
 .top-menu-search:not(.-collapsed) .top-menu-search--button
   top: -3px
   z-index: 10
+
+$hamburger-right: -3px
+$hamburger-width: 50px
+
+#mobile-main-menu-toggle
+  display: block
+  width: $hamburger-width
+  height: $header-height-mobile
+  float: left
+  text-align: center
+  margin-right: $hamburger-right
+  a
+    height: $header-height-mobile
+    line-height: $header-height-mobile
+    zoom: 1
+    @include varprop(color, header-item-font-color)
+    @include varprop(font-size, header-item-font-size)
+    text-decoration: none
+    padding: 0 15px
+
+  .nosidebar &
+    display: none
 
 @media only screen and (max-width: 18.75rem)
   #logo
