@@ -96,10 +96,19 @@ module Type::AttributeGroups
     attribute_groups_objects
   end
 
-  def attribute_groups=(groups)
-    new_groups = groups.empty? ? default_attribute_groups : groups
+  ##
+  # Resets the default attribute groups
+  def reset_attribute_groups
+    # Remove all active custom fields
+    self.custom_field_ids = []
 
-    self.attribute_groups_objects = to_attribute_group_class(new_groups)
+    self.attribute_groups_objects = to_attribute_group_class(default_attribute_groups)
+  end
+
+  ##
+  # Update the attribute groups object.
+  def attribute_groups=(groups)
+    self.attribute_groups_objects = to_attribute_group_class(groups)
   end
 
   ##
@@ -194,10 +203,16 @@ module Type::AttributeGroups
     end
   end
 
+  ##
+  # Get the default attribute groups for this type.
+  # If it has activated custom fields through +custom_field_ids=+,
+  # it will put them into the other group.
   def work_package_attributes_by_default_group_key
+    active_cfs = active_custom_field_attributes
+
     work_package_attributes
       .keys
-      .reject { |key| CustomField.custom_field_attribute?(key) && !has_custom_field?(key) }
+      .reject { |key| CustomField.custom_field_attribute?(key) && !active_cfs.include?(key) }
       .group_by { |key| default_group_key(key.to_sym) }
   end
 
