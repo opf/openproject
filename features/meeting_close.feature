@@ -66,6 +66,7 @@ Feature: Close and open meeting agendas
        When I am already logged in as "alice"
         And I go to the show page of the meeting called "Bobs Meeting"
         And I follow "Close" within ".meeting_agenda"
+        And I confirm the JS confirm dialog
 
        Then I should be on the show page of the meeting called "Bobs Meeting"
         And the minutes should contain the following text:

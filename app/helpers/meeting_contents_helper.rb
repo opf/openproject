@@ -60,7 +60,8 @@ module MeetingContentsHelper
                                 action: 'close',
                                 meeting_id: meeting },
                               method: :put,
-                              class: 'button icon-context icon-locked'
+                              data: { confirm: I18n.t(:text_meeting_closing_are_you_sure) },
+                              class: 'meetings--close-meeting-button button icon-context icon-locked'
       end
     when 'meeting_minutes'
       content_tag :li, '', class: 'toolbar-item' do
