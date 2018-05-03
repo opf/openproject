@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,24 +30,31 @@
 
 module Queries
   module Relations
-    class RelationQuery < ::Queries::BaseQuery
-      def self.model
-        Relation
-      end
+    module Filters
+      module VisibilityChecking
+        def visibility_checked?
+          true
+        end
 
-      def default_scope
-        Relation
-          .direct
-      end
+        def where
+          integer_values = values.map(&:to_i)
 
-      def results
-        # Filters marked to already check visibility free us from the need
-        # to check it here.
+          visible_sql = WorkPackage.visible(User.current).select(:id).to_sql
 
-        if filters.any?(&:visibility_checked?)
-          super
-        else
-          super.visible
+          operator_string = case operator
+                            when "="
+                              "IN"
+                            when "!"
+                              "NOT IN"
+                            end
+
+          visibility_checked_sql(operator_string, values, visible_sql)
+        end
+
+        private
+
+        def visibility_checked_sql(_operator, _values, _visible_sql)
+          raise NotImplementedError
         end
       end
     end
