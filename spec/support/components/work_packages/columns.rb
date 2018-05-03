@@ -76,6 +76,12 @@ module Components
         apply if save_changes
       end
 
+      def expect_checked(name)
+        within_modal do
+          expect(page).to have_selector("input[type=checkbox][title='#{name}']")
+        end
+      end
+
       def uncheck_all(save_changes: true)
         modal_open? or open_modal
 
