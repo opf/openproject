@@ -321,11 +321,10 @@ describe CustomActions::Actions::CustomField, type: :model do
     context 'for a version custom field' do
       let(:custom_field) { version_custom_field }
       let(:project) { FactoryGirl.build_stubbed(:project) }
-      let(:versions) do
-        [FactoryGirl.build_stubbed(:version, project: project),
-         FactoryGirl.build_stubbed(:version, project: project),
-         FactoryGirl.build_stubbed(:version, project: project)]
-      end
+      let(:a_version) { FactoryGirl.build_stubbed(:version, name: 'aaaaa', project: project) }
+      let(:m_version) { FactoryGirl.build_stubbed(:version, name: 'mmmmm', project: project) }
+      let(:z_version) { FactoryGirl.build_stubbed(:version, name: 'zzzzz', project: project) }
+      let(:versions) { [z_version, a_version, m_version] }
 
       before do
         allow(Version)
@@ -333,19 +332,16 @@ describe CustomActions::Actions::CustomField, type: :model do
           .and_return(versions)
       end
       let(:expected) do
+        # the versions will be sorted which by their name (and the project but that is the same for all of them)
         versions
+          .sort
           .map { |o| { value: o.id, label: o.name } }
       end
 
       context 'for a non required field' do
         it 'is the list of options and an empty placeholder' do
-
-          # Sort values because order may change due to dubious reasons
-          # e.g., in https://travis-ci.org/opf/openproject-ce/jobs/370488567
-          sort_by_fn = ->(value) { value[:label] }
-
-          expect(instance.allowed_values.sort_by(&sort_by_fn))
-            .to eql(expected.unshift(value: nil, label: '-').sort_by(&sort_by_fn))
+          expect(instance.allowed_values)
+            .to eql(expected.unshift(value: nil, label: '-'))
         end
       end
 
