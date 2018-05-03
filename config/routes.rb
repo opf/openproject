@@ -7,8 +7,8 @@ OpenProject::Application::routes.draw do
     get :backup_code, to: 'authentication#enter_backup_code'
     post :backup_code, to: 'authentication#verify_backup_code'
 
-    get :settings, to: 'settings#show', as: 'settings_2fa'
-    post :settings, to: 'settings#update', as: 'update_settings_2fa'
+    get :settings, to: 'two_factor_settings#show', as: 'settings_2fa'
+    post :settings, to: 'two_factor_settings#update', as: 'update_settings_2fa'
   end
 
   scope 'two_factor_authentication' do # Avoids adding the namespace prefix

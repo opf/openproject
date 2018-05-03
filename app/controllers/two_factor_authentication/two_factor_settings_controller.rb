@@ -1,5 +1,5 @@
 module ::TwoFactorAuthentication
-  class SettingsController < ApplicationController
+  class TwoFactorSettingsController < ApplicationController
 
     before_action :require_admin
     before_action :check_enabled

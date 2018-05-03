@@ -26,15 +26,15 @@ module OpenProject::TwoFactorAuthentication
                     caption: ->(*) { I18n.t('two_factor_authentication.label_two_factor_authentication') },
                     after: :password,
                     if: ->(*) { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.enabled? },
-                    icon: 'icon2 icon-types'
+                    icon: 'icon2 icon-two-factor-authentication'
 
                menu :admin_menu,
                     :two_factor_authentication,
-                    { controller: '/two_factor_authentication/settings', action: :show },
+                    { controller: '/two_factor_authentication/two_factor_settings', action: :show },
                     caption: ->(*) { I18n.t('two_factor_authentication.label_two_factor_authentication') },
                     after: :ldap_authentication,
                     if: ->(*) { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.configurable_by_ui? },
-                    icon: 'icon2 icon-types'
+                    icon: 'icon2 icon-two-factor-authentication'
              end
 
     initializer 'two_factor_authentication.precompile_assets' do |app|

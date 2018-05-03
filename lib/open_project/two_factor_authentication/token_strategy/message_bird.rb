@@ -148,7 +148,7 @@ module OpenProject::TwoFactorAuthentication
         pause = ''
 
         # Output pauses for TTS in voice mode
-        if channel == :voice
+        if channel.to_sym == :voice
           token_value = token_value.split('').join('<break time="400ms"/>')
           pause = '<break time="500ms"/>'
         end
