@@ -44,15 +44,33 @@ class PlanningElementTypeColor < ActiveRecord::Base
   validates_length_of :name, maximum: 255, unless: lambda { |e| e.name.blank? }
   validates_format_of :hexcode, with: /\A#[0-9A-F]{6}\z/, unless: lambda { |e| e.hexcode.blank? }
 
-  def text_hexcode
-    # 0.63 - Optimal threshold to switch between white and black text color
-    #        determined by intensive user tests and expensive research
-    #        activities.
-    if Color::RGB::from_html(hexcode).to_hsl.brightness <= 0.63
-      '#fff'
+  ##
+  # Returns the best contrasting color, either white or black
+  # depending on the overall brightness.
+  # (note this is not HSL Lightness, but simply the sum of all RGB channels)
+  # https://gist.github.com/charliepark/480358
+  def contrasting_color(light_color: '#FFFFFF', dark_color: '#333333')
+    if brightness > 382.5
+      dark_color
     else
-      '#000'
+      light_color
     end
+  end
+
+  ##
+  # Sum the color values of each channel
+  def brightness
+    rgb_colors.sum
+  end
+
+
+  ##
+  # Splits the hexcode into rbg color array
+  def rgb_colors
+    hexcode
+      .gsub('#', '') # Remove trailing #
+      .scan(/../) # Pair hex chars
+      .map { |c| c.hex } # to int
   end
 
   protected

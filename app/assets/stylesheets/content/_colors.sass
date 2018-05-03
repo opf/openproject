@@ -26,38 +26,35 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-(function ($) {
-  $(function() {
-    $('.color--preview').each(function() {
-      var preview, input, func, target;
+.color--preview
+  margin-top: auto
+  margin-right: 5px
+  margin-left: -34px
+  margin-bottom: auto
+  border: 1px solid #000
+  border-radius: 4px
+  display: inline-block
+  height: 12px
+  width: 12px
+  &.standalone
+    margin-left: initial
+    vertical-align: middle
 
-      preview = $(this);
-      target  = preview.data('target');
-      if(target) {
-        input = $(target);
-      } else {
-        input = preview.next('input');
-      }
 
-      if (input.length === 0) {
-        return;
-      }
+.color--text-preview
+  padding: 2px 4px
 
-      func = function () {
-        var previewColor = '';
 
-        if(input.val() && input.val().length > 0) {
-          previewColor = input.val();
-        } else if (input.attr('placeholder') &&
-                   input.attr('placeholder').length > 0) {
-          previewColor = input.attr('placeholder')
-        }
+.color--milestone-icon,
+.color--phase-icon
+  border: 1px solid #000
+  display: inline-block
+  height: 12px
+  width: 12px
+  margin-right: 5px
 
-        preview.css('background-color', previewColor);
-      };
+.color--milestone-icon
+  transform: rotate(45deg)
 
-      input.keyup(func).change(func).focus(func);
-      func();
-    });
-  });
-}(jQuery));
+.color--phase-icon
+  border-radius: 4px
