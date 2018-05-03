@@ -32,6 +32,8 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
+      def initialize; end
+
       def expect_column_available(name)
         modal_open? or open_modal
 
@@ -52,7 +54,7 @@ module Components
         end
       end
 
-      def add(name)
+      def add(name, save_changes: true)
         modal_open? or open_modal
 
         within_modal do
@@ -60,10 +62,10 @@ module Components
           input.set true
         end
 
-        apply
+        apply if save_changes
       end
 
-      def remove(name)
+      def remove(name, save_changes: true)
         modal_open? or open_modal
 
         within_modal do
@@ -71,7 +73,18 @@ module Components
           input.set false
         end
 
-        apply
+        apply if save_changes
+      end
+
+      def uncheck_all(save_changes: true)
+        modal_open? or open_modal
+
+        within_modal do
+          expect(page).to have_selector('input[type=checkbox][title="Subject"]')
+          page.all("input[type=checkbox]").each { |input| input.set false }
+        end
+
+        apply if save_changes
       end
 
       def apply
@@ -83,6 +96,10 @@ module Components
       def open_modal
         @opened = true
         ::Components::WorkPackages::TableConfigurationModal.new.open_and_switch_to 'Columns'
+      end
+
+      def assume_opened
+        @opened = true
       end
 
       private

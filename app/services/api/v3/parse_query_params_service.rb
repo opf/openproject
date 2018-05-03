@@ -113,7 +113,7 @@ module API
       end
 
       def columns_from_params(params)
-        columns = params[:columns] || params[:c] || params[:column_names]
+        columns = params[:columns] || params[:c] || params[:column_names] || params[:'columns[]']
 
         return unless columns
 

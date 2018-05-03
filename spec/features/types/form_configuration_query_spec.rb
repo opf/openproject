@@ -57,12 +57,38 @@ describe 'form subelements configuration', type: :feature, js: true do
   let(:form) { ::Components::Admin::TypeConfigurationForm.new }
   let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
   let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:columns) { ::Components::WorkPackages::Columns.new }
 
   describe "with EE token" do
     before do
       with_enterprise_token(:edit_attribute_groups)
       login_as(admin)
       visit edit_type_tab_path(id: type_bug.id, tab: "form_configuration")
+    end
+
+    it 'can modify and keep changed columns (Regression #27604)' do
+      form.add_query_group('Columns Test')
+      form.edit_query_group('Columns Test')
+
+      # Restrict filters to type_task
+      modal.switch_to 'Columns'
+
+      columns.assume_opened
+      columns.uncheck_all save_changes: false
+      columns.add 'ID', save_changes: false
+      columns.add 'Subject', save_changes: false
+      columns.apply
+
+      # Save changed query
+      form.save_changes
+      expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+
+      type_bug.reload
+      query = type_bug.attribute_groups.detect { |x| x.key == 'Columns Test' }
+      expect(query).to be_present
+
+      columns = query.attributes.columns.map(&:name).sort
+      expect(columns).to eq(%i[id subject])
     end
 
     it 'can create and save embedded subelements' do
