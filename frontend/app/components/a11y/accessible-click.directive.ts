@@ -41,5 +41,8 @@ export class AccessibleClickDirective {
     if (event.type === 'click' || event.which === keyCodes.ENTER || event.which === keyCodes.SPACE) {
       this.onClick.emit(event);
     }
+
+    event.preventDefault();
+    event.stopPropagation();
   }
 }
