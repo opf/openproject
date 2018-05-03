@@ -21,7 +21,7 @@ module OpenProject::GithubIntegration
     ##
     # Handles a pull_request webhook notification.
     # The payload looks similar to this:
-    # { user_id: <the id of the OpenProject user in whose name the webhook is processed>,
+    # { open_project_user_id: <the id of the OpenProject user in whose name the webhook is processed>,
     #   github_event: 'pull_request',
     #   github_delivery: <randomly generated ID idenfitying a single github notification>,
     # Have a look at the github documentation about the next keys:
@@ -40,12 +40,15 @@ module OpenProject::GithubIntegration
       ignored_actions = %w[synchronize assigned unassigned labeled unlabeled]
       return if ignored_actions.include? payload['action']
       comment_on_referenced_work_packages payload['pull_request']['body'], payload
+    rescue => e
+      Rails.logger.error "Failed to handle pull_request event: #{e} #{e.message}"
+      raise e
     end
 
     ##
     # Handles an issue_comment webhook notification.
     # The payload looks similar to this:
-    # { user_id: <the id of the OpenProject user in whose name the webhook is processed>,
+    # { open_project_user_id: <the id of the OpenProject user in whose name the webhook is processed>,
     #   github_event: 'issue_comment',
     #   github_delivery: <randomly generated ID idenfitying a single github notification>,
     # Have a look at the github documentation about the next keys:
@@ -62,13 +65,16 @@ module OpenProject::GithubIntegration
       # if the comment is not associated with a PR, ignore it
       return unless payload['issue']['pull_request']['html_url']
       comment_on_referenced_work_packages payload['comment']['body'], payload
+    rescue => e
+      Rails.logger.error "Failed to handle issue_comment event: #{e} #{e.message}"
+      raise e
     end
 
     ##
     # Parses the text for links to WorkPackages and adds a comment
     # to those WorkPackages depending on the payload.
     def self.comment_on_referenced_work_packages(text, payload)
-      user = User.find_by_id(payload['user_id'])
+      user = User.find_by_id(payload['open_project_user_id'])
       wp_ids = extract_work_package_ids(text)
       wps = find_visible_work_packages(wp_ids, user)
 
@@ -134,6 +140,7 @@ module OpenProject::GithubIntegration
         'opened' => 'opened',
         'reopened' => 'opened',
         'closed' => 'closed',
+        'edited' => 'referenced',
         'referenced' => 'referenced',
         # We ignore synchrize actions for now. See pull_request method.
         'synchronize' => nil
