@@ -76,10 +76,7 @@ $toggler-width: 40px
       // -------------------- MAIN menu items ---------------------------
       li
         .main-item-wrapper
-
           display: flex
-
-          //@include default-transition
 
           &:hover
             @if $main-menu-enable-toggle-highlighting != true
@@ -91,8 +88,6 @@ $toggler-width: 40px
 
 
           a
-            //@include default-transition
-
             &.selected, &.selected + a
               @include varprop(background, main-menu-bg-selected-background)
 
@@ -149,7 +144,6 @@ $toggler-width: 40px
           li:hover
             background: initial
             a
-              @include varprop(color, main-menu-font-color)
               padding: initial
 
         &:hover
@@ -181,7 +175,8 @@ $toggler-width: 40px
             border: none !important
             @include varprop(color, main-menu-selected-font-color)
 
-  a
+  a,
+  a:link
     text-decoration: none
     line-height: $main-menu-item-height
     display: block
