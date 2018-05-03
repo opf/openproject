@@ -256,7 +256,7 @@ class WikiController < ApplicationController
 
   def wiki_root_menu_items
     MenuItems::WikiMenuItem
-      .where(parent_id: nil)
+      .main_items(@wiki.id)
       .map { |it| OpenStruct.new name: it.name, caption: it.title, item: it }
   end
 
