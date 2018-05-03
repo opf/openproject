@@ -179,7 +179,7 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
       <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
     </div>
-    <%# Properly decides main menu expanded state before its drawn. Fixes flickering side menu
+    <%# Properly decides main menu expanded state and width before its drawn. Fixes flickering side menu
         where menu is first expanded, then being collapsed in angular. %>
     <%= nonced_javascript_tag do %>
     (function($) {
@@ -187,6 +187,10 @@ See docs/COPYRIGHT.rdoc for more details.
       if (window.sessionStorage.getItem('openproject:navigation-toggle') === 'collapsed') {
         $('.can-hide-navigation').addClass('hidden-navigation');
       }
+
+      var savedMainMenuWidth = parseInt(window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth"));
+      $('html')[0].style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
+
       wrapper.show();
 
 
