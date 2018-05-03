@@ -32,9 +32,10 @@ describe OpenProject::GithubIntegration::HookHandler do
   describe '#process' do
     let(:handler) { OpenProject::GithubIntegration::HookHandler.new }
     let(:hook) { 'fake hook' }
-    let(:params) { ActionController::Parameters.new({ 'fake' => 'value' }) }
+    let(:params) { ActionController::Parameters.new({ payload: { 'fake' => 'value' } }) }
     let(:environment) { { 'HTTP_X_GITHUB_EVENT' => 'pull_request' ,
                           'HTTP_X_GITHUB_DELIVERY' => 'veryuniqueid' } }
+    let(:request) { OpenStruct.new(env: environment) }
     let(:user) do
       user = double(User)
       allow(user).to receive(:id).and_return(12)
@@ -46,7 +47,7 @@ describe OpenProject::GithubIntegration::HookHandler do
                             'HTTP_X_GITHUB_DELIVERY' => 'veryuniqueid2' } }
 
       it 'should return 404' do
-        result = handler.process(hook, environment, params, user)
+        result = handler.process(hook, request, params, user)
         expect(result).to eq(404)
       end
     end
@@ -55,7 +56,7 @@ describe OpenProject::GithubIntegration::HookHandler do
       let(:user) { nil }
 
       it 'should return 403' do
-        result = handler.process(hook, environment, params, user)
+        result = handler.process(hook, request, params, user)
         expect(result).to eq(403)
       end
     end
@@ -68,15 +69,15 @@ describe OpenProject::GithubIntegration::HookHandler do
       it 'should send a notification with the correct contents' do
         expect(OpenProject::Notifications).to receive(:send).with("github.pull_request", {
           'fake' => 'value',
-          'user_id' => 12,
+          'open_project_user_id' => 12,
           'github_event' => 'pull_request',
           'github_delivery' => 'veryuniqueid'
         })
-        handler.process(hook, environment, params, user)
+        handler.process(hook, request, params, user)
       end
 
       it 'should return 200' do
-        result = handler.process(hook, environment, params, user)
+        result = handler.process(hook, request, params, user)
         expect(result).to eq(200)
       end
     end
