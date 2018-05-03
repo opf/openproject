@@ -171,8 +171,6 @@ gem 'carrierwave', '~> 1.2.2'
 gem 'aws-sdk-core', '~> 3.20.2'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.9.1'
-# SMS over AWS
-gem 'aws-sdk-sns', '~> 1.1.0'
 
 gem 'openproject-token', '~> 1.0.1'
 
