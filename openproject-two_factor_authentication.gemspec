@@ -21,4 +21,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'rotp', '~> 3.3'
   s.add_dependency 'messagebird-rest', '~> 1.3.2'
   s.add_dependency 'rails', '~> 5'
+
+  s.add_dependency 'aws-sdk-sns', '~> 1.1.0'
 end

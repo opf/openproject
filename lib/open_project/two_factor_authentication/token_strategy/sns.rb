@@ -1,5 +1,5 @@
 require 'net/http'
-require 'aws-sdk'
+require 'aws-sdk-sns'
 
 module OpenProject::TwoFactorAuthentication
   module TokenStrategy
