@@ -100,6 +100,8 @@ module OpenProject
       'onboarding_video_url' => 'https://player.vimeo.com/video/163426858?autoplay=1',
       'onboarding_enabled' => true,
 
+      'youtube_channel' => 'https://www.youtube.com/c/OpenProjectCommunity',
+
       'ee_manager_visible' => true,
 
       # Health check configuration

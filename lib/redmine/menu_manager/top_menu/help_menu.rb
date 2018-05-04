@@ -94,6 +94,12 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     end
     result << static_link_item(:user_guides)
     result << content_tag(:li) {
+      link_to l('label_videos'),
+              OpenProject::Configuration.youtube_channel,
+              title: l('label_videos'),
+              target: '_blank'
+    }
+    result << content_tag(:li) {
       link_to l('homescreen.links.shortcuts'),
               '',
               class: 'help-link-shortcuts-link',
@@ -131,7 +137,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     link = OpenProject::Static::Links.links[key]
     label = I18n.t(link[:label])
     content_tag(:li) do
-      link_to label, "#{link[:href]}#{options[:href_suffix]}", title: label
+      link_to label, "#{link[:href]}#{options[:href_suffix]}", title: label, target: '_blank'
     end
   end
 end

@@ -29,9 +29,9 @@ See docs/COPYRIGHT.rdoc for more details.
 <modal-wrapper iframe-url="<%= OpenProject::Configuration.onboarding_video_url %>"
                modal-class-name="onboarding-modal -highlight">
   <li>
-    <%= link_to l(:label_video),
+    <%= link_to l(:label_introduction_video),
                 '',
-                title: l(:label_video),
+                title: l(:label_introduction_video),
                 class: 'modal-wrapper--activation-link' %>
   </li>
   <%= render partial: '/onboarding/starting_video_modal' %>
