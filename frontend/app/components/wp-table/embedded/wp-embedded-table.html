@@ -1,5 +1,5 @@
 <div class="work-packages-embedded-view--container loading-indicator--location"
-     [ngClass]="{ '-compact-tables': compactTableStyle }"
+     [ngClass]="{ '-hierarchy-disabled': !configuration.hierarchyToggleEnabled,  '-compact-tables': compactTableStyle }"
      [attr.data-indicator-name]="uniqueEmbeddedTableName">
   <ng-container *ngIf="tableInformationLoaded">
     <!-- TABLE + TIMELINE horizontal split -->
