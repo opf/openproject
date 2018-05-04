@@ -50,6 +50,13 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= csrf_meta_tags %>
     <%= render 'common/favicons' %>
     <%= stylesheet_link_tag 'openproject', media: "all" %>
+
+    <script type="text/javascript" src="main.js"></script>
+	<script type="text/javascript" src="polyfills.js"></script>
+	<script type="text/javascript" src="runtime.js"></script>
+	<script type="text/javascript" src="styles.js"></script>
+	<script type="text/javascript" src="vendor.js"></script>
+
     <%= text_formatting_js_includes %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
@@ -202,12 +209,5 @@ See docs/COPYRIGHT.rdoc for more details.
     }(jQuery));
     <% end %>
     <%= call_hook :view_layouts_base_body_bottom %>
-
-    <script type="text/javascript" src="inline.bundle.js"></script>
-    <script type="text/javascript" src="polyfills.bundle.js"></script>
-    <script type="text/javascript" src="styles.bundle.js"></script>
-    <script type="text/javascript" src="vendor.bundle.js"></script>
-    <script type="text/javascript" src="main.bundle.js"></script>
-
   </body>
 </html>
