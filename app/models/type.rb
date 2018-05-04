@@ -106,10 +106,6 @@ class ::Type < ActiveRecord::Base
     object.types.include?(self)
   end
 
-  def available_colors
-    PlanningElementTypeColor.all
-  end
-
   def valid_transition?(status_id_a, status_id_b, roles)
     transition_exists?(status_id_a, status_id_b, roles.map(&:id))
   end

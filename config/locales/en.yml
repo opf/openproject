@@ -185,6 +185,10 @@ en:
       no_results_content_text: Add a status reporting
 
   statuses:
+    edit:
+     status_color_text: |
+      Assign a color to the status.
+      It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
@@ -613,6 +617,7 @@ en:
     comment: "Comment"
     comments: "Comment"
     content: "Content"
+    color: "Color"
     created_at: "Created on"
     created_on: "Created on"
     custom_options: "Possible values"

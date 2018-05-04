@@ -29,16 +29,16 @@
 #++
 
 module ColorsHelper
-  def options_for_colors(colored_thing)
-    s = content_tag(:option, '')
-    colored_thing.available_colors.each do |c|
+  def options_for_colors(colored_thing, default_label: I18n.t(:label_none_parentheses), default_color: nil)
+    s = content_tag(:option, default_label, value: default_color)
+    PlanningElementTypeColor.find_each do |c|
       options = {}
       options[:value] = c.id
-      options[:selected] = 'selected' if c.id == colored_thing.color_id
+      options[:selected] = true if c.id == colored_thing.color_id
 
-      options[:style] = "background-color: #{c.hexcode}; color: #{c.contrasting_color}"
+      options[:style] = "appearance: none; background-color: #{c.hexcode}; color: #{c.contrasting_color}"
 
-      s << content_tag(:option, h(c.name), options)
+      s << content_tag(:option, c.name, options)
     end
     s
   end
