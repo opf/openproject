@@ -41,6 +41,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 })
 export class TablePaginationComponent implements OnInit {
   @Input() totalEntries:string;
+  @Input() hideForSinglePageResults:boolean = false;
   @Output() updateResults = new EventEmitter<PaginationInstance>();
 
   public pagination:PaginationInstance;
@@ -97,6 +98,10 @@ export class TablePaginationComponent implements OnInit {
 
   public onUpdatedPage() {
     this.updateResults.emit(this.pagination);
+  }
+
+  public get isVisible() {
+    return !this.hideForSinglePageResults || (this.pagination.total > this.pagination.perPage);
   }
 
   /**
