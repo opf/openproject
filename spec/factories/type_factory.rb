@@ -56,7 +56,7 @@ FactoryGirl.define do
 
     # reuse existing type with the given name
     # this prevents a validation error (name has to be unique)
-    initialize_with do ::Type.find_or_create_by(name: name) end
+    initialize_with do ::Type.find_or_initialize_by(name: name) end
 
     factory :type_feature do
       name 'Feature'

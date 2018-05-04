@@ -33,6 +33,7 @@ module Type::AttributeGroups
 
   included do
     before_save :write_attribute_groups_objects
+    after_save :unset_attribute_groups_objects
     after_destroy :remove_attribute_groups_queries
     validate :validate_attribute_group_names
     validate :validate_attribute_groups
@@ -128,8 +129,12 @@ module Type::AttributeGroups
   end
 
   def reload(*args)
-    self.attribute_groups_objects = nil
+    unset_attribute_groups_objects
     super
+  end
+
+  def unset_attribute_groups_objects
+    self.attribute_groups_objects = nil
   end
 
   protected
