@@ -64,7 +64,7 @@ describe ::Type, type: :model do
       it do
         expect(type.read_attribute(:attribute_groups)).to be_empty
 
-        attribute_groups = type.attribute_groups.select{ |g| g.is_a?(Type::AttributeGroup) }.map do |group|
+        attribute_groups = type.attribute_groups.select { |g| g.is_a?(Type::AttributeGroup) }.map do |group|
           [group.key, group.attributes]
         end
 
@@ -103,7 +103,9 @@ describe ::Type, type: :model do
         type.attribute_groups = []
       end
 
-      it_behaves_like 'returns default attributes'
+      it 'returns an empty attribute_groups' do
+        expect(type.attribute_groups).to be_empty
+      end
     end
 
     context 'with no attributes provided' do
@@ -240,6 +242,35 @@ describe ::Type, type: :model do
       type.attribute_groups = [['foo', [cf_identifier.to_s]]]
       expect(type.save).to be_truthy
       expect(type.read_attribute(:attribute_groups)).not_to be_empty
+    end
+  end
+
+  describe 'custom field added implicitly to type' do
+    let(:custom_field) do
+      FactoryGirl.create(
+        :work_package_custom_field,
+        field_format: 'string',
+        is_for_all: true
+      )
+    end
+    let!(:type) { FactoryGirl.create(:type, custom_fields: [custom_field]) }
+
+    it 'has the custom field in the default group' do
+      OpenProject::Cache.clear
+      type.reload
+
+      expect(type.custom_field_ids).to eq([custom_field.id])
+
+      other_group = type.attribute_groups.detect { |g| g.key == :other }
+      expect(other_group).to be_present
+      expect(other_group.attributes).to eq([custom_field.accessor_name])
+
+      # It is removed again when resetting it
+      type.reset_attribute_groups
+      expect(type.custom_field_ids).to be_empty
+
+      other_group = type.attribute_groups.detect { |g| g.key == :other }
+      expect(other_group).not_to be_present
     end
   end
 

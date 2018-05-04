@@ -68,8 +68,11 @@ class BaseTypeService
   end
 
   def set_attribute_groups(params)
-    groups = parse_attribute_groups_params(params)
-    type.attribute_groups = groups if groups
+    if params[:attribute_groups].present?
+      type.attribute_groups = parse_attribute_groups_params(params)
+    else
+      type.reset_attribute_groups
+    end
   end
 
   def parse_attribute_groups_params(params)
