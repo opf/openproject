@@ -87,8 +87,47 @@ describe 'form subelements configuration', type: :feature, js: true do
       query = type_bug.attribute_groups.detect { |x| x.key == 'Columns Test' }
       expect(query).to be_present
 
-      columns = query.attributes.columns.map(&:name).sort
-      expect(columns).to eq(%i[id subject])
+      column_names = query.attributes.columns.map(&:name).sort
+      expect(column_names).to eq %i[id subject]
+
+      form.add_query_group('Second query')
+      form.edit_query_group('Second query')
+
+      # Restrict filters to type_task
+      modal.switch_to 'Columns'
+
+      columns.assume_opened
+      columns.uncheck_all save_changes: false
+      columns.add 'ID', save_changes: false
+      columns.apply
+
+      # Save changed query
+      form.save_changes
+      expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+
+      type_bug.reload
+      query = type_bug.attribute_groups.detect { |x| x.key == 'Columns Test' }
+      expect(query).to be_present
+
+      column_names = query.attributes.columns.map(&:name).sort
+      expect(column_names).to eq %i[id subject]
+
+      query = type_bug.attribute_groups.detect { |x| x.key == 'Second query' }
+      expect(query).to be_present
+
+      column_names = query.attributes.columns.map(&:name).sort
+      expect(column_names).to eq %i[id]
+
+      form.edit_query_group('Second query')
+      modal.switch_to 'Columns'
+      columns.expect_checked 'ID'
+      columns.apply
+
+      form.edit_query_group('Columns Test')
+      modal.switch_to 'Columns'
+      columns.expect_checked 'ID'
+      columns.expect_checked 'Subject'
+      columns.apply
     end
 
     it 'can create and save embedded subelements' do

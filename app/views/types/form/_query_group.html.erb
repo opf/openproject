@@ -16,7 +16,7 @@
   </div>
   <%= content_tag :div,
                   class: 'type-form-query',
-                  data: { query: JSON.dump(query) } do %>
+                  data: { query: query_json } do %>
     <span class="type-form-query-group--edit-button" ng-click="editQuery($event)">
       <%= op_icon('button--icon icon-edit') %>
       <%= t('types.edit.edit_query') %>
