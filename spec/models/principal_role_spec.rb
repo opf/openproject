@@ -30,7 +30,7 @@ describe PrincipalRole, type: :model do
 
   describe '#valid?' do
     before(:each) do
-      @principal_role = FactoryGirl.build(:principal_role)
+      @principal_role = FactoryBot.build(:principal_role)
     end
 
     describe 'role not assignable to user' do

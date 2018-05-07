@@ -17,14 +17,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :principal_role do |pr|
     pr.association :role, :factory => :global_role
     pr.association :principal, :factory => :user
   end
 end
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :empty_principal_role, :class => PrincipalRole do |pr|
   end
 end

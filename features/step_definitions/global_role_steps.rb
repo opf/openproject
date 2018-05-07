@@ -33,7 +33,7 @@ Given /^the global permission "(.+)?" of the module "(.+)?" is defined$/ do |per
 end
 
 Given /^there is a global [rR]ole "([^\"]*)"$/ do |name|
-  FactoryGirl.create(:global_role, name: name) unless GlobalRole.find_by_name(name)
+  FactoryBot.create(:global_role, name: name) unless GlobalRole.find_by_name(name)
 end
 
 Given /^the global [rR]ole "([^\"]*)" may have the following [rR]ights:$/ do |role, table|
@@ -62,7 +62,7 @@ Given /^the [Uu]ser (.+) has the global role (.+)$/ do |user, role|
   role = GlobalRole.find_by_name(role.delete("\""))
 
   as_admin do
-    FactoryGirl.create(:principal_role, principal: user, role: role)
+    FactoryBot.create(:principal_role, principal: user, role: role)
   end
 end
 

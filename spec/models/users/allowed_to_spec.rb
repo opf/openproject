@@ -13,21 +13,21 @@ require 'spec_helper'
 
 describe User, 'allowed to' do
   let(:user) { member.principal }
-  let(:anonymous) { FactoryGirl.build(:anonymous) }
-  let(:project) { FactoryGirl.build(:project, is_public: false) }
-  let(:project2) { FactoryGirl.build(:project, is_public: false) }
-  let(:role) { FactoryGirl.build(:role) }
-  let(:role2) { FactoryGirl.build(:role) }
-  let(:anonymous_role) { FactoryGirl.build(:anonymous_role) }
-  let(:member) { FactoryGirl.build(:member, project:  project,
+  let(:anonymous) { FactoryBot.build(:anonymous) }
+  let(:project) { FactoryBot.build(:project, is_public: false) }
+  let(:project2) { FactoryBot.build(:project, is_public: false) }
+  let(:role) { FactoryBot.build(:role) }
+  let(:role2) { FactoryBot.build(:role) }
+  let(:anonymous_role) { FactoryBot.build(:anonymous_role) }
+  let(:member) { FactoryBot.build(:member, project:  project,
                                             roles: [role]) }
 
   let(:action) { :the_one }
   let(:other_action) { :another }
   let(:public_action) { :view_project }
   let(:global_permission) { Redmine::AccessControl.permissions.find { |p| p.global? } }
-  let(:global_role) { FactoryGirl.build(:global_role, :permissions => [global_permission.name]) }
-  let(:principal_role) { FactoryGirl.build(:empty_principal_role, principal: user,
+  let(:global_role) { FactoryBot.build(:global_role, :permissions => [global_permission.name]) }
+  let(:principal_role) { FactoryBot.build(:empty_principal_role, principal: user,
                                                                   role: global_role) }
 
 

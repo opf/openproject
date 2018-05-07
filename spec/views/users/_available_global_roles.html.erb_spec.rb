@@ -20,8 +20,8 @@
 require 'spec_helper'
 
 describe 'users/_available_global_roles' do
-  let(:user)         { FactoryGirl.create :user }
-  let(:global_roles) { FactoryGirl.create_list :global_role, 3 }
+  let(:user)         { FactoryBot.create :user }
+  let(:global_roles) { FactoryBot.create_list :global_role, 3 }
 
   it 'links to the principal roles controller using a path, not a URL' do
     render partial: 'users/available_global_roles',
