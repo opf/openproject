@@ -18,7 +18,7 @@ Installation
 
 To install the OpenProject Avatars plugin you need to add the following line to the `Gemfile.plugins` in your OpenProject folder (if you use a different OpenProject version than OpenProject 7, adapt `:branch => "stable/7"` to your OpenProject version):
 
-`gem "openproject-avatars", git: "https://github.com/finnlabs/openproject-avatars", :branch => "stable/7"`
+`gem "openproject-avatars", git: "https://github.com/opf/openproject-avatars", :branch => "stable/7"`
 
 Afterwards, run:
 
@@ -29,7 +29,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-avatars", git: "https://github.com/finnlabs/openproject-avatars", :branch => "stable/7"`
+`gem "openproject-avatars", git: "https://github.com/opf/openproject-avatars", :branch => "stable/7"`
 
 from the file `Gemfile.plugins` and run:
 
