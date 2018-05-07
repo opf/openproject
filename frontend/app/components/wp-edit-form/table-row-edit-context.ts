@@ -39,6 +39,7 @@ import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {WorkPackageEditForm} from './work-package-edit-form';
 import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 
 export class TableRowEditContext implements WorkPackageEditContext {
 
@@ -57,7 +58,8 @@ export class TableRowEditContext implements WorkPackageEditContext {
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder(this.injector);
 
-  constructor(public readonly injector:Injector,
+  constructor(readonly table:WorkPackageTable,
+              readonly injector:Injector,
               public workPackageId:string,
               public classIdentifier:string) {
     // injectorBridge(this);
@@ -166,6 +168,6 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 
   private get rowContainer() {
-    return jQuery(`.${this.classIdentifier}-table`);
+    return jQuery(this.table.tbody).find(`.${this.classIdentifier}-table`);
   }
 }

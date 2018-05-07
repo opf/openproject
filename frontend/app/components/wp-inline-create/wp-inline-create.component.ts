@@ -199,7 +199,12 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
         // Set editing context to table
         const context = new TableRowEditContext(
-          this.injector, wp.id, this.rowBuilder.classIdentifier(wp));
+          this.table,
+          this.injector,
+          wp.id,
+          this.rowBuilder.classIdentifier(wp)
+        );
+        
         this.workPackageEditForm = WorkPackageEditForm.createInContext(this.injector, context, wp, false);
         this.workPackageEditForm.changeset.clear();
 
