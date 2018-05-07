@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :webhook_log, class: Webhooks::Log do
     webhook factory: :webhook
     url "http://example.net/webhook_receiver/42"

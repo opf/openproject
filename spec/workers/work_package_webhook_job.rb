@@ -32,12 +32,12 @@ require 'spec_helper'
 describe WorkPackageWebhookJob, type: :model, webmock: true do
   shared_examples "a work package webhook call" do |*flags|
     let(:title) { "Some workpackage subject" }
-    let(:work_package) { FactoryGirl.create :work_package, subject: title }
+    let(:work_package) { FactoryBot.create :work_package, subject: title }
 
     let(:secret) { nil }
-    let(:webhook) { FactoryGirl.create :webhook, url: request_url, secret: secret }
+    let(:webhook) { FactoryBot.create :webhook, url: request_url, secret: secret }
 
-    let(:user) { FactoryGirl.create :admin }
+    let(:user) { FactoryBot.create :admin }
 
     let(:event) { "work_package:created" }
     let(:job) { WorkPackageWebhookJob.new webhook.id, work_package.journals.last.id, event }
