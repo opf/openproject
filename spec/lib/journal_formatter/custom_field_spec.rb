@@ -38,8 +38,8 @@ describe OpenProject::JournalFormatter::CustomField do
   let(:journal) do
     OpenStruct.new(id: id)
   end
-  let(:user) { FactoryGirl.create(:user) }
-  let(:custom_field) { FactoryGirl.create(:issue_custom_field) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:custom_field) { FactoryBot.create(:issue_custom_field) }
   let(:key) { "custom_fields_#{custom_field.id}" }
 
   describe '#render' do

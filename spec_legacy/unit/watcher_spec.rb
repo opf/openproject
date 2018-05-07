@@ -30,9 +30,9 @@ require 'legacy_spec_helper'
 
 describe Watcher do
   before do
-    @user  = FactoryGirl.create :user
-    @issue = FactoryGirl.create :work_package
-    @role  = FactoryGirl.create :role, permissions: [:view_work_packages]
+    @user  = FactoryBot.create :user
+    @issue = FactoryBot.create :work_package
+    @role  = FactoryBot.create :role, permissions: [:view_work_packages]
     @issue.project.add_member! @user, @role
   end
 

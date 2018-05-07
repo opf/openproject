@@ -33,8 +33,8 @@ describe 'API v3 User resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryGirl.create(:user) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:current_user) { FactoryBot.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
 
   subject(:response) { last_response }
 
@@ -48,7 +48,7 @@ describe 'API v3 User resource', type: :request, content_type: :json do
     end
 
     context 'admin user' do
-      let(:current_user) { FactoryGirl.create(:admin) }
+      let(:current_user) { FactoryBot.create(:admin) }
 
       it 'should respond with 200' do
         expect(subject.status).to eq(200)
@@ -243,7 +243,7 @@ describe 'API v3 User resource', type: :request, content_type: :json do
       end
 
       context 'with non-admin user' do
-        let(:current_user) { FactoryGirl.create :user, admin: false }
+        let(:current_user) { FactoryBot.create :user, admin: false }
 
         it 'responds with 403' do
           expect(subject.status).to eq 403
@@ -262,7 +262,7 @@ describe 'API v3 User resource', type: :request, content_type: :json do
     end
 
     context 'as admin' do
-      let(:current_user) { FactoryGirl.create :admin }
+      let(:current_user) { FactoryBot.create :admin }
 
       context 'with users deletable by admins' do
         let(:admin_delete) { true }
@@ -278,7 +278,7 @@ describe 'API v3 User resource', type: :request, content_type: :json do
     end
 
     context 'as non-admin' do
-      let(:current_user) { FactoryGirl.create :user, admin: false }
+      let(:current_user) { FactoryBot.create :user, admin: false }
 
       it_behaves_like 'deletion is not allowed'
     end
@@ -300,7 +300,7 @@ describe 'API v3 User resource', type: :request, content_type: :json do
     end
 
     context 'as anonymous user' do
-      let(:current_user) { FactoryGirl.create :anonymous }
+      let(:current_user) { FactoryBot.create :anonymous }
 
       it_behaves_like 'deletion is not allowed'
 

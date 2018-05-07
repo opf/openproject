@@ -4,23 +4,23 @@ describe 'Parallel work package creation spec', js: true do
   let(:type) { project.types.first }
 
   let(:permissions) { %i(view_work_packages add_work_packages) }
-  let(:role) { FactoryGirl.create :role, permissions: permissions }
+  let(:role) { FactoryBot.create :role, permissions: permissions }
   let(:user) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        member_in_project: project,
                        member_through_role: role
   end
-  let(:status) { FactoryGirl.create(:default_status) }
+  let(:status) { FactoryBot.create(:default_status) }
   let(:workflow) do
-    FactoryGirl.create :workflow,
+    FactoryBot.create :workflow,
                        type_id: type.id,
                        old_status: status,
-                       new_status: FactoryGirl.create(:status),
+                       new_status: FactoryBot.create(:status),
                        role: role
   end
 
-  let!(:project) { FactoryGirl.create(:project, is_public: true) }
-  let!(:priority) { FactoryGirl.create :priority, is_default: true }
+  let!(:project) { FactoryBot.create(:project, is_public: true) }
+  let!(:priority) { FactoryBot.create :priority, is_default: true }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
 
   before do

@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe ::API::Decorators::Single do
-  let(:user) { FactoryGirl.build(:user, member_in_project: project, member_through_role: role) }
-  let(:project) { FactoryGirl.create(:project_with_types) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:user) { FactoryBot.build(:user, member_in_project: project, member_through_role: role) }
+  let(:project) { FactoryBot.create(:project_with_types) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
   let(:model) { Object.new }
 

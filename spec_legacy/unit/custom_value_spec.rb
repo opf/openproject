@@ -102,11 +102,11 @@ describe CustomValue, type: :model do
   end
 
   it 'should float field validation' do
-    user = FactoryGirl.create :user
+    user = FactoryBot.create :user
     # There are cases, where the custom-value-table is not cleared completely,
     # therefore making double sure, that we have a clean slate before we start
     CustomField.destroy_all
-    FactoryGirl.create :float_user_custom_field, name: 'Money'
+    FactoryBot.create :float_user_custom_field, name: 'Money'
     v = CustomValue.new(customized: user, custom_field: UserCustomField.find_by(name: 'Money'))
     v.value = '11.2'
     assert v.save
@@ -120,9 +120,9 @@ describe CustomValue, type: :model do
 
   it 'should sti polymorphic association' do
     # Rails uses top level sti class for polymorphic association. See #3978.
-    user = FactoryGirl.create :user
-    custom_field = FactoryGirl.create :user_custom_field, field_format: 'string'
-    custom_value = FactoryGirl.create :principal_custom_value,
+    user = FactoryBot.create :user
+    custom_field = FactoryBot.create :user_custom_field, field_format: 'string'
+    custom_value = FactoryBot.create :principal_custom_value,
                                       custom_field: custom_field,
                                       customized: user,
                                       value: '01 23 45 67 89'

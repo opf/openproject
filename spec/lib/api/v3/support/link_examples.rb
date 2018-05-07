@@ -34,7 +34,7 @@ require 'spec_helper'
 shared_examples_for 'action link' do
   let(:permissions) { %i(view_work_packages edit_work_packages) }
   let(:user) do
-    FactoryGirl.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user)
   end
 
   let(:href) { nil }

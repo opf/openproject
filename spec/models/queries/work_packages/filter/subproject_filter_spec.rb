@@ -90,8 +90,8 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
     end
 
     describe '#allowed_values' do
-      let(:subproject1) { FactoryGirl.build_stubbed(:project) }
-      let(:subproject2) { FactoryGirl.build_stubbed(:project) }
+      let(:subproject1) { FactoryBot.build_stubbed(:project) }
+      let(:subproject2) { FactoryBot.build_stubbed(:project) }
 
       before do
         allow(project)
@@ -113,8 +113,8 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:subproject1) { FactoryGirl.build_stubbed(:project) }
-      let(:subproject2) { FactoryGirl.build_stubbed(:project) }
+      let(:subproject1) { FactoryBot.build_stubbed(:project) }
+      let(:subproject2) { FactoryBot.build_stubbed(:project) }
 
       before do
         allow(project)

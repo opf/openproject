@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative 'shared_query_column_specs'
 
 describe Queries::WorkPackages::Columns::CustomFieldColumn, type: :model do
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:custom_field) do
     mock_model(CustomField, field_format: 'string',
                             order_statements: nil)
@@ -41,11 +41,11 @@ describe Queries::WorkPackages::Columns::CustomFieldColumn, type: :model do
 
   describe 'instances' do
     let(:text_custom_field) do
-      FactoryGirl.create(:text_wp_custom_field)
+      FactoryBot.create(:text_wp_custom_field)
     end
 
     let(:list_custom_field) do
-      FactoryGirl.create(:list_wp_custom_field)
+      FactoryBot.create(:list_wp_custom_field)
     end
 
     context 'within project' do

@@ -31,20 +31,20 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::CustomActions::CustomActionsWrapper do
-  let!(:work_package1) { FactoryGirl.create(:work_package) }
-  let!(:work_package2) { FactoryGirl.create(:work_package) }
+  let!(:work_package1) { FactoryBot.create(:work_package) }
+  let!(:work_package2) { FactoryBot.create(:work_package) }
   let!(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: work_package2.project,
                        member_through_role: role)
   end
-  let!(:role) { FactoryGirl.create(:role) }
+  let!(:role) { FactoryBot.create(:role) }
   let!(:status_custom_action) do
-    FactoryGirl.create(:custom_action,
+    FactoryBot.create(:custom_action,
                        conditions: [CustomActions::Conditions::Status.new(work_package1.status_id.to_s)])
   end
   let!(:role_custom_action) do
-    FactoryGirl.create(:custom_action,
+    FactoryBot.create(:custom_action,
                        conditions: [CustomActions::Conditions::Role.new(role.id)])
   end
 

@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe WorkPackage, type: :model do
-  let(:type) { FactoryGirl.create :type }
-  let(:project) { FactoryGirl.create :project, types: [type] }
+  let(:type) { FactoryBot.create :type }
+  let(:project) { FactoryBot.create :project, types: [type] }
 
   let(:custom_field) do
-    FactoryGirl.create(
+    FactoryBot.create(
       :list_wp_custom_field,
       name: "Ingredients",
       multi_value: true,
@@ -50,7 +50,7 @@ describe WorkPackage, type: :model do
   end
 
   let(:work_package) do
-    wp = FactoryGirl.create :work_package, project: project, type: type
+    wp = FactoryBot.create :work_package, project: project, type: type
     wp.reload
     wp.custom_field_values = {
       custom_field.id => custom_values
@@ -68,7 +68,7 @@ describe WorkPackage, type: :model do
   end
 
   context 'when value not present' do
-    let(:work_package) { FactoryGirl.create :work_package, project: project, type: type }
+    let(:work_package) { FactoryBot.create :work_package, project: project, type: type }
 
     it 'returns nil properly' do
       expect(values).to eq(nil)

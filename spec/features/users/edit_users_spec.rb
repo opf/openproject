@@ -30,10 +30,10 @@ require 'spec_helper'
 require 'features/projects/projects_page'
 
 describe 'edit users', type: :feature, js: true do
-  let(:current_user) { FactoryGirl.create :admin }
-  let(:user) { FactoryGirl.create :user }
+  let(:current_user) { FactoryBot.create :admin }
+  let(:user) { FactoryBot.create :user }
 
-  let!(:auth_source) { FactoryGirl.create :auth_source }
+  let!(:auth_source) { FactoryBot.create :auth_source }
 
   before do
     allow(User).to receive(:current).and_return current_user

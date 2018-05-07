@@ -29,30 +29,30 @@
 require 'spec_helper'
 
 describe WorkPackages::AutoCompletesController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:project) { FactoryBot.create(:project) }
   let(:role) {
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: [:view_work_packages])
   }
   let(:member) {
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project,
                        principal: user,
                        roles: [role])
   }
   let(:work_package_1) do
-    FactoryGirl.create(:work_package, subject: "Can't print recipes",
+    FactoryBot.create(:work_package, subject: "Can't print recipes",
                                       project: project)
   end
 
   let(:work_package_2) do
-    FactoryGirl.create(:work_package, subject: 'Error when updating a recipe',
+    FactoryBot.create(:work_package, subject: 'Error when updating a recipe',
                                       project: project)
   end
 
   let(:work_package_3) do
-    FactoryGirl.create(:work_package, subject: 'Lorem ipsum',
+    FactoryBot.create(:work_package, subject: 'Lorem ipsum',
                                       project: project)
   end
 
@@ -166,7 +166,7 @@ describe WorkPackages::AutoCompletesController, type: :controller do
     describe 'returns work package for given id' do
       render_views
       let(:work_package_4) {
-        FactoryGirl.create(:work_package,
+        FactoryBot.create(:work_package,
                            subject: "<script>alert('danger!');</script>",
                            project: project)
       }
@@ -191,17 +191,17 @@ describe WorkPackages::AutoCompletesController, type: :controller do
 
     describe 'in different projects' do
       let(:project_2) {
-        FactoryGirl.create(:project,
+        FactoryBot.create(:project,
                            parent: project)
       }
       let(:member_2) {
-        FactoryGirl.create(:member,
+        FactoryBot.create(:member,
                            project: project_2,
                            principal: user,
                            roles: [role])
       }
       let(:work_package_4) do
-        FactoryGirl.create(:work_package, subject: 'Foo Bar Baz',
+        FactoryBot.create(:work_package, subject: 'Foo Bar Baz',
                                           project: project_2)
       end
 

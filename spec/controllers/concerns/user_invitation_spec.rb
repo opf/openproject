@@ -48,8 +48,8 @@ describe UserInvitation do
   end
 
   describe '.reinvite_user' do
-    let(:user) { FactoryGirl.create :invited_user }
-    let!(:token) { FactoryGirl.create :invitation_token, user: user }
+    let(:user) { FactoryBot.create :invited_user }
+    let!(:token) { FactoryBot.create :invitation_token, user: user }
 
     it 'notifies listeners of the re-invite' do
       expect(OpenProject::Notifications).to receive(:send) do |event, new_token|

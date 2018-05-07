@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Project::Copy, type: :model do
   describe '#copy' do
-    let(:project) { FactoryGirl.create(:project_with_types) }
+    let(:project) { FactoryBot.create(:project_with_types) }
     let(:copy) { Project.new }
 
     before do
@@ -48,7 +48,7 @@ describe Project::Copy, type: :model do
   end
 
   describe '#copy_attributes' do
-    let(:project) { FactoryGirl.create(:project_with_types) }
+    let(:project) { FactoryBot.create(:project_with_types) }
 
     let(:copy) do
       copy = Project.new
@@ -70,8 +70,8 @@ describe Project::Copy, type: :model do
 
     describe '#work_package_custom_fields' do
       let(:project) do
-        project = FactoryGirl.create(:project_with_types)
-        work_package_custom_field = FactoryGirl.create(:work_package_custom_field)
+        project = FactoryBot.create(:project_with_types)
+        work_package_custom_field = FactoryBot.create(:work_package_custom_field)
         project.work_package_custom_fields << work_package_custom_field
         project.save
         project
@@ -85,7 +85,7 @@ describe Project::Copy, type: :model do
     describe '#is_public' do
       describe '#non_public' do
         let(:project) do
-          project = FactoryGirl.create(:project_with_types)
+          project = FactoryBot.create(:project_with_types)
           project.is_public = false
           project.save
           project
@@ -98,7 +98,7 @@ describe Project::Copy, type: :model do
 
       describe '#public' do
         let(:project) do
-          project = FactoryGirl.create(:project_with_types)
+          project = FactoryBot.create(:project_with_types)
           project.is_public = true
           project.save
           project
@@ -112,7 +112,7 @@ describe Project::Copy, type: :model do
   end
 
   describe '#copy_associations' do
-    let(:project) { FactoryGirl.create(:project_with_types) }
+    let(:project) { FactoryBot.create(:project_with_types) }
     let(:copy) do
       copy = Project.new
       copy.name = 'foo'
@@ -123,18 +123,18 @@ describe Project::Copy, type: :model do
     end
 
     describe '#copy_work_packages' do
-      let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-      let(:work_package2) { FactoryGirl.create(:work_package, project: project) }
-      let(:work_package3) { FactoryGirl.create(:work_package, project: project) }
-      let(:version) { FactoryGirl.create(:version, project: project) }
-      let(:user) { FactoryGirl.create(:admin) }
+      let(:work_package) { FactoryBot.create(:work_package, project: project) }
+      let(:work_package2) { FactoryBot.create(:work_package, project: project) }
+      let(:work_package3) { FactoryBot.create(:work_package, project: project) }
+      let(:version) { FactoryBot.create(:version, project: project) }
+      let(:user) { FactoryBot.create(:admin) }
 
       before do
         login_as(user)
       end
 
       describe '#attachments' do
-        let!(:attachment) { FactoryGirl.create(:attachment, container: work_package) }
+        let!(:attachment) { FactoryBot.create(:attachment, container: work_package) }
 
         before do
           copy.send :copy_work_packages, project, only
@@ -163,7 +163,7 @@ describe Project::Copy, type: :model do
 
       describe '#relation' do
         before do
-          FactoryGirl.create(:relation, from: work_package, to: work_package2)
+          FactoryBot.create(:relation, from: work_package, to: work_package2)
           [work_package, work_package2].each { |wp| project.work_packages << wp }
 
           copy.send :copy_work_packages, project
@@ -206,7 +206,7 @@ describe Project::Copy, type: :model do
       describe '#category' do
         before do
           wp = work_package
-          wp.category = FactoryGirl.create(:category, project: project)
+          wp.category = FactoryBot.create(:category, project: project)
           wp.save
 
           project.work_packages << wp.reload
@@ -223,8 +223,8 @@ describe Project::Copy, type: :model do
       end
 
       describe '#watchers' do
-        let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-        let(:watcher) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+        let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+        let(:watcher) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
 
         describe '#active_watcher' do
           before do
@@ -268,7 +268,7 @@ describe Project::Copy, type: :model do
     end
 
     describe '#copy_queries' do
-      let(:query) { FactoryGirl.create(:query, project: project) }
+      let(:query) { FactoryBot.create(:query, project: project) }
 
       before do
         query
@@ -283,7 +283,7 @@ describe Project::Copy, type: :model do
 
       context 'with a filter' do
         let(:query) {
-          query = FactoryGirl.build(:query, project: project)
+          query = FactoryBot.build(:query, project: project)
           query.add_filter('subject', '~', ['bogus'])
           query.save!
         }
@@ -298,7 +298,7 @@ describe Project::Copy, type: :model do
 
       context 'with a query menu item' do
         let(:query) {
-          query = FactoryGirl.build(:query, project: project)
+          query = FactoryBot.build(:query, project: project)
           query.add_filter('subject', '~', ['bogus'])
           query.save!
 
@@ -322,8 +322,8 @@ describe Project::Copy, type: :model do
     describe '#copy_members' do
       describe '#with_user' do
         before do
-          role = FactoryGirl.create(:role)
-          user = FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+          role = FactoryBot.create(:role)
+          user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
 
           copy.send(:copy_members, project)
           copy.save
@@ -336,7 +336,7 @@ describe Project::Copy, type: :model do
 
       describe '#with_group' do
         before do
-          project.add_member! FactoryGirl.create(:group), FactoryGirl.create(:role)
+          project.add_member! FactoryBot.create(:group), FactoryBot.create(:role)
 
           copy.send(:copy_members, project)
           copy.save
@@ -350,7 +350,7 @@ describe Project::Copy, type: :model do
 
     describe '#copy_wiki' do
       before do
-        project.wiki = FactoryGirl.create(:wiki, project: project)
+        project.wiki = FactoryBot.create(:wiki, project: project)
         project.save
 
         copy.send(:copy_wiki, project)
@@ -365,7 +365,7 @@ describe Project::Copy, type: :model do
       describe '#copy_wiki_pages' do
         describe '#dont_copy_wiki_page_without_content' do
           before do
-            project.wiki.pages << FactoryGirl.create(:wiki_page)
+            project.wiki.pages << FactoryBot.create(:wiki_page)
 
             copy.send(:copy_wiki_pages, project)
             copy.save
@@ -378,7 +378,7 @@ describe Project::Copy, type: :model do
 
         describe '#copy_wiki_page_with_content' do
           before do
-            project.wiki.pages << FactoryGirl.create(:wiki_page_with_content)
+            project.wiki.pages << FactoryBot.create(:wiki_page_with_content)
 
             copy.send(:copy_wiki_pages, project)
             copy.save
@@ -391,7 +391,7 @@ describe Project::Copy, type: :model do
       end
       describe '#copy_wiki_menu_items' do
         before do
-          project.wiki.wiki_menu_items << FactoryGirl.create(:wiki_menu_item_with_parent, wiki: project.wiki)
+          project.wiki.wiki_menu_items << FactoryBot.create(:wiki_menu_item_with_parent, wiki: project.wiki)
           copy.send(:copy_wiki_menu_items, project)
           copy.save
         end
@@ -403,7 +403,7 @@ describe Project::Copy, type: :model do
     end
 
     describe '#copy_boards' do
-      let(:board) { FactoryGirl.create(:board, project: project) }
+      let(:board) { FactoryBot.create(:board, project: project) }
 
       context 'boards are copied' do
         before do
@@ -418,8 +418,8 @@ describe Project::Copy, type: :model do
 
       context 'board topics are copied' do
         before do
-          topic = FactoryGirl.create(:message, board: board)
-          message = FactoryGirl.create(:message, board: board, parent_id: topic.id)
+          topic = FactoryBot.create(:message, board: board)
+          message = FactoryBot.create(:message, board: board, parent_id: topic.id)
 
           copy.send(:copy_boards, project)
           copy.save
@@ -434,7 +434,7 @@ describe Project::Copy, type: :model do
 
     describe '#copy_versions' do
       before do
-        FactoryGirl.create(:version, project: project)
+        FactoryBot.create(:version, project: project)
 
         copy.send(:copy_versions, project)
         copy.save
@@ -447,7 +447,7 @@ describe Project::Copy, type: :model do
 
     describe '#copy_categories' do
       before do
-        FactoryGirl.create(:category, project: project)
+        FactoryBot.create(:category, project: project)
 
         copy.send(:copy_categories, project)
         copy.save

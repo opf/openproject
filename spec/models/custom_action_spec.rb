@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe CustomAction, type: :model do
-  let(:stubbed_instance) { FactoryGirl.build_stubbed :custom_action }
-  let(:instance) { FactoryGirl.create :custom_action, name: 'zzzzzzzzz' }
-  let(:other_instance) { FactoryGirl.create :custom_action, name: 'aaaaa' }
+  let(:stubbed_instance) { FactoryBot.build_stubbed :custom_action }
+  let(:instance) { FactoryBot.create :custom_action, name: 'zzzzzzzzz' }
+  let(:other_instance) { FactoryBot.create :custom_action, name: 'aaaaa' }
 
   describe '#name' do
     it 'can be set and read' do
@@ -124,9 +124,9 @@ describe CustomAction, type: :model do
   end
 
   describe '.conditions' do
-    let(:status) { FactoryGirl.create(:status) }
-    let(:role) { FactoryGirl.create(:role) }
-    let(:project) { FactoryGirl.create(:project) }
+    let(:status) { FactoryBot.create(:status) }
+    let(:role) { FactoryBot.create(:role) }
+    let(:project) { FactoryBot.create(:project) }
 
     it 'is empty initially' do
       expect(stubbed_instance.conditions)

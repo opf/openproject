@@ -29,56 +29,56 @@
 require 'spec_helper'
 
 describe WorkPackages::BulkController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:user2) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:user2) { FactoryBot.create(:user) }
   let(:custom_field_value) { '125' }
   let(:custom_field_1) {
-    FactoryGirl.create(:work_package_custom_field,
+    FactoryBot.create(:work_package_custom_field,
                        field_format: 'string',
                        is_for_all: true)
   }
-  let(:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
-  let(:custom_field_user) { FactoryGirl.create(:user_issue_custom_field) }
-  let(:status) { FactoryGirl.create(:status) }
+  let(:custom_field_2) { FactoryBot.create(:work_package_custom_field) }
+  let(:custom_field_user) { FactoryBot.create(:user_issue_custom_field) }
+  let(:status) { FactoryBot.create(:status) }
   let(:type) {
-    FactoryGirl.create(:type_standard,
+    FactoryBot.create(:type_standard,
                        custom_fields: [custom_field_1, custom_field_2, custom_field_user])
   }
   let(:project_1) {
-    FactoryGirl.create(:project,
+    FactoryBot.create(:project,
                        types: [type],
                        work_package_custom_fields: [custom_field_2])
   }
   let(:project_2) {
-    FactoryGirl.create(:project,
+    FactoryBot.create(:project,
                        types: [type])
   }
   let(:role) {
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: [:edit_work_packages,
                                      :view_work_packages,
                                      :manage_subtasks])
   }
   let(:member1_p1) {
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project_1,
                        principal: user,
                        roles: [role])
   }
   let(:member2_p1) {
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project_1,
                        principal: user2,
                        roles: [role])
   }
   let(:member1_p2) {
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project_2,
                        principal: user,
                        roles: [role])
   }
   let(:work_package_1) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        author: user,
                        assigned_to: user,
                        responsible: user2,
@@ -88,7 +88,7 @@ describe WorkPackages::BulkController, type: :controller do
                        project: project_1)
   }
   let(:work_package_2) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        author: user,
                        assigned_to: user,
                        responsible: user2,
@@ -98,7 +98,7 @@ describe WorkPackages::BulkController, type: :controller do
                        project: project_1)
   }
   let(:work_package_3) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        author: user,
                        type: type,
                        status: status,
@@ -106,7 +106,7 @@ describe WorkPackages::BulkController, type: :controller do
                        project: project_2)
   }
 
-  let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
+  let(:stub_work_package) { FactoryBot.build_stubbed(:work_package) }
 
   before do
     custom_field_1
@@ -189,7 +189,7 @@ describe WorkPackages::BulkController, type: :controller do
   describe '#update' do
     let(:work_package_ids) { [work_package_1.id, work_package_2.id] }
     let(:work_packages) { WorkPackage.where(id: work_package_ids) }
-    let(:priority) { FactoryGirl.create(:priority_immediate) }
+    let(:priority) { FactoryBot.create(:priority_immediate) }
     let(:group_id) { '' }
     let(:responsible_id) { '' }
 
@@ -222,17 +222,17 @@ describe WorkPackages::BulkController, type: :controller do
     context 'when updating two work packages with differing whitelisted params' do
       let!(:work_package_ids) { [work_package_1.id, work_package_3.id] }
 
-      let!(:role_with_permission_to_add_watchers) { FactoryGirl.create(:role, permissions: role.permissions + [:add_work_package_watchers]) }
-      let!(:other_user) { FactoryGirl.create :user }
+      let!(:role_with_permission_to_add_watchers) { FactoryBot.create(:role, permissions: role.permissions + [:add_work_package_watchers]) }
+      let!(:other_user) { FactoryBot.create :user }
 
       let!(:other_member_1) {
-        FactoryGirl.create(:member,
+        FactoryBot.create(:member,
                            project: project_1,
                            principal: other_user,
                            roles: [role_with_permission_to_add_watchers])
       }
       let!(:other_member_2) {
-        FactoryGirl.create(:member,
+        FactoryBot.create(:member,
                            project: project_2,
                            principal: other_user,
                            roles: [role])
@@ -376,7 +376,7 @@ describe WorkPackages::BulkController, type: :controller do
 
       describe '#properties' do
         describe '#groups' do
-          let(:group) { FactoryGirl.create(:group) }
+          let(:group) { FactoryBot.create(:group) }
           let(:group_id) { group.id }
 
           include_context 'update_request'
@@ -397,9 +397,9 @@ describe WorkPackages::BulkController, type: :controller do
         end
 
         describe '#status' do
-          let(:closed_status) { FactoryGirl.create(:closed_status) }
+          let(:closed_status) { FactoryBot.create(:closed_status) }
           let(:workflow) {
-            FactoryGirl.create(:workflow,
+            FactoryBot.create(:workflow,
                                role: role,
                                type_id: type.id,
                                old_status: status,
@@ -423,7 +423,7 @@ describe WorkPackages::BulkController, type: :controller do
 
         describe '#parent' do
           let(:parent) {
-            FactoryGirl.create(:work_package,
+            FactoryBot.create(:work_package,
                                author: user,
                                project: project_1)
           }
@@ -493,13 +493,13 @@ describe WorkPackages::BulkController, type: :controller do
         describe '#version' do
           describe 'set fixed_version_id attribute to some version' do
             let(:version) {
-              FactoryGirl.create(:version,
+              FactoryBot.create(:version,
                                  status: 'open',
                                  sharing: 'tree',
                                  project: subproject)
             }
             let(:subproject) {
-              FactoryGirl.create(:project,
+              FactoryBot.create(:project,
                                  parent: project_1,
                                  types: [type])
             }

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'user self registration', type: :feature, js: true do
-  let(:admin) { FactoryGirl.create :admin, password: 'Test123Test123', password_confirmation: 'Test123Test123' }
+  let(:admin) { FactoryBot.create :admin, password: 'Test123Test123', password_confirmation: 'Test123Test123' }
   let(:home_page) { Pages::Home.new }
 
   context 'with "manual account activation"' do

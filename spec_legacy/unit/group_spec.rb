@@ -30,14 +30,14 @@ require 'legacy_spec_helper'
 
 describe Group, type: :model do
   before do
-    @group = FactoryGirl.create :group
-    @member = FactoryGirl.build :member
-    @work_package = FactoryGirl.create :work_package
-    @roles = FactoryGirl.create_list :role, 2
+    @group = FactoryBot.create :group
+    @member = FactoryBot.build :member
+    @work_package = FactoryBot.create :work_package
+    @roles = FactoryBot.create_list :role, 2
     @member.attributes = { principal: @group, role_ids: @roles.map(&:id) }
     @member.save!
     @project = @member.project
-    @user = FactoryGirl.create :user
+    @user = FactoryBot.create :user
     @group.users << @user
     @group.save!
   end
@@ -48,7 +48,7 @@ describe Group, type: :model do
   end
 
   it 'should roles given to new user' do
-    user = FactoryGirl.build :user
+    user = FactoryBot.build :user
     @group.users << user
 
     assert user.member_of? @project
@@ -59,13 +59,13 @@ describe Group, type: :model do
   end
 
   it 'should roles updated' do
-    group = FactoryGirl.create :group
-    member = FactoryGirl.build :member
-    roles = FactoryGirl.create_list :role, 2
+    group = FactoryBot.create :group
+    member = FactoryBot.build :member
+    roles = FactoryBot.create_list :role, 2
     role_ids = roles.map(&:id)
     member.attributes = { principal: group, role_ids: role_ids }
     member.save!
-    user = FactoryGirl.create :user
+    user = FactoryBot.create :user
     group.users << user
     group.save!
 

@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe StatusesController, type: :controller do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:status) { FactoryGirl.create(:status) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:status) { FactoryBot.create(:status) }
 
   before do allow(User).to receive(:current).and_return user end
 
@@ -90,7 +90,7 @@ describe StatusesController, type: :controller do
 
     context 'default' do
       let!(:status_default) {
-        FactoryGirl.create(:status,
+        FactoryBot.create(:status,
                            is_default: true)
       }
 
@@ -172,7 +172,7 @@ describe StatusesController, type: :controller do
 
     context 'used' do
       let(:work_package) {
-        FactoryGirl.create(:work_package,
+        FactoryBot.create(:work_package,
                            status: status)
       }
 
@@ -189,7 +189,7 @@ describe StatusesController, type: :controller do
 
     context 'default' do
       let!(:status_default) {
-        FactoryGirl.create(:status,
+        FactoryBot.create(:status,
                            is_default: true)
       }
 

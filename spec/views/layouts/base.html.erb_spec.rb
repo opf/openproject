@@ -36,8 +36,8 @@ describe 'layouts/base', type: :view do
 
   include Redmine::MenuManager::MenuHelper
   helper Redmine::MenuManager::MenuHelper
-  let!(:user) { FactoryGirl.create :user }
-  let!(:anonymous) { FactoryGirl.create(:anonymous) }
+  let!(:user) { FactoryBot.create :user }
+  let!(:anonymous) { FactoryBot.create(:anonymous) }
 
   before do
     allow(view).to receive(:current_menu_item).and_return('overview')
@@ -180,7 +180,7 @@ describe 'layouts/base', type: :view do
 
     context "EE is active and styles are present" do
       let(:custom_style) { CustomStyle.new }
-      let(:primary_color) { FactoryGirl.create :"design_color_primary-color" }
+      let(:primary_color) { FactoryBot.create :"design_color_primary-color" }
 
       before do
         allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)

@@ -33,7 +33,7 @@ describe Changeset, type: :model do
 
   with_virtual_subversion_repository do
     let(:changeset) {
-      FactoryGirl.build(:changeset,
+      FactoryBot.build(:changeset,
                         repository: repository,
                         revision: '1',
                         committer: email,
@@ -67,7 +67,7 @@ describe Changeset, type: :model do
     end
 
     describe 'with user is committer' do
-      let!(:committer) { FactoryGirl.create(:user, login: email) }
+      let!(:committer) { FactoryBot.create(:user, login: email) }
 
       before do changeset.save! end
 
@@ -77,8 +77,8 @@ describe Changeset, type: :model do
     end
 
     describe 'current user is not committer' do
-      let(:current_user) { FactoryGirl.create(:user) }
-      let!(:committer) { FactoryGirl.create(:user, login: email) }
+      let(:current_user) { FactoryBot.create(:user) }
+      let!(:committer) { FactoryBot.create(:user, login: email) }
 
       before do
         allow(User).to receive(:current).and_return current_user

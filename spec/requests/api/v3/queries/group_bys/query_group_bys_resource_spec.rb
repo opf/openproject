@@ -36,11 +36,11 @@ describe 'API v3 Query Group By resource', type: :request do
   describe '#get queries/group_bys/:id' do
     let(:path) { api_v3_paths.query_group_by(group_by_name) }
     let(:group_by_name) { 'status' }
-    let(:project) { FactoryGirl.create(:project) }
-    let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+    let(:project) { FactoryBot.create(:project) }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
     let(:permissions) { [:view_work_packages] }
     let(:user) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: project,
                          member_through_role: role)
     end

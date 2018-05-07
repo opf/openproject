@@ -29,18 +29,18 @@
 require 'spec_helper'
 
 feature 'group memberships through groups page', type: :feature, js: true do
-  let!(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
+  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
-  let(:admin)     { FactoryGirl.create :admin }
-  let!(:peter)    { FactoryGirl.create :user, firstname: 'Peter', lastname: 'Pan', mail: 'foo@example.org' }
-  let!(:hannibal) { FactoryGirl.create :user, firstname: 'Hannibal', lastname: 'Smith', mail: 'foo@bar.org' }
-  let!(:crash)    { FactoryGirl.create :user, firstname: "<script>alert('h4x');</script>",
+  let(:admin)     { FactoryBot.create :admin }
+  let!(:peter)    { FactoryBot.create :user, firstname: 'Peter', lastname: 'Pan', mail: 'foo@example.org' }
+  let!(:hannibal) { FactoryBot.create :user, firstname: 'Hannibal', lastname: 'Smith', mail: 'foo@bar.org' }
+  let!(:crash)    { FactoryBot.create :user, firstname: "<script>alert('h4x');</script>",
                                               lastname: "<script>alert('h4x');</script>" }
 
-  let(:group) { FactoryGirl.create :group, lastname: 'A-Team' }
+  let(:group) { FactoryBot.create :group, lastname: 'A-Team' }
 
-  let!(:manager)   { FactoryGirl.create :role, name: 'Manager' }
-  let!(:developer) { FactoryGirl.create :role, name: 'Developer' }
+  let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
+  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
 
   let(:members_page) { Pages::Members.new project.identifier }
 

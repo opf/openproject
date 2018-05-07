@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :default_enumeration, class: Enumeration do
     initialize_with do
       Enumeration.where(type: 'Enumeration', is_default: true).first || Enumeration.new

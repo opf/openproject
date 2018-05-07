@@ -32,14 +32,14 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryGirl.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user)
   end
   let(:all_permissions) { %i[view_work_packages edit_work_packages] }
   let(:permissions) { all_permissions }
 
-  let(:container) { FactoryGirl.build_stubbed(:stubbed_work_package) }
+  let(:container) { FactoryBot.build_stubbed(:stubbed_work_package) }
   let(:attachment) do
-    FactoryGirl.build_stubbed(:attachment,
+    FactoryBot.build_stubbed(:attachment,
                               container: container,
                               created_on: DateTime.now) do |attachment|
       allow(attachment)

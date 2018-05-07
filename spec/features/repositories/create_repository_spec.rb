@@ -30,8 +30,8 @@ require 'spec_helper'
 require 'features/repositories/repository_settings_page'
 
 describe 'Create repository', type: :feature, js: true, selenium: true do
-  let(:current_user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:current_user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
 
   # Allow to override configuration values to determine

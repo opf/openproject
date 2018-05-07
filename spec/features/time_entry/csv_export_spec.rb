@@ -31,25 +31,25 @@ require 'spec_helper'
 describe 'time entry csv export', type: :feature do
   # Force project to have only the required module activated
   # This may otherwise break for non-core configurations
-  let(:project) { FactoryGirl.create(:project, enabled_module_names: %w(time_tracking)) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_time_entries]) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:project) { FactoryBot.create(:project, enabled_module_names: %w(time_tracking)) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_time_entries]) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:project_time_entry) {
-    FactoryGirl.build(:time_entry,
+    FactoryBot.build(:time_entry,
                       project: project,
                       work_package: work_package,
                       comments: 'la le lu')
   }
-  let(:project2) { FactoryGirl.create(:project) }
-  let(:work_package2) { FactoryGirl.create(:work_package, project: project2) }
+  let(:project2) { FactoryBot.create(:project) }
+  let(:work_package2) { FactoryBot.create(:work_package, project: project2) }
   let(:project_time_entry2) {
-    FactoryGirl.build(:time_entry,
+    FactoryBot.build(:time_entry,
                       project: project2,
                       work_package: work_package2,
                       comments: 'la le lu la le lu')
   }
   let(:current_user) {
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_projects: [project, project2],
                        member_through_role: role)
   }

@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :changeset do
     sequence(:revision) do |n| "#{n}" end
     committed_on Time.now

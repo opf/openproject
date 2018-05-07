@@ -97,7 +97,7 @@ describe Queries::Users::UserQuery, type: :model do
   end
 
   context 'with a group filter' do
-    let(:group_1) { FactoryGirl.build_stubbed(:group) }
+    let(:group_1) { FactoryBot.build_stubbed(:group) }
 
     before do
       allow(Group)

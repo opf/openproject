@@ -33,8 +33,8 @@ describe 'API v3 Role resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryGirl.create(:user) }
-  let(:role) { FactoryGirl.create(:role) }
+  let(:current_user) { FactoryBot.create(:user) }
+  let(:role) { FactoryBot.create(:role) }
 
   before do
     # Avoid having a builtin role left over from another spec

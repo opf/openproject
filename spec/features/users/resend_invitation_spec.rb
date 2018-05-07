@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 feature 'resend invitation', type: :feature do
-  let(:current_user) { FactoryGirl.create :admin }
-  let(:user) { FactoryGirl.create :invited_user, mail: 'holly@openproject.com' }
+  let(:current_user) { FactoryBot.create :admin }
+  let(:user) { FactoryBot.create :invited_user, mail: 'holly@openproject.com' }
 
   before do
     allow(User).to receive(:current).and_return current_user

@@ -34,8 +34,8 @@ describe "POST /api/v3/queries/form", type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.create_query_form }
-  let(:user) { FactoryGirl.create(:admin) }
-  let!(:project) { FactoryGirl.create(:project_with_types) }
+  let(:user) { FactoryBot.create(:admin) }
+  let!(:project) { FactoryBot.create(:project_with_types) }
 
   let(:parameters) { {} }
   let(:override_params) { {} }
@@ -158,7 +158,7 @@ describe "POST /api/v3/queries/form", type: :request do
       let(:relation_columns_allowed) { true }
 
       let(:custom_field) do
-        cf = FactoryGirl.create(:list_wp_custom_field)
+        cf = FactoryBot.create(:list_wp_custom_field)
         project.work_package_custom_fields << cf
         cf.types << project.types.first
 
@@ -166,7 +166,7 @@ describe "POST /api/v3/queries/form", type: :request do
       end
 
       let(:non_project_type) do
-        FactoryGirl.create(:type)
+        FactoryBot.create(:type)
       end
 
       let(:additional_setup) do
@@ -251,7 +251,7 @@ describe "POST /api/v3/queries/form", type: :request do
       let(:relation_columns_allowed) { true }
 
       let(:custom_field) do
-        cf = FactoryGirl.create(:list_wp_custom_field)
+        cf = FactoryBot.create(:list_wp_custom_field)
         project.work_package_custom_fields << cf
         cf.types << project.types.first
 
@@ -259,7 +259,7 @@ describe "POST /api/v3/queries/form", type: :request do
       end
 
       let(:non_project_type) do
-        FactoryGirl.create(:type)
+        FactoryBot.create(:type)
       end
 
       let(:additional_setup) do
@@ -329,7 +329,7 @@ describe "POST /api/v3/queries/form", type: :request do
   end
 
   describe 'with all parameters given' do
-    let(:status) { FactoryGirl.create :status }
+    let(:status) { FactoryBot.create :status }
 
     let(:parameters) do
       {
@@ -554,7 +554,7 @@ describe "POST /api/v3/queries/form", type: :request do
     end
 
     context "with an unauthorized user trying to set the query public" do
-      let(:user) { FactoryGirl.create :user }
+      let(:user) { FactoryBot.create :user }
 
       it "should reject the request" do
         expect(form.dig("_embedded", "validationErrors", "public", "message"))

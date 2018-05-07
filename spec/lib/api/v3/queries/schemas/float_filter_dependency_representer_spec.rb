@@ -31,9 +31,9 @@ require 'spec_helper'
 describe ::API::V3::Queries::Schemas::FloatFilterDependencyRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
-  let(:custom_field) { FactoryGirl.build_stubbed(:float_wp_custom_field) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
+  let(:custom_field) { FactoryBot.build_stubbed(:float_wp_custom_field) }
   let(:filter) do
     Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: custom_field,
                                                                         context: query
@@ -94,7 +94,7 @@ describe ::API::V3::Queries::Schemas::FloatFilterDependencyRepresenter, clear_ca
 
     describe 'caching' do
       let(:operator) { Queries::Operators::Equals }
-      let(:other_project) { FactoryGirl.build_stubbed(:project) }
+      let(:other_project) { FactoryBot.build_stubbed(:project) }
 
       before do
         # fill the cache

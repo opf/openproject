@@ -34,8 +34,8 @@ describe CustomActions::Conditions::Type, type: :model do
 
     describe '#allowed_values' do
       it 'is the list of all types' do
-        types = [FactoryGirl.build_stubbed(:type),
-                 FactoryGirl.build_stubbed(:type)]
+        types = [FactoryBot.build_stubbed(:type),
+                 FactoryBot.build_stubbed(:type)]
         allow(Type)
           .to receive_message_chain(:select)
           .and_return(types)

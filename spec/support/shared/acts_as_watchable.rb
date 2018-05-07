@@ -43,17 +43,17 @@ MESSAGE
   let(:watcher_role) do
     permissions = is_public_permission ? [] : [watch_permission]
 
-    FactoryGirl.create(:role, permissions: permissions)
+    FactoryBot.create(:role, permissions: permissions)
   end
-  let(:non_watcher_role) { FactoryGirl.create(:role, permissions: []) }
-  let(:non_member_user) { FactoryGirl.create(:user) }
+  let(:non_watcher_role) { FactoryBot.create(:role, permissions: []) }
+  let(:non_member_user) { FactoryBot.create(:user) }
   let(:user_with_permission) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: watcher_role)
   end
   let(:locked_user_with_permission) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        status: Principal::STATUSES[:locked],
                        member_in_project: project,
                        member_through_role: watcher_role)
@@ -61,17 +61,17 @@ MESSAGE
 
   let(:user_wo_permission) do
     if is_public_permission
-      FactoryGirl.create(:user)
+      FactoryBot.create(:user)
     else
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: project,
                          member_through_role: non_watcher_role)
     end
   end
-  let(:admin) { FactoryGirl.build(:admin) }
-  let(:anonymous_user) { FactoryGirl.build(:anonymous) }
+  let(:admin) { FactoryBot.build(:admin) }
+  let(:anonymous_user) { FactoryBot.build(:anonymous) }
   let(:watching_user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: watcher_role).tap do |user|
       Watcher.create(watchable: model_instance, user: user)
@@ -101,7 +101,7 @@ MESSAGE
   shared_context 'anonymous role has the permission to watch' do
     let(:anonymous_role) do
       permissions = is_public_permission ? [] : [watch_permission]
-      FactoryGirl.build :anonymous_role, permissions: permissions
+      FactoryBot.build :anonymous_role, permissions: permissions
     end
 
     before do

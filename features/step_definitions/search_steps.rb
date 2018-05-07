@@ -28,7 +28,7 @@
 #++
 
 Given(/^there are (\d+) work packages with "(.*?)" in their description$/) do |num, desc|
-  work_packages = FactoryGirl.create_list :work_package, num.to_i, description: desc
+  work_packages = FactoryBot.create_list :work_package, num.to_i, description: desc
   time = Time.now
   # ensure temporal order:
   work_packages.reverse.each_with_index do |wp, i|

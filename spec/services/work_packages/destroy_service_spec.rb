@@ -32,10 +32,10 @@ require 'spec_helper'
 
 describe WorkPackages::DestroyService do
   let(:user) do
-    FactoryGirl.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user)
   end
   let(:work_package) do
-    FactoryGirl.build_stubbed(:work_package)
+    FactoryBot.build_stubbed(:work_package)
   end
   let(:instance) do
     described_class
@@ -85,10 +85,10 @@ describe WorkPackages::DestroyService do
 
   context 'with ancestors' do
     let(:parent) do
-      FactoryGirl.build_stubbed(:work_package)
+      FactoryBot.build_stubbed(:work_package)
     end
     let(:grandparent) do
-      FactoryGirl.build_stubbed(:work_package)
+      FactoryBot.build_stubbed(:work_package)
     end
     let(:expect_inherited_attributes_service_calls) do
       inherited_service_instance = double(WorkPackages::UpdateAncestorsService)
@@ -136,10 +136,10 @@ describe WorkPackages::DestroyService do
 
   context 'with descendants' do
     let(:child) do
-      FactoryGirl.build_stubbed(:work_package)
+      FactoryBot.build_stubbed(:work_package)
     end
     let(:grandchild) do
-      FactoryGirl.build_stubbed(:work_package)
+      FactoryBot.build_stubbed(:work_package)
     end
     let(:descendants) do
       [child, grandchild]

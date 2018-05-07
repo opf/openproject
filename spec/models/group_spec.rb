@@ -32,13 +32,13 @@ require_relative '../support/shared/become_member'
 describe Group, type: :model do
   include BecomeMember
 
-  let(:group) { FactoryGirl.build(:group) }
-  let(:user) { FactoryGirl.build(:user) }
-  let(:watcher) { FactoryGirl.create :user }
-  let(:project) { FactoryGirl.create(:project_with_types) }
-  let(:status) { FactoryGirl.create(:status) }
+  let(:group) { FactoryBot.build(:group) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:watcher) { FactoryBot.create :user }
+  let(:project) { FactoryBot.create(:project_with_types) }
+  let(:status) { FactoryBot.create(:status) }
   let(:package) {
-    FactoryGirl.build(:work_package, type: project.types.first,
+    FactoryBot.build(:work_package, type: project.types.first,
                                      author: user,
                                      project: project,
                                      status: status)
@@ -92,7 +92,7 @@ describe Group, type: :model do
 
   describe '#create' do
     describe 'group with empty group name' do
-      let(:group) { FactoryGirl.build(:group, lastname: '') }
+      let(:group) { FactoryBot.build(:group, lastname: '') }
 
       it { expect(group.valid?).to be_falsey }
 

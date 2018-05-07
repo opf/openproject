@@ -29,26 +29,26 @@
 require 'spec_helper'
 
 describe 'time entry report', type: :feature, js: true do
-  let(:project) { FactoryGirl.create(:project, enabled_module_names: %w(time_tracking)) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_time_entries]) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:project) { FactoryBot.create(:project, enabled_module_names: %w(time_tracking)) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_time_entries]) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let!(:project_time_entry) {
-    FactoryGirl.create_list(:time_entry,
+    FactoryBot.create_list(:time_entry,
                             2,
                             project: project,
                             work_package: work_package,
                             hours: 2.5)
   }
-  let(:project2) { FactoryGirl.create(:project) }
-  let(:work_package2) { FactoryGirl.create(:work_package, project: project2) }
+  let(:project2) { FactoryBot.create(:project) }
+  let(:work_package2) { FactoryBot.create(:work_package, project: project2) }
   let!(:project_time_entry2) {
-    FactoryGirl.create(:time_entry,
+    FactoryBot.create(:time_entry,
                        project: project2,
                        spent_on: 1.year.ago,
                        work_package: work_package2,
                        hours: 5.0)
   }
-  let(:user) { FactoryGirl.create(:admin) }
+  let(:user) { FactoryBot.create(:admin) }
 
   before do
     login_as(user)

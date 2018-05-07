@@ -32,10 +32,10 @@ require 'spec_helper'
 describe 'GET /api/v3/users', type: :request do
   let!(:users) do
     [
-      FactoryGirl.create(:admin, login: 'admin', status: Principal::STATUSES[:active]),
-      FactoryGirl.create(:user, login: 'h.wurst', status: Principal::STATUSES[:active]),
-      FactoryGirl.create(:user, login: 'h.heine', status: Principal::STATUSES[:locked]),
-      FactoryGirl.create(:user, login: 'm.mario', status: Principal::STATUSES[:active])
+      FactoryBot.create(:admin, login: 'admin', status: Principal::STATUSES[:active]),
+      FactoryBot.create(:user, login: 'h.wurst', status: Principal::STATUSES[:active]),
+      FactoryBot.create(:user, login: 'h.heine', status: Principal::STATUSES[:locked]),
+      FactoryBot.create(:user, login: 'm.mario', status: Principal::STATUSES[:active])
     ]
   end
 

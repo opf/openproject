@@ -43,7 +43,7 @@ shared_examples_for 'valid preview' do
 end
 
 shared_examples_for 'authorizes object access' do
-  let(:unauthorized_user) { FactoryGirl.create(:user) }
+  let(:unauthorized_user) { FactoryBot.create(:user) }
 
   before do
     allow(User).to receive(:current).and_return(unauthorized_user)

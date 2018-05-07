@@ -33,20 +33,20 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
-  let(:other_project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryBot.create(:project, identifier: 'test_project', is_public: false) }
+  let(:other_project) { FactoryBot.create(:project) }
   let(:current_user) do
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
   let(:manage_public_queries_role) do
-    FactoryGirl.create(:role, permissions: [:manage_public_queries])
+    FactoryBot.create(:role, permissions: [:manage_public_queries])
   end
-  let(:query) { FactoryGirl.create(:public_query, project: project) }
-  let(:other_query) { FactoryGirl.create(:public_query, project: other_project) }
-  let(:global_query) { FactoryGirl.create(:global_query) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:query) { FactoryBot.create(:public_query, project: project) }
+  let(:other_query) { FactoryBot.create(:public_query, project: other_project) }
+  let(:global_query) { FactoryBot.create(:global_query) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -77,7 +77,7 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
 
     context 'user not allowed to see queries' do
       include_context 'with non-member permissions from non_member_permissions'
-      let(:current_user) { FactoryGirl.create(:user) }
+      let(:current_user) { FactoryBot.create(:user) }
       let(:non_member_permissions) { [:view_work_packages] }
 
       it 'should succeed' do
@@ -103,7 +103,7 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
         global_query
         other_query
 
-        FactoryGirl.create(:member,
+        FactoryBot.create(:member,
                            roles: [role],
                            project: other_query.project,
                            user: current_user)
@@ -134,7 +134,7 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
         global_query
         other_query
 
-        FactoryGirl.create(:member,
+        FactoryBot.create(:member,
                            roles: [role],
                            project: other_query.project,
                            user: current_user)
@@ -297,7 +297,7 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
 
     describe 'private queries' do
       context 'user with permission to save queries' do
-        let(:query) { FactoryGirl.create(:private_query, project: project, user: current_user) }
+        let(:query) { FactoryBot.create(:private_query, project: project, user: current_user) }
         let(:permissions) { [:view_work_packages, :save_queries] }
 
         context 'starring his own query' do
@@ -311,15 +311,15 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
         end
 
         context 'trying to star somebody else\'s query' do
-          let(:another_user) { FactoryGirl.create(:user) }
-          let(:query) { FactoryGirl.create(:private_query, project: project, user: another_user) }
+          let(:another_user) { FactoryBot.create(:user) }
+          let(:query) { FactoryBot.create(:private_query, project: project, user: another_user) }
 
           it_behaves_like 'not found'
         end
       end
 
       context 'user without permission to save queries' do
-        let(:query) { FactoryGirl.create(:private_query, project: project, user: current_user) }
+        let(:query) { FactoryBot.create(:private_query, project: project, user: current_user) }
         let(:permissions) { [:view_work_packages] }
 
         it_behaves_like 'unauthorized access'
@@ -331,14 +331,14 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
     let(:unstar_path) { api_v3_paths.query_unstar query.id }
 
     describe 'public queries' do
-      let(:query) { FactoryGirl.create(:public_query, project: project) }
+      let(:query) { FactoryBot.create(:public_query, project: project) }
 
       context 'user with permission to manage public queries' do
         let(:permissions) { [:view_work_packages, :manage_public_queries] }
 
         context 'when unstarring a starred query' do
           before(:each) do
-            FactoryGirl.create(:query_menu_item, query: query)
+            FactoryBot.create(:query_menu_item, query: query)
             patch unstar_path
           end
 
@@ -390,7 +390,7 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
 
     describe 'private queries' do
       context 'user with permission to save queries' do
-        let(:query) { FactoryGirl.create(:private_query, project: project, user: current_user) }
+        let(:query) { FactoryBot.create(:private_query, project: project, user: current_user) }
         let(:permissions) { [:view_work_packages, :save_queries] }
         before(:each) do
           patch unstar_path
@@ -407,15 +407,15 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
         end
 
         context 'trying to unstar somebody else\'s query' do
-          let(:another_user) { FactoryGirl.create(:user) }
-          let(:query) { FactoryGirl.create(:private_query, project: project, user: another_user) }
+          let(:another_user) { FactoryBot.create(:user) }
+          let(:query) { FactoryBot.create(:private_query, project: project, user: another_user) }
 
           it_behaves_like 'not found'
         end
       end
 
       context 'user without permission to save queries' do
-        let(:query) { FactoryGirl.create(:private_query, project: project, user: current_user) }
+        let(:query) { FactoryBot.create(:private_query, project: project, user: current_user) }
         let(:permissions) { [:view_work_packages] }
         before(:each) do
           patch unstar_path

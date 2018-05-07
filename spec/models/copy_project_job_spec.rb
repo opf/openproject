@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe CopyProjectJob, type: :model do
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:user) { FactoryGirl.create(:user) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:copy_projects]) }
+  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:role) { FactoryBot.create(:role, permissions: [:copy_projects]) }
   let(:params) { { name: 'Copy', identifier: 'copy' } }
   let(:maildouble) { double('Mail::Message', deliver: true) }
 
@@ -40,9 +40,9 @@ describe CopyProjectJob, type: :model do
   end
 
   describe 'copy localizes error message' do
-    let(:user_de) { FactoryGirl.create(:admin, language: :de) }
-    let(:source_project) { FactoryGirl.create(:project) }
-    let(:target_project) { FactoryGirl.create(:project) }
+    let(:user_de) { FactoryBot.create(:admin, language: :de) }
+    let(:source_project) { FactoryBot.create(:project) }
+    let(:target_project) { FactoryBot.create(:project) }
 
     let(:copy_job) {
       CopyProjectJob.new user_id: user_de.id,
@@ -70,12 +70,12 @@ describe CopyProjectJob, type: :model do
   end
 
   describe 'copy project succeeds with errors' do
-    let(:admin) { FactoryGirl.create(:admin) }
-    let(:source_project) { FactoryGirl.create(:project, types: [type]) }
-    let!(:work_package) { FactoryGirl.create(:work_package, project: source_project, type: type) }
-    let(:type) { FactoryGirl.create(:type_bug) }
+    let(:admin) { FactoryBot.create(:admin) }
+    let(:source_project) { FactoryBot.create(:project, types: [type]) }
+    let!(:work_package) { FactoryBot.create(:work_package, project: source_project, type: type) }
+    let(:type) { FactoryBot.create(:type_bug) }
     let (:custom_field) {
-      FactoryGirl.create(:work_package_custom_field,
+      FactoryBot.create(:work_package_custom_field,
                          name: 'required_field',
                          field_format: 'text',
                          is_required: true,
@@ -136,7 +136,7 @@ describe CopyProjectJob, type: :model do
 
     describe 'subproject' do
       let(:params) { { name: 'Copy', identifier: 'copy', parent_id: project.id } }
-      let(:subproject) { FactoryGirl.create(:project, parent: project) }
+      let(:subproject) { FactoryBot.create(:project, parent: project) }
 
       describe 'invalid parent' do
         before do expect(UserMailer).to receive(:copy_project_failed).and_return(maildouble) end
@@ -149,9 +149,9 @@ describe CopyProjectJob, type: :model do
       end
 
       describe 'valid parent' do
-        let(:role_add_subproject) { FactoryGirl.create(:role, permissions: [:add_subprojects]) }
+        let(:role_add_subproject) { FactoryBot.create(:role, permissions: [:add_subprojects]) }
         let(:member_add_subproject) {
-          FactoryGirl.create(:member,
+          FactoryBot.create(:member,
                              user: user,
                              project: project,
                              roles: [role_add_subproject])

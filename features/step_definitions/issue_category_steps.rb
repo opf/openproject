@@ -33,7 +33,7 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [cC]ategor(?:ies|y)? with(?: the fol
   p = Project.find_by(name: project) || Project.find_by(identifier: project)
   table.rows_hash['assigned_to'] = Principal.like(table.rows_hash['assigned_to']).first if table.rows_hash['assigned_to']
   as_admin count do
-    ic = FactoryGirl.build(:category, project: p)
+    ic = FactoryBot.build(:category, project: p)
     send_table_to_object(ic, table)
     ic.save
   end
@@ -42,7 +42,7 @@ end
 Given /^the [Pp]roject "([^\"]*)" has (\d+) [cC]ategor(?:ies|y)?$/ do |project, count|
   p = Project.find_by(name: project) || Project.find_by(identifier: project)
   as_admin count do
-    ic = FactoryGirl.build(:category, project: p)
+    ic = FactoryBot.build(:category, project: p)
     ic.save
   end
 end

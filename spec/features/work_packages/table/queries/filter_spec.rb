@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'filter work packages', js: true do
-  let(:user) { FactoryGirl.create :admin }
-  let(:watcher) { FactoryGirl.create :user }
-  let(:project) { FactoryGirl.create :project }
-  let(:role) { FactoryGirl.create :existing_role, permissions: [:view_work_packages] }
+  let(:user) { FactoryBot.create :admin }
+  let(:watcher) { FactoryBot.create :user }
+  let(:project) { FactoryBot.create :project }
+  let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
@@ -43,13 +43,13 @@ describe 'filter work packages', js: true do
 
   context 'by watchers' do
     let(:work_package_with_watcher) do
-      wp = FactoryGirl.build :work_package, project: project
+      wp = FactoryBot.build :work_package, project: project
       wp.add_watcher watcher
       wp.save!
 
       wp
     end
-    let(:work_package_without_watcher) { FactoryGirl.create :work_package, project: project }
+    let(:work_package_without_watcher) { FactoryBot.create :work_package, project: project }
 
     before do
       work_package_with_watcher
@@ -72,9 +72,9 @@ describe 'filter work packages', js: true do
   end
 
   context 'by version in project' do
-    let(:version) { FactoryGirl.create :version, project: project }
-    let(:work_package_with_version) { FactoryGirl.create :work_package, project: project, subject: 'With version', fixed_version: version }
-    let(:work_package_without_version) { FactoryGirl.create :work_package, subject: 'Without version', project: project }
+    let(:version) { FactoryBot.create :version, project: project }
+    let(:work_package_with_version) { FactoryBot.create :work_package, project: project, subject: 'With version', fixed_version: version }
+    let(:work_package_without_version) { FactoryBot.create :work_package, subject: 'Without version', project: project }
 
     before do
       work_package_with_version
@@ -120,8 +120,8 @@ describe 'filter work packages', js: true do
   end
 
   context 'by due date outside of a project' do
-    let(:work_package_with_due_date) { FactoryGirl.create :work_package, project: project, due_date: Date.today }
-    let(:work_package_without_due_date) { FactoryGirl.create :work_package, project: project, due_date: Date.today + 5.days }
+    let(:work_package_with_due_date) { FactoryBot.create :work_package, project: project, due_date: Date.today }
+    let(:work_package_without_due_date) { FactoryBot.create :work_package, project: project, due_date: Date.today + 5.days }
     let(:wp_table) { ::Pages::WorkPackagesTable.new }
 
     before do
@@ -175,7 +175,7 @@ describe 'filter work packages', js: true do
 
   context 'by list cf inside a project' do
     let(:type) do
-      type = FactoryGirl.create(:type)
+      type = FactoryBot.create(:type)
 
       project.types << type
 
@@ -183,21 +183,21 @@ describe 'filter work packages', js: true do
     end
 
     let(:work_package_with_list_value) do
-      wp = FactoryGirl.create :work_package, project: project, type: type
+      wp = FactoryBot.create :work_package, project: project, type: type
       wp.send("#{list_cf.accessor_name}=", list_cf.custom_options.first.id)
       wp.save!
       wp
     end
 
     let(:work_package_with_anti_list_value) do
-      wp = FactoryGirl.create :work_package, project: project, type: type
+      wp = FactoryBot.create :work_package, project: project, type: type
       wp.send("#{list_cf.accessor_name}=", list_cf.custom_options.last.id)
       wp.save!
       wp
     end
 
     let(:list_cf) do
-      cf = FactoryGirl.create :list_wp_custom_field
+      cf = FactoryBot.create :list_wp_custom_field
 
       project.work_package_custom_fields << cf
       type.custom_fields << cf
@@ -252,11 +252,11 @@ describe 'filter work packages', js: true do
   end
 
   context 'by attachment content' do
-    let(:attachment_a) { FactoryGirl.create(:attachment, filename: 'attachment-first.pdf') }
-    let(:attachment_b) { FactoryGirl.create(:attachment, filename: 'attachment-second.pdf') }
-    let(:wp_with_attachment_a) { FactoryGirl.create :work_package, subject: 'WP attachment A', project: project, attachments: [attachment_a] }
-    let(:wp_with_attachment_b) { FactoryGirl.create :work_package, subject: 'WP attachment B', project: project, attachments: [attachment_b] }
-    let(:wp_without_attachment) { FactoryGirl.create :work_package, subject: 'WP no attachment', project: project}
+    let(:attachment_a) { FactoryBot.create(:attachment, filename: 'attachment-first.pdf') }
+    let(:attachment_b) { FactoryBot.create(:attachment, filename: 'attachment-second.pdf') }
+    let(:wp_with_attachment_a) { FactoryBot.create :work_package, subject: 'WP attachment A', project: project, attachments: [attachment_a] }
+    let(:wp_with_attachment_b) { FactoryBot.create :work_package, subject: 'WP attachment B', project: project, attachments: [attachment_b] }
+    let(:wp_without_attachment) { FactoryBot.create :work_package, subject: 'WP no attachment', project: project}
     let(:wp_table) { ::Pages::WorkPackagesTable.new }
 
     before do

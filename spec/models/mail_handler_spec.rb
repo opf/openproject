@@ -32,8 +32,8 @@ DEVELOPER_PERMISSIONS = [:view_messages, :delete_own_messages, :edit_own_message
 
 describe MailHandler, type: :model do
   let(:anno_user) { User.anonymous }
-  let(:project) { FactoryGirl.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', is_public: false) }
-  let(:priority_low) { FactoryGirl.create(:priority_low, is_default: true) }
+  let(:project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', is_public: false) }
+  let(:priority_low) { FactoryBot.create(:priority_low, is_default: true) }
 
   before do
     allow(Setting).to receive(:notified_events).and_return(Redmine::Notifiable.all.map(&:name))

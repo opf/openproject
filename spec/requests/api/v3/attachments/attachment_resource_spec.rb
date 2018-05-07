@@ -34,13 +34,13 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) {
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   }
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
-  let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
-  let(:attachment) { FactoryGirl.create(:attachment, container: work_package) }
+  let(:work_package) { FactoryBot.create(:work_package, author: current_user, project: project) }
+  let(:attachment) { FactoryBot.create(:attachment, container: work_package) }
 
   before do
     allow(User).to receive(:current).and_return current_user

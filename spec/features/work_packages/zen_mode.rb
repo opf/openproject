@@ -2,29 +2,29 @@ require 'spec_helper'
 
 describe 'Zen mode', js: true do
   let(:dev_role) do
-    FactoryGirl.create :role,
+    FactoryBot.create :role,
                        permissions: [:view_work_packages,
                                      :edit_work_packages]
   end
   let(:dev) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        firstname: 'Dev',
                        lastname: 'Guy',
                        member_in_project: project,
                        member_through_role: dev_role
   end
 
-  let(:type) { FactoryGirl.create :type }
-  let(:project) { FactoryGirl.create(:project, types: [type]) }
+  let(:type) { FactoryBot.create :type }
+  let(:project) { FactoryBot.create(:project, types: [type]) }
 
   let(:work_package) do
-    FactoryGirl.create :work_package, project: project, type: type
+    FactoryBot.create :work_package, project: project, type: type
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
   let(:status_from) { work_package.status }
-  let(:status_intermediate) { FactoryGirl.create :status }
+  let(:status_intermediate) { FactoryBot.create :status }
 
   before do
     login_as(dev)

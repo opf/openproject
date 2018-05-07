@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe 'Work Package table configuration modal', js: true do
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
 
-  let(:project) { FactoryGirl.create(:project) }
-  let!(:wp_1) { FactoryGirl.create(:work_package, project: project) }
+  let(:project) { FactoryBot.create(:project) }
+  let!(:wp_1) { FactoryBot.create(:work_package, project: project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
 
   let!(:query) do
-    query              = FactoryGirl.build(:query, user: user, project: project)
+    query              = FactoryBot.build(:query, user: user, project: project)
     query.column_names = ['subject', 'done_ratio']
 
     query.save!

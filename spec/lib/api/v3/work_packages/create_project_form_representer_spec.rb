@@ -34,13 +34,13 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
 
   let(:errors) { [] }
   let(:work_package) {
-    FactoryGirl.build(:work_package,
+    FactoryBot.build(:work_package,
                       id: 42,
                       created_at: DateTime.now,
                       updated_at: DateTime.now)
   }
   let(:current_user) {
-    FactoryGirl.build(:user, member_in_project: work_package.project)
+    FactoryBot.build(:user, member_in_project: work_package.project)
   }
   let(:representer) {
     described_class.new(work_package, current_user: current_user, errors: errors)
@@ -115,9 +115,9 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
         end
 
         context 'user with insufficient permissions' do
-          let(:role) { FactoryGirl.create(:role, permissions: []) }
+          let(:role) { FactoryBot.create(:role, permissions: []) }
           let(:current_user) do
-            FactoryGirl.build(:user,
+            FactoryBot.build(:user,
                               member_in_project: work_package.project,
                               member_through_role: role)
           end
@@ -158,7 +158,7 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
         end
 
         context 'with project and general admin priviliges' do
-          let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+          let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
           before do
             allow(current_user).to receive(:allowed_to?)
@@ -186,12 +186,12 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
         end
 
         context "as admin" do
-          let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+          let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
           context 'with type' do
-            let(:type) { FactoryGirl.build_stubbed(:type) }
+            let(:type) { FactoryBot.build_stubbed(:type) }
             let(:work_package) do
-              FactoryGirl.build(:work_package,
+              FactoryBot.build(:work_package,
                                 id: 42,
                                 created_at: DateTime.now,
                                 updated_at: DateTime.now,

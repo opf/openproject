@@ -26,14 +26,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :wiki_page do
     wiki
     sequence(:title) do |n| "Wiki Page No. #{n}" end
 
     factory :wiki_page_with_content do
       callback(:after_build) do |wiki_page|
-        wiki_page.content = FactoryGirl.build :wiki_content, page: wiki_page
+        wiki_page.content = FactoryBot.build :wiki_content, page: wiki_page
       end
     end
   end

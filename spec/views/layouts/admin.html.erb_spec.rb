@@ -32,7 +32,7 @@ describe 'layouts/admin', type: :view do
   include Redmine::MenuManager::MenuHelper
   helper Redmine::MenuManager::MenuHelper
 
-  let(:admin) { FactoryGirl.create :admin }
+  let(:admin) { FactoryBot.create :admin }
 
   before do
     allow(view).to receive(:current_menu_item).and_return('overview')

@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'Work Package table hierarchy', js: true do
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
@@ -12,15 +12,15 @@ describe 'Work Package table hierarchy', js: true do
   end
 
   describe 'hierarchies in same project' do
-    let(:category) { FactoryGirl.create :category, project: project, name: 'Foo' }
+    let(:category) { FactoryBot.create :category, project: project, name: 'Foo' }
 
-    let!(:wp_root) { FactoryGirl.create(:work_package, project: project) }
-    let!(:wp_inter) { FactoryGirl.create(:work_package, project: project, parent: wp_root) }
-    let!(:wp_leaf) { FactoryGirl.create(:work_package, project: project, category: category, parent: wp_inter) }
-    let!(:wp_other) { FactoryGirl.create(:work_package, project: project) }
+    let!(:wp_root) { FactoryBot.create(:work_package, project: project) }
+    let!(:wp_inter) { FactoryBot.create(:work_package, project: project, parent: wp_root) }
+    let!(:wp_leaf) { FactoryBot.create(:work_package, project: project, category: category, parent: wp_inter) }
+    let!(:wp_other) { FactoryBot.create(:work_package, project: project) }
 
     let!(:query) do
-      query              = FactoryGirl.build(:query, user: user, project: project)
+      query              = FactoryBot.build(:query, user: user, project: project)
       query.column_names = ['subject', 'category']
       query.filters.clear
       query.add_filter('category_id', '=', [category.id])
@@ -89,9 +89,9 @@ describe 'Work Package table hierarchy', js: true do
   end
 
   describe 'with a cross project hierarchy' do
-    let(:project2) { FactoryGirl.create(:project) }
-    let!(:wp_root) { FactoryGirl.create(:work_package, project: project) }
-    let!(:wp_inter) { FactoryGirl.create(:work_package, project: project2, parent: wp_root) }
+    let(:project2) { FactoryBot.create(:project) }
+    let!(:wp_root) { FactoryBot.create(:work_package, project: project) }
+    let!(:wp_inter) { FactoryBot.create(:work_package, project: project2, parent: wp_root) }
     let(:global_table) { Pages::WorkPackagesTable.new }
     it 'shows the hierarchy indicator only when the rows are both shown' do
       wp_table.visit!
@@ -108,12 +108,12 @@ describe 'Work Package table hierarchy', js: true do
   end
 
   describe 'flat table such that the parent appears below the child' do
-    let!(:wp_root) { FactoryGirl.create(:work_package, project: project) }
-    let!(:wp_inter) { FactoryGirl.create(:work_package, project: project, parent: wp_root) }
-    let!(:wp_leaf) { FactoryGirl.create(:work_package, project: project, parent: wp_inter) }
+    let!(:wp_root) { FactoryBot.create(:work_package, project: project) }
+    let!(:wp_inter) { FactoryBot.create(:work_package, project: project, parent: wp_root) }
+    let!(:wp_leaf) { FactoryBot.create(:work_package, project: project, parent: wp_inter) }
 
     let!(:query) do
-      query              = FactoryGirl.build(:query, user: user, project: project)
+      query              = FactoryBot.build(:query, user: user, project: project)
       query.column_names = ['subject', 'category']
       query.filters.clear
       query.show_hierarchies = false
@@ -155,35 +155,35 @@ describe 'Work Package table hierarchy', js: true do
   describe 'sorting by assignee' do
     include_context 'work package table helpers'
     let!(:root_assigned) do
-      FactoryGirl.create(:work_package, subject: 'root_assigned', project: project, assigned_to: user)
+      FactoryBot.create(:work_package, subject: 'root_assigned', project: project, assigned_to: user)
     end
     let!(:inter_assigned) do
-      FactoryGirl.create(:work_package, subject: 'inter_assigned', project: project, assigned_to: user, parent: root_assigned)
+      FactoryBot.create(:work_package, subject: 'inter_assigned', project: project, assigned_to: user, parent: root_assigned)
     end
     let!(:inter) do
-      FactoryGirl.create(:work_package, subject: 'inter', project: project, parent: root_assigned)
+      FactoryBot.create(:work_package, subject: 'inter', project: project, parent: root_assigned)
     end
     let!(:leaf_assigned) do
-      FactoryGirl.create(:work_package, subject: 'leaf_assigned', project: project, assigned_to: user, parent: inter)
+      FactoryBot.create(:work_package, subject: 'leaf_assigned', project: project, assigned_to: user, parent: inter)
     end
     let!(:leaf) do
-      FactoryGirl.create(:work_package, subject: 'leaf', project: project, parent: inter)
+      FactoryBot.create(:work_package, subject: 'leaf', project: project, parent: inter)
     end
     let!(:root) do
-      FactoryGirl.create(:work_package, project: project)
+      FactoryBot.create(:work_package, project: project)
     end
 
     let(:user) do
-      FactoryGirl.create :user,
+      FactoryBot.create :user,
                          member_in_project: project,
                          member_through_role: role
     end
     let(:permissions) { %i(view_work_packages add_work_packages) }
-    let(:role) { FactoryGirl.create :role, permissions: permissions }
+    let(:role) { FactoryBot.create :role, permissions: permissions }
     let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
     let!(:query) do
-      query              = FactoryGirl.build(:query, user: user, project: project)
+      query              = FactoryBot.build(:query, user: user, project: project)
       query.column_names = ['subject', 'assigned_to']
       query.filters.clear
       query.sort_criteria = [['assigned_to', 'asc']]

@@ -32,9 +32,9 @@ require File.expand_path('../../support/shared/become_member', __FILE__)
 describe Project, type: :model do
   include BecomeMember
 
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:admin) { FactoryGirl.create(:admin) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:admin) { FactoryBot.create(:admin) }
+  let(:user) { FactoryBot.create(:user) }
 
   describe Project::STATUS_ACTIVE do
     it 'equals 1' do
@@ -50,18 +50,18 @@ describe Project, type: :model do
     end
 
     it 'is active when :status equals STATUS_ACTIVE' do
-      project = FactoryGirl.build :project, status: 42
+      project = FactoryBot.build :project, status: 42
       expect(project).to be_active
     end
 
     it "is not active when :status doesn't equal STATUS_ACTIVE" do
-      project = FactoryGirl.build :project, status: 99
+      project = FactoryBot.build :project, status: 99
       expect(project).not_to be_active
     end
   end
 
   context 'when the wiki module is enabled' do
-    let(:project) { FactoryGirl.create(:project, disable_modules: 'wiki') }
+    let(:project) { FactoryBot.create(:project, disable_modules: 'wiki') }
 
     before :each do
       project.enabled_module_names = project.enabled_module_names | ['wiki']
@@ -80,13 +80,13 @@ describe Project, type: :model do
   end
 
   describe 'copy_allowed?' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:role_add_subproject) { FactoryGirl.create(:role, permissions: [:add_subprojects]) }
-    let(:role_copy_projects) { FactoryGirl.create(:role, permissions: [:edit_project, :copy_projects, :add_project]) }
-    let(:parent_project) { FactoryGirl.create(:project) }
-    let(:project) { FactoryGirl.create(:project, parent: parent_project) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:role_add_subproject) { FactoryBot.create(:role, permissions: [:add_subprojects]) }
+    let(:role_copy_projects) { FactoryBot.create(:role, permissions: [:edit_project, :copy_projects, :add_project]) }
+    let(:parent_project) { FactoryBot.create(:project) }
+    let(:project) { FactoryBot.create(:project, parent: parent_project) }
     let!(:subproject_member) {
-      FactoryGirl.create(:member,
+      FactoryBot.create(:member,
                          user: user,
                          project: project,
                          roles: [role_copy_projects])
@@ -97,7 +97,7 @@ describe Project, type: :model do
 
     context 'with permission to add subprojects' do
       let!(:member_add_subproject) {
-        FactoryGirl.create(:member,
+        FactoryBot.create(:member,
                            user: user,
                            project: parent_project,
                            roles: [role_add_subproject])
@@ -116,17 +116,17 @@ describe Project, type: :model do
   end
 
   describe 'available principles' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group) }
-    let(:role) { FactoryGirl.create(:role) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group) }
+    let(:role) { FactoryBot.create(:role) }
     let!(:user_member) {
-      FactoryGirl.create(:member,
+      FactoryBot.create(:member,
                          principal: user,
                          project: project,
                          roles: [role])
     }
     let!(:group_member) {
-      FactoryGirl.create(:member,
+      FactoryBot.create(:member,
                          principal: group,
                          project: project,
                          roles: [role])
@@ -160,12 +160,12 @@ describe Project, type: :model do
   end
 
   describe '#types_used_by_work_packages' do
-    let(:project) { FactoryGirl.create(:project_with_types) }
+    let(:project) { FactoryBot.create(:project_with_types) }
     let(:type) { project.types.first }
     let(:other_type) { project.types.second }
-    let(:project_work_package) { FactoryGirl.create(:work_package, type: type, project: project) }
-    let(:other_project) { FactoryGirl.create(:project, no_types: true, types: [other_type, type]) }
-    let(:other_project_work_package) { FactoryGirl.create(:work_package, type: other_type, project: other_project) }
+    let(:project_work_package) { FactoryBot.create(:work_package, type: type, project: project) }
+    let(:other_project) { FactoryBot.create(:project, no_types: true, types: [other_type, type]) }
+    let(:other_project_work_package) { FactoryBot.create(:work_package, type: other_type, project: other_project) }
 
     it 'returns the type used by a work package of the project' do
       project_work_package
@@ -176,9 +176,9 @@ describe Project, type: :model do
   end
 
   describe '#allowed_parent?' do
-    let(:project) { FactoryGirl.build_stubbed(:project) }
-    let(:other_project) { FactoryGirl.build_stubbed(:project) }
-    let(:another_project) { FactoryGirl.build_stubbed(:project) }
+    let(:project) { FactoryBot.build_stubbed(:project) }
+    let(:other_project) { FactoryBot.build_stubbed(:project) }
+    let(:another_project) { FactoryBot.build_stubbed(:project) }
 
     it 'is false for nil on a persisted project with no allowed parents' do
       allow(project)
@@ -197,7 +197,7 @@ describe Project, type: :model do
     end
 
     it 'is true for nil on an unpersisted project with no allowed parents' do
-      project = FactoryGirl.build(:project)
+      project = FactoryBot.build(:project)
 
       allow(project)
         .to receive(:allowed_parents)
@@ -223,7 +223,7 @@ describe Project, type: :model do
     end
 
     it 'is true for blank on an unpersisted project with no allowed parents' do
-      project = FactoryGirl.build(:project)
+      project = FactoryBot.build(:project)
 
       allow(project)
         .to receive(:allowed_parents)

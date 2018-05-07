@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe MenuItems::WikiMenuItem, type: :model do
   before(:each) do
-    @project = FactoryGirl.create(:project, enabled_module_names: %w[activity])
-    @current = FactoryGirl.create(:user, login: 'user1', mail: 'user1@users.com')
+    @project = FactoryBot.create(:project, enabled_module_names: %w[activity])
+    @current = FactoryBot.create(:user, login: 'user1', mail: 'user1@users.com')
 
     allow(User).to receive(:current).and_return(@current)
   end
@@ -51,9 +51,9 @@ describe MenuItems::WikiMenuItem, type: :model do
   end
 
   it 'should change title when a wikipage is renamed' do
-    wikipage = FactoryGirl.create(:wiki_page, title: 'Oldtitle')
+    wikipage = FactoryBot.create(:wiki_page, title: 'Oldtitle')
 
-    menu_item_1 = FactoryGirl.create(:wiki_menu_item, navigatable_id: wikipage.wiki.id,
+    menu_item_1 = FactoryBot.create(:wiki_menu_item, navigatable_id: wikipage.wiki.id,
                                                       title:    'Item 1',
                                                       name:   wikipage.slug)
 
@@ -65,9 +65,9 @@ describe MenuItems::WikiMenuItem, type: :model do
   end
 
   it 'should not allow duplicate sibling entries' do
-    wikipage = FactoryGirl.create(:wiki_page, title: 'Parent Page')
+    wikipage = FactoryBot.create(:wiki_page, title: 'Parent Page')
 
-    parent = FactoryGirl.create(
+    parent = FactoryBot.create(
       :wiki_menu_item, navigatable_id: wikipage.wiki.id, title: 'Item 1', name: wikipage.slug)
     child_1 = parent.children.create name: "child-1", title: "Child 1"
 
@@ -81,11 +81,11 @@ describe MenuItems::WikiMenuItem, type: :model do
       @project.enabled_modules << EnabledModule.new(name: 'wiki')
       @project.reload
 
-      @menu_item_1 = FactoryGirl.create(:wiki_menu_item, wiki: @project.wiki,
+      @menu_item_1 = FactoryBot.create(:wiki_menu_item, wiki: @project.wiki,
                                                          name:    'Item 1',
                                                          title:   'Item 1')
 
-      @menu_item_2 = FactoryGirl.create(:wiki_menu_item, wiki: @project.wiki,
+      @menu_item_2 = FactoryBot.create(:wiki_menu_item, wiki: @project.wiki,
                                                          name:    'Item 2',
                                                          parent_id:    @menu_item_1.id,
                                                          title:   'Item 2')

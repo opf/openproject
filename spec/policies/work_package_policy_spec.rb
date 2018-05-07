@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe WorkPackagePolicy, type: :controller do
-  let(:user)         { FactoryGirl.build_stubbed(:user) }
-  let(:project)      { FactoryGirl.build_stubbed(:project) }
-  let(:work_package) { FactoryGirl.build_stubbed(:work_package, project: project) }
+  let(:user)         { FactoryBot.build_stubbed(:user) }
+  let(:project)      { FactoryBot.build_stubbed(:project) }
+  let(:work_package) { FactoryBot.build_stubbed(:work_package, project: project) }
 
   describe '#allowed?' do
     let(:subject) { described_class.new(user) }

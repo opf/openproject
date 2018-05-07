@@ -33,10 +33,10 @@ describe 'API v3 Help texts resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:current_user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   end
@@ -46,12 +46,12 @@ describe 'API v3 Help texts resource' do
     # Type.translated_work_package_form_attributes
     Rails.cache.clear
 
-    custom_field = FactoryGirl.create :text_wp_custom_field
+    custom_field = FactoryBot.create :text_wp_custom_field
 
     [
-      FactoryGirl.create(:work_package_help_text, attribute_name: 'assignee'),
-      FactoryGirl.create(:work_package_help_text, attribute_name: 'status'),
-      FactoryGirl.create(:work_package_help_text, attribute_name: "custom_field_#{custom_field.id}")
+      FactoryBot.create(:work_package_help_text, attribute_name: 'assignee'),
+      FactoryBot.create(:work_package_help_text, attribute_name: 'status'),
+      FactoryBot.create(:work_package_help_text, attribute_name: "custom_field_#{custom_field.id}")
     ]
   end
 

@@ -31,20 +31,20 @@ require 'spec_helper'
 
 describe RepositoriesController, type: :controller do
   let(:project) do
-    project = FactoryGirl.create(:project)
+    project = FactoryBot.create(:project)
     allow(Project).to receive(:find).and_return(project)
     project
   end
   let(:user) do
-    FactoryGirl.create(:user, member_in_project: project,
+    FactoryBot.create(:user, member_in_project: project,
                               member_through_role: role)
   end
-  let(:role) { FactoryGirl.create(:role, permissions: []) }
+  let(:role) { FactoryBot.create(:role, permissions: []) }
   let (:url) { 'file:///tmp/something/does/not/exist.svn' }
 
   let(:repository) do
     allow(Setting).to receive(:enabled_scm).and_return(['subversion'])
-    repo = FactoryGirl.build_stubbed(:repository_subversion,
+    repo = FactoryBot.build_stubbed(:repository_subversion,
                                      scm_type: 'local',
                                      url: url,
                                      project: project)
@@ -61,7 +61,7 @@ describe RepositoriesController, type: :controller do
   end
 
   describe 'manages the repository' do
-    let(:role) { FactoryGirl.create(:role, permissions: [:manage_repository]) }
+    let(:role) { FactoryBot.create(:role, permissions: [:manage_repository]) }
 
     before do
       # authorization checked in spec/permissions/manage_repositories_spec.rb
@@ -107,7 +107,7 @@ describe RepositoriesController, type: :controller do
   end
 
   describe 'with empty repository' do
-    let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
+    let(:role) { FactoryBot.create(:role, permissions: [:browse_repository]) }
     before do
       allow(repository.scm)
         .to receive(:check_availability!)
@@ -155,7 +155,7 @@ describe RepositoriesController, type: :controller do
       let(:url) { "file://#{root_url}" }
 
       let(:repository) {
-        FactoryGirl.create(:repository_subversion, project: project, url: url, root_url: url)
+        FactoryBot.create(:repository_subversion, project: project, url: url, root_url: url)
       }
 
       describe 'commits per author graph' do
@@ -165,7 +165,7 @@ describe RepositoriesController, type: :controller do
 
         context 'requested by an authorized user' do
           let(:role) {
-            FactoryGirl.create(:role, permissions: [:browse_repository,
+            FactoryBot.create(:role, permissions: [:browse_repository,
                                                     :view_commit_author_statistics])
           }
 
@@ -179,7 +179,7 @@ describe RepositoriesController, type: :controller do
         end
 
         context 'requested by an unauthorized user' do
-          let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
+          let(:role) { FactoryBot.create(:role, permissions: [:browse_repository]) }
 
           it 'should return 403' do
             expect(response.code).to eq('403')
@@ -188,7 +188,7 @@ describe RepositoriesController, type: :controller do
       end
 
       describe 'committers' do
-        let(:role) { FactoryGirl.create(:role, permissions: [:manage_repository]) }
+        let(:role) { FactoryBot.create(:role, permissions: [:manage_repository]) }
 
         describe '#get' do
           before do
@@ -222,7 +222,7 @@ describe RepositoriesController, type: :controller do
 
         describe 'requested by a user with view_commit_author_statistics permission' do
           let(:role) {
-            FactoryGirl.create(:role, permissions: [:browse_repository,
+            FactoryBot.create(:role, permissions: [:browse_repository,
                                                     :view_commit_author_statistics])
           }
 
@@ -232,7 +232,7 @@ describe RepositoriesController, type: :controller do
         end
 
         describe 'requested by a user without view_commit_author_statistics permission' do
-          let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
+          let(:role) { FactoryBot.create(:role, permissions: [:browse_repository]) }
 
           it 'should NOT show the commits per author graph' do
             expect(assigns(:show_commits_per_author)).to eq(false)
@@ -249,7 +249,7 @@ describe RepositoriesController, type: :controller do
 
       describe 'show' do
         render_views
-        let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
+        let(:role) { FactoryBot.create(:role, permissions: [:browse_repository]) }
 
         before do
           get :show, params: { project_id: project.identifier, repo_path: path }
@@ -268,7 +268,7 @@ describe RepositoriesController, type: :controller do
 
       describe 'changes' do
         render_views
-        let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
+        let(:role) { FactoryBot.create(:role, permissions: [:browse_repository]) }
 
         before do
           get :changes, params: { project_id: project.identifier, repo_path: path }
@@ -289,7 +289,7 @@ describe RepositoriesController, type: :controller do
       describe 'checkout path' do
         render_views
 
-        let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
+        let(:role) { FactoryBot.create(:role, permissions: [:browse_repository]) }
         let(:checkout_hash) {
           {
             'subversion' => { 'enabled' => '1',
@@ -316,7 +316,7 @@ describe RepositoriesController, type: :controller do
   end
 
   describe 'when not being logged in' do
-    let(:anonymous) { FactoryGirl.build_stubbed(:anonymous) }
+    let(:anonymous) { FactoryBot.build_stubbed(:anonymous) }
 
     before do
       login_as(anonymous)

@@ -35,17 +35,17 @@ describe News, type: :model do
   include BecomeMember
 
   let(:project) {
-    project = FactoryGirl.create(:public_project)
+    project = FactoryBot.create(:public_project)
     project.enabled_modules << EnabledModule.new(name: 'news')
     project.reload
   }
 
-  let!(:news) { FactoryGirl.create(:news, project: project) }
+  let!(:news) { FactoryBot.create(:news, project: project) }
   let(:permissions) { [] }
-  let(:role) { FactoryGirl.build(:role, permissions: permissions) }
+  let(:role) { FactoryBot.build(:role, permissions: permissions) }
 
   it_behaves_like 'acts_as_watchable included' do
-    let(:model_instance) { FactoryGirl.create(:news) }
+    let(:model_instance) { FactoryBot.create(:news) }
     let(:watch_permission) { :view_news }
     let(:project) { model_instance.project }
   end
@@ -66,8 +66,8 @@ describe News, type: :model do
     end
 
     it 'only includes news elements from projects that are visible to the user' do
-      private_project = FactoryGirl.create(:project, is_public: false)
-      FactoryGirl.create(:news, project: private_project)
+      private_project = FactoryBot.create(:project, is_public: false)
+      FactoryBot.create(:news, project: private_project)
 
       latest_news = News.latest(user: User.anonymous)
       expect(latest_news).to match_array [news]
@@ -77,7 +77,7 @@ describe News, type: :model do
       News.delete_all
 
       10.times do
-        FactoryGirl.create(:news, project: project)
+        FactoryBot.create(:news, project: project)
       end
 
       expect(News.latest(user: User.current, count:  2).size).to eq(2)
@@ -89,17 +89,17 @@ describe News, type: :model do
       News.delete_all
 
       2.times do
-        FactoryGirl.create(:news, project: project)
+        FactoryBot.create(:news, project: project)
       end
       expect(News.latest.size).to eq(2)
 
       3.times do
-        FactoryGirl.create(:news, project: project)
+        FactoryBot.create(:news, project: project)
       end
       expect(News.latest.size).to eq(5)
 
       2.times do
-        FactoryGirl.create(:news, project: project)
+        FactoryBot.create(:news, project: project)
       end
       expect(News.latest.size).to eq(5)
     end
@@ -108,12 +108,12 @@ describe News, type: :model do
   describe '#save',
            with_settings: { notified_events: %w(news_added) } do
     it 'sends email notifications when created' do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: project,
                          member_through_role: role)
       project.members.reload
 
-      FactoryGirl.create(:news, project: project)
+      FactoryBot.create(:news, project: project)
       expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
   end
@@ -121,7 +121,7 @@ describe News, type: :model do
   describe '#to_param' do
     it 'includes includes id and title for a nicer url' do
       title = 'OpenProject now has a Twitter Account'
-      news  = FactoryGirl.create(:news, title: title)
+      news  = FactoryBot.create(:news, title: title)
       slug  = "#{news.id}-openproject-now-has-a-twitter-account"
 
       expect(news.to_param).to eq slug

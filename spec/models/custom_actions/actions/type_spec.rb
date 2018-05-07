@@ -33,8 +33,8 @@ describe CustomActions::Actions::Type, type: :model do
   let(:priority) { 20 }
   let(:type) { :associated_property }
   let(:allowed_values) do
-    types = [FactoryGirl.build_stubbed(:type),
-             FactoryGirl.build_stubbed(:type)]
+    types = [FactoryBot.build_stubbed(:type),
+             FactoryBot.build_stubbed(:type)]
     allow(Type)
       .to receive_message_chain(:select, :order)
             .and_return(types)

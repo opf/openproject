@@ -29,35 +29,35 @@
 require 'spec_helper'
 
 describe WorkPackages::MovesController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
   let(:role) do
-    FactoryGirl.create :role,
+    FactoryBot.create :role,
                        permissions: %i(move_work_packages
                                        view_work_packages
                                        add_work_packages
                                        edit_work_packages
                                        manage_subtasks)
   end
-  let(:type) { FactoryGirl.create :type }
-  let(:type_2) { FactoryGirl.create :type }
-  let(:status) { FactoryGirl.create :default_status }
-  let(:target_status) { FactoryGirl.create :status }
-  let(:priority) { FactoryGirl.create :priority }
-  let(:target_priority) { FactoryGirl.create :priority }
+  let(:type) { FactoryBot.create :type }
+  let(:type_2) { FactoryBot.create :type }
+  let(:status) { FactoryBot.create :default_status }
+  let(:target_status) { FactoryBot.create :status }
+  let(:priority) { FactoryBot.create :priority }
+  let(:target_priority) { FactoryBot.create :priority }
   let(:project) do
-    FactoryGirl.create(:project,
+    FactoryBot.create(:project,
                        is_public: false,
                        types: [type, type_2])
   end
   let(:work_package) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project_id: project.id,
                        type: type,
                        author: user,
                        priority: priority)
   end
 
-  let(:current_user) { FactoryGirl.create(:user) }
+  let(:current_user) { FactoryBot.create(:user) }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -116,11 +116,11 @@ describe WorkPackages::MovesController, type: :controller do
   end
 
   describe '#create' do
-    let!(:source_member) { FactoryGirl.create(:member, user: current_user, project: project, roles: [role]) }
-    let!(:target_member) { FactoryGirl.create(:member, user: current_user, project: target_project, roles: [role]) }
-    let(:target_project) { FactoryGirl.create(:project, is_public: false) }
+    let!(:source_member) { FactoryBot.create(:member, user: current_user, project: project, roles: [role]) }
+    let!(:target_member) { FactoryBot.create(:member, user: current_user, project: target_project, roles: [role]) }
+    let(:target_project) { FactoryBot.create(:project, is_public: false) }
     let(:work_package_2) {
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          project_id: project.id,
                          type: type_2,
                          priority: priority)
@@ -329,9 +329,9 @@ describe WorkPackages::MovesController, type: :controller do
           let(:start_date) { Date.today }
           let(:due_date) { Date.today + 1 }
           let(:target_user) do
-            user = FactoryGirl.create :user
+            user = FactoryBot.create :user
 
-            FactoryGirl.create(:member,
+            FactoryBot.create(:member,
                                user: user,
                                project: target_project,
                                roles: [role])
@@ -418,17 +418,17 @@ describe WorkPackages::MovesController, type: :controller do
 
         context 'child work package from one project to other' do
           let(:to_project) do
-            FactoryGirl.create(:project,
+            FactoryBot.create(:project,
                                types: [type])
           end
           let!(:member) do
-            FactoryGirl.create(:member,
+            FactoryBot.create(:member,
                                user: current_user,
                                roles: [role],
                                project: to_project)
           end
           let!(:child_wp) do
-            FactoryGirl.create(:work_package,
+            FactoryBot.create(:work_package,
                                type: type,
                                project: project,
                                parent: work_package)

@@ -31,8 +31,8 @@ require 'spec_helper'
 describe News::CommentsController, type: :controller do
   render_views
 
-  let(:user) { FactoryGirl.create(:admin)   }
-  let(:news) { FactoryGirl.create(:news)    }
+  let(:user) { FactoryBot.create(:admin)   }
+  let(:news) { FactoryBot.create(:news)    }
 
   before do
     allow(User).to receive(:current).and_return user
@@ -60,7 +60,7 @@ describe News::CommentsController, type: :controller do
 
   describe '#destroy' do
     it 'deletes the comment and redirects to the news page' do
-      comment = FactoryGirl.create :comment, commented: news
+      comment = FactoryBot.create :comment, commented: news
 
       expect {
         delete :destroy, params: { id: comment.id }

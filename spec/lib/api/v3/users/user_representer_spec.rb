@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::Users::UserRepresenter do
-  let(:user) { FactoryGirl.build_stubbed(:user, status: 1) }
-  let(:current_user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user, status: 1) }
+  let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:representer) { described_class.new(user, current_user: current_user) }
 
   context 'generation' do
@@ -69,7 +69,7 @@ describe ::API::V3::Users::UserRepresenter do
     end
 
     context 'as admin' do
-      let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+      let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
       it 'shows everything' do
         is_expected.to have_json_path('id')
@@ -91,10 +91,10 @@ describe ::API::V3::Users::UserRepresenter do
     end
 
     describe 'email' do
-      let(:user) { FactoryGirl.build_stubbed(:user, status: 1, preference: preference) }
+      let(:user) { FactoryBot.build_stubbed(:user, status: 1, preference: preference) }
 
       context 'user shows his E-Mail address' do
-        let(:preference) { FactoryGirl.build(:user_preference, hide_mail: false) }
+        let(:preference) { FactoryBot.build(:user_preference, hide_mail: false) }
 
         it 'shows the users E-Mail address' do
           is_expected.to be_json_eql(user.mail.to_json).at_path('email')
@@ -102,7 +102,7 @@ describe ::API::V3::Users::UserRepresenter do
       end
 
       context 'user hides his E-Mail address' do
-        let(:preference) { FactoryGirl.build(:user_preference, hide_mail: true) }
+        let(:preference) { FactoryBot.build(:user_preference, hide_mail: true) }
 
         it 'does not render the users E-Mail address' do
           is_expected.to be_json_eql(nil.to_json).at_path('email')
@@ -135,7 +135,7 @@ describe ::API::V3::Users::UserRepresenter do
       end
 
       context 'when current_user is admin' do
-        let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+        let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
         it 'should link to lock and update' do
           expect(subject).to have_json_path('_links/lock/href')
@@ -196,7 +196,7 @@ describe ::API::V3::Users::UserRepresenter do
         end
 
         describe '#json_cache_key' do
-          let(:auth_source) { FactoryGirl.build_stubbed(:auth_source) }
+          let(:auth_source) { FactoryBot.build_stubbed(:auth_source) }
 
           before do
             user.auth_source = auth_source

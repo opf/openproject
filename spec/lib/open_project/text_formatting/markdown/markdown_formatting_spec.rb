@@ -90,15 +90,15 @@ describe OpenProject::TextFormatting::Formatters::Markdown::Formatter do
     end
 
     context 'when visible user exists' do
-      let(:project) { FactoryGirl.create :project }
-      let(:role) { FactoryGirl.create(:role, permissions: %i(view_work_packages)) }
+      let(:project) { FactoryBot.create :project }
+      let(:role) { FactoryBot.create(:role, permissions: %i(view_work_packages)) }
       let(:current_user) do
-        FactoryGirl.create(:user,
+        FactoryBot.create(:user,
                            member_in_project: project,
                            member_through_role: role)
       end
       let(:user) do
-        FactoryGirl.create(:user,
+        FactoryBot.create(:user,
                            login: 'foo@bar.com',
                            firstname: 'Foo',
                            lastname: 'Barrit',

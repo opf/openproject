@@ -30,9 +30,9 @@
 require 'spec_helper'
 
 describe ::Type, type: :model do
-  let(:type) { FactoryGirl.build(:type) }
-  let(:type2) { FactoryGirl.build(:type) }
-  let(:project) { FactoryGirl.build(:project) }
+  let(:type) { FactoryBot.build(:type) }
+  let(:type2) { FactoryBot.build(:type) }
+  let(:project) { FactoryBot.build(:project) }
 
   describe '.enabled_in(project)' do
     before do

@@ -3,10 +3,10 @@ require 'spec_helper'
 describe 'Work package relations tab', js: true, selenium: true do
   include_context 'ui-autocomplete helpers'
 
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
 
-  let(:project) { FactoryGirl.create :project }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:project) { FactoryBot.create :project }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
   let(:full_wp) { ::Pages::FullWorkPackage.new(work_package) }
   let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
@@ -28,21 +28,21 @@ describe 'Work package relations tab', js: true, selenium: true do
   end
 
   describe 'relation group-by toggler' do
-    let(:project) { FactoryGirl.create :project, types: [type_1, type_2] }
-    let(:type_1) { FactoryGirl.create :type }
-    let(:type_2) { FactoryGirl.create :type }
+    let(:project) { FactoryBot.create :project, types: [type_1, type_2] }
+    let(:type_1) { FactoryBot.create :type }
+    let(:type_2) { FactoryBot.create :type }
 
-    let(:to_1) { FactoryGirl.create(:work_package, type: type_1, project: project) }
-    let(:to_2) { FactoryGirl.create(:work_package, type: type_2, project: project) }
+    let(:to_1) { FactoryBot.create(:work_package, type: type_1, project: project) }
+    let(:to_2) { FactoryBot.create(:work_package, type: type_2, project: project) }
 
     let!(:relation_1) do
-      FactoryGirl.create :relation,
+      FactoryBot.create :relation,
                          from: work_package,
                          to: to_1,
                          relation_type: Relation::TYPE_FOLLOWS
     end
     let!(:relation_2) do
-      FactoryGirl.create :relation,
+      FactoryBot.create :relation,
                          from: work_package,
                          to: to_2,
                          relation_type: Relation::TYPE_RELATES
@@ -117,17 +117,17 @@ describe 'Work package relations tab', js: true, selenium: true do
   describe 'with limited permissions' do
     let(:permissions) { %i(view_work_packages) }
     let(:user_role) do
-      FactoryGirl.create :role, permissions: permissions
+      FactoryBot.create :role, permissions: permissions
     end
 
     let(:user) do
-      FactoryGirl.create :user,
+      FactoryBot.create :user,
                          member_in_project: project,
                          member_through_role: user_role
     end
 
     context 'as view-only user, with parent set' do
-      let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+      let(:work_package) { FactoryBot.create(:work_package, project: project) }
 
       it 'shows no links to create relations' do
         # No create buttons should exist
@@ -143,7 +143,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         %i(view_work_packages add_work_packages manage_subtasks manage_work_package_relations)
       end
 
-      let!(:relatable) { FactoryGirl.create(:work_package, project: project) }
+      let!(:relatable) { FactoryBot.create(:work_package, project: project) }
       it 'should allow to manage relations' do
         relations.add_relation(type: 'follows', to: relatable)
 

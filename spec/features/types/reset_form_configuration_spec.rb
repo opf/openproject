@@ -30,16 +30,16 @@ require 'spec_helper'
 require 'features/projects/project_settings_page'
 
 describe 'Reset form configuration', type: :feature, js: true do
-  let(:admin) { FactoryGirl.create :admin }
-  let(:type) { FactoryGirl.create :type }
+  let(:admin) { FactoryBot.create :admin }
+  let(:type) { FactoryBot.create :type }
 
-  let(:project) { FactoryGirl.create :project, types: [type] }
+  let(:project) { FactoryBot.create :project, types: [type] }
   let(:form) { ::Components::Admin::TypeConfigurationForm.new }
   let(:dialog) { ::Components::ConfirmationDialog.new }
 
   describe "with EE token and CFs" do
     let(:custom_fields) { [custom_field] }
-    let(:custom_field) { FactoryGirl.create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
+    let(:custom_field) { FactoryBot.create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
     let(:cf_identifier) { "custom_field_#{custom_field.id}" }
     let(:cf_identifier_api) { "customField#{custom_field.id}" }
 

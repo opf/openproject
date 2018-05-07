@@ -31,14 +31,14 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.build_stubbed(:project_with_types) }
+  let(:project) { FactoryBot.build_stubbed(:project_with_types) }
   let(:wp_type) { project.types.first }
-  let(:custom_field) { FactoryGirl.build_stubbed(:custom_field) }
-  let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package, project: project, type: wp_type) }
+  let(:custom_field) { FactoryBot.build_stubbed(:custom_field) }
+  let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package, project: project, type: wp_type) }
   let(:current_user) do
-    FactoryGirl.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user)
   end
-  let(:attribute_query) { FactoryGirl.build_stubbed(:query) }
+  let(:attribute_query) { FactoryBot.build_stubbed(:query) }
   let(:attribute_groups) do
     [Type::AttributeGroup.new(wp_type, "People", %w(assignee responsible)),
      Type::AttributeGroup.new(wp_type, "Estimates and time", %w(estimated_time spent_time)),
@@ -98,7 +98,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'when values are allowed' do
-        let(:values) { FactoryGirl.build_stubbed_list(factory, 3) }
+        let(:values) { FactoryBot.build_stubbed_list(factory, 3) }
 
         before do
           allow(schema).to receive(:assignable_values).with(factory, anything).and_return(values)
@@ -763,7 +763,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     let(:original_cache_key) { joined_cache_key }
 
     it 'changes when the project changes' do
-      work_package.project = FactoryGirl.build_stubbed(:project)
+      work_package.project = FactoryBot.build_stubbed(:project)
 
       expect(joined_cache_key).to_not eql(original_cache_key)
     end
@@ -781,14 +781,14 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     it 'changes when the type changes' do
-      work_package.type = FactoryGirl.build_stubbed(:type)
+      work_package.type = FactoryBot.build_stubbed(:type)
 
       expect(joined_cache_key).to_not eql(original_cache_key)
     end
 
     it 'changes when the locale changes' do
       allow(I18n).to receive(:locale).and_return(:de)
-      work_package.type = FactoryGirl.build_stubbed(:type)
+      work_package.type = FactoryBot.build_stubbed(:type)
 
       expect(joined_cache_key).to_not eql(original_cache_key)
     end
@@ -796,7 +796,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     it 'changes when the custom_fields changes' do
       allow(work_package.project)
         .to receive(:all_work_package_custom_fields)
-        .and_return [FactoryGirl.build_stubbed(:custom_field)]
+        .and_return [FactoryBot.build_stubbed(:custom_field)]
 
       expect(joined_cache_key).to_not eql(original_cache_key)
     end

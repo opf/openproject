@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe 'Work package attribute help texts', type: :feature, js: true do
-  let(:project) { FactoryGirl.create :project }
-  let(:work_package) { FactoryGirl.create :work_package, project: project }
+  let(:project) { FactoryBot.create :project }
+  let(:work_package) { FactoryBot.create :work_package, project: project }
 
   let(:instance) do
-    FactoryGirl.create :work_package_help_text,
+    FactoryBot.create :work_package_help_text,
                        attribute_name: :status,
                        help_text: 'Some *help text* for status.'
   end
@@ -64,16 +64,16 @@ describe 'Work package attribute help texts', type: :feature, js: true do
   end
 
   describe 'as admin' do
-    let(:user) { FactoryGirl.create(:admin) }
+    let(:user) { FactoryBot.create(:admin) }
     it_behaves_like 'allows to view help texts'
   end
 
   describe 'as regular user' do
     let(:view_wps_role) do
-      FactoryGirl.create :role, permissions: [:view_work_packages]
+      FactoryBot.create :role, permissions: [:view_work_packages]
     end
     let(:user) do
-      FactoryGirl.create :user,
+      FactoryBot.create :user,
                          member_in_project: project,
                          member_through_role: view_wps_role
     end

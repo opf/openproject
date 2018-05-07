@@ -83,7 +83,7 @@ describe WikiContent, type: :model do
   end
 
   it 'should fetch history' do
-    wiki_content_journal = FactoryGirl.build(:wiki_content_journal,
+    wiki_content_journal = FactoryBot.build(:wiki_content_journal,
                                              journable_id: @page.content.id)
     wiki_content_journal.data.page_id = @page.id
     wiki_content_journal.data.text = ''

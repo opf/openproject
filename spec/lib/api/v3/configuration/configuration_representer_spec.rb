@@ -32,7 +32,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:represented) { Setting }
-  let(:current_user) { FactoryGirl.build_stubbed(:user) }
+  let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:representer) { described_class.new(represented, current_user: current_user) }
 
   context 'generation' do

@@ -143,17 +143,17 @@ module LegacyAssertionsAndHelpers
   def should_show_the_old_and_new_values_for(prop_key, model, &block)
     context '' do
       before do
-        FactoryGirl.create :issue if WorkPackage.count == 0 # some tests use WorkPackage.last
+        FactoryBot.create :issue if WorkPackage.count == 0 # some tests use WorkPackage.last
         if block_given?
           instance_eval &block
         else
-          @old_value = FactoryGirl.create(model.to_sym)
-          @new_value = FactoryGirl.create(model.to_sym)
+          @old_value = FactoryBot.create(model.to_sym)
+          @new_value = FactoryBot.create(model.to_sym)
         end
       end
 
       it "use the new value's name" do
-        journal = FactoryGirl.build :work_package_journal
+        journal = FactoryBot.build :work_package_journal
 
         journal.stub(:journable).and_return(WorkPackage.last)
         journal.stub(:details).and_return(prop_key => [@old_value.id, @new_value.id])
@@ -162,7 +162,7 @@ module LegacyAssertionsAndHelpers
       end
 
       it "use the old value's name" do
-        journal = FactoryGirl.build :work_package_journal
+        journal = FactoryBot.build :work_package_journal
 
         journal.stub(:journable).and_return(WorkPackage.last)
         journal.stub(:details).and_return(prop_key => [@old_value.id, @new_value.id])
@@ -289,7 +289,7 @@ module LegacyAssertionsAndHelpers
       context "should allow http basic auth using a username and password for #{http_method} #{url}" do
         context 'with a valid HTTP authentication' do
           before do
-            @user = FactoryGirl.create(:user, password: 'adminADMIN!', password_confirmation: 'adminADMIN!', admin: true) # Admin so they can access the project
+            @user = FactoryBot.create(:user, password: 'adminADMIN!', password_confirmation: 'adminADMIN!', admin: true) # Admin so they can access the project
 
             send(http_method, url, params: parameters, headers: credentials(@user.login, 'adminADMIN!'))
           end
@@ -302,7 +302,7 @@ module LegacyAssertionsAndHelpers
 
         context 'with an invalid HTTP authentication' do
           before do
-            @user = FactoryGirl.create(:user)
+            @user = FactoryBot.create(:user)
 
             send(http_method, url, params: parameters, headers: credentials(@user.login, 'wrong_password'))
           end
@@ -341,8 +341,8 @@ module LegacyAssertionsAndHelpers
       context "should allow http basic auth with a key for #{http_method} #{url}" do
         context 'with a valid HTTP authentication using the API token' do
           before do
-            @user = FactoryGirl.create(:user, admin: true)
-            @token = FactoryGirl.create(:api_token, user: @user)
+            @user = FactoryBot.create(:user, admin: true)
+            @token = FactoryBot.create(:api_token, user: @user)
 
             send(http_method, url, params: parameters, headers: credentials(@token.plain_value, 'X'))
           end
@@ -356,8 +356,8 @@ module LegacyAssertionsAndHelpers
 
         context 'with an invalid HTTP authentication' do
           before do
-            @user = FactoryGirl.create(:user)
-            @token = FactoryGirl.create(:rss_token, user: @user)
+            @user = FactoryBot.create(:user)
+            @token = FactoryBot.create(:rss_token, user: @user)
 
             send(http_method, url, params: parameters, headers: credentials(@token.value, 'X'))
           end
@@ -385,8 +385,8 @@ module LegacyAssertionsAndHelpers
       context "should allow key based auth using key=X for #{http_method} #{url}" do
         context 'with a valid api token' do
           before do
-            @user = FactoryGirl.create(:user, admin: true)
-            @token = FactoryGirl.create(:api_token, user: @user)
+            @user = FactoryBot.create(:user, admin: true)
+            @token = FactoryBot.create(:api_token, user: @user)
             # Simple url parse to add on ?key= or &key=
             request_url = if url.match(/\?/)
                             url + "&key=#{@token.plain_value}"
@@ -405,8 +405,8 @@ module LegacyAssertionsAndHelpers
 
         context 'with an invalid api token' do
           before do
-            @user = FactoryGirl.create(:user)
-            @token = FactoryGirl.create(:rss_token, user: @user)
+            @user = FactoryBot.create(:user)
+            @token = FactoryBot.create(:rss_token, user: @user)
             # Simple url parse to add on ?key= or &key=
             request_url = if url.match(/\?/)
                             url + "&key=#{@token.value}"
@@ -425,8 +425,8 @@ module LegacyAssertionsAndHelpers
 
       context "should allow key based auth using X-OpenProject-API-Key header for #{http_method} #{url}" do
         before do
-          @user = FactoryGirl.create(:user, admin: true)
-          @token = FactoryGirl.create(:api_token, user: @user)
+          @user = FactoryBot.create(:user, admin: true)
+          @token = FactoryBot.create(:api_token, user: @user)
           send(http_method, url, params: {}, headers: { 'X-OpenProject-API-Key' => @token.plain_value.to_s })
         end
         it { should respond_with success_code }

@@ -45,7 +45,7 @@ describe MyController, type: :controller do
   let(:secret) { "42" }
 
   let(:auth_source) { DummyAuthSource.create name: "Dummy LDAP" }
-  let(:user) { FactoryGirl.create :user, login: login, auth_source_id: auth_source.id }
+  let(:user) { FactoryBot.create :user, login: login, auth_source_id: auth_source.id }
   let(:login) { "h.wurst" }
 
   before do
@@ -95,7 +95,7 @@ describe MyController, type: :controller do
   end
 
   context "with a non-active user user" do
-    let(:user) { FactoryGirl.create :user, login: login, auth_source_id: auth_source.id, status: 2 }
+    let(:user) { FactoryBot.create :user, login: login, auth_source_id: auth_source.id, status: 2 }
 
     it_should_behave_like "auth source sso failure"
   end
@@ -103,11 +103,11 @@ describe MyController, type: :controller do
   context "with an invalid user" do
     let(:auth_source) { DummyAuthSource.create name: "Onthefly LDAP", onthefly_register: true }
 
-    let!(:duplicate) { FactoryGirl.create :user, mail: "login@DerpLAP.net" }
+    let!(:duplicate) { FactoryBot.create :user, mail: "login@DerpLAP.net" }
     let(:login) { "dummy_dupuser" }
 
     let(:user) do
-      FactoryGirl.build :user, login: login, mail: duplicate.mail, auth_source_id: auth_source.id
+      FactoryBot.build :user, login: login, mail: duplicate.mail, auth_source_id: auth_source.id
     end
 
     it_should_behave_like "auth source sso failure"

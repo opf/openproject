@@ -48,7 +48,7 @@ Given /^a relation between "(.*?)" and "(.*?)"$/ do |work_package_from, work_pac
   from = WorkPackage.find_by(subject: work_package_from)
   to = WorkPackage.find_by(subject: work_package_to)
 
-  FactoryGirl.create :relation, from: from, to: to
+  FactoryBot.create :relation, from: from, to: to
 end
 
 Given /^user is already watching "(.*?)"$/  do |work_package_subject|

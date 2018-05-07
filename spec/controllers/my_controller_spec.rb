@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe MyController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
   before(:each) do
     login_as(user)
   end
@@ -118,7 +118,7 @@ describe MyController, type: :controller do
   end
 
   describe 'account' do
-    let(:custom_field) { FactoryGirl.create :text_user_custom_field }
+    let(:custom_field) { FactoryBot.create :text_user_custom_field }
     before do
       custom_field
       as_logged_in_user user do

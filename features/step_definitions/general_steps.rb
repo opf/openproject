@@ -32,14 +32,14 @@ require 'rack_session_access/capybara'
 
 Before do |scenario|
   unless ScenarioDisabler.empty_if_disabled(scenario)
-    FactoryGirl.create(:admin) unless User.find_by_login('admin')
-    FactoryGirl.create(:anonymous) unless AnonymousUser.count > 0
+    FactoryBot.create(:admin) unless User.find_by_login('admin')
+    FactoryBot.create(:anonymous) unless AnonymousUser.count > 0
     Setting.notified_events = [] # can not test mailer
   end
 end
 
 Given /^I am logged in$/ do
-  @user = FactoryGirl.create :user
+  @user = FactoryBot.create :user
   page.set_rack_session(user_id: @user.id, updated_at: Time.now)
 end
 
@@ -86,7 +86,7 @@ Given /^(?:|I )am (not )?impaired$/ do |bool|
 end
 
 Given /^there is 1 [pP]roject with(?: the following)?:$/ do |table|
-  p = FactoryGirl.build(:project)
+  p = FactoryBot.build(:project)
   send_table_to_object(p, table)
 end
 
@@ -121,8 +121,8 @@ Given /^the [Uu]ser "([^\"]*)" has 1 time [eE]ntry$/ do |user|
   u = User.find_by login: user
   p = u.projects.last
   raise 'This user must be member of a project to have issues' unless p
-  i = FactoryGirl.create(:work_package, project: p)
-  t = FactoryGirl.build(:time_entry)
+  i = FactoryBot.create(:work_package, project: p)
+  t = FactoryBot.build(:time_entry)
   t.user = u
   t.issue = i
   t.project = p
@@ -134,8 +134,8 @@ end
 Given /^the [Uu]ser "([^\"]*)" has 1 time entry with (\d+\.?\d*) hours? at the project "([^\"]*)"$/ do |user, hours, project|
   p = Project.find_by(name: project) || Project.find_by(identifier: project)
   as_admin do
-    t = FactoryGirl.build(:time_entry)
-    i = FactoryGirl.create(:work_package, project: p)
+    t = FactoryBot.build(:time_entry)
+    i = FactoryBot.create(:work_package, project: p)
     t.project = p
     t.issue = i
     t.hours = hours.to_f
@@ -149,8 +149,8 @@ end
 Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the following:$/ do |project, count, table|
   p = Project.find_by(name: project) || Project.find_by(identifier: project)
   as_admin count do
-    t = FactoryGirl.build(:time_entry)
-    i = FactoryGirl.create(:work_package, project: p)
+    t = FactoryBot.build(:time_entry)
+    i = FactoryBot.create(:work_package, project: p)
     t.project = p
     t.work_package = i
     t.activity.project = p
@@ -173,14 +173,14 @@ end
 
 Given /^the [pP]roject "([^\"]*)" has 1 [sS]ubproject$/ do |project|
   parent = Project.find_by(name: project)
-  p = FactoryGirl.create(:project)
+  p = FactoryBot.create(:project)
   p.set_parent!(parent)
   p.save!
 end
 
 Given /^the [pP]roject "([^\"]*)" has 1 [sS]ubproject with the following:$/ do |project, table|
   parent = Project.find_by(name: project)
-  p = FactoryGirl.build(:project)
+  p = FactoryBot.build(:project)
   as_admin do
     send_table_to_object(p, table)
   end
@@ -231,7 +231,7 @@ Given /^the [iI]ssue "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with the
   i = WorkPackage.where(["subject = '#{issue}'"]).last
   raise "No such issue: #{issue}" unless i
   as_admin count do
-    t = FactoryGirl.build(:time_entry)
+    t = FactoryBot.build(:time_entry)
     t.project = i.project
     t.spent_on = DateTime.now
     t.work_package = i

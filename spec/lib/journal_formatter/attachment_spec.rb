@@ -46,9 +46,9 @@ describe OpenProject::JournalFormatter::Attachment do
   let(:journal) do
     OpenStruct.new(id: id)
   end
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
   let(:attachment) {
-    FactoryGirl.create(:attachment,
+    FactoryBot.create(:attachment,
                        author: user)
   }
   let(:key) { "attachments_#{attachment.id}" }

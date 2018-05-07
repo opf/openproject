@@ -30,9 +30,9 @@ require 'legacy_spec_helper'
 
 describe Category, type: :model do
   before do
-    @project = FactoryGirl.create :project
-    @category = FactoryGirl.create :category, project: @project
-    @issue = FactoryGirl.create :work_package, project: @project, category: @category
+    @project = FactoryBot.create :project
+    @category = FactoryBot.create :category, project: @project
+    @issue = FactoryBot.create :work_package, project: @project, category: @category
     assert_equal @issue.category, @category
     assert_equal @category.work_packages, [@issue]
   end
@@ -45,8 +45,8 @@ describe Category, type: :model do
   end
 
   it 'should create with group assignment' do
-    group = FactoryGirl.create :group
-    role = FactoryGirl.create :role
+    group = FactoryBot.create :group
+    role = FactoryBot.create :role
     (Member.new.tap do |m|
       m.attributes = { principal: group, project: @project, role_ids: [role.id] }
     end).save!
@@ -65,7 +65,7 @@ describe Category, type: :model do
 
   # both issue categories must be in the same project
   it 'should destroy with reassign' do
-    reassign_to = FactoryGirl.create :category, project: @project
+    reassign_to = FactoryBot.create :category, project: @project
     @category.destroy(reassign_to)
     # Make sure the issue was reassigned
     assert_equal reassign_to, @issue.reload.category

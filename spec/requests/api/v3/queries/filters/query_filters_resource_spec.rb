@@ -36,11 +36,11 @@ describe 'API v3 Query Filter resource', type: :request do
   describe '#get queries/filters/:id' do
     let(:path) { api_v3_paths.query_filter(filter_name) }
     let(:filter_name) { 'assignee' }
-    let(:project) { FactoryGirl.create(:project) }
-    let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+    let(:project) { FactoryBot.create(:project) }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
     let(:permissions) { [:view_work_packages] }
     let(:user) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: project,
                          member_through_role: role)
     end
@@ -80,7 +80,7 @@ describe 'API v3 Query Filter resource', type: :request do
     end
 
     context 'custom field filter' do
-      let(:list_wp_custom_field) { FactoryGirl.create(:list_wp_custom_field) }
+      let(:list_wp_custom_field) { FactoryBot.create(:list_wp_custom_field) }
       let(:filter_name) { "customField#{list_wp_custom_field.id}" }
 
       it 'succeeds' do

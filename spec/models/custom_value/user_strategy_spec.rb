@@ -37,8 +37,8 @@ describe CustomValue::UserStrategy do
            customized: customized)
   end
   let(:customized) { double('customized') }
-  let(:custom_field) { FactoryGirl.build(:custom_field) }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:custom_field) { FactoryBot.build(:custom_field) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   describe '#parse_value/#typed_value' do
     subject { instance }

@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 RSpec.feature 'Work package timeline hierarchies', js: true, selenium: true do
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
@@ -42,12 +42,12 @@ RSpec.feature 'Work package timeline hierarchies', js: true, selenium: true do
   end
 
   let!(:wp_root) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        project: project
   end
 
   let!(:wp_leaf) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        project: project,
                        parent: wp_root,
                        start_date: Date.today,
@@ -55,7 +55,7 @@ RSpec.feature 'Work package timeline hierarchies', js: true, selenium: true do
   end
 
   let!(:query) do
-    query              = FactoryGirl.build(:query, user: user, project: project)
+    query              = FactoryBot.build(:query, user: user, project: project)
     query.column_names = ['subject']
     query.filters.clear
     query.show_hierarchies = true
@@ -90,13 +90,13 @@ RSpec.feature 'Work package timeline hierarchies', js: true, selenium: true do
 
   context 'with a relation being rendered to a hidden row' do
     let!(:wp_other) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          project: project,
                          start_date: Date.today + 5.days,
                          due_date: (Date.today + 10.days)
     end
     let!(:relation) do
-      FactoryGirl.create(:relation,
+      FactoryBot.create(:relation,
                          from: wp_leaf,
                          to: wp_other,
                          relation_type: Relation::TYPE_FOLLOWS)

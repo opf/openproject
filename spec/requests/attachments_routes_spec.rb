@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'attachments routes', type: :request do
-  let(:user) { FactoryGirl.create :admin }
-  let(:attachment) { FactoryGirl.create :attachment }
+  let(:user) { FactoryBot.create :admin }
+  let(:attachment) { FactoryBot.create :attachment }
 
   describe 'for backwards compatibility' do
     it 'redirects /attachments/download with filename to attachments#download' do

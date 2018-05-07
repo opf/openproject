@@ -63,7 +63,7 @@ describe ::API::V3::WorkPackages::WorkPackageSumsRepresenter do
   end
 
   context 'custom field x' do
-    let(:custom_field)  { FactoryGirl.build_stubbed(:integer_issue_custom_field, id: 1) }
+    let(:custom_field)  { FactoryBot.build_stubbed(:integer_issue_custom_field, id: 1) }
     let(:available_custom_fields) { [custom_field] }
     let(:sums) { double 'sums', custom_field_1: 5 }
 

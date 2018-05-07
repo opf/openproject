@@ -65,7 +65,7 @@ describe DeletedUser, type: :model do
 
   describe '#available_custom_fields' do
     before do
-      FactoryGirl.create(:user_custom_field)
+      FactoryBot.create(:user_custom_field)
     end
 
     it { expect(user.available_custom_fields).to eq([]) }
@@ -73,8 +73,8 @@ describe DeletedUser, type: :model do
 
   describe '#create' do
     describe 'WHEN creating a second deleted user' do
-      let(:u1) { FactoryGirl.build(:deleted_user) }
-      let(:u2) { FactoryGirl.build(:deleted_user) }
+      let(:u1) { FactoryBot.build(:deleted_user) }
+      let(:u2) { FactoryBot.build(:deleted_user) }
 
       before do
         u1.save!
@@ -97,7 +97,7 @@ describe DeletedUser, type: :model do
 
   describe '#first' do
     describe 'WHEN a deleted user already exists' do
-      let(:user) { FactoryGirl.build(:deleted_user) }
+      let(:user) { FactoryBot.build(:deleted_user) }
 
       before do
         user.save!

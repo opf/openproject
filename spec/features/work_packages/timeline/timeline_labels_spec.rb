@@ -32,18 +32,18 @@ RSpec.feature 'Work package timeline labels',
               with_settings: { date_format: '%Y-%m-%d' },
               js: true,
               selenium: true do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:type) { FactoryGirl.create(:type_bug) }
-  let(:milestone_type) { FactoryGirl.create(:type, is_milestone: true) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:type) { FactoryBot.create(:type_bug) }
+  let(:milestone_type) { FactoryBot.create(:type, is_milestone: true) }
 
-  let(:project) { FactoryGirl.create(:project, types: [type, milestone_type]) }
+  let(:project) { FactoryBot.create(:project, types: [type, milestone_type]) }
   let(:query_menu) { Components::WorkPackages::QueryMenu.new }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
   let(:config_modal) { Components::Timelines::ConfigurationModal.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
 
   let(:custom_field) do
-    FactoryGirl.create(
+    FactoryBot.create(
       :list_wp_custom_field,
       name: "Ingredients",
       multi_value: true,
@@ -62,7 +62,7 @@ RSpec.feature 'Work package timeline labels',
   let(:future) { (Date.today + 5).iso8601  }
 
   let(:work_package) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        project: project,
                        type: type,
                        assigned_to: user,
@@ -73,7 +73,7 @@ RSpec.feature 'Work package timeline labels',
   end
 
   let(:milestone_work_package) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        project: project,
                        type: milestone_type,
                        start_date: future,

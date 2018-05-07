@@ -168,9 +168,9 @@ describe MailHandler, type: :model do
   end
 
   it 'should add work package should match assignee on display name' do # added from redmine  - not sure if it is ok here
-    user = FactoryGirl.create(:user, firstname: 'Foo', lastname: 'Bar')
-    role = FactoryGirl.create(:role, name: 'Superhero')
-    FactoryGirl.create(:member, user: user, project: Project.find(2), role_ids: [role.id])
+    user = FactoryBot.create(:user, firstname: 'Foo', lastname: 'Bar')
+    role = FactoryBot.create(:role, name: 'Superhero')
+    FactoryBot.create(:member, user: user, project: Project.find(2), role_ids: [role.id])
     issue = submit_email('ticket_on_given_project.eml') do |email|
       email.sub!(/^Assigned to.*$/, 'Assigned to: Foo Bar')
     end
@@ -357,7 +357,7 @@ describe MailHandler, type: :model do
   specify 'reply to issue update (Journal) by message_id' do
     Journal.delete_all
     issue = WorkPackage.find(2)
-    j = FactoryGirl.create :work_package_journal, id: 3, journable_id: issue.id
+    j = FactoryBot.create :work_package_journal, id: 3, journable_id: issue.id
     journal = submit_email('ticket_reply_by_message_id.eml')
     assert journal.data.is_a?(Journal::WorkPackageJournal), "Email was a #{journal.data.class}"
     assert_equal User.find_by_login('jsmith'), journal.user

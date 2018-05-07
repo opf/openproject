@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::Token::Base, type: :model do
-  let(:user) { FactoryGirl.build(:user) }
+  let(:user) { FactoryBot.build(:user) }
 
   subject { described_class.new user: user }
 

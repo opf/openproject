@@ -33,22 +33,22 @@ describe 'API::V3::CustomActions::CustomActionsAPI', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:role) do
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: %i[edit_work_packages view_work_packages])
   end
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryBot.create(:project) }
   let(:work_package) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        assigned_to: user)
   end
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   end
   let(:action) do
-    FactoryGirl.create(:custom_action, actions: [CustomActions::Actions::AssignedTo.new(nil)])
+    FactoryBot.create(:custom_action, actions: [CustomActions::Actions::AssignedTo.new(nil)])
   end
   let(:parameters) do
     {
@@ -93,7 +93,7 @@ describe 'API::V3::CustomActions::CustomActionsAPI', type: :request do
     end
 
     context 'when lacking permissions' do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryBot.create(:user) }
 
       include_context 'get request'
 
@@ -188,7 +188,7 @@ describe 'API::V3::CustomActions::CustomActionsAPI', type: :request do
     end
 
     context 'with a non visible work package' do
-      let(:invisible_work_package) { FactoryGirl.create(:work_package) }
+      let(:invisible_work_package) { FactoryBot.create(:work_package) }
 
       let(:parameters) do
         {

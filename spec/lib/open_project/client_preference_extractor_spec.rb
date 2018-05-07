@@ -32,7 +32,7 @@ describe OpenProject::ClientPreferenceExtractor do
   let(:extractor) { (Class.new { include OpenProject::ClientPreferenceExtractor }).new }
 
   describe 'user preferences' do
-    let(:user) { FactoryGirl.build(:user) }
+    let(:user) { FactoryBot.build(:user) }
 
     shared_examples_for 'preference with timezone' do
       before do

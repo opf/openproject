@@ -33,7 +33,7 @@ describe SettingsController, type: :controller do
     allow(@controller).to receive(:set_localization)
     @params = {}
 
-    @user = FactoryGirl.create(:admin)
+    @user = FactoryBot.create(:admin)
     allow(User).to receive(:current).and_return @user
   end
 

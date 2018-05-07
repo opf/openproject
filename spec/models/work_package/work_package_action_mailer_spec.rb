@@ -31,17 +31,17 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   describe ActionMailer::Base do
     let(:user_1) {
-      FactoryGirl.build(:user,
+      FactoryBot.build(:user,
                         mail: 'dlopper@somenet.foo',
                         member_in_project: project)
     }
     let(:user_2) {
-      FactoryGirl.build(:user,
+      FactoryBot.build(:user,
                         mail: 'jsmith@somenet.foo',
                         member_in_project: project)
     }
-    let(:project) { FactoryGirl.create(:project) }
-    let(:work_package) { FactoryGirl.build(:work_package, project: project) }
+    let(:project) { FactoryBot.create(:project) }
+    let(:work_package) { FactoryBot.build(:work_package, project: project) }
 
     before do
       allow(work_package).to receive(:recipients).and_return([user_1])
@@ -83,7 +83,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'group_assigned_work_package' do
-      let(:group) { FactoryGirl.create(:group) }
+      let(:group) { FactoryBot.create(:group) }
 
       before do
         group.users << user_1

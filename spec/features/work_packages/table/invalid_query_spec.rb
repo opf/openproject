@@ -1,28 +1,28 @@
 require 'spec_helper'
 
 describe 'Invalid query spec', js: true do
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create :project }
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create :project }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
   let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
   let(:member) do
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        user: user,
                        project: project,
-                       roles: [FactoryGirl.create(:role)])
+                       roles: [FactoryBot.create(:role)])
   end
   let(:status) do
-    FactoryGirl.create(:status)
+    FactoryBot.create(:status)
   end
   let(:status2) do
-    FactoryGirl.create(:status)
+    FactoryBot.create(:status)
   end
 
   let(:invalid_query) do
-    query = FactoryGirl.create(:query,
+    query = FactoryBot.create(:query,
                                project: project,
                                user: user)
 
@@ -36,13 +36,13 @@ describe 'Invalid query spec', js: true do
   end
 
   let(:valid_query) do
-    FactoryGirl.create(:query,
+    FactoryBot.create(:query,
                        project: project,
                        user: user)
   end
 
   let(:work_package_assigned) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        status: status2,
                        assigned_to: user)

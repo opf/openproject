@@ -37,9 +37,9 @@ describe 'OpenProject work package button macros' do
     # no-op
   end
 
-  let(:type) { FactoryGirl.create :type, name: 'MyTaskName' }
-  let(:project) { FactoryGirl.create :valid_project, identifier: 'my-project', name: 'My project name', types: [type] }
-  let(:user) { FactoryGirl.create :admin }
+  let(:type) { FactoryBot.create :type, name: 'MyTaskName' }
+  let(:project) { FactoryBot.create :valid_project, identifier: 'my-project', name: 'My project name', types: [type] }
+  let(:user) { FactoryBot.create :admin }
 
   let(:input) { }
   subject { format_text(input, project: project) }

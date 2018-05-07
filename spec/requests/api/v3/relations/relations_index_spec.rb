@@ -29,21 +29,21 @@
 require 'spec_helper'
 
 describe 'GET /api/v3/relations', type: :request do
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
 
-  let(:work_package) { FactoryGirl.create :work_package }
-  let(:other_work_package) { FactoryGirl.create :work_package }
+  let(:work_package) { FactoryBot.create :work_package }
+  let(:other_work_package) { FactoryBot.create :work_package }
 
   let!(:relations) do
     def new_relation(opts = {})
       relation_type = opts.delete(:type)
 
-      relation = FactoryGirl.create :relation, opts.merge(relation_type: relation_type)
+      relation = FactoryBot.create :relation, opts.merge(relation_type: relation_type)
       relation.id
     end
 
     def new_work_package
-      FactoryGirl.create :work_package
+      FactoryBot.create :work_package
     end
 
     [

@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ::API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
   let(:filter) { Queries::WorkPackages::Filter::CreatedAtFilter.create!(context: query) }
   let(:form_embedded) { false }
 
@@ -99,7 +99,7 @@ describe ::API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter, clear
 
     describe 'caching' do
       let(:operator) { Queries::Operators::Equals }
-      let(:other_project) { FactoryGirl.build_stubbed(:project) }
+      let(:other_project) { FactoryBot.build_stubbed(:project) }
 
       before do
         # fill the cache

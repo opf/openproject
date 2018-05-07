@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe Scm::CreateManagedRepositoryService do
-  let(:user) { FactoryGirl.build(:user) }
-  let(:project) { FactoryGirl.build(:project) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:project) { FactoryBot.build(:project) }
 
-  let(:repository) { FactoryGirl.build(:repository_subversion) }
+  let(:repository) { FactoryBot.build(:repository_subversion) }
   subject(:service) { Scm::CreateManagedRepositoryService.new(repository) }
 
   let(:config) { {} }
@@ -146,7 +146,7 @@ describe Scm::CreateManagedRepositoryService do
     }
 
     let(:repository) {
-      repo = FactoryGirl.build(:repository_subversion, scm_type: :managed)
+      repo = FactoryBot.build(:repository_subversion, scm_type: :managed)
       repo.project = project
       repo.configure(:managed, nil)
       repo

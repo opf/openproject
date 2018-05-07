@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Priorities::PriorityRepresenter do
-  let(:priority) { FactoryGirl.build_stubbed(:priority) }
+  let(:priority) { FactoryBot.build_stubbed(:priority) }
   let(:representer) { described_class.new(priority, current_user: double('current_user')) }
 
   include API::V3::Utilities::PathHelper

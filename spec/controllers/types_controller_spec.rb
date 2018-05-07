@@ -30,20 +30,20 @@ require 'spec_helper'
 
 describe TypesController, type: :controller do
   let(:project) do
-    FactoryGirl.create(:project,
+    FactoryBot.create(:project,
                        work_package_custom_fields: [custom_field_2])
   end
   let(:custom_field_1) do
-    FactoryGirl.create(:work_package_custom_field,
+    FactoryBot.create(:work_package_custom_field,
                        field_format: 'string',
                        is_for_all: true)
   end
-  let(:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
-  let(:status_0) { FactoryGirl.create(:status) }
-  let(:status_1) { FactoryGirl.create(:status) }
+  let(:custom_field_2) { FactoryBot.create(:work_package_custom_field) }
+  let(:status_0) { FactoryBot.create(:status) }
+  let(:status_1) { FactoryBot.create(:status) }
 
   context 'with an unauthorized account' do
-    let(:current_user) { FactoryGirl.create(:user) }
+    let(:current_user) { FactoryBot.create(:user) }
 
     before do
       allow(User).to receive(:current).and_return(current_user)
@@ -107,7 +107,7 @@ describe TypesController, type: :controller do
   end
 
   context 'with an authorized account' do
-    let(:current_user) { FactoryGirl.create(:admin) }
+    let(:current_user) { FactoryBot.create(:admin) }
 
     before do
       allow(User).to receive(:current).and_return(current_user)
@@ -165,9 +165,9 @@ describe TypesController, type: :controller do
       end
 
       describe 'WITH workflow copy' do
-        let!(:existing_type) { FactoryGirl.create(:type, name: 'Existing type') }
+        let!(:existing_type) { FactoryBot.create(:type, name: 'Existing type') }
         let!(:workflow) do
-          FactoryGirl.create(:workflow,
+          FactoryBot.create(:workflow,
                              old_status: status_0,
                              new_status: status_1,
                              type_id: existing_type.id)
@@ -199,7 +199,7 @@ describe TypesController, type: :controller do
     describe 'GET edit settings' do
       render_views
       let(:type) do
-        FactoryGirl.create(:type, name: 'My type',
+        FactoryBot.create(:type, name: 'My type',
                                   is_milestone: true,
                                   projects: [project])
       end
@@ -218,7 +218,7 @@ describe TypesController, type: :controller do
     describe 'GET edit projects' do
       render_views
       let(:type) do
-        FactoryGirl.create(:type, name: 'My type',
+        FactoryBot.create(:type, name: 'My type',
                                   is_milestone: true,
                                   projects: [project])
       end
@@ -234,9 +234,9 @@ describe TypesController, type: :controller do
     end
 
     describe 'POST update' do
-      let(:project2) { FactoryGirl.create(:project) }
+      let(:project2) { FactoryBot.create(:project) }
       let(:type) do
-        FactoryGirl.create(:type, name: 'My type',
+        FactoryBot.create(:type, name: 'My type',
                                   is_milestone: true,
                                   projects: [project, project2])
       end
@@ -287,8 +287,8 @@ describe TypesController, type: :controller do
     end
 
     describe 'POST move' do
-      let!(:type) { FactoryGirl.create(:type, name: 'My type', position: '1') }
-      let!(:type2) { FactoryGirl.create(:type, name: 'My type 2', position: '2') }
+      let!(:type) { FactoryBot.create(:type, name: 'My type', position: '1') }
+      let!(:type2) { FactoryBot.create(:type, name: 'My type 2', position: '2') }
       let(:params) { { 'id' => type.id, 'type' => { move_to: 'lower' } } }
 
       before do
@@ -303,9 +303,9 @@ describe TypesController, type: :controller do
     end
 
     describe 'DELETE destroy' do
-      let(:type) { FactoryGirl.create(:type, name: 'My type') }
-      let(:type2) { FactoryGirl.create(:type, name: 'My type 2', projects: [project]) }
-      let(:type3) { FactoryGirl.create(:type, name: 'My type 3', is_standard: true) }
+      let(:type) { FactoryBot.create(:type, name: 'My type') }
+      let(:type2) { FactoryBot.create(:type, name: 'My type 2', projects: [project]) }
+      let(:type3) { FactoryBot.create(:type, name: 'My type 3', is_standard: true) }
 
       describe 'successful detroy' do
         let(:params) { { 'id' => type.id } }
@@ -326,12 +326,12 @@ describe TypesController, type: :controller do
 
       describe 'detroy type in use should fail' do
         let(:project2) do
-          FactoryGirl.create(:project,
+          FactoryBot.create(:project,
                              work_package_custom_fields: [custom_field_2],
                              types: [type2])
         end
         let!(:work_package) do
-          FactoryGirl.create(:work_package,
+          FactoryBot.create(:work_package,
                              author: current_user,
                              type: type2,
                              project: project2)

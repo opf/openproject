@@ -51,13 +51,13 @@ describe 'API v3 Principals resource', type: :request do
     end
     let(:order) { { name: :desc } }
     let(:filter) { nil }
-    let(:project) { FactoryGirl.create(:project) }
-    let(:other_project) { FactoryGirl.create(:project) }
-    let(:non_member_project) { FactoryGirl.create(:project) }
-    let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+    let(:project) { FactoryBot.create(:project) }
+    let(:other_project) { FactoryBot.create(:project) }
+    let(:non_member_project) { FactoryBot.create(:project) }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
     let(:permissions) { [] }
     let(:user) do
-      user = FactoryGirl.create(:user,
+      user = FactoryBot.create(:user,
                                 member_in_project: project,
                                 member_through_role: role,
                                 lastname: 'aaaa')
@@ -67,19 +67,19 @@ describe 'API v3 Principals resource', type: :request do
       user
     end
     let(:other_user) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: other_project,
                          member_through_role: role,
                          lastname: 'bbbb')
     end
     let(:user_in_non_member_project) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: non_member_project,
                          member_through_role: role,
                          lastname: 'cccc')
     end
     let(:group) do
-      group = FactoryGirl.create(:group,
+      group = FactoryBot.create(:group,
                                  lastname: 'gggg')
 
       project.add_member! group, role
@@ -145,7 +145,7 @@ describe 'API v3 Principals resource', type: :request do
     end
 
     context 'user without a project membership' do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryBot.create(:user) }
 
       # The user herself
       it_behaves_like 'API V3 collection response', 1, 1, 'User' do

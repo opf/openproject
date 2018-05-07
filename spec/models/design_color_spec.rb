@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe DesignColor, type: :model do
   let(:default_primary) { ::OpenProject::Design.variables['primary-color'] }
-  let(:primary_color) { FactoryGirl.create :"design_color_primary-color" }
+  let(:primary_color) { FactoryBot.create :"design_color_primary-color" }
 
   describe "#defaults" do
     it "returns a hash of default color variables with hex color codes" do

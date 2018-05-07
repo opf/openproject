@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe JournalNotificationMailer do
-  let(:project) { FactoryGirl.create(:project_with_types) }
+  let(:project) { FactoryBot.create(:project_with_types) }
   let(:user) do
-    FactoryGirl.build(:user,
+    FactoryBot.build(:user,
                       mail_notification: 'all',
                       member_in_project: project)
   end
   let(:work_package) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        author: user,
                        type: project.types.first)
@@ -82,7 +82,7 @@ describe JournalNotificationMailer do
       context 'insufficient work package changes' do
         let(:journal) { another_work_package.journals.last }
         let(:another_work_package) {
-          FactoryGirl.create(:work_package,
+          FactoryBot.create(:work_package,
                              project: project,
                              author: user,
                              type: project.types.first)
@@ -109,7 +109,7 @@ describe JournalNotificationMailer do
   describe 'journal creation' do
     context 'work_package_created' do
       before do
-        FactoryGirl.create(:work_package, project: project)
+        FactoryBot.create(:work_package, project: project)
       end
 
       it_behaves_like 'handles deliveries', 'work_package_added'
@@ -128,7 +128,7 @@ describe JournalNotificationMailer do
         it_behaves_like 'enqueues a regular notification'
 
         context 'WP creation' do
-          let(:journal) { FactoryGirl.create(:work_package).journals.first }
+          let(:journal) { FactoryBot.create(:work_package).journals.first }
 
           it 'sends no notification' do
             expect(Delayed::Job).not_to receive(:enqueue)
@@ -155,7 +155,7 @@ describe JournalNotificationMailer do
     context 'status_updated' do
       before do
         work_package.add_journal(user)
-        work_package.status = FactoryGirl.build(:status)
+        work_package.status = FactoryBot.build(:status)
         work_package.save!(validate: false)
       end
 
@@ -165,7 +165,7 @@ describe JournalNotificationMailer do
     context 'work_package_priority_updated' do
       before do
         work_package.add_journal(user)
-        work_package.priority = FactoryGirl.create(:issue_priority)
+        work_package.priority = FactoryBot.create(:issue_priority)
         work_package.save!(validate: false)
       end
 
@@ -325,6 +325,6 @@ end
 describe 'initialization' do
   it 'subscribes the listener' do
     expect(JournalNotificationMailer).to receive(:distinguish_journals)
-    FactoryGirl.create(:work_package)
+    FactoryBot.create(:work_package)
   end
 end

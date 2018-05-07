@@ -32,8 +32,8 @@ describe Member, type: :model do
   before do
     Role.non_member.add_permission! :view_work_packages # non_member users may be watchers of work units
     Role.non_member.add_permission! :view_wiki_pages # non_member users may be watchers of wikis
-    @project = FactoryGirl.create :project_with_types
-    @user = FactoryGirl.create :user, member_in_project: @project
+    @project = FactoryBot.create :project_with_types
+    @user = FactoryBot.create :user, member_in_project: @project
     @member = @project.members.first
     @role = @member.roles.first
     @role.add_permission! :view_wiki_pages
@@ -42,7 +42,7 @@ describe Member, type: :model do
   it 'should create' do
     member = Member.new.tap do |m|
       m.attributes = { project_id: @project.id,
-                             user_id: FactoryGirl.create(:user).id,
+                             user_id: FactoryBot.create(:user).id,
                              role_ids: [@role.id] }
     end
     assert member.save
@@ -63,14 +63,14 @@ describe Member, type: :model do
 
   it 'should update roles' do
     assert_equal 1, @member.roles.size
-    @member.role_ids = [@role.id, FactoryGirl.create(:role).id]
+    @member.role_ids = [@role.id, FactoryBot.create(:role).id]
     assert @member.save
     assert_equal 2, @member.reload.roles.size
   end
 
   it 'should validate' do
     members = []
-    user_id = FactoryGirl.create(:user).id
+    user_id = FactoryBot.create(:user).id
     2.times do
       members << Member.new.tap do |m|
         m.attributes = { project_id: @project.id,
@@ -85,7 +85,7 @@ describe Member, type: :model do
 
     member = Member.new.tap do |m|
       m.attributes = { project_id: @project,
-                             user_id: FactoryGirl.create(:user).id,
+                             user_id: FactoryBot.create(:user).id,
                              role_ids: [] }
     end
     # must have one role at least
@@ -104,25 +104,25 @@ describe Member, type: :model do
 
   context 'removing permissions' do
     before do
-      @private_project = FactoryGirl.create :project_with_types,
+      @private_project = FactoryBot.create :project_with_types,
                                             is_public: true # has to be public first to successfully create things. Will be set to private later
-      @watcher_user = FactoryGirl.create(:user)
+      @watcher_user = FactoryBot.create(:user)
 
       # watchers for public issue
-      public_issue = FactoryGirl.create :work_package
+      public_issue = FactoryBot.create :work_package
       public_issue.project.is_public = true
       public_issue.project.save!
       Watcher.create!(watchable: public_issue, user: @watcher_user)
 
       # watchers for private things
-      Watcher.create!(watchable: FactoryGirl.create(:work_package, project: @private_project), user: @watcher_user)
-      board = FactoryGirl.create :board, project: @private_project
-      @message = FactoryGirl.create :message, board: board
+      Watcher.create!(watchable: FactoryBot.create(:work_package, project: @private_project), user: @watcher_user)
+      board = FactoryBot.create :board, project: @private_project
+      @message = FactoryBot.create :message, board: board
       Watcher.create!(watchable: @message, user: @watcher_user)
-      Watcher.create!(watchable: FactoryGirl.create(:wiki, project: @private_project), user: @watcher_user)
+      Watcher.create!(watchable: FactoryBot.create(:wiki, project: @private_project), user: @watcher_user)
       @private_project.reload # to access @private_project.wiki
-      Watcher.create!(watchable: FactoryGirl.create(:wiki_page, wiki: @private_project.wiki), user: @watcher_user)
-      @private_role = FactoryGirl.create :role, permissions: [:view_wiki_pages, :view_work_packages]
+      Watcher.create!(watchable: FactoryBot.create(:wiki_page, wiki: @private_project.wiki), user: @watcher_user)
+      @private_role = FactoryBot.create :role, permissions: [:view_wiki_pages, :view_work_packages]
 
       @private_project.is_public = false
       @private_project.save
@@ -133,7 +133,7 @@ describe Member, type: :model do
         (@member = Member.new.tap do |m|
           m.attributes = { project_id: @private_project.id,
                                  user_id: @watcher_user.id,
-                                 role_ids: [@private_role.id, FactoryGirl.create(:role).id] }
+                                 role_ids: [@private_role.id, FactoryBot.create(:role).id] }
         end).save!
       end
 
@@ -159,11 +159,11 @@ describe Member, type: :model do
 
     context 'of group' do
       before do
-        @group = FactoryGirl.create :group
+        @group = FactoryBot.create :group
         @member = (Member.new.tap do |m|
           m.attributes = { project_id: @private_project.id,
                                  user_id: @group.id,
-                                 role_ids: [@private_role.id, FactoryGirl.create(:role).id] }
+                                 role_ids: [@private_role.id, FactoryBot.create(:role).id] }
         end)
 
         @group.members << @member
