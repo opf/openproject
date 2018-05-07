@@ -80,7 +80,7 @@ describe WikiController, type: :controller do
     session[:user_id] = 2
     get :show, params: { project_id: 1, id: 'Unexistent page' }
     assert_response :success
-    assert_template 'edit'
+    assert_template 'new'
   end
 
   it 'should create page' do

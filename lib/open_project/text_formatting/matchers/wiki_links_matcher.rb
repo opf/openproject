@@ -130,7 +130,8 @@ module OpenProject::TextFormatting
 
         # check if page exists
         wiki_page = project.wiki.find_page(page)
-        wiki_title = wiki_page.nil? ? page : wiki_page.title
+        default_wiki_title = wiki_page.nil? ? page : wiki_page.title
+        wiki_title = title || default_wiki_title
 
         url = case context[:wiki_links]
         when :local;
@@ -143,11 +144,12 @@ module OpenProject::TextFormatting
                   controller: '/wiki',
                   action: 'show',
                   project_id: project.identifier,
+                  title: wiki_page.nil? ? wiki_title.strip : nil,
                   id: wiki_page_id,
                 anchor: anchor
         end
 
-        link_to h(title || wiki_title),
+        link_to h(wiki_title),
                 url,
                 class: ('wiki-page' + (wiki_page ? '' : ' new'))
       end

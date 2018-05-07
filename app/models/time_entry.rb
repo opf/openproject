@@ -126,7 +126,7 @@ class TimeEntry < ActiveRecord::Base
   private
 
   def validate_hours_are_in_range
-    errors.add :hours, :invalid if hours && (hours < 0 || hours >= 1000)
+    errors.add :hours, :invalid if hours && hours < 0
   end
 
   def validate_project_is_set

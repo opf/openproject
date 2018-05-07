@@ -161,11 +161,11 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       },
       {
         // Query save as modal
-        disabled: this.authorisationService.cannot('query', 'updateImmediately'),
+        disabled: this.form ? !!this.form.$links.create_new : this.authorisationService.cannot('query', 'updateImmediately'),
         linkText: this.I18n.t('js.toolbar.settings.save_as'),
         icon: 'icon-save',
         onClick: ($event:JQueryEventObject) => {
-          if (this.allowFormAction($event, 'commit')) {
+          if (this.allowFormAction($event, 'create_new')) {
             this.opModalService.show(SaveQueryModal);
           }
 

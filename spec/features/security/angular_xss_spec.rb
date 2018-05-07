@@ -116,7 +116,7 @@ describe 'Angular expression escaping', type: :feature do
     let(:content) { find '#content_text' }
     let(:preview) { find '#preview' }
     let(:btn_preview) { find '#wiki_form-preview' }
-    let(:btn_cancel) { find '#wiki_form a.button', text: I18n.t(:button_cancel) }
+    let(:btn_save) { find '.button.-highlight', text: I18n.t(:button_save) }
 
     before do
       login_as(user)
@@ -130,7 +130,7 @@ describe 'Angular expression escaping', type: :feature do
       expect(preview.text).not_to include '{{ $root.DOUBLE_LEFT_CURLY_BRACE }}'
       expect(preview.text).to match /\{\{[\s\w]+\}\}/
 
-      btn_cancel.click
+      btn_save.click
     end
   end
 
