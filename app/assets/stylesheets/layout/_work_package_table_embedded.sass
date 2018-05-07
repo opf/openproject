@@ -29,6 +29,8 @@
 // Disable CSS containment in the embedded container
 // unless we're setting an external height with overflow, containment will not work.
 .work-packages-embedded-view--container
+  margin-left: -6px
+
   .work-package-table--container
     contain: initial !important
 
@@ -56,3 +58,6 @@
     .wp-table--context-menu-td,
     .wp-table--context-menu-th
       width: 25px
+
+wp-query-group .wp-relations-create-button
+  margin-left: -6px
