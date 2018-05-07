@@ -73,6 +73,7 @@ export class QueryMenuService {
 
   public initialize() {
     this.container = jQuery('#main-menu-work-packages').parent().find('ul.menu-children');
+    this.onQueryIdChanged(this.$state.params['query_id']);
   }
 
   /**
