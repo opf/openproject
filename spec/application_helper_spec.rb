@@ -39,19 +39,19 @@ describe ApplicationHelper do
 
 
   describe ".format_text", with_settings: { text_formatting: 'markdown' } do
-    let(:project) { FactoryGirl.create :valid_project }
+    let(:project) { FactoryBot.create :valid_project }
     let(:identifier) { project.identifier }
     let(:role) {
-      FactoryGirl.create(:role, permissions: [
+      FactoryBot.create(:role, permissions: [
       :view_work_packages, :edit_work_packages, :view_documents, :browse_repository, :view_changesets, :view_wiki_pages
       ])
     }
     let(:project_member) {
-      FactoryGirl.create :user, member_in_project: project,
+      FactoryBot.create :user, member_in_project: project,
                                 member_through_role: role
     }
     let(:document) {
-      FactoryGirl.create :document,
+      FactoryBot.create :document,
                                           title: 'Test document',
                                           project: project
     }
@@ -98,7 +98,7 @@ describe ApplicationHelper do
     end
 
     context 'Cross-Project Document Links' do
-      let(:the_other_project) { FactoryGirl.create :valid_project }
+      let(:the_other_project) { FactoryBot.create :valid_project }
 
       context "By name without project" do
         subject { format_text("document:\"#{document.title}\"", project: the_other_project) }

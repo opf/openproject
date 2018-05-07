@@ -33,14 +33,14 @@ require 'spec_helper'
 
 describe "Journalized Objects" do
   before(:each) do
-    @type ||= FactoryGirl.create(:type_feature)
-    @project ||= FactoryGirl.create(:project_with_types)
-    @current = FactoryGirl.create(:user, login: "user1", mail: "user1@users.com")
+    @type ||= FactoryBot.create(:type_feature)
+    @project ||= FactoryBot.create(:project_with_types)
+    @current = FactoryBot.create(:user, login: "user1", mail: "user1@users.com")
     allow(User).to receive(:current).and_return @current
   end
 
   it 'should work with documents' do
-    @document ||= FactoryGirl.create(:document)
+    @document ||= FactoryBot.create(:document)
 
     initial_journal = @document.journals.first
     recreated_journal = @document.recreate_initial_journal!

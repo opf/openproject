@@ -33,11 +33,11 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe DocumentsMailer do
 
   let(:user) {
-    FactoryGirl.create(:user, firstname: 'Test', lastname: "User", mail: 'test@test.com')
+    FactoryBot.create(:user, firstname: 'Test', lastname: "User", mail: 'test@test.com')
   }
-  let(:project) { FactoryGirl.create(:project, name: "TestProject") }
+  let(:project) { FactoryBot.create(:project, name: "TestProject") }
   let(:document) {
-    FactoryGirl.create(:document, project: project, description: "Test Description", title: "Test Title" )
+    FactoryBot.create(:document, project: project, description: "Test Description", title: "Test Title" )
   }
   let(:mail) { DocumentsMailer.document_added(user, document) }
 
