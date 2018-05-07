@@ -33,7 +33,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :sprint do
     name 'version'
     effective_date Date.today + 14.days

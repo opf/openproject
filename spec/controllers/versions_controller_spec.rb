@@ -40,11 +40,11 @@ describe VersionsController, type: :controller do
     allow(@controller).to receive(:authorize)
 
     # Create a version assigned to a project
-    @version = FactoryGirl.create(:version)
+    @version = FactoryBot.create(:version)
     @oldVersionName = @version.name
     @newVersionName = 'NewVersionName'
     # Create another project
-    @project = FactoryGirl.create(:project)
+    @project = FactoryBot.create(:project)
     # Create params to update version
     @params = {}
     @params[:id] = @version.id

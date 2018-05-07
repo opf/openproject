@@ -38,10 +38,10 @@ require 'spec_helper'
 describe 'Empty backlogs project',
          type: :feature,
          js: true do
-  let(:project) { FactoryGirl.create(:project, types: [story, task], enabled_module_names: %w(backlogs)) }
-  let(:story) { FactoryGirl.create(:type_feature) }
-  let(:task) { FactoryGirl.create(:type_task) }
-  let(:status) { FactoryGirl.create(:status, is_default: true) }
+  let(:project) { FactoryBot.create(:project, types: [story, task], enabled_module_names: %w(backlogs)) }
+  let(:story) { FactoryBot.create(:type_feature) }
+  let(:task) { FactoryBot.create(:type_task) }
+  let(:status) { FactoryBot.create(:status, is_default: true) }
 
   before do
     project
@@ -57,7 +57,7 @@ describe 'Empty backlogs project',
   end
 
   context 'as admin' do
-    let(:current_user) { FactoryGirl.create(:admin) }
+    let(:current_user) { FactoryBot.create(:admin) }
 
     it 'should show a no results box with action' do
       expect(page).to have_selector '.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title)
@@ -69,8 +69,8 @@ describe 'Empty backlogs project',
   end
 
   context 'as regular member' do
-    let(:role) { FactoryGirl.create(:role, permissions: %i(view_master_backlog)) }
-    let(:current_user) { FactoryGirl.create :user, member_in_project: project, member_through_role: role }
+    let(:role) { FactoryBot.create(:role, permissions: %i(view_master_backlog)) }
+    let(:current_user) { FactoryBot.create :user, member_in_project: project, member_through_role: role }
 
     it 'should only show a no results box' do
       expect(page).to have_selector '.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title)

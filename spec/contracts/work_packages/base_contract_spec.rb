@@ -37,18 +37,18 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe WorkPackages::BaseContract, type: :model do
   let(:instance) { described_class.new(work_package, user) }
-  let(:type_feature) { FactoryGirl.build(:type_feature) }
-  let(:type_task) { FactoryGirl.build(:type_task) }
-  let(:type_bug) { FactoryGirl.build(:type_bug) }
-  let(:version1) { FactoryGirl.build_stubbed(:version, name: 'Version1', project: p) }
-  let(:version2) { FactoryGirl.build_stubbed(:version, name: 'Version2', project: p) }
-  let(:role) { FactoryGirl.build(:role) }
-  let(:user) { FactoryGirl.build(:admin) }
-  let(:issue_priority) { FactoryGirl.build(:priority) }
-  let(:status) { FactoryGirl.build(:status, name: 'status 1', is_default: true) }
+  let(:type_feature) { FactoryBot.build(:type_feature) }
+  let(:type_task) { FactoryBot.build(:type_task) }
+  let(:type_bug) { FactoryBot.build(:type_bug) }
+  let(:version1) { FactoryBot.build_stubbed(:version, name: 'Version1', project: p) }
+  let(:version2) { FactoryBot.build_stubbed(:version, name: 'Version2', project: p) }
+  let(:role) { FactoryBot.build(:role) }
+  let(:user) { FactoryBot.build(:admin) }
+  let(:issue_priority) { FactoryBot.build(:priority) }
+  let(:status) { FactoryBot.build(:status, name: 'status 1', is_default: true) }
 
   let(:project) do
-    p = FactoryGirl.build(:project, members: [FactoryGirl.build(:member,
+    p = FactoryBot.build(:project, members: [FactoryBot.build(:member,
                                                                 principal: user,
                                                                 roles: [role])],
                                     types: [type_feature, type_task, type_bug])
@@ -64,7 +64,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:other_project) do
-    p = FactoryGirl.build(:project, members: [FactoryGirl.build(:member,
+    p = FactoryBot.build(:project, members: [FactoryBot.build(:member,
                                                                 principal: user,
                                                                 roles: [role])],
                                     types: [type_feature, type_task, type_bug])
@@ -79,7 +79,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:story) do
-    FactoryGirl.build_stubbed(:stubbed_work_package,
+    FactoryBot.build_stubbed(:stubbed_work_package,
                               subject: 'Story',
                               project: project,
                               type: type_feature,
@@ -90,7 +90,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:story2) do
-    FactoryGirl.build_stubbed(:stubbed_work_package,
+    FactoryBot.build_stubbed(:stubbed_work_package,
                               subject: 'Story2',
                               project: project,
                               type: type_feature,
@@ -101,7 +101,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:task) {
-    FactoryGirl.build_stubbed(:stubbed_work_package,
+    FactoryBot.build_stubbed(:stubbed_work_package,
                               subject: 'Task',
                               type: type_task,
                               fixed_version: version1,
@@ -112,7 +112,7 @@ describe WorkPackages::BaseContract, type: :model do
   }
 
   let(:task2) {
-    FactoryGirl.build_stubbed(:stubbed_work_package,
+    FactoryBot.build_stubbed(:stubbed_work_package,
                               subject: 'Task2',
                               type: type_task,
                               fixed_version: version1,
@@ -123,7 +123,7 @@ describe WorkPackages::BaseContract, type: :model do
   }
 
   let(:bug) {
-    FactoryGirl.build_stubbed(:stubbed_work_package,
+    FactoryBot.build_stubbed(:stubbed_work_package,
                               subject: 'Bug',
                               type: type_bug,
                               fixed_version: version1,
@@ -134,7 +134,7 @@ describe WorkPackages::BaseContract, type: :model do
   }
 
   let(:bug2) {
-    FactoryGirl.build_stubbed(:stubbed_work_package,
+    FactoryBot.build_stubbed(:stubbed_work_package,
                               subject: 'Bug2',
                               type: type_bug,
                               fixed_version: version1,

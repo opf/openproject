@@ -322,7 +322,7 @@ end
 
 Given /^the type "(.+?)" is configured to track tasks$/ do |type_name|
   type = Type.find_by(name: type_name)
-  type = FactoryGirl.create(:type, name: type_name) if type.blank?
+  type = FactoryBot.create(:type, name: type_name) if type.blank?
 
   Setting.plugin_openproject_backlogs = Setting.plugin_openproject_backlogs.merge('task_type' => type.id)
 end
@@ -333,7 +333,7 @@ Given /^the following types are configured to track stories:$/ do |table|
     name = line.first
     type = Type.find_by(name: name)
 
-    type = FactoryGirl.create(:type, name: name) if type.blank?
+    type = FactoryBot.create(:type, name: name) if type.blank?
     story_types << type
   end
 

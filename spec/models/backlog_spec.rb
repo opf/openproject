@@ -36,13 +36,13 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Backlog, type: :model do
-  let(:project) { FactoryGirl.build(:project) }
+  let(:project) { FactoryBot.build(:project) }
 
   before(:each) do
-    @feature = FactoryGirl.create(:type_feature)
+    @feature = FactoryBot.create(:type_feature)
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types'           => [@feature.id.to_s],
                                                                          'task_type'             => '0' })
-    @status = FactoryGirl.create(:status)
+    @status = FactoryBot.create(:status)
   end
 
   describe 'Class Methods' do
@@ -50,8 +50,8 @@ describe Backlog, type: :model do
       describe 'WITH one open version defined in the project' do
         before(:each) do
           @project = project
-          @work_packages = [FactoryGirl.create(:work_package, subject: 'work_package1', project: @project, type: @feature, status: @status)]
-          @version = FactoryGirl.create(:version, project: project, fixed_issues: @work_packages)
+          @work_packages = [FactoryBot.create(:work_package, subject: 'work_package1', project: @project, type: @feature, status: @status)]
+          @version = FactoryBot.create(:version, project: project, fixed_issues: @work_packages)
           @version_settings = @version.version_settings.create(display: VersionSetting::DISPLAY_RIGHT, project: project)
         end
 

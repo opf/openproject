@@ -38,7 +38,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe WorkPackage, type: :model do
   describe 'Story positions' do
     def build_work_package(options)
-      FactoryGirl.build(:work_package, options.reverse_merge(fixed_version_id: sprint_1.id,
+      FactoryBot.build(:work_package, options.reverse_merge(fixed_version_id: sprint_1.id,
                                                              priority_id:      priority.id,
                                                              project_id:       project.id,
                                                              status_id:        status.id,
@@ -49,17 +49,17 @@ describe WorkPackage, type: :model do
       build_work_package(options).tap(&:save!)
     end
 
-    let(:status)   { FactoryGirl.create(:status)    }
-    let(:priority) { FactoryGirl.create(:priority_normal) }
-    let(:project)  { FactoryGirl.create(:project)         }
+    let(:status)   { FactoryBot.create(:status)    }
+    let(:priority) { FactoryBot.create(:priority_normal) }
+    let(:project)  { FactoryBot.create(:project)         }
 
-    let(:story_type) { FactoryGirl.create(:type, name: 'Story')    }
-    let(:epic_type)  { FactoryGirl.create(:type, name: 'Epic')     }
-    let(:task_type)  { FactoryGirl.create(:type, name: 'Task')     }
-    let(:other_type) { FactoryGirl.create(:type, name: 'Feedback') }
+    let(:story_type) { FactoryBot.create(:type, name: 'Story')    }
+    let(:epic_type)  { FactoryBot.create(:type, name: 'Epic')     }
+    let(:task_type)  { FactoryBot.create(:type, name: 'Task')     }
+    let(:other_type) { FactoryBot.create(:type, name: 'Feedback') }
 
-    let(:sprint_1) { FactoryGirl.create(:version, project_id: project.id, name: 'Sprint 1') }
-    let(:sprint_2) { FactoryGirl.create(:version, project_id: project.id, name: 'Sprint 2') }
+    let(:sprint_1) { FactoryBot.create(:version, project_id: project.id, name: 'Sprint 1') }
+    let(:sprint_2) { FactoryBot.create(:version, project_id: project.id, name: 'Sprint 2') }
 
     let(:work_package_1) { create_work_package(subject: 'WorkPackage 1', fixed_version_id: sprint_1.id) }
     let(:work_package_2) { create_work_package(subject: 'WorkPackage 2', fixed_version_id: sprint_1.id) }
@@ -246,22 +246,22 @@ describe WorkPackage, type: :model do
       # to keep the 'fixed_version' if possible (e.g. within project
       # hierarchies with shared versions)
 
-      let(:project_wo_backlogs) { FactoryGirl.create(:project) }
-      let(:sub_project_wo_backlogs) { FactoryGirl.create(:project) }
+      let(:project_wo_backlogs) { FactoryBot.create(:project) }
+      let(:sub_project_wo_backlogs) { FactoryBot.create(:project) }
 
       let(:shared_sprint)   {
-        FactoryGirl.create(:version,
+        FactoryBot.create(:version,
                            project_id: project.id,
                            name: 'Shared Sprint',
                            sharing: 'descendants')
       }
 
       let(:version_go_live) {
-        FactoryGirl.create(:version,
+        FactoryBot.create(:version,
                            project_id: project_wo_backlogs.id,
                            name: 'Go-Live')
       }
-      let(:admin) { FactoryGirl.create(:admin) }
+      let(:admin) { FactoryBot.create(:admin) }
 
       def move_to_project(work_package, project)
         service = WorkPackages::MoveService.new(work_package, admin)

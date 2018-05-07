@@ -33,10 +33,10 @@ describe 'API v3 Work package form resource', type: :request do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
 
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-  let(:authorized_user) { FactoryGirl.create(:user, member_in_project: project) }
-  let(:unauthorized_user) { FactoryGirl.create(:user) }
+  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let(:authorized_user) { FactoryBot.create(:user, member_in_project: project) }
+  let(:unauthorized_user) { FactoryBot.create(:user) }
 
   before do
     allow(Story).to receive(:types).and_return([work_package.type_id])

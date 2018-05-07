@@ -36,32 +36,32 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Impediment, type: :model do
-  let(:user) { @user ||= FactoryGirl.create(:user) }
-  let(:role) { @role ||= FactoryGirl.create(:role) }
-  let(:type_feature) { @type_feature ||= FactoryGirl.create(:type_feature) }
-  let(:type_task) { @type_task ||= FactoryGirl.create(:type_task) }
-  let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority, is_default: true) }
-  let(:status) { FactoryGirl.create(:status) }
+  let(:user) { @user ||= FactoryBot.create(:user) }
+  let(:role) { @role ||= FactoryBot.create(:role) }
+  let(:type_feature) { @type_feature ||= FactoryBot.create(:type_feature) }
+  let(:type_task) { @type_task ||= FactoryBot.create(:type_task) }
+  let(:issue_priority) { @issue_priority ||= FactoryBot.create(:priority, is_default: true) }
+  let(:status) { FactoryBot.create(:status) }
   let(:task) {
-    FactoryGirl.build(:task, type: type_task,
+    FactoryBot.build(:task, type: type_task,
                              project: project,
                              author: user,
                              priority: issue_priority,
                              status: status)
   }
   let(:feature) {
-    FactoryGirl.build(:work_package, type: type_feature,
+    FactoryBot.build(:work_package, type: type_feature,
                                      project: project,
                                      author: user,
                                      priority: issue_priority,
                                      status: status)
   }
-  let(:version) { FactoryGirl.create(:version, project: project) }
+  let(:version) { FactoryBot.create(:version, project: project) }
 
   let(:project) do
     unless @project
-      @project = FactoryGirl.build(:project, types: [type_feature, type_task])
-      @project.members = [FactoryGirl.build(:member, principal: user,
+      @project = FactoryBot.build(:project, types: [type_feature, type_task])
+      @project.members = [FactoryBot.build(:member, principal: user,
                                                      project: @project,
                                                      roles: [role])]
     end
@@ -69,7 +69,7 @@ describe Impediment, type: :model do
   end
 
   let(:impediment) {
-    FactoryGirl.build(:impediment, author: user,
+    FactoryBot.build(:impediment, author: user,
                                    fixed_version: version,
                                    assigned_to: user,
                                    priority: issue_priority,

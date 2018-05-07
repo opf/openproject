@@ -36,24 +36,24 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Story, type: :model do
-  let(:user) { @user ||= FactoryGirl.create(:user) }
-  let(:role) { @role ||= FactoryGirl.create(:role) }
-  let(:status1) { @status1 ||= FactoryGirl.create(:status, name: 'status 1', is_default: true) }
-  let(:type_feature) { @type_feature ||= FactoryGirl.create(:type_feature) }
-  let(:version) { @version ||= FactoryGirl.create(:version, project: project) }
-  let(:version2) { FactoryGirl.create(:version, project: project) }
-  let(:sprint) { @sprint ||= FactoryGirl.create(:sprint, project: project) }
-  let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority) }
-  let(:task_type) { FactoryGirl.create(:type_task) }
+  let(:user) { @user ||= FactoryBot.create(:user) }
+  let(:role) { @role ||= FactoryBot.create(:role) }
+  let(:status1) { @status1 ||= FactoryBot.create(:status, name: 'status 1', is_default: true) }
+  let(:type_feature) { @type_feature ||= FactoryBot.create(:type_feature) }
+  let(:version) { @version ||= FactoryBot.create(:version, project: project) }
+  let(:version2) { FactoryBot.create(:version, project: project) }
+  let(:sprint) { @sprint ||= FactoryBot.create(:sprint, project: project) }
+  let(:issue_priority) { @issue_priority ||= FactoryBot.create(:priority) }
+  let(:task_type) { FactoryBot.create(:type_task) }
   let(:task) {
-    FactoryGirl.create(:story, fixed_version: version,
+    FactoryBot.create(:story, fixed_version: version,
                                project: project,
                                status: status1,
                                type: task_type,
                                priority: issue_priority)
   }
   let(:story1) {
-    FactoryGirl.create(:story, fixed_version: version,
+    FactoryBot.create(:story, fixed_version: version,
                                project: project,
                                status: status1,
                                type: type_feature,
@@ -61,7 +61,7 @@ describe Story, type: :model do
   }
 
   let(:story2) {
-    FactoryGirl.create(:story, fixed_version: version,
+    FactoryBot.create(:story, fixed_version: version,
                                project: project,
                                status: status1,
                                type: type_feature,
@@ -70,8 +70,8 @@ describe Story, type: :model do
 
   let(:project) do
     unless @project
-      @project = FactoryGirl.build(:project)
-      @project.members = [FactoryGirl.build(:member, principal: user,
+      @project = FactoryBot.build(:project)
+      @project.members = [FactoryBot.build(:member, principal: user,
                                                      project: @project,
                                                      roles: [role])]
     end
@@ -139,7 +139,7 @@ describe Story, type: :model do
         before do
           story1
 
-          other_project = FactoryGirl.create(:project)
+          other_project = FactoryBot.create(:project)
           version2.update! project_id: other_project.id
 
           story2.fixed_version_id = version2.id
@@ -159,7 +159,7 @@ describe Story, type: :model do
           version.sharing = 'system'
           version.save!
 
-          another_project = FactoryGirl.create(:project)
+          another_project = FactoryBot.create(:project)
 
           story1
           story2.project = another_project

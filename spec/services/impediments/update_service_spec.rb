@@ -38,39 +38,39 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe Impediments::UpdateService, type: :model do
   let(:instance) { described_class.new(user: user, impediment: impediment) }
 
-  let(:user) { FactoryGirl.create(:user) }
-  let(:role) { FactoryGirl.create(:role, permissions: %i(edit_work_packages view_work_packages)) }
-  let(:type_feature) { FactoryGirl.create(:type_feature) }
-  let(:type_task) { FactoryGirl.create(:type_task) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:role) { FactoryBot.create(:role, permissions: %i(edit_work_packages view_work_packages)) }
+  let(:type_feature) { FactoryBot.create(:type_feature) }
+  let(:type_task) { FactoryBot.create(:type_task) }
   let(:priority) { impediment.priority }
   let(:task) {
-    FactoryGirl.build(:task, type: type_task,
+    FactoryBot.build(:task, type: type_task,
                              project: project,
                              author: user,
                              priority: priority,
                              status: status1)
   }
   let(:feature) {
-    FactoryGirl.build(:work_package, type: type_feature,
+    FactoryBot.build(:work_package, type: type_feature,
                                      project: project,
                                      author: user,
                                      priority: priority,
                                      status: status1)
   }
-  let(:version) { FactoryGirl.create(:version, project: project) }
+  let(:version) { FactoryBot.create(:version, project: project) }
 
   let(:project) do
-    project = FactoryGirl.create(:project, types: [type_feature, type_task])
+    project = FactoryBot.create(:project, types: [type_feature, type_task])
 
-    FactoryGirl.create(:member, principal: user,
+    FactoryBot.create(:member, principal: user,
                                 project: project,
                                 roles: [role])
 
     project
   end
 
-  let(:status1) { FactoryGirl.create(:status, name: 'status 1', is_default: true) }
-  let(:status2) { FactoryGirl.create(:status, name: 'status 2') }
+  let(:status1) { FactoryBot.create(:status, name: 'status 1', is_default: true) }
+  let(:status2) { FactoryBot.create(:status, name: 'status 2') }
   let(:type_workflow) {
     Workflow.create(type_id: type_task.id,
                     old_status: status1,
@@ -78,7 +78,7 @@ describe Impediments::UpdateService, type: :model do
                     role: role)
   }
   let(:impediment) do
-    FactoryGirl.build(:impediment, author: user,
+    FactoryBot.build(:impediment, author: user,
                                    fixed_version: version,
                                    assigned_to: user,
                                    project: project,
@@ -141,7 +141,7 @@ describe Impediments::UpdateService, type: :model do
 
   describe 'WHEN changing the blocking relationship to another story' do
     let(:story) do
-      FactoryGirl.build(:work_package,
+      FactoryBot.build(:work_package,
                         subject: 'another story',
                         type: type_feature,
                         project: project,
@@ -163,7 +163,7 @@ describe Impediments::UpdateService, type: :model do
     end
 
     describe 'WITH the story having another version' do
-      let(:story_version) { FactoryGirl.create(:version, project: project, name: 'another version') }
+      let(:story_version) { FactoryBot.create(:version, project: project, name: 'another version') }
 
       it_should_behave_like 'impediment update with unchanged blocking relationship'
       it 'should not be saved successfully' do
