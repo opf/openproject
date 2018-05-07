@@ -21,20 +21,20 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe User, '#destroy', type: :model do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:user2) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:user2) { FactoryBot.create(:user) }
   let(:substitute_user) { DeletedUser.first }
   let(:project) do
-    project = FactoryGirl.create(:valid_project)
+    project = FactoryBot.create(:valid_project)
     project
   end
 
   let(:meeting) {
-    FactoryGirl.create(:meeting, project: project,
+    FactoryBot.create(:meeting, project: project,
                                  author: user2)
   }
   let(:participant) {
-    FactoryGirl.create(:meeting_participant, user: user,
+    FactoryBot.create(:meeting_participant, user: user,
                                              meeting: meeting,
                                              invited: true,
                                              attended: true)
@@ -126,7 +126,7 @@ describe User, '#destroy', type: :model do
 
   describe 'WHEN the user created a meeting' do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryGirl.build(:meeting, project: project) }
+    let(:associated_instance) { FactoryBot.build(:meeting, project: project) }
     let(:associated_class) { Meeting }
 
     it_should_behave_like 'created journalized associated object'
@@ -134,7 +134,7 @@ describe User, '#destroy', type: :model do
 
   describe 'WHEN the user updated a meeting' do
     let(:associations) { [:author] }
-    let(:associated_instance) { FactoryGirl.build(:meeting, project: project) }
+    let(:associated_instance) { FactoryBot.build(:meeting, project: project) }
     let(:associated_class) { Meeting }
 
     it_should_behave_like 'updated journalized associated object'
@@ -143,7 +143,7 @@ describe User, '#destroy', type: :model do
   describe 'WHEN the user created a meeting agenda' do
     let(:associations) { [:author] }
     let(:associated_instance) {
-      FactoryGirl.build(:meeting_agenda, meeting: meeting,
+      FactoryBot.build(:meeting_agenda, meeting: meeting,
                                          text: 'lorem')
     }
     let(:associated_class) { MeetingAgenda }
@@ -154,7 +154,7 @@ describe User, '#destroy', type: :model do
   describe 'WHEN the user updated a meeting agenda' do
     let(:associations) { [:author] }
     let(:associated_instance) {
-      FactoryGirl.build(:meeting_agenda, meeting: meeting,
+      FactoryBot.build(:meeting_agenda, meeting: meeting,
                                          text: 'lorem')
     }
     let(:associated_class) { MeetingAgenda }
@@ -165,7 +165,7 @@ describe User, '#destroy', type: :model do
   describe 'WHEN the user created a meeting minutes' do
     let(:associations) { [:author] }
     let(:associated_instance) {
-      FactoryGirl.build(:meeting_minutes, meeting: meeting,
+      FactoryBot.build(:meeting_minutes, meeting: meeting,
                                           text: 'lorem')
     }
     let(:associated_class) { MeetingMinutes }
@@ -176,7 +176,7 @@ describe User, '#destroy', type: :model do
   describe 'WHEN the user updated a meeting minutes' do
     let(:associations) { [:author] }
     let(:associated_instance) {
-      FactoryGirl.build(:meeting_minutes, meeting: meeting,
+      FactoryBot.build(:meeting_minutes, meeting: meeting,
                                           text: 'lorem')
     }
     let(:associated_class) { MeetingMinutes }

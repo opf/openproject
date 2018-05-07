@@ -21,7 +21,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe PermittedParams, type: :model do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   describe '#search' do
     it 'permits its whitelisted params' do

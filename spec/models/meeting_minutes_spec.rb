@@ -22,13 +22,13 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe 'MeetingMinutes', type: :model do
   before do
-    @min = FactoryGirl.build :meeting_minutes
+    @min = FactoryBot.build :meeting_minutes
   end
 
   # meeting minutes are editable when the meeting agenda is locked
   describe '#editable?' do
     before(:each) do
-      @mee = FactoryGirl.build :meeting
+      @mee = FactoryBot.build :meeting
       @min.meeting = @mee
     end
     describe 'with no agenda present' do
@@ -38,7 +38,7 @@ describe 'MeetingMinutes', type: :model do
     end
     describe 'with an agenda present' do
       before(:each) do
-        @a = FactoryGirl.build :meeting_agenda
+        @a = FactoryBot.build :meeting_agenda
         @mee.agenda = @a
       end
       it 'is not editable when the agenda is open' do

@@ -25,19 +25,19 @@ describe Meeting, type: :model do
   it { is_expected.to belong_to :author }
   it { is_expected.to validate_presence_of :title }
 
-  let(:project) { FactoryGirl.create(:project) }
-  let(:user1) { FactoryGirl.create(:user) }
-  let(:user2) { FactoryGirl.create(:user) }
-  let(:meeting) { FactoryGirl.create(:meeting, project: project, author: user1) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:user1) { FactoryBot.create(:user) }
+  let(:user2) { FactoryBot.create(:user) }
+  let(:meeting) { FactoryBot.create(:meeting, project: project, author: user1) }
   let(:agenda) do
     meeting.create_agenda text: 'Meeting Agenda text'
     meeting.reload_agenda # avoiding stale object errors
   end
 
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_meetings]) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_meetings]) }
 
   before do
-    @m = FactoryGirl.build :meeting, title: 'dingens'
+    @m = FactoryBot.build :meeting, title: 'dingens'
   end
 
   describe 'to_s' do
@@ -102,13 +102,13 @@ describe Meeting, type: :model do
 
   describe 'Journalized Objects' do
     before(:each) do
-      @project ||= FactoryGirl.create(:project_with_types)
-      @current = FactoryGirl.create(:user, login: 'user1', mail: 'user1@users.com')
+      @project ||= FactoryBot.create(:project_with_types)
+      @current = FactoryBot.create(:user, login: 'user1', mail: 'user1@users.com')
       allow(User).to receive(:current).and_return(@current)
     end
 
     it 'should work with meeting' do
-      @meeting ||= FactoryGirl.create(:meeting, title: 'Test', project: @project, author: @current)
+      @meeting ||= FactoryBot.create(:meeting, title: 'Test', project: @project, author: @current)
 
       initial_journal = @meeting.journals.first
       recreated_journal = @meeting.recreate_initial_journal!
@@ -129,7 +129,7 @@ describe Meeting, type: :model do
     end
 
     describe 'WITH a user not having the view_meetings permission' do
-      let(:role2) { FactoryGirl.create(:role, permissions: []) }
+      let(:role2) { FactoryBot.create(:role, permissions: []) }
 
       before do
         # adding both users so that the author is valid
@@ -145,7 +145,7 @@ describe Meeting, type: :model do
     end
 
     describe 'WITH a user being locked but invited' do
-      let(:locked_user) { FactoryGirl.create(:locked_user) }
+      let(:locked_user) { FactoryBot.create(:locked_user) }
       before do
         meeting.participants_attributes = [{ 'user_id' => locked_user.id, 'invited' => 1 }]
       end

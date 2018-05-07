@@ -21,14 +21,14 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MeetingMailer, type: :mailer do
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_meetings]) }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:author) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-  let(:watcher1) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-  let(:watcher2) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-  let(:meeting) { FactoryGirl.create(:meeting, author: author, project: project) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_meetings]) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:author) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  let(:watcher1) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  let(:watcher2) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  let(:meeting) { FactoryBot.create(:meeting, author: author, project: project) }
   let(:meeting_agenda) do
-    FactoryGirl.create(:meeting_agenda, meeting: meeting)
+    FactoryBot.create(:meeting_agenda, meeting: meeting)
   end
 
   before(:each) do

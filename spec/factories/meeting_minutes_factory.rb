@@ -18,7 +18,7 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :meeting_minutes do |_m|
     meeting
   end
