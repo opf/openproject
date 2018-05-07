@@ -20,30 +20,30 @@ describe OpenProject::GithubIntegration do
   end
 
   describe 'with sane set-up' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:role) { FactoryGirl.create(:role,
+    let(:user) { FactoryBot.create(:user) }
+    let(:role) { FactoryBot.create(:role,
                                     permissions: [:view_work_packages, :add_work_package_notes]) }
-    let(:statuses) { (1..5).map{ |i| FactoryGirl.create(:status)}}
-    let(:priority) { FactoryGirl.create :priority, is_default: true }
+    let(:statuses) { (1..5).map{ |i| FactoryBot.create(:status)}}
+    let(:priority) { FactoryBot.create :priority, is_default: true }
     let(:status) { statuses[0] }
     let(:project) do
-      FactoryGirl.create(:project).tap do |p|
+      FactoryBot.create(:project).tap do |p|
         p.add_member(user, role).save
       end
     end
-    let(:project_without_permission) { FactoryGirl.create(:project) }
+    let(:project_without_permission) { FactoryBot.create(:project) }
     let(:wp1) do
-      FactoryGirl.create :work_package, project: project
+      FactoryBot.create :work_package, project: project
     end
     let(:wp2) do
-      FactoryGirl.create :work_package, project: project
+      FactoryBot.create :work_package, project: project
     end
     let(:wp3) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                              project: project_without_permission
     end
     let(:wp4) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                              project: project_without_permission
     end
     let(:wps) { [wp1, wp2, wp3, wp4] }
