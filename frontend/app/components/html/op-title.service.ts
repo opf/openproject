@@ -5,7 +5,7 @@ const titlePartsSeparator = ' | ';
 
 @Injectable()
 export class OpTitleService {
-  constructor(readonly titleService:Title) {
+  constructor(private titleService:Title) {
 
   }
 

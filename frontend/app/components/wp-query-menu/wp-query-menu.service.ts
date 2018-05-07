@@ -28,9 +28,11 @@
 
 import {Inject, Injectable} from '@angular/core';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
-import {$stateToken} from 'core-app/angular4-transition-utils';
+import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {LinkHandling} from 'core-components/common/link-handling/link-handling';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
+import {Title} from '@angular/platform-browser';
+import {OpTitleService} from 'core-components/html/op-title.service';
 
 export const QUERY_MENU_ITEM_TYPE = 'query-menu-item';
 
@@ -48,13 +50,23 @@ export class QueryMenuService {
   private uiRouteStateName = 'work-packages.list';
   private container:JQuery;
 
-  constructor(@Inject($stateToken) protected $state:StateService,
-               protected $transitions:TransitionService,
-               protected wpListChecksumService:WorkPackagesListChecksumService) {
+  constructor(@Inject($stateToken) readonly $state:StateService,
+              @Inject(I18nToken) readonly I18n:op.I18n,
+               readonly titleService:OpTitleService,
+               readonly $transitions:TransitionService,
+               readonly wpListChecksumService:WorkPackagesListChecksumService) {
 
     this.$transitions.onStart({}, (transition:Transition)  => {
       const queryId = transition.params('to').query_id;
-      this.onQueryIdChanged(queryId);
+
+      // Update query menu and title when either
+      // the query menu id changed
+      const queryIdChanged = this.currentQueryId !== queryId;
+      // we're moving to the work-packges.list state
+      const movingToWPList = transition.to().name === 'work-packages.list';
+      if (movingToWPList || queryIdChanged) {
+        this.onQueryIdChanged(queryId);
+      }
     });
 
     this.initialize();
@@ -122,9 +134,15 @@ export class QueryMenuService {
     // Update all queries children
     const queries = this.container.find('.query-menu-item');
     queries.toggleClass('selected', false);
+
     if (this.currentQueryId) {
-      queries.filter(`#wp-query-menu-item-${this.currentQueryId}`).addClass('selected');
+      let current = queries.filter(`#wp-query-menu-item-${this.currentQueryId}`)
+      current.addClass('selected');
+
+      // Set the page title
+      this.titleService.setFirstPart(current.text());
     }
+
   }
 
   private buildItem(queryId:string, name:string) {

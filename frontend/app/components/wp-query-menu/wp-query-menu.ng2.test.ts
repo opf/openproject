@@ -34,6 +34,8 @@ import {Component} from '@angular/core';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {TransitionService} from '@uirouter/core';
 import {$stateToken} from 'core-app/angular4-transition-utils';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {OpTitleService} from 'core-components/html/op-title.service';
 
 @Component({
   template: `
@@ -57,6 +59,9 @@ describe('wp-query-menu', () => {
   const $transitionStub = {
     onStart: (criteria:any, callback:(transition:any) => any) => {
       transitionCallback = (id:any) => callback({
+        to: () => {
+          return { name: 'asdf' };
+        },
         params: (val:string) => { return { query_id: id }; }
       } as any);
     }
@@ -70,6 +75,8 @@ describe('wp-query-menu', () => {
         WpQueryMenuTestComponent
       ],
       providers: [
+        { provide: I18nToken, useValue: I18n },
+        { provide: OpTitleService, useValue: { setFirstPart: () => { return; } } },
         { provide: $stateToken, useValue: { params: { query_id: null }, go: (...args:any[]) => undefined } },
         { provide: WorkPackagesListChecksumService, useValue: { clear: () => undefined } },
         { provide: TransitionService, useValue: $transitionStub },

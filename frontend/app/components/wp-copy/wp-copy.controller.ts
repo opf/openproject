@@ -45,6 +45,10 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
     });
   }
 
+  protected setTitle() {
+    this.titleService.setFirstPart(this.I18n.t('js.work_packages.copy.title'));
+  }
+
   private async createCopyFrom(wp:WorkPackageResource) {
     const changeset = this.wpEditing.changesetFor(wp);
     return changeset.getForm().then(async (form:any) => {

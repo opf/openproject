@@ -44,7 +44,7 @@ export class WorkPackageSingleRelationController {
       return workPackage.subject;
     }
 
-    return workPackage.subjectWithType;
+    return workPackage.subjectWithType();
   }
 }
 

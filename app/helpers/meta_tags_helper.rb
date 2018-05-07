@@ -33,7 +33,6 @@ module MetaTagsHelper
   ##
   # Use meta-tags to output title and site name
   def output_title_and_meta_tags
-
     display_meta_tags site: Setting.app_title,
                       title: html_title_parts,
                       separator: ' | ', # Update the TitleService when changing this!
@@ -56,7 +55,7 @@ module MetaTagsHelper
   def html_title_parts
     [].tap do |parts|
       parts << h(@project.name) if @project
-      parts.concat @html_title if @html_title
+      parts.concat @html_title.map(&:to_s) if @html_title
     end
   end
 end
