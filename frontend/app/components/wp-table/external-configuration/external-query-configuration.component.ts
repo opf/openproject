@@ -1,13 +1,13 @@
 import {AfterViewInit, Component, Inject, ViewChild} from '@angular/core';
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
-import {
-  ExternalQueryConfigurationService,
-  OpQueryConfigurationLocals
-} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
+import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
+import {RestrictedWpTableConfigurationService} from 'core-components/wp-table/external-configuration/restricted-wp-table-configuration.service';
+import {OpQueryConfigurationLocalsToken, ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
 
-interface QueryConfigurationLocals {
+export interface QueryConfigurationLocals {
   service:ExternalQueryConfigurationService;
   currentQuery:any;
+  disabledTabs:{ [key:string]:string };
   originator:JQuery;
 }
 
@@ -16,13 +16,17 @@ interface QueryConfigurationLocals {
   <wp-embedded-table #embeddedTableForConfiguration
                    [queryProps]="locals.currentQuery || {}"
                    [configuration]="{ tableVisible: false }">
-  </wp-embedded-table>`
+  </wp-embedded-table>`,
+  providers: [
+    [{ provide: WpTableConfigurationService, useClass: RestrictedWpTableConfigurationService }]
+
+  ],
 })
 export class ExternalQueryConfigurationComponent implements AfterViewInit {
 
   @ViewChild('embeddedTableForConfiguration') private embeddedTable:WorkPackageEmbeddedTableComponent;
 
-  constructor(@Inject(OpQueryConfigurationLocals) readonly locals:QueryConfigurationLocals) {
+  constructor(@Inject(OpQueryConfigurationLocalsToken) readonly locals:QueryConfigurationLocals) {
   }
 
   ngAfterViewInit() {

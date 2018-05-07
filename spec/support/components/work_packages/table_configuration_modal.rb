@@ -79,6 +79,10 @@ module Components
         expect(page).to have_no_selector(selector)
       end
 
+      def expect_disabled_tab(name)
+        expect(page).to have_selector("#{selector} .tab-show.-disabled", text: name)
+      end
+
       def switch_to(target)
         find("#{selector} .tab-show", text: target).click
       end

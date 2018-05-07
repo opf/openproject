@@ -8,7 +8,7 @@ import {opServicesModule} from 'core-app/angular-modules';
 import {FocusHelperService} from 'core-components/common/focus/focus-helper';
 
 export const external_table_trigger_class = 'external-table-configuration--container';
-export const OpQueryConfigurationLocals = new InjectionToken<any>('OpQueryConfigurationLocals');
+export const OpQueryConfigurationLocalsToken = new InjectionToken<any>('OpQueryConfigurationLocalsToken');
 export const OpQueryConfigurationTriggerEvent = 'op:queryconfiguration:trigger';
 export const OpQueryConfigurationUpdatedEvent = 'op:queryconfiguration:updated';
 
@@ -57,14 +57,14 @@ export class ExternalQueryConfigurationService {
   /**
    * Open a Modal reference and append it to the portal
    */
-  public show(originator:JQuery, currentQuery:any):void {
+  public show(originator:JQuery, currentQuery:any, disabledTabs:{[key:string]:string} = {}):void {
     this.detach();
 
     // Create a portal for the given component class and render it
     const portal = new ComponentPortal(
       ExternalQueryConfigurationComponent,
       null,
-      this.injectorFor({ originator: originator, currentQuery: currentQuery }));
+      this.injectorFor({ originator: originator, currentQuery: currentQuery, disabledTabs: disabledTabs }));
     const ref = this.bodyPortalHost.attach(portal);
     this._portalHostElement.style.display = 'block';
   }
@@ -98,7 +98,7 @@ export class ExternalQueryConfigurationService {
     // host service and the bound portal
     data.service = this;
 
-    injectorTokens.set(OpQueryConfigurationLocals, data);
+    injectorTokens.set(OpQueryConfigurationLocalsToken, data);
 
     return new PortalInjector(this.injector, injectorTokens);
   }

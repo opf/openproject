@@ -564,6 +564,7 @@ en:
       table_configuration:
         button: 'Configure this work package table'
         modal_title: 'Work package table configuration'
+        embedded_tab_disabled: "This configuration tab is not available for the embedded query you're editing."
         display_settings: 'Display settings'
         grouped_mode: "Grouped mode"
         grouped_hint: "Table results will be grouped by the given attribute."

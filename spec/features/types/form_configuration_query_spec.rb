@@ -108,12 +108,14 @@ describe 'form subelements configuration', type: :feature, js: true do
       type_bug.reload
       query = type_bug.attribute_groups.detect { |x| x.key == 'Columns Test' }
       expect(query).to be_present
+      expect(query.attributes.show_hierarchies).to eq(false)
 
       column_names = query.attributes.columns.map(&:name).sort
       expect(column_names).to eq %i[id subject]
 
       query = type_bug.attribute_groups.detect { |x| x.key == 'Second query' }
       expect(query).to be_present
+      expect(query.attributes.show_hierarchies).to eq(false)
 
       column_names = query.attributes.columns.map(&:name).sort
       expect(column_names).to eq %i[id]
@@ -133,6 +135,10 @@ describe 'form subelements configuration', type: :feature, js: true do
     it 'can create and save embedded subelements' do
       form.add_query_group('Subtasks')
       form.edit_query_group('Subtasks')
+
+      # Expect disabled tabs for timelines and display mode
+      modal.expect_disabled_tab 'Gantt chart'
+      modal.expect_disabled_tab 'Display settings'
 
       # Restrict filters to type_task
       modal.expect_open
