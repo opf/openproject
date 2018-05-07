@@ -70,10 +70,18 @@ describe OpenProject::ContentTypeDetector do
 
   it 'returns content type of file if it is an acceptable type' do
     allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new('application/mp4'), MIME::Type.new('video/mp4'), MIME::Type.new('audio/mp4')])
-    allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_return('video/mp4')
+    allow(::Open3).to receive(:capture2).and_return(['video/mp4', 0])
     @filename = 'my_file.mp4'
     assert_equal 'video/mp4', OpenProject::ContentTypeDetector.new(@filename).detect
   end
+
+  it 'returns the default when exitcode > 0' do
+    allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new('application/mp4'), MIME::Type.new('video/mp4'), MIME::Type.new('audio/mp4')])
+    allow(::Open3).to receive(:capture2).and_return(['', 1])
+    @filename = 'my_file.mp4'
+    assert_equal 'application/binary', OpenProject::ContentTypeDetector.new(@filename).detect
+  end
+
 
   it 'finds the right type in the list via the file command' do
     @filename = "#{Dir.tmpdir}/something.hahalolnotreal"
@@ -91,7 +99,7 @@ describe OpenProject::ContentTypeDetector do
   end
 
   it 'returns a sensible default when the file command is missing' do
-    allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_raise(Cocaine::CommandLineError.new)
+    allow(::Open3).to receive(:capture2).and_raise 'o noes!'
     @filename = '/path/to/something'
     assert_equal 'application/binary', OpenProject::ContentTypeDetector.new(@filename).detect
   end

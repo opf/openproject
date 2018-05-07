@@ -153,9 +153,6 @@ gem 'sass', '3.5.1'
 gem 'sass-rails', '~> 5.0.6'
 gem 'sprockets', '~> 3.7.0'
 
-# small wrapper around the command line
-gem 'cocaine', '~> 0.6.0'
-
 # required by Procfile, for deployment on heroku or packaging with packager.io.
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
