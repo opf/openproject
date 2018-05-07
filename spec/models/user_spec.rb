@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../shared_examples')
 
 describe User, type: :model do
   include_examples "there are users with and without avatars"
-  let(:user) { FactoryGirl.build :user }
+  let(:user) { FactoryBot.build :user }
 
   specify { expect(user.attachments).to all be_a_kind_of Attachment }
 

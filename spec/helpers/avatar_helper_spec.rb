@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:mail_digest) { Digest::MD5.hexdigest(user.mail) }
-  let(:avatar_stub) { FactoryGirl.build_stubbed(:avatar_attachment) }
+  let(:avatar_stub) { FactoryBot.build_stubbed(:avatar_attachment) }
 
   let(:enable_gravatars) { false }
   let(:gravatar_default) { '' }

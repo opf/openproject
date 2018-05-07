@@ -1,10 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe ::Avatars::UpdateService do
-  let(:user_without_avatar) { FactoryGirl.build_stubbed :user }
+  let(:user_without_avatar) { FactoryBot.build_stubbed :user }
   let(:user_with_avatar) do
-    u = FactoryGirl.create :user
-    u.attachments = [FactoryGirl.create(:avatar_attachment, author: u)]
+    u = FactoryBot.create :user
+    u.attachments = [FactoryBot.create(:avatar_attachment, author: u)]
     u
   end
 
