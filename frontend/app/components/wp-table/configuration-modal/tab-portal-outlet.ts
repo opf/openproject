@@ -13,6 +13,7 @@ import {
 
 export interface TabInterface {
   name:string;
+  disableBecause?:string;
   componentClass:{ new(...args:any[]):TabComponent };
 }
 
@@ -55,6 +56,10 @@ export class TabPortalOutlet {
       throw(`Trying to swtich to unknown tab ${name}.`);
     }
 
+    if (tab.disableBecause != null) {
+      return false;
+    }
+
     // Detach any current instance
     this.detach();
 
@@ -66,6 +71,8 @@ export class TabPortalOutlet {
     this.outletElement.innerHTML = '';
     this.outletElement.appendChild(this._getComponentRootNode(instance.componentRef));
     this.currentTab = instance;
+
+    return false;
   }
 
   public detach():void {

@@ -293,7 +293,16 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
             query.display_sums = true
 
             expect(subject.query[:showSums])
-              .to eq('true')
+              .to eq(true)
+          end
+        end
+
+        context 'when displaying hierarchies' do
+          it 'is represented' do
+            query.show_hierarchies = true
+
+            expect(subject.query[:showHierarchies])
+              .to eq(true)
           end
         end
 

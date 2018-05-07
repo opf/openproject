@@ -62,7 +62,8 @@ module API
         def to_h(column_key: :columns)
           p = default_hash
 
-          p[:showSums] = 'true' if query.display_sums?
+          p[:showHierarchies] = query.show_hierarchies
+          p[:showSums] = query.display_sums?
           p[:groupBy] = query.group_by if query.group_by?
           p[:sortBy] = sort_criteria_to_v3 if query.sorted?
           p[column_key] = columns_to_v3 unless query.has_default_columns?

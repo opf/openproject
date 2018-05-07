@@ -97,6 +97,7 @@ class BaseTypeService
 
       query = call.result
 
+      query.show_hierarchies = false
       query.add_filter('parent', '=', ::Queries::Filters::TemplatedValue::KEY)
 
       groups[index][1] = [query]
