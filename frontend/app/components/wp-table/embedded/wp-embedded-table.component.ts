@@ -157,9 +157,11 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
   }
 
   public set loadingIndicator(promise:Promise<any>) {
-    this.loadingIndicatorService
-      .indicator(this.uniqueEmbeddedTableName)
-      .promise = promise;
+    if (this.configuration.tableVisible) {
+      this.loadingIndicatorService
+        .indicator(this.uniqueEmbeddedTableName)
+        .promise = promise;
+    }
   }
 
   private async loadQuery() {
@@ -178,7 +180,6 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
       )
       .then((query:QueryResource) => this.initializeStates(query, query.results));
 
-    this.loadingIndicator = promise;
     return promise;
   }
 
