@@ -5,7 +5,7 @@
 
 ![GitHub Integration Screenshot](doc/screenshot.png?raw=true)
 
-Currently we support the following workflow. When you create a pull request and paste a work package URL into its description, the plugin will add a comment to the work package when the pull request is opened, closed, merged or reopened.
+Currently we support the following workflow. When you create a pull request and paste a work package URL (or the special marker `OP#<Work package id>` (e.g., `OP#1234`) into its description, the plugin will add a comment to the work package when the pull request is opened, closed, merged or reopened.
 
 If you forget to add the work package URL when creating the pull request, you can edit its description and add the URL, but this doesn't automatically add a comment to the work package (GitHub unfortunately doesn't notify us for this event). To nevertheless add a link between the pull request and the work package, you can add the work package URL in a pull request comment. The plugin then adds a comment to the work package.
 
