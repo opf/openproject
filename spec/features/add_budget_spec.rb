@@ -20,8 +20,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe 'adding a new budget', type: :feature, js: true do
-  let(:project) { FactoryGirl.create :project_with_types }
-  let(:user) { FactoryGirl.create :admin }
+  let(:project) { FactoryBot.create :project_with_types }
+  let(:user) { FactoryBot.create :admin }
 
   before do
     allow(User).to receive(:current).and_return user
@@ -50,16 +50,16 @@ describe 'adding a new budget', type: :feature, js: true do
 
   context 'with cost items' do
     let(:cost_type) do
-      FactoryGirl.create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
+      FactoryBot.create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
     end
 
     let(:new_budget_page) { Pages::NewBudget.new project.identifier }
 
     before do
-      project.add_member! user, FactoryGirl.create(:role)
+      project.add_member! user, FactoryBot.create(:role)
 
-      FactoryGirl.create :cost_rate, cost_type: cost_type, rate: 50.0
-      FactoryGirl.create :default_hourly_rate, user: user, rate: 25.0
+      FactoryBot.create :cost_rate, cost_type: cost_type, rate: 50.0
+      FactoryBot.create :default_hourly_rate, user: user, rate: 25.0
     end
 
     it 'creates the budget including the given cost items' do

@@ -20,16 +20,16 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe VariableCostObject, type: :model do
-  let(:cost_object) { FactoryGirl.build(:variable_cost_object) }
-  let(:type) { FactoryGirl.create(:type_feature) }
-  let(:project) { FactoryGirl.create(:project_with_types) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:cost_object) { FactoryBot.build(:variable_cost_object) }
+  let(:type) { FactoryBot.create(:type_feature) }
+  let(:project) { FactoryBot.create(:project_with_types) }
+  let(:user) { FactoryBot.create(:user) }
 
   describe 'recreate initial journal' do
     before do
       allow(User).to receive(:current).and_return(user)
 
-      @variable_cost_object = FactoryGirl.create(:variable_cost_object, project: project,
+      @variable_cost_object = FactoryBot.create(:variable_cost_object, project: project,
                                                                         author: user)
 
       @initial_journal = @variable_cost_object.journals.first
@@ -50,7 +50,7 @@ describe VariableCostObject, type: :model do
   end
 
   describe 'destroy' do
-    let(:work_package) { FactoryGirl.create(:work_package) }
+    let(:work_package) { FactoryBot.create(:work_package) }
 
     before do
       cost_object.author = user

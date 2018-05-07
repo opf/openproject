@@ -20,9 +20,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe HourlyRatesController do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:admin) { FactoryGirl.create(:admin) }
-  let(:default_rate) { FactoryGirl.create(:default_hourly_rate, user: user) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:admin) { FactoryBot.create(:admin) }
+  let(:default_rate) { FactoryBot.create(:default_hourly_rate, user: user) }
 
   describe 'PUT update' do
     describe 'WHEN trying to update with an invalid rate value' do

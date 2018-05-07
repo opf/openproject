@@ -33,16 +33,16 @@ describe 'API v3 Budget resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:project) { FactoryBot.create(:project, is_public: false) }
   let(:current_user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   end
   subject(:response) { last_response }
 
-  let!(:budget) { FactoryGirl.create(:cost_object, project: project) }
+  let!(:budget) { FactoryBot.create(:cost_object, project: project) }
 
   describe 'budgets/:id' do
     let(:get_path) { api_v3_paths.budget budget.id }

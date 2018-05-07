@@ -22,14 +22,14 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe User, type: :model do
   include Cost::PluginSpecHelper
   let(:klass) { User }
-  let(:user) { FactoryGirl.build(:user) }
-  let(:project) { FactoryGirl.build(:valid_project) }
-  let(:project2) { FactoryGirl.build(:valid_project) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:project) { FactoryBot.build(:valid_project) }
+  let(:project2) { FactoryBot.build(:valid_project) }
   let(:project_hourly_rate) {
-    FactoryGirl.build(:hourly_rate, user: user,
+    FactoryBot.build(:hourly_rate, user: user,
                                     project: project)
   }
-  let(:default_hourly_rate) { FactoryGirl.build(:default_hourly_rate, user: user) }
+  let(:default_hourly_rate) { FactoryBot.build(:default_hourly_rate, user: user) }
 
   describe '#allowed_to' do
     describe 'WITH querying for a non existent permission' do

@@ -21,23 +21,23 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe 'Only see your own rates', type: :feature, js: true do
   let(:project) { work_package.project }
-  let(:user) { FactoryGirl.create :user,
+  let(:user) { FactoryBot.create :user,
                                   member_in_project: project,
                                   member_through_role: role }
-  let(:role) { FactoryGirl.create :role, permissions: [:view_work_packages,
+  let(:role) { FactoryBot.create :role, permissions: [:view_work_packages,
                                                        :delete_work_packages,
                                                        :edit_cost_entries,
                                                        :view_cost_entries] }
-  let(:work_package) {FactoryGirl.create :work_package }
-  let(:other_work_package) {FactoryGirl.create :work_package, project: project }
+  let(:work_package) {FactoryBot.create :work_package }
+  let(:other_work_package) {FactoryBot.create :work_package, project: project }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
   let(:cost_type) {
-    type = FactoryGirl.create :cost_type, name: 'Translations'
-    FactoryGirl.create :cost_rate, cost_type: type,
+    type = FactoryBot.create :cost_type, name: 'Translations'
+    FactoryBot.create :cost_rate, cost_type: type,
                                    rate: 7.00
     type
   }
-  let(:cost_entry) { FactoryGirl.create :cost_entry, work_package: work_package,
+  let(:cost_entry) { FactoryBot.create :cost_entry, work_package: work_package,
                                                      project: project,
                                                      units: 2.00,
                                                      cost_type: cost_type,

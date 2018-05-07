@@ -20,8 +20,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe CostTypesController, type: :controller do
-  let(:admin)     { FactoryGirl.create(:admin) }
-  let(:cost_type) { FactoryGirl.create(:cost_type) }
+  let(:admin)     { FactoryBot.create(:admin) }
+  let(:cost_type) { FactoryBot.create(:cost_type) }
 
   describe 'DELETE destroy' do
     it 'allows an admin to delete' do

@@ -22,7 +22,7 @@ require 'spec_helper'
 describe ::API::V3::CostTypes::CostTypeRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:cost_type) { FactoryGirl.build_stubbed(:cost_type) }
+  let(:cost_type) { FactoryBot.build_stubbed(:cost_type) }
   let(:representer) { described_class.new(cost_type, current_user: double('current_user')) }
 
   subject { representer.to_json }

@@ -34,11 +34,11 @@ describe 'API v3 Work package form resource', type: :request do
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:authorized_user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   end
@@ -101,8 +101,8 @@ describe 'API v3 Work package form resource', type: :request do
             describe 'budget' do
               let(:path) { '_embedded/payload/_links/costObject/href' }
               let(:links_path) { '_embedded/schema/costObject/_links' }
-              let(:target_budget) { FactoryGirl.create(:cost_object, project: project) }
-              let(:other_budget) { FactoryGirl.create(:cost_object, project: project) }
+              let(:target_budget) { FactoryBot.create(:cost_object, project: project) }
+              let(:other_budget) { FactoryBot.create(:cost_object, project: project) }
               let(:budget_link) { api_v3_paths.budget target_budget.id }
               let(:other_budget_link) { api_v3_paths.budget other_budget.id }
               let(:budget_parameter) { { _links: { costObject: { href: budget_link } } } }
@@ -134,7 +134,7 @@ describe 'API v3 Work package form resource', type: :request do
               end
 
               context 'invalid budget' do
-                let(:target_budget) { FactoryGirl.create(:cost_object) }
+                let(:target_budget) { FactoryBot.create(:cost_object) }
 
                 include_context 'post request'
 

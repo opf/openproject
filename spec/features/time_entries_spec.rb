@@ -20,15 +20,15 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe 'Work Package table cost entries', type: :feature, js: true do
-  let(:project) { FactoryGirl.create :project }
-  let(:user) { FactoryGirl.create :admin }
+  let(:project) { FactoryBot.create :project }
+  let(:user) { FactoryBot.create :admin }
 
-  let(:parent) { FactoryGirl.create :work_package, project: project }
-  let(:work_package) { FactoryGirl.create :work_package, project: project, parent: parent }
-  let(:hourly_rate) { FactoryGirl.create :default_hourly_rate, user: user, rate: 1.00 }
+  let(:parent) { FactoryBot.create :work_package, project: project }
+  let(:work_package) { FactoryBot.create :work_package, project: project, parent: parent }
+  let(:hourly_rate) { FactoryBot.create :default_hourly_rate, user: user, rate: 1.00 }
 
   let!(:time_entry1) {
-    FactoryGirl.create :time_entry,
+    FactoryBot.create :time_entry,
                        user: user,
                        work_package: parent,
                        project: project,
@@ -36,7 +36,7 @@ describe 'Work Package table cost entries', type: :feature, js: true do
   }
 
   let!(:time_entry2) {
-    FactoryGirl.create :time_entry,
+    FactoryBot.create :time_entry,
                        user: user,
                        work_package: work_package,
                        project: project,
@@ -45,7 +45,7 @@ describe 'Work Package table cost entries', type: :feature, js: true do
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let!(:query) do
-    query              = FactoryGirl.build(:query, user: user, project: project)
+    query              = FactoryBot.build(:query, user: user, project: project)
     query.column_names = %w(id subject spent_hours)
 
     query.save!

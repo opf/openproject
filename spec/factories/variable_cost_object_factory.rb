@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :variable_cost_object do
     association :project, factory: :project
     sequence(:subject) do |n| "Cost Object No. #{n}" end

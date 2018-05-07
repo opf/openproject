@@ -20,15 +20,15 @@
 require 'spec_helper'
 
 describe ::API::V3::Budgets::BudgetRepresenter do
-  let(:project) { FactoryGirl.build(:project, id: 999) }
+  let(:project) { FactoryBot.build(:project, id: 999) }
   let(:user) {
-    FactoryGirl.build(:user,
+    FactoryBot.build(:user,
                       member_in_project: project,
                       created_on: 1.day.ago,
                       updated_on: Date.today)
   }
   let(:budget) {
-    FactoryGirl.create(:cost_object,
+    FactoryBot.create(:cost_object,
                        author: user,
                        project: project,
                        created_on: 1.day.ago,

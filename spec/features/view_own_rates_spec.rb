@@ -21,46 +21,46 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe 'Only see your own rates', type: :feature, js: true do
   let(:project) { work_package.project }
-  let(:user) { FactoryGirl.create :user,
+  let(:user) { FactoryBot.create :user,
                                   member_in_project: project,
                                   member_through_role: role }
-  let(:role) { FactoryGirl.create :role, permissions: [:view_own_hourly_rate,
+  let(:role) { FactoryBot.create :role, permissions: [:view_own_hourly_rate,
                                                        :view_work_packages,
                                                        :view_work_packages,
                                                        :view_own_time_entries,
                                                        :view_own_cost_entries,
                                                        :view_cost_rates,
                                                        :log_costs] }
-  let(:work_package) {FactoryGirl.create :work_package }
+  let(:work_package) {FactoryBot.create :work_package }
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package) }
-  let(:hourly_rate) { FactoryGirl.create :default_hourly_rate, user: user,
+  let(:hourly_rate) { FactoryBot.create :default_hourly_rate, user: user,
                                                                rate: 10.00 }
-  let(:time_entry) { FactoryGirl.create :time_entry, user: user,
+  let(:time_entry) { FactoryBot.create :time_entry, user: user,
                                                      work_package: work_package,
                                                      project: project,
                                                      hours: 1.00 }
   let(:cost_type) {
-    type = FactoryGirl.create :cost_type, name: 'Translations'
-    FactoryGirl.create :cost_rate, cost_type: type,
+    type = FactoryBot.create :cost_type, name: 'Translations'
+    FactoryBot.create :cost_rate, cost_type: type,
                                    rate: 7.00
     type
   }
-  let(:cost_entry) { FactoryGirl.create :cost_entry, work_package: work_package,
+  let(:cost_entry) { FactoryBot.create :cost_entry, work_package: work_package,
                                                      project: project,
                                                      units: 2.00,
                                                      cost_type: cost_type,
                                                      user: user }
-  let(:other_role) { FactoryGirl.create :role, permissions: [] }
-  let(:other_user) { FactoryGirl.create :user,
+  let(:other_role) { FactoryBot.create :role, permissions: [] }
+  let(:other_user) { FactoryBot.create :user,
                                         member_in_project: project,
                                         member_through_role: other_role }
-  let(:other_hourly_rate) { FactoryGirl.create :default_hourly_rate, user: other_user,
+  let(:other_hourly_rate) { FactoryBot.create :default_hourly_rate, user: other_user,
                                                                      rate: 11.00 }
-  let(:other_time_entry) { FactoryGirl.create :time_entry, user: other_user,
+  let(:other_time_entry) { FactoryBot.create :time_entry, user: other_user,
                                                            hours: 3.00,
                                                            project: project,
                                                            work_package: work_package }
-  let(:other_cost_entry) { FactoryGirl.create :cost_entry, work_package: work_package,
+  let(:other_cost_entry) { FactoryBot.create :cost_entry, work_package: work_package,
                                                            project: project,
                                                            units: 5.00,
                                                            user: other_user,

@@ -24,7 +24,7 @@ describe WorkPackage, 'cost eager loading', type: :model do
     work_package.project
   end
   let(:role) do
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: [:view_work_packages,
                                      :view_cost_entries,
                                      :view_cost_rates,
@@ -34,50 +34,50 @@ describe WorkPackage, 'cost eager loading', type: :model do
                                      :view_hourly_rates])
   end
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   end
 
   let(:cost_type) do
-    FactoryGirl.create(:cost_type)
+    FactoryBot.create(:cost_type)
   end
   let(:work_package) do
-    FactoryGirl.create(:work_package)
+    FactoryBot.create(:work_package)
   end
   let(:cost_entry1) do
-    FactoryGirl.create(:cost_entry,
+    FactoryBot.create(:cost_entry,
                        cost_type: cost_type,
                        user: user,
                        work_package: work_package,
                        project: project)
   end
   let(:cost_entry2) do
-    FactoryGirl.create(:cost_entry,
+    FactoryBot.create(:cost_entry,
                        cost_type: cost_type,
                        user: user,
                        work_package: work_package,
                        project: project)
   end
   let(:time_entry1) do
-    FactoryGirl.create(:time_entry,
+    FactoryBot.create(:time_entry,
                        user: user,
                        project: project,
                        work_package: work_package)
   end
   let(:time_entry2) do
-    FactoryGirl.create(:time_entry,
+    FactoryBot.create(:time_entry,
                        user: user,
                        project: project,
                        work_package: work_package)
   end
   let(:user_rates) do
-    FactoryGirl.create(:hourly_rate,
+    FactoryBot.create(:hourly_rate,
                        user: user,
                        project: project)
   end
   let(:cost_rate) do
-    FactoryGirl.create(:cost_rate,
+    FactoryBot.create(:cost_rate,
                        cost_type: cost_type)
   end
 
