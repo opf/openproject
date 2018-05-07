@@ -135,7 +135,7 @@ class WikiController < ApplicationController
     if @page.new_record?
       if User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
         edit
-        render action: 'edit'
+        render action: 'new'
       else
         render_404
       end
@@ -403,7 +403,7 @@ class WikiController < ApplicationController
   private
 
   def wiki_page_title
-    params[:id]
+    params[:title] || params[:id]
   end
 
   def find_wiki

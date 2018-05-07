@@ -440,13 +440,13 @@ describe OpenProject::TextFormatting do
       context 'Wiki link to an unknown page' do
         subject { format_text('[[Unknown page]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/#{project.identifier}/wiki/unknown-page\">Unknown page</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/#{project.identifier}/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>") }
       end
 
       context 'Wiki page link to an unknown page' do
         subject { format_text('[[Unknown page|404]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/#{project.identifier}/wiki/unknown-page\">404</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/#{project.identifier}/wiki/unknown-page?title=404\">404</a></p>") }
       end
 
       context "Link to another project's wiki" do
@@ -476,7 +476,7 @@ describe OpenProject::TextFormatting do
       context 'Link to an unknown wiki page in another project' do
         subject { format_text('[[onlinestore:Unknown page]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/onlinestore/wiki/unknown-page\">Unknown page</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/onlinestore/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>") }
       end
 
       context 'Struck through link to wiki page' do
