@@ -70,7 +70,7 @@ describe('wp-query-menu', () => {
         WpQueryMenuTestComponent
       ],
       providers: [
-        { provide: $stateToken, useValue: { go: (...args:any[]) => undefined } },
+        { provide: $stateToken, useValue: { params: { query_id: null }, go: (...args:any[]) => undefined } },
         { provide: WorkPackagesListChecksumService, useValue: { clear: () => undefined } },
         { provide: TransitionService, useValue: $transitionStub },
         QueryMenuService,
