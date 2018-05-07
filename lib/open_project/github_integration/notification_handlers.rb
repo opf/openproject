@@ -100,9 +100,14 @@ module OpenProject::GithubIntegration
       #  - https://www.openproject.org/wp/1234
       #  - http://www.openproject.org/work_packages/1234
       #  - https://www.openproject.org/subdirectory/work_packages/1234
-      wp_regex = /http(?:s?):\/\/#{Regexp.escape(Setting.host_name)}\/(?:\S+?\/)*(?:work_packages|wp)\/([0-9]+)/
+      # Or with the following prefix: OP#
+      # e.g.,: This is a reference to OP#1234
+      wp_regex = /OP#(\d+)|http(?:s?):\/\/#{Regexp.escape('openproject.org')}\/(?:\S+?\/)*(?:work_packages|wp)\/([0-9]+)/
 
-      source.scan(wp_regex).flatten.map {|s| s.to_i }.uniq
+      source.scan(wp_regex)
+        .map {|first, second| (first || second).to_i }
+        .select { |el| el > 0 }
+        .uniq
     end
 
     ##
