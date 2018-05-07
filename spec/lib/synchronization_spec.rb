@@ -24,7 +24,7 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   # three users aa729, bb459, cc414
   # two groups foo (aa729), bar(aa729, bb459, cc414)
   let(:auth_source) do
-    FactoryGirl.create :ldap_auth_source,
+    FactoryBot.create :ldap_auth_source,
                        port: '12389',
                        account: 'uid=admin,ou=system',
                        account_password: 'secret',
@@ -32,15 +32,15 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
                        attr_login: 'uid'
   end
 
-  let(:user_aa729) { FactoryGirl.create :user, login: 'aa729', auth_source: auth_source }
-  let(:user_bb459) { FactoryGirl.create :user, login: 'bb459', auth_source: auth_source }
-  let(:user_cc414) { FactoryGirl.create :user, login: 'cc414', auth_source: auth_source }
+  let(:user_aa729) { FactoryBot.create :user, login: 'aa729', auth_source: auth_source }
+  let(:user_bb459) { FactoryBot.create :user, login: 'bb459', auth_source: auth_source }
+  let(:user_cc414) { FactoryBot.create :user, login: 'cc414', auth_source: auth_source }
 
-  let(:group_foo) { FactoryGirl.create :group, lastname: 'foo_internal' }
-  let(:group_bar) { FactoryGirl.create :group, lastname: 'bar' }
+  let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal' }
+  let(:group_bar) { FactoryBot.create :group, lastname: 'bar' }
 
-  let(:synced_foo) { FactoryGirl.create :ldap_synchronized_group, entry: 'foo', group: group_foo, auth_source: auth_source }
-  let(:synced_bar) { FactoryGirl.create :ldap_synchronized_group, entry: 'bar', group: group_bar, auth_source: auth_source }
+  let(:synced_foo) { FactoryBot.create :ldap_synchronized_group, entry: 'foo', group: group_foo, auth_source: auth_source }
+  let(:synced_bar) { FactoryBot.create :ldap_synchronized_group, entry: 'bar', group: group_bar, auth_source: auth_source }
 
   subject { described_class.new auth_source }
 
@@ -205,7 +205,7 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   end
 
   context 'with invalid connection' do
-    let(:auth_source) { FactoryGirl.create :ldap_auth_source }
+    let(:auth_source) { FactoryBot.create :ldap_auth_source }
 
     before do
       synced_foo

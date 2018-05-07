@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe LdapGroups::SynchronizedGroup, type: :model do
-  subject { FactoryGirl.build :ldap_synchronized_group }
+  subject { FactoryBot.build :ldap_synchronized_group }
 
   describe '#escaped_entry' do
     it 'escapes the entry for ldap' do

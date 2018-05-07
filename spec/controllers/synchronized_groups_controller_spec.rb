@@ -1,8 +1,8 @@
 require_relative '../spec_helper'
 
 describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], type: :controller do
-  let(:user) { FactoryGirl.create :user }
-  let(:admin) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :user }
+  let(:admin) { FactoryBot.create :admin }
 
   before do
     allow(User).to receive(:current).and_return(logged_in_user)
@@ -55,7 +55,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
       end
 
       context 'when entry exists' do
-        let!(:group) { FactoryGirl.build_stubbed :ldap_synchronized_group }
+        let!(:group) { FactoryBot.build_stubbed :ldap_synchronized_group }
         let(:id) { 'foo' }
 
         it 'renders the page' do
@@ -165,7 +165,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
       end
 
       context 'when entry exists' do
-        let!(:group) { FactoryGirl.build_stubbed :ldap_synchronized_group }
+        let!(:group) { FactoryBot.build_stubbed :ldap_synchronized_group }
         let(:id) { 'foo' }
 
         it 'renders the page' do
@@ -206,7 +206,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
       end
 
       context 'when entry exists' do
-        let!(:group) { FactoryGirl.build_stubbed :ldap_synchronized_group }
+        let!(:group) { FactoryBot.build_stubbed :ldap_synchronized_group }
         let(:id) { 'foo' }
 
         before do

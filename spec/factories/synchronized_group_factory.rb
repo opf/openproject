@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :ldap_synchronized_group, class: ::LdapGroups::SynchronizedGroup do
     entry 'uid'
     group factory: :group
