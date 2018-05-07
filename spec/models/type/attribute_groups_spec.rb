@@ -40,26 +40,6 @@ describe ::Type, type: :model do
   end
 
   describe "#attribute_groups" do
-    shared_examples_for 'appends the children query' do
-      it "at position" do
-        group = type.attribute_groups.last
-
-        expect(group.key).to eql :children
-        query = group.members[0]
-
-        expect(query.class).to eql Query
-
-        expect(query.filters.length).to eql(1)
-
-        filter = query.filters[0]
-
-        expect(filter.name).to eql(:parent)
-
-        expect(query.column_names).to eql(%i(id type subject))
-        expect(query.show_hierarchies).to be_falsey
-      end
-    end
-
     shared_examples_for 'returns default attributes' do
       it do
         expect(type.read_attribute(:attribute_groups)).to be_empty
@@ -68,10 +48,8 @@ describe ::Type, type: :model do
           [group.key, group.attributes]
         end
 
-        expect(attribute_groups).to eql type.default_attribute_groups[0...-1]
+        expect(attribute_groups).to eql type.default_attribute_groups
       end
-
-      it_behaves_like 'appends the children query'
     end
 
     context 'with attributes provided' do

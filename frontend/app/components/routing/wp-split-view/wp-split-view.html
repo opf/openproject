@@ -13,6 +13,11 @@
             uiSrefActive="selected">
           <a href="" [textContent]="text.tabs.activity"></a>
         </li>
+        <li uiSref="work-packages.list.details.relations"
+                    uiSrefActive="selected">
+          <a href="" [textContent]="text.tabs.relations"></a>
+          <wp-relations-count [wpId]="workPackage.id"></wp-relations-count>
+        </li>
         <li ng-if="canViewWorkPackageWatchers()"
             uiSref="work-packages.list.details.watchers"
             uiSrefActive="selected">

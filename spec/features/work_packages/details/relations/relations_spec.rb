@@ -22,7 +22,7 @@ describe 'Work package relations tab', js: true, selenium: true do
   end
 
   def visit_relations
-    work_packages_page.visit_tab!('overview')
+    work_packages_page.visit_tab!('relations')
     work_packages_page.expect_subject
     loading_indicator_saveguard
   end
@@ -54,7 +54,7 @@ describe 'Work package relations tab', js: true, selenium: true do
     before do
       visit_relations
 
-      work_packages_page.visit_tab!('overview')
+      work_packages_page.visit_tab!('relations')
       work_packages_page.expect_subject
       loading_indicator_saveguard
 

@@ -190,7 +190,6 @@ import {FilterStringValueComponent} from 'core-components/filters/filter-string-
 import {FilterBooleanValueComponent} from 'core-components/filters/filter-boolean-value/filter-boolean-value.component';
 import {OpDatePickerComponent} from 'core-components/wp-edit/op-date-picker/op-date-picker.component';
 import {AccessibleByKeyboardComponent} from 'core-components/a11y/accessible-by-keyboard.component';
-import {WorkPackageFormQueryGroupComponent} from 'core-components/wp-form-group/wp-query-group.component';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
@@ -220,6 +219,7 @@ import {FocusHelperService} from 'core-components/common/focus/focus-helper';
 import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 import {FocusWithinDirective} from "core-components/common/focus/focus-within.upgraded.directive";
 import {AccessibleClickDirective} from "core-components/a11y/accessible-click.directive";
+import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp-relation-children/wp-children-query.component';
 
 @NgModule({
   imports: [
@@ -385,7 +385,7 @@ import {AccessibleClickDirective} from "core-components/a11y/accessible-click.di
     WorkPackageAttachmentListItemComponent,
     OpDateTimeComponent,
     UserLinkComponent,
-    WorkPackageFormQueryGroupComponent,
+    WorkPackageChildrenQueryComponent,
     WorkPackageFormAttributeGroupComponent,
 
     // Activity Tab

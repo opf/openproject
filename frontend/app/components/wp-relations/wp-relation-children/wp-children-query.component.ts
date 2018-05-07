@@ -36,19 +36,13 @@ import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 
-export interface QueryGroupDescriptor {
-  name:string;
-  query:QueryResource;
-  type:string;
-}
-
 @Component({
-  selector: 'wp-query-group',
-  template: require('!!raw-loader!./wp-query-group.template.html')
+  selector: 'wp-children-query',
+  template: require('!!raw-loader!./wp-children-query.html')
 })
-export class WorkPackageFormQueryGroupComponent implements OnInit {
+export class WorkPackageChildrenQueryComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;
-  @Input() public group:QueryGroupDescriptor;
+  @Input() public query:any;
   @ViewChild('childrenEmbeddedTable') private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
 
   public canHaveChildren:boolean;
@@ -77,8 +71,12 @@ export class WorkPackageFormQueryGroupComponent implements OnInit {
     this.canHaveChildren = !this.workPackage.isMilestone;
     this.canModifyHierarchy = !!this.workPackage.changeParent;
 
+    if (this.query && this.query._type === 'Query') {
     this.childrenQueryProps = this.queryUrlParamsHelper.buildV3GetQueryFromQueryResource(this.contextualizedQuery,
                                                                                         {});
+    } else {
+      this.childrenQueryProps = this.query;
+    }
   }
 
   public refreshTable() {
@@ -86,7 +84,7 @@ export class WorkPackageFormQueryGroupComponent implements OnInit {
   }
 
   private get contextualizedQuery() {
-    let duppedQuery = _.clone(this.group.query);
+    let duppedQuery = _.clone(this.query);
 
     _.each(duppedQuery.filters, (filter) => {
       if (filter._links.values[0] && filter._links.values[0].templated) {
