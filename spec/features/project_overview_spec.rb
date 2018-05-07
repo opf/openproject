@@ -29,8 +29,8 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe 'My project page overview', type: :feature do
-  let(:project) { FactoryGirl.create :project }
-  let(:overview) { FactoryGirl.create :my_projects_overview, project: project }
+  let(:project) { FactoryBot.create :project }
+  let(:overview) { FactoryBot.create :my_projects_overview, project: project }
 
   let(:button_selector) { '#my-project-page-layout' }
 
@@ -43,7 +43,7 @@ describe 'My project page overview', type: :feature do
   end
 
   context 'as admin' do
-    let(:user) { FactoryGirl.create :admin }
+    let(:user) { FactoryBot.create :admin }
 
     it 'shows the default blocks and edit button' do
       expect(page).to have_selector('.widget-box', count: 5)
@@ -53,8 +53,8 @@ describe 'My project page overview', type: :feature do
 
   context 'as regular user' do
     let(:permissions) { %i(view_project) }
-    let(:role) { FactoryGirl.create :role, permissions: permissions }
-    let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+    let(:role) { FactoryBot.create :role, permissions: permissions }
+    let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
 
     it 'shows the default blocks, but no editing' do
       expect(page).to have_selector('.widget-box', count: 5)

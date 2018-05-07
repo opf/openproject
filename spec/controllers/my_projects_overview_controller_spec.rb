@@ -21,8 +21,8 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MyProjectsOverviewsController, type: :controller do
-  let(:admin) { FactoryGirl.build_stubbed(:admin) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:admin) { FactoryBot.build_stubbed(:admin) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
 
   let(:overview) { double(MyProjectsOverview) }
   let(:custom_block) { %w(a title content) }
