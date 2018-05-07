@@ -2,8 +2,8 @@ require_relative '../../../spec_helper'
 require_relative './../authentication_controller_shared_examples'
 
 describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee: true do
-  let(:user) { FactoryGirl.create(:user, login: 'foobar') }
-  let(:other_user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user, login: 'foobar') }
+  let(:other_user) { FactoryBot.create(:user) }
   let(:logged_in_user) { user }
   let(:active_strategies) { [] }
   let(:config) { {} }
@@ -115,7 +115,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
 
         describe 'and registered totp device' do
           let(:active_strategies) { [:totp] }
-          let!(:device) { FactoryGirl.create :two_factor_authentication_device_totp, user: user, active: false, default: false}
+          let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, active: false, default: false}
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
@@ -126,7 +126,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
         end
 
         describe 'with registered device' do
-          let!(:device) { FactoryGirl.create :two_factor_authentication_device_sms, user: user, active: false, default: false}
+          let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, active: false, default: false}
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
@@ -154,7 +154,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
 
         describe 'and registered totp device' do
           let(:active_strategies) { [:totp] }
-          let!(:device) { FactoryGirl.create :two_factor_authentication_device_totp, user: user, active: false, default: false}
+          let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, active: false, default: false}
 
           it 'renders a 400 on missing token' do
             post :confirm, params: { device_id: device.id }
@@ -187,7 +187,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
           end
 
           context 'with another default device present' do
-            let!(:default_device) { FactoryGirl.create :two_factor_authentication_device_totp, user: user, default: true}
+            let!(:default_device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: true}
 
             it 'activates the device when entered correctly' do
               allow_any_instance_of(::TwoFactorAuthentication::TokenService)
@@ -220,7 +220,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
         end
 
         context 'with existing non-default device' do
-          let!(:device) { FactoryGirl.create :two_factor_authentication_device_totp, user: user, default: false}
+          let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: false}
 
           it 'deletes it' do
             delete :destroy, params: { device_id: device.id }
@@ -230,7 +230,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
         end
 
         context 'with existing default device' do
-          let!(:device) { FactoryGirl.create :two_factor_authentication_device_totp, user: user, default: true}
+          let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: true}
 
           it 'deletes it' do
             delete :destroy, params: { device_id: device.id }
@@ -240,7 +240,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController, with_2fa_ee:
         end
 
         context 'with existing default device AND enforced' do
-          let!(:device) { FactoryGirl.create :two_factor_authentication_device_totp, user: user, default: true}
+          let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: true}
           let(:config) { { enforced: true } }
 
           it 'cannot be deleted' do

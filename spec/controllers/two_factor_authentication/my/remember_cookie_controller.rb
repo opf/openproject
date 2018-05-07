@@ -2,7 +2,7 @@ require_relative '../../../spec_helper'
 require_relative './../authentication_controller_shared_examples'
 
 describe ::TwoFactorAuthentication::My::RememberCookieController do
-  let(:user) { FactoryGirl.create(:user, login: 'foobar') }
+  let(:user) { FactoryBot.create(:user, login: 'foobar') }
   let(:logged_in_user) { user }
 
   before do

@@ -4,8 +4,8 @@ require 'messagebird'
 describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird, with_2fa_ee: true do
   let(:channel) { :sms }
   let(:locale) { 'en' }
-  let(:user) { FactoryGirl.create :user, language: locale }
-  let(:device) { FactoryGirl.create :two_factor_authentication_device_sms, user: user, channel: channel }
+  let(:user) { FactoryBot.create :user, language: locale }
+  let(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, channel: channel }
   let(:strategy) { described_class.new user: user, device: device, channel: channel }
 
   before do

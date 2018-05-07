@@ -4,7 +4,7 @@ module OpenProject::TwoFactorAuthentication::Patches
   module UserSpec
     describe User, with_2fa_ee: true do
       def create_user(auth_source_id = nil)
-        @user = FactoryGirl.build(:user)
+        @user = FactoryBot.build(:user)
         @username = @user.login
         @password = @user.password
         @user.auth_source_id = auth_source_id

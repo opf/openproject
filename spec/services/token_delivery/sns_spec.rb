@@ -3,8 +3,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns, with_2fa_ee: true do
   describe 'sending messages' do
     let(:phone) { '+49 123456789' }
-    let!(:user) { FactoryGirl.create :user }
-    let!(:device) { FactoryGirl.create :two_factor_authentication_device_sms, user: user, channel: channel }
+    let!(:user) { FactoryBot.create :user }
+    let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, channel: channel }
     let(:channel) { :sms }
 
     let(:params) {
