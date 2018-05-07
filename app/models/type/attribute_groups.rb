@@ -123,8 +123,6 @@ module Type::AttributeGroups
       array << [groupkey, members] if members.present?
     end
 
-    groups << [:children, [default_children_query]]
-
     groups
   end
 
@@ -251,17 +249,6 @@ module Type::AttributeGroups
                    end
       [group.key, attributes]
     end
-  end
-
-  def default_children_query
-    query = Query.new_default
-    query.name = 'children'
-    query.is_public = false
-    query.column_names = %w(id type subject)
-    query.show_hierarchies = false
-    query.filters = []
-    query.add_filter('parent', '=', ::Queries::Filters::TemplatedValue::KEY)
-    query
   end
 
   def new_attribute_group(key, attributes)

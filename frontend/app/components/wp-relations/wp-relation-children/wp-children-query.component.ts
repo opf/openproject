@@ -71,7 +71,7 @@ export class WorkPackageChildrenQueryComponent implements OnInit {
     this.canHaveChildren = !this.workPackage.isMilestone;
     this.canModifyHierarchy = !!this.workPackage.changeParent;
 
-    if (this.query instanceof QueryResource) {
+    if (this.query && this.query._type === 'Query') {
     this.childrenQueryProps = this.queryUrlParamsHelper.buildV3GetQueryFromQueryResource(this.contextualizedQuery,
                                                                                         {});
     } else {

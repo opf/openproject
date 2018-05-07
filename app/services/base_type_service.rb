@@ -86,13 +86,12 @@ class BaseTypeService
   end
 
   def transform_query_params_to_query(groups)
-    groups.each_with_index do |(_name, attributes), index|
+    groups.each_with_index do |(name, attributes), index|
       next unless attributes.is_a? Hash
       next if attributes.values.compact.empty?
 
-      # HACK: have sensible name (although it should never be visible)
       call = ::API::V3::UpdateQueryFromV3ParamsService
-             .new(Query.new_default(name: 'some_name'), user)
+             .new(Query.new_default(name: "Embedded subelements: #{name}"), user)
              .call(attributes.with_indifferent_access)
 
       query = call.result
