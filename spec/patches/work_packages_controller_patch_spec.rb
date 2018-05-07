@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe WorkPackagesController, 'rendering to xls', type: :controller do
-  let(:current_user) { FactoryGirl.create(:admin) }
+  let(:current_user) { FactoryBot.create(:admin) }
   let!(:work_package) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        subject: '!SUBJECT!',
                        description: '!DESCRIPTION!')
   end
@@ -43,11 +43,11 @@ describe WorkPackagesController, 'rendering to xls', type: :controller do
     # a custom field called 'costs' to emulate it.
 
     let(:custom_field) do
-      FactoryGirl.create(:float_wp_custom_field,
+      FactoryBot.create(:float_wp_custom_field,
                          name: 'unit costs')
     end
     let(:custom_value) do
-      FactoryGirl.create(:custom_value,
+      FactoryBot.create(:custom_value,
                          custom_field: custom_field)
     end
     let(:type) do
@@ -56,11 +56,11 @@ describe WorkPackagesController, 'rendering to xls', type: :controller do
       type
     end
     let(:project) do
-      FactoryGirl.create(:project,
+      FactoryBot.create(:project,
                          work_package_custom_fields: [custom_field])
     end
     let(:work_packages) do
-      wps = FactoryGirl.create_list(:work_package, 4,
+      wps = FactoryBot.create_list(:work_package, 4,
                                     project: project,
                                     type: type)
       wps[0].estimated_hours = 27.5
