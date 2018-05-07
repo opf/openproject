@@ -33,7 +33,7 @@ describe 'Work package relations tab', js: true, selenium: true do
     let!(:child) { FactoryGirl.create(:work_package, project: project) }
     let!(:child2) { FactoryGirl.create(:work_package, project: project, subject: 'Something new') }
 
-    it 'allows to mange hierarchy' do
+    it 'allows to manage hierarchy' do
       # Shows link parent link
       expect(page).to have_selector('#hierarchy--add-parent')
       find('.work-packages--details .wp-inline-create--add-link',
@@ -85,7 +85,7 @@ describe 'Work package relations tab', js: true, selenium: true do
     before do
       visit_relations
 
-      work_packages_page.visit_tab!('overview')
+      work_packages_page.visit_tab!('relations')
       work_packages_page.expect_subject
       loading_indicator_saveguard
     end
