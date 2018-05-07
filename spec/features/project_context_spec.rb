@@ -2,9 +2,9 @@ require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
 describe 'Cost report project context', type: :feature, js: true do
-  let(:project1) { FactoryGirl.create :project }
-  let(:project2) { FactoryGirl.create :project }
-  let(:admin) { FactoryGirl.create :admin }
+  let(:project1) { FactoryBot.create :project }
+  let(:project2) { FactoryBot.create :project }
+  let(:admin) { FactoryBot.create :admin }
 
   let(:report_page) { ::Pages::CostReportPage.new project }
 

@@ -22,18 +22,18 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe CostQuery, type: :model, reporting_query_helper: true do
   minimal_query
 
-  let!(:project1){ FactoryGirl.create(:project_with_types) }
-  let!(:work_package1) { FactoryGirl.create(:work_package, project: project1) }
-  let!(:time_entry1) { FactoryGirl.create(:time_entry, work_package: work_package1, project: project1) }
-  let!(:time_entry2) { FactoryGirl.create(:time_entry, work_package: work_package1, project: project1) }
+  let!(:project1){ FactoryBot.create(:project_with_types) }
+  let!(:work_package1) { FactoryBot.create(:work_package, project: project1) }
+  let!(:time_entry1) { FactoryBot.create(:time_entry, work_package: work_package1, project: project1) }
+  let!(:time_entry2) { FactoryBot.create(:time_entry, work_package: work_package1, project: project1) }
 
-  let!(:project2) { FactoryGirl.create(:project_with_types) }
-  let!(:work_package2) { FactoryGirl.create(:work_package, project: project2) }
-  let!(:time_entry3) { FactoryGirl.create(:time_entry, work_package: work_package2, project: project2) }
-  let!(:time_entry4) { FactoryGirl.create(:time_entry, work_package: work_package2, project: project2) }
+  let!(:project2) { FactoryBot.create(:project_with_types) }
+  let!(:work_package2) { FactoryBot.create(:work_package, project: project2) }
+  let!(:time_entry3) { FactoryBot.create(:time_entry, work_package: work_package2, project: project2) }
+  let!(:time_entry4) { FactoryBot.create(:time_entry, work_package: work_package2, project: project2) }
 
   before do
-    FactoryGirl.create(:admin)
+    FactoryBot.create(:admin)
   end
 
   describe "the reporting system" do

@@ -2,44 +2,44 @@ require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
 describe 'Cost report calculations', type: :feature, js: true do
-  let(:project) { FactoryGirl.create :project }
-  let(:admin) { FactoryGirl.create :admin }
+  let(:project) { FactoryBot.create :project }
+  let(:admin) { FactoryBot.create :admin }
 
   let!(:permissions) { %i(view_cost_entries view_own_cost_entries) }
-  let!(:role) { FactoryGirl.create :role, permissions: permissions }
+  let!(:role) { FactoryBot.create :role, permissions: permissions }
   let!(:user) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        member_in_project: project,
                        member_through_role: role
   end
 
-  let(:work_package) { FactoryGirl.create :work_package, project: project }
-  let!(:hourly_rate_admin) { FactoryGirl.create :default_hourly_rate, user: admin, rate: 1.00, valid_from: 1.year.ago }
-  let!(:hourly_rate_user) { FactoryGirl.create :default_hourly_rate, user: user, rate: 1.00, valid_from: 1.year.ago }
+  let(:work_package) { FactoryBot.create :work_package, project: project }
+  let!(:hourly_rate_admin) { FactoryBot.create :default_hourly_rate, user: admin, rate: 1.00, valid_from: 1.year.ago }
+  let!(:hourly_rate_user) { FactoryBot.create :default_hourly_rate, user: user, rate: 1.00, valid_from: 1.year.ago }
 
   let(:report_page) { ::Pages::CostReportPage.new project }
 
   let!(:time_entry_user) {
-    FactoryGirl.create :time_entry,
+    FactoryBot.create :time_entry,
                        user: admin,
                        work_package: work_package,
                        project: project,
                        hours: 10
   }
   let!(:time_entry_admin) {
-    FactoryGirl.create :time_entry,
+    FactoryBot.create :time_entry,
                        user: user,
                        work_package: work_package,
                        project: project,
                        hours: 5
   }
   let!(:cost_type) {
-    type = FactoryGirl.create :cost_type, name: 'Translations'
-    FactoryGirl.create :cost_rate, cost_type: type, rate: 7.00
+    type = FactoryBot.create :cost_type, name: 'Translations'
+    FactoryBot.create :cost_rate, cost_type: type, rate: 7.00
     type
   }
   let!(:cost_entry_user) {
-    FactoryGirl.create :cost_entry,
+    FactoryBot.create :cost_entry,
                        work_package: work_package,
                        project: project,
                        units: 3.00,

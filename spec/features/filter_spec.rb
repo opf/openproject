@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'Cost report calculations', type: :feature, js: true do
-  let(:project) { FactoryGirl.create :project }
-  let(:user) { FactoryGirl.create :admin }
+  let(:project) { FactoryBot.create :project }
+  let(:user) { FactoryBot.create :admin }
 
   before do
     login_as(user)

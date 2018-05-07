@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe CustomFieldsController do
-  let!(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
-  let!(:custom_field_permanent) { FactoryGirl.create(:work_package_custom_field) }
+  let!(:custom_field) { FactoryBot.create(:work_package_custom_field) }
+  let!(:custom_field_permanent) { FactoryBot.create(:work_package_custom_field) }
   let(:custom_field_name) { "CustomField#{custom_field.id}" }
   let(:custom_field_permanent_name) { "CustomField#{custom_field_permanent.id}" }
-  let(:cost_query) { FactoryGirl.build(:cost_query) }
+  let(:cost_query) { FactoryBot.build(:cost_query) }
 
   before do
     allow(@controller).to receive(:authorize)

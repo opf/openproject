@@ -2,8 +2,8 @@ require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
 describe 'Cost report saving', type: :feature, js: true do
-  let(:project) { FactoryGirl.create :project }
-  let(:user) { FactoryGirl.create :admin }
+  let(:project) { FactoryBot.create :project }
+  let(:user) { FactoryBot.create :admin }
 
   let(:report_page) { ::Pages::CostReportPage.new project }
 
@@ -43,9 +43,9 @@ describe 'Cost report saving', type: :feature, js: true do
   end
 
   context 'as user without permissions' do
-    let(:role) { FactoryGirl.create :role, permissions: %i(view_time_entries) }
+    let(:role) { FactoryBot.create :role, permissions: %i(view_time_entries) }
     let!(:user) do
-      FactoryGirl.create :user,
+      FactoryBot.create :user,
                          member_in_project: project,
                          member_through_role: role
     end
