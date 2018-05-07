@@ -164,7 +164,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
   // Modals
   $scope.showSaveAsModal = function (event:JQueryEventObject) {
     event.stopPropagation();
-    if (allowFormAction(event, 'commit')) {
+    if (allowFormAction(event, 'create_new')) {
       showExistingQueryModal.call(saveModal, event);
       updateFocusInModal('save-query-name');
     }
@@ -244,6 +244,14 @@ function SettingsDropdownMenuController($scope:IMyScope,
   };
 
   $scope.showSaveModalInvalid = function () {
+    return AuthorisationService.cannot('query', 'updateImmediately');
+  };
+
+  $scope.showSaveAsModalInvalid = function () {
+    if (form) {
+      return !!form.$links.create_new;
+    }
+
     return AuthorisationService.cannot('query', 'updateImmediately');
   };
 

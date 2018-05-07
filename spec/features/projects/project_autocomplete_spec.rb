@@ -51,6 +51,21 @@ describe 'Projects autocomplete page', type: :feature, js: true do
                        identifier: 'plain-project-2')
   end
 
+  let!(:other_projects) do
+    names = [
+      "Very long project name with term at the END",
+      "INK14 - Foo",
+      "INK15 - Bar",
+      "INK16 - Baz"
+    ]
+
+    names.map do |name|
+      identifier = name.gsub(/[ \-]+/, "-").downcase
+
+      FactoryGirl.create :project, name: name, identifier: identifier
+    end
+  end
+
   let(:top_menu) { ::Components::Projects::TopMenu.new }
 
   before do
@@ -93,7 +108,23 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     within(top_menu.search_results) do
       expect(page).to have_selector('.ui-state-disabled .ui-menu-item-wrapper', text: '<strong>foobar</strong>')
       expect(page).to have_selector('.ui-menu-item-wrapper.ui-state-active', text: '» Plain other project')
-      expect(page).to have_selector('.ui-menu-item-wrapper', text: 'Plain project')
+    end
+
+    # find terms at the end of project names
+    top_menu.search 'END'
+    within(top_menu.search_results) do
+      expect(page).to have_selector(
+        '.ui-menu-item-wrapper',
+        text: 'Very long project name with term at the END'
+      )
+    end
+
+    # Find literal matches exclusively if present
+    top_menu.search 'INK15'
+    within(top_menu.search_results) do
+      expect(page).to have_selector('.ui-menu-item-wrapper', text: 'INK15 - Bar')
+      expect(page).to have_no_selector('.ui-menu-item-wrapper', text: 'INK14 - Foo')
+      expect(page).to have_no_selector('.ui-menu-item-wrapper', text: 'INK16 - Baz')
     end
 
     # Visit a project
