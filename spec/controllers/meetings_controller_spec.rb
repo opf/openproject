@@ -21,7 +21,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MeetingsController, type: :controller do
-  let(:project) { FactoryGirl.create :project }
+  let(:project) { FactoryBot.create :project }
 
   before do
     allow(Project).to receive(:find).and_return(project)

@@ -21,8 +21,8 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MeetingAgendasController, type: :controller do
-  let(:meeting) { FactoryGirl.create(:meeting) }
-  let(:user) { FactoryGirl.create(:admin) }
+  let(:meeting) { FactoryBot.create(:meeting) }
+  let(:user) { FactoryBot.create(:admin) }
 
   before { allow(User).to receive(:current).and_return(user) }
 
