@@ -50,6 +50,10 @@ jQuery(document).ready(function($) {
     .click(function(event) {
       var target = $(this);
       if (target.hasClass('toggler')) {
+
+        // TODO: Instead of hiding the sidebar move sidebar's contents to submenus and cache it.
+        $('#sidebar').toggleClass('-hidden', true);
+
         $(".menu_root li").removeClass('open')
         $(".menu_root").removeClass('open').addClass('closed');
         target.closest('li').addClass('open');
@@ -93,6 +97,9 @@ jQuery(document).ready(function($) {
     upLink.click(function(target){
       $(target).parent('li').first().removeClass('open');
       $(".menu_root").removeClass('closed').addClass('open');
+
+      // TODO: Instead of hiding the sidebar move sidebar's contents to submenus and cache it. 
+      $('#sidebar').toggleClass('-hidden', false);
     });
     header.append(upLink);
     header.append('<span class="parent-node ellipsis">' + title + '</span>');
