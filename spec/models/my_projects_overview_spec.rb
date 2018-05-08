@@ -22,7 +22,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MyProjectsOverview, type: :model do
   let(:enabled_modules) { %w[activity work_package_tracking news wiki] }
-  let(:project) { FactoryGirl.create(:project, enabled_module_names: @enabled_module_names) }
+  let(:project) { FactoryBot.create(:project, enabled_module_names: @enabled_module_names) }
 
   subject { MyProjectsOverview.new(project_id: project.id) }
 

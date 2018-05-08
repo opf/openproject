@@ -29,16 +29,16 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe 'My project page editing', type: :feature, js: true do
-  let(:project) { FactoryGirl.create :project }
-  let(:overview) { FactoryGirl.create :my_projects_overview, project: project }
+  let(:project) { FactoryBot.create :project }
+  let(:overview) { FactoryBot.create :my_projects_overview, project: project }
   let(:mypage) { ::Pages::Page.new }
 
   let(:button_selector) { '.toolbar a.button' }
 
-  let(:user) { FactoryGirl.create :user,
+  let(:user) { FactoryBot.create :user,
                                   member_in_project: project,
                                   member_through_role: role }
-  let(:role) { FactoryGirl.create :role, permissions: [:view_project,
+  let(:role) { FactoryBot.create :role, permissions: [:view_project,
                                                        :edit_project] }
 
   # Add block select
@@ -195,8 +195,8 @@ describe 'My project page editing', type: :feature, js: true do
 
   context 'as regular user' do
     let(:permissions) { %i(view_project) }
-    let(:role) { FactoryGirl.create :role, permissions: permissions }
-    let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+    let(:role) { FactoryBot.create :role, permissions: permissions }
+    let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
 
     it 'shows a 403 error' do
       expect(page).to have_selector('h2', text: '403')
