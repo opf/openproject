@@ -2,21 +2,21 @@ require 'spec_helper'
 require 'spreadsheet'
 
 describe "WorkPackageXlsExport" do
-  let(:project) { FactoryGirl.create :project }
+  let(:project) { FactoryBot.create :project }
 
-  let(:parent) { FactoryGirl.create :work_package, project: project, subject: 'Parent' }
+  let(:parent) { FactoryBot.create :work_package, project: project, subject: 'Parent' }
   let(:child_1) do
-    FactoryGirl.create :work_package, parent: parent, project: project, subject: 'Child 1'
+    FactoryBot.create :work_package, parent: parent, project: project, subject: 'Child 1'
   end
   let(:child_2) do
-    FactoryGirl.create :work_package, parent: parent, project: project, subject: 'Child 2'
+    FactoryBot.create :work_package, parent: parent, project: project, subject: 'Child 2'
   end
 
-  let(:single) { FactoryGirl.create :work_package, project: project, subject: 'Single' }
-  let(:followed) { FactoryGirl.create :work_package, project: project, subject: 'Followed' }
+  let(:single) { FactoryBot.create :work_package, project: project, subject: 'Single' }
+  let(:followed) { FactoryBot.create :work_package, project: project, subject: 'Followed' }
 
   let(:child_2_child) do
-    FactoryGirl.create :work_package, parent: child_2, project: project, subject: "Child 2's child"
+    FactoryBot.create :work_package, parent: child_2, project: project, subject: "Child 2's child"
   end
 
   let(:relation) do
@@ -36,10 +36,10 @@ describe "WorkPackageXlsExport" do
     work_packages
   end
 
-  let(:current_user) { FactoryGirl.create :admin } # may export relations
+  let(:current_user) { FactoryBot.create :admin } # may export relations
 
   let(:query) do
-    query = FactoryGirl.build(:query, user: current_user, project: project)
+    query = FactoryBot.build(:query, user: current_user, project: project)
 
     query.filters.clear
     query.sort_criteria = [['id', 'asc']]
@@ -158,7 +158,7 @@ describe "WorkPackageXlsExport" do
   end
 
   context 'with someone who may not see related work packages' do
-    let(:current_user) { FactoryGirl.create :user }
+    let(:current_user) { FactoryBot.create :user }
 
     it 'exports no information without visibility' do
       expect(sheet.rows.length).to eq(2)

@@ -2,11 +2,11 @@ require 'spec_helper'
 require 'spreadsheet'
 
 describe "WorkPackageXlsExport Custom Fields" do
-  let(:type) { FactoryGirl.create :type }
-  let(:project) { FactoryGirl.create :project, types: [type] }
+  let(:type) { FactoryBot.create :type }
+  let(:project) { FactoryBot.create :project, types: [type] }
 
   let!(:custom_field) do
-    FactoryGirl.create(
+    FactoryBot.create(
         :list_wp_custom_field,
         name: "Ingredients",
         multi_value: true,
@@ -23,7 +23,7 @@ describe "WorkPackageXlsExport Custom Fields" do
   end
 
   let(:work_package1) do
-    wp = FactoryGirl.create :work_package, project: project, type: type
+    wp = FactoryBot.create :work_package, project: project, type: type
     wp.custom_field_values = {
       custom_field.id => custom_values_for('ham', 'onions')
     }
@@ -32,7 +32,7 @@ describe "WorkPackageXlsExport Custom Fields" do
   end
 
   let(:work_package2) do
-    wp = FactoryGirl.create :work_package, project: project, type: type
+    wp = FactoryBot.create :work_package, project: project, type: type
     wp.custom_field_values = {
       custom_field.id => custom_values_for('pineapple')
     }
@@ -40,12 +40,12 @@ describe "WorkPackageXlsExport Custom Fields" do
     wp
   end
 
-  let(:work_package3) { FactoryGirl.create :work_package, project: project, type: type }
+  let(:work_package3) { FactoryBot.create :work_package, project: project, type: type }
   let(:work_packages) { [work_package1, work_package2, work_package3] }
-  let(:current_user) { FactoryGirl.create :admin }
+  let(:current_user) { FactoryBot.create :admin }
 
   let!(:query) do
-    query              = FactoryGirl.build(:query, user: current_user, project: project)
+    query              = FactoryBot.build(:query, user: current_user, project: project)
     query.column_names = ['subject', "cf_#{custom_field.id}"]
     query.sort_criteria = [%w[id asc]]
 
