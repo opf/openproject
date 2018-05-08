@@ -143,8 +143,8 @@ describe GlobalRole, type: :model do
 
     describe '#assignable_to?' do
       before(:each) do
-        @role = FactoryGirl.build(:global_role)
-        @user = FactoryGirl.build(:user)
+        @role = FactoryBot.build(:global_role)
+        @user = FactoryBot.build(:user)
       end
       it 'always true global roles for now' do
         expect(@role.assignable_to?(@user)).to be_truthy

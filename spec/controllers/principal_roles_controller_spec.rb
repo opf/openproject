@@ -20,7 +20,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe PrincipalRolesController, type: :controller do
-  let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+  let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
   before(:each) do
     login_as(current_user)
@@ -51,12 +51,12 @@ describe PrincipalRolesController, type: :controller do
           # Those stubs are marked with the comment "only necessary with impermanent-memberships".
           #
           # If this problem occurs again with another plugin (or the same, really) this should be fixed for good
-          # by using FactoryGirl to create actual model instances.
+          # by using FactoryBot to create actual model instances.
           # I'm only patching this up right now because I don't want to spend any more time on it and
           # the added methods are orthogonal to the test, also additional, unused stubs won't break things
           # as opposed to missing ones.
           #
-          # And yet: @TODO Don't use doubles but FactoryGirl.
+          # And yet: @TODO Don't use doubles but FactoryBot.
           allow(@global_role).to receive(:id).and_return(42)
           allow(@global_role).to receive(:permanent?).and_return(false) # only necessary with impermanent-memberships
           allow(Role).to receive(:find).and_return([@global_role])
