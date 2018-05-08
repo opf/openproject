@@ -29,7 +29,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :document_category do
     project
     sequence(:name) { |n| "I am Category No. #{n}" }

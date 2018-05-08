@@ -35,17 +35,17 @@ describe DocumentsController do
 
   render_views
 
-  let(:admin)           { FactoryGirl.create(:admin)}
-  let(:project)         { FactoryGirl.create(:project, name: "Test Project")}
-  let(:user)            { FactoryGirl.create(:user)}
-  let(:role)            { FactoryGirl.create(:role, permissions: [:view_documents]) }
+  let(:admin)           { FactoryBot.create(:admin)}
+  let(:project)         { FactoryBot.create(:project, name: "Test Project")}
+  let(:user)            { FactoryBot.create(:user)}
+  let(:role)            { FactoryBot.create(:role, permissions: [:view_documents]) }
 
   let(:default_category){
-    FactoryGirl.create(:document_category, project: project, name: "Default Category")
+    FactoryBot.create(:document_category, project: project, name: "Default Category")
   }
 
   let(:document) {
-    FactoryGirl.create(:document, title: "Sample Document", project: project, category: default_category)
+    FactoryBot.create(:document, title: "Sample Document", project: project, category: default_category)
   }
 
   before do
@@ -107,7 +107,7 @@ describe DocumentsController do
   describe "create" do
 
     let(:document_attributes) {
-      FactoryGirl.attributes_for(:document, title: "New Document",
+      FactoryBot.attributes_for(:document, title: "New Document",
                                             project_id: project.id,
                                             category_id: default_category.id)
     }
@@ -121,7 +121,7 @@ describe DocumentsController do
     it "should create a new document with valid arguments" do
       expect do
         post :create, params: { project_id: project.identifier,
-                                document: FactoryGirl.attributes_for(:document, title: "New Document",
+                                document: FactoryBot.attributes_for(:document, title: "New Document",
                                                                                 project_id: project.id,
                                                                                 category_id: default_category.id
                                                                     ) }
@@ -143,12 +143,12 @@ describe DocumentsController do
 
       before do
         notify_project = project
-        FactoryGirl.create(:member, project: notify_project, user: user, roles: [role])
+        FactoryBot.create(:member, project: notify_project, user: user, roles: [role])
 
         post :create,
              params: {
                project_id: notify_project.identifier,
-               document: FactoryGirl.attributes_for(:document,  title: "New Document",
+               document: FactoryBot.attributes_for(:document,  title: "New Document",
                                                                 project_id: notify_project.id,
                                                                 category_id: default_category.id
                                                    ),

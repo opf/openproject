@@ -32,13 +32,13 @@
 require_relative '../spec_helper'
 
 describe 'Documents widget', type: :feature, js: true do
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryBot.create(:project) }
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   end
-  let(:role) { FactoryGirl.create(:role, permissions: [:edit_project]) }
+  let(:role) { FactoryBot.create(:role, permissions: [:edit_project]) }
 
   before do
     allow(User)

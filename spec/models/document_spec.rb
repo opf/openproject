@@ -33,10 +33,10 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Document do
 
-  let(:documentation_category) { FactoryGirl.create :document_category, name: 'User documentation'}
-  let(:project)                { FactoryGirl.create :project}
-  let(:user)                   { FactoryGirl.create(:user)}
-  let(:admin)                  { FactoryGirl.create(:admin)}
+  let(:documentation_category) { FactoryBot.create :document_category, name: 'User documentation'}
+  let(:project)                { FactoryBot.create :project}
+  let(:user)                   { FactoryBot.create(:user)}
+  let(:admin)                  { FactoryBot.create(:admin)}
 
   let(:mail)      do
     mock = Object.new
@@ -74,7 +74,7 @@ describe Document do
 
     it "should send notifications to the recipients of the project" do
       allow(project).to receive(:notified_users).and_return([admin])
-      document = FactoryGirl.create(:document, project: project)
+      document = FactoryBot.create(:document, project: project)
 
       expect(document.recipients).not_to be_empty
       expect(document.recipients.count).to eql 1
@@ -82,7 +82,7 @@ describe Document do
     end
 
     it "should set a default-category, if none is given" do
-      default_category = FactoryGirl.create :document_category, name: 'Technical documentation', is_default: true
+      default_category = FactoryBot.create :document_category, name: 'Technical documentation', is_default: true
       document = Document.new(project: project, title: "New Document")
       expect(document.category).to eql default_category
       expect{
@@ -92,7 +92,7 @@ describe Document do
 
     it "with attachments should change the updated_on-date on the document to the attachment's date" do
       3.times do
-        FactoryGirl.create(:attachment, container: valid_document)
+        FactoryBot.create(:attachment, container: valid_document)
       end
 
       valid_document.reload
@@ -101,7 +101,7 @@ describe Document do
     end
 
     it "without attachments, the updated-on-date is taken from the document's date" do
-      document = FactoryGirl.create(:document, project: project)
+      document = FactoryBot.create(:document, project: project)
       expect(document.attachments).to be_empty
       expect(document.created_on).to eql document.updated_on
     end
@@ -110,7 +110,7 @@ describe Document do
   describe "acts as event" do
     let(:now) { Time.zone.now }
     let(:document) {
-      FactoryGirl.build(:document,
+      FactoryBot.build(:document,
                                        created_on: now)
     }
 
@@ -118,7 +118,7 @@ describe Document do
   end
 
   it "calls the DocumentsMailer, when a new document has been added" do
-    document = FactoryGirl.build(:document)
+    document = FactoryBot.build(:document)
     # make sure, that we have actually someone to notify
     allow(document).to receive(:recipients).and_return([user])
     # ... and notifies are actually sent out

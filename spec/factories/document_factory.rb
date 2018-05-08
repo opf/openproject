@@ -29,7 +29,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :document do
     project
     category factory: :document_category
