@@ -2,9 +2,9 @@ require_relative '../../../spec_helper'
 require_relative './../authentication_controller_shared_examples'
 
 describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_ee: true do
-  let(:admin) { FactoryGirl.create :admin }
-  let(:user) { FactoryGirl.create(:user, login: 'foobar') }
-  let(:other_user) { FactoryGirl.create(:user) }
+  let(:admin) { FactoryBot.create :admin }
+  let(:user) { FactoryBot.create(:user, login: 'foobar') }
+  let(:other_user) { FactoryBot.create(:user) }
   let(:logged_in_user) { admin }
   let(:active_strategies) { [:developer] }
   let(:config) { {} }
@@ -123,7 +123,7 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_
       end
 
       context 'with existing non-default device' do
-        let!(:device) { FactoryGirl.create :two_factor_authentication_device_totp, user: user, default: false}
+        let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: false}
 
         it 'deletes it' do
           delete :destroy, params: { id: user.id, device_id: device.id }
@@ -133,7 +133,7 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_
       end
 
       context 'with existing default device' do
-        let!(:device) { FactoryGirl.create :two_factor_authentication_device_totp, user: user, default: true}
+        let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: true}
 
         it 'deletes it' do
           delete :destroy, params: { id: user.id, device_id: device.id }
@@ -143,7 +143,7 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_
       end
 
       context 'with existing default device AND enforced' do
-        let!(:device) { FactoryGirl.create :two_factor_authentication_device_totp, user: user, default: true}
+        let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: true}
         let(:config) { { enforced: true } }
 
         it 'cannot be deleted' do

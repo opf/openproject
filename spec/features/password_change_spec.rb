@@ -6,7 +6,7 @@ describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
   let(:user_password) {'bob' * 4}
   let(:new_user_password) {'obb' * 4}
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        login: 'bob',
                        password: user_password,
                        password_confirmation: user_password,
@@ -54,7 +54,7 @@ describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
     end
 
     context 'when device present' do
-      let!(:device) { FactoryGirl.create :two_factor_authentication_device_sms, user: user, default: true }
+      let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, default: true }
 
       it 'requires the password change after expired' do
         expect(user.current_password).not_to be_expired
@@ -90,7 +90,7 @@ describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
     let(:user_password) {'bob' * 4}
     let(:new_user_password) {'obb' * 4}
     let(:user) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          force_password_change: true,
                          first_login: true,
                          login: 'bob',
@@ -105,7 +105,7 @@ describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
     end
 
     context 'when device present' do
-      let!(:device) { FactoryGirl.create :two_factor_authentication_device_sms, user: user, default: true }
+      let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, default: true }
 
       it 'requires the password change' do
         handle_password_change

@@ -7,13 +7,13 @@ describe 'Login with 2FA remember cookie', type: :feature,
          js: true do
   let(:user_password) {'bob!' * 4}
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        login: 'bob',
                        password: user_password,
                        password_confirmation: user_password,
     )
   end
-  let!(:device) { FactoryGirl.create :two_factor_authentication_device_sms, user: user, active: true, default: true}
+  let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, active: true, default: true}
 
   def login_with_cookie
     page.driver.browser.manage.delete_all_cookies

@@ -6,7 +6,7 @@ describe 'Generate 2FA backup codes', with_2fa_ee: true, type: :feature,
          js: true do
   let(:user_password) {'bob!' * 4}
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        login: 'bob',
                        password: user_password,
                        password_confirmation: user_password,

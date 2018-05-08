@@ -2,8 +2,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Totp, with_2fa_ee: true do
   describe 'sending messages' do
-    let!(:user) { FactoryGirl.create :user }
-    let!(:device) { FactoryGirl.create :two_factor_authentication_device_totp, user: user, default: true}
+    let!(:user) { FactoryBot.create :user }
+    let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: true}
 
     before do
       allow(OpenProject::Configuration)

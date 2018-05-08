@@ -2,8 +2,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt, with_2fa_ee: true do
   describe 'sending messages' do
-    let!(:user) { FactoryGirl.create :user }
-    let!(:device) { FactoryGirl.create :two_factor_authentication_device_sms, user: user, channel: channel }
+    let!(:user) { FactoryBot.create :user }
+    let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, channel: channel }
 
     let(:service_url) { 'https://example.org/foobar' }
     let(:params) {
@@ -85,7 +85,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt, with_2fa
         end
 
         context 'with german locale' do
-          let(:user) { FactoryGirl.create(:user, language: 'de') }
+          let(:user) { FactoryBot.create(:user, language: 'de') }
           let(:expected_params) { { lang: 'de' } }
 
           it_behaves_like 'API response', true

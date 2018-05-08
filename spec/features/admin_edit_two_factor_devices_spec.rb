@@ -5,9 +5,9 @@ describe 'Admin 2FA management', with_2fa_ee: true, type: :feature,
          js: true do
   let(:dialog) { ::Components::PasswordConfirmationDialog.new }
   let(:user_password) {'admin!' * 4}
-  let(:other_user) { FactoryGirl.create :user, login: 'bob' }
+  let(:other_user) { FactoryBot.create :user, login: 'bob' }
   let(:admin) do
-    FactoryGirl.create(:admin,
+    FactoryBot.create(:admin,
                        password: user_password,
                        password_confirmation: user_password,
     )
@@ -62,8 +62,8 @@ describe 'Admin 2FA management', with_2fa_ee: true, type: :feature,
   end
 
   context 'with multiple devices registered' do
-    let!(:device1) { FactoryGirl.create :two_factor_authentication_device_sms, user: other_user }
-    let!(:device2) { FactoryGirl.create :two_factor_authentication_device_totp, user: other_user, default: false }
+    let!(:device1) { FactoryBot.create :two_factor_authentication_device_sms, user: other_user }
+    let!(:device2) { FactoryBot.create :two_factor_authentication_device_totp, user: other_user, default: false }
 
     it 'allows to delete all' do
       visit edit_user_path(other_user, tab: :two_factor_authentication)

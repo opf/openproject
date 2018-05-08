@@ -5,7 +5,7 @@ describe ::TwoFactorAuthentication::AuthenticationController, with_2fa_ee: true,
   let(:valid_credentials) do
     { username: 'foobar', password: 'AAA1111!!!!' }
   end
-  let(:user) { FactoryGirl.create(:user, login: 'foobar', password: 'AAA1111!!!!', password_confirmation: 'AAA1111!!!!') }
+  let(:user) { FactoryBot.create(:user, login: 'foobar', password: 'AAA1111!!!!', password_confirmation: 'AAA1111!!!!') }
 
   before do
     # Assume the user has any memberships
@@ -59,7 +59,7 @@ describe ::TwoFactorAuthentication::AuthenticationController, with_2fa_ee: true,
     end
 
     context 'with a non-default device' do
-      let!(:device) { FactoryGirl.create :two_factor_authentication_device_sms, user: user, default: false, channel: :sms }
+      let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, default: false, channel: :sms }
 
       before do
         session[:authenticated_user_id] = user.id
@@ -71,24 +71,24 @@ describe ::TwoFactorAuthentication::AuthenticationController, with_2fa_ee: true,
     end
 
     context 'with an invalid device' do
-      let!(:device) { FactoryGirl.create :two_factor_authentication_device_totp, user: user, channel: :totp }
+      let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, channel: :totp }
       it_behaves_like '2FA login request failure', I18n.t('two_factor_authentication.error_no_matching_strategy')
     end
 
     context 'with an active device' do
-      let!(:device) { FactoryGirl.create :two_factor_authentication_device_sms, user: user, channel: :sms }
+      let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, channel: :sms }
       it_behaves_like '2FA SMS request success'
     end
   end
 
   describe 'with two active strategy', with_config: { '2fa' => { active_strategies: [:developer, :totp] } } do
     context 'with a totp device' do
-      let!(:device) { FactoryGirl.create :two_factor_authentication_device_totp, user: user, channel: :totp }
+      let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, channel: :totp }
       it_behaves_like '2FA TOTP request success'
     end
 
     context 'with an sms device' do
-      let!(:device) { FactoryGirl.create :two_factor_authentication_device_sms, user: user, channel: :sms }
+      let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, channel: :sms }
       it_behaves_like '2FA SMS request success'
     end
   end

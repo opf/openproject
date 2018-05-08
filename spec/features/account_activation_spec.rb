@@ -7,7 +7,7 @@ describe 'activating an invited account',
          js: true,
          with_config: {:'2fa' => {active_strategies: [:developer]}} do
   let(:user) {
-    user = FactoryGirl.build :user, first_login: true
+    user = FactoryBot.build :user, first_login: true
     UserInvitation.invite_user! user
 
     user
@@ -38,7 +38,7 @@ describe 'activating an invited account',
   end
 
   context 'when not enforced, but device present' do
-    let!(:device) { FactoryGirl.create :two_factor_authentication_device_sms, user: user, default: true}
+    let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, default: true}
 
     it 'requests a OTP' do
       sms_token = nil
