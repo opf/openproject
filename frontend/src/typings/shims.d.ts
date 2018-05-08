@@ -18,6 +18,15 @@ declare global {
   const sinon:typeof TSinon;
   const moment:typeof TMoment;
   const bowser:any;
+
+  declare const require:any;
+  declare const describe:any;
+  declare const beforeEach:any;
+  declare const afterEach:any;
+  declare const after:any;
+  declare const before:any;
+  declare const it:(desc:string, callback:(done:() => void) => void) => void;
+
 }
 
 declare global {

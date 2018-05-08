@@ -22,7 +22,8 @@
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "rootDir": "src",
+    "baseUrl": "src",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -36,7 +37,11 @@
     }
   },
   "compileOnSave": false,
+//  "include": [
+//    "src/**/*"
+//  ],
   "exclude": [
+    "app",
     "node_modules",
     "ckeditor/*"
   ]

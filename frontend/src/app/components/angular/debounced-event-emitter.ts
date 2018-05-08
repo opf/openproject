@@ -1,16 +1,20 @@
-import {Subject} from 'rxjs';
-import {Observable} from 'rxjs/Observable';
 import {EventEmitter} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {debounceTime, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs/Subject';
 
 export class DebouncedEventEmitter<T> {
+
   private emitter = new EventEmitter<T>();
   private debouncer:Subject<T>;
 
-  constructor(takeUntil:Observable<true>, debounceTimeInMs:number = 250) {
+  constructor(takeUntil$:Observable<true>, debounceTimeInMs:number = 250) {
     this.debouncer = new Subject<T>();
     this.debouncer
-      .debounceTime(debounceTimeInMs)
-      .takeUntil(takeUntil)
+      .pipe(
+        debounceTime(debounceTimeInMs),
+        takeUntil(takeUntil$)
+      )
       .subscribe((val) => this.emitter.emit(val));
   }
 

@@ -14228,6 +14228,11 @@
         "tslib": "^1.9.0"
       }
     },
+    "rxjs-compat": {
+      "version": "6.1.0",
+      "resolved": "https://registry.npmjs.org/rxjs-compat/-/rxjs-compat-6.1.0.tgz",
+      "integrity": "sha512-x5L1KQy1RqDRpPadN5iDOx71TV9Wqmlmu6OOEn3tFFgaTCB0/N+Lmby/rZHgJ6JEPzzt0nD9Zv+kS53E5JIR5g=="
+    },
     "safe-buffer": {
       "version": "5.1.1",
       "resolved": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.1.1.tgz",

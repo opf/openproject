@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-declare const I18n: op.I18n;
+declare const I18n:op.I18n;
 
 // global
 export const opUiComponentsModule = angular.module('openproject.uiComponents',
