@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :issue_priority do
     sequence(:name) { |n| "IssuePriority #{n}" }
   end

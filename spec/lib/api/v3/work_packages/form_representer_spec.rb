@@ -33,13 +33,13 @@ describe ::API::V3::WorkPackages::FormRepresenter do
 
   let(:errors) { [] }
   let(:work_package) {
-    FactoryGirl.build(:work_package,
+    FactoryBot.build(:work_package,
                       id: 42,
                       created_at: DateTime.now,
                       updated_at: DateTime.now)
   }
   let(:current_user) {
-    FactoryGirl.build(:user, member_in_project: work_package.project)
+    FactoryBot.build(:user, member_in_project: work_package.project)
   }
   let(:representer) {
     described_class.new(work_package, current_user: current_user, errors: errors)

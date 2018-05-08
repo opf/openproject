@@ -1,20 +1,20 @@
 require 'spec_helper'
 
 describe 'Work Package group by progress', js: true do
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
 
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryBot.create(:project) }
 
-  let!(:wp_1) { FactoryGirl.create(:work_package, project: project) }
-  let!(:wp_2) { FactoryGirl.create(:work_package, project: project, done_ratio: 10) }
-  let!(:wp_3) { FactoryGirl.create(:work_package, project: project, done_ratio: 10) }
-  let!(:wp_4) { FactoryGirl.create(:work_package, project: project, done_ratio: 50) }
+  let!(:wp_1) { FactoryBot.create(:work_package, project: project) }
+  let!(:wp_2) { FactoryBot.create(:work_package, project: project, done_ratio: 10) }
+  let!(:wp_3) { FactoryBot.create(:work_package, project: project, done_ratio: 10) }
+  let!(:wp_4) { FactoryBot.create(:work_package, project: project, done_ratio: 50) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
   let!(:query) do
-    query              = FactoryGirl.build(:query, user: user, project: project)
+    query              = FactoryBot.build(:query, user: user, project: project)
     query.column_names = ['subject', 'done_ratio']
 
     query.save!
@@ -52,7 +52,7 @@ describe 'Work Package group by progress', js: true do
 
   context 'with grouped query' do
     let!(:query) do
-      query              = FactoryGirl.build(:query, user: user, project: project)
+      query              = FactoryBot.build(:query, user: user, project: project)
       query.column_names = ['subject', 'done_ratio']
       query.group_by = 'done_ratio'
 

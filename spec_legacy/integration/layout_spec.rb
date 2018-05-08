@@ -61,7 +61,7 @@ describe 'Layout' do
 
   specify 'page titles should be properly escaped',
           with_settings: { app_title: '<3' } do
-    project = FactoryGirl.create(:project, name: 'C&A', is_public: true)
+    project = FactoryBot.create(:project, name: 'C&A', is_public: true)
     get "/projects/#{project.to_param}"
 
     def title_html

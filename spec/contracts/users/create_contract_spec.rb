@@ -30,7 +30,7 @@
 require 'spec_helper'
 
 describe Users::CreateContract do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   subject(:contract) { described_class.new(user, current_user) }
 
@@ -49,7 +49,7 @@ describe Users::CreateContract do
   end
 
   context 'when admin' do
-    let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+    let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
     it_behaves_like 'is valid'
 
@@ -74,7 +74,7 @@ describe Users::CreateContract do
   end
 
   context 'when not admin' do
-    let(:current_user) { FactoryGirl.build_stubbed(:user) }
+    let(:current_user) { FactoryBot.build_stubbed(:user) }
 
     it 'is invalid' do
       expect_valid(false, base: %i(error_unauthorized))

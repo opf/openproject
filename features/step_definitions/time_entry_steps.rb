@@ -29,11 +29,11 @@
 
 Given(/^there is a time entry for "(.*?)" with (\d+) hours$/) do |subject, hours|
   work_package = WorkPackage.find_by(subject: subject)
-  time_entry = FactoryGirl.create(:time_entry, work_package: work_package, hours: hours, project: work_package.project)
+  time_entry = FactoryBot.create(:time_entry, work_package: work_package, hours: hours, project: work_package.project)
 end
 
 Given(/^there is an activity "(.*?)"$/) do |name|
-  FactoryGirl.create(:time_entry_activity, name: name)
+  FactoryBot.create(:time_entry_activity, name: name)
 end
 
 When(/^I log (\d+) hours with the comment "(.*?)"$/) do |hours, comment|

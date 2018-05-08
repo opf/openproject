@@ -36,51 +36,51 @@ describe WorkPackage::SpentTime, type: :model do
     child_work_package_in_other_project.project
   end
   let(:work_package) do
-    FactoryGirl.build(:work_package)
+    FactoryBot.build(:work_package)
   end
   let(:child_work_package) do
-    FactoryGirl.build(:work_package,
+    FactoryBot.build(:work_package,
                       project: project,
                       parent: work_package)
   end
   let(:child_work_package_in_other_project) do
-    FactoryGirl.build(:work_package,
+    FactoryBot.build(:work_package,
                       parent: work_package)
   end
   let(:time_entry) do
-    FactoryGirl.build(:time_entry,
+    FactoryBot.build(:time_entry,
                       work_package: work_package,
                       project: project)
   end
   let(:time_entry2) do
-    FactoryGirl.build(:time_entry,
+    FactoryBot.build(:time_entry,
                       work_package: work_package,
                       project: project)
   end
   let(:child_time_entry) do
-    FactoryGirl.build(:time_entry,
+    FactoryBot.build(:time_entry,
                       work_package: child_work_package,
                       project: project)
   end
   let(:child_time_entry_in_other_project) do
-    FactoryGirl.build(:time_entry,
+    FactoryBot.build(:time_entry,
                       work_package: child_work_package_in_other_project,
                       project: other_project)
   end
   let(:role) do
-    FactoryGirl.build(:role,
+    FactoryBot.build(:role,
                       permissions: [:view_time_entries, :view_work_packages])
   end
   let(:role_without_view_time_entries) do
-    FactoryGirl.build(:role,
+    FactoryBot.build(:role,
                       permissions: [:view_work_packages])
   end
   let(:role_without_view_work_packages) do
-    FactoryGirl.build(:role,
+    FactoryBot.build(:role,
                       permissions: [:view_time_entries])
   end
   let(:user) do
-    FactoryGirl.build(:user,
+    FactoryBot.build(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
@@ -116,7 +116,7 @@ describe WorkPackage::SpentTime, type: :model do
     context 'permissions' do
       it 'counts the child if that child is in a project in which the user ' +
         'has the necessary permissions' do
-        FactoryGirl.create(:member,
+        FactoryBot.create(:member,
                            user: user,
                            project: other_project,
                            roles: [role])
@@ -129,7 +129,7 @@ describe WorkPackage::SpentTime, type: :model do
 
       it 'does not count the child if that child is in a project in which the user ' +
         'lacks the view_time_entries permission' do
-        FactoryGirl.create(:member,
+        FactoryBot.create(:member,
                            user: user,
                            project: other_project,
                            roles: [role_without_view_time_entries])
@@ -142,7 +142,7 @@ describe WorkPackage::SpentTime, type: :model do
 
       it 'does not count the child if that child is in a project in which the user ' +
         'lacks the view_work_packages permission' do
-        FactoryGirl.create(:member,
+        FactoryBot.create(:member,
                            user: user,
                            project: other_project,
                            roles: [role_without_view_work_packages])

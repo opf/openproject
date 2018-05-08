@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   it_behaves_like 'basic query filter' do
     let(:order) { 15 }
@@ -151,7 +151,7 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:user1) { FactoryGirl.build_stubbed(:user) }
+      let(:user1) { FactoryBot.build_stubbed(:user) }
 
       before do
         allow(Principal)

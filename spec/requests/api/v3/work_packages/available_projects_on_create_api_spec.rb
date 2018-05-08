@@ -33,11 +33,11 @@ describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI, type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:add_role) do
-    FactoryGirl.create(:role, permissions: [:add_work_packages])
+    FactoryBot.create(:role, permissions: [:add_work_packages])
   end
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryBot.create(:project) }
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: add_role)
   end
@@ -59,7 +59,7 @@ describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI, type: :request do
 
   context 'w/o any add_work_packages permission' do
     let(:add_role) do
-      FactoryGirl.create(:role, permissions: [])
+      FactoryBot.create(:role, permissions: [])
     end
 
     it { expect(last_response.status).to eq(403) }

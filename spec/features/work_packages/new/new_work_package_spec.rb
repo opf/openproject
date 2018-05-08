@@ -4,16 +4,16 @@ require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 
 describe 'new work package', js: true do
-  let(:type_task) { FactoryGirl.create(:type_task) }
-  let(:type_bug) { FactoryGirl.create(:type_bug) }
+  let(:type_task) { FactoryBot.create(:type_task) }
+  let(:type_bug) { FactoryBot.create(:type_bug) }
   let(:types) { [type_task, type_bug] }
-  let!(:status) { FactoryGirl.create(:status, is_default: true) }
-  let!(:priority) { FactoryGirl.create(:priority, is_default: true) }
+  let!(:status) { FactoryBot.create(:status, is_default: true) }
+  let!(:priority) { FactoryBot.create(:priority, is_default: true) }
   let!(:project) do
-    FactoryGirl.create(:project, types: types)
+    FactoryBot.create(:project, types: types)
   end
 
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
   let(:subject) { 'My subject' }
@@ -26,7 +26,7 @@ describe 'new work package', js: true do
   let(:notification) { PageObjects::Notifications.new(page) }
 
   def disable_leaving_unsaved_warning
-    FactoryGirl.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
+    FactoryBot.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
   end
 
   def save_work_package!(expect_success = true)
@@ -140,7 +140,7 @@ describe 'new work package', js: true do
 
       context 'custom fields' do
         let(:custom_field1) do
-          FactoryGirl.create(
+          FactoryBot.create(
             :work_package_custom_field,
             field_format: 'string',
             is_required: true,
@@ -148,7 +148,7 @@ describe 'new work package', js: true do
           )
         end
         let(:custom_field2) do
-          FactoryGirl.create(
+          FactoryBot.create(
             :work_package_custom_field,
             field_format: 'list',
             possible_values: %w(foo bar xyz),
@@ -158,9 +158,9 @@ describe 'new work package', js: true do
         let(:custom_fields) do
           [custom_field1, custom_field2]
         end
-        let(:type_task) { FactoryGirl.create(:type_task, custom_fields: custom_fields) }
+        let(:type_task) { FactoryBot.create(:type_task, custom_fields: custom_fields) }
         let(:project) do
-          FactoryGirl.create(:project,
+          FactoryBot.create(:project,
                              types: types,
                              work_package_custom_fields: custom_fields)
         end
@@ -237,7 +237,7 @@ describe 'new work package', js: true do
 
   context 'full screen' do
     let(:safeguard_selector) { '.work-package--new-state' }
-    let(:existing_wp) { FactoryGirl.create :work_package, type: type_bug, project: project }
+    let(:existing_wp) { FactoryBot.create :work_package, type: type_bug, project: project }
     let(:wp_page) { Pages::FullWorkPackage.new(existing_wp) }
 
     before do
@@ -265,8 +265,8 @@ describe 'new work package', js: true do
   end
 
   context 'as a user with no permissions' do
-    let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { FactoryGirl.create :role, permissions: %i(view_work_packages) }
+    let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+    let(:role) { FactoryBot.create :role, permissions: %i(view_work_packages) }
     let(:wp_page) { ::Pages::Page.new }
 
     let(:paths) do
@@ -287,7 +287,7 @@ describe 'new work package', js: true do
   end
 
   context 'a anonymous user is prompted to login' do
-    let(:user) { FactoryGirl.create(:anonymous) }
+    let(:user) { FactoryBot.create(:anonymous) }
     let(:wp_page) { ::Pages::Page.new }
 
     let(:paths) do

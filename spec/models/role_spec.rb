@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe Role, type: :model do
   let(:permissions) { [:permission1, :permission2] }
-  let(:build_role) { FactoryGirl.build(:role, permissions: permissions) }
-  let(:created_role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:build_role) { FactoryBot.build(:role, permissions: permissions) }
+  let(:created_role) { FactoryBot.create(:role, permissions: permissions) }
 
   describe '#by_permission' do
     it 'returns roles with given permission' do

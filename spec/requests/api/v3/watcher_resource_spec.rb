@@ -33,16 +33,16 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
+  let(:project) { FactoryBot.create(:project, identifier: 'test_project', is_public: false) }
   let(:current_user) do
-    FactoryGirl.create :user, member_in_project: project, member_through_role: role
+    FactoryBot.create :user, member_in_project: project, member_through_role: role
   end
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [] }
-  let(:view_work_packages_role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:view_work_packages_role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:available_watcher) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        firstname: 'Something',
                        lastname: 'Strange',
                        member_in_project: project,
@@ -50,12 +50,12 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
   end
 
   let(:watching_user) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        member_in_project: project,
                        member_through_role: view_work_packages_role
   end
   let(:existing_watcher) do
-    FactoryGirl.create(:watcher, watchable: work_package, user: watching_user)
+    FactoryBot.create(:watcher, watchable: work_package, user: watching_user)
   end
 
   subject(:response) { last_response }
@@ -143,7 +143,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
     end
 
     context 'when the target user is not allowed to watch the work package' do
-      let(:new_watcher) { FactoryGirl.create(:user) }
+      let(:new_watcher) { FactoryBot.create(:user) }
 
       it_behaves_like 'constraint violation' do
         let(:message) { 'User is invalid' }

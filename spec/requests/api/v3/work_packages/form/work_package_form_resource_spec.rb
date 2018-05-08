@@ -34,10 +34,10 @@ describe 'API v3 Work package form resource', type: :request do
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { FactoryGirl.create(:project, is_public: false) }
-  shared_let(:work_package, reload: true) { FactoryGirl.create(:work_package, project: project) }
-  shared_let(:authorized_user) { FactoryGirl.create(:user, member_in_project: project) }
-  shared_let(:unauthorized_user) { FactoryGirl.create(:user) }
+  shared_let(:project) { FactoryBot.create(:project, is_public: false) }
+  shared_let(:work_package, reload: true) { FactoryBot.create(:work_package, project: project) }
+  shared_let(:authorized_user) { FactoryBot.create(:user, member_in_project: project) }
+  shared_let(:unauthorized_user) { FactoryBot.create(:user) }
 
   describe '#post' do
     let(:post_path) { api_v3_paths.work_package_form work_package.id }
@@ -308,14 +308,14 @@ describe 'API v3 Work package form resource', type: :request do
 
             describe 'status' do
               let(:path) { '_embedded/payload/_links/status/href' }
-              let(:target_status) { FactoryGirl.create(:status) }
+              let(:target_status) { FactoryBot.create(:status) }
               let(:status_link) { api_v3_paths.status target_status.id }
               let(:status_parameter) { { _links: { status: { href: status_link } } } }
               let(:params) { valid_params.merge(status_parameter) }
 
               context 'valid status' do
                 let!(:workflow) {
-                  FactoryGirl.create(:workflow,
+                  FactoryBot.create(:workflow,
                                      type_id: work_package.type.id,
                                      old_status: work_package.status,
                                      new_status: target_status,
@@ -387,10 +387,10 @@ describe 'API v3 Work package form resource', type: :request do
 
             describe 'assignee and responsible' do
               shared_context 'setup group membership' do |group_assignment|
-                let(:group) { FactoryGirl.create(:group) }
-                let(:role) { FactoryGirl.create(:role) }
+                let(:group) { FactoryBot.create(:group) }
+                let(:role) { FactoryBot.create(:role) }
                 let(:group_member) {
-                  FactoryGirl.create(:member,
+                  FactoryBot.create(:member,
                                      principal: group,
                                      project: project,
                                      roles: [role])
@@ -407,7 +407,7 @@ describe 'API v3 Work package form resource', type: :request do
               shared_examples_for 'handling people' do |property|
                 let(:path) { "_embedded/payload/_links/#{property}/href" }
                 let(:visible_user) {
-                  FactoryGirl.create(:user,
+                  FactoryBot.create(:user,
                                      member_in_project: project)
                 }
                 let(:user_parameter) { { _links: { property => { href: user_link } } } }
@@ -511,8 +511,8 @@ describe 'API v3 Work package form resource', type: :request do
 
             describe 'version' do
               let(:path) { '_embedded/payload/_links/version/href' }
-              let(:target_version) { FactoryGirl.create(:version, project: project) }
-              let(:other_version) { FactoryGirl.create(:version, project: project) }
+              let(:target_version) { FactoryBot.create(:version, project: project) }
+              let(:other_version) { FactoryBot.create(:version, project: project) }
               let(:version_link) { api_v3_paths.version target_version.id }
               let(:other_version_link) { api_v3_paths.version other_version.id }
               let(:version_parameter) { { _links: { version: { href: version_link } } } }
@@ -549,8 +549,8 @@ describe 'API v3 Work package form resource', type: :request do
             describe 'category' do
               let(:path) { '_embedded/payload/_links/category/href' }
               let(:links_path) { '_embedded/schema/category/_links' }
-              let(:target_category) { FactoryGirl.create(:category, project: project) }
-              let(:other_category) { FactoryGirl.create(:category, project: project) }
+              let(:target_category) { FactoryBot.create(:category, project: project) }
+              let(:other_category) { FactoryBot.create(:category, project: project) }
               let(:category_link) { api_v3_paths.category target_category.id }
               let(:other_category_link) { api_v3_paths.category other_category.id }
               let(:category_parameter) { { _links: { category: { href: category_link } } } }
@@ -587,7 +587,7 @@ describe 'API v3 Work package form resource', type: :request do
             describe 'priority' do
               let(:path) { '_embedded/payload/_links/priority/href' }
               let(:links_path) { '_embedded/schema/priority/_links' }
-              let(:target_priority) { FactoryGirl.create(:priority) }
+              let(:target_priority) { FactoryBot.create(:priority) }
               let(:other_priority) { work_package.priority }
               let(:priority_link) { api_v3_paths.priority target_priority.id }
               let(:other_priority_link) { api_v3_paths.priority other_priority.id }
@@ -625,7 +625,7 @@ describe 'API v3 Work package form resource', type: :request do
             describe 'type' do
               let(:path) { '_embedded/payload/_links/type/href' }
               let(:links_path) { '_embedded/schema/type/_links' }
-              let(:target_type) { FactoryGirl.create(:type) }
+              let(:target_type) { FactoryBot.create(:type) }
               let(:other_type) { work_package.type }
               let(:type_link) { api_v3_paths.type target_type.id }
               let(:other_type_link) { api_v3_paths.type other_type.id }

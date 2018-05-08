@@ -27,11 +27,11 @@
 #++
 
 def become_admin
-  let(:current_user) { FactoryGirl.create(:admin) }
+  let(:current_user) { FactoryBot.create(:admin) }
 end
 
 def become_non_member(&block)
-  let(:current_user) { FactoryGirl.create(:user) }
+  let(:current_user) { FactoryBot.create(:user) }
 
   before do
     projects = block ? instance_eval(&block) : [project]
@@ -43,12 +43,12 @@ def become_non_member(&block)
 end
 
 def become_member_with_permissions(permissions)
-  let(:current_user) { FactoryGirl.create(:user) }
+  let(:current_user) { FactoryBot.create(:user) }
 
   before do
-    role = FactoryGirl.create(:role, permissions: permissions)
+    role = FactoryBot.create(:role, permissions: permissions)
 
-    member = FactoryGirl.build(:member, user: current_user, project: project)
+    member = FactoryBot.build(:member, user: current_user, project: project)
     member.roles = [role]
     member.save!
   end

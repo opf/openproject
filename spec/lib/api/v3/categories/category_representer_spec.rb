@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::Categories::CategoryRepresenter do
-  let(:category) { FactoryGirl.build_stubbed(:category) }
-  let(:user) { FactoryGirl.build(:user) }
+  let(:category) { FactoryBot.build_stubbed(:category) }
+  let(:user) { FactoryBot.build(:user) }
   let(:representer) { described_class.new(category, current_user: double('current_user')) }
 
   context 'generation' do
@@ -67,7 +67,7 @@ describe ::API::V3::Categories::CategoryRepresenter do
 
     context 'default assignee set' do
       let(:category) {
-        FactoryGirl.build_stubbed(:category, assigned_to: user)
+        FactoryBot.build_stubbed(:category, assigned_to: user)
       }
       it_behaves_like 'category has core values'
 
@@ -90,7 +90,7 @@ describe ::API::V3::Categories::CategoryRepresenter do
       end
 
       describe '#json_cache_key' do
-        let(:assigned_to) { FactoryGirl.build_stubbed(:user) }
+        let(:assigned_to) { FactoryBot.build_stubbed(:user) }
 
         before do
           category.assigned_to = assigned_to

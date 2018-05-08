@@ -41,8 +41,8 @@ end
 shared_examples_for 'basic query filter' do
   include_context 'filter tests'
 
-  let(:context) { FactoryGirl.build_stubbed(:query, project: project) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:context) { FactoryBot.build_stubbed(:query, project: project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:class_key) { raise 'needs to be defined' }
   let(:type) { raise 'needs to be defined' }
   let(:human_name) { nil }

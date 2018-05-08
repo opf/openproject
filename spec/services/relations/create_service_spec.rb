@@ -40,12 +40,12 @@ describe Relations::CreateService do
   let(:delay) { 3 }
 
   let(:work_package1) do
-    FactoryGirl.build_stubbed(:work_package,
+    FactoryBot.build_stubbed(:work_package,
                               due_date: work_package1_due_date,
                               start_date: work_package1_start_date)
   end
   let(:work_package2) do
-    FactoryGirl.build_stubbed(:work_package,
+    FactoryBot.build_stubbed(:work_package,
                               due_date: work_package2_due_date,
                               start_date: work_package2_start_date)
   end
@@ -69,7 +69,7 @@ describe Relations::CreateService do
     }
   end
 
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:model_valid) { true }
   let(:contract_valid) { true }
   let(:contract) { double('contract') }

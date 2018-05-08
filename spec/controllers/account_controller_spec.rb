@@ -33,7 +33,7 @@ describe AccountController, type: :controller do
     User.delete_all
     User.current = nil
   end
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   context 'GET #login' do
     let(:setup) {}
@@ -80,7 +80,7 @@ describe AccountController, type: :controller do
   end
 
   context 'POST #login' do
-    let(:admin) { FactoryGirl.create(:admin) }
+    let(:admin) { FactoryBot.create(:admin) }
 
     describe 'wrong password' do
       it 'redirects back to login' do
@@ -229,7 +229,7 @@ describe AccountController, type: :controller do
     end
 
     context 'GET #logout' do
-      let(:admin) { FactoryGirl.create(:admin) }
+      let(:admin) { FactoryBot.create(:admin) }
 
       it 'calls reset_session' do
         expect(@controller).to receive(:reset_session).once
@@ -293,7 +293,7 @@ describe AccountController, type: :controller do
   end
 
   describe 'Login for user with forced password change' do
-    let(:admin) { FactoryGirl.create(:admin, force_password_change: true) }
+    let(:admin) { FactoryBot.create(:admin, force_password_change: true) }
 
     before do
       allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
@@ -389,7 +389,7 @@ describe AccountController, type: :controller do
     end
 
     context 'with self registration off but an ongoing invitation activation' do
-      let(:token) { FactoryGirl.create :invitation_token }
+      let(:token) { FactoryBot.create :invitation_token }
 
       before do
         allow(Setting).to receive(:self_registration).and_return('0')
@@ -654,7 +654,7 @@ describe AccountController, type: :controller do
       }
     end
 
-    let(:user) { FactoryGirl.create :user, status: 2 }
+    let(:user) { FactoryBot.create :user, status: 2 }
 
     before do
       session[:auth_source_sso_failure] = failure
@@ -674,9 +674,9 @@ describe AccountController, type: :controller do
     end
 
     context "with an invalid user" do
-      let!(:duplicate) { FactoryGirl.create :user, mail: "login@DerpLAP.net" }
+      let!(:duplicate) { FactoryBot.create :user, mail: "login@DerpLAP.net" }
       let(:user) do
-        FactoryGirl.build(:user, mail: duplicate.mail).tap(&:valid?)
+        FactoryBot.build(:user, mail: duplicate.mail).tap(&:valid?)
       end
 
       it "should show the account creation form with an error" do
@@ -733,13 +733,13 @@ describe AccountController, type: :controller do
 
     context 'with an invited user' do
       it_behaves_like 'account activation' do
-        let(:user) { FactoryGirl.create :user, status: 4 }
+        let(:user) { FactoryBot.create :user, status: 4 }
       end
     end
 
     context 'with an registered user' do
       it_behaves_like 'account activation' do
-        let(:user) { FactoryGirl.create :user, status: 2 }
+        let(:user) { FactoryBot.create :user, status: 2 }
       end
     end
   end

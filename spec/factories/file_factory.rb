@@ -26,11 +26,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   ##
   # Yields fixture files.
   factory :file, class: File do
-    # Skip the create callback to be able to use non-AR models. Otherwise FactoryGirl will
+    # Skip the create callback to be able to use non-AR models. Otherwise FactoryBot will
     # try to call #save! on any created object.
     skip_create
 

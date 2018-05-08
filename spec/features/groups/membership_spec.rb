@@ -29,21 +29,21 @@
 require 'spec_helper'
 
 feature 'group memberships through project members page', type: :feature do
-  let(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
+  let(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
-  let(:admin) { FactoryGirl.create :admin }
-  let(:alice) { FactoryGirl.create :user, firstname: 'Alice', lastname: 'Wonderland' }
-  let(:bob)   { FactoryGirl.create :user, firstname: 'Bob', lastname: 'Bobbit' }
-  let(:group) { FactoryGirl.create :group, lastname: 'group1' }
+  let(:admin) { FactoryBot.create :admin }
+  let(:alice) { FactoryBot.create :user, firstname: 'Alice', lastname: 'Wonderland' }
+  let(:bob)   { FactoryBot.create :user, firstname: 'Bob', lastname: 'Bobbit' }
+  let(:group) { FactoryBot.create :group, lastname: 'group1' }
 
-  let!(:alpha) { FactoryGirl.create :role, name: 'alpha', permissions: [:manage_members] }
-  let!(:beta)  { FactoryGirl.create :role, name: 'beta' }
+  let!(:alpha) { FactoryBot.create :role, name: 'alpha', permissions: [:manage_members] }
+  let!(:beta)  { FactoryBot.create :role, name: 'beta' }
 
   let(:members_page) { Pages::Members.new project.identifier }
   let(:groups_page)  { Pages::Groups.new }
 
   before do
-    FactoryGirl.create :member, user: bob, project: project, roles: [alpha]
+    FactoryBot.create :member, user: bob, project: project, roles: [alpha]
   end
 
   context 'given a group with members' do

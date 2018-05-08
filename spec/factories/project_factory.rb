@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :project do
     transient do
       no_types false
@@ -48,7 +48,7 @@ FactoryGirl.define do
     callback(:before_create) do |project, evaluator|
       unless evaluator.no_types ||
              ::Type.where(is_standard: true).count > 0
-        project.types << FactoryGirl.build(:type_standard)
+        project.types << FactoryBot.build(:type_standard)
       end
     end
 
@@ -61,10 +61,10 @@ FactoryGirl.define do
       # the project's initialize function looking for the default type
       # when we will be setting the type later on anyway
       initialize_with do
-        types = if instance_variable_get(:@build_strategy).is_a?(FactoryGirl::Strategy::Stub)
-                  [FactoryGirl.build_stubbed(:type)]
+        types = if instance_variable_get(:@build_strategy).is_a?(FactoryBot::Strategy::Stub)
+                  [FactoryBot.build_stubbed(:type)]
                 else
-                  [FactoryGirl.build(:type)]
+                  [FactoryBot.build(:type)]
                 end
 
         new(types: types)
@@ -72,7 +72,7 @@ FactoryGirl.define do
 
       factory :valid_project do
         callback(:after_build) do |project|
-          project.types << FactoryGirl.build(:type_with_workflow)
+          project.types << FactoryBot.build(:type_with_workflow)
         end
       end
     end

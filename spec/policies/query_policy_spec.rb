@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe QueryPolicy, type: :controller do
-  let(:user)    { FactoryGirl.build_stubbed(:user) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:query)   { FactoryGirl.build_stubbed(:query, project: project, user: user) }
+  let(:user)    { FactoryBot.build_stubbed(:user) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:query)   { FactoryBot.build_stubbed(:query, project: project, user: user) }
 
   describe '#allowed?' do
     let(:subject) { described_class.new(user) }
@@ -44,7 +44,7 @@ describe QueryPolicy, type: :controller do
 
     shared_examples 'viewing queries' do |global|
       context "#{ global ? 'in global context' : 'in project context' }" do
-        let(:other_user) { FactoryGirl.build_stubbed(:user) }
+        let(:other_user) { FactoryBot.build_stubbed(:user) }
         if global
           let(:project) { nil }
         end
@@ -57,7 +57,7 @@ describe QueryPolicy, type: :controller do
 
         context 'query belongs to a different user' do
           let(:query) do
-            FactoryGirl.build_stubbed(:query,
+            FactoryBot.build_stubbed(:query,
                                       project: project,
                                       user: user,
                                       is_public: false)
@@ -121,7 +121,7 @@ describe QueryPolicy, type: :controller do
                                                     global: project.nil?)
             .and_return true
 
-          query.user = FactoryGirl.build_stubbed(:user)
+          query.user = FactoryBot.build_stubbed(:user)
 
           expect(subject.allowed?(query, action)).to be_falsy
         end
@@ -145,7 +145,7 @@ describe QueryPolicy, type: :controller do
                                                     project,
                                                     global: project.nil?)
             .and_return true
-          query.user = FactoryGirl.build_stubbed(:user)
+          query.user = FactoryBot.build_stubbed(:user)
           query.is_public = true
 
           expect(subject.allowed?(query, action)).to be_truthy
@@ -158,7 +158,7 @@ describe QueryPolicy, type: :controller do
                                                     project,
                                                     global: project.nil?)
             .and_return false
-          query.user = FactoryGirl.build_stubbed(:user)
+          query.user = FactoryBot.build_stubbed(:user)
           query.is_public = true
 
           expect(subject.allowed?(query, action)).to be_falsy
@@ -171,7 +171,7 @@ describe QueryPolicy, type: :controller do
                                                     project,
                                                     global: project.nil?)
             .and_return true
-          query.user = FactoryGirl.build_stubbed(:user)
+          query.user = FactoryBot.build_stubbed(:user)
           query.is_public = false
 
           expect(subject.allowed?(query, action)).to be_falsy
@@ -248,7 +248,7 @@ describe QueryPolicy, type: :controller do
                                                     project,
                                                     global: project.nil?)
             .and_return true
-          query.user = FactoryGirl.build_stubbed(:user)
+          query.user = FactoryBot.build_stubbed(:user)
           query.is_public = false
 
           expect(subject.allowed?(query, :publicize)).to be_falsy
@@ -276,7 +276,7 @@ describe QueryPolicy, type: :controller do
                                                     global: project.nil?)
             .and_return true
 
-          query.user = FactoryGirl.build_stubbed(:user)
+          query.user = FactoryBot.build_stubbed(:user)
           query.is_public = true
 
           expect(subject.allowed?(query, :depublicize)).to be_truthy

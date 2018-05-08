@@ -33,7 +33,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.users }
-  let(:user) { FactoryGirl.build(:admin) }
+  let(:user) { FactoryBot.build(:admin) }
   let(:parameters) { {} }
 
   before do
@@ -97,7 +97,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
     context 'with auth_source' do
       let(:auth_source_id) { 'some_ldap' }
-      let(:auth_source) { FactoryGirl.create :auth_source, name: auth_source_id }
+      let(:auth_source) { FactoryBot.create :auth_source, name: auth_source_id }
 
       context 'ID' do
         before do
@@ -285,7 +285,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'unauthorized user' do
-    let(:user) { FactoryGirl.build(:user) }
+    let(:user) { FactoryBot.build(:user) }
     let(:parameters) { { status: 'invited', email: 'foo@example.org' } }
 
     it 'returns an erroneous response' do

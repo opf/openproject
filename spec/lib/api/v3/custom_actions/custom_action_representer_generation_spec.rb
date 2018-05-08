@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ::API::V3::CustomActions::CustomActionRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:custom_action) { FactoryGirl.build_stubbed(:custom_action) }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:custom_action) { FactoryBot.build_stubbed(:custom_action) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   let(:representer) do
     described_class.new(custom_action, current_user: user, embed_links: true)

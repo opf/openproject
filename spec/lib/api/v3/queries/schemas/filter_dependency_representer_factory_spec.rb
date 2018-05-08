@@ -75,7 +75,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type int' do
-        let(:custom_field) { FactoryGirl.build_stubbed(:int_wp_custom_field) }
+        let(:custom_field) { FactoryBot.build_stubbed(:int_wp_custom_field) }
 
         it 'is the integer dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::IntegerFilterDependencyRepresenter)
@@ -83,7 +83,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type float' do
-        let(:custom_field) { FactoryGirl.build_stubbed(:float_wp_custom_field) }
+        let(:custom_field) { FactoryBot.build_stubbed(:float_wp_custom_field) }
 
         it 'is the float dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::FloatFilterDependencyRepresenter)
@@ -91,7 +91,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type text' do
-        let(:custom_field) { FactoryGirl.build_stubbed(:text_wp_custom_field) }
+        let(:custom_field) { FactoryBot.build_stubbed(:text_wp_custom_field) }
 
         it 'is the text dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::TextFilterDependencyRepresenter)
@@ -99,7 +99,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type list' do
-        let(:custom_field) { FactoryGirl.build_stubbed(:list_wp_custom_field) }
+        let(:custom_field) { FactoryBot.build_stubbed(:list_wp_custom_field) }
 
         it 'is the string object dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter)
@@ -107,7 +107,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type user' do
-        let(:custom_field) { FactoryGirl.build_stubbed(:user_wp_custom_field) }
+        let(:custom_field) { FactoryBot.build_stubbed(:user_wp_custom_field) }
 
         it 'is the user dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::UserFilterDependencyRepresenter)
@@ -115,7 +115,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type version' do
-        let(:custom_field) { FactoryGirl.build_stubbed(:version_wp_custom_field) }
+        let(:custom_field) { FactoryBot.build_stubbed(:version_wp_custom_field) }
 
         it 'is the version dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter)
@@ -123,7 +123,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type date' do
-        let(:custom_field) { FactoryGirl.build_stubbed(:date_wp_custom_field) }
+        let(:custom_field) { FactoryBot.build_stubbed(:date_wp_custom_field) }
 
         it 'is the date dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::DateFilterDependencyRepresenter)
@@ -131,7 +131,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type bool' do
-        let(:custom_field) { FactoryGirl.build_stubbed(:bool_wp_custom_field) }
+        let(:custom_field) { FactoryBot.build_stubbed(:bool_wp_custom_field) }
 
         it 'is the string object dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter)
@@ -139,7 +139,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
 
       context 'type string' do
-        let(:custom_field) { FactoryGirl.build_stubbed(:string_wp_custom_field) }
+        let(:custom_field) { FactoryBot.build_stubbed(:string_wp_custom_field) }
 
         it 'is the text dependency' do
           is_expected.to be_a(::API::V3::Queries::Schemas::TextFilterDependencyRepresenter)

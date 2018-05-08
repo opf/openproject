@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :version do
     sequence(:name) do |i| "Version #{i}" end
     effective_date Date.today + 14.days

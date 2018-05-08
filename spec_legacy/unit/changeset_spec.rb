@@ -240,7 +240,7 @@ describe Changeset, type: :model do
 
   context 'enabled scm', with_settings: { enabled_scm: ['subversion'] } do
     it 'should comments empty' do
-      r = FactoryGirl.create(:repository_subversion)
+      r = FactoryBot.create(:repository_subversion)
 
       assert r
       c = Changeset.new(repository: r,
@@ -256,7 +256,7 @@ describe Changeset, type: :model do
     end
 
     it 'should comments nil' do
-      r = FactoryGirl.create(:repository_subversion)
+      r = FactoryBot.create(:repository_subversion)
       assert r
 
       c = Changeset.new(repository: r,

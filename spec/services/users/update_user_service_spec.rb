@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe Users::UpdateUserService do
-  let(:current_user) { FactoryGirl.build_stubbed(:admin) }
-  let(:update_user) { FactoryGirl.build_stubbed(:user) }
+  let(:current_user) { FactoryBot.build_stubbed(:admin) }
+  let(:update_user) { FactoryBot.build_stubbed(:user) }
   let(:instance) { described_class.new(user: update_user, current_user: current_user) }
 
   describe '.contract' do
@@ -46,7 +46,7 @@ describe Users::UpdateUserService do
   end
 
   describe 'updating attributes' do
-    let(:update_user) { FactoryGirl.create(:user, mail: 'correct@example.org') }
+    let(:update_user) { FactoryBot.create(:user, mail: 'correct@example.org') }
     subject { instance.call(attributes: attributes) }
 
     context 'when invalid' do
@@ -73,7 +73,7 @@ describe Users::UpdateUserService do
       end
 
       context 'if current_user is no admin' do
-        let(:current_user) { FactoryGirl.build_stubbed(:user) }
+        let(:current_user) { FactoryBot.build_stubbed(:user) }
         it 'is unsuccessful' do
           expect(subject).to_not be_success
         end

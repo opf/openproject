@@ -32,8 +32,8 @@ require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
 feature 'Wiki menu items' do
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create :project, enabled_module_names: %w[wiki] }
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create :project, enabled_module_names: %w[wiki] }
   let(:wiki) { project.wiki }
   let(:parent_menu) { wiki.wiki_menu_items.find_by(name: 'wiki') }
 

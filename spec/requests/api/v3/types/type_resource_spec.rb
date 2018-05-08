@@ -33,15 +33,15 @@ describe 'API v3 Type resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:project) { FactoryGirl.create(:project, no_types: true, is_public: false) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:project) { FactoryBot.create(:project, no_types: true, is_public: false) }
   let(:current_user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   end
 
-  let!(:types) { FactoryGirl.create_list(:type, 4) }
+  let!(:types) { FactoryBot.create_list(:type, 4) }
 
   describe 'types' do
     describe '#get' do

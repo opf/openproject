@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'Cancel editing work package', js: true do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-  let(:work_package2) { FactoryGirl.create(:work_package, project: project) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let(:work_package2) { FactoryBot.create(:work_package, project: project) }
   let(:wp_page) { ::Pages::AbstractWorkPackage.new(work_package) }
   let(:wp_table) { ::Pages::WorkPackagesTable.new }
   let(:paths) {
@@ -136,7 +136,7 @@ describe 'Cancel editing work package', js: true do
 
   context 'when user does not want to be warned' do
     before do
-      FactoryGirl.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
+      FactoryBot.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
     end
 
     it 'does not alert when moving anywhere' do

@@ -31,16 +31,16 @@
 require 'spec_helper'
 
 describe WorkPackages::SetAttributesService, type: :model do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:project) do
-    p = FactoryGirl.build_stubbed(:project)
+    p = FactoryBot.build_stubbed(:project)
     allow(p).to receive(:shared_versions).and_return([])
 
     p
   end
   let(:work_package) do
-    wp = FactoryGirl.build_stubbed(:work_package, project: project)
-    wp.type = FactoryGirl.build_stubbed(:type)
+    wp = FactoryBot.build_stubbed(:work_package, project: project)
+    wp.type = FactoryBot.build_stubbed(:type)
     wp.send(:clear_changes_information)
 
     allow(wp)
@@ -166,8 +166,8 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'status' do
-      let(:default_status) { FactoryGirl.build_stubbed(:default_status) }
-      let(:other_status) { FactoryGirl.build_stubbed(:status) }
+      let(:default_status) { FactoryBot.build_stubbed(:default_status) }
+      let(:other_status) { FactoryBot.build_stubbed(:status) }
       let(:new_statuses) { [other_status, default_status] }
 
       before do
@@ -237,7 +237,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'author' do
-      let(:other_user) { FactoryGirl.build_stubbed(:user) }
+      let(:other_user) { FactoryBot.build_stubbed(:user) }
 
       context 'no value set before for a new work package' do
         let(:call_attributes) { {} }
@@ -296,8 +296,8 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'priority' do
-      let(:default_priority) { FactoryGirl.build_stubbed(:priority) }
-      let(:other_priority) { FactoryGirl.build_stubbed(:priority) }
+      let(:default_priority) { FactoryBot.build_stubbed(:priority) }
+      let(:other_priority) { FactoryBot.build_stubbed(:priority) }
 
       before do
         allow(IssuePriority)
@@ -362,7 +362,7 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'when switching the type' do
-      let(:target_type) { FactoryGirl.build_stubbed(:type) }
+      let(:target_type) { FactoryBot.build_stubbed(:type) }
 
       context 'with a type that is no milestone' do
         before do
@@ -408,17 +408,17 @@ describe WorkPackages::SetAttributesService, type: :model do
     end
 
     context 'when switching the project' do
-      let(:new_project) { FactoryGirl.build_stubbed(:project) }
-      let(:version) { FactoryGirl.build_stubbed(:version) }
-      let(:category) { FactoryGirl.build_stubbed(:category) }
-      let(:new_category) { FactoryGirl.build_stubbed(:category, name: category.name) }
+      let(:new_project) { FactoryBot.build_stubbed(:project) }
+      let(:version) { FactoryBot.build_stubbed(:version) }
+      let(:category) { FactoryBot.build_stubbed(:category) }
+      let(:new_category) { FactoryBot.build_stubbed(:category, name: category.name) }
       let(:new_statuses) { [work_package.status] }
       let(:new_versions) { [] }
       let(:type) { work_package.type }
       let(:new_types) { [type] }
-      let(:default_type) { FactoryGirl.build_stubbed(:type_standard) }
-      let(:other_type) { FactoryGirl.build_stubbed(:type) }
-      let(:yet_another_type) { FactoryGirl.build_stubbed(:type) }
+      let(:default_type) { FactoryBot.build_stubbed(:type_standard) }
+      let(:other_type) { FactoryBot.build_stubbed(:type) }
+      let(:yet_another_type) { FactoryBot.build_stubbed(:type) }
 
       let(:call_attributes) { {} }
       let(:new_project_categories) do

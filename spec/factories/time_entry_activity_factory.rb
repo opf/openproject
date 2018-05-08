@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :time_entry_activity do
     sequence(:name) { |n| "Time Entry Activity No. #{n}" }
   end

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Queries::Queries::QueryQuery, type: :model do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:instance) { described_class.new(user: user) }
   let(:base_scope) { Query.visible(to: user) }
 

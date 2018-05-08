@@ -74,18 +74,18 @@ describe 'Angular expression escaping', type: :feature do
   end
 
   describe '#WorkPackage description field', js: true do
-    let(:project) { FactoryGirl.create :project }
+    let(:project) { FactoryBot.create :project }
     let(:property_name) { :description }
     let(:property_title) { 'Description' }
     let(:description_text) { 'Expression {{ 3 + 5 }}' }
     let!(:work_package) {
-      FactoryGirl.create(
+      FactoryBot.create(
         :work_package,
         project: project,
         description: description_text
       )
     }
-    let(:user) { FactoryGirl.create :admin }
+    let(:user) { FactoryBot.create :admin }
     let(:field) { WorkPackageEditorField.new wp_page, 'description' }
     let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
 
@@ -110,8 +110,8 @@ describe 'Angular expression escaping', type: :feature do
   end
 
   describe '#wiki edit previewing', js: true do
-    let(:user) { FactoryGirl.create :admin }
-    let(:project) { FactoryGirl.create :project, enabled_module_names: %w(wiki) }
+    let(:user) { FactoryBot.create :admin }
+    let(:project) { FactoryBot.create :project, enabled_module_names: %w(wiki) }
 
     let(:content) { find '#content_text' }
     let(:preview) { find '#preview' }

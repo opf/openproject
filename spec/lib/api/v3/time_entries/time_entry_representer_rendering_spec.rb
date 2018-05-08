@@ -32,7 +32,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
   let(:time_entry) do
-    FactoryGirl.build_stubbed(:time_entry,
+    FactoryBot.build_stubbed(:time_entry,
                               comments: 'blubs',
                               spent_on: Date.today,
                               created_on: DateTime.now - 6.hours,
@@ -42,10 +42,10 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
                               project: project,
                               user: user)
   end
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:work_package) { time_entry.work_package }
-  let(:activity) { FactoryGirl.build_stubbed(:time_entry_activity) }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:activity) { FactoryBot.build_stubbed(:time_entry_activity) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:representer) do
     described_class.create(time_entry, current_user: user, embed_links: true)
   end
@@ -90,7 +90,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
     context 'for a non shared (project specific) activity' do
       let(:activity) do
-        activity = FactoryGirl.build_stubbed(:time_entry_activity,
+        activity = FactoryBot.build_stubbed(:time_entry_activity,
                                              project: project,
                                              parent: parent_activity)
         allow(activity)
@@ -100,7 +100,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
         activity
       end
       let(:parent_activity) do
-        FactoryGirl.build_stubbed(:time_entry_activity)
+        FactoryBot.build_stubbed(:time_entry_activity)
       end
 
       it_behaves_like 'has a titled link' do
@@ -112,7 +112,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
     context 'custom value' do
       let(:custom_field) do
-        FactoryGirl.build_stubbed(:time_entry_custom_field, field_format: 'user')
+        FactoryBot.build_stubbed(:time_entry_custom_field, field_format: 'user')
       end
       let(:custom_value) do
         CustomValue.new(custom_field: custom_field,
@@ -120,7 +120,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
                         customized: time_entry)
       end
       let(:user) do
-        FactoryGirl.build_stubbed(:user)
+        FactoryBot.build_stubbed(:user)
       end
 
       before do
@@ -160,7 +160,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
     end
 
     context 'with an empty comment' do
-      let(:time_entry) { FactoryGirl.build_stubbed(:time_entry) }
+      let(:time_entry) { FactoryBot.build_stubbed(:time_entry) }
       it_behaves_like 'property', :comment do
         let(:value) { time_entry.comments }
       end
@@ -183,7 +183,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
     end
 
     context 'custom value' do
-      let(:custom_field) { FactoryGirl.build_stubbed(:time_entry_custom_field) }
+      let(:custom_field) { FactoryBot.build_stubbed(:time_entry_custom_field) }
       let(:custom_value) do
         CustomValue.new(custom_field: custom_field,
                         value: '1234',

@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :group, parent: :principal, class: Group do
     # groups have lastnames? hmm...
     sequence(:lastname) { |g| "Group #{g}" }

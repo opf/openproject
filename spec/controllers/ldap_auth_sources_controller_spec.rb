@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe LdapAuthSourcesController, type: :controller do
-  let(:current_user) { FactoryGirl.create(:admin) }
+  let(:current_user) { FactoryBot.create(:admin) }
 
   before do
     allow(User).to receive(:current).and_return current_user

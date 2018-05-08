@@ -31,9 +31,9 @@ require 'spec_helper'
 describe ::API::V3::CustomOptions::CustomOptionRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:custom_option) { FactoryGirl.build_stubbed(:custom_option, custom_field: custom_field) }
-  let(:custom_field) { FactoryGirl.build_stubbed(:list_wp_custom_field) }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:custom_option) { FactoryBot.build_stubbed(:custom_option, custom_field: custom_field) }
+  let(:custom_field) { FactoryBot.build_stubbed(:list_wp_custom_field) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:representer) do
     described_class.new(custom_option, current_user: user)
   end

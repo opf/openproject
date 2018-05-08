@@ -33,52 +33,52 @@ describe Comment, type: :model do
 
   it 'should validations' do
     # factory valid
-    assert FactoryGirl.build(:comment).valid?
+    assert FactoryBot.build(:comment).valid?
 
     # comment text required
-    refute FactoryGirl.build(:comment, comments: '').valid?
+    refute FactoryBot.build(:comment, comments: '').valid?
     # object that is commented required
-    refute FactoryGirl.build(:comment, commented: nil).valid?
+    refute FactoryBot.build(:comment, commented: nil).valid?
     # author required
-    refute FactoryGirl.build(:comment, author: nil).valid?
+    refute FactoryBot.build(:comment, author: nil).valid?
   end
 
   it 'should create' do
-    user = FactoryGirl.create(:user)
-    news = FactoryGirl.create(:news)
+    user = FactoryBot.create(:user)
+    news = FactoryBot.create(:news)
     comment = Comment.new(commented: news, author: user, comments: 'some important words')
     assert comment.save
     assert_equal 1, news.reload.comments_count
   end
 
   it 'should create through news' do
-    user = FactoryGirl.create(:user)
-    news = FactoryGirl.create(:news)
+    user = FactoryBot.create(:user)
+    news = FactoryBot.create(:news)
     comment = news.new_comment(author: user, comments: 'some important words')
     assert comment.save
     assert_equal 1, news.reload.comments_count
   end
 
   it 'should create comment through news' do
-    user = FactoryGirl.create(:user)
-    news = FactoryGirl.create(:news)
+    user = FactoryBot.create(:user)
+    news = FactoryBot.create(:news)
     news.post_comment!(author: user, comments: 'some important words')
     assert_equal 1, news.reload.comments_count
   end
 
   it 'should text' do
-    comment = FactoryGirl.build(:comment, comments: 'something useful')
+    comment = FactoryBot.build(:comment, comments: 'something useful')
     assert_equal 'something useful', comment.text
   end
 
   it 'should create should send notification with settings' do
     # news needs a project in order to be notified
     # see Redmine::Acts::Journalized::Deprecated#recipients
-    project = FactoryGirl.create(:project)
-    user = FactoryGirl.create(:user, member_in_project: project)
+    project = FactoryBot.create(:project)
+    user = FactoryBot.create(:user, member_in_project: project)
     # author is automatically added as watcher
     # this makes #user to receive a notification
-    news = FactoryGirl.create(:news, project: project, author: user)
+    news = FactoryBot.create(:news, project: project, author: user)
 
     # with notifications for that event turned on
     allow(Setting).to receive(:notified_events).and_return(['news_comment_added'])
@@ -96,8 +96,8 @@ describe Comment, type: :model do
   # TODO: testing #destroy really needed?
   it 'should destroy' do
     # just setup
-    news = FactoryGirl.create(:news)
-    comment = FactoryGirl.build(:comment)
+    news = FactoryBot.create(:news)
+    comment = FactoryBot.build(:comment)
     news.comments << comment
     assert comment.persisted?
 

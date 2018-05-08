@@ -178,12 +178,12 @@ group :test do
   gem 'shoulda-context', '~> 1.2'
   gem 'launchy', '~> 2.4.3'
 
-  # Require factory_girl for usage with openproject plugins testing
-  # FactoryGirl needs to be available when loading app otherwise factory
+  # Require factory_bot for usage with openproject plugins testing
+  # FactoryBot needs to be available when loading app otherwise factory
   # definitions from core are not available in the plugin thus specs break
-  gem 'factory_girl', '~> 4.5'
-  # require factory_girl_rails for convenience in core development
-  gem 'factory_girl_rails', '~> 4.7', require: false
+  gem 'factory_bot', '~> 4.8'
+  # require factory_bot_rails for convenience in core development
+  gem 'factory_bot_rails', '~> 4.8', require: false
 
   # Test prof provides factories from code
   # and other niceties

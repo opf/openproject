@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::Groups::GroupRepresenter do
-  let(:group) { FactoryGirl.build_stubbed(:group) }
-  let(:current_user) { FactoryGirl.build_stubbed(:user) }
+  let(:group) { FactoryBot.build_stubbed(:group) }
+  let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:representer) { described_class.new(group, current_user: current_user) }
 
   context 'generation' do
@@ -61,7 +61,7 @@ describe ::API::V3::Groups::GroupRepresenter do
     end
 
     context 'as admin' do
-      let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+      let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
       it 'has an id property' do
         is_expected

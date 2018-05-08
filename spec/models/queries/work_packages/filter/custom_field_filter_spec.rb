@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
   let(:cf_accessor) { "cf_#{custom_field.id}" }
   let(:instance) do
     described_class.create!(name: cf_accessor, operator: '=', context: query)
@@ -38,15 +38,15 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   let(:instance_key) { nil }
   let(:name) { field.name }
 
-  let(:list_wp_custom_field) { FactoryGirl.create(:list_wp_custom_field) }
-  let(:bool_wp_custom_field) { FactoryGirl.build_stubbed(:bool_wp_custom_field) }
-  let(:int_wp_custom_field) { FactoryGirl.build_stubbed(:int_wp_custom_field) }
-  let(:float_wp_custom_field) { FactoryGirl.build_stubbed(:float_wp_custom_field) }
-  let(:text_wp_custom_field) { FactoryGirl.build_stubbed(:text_wp_custom_field) }
-  let(:user_wp_custom_field) { FactoryGirl.build_stubbed(:user_wp_custom_field) }
-  let(:version_wp_custom_field) { FactoryGirl.build_stubbed(:version_wp_custom_field) }
-  let(:date_wp_custom_field) { FactoryGirl.build_stubbed(:date_wp_custom_field) }
-  let(:string_wp_custom_field) { FactoryGirl.build_stubbed(:string_wp_custom_field) }
+  let(:list_wp_custom_field) { FactoryBot.create(:list_wp_custom_field) }
+  let(:bool_wp_custom_field) { FactoryBot.build_stubbed(:bool_wp_custom_field) }
+  let(:int_wp_custom_field) { FactoryBot.build_stubbed(:int_wp_custom_field) }
+  let(:float_wp_custom_field) { FactoryBot.build_stubbed(:float_wp_custom_field) }
+  let(:text_wp_custom_field) { FactoryBot.build_stubbed(:text_wp_custom_field) }
+  let(:user_wp_custom_field) { FactoryBot.build_stubbed(:user_wp_custom_field) }
+  let(:version_wp_custom_field) { FactoryBot.build_stubbed(:version_wp_custom_field) }
+  let(:date_wp_custom_field) { FactoryBot.build_stubbed(:date_wp_custom_field) }
+  let(:string_wp_custom_field) { FactoryBot.build_stubbed(:string_wp_custom_field) }
   let(:custom_field) { list_wp_custom_field }
 
   let(:all_custom_fields) do
@@ -499,8 +499,8 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
 
       describe '#value_objects' do
-        let(:user1) { FactoryGirl.build_stubbed(:user) }
-        let(:user2) { FactoryGirl.build_stubbed(:user) }
+        let(:user1) { FactoryBot.build_stubbed(:user) }
+        let(:user2) { FactoryBot.build_stubbed(:user) }
 
         before do
           allow(Principal)
@@ -529,8 +529,8 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
 
       describe '#value_objects' do
-        let(:version1) { FactoryGirl.build_stubbed(:version) }
-        let(:version2) { FactoryGirl.build_stubbed(:version) }
+        let(:version1) { FactoryBot.build_stubbed(:version) }
+        let(:version2) { FactoryBot.build_stubbed(:version) }
 
         before do
           allow(Version)

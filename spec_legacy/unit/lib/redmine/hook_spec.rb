@@ -156,7 +156,7 @@ describe 'Redmine::Hook::Manager' do # FIXME: naming (RSpec-port)
 
   it 'should call_hook_should_not_change_the_default_url_for_email_notifications' do
     user = User.find(1)
-    issue = FactoryGirl.create(:work_package)
+    issue = FactoryBot.create(:work_package)
 
     UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
     mail = ActionMailer::Base.deliveries.last

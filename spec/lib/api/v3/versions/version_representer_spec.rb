@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::Versions::VersionRepresenter do
-  let(:version) { FactoryGirl.build_stubbed(:version) }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:version) { FactoryBot.build_stubbed(:version) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:representer) { described_class.new(version, current_user: user) }
 
   include API::V3::Utilities::PathHelper

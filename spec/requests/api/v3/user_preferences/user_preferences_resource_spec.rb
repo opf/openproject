@@ -33,8 +33,8 @@ describe 'API v3 UserPreferences resource', type: :request do
   include Rack::Test::Methods
   include ::API::V3::Utilities::PathHelper
 
-  let(:user) { FactoryGirl.create(:user) }
-  let(:preference) { FactoryGirl.create(:user_preference, user: user) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:preference) { FactoryBot.create(:user_preference, user: user) }
   let(:representer) { described_class.new(preference, current_user: user) }
   let(:preference_path) { api_v3_paths.my_preferences }
   subject(:response) { last_response }

@@ -6,11 +6,11 @@ require 'support/work_packages/work_package_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'subject inplace editor', js: true, selenium: true do
-  let(:project) { FactoryGirl.create :project_with_types, is_public: true }
+  let(:project) { FactoryBot.create :project_with_types, is_public: true }
   let(:property_name) { :subject }
   let(:property_title) { 'Subject' }
-  let(:work_package) { FactoryGirl.create :work_package, project: project }
-  let(:user) { FactoryGirl.create :admin }
+  let(:work_package) { FactoryBot.create :work_package, project: project }
+  let(:user) { FactoryBot.create :admin }
   let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package,project) }
   let(:field) { work_packages_page.edit_field(property_name) }
   let(:notification) { ::PageObjects::Notifications.new(page) }

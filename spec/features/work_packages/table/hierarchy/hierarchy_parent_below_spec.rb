@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe 'Work Package table hierarchy parent below', js: true do
-  let(:user) { FactoryGirl.create :admin }
-  let(:type_bug) { FactoryGirl.create(:type_bug) }
-  let(:type_task) { FactoryGirl.create(:type_task) }
-  let(:project) { FactoryGirl.create(:project, types: [type_task, type_bug]) }
+  let(:user) { FactoryBot.create :admin }
+  let(:type_bug) { FactoryBot.create(:type_bug) }
+  let(:type_task) { FactoryBot.create(:type_task) }
+  let(:project) { FactoryBot.create(:project, types: [type_task, type_bug]) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
@@ -34,12 +34,12 @@ describe 'Work Package table hierarchy parent below', js: true do
   # .... Child
   # V Grandparent
   describe 'grand-parent sorted below child, parent invisible' do
-    let(:child) { FactoryGirl.create(:work_package, project: project, type: type_task) }
-    let(:parent) { FactoryGirl.create(:work_package, project: project, type: type_bug) }
-    let(:grandparent) { FactoryGirl.create(:work_package, project: project, type: type_task) }
+    let(:child) { FactoryBot.create(:work_package, project: project, type: type_task) }
+    let(:parent) { FactoryBot.create(:work_package, project: project, type: type_bug) }
+    let(:grandparent) { FactoryBot.create(:work_package, project: project, type: type_task) }
 
     let(:query) do
-      query              = FactoryGirl.build(:query, user: user, project: project)
+      query              = FactoryBot.build(:query, user: user, project: project)
       query.column_names = ['id', 'subject', 'type']
       query.filters.clear
       query.add_filter('type_id', '=', [type_task.id])

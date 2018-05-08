@@ -34,11 +34,11 @@ describe 'API v3 Activity resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) {
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   }
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:work_package) { FactoryBot.create(:work_package, author: current_user, project: project) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages, :edit_work_package_notes] }
   let(:activity) { work_package.journals.first }
 
@@ -75,9 +75,9 @@ describe 'API v3 Activity resource', type: :request do
       end
 
       context 'requesting activity without sufficient permissions' do
-        let(:another_project) { FactoryGirl.create(:project, is_public: false) }
-        let(:another_work_package) { FactoryGirl.create(:work_package, project: another_project) }
-        let(:another_activity) { FactoryGirl.create(:work_package_journal, journable: another_work_package) }
+        let(:another_project) { FactoryBot.create(:project, is_public: false) }
+        let(:another_work_package) { FactoryBot.create(:work_package, project: another_project) }
+        let(:another_activity) { FactoryBot.create(:work_package_journal, journable: another_work_package) }
         let(:get_path) { api_v3_paths.activity another_activity.id }
 
         it_behaves_like 'unauthorized access'
@@ -85,7 +85,7 @@ describe 'API v3 Activity resource', type: :request do
     end
 
     it_behaves_like 'handling anonymous user' do
-      let(:project) { FactoryGirl.create(:project, is_public: true) }
+      let(:project) { FactoryBot.create(:project, is_public: true) }
       let(:path) { api_v3_paths.activity activity.id }
     end
   end

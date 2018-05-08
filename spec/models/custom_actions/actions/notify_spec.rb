@@ -32,8 +32,8 @@ describe CustomActions::Actions::Notify, type: :model do
   let(:key) { :notify }
   let(:type) { :associated_property }
   let(:allowed_values) do
-    users = [FactoryGirl.build_stubbed(:user),
-             FactoryGirl.build_stubbed(:group)]
+    users = [FactoryBot.build_stubbed(:user),
+             FactoryBot.build_stubbed(:group)]
 
     allow(Principal)
       .to receive_message_chain(:active_or_registered, :select, :order_by_name)
@@ -57,12 +57,12 @@ describe CustomActions::Actions::Notify, type: :model do
     it_behaves_like 'associated custom action validations'
 
     describe '#apply' do
-      let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
+      let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
 
       it 'adds a note with all values distinguised by type' do
-        principals = [FactoryGirl.build_stubbed(:user),
-                      FactoryGirl.build_stubbed(:group),
-                      FactoryGirl.build_stubbed(:user)]
+        principals = [FactoryBot.build_stubbed(:user),
+                      FactoryBot.build_stubbed(:group),
+                      FactoryBot.build_stubbed(:user)]
 
         allow(Principal)
           .to receive_message_chain(:active_or_registered, :select, :order_by_name, :where)

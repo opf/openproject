@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :work_package do
     transient do
       custom_values nil
@@ -62,7 +62,7 @@ FactoryGirl.define do
     end
 
     priority
-    project { FactoryGirl.build_stubbed(:project_with_types) }
+    project { FactoryBot.build_stubbed(:project_with_types) }
     status
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }

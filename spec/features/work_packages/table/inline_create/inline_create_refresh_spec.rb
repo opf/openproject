@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 describe 'Refreshing in inline-create row', flaky: true, js: true do
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create :project }
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create :project }
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:columns) { ::Components::WorkPackages::Columns.new }
 
   let!(:query) do
-    query              = FactoryGirl.build(:query, user: user, project: project)
+    query              = FactoryBot.build(:query, user: user, project: project)
     query.column_names = ['subject', 'category']
     query.filters.clear
 

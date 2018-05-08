@@ -39,20 +39,20 @@ describe WikiController, type: :controller do
     before do
       allow(@controller).to receive(:set_localization)
 
-      @role = FactoryGirl.create(:non_member)
-      @user = FactoryGirl.create(:admin)
+      @role = FactoryBot.create(:non_member)
+      @user = FactoryBot.create(:admin)
 
       allow(User).to receive(:current).and_return @user
 
-      @project = FactoryGirl.create(:project)
+      @project = FactoryBot.create(:project)
       @project.reload # to get the wiki into the proxy
 
       # creating pages
-      @existing_page = FactoryGirl.create(:wiki_page, wiki_id: @project.wiki.id,
+      @existing_page = FactoryBot.create(:wiki_page, wiki_id: @project.wiki.id,
                                                       title:   'ExistingPage')
 
       # creating page contents
-      FactoryGirl.create(:wiki_content, page_id:   @existing_page.id,
+      FactoryBot.create(:wiki_content, page_id:   @existing_page.id,
                                         author_id: @user.id)
     end
 
@@ -201,7 +201,7 @@ describe WikiController, type: :controller do
           let(:redirect_page_after_destroy) { wiki.find_page(wiki.start_page) || wiki.pages.first }
 
           before do
-            another_wiki_page = FactoryGirl.create :wiki_page, wiki: wiki
+            another_wiki_page = FactoryBot.create :wiki_page, wiki: wiki
           end
 
           it 'redirects to wiki#index' do
@@ -227,44 +227,44 @@ describe WikiController, type: :controller do
       allow(@controller).to receive(:set_localization)
       allow(Setting).to receive(:login_required?).and_return(false)
 
-      @role = FactoryGirl.create(:non_member)
-      @user = FactoryGirl.create(:admin)
+      @role = FactoryBot.create(:non_member)
+      @user = FactoryBot.create(:admin)
 
-      @anon = User.anonymous.nil? ? FactoryGirl.create(:anonymous) : User.anonymous
+      @anon = User.anonymous.nil? ? FactoryBot.create(:anonymous) : User.anonymous
 
       Role.anonymous.update_attributes name: I18n.t(:default_role_anonymous),
                                        permissions: [:view_wiki_pages]
 
       allow(User).to receive(:current).and_return @user
 
-      @project = FactoryGirl.create(:public_project)
+      @project = FactoryBot.create(:public_project)
       @project.reload # to get the wiki into the proxy
 
       # creating pages
-      @page_default = FactoryGirl.create(:wiki_page, wiki_id: @project.wiki.id,
+      @page_default = FactoryBot.create(:wiki_page, wiki_id: @project.wiki.id,
                                                      title:   'Wiki')
-      @page_with_content = FactoryGirl.create(:wiki_page, wiki_id: @project.wiki.id,
+      @page_with_content = FactoryBot.create(:wiki_page, wiki_id: @project.wiki.id,
                                                           title:   'PagewithContent')
-      @page_without_content = FactoryGirl.create(:wiki_page, wiki_id: @project.wiki.id,
+      @page_without_content = FactoryBot.create(:wiki_page, wiki_id: @project.wiki.id,
                                                              title:   'PagewithoutContent')
-      @unrelated_page = FactoryGirl.create(:wiki_page, wiki_id: @project.wiki.id,
+      @unrelated_page = FactoryBot.create(:wiki_page, wiki_id: @project.wiki.id,
                                                        title:   'UnrelatedPage')
 
       # creating page contents
-      FactoryGirl.create(:wiki_content, page_id:   @page_default.id,
+      FactoryBot.create(:wiki_content, page_id:   @page_default.id,
                                         author_id: @user.id)
-      FactoryGirl.create(:wiki_content, page_id:   @page_with_content.id,
+      FactoryBot.create(:wiki_content, page_id:   @page_with_content.id,
                                         author_id: @user.id)
-      FactoryGirl.create(:wiki_content, page_id:   @unrelated_page.id,
+      FactoryBot.create(:wiki_content, page_id:   @unrelated_page.id,
                                         author_id: @user.id)
 
       # creating some child pages
       @children = {}
       [@page_with_content].each do |page|
-        child_page = FactoryGirl.create(:wiki_page, wiki_id:   @project.wiki.id,
+        child_page = FactoryBot.create(:wiki_page, wiki_id:   @project.wiki.id,
                                                     parent_id: page.id,
                                                     title:     page.title + ' child')
-        FactoryGirl.create(:wiki_content, page_id: child_page.id,
+        FactoryBot.create(:wiki_content, page_id: child_page.id,
                                           author_id: @user.id)
 
         @children[page] = child_page
@@ -273,15 +273,15 @@ describe WikiController, type: :controller do
 
     describe '- main menu links' do
       before do
-        @main_menu_item_for_page_with_content = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
+        @main_menu_item_for_page_with_content = FactoryBot.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
                                                                                     title:    'Item for Page with Content',
                                                                                     name:   @page_with_content.slug)
 
-        @main_menu_item_for_new_wiki_page = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
+        @main_menu_item_for_new_wiki_page = FactoryBot.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
                                                                                 title:    'Item for new WikiPage',
                                                                                 name:   'new-wiki-page')
 
-        @other_menu_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
+        @other_menu_item = FactoryBot.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
                                                                title:    'Item for other page',
                                                                name:   @unrelated_page.slug)
       end
@@ -373,7 +373,7 @@ describe WikiController, type: :controller do
 
       describe '- wiki_menu_item containing special chars only' do
         before do
-          @wiki_menu_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
+          @wiki_menu_item = FactoryBot.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
                                                                 title:    '?',
                                                                 name:   'help')
           @other_wiki_menu_item = @other_menu_item
@@ -510,7 +510,7 @@ describe WikiController, type: :controller do
     end
 
     describe 'preview' do
-      let(:project) { FactoryGirl.create(:project) }
+      let(:project) { FactoryBot.create(:project) }
       let(:text) { 'Wiki content' }
 
       it_behaves_like 'valid preview' do
@@ -522,7 +522,7 @@ describe WikiController, type: :controller do
       end
 
       it_behaves_like 'authorizes object access' do
-        let(:wiki_page) { FactoryGirl.create(:wiki_page) }
+        let(:wiki_page) { FactoryBot.create(:wiki_page) }
         let(:preview_params) {
           { project_id: wiki_page.wiki.project.id,
             id: wiki_page.id,

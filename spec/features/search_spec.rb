@@ -30,13 +30,13 @@ require 'spec_helper'
 
 describe 'Search', type: :feature do
   describe 'pagination' do
-    let(:project) { FactoryGirl.create :project }
-    let(:user) { FactoryGirl.create :admin }
+    let(:project) { FactoryBot.create :project }
+    let(:user) { FactoryBot.create :admin }
 
     let!(:work_packages) do
       (1..23).map do |n|
         subject = "Subject No. #{n}"
-        FactoryGirl.create :work_package, subject: subject, project: project, created_at: "2016-11-21 #{n}:00".to_datetime
+        FactoryBot.create :work_package, subject: subject, project: project, created_at: "2016-11-21 #{n}:00".to_datetime
       end
     end
 

@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe 'Wiki unicode title spec', type: :feature, js: true do
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create :project }
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create :project }
   let(:wiki_page_1) {
-    FactoryGirl.build :wiki_page_with_content, title: 'Test'
+    FactoryBot.build :wiki_page_with_content, title: 'Test'
   }
   let(:work_package) {
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        project: project,
                        start_date: Date.today,
                        due_date: Date.today + 1.days,

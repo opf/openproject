@@ -30,14 +30,14 @@ require 'spec_helper'
 
 RSpec.feature 'Work package pagination', js: true do
 
-  let(:admin) { FactoryGirl.create(:admin) }
+  let(:admin) { FactoryBot.create(:admin) }
   let(:project) {
-    FactoryGirl.create(:project, name: 'project1', identifier: 'project1')
+    FactoryBot.create(:project, name: 'project1', identifier: 'project1')
   }
 
   shared_examples_for 'paginated work package list' do
-    let!(:work_package_1) { FactoryGirl.create(:work_package, project: project) }
-    let!(:work_package_2) { FactoryGirl.create(:work_package, project: project) }
+    let!(:work_package_1) { FactoryBot.create(:work_package, project: project) }
+    let!(:work_package_2) { FactoryBot.create(:work_package, project: project) }
 
     before do
       login_as(admin)

@@ -30,15 +30,15 @@
 require 'spec_helper'
 
 describe UserMailer, type: :mailer do
-  let(:type_standard) { FactoryGirl.build_stubbed(:type_standard) }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:journal) { FactoryGirl.build_stubbed(:work_package_journal) }
+  let(:type_standard) { FactoryBot.build_stubbed(:type_standard) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:journal) { FactoryBot.build_stubbed(:work_package_journal) }
   let(:work_package) {
-    FactoryGirl.build_stubbed(:work_package,
+    FactoryBot.build_stubbed(:work_package,
                               type: type_standard)
   }
 
-  let(:recipient) { FactoryGirl.build_stubbed(:user) }
+  let(:recipient) { FactoryBot.build_stubbed(:user) }
 
   before do
     allow(work_package).to receive(:reload).and_return(work_package)
@@ -74,9 +74,9 @@ describe UserMailer, type: :mailer do
 
   shared_examples_for 'does only send mails to author if permitted' do
     let(:user_preference) {
-      FactoryGirl.build(:user_preference, others: { no_self_notified: true })
+      FactoryBot.build(:user_preference, others: { no_self_notified: true })
     }
-    let(:user) { FactoryGirl.build_stubbed(:user, preference: user_preference) }
+    let(:user) { FactoryBot.build_stubbed(:user, preference: user_preference) }
 
     context 'mail is for another user' do
       it_behaves_like 'mail is sent'
@@ -144,7 +144,7 @@ describe UserMailer, type: :mailer do
   end
 
   describe :wiki_content_added do
-    let(:wiki_content) { FactoryGirl.create(:wiki_content) }
+    let(:wiki_content) { FactoryBot.create(:wiki_content) }
 
     before do
       UserMailer.wiki_content_added(recipient, wiki_content, user).deliver_now
@@ -156,7 +156,7 @@ describe UserMailer, type: :mailer do
   end
 
   describe '#wiki_content_updated' do
-    let(:wiki_content) { FactoryGirl.create(:wiki_content) }
+    let(:wiki_content) { FactoryBot.create(:wiki_content) }
 
     before do
       UserMailer.wiki_content_updated(recipient, wiki_content, user).deliver_now
@@ -173,7 +173,7 @@ describe UserMailer, type: :mailer do
 
   describe '#message_id' do
     describe 'same user' do
-      let(:journal_2) { FactoryGirl.build_stubbed(:work_package_journal) }
+      let(:journal_2) { FactoryBot.build_stubbed(:work_package_journal) }
 
       before do
         allow(journal_2).to receive(:journable).and_return(work_package)
@@ -193,7 +193,7 @@ describe UserMailer, type: :mailer do
     end
 
     describe 'same timestamp' do
-      let(:user_2) { FactoryGirl.build_stubbed(:user) }
+      let(:user_2) { FactoryBot.build_stubbed(:user) }
 
       before do
         allow(work_package).to receive(:recipients).and_return([user, user_2])
@@ -284,8 +284,8 @@ describe UserMailer, type: :mailer do
       end
 
       describe 'project attribute' do
-        let(:project_1) { FactoryGirl.create(:project) }
-        let(:project_2) { FactoryGirl.create(:project) }
+        let(:project_1) { FactoryBot.create(:project) }
+        let(:project_2) { FactoryBot.create(:project) }
 
         before do
           allow(journal).to receive(:details).and_return('project_id' => [project_1.id, project_2.id])
@@ -301,8 +301,8 @@ describe UserMailer, type: :mailer do
       end
 
       describe 'attribute issue status' do
-        let(:status_1) { FactoryGirl.create(:status) }
-        let(:status_2) { FactoryGirl.create(:status) }
+        let(:status_1) { FactoryBot.create(:status) }
+        let(:status_2) { FactoryBot.create(:status) }
 
         before do
           allow(journal).to receive(:details).and_return('status_id' => [status_1.id, status_2.id])
@@ -318,8 +318,8 @@ describe UserMailer, type: :mailer do
       end
 
       describe 'attribute type' do
-        let(:type_1) { FactoryGirl.create(:type_standard) }
-        let(:type_2) { FactoryGirl.create(:type_bug) }
+        let(:type_1) { FactoryBot.create(:type_standard) }
+        let(:type_2) { FactoryBot.create(:type_bug) }
 
         before do
           allow(journal).to receive(:details).and_return('type_id' => [type_1.id, type_2.id])
@@ -335,8 +335,8 @@ describe UserMailer, type: :mailer do
       end
 
       describe 'attribute assigned to' do
-        let(:assignee_1) { FactoryGirl.create(:user) }
-        let(:assignee_2) { FactoryGirl.create(:user) }
+        let(:assignee_1) { FactoryBot.create(:user) }
+        let(:assignee_2) { FactoryBot.create(:user) }
 
         before do
           allow(journal).to receive(:details).and_return('assigned_to_id' => [assignee_1.id, assignee_2.id])
@@ -352,8 +352,8 @@ describe UserMailer, type: :mailer do
       end
 
       describe 'attribute priority' do
-        let(:priority_1) { FactoryGirl.create(:priority) }
-        let(:priority_2) { FactoryGirl.create(:priority) }
+        let(:priority_1) { FactoryBot.create(:priority) }
+        let(:priority_2) { FactoryBot.create(:priority) }
 
         before do
           allow(journal).to receive(:details).and_return('priority_id' => [priority_1.id, priority_2.id])
@@ -369,8 +369,8 @@ describe UserMailer, type: :mailer do
       end
 
       describe 'attribute category' do
-        let(:category_1) { FactoryGirl.create(:category) }
-        let(:category_2) { FactoryGirl.create(:category) }
+        let(:category_1) { FactoryBot.create(:category) }
+        let(:category_2) { FactoryBot.create(:category) }
 
         before do
           allow(journal).to receive(:details).and_return('category_id' => [category_1.id, category_2.id])
@@ -386,8 +386,8 @@ describe UserMailer, type: :mailer do
       end
 
       describe 'attribute fixed version' do
-        let(:version_1) { FactoryGirl.create(:version) }
-        let(:version_2) { FactoryGirl.create(:version) }
+        let(:version_1) { FactoryBot.create(:version) }
+        let(:version_2) { FactoryBot.create(:version) }
 
         before do
           allow(journal).to receive(:details).and_return('fixed_version_id' => [version_1.id, version_2.id])
@@ -423,7 +423,7 @@ describe UserMailer, type: :mailer do
         let(:expected_text_1) { 'original, unchanged text' }
         let(:expected_text_2) { 'modified, new text' }
         let(:custom_field) {
-          FactoryGirl.create :work_package_custom_field,
+          FactoryBot.create :work_package_custom_field,
                              field_format: 'text'
         }
 
@@ -441,7 +441,7 @@ describe UserMailer, type: :mailer do
       end
 
       describe 'attachments' do
-        let(:attachment) { FactoryGirl.create :attachment }
+        let(:attachment) { FactoryBot.create :attachment }
 
         context 'added' do
           before do

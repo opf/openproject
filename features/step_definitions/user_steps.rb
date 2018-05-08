@@ -73,7 +73,7 @@ Given /^there is 1 [Uu]ser with(?: the following)?:$/ do |table|
   user = User.find_by_login(login) unless login.blank?
 
   if !user
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     user.pref
     user.password = user.password_confirmation = nil
   end
@@ -110,7 +110,7 @@ end
 
 Given /^there are the following users:$/ do |table|
   table.raw.flatten.each do |login|
-    FactoryGirl.create(:user, login: login)
+    FactoryBot.create(:user, login: login)
   end
 end
 

@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :type do
     sequence(:position) do |p| p end
     name do |a| "Type No. #{a.position}" end
@@ -35,7 +35,7 @@ FactoryGirl.define do
 
     factory :type_with_workflow, class: Type do
       callback(:after_build) do |t|
-        t.workflows = [FactoryGirl.build(:workflow_with_default_status)]
+        t.workflows = [FactoryBot.build(:workflow_with_default_status)]
       end
     end
   end

@@ -34,8 +34,8 @@ describe CustomActions::Conditions::Status, type: :model do
 
     describe '#allowed_values' do
       it 'is the list of all status' do
-        statuses = [FactoryGirl.build_stubbed(:status),
-                    FactoryGirl.build_stubbed(:status)]
+        statuses = [FactoryBot.build_stubbed(:status),
+                    FactoryBot.build_stubbed(:status)]
         allow(Status)
           .to receive_message_chain(:select, :order)
           .and_return(statuses)

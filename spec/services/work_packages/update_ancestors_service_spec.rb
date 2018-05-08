@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe WorkPackages::UpdateAncestorsService, type: :model do
-  let(:user) { FactoryGirl.create :user }
+  let(:user) { FactoryBot.create :user }
   let(:estimated_hours) { [nil, nil, nil] }
   let(:done_ratios) { [0, 0, 0] }
   let(:statuses) { %i(open open open) }
-  let(:open_status) { FactoryGirl.create :status }
-  let(:closed_status) { FactoryGirl.create :closed_status }
+  let(:open_status) { FactoryBot.create :status }
+  let(:closed_status) { FactoryBot.create :closed_status }
   let(:aggregate_done_ratio) { 0.0 }
 
   context 'for the new ancestor chain' do
@@ -66,14 +66,14 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
 
     let(:children) do
       (statuses.size - 1).downto(0).map do |i|
-        FactoryGirl.create :work_package,
+        FactoryBot.create :work_package,
                            parent: parent,
                            status: statuses[i] == :open ? open_status : closed_status,
                            estimated_hours: estimated_hours[i],
                            done_ratio: done_ratios[i]
       end
     end
-    let(:parent) { FactoryGirl.create :work_package, status: open_status }
+    let(:parent) { FactoryBot.create :work_package, status: open_status }
 
     subject do
       described_class
@@ -191,14 +191,14 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
     let(:sibling_estimated_hours) { 7.0 }
 
     let!(:grandparent) do
-      FactoryGirl.create :work_package
+      FactoryBot.create :work_package
     end
     let!(:parent) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          parent: grandparent
     end
     let!(:sibling) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          parent: parent,
                          status: sibling_status,
                          estimated_hours: sibling_estimated_hours,
@@ -206,7 +206,7 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
     end
 
     let!(:work_package) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          parent: parent
     end
 
@@ -261,14 +261,14 @@ describe WorkPackages::UpdateAncestorsService, type: :model do
     let(:estimated_hours) { 7.0 }
 
     let!(:grandparent) do
-      FactoryGirl.create :work_package
+      FactoryBot.create :work_package
     end
     let!(:parent) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          parent: grandparent
     end
     let!(:work_package) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          status: status,
                          estimated_hours: estimated_hours,
                          done_ratio: done_ratio

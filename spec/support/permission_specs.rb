@@ -32,8 +32,8 @@ require File.expand_path('../shared/become_member', __FILE__)
 module PermissionSpecs
   def self.included(base)
     base.class_eval do
-      let(:project) { FactoryGirl.create(:project, is_public: false) }
-      let(:current_user) { FactoryGirl.create(:user) }
+      let(:project) { FactoryBot.create(:project, is_public: false) }
+      let(:current_user) { FactoryBot.create(:user) }
 
       include BecomeMember
 

@@ -53,9 +53,9 @@ describe ::API::V3::WorkPackageCollectionFromQueryParamsService,
   let(:mock_wp_collection_service_errors) { nil }
   let(:mock_wp_collection_service_result) { double('result') }
 
-  let(:query) { FactoryGirl.build_stubbed(:query) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:query) { FactoryBot.build_stubbed(:query) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   let(:instance) { described_class.new(user) }
 

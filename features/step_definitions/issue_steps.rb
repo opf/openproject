@@ -46,7 +46,7 @@ Given(/^the issue "(.*?)" has an attachment "(.*?)"$/) do |issue_subject, file_n
   issue = WorkPackage.where(subject: issue_subject).order(:created_at).last
   file = OpenProject::Files.create_temp_file name: file_name,
                                              content: 'random content which is not actually a gif'
-  attachment = FactoryGirl.create :attachment,
+  attachment = FactoryBot.create :attachment,
                                   author: issue.author,
                                   content_type: content_type,
                                   file: file,
@@ -60,11 +60,11 @@ Given /^the [Uu]ser "([^\"]*)" has (\d+) [iI]ssue(?:s)? with(?: the following)?:
   u = User.find_by login: user
   raise 'This user must be member of a project to have issues' unless u.projects.last
   as_admin count do
-    i = FactoryGirl.create(:work_package,
+    i = FactoryBot.create(:work_package,
                            project: u.projects.last,
                            author: u,
                            assigned_to: u,
-                           status: Status.default || FactoryGirl.create(:status))
+                           status: Status.default || FactoryBot.create(:status))
 
     i.type = ::Type.find_by(name: table.rows_hash.delete('type')) if table.rows_hash['type']
 
@@ -76,7 +76,7 @@ end
 Given /^the [Pp]roject "([^\"]*)" has (\d+) [iI]ssue(?:s)? with(?: the following)?:$/ do |project, count, table|
   p = Project.find_by(name: project) || Project.find_by(identifier: project)
   as_admin count do
-    i = FactoryGirl.build(:work_package, project: p,
+    i = FactoryBot.build(:work_package, project: p,
                                          type: p.types.first)
     send_table_to_object(i, table, {}, method(:add_custom_value_to_issue))
   end
@@ -121,7 +121,7 @@ Given (/^there are the following issues with attributes:$/) do |table|
     category = Category.find_by(name: attributes.delete('category'))
     attributes.merge! category_id: category.id if category
 
-    issue = FactoryGirl.create(:work_package, attributes)
+    issue = FactoryBot.create(:work_package, attributes)
 
     if watchers
       watchers.split(',').each do |w| issue.add_watcher User.find_by_login(w) end

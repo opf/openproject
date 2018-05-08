@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :journal do
     user factory: :user
     created_at Time.now
@@ -35,19 +35,19 @@ FactoryGirl.define do
     factory :work_package_journal, class: Journal do
       journable_type 'WorkPackage'
       activity_type 'work_packages'
-      data FactoryGirl.build(:journal_work_package_journal)
+      data FactoryBot.build(:journal_work_package_journal)
     end
 
     factory :wiki_content_journal, class: Journal do
       journable_type 'WikiContent'
       activity_type 'wiki_edits'
-      data FactoryGirl.build(:journal_wiki_content_journal)
+      data FactoryBot.build(:journal_wiki_content_journal)
     end
 
     factory :message_journal, class: Journal do
       journable_type 'Message'
       activity_type 'messages'
-      data FactoryGirl.build(:journal_message_journal)
+      data FactoryBot.build(:journal_message_journal)
     end
   end
 end

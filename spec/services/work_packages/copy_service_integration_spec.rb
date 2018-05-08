@@ -30,12 +30,12 @@ require 'spec_helper'
 
 describe WorkPackages::CopyService, 'integration', type: :model do
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   end
   let(:role) do
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: permissions)
   end
 
@@ -44,19 +44,19 @@ describe WorkPackages::CopyService, 'integration', type: :model do
   end
 
   let(:type) do
-    FactoryGirl.create(:type_standard,
+    FactoryBot.create(:type_standard,
                        custom_fields: [custom_field])
   end
-  let(:project) { FactoryGirl.create(:project, types: [type]) }
+  let(:project) { FactoryBot.create(:project, types: [type]) }
   let(:work_package) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        type: type)
   end
   let(:instance) { described_class.new(work_package: work_package, user: user) }
-  let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
+  let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
   let(:custom_value) do
-    FactoryGirl.create(:work_package_custom_value,
+    FactoryBot.create(:work_package_custom_value,
                        custom_field: custom_field,
                        customized: work_package,
                        value: false)
@@ -95,13 +95,13 @@ describe WorkPackages::CopyService, 'integration', type: :model do
     end
 
     describe 'to a different project' do
-      let(:target_type) { FactoryGirl.create(:type, custom_fields: target_custom_fields) }
+      let(:target_type) { FactoryBot.create(:type, custom_fields: target_custom_fields) }
       let(:target_project) do
-        p = FactoryGirl.create(:project,
+        p = FactoryBot.create(:project,
                                types: [target_type],
                                work_package_custom_fields: target_custom_fields)
 
-        FactoryGirl.create(:member,
+        FactoryBot.create(:member,
                            project: p,
                            roles: [target_role],
                            user: user)
@@ -109,7 +109,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
         p
       end
       let(:target_custom_fields) { [] }
-      let(:target_role) { FactoryGirl.create(:role, permissions: target_permissions) }
+      let(:target_role) { FactoryBot.create(:role, permissions: target_permissions) }
       let(:target_permissions) { %i(add_work_packages manage_subtasks) }
       let(:attributes) { { project: target_project, type: target_type } }
 
@@ -139,7 +139,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
 
       context 'required custom field in the target project' do
         let(:custom_field) do
-          FactoryGirl.create(
+          FactoryBot.create(
             :work_package_custom_field,
             field_format:    'text',
             is_required:     true,
@@ -155,12 +155,12 @@ describe WorkPackages::CopyService, 'integration', type: :model do
 
       describe '#attributes' do
         context 'assigned_to' do
-          let(:target_user) { FactoryGirl.create(:user) }
+          let(:target_user) { FactoryBot.create(:user) }
           let(:target_project_member) do
-            FactoryGirl.create(:member,
+            FactoryBot.create(:member,
                                project: target_project,
                                principal: target_user,
-                               roles: [FactoryGirl.create(:role)])
+                               roles: [FactoryBot.create(:role)])
           end
           let(:attributes) { { assigned_to_id: target_user.id } }
 
@@ -176,7 +176,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
         end
 
         context 'status' do
-          let(:target_status) { FactoryGirl.create(:status) }
+          let(:target_status) { FactoryBot.create(:status) }
           let(:attributes) { { status_id: target_status.id } }
 
           it_behaves_like 'copied work package'
@@ -214,10 +214,10 @@ describe WorkPackages::CopyService, 'integration', type: :model do
       describe 'with children' do
         let(:instance) { described_class.new(work_package: child, user: user) }
         let!(:child) do
-          FactoryGirl.create(:work_package, parent: work_package, project: source_project)
+          FactoryBot.create(:work_package, parent: work_package, project: source_project)
         end
         let(:grandchild) do
-          FactoryGirl.create(:work_package, parent: child, project: source_project)
+          FactoryBot.create(:work_package, parent: child, project: source_project)
         end
 
         context 'cross project relations deactivated' do

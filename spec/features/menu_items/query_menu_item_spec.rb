@@ -32,11 +32,11 @@ require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
 feature 'Query menu items' do
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create :project }
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create :project }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:notification) { PageObjects::Notifications.new(page) }
-  let(:status) { FactoryGirl.create :status }
+  let(:status) { FactoryBot.create :status }
 
   def visit_index_page(query)
     work_packages_page.select_query(query)
@@ -49,11 +49,11 @@ feature 'Query menu items' do
   end
 
   context 'with identical names' do
-    let(:query_a) { FactoryGirl.create :public_query, name: 'some query.', project: project }
-    let(:query_b) { FactoryGirl.create :public_query, name: query_a.name, project: project }
+    let(:query_a) { FactoryBot.create :public_query, name: 'some query.', project: project }
+    let(:query_b) { FactoryBot.create :public_query, name: query_a.name, project: project }
 
-    let!(:menu_item_a) { FactoryGirl.create :query_menu_item, query: query_a }
-    let!(:menu_item_b) { FactoryGirl.create :query_menu_item, query: query_b }
+    let!(:menu_item_a) { FactoryBot.create :query_menu_item, query: query_a }
+    let!(:menu_item_b) { FactoryBot.create :query_menu_item, query: query_b }
 
     it 'can be shown' do
       visit_index_page(query_a)
@@ -63,7 +63,7 @@ feature 'Query menu items' do
   end
 
   context 'with dots in their name' do
-    let(:query) { FactoryGirl.create :public_query, name: 'OP 3.0', project: project }
+    let(:query) { FactoryBot.create :public_query, name: 'OP 3.0', project: project }
 
     it 'can be added', js: true, selenium: true do
       visit_index_page(query)
@@ -83,11 +83,11 @@ feature 'Query menu items' do
   end
 
   describe 'renaming a menu item' do
-    let(:query_a) { FactoryGirl.create :query, name: 'bbbb', project: project, user: user }
-    let(:query_b) { FactoryGirl.create :query, name: 'zzzz', project: project, user: user }
+    let(:query_a) { FactoryBot.create :query, name: 'bbbb', project: project, user: user }
+    let(:query_b) { FactoryBot.create :query, name: 'zzzz', project: project, user: user }
 
-    let!(:menu_item_a) { FactoryGirl.create :query_menu_item, query: query_a }
-    let!(:menu_item_b) { FactoryGirl.create :query_menu_item, query: query_b }
+    let!(:menu_item_a) { FactoryBot.create :query_menu_item, query: query_a }
+    let!(:menu_item_b) { FactoryBot.create :query_menu_item, query: query_b }
     let(:new_name) { 'aaaaa' }
 
     before do

@@ -29,19 +29,19 @@
 require "spec_helper"
 
 describe "/time_entries", type: :feature do
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
 
   describe "sorting time entries", js: true do
-    let(:projects) { FactoryGirl.create_list :project, 3 }
+    let(:projects) { FactoryBot.create_list :project, 3 }
     let(:comments) { ["TE 2", "TE 1", "TE 3"] }
     let(:hours) { [2, 5, 1] }
 
     let!(:time_entries) do
       comments.zip(projects).zip(hours).map do |comment_and_project, hours|
         comment, project = comment_and_project
-        work_package = FactoryGirl.create :work_package, project: project
+        work_package = FactoryBot.create :work_package, project: project
 
-        FactoryGirl.create :time_entry,
+        FactoryBot.create :time_entry,
                            comments: comment,
                            work_package: work_package,
                            project: project,

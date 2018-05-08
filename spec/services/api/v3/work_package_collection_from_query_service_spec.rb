@@ -33,7 +33,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
   include API::V3::Utilities::PathHelper
 
   let(:query) do
-    query = FactoryGirl.build_stubbed(:query)
+    query = FactoryBot.build_stubbed(:query)
     allow(query)
       .to receive(:results)
       .and_return(results)
@@ -73,8 +73,8 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
     results
   end
 
-  let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:mock_wp_representer) do
     Struct.new(:work_packages,
                :self_link,
@@ -152,7 +152,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
   let(:update_query_service_errors) { nil }
   let(:update_query_service_result) { query }
 
-  let(:work_package) { FactoryGirl.build_stubbed(:work_package) }
+  let(:work_package) { FactoryBot.build_stubbed(:work_package) }
 
   let(:instance) { described_class.new(query, user) }
 
@@ -205,7 +205,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
 
       context 'self_link' do
         context 'if the project is nil' do
-          let(:query) { FactoryGirl.build_stubbed(:query, project: nil) }
+          let(:query) { FactoryBot.build_stubbed(:query, project: nil) }
 
           it 'is the global work_package link' do
             expect(subject.self_link)
@@ -214,7 +214,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
         end
 
         context 'if the project is set' do
-          let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
+          let(:query) { FactoryBot.build_stubbed(:query, project: project) }
 
           it 'is the global work_package link' do
             expect(subject.self_link)

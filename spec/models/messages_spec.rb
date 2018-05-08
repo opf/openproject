@@ -31,7 +31,7 @@ require 'spec_helper'
 require 'support/shared/acts_as_watchable'
 
 describe Message, type: :model do
-  let(:message) { FactoryGirl.create(:message) }
+  let(:message) { FactoryBot.create(:message) }
 
   it_behaves_like 'acts_as_watchable included' do
     let(:model_instance) { message }

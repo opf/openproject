@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 feature 'Group memberships through groups page', type: :feature do
-  let!(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
+  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
-  let(:admin)  { FactoryGirl.create :admin }
-  let!(:peter) { FactoryGirl.create :user, firstname: 'Peter', lastname: 'Pan' }
+  let(:admin)  { FactoryBot.create :admin }
+  let!(:peter) { FactoryBot.create :user, firstname: 'Peter', lastname: 'Pan' }
 
-  let!(:manager) { FactoryGirl.create :role, name: 'Manager' }
+  let!(:manager) { FactoryBot.create :role, name: 'Manager' }
 
   let(:members_page) { Pages::Members.new project.identifier }
 

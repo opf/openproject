@@ -57,8 +57,8 @@ shared_examples_for 'type service' do
     end
 
     describe 'custom fields' do
-      let(:cf1) { FactoryGirl.create :work_package_custom_field, field_format: 'text' }
-      let(:cf2) { FactoryGirl.create :work_package_custom_field, field_format: 'text' }
+      let(:cf1) { FactoryBot.create :work_package_custom_field, field_format: 'text' }
+      let(:cf2) { FactoryBot.create :work_package_custom_field, field_format: 'text' }
       let(:params) do
         {
           attribute_groups: [['group1', ["custom_field_#{cf1.id}", 'custom_field_54']],
@@ -90,7 +90,7 @@ shared_examples_for 'type service' do
         ['group1', query_params]
       end
       let(:params) { { attribute_groups: [query_group_params] } }
-      let(:query) { FactoryGirl.build_stubbed(:query) }
+      let(:query) { FactoryBot.build_stubbed(:query) }
       let(:service_result) { ServiceResult.new(success: true, result: query) }
 
       before do

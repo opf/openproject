@@ -37,8 +37,8 @@ describe ProjectsController, type: :controller do
   before do
     allow(@controller).to receive(:set_localization)
 
-    @role = FactoryGirl.create(:non_member)
-    @user = FactoryGirl.create(:admin)
+    @role = FactoryBot.create(:non_member)
+    @user = FactoryBot.create(:admin)
     allow(User).to receive(:current).and_return @user
 
     @params = {}
@@ -49,7 +49,7 @@ describe ProjectsController, type: :controller do
 
     describe 'without wiki' do
       before do
-        @project = FactoryGirl.create(:project)
+        @project = FactoryBot.create(:project)
         @project.reload # project contains wiki by default
         @project.wiki.destroy
         @project.reload
@@ -71,7 +71,7 @@ describe ProjectsController, type: :controller do
 
     describe 'with wiki' do
       before do
-        @project = FactoryGirl.create(:project)
+        @project = FactoryBot.create(:project)
         @project.reload # project contains wiki by default
         @params[:id] = @project.id
       end
@@ -92,8 +92,8 @@ describe ProjectsController, type: :controller do
 
       describe 'with custom wiki menu item' do
         before do
-          main_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id, name: 'example', title: 'Example Title')
-          sub_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id, name: 'sub', title: 'Sub Title', parent_id: main_item.id)
+          main_item = FactoryBot.create(:wiki_menu_item, navigatable_id: @project.wiki.id, name: 'example', title: 'Example Title')
+          sub_item = FactoryBot.create(:wiki_menu_item, navigatable_id: @project.wiki.id, name: 'sub', title: 'Sub Title', parent_id: main_item.id)
         end
 
         it 'renders show' do
@@ -118,7 +118,7 @@ describe ProjectsController, type: :controller do
 
     describe 'with activated activity module' do
       before do
-        @project = FactoryGirl.create(:project, enabled_module_names: %w[activity])
+        @project = FactoryBot.create(:project, enabled_module_names: %w[activity])
         @params[:id] = @project.id
       end
 
@@ -136,7 +136,7 @@ describe ProjectsController, type: :controller do
 
     describe 'without activated activity module' do
       before do
-        @project = FactoryGirl.create(:project, enabled_module_names: %w[wiki])
+        @project = FactoryBot.create(:project, enabled_module_names: %w[wiki])
         @params[:id] = @project.id
       end
 
@@ -162,10 +162,10 @@ describe ProjectsController, type: :controller do
   end
 
   describe 'index.html' do
-    let(:project_a) { FactoryGirl.create(:project, name: 'Project A', is_public: false, status: true) }
-    let(:project_b) { FactoryGirl.create(:project, name: 'Project B', is_public: false, status: true) }
-    let(:project_c) { FactoryGirl.create(:project, name: 'Project C', is_public: true, status: true)  }
-    let(:project_d) { FactoryGirl.create(:project, name: 'Project D', is_public: true, status: false) }
+    let(:project_a) { FactoryBot.create(:project, name: 'Project A', is_public: false, status: true) }
+    let(:project_b) { FactoryBot.create(:project, name: 'Project B', is_public: false, status: true) }
+    let(:project_c) { FactoryBot.create(:project, name: 'Project C', is_public: true, status: true)  }
+    let(:project_d) { FactoryBot.create(:project, name: 'Project D', is_public: true, status: false) }
 
     let(:projects) { [project_a, project_b, project_c, project_d] }
 
@@ -187,7 +187,7 @@ describe ProjectsController, type: :controller do
     end
 
     context 'as admin' do
-      let(:user) { FactoryGirl.build(:admin) }
+      let(:user) { FactoryBot.build(:admin) }
 
       it_behaves_like 'successful index'
 
@@ -209,7 +209,7 @@ describe ProjectsController, type: :controller do
     end
 
     context 'as user' do
-      let(:user) { FactoryGirl.build(:user, member_in_project: project_b) }
+      let(:user) { FactoryBot.build(:user, member_in_project: project_b) }
 
       it_behaves_like 'successful index'
 
@@ -221,7 +221,7 @@ describe ProjectsController, type: :controller do
   end
 
   describe 'index.html' do
-    let(:user) { FactoryGirl.build(:admin) }
+    let(:user) { FactoryBot.build(:admin) }
 
     before do
       login_as(user)
@@ -245,9 +245,9 @@ describe ProjectsController, type: :controller do
 
         service
       end
-      let(:user) { FactoryGirl.create(:admin) }
+      let(:user) { FactoryBot.create(:admin) }
       let(:project) do
-        project = FactoryGirl.build_stubbed(:project)
+        project = FactoryBot.build_stubbed(:project)
 
         allow(Project).to receive(:find).and_return(project)
 
@@ -296,9 +296,9 @@ describe ProjectsController, type: :controller do
     end
 
     describe '#custom_fields' do
-      let(:project) { FactoryGirl.create(:project) }
-      let(:custom_field_1) { FactoryGirl.create(:work_package_custom_field) }
-      let(:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
+      let(:project) { FactoryBot.create(:project) }
+      let(:custom_field_1) { FactoryBot.create(:work_package_custom_field) }
+      let(:custom_field_2) { FactoryBot.create(:work_package_custom_field) }
 
       let(:params) do
         {

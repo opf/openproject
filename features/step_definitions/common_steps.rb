@@ -44,7 +44,7 @@ Given /^the [pP]roject(?: "([^\"]+?)")? uses the following types:$/ do |project,
     name = line.first
     type = ::Type.find_by(name: name)
 
-    type = FactoryGirl.create(:type, name: name) if type.blank?
+    type = FactoryBot.create(:type, name: name) if type.blank?
     type
   }
 

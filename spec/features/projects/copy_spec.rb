@@ -32,12 +32,12 @@ describe 'Projects copy',
          type: :feature,
          js: true do
   let!(:project) do
-    project = FactoryGirl.create(:project,
+    project = FactoryBot.create(:project,
                                  parent: parent_project,
                                  types: active_types,
                                  custom_field_values: { project_custom_field.id => 'some text cf' })
 
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project,
                        user: user,
                        roles: [role])
@@ -48,52 +48,52 @@ describe 'Projects copy',
     project
   end
   let!(:parent_project) do
-    project = FactoryGirl.create(:project)
+    project = FactoryBot.create(:project)
 
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project,
                        user: user,
                        roles: [role])
     project
   end
   let!(:project_custom_field) do
-    FactoryGirl.create(:text_project_custom_field, is_required: true)
+    FactoryBot.create(:text_project_custom_field, is_required: true)
   end
   let!(:wp_custom_field) do
-    FactoryGirl.create(:text_wp_custom_field)
+    FactoryBot.create(:text_wp_custom_field)
   end
   let!(:inactive_wp_custom_field) do
-    FactoryGirl.create(:text_wp_custom_field)
+    FactoryBot.create(:text_wp_custom_field)
   end
   let(:active_types) do
-    [FactoryGirl.create(:type), FactoryGirl.create(:type)]
+    [FactoryBot.create(:type), FactoryBot.create(:type)]
   end
   let!(:inactive_type) do
-    FactoryGirl.create(:type)
+    FactoryBot.create(:type)
   end
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
   let(:role) do
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: permissions)
   end
   let(:permissions) { %i(copy_projects edit_project add_subprojects manage_types view_work_packages) }
   let(:wp_user) do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
 
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project,
                        user: user,
                        roles: [role])
     user
   end
   let(:category) do
-    FactoryGirl.create(:category, project: project)
+    FactoryBot.create(:category, project: project)
   end
   let(:version) do
-    FactoryGirl.create(:version, project: project)
+    FactoryBot.create(:version, project: project)
   end
   let!(:work_package) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        type: project.types.first,
                        author: wp_user,

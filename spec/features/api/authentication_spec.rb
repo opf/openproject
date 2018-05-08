@@ -62,7 +62,7 @@ describe 'Login', type: :feature do
 
   let(:user_password) { 'bob1!' * 4 }
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        force_password_change: false,
                        first_login: false,
                        login: 'bob',
@@ -74,7 +74,7 @@ describe 'Login', type: :feature do
                       )
   end
 
-  let(:other_user) { FactoryGirl.create(:user) }
+  let(:other_user) { FactoryBot.create(:user) }
 
   it 'enforces the current user to be set correctly on each api request' do
     # login to set the session

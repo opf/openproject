@@ -31,7 +31,7 @@ require 'spec_helper'
 describe WorkPackageCustomField, type: :model do
   describe '.summable' do
     let (:custom_field) {
-      FactoryGirl.create(:work_package_custom_field,
+      FactoryBot.create(:work_package_custom_field,
                          name: 'Database',
                          field_format: 'list',
                          possible_values: ['MySQL', 'PostgreSQL', 'Oracle'],

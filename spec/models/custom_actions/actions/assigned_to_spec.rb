@@ -35,14 +35,14 @@ describe CustomActions::Actions::AssignedTo, type: :model do
     users = []
 
     if !Setting.work_package_group_assignment?
-      users = [FactoryGirl.build_stubbed(:user),
-               FactoryGirl.build_stubbed(:user)]
+      users = [FactoryBot.build_stubbed(:user),
+               FactoryBot.build_stubbed(:user)]
       allow(User)
         .to receive_message_chain(:active_or_registered, :select, :order_by_name)
               .and_return(users)
     else
-      users = [FactoryGirl.build_stubbed(:user),
-               FactoryGirl.build_stubbed(:group)]
+      users = [FactoryBot.build_stubbed(:user),
+               FactoryBot.build_stubbed(:group)]
       allow(Principal)
         .to receive_message_chain(:active_or_registered, :select, :order_by_name)
               .and_return(users)

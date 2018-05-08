@@ -30,10 +30,10 @@
 require 'spec_helper'
 
 describe Relation, type: :model do
-  let(:from) { FactoryGirl.create(:work_package) }
-  let(:to) { FactoryGirl.create(:work_package) }
+  let(:from) { FactoryBot.create(:work_package) }
+  let(:to) { FactoryBot.create(:work_package) }
   let(:type) { 'relates' }
-  let(:relation) { FactoryGirl.build(:relation, from: from, to: to, relation_type: type) }
+  let(:relation) { FactoryBot.build(:relation, from: from, to: to, relation_type: type) }
 
   describe 'all relation types' do
     Relation::TYPES.each do |key, type_hash|
@@ -66,7 +66,7 @@ describe Relation, type: :model do
       let(:type) { key }
       let(:reversed) { type_hash[:reverse] }
       let(:relation) do
-        FactoryGirl.build_stubbed(:relation,
+        FactoryBot.build_stubbed(:relation,
                                   relation_type: nil,
                                   column_name => column_count)
       end
@@ -105,7 +105,7 @@ describe Relation, type: :model do
           end
         end
         let(:relation) do
-          FactoryGirl.build_stubbed(:relation,
+          FactoryBot.build_stubbed(:relation,
                                     relation_type: nil,
                                     column_name => 1,
                                     other_column => 1)
@@ -123,7 +123,7 @@ describe Relation, type: :model do
     let(:column_name) { 'relates' }
     let(:type) { :relates }
     let(:relation) do
-      FactoryGirl.build(:relation,
+      FactoryBot.build(:relation,
                         relation_type: 'relates')
     end
 
@@ -179,17 +179,17 @@ describe Relation, type: :model do
   end
 
   describe '.visible' do
-    let(:user) { FactoryGirl.create(:user) }
-    let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+    let(:user) { FactoryBot.create(:user) }
+    let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
     let(:member_project_to) do
-      FactoryGirl.create(:member,
+      FactoryBot.create(:member,
                          project: to.project,
                          user: user,
                          roles: [role])
     end
 
     let(:member_project_from) do
-      FactoryGirl.create(:member,
+      FactoryBot.create(:member,
                          project: from.project,
                          user: user,
                          roles: [role])
@@ -235,20 +235,20 @@ describe Relation, type: :model do
   end
 
   describe 'it should validate circular dependency' do
-    let(:otherwp) { FactoryGirl.create(:work_package) }
+    let(:otherwp) { FactoryBot.create(:work_package) }
     let(:relation) do
-      FactoryGirl.build(:relation, from: from, to: to, relation_type: Relation::TYPE_PRECEDES)
+      FactoryBot.build(:relation, from: from, to: to, relation_type: Relation::TYPE_PRECEDES)
     end
     let(:relation2) do
-      FactoryGirl.build(:relation, from: to, to: otherwp, relation_type: Relation::TYPE_PRECEDES)
+      FactoryBot.build(:relation, from: to, to: otherwp, relation_type: Relation::TYPE_PRECEDES)
     end
 
     let(:invalid_precedes_relation) do
-      FactoryGirl.build(:relation, from: otherwp, to: from, relation_type: Relation::TYPE_PRECEDES)
+      FactoryBot.build(:relation, from: otherwp, to: from, relation_type: Relation::TYPE_PRECEDES)
     end
 
     let(:invalid_follows_relation) do
-      FactoryGirl.build(:relation, from: from, to: otherwp, relation_type: Relation::TYPE_FOLLOWS)
+      FactoryBot.build(:relation, from: from, to: otherwp, relation_type: Relation::TYPE_FOLLOWS)
     end
 
     it 'prevents invalid precedes relations' do

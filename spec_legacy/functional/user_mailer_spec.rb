@@ -45,9 +45,9 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should test mail sends a simple greeting' do
-    user = FactoryGirl.create(:admin, mail: 'foo@bar.de')
+    user = FactoryBot.create(:admin, mail: 'foo@bar.de')
 
-    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
 
     mail = UserMailer.test_mail(user)
     assert mail.deliver_now
@@ -148,8 +148,8 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should email headers' do
-    user  = FactoryGirl.create(:user)
-    issue = FactoryGirl.create(:work_package)
+    user  = FactoryBot.create(:user)
+    issue = FactoryBot.create(:work_package)
     mail = UserMailer.work_package_added(user, issue.journals.first, user)
     assert mail.deliver_now
     refute_nil mail
@@ -159,9 +159,9 @@ describe UserMailer, type: :mailer do
 
   it 'sends plain text mail' do
     Setting.plain_text_mail = 1
-    user = FactoryGirl.create(:user)
-    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
-    issue = FactoryGirl.create(:work_package)
+    user = FactoryBot.create(:user)
+    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+    issue = FactoryBot.create(:work_package)
     UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
     mail = ActionMailer::Base.deliveries.last
     assert_match /text\/plain/, mail.content_type
@@ -171,9 +171,9 @@ describe UserMailer, type: :mailer do
 
   it 'sends html mail' do
     Setting.plain_text_mail = 0
-    user = FactoryGirl.create(:user)
-    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
-    issue = FactoryGirl.create(:work_package)
+    user = FactoryBot.create(:user)
+    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+    issue = FactoryBot.create(:work_package)
     UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
     mail = ActionMailer::Base.deliveries.last
     assert_match /multipart\/alternative/, mail.content_type
@@ -183,8 +183,8 @@ describe UserMailer, type: :mailer do
 
   context 'with mail_from set', with_settings: { mail_from: 'Redmine app <redmine@example.net>' } do
     it 'should mail from with phrase' do
-      user = FactoryGirl.create(:user)
-      FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+      user = FactoryBot.create(:user)
+      FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
       UserMailer.test_mail(user).deliver_now
       mail = ActionMailer::Base.deliveries.last
       refute_nil mail
@@ -193,8 +193,8 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should not send email without recipient' do
-    user  = FactoryGirl.create(:user)
-    news  = FactoryGirl.create(:news)
+    user  = FactoryBot.create(:user)
+    news  = FactoryBot.create(:news)
 
     # notify him
     user.pref[:no_self_notified] = false
@@ -212,8 +212,8 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should issue add message id' do
-    user  = FactoryGirl.create(:user)
-    issue = FactoryGirl.create(:work_package)
+    user  = FactoryBot.create(:user)
+    issue = FactoryBot.create(:work_package)
     mail = UserMailer.work_package_added(user, issue.journals.first, user)
     mail.deliver_now
     refute_nil mail
@@ -222,8 +222,8 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should work package updated message id' do
-    user  = FactoryGirl.create(:user)
-    issue = FactoryGirl.create(:work_package)
+    user  = FactoryBot.create(:user)
+    issue = FactoryBot.create(:work_package)
     journal = issue.journals.first
     UserMailer.work_package_updated(user, journal).deliver_now
     mail = ActionMailer::Base.deliveries.last
@@ -233,9 +233,9 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should message posted message id' do
-    user    = FactoryGirl.create(:user)
-    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
-    message = FactoryGirl.create(:message)
+    user    = FactoryBot.create(:user)
+    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+    message = FactoryBot.create(:message)
     UserMailer.message_posted(user, message, user).deliver_now
     mail = ActionMailer::Base.deliveries.last
     refute_nil mail
@@ -248,10 +248,10 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should reply posted message id' do
-    user    = FactoryGirl.create(:user)
-    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
-    parent  = FactoryGirl.create(:message)
-    message = FactoryGirl.create(:message, parent: parent)
+    user    = FactoryBot.create(:user)
+    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+    parent  = FactoryBot.create(:message)
+    message = FactoryBot.create(:message, parent: parent)
     UserMailer.message_posted(user, message, user).deliver_now
     mail = ActionMailer::Base.deliveries.last
     refute_nil mail
@@ -266,9 +266,9 @@ describe UserMailer, type: :mailer do
   context '#issue_add',
           with_settings: { available_languages: ['en', 'de'], default_language: 'de' } do
     it 'should change mail language depending on recipient language' do
-      issue = FactoryGirl.create(:work_package)
-      user  = FactoryGirl.create(:user, mail: 'foo@bar.de', language: 'de')
-      FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+      issue = FactoryBot.create(:work_package)
+      user  = FactoryBot.create(:user, mail: 'foo@bar.de', language: 'de')
+      FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
 
       I18n.locale = 'en'
       assert UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
@@ -284,9 +284,9 @@ describe UserMailer, type: :mailer do
       # 1. user's language
       # 2. Setting.default_language
       # 3. I18n.default_locale
-      issue = FactoryGirl.create(:work_package)
-      user  = FactoryGirl.create(:user, mail: 'foo@bar.de', language: '') # (auto)
-      FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+      issue = FactoryBot.create(:work_package)
+      user  = FactoryBot.create(:user, mail: 'foo@bar.de', language: '') # (auto)
+      FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
 
       I18n.locale = 'de'
       assert UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
@@ -300,38 +300,38 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should news added' do
-    user = FactoryGirl.create(:user)
-    news = FactoryGirl.create(:news)
+    user = FactoryBot.create(:user)
+    news = FactoryBot.create(:news)
     assert UserMailer.news_added(user, news, user).deliver_now
   end
 
   it 'should news comment added' do
-    user    = FactoryGirl.create(:user)
-    news    = FactoryGirl.create(:news)
-    comment = FactoryGirl.create(:comment, commented: news)
+    user    = FactoryBot.create(:user)
+    news    = FactoryBot.create(:news)
+    comment = FactoryBot.create(:comment, commented: news)
     assert UserMailer.news_comment_added(user, comment, user).deliver_now
   end
 
   it 'should message posted' do
-    user    = FactoryGirl.create(:user)
-    message = FactoryGirl.create(:message)
+    user    = FactoryBot.create(:user)
+    message = FactoryBot.create(:message)
     assert UserMailer.message_posted(user, message, user).deliver_now
   end
 
   it 'should account information' do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     assert UserMailer.account_information(user, 'pAsswORd').deliver_now
   end
 
   it 'should lost password' do
-    user  = FactoryGirl.create(:user)
-    token = FactoryGirl.create(:recovery_token, user: user)
+    user  = FactoryBot.create(:user)
+    token = FactoryBot.create(:recovery_token, user: user)
     assert UserMailer.password_lost(token).deliver_now
   end
 
   it 'should register' do
-    user  = FactoryGirl.create(:user)
-    token = FactoryGirl.create(:invitation_token, user: user)
+    user  = FactoryBot.create(:user)
+    token = FactoryBot.create(:invitation_token, user: user)
     Setting.host_name = 'redmine.foo'
     Setting.protocol = 'https'
 
@@ -341,8 +341,8 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should reminders' do
-    user  = FactoryGirl.create(:user, mail: 'foo@bar.de')
-    issue = FactoryGirl.create(:work_package, due_date: Date.tomorrow, assigned_to: user, subject: 'some issue')
+    user  = FactoryBot.create(:user, mail: 'foo@bar.de')
+    issue = FactoryBot.create(:work_package, due_date: Date.tomorrow, assigned_to: user, subject: 'some issue')
 
     DueIssuesReminder.new(42).remind_users
     assert_equal 1, ActionMailer::Base.deliveries.size
@@ -353,9 +353,9 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should reminders for users' do
-    user1  = FactoryGirl.create(:user, mail: 'foo1@bar.de')
-    user2  = FactoryGirl.create(:user, mail: 'foo2@bar.de')
-    issue = FactoryGirl.create(:work_package, due_date: Date.tomorrow, assigned_to: user1, subject: 'some issue')
+    user1  = FactoryBot.create(:user, mail: 'foo1@bar.de')
+    user2  = FactoryBot.create(:user, mail: 'foo2@bar.de')
+    issue = FactoryBot.create(:work_package, due_date: Date.tomorrow, assigned_to: user1, subject: 'some issue')
 
     DueIssuesReminder.new(42, nil, nil, [user2.id]).remind_users
     assert_equal 0, ActionMailer::Base.deliveries.size
@@ -375,7 +375,7 @@ describe UserMailer, type: :mailer do
       # Set current language to english
       I18n.locale = :en
       # Send an email to a german user
-      user = FactoryGirl.create(:user, language: 'de')
+      user = FactoryBot.create(:user, language: 'de')
       UserMailer.account_activated(user).deliver_now
       mail = ActionMailer::Base.deliveries.last
       assert mail.body.encoded.include?('aktiviert')
@@ -384,7 +384,7 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should with deliveries off' do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     UserMailer.with_deliveries(false) do
       UserMailer.test_mail(user).deliver_now
     end
@@ -399,7 +399,7 @@ describe UserMailer, type: :mailer do
             localized_emails_header: 'deutscher header'
           } do
     it 'should include the emails_header depeding on the locale' do
-      user = FactoryGirl.create(:user, language: :de)
+      user = FactoryBot.create(:user, language: :de)
       assert UserMailer.test_mail(user).deliver_now
       mail = ActionMailer::Base.deliveries.last
       assert mail.body.encoded.include?('deutscher header')
@@ -415,18 +415,18 @@ describe UserMailer, type: :mailer do
   end
 
   def setup_complex_issue_update
-    project = FactoryGirl.create(:valid_project)
-    user    = FactoryGirl.create(:admin, member_in_project: project)
-    type = FactoryGirl.create(:type, name: 'My Type')
+    project = FactoryBot.create(:valid_project)
+    user    = FactoryBot.create(:admin, member_in_project: project)
+    type = FactoryBot.create(:type, name: 'My Type')
     project.types << type
     project.save
 
-    related_issue = FactoryGirl.create(:work_package,
+    related_issue = FactoryBot.create(:work_package,
                                        subject: 'My related Ticket',
                                        type: type,
                                        project: project)
 
-    issue = FactoryGirl.create(:work_package,
+    issue = FactoryBot.create(:work_package,
                                subject: 'My awesome Ticket',
                                type: type,
                                project: project,
@@ -435,16 +435,16 @@ describe UserMailer, type: :mailer do
     # now change the issue, to get a nice journal
     issue.description = "This is related to issue ##{related_issue.id}\n"
 
-    repository = FactoryGirl.create(:repository_subversion,
+    repository = FactoryBot.create(:repository_subversion,
                                     project: project)
 
-    changeset = FactoryGirl.create :changeset,
+    changeset = FactoryBot.create :changeset,
                                    repository: repository,
                                    comments: 'This commit fixes #1, #2 and references #1 and #3'
 
     issue.description += " A reference to a changeset r#{changeset.revision}\n" if changeset
 
-    attachment = FactoryGirl.build(:attachment,
+    attachment = FactoryBot.build(:attachment,
                                    author: issue.author)
 
     issue.attachments << attachment

@@ -76,7 +76,7 @@ describe Queries::Relations::RelationQuery, type: :model do
   end
 
   context 'with a from filter' do
-    let(:current_user) { FactoryGirl.build_stubbed(:user) }
+    let(:current_user) { FactoryBot.build_stubbed(:user) }
     before do
       login_as(current_user)
       instance.where('from_id', '=', ['1'])

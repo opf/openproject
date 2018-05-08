@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:member) { FactoryGirl.build_stubbed(:user) }
+  let(:member) { FactoryBot.build_stubbed(:user) }
   let(:current_user) { member }
   let(:embed_links) { true }
   let(:representer) do
@@ -39,7 +39,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   end
   let(:parent) { nil }
   let(:work_package) do
-    FactoryGirl.build_stubbed(:stubbed_work_package,
+    FactoryBot.build_stubbed(:stubbed_work_package,
                               id: 42,
                               start_date: Date.today.to_datetime,
                               due_date: Date.today.to_datetime,
@@ -65,7 +65,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     ]
   end
   let(:permissions) { all_permissions }
-  let(:project) { FactoryGirl.build_stubbed(:project_with_types) }
+  let(:project) { FactoryBot.build_stubbed(:project_with_types) }
   let(:type) { project.types.first }
 
   before(:each) do
@@ -98,7 +98,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'no start date' do
-          let(:work_package) { FactoryGirl.build(:work_package, id: 42, start_date: nil) }
+          let(:work_package) { FactoryBot.build(:work_package, id: 42, start_date: nil) }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('startDate')
@@ -107,7 +107,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'when the work package has a milestone type' do
           let(:milestone_type) do
-            FactoryGirl.build_stubbed(:type,
+            FactoryBot.build_stubbed(:type,
                                       is_milestone: true)
           end
 
@@ -128,7 +128,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'no due date' do
-          let(:work_package) { FactoryGirl.build(:work_package, id: 42, due_date: nil) }
+          let(:work_package) { FactoryBot.build(:work_package, id: 42, due_date: nil) }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
@@ -137,7 +137,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'when the work package has a milestone type' do
           let(:milestone_type) do
-            FactoryGirl.build_stubbed(:type,
+            FactoryBot.build_stubbed(:type,
                                       is_milestone: true)
           end
 
@@ -153,7 +153,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'date' do
         let(:milestone_type) do
-          FactoryGirl.build_stubbed(:type,
+          FactoryBot.build_stubbed(:type,
                                     is_milestone: true)
         end
 
@@ -178,7 +178,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'when the work package has a non milestone type' do
           let(:none_milestone_type) do
-            FactoryGirl.build_stubbed(:type,
+            FactoryBot.build_stubbed(:type,
                                       is_milestone: false)
           end
 
@@ -219,7 +219,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
     describe 'estimatedTime' do
       let(:work_package) do
-        FactoryGirl.build_stubbed(:work_package,
+        FactoryBot.build_stubbed(:work_package,
                                   id: 42,
                                   created_at: DateTime.now,
                                   updated_at: DateTime.now,
@@ -359,7 +359,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'assignee' do
         context 'assignee is set' do
           let(:work_package) do
-            FactoryGirl.build(:work_package, id: 42, assigned_to: FactoryGirl.build_stubbed(:user))
+            FactoryBot.build(:work_package, id: 42, assigned_to: FactoryBot.build_stubbed(:user))
           end
 
           it_behaves_like 'has a titled link' do
@@ -379,7 +379,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'responsible' do
         context 'responsible is set' do
           let(:work_package) do
-            FactoryGirl.build(:work_package, id: 42, responsible: FactoryGirl.build_stubbed(:user))
+            FactoryBot.build(:work_package, id: 42, responsible: FactoryBot.build_stubbed(:user))
           end
 
           it_behaves_like 'has a titled link' do
@@ -416,7 +416,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'version set' do
-          let!(:version) { FactoryGirl.create :version, project: project }
+          let!(:version) { FactoryBot.create :version, project: project }
 
           before do
             work_package.fixed_version = version
@@ -462,7 +462,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'category set' do
-          let!(:category) { FactoryGirl.build_stubbed :category }
+          let!(:category) { FactoryBot.build_stubbed :category }
 
           before do
             work_package.category = category
@@ -703,9 +703,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'linked relations' do
-        let(:project) { FactoryGirl.create(:project, is_public: false) }
-        let(:forbidden_project) { FactoryGirl.create(:project, is_public: false) }
-        let(:user) { FactoryGirl.create(:user, member_in_project: project) }
+        let(:project) { FactoryBot.create(:project, is_public: false) }
+        let(:forbidden_project) { FactoryBot.create(:project, is_public: false) }
+        let(:user) { FactoryBot.create(:user, member_in_project: project) }
 
         before do
           login_as(user)
@@ -714,14 +714,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         describe 'parent' do
           let(:visible_parent) do
-            FactoryGirl.build_stubbed(:stubbed_work_package) do |wp|
+            FactoryBot.build_stubbed(:stubbed_work_package) do |wp|
               allow(wp)
                 .to receive(:visible?)
                 .and_return(true)
             end
           end
           let(:invisible_parent) do
-            FactoryGirl.build_stubbed(:stubbed_work_package) do |wp|
+            FactoryBot.build_stubbed(:stubbed_work_package) do |wp|
               allow(wp)
                 .to receive(:visible?)
                       .and_return(false)
@@ -754,9 +754,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'ancestors' do
-          let(:root) { FactoryGirl.build_stubbed(:work_package, project: project) }
+          let(:root) { FactoryBot.build_stubbed(:work_package, project: project) }
           let(:intermediate) do
-            FactoryGirl.build_stubbed(:work_package, parent: root, project: project)
+            FactoryBot.build_stubbed(:work_package, parent: root, project: project)
           end
 
           context 'when ancestors are visible' do
@@ -787,9 +787,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'children' do
-          let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+          let(:work_package) { FactoryBot.create(:work_package, project: project) }
           let!(:forbidden_work_package) do
-            FactoryGirl.create(:work_package,
+            FactoryBot.create(:work_package,
                                project: forbidden_project,
                                parent: work_package)
           end
@@ -798,7 +798,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
           describe 'visible and invisible children' do
             let!(:child) do
-              FactoryGirl.create(:work_package,
+              FactoryBot.create(:work_package,
                                  project: project,
                                  parent: work_package)
             end
@@ -894,7 +894,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
         context 'when admin' do
-          let(:current_user) { FactoryGirl.build_stubbed :admin }
+          let(:current_user) { FactoryBot.build_stubbed :admin }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'configureForm' }
@@ -906,7 +906,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'customActions' do
         it 'has a collection of customActions' do
-          unassign_action = FactoryGirl.build_stubbed(:custom_action,
+          unassign_action = FactoryBot.build_stubbed(:custom_action,
                                                       actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
                                                       name: 'Unassign')
           allow(work_package)
@@ -952,7 +952,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'relations' do
         let(:relation) do
-          FactoryGirl.build_stubbed(:relation,
+          FactoryBot.build_stubbed(:relation,
                                     from: work_package)
         end
 
@@ -987,7 +987,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'customActions' do
         it 'has an array of customActions' do
-          unassign_action = FactoryGirl.build_stubbed(:custom_action,
+          unassign_action = FactoryBot.build_stubbed(:custom_action,
                                                       actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
                                                       name: 'Unassign')
           allow(work_package)
@@ -1015,9 +1015,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe '#json_cache_key' do
-        let(:category) { FactoryGirl.build_stubbed(:category) }
-        let(:assigned_to) { FactoryGirl.build_stubbed(:user) }
-        let(:responsible) { FactoryGirl.build_stubbed(:user) }
+        let(:category) { FactoryBot.build_stubbed(:category) }
+        let(:assigned_to) { FactoryBot.build_stubbed(:user) }
+        let(:responsible) { FactoryBot.build_stubbed(:user) }
 
         before do
           work_package.category = category

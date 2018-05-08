@@ -33,15 +33,15 @@ describe 'API v3 Status resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:project) { FactoryBot.create(:project, is_public: false) }
   let(:current_user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   end
 
-  let!(:statuses) { FactoryGirl.create_list(:status, 4) }
+  let!(:statuses) { FactoryBot.create_list(:status, 4) }
 
   describe 'statuses' do
     describe '#get' do

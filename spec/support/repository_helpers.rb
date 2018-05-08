@@ -75,7 +75,7 @@ end
 # Instead, we wrap these repository specs in a virtual
 # subversion repository which does not exist on disk.
 def with_virtual_subversion_repository(&block)
-  let(:repository) { FactoryGirl.create(:repository_subversion) }
+  let(:repository) { FactoryBot.create(:repository_subversion) }
 
   before do
     allow(Setting).to receive(:enabled_scm).and_return(['subversion'])

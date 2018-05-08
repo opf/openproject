@@ -33,7 +33,7 @@ describe EnumerationsController, type: :controller do
 
   describe '#destroy' do
     describe '#priority' do
-      let(:enum_to_delete) { FactoryGirl.create(:priority_normal) }
+      let(:enum_to_delete) { FactoryBot.create(:priority_normal) }
 
       shared_examples_for 'successful delete' do
         it { expect(Enumeration.find_by(id: enum_to_delete.id)).to be_nil }
@@ -50,9 +50,9 @@ describe EnumerationsController, type: :controller do
       end
 
       describe 'in use' do
-        let!(:enum_to_reassign) { FactoryGirl.create(:priority_high) }
+        let!(:enum_to_reassign) { FactoryBot.create(:priority_high) }
         let!(:work_package) {
-          FactoryGirl.create(:work_package,
+          FactoryBot.create(:work_package,
                              priority: enum_to_delete)
         }
 

@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe ::API::V3::Activities::ActivityRepresenter do
-  let(:current_user) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
-  let(:work_package) { FactoryGirl.build(:work_package) }
+  let(:current_user) { FactoryBot.create(:user,  member_in_project: project, member_through_role: role) }
+  let(:work_package) { FactoryBot.build(:work_package) }
   let(:journal) { Journal::AggregatedJournal.aggregated_journals.first }
   let(:project) { work_package.project }
   let(:permissions) { %i(edit_own_work_package_notes) }
-  let(:role) { FactoryGirl.create :role, permissions: permissions }
+  let(:role) { FactoryBot.create :role, permissions: permissions }
   let(:representer) { described_class.new(journal, current_user: current_user) }
 
   before do

@@ -31,22 +31,22 @@ require 'spec_helper'
 describe Project::Storage, type: :model do
 
   let(:project1) {
-    FactoryGirl.create(:project)
+    FactoryBot.create(:project)
       .reload # Reload required for wiki association to be available
   }
-  let(:project2) { FactoryGirl.create(:project) }
+  let(:project2) { FactoryBot.create(:project) }
 
   before do
     allow(Setting).to receive(:enabled_scm).and_return(['git'])
 
-    wp = FactoryGirl.create(:work_package, project: project1)
-    FactoryGirl.create(:work_package, project: project1)
-    FactoryGirl.create_list(:attachment, 10, filesize: 250, container: wp)
+    wp = FactoryBot.create(:work_package, project: project1)
+    FactoryBot.create(:work_package, project: project1)
+    FactoryBot.create_list(:attachment, 10, filesize: 250, container: wp)
 
-    wikipage = FactoryGirl.create(:wiki_page, wiki: project1.wiki)
-    FactoryGirl.create(:attachment, filesize: 10000, container: wikipage)
+    wikipage = FactoryBot.create(:wiki_page, wiki: project1.wiki)
+    FactoryBot.create(:attachment, filesize: 10000, container: wikipage)
 
-    repo = FactoryGirl.create(:repository_git, project: project2)
+    repo = FactoryBot.create(:repository_git, project: project2)
     repo.update_attributes(required_storage_bytes: 1234)
   end
 
@@ -78,7 +78,7 @@ describe Project::Storage, type: :model do
     end
 
     context 'with a project with all modules' do
-      let(:repository1) { FactoryGirl.create(:repository_git, project: project1) }
+      let(:repository1) { FactoryBot.create(:repository_git, project: project1) }
       before do
         repository1.update_attributes(required_storage_bytes: 543211234)
       end

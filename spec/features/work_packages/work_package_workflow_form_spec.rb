@@ -33,23 +33,23 @@ require 'features/page_objects/notification'
 
 describe 'Work package transitive status workflows', js: true do
   let(:dev_role) do
-    FactoryGirl.create :role,
+    FactoryBot.create :role,
                        permissions: [:view_work_packages,
                                      :edit_work_packages]
   end
   let(:dev) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        firstname: 'Dev',
                        lastname: 'Guy',
                        member_in_project: project,
                        member_through_role: dev_role
   end
 
-  let(:type) { FactoryGirl.create :type }
-  let(:project) { FactoryGirl.create(:project, types: [type]) }
+  let(:type) { FactoryBot.create :type }
+  let(:project) { FactoryBot.create(:project, types: [type]) }
 
   let(:work_package) {
-    work_package = FactoryGirl.create :work_package,
+    work_package = FactoryBot.create :work_package,
                                       project: project,
                                       type: type,
                                       created_at: 5.days.ago.to_date.to_s(:db)
@@ -62,17 +62,17 @@ describe 'Work package transitive status workflows', js: true do
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
   let(:status_from) { work_package.status }
-  let(:status_intermediate) { FactoryGirl.create :status }
-  let(:status_to) { FactoryGirl.create :status }
+  let(:status_intermediate) { FactoryBot.create :status }
+  let(:status_to) { FactoryBot.create :status }
 
   let(:workflows) {
-    FactoryGirl.create :workflow,
+    FactoryBot.create :workflow,
                        type_id: type.id,
                        old_status: status_from,
                        new_status: status_intermediate,
                        role: dev_role
 
-    FactoryGirl.create :workflow,
+    FactoryBot.create :workflow,
                        type_id: type.id,
                        old_status: status_intermediate,
                        new_status: status_to,

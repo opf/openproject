@@ -32,8 +32,8 @@ describe ::API::V3::CustomActions::CustomActionExecuteRepresenter, 'parsing' do
   include ::API::V3::Utilities::PathHelper
 
   let(:struct) { OpenStruct.new }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
 
   let(:representer) do
     described_class.new(struct, current_user: user)

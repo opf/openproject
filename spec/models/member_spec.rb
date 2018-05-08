@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe Member, type: :model do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:role) { FactoryGirl.create(:role) }
-  let(:second_role) { FactoryGirl.create(:role) }
-  let(:member) { FactoryGirl.create(:member, user: user, roles: [role]) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:role) { FactoryBot.create(:role) }
+  let(:second_role) { FactoryBot.create(:role) }
+  let(:member) { FactoryBot.create(:member, user: user, roles: [role]) }
 
   describe '#add_role' do
     before do

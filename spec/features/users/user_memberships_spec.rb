@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 feature 'user memberships through user page', type: :feature, js: true do
-  let!(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
-  let(:admin) { FactoryGirl.create :admin, firstname: 'Foobar', lastname: 'Blabla' }
+  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
+  let(:admin) { FactoryBot.create :admin, firstname: 'Foobar', lastname: 'Blabla' }
 
-  let!(:manager)   { FactoryGirl.create :role, name: 'Manager' }
-  let!(:developer) { FactoryGirl.create :role, name: 'Developer' }
+  let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
+  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
 
   let(:user_page)   { Pages::Admin::User.new(admin.id) }
 
@@ -62,7 +62,7 @@ feature 'user memberships through user page', type: :feature, js: true do
   end
 
   context 'when user has an inherited role' do
-    let(:group)     { FactoryGirl.create :group, lastname: 'A-Team' }
+    let(:group)     { FactoryBot.create :group, lastname: 'A-Team' }
     let(:group_page)   { Pages::Groups.new.group(group.id) }
 
     before do

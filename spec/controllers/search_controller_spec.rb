@@ -30,11 +30,11 @@ require 'spec_helper'
 
 describe SearchController, type: :controller do
   let!(:project) {
-    FactoryGirl.create(:project,
+    FactoryBot.create(:project,
                        name: 'eCookbook')
   }
   let(:user) {
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project)
   }
 
@@ -62,7 +62,7 @@ describe SearchController, type: :controller do
       end
 
       context 'is a work package reference' do
-        let!(:work_package) { FactoryGirl.create :work_package, project: project }
+        let!(:work_package) { FactoryBot.create :work_package, project: project }
 
         subject { get :index, params: { q: "##{work_package.id}" } }
 
@@ -81,15 +81,15 @@ describe SearchController, type: :controller do
 
   describe 'work package search' do
     let!(:work_package_1) {
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          subject: 'This is a test issue',
                          project: project)
     }
     let!(:work_package_2) {
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          subject: 'Issue test 2',
                          project: project,
-                         status: FactoryGirl.create(:closed_status))
+                         status: FactoryBot.create(:closed_status))
     }
 
     context 'when not searching for a note' do
@@ -118,7 +118,7 @@ describe SearchController, type: :controller do
 
     context 'when searching for a note' do
       let!(:note_1) {
-        FactoryGirl.create :work_package_journal,
+        FactoryBot.create :work_package_journal,
                            journable_id: work_package_1.id,
                            notes: 'Test note 1',
                            version: 2
@@ -127,7 +127,7 @@ describe SearchController, type: :controller do
       before do allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) end
 
       let!(:note_2) {
-        FactoryGirl.create :work_package_journal,
+        FactoryBot.create :work_package_journal,
                            journable_id: work_package_1.id,
                            notes: 'Special note 2',
                            version: 3

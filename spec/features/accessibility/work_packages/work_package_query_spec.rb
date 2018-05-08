@@ -30,9 +30,9 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Work package index accessibility', type: :feature, selenium: true do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:sort_ascending_selector) { '.icon-sort-ascending' }
   let(:sort_descending_selector) { '.icon-sort-descending' }
@@ -167,7 +167,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
   describe 'hotkeys', js: true do
     let!(:another_work_package) {
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          project: project)
     }
     before do

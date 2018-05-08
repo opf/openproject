@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :comment do
     author factory: :user
     sequence(:comments) do |n| "I am a comment No. #{n}" end

@@ -36,11 +36,11 @@ describe 'API v3 Query Operator resource', type: :request do
   describe '#get queries/operators/:id' do
     let(:path) { api_v3_paths.query_operator(CGI.escape(operator)) }
     let(:operator) { '=' }
-    let(:project) { FactoryGirl.create(:project) }
-    let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+    let(:project) { FactoryBot.create(:project) }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
     let(:permissions) { [:view_work_packages] }
     let(:user) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: project,
                          member_through_role: role)
     end

@@ -33,17 +33,17 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryBot.create(:project) }
   let(:group) do
-    FactoryGirl.create(:group,
+    FactoryBot.create(:group,
                        member_in_project: project,
                        member_through_role: role)
   end
   let(:group_project) { project }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_members] }
   let(:current_user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   end

@@ -31,9 +31,9 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::CustomActions::CustomActionsWrapper do
-  let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:custom_action) { FactoryGirl.build_stubbed(:custom_action) }
+  let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:custom_action) { FactoryBot.build_stubbed(:custom_action) }
 
   let(:instance) do
     described_class.send(:new, work_package, [custom_action])

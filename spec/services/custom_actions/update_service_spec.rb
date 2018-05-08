@@ -32,7 +32,7 @@ require 'spec_helper'
 
 describe CustomActions::UpdateService do
   let(:action) do
-    action = FactoryGirl.build_stubbed(:custom_action)
+    action = FactoryBot.build_stubbed(:custom_action)
 
     allow(action)
       .to receive(:save)
@@ -40,7 +40,7 @@ describe CustomActions::UpdateService do
 
     action
   end
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:save_success) { true }
   let(:contract_success) { true }
   let(:contract_errors) { double('contract errors') }
@@ -155,8 +155,8 @@ describe CustomActions::UpdateService do
     end
 
     it 'updates the conditions' do
-      old_status = FactoryGirl.create(:status)
-      new_status = FactoryGirl.create(:status)
+      old_status = FactoryBot.create(:status)
+      new_status = FactoryBot.create(:status)
 
       action.conditions = [CustomActions::Conditions::Status.new(old_status.id)]
 

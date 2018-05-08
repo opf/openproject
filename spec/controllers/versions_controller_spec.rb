@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe VersionsController, type: :controller do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:public_project) }
-  let(:version1) { FactoryGirl.create(:version, project: project, effective_date: nil) }
-  let(:version2) { FactoryGirl.create(:version, project: project) }
-  let(:version3) { FactoryGirl.create(:version, project: project, effective_date: (Date.today - 14.days)) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:public_project) }
+  let(:version1) { FactoryBot.create(:version, project: project, effective_date: nil) }
+  let(:version2) { FactoryBot.create(:version, project: project) }
+  let(:version3) { FactoryBot.create(:version, project: project, effective_date: (Date.today - 14.days)) }
 
   describe '#index' do
     render_views
@@ -87,8 +87,8 @@ describe VersionsController, type: :controller do
     end
 
     context 'with showing subprojects versions' do
-      let(:sub_project) { FactoryGirl.create(:public_project, parent_id: project.id) }
-      let(:version4) { FactoryGirl.create(:version, project: sub_project) }
+      let(:sub_project) { FactoryBot.create(:public_project, parent_id: project.id) }
+      let(:version4) { FactoryBot.create(:version, project: sub_project) }
 
       before do
         login_as(user)

@@ -29,17 +29,17 @@
 require 'spec_helper'
 
 describe MessagesController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:role) { FactoryBot.create(:role) }
   let!(:member) {
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project,
                        principal: user,
                        roles: [role])
   }
   let!(:board) {
-    FactoryGirl.create(:board,
+    FactoryBot.create(:board,
                        project: project)
   }
 
@@ -81,8 +81,8 @@ describe MessagesController, type: :controller do
   end
 
   describe '#update' do
-    let(:message) { FactoryGirl.create :message, board: board }
-    let(:other_board) { FactoryGirl.create :board, project: project }
+    let(:message) { FactoryBot.create :message, board: board }
+    let(:other_board) { FactoryBot.create :board, project: project }
 
     before do
       role.add_permission!(:edit_messages) and user.reload
@@ -96,7 +96,7 @@ describe MessagesController, type: :controller do
   end
 
   describe '#attachment' do
-    let!(:message) { FactoryGirl.create(:message) }
+    let!(:message) { FactoryBot.create(:message) }
     let(:attachment_id) { "attachments_#{message.attachments.first.id}" }
     let(:params) {
       { id: message.id,
@@ -158,13 +158,13 @@ describe MessagesController, type: :controller do
 
     describe '#remove' do
       let!(:attachment) {
-        FactoryGirl.create(:attachment,
+        FactoryBot.create(:attachment,
                            container: message,
                            author: user,
                            filename: filename)
       }
       let!(:attachable_journal) {
-        FactoryGirl.create(:journal_attachable_journal,
+        FactoryBot.create(:journal_attachable_journal,
                            journal: message.journals.last,
                            attachment: attachment,
                            filename: filename)
@@ -208,16 +208,16 @@ describe MessagesController, type: :controller do
     end
 
     it_behaves_like 'authorizes object access' do
-      let(:message) { FactoryGirl.create :message, board: board }
+      let(:message) { FactoryBot.create :message, board: board }
       let(:preview_params) { { board_id: board.id, id: message.id, message: {} } }
     end
   end
 
   describe 'quote' do
-    let(:message) { FactoryGirl.create :message, content: 'foo', subject: 'subject', board: board }
+    let(:message) { FactoryBot.create :message, content: 'foo', subject: 'subject', board: board }
 
     context 'when allowed' do
-      let(:user) { FactoryGirl.create(:admin) }
+      let(:user) { FactoryBot.create(:admin) }
 
       before do
         login_as user

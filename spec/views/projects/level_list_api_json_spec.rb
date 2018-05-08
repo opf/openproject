@@ -46,14 +46,14 @@ describe '/projects/level_list.api.rabl', type: :view do
 
   describe 'with some projects available' do
     let(:projects) do
-      p1 = FactoryGirl.build(:project, name: 'P1')
+      p1 = FactoryBot.build(:project, name: 'P1')
 
       # a result from Project.project_level_list
       [{ project: p1,
          level: 0 },
-       { project: FactoryGirl.build(:project, name: 'P2', parent: p1),
+       { project: FactoryBot.build(:project, name: 'P2', parent: p1),
          level: 1 },
-       { project: FactoryGirl.build(:project, name: 'P3'),
+       { project: FactoryBot.build(:project, name: 'P3'),
          level: 0 }]
     end
 

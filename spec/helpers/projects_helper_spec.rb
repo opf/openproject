@@ -41,10 +41,10 @@ describe ProjectsHelper, type: :helper do
     User.current = nil
   end
 
-  let(:test_project)  { FactoryGirl.create :valid_project }
+  let(:test_project)  { FactoryBot.create :valid_project }
 
   describe 'a version' do
-    let(:version) { FactoryGirl.create :version, project: test_project }
+    let(:version) { FactoryBot.create :version, project: test_project }
 
     it 'can be formatted' do
       expect(format_version_name(version)).to eq("#{test_project.name} - #{version.name}")
@@ -60,7 +60,7 @@ describe ProjectsHelper, type: :helper do
     end
 
     describe 'with a valid user' do
-      let(:user) { FactoryGirl.create :user, member_in_project: test_project }
+      let(:user) { FactoryBot.create :user, member_in_project: test_project }
       before do login_as(user) end
 
       it 'generates a link' do
@@ -85,7 +85,7 @@ describe ProjectsHelper, type: :helper do
   end
 
   describe 'a system version' do
-    let(:version) { FactoryGirl.create :version, project: test_project, sharing: 'system' }
+    let(:version) { FactoryBot.create :version, project: test_project, sharing: 'system' }
 
     it 'can be formatted' do
       expect(format_version_name(version)).to eq("#{test_project.name} - #{version.name}")
@@ -106,7 +106,7 @@ describe ProjectsHelper, type: :helper do
     end
 
     def stub_descendant_of(*ancestors)
-      wp = FactoryGirl.build_stubbed(:project)
+      wp = FactoryBot.build_stubbed(:project)
 
       allow(wp)
         .to receive(:is_descendant_of?)

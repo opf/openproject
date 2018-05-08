@@ -33,22 +33,22 @@ describe WikiMenuItemsController, type: :controller do
     User.delete_all
     Role.delete_all
 
-    @project = FactoryGirl.create(:project)
+    @project = FactoryBot.create(:project)
     @project.reload # project contains wiki by default
 
     @params = {}
     @params[:project_id] = @project.id
-    page = FactoryGirl.create(:wiki_page, wiki: @project.wiki)
+    page = FactoryBot.create(:wiki_page, wiki: @project.wiki)
     @params[:id] = page.title
   end
 
   describe 'w/ valid auth' do
     it 'renders the edit action' do
-      admin_user = FactoryGirl.create(:admin)
+      admin_user = FactoryBot.create(:admin)
 
       allow(User).to receive(:current).and_return admin_user
-      permission_role = FactoryGirl.create(:role, name: 'accessgranted', permissions: [:manage_wiki_menu])
-      member = FactoryGirl.create(:member, principal: admin_user, user: admin_user, project: @project, roles: [permission_role])
+      permission_role = FactoryBot.create(:role, name: 'accessgranted', permissions: [:manage_wiki_menu])
+      member = FactoryBot.create(:member, principal: admin_user, user: admin_user, project: @project, roles: [permission_role])
 
       get 'edit', params: @params
 
@@ -58,7 +58,7 @@ describe WikiMenuItemsController, type: :controller do
 
   describe 'w/o valid auth' do
     it 'be forbidden' do
-      allow(User).to receive(:current).and_return FactoryGirl.create(:user)
+      allow(User).to receive(:current).and_return FactoryBot.create(:user)
 
       get 'edit', params: @params
 

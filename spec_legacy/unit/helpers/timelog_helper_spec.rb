@@ -34,22 +34,22 @@ describe TimelogHelper, type: :helper do
   include ActionView::Helpers::DateHelper
 
   it 'should activities collection for select options should return array of activity names and ids' do
-    design = TimeEntryActivity.find_by(name: 'Design') || FactoryGirl.create(:activity, name: 'Design')
-    development = TimeEntryActivity.find_by(name: 'Development') || FactoryGirl.create(:activity, name: 'Development')
+    design = TimeEntryActivity.find_by(name: 'Design') || FactoryBot.create(:activity, name: 'Design')
+    development = TimeEntryActivity.find_by(name: 'Development') || FactoryBot.create(:activity, name: 'Development')
     activities = activity_collection_for_select_options
     assert activities.include?(['Design', design.id])
     assert activities.include?(['Development', development.id])
   end
 
   it 'should activities collection for select options should not include inactive activities' do
-    inactive = TimeEntryActivity.find_by(name: 'Inactive Activity') || FactoryGirl.create(:inactive_activity, name: 'Inactive Activity')
+    inactive = TimeEntryActivity.find_by(name: 'Inactive Activity') || FactoryBot.create(:inactive_activity, name: 'Inactive Activity')
     activities = activity_collection_for_select_options
     assert !activities.include?(['Inactive Activity', inactive.id])
   end
 
   it 'should activities collection for select options should use the projects override' do
-    project = FactoryGirl.create :valid_project
-    design = TimeEntryActivity.find_by(name: 'Design') || FactoryGirl.create(:activity, name: 'Design')
+    project = FactoryBot.create :valid_project
+    design = TimeEntryActivity.find_by(name: 'Design') || FactoryBot.create(:activity, name: 'Design')
     override_activity = TimeEntryActivity.create!(name: 'Design override', parent: TimeEntryActivity.find_by(name: 'Design'), project: project)
 
     activities = activity_collection_for_select_options(nil, project)

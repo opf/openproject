@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe CustomValue do
   let(:format) { 'bool' }
-  let(:custom_field) { FactoryGirl.create(:custom_field, field_format: format) }
-  let(:custom_value) { FactoryGirl.create(:custom_value, custom_field: custom_field, value: value) }
+  let(:custom_field) { FactoryBot.create(:custom_field, field_format: format) }
+  let(:custom_value) { FactoryBot.create(:custom_value, custom_field: custom_field, value: value) }
 
   describe '#typed_value' do
     subject { custom_value }
@@ -97,7 +97,7 @@ describe CustomValue do
   end
 
   describe 'value/value=' do
-    let(:custom_value) { FactoryGirl.build_stubbed(:custom_value) }
+    let(:custom_value) { FactoryBot.build_stubbed(:custom_value) }
     let(:strategy_double) { double('strategy_double') }
 
     it 'calls the strategy for parsing and uses that value' do

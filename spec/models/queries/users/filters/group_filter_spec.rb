@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 describe Queries::Users::Filters::GroupFilter, type: :model do
-  let(:group1) { FactoryGirl.build_stubbed(:group) }
-  let(:group2) { FactoryGirl.build_stubbed(:group) }
+  let(:group1) { FactoryBot.build_stubbed(:group) }
+  let(:group2) { FactoryBot.build_stubbed(:group) }
 
   before do
     allow(Group)

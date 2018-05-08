@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe CustomOption, type: :model do
   let(:custom_field) do
-    cf = FactoryGirl.build(:wp_custom_field, field_format: 'list')
+    cf = FactoryBot.build(:wp_custom_field, field_format: 'list')
     cf.custom_options.build(value: 'some value')
 
     cf
@@ -54,7 +54,7 @@ describe CustomOption, type: :model do
   describe '.destroy' do
     context 'with more than one option for the cf' do
       before do
-        FactoryGirl.create(:custom_option, custom_field: custom_field)
+        FactoryBot.create(:custom_option, custom_field: custom_field)
       end
 
       it 'removes the option' do

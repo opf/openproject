@@ -79,7 +79,7 @@ describe Queries::WorkPackages::Filter::TypeFilter, type: :model do
     end
 
     describe '#allowed_values' do
-      let(:type) { FactoryGirl.build_stubbed(:type) }
+      let(:type) { FactoryBot.build_stubbed(:type) }
       context 'within a project' do
         before do
           allow(project)
@@ -117,8 +117,8 @@ describe Queries::WorkPackages::Filter::TypeFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:type1) { FactoryGirl.build_stubbed(:type) }
-      let(:type2) { FactoryGirl.build_stubbed(:type) }
+      let(:type1) { FactoryBot.build_stubbed(:type) }
+      let(:type2) { FactoryBot.build_stubbed(:type) }
 
       before do
         allow(project)

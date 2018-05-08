@@ -166,10 +166,10 @@ describe WikiController, type: :controller do
   # because running whole suite is fine, but running only this test
   # results in failure
   it 'should update stale page should not raise an error' do
-    journal = FactoryGirl.create :wiki_content_journal,
+    journal = FactoryBot.create :wiki_content_journal,
                                  journable_id: 2,
                                  version: 1,
-                                 data: FactoryGirl.build(:journal_wiki_content_journal,
+                                 data: FactoryBot.build(:journal_wiki_content_journal,
                                                          text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     session[:user_id] = 2
     c = Wiki.find(1).find_page('Another page').content
@@ -207,17 +207,17 @@ describe WikiController, type: :controller do
   end
 
   it 'should history' do
-    FactoryGirl.create :wiki_content_journal,
+    FactoryBot.create :wiki_content_journal,
                        journable_id: 1,
-                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                       data: FactoryBot.build(:journal_wiki_content_journal,
                                                text: 'h1. CookBook documentation')
-    FactoryGirl.create :wiki_content_journal,
+    FactoryBot.create :wiki_content_journal,
                        journable_id: 1,
-                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                       data: FactoryBot.build(:journal_wiki_content_journal,
                                                text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
-    FactoryGirl.create :wiki_content_journal,
+    FactoryBot.create :wiki_content_journal,
                        journable_id: 1,
-                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                       data: FactoryBot.build(:journal_wiki_content_journal,
                                                text: "h1. CookBook documentation\nSome updated [[documentation]] here...")
 
     get :history, params: { project_id: 1, id: 'CookBook documentation' }
@@ -229,9 +229,9 @@ describe WikiController, type: :controller do
   end
 
   it 'should history with one version' do
-    FactoryGirl.create :wiki_content_journal,
+    FactoryBot.create :wiki_content_journal,
                        journable_id: 2,
-                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                       data: FactoryBot.build(:journal_wiki_content_journal,
                                                text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     get :history, params: { project_id: 1, id: 'Another page' }
     assert_response :success
@@ -242,13 +242,13 @@ describe WikiController, type: :controller do
   end
 
   it 'should diff' do
-    journal_from = FactoryGirl.create :wiki_content_journal,
+    journal_from = FactoryBot.create :wiki_content_journal,
                                       journable_id: 1,
-                                      data: FactoryGirl.build(:journal_wiki_content_journal,
+                                      data: FactoryBot.build(:journal_wiki_content_journal,
                                                               text: 'h1. CookBook documentation')
-    journal_to = FactoryGirl.create :wiki_content_journal,
+    journal_to = FactoryBot.create :wiki_content_journal,
                                     journable_id: 1,
-                                    data: FactoryGirl.build(:journal_wiki_content_journal,
+                                    data: FactoryBot.build(:journal_wiki_content_journal,
                                                             text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
 
     get :diff, params: { project_id: 1, id: 'CookBook documentation', version: journal_to.version, version_from: journal_from.version }
@@ -259,13 +259,13 @@ describe WikiController, type: :controller do
   end
 
   it 'should annotate' do
-    FactoryGirl.create :wiki_content_journal,
+    FactoryBot.create :wiki_content_journal,
                        journable_id: 1,
-                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                       data: FactoryBot.build(:journal_wiki_content_journal,
                                                text: 'h1. CookBook documentation')
-    journal_to = FactoryGirl.create :wiki_content_journal,
+    journal_to = FactoryBot.create :wiki_content_journal,
                                     journable_id: 1,
-                                    data: FactoryGirl.build(:journal_wiki_content_journal,
+                                    data: FactoryBot.build(:journal_wiki_content_journal,
                                                             text: "h1. CookBook documentation\n\n\nSome [[documentation]] here...")
 
     get :annotate, params: { project_id: 1, id:  'CookBook documentation', version: journal_to.version }

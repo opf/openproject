@@ -30,16 +30,16 @@ require 'spec_helper'
 require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::UpdateContract do
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-  let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages, :edit_work_packages] }
 
   subject(:contract) { described_class.new(work_package, user) }
 
   it_behaves_like 'work package contract' do
-    let(:work_package) { FactoryGirl.build_stubbed(:work_package) }
+    let(:work_package) { FactoryBot.build_stubbed(:work_package) }
   end
 
   describe 'lock_version' do
@@ -93,14 +93,14 @@ describe WorkPackages::UpdateContract do
   end
 
   describe 'project_id' do
-    let(:target_project) { FactoryGirl.create(:project) }
+    let(:target_project) { FactoryBot.create(:project) }
     let(:target_permissions) { [:move_work_packages] }
 
     before do
-      FactoryGirl.create :member,
+      FactoryBot.create :member,
                          user: user,
                          project: target_project,
-                         roles: [FactoryGirl.create(:role, permissions: target_permissions)]
+                         roles: [FactoryBot.create(:role, permissions: target_permissions)]
 
       work_package.project = target_project
 
@@ -120,7 +120,7 @@ describe WorkPackages::UpdateContract do
   end
 
   describe 'parent_id' do
-    let(:parent) { FactoryGirl.create(:work_package) }
+    let(:parent) { FactoryBot.create(:work_package) }
 
     before do
       work_package.parent_id = parent.id

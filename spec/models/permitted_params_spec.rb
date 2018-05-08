@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe PermittedParams, type: :model do
-  let(:user) { FactoryGirl.build(:user) }
-  let(:admin) { FactoryGirl.build(:admin) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:admin) { FactoryBot.build(:admin) }
 
   shared_context 'prepare params comparison' do
     let(:params_key) { defined?(hash_key) ? hash_key : attribute }

@@ -30,15 +30,15 @@
 require 'spec_helper'
 
 describe Relation, 'hierarchy_paths', type: :model do
-  let(:parent) { FactoryGirl.create(:work_package) }
-  let(:child) { FactoryGirl.create(:work_package) }
+  let(:parent) { FactoryBot.create(:work_package) }
+  let(:child) { FactoryBot.create(:work_package) }
   let(:grand_parent) do
-    wp = FactoryGirl.create(:work_package)
+    wp = FactoryBot.create(:work_package)
     parent.parent = wp
     parent.save!
     wp
   end
-  let(:grand_child) { FactoryGirl.create(:work_package, parent: child) }
+  let(:grand_child) { FactoryBot.create(:work_package, parent: child) }
 
   def record_for(id)
     ActiveRecord::Base.connection.select_rows <<-SQL
@@ -164,7 +164,7 @@ describe Relation, 'hierarchy_paths', type: :model do
   context 'on update' do
     let(:parent_child_relation) { Relation.create relation_type: 'hierarchy', from: parent, to: child }
     let(:follows_relation) { Relation.create relation_type: 'follows', from: parent, to: child }
-    let(:other_wp) { FactoryGirl.create :work_package }
+    let(:other_wp) { FactoryBot.create :work_package }
 
     context 'on switching the type to non hierarchy' do
       before do

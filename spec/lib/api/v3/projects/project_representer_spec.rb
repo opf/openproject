@@ -31,10 +31,10 @@ require 'spec_helper'
 describe ::API::V3::Projects::ProjectRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:representer) { described_class.new(project, current_user: user) }
   let(:user) do
-    FactoryGirl.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user)
   end
   let(:permissions) { [:add_work_packages] }
 
@@ -161,7 +161,7 @@ describe ::API::V3::Projects::ProjectRepresenter do
       end
 
       describe '#json_cache_key' do
-        let(:project_type) { FactoryGirl.build_stubbed(:project_type) }
+        let(:project_type) { FactoryBot.build_stubbed(:project_type) }
 
         before do
           project.project_type = project_type

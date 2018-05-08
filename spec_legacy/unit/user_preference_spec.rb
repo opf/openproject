@@ -33,14 +33,14 @@ describe UserPreference do
 
   it 'should validations' do
     # factory valid
-    assert FactoryGirl.build(:user_preference).valid?
+    assert FactoryBot.build(:user_preference).valid?
 
     # user required
-    refute FactoryGirl.build(:user_preference, user: nil).valid?
+    refute FactoryBot.build(:user_preference, user: nil).valid?
   end
 
   it 'should create' do
-    user = FactoryGirl.create :user
+    user = FactoryBot.create :user
 
     assert_kind_of UserPreference, user.pref
     assert_kind_of Hash, user.pref.others
@@ -48,8 +48,8 @@ describe UserPreference do
   end
 
   it 'should update' do
-    user = FactoryGirl.create :user
-    pref = FactoryGirl.create :user_preference, user: user, hide_mail: true
+    user = FactoryBot.create :user
+    pref = FactoryBot.create :user_preference, user: user, hide_mail: true
     assert_equal true, user.pref.hide_mail
 
     user.pref['preftest'] = 'value'
@@ -60,7 +60,7 @@ describe UserPreference do
   end
 
   it 'should update_with_method' do
-    user = FactoryGirl.create :user
+    user = FactoryBot.create :user
     assert_equal OpenProject::Configuration.default_comment_sort_order, user.pref.comments_sorting
     user.pref.comments_sorting = 'value'
     assert user.pref.save
