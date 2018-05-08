@@ -4,7 +4,7 @@ require_relative './shared_avatar_examples'
 describe 'My avatar management', type: :feature, js: true do
   include Rails.application.routes.url_helpers
 
-  let(:user) { FactoryGirl.create :user }
+  let(:user) { FactoryBot.create :user }
   let(:target_user) { user }
   let(:avatar_management_path) { edit_my_avatar_path }
 

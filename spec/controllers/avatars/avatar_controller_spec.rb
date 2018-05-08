@@ -20,7 +20,7 @@ describe ::Avatars::AvatarController, type: :controller do
     end
 
     describe 'when logged in' do
-      let(:user) { FactoryGirl.create :user }
+      let(:user) { FactoryBot.create :user }
 
       before do
         login_as user

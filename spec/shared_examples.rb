@@ -23,7 +23,7 @@ shared_examples_for "an action checked for required login" do
 end
 
 shared_examples_for "an action requiring login" do
-  let(:current) { FactoryGirl.create(:user) }
+  let(:current) { FactoryBot.create(:user) }
 
   before do
     allow(User).to receive(:current).and_return(current)
@@ -49,7 +49,7 @@ shared_examples_for "an action requiring login" do
 end
 
 shared_examples_for "an action requiring admin" do
-  let(:current) { FactoryGirl.create(:admin) }
+  let(:current) { FactoryBot.create(:admin) }
 
   before do
     allow(User).to receive(:current).and_return(current)
@@ -67,7 +67,7 @@ shared_examples_for "an action requiring admin" do
 
   describe "with beeing logged in as a normal user" do
     before do
-      allow(User).to receive(:current).and_return FactoryGirl.create(:user)
+      allow(User).to receive(:current).and_return FactoryBot.create(:user)
 
       action
     end
@@ -92,10 +92,10 @@ end
 #
 shared_context "there are users with and without avatars" do
   let(:base_path) { File.expand_path '../fixtures/', __FILE__ }
-  let(:user_without_avatar) { FactoryGirl.create :user }
+  let(:user_without_avatar) { FactoryBot.create :user }
   let(:user_with_avatar) do
-    u = FactoryGirl.create :user
-    u.attachments = [FactoryGirl.build(:avatar_attachment, author: u)]
+    u = FactoryBot.create :user
+    u.attachments = [FactoryBot.build(:avatar_attachment, author: u)]
     u
   end
   let(:avatar_file) do
