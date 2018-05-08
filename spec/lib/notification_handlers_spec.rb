@@ -27,7 +27,7 @@ describe OpenProject::GithubIntegration do
     end
 
     it 'should find a plain work package url' do
-      source = 'Blabla\n#OP1234\n'
+      source = "Blabla\nOP#1234\n"
       result = OpenProject::GithubIntegration::NotificationHandlers.send(
                 :extract_work_package_ids, source)
       expect(result).to eql([1234])
