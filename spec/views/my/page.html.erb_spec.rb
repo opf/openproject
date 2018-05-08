@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe 'my/page', type: :view do
-  let(:project)    { FactoryGirl.create :valid_project }
-  let(:user)       { FactoryGirl.create :admin, member_in_project: project }
-  let(:issue)      { FactoryGirl.create :work_package, project: project, author: user }
+  let(:project)    { FactoryBot.create :valid_project }
+  let(:user)       { FactoryBot.create :admin, member_in_project: project }
+  let(:issue)      { FactoryBot.create :work_package, project: project, author: user }
   let(:time_entry) {
-    FactoryGirl.create :time_entry,
+    FactoryBot.create :time_entry,
                        project: project,
                        user: user,
                        work_package: issue,

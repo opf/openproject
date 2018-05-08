@@ -8,4 +8,17 @@
     </div>
 
     <wp-relation-parent [workPackage]="workPackage"></wp-relation-parent>
+
+    <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+            <h3 class="attributes-group--header-text"
+                [textContent]="text.childrenHeadline">
+            </h3>
+        </div>
+    </div>
+
+    <wp-children-query
+        [workPackage]="workPackage"
+        [query]="childrenQueryProps">
+    </wp-children-query>
 </div>

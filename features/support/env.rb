@@ -42,7 +42,7 @@ end
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'capybara-screenshot/cucumber'
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 
 # Load paths to ensure they are loaded before the plugin's paths.rbs.
 # Plugin's path_to functions rely on being loaded after the core's path_to
@@ -150,8 +150,8 @@ Before do
 end
 
 Before do
-  FactoryGirl.create(:non_member)
-  FactoryGirl.create(:anonymous_role)
+  FactoryBot.create(:non_member)
+  FactoryBot.create(:anonymous_role)
 end
 
 World(Capybara::Select2)

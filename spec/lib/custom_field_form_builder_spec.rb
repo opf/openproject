@@ -39,10 +39,10 @@ describe CustomFieldFormBuilder do
     let(:options) { { class: 'custom-class' } }
 
     let(:custom_field) do
-      FactoryGirl.build_stubbed(:custom_field)
+      FactoryBot.build_stubbed(:custom_field)
     end
     let(:resource) do
-      FactoryGirl.build_stubbed(:custom_value, custom_field: custom_field)
+      FactoryBot.build_stubbed(:custom_value, custom_field: custom_field)
     end
 
     subject(:output) do
@@ -172,11 +172,11 @@ describe CustomFieldFormBuilder do
 
     context 'for a list custom field' do
       let(:custom_field) do
-        FactoryGirl.build_stubbed(:list_wp_custom_field,
+        FactoryBot.build_stubbed(:list_wp_custom_field,
                                   custom_options: [custom_option])
       end
       let(:custom_option) do
-        FactoryGirl.build_stubbed(:custom_option, value: 'my_option')
+        FactoryBot.build_stubbed(:custom_option, value: 'my_option')
       end
 
       it_behaves_like 'wrapped in container', 'select-container' do
@@ -230,9 +230,9 @@ describe CustomFieldFormBuilder do
     end
 
     context 'for a user custom field' do
-      let(:project) { FactoryGirl.build_stubbed(:project) }
-      let(:user1) { FactoryGirl.build_stubbed(:user) }
-      let(:user2) { FactoryGirl.build_stubbed(:user) }
+      let(:project) { FactoryBot.build_stubbed(:project) }
+      let(:user1) { FactoryBot.build_stubbed(:user) }
+      let(:user2) { FactoryBot.build_stubbed(:user) }
 
       before do
         resource.custom_field.field_format = 'user'
@@ -280,9 +280,9 @@ describe CustomFieldFormBuilder do
     end
 
     context 'for a version custom field' do
-      let(:project) { FactoryGirl.build_stubbed(:project) }
-      let(:version1) { FactoryGirl.build_stubbed(:version) }
-      let(:version2) { FactoryGirl.build_stubbed(:version) }
+      let(:project) { FactoryBot.build_stubbed(:project) }
+      let(:version1) { FactoryBot.build_stubbed(:version) }
+      let(:version2) { FactoryBot.build_stubbed(:version) }
 
       before do
         resource.custom_field.field_format = 'version'

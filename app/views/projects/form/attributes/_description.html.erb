@@ -29,8 +29,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div class="form--field">
   <%= form.text_area :description,
+                     id: :project_description,
+                     with_text_formatting: true,
                      rows: 5,
                      class: 'wiki-edit',
                      container_class: '-wide' %>
 </div>
-<%= wikitoolbar_for 'project_description' %>

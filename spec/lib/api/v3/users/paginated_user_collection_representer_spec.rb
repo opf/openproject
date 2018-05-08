@@ -37,7 +37,7 @@ describe ::API::V3::Users::PaginatedUserCollectionRepresenter do
   let(:actual_count) { 3 }
 
   let(:users) {
-    users = FactoryGirl.build_stubbed_list(:user,
+    users = FactoryBot.build_stubbed_list(:user,
                                            actual_count,
                                            created_on: Time.now,
                                            updated_on: Time.now)

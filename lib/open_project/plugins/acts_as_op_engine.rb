@@ -65,8 +65,8 @@ module OpenProject::Plugins
         end
 
         # adds our factories to factory girl's load path
-        initializer "#{engine_name}.register_factories", after: 'factory_girl.set_factory_paths' do |_app|
-          FactoryGirl.definition_file_paths << File.expand_path(root.to_s + '/spec/factories') if defined?(FactoryGirl)
+        initializer "#{engine_name}.register_factories", after: 'factory_bot.set_factory_paths' do |_app|
+          FactoryBot.definition_file_paths << File.expand_path(root.to_s + '/spec/factories') if defined?(FactoryBot)
         end
 
         initializer "#{engine_name}.append_migrations" do |app|

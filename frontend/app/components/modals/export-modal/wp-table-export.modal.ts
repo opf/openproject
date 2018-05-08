@@ -67,7 +67,12 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
       return column.id;
     });
 
-    return href + "&" + this.UrlParamsHelper.buildQueryString({ 'columns[]': columnIds });
+    let url = URI(href);
+    // Remove current columns
+    url.removeSearch('columns[]');
+    url.addSearch('columns[]', columnIds);
+
+    return url.toString();
   }
 
   protected get afterFocusOn():JQuery {

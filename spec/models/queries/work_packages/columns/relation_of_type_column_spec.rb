@@ -30,8 +30,8 @@ require 'spec_helper'
 require_relative 'shared_query_column_specs'
 
 describe Queries::WorkPackages::Columns::RelationOfTypeColumn, type: :model do
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:type) { FactoryGirl.build_stubbed(:type) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:type) { FactoryBot.build_stubbed(:type) }
   let(:instance) { described_class.new(type) }
   let(:enterprise_token_allows) { true }
 

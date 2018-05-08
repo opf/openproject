@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :journal_work_package_journal, class: Journal::WorkPackageJournal do
   end
 end

@@ -41,13 +41,12 @@ export const I18nToken = new InjectionToken<op.I18n>('I18n');
 
 export const AutoCompleteHelperServiceToken = new InjectionToken<any>('AutoCompleteHelperServiceToken');
 export const TextileServiceToken = new InjectionToken<any>('TextileServiceToken');
-export const FocusHelperToken = new InjectionToken<any>('FocusHelper');
 export const wpMoreMenuServiceToken = new InjectionToken<any>('wpMoreMenuService');
 export const $httpToken = new InjectionToken<any>('$http');
-export const wpDestroyModalToken = new InjectionToken<any>('wpDestroyModal');
 export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 export const HookServiceToken = new InjectionToken<any>('HookService');
+export const WorkPackageServiceToken = new InjectionToken<any>('WorkPackageService');
 
 export function upgradeService(ng1InjectorName:string, providedType:any) {
   return {

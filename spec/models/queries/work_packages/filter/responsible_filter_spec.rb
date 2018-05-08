@@ -34,7 +34,7 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
     let(:type) { :list_optional }
     let(:class_key) { :responsible_id }
 
-    let(:user_1) { FactoryGirl.build_stubbed(:user) }
+    let(:user_1) { FactoryBot.build_stubbed(:user) }
 
     let(:principal_loader) do
       loader = double('principal_loader')
@@ -141,8 +141,8 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:user) { FactoryGirl.build_stubbed(:user) }
-      let(:user2) { FactoryGirl.build_stubbed(:user) }
+      let(:user) { FactoryBot.build_stubbed(:user) }
+      let(:user2) { FactoryBot.build_stubbed(:user) }
 
       before do
         allow(Principal)

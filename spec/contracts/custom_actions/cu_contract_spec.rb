@@ -31,9 +31,9 @@
 require 'spec_helper'
 
 describe CustomActions::CUContract do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:action) do
-    FactoryGirl.build_stubbed(:custom_action, actions:
+    FactoryBot.build_stubbed(:custom_action, actions:
                               [CustomActions::Actions::AssignedTo.new])
   end
   let(:instance) { described_class.new(action) }

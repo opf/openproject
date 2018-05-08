@@ -41,7 +41,7 @@ export class WorkPackageTable {
 
   // Work package editing context handler in the table, which handles open forms
   // and their contexts
-  public editing:WorkPackageTableEditingContext = new WorkPackageTableEditingContext(this.injector);
+  public editing:WorkPackageTableEditingContext = new WorkPackageTableEditingContext(this, this.injector);
 
   constructor(public readonly injector:Injector,
               public container:HTMLElement,

@@ -29,15 +29,15 @@
 require 'spec_helper'
 
 feature 'members pagination', type: :feature, js: true do
-  let!(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
+  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
-  let(:admin)  { FactoryGirl.create :admin }
-  let!(:peter) { FactoryGirl.create :user, firstname: 'Peter', lastname: 'Pan' }
-  let!(:bob)   { FactoryGirl.create :user, firstname: 'Bob', lastname: 'Bobbit' }
-  let!(:alice) { FactoryGirl.create :user, firstname: 'Alice', lastname: 'Alison' }
+  let(:admin)  { FactoryBot.create :admin }
+  let!(:peter) { FactoryBot.create :user, firstname: 'Peter', lastname: 'Pan' }
+  let!(:bob)   { FactoryBot.create :user, firstname: 'Bob', lastname: 'Bobbit' }
+  let!(:alice) { FactoryBot.create :user, firstname: 'Alice', lastname: 'Alison' }
 
-  let!(:manager)   { FactoryGirl.create :role, name: 'Manager' }
-  let!(:developer) { FactoryGirl.create :role, name: 'Developer' }
+  let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
+  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
 
   let(:members_page) { Pages::Members.new project.identifier }
 

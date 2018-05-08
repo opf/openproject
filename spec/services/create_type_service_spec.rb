@@ -32,7 +32,7 @@ require 'services/shared_type_service'
 
 describe CreateTypeService do
   let(:type) { instance.type }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   let(:instance) { described_class.new(user) }
   let(:service_call) { instance.call(params, {}) }

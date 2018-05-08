@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe TypesHelper, type: :helper do
-  let(:type) { FactoryGirl.build_stubbed(:type) }
+  let(:type) { FactoryBot.build_stubbed(:type) }
 
   describe "#form_configuration_groups" do
     it "returns a Hash with the keys :actives and :inactives Arrays" do

@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :auth_source do
     name 'Test AuthSource'
   end

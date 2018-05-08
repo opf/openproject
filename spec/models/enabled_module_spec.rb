@@ -31,7 +31,7 @@ require 'spec_helper'
 
 describe EnabledModule, type: :model do
   # Force reload, as association is not always(?) showing
-  let(:project) { FactoryGirl.create(:project, enabled_module_names: modules).reload }
+  let(:project) { FactoryBot.create(:project, enabled_module_names: modules).reload }
 
   describe '#wiki' do
     let(:modules) { %w[wiki] }
@@ -81,7 +81,7 @@ describe EnabledModule, type: :model do
     end
 
     shared_examples 'does not create a repository when one exists' do
-      let!(:repository) { FactoryGirl.create(:repository_git, project: project) }
+      let!(:repository) { FactoryBot.create(:repository_git, project: project) }
 
       it 'should not create a separate repository when one exists already' do
         project.reload

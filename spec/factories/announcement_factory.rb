@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :announcement do
     text 'Announcement text'
     show_until Date.today + 14.days

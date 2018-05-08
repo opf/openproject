@@ -109,7 +109,10 @@ module ::TypesHelper
     # Remove the templated filter since we can't yet handle it in the frontend
     query.filters.delete_if(&:templated?)
 
-    ::API::V3::Queries::QueryParamsRepresenter.new(query).to_h
+    # Modify the hash to match Rails array based +to_query+ transforms:
+    # e.g., { columns: [1,2] }.to_query == "columns[]=1&columns[]=2" (unescaped)
+    # The frontend will do that IFF the hash key is an array
+    ::API::V3::Queries::QueryParamsRepresenter.new(query).to_json
   end
 
   def attr_form_map(key, represented)

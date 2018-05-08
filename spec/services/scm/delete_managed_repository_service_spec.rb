@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe Scm::DeleteManagedRepositoryService do
-  let(:user) { FactoryGirl.build(:user) }
-  let(:project) { FactoryGirl.build(:project) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:project) { FactoryBot.build(:project) }
 
-  let(:repository) { FactoryGirl.build(:repository_subversion) }
+  let(:repository) { FactoryBot.build(:repository_subversion) }
   subject(:service) { Scm::DeleteManagedRepositoryService.new(repository) }
 
   let(:config) { {} }
@@ -55,7 +55,7 @@ describe Scm::DeleteManagedRepositoryService do
   end
 
   context 'with managed repository, but no config' do
-    let(:repository) { FactoryGirl.build(:repository_subversion, scm_type: :managed) }
+    let(:repository) { FactoryBot.build(:repository_subversion, scm_type: :managed) }
 
     it 'does allow to delete the repository' do
       expect(repository.managed?).to be true
@@ -96,8 +96,8 @@ describe Scm::DeleteManagedRepositoryService do
     end
 
     context 'and parent project' do
-      let(:parent) { FactoryGirl.create(:project) }
-      let(:project) { FactoryGirl.create(:project, parent: parent) }
+      let(:parent) { FactoryBot.create(:project) }
+      let(:project) { FactoryBot.create(:project, parent: parent) }
       let(:repo_path) {
         Pathname.new(File.join(tmpdir, 'svn', project.identifier))
       }

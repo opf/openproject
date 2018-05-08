@@ -147,7 +147,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <div id="draggable-groups" dragula='"groups"'>
           <% form_attributes[:actives].each do |group, attributes| %>
             <% if group.is_a? ::Type::QueryGroup %>
-              <%= render partial: 'types/form/query_group', locals: { group: group, query: attributes } %>
+              <%= render partial: 'types/form/query_group', locals: { group: group, query_json: attributes } %>
             <% else %>
               <%= render partial: 'types/form/attribute_group', locals: { group: group, attributes: attributes } %>
             <% end %>

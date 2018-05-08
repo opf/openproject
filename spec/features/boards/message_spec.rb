@@ -29,16 +29,16 @@
 require 'spec_helper'
 
 describe 'messages', type: :feature do
-  let(:user) { FactoryGirl.create :admin, firstname: 'Hugo', lastname: 'Hungrig' }
+  let(:user) { FactoryBot.create :admin, firstname: 'Hugo', lastname: 'Hungrig' }
 
   before do
     allow(User).to receive(:current).and_return user
   end
 
   describe 'quoting' do
-    let(:topic) { FactoryGirl.create :message }
+    let(:topic) { FactoryBot.create :message }
     let!(:reply) do
-      FactoryGirl.create :message,
+      FactoryBot.create :message,
                          board: topic.board,
                          parent: topic,
                          author: user,

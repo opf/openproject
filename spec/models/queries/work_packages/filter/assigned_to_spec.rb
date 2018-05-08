@@ -34,8 +34,8 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     let(:type) { :list_optional }
     let(:class_key) { :assigned_to_id }
 
-    let(:user_1) { FactoryGirl.build_stubbed(:user) }
-    let(:group_1) { FactoryGirl.build_stubbed(:group) }
+    let(:user_1) { FactoryBot.build_stubbed(:user) }
+    let(:group_1) { FactoryBot.build_stubbed(:group) }
 
     let(:principal_loader) do
       loader = double('principal_loader')

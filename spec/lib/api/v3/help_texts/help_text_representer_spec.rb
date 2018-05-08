@@ -31,10 +31,10 @@ require 'spec_helper'
 describe ::API::V3::HelpTexts::HelpTextRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:user) { FactoryGirl.build_stubbed :admin }
+  let(:user) { FactoryBot.build_stubbed :admin }
 
   let(:help_text) do
-    FactoryGirl.build_stubbed :work_package_help_text,
+    FactoryBot.build_stubbed :work_package_help_text,
                               attribute_name: 'status',
                               help_text: 'This is a help text for *status* attribute.'
   end

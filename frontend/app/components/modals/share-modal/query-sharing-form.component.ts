@@ -14,9 +14,7 @@ export interface QuerySharingChange {
   selector: 'query-sharing-form',
   template: require('!!raw-loader!./query-sharing-form.html')
 })
-export class QuerySharingForm implements OnInit {
-  public canPublish:boolean = false;
-
+export class QuerySharingForm {
   @Input() public isSave:boolean;
   @Input() public isStarred:boolean;
   @Input() public isPublic:boolean;
@@ -32,15 +30,17 @@ export class QuerySharingForm implements OnInit {
               @Inject(I18nToken) readonly I18n:op.I18n) {
   }
 
-  ngOnInit() {
-    const form = this.states.query.form.value!;
-    this.canPublish = form.schema.public.writable;
-  }
-
   public get canStar() {
     return this.isSave ||
       this.authorisationService.can('query', 'star') ||
       this.authorisationService.can('query', 'unstar');
+  }
+
+  public get canPublish() {
+    const form = this.states.query.form.value!;
+
+    return this.authorisationService.can('query', 'saveImmediately')
+      && form.schema.public.writable;
   }
 
   public updateStarred(val:boolean) {

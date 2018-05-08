@@ -55,6 +55,15 @@ module API
           end
         end
 
+        link :create_new do
+          if allow_create_as_new?
+            {
+              href: api_v3_paths.queries,
+              method: :post
+            }
+          end
+        end
+
         def commit_action
           raise NotImplementedError, "subclass responsibility"
         end
@@ -88,6 +97,10 @@ module API
 
         def allow_save?
           QueryPolicy.new(current_user).allowed? represented, commit_action
+        end
+
+        def allow_create_as_new?
+          QueryPolicy.new(current_user).allowed? represented, :create_new
         end
       end
     end

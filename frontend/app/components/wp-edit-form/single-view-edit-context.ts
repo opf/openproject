@@ -36,18 +36,19 @@ import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 import {Injector} from '@angular/core';
-import {$stateToken, FocusHelperToken} from 'core-app/angular4-transition-utils';
+import {$stateToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageEditContext} from 'core-components/wp-edit-form/work-package-edit-context';
 import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {WorkPackageEditForm} from 'core-components/wp-edit-form/work-package-edit-form';
 import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
+import {FocusHelperService} from 'core-components/common/focus/focus-helper';
 
 export class SingleViewEditContext implements WorkPackageEditContext {
 
   // Injections
   public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
   public states:States = this.injector.get(States);
-  public FocusHelper:any = this.injector.get(FocusHelperToken);
+  public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   public templateRenderer:SimpleTemplateRenderer = this.injector.get(SimpleTemplateRenderer);
   public $state:StateService = this.injector.get($stateToken);
   public wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);

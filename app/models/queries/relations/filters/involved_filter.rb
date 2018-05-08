@@ -36,6 +36,8 @@ module Queries
       #   Given relations [{ from_id: 3, to_id: 7 }, { from_id: 8, to_id: 3}]
       #   filtering by involved=3 would yield both these relations.
       class InvolvedFilter < ::Queries::Relations::Filters::RelationFilter
+        include ::Queries::Relations::Filters::VisibilityChecking
+
         def type
           :integer
         end
@@ -44,15 +46,21 @@ module Queries
           :involved
         end
 
-        def where
-          integer_values = values.map(&:to_i)
+        private
 
-          case operator
-          when "="
-            ["from_id IN (?) OR to_id IN (?)", integer_values, integer_values]
-          when "!"
-            ["from_id NOT IN (?) AND to_id NOT IN (?)", integer_values, integer_values]
-          end
+        def visibility_checked_sql(operator_string, values, visible_sql)
+          concatenation = if operator == '='
+                            "OR"
+                          else
+                            "AND"
+                          end
+
+          sql = <<-SQL.strip_heredoc
+            (from_id #{operator_string} (?) AND to_id IN (#{visible_sql}))
+             #{concatenation} (to_id #{operator_string} (?) AND from_id IN (#{visible_sql}))
+          SQL
+
+          [sql, values, values]
         end
       end
     end

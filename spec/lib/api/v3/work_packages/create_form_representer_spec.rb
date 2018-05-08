@@ -35,15 +35,15 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
 
   let(:errors) { [] }
   let(:project) {
-    FactoryGirl.build_stubbed(:project)
+    FactoryBot.build_stubbed(:project)
   }
   let(:work_package) do
-    wp = FactoryGirl.build_stubbed(:work_package, project: project)
+    wp = FactoryBot.build_stubbed(:work_package, project: project)
     allow(wp).to receive(:assignable_versions).and_return []
     wp
   end
   let(:current_user) {
-    FactoryGirl.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user)
   }
   let(:representer) {
     described_class.new(work_package, current_user: current_user, errors: errors)
@@ -180,7 +180,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
         end
 
         context 'with project and general admin priviliges' do
-          let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+          let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
           before do
             allow(current_user).to receive(:allowed_to?)
@@ -208,12 +208,12 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
         end
 
         context "as admin" do
-          let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+          let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
           context 'with type' do
-            let(:type) { FactoryGirl.build_stubbed(:type) }
+            let(:type) { FactoryBot.build_stubbed(:type) }
             let(:work_package) do
-              FactoryGirl.build(:work_package,
+              FactoryBot.build(:work_package,
                                 id: 42,
                                 created_at: DateTime.now,
                                 updated_at: DateTime.now,

@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :category do
     sequence(:name) do |n| "Issue category #{n}" end
     project

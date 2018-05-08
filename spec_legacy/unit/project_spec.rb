@@ -33,7 +33,7 @@ describe Project, type: :model do
   fixtures :all
 
   before do
-    FactoryGirl.create(:type_standard)
+    FactoryBot.create(:type_standard)
     @ecookbook = Project.find(1)
     @ecookbook_sub1 = Project.find(3)
     User.current = nil
@@ -450,7 +450,7 @@ describe Project, type: :model do
     end
 
     it 'should short description returns shortened description' do
-      @project = FactoryGirl.create(:project)
+      @project = FactoryBot.create(:project)
       @project.description = ('Abcd ' * 5 + "\n") * 11
       assert_equal (('Abcd ' * 5 + "\n") * 10)[0..-2] + '...', @project.short_description
     end
@@ -458,9 +458,9 @@ describe Project, type: :model do
 
   context '#rolled_up_versions' do
     before do
-      @project = FactoryGirl.create(:project)
-      @parent_version_1 = FactoryGirl.create(:version, project: @project)
-      @parent_version_2 = FactoryGirl.create(:version, project: @project)
+      @project = FactoryBot.create(:project)
+      @parent_version_1 = FactoryBot.create(:version, project: @project)
+      @parent_version_2 = FactoryBot.create(:version, project: @project)
     end
 
     it 'should include the versions for the current project' do
@@ -468,9 +468,9 @@ describe Project, type: :model do
     end
 
     it 'should include versions for a subproject' do
-      @subproject = FactoryGirl.create(:project)
+      @subproject = FactoryBot.create(:project)
       @subproject.set_parent!(@project)
-      @subproject_version = FactoryGirl.create(:version, project: @subproject)
+      @subproject_version = FactoryBot.create(:version, project: @subproject)
 
       assert_same_elements [
         @parent_version_1,
@@ -480,11 +480,11 @@ describe Project, type: :model do
     end
 
     it 'should include versions for a sub-subproject' do
-      @subproject = FactoryGirl.create(:project)
+      @subproject = FactoryBot.create(:project)
       @subproject.set_parent!(@project)
-      @sub_subproject = FactoryGirl.create(:project)
+      @sub_subproject = FactoryBot.create(:project)
       @sub_subproject.set_parent!(@subproject)
-      @sub_subproject_version = FactoryGirl.create(:version, project: @sub_subproject)
+      @sub_subproject_version = FactoryBot.create(:version, project: @sub_subproject)
 
       @project.reload
 
@@ -496,9 +496,9 @@ describe Project, type: :model do
     end
 
     it 'should only check active projects' do
-      @subproject = FactoryGirl.create(:project)
+      @subproject = FactoryBot.create(:project)
       @subproject.set_parent!(@project)
-      @subproject_version = FactoryGirl.create(:version, project: @subproject)
+      @subproject_version = FactoryBot.create(:version, project: @subproject)
       assert @subproject.archive
 
       @project.reload
@@ -723,7 +723,7 @@ describe Project, type: :model do
     project = Project.find(1)
     system_activity = TimeEntryActivity.find_by(name: 'Design')
     assert system_activity.active?
-    overridden_activity = FactoryGirl.create(:time_entry_activity, project: project, parent: system_activity, active: false)
+    overridden_activity = FactoryBot.create(:time_entry_activity, project: project, parent: system_activity, active: false)
     assert overridden_activity.save!
 
     assert !project.activities.include?(overridden_activity), 'Inactive Project specific Activity not found'
@@ -757,7 +757,7 @@ describe Project, type: :model do
     end
 
     it 'should copy work units' do
-      work_package = FactoryGirl.create(:work_package,
+      work_package = FactoryBot.create(:work_package,
                                         status: Status.find_by_name('Closed'),
                                         subject: 'copy issue status',
                                         type_id: 1,
@@ -784,10 +784,10 @@ describe Project, type: :model do
 
     it 'should change the new issues to use the copied version' do
       User.current = User.find(1)
-      assigned_version = FactoryGirl.create(:version, name: 'Assigned Issues', status: 'open')
+      assigned_version = FactoryBot.create(:version, name: 'Assigned Issues', status: 'open')
       @source_project.versions << assigned_version
       assert_equal 3, @source_project.versions.size
-      FactoryGirl.create(:work_package, project: @source_project,
+      FactoryBot.create(:work_package, project: @source_project,
                                         fixed_version_id: assigned_version.id,
                                         subject: 'change the new issues to use the copied version',
                                         type_id: 1,
@@ -805,10 +805,10 @@ describe Project, type: :model do
 
     it 'should change the new issues to use the copied closed version' do
       User.current = User.find(1)
-      assigned_version = FactoryGirl.create(:version, name: 'Assigned Issues', status: 'open')
+      assigned_version = FactoryBot.create(:version, name: 'Assigned Issues', status: 'open')
       @source_project.versions << assigned_version
       assert_equal 3, @source_project.versions.size
-      FactoryGirl.create(:work_package, project: @source_project,
+      FactoryBot.create(:work_package, project: @source_project,
                                         fixed_version_id: assigned_version.id,
                                         subject: 'change the new issues to use the copied version',
                                         type_id: 1,
@@ -828,15 +828,15 @@ describe Project, type: :model do
     it 'should copy issue relations' do
       Setting.cross_project_work_package_relations = '1'
 
-      second_issue = FactoryGirl.create(:work_package, status_id: 5,
+      second_issue = FactoryBot.create(:work_package, status_id: 5,
                                         subject: 'copy issue relation',
                                         type_id: 1,
                                         assigned_to_id: 2,
                                         project_id: @source_project.id)
-      source_relation = FactoryGirl.create(:relation, from: WorkPackage.find(4),
+      source_relation = FactoryBot.create(:relation, from: WorkPackage.find(4),
                                            to: second_issue,
                                            relation_type: 'relates')
-      source_relation_cross_project = FactoryGirl.create(:relation, from: WorkPackage.find(1),
+      source_relation_cross_project = FactoryBot.create(:relation, from: WorkPackage.find(1),
                                                          to: second_issue,
                                                          relation_type: 'duplicates')
 
@@ -910,8 +910,8 @@ describe Project, type: :model do
     end
 
     it 'should copy versions' do
-      @source_project.versions << FactoryGirl.create(:version)
-      @source_project.versions << FactoryGirl.create(:version)
+      @source_project.versions << FactoryBot.create(:version)
+      @source_project.versions << FactoryBot.create(:version)
 
       assert @project.versions.empty?
       assert @project.copy(@source_project)
@@ -1000,8 +1000,8 @@ describe Project, type: :model do
   context '#start_date' do
     before do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = FactoryGirl.create(:project, identifier: 'test0')
-      @project.types << FactoryGirl.create(:type)
+      @project = FactoryBot.create(:project, identifier: 'test0')
+      @project.types << FactoryBot.create(:type)
     end
 
     it 'should be nil if there are no issues on the project' do
@@ -1010,8 +1010,8 @@ describe Project, type: :model do
 
     it "should be the earliest start date of it's issues" do
       early = 7.days.ago.to_date
-      FactoryGirl.create(:work_package, project: @project, start_date: Date.today)
-      FactoryGirl.create(:work_package, project: @project, start_date: early)
+      FactoryBot.create(:work_package, project: @project, start_date: Date.today)
+      FactoryBot.create(:work_package, project: @project, start_date: early)
 
       assert_equal early, @project.start_date
     end
@@ -1020,8 +1020,8 @@ describe Project, type: :model do
   context '#due_date' do
     before do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = FactoryGirl.create(:project, identifier: 'test0')
-      @project.types << FactoryGirl.create(:type)
+      @project = FactoryBot.create(:project, identifier: 'test0')
+      @project.types << FactoryBot.create(:type)
     end
 
     it 'should be nil if there are no issues on the project' do
@@ -1030,16 +1030,16 @@ describe Project, type: :model do
 
     it "should be the latest due date of it's issues" do
       future = 7.days.from_now.to_date
-      FactoryGirl.create(:work_package, project: @project, due_date: future)
-      FactoryGirl.create(:work_package, project: @project, due_date: Date.today)
+      FactoryBot.create(:work_package, project: @project, due_date: future)
+      FactoryBot.create(:work_package, project: @project, due_date: Date.today)
 
       assert_equal future, @project.due_date
     end
 
     it "should be the latest due date of it's versions" do
       future = 7.days.from_now.to_date
-      @project.versions << FactoryGirl.create(:version, effective_date: future)
-      @project.versions << FactoryGirl.create(:version, effective_date: Date.today)
+      @project.versions << FactoryBot.create(:version, effective_date: future)
+      @project.versions << FactoryBot.create(:version, effective_date: Date.today)
 
       assert_equal future, @project.due_date
     end
@@ -1047,8 +1047,8 @@ describe Project, type: :model do
     it "should pick the latest date from it's issues and versions" do
       future = 7.days.from_now.to_date
       far_future = 14.days.from_now.to_date
-      FactoryGirl.create(:work_package, project: @project, due_date: far_future)
-      @project.versions << FactoryGirl.create(:version, effective_date: future)
+      FactoryBot.create(:work_package, project: @project, due_date: far_future)
+      @project.versions << FactoryBot.create(:version, effective_date: future)
 
       assert_equal far_future, @project.due_date
     end
@@ -1057,8 +1057,8 @@ describe Project, type: :model do
   context 'Project#completed_percent' do
     before do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      @project = FactoryGirl.create(:project, identifier: 'test0')
-      @project.types << FactoryGirl.create(:type)
+      @project = FactoryBot.create(:project, identifier: 'test0')
+      @project.types << FactoryBot.create(:type)
     end
 
     context 'no versions' do
@@ -1069,26 +1069,26 @@ describe Project, type: :model do
 
     context 'with versions' do
       it 'should return 0 if the versions have no issues' do
-        FactoryGirl.create(:version, project: @project)
-        FactoryGirl.create(:version, project: @project)
+        FactoryBot.create(:version, project: @project)
+        FactoryBot.create(:version, project: @project)
 
         assert_equal 0, @project.completed_percent
       end
 
       it 'should return 100 if the version has only closed issues' do
-        v1 = FactoryGirl.create(:version, project: @project)
-        v2 = FactoryGirl.create(:version, project: @project)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('Closed'), fixed_version: v1)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('Closed'), fixed_version: v2)
+        v1 = FactoryBot.create(:version, project: @project)
+        v2 = FactoryBot.create(:version, project: @project)
+        FactoryBot.create(:work_package, project: @project, status: Status.find_by_name('Closed'), fixed_version: v1)
+        FactoryBot.create(:work_package, project: @project, status: Status.find_by_name('Closed'), fixed_version: v2)
 
         assert_equal 100, @project.completed_percent
       end
 
       it 'should return the averaged completed percent of the versions (not weighted)' do
-        v1 = FactoryGirl.create(:version, project: @project)
-        v2 = FactoryGirl.create(:version, project: @project)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('New'), estimated_hours: 10, done_ratio: 50, fixed_version: v1)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('New'), estimated_hours: 10, done_ratio: 50, fixed_version: v2)
+        v1 = FactoryBot.create(:version, project: @project)
+        v2 = FactoryBot.create(:version, project: @project)
+        FactoryBot.create(:work_package, project: @project, status: Status.find_by_name('New'), estimated_hours: 10, done_ratio: 50, fixed_version: v1)
+        FactoryBot.create(:work_package, project: @project, status: Status.find_by_name('New'), estimated_hours: 10, done_ratio: 50, fixed_version: v2)
 
         assert_equal 50, @project.completed_percent
       end
@@ -1097,35 +1097,35 @@ describe Project, type: :model do
 
   context '#notified_users' do
     before do
-      @project = FactoryGirl.create(:project)
-      @role = FactoryGirl.create(:role)
+      @project = FactoryBot.create(:project)
+      @role = FactoryBot.create(:role)
 
-      @user_with_membership_notification = FactoryGirl.create(:user, mail_notification: 'selected')
+      @user_with_membership_notification = FactoryBot.create(:user, mail_notification: 'selected')
       Member.create!(project: @project, principal: @user_with_membership_notification, mail_notification: true) do |member|
         member.role_ids = [@role.id]
       end
 
-      @all_events_user = FactoryGirl.create(:user, mail_notification: 'all')
+      @all_events_user = FactoryBot.create(:user, mail_notification: 'all')
       Member.create!(project: @project, principal: @all_events_user) do |member|
         member.role_ids = [@role.id]
       end
 
-      @no_events_user = FactoryGirl.create(:user, mail_notification: 'none')
+      @no_events_user = FactoryBot.create(:user, mail_notification: 'none')
       Member.create!(project: @project, principal: @no_events_user) do |member|
         member.role_ids = [@role.id]
       end
 
-      @only_my_events_user = FactoryGirl.create(:user, mail_notification: 'only_my_events')
+      @only_my_events_user = FactoryBot.create(:user, mail_notification: 'only_my_events')
       Member.create!(project: @project, principal: @only_my_events_user) do |member|
         member.role_ids = [@role.id]
       end
 
-      @only_assigned_user = FactoryGirl.create(:user, mail_notification: 'only_assigned')
+      @only_assigned_user = FactoryBot.create(:user, mail_notification: 'only_assigned')
       Member.create!(project: @project, principal: @only_assigned_user) do |member|
         member.role_ids = [@role.id]
       end
 
-      @only_owned_user = FactoryGirl.create(:user, mail_notification: 'only_owner')
+      @only_owned_user = FactoryBot.create(:user, mail_notification: 'only_owner')
       Member.create!(project: @project, principal: @only_owned_user) do |member|
         member.role_ids = [@role.id]
       end

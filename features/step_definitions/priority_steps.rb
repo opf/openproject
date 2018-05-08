@@ -32,7 +32,7 @@ InstanceFinder.register(IssuePriority, Proc.new { |name| IssuePriority.find_by(n
 Given /^there is a(?:n)? (default )?issuepriority with:$/ do |default, table|
   name = table.raw.find { |ary| ary.include? 'name' }[table.raw.first.index('name') + 1].to_s
   project = get_project
-  FactoryGirl.build(:priority).tap do |prio|
+  FactoryBot.build(:priority).tap do |prio|
     prio.name = name
     prio.is_default = !!default
     prio.project = project
@@ -43,7 +43,7 @@ Given /^there are the following priorities:$/ do |table|
   table.hashes.each do |row|
     project = get_project
 
-    FactoryGirl.build(:priority).tap do |prio|
+    FactoryBot.build(:priority).tap do |prio|
       prio.name = row[:name]
       prio.is_default = row[:default] == 'true'
       prio.project = project

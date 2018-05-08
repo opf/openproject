@@ -32,16 +32,16 @@ shared_examples_for 'available principals' do |principals|
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
   let(:other_user) do
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:project) { FactoryBot.create(:project) }
   let(:group) do
-    group = FactoryGirl.create(:group)
-    project.add_member! group, FactoryGirl.create(:role)
+    group = FactoryBot.create(:group)
+    project.add_member! group, FactoryBot.create(:role)
     group
   end
   let(:permissions) { [:view_work_packages] }

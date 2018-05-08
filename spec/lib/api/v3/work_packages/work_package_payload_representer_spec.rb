@@ -32,16 +32,16 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:work_package) do
-    FactoryGirl.build_stubbed(:work_package,
+    FactoryBot.build_stubbed(:work_package,
                               start_date: Date.today.to_datetime,
                               due_date: Date.today.to_datetime,
                               created_at: DateTime.now,
                               updated_at: DateTime.now,
-                              type: FactoryGirl.build_stubbed(:type))
+                              type: FactoryBot.build_stubbed(:type))
   end
 
   let(:user) do
-    FactoryGirl.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user)
   end
 
   let(:representer) do
@@ -105,7 +105,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
 
         context 'set' do
-          let(:work_package) { FactoryGirl.build(:work_package, estimated_hours: 0) }
+          let(:work_package) { FactoryBot.build(:work_package, estimated_hours: 0) }
 
           it { is_expected.to have_json_type(String).at_path('estimatedTime') }
         end
@@ -156,7 +156,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
 
         context 'no start date' do
-          let(:work_package) { FactoryGirl.build(:work_package, start_date: nil) }
+          let(:work_package) { FactoryBot.build(:work_package, start_date: nil) }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('startDate')
@@ -193,7 +193,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
 
         context 'no due date' do
-          let(:work_package) { FactoryGirl.build(:work_package, due_date: nil) }
+          let(:work_package) { FactoryBot.build(:work_package, due_date: nil) }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
@@ -231,8 +231,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
         context 'no due date' do
           let(:work_package) do
-            FactoryGirl.build_stubbed(:work_package,
-                                      type: FactoryGirl.build_stubbed(:type),
+            FactoryBot.build_stubbed(:work_package,
+                                      type: FactoryBot.build_stubbed(:type),
                                       due_date: nil)
           end
 
@@ -284,7 +284,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'status' do
-        let(:status) { FactoryGirl.build_stubbed(:status) }
+        let(:status) { FactoryBot.build_stubbed(:status) }
 
         before do
           work_package.status = status
@@ -299,7 +299,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'assignee and responsible' do
-        let(:user) { FactoryGirl.build_stubbed(:user) }
+        let(:user) { FactoryBot.build_stubbed(:user) }
         let(:link) { "/api/v3/users/#{user.id}" }
 
         describe 'assignee' do
@@ -328,7 +328,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'version' do
-        let(:version) { FactoryGirl.build_stubbed(:version) }
+        let(:version) { FactoryBot.build_stubbed(:version) }
 
         before do
           work_package.fixed_version = version
@@ -343,7 +343,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'category' do
-        let(:category) { FactoryGirl.build_stubbed(:category) }
+        let(:category) { FactoryBot.build_stubbed(:category) }
 
         before do
           work_package.category = category
@@ -358,7 +358,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'priority' do
-        let(:priority) { FactoryGirl.build_stubbed(:priority) }
+        let(:priority) { FactoryBot.build_stubbed(:priority) }
 
         before do
           work_package.priority = priority
@@ -374,7 +374,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
       describe 'parent' do
         context 'with a parent' do
-          let(:parent) { FactoryGirl.build_stubbed(:work_package) }
+          let(:parent) { FactoryBot.build_stubbed(:work_package) }
 
           before do
             work_package.parent = parent
@@ -602,9 +602,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     end
 
     describe 'parent' do
-      let(:parent) { FactoryGirl.build_stubbed :work_package }
+      let(:parent) { FactoryBot.build_stubbed :work_package }
       let(:new_parent) do
-        wp = FactoryGirl.build_stubbed :work_package
+        wp = FactoryBot.build_stubbed :work_package
         allow(WorkPackage)
           .to receive(:find_by)
           .with(id: wp.id.to_s)

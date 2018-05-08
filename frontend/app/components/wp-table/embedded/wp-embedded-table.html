@@ -1,5 +1,5 @@
 <div class="work-packages-embedded-view--container loading-indicator--location"
-     [ngClass]="{ '-compact-tables': compactTableStyle }"
+     [ngClass]="{ '-hierarchy-disabled': !configuration.hierarchyToggleEnabled,  '-compact-tables': compactTableStyle }"
      [attr.data-indicator-name]="uniqueEmbeddedTableName">
   <ng-container *ngIf="tableInformationLoaded">
     <!-- TABLE + TIMELINE horizontal split -->
@@ -9,7 +9,7 @@
 
     <!-- Footer -->
     <div class="work-packages-split-view--tabletimeline-footer hide-when-print">
-      <wp-table-pagination></wp-table-pagination>
+      <wp-table-pagination [hideForSinglePageResults]="true"></wp-table-pagination>
     </div>
   </ng-container>
 </div>

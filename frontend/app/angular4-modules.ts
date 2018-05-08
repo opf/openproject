@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, ApplicationRef, NgModule} from '@angular/core';
+import {ApplicationRef, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -70,13 +70,11 @@ import {
   $stateToken,
   $timeoutToken,
   AutoCompleteHelperServiceToken,
-  FocusHelperToken,
   HookServiceToken,
   I18nToken,
   TextileServiceToken,
   upgradeService,
-  upgradeServiceWithToken,
-  wpDestroyModalToken,
+  upgradeServiceWithToken, WorkPackageServiceToken,
   wpMoreMenuServiceToken
 } from './angular4-transition-utils';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
@@ -140,8 +138,6 @@ import {WorkPackageEditActionsBarComponent} from 'core-components/common/edit-ac
 import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-full-view.component';
 import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
 import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
-import {FocusWithinDirective} from 'core-components/common/focus-within/focus-within.upgraded.directive';
-import {ClickOnKeypressComponent} from 'core-app/ui_components/click-on-keypress-upgraded.component';
 import {AutocompleteSelectDecorationComponent} from 'core-components/common/autocomplete-select-decoration/autocomplete-select-decoration.component';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
 import {PortalModule} from '@angular/cdk/portal';
@@ -195,7 +191,6 @@ import {FilterStringValueComponent} from 'core-components/filters/filter-string-
 import {FilterBooleanValueComponent} from 'core-components/filters/filter-boolean-value/filter-boolean-value.component';
 import {OpDatePickerComponent} from 'core-components/wp-edit/op-date-picker/op-date-picker.component';
 import {AccessibleByKeyboardComponent} from 'core-components/a11y/accessible-by-keyboard.component';
-import {WorkPackageFormQueryGroupComponent} from 'core-components/wp-form-group/wp-query-group.component';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
@@ -221,6 +216,11 @@ import {QuerySharingModal} from "core-components/modals/share-modal/query-sharin
 import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
 import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing-form.component";
 import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename-query.modal";
+import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
+import {FocusWithinDirective} from "core-components/common/focus/focus-within.upgraded.directive";
+import {AccessibleClickDirective} from "core-components/a11y/accessible-click.directive";
+import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp-relation-children/wp-children-query.component';
 
 @NgModule({
   imports: [
@@ -244,13 +244,13 @@ import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename
     upgradeServiceWithToken('$timeout', $timeoutToken),
     upgradeServiceWithToken('$locale', $localeToken),
     upgradeServiceWithToken('textileService', TextileServiceToken),
+    upgradeServiceWithToken('WorkPackageService', WorkPackageServiceToken),
     upgradeServiceWithToken('AutoCompleteHelper', AutoCompleteHelperServiceToken),
     NotificationsService,
-    upgradeServiceWithToken('FocusHelper', FocusHelperToken),
+    FocusHelperService,
     PathHelperService,
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
     TimezoneService,
-    upgradeServiceWithToken('wpDestroyModal', wpDestroyModalToken),
     upgradeService('wpRelations', WorkPackageRelationsService),
     UrlParamsHelperService,
     WorkPackageCacheService,
@@ -322,6 +322,7 @@ import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename
     OpIcon,
     OpDatePickerComponent,
     AccessibleByKeyboardComponent,
+    AccessibleClickDirective,
     TablePaginationComponent,
     WorkPackageTablePaginationComponent,
     WorkPackageTimelineHeaderController,
@@ -386,8 +387,7 @@ import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename
     WorkPackageAttachmentListItemComponent,
     OpDateTimeComponent,
     UserLinkComponent,
-    ClickOnKeypressComponent,
-    WorkPackageFormQueryGroupComponent,
+    WorkPackageChildrenQueryComponent,
     WorkPackageFormAttributeGroupComponent,
 
     // Activity Tab
@@ -454,6 +454,7 @@ import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename
     SaveQueryModal,
     QuerySharingForm,
     RenameQueryModal,
+    WpDestroyModal,
 
     // Notifications
     NotificationsContainerComponent,
@@ -523,6 +524,7 @@ import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename
     QuerySharingModal,
     SaveQueryModal,
     RenameQueryModal,
+    WpDestroyModal,
 
     // Notifications
     NotificationsContainerComponent,

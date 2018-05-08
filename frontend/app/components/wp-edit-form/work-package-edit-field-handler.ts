@@ -30,13 +30,14 @@ import {WorkPackageEditForm} from './work-package-edit-form';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {keyCodes} from '../common/keyCodes.enum';
-import {FocusHelperToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
 import {Injector} from '@angular/core';
+import {FocusHelperService} from 'core-components/common/focus/focus-helper';
 
 export class WorkPackageEditFieldHandler {
   // Injections
-  readonly FocusHelper = this.injector.get(FocusHelperToken)
+  readonly FocusHelper:FocusHelperService = this.injector.get(FocusHelperService)
   readonly ConfigurationService = this.injector.get(ConfigurationService);
   readonly I18n:op.I18n = this.injector.get(I18nToken);
 

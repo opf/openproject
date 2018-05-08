@@ -32,7 +32,7 @@ end
 
 shared_examples_for 'valid activity request' do
   let(:status_code) { 200 }
-  let(:admin) { FactoryGirl.create(:admin) }
+  let(:admin) { FactoryBot.create(:admin) }
 
   before do
     allow(User).to receive(:current).and_return(admin)
@@ -50,7 +50,7 @@ shared_examples_for 'valid activity request' do
 end
 
 shared_examples_for 'invalid activity request' do
-  let(:admin) { FactoryGirl.create(:admin) }
+  let(:admin) { FactoryBot.create(:admin) }
   before do
     allow(User).to receive(:current).and_return(admin)
   end

@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'Work Package table hierarchy vs grouping', js: true do
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }

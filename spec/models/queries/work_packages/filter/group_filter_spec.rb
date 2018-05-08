@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::GroupFilter, type: :model do
-  let(:group) { FactoryGirl.build_stubbed(:group) }
+  let(:group) { FactoryBot.build_stubbed(:group) }
 
   it_behaves_like 'basic query filter' do
     let(:order) { 6 }
@@ -76,7 +76,7 @@ describe Queries::WorkPackages::Filter::GroupFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:group2) { FactoryGirl.build_stubbed(:group) }
+      let(:group2) { FactoryBot.build_stubbed(:group) }
 
       before do
         allow(Group)

@@ -34,7 +34,7 @@ import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.servi
 import {StateService} from '@uirouter/core';
 import {Component, Inject, OnInit} from "@angular/core";
 import {
-  $stateToken, FocusHelperToken, I18nToken,
+  $stateToken, I18nToken,
   OpContextMenuLocalsToken
 } from "core-app/angular4-transition-utils";
 import {OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";

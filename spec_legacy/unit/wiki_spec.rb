@@ -58,7 +58,7 @@ describe Wiki, type: :model do
     page = WikiPage.find(10)
     assert_equal page, wiki.find_page('Этика менеджмента')
 
-    page = FactoryGirl.create(:wiki_page, wiki: wiki, title: '2009\\02\\09')
+    page = FactoryBot.create(:wiki_page, wiki: wiki, title: '2009\\02\\09')
     assert_equal page, wiki.find_page('2009\\02\\09')
   end
 end

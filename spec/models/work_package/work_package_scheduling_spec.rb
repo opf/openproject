@@ -31,7 +31,7 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   describe '#overdue' do
     let(:work_package) do
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          due_date: due_date)
     end
 
@@ -74,7 +74,7 @@ describe WorkPackage, type: :model do
     context 'status closed' do
       let(:due_date) { 1.day.ago.to_date }
       let(:status) do
-        FactoryGirl.create(:status,
+        FactoryBot.create(:status,
                            is_closed: true)
       end
 
@@ -88,7 +88,7 @@ describe WorkPackage, type: :model do
 
   describe '#behind_schedule?' do
     let(:work_package) do
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          start_date: start_date,
                          due_date: due_date,
                          done_ratio: done_ratio)

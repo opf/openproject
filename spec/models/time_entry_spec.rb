@@ -32,11 +32,11 @@ require 'spec_helper'
 
 describe TimeEntry, type: :model do
   let(:activity) do
-    FactoryGirl.build(:time_entry_activity)
+    FactoryBot.build(:time_entry_activity)
   end
 
   describe '#activated_projects' do
-    let(:project1) { FactoryGirl.create(:project) }
+    let(:project1) { FactoryBot.create(:project) }
 
     context 'project specific activity' do
       before do
@@ -64,16 +64,16 @@ describe TimeEntry, type: :model do
     end
 
     context 'system activity' do
-      let(:project2) { FactoryGirl.create(:project) }
-      let(:project3) { FactoryGirl.create(:project) }
+      let(:project2) { FactoryBot.create(:project) }
+      let(:project3) { FactoryBot.create(:project) }
 
       let(:child_activity_active) do
-        FactoryGirl.create(:time_entry_activity,
+        FactoryBot.create(:time_entry_activity,
                            parent: activity,
                            project: project1)
       end
       let(:child_activity_inactive) do
-        FactoryGirl.create(:time_entry_activity,
+        FactoryBot.create(:time_entry_activity,
                            parent: activity,
                            project: project2,
                            active: false)

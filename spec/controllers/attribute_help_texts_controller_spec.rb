@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe AttributeHelpTextsController, type: :controller do
-  let(:model) { FactoryGirl.build :work_package_help_text }
+  let(:model) { FactoryBot.build :work_package_help_text }
   let(:relation_columns_allowed) { true }
 
   let(:find_expectation) do

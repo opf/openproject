@@ -209,9 +209,9 @@ describe Query, type: :model do
     group = Group.find(10)
     project = Project.find(1)
     User.current = user
-    i1 = FactoryGirl.create(:work_package, project: project, type: project.types.first, assigned_to: user)
-    i2 = FactoryGirl.create(:work_package, project: project, type: project.types.first, assigned_to: group)
-    i3 = FactoryGirl.create(:work_package, project: project, type: project.types.first, assigned_to: Group.find(11))
+    i1 = FactoryBot.create(:work_package, project: project, type: project.types.first, assigned_to: user)
+    i2 = FactoryBot.create(:work_package, project: project, type: project.types.first, assigned_to: group)
+    i3 = FactoryBot.create(:work_package, project: project, type: project.types.first, assigned_to: Group.find(11))
     group.users << user
 
     query = Query.new(name: '_', filters: [{ assigned_to_id: { operator: '=', values: ['me'] } }])
@@ -419,8 +419,8 @@ describe Query, type: :model do
 
       it 'should have a list of the groups as values' do
         Group.destroy_all # No fixtures
-        group1 = FactoryGirl.create(:group).reload
-        group2 = FactoryGirl.create(:group).reload
+        group1 = FactoryBot.create(:group).reload
+        group2 = FactoryBot.create(:group).reload
 
         expected_group_list = [
           [group1.name, group1.id.to_s],
@@ -536,19 +536,19 @@ describe Query, type: :model do
     context "with 'member_of_group' filter" do
       before do
         Group.destroy_all # No fixtures
-        @user_in_group = FactoryGirl.create(:user)
-        @second_user_in_group = FactoryGirl.create(:user)
-        @user_in_group2 = FactoryGirl.create(:user)
-        @user_not_in_group = FactoryGirl.create(:user)
+        @user_in_group = FactoryBot.create(:user)
+        @second_user_in_group = FactoryBot.create(:user)
+        @user_in_group2 = FactoryBot.create(:user)
+        @user_not_in_group = FactoryBot.create(:user)
 
-        @group = FactoryGirl.create(:group).reload
+        @group = FactoryBot.create(:group).reload
         @group.users << @user_in_group
         @group.users << @second_user_in_group
 
-        @group2 = FactoryGirl.create(:group).reload
+        @group2 = FactoryBot.create(:group).reload
         @group2.users << @user_in_group2
 
-        @empty_group = FactoryGirl.create(:group).reload
+        @empty_group = FactoryBot.create(:group).reload
       end
 
       it 'should search assigned to for users in the group' do
@@ -601,17 +601,17 @@ describe Query, type: :model do
         Member.delete_all
         Role.delete_all
 
-        @manager_role = FactoryGirl.create(:role, name: 'Manager')
-        @developer_role = FactoryGirl.create(:role, name: 'Developer')
-        @empty_role = FactoryGirl.create(:role, name: 'Empty')
+        @manager_role = FactoryBot.create(:role, name: 'Manager')
+        @developer_role = FactoryBot.create(:role, name: 'Developer')
+        @empty_role = FactoryBot.create(:role, name: 'Empty')
 
-        @project = FactoryGirl.create(:project)
-        @manager = FactoryGirl.create(:user)
-        @developer = FactoryGirl.create(:user)
-        @boss = FactoryGirl.create(:user)
-        FactoryGirl.create(:member, user: @manager, project: @project, role_ids: [@manager_role.id])
-        FactoryGirl.create(:member, user: @developer, project: @project, role_ids: [@developer_role.id])
-        FactoryGirl.create(:member, user: @boss, project: @project, role_ids: [@manager_role, @developer_role].map(&:id))
+        @project = FactoryBot.create(:project)
+        @manager = FactoryBot.create(:user)
+        @developer = FactoryBot.create(:user)
+        @boss = FactoryBot.create(:user)
+        FactoryBot.create(:member, user: @manager, project: @project, role_ids: [@manager_role.id])
+        FactoryBot.create(:member, user: @developer, project: @project, role_ids: [@developer_role.id])
+        FactoryBot.create(:member, user: @boss, project: @project, role_ids: [@manager_role, @developer_role].map(&:id))
       end
 
       it 'should search assigned to for users with the Role' do

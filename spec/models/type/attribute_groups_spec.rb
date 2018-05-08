@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 describe ::Type, type: :model do
-  let(:type) { FactoryGirl.build(:type) }
-  let(:admin) { FactoryGirl.create(:admin) }
+  let(:type) { FactoryBot.build(:type) }
+  let(:admin) { FactoryBot.create(:admin) }
 
   before do
     # Clear up the request store cache for all_work_package_attributes
@@ -40,38 +40,16 @@ describe ::Type, type: :model do
   end
 
   describe "#attribute_groups" do
-    shared_examples_for 'appends the children query' do
-      it "at position" do
-        group = type.attribute_groups.last
-
-        expect(group.key).to eql :children
-        query = group.members[0]
-
-        expect(query.class).to eql Query
-
-        expect(query.filters.length).to eql(1)
-
-        filter = query.filters[0]
-
-        expect(filter.name).to eql(:parent)
-
-        expect(query.column_names).to eql(%i(id type subject))
-        expect(query.show_hierarchies).to be_falsey
-      end
-    end
-
     shared_examples_for 'returns default attributes' do
       it do
         expect(type.read_attribute(:attribute_groups)).to be_empty
 
-        attribute_groups = type.attribute_groups.select{ |g| g.is_a?(Type::AttributeGroup) }.map do |group|
+        attribute_groups = type.attribute_groups.select { |g| g.is_a?(Type::AttributeGroup) }.map do |group|
           [group.key, group.attributes]
         end
 
-        expect(attribute_groups).to eql type.default_attribute_groups[0...-1]
+        expect(attribute_groups).to eql type.default_attribute_groups
       end
-
-      it_behaves_like 'appends the children query'
     end
 
     context 'with attributes provided' do
@@ -103,7 +81,9 @@ describe ::Type, type: :model do
         type.attribute_groups = []
       end
 
-      it_behaves_like 'returns default attributes'
+      it 'returns an empty attribute_groups' do
+        expect(type.attribute_groups).to be_empty
+      end
     end
 
     context 'with no attributes provided' do
@@ -111,8 +91,8 @@ describe ::Type, type: :model do
     end
 
     context 'with a query group' do
-      let(:type) { FactoryGirl.create(:type) }
-      let(:query) { FactoryGirl.build(:global_query, user_id: 0) }
+      let(:type) { FactoryBot.create(:type) }
+      let(:query) { FactoryBot.build(:global_query, user_id: 0) }
 
       before do
         login_as(admin)
@@ -131,7 +111,7 @@ describe ::Type, type: :model do
       end
 
       it 'removes the former query if a new one is assigned' do
-        new_query = FactoryGirl.build(:global_query, user_id: 0)
+        new_query = FactoryBot.build(:global_query, user_id: 0)
         type.attribute_groups[0].attributes = new_query
         type.save!
         type.reload
@@ -209,7 +189,7 @@ describe ::Type, type: :model do
     end
 
     context 'with an invalid query' do
-      let(:query) { FactoryGirl.build(:global_query, name: '') }
+      let(:query) { FactoryBot.build(:global_query, name: '') }
 
       before do
         type.attribute_groups = [['some name', [query]]]
@@ -223,7 +203,7 @@ describe ::Type, type: :model do
 
   describe 'custom fields' do
     let!(:custom_field) do
-      FactoryGirl.create(
+      FactoryBot.create(
         :work_package_custom_field,
         field_format: 'string'
       )
@@ -243,8 +223,37 @@ describe ::Type, type: :model do
     end
   end
 
+  describe 'custom field added implicitly to type' do
+    let(:custom_field) do
+      FactoryBot.create(
+        :work_package_custom_field,
+        field_format: 'string',
+        is_for_all: true
+      )
+    end
+    let!(:type) { FactoryBot.create(:type, custom_fields: [custom_field]) }
+
+    it 'has the custom field in the default group' do
+      OpenProject::Cache.clear
+      type.reload
+
+      expect(type.custom_field_ids).to eq([custom_field.id])
+
+      other_group = type.attribute_groups.detect { |g| g.key == :other }
+      expect(other_group).to be_present
+      expect(other_group.attributes).to eq([custom_field.accessor_name])
+
+      # It is removed again when resetting it
+      type.reset_attribute_groups
+      expect(type.custom_field_ids).to be_empty
+
+      other_group = type.attribute_groups.detect { |g| g.key == :other }
+      expect(other_group).not_to be_present
+    end
+  end
+
   describe '#destroy' do
-    let(:query) { FactoryGirl.build(:global_query, user_id: 0) }
+    let(:query) { FactoryBot.build(:global_query, user_id: 0) }
 
     before do
       login_as(admin)

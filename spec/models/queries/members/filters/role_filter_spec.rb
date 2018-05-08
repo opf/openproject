@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 describe Queries::Members::Filters::RoleFilter, type: :model do
-  let(:role1) { FactoryGirl.build_stubbed(:role) }
-  let(:role2) { FactoryGirl.build_stubbed(:role) }
+  let(:role1) { FactoryBot.build_stubbed(:role) }
+  let(:role2) { FactoryBot.build_stubbed(:role) }
 
   before do
     allow(Role)

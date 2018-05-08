@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user, parent: :principal, class: User do
     firstname 'Bob'
     lastname 'Bobbit'

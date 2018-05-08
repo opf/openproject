@@ -32,8 +32,8 @@ describe ProjectType, type: :model do
   describe '- Relations ' do
     describe '#projects' do
       it 'can read projects w/ the help of the has_many association' do
-        project_type = FactoryGirl.create(:project_type)
-        project      = FactoryGirl.create(:project, project_type_id: project_type.id)
+        project_type = FactoryBot.create(:project_type)
+        project      = FactoryBot.create(:project, project_type_id: project_type.id)
 
         project_type.reload
 

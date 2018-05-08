@@ -59,7 +59,8 @@ import {
 } from './inline-create-row-builder';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {FocusHelperToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {FocusHelperService} from 'core-components/common/focus/focus-helper';
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -92,7 +93,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   constructor(readonly elementRef:ElementRef,
               readonly injector:Injector,
-              @Inject(FocusHelperToken) readonly FocusHelper:any,
+              readonly FocusHelper:FocusHelperService,
               @Inject(I18nToken) readonly I18n:op.I18n,
               readonly tableState:TableState,
               readonly wpCacheService:WorkPackageCacheService,
@@ -198,7 +199,12 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
         // Set editing context to table
         const context = new TableRowEditContext(
-          this.injector, wp.id, this.rowBuilder.classIdentifier(wp));
+          this.table,
+          this.injector,
+          wp.id,
+          this.rowBuilder.classIdentifier(wp)
+        );
+        
         this.workPackageEditForm = WorkPackageEditForm.createInContext(this.injector, context, wp, false);
         this.workPackageEditForm.changeset.clear();
 

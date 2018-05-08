@@ -2,11 +2,11 @@ require "spec_helper"
 require "support/pages/abstract_work_package"
 
 describe "multi select custom values", js: true do
-  let(:type) { FactoryGirl.create :type }
-  let(:project) { FactoryGirl.create :project, types: [type] }
+  let(:type) { FactoryBot.create :type }
+  let(:project) { FactoryBot.create :project, types: [type] }
 
   let(:custom_field) do
-    FactoryGirl.create(
+    FactoryBot.create(
       :list_wp_custom_field,
       name: "Ingredients",
       multi_value: true,
@@ -26,11 +26,11 @@ describe "multi select custom values", js: true do
   let(:columns) { ::Components::WorkPackages::Columns.new }
   let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
 
   context "with existing custom values" do
     let(:work_package) do
-      wp = FactoryGirl.build :work_package, project: project, type: type
+      wp = FactoryBot.build :work_package, project: project, type: type
 
       wp.custom_field_values = {
         custom_field.id => ["ham", "pineapple", "onions"].map { |s| custom_value_for(s) }
@@ -41,7 +41,7 @@ describe "multi select custom values", js: true do
     end
 
     let(:work_package2) do
-      wp = FactoryGirl.build :work_package, project: project, type: type
+      wp = FactoryBot.build :work_package, project: project, type: type
 
       wp.custom_field_values = {
         custom_field.id => ["ham"].map { |s| custom_value_for(s) }

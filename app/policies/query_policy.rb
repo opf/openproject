@@ -36,6 +36,7 @@ class QueryPolicy < BasePolicy
         update: persisted_and_own_or_public?(cached_query),
         destroy: persisted_and_own_or_public?(cached_query),
         create: create_allowed?(cached_query),
+        create_new: create_new_allowed?(cached_query),
         publicize: publicize_allowed?(cached_query),
         depublicize: depublicize_allowed?(cached_query),
         star: persisted_and_own_or_public?(cached_query),
@@ -58,8 +59,11 @@ class QueryPolicy < BasePolicy
   end
 
   def create_allowed?(query)
-    query.new_record? &&
-      save_queries_allowed?(query)
+    query.new_record? && create_new_allowed?(query)
+  end
+
+  def create_new_allowed?(query)
+    save_queries_allowed?(query)
   end
 
   def publicize_allowed?(query)

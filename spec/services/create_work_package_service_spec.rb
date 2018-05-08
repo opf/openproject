@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe CreateWorkPackageService do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:work_package) { FactoryGirl.build_stubbed(:work_package, author: nil) }
-  let(:project) { FactoryGirl.build_stubbed(:project_with_types) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:work_package) { FactoryBot.build_stubbed(:work_package, author: nil) }
+  let(:project) { FactoryBot.build_stubbed(:project_with_types) }
   let(:instance) { described_class.new(user: user) }
   let(:errors) { double('errors') }
 

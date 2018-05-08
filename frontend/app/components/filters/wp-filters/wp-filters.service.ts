@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {filtersModule} from '../../../angular-modules';
+import {opServicesModule} from '../../../angular-modules';
 
 export default class WorkPackageFiltersService {
   public visible:boolean = false;
@@ -36,4 +36,4 @@ export default class WorkPackageFiltersService {
   }
 }
 
-filtersModule.service('wpFiltersService', WorkPackageFiltersService);
+opServicesModule.service('wpFiltersService', WorkPackageFiltersService);

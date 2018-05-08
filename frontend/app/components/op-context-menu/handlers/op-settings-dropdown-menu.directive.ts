@@ -161,11 +161,11 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       },
       {
         // Query save as modal
-        disabled: this.authorisationService.cannot('query', 'updateImmediately'),
+        disabled: this.form ? !this.form.$links.create_new : this.authorisationService.cannot('query', 'updateImmediately'),
         linkText: this.I18n.t('js.toolbar.settings.save_as'),
         icon: 'icon-save',
         onClick: ($event:JQueryEventObject) => {
-          if (this.allowFormAction($event, 'commit')) {
+          if (this.allowFormAction($event, 'create_new')) {
             this.opModalService.show(SaveQueryModal);
           }
 
@@ -214,7 +214,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       },
       {
         // Settings modal
-        disabled: !this.query.id || this.authorisationService.cannot('query', 'update'),
+        disabled: !this.query.id || this.authorisationService.cannot('query', 'updateImmediately'),
         linkText: this.I18n.t('js.toolbar.settings.page_settings'),
         icon: 'icon-settings',
         onClick: ($event:JQueryEventObject) => {
@@ -231,7 +231,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       },
       {
         // Settings modal
-        disabled: !this.query.results.customFields,
+        hidden: !this.query.results.customFields,
         href: this.query.results.customFields && this.query.results.customFields.href,
         linkText: this.query.results.customFields && this.query.results.customFields.name,
         icon: 'icon-custom-fields',

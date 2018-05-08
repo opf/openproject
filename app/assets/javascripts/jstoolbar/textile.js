@@ -59,7 +59,7 @@ jsToolBar.prototype.elements.del = {
 };
 
 // code
-jsToolBar.prototype.elements.code = {
+jsToolBar.prototype.elements.pre = {
 	type: 'button',
 	title: 'Code',
 	fn: {

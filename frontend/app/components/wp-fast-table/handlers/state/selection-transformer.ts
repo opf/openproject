@@ -1,5 +1,4 @@
 import {Injector} from '@angular/core';
-import {FocusHelperToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {takeUntil} from 'rxjs/operators';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
@@ -10,13 +9,14 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {WPTableRowSelectionState} from '../../wp-table.interfaces';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {FocusHelperService} from 'core-components/common/focus/focus-helper';
 
 export class SelectionTransformer {
 
   public wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);
   public wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
   public tableState:TableState = this.injector.get(TableState);
-  public FocusHelper:any = this.injector.get(FocusHelperToken);
+  public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   public opContextMenu:OPContextMenuService = this.injector.get(OPContextMenuService);
 
   constructor(public readonly injector:Injector,

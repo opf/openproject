@@ -33,13 +33,13 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
 
   let(:errors) { [] }
   let(:work_package) {
-    FactoryGirl.build(:work_package,
+    FactoryBot.build(:work_package,
                       id: 42,
                       created_at: DateTime.now,
                       updated_at: DateTime.now)
   }
   let(:current_user) {
-    FactoryGirl.build(:user, member_in_project: work_package.project)
+    FactoryBot.build(:user, member_in_project: work_package.project)
   }
   let(:representer) {
     described_class.new(work_package, current_user: current_user, errors: errors)
@@ -88,9 +88,9 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
         end
 
         context 'user with insufficient permissions' do
-          let(:role) { FactoryGirl.create(:role, permissions: []) }
+          let(:role) { FactoryBot.create(:role, permissions: []) }
           let(:current_user) {
-            FactoryGirl.build(:user,
+            FactoryBot.build(:user,
                               member_in_project: work_package.project,
                               member_through_role: role)
           }

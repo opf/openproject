@@ -53,7 +53,7 @@ import {OpModalService} from 'core-components/op-modals/op-modal.service';
     WorkPackageTableRefreshService,
   ]
 })
-export class WorkPackageEmbeddedTableComponent implements AfterViewInit, OnDestroy {
+export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input('queryId') public queryId?:string;
   @Input('queryProps') public queryProps:any = {};
   @Input('configuration') private providedConfiguration:WorkPackageTableConfigurationObject;
@@ -79,10 +79,13 @@ export class WorkPackageEmbeddedTableComponent implements AfterViewInit, OnDestr
 
   }
 
-  ngAfterViewInit():void {
+  ngOnInit() {
     this.configuration = new WorkPackageTableConfiguration(this.providedConfiguration);
     // Set embedded status in configuration
     this.configuration.isEmbedded = true;
+  }
+
+  ngAfterViewInit():void {
 
     // Provision embedded table actions
     if (this.tableActions) {
@@ -154,9 +157,11 @@ export class WorkPackageEmbeddedTableComponent implements AfterViewInit, OnDestr
   }
 
   public set loadingIndicator(promise:Promise<any>) {
-    this.loadingIndicatorService
-      .indicator(this.uniqueEmbeddedTableName)
-      .promise = promise;
+    if (this.configuration.tableVisible) {
+      this.loadingIndicatorService
+        .indicator(this.uniqueEmbeddedTableName)
+        .promise = promise;
+    }
   }
 
   private async loadQuery() {
@@ -175,7 +180,6 @@ export class WorkPackageEmbeddedTableComponent implements AfterViewInit, OnDestr
       )
       .then((query:QueryResource) => this.initializeStates(query, query.results));
 
-    this.loadingIndicator = promise;
     return promise;
   }
 

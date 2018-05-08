@@ -68,8 +68,11 @@ class BaseTypeService
   end
 
   def set_attribute_groups(params)
-    groups = parse_attribute_groups_params(params)
-    type.attribute_groups = groups if groups
+    if params[:attribute_groups].present?
+      type.attribute_groups = parse_attribute_groups_params(params)
+    else
+      type.reset_attribute_groups
+    end
   end
 
   def parse_attribute_groups_params(params)
@@ -83,17 +86,17 @@ class BaseTypeService
   end
 
   def transform_query_params_to_query(groups)
-    groups.each_with_index do |(_name, attributes), index|
+    groups.each_with_index do |(name, attributes), index|
       next unless attributes.is_a? Hash
       next if attributes.values.compact.empty?
 
-      # HACK: have sensible name (although it should never be visible)
       call = ::API::V3::UpdateQueryFromV3ParamsService
-             .new(Query.new_default(name: 'some_name'), user)
+             .new(Query.new_default(name: "Embedded subelements: #{name}"), user)
              .call(attributes.with_indifferent_access)
 
       query = call.result
 
+      query.show_hierarchies = false
       query.add_filter('parent', '=', ::Queries::Filters::TemplatedValue::KEY)
 
       groups[index][1] = [query]

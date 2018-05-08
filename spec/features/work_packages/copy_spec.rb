@@ -30,28 +30,28 @@ require 'spec_helper'
 
 RSpec.feature 'Work package copy', js: true, selenium: true do
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: create_role)
   end
   let(:work_flow) do
-    FactoryGirl.create(:workflow,
+    FactoryBot.create(:workflow,
                        role: create_role,
                        type_id: original_work_package.type_id,
                        old_status: original_work_package.status,
-                       new_status: FactoryGirl.create(:status))
+                       new_status: FactoryBot.create(:status))
   end
 
   let(:create_role) do
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: [:view_work_packages,
                                      :add_work_packages,
                                      :edit_work_packages])
   end
-  let(:type) { FactoryGirl.create(:type) }
-  let(:project) { FactoryGirl.create(:project, types: [type]) }
+  let(:type) { FactoryBot.create(:type) }
+  let(:project) { FactoryBot.create(:project, types: [type]) }
   let(:original_work_package) do
-    FactoryGirl.build(:work_package,
+    FactoryBot.build(:work_package,
                       project: project,
                       assigned_to: assignee,
                       responsible: responsible,
@@ -59,30 +59,30 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
                       type: type,
                       author: author)
   end
-  let(:role) { FactoryGirl.build(:role, permissions: [:view_work_packages]) }
+  let(:role) { FactoryBot.build(:role, permissions: [:view_work_packages]) }
   let(:assignee) do
-    FactoryGirl.build(:user,
+    FactoryBot.build(:user,
                       firstname: 'An',
                       lastname: 'assignee',
                       member_in_project: project,
                       member_through_role: role)
   end
   let(:responsible) do
-    FactoryGirl.build(:user,
+    FactoryBot.build(:user,
                       firstname: 'The',
                       lastname: 'responsible',
                       member_in_project: project,
                       member_through_role: role)
   end
   let(:author) do
-    FactoryGirl.build(:user,
+    FactoryBot.build(:user,
                       firstname: 'The',
                       lastname: 'author',
                       member_in_project: project,
                       member_through_role: role)
   end
   let(:version) do
-    FactoryGirl.build(:version,
+    FactoryBot.build(:version,
                       project: project)
   end
 

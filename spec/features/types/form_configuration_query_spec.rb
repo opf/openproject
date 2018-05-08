@@ -30,24 +30,24 @@ require 'spec_helper'
 require 'features/projects/project_settings_page'
 
 describe 'form subelements configuration', type: :feature, js: true do
-  let(:admin) { FactoryGirl.create :admin }
-  let(:type_bug) { FactoryGirl.create :type_bug }
-  let(:type_task) { FactoryGirl.create :type_task }
+  let(:admin) { FactoryBot.create :admin }
+  let(:type_bug) { FactoryBot.create :type_bug }
+  let(:type_task) { FactoryBot.create :type_task }
 
-  let(:project) { FactoryGirl.create :project, types: [type_bug, type_task] }
+  let(:project) { FactoryBot.create :project, types: [type_bug, type_task] }
   let!(:work_package) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        project: project,
                        type: type_bug
   end
   let!(:subtask) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        parent: work_package,
                        project: project,
                        type: type_task
   end
   let!(:subbug) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        parent: work_package,
                        project: project,
                        type: type_bug
@@ -57,6 +57,7 @@ describe 'form subelements configuration', type: :feature, js: true do
   let(:form) { ::Components::Admin::TypeConfigurationForm.new }
   let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
   let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:columns) { ::Components::WorkPackages::Columns.new }
 
   describe "with EE token" do
     before do
@@ -65,9 +66,79 @@ describe 'form subelements configuration', type: :feature, js: true do
       visit edit_type_tab_path(id: type_bug.id, tab: "form_configuration")
     end
 
+    it 'can modify and keep changed columns (Regression #27604)' do
+      form.add_query_group('Columns Test')
+      form.edit_query_group('Columns Test')
+
+      # Restrict filters to type_task
+      modal.switch_to 'Columns'
+
+      columns.assume_opened
+      columns.uncheck_all save_changes: false
+      columns.add 'ID', save_changes: false
+      columns.add 'Subject', save_changes: false
+      columns.apply
+
+      # Save changed query
+      form.save_changes
+      expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+
+      type_bug.reload
+      query = type_bug.attribute_groups.detect { |x| x.key == 'Columns Test' }
+      expect(query).to be_present
+
+      column_names = query.attributes.columns.map(&:name).sort
+      expect(column_names).to eq %i[id subject]
+
+      form.add_query_group('Second query')
+      form.edit_query_group('Second query')
+
+      # Restrict filters to type_task
+      modal.switch_to 'Columns'
+
+      columns.assume_opened
+      columns.uncheck_all save_changes: false
+      columns.add 'ID', save_changes: false
+      columns.apply
+
+      # Save changed query
+      form.save_changes
+      expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+
+      type_bug.reload
+      query = type_bug.attribute_groups.detect { |x| x.key == 'Columns Test' }
+      expect(query).to be_present
+      expect(query.attributes.show_hierarchies).to eq(false)
+
+      column_names = query.attributes.columns.map(&:name).sort
+      expect(column_names).to eq %i[id subject]
+
+      query = type_bug.attribute_groups.detect { |x| x.key == 'Second query' }
+      expect(query).to be_present
+      expect(query.attributes.show_hierarchies).to eq(false)
+
+      column_names = query.attributes.columns.map(&:name).sort
+      expect(column_names).to eq %i[id]
+
+      form.edit_query_group('Second query')
+      modal.switch_to 'Columns'
+      columns.expect_checked 'ID'
+      columns.apply
+
+      form.edit_query_group('Columns Test')
+      modal.switch_to 'Columns'
+      columns.expect_checked 'ID'
+      columns.expect_checked 'Subject'
+      columns.apply
+    end
+
     it 'can create and save embedded subelements' do
       form.add_query_group('Subtasks')
       form.edit_query_group('Subtasks')
+
+      # Expect disabled tabs for timelines and display mode
+      modal.expect_disabled_tab 'Gantt chart'
+      modal.expect_disabled_tab 'Display settings'
 
       # Restrict filters to type_task
       modal.expect_open

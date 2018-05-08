@@ -34,7 +34,7 @@ describe "API v3 project's versions resource" do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    user = FactoryGirl.create(:user,
+    user = FactoryBot.create(:user,
                               member_in_project: project,
                               member_through_role: role)
 
@@ -42,11 +42,11 @@ describe "API v3 project's versions resource" do
 
     user
   end
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:other_project) { FactoryGirl.create(:project, is_public: false) }
-  let(:versions) { FactoryGirl.create_list(:version, 4, project: project) }
-  let(:other_versions) { FactoryGirl.create_list(:version, 2) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:other_project) { FactoryBot.create(:project, is_public: false) }
+  let(:versions) { FactoryBot.create_list(:version, 4, project: project) }
+  let(:other_versions) { FactoryBot.create_list(:version, 2) }
 
   subject(:response) { last_response }
 
@@ -67,7 +67,7 @@ describe "API v3 project's versions resource" do
     end
 
     context 'logged in user without permission' do
-      let(:role) { FactoryGirl.create(:role, permissions: []) }
+      let(:role) { FactoryBot.create(:role, permissions: []) }
 
       before do
         current_user

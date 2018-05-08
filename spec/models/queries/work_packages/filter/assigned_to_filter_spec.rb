@@ -40,9 +40,9 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
   let(:values) { [] }
 
   describe 'where filter results' do
-    let(:work_package) { FactoryGirl.create(:work_package, assigned_to: assignee) }
-    let(:assignee) { FactoryGirl.create(:user) }
-    let(:group) { FactoryGirl.create(:group) }
+    let(:work_package) { FactoryBot.create(:work_package, assigned_to: assignee) }
+    let(:assignee) { FactoryBot.create(:user) }
+    let(:group) { FactoryBot.create(:group) }
 
     subject { WorkPackage.where(instance.where) }
 
@@ -84,7 +84,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       before do
         allow(User)
           .to receive(:current)
-          .and_return(FactoryGirl.create(:user))
+          .and_return(FactoryBot.create(:user))
       end
 
       it 'does not return the work package' do
@@ -94,8 +94,8 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     end
 
     context 'for me and user values' do
-      let(:user) { FactoryGirl.create :user }
-      let(:assignee2) { FactoryGirl.create :user }
+      let(:user) { FactoryBot.create :user }
+      let(:assignee2) { FactoryBot.create :user }
       let(:values) { [assignee.id, user.id, 'me', assignee2.id] }
 
       before do
@@ -153,7 +153,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     context "for a user value with the user's group being assignee" do
       let(:values) { [user.id.to_s] }
       let(:assignee) { group }
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryBot.create(:user) }
 
       before do
         group.users << user
@@ -168,7 +168,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     context "for a user value with the user not being member of the assigned group" do
       let(:values) { [user.id.to_s] }
       let(:assignee) { group }
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryBot.create(:user) }
 
       it 'does not return the work package' do
         is_expected
@@ -192,7 +192,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     let(:class_key) { :assigned_to_id }
 
     describe '#valid_values!' do
-      let(:user) { FactoryGirl.build_stubbed(:user) }
+      let(:user) { FactoryBot.build_stubbed(:user) }
       let(:loader) do
         loader = double('loader')
 

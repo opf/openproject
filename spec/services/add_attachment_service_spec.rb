@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe AddAttachmentService do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:work_package) { FactoryGirl.create(:work_package) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:work_package) { FactoryBot.create(:work_package) }
   let(:container) { work_package }
   let(:description) { 'a fancy description' }
 

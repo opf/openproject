@@ -32,7 +32,7 @@ require 'spec_helper'
 
 describe CustomActions::UpdateWorkPackageService do
   let(:custom_action) do
-    action = FactoryGirl.build_stubbed(:custom_action)
+    action = FactoryBot.build_stubbed(:custom_action)
 
     allow(action)
       .to receive(:actions)
@@ -58,7 +58,7 @@ describe CustomActions::UpdateWorkPackageService do
 
     action
   end
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:instance) { described_class.new(action: custom_action, user: user) }
   let!(:update_wp_service) do
     wp_service_instance = double('WorkPackages::UpdateService instance')
@@ -74,7 +74,7 @@ describe CustomActions::UpdateWorkPackageService do
 
     wp_service_instance
   end
-  let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
+  let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
   let(:result) do
     ServiceResult.new(result: work_package, success: true)
   end

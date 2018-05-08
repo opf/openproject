@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe WorkPackage, '#reschedule_after', type: :model do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.build(:project_with_types) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project, type: project.types.first) }
-  let(:work_package2) { FactoryGirl.create(:work_package, project: project, type: project.types.first) }
-  let(:work_package3) { FactoryGirl.create(:work_package, project: project, type: project.types.first) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.build(:project_with_types) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project, type: project.types.first) }
+  let(:work_package2) { FactoryBot.create(:work_package, project: project, type: project.types.first) }
+  let(:work_package3) { FactoryBot.create(:work_package, project: project, type: project.types.first) }
 
   let(:instance) { work_package }
   let(:child) do

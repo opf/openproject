@@ -31,8 +31,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 @Component({
   selector: 'accessible-by-keyboard',
   template: `
-  <a (click)="handleClick($event)"
-     (keydown.enter)="handleClick($event)"
+  <a (accessibleClick)="handleClick($event)"
      role="link"
      [ngClass]="linkClass"
      [attr.disabled]="isDisabled || undefined"

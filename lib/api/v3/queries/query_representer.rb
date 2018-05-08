@@ -67,10 +67,9 @@ module API
 
           url_query = ::API::V3::Queries::QueryParamsRepresenter
                       .new(represented)
-                      .to_h
-                      .merge(params.slice(:offset, :pageSize))
+                      .to_url_query(merge_params: params.slice(:offset, :pageSize))
           {
-            href: [path, url_query.to_query].join('?')
+            href: [path, url_query].join('?')
           }
         end
 

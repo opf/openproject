@@ -30,22 +30,22 @@ require 'spec_helper'
 require 'features/projects/projects_page'
 
 describe 'Projects autocomplete page', type: :feature, js: true do
-  let!(:admin) { FactoryGirl.create :admin }
+  let!(:admin) { FactoryBot.create :admin }
 
   let!(:project) do
-    FactoryGirl.create(:project,
+    FactoryBot.create(:project,
                        name: 'Plain project',
                        identifier: 'plain-project')
   end
 
   let!(:project2) do
-    FactoryGirl.create(:project,
+    FactoryBot.create(:project,
                        name: '<strong>foobar</strong>',
                        identifier: 'foobar')
   end
 
   let!(:project3) do
-    FactoryGirl.create(:project,
+    FactoryBot.create(:project,
                        name: 'Plain other project',
                        parent: project2,
                        identifier: 'plain-project-2')
@@ -62,7 +62,7 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     names.map do |name|
       identifier = name.gsub(/[ \-]+/, "-").downcase
 
-      FactoryGirl.create :project, name: name, identifier: identifier
+      FactoryBot.create :project, name: name, identifier: identifier
     end
   end
 

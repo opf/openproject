@@ -37,11 +37,12 @@ module API
           # @todo Redirect to relations endpoint as soon as `list relations` API endpoint
           #       including filters is complete.
           get do
-            relations = @work_package
-                        .relations
-                        .direct
+            query = ::Queries::Relations::RelationQuery.new(user: current_user)
+
+            relations = query
+                        .where(:involved, '=', @work_package.id)
+                        .results
                         .non_hierarchy
-                        .visible(current_user)
 
             ::API::V3::Relations::RelationCollectionRepresenter.new(
               relations,

@@ -37,7 +37,7 @@ Given /^there are the following status:$/ do |table|
     attributes = row.inject({}) { |mem, (k, v)| mem[k.to_sym] = v if v.present?; mem }
     attributes[:is_default] = attributes.delete(:default) == 'true'
 
-    FactoryGirl.create(:status, attributes)
+    FactoryBot.create(:status, attributes)
   end
 end
 

@@ -29,22 +29,22 @@
 require 'spec_helper'
 
 describe 'Blocks on the my page', type: :feature, js: true do
-  let(:project) { FactoryGirl.create :project }
-  let(:open_status) { FactoryGirl.create :default_status }
-  let(:closed_status) { FactoryGirl.create :closed_status }
+  let(:project) { FactoryBot.create :project }
+  let(:open_status) { FactoryBot.create :default_status }
+  let(:closed_status) { FactoryBot.create :closed_status }
 
-  let!(:open_wp) { FactoryGirl.create(:work_package, project: project, status: open_status) }
-  let!(:closed_wp) { FactoryGirl.create(:work_package, project: project, status: closed_status) }
-  let!(:unwatched_wp) { FactoryGirl.create(:work_package, project: project, status: open_status) }
+  let!(:open_wp) { FactoryBot.create(:work_package, project: project, status: open_status) }
+  let!(:closed_wp) { FactoryBot.create(:work_package, project: project, status: closed_status) }
+  let!(:unwatched_wp) { FactoryBot.create(:work_package, project: project, status: open_status) }
 
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
 
   let(:layout) do
     { 'top' => ['issueswatched'], 'left' => [], 'right' => [] }
   end
 
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role,
                        firstname: 'Mahboobeh').tap do |u|

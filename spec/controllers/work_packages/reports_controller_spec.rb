@@ -29,32 +29,32 @@
 require 'spec_helper'
 
 describe WorkPackages::ReportsController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:project) { FactoryBot.create(:project) }
   let(:role) {
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: [:view_work_packages])
   }
   let(:member) {
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project,
                        principal: user,
                        roles: [role])
   }
   let(:work_package_1) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        id: 21,
                        subject: "Can't print recipes",
                        project: project)
   }
   let(:work_package_2) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        id: 2101,
                        subject: 'Error 281 when updating a recipe',
                        project: project)
   }
   let(:work_package_3) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        id: 2102,
                        project: project)
   }

@@ -29,15 +29,15 @@
 require 'spec_helper'
 
 describe WorkPackage, type: :model do
-  let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
-  let(:stub_version) { FactoryGirl.build_stubbed(:version) }
-  let(:stub_project) { FactoryGirl.build_stubbed(:project) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:stub_work_package) { FactoryBot.build_stubbed(:work_package) }
+  let(:stub_version) { FactoryBot.build_stubbed(:version) }
+  let(:stub_project) { FactoryBot.build_stubbed(:project) }
+  let(:user) { FactoryBot.create(:user) }
 
-  let(:type) { FactoryGirl.create(:type_standard) }
-  let(:project) { FactoryGirl.create(:project, types: [type]) }
-  let(:status) { FactoryGirl.create(:status) }
-  let(:priority) { FactoryGirl.create(:priority) }
+  let(:type) { FactoryBot.create(:type_standard) }
+  let(:project) { FactoryBot.create(:project, types: [type]) }
+  let(:status) { FactoryBot.create(:status) }
+  let(:priority) { FactoryBot.create(:priority) }
   let(:work_package) do
     WorkPackage.new.tap do |w|
       w.attributes = { project_id: project.id,
@@ -53,8 +53,8 @@ describe WorkPackage, type: :model do
 
   describe '.new' do
     context 'type' do
-      let(:type2) { FactoryGirl.create(:type) }
-      let(:project) { FactoryGirl.create(:project, types: [type, type2]) }
+      let(:type2) { FactoryBot.create(:type) }
+      let(:project) { FactoryBot.create(:project, types: [type, type2]) }
 
       before do
         project # loads types as well
@@ -126,14 +126,14 @@ describe WorkPackage, type: :model do
 
     describe '#assigned_to' do
       context 'group_assignment' do
-        let(:group) { FactoryGirl.create(:group) }
+        let(:group) { FactoryBot.create(:group) }
 
         before do
           allow(Setting).to receive(:work_package_group_assignment).and_return(true)
         end
 
         subject {
-          FactoryGirl.create(:work_package,
+          FactoryBot.create(:work_package,
                              assigned_to: group).assigned_to
         }
 
@@ -143,9 +143,9 @@ describe WorkPackage, type: :model do
   end
 
   describe '#category' do
-    let(:user_2) { FactoryGirl.create(:user, member_in_project: project) }
+    let(:user_2) { FactoryBot.create(:user, member_in_project: project) }
     let(:category) do
-      FactoryGirl.create(:category,
+      FactoryBot.create(:category,
                          project: project,
                          assigned_to: user_2)
     end
@@ -189,9 +189,9 @@ describe WorkPackage, type: :model do
   end
 
   describe 'responsible' do
-    let(:group) { FactoryGirl.create(:group) }
+    let(:group) { FactoryBot.create(:group) }
 
-    before { work_package.project.add_member! group, FactoryGirl.create(:role) }
+    before { work_package.project.add_member! group, FactoryBot.create(:role) }
 
     shared_context 'assign group as responsible' do
       before { work_package.responsible = group }
@@ -209,7 +209,7 @@ describe WorkPackage, type: :model do
   end
 
   describe '#assignable_versions' do
-    let(:stub_version2) { FactoryGirl.build_stubbed(:version) }
+    let(:stub_version2) { FactoryBot.build_stubbed(:version) }
     def stub_shared_versions(v = nil)
       versions = v ? [v] : []
 
@@ -247,7 +247,7 @@ describe WorkPackage, type: :model do
 
   describe '#assignable_versions' do
     let!(:work_package) do
-      wp = FactoryGirl.create(:work_package,
+      wp = FactoryBot.create(:work_package,
                               project: project,
                               fixed_version: version_current)
       # remove changes to fixed version factored into
@@ -256,27 +256,27 @@ describe WorkPackage, type: :model do
       wp
     end
     let!(:version_current) do
-      FactoryGirl.create(:version,
+      FactoryBot.create(:version,
                          status: 'closed',
                          project: project)
     end
     let!(:version_open) do
-      FactoryGirl.create(:version,
+      FactoryBot.create(:version,
                          status: 'open',
                          project: project)
     end
     let!(:version_locked) do
-      FactoryGirl.create(:version,
+      FactoryBot.create(:version,
                          status: 'locked',
                          project: project)
     end
     let!(:version_closed) do
-      FactoryGirl.create(:version,
+      FactoryBot.create(:version,
                          status: 'closed',
                          project: project)
     end
     let!(:version_other_project) do
-      FactoryGirl.create(:version,
+      FactoryBot.create(:version,
                          status: 'open')
     end
 
@@ -288,12 +288,12 @@ describe WorkPackage, type: :model do
 
   describe '#destroy' do
     let(:time_entry_1) {
-      FactoryGirl.create(:time_entry,
+      FactoryBot.create(:time_entry,
                          project: project,
                          work_package: work_package)
     }
     let(:time_entry_2) {
-      FactoryGirl.create(:time_entry,
+      FactoryBot.create(:time_entry,
                          project: project,
                          work_package: work_package)
     }
@@ -320,25 +320,25 @@ describe WorkPackage, type: :model do
 
   describe '#done_ratio' do
     let(:status_new) {
-      FactoryGirl.create(:status,
+      FactoryBot.create(:status,
                          name: 'New',
                          is_default: true,
                          is_closed: false,
                          default_done_ratio: 50)
     }
     let(:status_assigned) {
-      FactoryGirl.create(:status,
+      FactoryBot.create(:status,
                          name: 'Assigned',
                          is_default: true,
                          is_closed: false,
                          default_done_ratio: 0)
     }
     let(:work_package_1) {
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          status: status_new)
     }
     let(:work_package_2) {
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          project: work_package_1.project,
                          status: status_assigned,
                          done_ratio: 30)
@@ -412,29 +412,29 @@ describe WorkPackage, type: :model do
   end
 
   describe '#group_by' do
-    let(:type_2) { FactoryGirl.create(:type) }
-    let(:priority_2) { FactoryGirl.create(:priority) }
-    let(:project) { FactoryGirl.create(:project, types: [type, type_2]) }
+    let(:type_2) { FactoryBot.create(:type) }
+    let(:priority_2) { FactoryBot.create(:priority) }
+    let(:project) { FactoryBot.create(:project, types: [type, type_2]) }
     let(:version_1) {
-      FactoryGirl.create(:version,
+      FactoryBot.create(:version,
                          project: project)
     }
     let(:version_2) {
-      FactoryGirl.create(:version,
+      FactoryBot.create(:version,
                          project: project)
     }
     let(:category_1) {
-      FactoryGirl.create(:category,
+      FactoryBot.create(:category,
                          project: project)
     }
     let(:category_2) {
-      FactoryGirl.create(:category,
+      FactoryBot.create(:category,
                          project: project)
     }
-    let(:user_2) { FactoryGirl.create(:user) }
+    let(:user_2) { FactoryBot.create(:user) }
 
     let(:work_package_1) {
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          author: user,
                          assigned_to: user,
                          responsible: user,
@@ -445,7 +445,7 @@ describe WorkPackage, type: :model do
                          category: category_1)
     }
     let(:work_package_2) {
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          author: user_2,
                          assigned_to: user_2,
                          responsible: user_2,
@@ -522,11 +522,11 @@ describe WorkPackage, type: :model do
 
     context 'by project' do
       let(:project_2) {
-        FactoryGirl.create(:project,
+        FactoryBot.create(:project,
                            parent: project)
       }
       let(:work_package_3) {
-        FactoryGirl.create(:work_package,
+        FactoryBot.create(:work_package,
                            project: project_2)
       }
 
@@ -539,8 +539,8 @@ describe WorkPackage, type: :model do
   end
 
   describe '#recently_updated' do
-    let(:work_package_1) { FactoryGirl.create(:work_package) }
-    let(:work_package_2) { FactoryGirl.create(:work_package) }
+    let(:work_package_1) { FactoryBot.create(:work_package) }
+    let(:work_package_2) { FactoryBot.create(:work_package) }
 
     before do
       work_package_1
@@ -561,12 +561,12 @@ describe WorkPackage, type: :model do
 
   describe '#on_active_project' do
     let(:project_archived) {
-      FactoryGirl.create(:project,
+      FactoryBot.create(:project,
                          status: Project::STATUS_ARCHIVED)
     }
-    let!(:work_package) { FactoryGirl.create(:work_package) }
+    let!(:work_package) { FactoryBot.create(:work_package) }
     let(:work_package_in_archived_project) {
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          project: project_archived)
     }
 
@@ -584,14 +584,14 @@ describe WorkPackage, type: :model do
   end
 
   describe '#with_author' do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
     let(:project_archived) {
-      FactoryGirl.create(:project,
+      FactoryBot.create(:project,
                          status: Project::STATUS_ARCHIVED)
     }
-    let!(:work_package) { FactoryGirl.create(:work_package, author: user) }
+    let!(:work_package) { FactoryBot.create(:work_package, author: user) }
     let(:work_package_in_archived_project) {
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          project: project_archived,
                          author: user)
     }
@@ -610,13 +610,13 @@ describe WorkPackage, type: :model do
   end
 
   describe '#recipients' do
-    let(:project) { FactoryGirl.build_stubbed(:project) }
-    let(:member) { FactoryGirl.build_stubbed(:user) }
-    let(:author) { FactoryGirl.build_stubbed(:user) }
-    let(:assignee) { FactoryGirl.build_stubbed(:user) }
-    let(:responsible) { FactoryGirl.build_stubbed(:user) }
+    let(:project) { FactoryBot.build_stubbed(:project) }
+    let(:member) { FactoryBot.build_stubbed(:user) }
+    let(:author) { FactoryBot.build_stubbed(:user) }
+    let(:assignee) { FactoryBot.build_stubbed(:user) }
+    let(:responsible) { FactoryBot.build_stubbed(:user) }
     let(:work_package) do
-      FactoryGirl.build_stubbed(:work_package,
+      FactoryBot.build_stubbed(:work_package,
                                 author: author,
                                 assigned_to: assignee,
                                 responsible: responsible,
@@ -692,9 +692,9 @@ describe WorkPackage, type: :model do
     end
 
     context 'with a group' do
-      let(:user1) { FactoryGirl.build_stubbed(:user) }
-      let(:user2) { FactoryGirl.build_stubbed(:user) }
-      let(:user3) { FactoryGirl.build_stubbed(:user) }
+      let(:user1) { FactoryBot.build_stubbed(:user) }
+      let(:user2) { FactoryBot.build_stubbed(:user) }
+      let(:user3) { FactoryBot.build_stubbed(:user) }
 
       let(:users_with_view_permission) do
         [user1, user3]
@@ -716,7 +716,7 @@ describe WorkPackage, type: :model do
 
       context 'for assignee' do
         let(:assignee) do
-          group = FactoryGirl.build_stubbed(:group)
+          group = FactoryBot.build_stubbed(:group)
           allow(group)
             .to receive(:users)
             .and_return([user1, user2, user3])
@@ -732,7 +732,7 @@ describe WorkPackage, type: :model do
 
       context 'for responsible' do
         let(:responsible) do
-          group = FactoryGirl.build_stubbed(:group)
+          group = FactoryBot.build_stubbed(:group)
           allow(group)
             .to receive(:users)
             .and_return([user1, user2, user3])
@@ -769,10 +769,10 @@ describe WorkPackage, type: :model do
   end
 
   describe '.allowed_target_project_on_move' do
-    let(:project) { FactoryGirl.create(:project) }
-    let(:role) { FactoryGirl.create(:role, permissions: [:move_work_packages]) }
+    let(:project) { FactoryBot.create(:project) }
+    let(:role) { FactoryBot.create(:role, permissions: [:move_work_packages]) }
     let(:user) {
-      FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+      FactoryBot.create(:user, member_in_project: project, member_through_role: role)
     }
 
     context 'when having the move_work_packages permission' do
@@ -783,7 +783,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'when lacking the move_work_packages permission' do
-      let(:role) { FactoryGirl.create(:role, permissions: []) }
+      let(:role) { FactoryBot.create(:role, permissions: []) }
 
       it 'does not return the project' do
         expect(WorkPackage.allowed_target_projects_on_move(user))
@@ -793,10 +793,10 @@ describe WorkPackage, type: :model do
   end
 
   describe '.allowed_target_project_on_create' do
-    let(:project) { FactoryGirl.create(:project) }
-    let(:role) { FactoryGirl.create(:role, permissions: [:add_work_packages]) }
+    let(:project) { FactoryBot.create(:project) }
+    let(:role) { FactoryBot.create(:role, permissions: [:add_work_packages]) }
     let(:user) {
-      FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+      FactoryBot.create(:user, member_in_project: project, member_through_role: role)
     }
 
     context 'when having the add_work_packages permission' do
@@ -807,7 +807,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'when lacking the add_work_packages permission' do
-      let(:role) { FactoryGirl.create(:role, permissions: []) }
+      let(:role) { FactoryBot.create(:role, permissions: []) }
 
       it 'does not return the project' do
         expect(WorkPackage.allowed_target_projects_on_create(user))
@@ -869,8 +869,8 @@ describe WorkPackage, type: :model do
   end
 
   describe 'custom fields' do
-    let(:included_cf) { FactoryGirl.build(:work_package_custom_field) }
-    let(:other_cf) { FactoryGirl.build(:work_package_custom_field) }
+    let(:included_cf) { FactoryBot.build(:work_package_custom_field) }
+    let(:other_cf) { FactoryBot.build(:work_package_custom_field) }
 
     before do
       included_cf.save
@@ -897,11 +897,11 @@ describe WorkPackage, type: :model do
     end
 
     it 'should not duplicate error messages when invalid' do
-      cf1 = FactoryGirl.create(:work_package_custom_field, is_required: true)
-      cf2 = FactoryGirl.create(:work_package_custom_field, is_required: true)
+      cf1 = FactoryBot.create(:work_package_custom_field, is_required: true)
+      cf2 = FactoryBot.create(:work_package_custom_field, is_required: true)
 
       # create work_package with one required custom field
-      work_package = FactoryGirl.create :work_package
+      work_package = FactoryBot.create :work_package
       work_package.reload
       work_package.project.work_package_custom_fields << cf1
       work_package.type.custom_fields << cf1
@@ -928,7 +928,7 @@ describe WorkPackage, type: :model do
   describe 'changed_since' do
     let!(:work_package) do
       Timecop.travel(5.hours.ago) do
-        FactoryGirl.create(:work_package)
+        FactoryBot.create(:work_package)
       end
     end
 

@@ -32,8 +32,8 @@ Given /^the [Pp]roject "([^\"]*)" has 1 [wW]iki(?: )?[pP]age with the following:
 
   p.wiki = Wiki.create unless p.wiki
 
-  page = FactoryGirl.create(:wiki_page, wiki: p.wiki)
-  content = FactoryGirl.create(:wiki_content, page: page)
+  page = FactoryBot.create(:wiki_page, wiki: p.wiki)
+  content = FactoryBot.create(:wiki_content, page: page)
 
   send_table_to_object(page, table)
 end
@@ -43,7 +43,7 @@ Given /^there are no wiki menu items$/ do
 end
 
 Given /^the project "(.*?)" has (?:1|a) wiki menu item with the following:$/ do |project_name, table|
-  item = FactoryGirl.build(:wiki_menu_item)
+  item = FactoryBot.build(:wiki_menu_item)
   send_table_to_object(item, table)
   item.wiki = Project.find_by(name: project_name).wiki
   item.save!
@@ -51,11 +51,11 @@ end
 
 Given /^the project "(.*?)" has a child wiki page of "(.*?)" with the following:$/ do |project_name, parent_page_title, table|
   wiki = Project.find_by(name: project_name).wiki
-  wikipage = FactoryGirl.build(:wiki_page, wiki: wiki)
+  wikipage = FactoryBot.build(:wiki_page, wiki: wiki)
 
   send_table_to_object(wikipage, table)
 
-  FactoryGirl.create(:wiki_content, page: wikipage)
+  FactoryBot.create(:wiki_content, page: wikipage)
 
   parent_page = WikiPage.find_by(wiki_id: wiki.id, title: parent_page_title)
   wikipage.parent_id = parent_page.id
@@ -87,15 +87,15 @@ Given /^the wiki page "([^"]*)" of the project "([^"]*)" has (\d+) versions{0,1}
   wiki = project.wiki
   wp = wiki.pages.find_or_create_by(title: page)
   wp.save! unless wp.persisted?
-  wc = wp.content || FactoryGirl.create(:wiki_content, page: wp)
+  wc = wp.content || FactoryBot.create(:wiki_content, page: wp)
 
   last_version = wc.journals.max(&:version).version
 
   version_count.to_i.times.each do |v|
     version = last_version + v + 1
-    data = FactoryGirl.build(:journal_wiki_content_journal,
+    data = FactoryBot.build(:journal_wiki_content_journal,
                              text: "This is version #{version}")
-    FactoryGirl.create(:wiki_content_journal,
+    FactoryBot.create(:wiki_content_journal,
                        version: version,
                        data: data,
                        journable_id: wc.id)

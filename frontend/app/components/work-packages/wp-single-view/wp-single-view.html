@@ -100,15 +100,12 @@
                         [workPackage]="workPackage"
                         [group]="group">
     </wp-attribute-group>
-    <wp-query-group *ngIf="!workPackage.isNew && group.type === 'WorkPackageFormQueryGroup'"
+    <wp-children-query *ngIf="!workPackage.isNew && group.type === 'WorkPackageFormQueryGroup'"
                     [workPackage]="workPackage"
-                    [group]="group">
-    </wp-query-group>
+                    [query]="group.query">
+    </wp-children-query>
   </div>
 </div>
-
-<wp-relations-tab *ngIf="!workPackage.isNew"
-                  [workPackageId]="workPackage.id"></wp-relations-tab>
 
 <div class="work-packages--attachments attributes-group">
   <div class="work-packages--atachments-container">

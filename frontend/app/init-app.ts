@@ -151,9 +151,7 @@ openprojectModule
       }
     ]);
 
-require('./helpers');
 require('./layout');
-require('./models');
 require('./services');
 require('./ui_components');
 require('./work_packages');

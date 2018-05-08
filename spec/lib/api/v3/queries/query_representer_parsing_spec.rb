@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ::API::V3::Queries::QueryRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:user) { double('current_user') }
   let(:representer) do
     described_class.new(query, current_user: user, embed_links: true)

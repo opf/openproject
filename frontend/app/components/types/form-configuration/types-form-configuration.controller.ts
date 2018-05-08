@@ -150,8 +150,14 @@ function typesFormConfigurationCtrl(
     const originator = jQuery(event.target).closest('.type-form-query');
     const currentQuery = $scope.extractQuery(originator);
 
+    // Disable display mode and timeline for now since we don't want users to enable it
+    const disabledTabs = {
+      'display-settings': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
+      'timelines': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled')
+    };
 
-    externalQueryConfiguration.show(originator, currentQuery);
+
+    externalQueryConfiguration.show(originator, currentQuery, disabledTabs);
   };
 
   $scope.extractQuery = (originator:JQuery) => {

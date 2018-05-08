@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ProjectTypesController, type: :controller do
-  let(:current_user) { FactoryGirl.create(:admin) }
+  let(:current_user) { FactoryBot.create(:admin) }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -51,7 +51,7 @@ describe ProjectTypesController, type: :controller do
 
   describe 'create.html' do
     def fetch
-      post 'create', params: { project_type: FactoryGirl.build(:project_type).attributes }
+      post 'create', params: { project_type: FactoryBot.build(:project_type).attributes }
     end
 
     def expect_redirect_to
@@ -62,7 +62,7 @@ describe ProjectTypesController, type: :controller do
 
   describe 'edit.html' do
     def fetch
-      FactoryGirl.create(:project_type, id: '1337')
+      FactoryBot.create(:project_type, id: '1337')
       get 'edit', params: { id: '1337' }
     end
     it_should_behave_like 'a controller action with require_admin'
@@ -70,7 +70,7 @@ describe ProjectTypesController, type: :controller do
 
   describe 'update.html' do
     def fetch
-      FactoryGirl.create(:project_type, id: '1337')
+      FactoryBot.create(:project_type, id: '1337')
       put 'update', params: { id: '1337', project_type: { 'name' => 'blubs' } }
     end
 
@@ -82,7 +82,7 @@ describe ProjectTypesController, type: :controller do
 
   describe 'move.html' do
     def fetch
-      FactoryGirl.create(:project_type, id: '1337')
+      FactoryBot.create(:project_type, id: '1337')
       post 'move', params: { id: '1337', project_type: { move_to: 'highest' } }
     end
 
@@ -94,7 +94,7 @@ describe ProjectTypesController, type: :controller do
 
   describe 'confirm_destroy.html' do
     def fetch
-      FactoryGirl.create(:project_type, id: '1337')
+      FactoryBot.create(:project_type, id: '1337')
       get 'confirm_destroy', params: { id: '1337' }
     end
     it_should_behave_like 'a controller action with require_admin'
@@ -102,7 +102,7 @@ describe ProjectTypesController, type: :controller do
 
   describe 'destroy.html' do
     def fetch
-      FactoryGirl.create(:project_type, id: '1337')
+      FactoryBot.create(:project_type, id: '1337')
       post 'destroy', params: { id: '1337' }
     end
 

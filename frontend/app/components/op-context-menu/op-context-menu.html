@@ -13,8 +13,7 @@
            [attr.href]="item.href || ''"
            [attr.aria-disabled]="item.disabled"
            [attr.aria-label]="item.ariaLabel || item.linkText"
-           (keydown.enter)="handleClick(item, $event)"
-           (click)="handleClick(item, $event)">
+           (accessibleClick)="handleClick(item, $event)">
           <op-icon *ngIf="item.icon" icon-classes="icon-action-menu {{ item.icon }}"> </op-icon>
           <span [textContent]="item.linkText"></span>
         </a>

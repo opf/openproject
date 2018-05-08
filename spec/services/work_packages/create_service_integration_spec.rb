@@ -30,12 +30,12 @@ require 'spec_helper'
 
 describe WorkPackages::CreateService, 'integration', type: :model do
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   end
   let(:role) do
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: permissions)
   end
 
@@ -44,24 +44,24 @@ describe WorkPackages::CreateService, 'integration', type: :model do
   end
 
   let(:type) do
-    FactoryGirl.create(:type,
+    FactoryBot.create(:type,
                        custom_fields: [custom_field])
   end
   let(:default_type) do
-    FactoryGirl.create(:type_standard)
+    FactoryBot.create(:type_standard)
   end
-  let(:project) { FactoryGirl.create(:project, types: [type, default_type]) }
+  let(:project) { FactoryBot.create(:project, types: [type, default_type]) }
   let(:parent) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        type: type)
   end
   let(:instance) { described_class.new(user: user) }
-  let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
-  let(:other_status) { FactoryGirl.create(:status) }
-  let(:default_status) { FactoryGirl.create(:default_status) }
-  let(:priority) { FactoryGirl.create(:priority) }
-  let(:default_priority) { FactoryGirl.create(:default_priority) }
+  let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
+  let(:other_status) { FactoryBot.create(:status) }
+  let(:default_status) { FactoryBot.create(:default_status) }
+  let(:priority) { FactoryBot.create(:priority) }
+  let(:default_priority) { FactoryBot.create(:default_priority) }
   let(:attributes) { {} }
   let(:new_work_package) do
     service_result

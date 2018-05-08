@@ -29,16 +29,16 @@
 require 'spec_helper'
 
 describe 'attachments', type: :feature do
-  let(:project) { FactoryGirl.create :valid_project }
-  let(:current_user) { FactoryGirl.create :admin }
-  let!(:priority) { FactoryGirl.create :priority_normal }
+  let(:project) { FactoryBot.create :valid_project }
+  let(:current_user) { FactoryBot.create :admin }
+  let!(:priority) { FactoryBot.create :priority_normal }
 
   before do
     allow(User).to receive(:current).and_return current_user
   end
 
   describe 'upload', js: true do
-    let(:file) { FactoryGirl.create :file, name: 'textfile.txt' }
+    let(:file) { FactoryBot.create :file, name: 'textfile.txt' }
 
     # FIXME rework this spec after implementing fullscreen create view
     xit 'uploading a short text file and viewing it inline' do

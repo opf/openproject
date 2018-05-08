@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Omniauth authentication', type: :feature do
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        force_password_change: false,
                        identity_url: 'developer:omnibob@example.com',
                        login: 'omnibob',

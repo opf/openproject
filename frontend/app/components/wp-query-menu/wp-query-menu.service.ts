@@ -73,6 +73,7 @@ export class QueryMenuService {
 
   public initialize() {
     this.container = jQuery('#main-menu-work-packages').parent().find('ul.menu-children');
+    this.onQueryIdChanged(this.$state.params['query_id']);
   }
 
   /**
@@ -108,6 +109,7 @@ export class QueryMenuService {
 
   private removeItem(queryId:string) {
     const item = this.findItem(queryId);
+    item.remove();
     this.setSelectedState();
   }
 

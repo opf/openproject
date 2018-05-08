@@ -27,6 +27,7 @@
 //++
 
 import {opUiComponentsModule} from 'core-app/angular-modules';
+import {keyCodes} from "core-components/common/keyCodes.enum";
 
 opUiComponentsModule.directive(
   'accessibleByKeyboard',
@@ -34,6 +35,13 @@ opUiComponentsModule.directive(
     return {
       restrict: 'E',
       transclude: true,
+      link: function(scope:any) {
+        scope.executeOnEnter = (event:JQueryEventObject) => {
+          if (!scope.isDisabled && (event.which === keyCodes.ENTER || event.which === keyCodes.SPACE)) {
+            scope.execute(event);
+          }
+        };
+      },
       scope: {
         execute: '&',
         isDisabled: '=',
@@ -49,7 +57,6 @@ opUiComponentsModule.directive(
          ng-disabled="isDisabled"
          title='{{ linkTitle }}'
          aria-label="{{ linkAriaLabel }}"
-         data-click-on-keypress="[13, 32]"
          href>
          <span ng-transclude class='{{ spanClass }}'></span>
       </a>

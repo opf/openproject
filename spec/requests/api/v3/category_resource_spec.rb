@@ -33,20 +33,20 @@ describe 'API v3 Category resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { FactoryGirl.create(:role, permissions: []) }
-  let(:private_project) { FactoryGirl.create(:project, is_public: false) }
-  let(:public_project) { FactoryGirl.create(:project, is_public: true) }
-  let(:anonymous_user) { FactoryGirl.create(:user) }
+  let(:role) { FactoryBot.create(:role, permissions: []) }
+  let(:private_project) { FactoryBot.create(:project, is_public: false) }
+  let(:public_project) { FactoryBot.create(:project, is_public: true) }
+  let(:anonymous_user) { FactoryBot.create(:user) }
   let(:privileged_user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: private_project,
                        member_through_role: role)
   end
 
-  let!(:categories) { FactoryGirl.create_list(:category, 3, project: private_project) }
-  let!(:other_categories) { FactoryGirl.create_list(:category, 2, project: public_project) }
+  let!(:categories) { FactoryBot.create_list(:category, 3, project: private_project) }
+  let!(:other_categories) { FactoryBot.create_list(:category, 2, project: public_project) }
   let!(:user_categories) do
-    FactoryGirl.create_list(:category,
+    FactoryBot.create_list(:category,
                             2,
                             project: private_project,
                             assigned_to: privileged_user)

@@ -4,12 +4,14 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
+import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 
 export class WorkPackageTableEditingContext {
 
   public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
 
-  constructor(private readonly injector:Injector) {
+  constructor(readonly table:WorkPackageTable,
+              readonly injector:Injector) {
   }
 
   public forms:{ [wpId:string]:WorkPackageEditForm } = {};
@@ -41,7 +43,7 @@ export class WorkPackageTableEditingContext {
     }
 
     // Get any existing edit state for this work package
-    const editContext = new TableRowEditContext(this.injector, wpId, classIdentifier);
+    const editContext = new TableRowEditContext(this.table, this.injector, wpId, classIdentifier);
     return this.forms[wpId] = WorkPackageEditForm.createInContext(this.injector, editContext, workPackage, false);
   }
 }

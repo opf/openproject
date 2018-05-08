@@ -60,13 +60,20 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
   }
 
   public text = {
-    parentHeadline: this.I18n.t('js.relations_hierarchy.parent_headline')
+    parentHeadline: this.I18n.t('js.relations_hierarchy.parent_headline'),
+    childrenHeadline: this.I18n.t('js.relations_hierarchy.children_headline'),
   };
 
   ngOnInit() {
     this.workPackagePath = this.PathHelper.workPackagePath(this.workPackage.id);
     this.canModifyHierarchy = !!this.workPackage.changeParent;
     this.canAddRelation = !!this.workPackage.addRelation;
+
+    this.childrenQueryProps = {
+      filters: JSON.stringify([{ parent: { operator: '=', values: [this.workPackage.id] }  }]),
+      'columns[]': ['id', 'type', 'subject'],
+      showHierarchies: false
+    };
 
     this.wpCacheService.loadWorkPackage(this.workPackage.id).values$()
       .takeUntil(componentDestroyed(this))

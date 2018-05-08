@@ -34,8 +34,7 @@ describe('currentProject service', function() {
     var element:ng.IAugmentedJQuery;
     var currentProject:CurrentProjectService;
 
-    beforeEach(angular.mock.module('openproject.filters',
-                                   'openproject.templates',
+    beforeEach(angular.mock.module('openproject.templates',
                                    'openproject.services'));
 
     beforeEach(angular.mock.inject((_currentProject_:CurrentProjectService) => {

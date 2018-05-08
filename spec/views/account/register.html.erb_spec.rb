@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'account/register', type: :view do
-  let(:user) { FactoryGirl.build :user, auth_source: nil }
+  let(:user) { FactoryBot.build :user, auth_source: nil }
 
   context 'with the email_login setting disabled (default value)' do
     before do
@@ -40,8 +40,8 @@ describe 'account/register', type: :view do
     end
 
     context 'with auth source' do
-      let(:auth_source) { FactoryGirl.create :auth_source }
-      let(:user)        { FactoryGirl.build :user, auth_source: auth_source }
+      let(:auth_source) { FactoryBot.create :auth_source }
+      let(:user)        { FactoryBot.build :user, auth_source: auth_source }
 
       it 'should not show a login field' do
         expect(rendered).not_to include('user[login]')
@@ -64,8 +64,8 @@ describe 'account/register', type: :view do
     end
 
     context 'with auth source' do
-      let(:auth_source) { FactoryGirl.create :auth_source }
-      let(:user)        { FactoryGirl.build :user, auth_source: auth_source }
+      let(:auth_source) { FactoryBot.create :auth_source }
+      let(:user)        { FactoryBot.build :user, auth_source: auth_source }
 
       it 'should not show a login field' do
         expect(rendered).not_to include('user[login]')

@@ -29,15 +29,15 @@
 require 'spec_helper'
 
 describe Status, type: :model do
-  let(:stubbed_status) { FactoryGirl.build_stubbed(:status) }
+  let(:stubbed_status) { FactoryBot.build_stubbed(:status) }
 
   describe '.new_statuses_allowed' do
-    let(:role) { FactoryGirl.create(:role) }
-    let(:type) { FactoryGirl.create(:type) }
-    let(:statuses) { (1..4).map { |_i| FactoryGirl.create(:status) } }
+    let(:role) { FactoryBot.create(:role) }
+    let(:type) { FactoryBot.create(:type) }
+    let(:statuses) { (1..4).map { |_i| FactoryBot.create(:status) } }
     let(:status) { statuses[0] }
     let(:workflow_a) do
-      FactoryGirl.create(:workflow, role_id: role.id,
+      FactoryBot.create(:workflow, role_id: role.id,
                                     type_id: type.id,
                                     old_status_id: statuses[0].id,
                                     new_status_id: statuses[1].id,
@@ -45,7 +45,7 @@ describe Status, type: :model do
                                     assignee: false)
     end
     let(:workflow_b) do
-      FactoryGirl.create(:workflow, role_id: role.id,
+      FactoryBot.create(:workflow, role_id: role.id,
                                     type_id: type.id,
                                     old_status_id: statuses[0].id,
                                     new_status_id: statuses[2].id,
@@ -53,7 +53,7 @@ describe Status, type: :model do
                                     assignee: false)
     end
     let(:workflow_c) do
-      FactoryGirl.create(:workflow, role_id: role.id,
+      FactoryBot.create(:workflow, role_id: role.id,
                                     type_id: type.id,
                                     old_status_id: statuses[0].id,
                                     new_status_id: statuses[3].id,

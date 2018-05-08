@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 RSpec.feature 'Work package index view' do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:project) }
 
   before do
     login_as(user)

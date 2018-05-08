@@ -32,6 +32,7 @@ module TextFormattingHelper
   def_delegators :current_formatting_helper,
                  :text_formatting_has_preview?,
                  :text_formatting_js_includes,
+                 :initial_page_content,
                  :wikitoolbar_for,
                  :heads_for_wiki_formatter
 
@@ -55,8 +56,7 @@ module TextFormattingHelper
   private
 
   def current_formatting_helper
-    helper = OpenProject::TextFormatting::Formatters.helper_for(Setting.text_formatting)
-    extend helper
-    self
+    helper_class = OpenProject::TextFormatting::Formatters.helper_for(Setting.text_formatting)
+    helper_class.new(self)
   end
 end

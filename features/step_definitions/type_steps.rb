@@ -35,7 +35,7 @@ RouteMap.register(::Type, '/types')
 
 Given /^the following types are enabled for the project called "(.*?)":$/ do |project_name, type_name_table|
   types = type_name_table.raw.flatten.map { |type_name|
-    ::Type.find_by(name: type_name) || FactoryGirl.create(:type, name: type_name)
+    ::Type.find_by(name: type_name) || FactoryBot.create(:type, name: type_name)
   }
 
   project = Project.find_by(identifier: project_name)
