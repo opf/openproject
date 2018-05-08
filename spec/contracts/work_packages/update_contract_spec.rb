@@ -30,13 +30,13 @@ require 'spec_helper'
 
 describe WorkPackages::UpdateContract do
   let(:work_package) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        done_ratio: 50,
                        estimated_hours: 6.0,
                        project: project)
   end
-  let(:member) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-  let (:project) { FactoryGirl.create(:project) }
+  let(:member) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  let (:project) { FactoryBot.create(:project) }
   let(:current_user) { member }
   let(:permissions) {
     [
@@ -49,7 +49,7 @@ describe WorkPackages::UpdateContract do
       :add_work_package_notes
     ]
   }
-  let(:role) { FactoryGirl.create :role, permissions: permissions }
+  let(:role) { FactoryBot.create :role, permissions: permissions }
   let(:changed_values) { [] }
 
   subject(:contract) { described_class.new(work_package, current_user) }
@@ -94,7 +94,7 @@ describe WorkPackages::UpdateContract do
         contract.validate
       end
       let(:child) do
-        FactoryGirl.create(:work_package, parent_id: work_package.id, project: project)
+        FactoryBot.create(:work_package, parent_id: work_package.id, project: project)
       end
 
       context 'has not changed' do

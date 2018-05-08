@@ -45,17 +45,17 @@ describe 'Work packages having story points', type: :feature, js: true do
                                                                        'task_type'             => task_type.id.to_s)
   end
 
-  let(:current_user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project,
+  let(:current_user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:project,
                                      enabled_module_names: %w(work_package_tracking backlogs)) }
-  let(:status) { FactoryGirl.create :default_status }
-  let(:story_type) { FactoryGirl.create(:type_feature) }
-  let(:task_type) { FactoryGirl.create(:type_feature) }
+  let(:status) { FactoryBot.create :default_status }
+  let(:story_type) { FactoryBot.create(:type_feature) }
+  let(:task_type) { FactoryBot.create(:type_feature) }
 
   describe 'showing the story points on the work package show page' do
     let(:story_points) { 42 }
     let(:story_with_sp) {
-      FactoryGirl.create(:story,
+      FactoryBot.create(:story,
                          type: story_type,
                          author: current_user,
                          project: project,

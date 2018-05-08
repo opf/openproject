@@ -43,18 +43,18 @@ describe Burndown, type: :model do
     story.current_journal.update_attribute(:created_at, day)
   end
 
-  let(:user) { @user ||= FactoryGirl.create(:user) }
-  let(:role) { @role ||= FactoryGirl.create(:role) }
-  let(:type_feature) { @type_feature ||= FactoryGirl.create(:type_feature) }
-  let(:type_task) { @type_task ||= FactoryGirl.create(:type_task) }
-  let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority, is_default: true) }
-  let(:version) { @version ||= FactoryGirl.create(:version, project: project) }
+  let(:user) { @user ||= FactoryBot.create(:user) }
+  let(:role) { @role ||= FactoryBot.create(:role) }
+  let(:type_feature) { @type_feature ||= FactoryBot.create(:type_feature) }
+  let(:type_task) { @type_task ||= FactoryBot.create(:type_task) }
+  let(:issue_priority) { @issue_priority ||= FactoryBot.create(:priority, is_default: true) }
+  let(:version) { @version ||= FactoryBot.create(:version, project: project) }
   let(:sprint) { @sprint ||= Sprint.find(version.id) }
 
   let(:project) do
     unless @project
-      @project = FactoryGirl.build(:project)
-      @project.members = [FactoryGirl.build(:member, principal: user,
+      @project = FactoryBot.build(:project)
+      @project.members = [FactoryBot.build(:member, principal: user,
                                                      project: @project,
                                                      roles: [role])]
       @project.versions << version
@@ -62,9 +62,9 @@ describe Burndown, type: :model do
     @project
   end
 
-  let(:issue_open) { @status1 ||= FactoryGirl.create(:status, name: 'status 1', is_default: true) }
-  let(:issue_closed) { @status2 ||= FactoryGirl.create(:status, name: 'status 2', is_closed: true) }
-  let(:issue_resolved) { @status3 ||= FactoryGirl.create(:status, name: 'status 3', is_closed: false) }
+  let(:issue_open) { @status1 ||= FactoryBot.create(:status, name: 'status 1', is_default: true) }
+  let(:issue_closed) { @status2 ||= FactoryBot.create(:status, name: 'status 2', is_closed: true) }
+  let(:issue_resolved) { @status3 ||= FactoryBot.create(:status, name: 'status 3', is_closed: false) }
 
   before(:each) do
     Rails.cache.clear
@@ -80,7 +80,7 @@ describe Burndown, type: :model do
     project.save!
 
     [issue_open, issue_closed, issue_resolved].permutation(2).each do |transition|
-      FactoryGirl.create(:workflow,
+      FactoryBot.create(:workflow,
                          old_status: transition[0],
                          new_status: transition[1],
                          role: role,
@@ -116,7 +116,7 @@ describe Burndown, type: :model do
 
         describe 'WITH 1 story assigned to the sprint' do
           before(:each) do
-            @story = FactoryGirl.build(:story, subject: 'Story 1',
+            @story = FactoryBot.build(:story, subject: 'Story 1',
                                                project: project,
                                                fixed_version: version,
                                                type: type_feature,
@@ -168,7 +168,7 @@ describe Burndown, type: :model do
             @stories = []
 
             (0..9).each do |i|
-              @stories[i] = FactoryGirl.create(:story, subject: "Story #{i}",
+              @stories[i] = FactoryBot.create(:story, subject: "Story #{i}",
                                                        project: project,
                                                        fixed_version: version,
                                                        type: type_feature,

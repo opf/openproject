@@ -37,40 +37,40 @@ require 'spec_helper'
 
 describe 'Filter by backlog type', js: true do
   let(:story_type) do
-    type = FactoryGirl.create(:type_feature)
+    type = FactoryBot.create(:type_feature)
     project.types << type
 
     type
   end
 
   let(:task_type) do
-    type = FactoryGirl.create(:type_task)
+    type = FactoryBot.create(:type_task)
     project.types << type
 
     type
   end
 
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create :project }
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create :project }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   let(:member) do
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        user: user,
                        project: project,
-                       roles: [FactoryGirl.create(:role)])
+                       roles: [FactoryBot.create(:role)])
   end
 
   let(:work_package_with_story_type) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        type: story_type,
                        project: project)
   end
 
   let(:work_package_with_task_type) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        type: task_type,
                        project: project)
   end

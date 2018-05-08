@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
-  let(:project) { FactoryGirl.build(:project) }
-  let(:type) { FactoryGirl.build(:type) }
+  let(:project) { FactoryBot.build(:project) }
+  let(:type) { FactoryBot.build(:type) }
   let(:work_package) do
-    FactoryGirl.build(:work_package,
+    FactoryBot.build(:work_package,
                       project: project,
                       type: type)
   end

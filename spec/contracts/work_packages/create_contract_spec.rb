@@ -37,16 +37,16 @@ require 'spec_helper'
 
 describe WorkPackages::CreateContract do
   let(:work_package) do
-    FactoryGirl.build(:work_package,
+    FactoryBot.build(:work_package,
                       author: member,
                       project: project)
   end
   let(:member) {
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   }
-  let (:project) { FactoryGirl.create(:project) }
+  let (:project) { FactoryBot.create(:project) }
   let(:current_user) { member }
   let(:permissions) {
     [
@@ -54,7 +54,7 @@ describe WorkPackages::CreateContract do
       :add_work_packages
     ]
   }
-  let(:role) { FactoryGirl.create :role, permissions: permissions }
+  let(:role) { FactoryBot.create :role, permissions: permissions }
   let(:changed_values) { [] }
 
   subject(:contract) { described_class.new(work_package, current_user) }

@@ -38,31 +38,31 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe Impediments::CreateService do
   let(:instance) { described_class.new(user: user) }
 
-  let(:user) { FactoryGirl.create(:user) }
-  let(:role) { FactoryGirl.create(:role, permissions: %i(add_work_packages)) }
-  let(:type_feature) { FactoryGirl.create(:type_feature) }
-  let(:type_task) { FactoryGirl.create(:type_task) }
-  let(:priority) { FactoryGirl.create(:priority, is_default: true) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:role) { FactoryBot.create(:role, permissions: %i(add_work_packages)) }
+  let(:type_feature) { FactoryBot.create(:type_feature) }
+  let(:type_task) { FactoryBot.create(:type_task) }
+  let(:priority) { FactoryBot.create(:priority, is_default: true) }
   let(:feature) {
-    FactoryGirl.build(:work_package, type: type_feature,
+    FactoryBot.build(:work_package, type: type_feature,
                                      project: project,
                                      author: user,
                                      priority: priority,
                                      status: status1)
   }
-  let(:version) { FactoryGirl.create(:version, project: project) }
+  let(:version) { FactoryBot.create(:version, project: project) }
 
   let(:project) do
-    project = FactoryGirl.create(:project, types: [type_feature, type_task])
+    project = FactoryBot.create(:project, types: [type_feature, type_task])
 
-    FactoryGirl.create(:member, principal: user,
+    FactoryBot.create(:member, principal: user,
                                 project: project,
                                 roles: [role])
 
     project
   end
 
-  let(:status1) { FactoryGirl.create(:status, name: 'status 1', is_default: true) }
+  let(:status1) { FactoryBot.create(:status, name: 'status 1', is_default: true) }
 
   before(:each) do
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
@@ -135,7 +135,7 @@ describe Impediments::CreateService do
       end
 
       before(:each) do
-        feature.fixed_version = FactoryGirl.create(:version, project: project, name: 'another version')
+        feature.fixed_version = FactoryBot.create(:version, project: project, name: 'another version')
         feature.save
       end
 

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
   let(:current_user) {
-    FactoryGirl.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user)
   }
 
   let(:schema) { ::API::V3::WorkPackages::Schema::WorkPackageSumsSchema.new }

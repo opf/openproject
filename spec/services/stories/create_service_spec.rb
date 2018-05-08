@@ -36,23 +36,23 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe Stories::CreateService, type: :model do
-  let(:priority) { FactoryGirl.create(:priority) }
+  let(:priority) { FactoryBot.create(:priority) }
   let(:project) do
-    project = FactoryGirl.create(:project, types: [type_feature])
+    project = FactoryBot.create(:project, types: [type_feature])
 
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        principal: user,
                        project: project,
                        roles: [role])
     project
   end
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { %i(add_work_packages manage_subtasks) }
-  let(:status) { FactoryGirl.create(:status) }
-  let(:type_feature) { FactoryGirl.create(:type_feature) }
+  let(:status) { FactoryBot.create(:status) }
+  let(:type_feature) { FactoryBot.create(:type_feature) }
 
   let(:user) do
-    FactoryGirl.create(:user)
+    FactoryBot.create(:user)
   end
 
   let(:instance) do
@@ -72,12 +72,12 @@ describe Stories::CreateService, type: :model do
     }
   end
 
-  let(:version) { FactoryGirl.create(:version, project: project) }
+  let(:version) { FactoryBot.create(:version, project: project) }
 
   let(:story) do
     project.enabled_module_names += ['backlogs']
 
-    FactoryGirl.create(:story, fixed_version: version,
+    FactoryBot.create(:story, fixed_version: version,
                                project: project,
                                status: status,
                                type: type_feature,

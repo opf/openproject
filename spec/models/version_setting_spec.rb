@@ -36,7 +36,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe VersionSetting, type: :model do
-  let(:version_setting) { FactoryGirl.build(:version_setting) }
+  let(:version_setting) { FactoryBot.build(:version_setting) }
 
   it { is_expected.to belong_to(:project) }
   it { is_expected.to belong_to(:version) }

@@ -36,7 +36,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe  WorkPackage::Exporter::PDF, type: :model do
-  let(:project) { FactoryGirl.create :project }
+  let(:project) { FactoryBot.create :project }
   let(:query) { Query.new_default(name: '_', project: project)}
   subject { described_class.new query }
 

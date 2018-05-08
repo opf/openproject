@@ -33,7 +33,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :story do
     association :priority, factory: :priority
     sequence(:subject) do |n| "story#{n}" end

@@ -39,7 +39,7 @@ describe User, type: :model do
   describe 'backlogs_preference' do
     describe 'task_color' do
       it 'reads from and writes to a user preference' do
-        u = FactoryGirl.create(:user)
+        u = FactoryBot.create(:user)
         u.backlogs_preference(:task_color, '#FFCC33')
 
         expect(u.backlogs_preference(:task_color)).to eq('#FFCC33')
@@ -48,7 +48,7 @@ describe User, type: :model do
       end
 
       it 'computes a random color and persists it, when none is set' do
-        u = FactoryGirl.create(:user)
+        u = FactoryBot.create(:user)
         u.backlogs_preference(:task_color, nil)
         u.save!
 
