@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 
 describe 'LDAP group sync administration spec', type: :feature, js: true do
-  let(:admin) { FactoryGirl.create :admin }
+  let(:admin) { FactoryBot.create :admin }
 
   before do
     login_as admin
@@ -15,8 +15,8 @@ describe 'LDAP group sync administration spec', type: :feature, js: true do
   end
 
   context 'with EE', with_ee: %i[ldap_groups] do
-    let!(:group) { FactoryGirl.create :group, lastname: 'foo' }
-    let!(:auth_source) { FactoryGirl.create :ldap_auth_source, name: 'ldap' }
+    let!(:group) { FactoryBot.create :group, lastname: 'foo' }
+    let!(:auth_source) { FactoryBot.create :ldap_auth_source, name: 'ldap' }
 
     it 'allows synced group administration flow' do
       expect(page).to have_no_selector('.upsale-notification')
