@@ -31,10 +31,10 @@ describe ExportCardConfigurationsController, :type => :controller do
   before do
     allow(@controller).to receive(:require_admin) { true }
 
-    @default_config = FactoryGirl.create(:default_export_card_configuration)
-    @custom_config = FactoryGirl.create(:export_card_configuration)
-    @active_config = FactoryGirl.create(:active_export_card_configuration)
-    @inactive_config = FactoryGirl.create(:inactive_export_card_configuration)
+    @default_config = FactoryBot.create(:default_export_card_configuration)
+    @custom_config = FactoryBot.create(:export_card_configuration)
+    @active_config = FactoryBot.create(:active_export_card_configuration)
+    @inactive_config = FactoryBot.create(:inactive_export_card_configuration)
     @params = {}
     @valid_rows_yaml = "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false"
     @invalid_rows_yaml = "group1:\n  invalid_property: true"

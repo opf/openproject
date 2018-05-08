@@ -24,7 +24,7 @@
 #++
 
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :export_card_configuration do
     name "Config 1"
     description "This is a description"
