@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe 'Cost report in subproject', type: :feature, js: true do
-  let!(:project) { FactoryGirl.create :project }
-  let!(:subproject) { FactoryGirl.create :project, parent: project }
+  let!(:project) { FactoryBot.create :project }
+  let!(:subproject) { FactoryBot.create :project, parent: project }
 
-  let!(:role) { FactoryGirl.create :role, permissions: %i(view_cost_entries view_own_cost_entries) }
+  let!(:role) { FactoryBot.create :role, permissions: %i(view_cost_entries view_own_cost_entries) }
   let!(:user) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        member_in_project: subproject,
                        member_through_role: role
   end

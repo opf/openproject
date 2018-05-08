@@ -20,19 +20,19 @@
 require 'spec_helper'
 
 describe 'Custom fields reporting', type: :feature, js: true do
-  let(:type) { FactoryGirl.create :type }
-  let(:project) { FactoryGirl.create :project, types: [type] }
+  let(:type) { FactoryBot.create :type }
+  let(:project) { FactoryBot.create :project, types: [type] }
 
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
 
   let(:work_package) {
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        project: project,
                        custom_values: initial_custom_values
   }
 
   let!(:time_entry1) {
-    FactoryGirl.create :time_entry,
+    FactoryBot.create :time_entry,
                        user: user,
                        work_package: work_package,
                        project: project,
@@ -40,7 +40,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
   }
 
   let!(:time_entry2) {
-    FactoryGirl.create :time_entry,
+    FactoryBot.create :time_entry,
                        user: user,
                        work_package: work_package,
                        project: project,
@@ -54,7 +54,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
   context 'with multi value cf' do
     let!(:custom_field) do
-      FactoryGirl.create(
+      FactoryBot.create(
           :list_wp_custom_field,
           name: "List CF",
           multi_value: true,
@@ -132,7 +132,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
     context 'with additional WP with invalid value' do
       let!(:custom_field_2) do
-        FactoryGirl.create(
+        FactoryBot.create(
             :list_wp_custom_field,
             name: "Invalid List CF",
             multi_value: true,
@@ -143,13 +143,13 @@ describe 'Custom fields reporting', type: :feature, js: true do
       end
 
       let!(:work_package2) {
-        FactoryGirl.create :work_package,
+        FactoryBot.create :work_package,
                            project: project,
                            custom_values: { custom_field_2.id => custom_value_for(custom_field_2, 'A')}
       }
 
       let!(:time_entry1) {
-        FactoryGirl.create :time_entry,
+        FactoryBot.create :time_entry,
                            user: user,
                            work_package: work_package2,
                            project: project,
@@ -187,7 +187,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
   context 'with text CF' do
     let(:custom_field) do
-      FactoryGirl.create(
+      FactoryBot.create(
           :text_wp_custom_field,
           name: 'Text CF',
           types: [type],

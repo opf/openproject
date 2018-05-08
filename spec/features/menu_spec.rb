@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'project menu', type: :feature do
-  let(:current_user) { FactoryGirl.create :admin }
-  let!(:project) { FactoryGirl.create :valid_project, identifier: 'ponyo', name: 'Ponyo' }
+  let(:current_user) { FactoryBot.create :admin }
+  let!(:project) { FactoryBot.create :valid_project, identifier: 'ponyo', name: 'Ponyo' }
 
   before do
     allow(User).to receive(:current).and_return current_user
