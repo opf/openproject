@@ -20,7 +20,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe 'hourly rates on user edit', type: :feature, js: true do
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
 
   def view_rates
     visit edit_user_path(user, tab: 'rates')
@@ -41,7 +41,7 @@ describe 'hourly rates on user edit', type: :feature, js: true do
   end
 
   context 'with rates' do
-    let!(:rate) { FactoryGirl.create(:default_hourly_rate, user: user) }
+    let!(:rate) { FactoryBot.create(:default_hourly_rate, user: user) }
 
     before do
       view_rates

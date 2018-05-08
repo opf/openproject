@@ -21,39 +21,39 @@ require 'spec_helper'
 
 describe WorkPackage, type: :model do
   let(:work_package) {
-    FactoryGirl.create(:work_package, project: project,
+    FactoryBot.create(:work_package, project: project,
                                       status: status)
   }
   let(:work_package2) {
-    FactoryGirl.create(:work_package, project: project2,
+    FactoryBot.create(:work_package, project: project2,
                                       status: status)
   }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
 
-  let(:type) { FactoryGirl.create(:type_standard) }
-  let(:project) { FactoryGirl.create(:project, types: [type]) }
-  let(:project2) { FactoryGirl.create(:project, types: [type]) }
-  let(:role) { FactoryGirl.create(:role) }
-  let(:role2) { FactoryGirl.create(:role) }
+  let(:type) { FactoryBot.create(:type_standard) }
+  let(:project) { FactoryBot.create(:project, types: [type]) }
+  let(:project2) { FactoryBot.create(:project, types: [type]) }
+  let(:role) { FactoryBot.create(:role) }
+  let(:role2) { FactoryBot.create(:role) }
   let(:member) {
-    FactoryGirl.create(:member, principal: user,
+    FactoryBot.create(:member, principal: user,
                                 roles: [role])
   }
   let(:member2) {
-    FactoryGirl.create(:member, principal: user,
+    FactoryBot.create(:member, principal: user,
                                 roles: [role2],
                                 project: work_package2.project)
   }
-  let(:status) { FactoryGirl.create(:status) }
-  let(:priority) { FactoryGirl.create(:priority) }
-  let(:cost_type) { FactoryGirl.create(:cost_type) }
+  let(:status) { FactoryBot.create(:status) }
+  let(:priority) { FactoryBot.create(:priority) }
+  let(:cost_type) { FactoryBot.create(:cost_type) }
   let(:cost_entry) {
-    FactoryGirl.build(:cost_entry, work_package: work_package,
+    FactoryBot.build(:cost_entry, work_package: work_package,
                                    project: work_package.project,
                                    cost_type: cost_type)
   }
   let(:cost_entry2) {
-    FactoryGirl.build(:cost_entry, work_package: work_package2,
+    FactoryBot.build(:cost_entry, work_package: work_package2,
                                    project: work_package2.project,
                                    cost_type: cost_type)
   }

@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'Work package table log unit costs', js: true do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:work_package) { FactoryGirl.create(:work_package) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:work_package) { FactoryBot.create(:work_package) }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new }
   let(:menu) { ::Components::WorkPackages::ContextMenu.new }

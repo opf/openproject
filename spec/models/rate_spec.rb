@@ -20,7 +20,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Rate, type: :model do
-  let(:rate) { FactoryGirl.build(:rate) }
+  let(:rate) { FactoryBot.build(:rate) }
 
   describe '#valid?' do
     describe 'WHEN no rate is supplied' do

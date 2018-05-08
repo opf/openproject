@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
-  let(:custom_field) { FactoryGirl.build(:custom_field) }
-  let(:work_package) { FactoryGirl.build(:work_package) }
+  let(:custom_field) { FactoryBot.build(:custom_field) }
+  let(:work_package) { FactoryBot.build(:work_package) }
   let(:current_user) {
-    FactoryGirl.build(:user, member_in_project: work_package.project)
+    FactoryBot.build(:user, member_in_project: work_package.project)
   }
   let(:schema) {
     ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
@@ -67,7 +67,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     context 'when values are allowed' do
-      let(:values) { FactoryGirl.build_stubbed_list(factory, 3) }
+      let(:values) { FactoryBot.build_stubbed_list(factory, 3) }
 
       before do
         allow(schema).to receive(:assignable_values).with(factory, anything).and_return(values)

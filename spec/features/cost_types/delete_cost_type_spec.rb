@@ -20,10 +20,10 @@
 require 'spec_helper'
 
 describe 'deleting a cost type', type: :feature, js: true do
-  let!(:user) { FactoryGirl.create :admin }
+  let!(:user) { FactoryBot.create :admin }
   let!(:cost_type) {
-    type = FactoryGirl.create :cost_type, name: 'Translations'
-    FactoryGirl.create :cost_rate, cost_type: type, rate: 1.00
+    type = FactoryBot.create :cost_type, name: 'Translations'
+    FactoryBot.create :cost_rate, cost_type: type, rate: 1.00
     type
   }
 

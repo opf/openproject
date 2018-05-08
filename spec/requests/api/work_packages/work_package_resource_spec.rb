@@ -35,17 +35,17 @@ describe 'API v3 Work package resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:work_package) {
-    FactoryGirl.create(:work_package, project: project)
+    FactoryBot.create(:work_package, project: project)
   }
 
   let(:project) do
-    FactoryGirl.create(:project, identifier: 'test_project', is_public: false)
+    FactoryBot.create(:project, identifier: 'test_project', is_public: false)
   end
   let(:role) do
-    FactoryGirl.create(:role, permissions: [:view_work_packages, :edit_work_packages, :view_cost_objects])
+    FactoryBot.create(:role, permissions: [:view_work_packages, :edit_work_packages, :view_cost_objects])
   end
   let(:current_user) do
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
 
   describe '#patch' do
@@ -68,7 +68,7 @@ describe 'API v3 Work package resource', type: :request do
 
     context 'user with needed permissions' do
       context 'budget' do
-        let(:target_budget) { FactoryGirl.create(:cost_object, project: project) }
+        let(:target_budget) { FactoryBot.create(:cost_object, project: project) }
         let(:budget_link) { api_v3_paths.budget target_budget.id }
         let(:budget_parameter) { { _links: { costObject: { href: budget_link } } } }
         let(:params) { valid_params.merge(budget_parameter) }
@@ -87,7 +87,7 @@ describe 'API v3 Work package resource', type: :request do
         end
 
         context 'not valid' do
-          let(:target_budget) { FactoryGirl.create(:cost_object) }
+          let(:target_budget) { FactoryBot.create(:cost_object) }
 
           include_context 'patch request'
 

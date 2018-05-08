@@ -22,22 +22,22 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryBot.create(:project) }
   let(:role) {
-    FactoryGirl.create(:role, permissions: [:view_time_entries,
+    FactoryBot.create(:role, permissions: [:view_time_entries,
                                             :view_cost_entries,
                                             :view_cost_rates,
                                             :view_work_packages])
   }
   let(:user) {
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   }
 
-  let(:cost_object) { FactoryGirl.create(:cost_object, project: project) }
+  let(:cost_object) { FactoryBot.create(:cost_object, project: project) }
   let(:cost_entry_1) {
-    FactoryGirl.create(:cost_entry,
+    FactoryBot.create(:cost_entry,
                        work_package: work_package,
                        project: project,
                        units: 3,
@@ -46,7 +46,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                        comments: 'Entry 1')
   }
   let(:cost_entry_2) {
-    FactoryGirl.create(:cost_entry,
+    FactoryBot.create(:cost_entry,
                        work_package: work_package,
                        project: project,
                        units: 3,
@@ -56,7 +56,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   }
 
   let(:work_package) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project_id: project.id,
                        cost_object: cost_object)
   }
@@ -117,7 +117,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'spentTime' do
         context 'time entry with single hour' do
           let(:time_entry) {
-            FactoryGirl.create(:time_entry,
+            FactoryBot.create(:time_entry,
                                project: work_package.project,
                                work_package: work_package,
                                hours: 1.0)
@@ -130,7 +130,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'time entry with multiple hours' do
           let(:time_entry) {
-            FactoryGirl.create(:time_entry,
+            FactoryBot.create(:time_entry,
                                project: work_package.project,
                                work_package: work_package,
                                hours: 42.5)
@@ -151,18 +151,18 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'only view_own_time_entries permission' do
           let(:own_time_entries_role) {
-            FactoryGirl.create(:role, permissions: [:view_own_time_entries,
+            FactoryBot.create(:role, permissions: [:view_own_time_entries,
                                                     :view_work_packages])
           }
 
           let(:user2) {
-            FactoryGirl.create(:user,
+            FactoryBot.create(:user,
                                member_in_project: project,
                                member_through_role: own_time_entries_role)
           }
 
           let!(:own_time_entry) {
-            FactoryGirl.create(:time_entry,
+            FactoryBot.create(:time_entry,
                                project: work_package.project,
                                work_package: work_package,
                                hours: 2,
@@ -170,7 +170,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           }
 
           let!(:other_time_entry) {
-            FactoryGirl.create(:time_entry,
+            FactoryBot.create(:time_entry,
                                project: work_package.project,
                                work_package: work_package,
                                hours: 1,

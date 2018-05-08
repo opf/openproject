@@ -20,9 +20,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe 'updating a budget', type: :feature, js: true do
-  let(:project) { FactoryGirl.create :project_with_types }
-  let(:user) { FactoryGirl.create :admin }
-  let(:budget) { FactoryGirl.create :cost_object, author: user, project: project }
+  let(:project) { FactoryBot.create :project_with_types }
+  let(:user) { FactoryBot.create :admin }
+  let(:budget) { FactoryBot.create :cost_object, author: user, project: project }
 
   before do
     login_as(user)
@@ -30,16 +30,16 @@ describe 'updating a budget', type: :feature, js: true do
 
   describe 'with new cost items' do
     let(:cost_type) do
-      FactoryGirl.create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
+      FactoryBot.create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
     end
 
     let(:budget_page) { Pages::EditBudget.new budget.id }
 
     before do
-      project.add_member! user, FactoryGirl.create(:role)
+      project.add_member! user, FactoryBot.create(:role)
 
-      FactoryGirl.create :cost_rate, cost_type: cost_type, rate: 50.0
-      FactoryGirl.create :default_hourly_rate, user: user, rate: 25.0
+      FactoryBot.create :cost_rate, cost_type: cost_type, rate: 50.0
+      FactoryBot.create :default_hourly_rate, user: user, rate: 25.0
     end
 
     it 'creates the cost items' do
@@ -65,17 +65,17 @@ describe 'updating a budget', type: :feature, js: true do
 
   describe 'with existing cost items' do
     let(:cost_type) do
-      FactoryGirl.create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
+      FactoryBot.create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
     end
 
     let(:material_budget_item) do
-      FactoryGirl.create :material_budget_item, units: 3,
+      FactoryBot.create :material_budget_item, units: 3,
                                                 cost_type: cost_type,
                                                 cost_object: budget
     end
 
     let(:labor_budget_item) do
-      FactoryGirl.create :labor_budget_item, hours: 5,
+      FactoryBot.create :labor_budget_item, hours: 5,
                                              user: user,
                                              cost_object: budget
     end
@@ -83,10 +83,10 @@ describe 'updating a budget', type: :feature, js: true do
     let(:budget_page) { Pages::EditBudget.new budget.id }
 
     before do
-      project.add_member! user, FactoryGirl.create(:role)
+      project.add_member! user, FactoryBot.create(:role)
 
-      FactoryGirl.create :cost_rate, cost_type: cost_type, rate: 50.0
-      FactoryGirl.create :default_hourly_rate, user: user, rate: 25.0
+      FactoryBot.create :cost_rate, cost_type: cost_type, rate: 50.0
+      FactoryBot.create :default_hourly_rate, user: user, rate: 25.0
 
       # trigger creation
       material_budget_item

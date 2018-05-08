@@ -20,14 +20,14 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe 'Work Package cost fields', type: :feature, js: true do
-  let(:type_task) { FactoryGirl.create(:type_task) }
-  let!(:status) { FactoryGirl.create(:status, is_default: true) }
-  let!(:priority) { FactoryGirl.create(:priority, is_default: true) }
+  let(:type_task) { FactoryBot.create(:type_task) }
+  let!(:status) { FactoryBot.create(:status, is_default: true) }
+  let!(:priority) { FactoryBot.create(:priority, is_default: true) }
   let!(:project) {
-    FactoryGirl.create(:project, types: [type_task])
+    FactoryBot.create(:project, types: [type_task])
   }
-  let(:user) { FactoryGirl.create :admin }
-  let(:budget) { FactoryGirl.create :cost_object, author: user, project: project }
+  let(:user) { FactoryBot.create :admin }
+  let(:budget) { FactoryBot.create :cost_object, author: user, project: project }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:split_create) { ::Pages::SplitWorkPackageCreate.new(project: project) }

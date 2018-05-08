@@ -20,8 +20,8 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe CostObjectsHelper, type: :helper do
-  let(:project) { FactoryGirl.build(:project) }
-  let(:cost_object) { FactoryGirl.build(:cost_object, project: project) }
+  let(:project) { FactoryBot.build(:project) }
+  let(:cost_object) { FactoryBot.build(:cost_object, project: project) }
 
   describe '#cost_objects_to_csv' do
     describe 'WITH a list of one cost object' do

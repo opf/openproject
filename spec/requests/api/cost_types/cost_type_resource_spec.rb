@@ -34,13 +34,13 @@ describe 'API v3 Cost Type resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) {
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_cost_entries]) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_cost_entries]) }
+  let(:project) { FactoryBot.create(:project) }
   subject(:response) { last_response }
 
-  let!(:cost_type) { FactoryGirl.create(:cost_type) }
+  let!(:cost_type) { FactoryBot.create(:cost_type) }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -59,7 +59,7 @@ describe 'API v3 Cost Type resource' do
       end
 
       context 'cost type deleted' do
-        let!(:cost_type) { FactoryGirl.create(:cost_type, :deleted) }
+        let!(:cost_type) { FactoryBot.create(:cost_type, :deleted) }
 
         it_behaves_like 'not found' do
           let(:id) { cost_type.id }
@@ -76,7 +76,7 @@ describe 'API v3 Cost Type resource' do
     end
 
     context 'user can\'t see cost entries' do
-      let(:current_user) { FactoryGirl.create(:user) }
+      let(:current_user) { FactoryBot.create(:user) }
 
       it_behaves_like 'error response',
                       403,

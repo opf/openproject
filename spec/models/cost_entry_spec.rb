@@ -22,24 +22,24 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe CostEntry, type: :model do
   include Cost::PluginSpecHelper
 
-  let(:project) { FactoryGirl.create(:project_with_types) }
-  let(:project2) { FactoryGirl.create(:project_with_types) }
+  let(:project) { FactoryBot.create(:project_with_types) }
+  let(:project2) { FactoryBot.create(:project_with_types) }
   let(:work_package) {
-    FactoryGirl.create(:work_package, project: project,
+    FactoryBot.create(:work_package, project: project,
                                       type: project.types.first,
                                       author: user)
   }
   let(:work_package2) {
-    FactoryGirl.create(:work_package, project: project2,
+    FactoryBot.create(:work_package, project: project2,
                                       type: project2.types.first,
                                       author: user)
   }
-  let(:user) { FactoryGirl.create(:user) }
-  let(:user2) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:user2) { FactoryBot.create(:user) }
   let(:klass) { CostEntry }
   let(:cost_entry) do
     member
-    FactoryGirl.build(:cost_entry, cost_type: cost_type,
+    FactoryBot.build(:cost_entry, cost_type: cost_type,
                                    project: project,
                                    work_package: work_package,
                                    spent_on: date,
@@ -49,7 +49,7 @@ describe CostEntry, type: :model do
   end
 
   let(:cost_entry2) do
-    FactoryGirl.build(:cost_entry, cost_type: cost_type,
+    FactoryBot.build(:cost_entry, cost_type: cost_type,
                                    project: project,
                                    work_package: work_package,
                                    spent_on: date,
@@ -59,7 +59,7 @@ describe CostEntry, type: :model do
   end
 
   let(:cost_type) do
-    cost_type = FactoryGirl.create(:cost_type)
+    cost_type = FactoryBot.create(:cost_type)
     [first_rate, second_rate, third_rate].each do |rate|
       rate.cost_type = cost_type
       rate.save!
@@ -68,23 +68,23 @@ describe CostEntry, type: :model do
     cost_type
   end
   let(:first_rate) {
-    FactoryGirl.build(:cost_rate, valid_from: date - 6.days,
+    FactoryBot.build(:cost_rate, valid_from: date - 6.days,
                                   rate: 10.0)
   }
   let(:second_rate) {
-    FactoryGirl.build(:cost_rate, valid_from: date - 4.days,
+    FactoryBot.build(:cost_rate, valid_from: date - 4.days,
                                   rate: 100.0)
   }
   let(:third_rate) {
-    FactoryGirl.build(:cost_rate, valid_from: date - 2.days,
+    FactoryBot.build(:cost_rate, valid_from: date - 2.days,
                                   rate: 1000.0)
   }
   let(:member) {
-    FactoryGirl.create(:member, project: project,
+    FactoryBot.create(:member, project: project,
                                 roles: [role],
                                 principal: user)
   }
-  let(:role) { FactoryGirl.create(:role, permissions: []) }
+  let(:role) { FactoryBot.create(:role, permissions: []) }
   let(:units) { 5.0 }
   let(:date) { Date.today }
 
@@ -143,7 +143,7 @@ describe CostEntry, type: :model do
   describe 'instance' do
     describe '#costs' do
       let(:fourth_rate) {
-        FactoryGirl.build(:cost_rate, valid_from: date - 1.days,
+        FactoryBot.build(:cost_rate, valid_from: date - 1.days,
                                       rate: 10000.0,
                                       cost_type: cost_type)
       }

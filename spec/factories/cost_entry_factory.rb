@@ -17,11 +17,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :cost_entry  do
     project
-    user do FactoryGirl.create(:user, member_in_project: project)end
-    work_package do FactoryGirl.create(:work_package, project: project) end
+    user do FactoryBot.create(:user, member_in_project: project)end
+    work_package do FactoryBot.create(:work_package, project: project) end
     cost_type
     spent_on Date.today
     units 1

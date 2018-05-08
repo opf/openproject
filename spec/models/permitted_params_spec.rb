@@ -20,7 +20,7 @@
 require File.expand_path('../../spec_helper', __FILE__)
 
 describe PermittedParams, type: :model do
-  let(:user) { FactoryGirl.build(:user) }
+  let(:user) { FactoryBot.build(:user) }
 
   shared_examples_for 'allows params' do
     let(:params_key) { defined?(hash_key) ? hash_key : attribute }

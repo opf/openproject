@@ -30,10 +30,10 @@ require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   let(:project) {
-    FactoryGirl.build(:project)
+    FactoryBot.build(:project)
   }
-  let(:type) { FactoryGirl.build(:type) }
-  let(:work_package) { FactoryGirl.build(:work_package, project: project, type: type) }
+  let(:type) { FactoryBot.build(:type) }
+  let(:work_package) { FactoryBot.build(:work_package, project: project, type: type) }
 
   describe '#assignable_cost_objects' do
     subject { described_class.new(work_package: work_package) }

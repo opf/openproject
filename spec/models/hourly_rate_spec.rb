@@ -20,10 +20,10 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe HourlyRate, type: :model do
-  let(:project) { FactoryGirl.create(:project) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:user) { FactoryBot.create(:user) }
   let(:rate) {
-    FactoryGirl.build(:hourly_rate, project: project,
+    FactoryBot.build(:hourly_rate, project: project,
                                     user: user)
   }
 

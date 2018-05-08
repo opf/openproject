@@ -21,31 +21,31 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe TimeEntry, type: :model do
   include Cost::PluginSpecHelper
-  let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
-  let(:project2) { FactoryGirl.create(:project_with_types, is_public: false) }
+  let(:project) { FactoryBot.create(:project_with_types, is_public: false) }
+  let(:project2) { FactoryBot.create(:project_with_types, is_public: false) }
   let(:work_package) {
-    FactoryGirl.create(:work_package, project: project,
+    FactoryBot.create(:work_package, project: project,
                                       type: project.types.first,
                                       author: user)
   }
   let(:work_package2) {
-    FactoryGirl.create(:work_package, project: project2,
+    FactoryBot.create(:work_package, project: project2,
                                       type: project2.types.first,
                                       author: user2)
   }
-  let(:user) { FactoryGirl.create(:user) }
-  let(:user2) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:user2) { FactoryBot.create(:user) }
   let(:date) { Date.today }
-  let(:rate) { FactoryGirl.build(:cost_rate) }
-  let!(:hourly_one) { FactoryGirl.create(:hourly_rate, valid_from: 2.days.ago, project: project, user: user) }
-  let!(:hourly_three) { FactoryGirl.create(:hourly_rate, valid_from: 4.days.ago, project: project, user: user) }
-  let!(:hourly_five) { FactoryGirl.create(:hourly_rate, valid_from: 6.days.ago, project: project, user: user) }
-  let!(:default_hourly_one) { FactoryGirl.create(:default_hourly_rate, valid_from: 2.days.ago, project: project, user: user2) }
-  let!(:default_hourly_three) { FactoryGirl.create(:default_hourly_rate, valid_from: 4.days.ago, project: project, user: user2) }
-  let!(:default_hourly_five) { FactoryGirl.create(:default_hourly_rate, valid_from: 6.days.ago, project: project, user: user2) }
+  let(:rate) { FactoryBot.build(:cost_rate) }
+  let!(:hourly_one) { FactoryBot.create(:hourly_rate, valid_from: 2.days.ago, project: project, user: user) }
+  let!(:hourly_three) { FactoryBot.create(:hourly_rate, valid_from: 4.days.ago, project: project, user: user) }
+  let!(:hourly_five) { FactoryBot.create(:hourly_rate, valid_from: 6.days.ago, project: project, user: user) }
+  let!(:default_hourly_one) { FactoryBot.create(:default_hourly_rate, valid_from: 2.days.ago, project: project, user: user2) }
+  let!(:default_hourly_three) { FactoryBot.create(:default_hourly_rate, valid_from: 4.days.ago, project: project, user: user2) }
+  let!(:default_hourly_five) { FactoryBot.create(:default_hourly_rate, valid_from: 6.days.ago, project: project, user: user2) }
   let(:hours) { 5.0 }
   let(:time_entry) do
-    FactoryGirl.create(:time_entry, project: project,
+    FactoryBot.create(:time_entry, project: project,
                                     work_package: work_package,
                                     spent_on: date,
                                     hours: hours,
@@ -55,7 +55,7 @@ describe TimeEntry, type: :model do
   end
 
   let(:time_entry2) do
-    FactoryGirl.create(:time_entry, project: project,
+    FactoryBot.create(:time_entry, project: project,
                                     work_package: work_package,
                                     spent_on: date,
                                     hours: hours,
@@ -334,7 +334,7 @@ describe TimeEntry, type: :model do
       before do
         is_member(project, user, [:view_own_time_entries])
 
-        time_entry.user = FactoryGirl.build :user
+        time_entry.user = FactoryBot.build :user
       end
 
       it 'is visible' do
@@ -399,13 +399,13 @@ describe TimeEntry, type: :model do
     end
 
     context 'calculate dates' do
-      let(:my_role) { FactoryGirl.create(:role, permissions: [:view_own_time_entries]) }
+      let(:my_role) { FactoryBot.create(:role, permissions: [:view_own_time_entries]) }
       let(:user3) do
-        FactoryGirl.create(:user, member_in_project: project, member_through_role: my_role)
+        FactoryBot.create(:user, member_in_project: project, member_through_role: my_role)
       end
 
       let(:late_time_entry) do
-        FactoryGirl.create(:time_entry,
+        FactoryBot.create(:time_entry,
                            project: project,
                            work_package: work_package,
                            spent_on: 2.days.ago,
@@ -415,7 +415,7 @@ describe TimeEntry, type: :model do
                            comments: 'ipsum')
       end
       let(:early_time_entry) do
-        FactoryGirl.create(:time_entry,
+        FactoryBot.create(:time_entry,
                            project: project,
                            work_package: work_package,
                            spent_on: 4.days.ago,
@@ -425,7 +425,7 @@ describe TimeEntry, type: :model do
                            comments: 'dolor')
       end
       let(:other_time_entry) do
-        FactoryGirl.create(:time_entry,
+        FactoryBot.create(:time_entry,
                            project: project,
                            work_package: work_package,
                            spent_on: 6.days.ago,
@@ -435,7 +435,7 @@ describe TimeEntry, type: :model do
                            comments: 'dolor')
       end
       let(:another_time_entry) do
-        FactoryGirl.create(:time_entry,
+        FactoryBot.create(:time_entry,
                            project: project,
                            work_package: work_package,
                            spent_on: 1.days.ago,

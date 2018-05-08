@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :default_hourly_rate do
     association :user, factory: :user
     valid_from Date.today

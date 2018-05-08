@@ -34,18 +34,18 @@ describe 'API v3 Cost Entry resource' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) {
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:work_package_permissions) { [:view_work_packages] }
   let(:cost_entry_permissions) { [:view_cost_entries] }
   let(:permissions) { work_package_permissions + cost_entry_permissions }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
   subject(:response) { last_response }
 
   let(:cost_entry) {
-    FactoryGirl.build(:cost_entry,
+    FactoryBot.build(:cost_entry,
                       project: project,
                       work_package: work_package,
                       user: current_user)
