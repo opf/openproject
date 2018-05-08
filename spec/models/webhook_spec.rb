@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ::Webhooks::Webhook, type: :model do
-  subject { FactoryGirl.build :webhook }
+  subject { FactoryBot.build :webhook }
 
   describe 'attributes' do
     describe '#url' do
@@ -42,7 +42,7 @@ describe ::Webhooks::Webhook, type: :model do
   end
 
   describe '#projects' do
-    let(:project1) { FactoryGirl.create :project }
+    let(:project1) { FactoryBot.create :project }
 
     before do
       subject.projects << project1

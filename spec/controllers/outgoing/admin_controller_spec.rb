@@ -15,14 +15,14 @@
 require 'spec_helper'
 
 describe ::Webhooks::Outgoing::AdminController, type: :controller do
-  let(:user) { FactoryGirl.build_stubbed :admin }
+  let(:user) { FactoryBot.build_stubbed :admin }
 
   before do
     login_as user
   end
 
   context 'when not admin' do
-    let(:user) { FactoryGirl.build_stubbed :user }
+    let(:user) { FactoryBot.build_stubbed :user }
 
     it 'renders 403' do
       get :index

@@ -6,7 +6,7 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
   end
 
   context 'as regular user' do
-    let(:user) { FactoryGirl.create :user }
+    let(:user) { FactoryBot.create :user }
 
     it 'forbids accessing the webhooks management view' do
       visit admin_outgoing_webhooks_path
@@ -15,8 +15,8 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
   end
 
   context 'as admin' do
-    let(:user) { FactoryGirl.create :admin }
-    let!(:project) { FactoryGirl.create :project }
+    let(:user) { FactoryBot.create :admin }
+    let!(:project) { FactoryBot.create :project }
 
     it 'allows the management flow' do
       visit admin_outgoing_webhooks_path
@@ -78,8 +78,8 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
     end
 
     context 'with existing webhook' do
-      let!(:webhook) { FactoryGirl.create :webhook, name: 'testing' }
-      let!(:log) { FactoryGirl.create :webhook_log, response_headers: { test: :foo }, webhook: webhook }
+      let!(:webhook) { FactoryBot.create :webhook, name: 'testing' }
+      let!(:log) { FactoryBot.create :webhook_log, response_headers: { test: :foo }, webhook: webhook }
 
       it 'shows the delivery' do
         visit admin_outgoing_webhooks_path
