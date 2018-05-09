@@ -2,6 +2,8 @@
   <button class="button"
           [disabled]="isDisabled()"
           [attr.aria-label]="text.explanation"
+          [style.background-color]="bgColor"
+          [style.color]="fgColor"
 
           wpStatusDropdown
           [wpStatusDropdown-workPackage]="workPackage">

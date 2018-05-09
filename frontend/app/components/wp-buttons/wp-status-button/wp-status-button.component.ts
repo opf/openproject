@@ -30,6 +30,8 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
 import {Component, Inject, Input} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {States} from 'core-components/states.service';
+import {ColorContrast} from 'core-components/a11y/color-contrast.functions';
 
 @Component({
   template: require('!!raw-loader!./wp-status-button.html'),
@@ -44,6 +46,7 @@ export class WorkPackageStatusButtonComponent {
   };
 
   constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+              readonly states:States,
               protected wpEditing:WorkPackageEditingService) {
   }
 
@@ -52,8 +55,18 @@ export class WorkPackageStatusButtonComponent {
     return !this.allowed || changeset.inFlight;
   }
 
+  public get fgColor() {
+    return ColorContrast.getContrastingColor(this.bgColor);
+  }
+
+  public get bgColor() {
+    return this.getStatus.color;
+  }
+
   public get getStatus() {
     let changeset = this.wpEditing.changesetFor(this.workPackage);
-    return changeset.value('status');
+    let status = changeset.value('status');
+
+    return this.states.statuses.get(status.id).getValueOr(status);
   }
 }

@@ -44,6 +44,7 @@ import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {OpenProjectHeaderInterceptor} from 'core-app/modules/hal/http/openproject-header-interceptor';
 import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
 import {ProjectDmService} from 'core-app/modules/hal/dm-services/project-dm.service';
+import {StatusDmService} from 'core-app/modules/hal/dm-services/status-dm.service';
 
 @NgModule({
   imports: [
@@ -63,7 +64,8 @@ import {ProjectDmService} from 'core-app/modules/hal/dm-services/project-dm.serv
     RelationsDmService,
     ProjectDmService,
     RootDmService,
-    TypeDmService
+    TypeDmService,
+    StatusDmService,
   ]
 })
 export class OpenprojectHalModule { }

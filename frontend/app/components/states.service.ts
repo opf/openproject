@@ -1,3 +1,4 @@
+import {StatusResource} from './../modules/hal/resources/status-resource';
 import {WPFocusState} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {input, multiInput, StatesGroup} from 'reactivestates';
 import {opServicesModule} from '../angular-modules';
@@ -30,6 +31,9 @@ export class States extends StatesGroup {
 
   /* /api/v3/users */
   users = multiInput<UserResource>();
+
+  /* /api/v3/statuses */
+  statuses = multiInput<StatusResource>();
 
   // Work Package query states
   query = new QueryStates();

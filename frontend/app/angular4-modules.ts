@@ -220,6 +220,7 @@ import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy
 import {FocusWithinDirective} from "core-components/common/focus/focus-within.upgraded.directive";
 import {AccessibleClickDirective} from "core-components/a11y/accessible-click.directive";
 import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp-relation-children/wp-children-query.component';
+import {StatusCacheService} from 'core-components/status/status-cache.service';
 
 @NgModule({
   imports: [
@@ -257,6 +258,7 @@ import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp
     SchemaCacheService,
     ProjectCacheService,
     UserCacheService,
+    StatusCacheService,
     upgradeService('states', States),
     PaginationService,
     upgradeService('keepTab', KeepTabService),

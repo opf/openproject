@@ -42,6 +42,8 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Inject, Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {StatusDmService} from 'core-app/modules/hal/dm-services/status-dm.service';
+import {StatusCacheService} from 'core-app/components/status/status-cache.service';
 
 @Injectable()
 export class WorkPackageTableAdditionalElementsService {
@@ -51,6 +53,7 @@ export class WorkPackageTableAdditionalElementsService {
               readonly wpTableColumns:WorkPackageTableColumnsService,
               readonly wpNotificationsService:WorkPackageNotificationService,
               readonly halResourceService:HalResourceService,
+              readonly statusCache:StatusCacheService,
               readonly wpCacheService:WorkPackageCacheService,
               readonly wpRelations:WorkPackageRelationsService) {
   }
@@ -58,6 +61,7 @@ export class WorkPackageTableAdditionalElementsService {
   public initialize(rows:WorkPackageResource[]) {
     // Add relations to the stack
     Promise.all([
+      this.statusCache.requireAllStatuses().then(() => []),
       this.requireInvolvedRelations(rows.map(el => el.id)),
       this.requireHierarchyElements(rows)
     ]).then((results:string[][]) => {

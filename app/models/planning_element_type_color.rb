@@ -50,7 +50,7 @@ class PlanningElementTypeColor < ActiveRecord::Base
   # (note this is not HSL Lightness, but simply the sum of all RGB channels)
   # https://gist.github.com/charliepark/480358
   def contrasting_color(light_color: '#FFFFFF', dark_color: '#333333')
-    if brightness > 382.5
+    if brightness_yiq >= 128
       dark_color
     else
       light_color
@@ -59,10 +59,11 @@ class PlanningElementTypeColor < ActiveRecord::Base
 
   ##
   # Sum the color values of each channel
-  def brightness
-    rgb_colors.sum
+  # Same as in frontend color-contrast.functions.ts
+  def brightness_yiq
+    r, g, b = rgb_colors
+    ((r * 299) + (g * 587) + (b * 114)) / 1000;
   end
-
 
   ##
   # Splits the hexcode into rbg color array
