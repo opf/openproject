@@ -220,6 +220,7 @@ import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy
 import {FocusWithinDirective} from "core-components/common/focus/focus-within.upgraded.directive";
 import {AccessibleClickDirective} from "core-components/a11y/accessible-click.directive";
 import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp-relation-children/wp-children-query.component';
+import {OpTitleService} from 'core-components/html/op-title.service';
 
 @NgModule({
   imports: [
@@ -249,6 +250,7 @@ import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp
     FocusHelperService,
     PathHelperService,
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
+    OpTitleService,
     TimezoneService,
     upgradeService('wpRelations', WorkPackageRelationsService),
     UrlParamsHelperService,
