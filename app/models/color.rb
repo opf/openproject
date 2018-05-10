@@ -27,11 +27,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class PlanningElementTypeColor < ActiveRecord::Base
-  self.table_name = 'planning_element_type_colors'
-
-  acts_as_list
-  default_scope { order('position ASC') }
+class Color < ActiveRecord::Base
+  self.table_name = 'colors'
 
   has_many :planning_element_types, class_name:  'Type',
                                     foreign_key: 'color_id',
@@ -47,14 +44,19 @@ class PlanningElementTypeColor < ActiveRecord::Base
   ##
   # Returns the best contrasting color, either white or black
   # depending on the overall brightness.
-  # (note this is not HSL Lightness, but simply the sum of all RGB channels)
-  # https://gist.github.com/charliepark/480358
   def contrasting_color(light_color: '#FFFFFF', dark_color: '#333333')
-    if brightness_yiq >= 128
+    if bright?
       dark_color
     else
       light_color
     end
+  end
+
+  ##
+  # Returns whether the color is bright according to
+  # YIQ lightness.
+  def bright?
+    brightness_yiq >= 128
   end
 
   ##

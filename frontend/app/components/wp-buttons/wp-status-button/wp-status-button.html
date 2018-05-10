@@ -1,4 +1,4 @@
-<div class="wp-status-button">
+<div class="wp-status-button" *ngIf="status">
   <button class="button"
           [disabled]="isDisabled()"
           [attr.aria-label]="text.explanation"
@@ -10,7 +10,7 @@
 
     <span class="button--text"
           aria-hidden="true"
-          [textContent]="getStatus.name"></span>
+          [textContent]="status.name"></span>
     <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
   </button>
 </div>

@@ -516,7 +516,7 @@ OpenProject::Application.routes.draw do
 
   get 'authentication' => 'authentication#index'
 
-  resources :colors, controller: 'planning_element_type_colors' do
+  resources :colors do
     member do
       get :confirm_destroy
       get :move

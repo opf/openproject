@@ -28,7 +28,7 @@
 
 require_relative 'base'
 
-class Tables::PlanningElementTypeColors < Tables::Base
+class Tables::Colors < Tables::Base
   def self.table(migration)
     create_table migration do |t|
       t.column :name, :string, null: false

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe PlanningElementTypeColorsController, type: :controller do
+describe ColorsController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do

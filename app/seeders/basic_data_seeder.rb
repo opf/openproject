@@ -33,6 +33,7 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::RoleSeeder,
       BasicData::ActivitySeeder,
       BasicData::ColorSeeder,
+      BasicData::FlatColorSeeder,
       BasicData::WorkflowSeeder,
       BasicData::PrioritySeeder,
       BasicData::ProjectTypeSeeder,

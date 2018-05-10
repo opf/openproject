@@ -42,14 +42,14 @@ interface AutocompleteSelectDecorationItem {
   selector: 'autocomplete-select-decoration',
 })
 
-export class AutocompleteSelectDecorationComponent implements OnInit {
+export class AutocompleteSelectDecorationComponent<T extends AutocompleteSelectDecorationItem> implements OnInit {
 
-  public selectedItems:AutocompleteSelectDecorationItem[] = [];
-  private allItems:AutocompleteSelectDecorationItem[] = [];
-  private $select:any = null;
-  private $input:any = null;
-  private isMulti:boolean = true;
-  private label:string;
+  public selectedItems:T[] = [];
+  protected allItems:T[] = [];
+  protected $select:any = null;
+  protected $input:any = null;
+  protected isMulti:boolean = true;
+  protected label:string;
 
   @Input('label') labelOverride:string|null = null;
 
@@ -57,7 +57,7 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
               @Inject(I18nToken) readonly I18n:op.I18n) {
   }
 
-  public remove(item:AutocompleteSelectDecorationItem) {
+  public remove(item:T) {
     _.remove(this.selectedItems, (selected) => selected.id === item.id);
 
     let val = this.$select.val();
@@ -97,15 +97,15 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
     return I18n.t(key, { name: this.label });
   }
 
-  public removeItemText(item:AutocompleteSelectDecorationItem) {
+  public removeItemText(item:T) {
     return I18n.t('js.autocomplete_select.remove', { name: item.value });
   }
 
-  public ariaLabelText(item:AutocompleteSelectDecorationItem) {
+  public ariaLabelText(item:T) {
     return I18n.t('js.autocomplete_select.active', { label: this.label, name: item.value });
   }
 
-  private getItems() {
+  protected getItems() {
     _.each(this.$select.find('option'), option => {
       let $option = jQuery(option);
       let text = $option.text();
@@ -114,7 +114,7 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
         id: $option.prop('value'),
         label: text,
         value: text
-      };
+      } as T;
 
       this.allItems.push(item);
 
@@ -124,8 +124,17 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
     });
   }
 
-  private setupAutocompleter() {
-    let autocompleteOptions = {
+  protected setupAutocompleter() {
+    this.$input.autocomplete(this.getAutocompleterOptions());
+
+    // Disable handling all dashes as dividers
+    // https://github.com/jquery/jquery-ui/blob/master/ui/widgets/menu.js#L347
+    // as we use them as placeholders.
+    (this.$input.autocomplete('instance')).menu._isDivider = () => false;
+  }
+
+  protected getAutocompleterOptions():any {
+    return {
       delay: 100,
       minLength: 0,
       position: { my: 'left top', at: 'left bottom', collision: 'flip' },
@@ -146,14 +155,7 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
         this.$input.val('');
         return false;
       }
-    } as any;
-
-    this.$input.autocomplete(autocompleteOptions);
-
-    // Disable handling all dashes as dividers
-    // https://github.com/jquery/jquery-ui/blob/master/ui/widgets/menu.js#L347
-    // as we use them as placeholders.
-    (this.$input.autocomplete('instance')).menu._isDivider = () => false;
+    };
   }
 
   private switchIds() {
@@ -181,7 +183,7 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
     return jQuery(this.elementRef.nativeElement);
   }
 
-  private setValue(item:AutocompleteSelectDecorationItem|null) {
+  protected setValue(item:T|null) {
     if (item === null) {
       this.selectedItems = [];
     } else if (this.isMulti) {

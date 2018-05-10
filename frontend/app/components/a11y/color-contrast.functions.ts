@@ -29,11 +29,11 @@
 export namespace ColorContrast {
 
   /**
-   * Computer the best color for contrasting the given color.
+   * Compute the best color for contrasting the given color.
    * Based on http://24ways.org/2010/calculating-color-contrast
    * 
    * Remember there is a background counterpart for this function
-   * in planning_element_type_color.rb
+   * in color.rb
    * 
    * (#333/white)
    * @param hexcolor The normalized hex color
@@ -42,13 +42,32 @@ export namespace ColorContrast {
     if (hexcolor == null) {
       return null;
     }
+    if (tooBrightForWhite(hexcolor)) {
+      return '#333333';
+    } else {
+      return '#FFFFFF';
+    }
+  }
 
-    var r = parseInt(hexcolor.substr(0, 2), 16);
-    var g = parseInt(hexcolor.substr(2, 2), 16);
-    var b = parseInt(hexcolor.substr(4, 2), 16);
+  export function getColorPatch(hexcolor:string):{ bg:string, fg:string } {
+    if (tooBrightForWhite(hexcolor)) {
+      return { fg: '#333333', bg: hexcolor };
+    } else {
+      return { bg: '#FFFFFF', fg: hexcolor };
+    }
+  }
+
+  export function tooBrightForWhite(hexcolor:string|null|undefined):boolean {
+    if (hexcolor == null) {
+      return false;
+    }
+
+    var r = parseInt(hexcolor.substr(1, 2), 16);
+    var g = parseInt(hexcolor.substr(3, 2), 16);
+    var b = parseInt(hexcolor.substr(5, 2), 16);
 
     var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
 
-    return (yiq >= 128) ? '#333333' : '#FFFFFF';
+    return (yiq >= 128);
   }
 }

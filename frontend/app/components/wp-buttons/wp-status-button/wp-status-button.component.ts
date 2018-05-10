@@ -32,14 +32,21 @@ import {Component, Inject, Input} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {States} from 'core-components/states.service';
 import {ColorContrast} from 'core-components/a11y/color-contrast.functions';
+import {StatusCacheService} from 'core-app/components/status/status-cache.service';
+import {StatusResource} from 'core-app/modules/hal/resources/status-resource';
+import {OnInit, OnDestroy} from '@angular/core';
+import {takeUntil} from 'rxjs/operators';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
 @Component({
   template: require('!!raw-loader!./wp-status-button.html'),
   selector: 'wp-status-button',
 })
-export class WorkPackageStatusButtonComponent {
+export class WorkPackageStatusButtonComponent implements OnInit, OnDestroy {
   @Input('workPackage') public workPackage:WorkPackageResource;
   @Input('allowed') public allowed:boolean;
+
+  public status:StatusResource;
 
   public text = {
     explanation: this.I18n.t('js.label_edit_status')
@@ -47,7 +54,26 @@ export class WorkPackageStatusButtonComponent {
 
   constructor(@Inject(I18nToken) readonly I18n:op.I18n,
               readonly states:States,
+              readonly statusCache:StatusCacheService,
               protected wpEditing:WorkPackageEditingService) {
+  }
+
+  public ngOnInit() {
+    this.status = this.workPackage.status;
+    this.wpEditing
+      .state(this.workPackage.id)
+      .values$()
+      .pipe(
+        takeUntil(componentDestroyed(this))
+      )
+      .subscribe(async (changeset) => {
+        const status:StatusResource = changeset.value('status');
+        this.status = await this.statusCache.require(status.idFromLink);
+      });
+  }
+
+  public ngOnDestroy() {
+    // Nothing to do.
   }
 
   public isDisabled() {
@@ -60,13 +86,6 @@ export class WorkPackageStatusButtonComponent {
   }
 
   public get bgColor() {
-    return this.getStatus.color;
-  }
-
-  public get getStatus() {
-    let changeset = this.wpEditing.changesetFor(this.workPackage);
-    let status = changeset.value('status');
-
-    return this.states.statuses.get(status.id).getValueOr(status);
+    return this.status.color;
   }
 }

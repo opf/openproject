@@ -221,6 +221,7 @@ import {FocusWithinDirective} from "core-components/common/focus/focus-within.up
 import {AccessibleClickDirective} from "core-components/a11y/accessible-click.directive";
 import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp-relation-children/wp-children-query.component';
 import {StatusCacheService} from 'core-components/status/status-cache.service';
+import {ColorsAutocompleter} from 'core-components/colors/colors-autocompleter.component';
 
 @NgModule({
   imports: [
@@ -361,6 +362,7 @@ import {StatusCacheService} from 'core-components/status/status-cache.service';
     HideSectionLinkComponent,
     AddSectionDropdownComponent,
     AutocompleteSelectDecorationComponent,
+    ColorsAutocompleter,
 
     // Split view
     WorkPackageSplitViewComponent,
@@ -535,6 +537,9 @@ import {StatusCacheService} from 'core-components/status/status-cache.service';
 
     // External query configuration
     ExternalQueryConfigurationComponent,
+
+    // Color autocompleter
+    ColorsAutocompleter,
   ]
 })
 export class OpenProjectModule {

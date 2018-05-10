@@ -1,0 +1,22 @@
+<ng-content style="display:none"></ng-content>
+
+<a class="colors-autocompleter--selected-value"
+   role="button"
+   tabindex="0"
+   (click)="editUnlessMulti()"
+   *ngIf="selectedColor">
+  <span class="color--preview"
+        [style.background-color]="selectedColor"></span>
+
+  <span class="color--text-preview"
+        [textContent]="selectedItem.label"
+        [style.background-color]="bgColor"
+        [style.color]="fgColor"></span>
+</a>
+
+<input
+    [hidden]="selectedItems.length"
+    type="text"
+    class="form--input -autocomplete"
+    [attr.placeholder]="placeholderText">
+

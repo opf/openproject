@@ -31,9 +31,10 @@
 module ColorsHelper
   def options_for_colors(colored_thing, default_label: I18n.t(:label_none_parentheses), default_color: nil)
     s = content_tag(:option, default_label, value: default_color)
-    PlanningElementTypeColor.find_each do |c|
+    Color.find_each do |c|
       options = {}
       options[:value] = c.id
+      options[:data] = { color: c.hexcode, bright: c.bright? }
       options[:selected] = true if c.id == colored_thing.color_id
 
       options[:style] = "appearance: none; background-color: #{c.hexcode}; color: #{c.contrasting_color}"

@@ -31,7 +31,7 @@ import {InputState, MultiInputState, State} from 'reactivestates';
 export abstract class StateCacheService<T> {
   private cacheDurationInMs:number;
 
-  constructor(private holdValuesForSeconds:number = 120) {
+  constructor(private holdValuesForSeconds:number = 3600) {
     this.cacheDurationInMs = holdValuesForSeconds * 1000;
   }
 

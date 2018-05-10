@@ -187,7 +187,7 @@ en:
   statuses:
     edit:
      status_color_text: |
-      Assign a color to the status.
+      Click to assign or change the color of this status.
       It is shown in the status button and can be used for highlighting work packages in the table.
     index:
       no_results_title_text: There are currently no work package statuses.
