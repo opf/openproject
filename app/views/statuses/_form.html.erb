@@ -42,18 +42,11 @@ See docs/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= f.check_box 'is_default' %></div>
   <% end %>
 
-  <div class="form--field">
-    <label class="form--label" for="status_color_id">
-      <%= Status.human_attribute_name 'color' %>
-    </label>
-    <div class="form--field-container">
-      <div class="form--select-container -middle">
-      <colors-autocompleter label="<%= Status.human_attribute_name 'color' %>">
-        <%= select_tag 'status[color_id]', options_for_colors(@status), hidden: true %>
-      </colors-autocompleter>
-      <div class="form--field-instructions -no-margin"><%= t('statuses.edit.status_color_text') %></div>
-    </div>
-  </div>
+  <%= render partial: '/colors/color_autocomplete_field',
+             locals: {
+              object: @status,
+              label: t('statuses.edit.status_color_text')
+            } %>
 
   <%= call_hook(:view_statuses_form, status: @status) %>
 </section>

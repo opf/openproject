@@ -1,6 +1,7 @@
 module Enumerations
   class RowCell < ::RowCell
     include ::IconsHelper
+    include ::ColorsHelper
     include ReorderLinksHelper
 
     def enumeration
@@ -15,6 +16,10 @@ module Enumerations
       if enumeration.is_default?
         op_icon 'icon icon-checkmark'
       end
+    end
+
+    def color
+      icon_for_color enumeration.color
     end
 
     def active

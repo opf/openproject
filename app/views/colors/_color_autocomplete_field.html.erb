@@ -1,0 +1,14 @@
+<% field_name = ActiveModel::Naming.param_key(object) %>
+
+<div class="form--field">
+  <label class="form--label" for="<%= field_name %>_color_id">
+    <%= object.class.human_attribute_name 'color' %>
+  </label>
+  <div class="form--field-container">
+    <div class="form--select-container -middle">
+    <colors-autocompleter label="<%= object.class.human_attribute_name 'color' %>">
+      <%= select_tag "#{field_name}[color_id]", options_for_colors(object), hidden: true %>
+    </colors-autocompleter>
+    <div class="form--field-instructions -no-margin"><%= label %></div>
+  </div>
+</div>

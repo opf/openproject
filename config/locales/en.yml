@@ -82,6 +82,9 @@ en:
     show:
       no_results_title_text: There are currently no posts for the board.
 
+  colors:
+    label_no_color: 'No color'
+
   custom_actions:
     actions:
       name: 'Actions'
@@ -106,16 +109,6 @@ en:
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
-
-  deprecations:
-    old_timeline:
-      replacement: "This timelines module is being replaced by the interactive timeline embedded into the work packages module."
-      removal: "This module is going to be removed with OpenProject 8.0. The configuration for this view will NOT be migrated to the work package view."
-      further_information_before: "Please take a look at"
-      link_name: "how to migrate to the new timeline."
-      further_information_after: ""
-    calendar:
-      removal: "Please note: This module is going to be removed with OpenProject 8.0."
 
   groups:
     index:
@@ -178,6 +171,12 @@ en:
   users:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+
+  prioritiies:
+    edit:
+     priority_color_text: |
+      Click to assign or change the color of this priority.
+      It can be used for highlighting work packages in the table.
 
   reportings:
     index:

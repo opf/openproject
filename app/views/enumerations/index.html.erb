@@ -30,5 +30,5 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:label_enumerations) %>
 <% Enumeration.descendants.each do |klass| %>
   <h3 class="-no-border"><%= l(klass::OptionName) %></h3>
-  <%= cell ::Enumerations::TableCell, klass.shared %>
+  <%= cell ::Enumerations::TableCell, klass.shared, with_colors: klass.colored?  %>
 <% end %>
