@@ -1,6 +1,6 @@
 import {Inject, Injectable, Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {WpTableConfigurationDisplaySettingsTab} from 'core-components/wp-table/configuration-modal/tabs/display-settings-tab.component';
+import {WpTableConfigurationDisplayModesTab} from 'core-components/wp-table/configuration-modal/tabs/display-modes-tab.component';
 import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configuration-modal/tabs/columns-tab.component';
 import {WpTableConfigurationSortByTab} from 'core-components/wp-table/configuration-modal/tabs/sort-by-tab.component';
 import {WpTableConfigurationTimelinesTab} from 'core-components/wp-table/configuration-modal/tabs/timelines-tab.component';

@@ -173,7 +173,7 @@ import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configuration-modal/tabs/columns-tab.component';
-import {WpTableConfigurationDisplaySettingsTab} from 'core-components/wp-table/configuration-modal/tabs/display-settings-tab.component';
+import {WpTableConfigurationDisplayModesTab} from 'core-components/wp-table/configuration-modal/tabs/display-modes-tab.component';
 import {WpTableConfigurationFiltersTab} from 'core-components/wp-table/configuration-modal/tabs/filters-tab.component';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {WpTableConfigurationSortByTab} from 'core-components/wp-table/configuration-modal/tabs/sort-by-tab.component';
@@ -223,6 +223,8 @@ import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp
 import {StatusCacheService} from 'core-components/status/status-cache.service';
 import {ColorsAutocompleter} from 'core-components/colors/colors-autocompleter.component';
 import {PriorityCacheService} from 'core-components/priorities/priority-cache.service';
+import {WpTableConfigurationHighlightingTab} from 'core-components/wp-table/configuration-modal/tabs/highlighting-tab.component';
+import {WorkPackageTableHighlightingService} from 'core-components/wp-fast-table/state/wp-table-highlighting.service';
 
 @NgModule({
   imports: [
@@ -282,6 +284,7 @@ import {PriorityCacheService} from 'core-components/priorities/priority-cache.se
     WorkPackageTableColumnsService,
     WorkPackageTableFiltersService,
     WorkPackageTableTimelineService,
+    WorkPackageTableHighlightingService,
     WorkPackageTableSumService,
     WorkPackageStatesInitializationService,
     WorkPackagesListService,
@@ -445,9 +448,10 @@ import {PriorityCacheService} from 'core-components/priorities/priority-cache.se
     // Modals
     WpTableConfigurationModalComponent,
     WpTableConfigurationColumnsTab,
-    WpTableConfigurationDisplaySettingsTab,
+    WpTableConfigurationDisplayModesTab,
     WpTableConfigurationFiltersTab,
     WpTableConfigurationSortByTab,
+    WpTableConfigurationHighlightingTab,
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
     WpTableExportModal,
@@ -516,9 +520,10 @@ import {PriorityCacheService} from 'core-components/priorities/priority-cache.se
     // Modals
     WpTableConfigurationModalComponent,
     WpTableConfigurationColumnsTab,
-    WpTableConfigurationDisplaySettingsTab,
+    WpTableConfigurationDisplayModesTab,
     WpTableConfigurationFiltersTab,
     WpTableConfigurationSortByTab,
+    WpTableConfigurationHighlightingTab,
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
     WpTableExportModal,

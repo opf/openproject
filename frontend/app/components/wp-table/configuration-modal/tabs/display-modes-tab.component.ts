@@ -7,9 +7,9 @@ import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/
 import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
 
 @Component({
-  template: require('!!raw-loader!./display-settings-tab.component.html')
+  template: require('!!raw-loader!./display-modes-tab.component.html')
 })
-export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
+export class WpTableConfigurationDisplayModesTab implements TabComponent {
 
   // Display mode
   public displayMode:'hierarchy'|'grouped'|'default' = 'default';

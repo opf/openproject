@@ -31,6 +31,7 @@ import {StatusResource} from 'core-app/modules/hal/resources/status-resource';
 import {States} from "core-components/states.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ColorContrast} from "core-components/a11y/color-contrast.functions";
+import {WorkPackageTableHighlightingService} from "core-components/wp-fast-table/state/wp-table-highlighting.service";
 
 interface ColoredHalResource extends HalResource {
   name:string;
@@ -50,6 +51,7 @@ export class ColoredDisplayField extends DisplayField {
   }
 
   readonly states:States = this.$injector.get(States);
+  readonly wpTableHighlighting:WorkPackageTableHighlightingService = this.$injector.get(WorkPackageTableHighlightingService);
 
   public get value():ColoredHalResource {
     return this.resource[this.name];
@@ -59,25 +61,21 @@ export class ColoredDisplayField extends DisplayField {
     return this.value.name;
   }
 
-  public get coloredResourceCache():string {
-    return {
-      status: 'statuses',
-      priority: 'priorities'
-    }[this.coloredAttribute];
-  }
-
   public get resourceId() {
     return this.value.idFromLink;
   }
 
-  public get loadedColorResource():ColoredHalResource {
-    return (this.states as any)[this.coloredResourceCache]
-      .get(this.resourceId)
-      .getValueOr(this.value);
+  public get shouldHighlight() {
+    return this.wpTableHighlighting.isDefault;
   }
 
   public render(element:HTMLElement, displayText:string):void {
-    const colored = this.loadedColorResource;
+    if (!this.shouldHighlight) {
+      super.render(element, displayText);
+      return;
+    }
+
+    const colored = this.wpTableHighlighting.getHighlightResource(this.coloredAttribute, this.value);
 
     element.setAttribute('title', displayText);
     element.classList.add('wp-display-field--color-text');

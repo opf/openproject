@@ -566,8 +566,7 @@ en:
         button: 'Configure this work package table'
         modal_title: 'Work package table configuration'
         embedded_tab_disabled: "This configuration tab is not available for the embedded query you're editing."
-        display_mode: 'Display modes'
-        highlighting: 'Highlighting'
+        display_modes: 'Display modes'
         grouped_mode: "Grouped mode"
         grouped_hint: "Table results will be grouped by the given attribute."
         default_mode: "Default mode"
@@ -575,6 +574,15 @@ en:
         hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
         display_sums_hint: "Display sums of all summable attributes in a row below the table results."
         show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
+        highlighting: 'Highlighting'
+        highlighting_mode:
+          description: "Control highlighting of rows through a color defined by a work package attribute, such as priority or status."
+          default: "Disabled"
+          default_text: "No highlighting of work package rows. Display colors of status and priority in their respective columns."
+          status: "Status"
+          status_text: "Highlight work package rows based on the color of its status."
+          priority: "Priority"
+          priority_text: "Highlight work package rows based on the color of its priority."
       tabs:
         overview: Overview
         activity: Activity

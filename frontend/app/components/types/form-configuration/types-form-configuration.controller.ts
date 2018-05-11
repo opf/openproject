@@ -152,7 +152,7 @@ function typesFormConfigurationCtrl(
 
     // Disable display mode and timeline for now since we don't want users to enable it
     const disabledTabs = {
-      'display-settings': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
+      'display-modes': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
       'timelines': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled')
     };
 

@@ -22,6 +22,7 @@ import {
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {opServicesModule} from 'core-app/angular-modules';
+import {HighlightingMode} from 'app/components/wp-fast-table/state/wp-table-highlighting.service';
 
 @Injectable()
 export class TableState extends StatesGroup {
@@ -60,6 +61,8 @@ export class TableState extends StatesGroup {
   collapsedGroups = input<{ [identifier:string]:boolean }>();
   // Hierarchies of table
   hierarchies = input<WorkPackageTableHierarchies>();
+  // Highlighting mode
+  highlighting = input<HighlightingMode>();
   // State to be updated when the table is up to date
   rendered = input<RenderedRow[]>();
 
