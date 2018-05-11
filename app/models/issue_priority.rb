@@ -32,6 +32,10 @@ class IssuePriority < Enumeration
 
   OptionName = :enumeration_work_package_priorities
 
+  def self.colored?
+    false
+  end
+
   def option_name
     OptionName
   end

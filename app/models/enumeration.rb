@@ -59,6 +59,10 @@ class Enumeration < ActiveRecord::Base
     super
   end
 
+  def self.colored?
+    false
+  end
+
   def self.default
     # Creates a fake default scope so Enumeration.default will check
     # it's type.  STI subclasses will automatically add their own
