@@ -47,7 +47,7 @@ module Components
       end
 
       def open_and_set_display_mode(mode)
-        open_and_switch_to 'Display settings'
+        open_and_switch_to 'Display modes'
         choose("display_mode_switch", option: mode)
       end
 
@@ -57,7 +57,7 @@ module Components
       end
 
       def set_display_sums(enable: true)
-        open_and_switch_to 'Display settings'
+        open_and_switch_to 'Display modes'
 
         if enable
           check 'display_sums_switch'

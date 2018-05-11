@@ -138,7 +138,7 @@ describe 'form subelements configuration', type: :feature, js: true do
 
       # Expect disabled tabs for timelines and display mode
       modal.expect_disabled_tab 'Gantt chart'
-      modal.expect_disabled_tab 'Display settings'
+      modal.expect_disabled_tab 'Display modes'
 
       # Restrict filters to type_task
       modal.expect_open

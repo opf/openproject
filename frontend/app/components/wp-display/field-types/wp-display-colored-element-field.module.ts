@@ -29,7 +29,8 @@
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 import {StatusResource} from 'core-app/modules/hal/resources/status-resource';
 import {States} from "core-components/states.service";
-import {HalResource} from "app/modules/hal/resources/hal-resource";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {ColorContrast} from "core-components/a11y/color-contrast.functions";
 
 interface ColoredHalResource extends HalResource {
   name:string;
@@ -77,22 +78,15 @@ export class ColoredDisplayField extends DisplayField {
 
   public render(element:HTMLElement, displayText:string):void {
     const colored = this.loadedColorResource;
+
     element.setAttribute('title', displayText);
-
-    const color = document.createElement('span');
-
-    color.classList.add('wp-display-field--color');
-
-    const text = document.createElement('span');
-    text.classList.add('wp-display-field--color-text');
-    text.textContent = displayText;
+    element.classList.add('wp-display-field--color-text');
+    element.textContent = displayText;
 
     if (colored.color) {
-      color.style.backgroundColor = colored.color;
-      text.style.color = colored.color;
+      const patch = ColorContrast.getColorPatch(colored.color);
+      element.style.color = patch.fg;
+      element.style.backgroundColor = patch.bg;
     }
-
-    element.appendChild(color);
-    element.appendChild(text);
   }
 }

@@ -1,14 +1,16 @@
 module Enumerations
   class TableCell < ::TableCell
 
-    options :with_colors
-
     def initial_sort
       %i[id asc]
     end
 
     def sortable?
       false
+    end
+
+    def with_colors
+      model.colored?
     end
 
     def columns
@@ -20,7 +22,7 @@ module Enumerations
     end
 
     def inline_create_link
-      link_to new_enumeration_path,
+      link_to new_enumeration_path(type: model.name),
               aria: { label: t(:label_enumeration_new) },
               class: 'wp-inline-create--add-link',
               title: t(:label_enumeration_new) do
