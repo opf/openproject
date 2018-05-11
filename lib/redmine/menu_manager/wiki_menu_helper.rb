@@ -34,31 +34,18 @@ module Redmine::MenuManager::WikiMenuHelper
 
     MenuItems::WikiMenuItem.main_items(project_wiki).each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|
-        push_wiki_main_menu(menu, main_item)
+        push_wiki_main_menu(menu, main_item, project)
 
         main_item.children.each do |child|
           push_wiki_menu_subitem(menu, main_item, child)
-        end
-
-        menu.push :wiki_start,
-                  { controller: '/wiki', action: 'show', id: main_item.slug },
-                  param: :project_id,
-                  caption: t(:label_wiki_start),
-                  parent: main_item.menu_identifier,
-                  first: true
-
-        if project.wiki.pages.any?
-          menu.push :wiki_menu_partial,
-                    { controller: '/wiki', action: 'show' },
-                    param: :project_id,
-                    parent: main_item.menu_identifier,
-                    partial: 'wiki/menu_pages_tree'
         end
       end
     end
   end
 
-  def push_wiki_main_menu(menu, main_item)
+  def push_wiki_main_menu(menu, main_item, project)
+    entry_item_identifier = "entry-item-#{main_item.menu_identifier.to_s}".to_sym
+
     menu.push main_item.menu_identifier,
               { controller: '/wiki', action: 'show', id: main_item.slug },
               param: :project_id,
@@ -66,6 +53,24 @@ module Redmine::MenuManager::WikiMenuHelper
               after: :repository,
               icon: 'icon2 icon-wiki',
               html:    { class: 'wiki-menu--main-item' }
+
+
+    menu.push entry_item_identifier,
+              { controller: '/wiki', action: 'show', id: main_item.slug },
+              param: :project_id,
+              caption: t('label_entry_page'),
+              parent: main_item.menu_identifier,
+              first: true
+
+    if project.wiki.pages.any?
+      menu.push :wiki_menu_partial,
+                { controller: '/wiki', action: 'show' },
+                param: :project_id,
+                parent: main_item.menu_identifier,
+                partial: 'wiki/menu_pages_tree',
+                last: true
+    end
+
   rescue ArgumentError => e
     Rails.logger.error "Failed to add wiki item #{main_item.slug} to wiki menu: #{e}. Deleting it."
     main_item.destroy

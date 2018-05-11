@@ -78,16 +78,19 @@ module Redmine::MenuManager::MenuHelper
   def render_menu(menu, project = nil)
     links = []
     classes = ''
-    menu_items_for(menu, project) do |node|
+    menu_items = menu_items_for(menu, project) do |node|
       links << render_menu_node(node, project)
     end
     if menu == :project_menu
-      menu_items = menu_items_for(menu, project)
-      selected = any_item_selected?(menu_items)
+      selected = any_item_selected?(select_leafs(menu_items))
       classes << (selected ? 'open' : 'closed')
     end
 
     links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, class: 'menu_root ' + classes)
+  end
+
+  def select_leafs(items)
+    items.select { |item| item.children.empty? }
   end
 
   ##
@@ -138,7 +141,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def any_item_selected?(items)
-    items.any? { |item| item.name == current_menu_item }
+    items.any? { |item| item.name == current_menu_item || item.name == "entry-item-#{current_menu_item}".to_sym }
   end
 
   def render_menu_node(node, project = nil)
@@ -224,14 +227,14 @@ module Redmine::MenuManager::MenuHelper
     items = []
     Redmine::MenuManager.items(menu).root.children.each do |node|
       if allowed_node?(node, User.current, project) && visible_node?(menu, node)
+        items << node
         if block_given?
           yield node
-        else
-          items << node  # TODO: not used?
         end
       end
     end
-    block_given? ? nil : items
+    # block_given? ? nil : items
+    items
   end
 
   def extract_node_details(node, project = nil)
@@ -246,7 +249,7 @@ module Redmine::MenuManager::MenuHelper
     end
     caption = item.caption(project)
 
-    selected = current_menu_item == item.name
+    selected = (current_menu_item == item.name || item.name == "entry-item-#{current_menu_item}".to_sym)
 
     [caption, url, selected]
   end

@@ -372,14 +372,24 @@ class WikiController < ApplicationController
   end
 
   def current_menu_item_sym(page)
-    menu_item = send(page).try(:nearest_menu_item)
+    page = send(page)
+    menu_item = page.try(:nearest_menu_item)
 
     if menu_item.present?
       menu_item.menu_identifier
+    elsif page.present?
+      menu_item = default_menu_item(page)
+      if menu_item.present?
+        menu_item.menu_identifier
+      end
     end
   end
 
   protected
+
+  def default_menu_item(page)
+    MenuItems::WikiMenuItem.main_items(page.wiki.id).first
+  end
 
   def parse_preview_data
     page = @wiki.find_page(wiki_page_title)
