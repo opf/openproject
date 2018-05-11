@@ -29,42 +29,67 @@
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 import {StatusResource} from 'core-app/modules/hal/resources/status-resource';
 import {States} from "core-components/states.service";
+import {HalResource} from "app/modules/hal/resources/hal-resource";
 
-export class StatusDisplayField extends DisplayField {
+interface ColoredHalResource extends HalResource {
+  name:string;
+  color?:string;
+}
+
+// We need the loaded resource for the given resource since the color
+// is not always embedded. Thus restrict attributes to what we can load beforehand.
+export type ColoredAttributes = 'status' | 'priority';
+
+export class ColoredDisplayField extends DisplayField {
+
+  constructor(public resource:HalResource,
+              public coloredAttribute:ColoredAttributes,
+              public schema:op.FieldSchema) {
+    super(resource, coloredAttribute, schema);
+  }
 
   readonly states:States = this.$injector.get(States);
 
-  public get value():StatusResource {
-    return this.resource.status;
+  public get value():ColoredHalResource {
+    return this.resource[this.name];
   }
 
   public get valueString() {
     return this.value.name;
   }
 
-  public get statusId() {
+  public get coloredResourceCache():string {
+    return {
+      status: 'statuses',
+      priority: 'priorities'
+    }[this.coloredAttribute];
+  }
+
+  public get resourceId() {
     return this.value.idFromLink;
   }
 
-  public get loadedStatus():StatusResource {
-    return this.states.statuses.get(this.statusId).getValueOr(this.value);
+  public get loadedColorResource():ColoredHalResource {
+    return (this.states as any)[this.coloredResourceCache]
+      .get(this.resourceId)
+      .getValueOr(this.value);
   }
 
   public render(element:HTMLElement, displayText:string):void {
-    const status = this.loadedStatus;
+    const colored = this.loadedColorResource;
     element.setAttribute('title', displayText);
 
     const color = document.createElement('span');
 
-    color.classList.add('wp-display-field--status-color');
+    color.classList.add('wp-display-field--color');
 
     const text = document.createElement('span');
-    text.classList.add('wp-display-field--status-text');
+    text.classList.add('wp-display-field--color-text');
     text.textContent = displayText;
 
-    if (status.color) {
-      color.style.backgroundColor = status.color;
-      text.style.color = status.color;
+    if (colored.color) {
+      color.style.backgroundColor = colored.color;
+      text.style.color = colored.color;
     }
 
     element.appendChild(color);

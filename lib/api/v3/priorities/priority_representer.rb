@@ -41,6 +41,9 @@ module API
         property :id, render_nil: true
         property :name
         property :position
+        property :color,
+                 getter: -> (*) { color.hexcode if color },
+                 render_nil: true
         property :is_default
         property :active, as: :isActive
 

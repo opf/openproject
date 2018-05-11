@@ -50,7 +50,10 @@ export class ApiV3Paths {
   // /api/v3/statuses
   public readonly statuses = new SimpleResourceCollection(this.apiV3Base, 'statuses');
 
-  // /api/v3/statuses
+  // /api/v3/priorities
+  public readonly priorities = new SimpleResourceCollection(this.apiV3Base, 'priorities');
+
+  // /api/v3/types
   public readonly types = new SimpleResourceCollection(this.apiV3Base, 'types');
 
   // /api/v3/work_packages

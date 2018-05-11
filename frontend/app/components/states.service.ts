@@ -12,6 +12,7 @@ import {QueryColumn} from './wp-query/query-column';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 export class States extends StatesGroup {
 
@@ -34,6 +35,9 @@ export class States extends StatesGroup {
 
   /* /api/v3/statuses */
   statuses = multiInput<StatusResource>();
+
+  /* /api/v3/statuses */
+  priorities = multiInput<HalResource>();
 
   // Work Package query states
   query = new QueryStates();

@@ -222,6 +222,7 @@ import {AccessibleClickDirective} from "core-components/a11y/accessible-click.di
 import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp-relation-children/wp-children-query.component';
 import {StatusCacheService} from 'core-components/status/status-cache.service';
 import {ColorsAutocompleter} from 'core-components/colors/colors-autocompleter.component';
+import {PriorityCacheService} from 'core-components/priorities/priority-cache.service';
 
 @NgModule({
   imports: [
@@ -260,6 +261,7 @@ import {ColorsAutocompleter} from 'core-components/colors/colors-autocompleter.c
     ProjectCacheService,
     UserCacheService,
     StatusCacheService,
+    PriorityCacheService,
     upgradeService('states', States),
     PaginationService,
     upgradeService('keepTab', KeepTabService),

@@ -42,7 +42,7 @@ import {SpentTimeDisplayField} from '../field-types/wp-display-spent-time-field.
 import {IntegerDisplayField} from "../field-types/wp-display-integer-field.module";
 import {WorkPackageDisplayField} from "../field-types/wp-display-work-package-field.module";
 import {FloatDisplayField} from '../field-types/wp-display-float-field.module';
-import {StatusDisplayField} from 'core-components/wp-display/field-types/wp-display-status-field.module';
+import {ColoredDisplayField} from 'core-components/wp-display/field-types/wp-display-colored-element-field.module';
 
 openprojectModule
   .run((wpDisplayField:WorkPackageDisplayFieldService) => {
@@ -51,12 +51,10 @@ openprojectModule
       .addFieldType(TextDisplayField, 'text', ['String'])
       .addFieldType(FloatDisplayField, 'float', ['Float'])
       .addFieldType(IntegerDisplayField, 'integer', ['Integer'])
-      .addFieldType(StatusDisplayField, 'status', ['status'])
+      .addFieldType(ColoredDisplayField, 'colored', ['status', 'priority'])
       .addFieldType(ResourceDisplayField, 'resource', ['User',
                                                        'Project',
                                                        'Type',
-                                                       'Status',
-                                                       'Priority',
                                                        'Version',
                                                        'Category',
                                                        'CustomOption'])
