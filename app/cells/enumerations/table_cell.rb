@@ -1,3 +1,5 @@
+require_dependency 'enumerations/row_cell'
+
 module Enumerations
   class TableCell < ::TableCell
 
@@ -32,6 +34,10 @@ module Enumerations
 
     def empty_row_message
       I18n.t :no_results_title_text
+    end
+
+    def row_class
+      ::Enumerations::RowCell
     end
 
     def headers

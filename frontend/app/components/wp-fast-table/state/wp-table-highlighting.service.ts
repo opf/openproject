@@ -7,7 +7,7 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {States} from 'core-components/states.service';
 import {StatusResource} from 'core-app/modules/hal/resources/status-resource';
 
-export type HighlightingMode = 'status'|'priority'|'default';
+export type HighlightingMode = 'status'|'priority'|'default'|'disabled';
 
 @Injectable()
 export class WorkPackageTableHighlightingService extends WorkPackageTableBaseService<HighlightingMode> implements WorkPackageQueryStateService {
@@ -26,6 +26,10 @@ export class WorkPackageTableHighlightingService extends WorkPackageTableBaseSer
 
   public get isDefault() {
     return this.current === 'default';
+  }
+
+  public get isDisabled() {
+    return this.current === 'disabled';
   }
 
   public update(value:HighlightingMode) {

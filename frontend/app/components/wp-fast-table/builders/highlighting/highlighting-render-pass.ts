@@ -59,6 +59,6 @@ export class HighlightingRenderPass {
   }
 
   private get isApplicable() {
-    return !this.wpTableHighlighting.isDefault;
+    return !(this.wpTableHighlighting.isDefault || this.wpTableHighlighting.isDisabled);
   }
 }

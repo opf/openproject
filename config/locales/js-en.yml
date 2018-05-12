@@ -577,7 +577,9 @@ en:
         highlighting: 'Highlighting'
         highlighting_mode:
           description: "Control highlighting of rows through a color defined by a work package attribute, such as priority or status."
-          default: "Disabled"
+          disabled: "Disabled"
+          disabled_text: "Disables colored output of status and priorities altogether."
+          default: "Default (inline)"
           default_text: "No highlighting of work package rows. Display colors of status and priority in their respective columns."
           status: "Status"
           status_text: "Highlight work package rows based on the color of its status."

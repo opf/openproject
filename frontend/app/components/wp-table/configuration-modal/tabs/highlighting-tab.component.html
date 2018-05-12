@@ -24,6 +24,13 @@
                  name="highlighting_mode_switch">
           {{ text.highlighting_mode.priority }}
         </label>
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="highlightingMode"
+                 value="disabled"
+                 name="highlighting_mode_switch">
+          {{ text.highlighting_mode.disabled }}
+        </label>
       </div>
     </div>
     <p class="form--field-instructions -no-margin"

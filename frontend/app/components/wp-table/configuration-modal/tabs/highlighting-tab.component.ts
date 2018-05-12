@@ -19,6 +19,8 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
     title: this.I18n.t('js.work_packages.table_configuration.highlighting'),
     highlighting_mode: {
       description: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.description'),
+      disabled: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.disabled'),
+      disabled_text: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.disabled_text'),
       default: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.default'),
       default_text: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.default_text'),
       status: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.status'),
@@ -38,14 +40,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   }
 
   public get selectedModeDescription() {
-    switch (this.highlightingMode) {
-      case 'priority':
-        return this.text.highlighting_mode.priority_text;
-      case 'status':
-        return this.text.highlighting_mode.status_text;
-      default:
-        return this.text.highlighting_mode.default_text;
-    }
+    return (this.text.highlighting_mode as any)[`${this.highlightingMode}_text`];
   }
 
   ngOnInit() {
