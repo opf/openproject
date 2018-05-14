@@ -240,16 +240,17 @@ module Redmine::MenuManager::MenuHelper
   def extract_node_details(node, project = nil)
     item = node
     url = case item.url
-    when Hash
-      project.nil? ? item.url : { item.param => project }.merge(item.url)
-    when Symbol
-      send(item.url)
-    else
-      item.url
-    end
+          when Hash
+            project.nil? ? item.url : { item.param => project }.merge(item.url)
+          when Symbol
+            send(item.url)
+          else
+            item.url
+          end
+
     caption = item.caption(project)
 
-    selected = (current_menu_item == item.name || item.name == "entry-item-#{current_menu_item}".to_sym || (current_menu_item.to_s =~ /^no-menu-item-wiki-/ && item.name == current_menu_item.to_s.gsub(/^no-menu-item-/, '').to_sym))
+    selected = node_selected?(item)
 
     [caption, url, selected]
   end
@@ -280,5 +281,22 @@ module Redmine::MenuManager::MenuHelper
     else
       true
     end
+  end
+
+  private
+
+  def node_selected?(item)
+    current_menu_item == item.name ||
+      entry_page_selected?(item) ||
+      no_menu_item_selected?(item)
+  end
+
+  def entry_page_selected?(item)
+    item.name == "entry-item-#{current_menu_item}".to_sym
+  end
+
+  def no_menu_item_selected?(item)
+    current_menu_item.to_s =~ /^no-menu-item-wiki-/ &&
+      item.name == current_menu_item.to_s.gsub(/^no-menu-item-/, '').to_sym
   end
 end
