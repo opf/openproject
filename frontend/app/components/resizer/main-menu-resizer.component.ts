@@ -36,7 +36,7 @@ import {Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit}
          title="{{toggleTitle}}"
          class="main-menu--navigation-toggler"
          ng-click="mainMenu.toggleNavigation()">
-        <i class="icon4 icon-arrow-left2" aria-hidden="true"></i>
+        <i class="icon-resizer-vertical-lines" aria-hidden="true"></i>
       </a>
     </div>
   `

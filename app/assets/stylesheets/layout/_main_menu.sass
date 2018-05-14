@@ -156,8 +156,6 @@ $toggler-width: 40px
               @include varprop(color, main-menu-bg-hover-background)
 
         > a
-          //@include default-transition
-
           &.selected, &.selected + a
             @include varprop(background, main-menu-bg-selected-background)
 
@@ -176,8 +174,7 @@ $toggler-width: 40px
             border: none !important
             @include varprop(color, main-menu-selected-font-color)
 
-  a,
-  a:link
+  a
     text-decoration: none
     line-height: $main-menu-item-height
     display: block
@@ -345,51 +342,52 @@ $arrow-left-width: 40px
   left: calc(#{$main-menu-width} - 2px)
   left: calc(var(--main-menu-width) - 2px)
   vertical-align: middle
-  opacity: 0
   z-index: 1
   cursor: col-resize
   %absolute-layout-mode &
     z-index: 100
-
-  //@include default-transition
   &:hover
     @include varprop(border-left-color, main-menu-resizer-color)
-    opacity: 1
+    .main-menu--navigation-toggler
+      opacity: 1
+      font-size: 11px
+      i:before
+        @include varprop(color, main-menu-navigation-toggler-font-hover-color)
+
   &.show
     left: $main-menu-folded-width
 
-
 .main-menu--navigation-toggler
   .hidden-navigation &
+    text-align: right
+    opacity: 0
+    &:hover
+      @include varprop(color, main-menu-navigation-toggler-font-hover-color)
+      i:before
+        @include icon-mixin-arrow-right2
     i:before
       @include icon-mixin-arrow-right2
 
-
-.main-menu--navigation-toggler
-  //@include default-transition
   position: absolute
   top: 0
   height: 40px
-  width: 16px
-  text-align: right
+  width: 28px
+  text-align: left
   margin-top: 50vh
-  padding: 0 6px 0 0
-  color: $gray-dark
+  margin-left: -14px
+  padding: 0
+  font-size: 14px
   // Center toggle icon vertically. The element is higher than it looks like.
   line-height: 38px
-  font-size: 11px
+  i:before
+    color: $light-gray
+    padding-right: 0
+    padding-left: 2px
   &:hover
     @include varprop(color, main-menu-navigation-toggler-font-hover-color)
+    font-size: 11px
+    i:before
+      padding-left: 0
+      @include icon-mixin-arrow-left2
   %absolute-layout-mode &
     z-index: 100
-
-
-// #main.hidden-navigation
-//   #main-menu
-//     ul
-//       &.menu_root
-//         // -------------------- MAIN menu items ---------------------------
-//         > li
-//           .main-item-wrapper
-//             a:not(:only-child):first-of-type
-//               @extend .small-12
