@@ -133,7 +133,7 @@ class WikiMenuItemsController < ApplicationController
     @selected_parent_menu_item_id = if @wiki_menu_item.parent
                                       @wiki_menu_item.parent.id
                                     else
-                                      @page.nearest_parent_menu_item(is_main_item: true).try :id
+                                      @page.nearest_main_item.try :id
     end
   end
 

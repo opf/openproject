@@ -249,7 +249,7 @@ module Redmine::MenuManager::MenuHelper
     end
     caption = item.caption(project)
 
-    selected = (current_menu_item == item.name || item.name == "entry-item-#{current_menu_item}".to_sym)
+    selected = (current_menu_item == item.name || item.name == "entry-item-#{current_menu_item}".to_sym || (current_menu_item.to_s =~ /^no-menu-item-wiki-/ && item.name == current_menu_item.to_s.gsub(/^no-menu-item-/, '').to_sym))
 
     [caption, url, selected]
   end
