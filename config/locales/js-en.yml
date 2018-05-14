@@ -346,6 +346,9 @@ en:
         one: "You can only select one item"
         other: "You can only select {{limit}} items"
         zero: "You cannot select any items"
+
+    show_hide_project_menu: "Expand/Collapse project menu"
+
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

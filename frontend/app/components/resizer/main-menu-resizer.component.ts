@@ -33,7 +33,7 @@ import {Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit}
   template: `
     <div class="main-menu--resizer" ng-class="{ 'show': !showNavigation }">
       <a href="#"
-         title="<%= l(:show_hide_project_menu) %>"
+         title="{{toggleTitle}}"
          class="main-menu--navigation-toggler"
          ng-click="mainMenu.toggleNavigation()">
         <i class="icon4 icon-arrow-left2" aria-hidden="true"></i>
@@ -53,6 +53,7 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
   private mouseMoveHandler:any;
   private element:HTMLElement;
   private htmlNode:HTMLElement;
+  private toggleTitle:string;
 
   public moving:boolean = false;
 
@@ -63,6 +64,7 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
     this.elementClass    = "main-menu";
     this.resizeEvent     = "main-menu-resize";
     this.localStorageKey = "openProject-mainMenuWidth";
+    this.toggleTitle     = I18n.t('js.show_hide_project_menu');
 
     this.htmlNode = <HTMLElement>document.getElementsByTagName('html')[0];
 
