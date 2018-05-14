@@ -66,5 +66,3 @@ export class RelationsDmService {
       .then((collection:CollectionResource<RelationResource>) => collection.elements);
   }
 }
-
-opServicesModule.service('relationsDm', downgradeInjectable(RelationsDmService));

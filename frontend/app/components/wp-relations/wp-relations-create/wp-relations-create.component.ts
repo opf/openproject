@@ -1,49 +1,38 @@
-import {wpDirectivesModule} from '../../../angular-modules';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
-import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {WorkPackageRelationsService} from '../wp-relations.service';
+import {Component, ElementRef, Inject, Input, ViewChild} from "@angular/core";
+import {I18nToken} from "../../../angular4-transition-utils";
 
-export class WorkPackageRelationsCreateController {
+@Component({
+  selector: 'wp-relations-create',
+  template: require('!!raw-loader!./wp-relation-create.template.html')
+})
+export class WorkPackageRelationsCreateComponent {
+  @Input() readonly workPackage:WorkPackageResource;
+  @ViewChild('focusAfterSave') readonly focusAfterSave:ElementRef;
 
   public showRelationsCreateForm:boolean = false;
-  public workPackage:WorkPackageResource;
   public selectedRelationType:string = RelationResource.DEFAULT();
   public selectedWpId:string;
-  public externalFormToggle:boolean;
-  public fixedRelationType:string;
   public relationTypes = RelationResource.LOCALIZED_RELATION_TYPES(false);
 
   public isDisabled = false;
-
-  constructor(protected I18n:op.I18n,
-              protected $scope:ng.IScope,
-              protected $rootScope:ng.IRootScopeService,
-              protected $element:ng.IAugmentedJQuery,
-              protected $timeout:ng.ITimeoutService,
-              protected wpRelations:WorkPackageRelationsService,
-              protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
-              protected wpNotificationsService:WorkPackageNotificationService,
-              protected wpCacheService:WorkPackageCacheService) {
-  }
-
-  $onInit() {
-    if (this.fixedRelationType) {
-      this.selectedRelationType = this.fixedRelationType;
-    }
-
-    if (this.externalFormToggle) {
-      this.showRelationsCreateForm = this.externalFormToggle;
-    }
-  }
 
   public text = {
     save: this.I18n.t('js.relation_buttons.save'),
     abort: this.I18n.t('js.relation_buttons.abort'),
     addNewRelation: this.I18n.t('js.relation_buttons.add_new_relation')
   };
+
+  constructor(@Inject(I18nToken) protected I18n:op.I18n,
+              protected wpRelations:WorkPackageRelationsService,
+              protected wpNotificationsService:WorkPackageNotificationService,
+              protected wpCacheService:WorkPackageCacheService) {
+  }
+
 
   public createRelation() {
 
@@ -55,6 +44,10 @@ export class WorkPackageRelationsCreateController {
     this.createCommonRelation()
       .catch(() => this.isDisabled = false)
       .then(() => this.isDisabled = false);
+  }
+
+  public updateSelectedId(workPackageId:string) {
+    this.selectedWpId = workPackageId;
   }
 
   protected async createCommonRelation() {
@@ -73,36 +66,13 @@ export class WorkPackageRelationsCreateController {
 
   public toggleRelationsCreateForm() {
     this.showRelationsCreateForm = !this.showRelationsCreateForm;
-    this.externalFormToggle = !this.externalFormToggle;
 
-    this.$timeout(() => {
+    setTimeout(() => {
       if (!this.showRelationsCreateForm) {
         // Reset value
         this.selectedWpId = '';
-        this.$element.find('.-focus-after-save').first().focus();
+        this.focusAfterSave.nativeElement.focus();
       }
     });
   }
 }
-
-function wpRelationsCreate():any {
-  return {
-    restrict: 'E',
-
-    templateUrl: (el:ng.IAugmentedJQuery, attrs:ng.IAttributes) => {
-      return '/components/wp-relations/wp-relations-create/' + attrs['template'] + '.template.html';
-    },
-
-    scope: {
-      workPackage: '=?',
-      fixedRelationType: '@?',
-      externalFormToggle: '=?'
-    },
-
-    controller: WorkPackageRelationsCreateController,
-    bindToController: true,
-    controllerAs: '$ctrl',
-  };
-}
-
-wpDirectivesModule.directive('wpRelationsCreate', wpRelationsCreate);

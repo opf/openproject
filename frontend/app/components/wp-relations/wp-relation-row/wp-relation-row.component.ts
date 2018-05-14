@@ -1,17 +1,24 @@
-import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageRelationsService} from '../wp-relations.service';
-import {keyCodes} from 'core-components/common/keyCodes.enum';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
+import {Component, ElementRef, Inject, Input, OnInit, ViewChild} from "@angular/core";
+import {I18nToken} from "core-app/angular4-transition-utils";
 
-class WpRelationRowDirectiveController {
-  public workPackage:WorkPackageResource;
-  public relatedWorkPackage:WorkPackageResource;
+@Component({
+  selector: 'wp-relation-row',
+  template: require('!!raw-loader!./wp-relation-row.template.html')
+})
+export class WorkPackageRelationRowComponent implements OnInit {
+  @Input() public workPackage:WorkPackageResource;
+  @Input() public relatedWorkPackage:WorkPackageResource;
+  @Input() public groupByWorkPackageType:boolean;
+
+  @ViewChild('relationDescriptionTextarea') readonly relationDescriptionTextarea:ElementRef;
+
   public relationType:string;
-  public groupByWorkPackageType:boolean;
   public showRelationInfo:boolean = false;
   public showEditForm:boolean = false;
   public availableRelationTypes:{ name:string }[];
@@ -33,36 +40,33 @@ class WpRelationRowDirectiveController {
   };
 
   public relation:RelationResource;
-  public text:Object;
+  public text = {
+    cancel: this.I18n.t('js.button_cancel'),
+    save: this.I18n.t('js.button_save'),
+    removeButton: this.I18n.t('js.relation_buttons.remove'),
+    description_label: this.I18n.t('js.relation_buttons.update_description'),
+    toggleDescription: this.I18n.t('js.relation_buttons.toggle_description'),
+    updateRelation: this.I18n.t('js.relation_buttons.update_relation'),
+    placeholder: {
+      description: this.I18n.t('js.placeholders.relation_description')
+    }
+  };
 
-  constructor(protected $scope:ng.IScope,
-              protected $element:ng.IAugmentedJQuery,
-              protected $timeout:ng.ITimeoutService,
-              protected $http:ng.IHttpService,
-              protected wpCacheService:WorkPackageCacheService,
+  constructor(protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpRelations:WorkPackageRelationsService,
-              protected I18n:op.I18n,
+              @Inject(I18nToken) protected I18n:op.I18n,
               protected PathHelper:PathHelperService) {
+  }
 
+  ngOnInit() {
     this.relation = this.relatedWorkPackage.relatedBy as RelationResource;
-    this.text = {
-      cancel: I18n.t('js.button_cancel'),
-      save: I18n.t('js.button_save'),
-      removeButton: I18n.t('js.relation_buttons.remove'),
-      description_label: I18n.t('js.relation_buttons.update_description'),
-      toggleDescription: I18n.t('js.relation_buttons.toggle_description'),
-      updateRelation: I18n.t('js.relation_buttons.update_relation'),
-      placeholder: {
-        description: I18n.t('js.placeholders.relation_description')
-      }
-    };
 
     this.userInputs.newRelationText = this.relation.description || '';
     this.availableRelationTypes = RelationResource.LOCALIZED_RELATION_TYPES(false);
     this.selectedRelationType = _.find(this.availableRelationTypes,
       {'name': this.relation.normalizedType(this.workPackage)}) as RelationResource;
-  };
+  }
 
   /**
    * Return the normalized relation type for the work package we're viewing.
@@ -79,9 +83,9 @@ class WpRelationRowDirectiveController {
 
   public startDescriptionEdit() {
     this.userInputs.showDescriptionEditForm = true;
-    this.$timeout(() => {
-      var textarea = this.$element.find('.wp-relation--description-textarea');
-      var textlen = textarea.val().length;
+    setTimeout(() => {
+      const textarea = jQuery(this.relationDescriptionTextarea.nativeElement);
+      const textlen = textarea.val().length;
       // Focus and set cursor to end
       textarea.focus();
 
@@ -124,9 +128,7 @@ class WpRelationRowDirectiveController {
   }
 
   public cancelRelationTypeEditOnEscape(evt:JQueryEventObject) {
-    if (evt.which === keyCodes.ESCAPE) {
-      this.userInputs.showRelationTypesForm = false;
-    }
+    this.userInputs.showRelationTypesForm = false;
   }
 
   public saveRelationType() {
@@ -154,28 +156,8 @@ class WpRelationRowDirectiveController {
       .then(() => {
         this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
-        this.$timeout(() => {
-          angular.element('#relation--add-relation').focus();
-        });
       })
       .catch((err:any) => this.wpNotificationsService.handleErrorResponse(err,
         this.relatedWorkPackage));
   }
 }
-
-function WpRelationRowDirective($timeout:ng.ITimeoutService):any {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-relations/wp-relation-row/wp-relation-row.template.html',
-    scope: {
-      workPackage: '=',
-      groupByWorkPackageType: '=',
-      relatedWorkPackage: '='
-    },
-    controller: WpRelationRowDirectiveController,
-    controllerAs: '$ctrl',
-    bindToController: true
-  };
-}
-
-wpDirectivesModule.directive('wpRelationRow', WpRelationRowDirective);
