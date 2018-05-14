@@ -93,7 +93,7 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
     if (e.buttons === 1 || e.which === 1) {
       // Getting starting position
       this.oldPosition = e.clientX;
-
+      this.elementWidth = this.resizingElement.clientWidth;
       this.moving = true;
 
       // Necessary to encapsulate this to be able to remove the event listener later
@@ -122,14 +122,9 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
     // Change cursor icon back
     document.body.style.cursor = 'auto';
 
-    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
-    if (localStorageValue) {
-      this.elementWidth = parseInt(localStorageValue, 10);
-    }
-
     this.moving = false;
 
-
+    this.saveWidth();
 
     // Send a event that we resized this element
     const event = new Event(this.resizeEvent);
@@ -163,13 +158,15 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
     }
   }
 
-  private setWidth(element:HTMLElement, width:number) {
+  private setWidth(element:HTMLElement, width:number, ) {
     let viewportWidth = document.documentElement.clientWidth;
     let newValue = width <= 10 ? 0 : width;
     newValue = newValue >= viewportWidth - 150 ? viewportWidth - 150 : newValue;
 
-    window.OpenProject.guardedLocalStorage(this.localStorageKey, String(newValue));
-
     this.htmlNode.style.setProperty("--main-menu-width", newValue + 'px');
+  }
+
+  private saveWidth() {
+    window.OpenProject.guardedLocalStorage(this.localStorageKey, String(this.elementWidth));
   }
 }
