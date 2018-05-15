@@ -4,9 +4,10 @@
                    [tableActions]="childrenTableActions"
                    [configuration]="{ actionsColumnEnabled: true,
                                       hierarchyToggleEnabled: false,
-                                      inlineCreateEnabled: false,
+                                      inlineCreateEnabled: true,
                                       columnMenuEnabled: false,
                                       contextMenuEnabled: false,
+                                      projectIdentifier: workPackage.project.idFromLink,
                                       projectContext: false }" >
 </wp-embedded-table>
 

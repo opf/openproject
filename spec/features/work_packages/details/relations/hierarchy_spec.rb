@@ -5,7 +5,8 @@ describe 'Work package relations tab', js: true, selenium: true do
 
   let(:user) { FactoryBot.create :admin }
 
-  let(:project) { FactoryBot.create :project }
+
+  let(:project) { FactoryBot.create(:project) }
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
   let(:full_wp) { ::Pages::FullWorkPackage.new(work_package) }
@@ -55,6 +56,24 @@ describe 'Work package relations tab', js: true, selenium: true do
            text: I18n.t('js.relation_buttons.add_existing_child')).click
 
       relations.add_existing_child(child2)
+    end
+
+    describe 'inline create' do
+      let!(:status) { FactoryBot.create(:status, is_default: true) }
+      let!(:priority) { FactoryBot.create(:priority, is_default: true) }
+      let(:type_bug) { FactoryBot.create(:type_bug) }
+      let!(:project) do
+        FactoryBot.create(:project, types: [type_bug])
+      end
+
+      it 'can inline-create children' do
+        relations.inline_create_child 'my new child'
+        table = relations.children_table
+
+        table.expect_work_package_subject 'my new child'
+        work_package.reload
+        expect(work_package.children.count).to eq(1)
+      end
     end
   end
 

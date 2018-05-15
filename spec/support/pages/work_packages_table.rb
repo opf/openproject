@@ -54,6 +54,14 @@ module Pages
       end
     end
 
+    def expect_work_package_subject(subject)
+      within(table_container) do
+        expect(page).to have_selector("td.subject",
+                                      text: subject,
+                                      wait: 20)
+      end
+    end
+
     def expect_work_package_count(n)
       within(table_container) do
         expect(page).to have_selector(".wp--row", count: n, wait: 20)

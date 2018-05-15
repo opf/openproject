@@ -27,7 +27,7 @@
 // ++
 
 
-export type WorkPackageTableConfigurationObject = Partial<{ [field in keyof WorkPackageTableConfiguration]:boolean }>;
+export type WorkPackageTableConfigurationObject = Partial<{ [field in keyof WorkPackageTableConfiguration]:string|boolean }>;
 
 export class WorkPackageTableConfiguration {
   /** Render the table results, set to false when only wanting the table initialization */
@@ -45,6 +45,9 @@ export class WorkPackageTableConfiguration {
   /** Whether the query should be resolved using the current project identifier */
   public projectContext:boolean = true;
 
+  /** Whether the embedded table should live within a specific project context (e.g., given by its parent) */
+  public projectIdentifier:string|null = null;
+
   /** Whether inline create is enabled*/
   public inlineCreateEnabled:boolean = true;
 
@@ -57,7 +60,7 @@ export class WorkPackageTableConfiguration {
   constructor(private providedConfig:WorkPackageTableConfigurationObject) {
     _.each(providedConfig, (value, k) => {
       let key = (k as keyof WorkPackageTableConfiguration);
-      this[key] = !!value;
+      this[key] = value as any;
     });
   }
 }
