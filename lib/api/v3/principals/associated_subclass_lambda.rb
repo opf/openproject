@@ -34,6 +34,8 @@ module API
       module AssociatedSubclassLambda
         def self.getter(name)
           ->(*) {
+            next unless embed_links
+
             instance = represented.send(name)
 
             case instance
