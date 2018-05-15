@@ -3,6 +3,7 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {WorkPackageChangeset} from './work-package-changeset';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {all} from "@uirouter/core";
 
 export class WorkPackageFilterValues {
 
@@ -43,22 +44,37 @@ export class WorkPackageFilterValues {
 
   private async setAllowedValueFor(form:FormResource, field:string, value:string|HalResource) {
     return this.allowedValuesFor(form, field).then((allowedValues) => {
-      let newValue;
-
-      if ((value as HalResource)['$href']) {
-        newValue = _.find(allowedValues,
-          (entry:any) => entry.$href === (value as HalResource).$href);
-      } else if (allowedValues) {
-        newValue = _.find(allowedValues, (entry:any) => entry === value);
-      } else {
-        newValue = value;
-      }
+      let newValue = this.findSpecialValue(value, field) || this.findAllowedValue(value, allowedValues);
 
       if (newValue) {
         this.changeset.setValue(field, newValue);
         this.changeset.workPackage[field] = newValue;
       }
     });
+  }
+
+  /**
+   * Returns special values for which no allowed values exist (e.g., parent ID in embedded queries)
+   * @param {string | HalResource} value
+   * @param {string} field
+   */
+  private findSpecialValue(value:string|HalResource, field:string):string|HalResource|undefined {
+    if (field === 'parent') {
+      return value;
+    }
+
+    return undefined;
+  }
+
+  private findAllowedValue(value:string|HalResource, allowedValues:HalResource[]) {
+    if (value instanceof HalResource && !!value.$href) {
+      return _.find(allowedValues,
+        (entry:any) => entry.$href === value.$href);
+    } else if (allowedValues) {
+      return _.find(allowedValues, (entry:any) => entry === value);
+    } else {
+      return value;
+    }
   }
 
   private async allowedValuesFor(form:FormResource, field:string):Promise<HalResource[]> {

@@ -40,6 +40,7 @@ import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-re
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {ProjectCacheService} from 'core-components/projects/project-cache.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
+import {AuthorisationService} from "core-components/common/model-auth/model-auth.service";
 
 export class WorkPackageViewController implements OnDestroy {
 
@@ -52,6 +53,7 @@ export class WorkPackageViewController implements OnDestroy {
   protected wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
   protected wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
   protected projectCacheService:ProjectCacheService = this.injector.get(ProjectCacheService);
+  protected authorisationService:AuthorisationService = this.injector.get(AuthorisationService);
 
   // Static texts
   public text:any = {};
@@ -108,6 +110,9 @@ export class WorkPackageViewController implements OnDestroy {
       .then(() => {
       this.projectIdentifier = this.workPackage.project.identifier;
     });
+
+    // Set authorisation data
+    this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
     // Push the current title
     this.titleService.setFirstPart(this.workPackage.subjectWithType(20));

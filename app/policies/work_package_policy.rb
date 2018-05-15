@@ -102,6 +102,8 @@ class WorkPackagePolicy < BasePolicy
   end
 
   def type_active_in_project?(work_package)
+    return false unless work_package.project
+
     @type_active_cache ||= Hash.new do |hash, project|
       hash[project] = project.types.pluck(:id)
     end

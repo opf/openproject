@@ -28,7 +28,7 @@
 
 import {
   Component,
-  ElementRef,
+  ElementRef, HostListener,
   Inject,
   Injector,
   Input,
@@ -122,7 +122,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
     this.timelineBuilder = new TimelineRowBuilder(this.injector, this.table);
 
     // Mirror the row height in timeline
-    const container = jQuery('.wp-table-timeline--body');
+    const container = jQuery(this.table.timelineBody);
     container.addClass('-inline-create-mirror');
 
     // Remove temporary rows on creation of new work package
@@ -137,7 +137,9 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
           this.addWorkPackageRow();
 
           // Focus on the last inserted id
-          this.wpTableFocus.updateFocus(wp.id);
+          if (!this.table.configuration.isEmbedded) {
+            this.wpTableFocus.updateFocus(wp.id);
+          }
         } else {
           // Remove current row
           this.table.editing.stopEditing('new');
@@ -171,11 +173,6 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
       evt.stopImmediatePropagation();
       return false;
     });
-
-    // Additionally, cancel on escape
-    Mousetrap(this.$element[0]).bind('escape', () => {
-      this.resetRow();
-    });
   }
 
   public handleAddRowClick() {
@@ -192,7 +189,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
       const wp = this.currentWorkPackage = changeset.workPackage;
 
       // Apply filter values
-      const filter = new WorkPackageFilterValues(changeset, this.wpTableFilters.current);
+      const filter = new WorkPackageFilterValues(changeset, this.tableState.query.value!.filters);
       filter.applyDefaultsFromFilters().then(() => {
         this.wpEditing.updateValue('new', changeset);
         this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
@@ -222,6 +219,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   /**
    * Reset the new work package row and refocus on the button
    */
+  @HostListener('keydown.escape')
   public resetRow() {
     this.focus = true;
     this.removeWorkPackageRow();
@@ -251,6 +249,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   }
 
   public get isAllowed():boolean {
-    return this.authorisationService.can('work_packages', 'createWorkPackage');
+    return this.authorisationService.can('work_packages', 'createWorkPackage') ||
+      this.authorisationService.can('work_package', 'addChild');
   }
 }
