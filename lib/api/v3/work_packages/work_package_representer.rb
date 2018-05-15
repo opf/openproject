@@ -525,7 +525,10 @@ module API
 
         def relations
           self_path = api_v3_paths.work_package_relations(represented.id)
-          visible_relations = represented.visible_relations(current_user).non_hierarchy
+          visible_relations = represented
+                              .visible_relations(current_user)
+                              .non_hierarchy
+                              .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
 
           ::API::V3::Relations::RelationCollectionRepresenter.new(visible_relations,
                                                                   self_path,

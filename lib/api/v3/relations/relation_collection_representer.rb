@@ -32,6 +32,7 @@ module API
     module Relations
       class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
         element_decorator ::API::V3::Relations::RelationRepresenter
+        self.to_eager_load = ::API::V3::Relations::RelationRepresenter.to_eager_load
       end
     end
   end

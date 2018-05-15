@@ -43,6 +43,7 @@ module API
                         .where(:involved, '=', @work_package.id)
                         .results
                         .non_hierarchy
+                        .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
 
             ::API::V3::Relations::RelationCollectionRepresenter.new(
               relations,
