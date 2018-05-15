@@ -345,70 +345,6 @@ module OpenProject::Costs
                                                attribute: :updated_on
     end
 
-    module EagerLoadedCosts
-      def add_eager_loading(*args)
-        EagerLoadedCosts.join_costs(super)
-      end
-
-      def self.join_costs(scope)
-        # The core adds a "LEFT OUTER JOIN time_entries" where the on clause
-        # allows all time entries to be joined if he has the :view_time_entries.
-        # Costs will add another "LEFT OUTER JOIN time_entries". The two joins
-        # may or may not include each other's rows depending on the user's and the project's permissions.
-        # This is caused by entries being joined if he has
-        # the :view_time_entries permission and additionally those which are
-        # his and for which he has the :view_own_time_entries permission.
-        # Because of that, entries may be joined twice.
-        # We therefore modify the core's join by placing it in a subquery similar to those of costs.
-        #
-        # This is very hacky.
-        #
-        # We also have to remove the sum calcualtion for time_entries.hours as
-        # the calculation is later on performed within the subquery added by
-        # LaborCosts. With it, we can use the value as it is calculated by the subquery.
-        material = WorkPackage::MaterialCosts.new
-        labor = WorkPackage::LaborCosts.new
-        time = scope.dup
-
-        wp_table = WorkPackage.arel_table
-        time_join = wp_table
-                    .outer_join(time.arel.as('spent_time_hours'))
-                    .on(wp_table[:id].eq(time.arel_table.alias('spent_time_hours')[:id]))
-
-        scope.joins_values.reject! do |join|
-          join.is_a?(Arel::Nodes::OuterJoin) &&
-            join.left.is_a?(Arel::Table) &&
-            join.left.name == 'time_entries'
-        end
-        scope.select_values.reject! do |select|
-          select == "SUM(time_entries.hours) AS hours"
-        end
-
-        material_scope = material.add_to_work_package_collection(scope.dup)
-        labor_scope = labor.add_to_work_package_collection(scope.dup)
-
-        target_scope = scope
-                       .joins(material_scope.join_sources)
-                       .joins(labor_scope.join_sources)
-                       .joins(time_join.join_sources)
-                       .select(material_scope.select_values)
-                       .select(labor_scope.select_values)
-                       .select('spent_time_hours.hours')
-
-        target_scope.joins_values.reject! do |join|
-          join.is_a?(Arel::Nodes::OuterJoin) &&
-            join.left.is_a?(Arel::Nodes::TableAlias) &&
-            join.left.right == 'descendants'
-        end
-
-        target_scope.group_values.reject! do |group|
-          group == :id
-        end
-
-        target_scope
-      end
-    end
-
     config.to_prepare do
       require 'open_project/costs/patches/members_patch'
       OpenProject::Costs::Members.mixin!
@@ -427,8 +363,8 @@ module OpenProject::Costs
 
       API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load += [:cost_object]
 
-      API::V3::WorkPackages::WorkPackageCollectionRepresenter.prepend EagerLoadedCosts
-
+      require 'open_project/costs/patches/work_package_eager_loading_patch'
+      API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.prepend OpenProject::Costs::Patches::WorkPackageEagerLoadingPatch
       ##
       # Add a new group
       cost_attributes = %i(cost_object costs_by_type labor_costs material_costs overall_costs)

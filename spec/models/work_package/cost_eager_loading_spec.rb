@@ -88,7 +88,7 @@ describe WorkPackage, 'cost eager loading', type: :model do
               .select('work_packages.*')
               .where(id: [work_package.id])
 
-      OpenProject::Costs::Engine::EagerLoadedCosts.join_costs(scope)
+      OpenProject::Costs::Patches::WorkPackageEagerLoadingPatch.join_costs(scope)
     end
 
     before do
