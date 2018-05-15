@@ -70,7 +70,6 @@ module Redmine::MenuManager::WikiMenuHelper
                 partial: 'wiki/menu_pages_tree',
                 last: true
     end
-
   rescue ArgumentError => e
     Rails.logger.error "Failed to add wiki item #{main_item.slug} to wiki menu: #{e}. Deleting it."
     main_item.destroy
@@ -86,5 +85,13 @@ module Redmine::MenuManager::WikiMenuHelper
   rescue ArgumentError => e
     Rails.logger.error "Failed to add wiki item #{child.slug} to wiki menu: #{e}. Deleting it."
     child.destroy
+  end
+
+  def default_menu_item(page)
+    if (main_item = page.nearest_main_item)
+      main_item
+    else
+      MenuItems::WikiMenuItem.main_items(page.wiki.id).first
+    end
   end
 end

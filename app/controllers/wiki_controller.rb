@@ -65,6 +65,7 @@ class WikiController < ApplicationController
 
   include AttachmentsHelper
   include PaginationHelper
+  include Redmine::MenuManager::WikiMenuHelper
   include OpenProject::Concerns::Preview
 
   attr_reader :page, :related_page
@@ -384,14 +385,6 @@ class WikiController < ApplicationController
   end
 
   protected
-
-  def default_menu_item(page)
-    if (main_item = page.nearest_main_item)
-      main_item
-    else
-      MenuItems::WikiMenuItem.main_items(page.wiki.id).first
-    end
-  end
 
   def parse_preview_data
     page = @wiki.find_page(wiki_page_title)
