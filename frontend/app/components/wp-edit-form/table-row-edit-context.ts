@@ -73,7 +73,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     return this.rowContainer.find(`.${tdClassName}.${fieldName}`).first();
   }
 
-  public async activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
+  public activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
     const deferred = this.$q.defer<WorkPackageEditFieldHandler>();
 
     this.waitForContainer(fieldName)
@@ -137,7 +137,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     }
   }
 
-  public async requireVisible(fieldName:string):Promise<any> {
+  public requireVisible(fieldName:string):Promise<any> {
     this.wpTableColumns.addColumn(fieldName);
     return this.waitForContainer(fieldName);
   }
@@ -152,7 +152,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
 
   // Ensure the given field is visible.
   // We may want to look into MutationObserver if we need this in several places.
-  private async waitForContainer(fieldName:string):Promise<JQuery> {
+  private waitForContainer(fieldName:string):Promise<JQuery> {
     const deferred = this.$q.defer<JQuery>();
 
     const interval = setInterval(() => {

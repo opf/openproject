@@ -40,7 +40,7 @@ export class ConfirmDialogService {
   /**
    * Confirm an action with an ng dialog with the given options
    */
-  public async confirm(options:ConfirmDialogOptions):Promise<void> {
+  public confirm(options:ConfirmDialogOptions):Promise<void> {
     return new Promise<void>((resolve, reject) => {
       const confirmModal = this.opModalService.show(ConfirmDialogModal, { options: options });
       confirmModal.closingEvent.subscribe((modal:ConfirmDialogModal) => {

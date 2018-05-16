@@ -124,8 +124,8 @@ export class WorkPackageChangeset {
     return this.changes.hasOwnProperty(key);
   }
 
-  public async getForm():Promise<FormResource> {
-    this.wpForm.putFromPromiseIfPristine(async () => {
+  public getForm():Promise<FormResource> {
+    this.wpForm.putFromPromiseIfPristine(() => {
       return this.updateForm();
     });
 
@@ -141,7 +141,7 @@ export class WorkPackageChangeset {
    * Update the form resource from the API.
    * @return {angular.IPromise<any>}
    */
-  public async updateForm():Promise<FormResource> {
+  public updateForm():Promise<FormResource> {
     let payload = this.buildPayloadFromChanges();
 
     return new Promise<FormResource>((resolve, reject) => {
@@ -160,7 +160,7 @@ export class WorkPackageChangeset {
     });
   }
 
-  public async save():Promise<WorkPackageResource> {
+  public save():Promise<WorkPackageResource> {
     this.inFlight = true;
     const wasNew = this.workPackage.isNew;
 

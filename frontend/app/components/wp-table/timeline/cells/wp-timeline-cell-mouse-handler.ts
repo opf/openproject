@@ -239,7 +239,7 @@ export function registerWorkPackageMouseHandler(this:void,
 
   }
 
-  async function saveWorkPackage(changeset:WorkPackageChangeset) {
+  function saveWorkPackage(changeset:WorkPackageChangeset) {
     const queryDm:QueryDmService = injector.get(QueryDmService);
     const states:States = injector.get(States);
 

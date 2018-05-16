@@ -42,8 +42,8 @@ import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/tabl
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 
-async function setupMocks(paginationService:PaginationService) {
-  sinon.stub(paginationService, 'loadPaginationOptions', async () => {
+function setupMocks(paginationService:PaginationService) {
+  sinon.stub(paginationService, 'loadPaginationOptions', () => {
     const options:IPaginationOptions = {
       perPage: 0,
       perPageOptions: [10, 100, 500, 1000],

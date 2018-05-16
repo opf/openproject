@@ -93,7 +93,7 @@ export class SaveQueryModal extends OpModalComponent {
 
     this.wpListService
       .create(query, this.queryName)
-      .then(async (savedQuery:QueryResource) => {
+      .then((savedQuery:QueryResource):Promise<any> => {
         if (this.isStarred && !savedQuery.starred) {
           return this.wpListService.toggleStarred(savedQuery).then(() => this.closeMe($event));
         }

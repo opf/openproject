@@ -35,7 +35,7 @@ import {WorkPackageLinkedResourceCache} from 'core-components/wp-single-view-tab
 @Injectable()
 export class WorkPackageWatchersService extends WorkPackageLinkedResourceCache<HalResource[]> {
 
-  protected async load(workPackage:WorkPackageResource) {
+  protected load(workPackage:WorkPackageResource) {
     return workPackage.watchers.$update()
       .then((collection:CollectionResource<HalResource>) => {
         return collection.elements;

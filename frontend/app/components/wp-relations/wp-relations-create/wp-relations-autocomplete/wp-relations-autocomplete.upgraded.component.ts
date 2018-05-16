@@ -97,7 +97,7 @@ export class WpRelationsAutocompleteComponent implements OnInit {
     }
   }
 
-  private async autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
+  private autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
     this.$element.find('.ui-autocomplete--loading').show();
 
     return this.workPackage.available_relation_candidates.$link.$fetch({

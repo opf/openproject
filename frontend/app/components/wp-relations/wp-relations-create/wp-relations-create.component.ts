@@ -50,7 +50,7 @@ export class WorkPackageRelationsCreateComponent {
     this.selectedWpId = workPackageId;
   }
 
-  protected async createCommonRelation() {
+  protected createCommonRelation() {
     return this.wpRelations.addCommonRelation(this.workPackage,
       this.selectedRelationType,
       this.selectedWpId)

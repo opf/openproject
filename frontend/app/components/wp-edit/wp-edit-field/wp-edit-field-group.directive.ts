@@ -152,7 +152,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     }
   }
 
-  public async waitForField(name:string):Promise<WorkPackageEditFieldComponent> {
+  public waitForField(name:string):Promise<WorkPackageEditFieldComponent> {
     return this.registeredFields
       .values$()
       .pipe(
@@ -164,14 +164,14 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   }
 
   public start() {
-    _.each(this.fields, async ctrl => this.form.activate(ctrl.fieldName));
+    _.each(this.fields, ctrl => this.form.activate(ctrl.fieldName));
   }
 
   public stop() {
     this.wpEditing.stopEditing(this.workPackage.id);
   }
 
-  public async saveWorkPackage() {
+  public saveWorkPackage() {
     const isInitial = this.workPackage.isNew;
     return this.form
       .submit()

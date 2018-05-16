@@ -178,7 +178,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
     return jQuery(li);
   }
 
-  public async autocompleteWatchers(query:string):Promise<any> {
+  public autocompleteWatchers(query:string):Promise<any> {
     let payload:any = {sortBy: JSON.stringify([['name', 'asc']])};
 
     if (query && query.length > 0) {

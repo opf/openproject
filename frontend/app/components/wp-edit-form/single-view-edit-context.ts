@@ -118,7 +118,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     this.fieldGroup.onSaved(isInitial, savedWorkPackage);
   }
 
-  public async requireVisible(fieldName:string):Promise<void> {
+  public requireVisible(fieldName:string):Promise<void> {
     return new Promise<void>((resolve, ) => {
       const interval = setInterval(() => {
         const field = this.fieldGroup.fields[fieldName];
@@ -135,7 +135,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     return 'subject';
   }
 
-  private async fieldCtrl(name:string):Promise<WorkPackageEditFieldComponent> {
+  private fieldCtrl(name:string):Promise<WorkPackageEditFieldComponent> {
     return this.fieldGroup.waitForField(name);
   }
 }

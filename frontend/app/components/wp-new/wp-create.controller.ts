@@ -129,7 +129,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
     this.titleService.setFirstPart(this.I18n.t('js.work_packages.create.title'));
   }
 
-  protected async newWorkPackageFromParams(stateParams:any):Promise<WorkPackageChangeset> {
+  protected newWorkPackageFromParams(stateParams:any):Promise<WorkPackageChangeset> {
     const type = parseInt(stateParams.type);
 
     // If there is an open edit for this type, continue it
@@ -146,7 +146,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
       }
     }
 
-    return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type).then(async changeset => {
+    return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type).then(changeset => {
       const filter = new WorkPackageFilterValues(changeset, this.wpTableFilters.current, ['type']);
       return filter.applyDefaultsFromFilters().then(() => changeset);
     });

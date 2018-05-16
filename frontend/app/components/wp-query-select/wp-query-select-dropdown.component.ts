@@ -84,7 +84,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit {
     });
   }
 
-  private async loadQueries() {
+  private loadQueries() {
     return this.QueryDm.all(this.$state.params['projectPath']);
   }
 
