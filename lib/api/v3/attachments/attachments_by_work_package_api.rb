@@ -33,66 +33,20 @@ module API
     module Attachments
       class AttachmentsByWorkPackageAPI < ::API::OpenProjectAPI
         resources :attachments do
+          helpers API::V3::Attachments::AttachmentsByContainerAPI::Helpers
+
           helpers do
-            # Global helper to set allowed content_types
-            # This may be overriden when multipart is allowed (file uploads)
-            def allowed_content_types
-              %w(multipart/form-data)
+            def container
+              @work_package
             end
 
-            def parse_metadata(json)
-              return nil unless json
-
-              metadata = OpenStruct.new
-              ::API::V3::Attachments::AttachmentMetadataRepresenter.new(metadata).from_json(json)
-
-              unless metadata.file_name
-                raise ::API::Errors::Validation.new(
-                  :file_name,
-                  "fileName #{I18n.t('activerecord.errors.messages.blank')}.")
-              end
-
-              metadata
+            def get_attachment_self_path
+              api_v3_paths.attachments_by_work_package(container.id)
             end
           end
 
-          get do
-            self_path = api_v3_paths.attachments_by_work_package(@work_package.id)
-            attachments = @work_package.attachments
-            AttachmentCollectionRepresenter.new(attachments,
-                                                self_path,
-                                                current_user: current_user)
-          end
-
-          post do
-            authorize_any [:edit_work_packages, :add_work_packages], projects: @work_package.project
-
-            metadata = parse_metadata params[:metadata]
-            file = params[:file]
-
-            unless metadata && file
-              raise ::API::Errors::InvalidRequestBody.new(
-                I18n.t('api_v3.errors.multipart_body_error'))
-            end
-
-            uploaded_file = OpenProject::Files.build_uploaded_file file[:tempfile],
-                                                                   file[:type],
-                                                                   file_name: metadata.file_name
-
-            begin
-              service = AddAttachmentService.new(@work_package, author: current_user)
-              attachment = service.add_attachment uploaded_file: uploaded_file,
-                                                  description: metadata.description
-            rescue ActiveRecord::RecordInvalid => error
-              raise ::API::Errors::ErrorBase.create_and_merge_errors(error.record.errors)
-            rescue => e
-              Rails.logger.error "Failed to save attachment on #{@work_package.id}: #{e.class} - #{e.message}"
-              raise ::API::Errors::InternalError.new(I18n.t('api_v3.errors.unable_to_create_attachment'))
-            end
-
-            ::API::V3::Attachments::AttachmentRepresenter.new(attachment,
-                                                              current_user: current_user)
-          end
+          get &API::V3::Attachments::AttachmentsByContainerAPI.read
+          post &API::V3::Attachments::AttachmentsByContainerAPI.create(%i[edit_work_packages add_work_packages])
         end
       end
     end

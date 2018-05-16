@@ -33,14 +33,17 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) {
+  let(:current_user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-  }
+  end
   let(:project) { FactoryBot.create(:project, is_public: false) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_work_packages] }
+  let(:permissions) { %i[view_work_packages view_wiki_pages edit_work_packages edit_wiki_pages] }
   let(:work_package) { FactoryBot.create(:work_package, author: current_user, project: project) }
-  let(:attachment) { FactoryBot.create(:attachment, container: work_package) }
+  let(:attachment) { FactoryBot.create(:attachment, container: container) }
+  let(:wiki) { FactoryBot.create(:wiki, project: project) }
+  let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki) }
+  let(:container) { work_package }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -50,32 +53,40 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
     subject(:response) { last_response }
     let(:get_path) { api_v3_paths.attachment attachment.id }
 
-    context 'logged in user' do
-      before do
-        get get_path
-      end
+    %i[wiki_page work_package].each do |attachment_type|
+      let(:container) { send(attachment_type) }
 
-      it 'should respond with 200' do
-        expect(subject.status).to eq(200)
-      end
+      context "with a #{attachment_type} attachment" do
+        context 'logged in user' do
+          before do
+            get get_path
+          end
 
-      it 'should respond with correct attachment' do
-        expect(subject.body).to be_json_eql(attachment.filename.to_json).at_path('fileName')
-      end
+          it 'should respond with 200' do
+            expect(subject.status).to eq(200)
+          end
 
-      context 'requesting nonexistent attachment' do
-        let(:get_path) { api_v3_paths.attachment 9999 }
+          it 'should respond with correct attachment' do
+            expect(subject.body).to be_json_eql(attachment.filename.to_json).at_path('fileName')
+          end
 
-        it_behaves_like 'not found' do
-          let(:id) { 9999 }
-          let(:type) { 'Attachment' }
+          context 'requesting nonexistent attachment' do
+            let(:get_path) { api_v3_paths.attachment 9999 }
+
+            it_behaves_like 'not found' do
+              let(:id) { 9999 }
+              let(:type) { 'Attachment' }
+            end
+          end
+
+          context 'requesting attachments without sufficient permissions' do
+            let(:permissions) { [] }
+
+            it_behaves_like 'not found' do
+              let(:type) { 'Attachment' }
+            end
+          end
         end
-      end
-
-      context 'requesting attachments without sufficient permissions' do
-        let(:permissions) { [] }
-
-        it_behaves_like 'unauthorized access'
       end
     end
   end
@@ -89,36 +100,38 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
 
     subject(:response) { last_response }
 
-    context 'with required permissions' do
-      let(:permissions) { [:view_work_packages, :edit_work_packages] }
+    %i[wiki_page work_package].each do |attachment_type|
+      let(:container) { send(attachment_type) }
 
-      it 'responds with HTTP No Content' do
-        expect(subject.status).to eq 204
-      end
+      context 'with required permissions' do
+        it 'responds with HTTP No Content' do
+          expect(subject.status).to eq 204
+        end
 
-      it 'deletes the attachment' do
-        expect(Attachment.exists?(attachment.id)).not_to be_truthy
-      end
+        it 'deletes the attachment' do
+          expect(Attachment.exists?(attachment.id)).not_to be_truthy
+        end
 
-      context 'for a non-existent attachment' do
-        let(:path) { api_v3_paths.attachment 1337 }
+        context 'for a non-existent attachment' do
+          let(:path) { api_v3_paths.attachment 1337 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 1337 }
-          let(:type) { 'Attachment' }
+          it_behaves_like 'not found' do
+            let(:id) { 1337 }
+            let(:type) { 'Attachment' }
+          end
         end
       end
-    end
 
-    context 'without required permissions' do
-      let(:permissions) { [:view_work_packages] }
+      context 'without required permissions' do
+        let(:permissions) { %i[view_work_packages view_wiki_pages] }
 
-      it 'responds with 403' do
-        expect(subject.status).to eq 403
-      end
+        it 'responds with 403' do
+          expect(subject.status).to eq 403
+        end
 
-      it 'does not delete the attachment' do
-        expect(Attachment.exists?(attachment.id)).to be_truthy
+        it 'does not delete the attachment' do
+          expect(Attachment.exists?(attachment.id)).to be_truthy
+        end
       end
     end
   end

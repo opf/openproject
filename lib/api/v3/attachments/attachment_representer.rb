@@ -44,11 +44,42 @@ module API
                             v3_path: :user,
                             representer: ::API::V3::Users::UserRepresenter
 
-        # implementation is currently work_package specific
+        def self.associated_container_getter
+          ->(*) do
+            next unless embed_links
+
+            representer = case represented.container
+                          when WorkPackage
+                            ::API::V3::WorkPackages::WorkPackageRepresenter
+                          when WikiPage
+                            ::API::V3::WikiPages::WikiPageRepresenter
+                          end
+
+            representer.new(represented.container, current_user: current_user)
+          end
+        end
+
+        def self.associated_container_link
+          ->(*) do
+            path, title_attribute = case represented.container
+                                    when WorkPackage
+                                      %i[work_package subject]
+                                    when WikiPage
+                                      %i[wiki_page title]
+                                    end
+
+            ::API::Decorators::LinkObject
+              .new(represented,
+                   path: path,
+                   property_name: :container,
+                   title_attribute: title_attribute)
+              .to_hash
+          end
+        end
+
         associated_resource :container,
-                            v3_path: :work_package,
-                            representer: ::API::V3::WorkPackages::WorkPackageRepresenter,
-                            link_title_attribute: :subject
+                            getter: associated_container_getter,
+                            link: associated_container_link
 
         link :downloadLocation do
           {
@@ -58,7 +89,7 @@ module API
 
         # visibility of this link is also work_package specific!
         link :delete,
-             cache_if: -> { current_user_allowed_to(:edit_work_packages, context: represented.container.project) } do
+             cache_if: -> { represented.deletable?(current_user) } do
           {
             href: api_v3_paths.attachment(represented.id),
             method: :delete

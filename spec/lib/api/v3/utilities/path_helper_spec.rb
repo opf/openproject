@@ -92,6 +92,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/work_packages/1/attachments'
   end
 
+  describe '#attachments_by_wiki_page' do
+    subject { helper.attachments_by_wiki_page 1 }
+
+    it_behaves_like 'api v3 path', '/wiki_pages/1/attachments'
+  end
+
   describe '#available_assignees' do
     subject { helper.available_assignees 42 }
 
@@ -558,6 +564,14 @@ describe ::API::V3::Utilities::PathHelper do
     subject { helper.work_packages_by_project 42 }
 
     it_behaves_like 'api v3 path', '/projects/42/work_packages'
+  end
+
+  describe 'wiki pages paths' do
+    describe '#wiki_page' do
+      subject { helper.wiki_page 1 }
+
+      it_behaves_like 'api v3 path', '/wiki_pages/1'
+    end
   end
 
   describe 'work packages paths' do

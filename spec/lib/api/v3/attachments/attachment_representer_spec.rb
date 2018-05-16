@@ -40,14 +40,14 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   let(:container) { FactoryBot.build_stubbed(:stubbed_work_package) }
   let(:attachment) do
     FactoryBot.build_stubbed(:attachment,
-                              container: container,
-                              created_on: DateTime.now) do |attachment|
+                             container: container,
+                             created_on: DateTime.now) do |attachment|
       allow(attachment)
-       .to receive(:filename)
-       .and_return('some_file_of_mine.txt')
+        .to receive(:filename)
+        .and_return('some_file_of_mine.txt')
     end
   end
-  
+
   let(:representer) do
     ::API::V3::Attachments::AttachmentRepresenter.new(attachment, current_user: current_user)
   end
@@ -90,10 +90,22 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
       let(:title) { attachment.filename }
     end
 
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'container' }
-      let(:href) { api_v3_paths.work_package(attachment.container.id) }
-      let(:title) { attachment.container.subject }
+    context 'for a work package container' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'container' }
+        let(:href) { api_v3_paths.work_package(container.id) }
+        let(:title) { container.subject }
+      end
+    end
+
+    context 'for a wiki page container' do
+      let(:container) { FactoryBot.build_stubbed(:wiki_page) }
+
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'container' }
+        let(:href) { api_v3_paths.wiki_page(container.id) }
+        let(:title) { container.title }
+      end
     end
 
     it_behaves_like 'has a titled link' do

@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,34 +28,43 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/attachments/attachment_representer'
-
 module API
   module V3
-    module Attachments
-      class AttachmentsAPI < ::API::OpenProjectAPI
-        resources :attachments do
-          params do
-            requires :id, desc: 'Attachment id'
-          end
-          route_param :id do
-            before do
-              @attachment = Attachment.find(params[:id])
+    module WikiPages
+      class WikiPageRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
 
-              raise ::API::Errors::NotFound.new unless @attachment.visible?(current_user)
-            end
+        self_link title_getter: ->(*) { nil }
 
-            get do
-              AttachmentRepresenter.new(@attachment, embed_links: true, current_user: current_user)
-            end
+        link :attachments do
+          {
+            href: api_v3_paths.attachments_by_wiki_page(represented.id)
+          }
+        end
 
-            delete do
-              raise API::Errors::Unauthorized unless @attachment.deletable?(current_user)
+        link :addAttachment do
+          next unless current_user_allowed_to(:edit_wiki_pages, context: represented.project)
 
-              @attachment.container.attachments.delete(@attachment)
-              status 204
-            end
-          end
+          {
+            href: api_v3_paths.attachments_by_wiki_page(represented.id),
+            method: :post
+          }
+        end
+
+        property :id
+
+        property :title
+
+        associated_resource :project,
+                            link: ->(*) do
+                              {
+                                href: api_v3_paths.project(represented.project.id),
+                                title: represented.project.name
+                              }
+                            end
+
+        def _type
+          'WikiPage'
         end
       end
     end

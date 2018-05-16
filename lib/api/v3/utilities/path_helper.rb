@@ -63,6 +63,10 @@ module API
             "#{work_package(id)}/attachments"
           end
 
+          def self.attachments_by_wiki_page(id)
+            "#{wiki_page(id)}/attachments"
+          end
+
           def self.available_assignees(project_id)
             "#{project(project_id)}/available_assignees"
           end
@@ -349,6 +353,10 @@ module API
 
           def self.watcher(id, work_package_id)
             "#{work_package_watchers(work_package_id)}/#{id}"
+          end
+
+          def self.wiki_page(id)
+            "#{root}/wiki_pages/#{id}"
           end
 
           def self.work_packages

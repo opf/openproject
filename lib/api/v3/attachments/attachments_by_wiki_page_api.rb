@@ -26,34 +26,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/attachments/attachment_representer'
-
 module API
   module V3
     module Attachments
-      class AttachmentsAPI < ::API::OpenProjectAPI
+      class AttachmentsByWikiPageAPI < ::API::OpenProjectAPI
         resources :attachments do
-          params do
-            requires :id, desc: 'Attachment id'
-          end
-          route_param :id do
-            before do
-              @attachment = Attachment.find(params[:id])
+          helpers API::V3::Attachments::AttachmentsByContainerAPI::Helpers
 
-              raise ::API::Errors::NotFound.new unless @attachment.visible?(current_user)
+          helpers do
+            def container
+              wiki_page
             end
 
-            get do
-              AttachmentRepresenter.new(@attachment, embed_links: true, current_user: current_user)
-            end
-
-            delete do
-              raise API::Errors::Unauthorized unless @attachment.deletable?(current_user)
-
-              @attachment.container.attachments.delete(@attachment)
-              status 204
+            def get_attachment_self_path
+              api_v3_paths.attachments_by_wiki_page(container.id)
             end
           end
+
+          get &API::V3::Attachments::AttachmentsByContainerAPI.read
+          post &API::V3::Attachments::AttachmentsByContainerAPI.create([:edit_wiki_pages])
         end
       end
     end

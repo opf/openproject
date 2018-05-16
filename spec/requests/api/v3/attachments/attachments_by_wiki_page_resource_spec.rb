@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Attachments by work package resource', type: :request do
+describe 'API v3 Attachments by wiki page resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
   include FileHelpers
@@ -39,10 +39,11 @@ describe 'API v3 Attachments by work package resource', type: :request do
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:project) { FactoryBot.create(:project) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_work_packages] }
-  let(:work_package) { FactoryBot.create(:work_package, author: current_user, project: project) }
+  let(:permissions) { [:view_wiki_pages] }
+  let(:wiki) { FactoryBot.create(:wiki, project: project) }
+  let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki) }
 
   subject(:response) { last_response }
 
@@ -51,10 +52,10 @@ describe 'API v3 Attachments by work package resource', type: :request do
   end
 
   describe '#get' do
-    let(:get_path) { api_v3_paths.attachments_by_work_package work_package.id }
+    let(:get_path) { api_v3_paths.attachments_by_wiki_page wiki_page.id }
 
     before do
-      FactoryBot.create_list(:attachment, 2, container: work_package)
+      FactoryBot.create_list(:attachment, 2, container: wiki_page)
       get get_path
     end
 
@@ -66,9 +67,9 @@ describe 'API v3 Attachments by work package resource', type: :request do
   end
 
   describe '#post' do
-    let(:permissions) { %i[view_work_packages edit_work_packages] }
+    let(:permissions) { %i[view_wiki_pages edit_wiki_pages] }
 
-    let(:request_path) { api_v3_paths.attachments_by_work_package work_package.id }
+    let(:request_path) { api_v3_paths.attachments_by_wiki_page wiki_page.id }
     let(:request_parts) { { metadata: metadata, file: file } }
     let(:metadata) { { fileName: 'cat.png' }.to_json }
     let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
@@ -130,16 +131,8 @@ describe 'API v3 Attachments by work package resource', type: :request do
       end
     end
 
-    context 'only allowed to add work packages, but no edit permission' do
-      let(:permissions) { %i[view_work_packages add_work_packages] }
-
-      it 'should respond with HTTP Created' do
-        expect(subject.status).to eq(201)
-      end
-    end
-
-    context 'only allowed to view work packages' do
-      let(:permissions) { [:view_work_packages] }
+    context 'only allowed to view wiki pages' do
+      let(:permissions) { [:view_wiki_pages] }
 
       it_behaves_like 'unauthorized access'
     end
