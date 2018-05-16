@@ -43,7 +43,7 @@ OpenProject supports the latest versions of the major browsers. In our
 strive to make OpenProject easy and fun to use we had to drop support
 for some older browsers (e.g. IE 11).
 
-* [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/)
+* [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (At least ESR version 60)
 * [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge)
 * [Google Chrome](https://www.google.com/chrome/browser/desktop/)
 
