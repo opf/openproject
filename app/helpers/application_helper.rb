@@ -611,10 +611,10 @@ module ApplicationHelper
                               'aria-hidden': true,
                               class: 'tree-menu--hierarchy-indicator-icon')
     icon_spans << content_tag(:span,
-                              t(:label_expanded_click_to_collapse),
+                              ::I18n.t(:label_expanded_click_to_collapse),
                               class: 'tree-menu--hierarchy-indicator-expanded hidden-for-sighted')
     icon_spans << content_tag(:span,
-                              t(:label_collapsed_click_to_show),
+                              ::I18n.t(:label_collapsed_click_to_show),
                               class: 'tree-menu--hierarchy-indicator-collapsed hidden-for-sighted')
     content_tag(:a,
                 icon_spans.join.html_safe,

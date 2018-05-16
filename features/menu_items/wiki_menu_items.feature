@@ -113,7 +113,7 @@ Feature: Wiki menu items
     And I click on "Configure menu item"
     And I choose "Do not show this wikipage in project navigation"
     And I press "Save"
-    Then I should not see "Wiki" within "#main-menu"
+    Then I should not see "Wiki" within ".main-menu .menu-children > li:not(.partial)"
 
   @javascript
   Scenario: When I delete the last wiki page with a menu item I can select a new menu item and the menu item is replaced
@@ -128,5 +128,5 @@ Feature: Wiki menu items
     And I press "Save"
     And I select "Wiki" from "main-menu-item-select"
     And I press "Save"
-    Then I should not see "AwesomePage" within "#main-menu"
-    Then I should see "Wiki" within "#main-menu"
+    Then I should not see "AwesomePage" within ".main-menu .menu-children > li:not(.partial)"
+    Then I should see "Wiki" within ".main-menu .children-menu-header"

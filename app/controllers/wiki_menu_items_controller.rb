@@ -42,7 +42,7 @@ class WikiMenuItemsController < ApplicationController
   end
 
   current_menu_item :select_main_menu_item do |controller|
-    next controller.wiki_menu_item.menu_identifier if controller.wiki_menu_item.persisted?
+    next controller.wiki_menu_item.menu_identifier if controller.wiki_menu_item.try(:persisted?)
 
     if (page = WikiPage.find_by(id: controller.params[:id]))
       default_menu_item(controller, page)
