@@ -41,8 +41,14 @@ export class EditField extends Field {
     this.initialize();
   }
 
-  public onSubmit() {
+  /**
+   * Called when the edit field is open and ready
+   * @param {HTMLElement} container
+   */
+  public $onInit(container:HTMLElement) {
+  }
 
+  public onSubmit() {
   }
 
   public get inFlight() {

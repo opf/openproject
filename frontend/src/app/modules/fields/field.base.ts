@@ -42,8 +42,6 @@ export class Field {
   public static type:string;
   public static $injector:Injector;
 
-  public $onInit(container:HTMLElement) {}
-
   public get displayName():string {
     return this.schema.name || this.name;
   }

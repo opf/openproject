@@ -59,7 +59,10 @@ export class WorkPackageEditingPortalService {
         take(1)
       )
       .toPromise()
-      .then(() => fieldHandler);
+      .then(() => {
+        field.$onInit(container);
+        return fieldHandler;
+      });
   }
 
   /**

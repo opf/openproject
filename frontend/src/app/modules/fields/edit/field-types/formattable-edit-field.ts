@@ -65,8 +65,6 @@ export class FormattableEditField extends EditField {
   protected initialize() {
     const configurationService:ConfigurationService = this.$injector.get(ConfigurationService);
     this.wysiwig = configurationService.textFormat() === 'markdown' && configurationService.useWysiwyg();
-
-
   }
 
   public get component() {
