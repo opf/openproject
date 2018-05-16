@@ -32,7 +32,7 @@ import {AttachmentCollectionResource} from 'core-app/modules/hal/resources/attac
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {UploadFile} from 'core-components/api/op-file-upload/op-file-upload.service';
+import {OpenProjectFileUploadService, UploadFile} from 'core-components/api/op-file-upload/op-file-upload.service';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {States} from 'core-components/states.service';
 import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
@@ -230,9 +230,10 @@ export class WorkPackageResource extends HalResource {
     const notification = this.NotificationsService.addWorkPackageUpload(message, uploads);
 
     return finished
-      .then(() => {
+      .then((result:any[]) => {
         setTimeout(() => this.NotificationsService.remove(notification), 700);
-        return this.updateAttachments();
+        this.updateAttachments();
+        return result.map(el => { return { response: el.data, uploadUrl: el.data._links.downloadLocation.href }; });
       })
       .catch((error:any) => {
         this.wpNotificationsService.handleRawError(error, this as any);
@@ -242,7 +243,7 @@ export class WorkPackageResource extends HalResource {
   private performUpload(files:UploadFile[]) {
     const href = this.attachments.$href!;
     // TODO upgrade
-    const opFileUpload:any = angular.element('body').injector().get('opFileUpload');
+    const opFileUpload:OpenProjectFileUploadService = angular.element('body').injector().get('opFileUpload');
 
     return opFileUpload.upload(href, files);
   }
