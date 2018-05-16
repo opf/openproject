@@ -43,6 +43,7 @@ import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-fi
 import {WorkPackageCreateService} from './wp-create.service';
 import {takeUntil} from 'rxjs/operators';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
+import {OpTitleService} from 'core-components/html/op-title.service';
 
 
 export class WorkPackageCreateController implements OnInit, OnDestroy {
@@ -59,6 +60,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   constructor(readonly $transition:Transition,
               @Inject($stateToken) readonly $state:StateService,
               @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly titleService:OpTitleService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected states:States,
               protected wpCreate:WorkPackageCreateService,
@@ -76,6 +78,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
         this.changeset = changeset;
         this.newWorkPackage = changeset.workPackage;
 
+        this.setTitle();
 
         this.wpCacheService.updateWorkPackage(this.newWorkPackage);
         this.wpEditing.updateValue('new', changeset);
@@ -120,6 +123,10 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
 
   public switchToFullscreen() {
     this.$state.go('work-packages.new', this.$state.params);
+  }
+
+  protected setTitle() {
+    this.titleService.setFirstPart(this.I18n.t('js.work_packages.create.title'));
   }
 
   protected async newWorkPackageFromParams(stateParams:any):Promise<WorkPackageChangeset> {

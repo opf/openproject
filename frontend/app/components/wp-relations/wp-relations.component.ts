@@ -26,23 +26,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {StateService} from '@uirouter/core';
 import {Observable} from 'rxjs/Observable';
 import {zip} from 'rxjs/observable/zip';
-import {take} from 'rxjs/operators';
-import {wpDirectivesModule} from '../../angular-modules';
-import {scopedObservable} from '../../helpers/angular-rx-utils';
+import {take, takeUntil} from 'rxjs/operators';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {RelatedWorkPackagesGroup} from './wp-relations.interfaces';
 import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.service';
+import {Component, Inject, Input, OnDestroy, OnInit} from "@angular/core";
+import {I18nToken} from "core-app/angular4-transition-utils";
+import {componentDestroyed} from "ng2-rx-componentdestroyed";
 
 
-export class WorkPackageRelationsController {
-  public relationGroups:RelatedWorkPackagesGroup;
+@Component({
+  selector: 'wp-relations',
+  template: require('!!raw-loader!./wp-relations.template.html')
+})
+export class WorkPackageRelationsComponent implements OnInit, OnDestroy {
+  @Input() public workPackage:WorkPackageResource;
+  public relationGroups:RelatedWorkPackagesGroup = {};
+  public relationGroupKeys:string[] = [];
   public relationsPresent:boolean = false;
-  public workPackage:WorkPackageResource;
   public canAddRelation:boolean;
 
   // By default, group by relation type
@@ -53,19 +58,19 @@ export class WorkPackageRelationsController {
   };
   public currentRelations:WorkPackageResource[] = [];
 
-  constructor(protected $scope:ng.IScope,
-              protected $q:ng.IQService,
-              protected $state:StateService,
-              protected I18n:op.I18n,
-              protected wpRelations:WorkPackageRelationsService,
-              protected wpCacheService:WorkPackageCacheService) {
+  constructor(
+    @Inject(I18nToken) readonly I18n:op.I18n,
+    readonly wpRelations:WorkPackageRelationsService,
+    readonly wpCacheService:WorkPackageCacheService) {
   }
 
-  $onInit() {
+  ngOnInit() {
     this.canAddRelation = !!this.workPackage.addRelation;
 
-    scopedObservable(this.$scope,
-      this.wpRelations.state(this.workPackage.id).values$())
+    this.wpRelations.state(this.workPackage.id).values$()
+      .pipe(
+        takeUntil(componentDestroyed(this))
+      )
       .subscribe((relations:RelationsStateValue) => {
         this.loadedRelations(relations);
       });
@@ -73,16 +78,22 @@ export class WorkPackageRelationsController {
     this.wpRelations.require(this.workPackage.id);
 
     // Listen for changes to this WP.
-    scopedObservable(this.$scope,
-      this.wpCacheService.loadWorkPackage(this.workPackage.id).values$())
+    this.wpCacheService.loadWorkPackage(this.workPackage.id).values$()
+      .pipe(
+        takeUntil(componentDestroyed(this))
+      )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
       });
   }
 
+  ngOnDestroy() {
+    // Nothing to do, interface compliance.
+  }
+
   private getRelatedWorkPackages(workPackageIds:string[]):Observable<WorkPackageResource[]> {
     let observablesToGetZipped:Observable<WorkPackageResource>[] = workPackageIds.map(wpId => {
-      return scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(wpId).values$());
+      return this.wpCacheService.loadWorkPackage(wpId).values$();
     });
 
     return zip(...observablesToGetZipped);
@@ -112,6 +123,7 @@ export class WorkPackageRelationsController {
           return this.I18n.t('js.relation_labels.' + normalizedType);
         }
       });
+    this.relationGroupKeys = _.keys(this.relationGroups);
     this.relationsPresent = _.size(this.relationGroups) > 0;
   }
 
@@ -144,20 +156,3 @@ export class WorkPackageRelationsController {
       });
   }
 }
-
-function wpRelationsDirective():any {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-relations/wp-relations.template.html',
-
-    scope: {
-      workPackage: '='
-    },
-
-    controller: WorkPackageRelationsController,
-    controllerAs: '$ctrl',
-    bindToController: true
-  };
-}
-
-wpDirectivesModule.directive('wpRelations', wpRelationsDirective);

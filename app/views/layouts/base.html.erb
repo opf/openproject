@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width">
-    <%= display_meta_tags site: Setting.app_title, title: html_title %>
+    <%= output_title_and_meta_tags %>
 
     <meta name="app_base_path" content="<%= OpenProject::Configuration['rails_relative_url_root'] || '' %>" />
     <% if @project %>

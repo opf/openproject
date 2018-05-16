@@ -95,6 +95,12 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
     // Load initial query
     this.loadQuery();
 
+    // Reload results on refresh requests
+    this.tableState.refreshRequired
+      .values$()
+      .pipe(untilComponentDestroyed(this))
+      .subscribe(async () => this.refresh());
+
     // Reload results on changes to pagination
     this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
       'Query loaded').values$().pipe(
@@ -126,6 +132,8 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
 
     if (this.configuration.projectContext) {
       identifier = this.currentProject.identifier;
+    } else {
+      identifier = this.configuration.projectIdentifier;
     }
 
     return identifier || undefined;
@@ -188,5 +196,5 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
 // TODO: remove as this should also work by angular2 only
 opUiComponentsModule.directive(
   'wpEmbeddedTable',
-  downgradeComponent({ component: WorkPackageEmbeddedTableComponent })
+  downgradeComponent({component: WorkPackageEmbeddedTableComponent})
 );

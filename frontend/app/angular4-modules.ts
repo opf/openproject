@@ -48,7 +48,7 @@ import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-ta
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
-import {WorkPackageInlineCreateComponent,} from 'core-components/wp-inline-create/wp-inline-create.component';
+import {WorkPackageInlineCreateComponent} from 'core-components/wp-inline-create/wp-inline-create.component';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WpResizerDirective} from 'core-components/resizer/wp-resizer.component';
 import {MainMenuResizerDirective} from 'core-components/resizer/main-menu-resizer.component';
@@ -74,7 +74,8 @@ import {
   I18nToken,
   TextileServiceToken,
   upgradeService,
-  upgradeServiceWithToken, WorkPackageServiceToken,
+  upgradeServiceWithToken,
+  WorkPackageServiceToken,
   wpMoreMenuServiceToken
 } from './angular4-transition-utils';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
@@ -130,7 +131,6 @@ import {WorkPackagesFullViewComponent} from 'core-components/routing/wp-full-vie
 import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
 import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
 import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
-import {Ng1RelationsDirectiveWrapper} from 'core-components/wp-relations/ng1-wp-relations-wrapper.directive';
 import {WorkPackageWatcherEntryComponent} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watcher-entry.component';
 import {WorkPackageNewFullViewComponent} from 'core-components/wp-new/wp-new-full-view.component';
 import {WorkPackageTypeStatusComponent} from 'core-components/work-packages/wp-type-status/wp-type-status.component';
@@ -165,7 +165,6 @@ import {WorkPackageEditFieldService} from 'core-components/wp-edit/wp-edit-field
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
 import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
-import {Ng1RelationsCreateWrapper} from 'core-components/wp-relations/wp-relations-create/ng1-wp-relations-create.directive';
 import {WpRelationsAutocompleteComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.upgraded.component';
 import {WpRelationAddChildComponent} from 'core-components/wp-relations/wp-relation-add-child/wp-relation-add-child';
 import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relations-parent/wp-relations-parent.component';
@@ -221,6 +220,12 @@ import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy
 import {FocusWithinDirective} from "core-components/common/focus/focus-within.upgraded.directive";
 import {AccessibleClickDirective} from "core-components/a11y/accessible-click.directive";
 import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp-relation-children/wp-children-query.component';
+import {OpTitleService} from 'core-components/html/op-title.service';
+import {WorkPackageRelationsComponent} from "core-components/wp-relations/wp-relations.component";
+import {WorkPackageRelationsGroupComponent,} from "core-components/wp-relations/wp-relations-group/wp-relations-group.component";
+import {WorkPackageRelationRowComponent} from "core-components/wp-relations/wp-relation-row/wp-relation-row.component";
+import {Ng1FieldControlsWrapper} from "core-components/wp-edit/field-controls/wp-edit-field-controls-ng1-wrapper";
+import {WorkPackageRelationsCreateComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-create.component";
 
 @NgModule({
   imports: [
@@ -250,8 +255,9 @@ import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp
     FocusHelperService,
     PathHelperService,
     upgradeServiceWithToken('wpMoreMenuService', wpMoreMenuServiceToken),
+    OpTitleService,
     TimezoneService,
-    upgradeService('wpRelations', WorkPackageRelationsService),
+    WorkPackageRelationsService,
     UrlParamsHelperService,
     WorkPackageCacheService,
     WorkPackageEditingService,
@@ -398,8 +404,11 @@ import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp
 
     // Relations Tab
     WorkPackageRelationsTabComponent,
-    Ng1RelationsDirectiveWrapper,
-    Ng1RelationsCreateWrapper,
+    WorkPackageRelationsComponent,
+    WorkPackageRelationsGroupComponent,
+    WorkPackageRelationRowComponent,
+    WorkPackageRelationsCreateComponent,
+    Ng1FieldControlsWrapper,
     WorkPackageRelationsHierarchyComponent,
     WpRelationsAutocompleteComponent,
     WpRelationAddChildComponent,

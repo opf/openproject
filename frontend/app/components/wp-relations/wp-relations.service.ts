@@ -6,6 +6,7 @@ import {StateCacheService} from '../states/state-cache.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.service';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {Injectable} from "@angular/core";
 
 export type RelationsStateValue = { [relationId:number]:RelationResource };
 
@@ -20,6 +21,7 @@ class RelationStateGroup extends StatesGroup {
   }
 }
 
+@Injectable()
 export class WorkPackageRelationsService extends StateCacheService<RelationsStateValue> {
 
   private relationStates:RelationStateGroup;
@@ -27,7 +29,6 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   /*@ngInject*/
   constructor(private relationsDm:RelationsDmService,
               private wpTableRefresh:WorkPackageTableRefreshService,
-              private $q:ng.IQService,
               private PathHelper:PathHelperService) {
     super();
     this.relationStates = new RelationStateGroup();
@@ -49,22 +50,21 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
           this.updateRelationsStateTo(id, elements);
           resolve(this.state(id).value!);
         })
-        .catch((error) => reject(error));
+        .catch(reject);
     });
   }
 
-  protected loadAll(ids:string[]) {
-    const deferred = this.$q.defer<undefined>();
-
-    this.relationsDm
-      .loadInvolved(ids)
-      .then((elements:RelationResource[]) => {
-        this.clearSome(...ids);
-        this.accumulateRelationsFromInvolved(ids, elements);
-        deferred.resolve();
-      });
-
-    return deferred.promise;
+  protected async loadAll(ids:string[]) {
+    return new Promise<undefined>((resolve, reject) => {
+      this.relationsDm
+        .loadInvolved(ids)
+        .then((elements:RelationResource[]) => {
+          this.clearSome(...ids);
+          this.accumulateRelationsFromInvolved(ids, elements);
+          resolve();
+        })
+        .catch(reject);
+    });
   }
 
   /**
@@ -95,7 +95,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     return this.updateRelation(relation, params);
   }
 
-  public async updateRelation(relation:RelationResource, params:{[key:string]: any}) {
+  public async updateRelation(relation:RelationResource, params:{[key:string]:any}) {
     return relation.updateImmediately(params)
       .then((savedRelation:RelationResource) => {
         this.insertIntoStates(savedRelation);
@@ -186,7 +186,4 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     });
 
   }
-
 }
-
-opServicesModule.service('wpRelations', WorkPackageRelationsService);
