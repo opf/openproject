@@ -224,7 +224,10 @@ jsToolBar.prototype = {
         }
       }
     }
-    this.toolbar.appendChild(this.help_link);
+
+    if (this.help_link !== '') {
+      this.toolbar.appendChild(this.help_link);
+    }
   },
 
   singleTag: function(stag,etag) {

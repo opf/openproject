@@ -129,6 +129,10 @@ export class ConfigurationService {
     return this.settings.display.text_format;
   }
 
+  public useWysiwyg() {
+    return this.settings.display.use_wysiwyg;
+  }
+
   public dateFormat()  {
     return this.settings.display.date_format;
   }
