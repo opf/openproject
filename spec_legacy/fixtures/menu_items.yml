@@ -27,14 +27,16 @@
 #++
 
 ---
-wiki_menu_item_001:
-  status: 1
-  start_page: CookBook documentation
-  project_id: 1
+menu_items_001:
   id: 1
-wiki_menu_item_002:
-  status: 1
-  start_page: Start page
-  project_id: 2
+  name: wiki
+  title: Wiki
+  type: MenuItems::WikiMenuItem
+  navigatable_id: 1
+menu_items_002:
   id: 2
+  name: wiki
+  title: Wiki
+  type: MenuItems::WikiMenuItem
+  navigatable_id: 2
 

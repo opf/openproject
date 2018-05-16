@@ -142,7 +142,7 @@ module ApplicationHelper
         content_tag :li do
           is_parent = pages[page.id]
           title = if options[:timestamp] && page.updated_on
-                    t(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on))
+                    l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on))
                   end
 
           item_classes = 'tree-menu--item'
