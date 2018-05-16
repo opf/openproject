@@ -1113,6 +1113,7 @@ en:
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
   label_collapse: "Collapse"
+  label_collapsed_click_to_show: "Collapsed. Click to show"
   label_configuration: configuration
   label_comment_add: "Add a comment"
   label_comment_added: "Comment added"
@@ -1185,6 +1186,7 @@ en:
   label_equals: "is"
   label_example: "Example"
   label_export_to: "Also available in:"
+  label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
   label_feed_plural: "Feeds"

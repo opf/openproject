@@ -150,12 +150,7 @@ module Redmine::MenuManager::MenuHelper
     if node.has_children? || !node.child_menus.nil?
       render_menu_node_with_children(node, project)
     else
-      caption, url, selected = extract_node_details(node, project)
-      if node.partial
-        content_tag('li', render(partial: node.partial), class: 'partial')
-      else
-        content_tag('li', render_single_menu_node(node, caption, url, selected))
-      end
+      render_single_node_or_partial(node, project)
     end
   end
 
@@ -284,6 +279,15 @@ module Redmine::MenuManager::MenuHelper
   end
 
   private
+
+  def render_single_node_or_partial(node, project)
+    if node.partial
+      content_tag('li', render(partial: node.partial), class: 'partial')
+    else
+      caption, url, selected = extract_node_details(node, project)
+      content_tag('li', render_single_menu_node(node, caption, url, selected))
+    end
+  end
 
   def node_selected?(item)
     current_menu_item == item.name ||

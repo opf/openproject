@@ -151,13 +151,9 @@ module ApplicationHelper
             item_classes += ' -selected'
           end
           item = content_tag(:span, class: item_classes) do
-            icon_spans = []
             hierarchy_span_content = nil
             if is_parent
-              icon_spans << content_tag(:span, '', 'aria-hidden': true, class: 'tree-menu--hierarchy-indicator-icon')
-              icon_spans << content_tag(:span, 'Expanded. Click to collapse', class: 'tree-menu--hierarchy-indicator-expanded hidden-for-sighted')
-              icon_spans << content_tag(:span, 'Collapsed. Click to show', class: 'tree-menu--hierarchy-indicator-collapsed hidden-for-sighted')
-              hierarchy_span_content = content_tag(:a, icon_spans.join.html_safe, tabindex: 0, role: 'button', class: 'tree-menu--hierarchy-indicator')
+              hierarchy_span_content = render_hierarchy_indicator_icons
             else
               hierarchy_span_content = content_tag(:span, tabindex: 0, class: 'tree-menu--leaf-indicator') do
                 content_tag(:span, 'Hierarchy leaf', class: 'hidden-for-sighted')
@@ -599,6 +595,25 @@ module ApplicationHelper
   end
 
   private
+
+  def render_hierarchy_indicator_icons
+    icon_spans = []
+    icon_spans << content_tag(:span,
+                              '',
+                              'aria-hidden': true,
+                              class: 'tree-menu--hierarchy-indicator-icon')
+    icon_spans << content_tag(:span,
+                              t(:label_expanded_click_to_collapse),
+                              class: 'tree-menu--hierarchy-indicator-expanded hidden-for-sighted')
+    icon_spans << content_tag(:span,
+                              t(:label_collapsed_click_to_show),
+                              class: 'tree-menu--hierarchy-indicator-collapsed hidden-for-sighted')
+    content_tag(:a,
+                icon_spans.join.html_safe,
+                tabindex: 0,
+                role: 'button',
+                class: 'tree-menu--hierarchy-indicator')
+  end
 
   def translate_language(lang_code)
     # rename in-context translation language name for the language select box

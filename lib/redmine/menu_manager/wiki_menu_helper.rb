@@ -44,8 +44,6 @@ module Redmine::MenuManager::WikiMenuHelper
   end
 
   def push_wiki_main_menu(menu, main_item, project)
-    entry_item_identifier = "entry-item-#{main_item.menu_identifier.to_s}".to_sym
-
     menu.push main_item.menu_identifier,
               { controller: '/wiki', action: 'show', id: main_item.slug },
               param: :project_id,
@@ -54,22 +52,12 @@ module Redmine::MenuManager::WikiMenuHelper
               icon: 'icon2 icon-wiki',
               html:    { class: 'wiki-menu--main-item' }
 
-
-    menu.push entry_item_identifier,
-              { controller: '/wiki', action: 'show', id: main_item.slug },
-              param: :project_id,
-              caption: t('label_entry_page'),
-              parent: main_item.menu_identifier,
-              first: true
+    push_wiki_entry_page_item(main_item, menu)
 
     if project.wiki.pages.any?
-      menu.push :wiki_menu_partial,
-                { controller: '/wiki', action: 'show' },
-                param: :project_id,
-                parent: main_item.menu_identifier,
-                partial: 'wiki/menu_pages_tree',
-                last: true
+      push_wiki_menu_partial(main_item, menu)
     end
+
   rescue ArgumentError => e
     Rails.logger.error "Failed to add wiki item #{main_item.slug} to wiki menu: #{e}. Deleting it."
     main_item.destroy
@@ -93,5 +81,25 @@ module Redmine::MenuManager::WikiMenuHelper
     else
       MenuItems::WikiMenuItem.main_items(page.wiki.id).first
     end
+  end
+
+  private
+
+  def push_wiki_menu_partial(main_item, menu)
+    menu.push :wiki_menu_partial,
+              {controller: '/wiki', action: 'show'},
+              param: :project_id,
+              parent: main_item.menu_identifier,
+              partial: 'wiki/menu_pages_tree',
+              last: true
+  end
+
+  def push_wiki_entry_page_item(main_item, menu)
+    menu.push "entry-item-#{main_item.menu_identifier}".to_sym,
+              {controller: '/wiki', action: 'show', id: main_item.slug},
+              param: :project_id,
+              caption: t('label_entry_page'),
+              parent: main_item.menu_identifier,
+              first: true
   end
 end
