@@ -174,8 +174,8 @@ module Redmine::MenuManager::MenuHelper
       node = [render_single_menu_node(node, caption, url, selected)]
 
       # add children
-      node << content_tag(:ul, standard_children_list, class: 'menu-children') unless standard_children_list.empty?
-      node << content_tag(:ul, unattached_children_list, class: 'menu-children unattached') unless unattached_children_list.blank?
+      node << content_tag(:ul, standard_children_list, class: 'main-menu--children') unless standard_children_list.empty?
+      node << content_tag(:ul, unattached_children_list, class: 'main-menu--children unattached') unless unattached_children_list.blank?
 
       node.join("\n").html_safe
     end

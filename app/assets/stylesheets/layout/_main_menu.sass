@@ -129,7 +129,7 @@ $toggler-width: 40px
           padding-left: 0
 
     // -------------------- CHILD menu items ---------------------------
-    ul.menu-children
+    ul.main-menu--children
       display: none
       padding-top: 10px
       padding-bottom: 10px
@@ -202,6 +202,35 @@ $toggler-width: 40px
     padding: 0
 
 $arrow-left-width: 40px
+
+.main-menu--children
+  width: 100%
+
+.main-menu--children-menu-header
+  padding: 10px
+  border-bottom: 1px solid
+  border-bottom: $main-menu-border-width solid $main-menu-border-color
+  height: calc(#{$main-menu-item-height} + (2 * 10px))
+
+.main-menu--arrow-left-to-project
+  display: inline-block
+  width: $arrow-left-width
+  float: left
+  border-radius: 3px
+  padding-left: 14px
+  padding-right: 14px
+  width: 40px
+  margin-right: 10px
+  &:hover
+    @include varprop(background, main-menu-bg-hover-background)
+
+.main-menu--parent-node
+  display: inline-block
+  width: calc(100% - #{$arrow-left-width})
+  height: $main-menu-item-height
+  line-height: $main-menu-item-height
+
+// logic for showing either parent or child menu
 .main-menu
   ul.menu_root
     &.closed
@@ -211,40 +240,16 @@ $arrow-left-width: 40px
         display: list-item
         .main-item-wrapper
           display: none
-        .children-menu-header
-          padding: 10px
-          border-bottom: 1px solid
-          border-bottom: $main-menu-border-width solid $main-menu-border-color
-          height: calc(#{$main-menu-item-height} + (2 * 10px))
 
-          a.arrow-left-to-project
-            display: inline-block
-            width: $arrow-left-width
-            float: left
-            border-radius: 3px
-            padding-left: 14px
-            padding-right: 14px
-            width: 40px
-            margin-right: 10px
-            &:hover
-              @include varprop(background, main-menu-bg-hover-background)
-
-          span.parent-node
-            display: inline-block
-            width: calc(100% - #{$arrow-left-width})
-            height: $main-menu-item-height
-            line-height: $main-menu-item-height
-        ul.menu-children
-          width: 100%
+        .main-menu--children
           display: block
           li
             display: list-item
     &.open
       > li
         display: list-item
-        .children-menu-header
+        .main-menu--children-menu-header
           display: none
-
 
 .hidden-navigation
   .main-menu
@@ -265,7 +270,7 @@ $arrow-left-width: 40px
             display: none
 
   #sidebar,
-  .menu-children
+  .main-menu--children
     display: none
 
 #sidebar
