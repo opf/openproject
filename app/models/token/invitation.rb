@@ -37,7 +37,7 @@ module Token
     ##
     # Invitation tokens are valid for one day.
     def self.validity_time
-      Setting.invitation_expiration_days
+      (Setting.invitation_expiration_days || 1).days
     end
 
     ##
@@ -46,8 +46,6 @@ module Token
     # their account using the expired token the activation will fail due to it being
     # expired. A new invitation token will be generated which deletes the expired one
     # implicitly.
-    def delete_expired_tokens
-
-    end
+    def delete_expired_tokens; end
   end
 end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'resend invitation', type: :feature do
+feature 'invitation spec', type: :feature, js: true do
   let(:current_user) { FactoryBot.create :admin }
   let(:user) { FactoryBot.create :invited_user, mail: 'holly@openproject.com' }
 
@@ -40,7 +40,18 @@ feature 'resend invitation', type: :feature do
 
   scenario 'admin resends the invitation' do
     click_on I18n.t(:label_send_invitation)
-
     expect(page).to have_text 'An invitation has been sent to holly@openproject.com.'
+
+    # Logout admin
+    logout
+
+    # Visit invitation with wrong token
+    visit account_activate_path(token: 'some invalid value')
+    expect(page).to have_text 'Invalid activation token'
+
+    # Visit invitation link with correct token
+    visit account_activate_path(token: Token::Invitation.last.value)
+
+    expect(page).to have_selector('.op-modal--modal-header', text: 'Welcome to OpenProject')
   end
 end
