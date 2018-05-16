@@ -188,6 +188,8 @@
 .top-menu-search--button
   line-height: $header-height
   height: $header-height
+  width: $header-height
+  padding: 0 12px
   @include varprop(color, header-item-font-color)
   @include varprop(font-size, header-item-font-size)
   font-weight: normal
@@ -299,9 +301,9 @@ input.top-menu-search--input
 input.top-menu-search--input
   margin: 0
   position: absolute
-  right: 160px
-bottom: 10px
-z-index: 10
+  right: 170px
+  bottom: 10px
+  z-index: 10
 
 .top-menu-search:not(.-collapsed) .top-menu-search--button
   position: relative
