@@ -35,6 +35,8 @@ import {SimpleTemplateRenderer} from 'core-components/angular/simple-template-re
 import {OpIcon} from 'core-components/common/icon/op-icon';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {States} from 'core-components/states.service';
+
+import {ExpandableSearchComponent} from 'core-components/expandable-search/expandable-search.component';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {WorkPackageDisplayFieldService} from 'core-components/wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
@@ -409,6 +411,9 @@ import {OpTitleService} from 'core-components/html/op-title.service';
     WorkPackageWatchersTabComponent,
     WorkPackageWatcherEntryComponent,
 
+    // Searchbar
+    ExpandableSearchComponent,
+
     // WP Edit Fields
     WorkPackageEditFieldComponent,
 
@@ -492,6 +497,9 @@ import {OpTitleService} from 'core-components/html/op-title.service';
     WorkPackageOverviewTabComponent,
     WorkPackageEditFieldGroupComponent,
 
+    // Searchbar
+    ExpandableSearchComponent,
+
     // WP new
     WorkPackageNewFullViewComponent,
     WorkPackageNewSplitViewComponent,
@@ -547,5 +555,3 @@ export class OpenProjectModule {
     // this.upgrade.bootstrap(document.body, ['openproject'], {strictDi: false});
   }
 }
-
-

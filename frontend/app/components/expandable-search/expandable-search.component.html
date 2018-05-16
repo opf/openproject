@@ -1,0 +1,6 @@
+<div class="top-menu-search -collapsed" [ngClass]="{'-collapsed': collapsed}">
+    <input #inputEl type="text" name="q" id="q" size="20" class="top-menu-search--input" placeholder= "{{I18n.t('js.select2.searching')}}">
+    <a #btn id="top-menu-search-button" class="top-menu-search--button search-form-normal" title="Search" accesskey="4" tabindex="0" (click)="handleClick($event)" >
+       <i #searchicon class="icon5 icon-search ellipsis" aria-hidden="true"></i>
+    </a>
+</div>
