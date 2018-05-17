@@ -27,23 +27,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Be sure to restart your server when you modify this file.
+class Setting
 
-config = OpenProject::Configuration
+  ##
+  # Shorthand to common setting aliases to avoid checking values
+  module Aliases
 
-session_store     = config['session_store'].to_sym
-relative_url_root = config['rails_relative_url_root'].presence
-
-session_options = {
-  key:    config['session_cookie_name'],
-  httponly: true,
-  secure: Setting.https?,
-  path:   relative_url_root
-}
-
-OpenProject::Application.config.session_store session_store, session_options
-
-##
-# We use our own decorated session model to note the user_id
-# for each session.
-ActionDispatch::Session::ActiveRecordStore.session_class = ::UserSession
+    ##
+    # Whether the application is configured to use or force SSL output
+    # for cookie storage et al.
+    def https?
+      Setting.protocol == 'https' || Rails.configuration.force_ssl
+    end
+  end
+end
