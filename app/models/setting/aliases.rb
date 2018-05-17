@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,26 +24,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Be sure to restart your server when you modify this file.
+class Setting
 
-config = OpenProject::Configuration
+  ##
+  # Shorthand to common setting aliases to avoid checking values
+  module Aliases
 
-session_store     = config['session_store'].to_sym
-relative_url_root = config['rails_relative_url_root'].presence
-
-session_options = {
-  key:    config['session_cookie_name'],
-  httponly: true,
-  secure: Setting.https?,
-  path:   relative_url_root
-}
-
-OpenProject::Application.config.session_store session_store, session_options
-
-##
-# We use our own decorated session model to note the user_id
-# for each session.
-ActionDispatch::Session::ActiveRecordStore.session_class = ::UserSession
+    ##
+    # Whether the application is configured to use or force SSL output
+    # for cookie storage et al.
+    def https?
+      Setting.protocol == 'https' || Rails.configuration.force_ssl
+    end
+  end
+end

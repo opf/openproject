@@ -259,4 +259,7 @@ class Setting < ActiveRecord::Base
 
   require_dependency 'setting/callbacks'
   extend Callbacks
+
+  require_dependency 'setting/aliases'
+  extend Aliases
 end
