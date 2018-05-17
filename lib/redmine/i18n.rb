@@ -38,6 +38,7 @@ module Redmine
         Dir.glob(Rails.root.join('config/locales/**/*.yml'))
           .map { |f| File.basename(f).split('.').first }
           .reject! { |l| /\Ajs-/.match(l.to_s) }
+          .uniq
           .map(&:to_sym)
       end
     end
