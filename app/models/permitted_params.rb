@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'permitted_params/allowed_settings'
+
 class PermittedParams
   # This class intends to provide a method for all params hashes coming from the
   # client and that are used for mass assignment.
@@ -192,18 +194,7 @@ class PermittedParams
 
   def settings
     permitted_params = params.require(:settings).permit
-
-    all_setting_keys = Setting.available_settings.keys
-    all_valid_keys = if OpenProject::Configuration.disable_password_login?
-                       all_setting_keys - %w(password_min_length
-                                             password_active_rules
-                                             password_min_adhered_rules
-                                             password_days_valid
-                                             password_count_former_banned
-                                             lost_password)
-                     else
-                       all_setting_keys
-                     end
+    all_valid_keys = AllowedSettings.all
 
     permitted_params.merge(params[:settings].to_unsafe_hash.slice(*all_valid_keys))
   end
