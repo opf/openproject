@@ -51,26 +51,23 @@ export class ExpandableSearchComponent implements OnInit {
   constructor(readonly FocusHelper:FocusHelperService,
               @Inject(I18nToken) public I18n:op.I18n) { }
 
-  ngOnInit() { }
-
   // detect if click is outside or inside the element
-  @HostListener('document:click', ['$event']) public handleClick(event:any){
+  @HostListener('document:click', ['$event']) public handleClick(event:any) {
     let clickedEl = event.target;
-    if (clickedEl === this.input.nativeElement) return;
+    if (clickedEl === this.input.nativeElement) { return; }
     if (clickedEl === this.icon.nativeElement || clickedEl === this.btn.nativeElement) {
       event.stopPropagation();
-      if(this.collapsed) {
+      if (this.collapsed) {
         // case 1: if collapsed, expand search bar
         this.collapsed = false;
         this.FocusHelper.focusElement(angular.element(this.input.nativeElement));
 
       } else {
         // case 2: if already collapsed and search string is not empty, submit form
-        if (this.input.nativeElement.value != '') {
+        if (this.input.nativeElement.value !== '') {
         	let form = jQuery(clickedEl).closest("form");
-                console.log("CLOSEST FORM:", form);
-                form.submit();
-        } else this.collapsed = true;
+          form.submit();
+        } else { this.collapsed = true; }
       }
     } else {
     // if clicked outside the element
