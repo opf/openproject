@@ -365,11 +365,6 @@
       "integrity": "sha1-oOHdDqVf137np1fXVTbF6WTIb4E=",
       "dev": true
     },
-    "angular2-focus": {
-      "version": "1.1.2",
-      "resolved": "https://registry.npmjs.org/angular2-focus/-/angular2-focus-1.1.2.tgz",
-      "integrity": "sha512-jsEfWLN0618SqdIA7/SVj2iOTiVRZD8dAod5NGsj8Hs1GVNLsttiwWaU/yKVmrrGRRrCXTiS0Nm73opNt5G6Uw=="
-    },
     "animation-frame-polyfill": {
       "version": "1.0.1",
       "resolved": "https://registry.npmjs.org/animation-frame-polyfill/-/animation-frame-polyfill-1.0.1.tgz",
@@ -3856,11 +3851,6 @@
       "version": "12.2.13",
       "resolved": "https://registry.npmjs.org/ng-file-upload/-/ng-file-upload-12.2.13.tgz",
       "integrity": "sha1-AYAPOHLlJvlTEPhHfpnk8S0NjRQ="
-    },
-    "ng-focus-if": {
-      "version": "1.0.7",
-      "resolved": "https://registry.npmjs.org/ng-focus-if/-/ng-focus-if-1.0.7.tgz",
-      "integrity": "sha1-eZRf1LbJfzKa7I+nykP/pFbkm8c="
     },
     "ng2-rx-componentdestroyed": {
       "version": "2.0.1",

@@ -26,13 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opUiComponentsModule} from '../../angular-modules';
-import {ElementRef, ViewChild, HostListener, Component} from '@angular/core';
-import {Directive, OnInit, Inject, Input, EventEmitter, Output} from '@angular/core';
-import {I18nToken} from '../../angular4-transition-utils';
 import {openprojectModule} from '../../angular-modules';
+import {Component, ElementRef, HostListener, Inject, OnDestroy, Renderer2, ViewChild} from '@angular/core';
+import {I18nToken} from '../../angular4-transition-utils';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {FocusHelperService} from '../common/focus/focus-helper';
+import {ContainHelpers} from "core-components/common/focus/contain-helpers";
 
 
 @Component({
@@ -40,45 +39,85 @@ import {FocusHelperService} from '../common/focus/focus-helper';
   template: require('!!raw-loader!./expandable-search.component.html')
 })
 
-export class ExpandableSearchComponent implements OnInit {
+export class ExpandableSearchComponent implements OnDestroy {
   @ViewChild('inputEl') input:ElementRef;
   @ViewChild('btn') btn:ElementRef;
-  @ViewChild('searchicon') icon:ElementRef;
 
   public collapsed:boolean = true;
   public focused:boolean = false;
 
+  private unregisterGlobalListener:Function|undefined;
+
   constructor(readonly FocusHelper:FocusHelperService,
-              @Inject(I18nToken) public I18n:op.I18n) { }
+              readonly elementRef:ElementRef,
+              readonly renderer:Renderer2,
+              @Inject(I18nToken) public I18n:op.I18n) {
+  }
 
   // detect if click is outside or inside the element
-  @HostListener('document:click', ['$event']) public handleClick(event:any) {
-    let clickedEl = event.target;
-    if (clickedEl === this.input.nativeElement) { return; }
-    if (clickedEl === this.icon.nativeElement || clickedEl === this.btn.nativeElement) {
-      event.stopPropagation();
-      if (this.collapsed) {
-        // case 1: if collapsed, expand search bar
-        this.collapsed = false;
-        this.FocusHelper.focusElement(angular.element(this.input.nativeElement));
+  @HostListener('click', ['$event'])
+  public handleClick(event:JQueryEventObject):void {
+    event.stopPropagation();
+    event.preventDefault();
 
-      } else {
-        // case 2: if already collapsed and search string is not empty, submit form
-        if (this.input.nativeElement.value !== '') {
-        	let form = jQuery(clickedEl).closest("form");
-          form.submit();
-        } else { this.collapsed = true; }
-      }
-    } else {
-    // if clicked outside the element
-    this.collapsed = true;
-    // clear text field for next search
-    this.input.nativeElement.value = '';
+    // If search is open, submit form when clicked on icon
+    if (!this.collapsed && ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target)) {
+      this.submitNonEmptySearch();
     }
+
+    if (this.collapsed) {
+      this.collapsed = false;
+      this.FocusHelper.focusElement(jQuery(this.input.nativeElement));
+      this.registerOutsideClick();
+    }
+  }
+
+  public closeWhenFocussedOutside() {
+    ContainHelpers.whenOutside(this.elementRef.nativeElement, () => this.close());
+    return false;
+  }
+
+  ngOnDestroy() {
+    this.unregister();
+  }
+
+  private registerOutsideClick() {
+    this.unregisterGlobalListener = this.renderer.listen('document', 'click', () => {
+      this.close();
+    });
+  }
+
+  private close() {
+    this.collapsed = true;
+    this.searchValue = '';
+    this.unregister();
+  }
+
+  private unregister() {
+    if (this.unregisterGlobalListener) {
+      this.unregisterGlobalListener();
+      this.unregisterGlobalListener = undefined;
+    }
+  }
+
+  private submitNonEmptySearch() {
+    if (this.searchValue !== '') {
+      jQuery(this.input.nativeElement)
+        .closest("form")
+        .submit();
+    }
+  }
+
+  private get searchValue() {
+    return this.input.nativeElement.value;
+  }
+
+  private set searchValue(val:string)  {
+    this.input.nativeElement.value = val;
   }
 }
 
 
 openprojectModule.directive('expandableSearch',
-  downgradeComponent({component: ExpandableSearchComponent })
+  downgradeComponent({component: ExpandableSearchComponent})
 );
