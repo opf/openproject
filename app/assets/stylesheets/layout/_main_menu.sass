@@ -55,124 +55,36 @@ $toggler-width: 40px
     margin: 0
     padding: 0
 
-    &.menu_root
-
-      // -------------------- ALL menu items ---------------------------
-      li
-        float: none
-        list-style-type: none
-        margin: 0
-        padding: 0
-        white-space: nowrap
-        position: relative
-        min-height: 23px
-
-        &.ng-leave
-          @include animation(0.5s fade-out)
-
-        [class*="-menu-item"]
-          display: flex
-          align-items: center
-
-      // -------------------- MAIN menu items ---------------------------
-      li
-        .main-item-wrapper
-          display: flex
-
-          &:hover
-            @if $main-menu-enable-toggle-highlighting != true
-              // simultaneously hover all menu item anchor tags
-              > a
-                @include varprop(color, main-menu-hover-font-color)
-                &.toggler
-                  @include varprop(background, main-menu-bg-hover-background)
 
 
-          a
-            &.selected, &.selected + a
-              @include varprop(background, main-menu-bg-selected-background)
-
-              // This is a hack to avoid "leaking" the left padding's background when menu is collapsed.
-              .hidden-navigation &
-                background: none
-
-              &:hover
-                @include varprop(background, main-menu-bg-hover-background)
-
-            &.selected, &.selected + a
-              @include varprop(color, main-menu-selected-font-color)
-
-            &:hover
-              @include varprop(background, main-menu-bg-hover-background)
-              @include varprop(color, main-menu-hover-font-color)
-
-
-          // placeholder for highlighted left-item-border
-          a:not(.toggler)
-            @extend .small-12
-
-          a:not(:only-child):first-of-type
-            flex: 0 0 calc(100% - 40px)
-            max-width: calc(100% - 40px)
-            
-        .open .toggler
-          .icon-toggler:before
-            @include icon-mixin-arrow-left1
-
-        // padding for placeholder for highlighted left-item-border
-        a
-          // work around due to dom manipulation on document: ready:
-          // this isn't scoped to .main-item-wrapper to avoid flickering
-          padding-left: 11px
-        a.toggler
-          // explicitly reset to zero to avoid selector precedence problems
-          padding-left: 0
-
-    // -------------------- CHILD menu items ---------------------------
-    ul.main-menu--children
-      display: none
-      padding-top: 10px
-      padding-bottom: 10px
+    // -------------------- ALL menu items ---------------------------
+    li
+      float: none
+      list-style-type: none
+      margin: 0
       padding: 0
-      &.unattached
-        border-top: 1px solid #ddd
-      li
-        &.partial
-          // NEEDS CLEANUP: resetting styles in partials.
-          background: initial
-          &:hover,
-          li,
-          li:hover
-            background: initial
-            a
-              padding: initial
+      white-space: nowrap
+      position: relative
+      min-height: 23px
 
-        &:hover
-          @include varprop(background, main-menu-child-bg-hover-color)
+      &.ng-leave
+        @include animation(0.5s fade-out)
 
-          @if $main-menu-enable-toggle-highlighting != true
-            // simultaneously hover all menu item anchor tags
-            > a
-              @include varprop(color, main-menu-bg-hover-background)
+      [class*="-menu-item"]
+        display: flex
+        align-items: center
 
-        > a
-          &.selected, &.selected + a
-            @include varprop(background, main-menu-bg-selected-background)
-
-
-          &:hover, &.selected, &.selected + a
-            @include varprop(color, main-menu-bg-selected-background)
-
-        a
-          // children have no icon so we need to push them right.
-          padding-left: 32px
-
-          &:hover
-            text-decoration: none
-            @include varprop(color, main-menu-hover-font-color)
-          &.selected
-            border: none !important
-            @include varprop(color, main-menu-selected-font-color)
+    // -------------------- MAIN menu items ---------------------------
+    li a
+      // work around due to dom manipulation on document: ready:
+      // this isn't scoped to .main-item-wrapper to avoid flickering
+      padding-left: 11px
+      &.toggler
+        // explicitly reset to zero to avoid selector precedence problems
+        padding-left: 0
+    .main-menu--children li a
+      // children have no icon so we need to push them right.
+      padding-left: 32px
 
   a
     text-decoration: none
@@ -203,8 +115,82 @@ $toggler-width: 40px
 
 $arrow-left-width: 40px
 
+.main-item-wrapper
+  display: flex
+
+  &:hover
+    @if $main-menu-enable-toggle-highlighting != true
+      // simultaneously hover all menu item anchor tags
+      > a
+        @include varprop(color, main-menu-hover-font-color)
+        &.toggler
+          @include varprop(background, main-menu-bg-hover-background)
+
+
+  a
+    &.selected, &.selected + a
+      @include varprop(background, main-menu-bg-selected-background)
+      @include varprop(color, main-menu-selected-font-color)
+
+      &:hover
+        @include varprop(background, main-menu-bg-hover-background)
+
+    &:hover
+      @include varprop(background, main-menu-bg-hover-background)
+      @include varprop(color, main-menu-hover-font-color)
+
+  a:not(.toggler)
+    @extend .small-12
+
+  a:not(:only-child):first-of-type
+    flex: 0 0 calc(100% - 40px)
+    max-width: calc(100% - 40px)
+
+// -------------------- CHILD menu items ---------------------------
 .main-menu--children
+  display: none
+  padding-top: 10px
+  padding-bottom: 10px
+  padding: 0
   width: 100%
+  &.unattached
+    border-top: 1px solid #ddd
+  li
+    &.partial
+      padding-bottom: 10px
+
+      // resetting styles in partials.
+      background: initial
+      &:hover,
+      li,
+      li:hover
+        background: initial
+        a
+          padding: initial
+
+    &:hover
+      @include varprop(background, main-menu-child-bg-hover-color)
+
+      @if $main-menu-enable-toggle-highlighting != true
+        // simultaneously hover all menu item anchor tags
+        > a
+          @include varprop(color, main-menu-bg-hover-background)
+
+    > a
+      &.selected, &.selected + a
+        @include varprop(background, main-menu-bg-selected-background)
+
+
+      &:hover, &.selected, &.selected + a
+        @include varprop(color, main-menu-bg-selected-background)
+
+    a
+      &:hover
+        text-decoration: none
+        @include varprop(color, main-menu-hover-font-color)
+      &.selected
+        border: none !important
+        @include varprop(color, main-menu-selected-font-color)
 
 .main-menu--children-menu-header
   padding: 10px
