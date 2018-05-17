@@ -169,28 +169,18 @@ $arrow-left-width: 40px
           padding: initial
 
     &:hover
-      @include varprop(background, main-menu-child-bg-hover-color)
-
       @if $main-menu-enable-toggle-highlighting != true
         // simultaneously hover all menu item anchor tags
         > a
           @include varprop(color, main-menu-bg-hover-background)
 
     > a
-      &.selected, &.selected + a
+      &.selected, &.selected
         @include varprop(background, main-menu-bg-selected-background)
-
-
-      &:hover, &.selected, &.selected + a
-        @include varprop(color, main-menu-bg-selected-background)
-
-    a
-      &:hover
-        text-decoration: none
-        @include varprop(color, main-menu-hover-font-color)
-      &.selected
-        border: none !important
         @include varprop(color, main-menu-selected-font-color)
+      &:hover
+        @include varprop(color, main-menu-hover-font-color)
+        @include varprop(background, main-menu-child-bg-hover-color)
 
 .main-menu--children-menu-header
   padding: 10px
