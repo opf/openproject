@@ -94,11 +94,24 @@ describe 'account/register', type: :view do
       allow(Setting).to receive(:registration_footer).and_return("en" => footer)
 
       assign(:user, user)
-      render
     end
 
-    it 'should render the emai footer' do
+    it 'should render the registration footer from the settings' do
+      render
+
       expect(rendered).to include(footer)
+    end
+
+    context 'with a registration footer in the OpenProject configuration' do
+      before do
+        allow(OpenProject::Configuration).to receive(:registration_footer).and_return("en" => footer.reverse)
+      end
+
+      it 'should render the registration footer from the configuration, overriding the settings' do
+        render
+
+        expect(rendered).to include(footer.reverse)
+      end
     end
   end
 end
