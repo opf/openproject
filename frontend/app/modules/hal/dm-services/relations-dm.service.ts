@@ -43,14 +43,14 @@ export class RelationsDmService {
 
   }
 
-  public async load(workPackageId:string):Promise<RelationResource[]> {
+  public load(workPackageId:string):Promise<RelationResource[]> {
     return this.halResourceService.get<CollectionResource<RelationResource>>(
       this.pathHelper.api.v3.work_packages.id(workPackageId).relations, {})
       .toPromise()
       .then((collection:CollectionResource<RelationResource>) => collection.elements);
   }
 
-  public async loadInvolved(workPackageIds:string[]):Promise<RelationResource[]> {
+  public loadInvolved(workPackageIds:string[]):Promise<RelationResource[]> {
     let validIds = _.filter(workPackageIds, id => /\d+/.test(id));
 
     if (validIds.length === 0) {

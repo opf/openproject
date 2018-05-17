@@ -159,7 +159,7 @@ export class HalResource {
     return null;
   }
 
-  public async $load(force = false):Promise<this> {
+  public $load(force = false):Promise<this> {
     if (!this.state) {
       return this.$loadResource(force);
     }
@@ -172,7 +172,7 @@ export class HalResource {
 
     // If nobody has asked yet for the resource to be $loaded, do it ourselves.
     // Otherwise, we risk returning a promise, that will never be resolved.
-    state.putFromPromiseIfPristine(async () => this.$loadResource(force));
+    state.putFromPromiseIfPristine(() => this.$loadResource(force));
 
     return <Promise<this>> state.valuesPromise().then((source:any) => {
       this.$initialize(source);
@@ -181,7 +181,7 @@ export class HalResource {
     });
   }
 
-  protected async $loadResource(force = false):Promise<this> {
+  protected $loadResource(force = false):Promise<this> {
     if (!force) {
       if (this.$loaded) {
         return Promise.resolve(this);
@@ -206,7 +206,7 @@ export class HalResource {
   /**
    * Update the resource ignoring the cache.
    */
-  public async $update() {
+  public $update() {
     return this.$load(true);
   }
 

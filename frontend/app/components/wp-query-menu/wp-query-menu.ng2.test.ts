@@ -68,7 +68,7 @@ describe('wp-query-menu', () => {
   };
 
 
-  beforeEach((async () => {
+  beforeEach((() => {
     // noinspection JSIgnoredPromiseFromCall
     return TestBed.configureTestingModule({
       declarations: [

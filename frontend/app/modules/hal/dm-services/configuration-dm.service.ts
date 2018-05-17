@@ -37,7 +37,7 @@ export class ConfigurationDmService {
               protected pathHelper:PathHelperService) {
   }
 
-  public async load():Promise<ConfigurationResource> {
+  public load():Promise<ConfigurationResource> {
     return this.halResourceService.get<ConfigurationResource>(this.pathHelper.api.v3.configuration.toString()).toPromise();
   }
 }

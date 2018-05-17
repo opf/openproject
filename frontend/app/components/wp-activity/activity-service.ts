@@ -47,7 +47,7 @@ export class ActivityService {
     private $q:ng.IQService) {
     }
 
-  public async createComment(workPackage:WorkPackageResource, comment:string) {
+  public createComment(workPackage:WorkPackageResource, comment:string) {
     return workPackage.addComment(
       { comment: comment},
       { 'Content-Type': 'application/json; charset=UTF-8' }

@@ -99,7 +99,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
     this.tableState.refreshRequired
       .values$()
       .pipe(untilComponentDestroyed(this))
-      .subscribe(async () => this.refresh());
+      .subscribe(() => this.refresh());
 
     // Reload results on changes to pagination
     this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
@@ -160,7 +160,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
     });
   }
 
-  public async refresh():Promise<any> {
+  public refresh():Promise<any> {
     return this.loadingIndicator = this.loadQuery();
   }
 
@@ -172,7 +172,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
     }
   }
 
-  private async loadQuery() {
+  private loadQuery() {
 
     // HACK: Decrease loading time of queries when results are not needed.
     // We should allow the backend to disable results embedding instead.

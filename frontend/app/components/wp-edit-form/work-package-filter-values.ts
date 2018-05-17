@@ -13,8 +13,8 @@ export class WorkPackageFilterValues {
 
   }
 
-  public async applyDefaultsFromFilters() {
-    return this.changeset.getForm().then(async (form) => {
+  public applyDefaultsFromFilters() {
+    return this.changeset.getForm().then((form) => {
       const promises:Promise<any>[] = [];
       angular.forEach(this.filters, filter => {
         // Ignore any filters except =
@@ -42,7 +42,7 @@ export class WorkPackageFilterValues {
     });
   }
 
-  private async setAllowedValueFor(form:FormResource, field:string, value:string|HalResource) {
+  private setAllowedValueFor(form:FormResource, field:string, value:string|HalResource) {
     return this.allowedValuesFor(form, field).then((allowedValues) => {
       let newValue = this.findSpecialValue(value, field) || this.findAllowedValue(value, allowedValues);
 
@@ -77,7 +77,7 @@ export class WorkPackageFilterValues {
     }
   }
 
-  private async allowedValuesFor(form:FormResource, field:string):Promise<HalResource[]> {
+  private allowedValuesFor(form:FormResource, field:string):Promise<HalResource[]> {
     const fieldSchema = form.schema[field];
 
     return new Promise<HalResource[]>(resolve => {

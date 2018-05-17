@@ -42,7 +42,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * Load a set of work package ids into the states, regardless of them being loaded
    * @param workPackageIds
    */
-  protected async load(id:string):Promise<RelationsStateValue> {
+  protected load(id:string):Promise<RelationsStateValue> {
     return new Promise<RelationsStateValue>((resolve, reject) => {
       this.relationsDm
         .load(id)
@@ -54,7 +54,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     });
   }
 
-  protected async loadAll(ids:string[]) {
+  protected loadAll(ids:string[]) {
     return new Promise<undefined>((resolve, reject) => {
       this.relationsDm
         .loadInvolved(ids)
@@ -70,7 +70,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   /**
    * Remove the given relation.
    */
-  public async removeRelation(relation:RelationResource) {
+  public removeRelation(relation:RelationResource) {
     return relation.delete().then(() => {
       this.removeFromStates(relation);
       this.wpTableRefresh.request(
@@ -83,7 +83,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   /**
    * Update the given relation type, setting new values for from and to
    */
-  public async updateRelationType(from:WorkPackageResource, to:WorkPackageResource, relation:RelationResource, type:string) {
+  public updateRelationType(from:WorkPackageResource, to:WorkPackageResource, relation:RelationResource, type:string) {
     const params = {
       _links: {
         from: {href: from.href},
@@ -95,7 +95,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     return this.updateRelation(relation, params);
   }
 
-  public async updateRelation(relation:RelationResource, params:{[key:string]:any}) {
+  public updateRelation(relation:RelationResource, params:{[key:string]:any}) {
     return relation.updateImmediately(params)
       .then((savedRelation:RelationResource) => {
         this.insertIntoStates(savedRelation);
@@ -107,7 +107,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       });
   }
 
-  public async addCommonRelation(workPackage:WorkPackageResource,
+  public addCommonRelation(workPackage:WorkPackageResource,
                            relationType:string,
                            relatedWpId:string) {
     const params = {
