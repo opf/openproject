@@ -41,7 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 </div>
 
-<%= content_tag 'div', id: 'notified-projects', :'ng-show' => "mail_notifications === 'selected'" do %>
+<%= content_tag 'div', id: 'notified-projects', class: "ng-cloak", :'ng-if' => "mail_notifications === 'selected'" do %>
   <div class="form--field -no-label">
     <div class="form--field-container -vertical">
       <% @user.projects.each do |project| %>
