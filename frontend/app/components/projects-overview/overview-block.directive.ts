@@ -43,6 +43,7 @@ export class OverviewBlockController {
    */
   public remove() {
     this.$element.remove();
+    this.layoutCtrl.updateAvailableBlocks();
   }
 
 }
