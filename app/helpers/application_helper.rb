@@ -141,33 +141,7 @@ module ApplicationHelper
       pages[node].map { |page|
         content_tag :li do
           is_parent = pages[page.id]
-          title = if options[:timestamp] && page.updated_on
-                    l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on))
-                  end
-
-          item_classes = 'tree-menu--item'
-          current_page = @page
-          if current_page.present? && current_page.id == page.id
-            item_classes += ' -selected'
-          end
-          item = content_tag(:span, class: item_classes) do
-            hierarchy_span_content = nil
-            if is_parent
-              hierarchy_span_content = if is_parent
-                                         render_hierarchy_indicator_icons
-                                       else
-                                         render_leaf_indicator
-                                       end
-            end
-            concat content_tag(:span, hierarchy_span_content, class: 'tree-menu--hierarchy-span')
-
-            concat link_to(page.title,
-                           project_wiki_path(page.project, page),
-                           title: title,
-                           class: 'tree-menu--title ellipsis') do
-            end
-          end
-          concat item
+          concat render_hierarchy_item(page, is_parent, options)
           concat render_page_hierarchy(pages, page.id, options) if is_parent
         end
       }.join.html_safe
@@ -595,6 +569,40 @@ module ApplicationHelper
   end
 
   private
+
+  def render_hierarchy_item(page, is_parent, options = {})
+    content_tag(:span, class: hierarchy_item_classes(page)) do
+      hierarchy_span_content = nil
+      if is_parent
+        hierarchy_span_content = if is_parent
+                                   render_hierarchy_indicator_icons
+                                 else
+                                   render_leaf_indicator
+                                 end
+      end
+      concat content_tag(:span, hierarchy_span_content, class: 'tree-menu--hierarchy-span')
+
+      concat link_to(page.title,
+                     project_wiki_path(page.project, page),
+                     title: hierarchy_item_title(options, page),
+                     class: 'tree-menu--title ellipsis') do
+      end
+    end
+  end
+
+  def hierarchy_item_title(options, page)
+    if options[:timestamp] && page.updated_on
+      l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on))
+    end
+  end
+
+  def hierarchy_item_classes(page)
+    item_classes = 'tree-menu--item'
+    if @page.present? && @page.id == page.id
+      item_classes += ' -selected'
+    end
+    item_classes
+  end
 
   def render_leaf_indicator
     content_tag(:span, tabindex: 0, class: 'tree-menu--leaf-indicator') do

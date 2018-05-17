@@ -51,7 +51,7 @@ class WikiMenuItemsController < ApplicationController
 
   def self.default_menu_item(controller, page)
     menu_item = controller.default_menu_item(page)
-    "no-menu-item-#{menu_item.menu_identifier.to_s}".to_sym
+    "no-menu-item-#{menu_item.menu_identifier}".to_sym
   end
 
   before_action :find_project_by_project_id

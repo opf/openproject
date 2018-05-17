@@ -145,7 +145,7 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
     this.elementWidth = this.elementWidth + delta;
 
     let collapsedState = sessionStorage.getItem('openproject:navigation-toggle');
-    if (collapsedState == 'collapsed') {
+    if (collapsedState === 'collapsed') {
       if (this.elementWidth > 10) {
         jQuery('#mobile-main-menu-toggle').click();
         this.setWidth(element, this.elementWidth);
