@@ -37,12 +37,8 @@
     }
   },
   "compileOnSave": false,
-//  "include": [
-//    "src/**/*"
-//  ],
-  "exclude": [
-    "app",
-    "node_modules",
-    "ckeditor/*"
-  ]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": []
 }

@@ -11684,21 +11684,11 @@
       "integrity": "sha1-AYAPOHLlJvlTEPhHfpnk8S0NjRQ="
     },
     "ng2-rx-componentdestroyed": {
-      "version": "2.0.1",
-      "resolved": "https://registry.npmjs.org/ng2-rx-componentdestroyed/-/ng2-rx-componentdestroyed-2.0.1.tgz",
-      "integrity": "sha512-YWLWhhI82cY6+c7/cjsCu8WVJvrIvTdUSbGLEdHuJMbmocF6n5aL/uiaSa73ymp9LX6xOw0JYLetMFNG551HGg==",
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/ng2-rx-componentdestroyed/-/ng2-rx-componentdestroyed-3.0.0.tgz",
+      "integrity": "sha512-Eqjp8OkWtinNWXqKlQGplUj6G8LCfO+uLJAol4f7AH+s/nArCvTyChC7ISu5ZUfUyDE74qdO4mQTvCbTdEH8DQ==",
       "requires": {
-        "rxjs": "^5.5.6"
-      },
-      "dependencies": {
-        "rxjs": {
-          "version": "5.5.10",
-          "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-5.5.10.tgz",
-          "integrity": "sha512-SRjimIDUHJkon+2hFo7xnvNC4ZEHGzCRwh9P7nzX3zPkCGFEg/tuElrNR7L/rZMagnK2JeH2jQwPRpmyXyLB6A==",
-          "requires": {
-            "symbol-observable": "1.0.1"
-          }
-        }
+        "rxjs": "^6.0.0"
       }
     },
     "ngtemplate-loader": {
@@ -13597,22 +13587,42 @@
       "integrity": "sha1-DD0L6u2KAclm2Xh793goElKpeao="
     },
     "reactivestates": {
-      "version": "1.0.3",
-      "resolved": "https://registry.npmjs.org/reactivestates/-/reactivestates-1.0.3.tgz",
-      "integrity": "sha512-sdkyKb5uBeDrtFy8IFvPXjeDThq1yjatEIa31H/YMCuvc6jplT4MOaK62tNmPlyOC0ZwoYJ9ZDdp2Ridpyxa2w==",
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/reactivestates/-/reactivestates-2.0.0.tgz",
+      "integrity": "sha512-nr7sUWIXr6Kwe53hZtoIxmWMVOt43Qf++gexTYh+kwPWw9jOHu+u6GrwHbgMLba9VOWQQdMaFygSHf67UP7j3A==",
       "requires": {
         "es6-shim": "^0.35.3",
         "lodash": "^4.17.5",
-        "rxjs": "^5.5.6",
+        "rxjs": "^6.0.0",
         "ts-lint": "^4.5.1"
       },
       "dependencies": {
-        "rxjs": {
-          "version": "5.5.10",
-          "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-5.5.10.tgz",
-          "integrity": "sha512-SRjimIDUHJkon+2hFo7xnvNC4ZEHGzCRwh9P7nzX3zPkCGFEg/tuElrNR7L/rZMagnK2JeH2jQwPRpmyXyLB6A==",
+        "glob": {
+          "version": "7.1.2",
+          "resolved": "https://registry.npmjs.org/glob/-/glob-7.1.2.tgz",
+          "integrity": "sha512-MJTUg1kjuLeQCJ+ccE4Vpa6kKVXkPYJ2mOCQyUuKLcLQsdrMCpBPUi8qVE6+YuaJkozeA9NusTAw3hLr8Xe5EQ==",
           "requires": {
-            "symbol-observable": "1.0.1"
+            "fs.realpath": "^1.0.0",
+            "inflight": "^1.0.4",
+            "inherits": "2",
+            "minimatch": "^3.0.4",
+            "once": "^1.3.0",
+            "path-is-absolute": "^1.0.0"
+          }
+        },
+        "ts-lint": {
+          "version": "4.5.1",
+          "resolved": "https://registry.npmjs.org/ts-lint/-/ts-lint-4.5.1.tgz",
+          "integrity": "sha1-nCK3t7hitnMk3RvSE6hFwDp/uMA=",
+          "requires": {
+            "babel-code-frame": "^6.20.0",
+            "colors": "^1.1.2",
+            "diff": "^3.0.1",
+            "findup-sync": "~0.3.0",
+            "glob": "^7.1.1",
+            "optimist": "~0.6.0",
+            "resolve": "^1.1.7",
+            "tsutils": "^1.1.0"
           }
         }
       }
@@ -14227,11 +14237,6 @@
       "requires": {
         "tslib": "^1.9.0"
       }
-    },
-    "rxjs-compat": {
-      "version": "6.1.0",
-      "resolved": "https://registry.npmjs.org/rxjs-compat/-/rxjs-compat-6.1.0.tgz",
-      "integrity": "sha512-x5L1KQy1RqDRpPadN5iDOx71TV9Wqmlmu6OOEn3tFFgaTCB0/N+Lmby/rZHgJ6JEPzzt0nD9Zv+kS53E5JIR5g=="
     },
     "safe-buffer": {
       "version": "5.1.1",
@@ -15580,7 +15585,8 @@
     "symbol-observable": {
       "version": "1.0.1",
       "resolved": "https://registry.npmjs.org/symbol-observable/-/symbol-observable-1.0.1.tgz",
-      "integrity": "sha1-g0D8RwLDEi310iKI+IKD9RPT/dQ="
+      "integrity": "sha1-g0D8RwLDEi310iKI+IKD9RPT/dQ=",
+      "dev": true
     },
     "tapable": {
       "version": "0.2.8",
@@ -15851,36 +15857,6 @@
       "version": "0.1.2",
       "resolved": "https://registry.npmjs.org/tryor/-/tryor-0.1.2.tgz",
       "integrity": "sha1-gUXkynyv9ArN48z5Rui4u3W0Fys="
-    },
-    "ts-lint": {
-      "version": "4.5.1",
-      "resolved": "https://registry.npmjs.org/ts-lint/-/ts-lint-4.5.1.tgz",
-      "integrity": "sha1-nCK3t7hitnMk3RvSE6hFwDp/uMA=",
-      "requires": {
-        "babel-code-frame": "^6.20.0",
-        "colors": "^1.1.2",
-        "diff": "^3.0.1",
-        "findup-sync": "~0.3.0",
-        "glob": "^7.1.1",
-        "optimist": "~0.6.0",
-        "resolve": "^1.1.7",
-        "tsutils": "^1.1.0"
-      },
-      "dependencies": {
-        "glob": {
-          "version": "7.1.2",
-          "resolved": "https://registry.npmjs.org/glob/-/glob-7.1.2.tgz",
-          "integrity": "sha512-MJTUg1kjuLeQCJ+ccE4Vpa6kKVXkPYJ2mOCQyUuKLcLQsdrMCpBPUi8qVE6+YuaJkozeA9NusTAw3hLr8Xe5EQ==",
-          "requires": {
-            "fs.realpath": "^1.0.0",
-            "inflight": "^1.0.4",
-            "inherits": "2",
-            "minimatch": "^3.0.4",
-            "once": "^1.3.0",
-            "path-is-absolute": "^1.0.0"
-          }
-        }
-      }
     },
     "ts-loader": {
       "version": "2.3.7",

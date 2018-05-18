@@ -1,7 +1,7 @@
 import {EventEmitter} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {debounceTime, takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 
 export class DebouncedEventEmitter<T> {
 

@@ -26,17 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {async, TestBed} from '@angular/core/testing';
-import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Injector} from '@angular/core';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {SinonStub} from 'sinon';
-import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
-import {States} from 'core-components/states.service';
-import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
+import {async, TestBed} from '@angular/core/testing';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {Observable} from 'rxjs';
+import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
+import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
+import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {States} from 'core-components/states.service';
+import {of} from 'rxjs';
+import {SinonStub} from 'sinon';
 
 describe('HalResource', () => {
   let halResourceService:HalResourceService;
@@ -58,7 +58,7 @@ describe('HalResource', () => {
         HalResourceService,
         States,
         TypeDmService,
-        { provide: I18nToken, useValue: {} },
+        {provide: I18nToken, useValue: {}},
       ]
     })
       .compileComponents()
@@ -88,7 +88,7 @@ describe('HalResource', () => {
       getStub = sinon.stub(halResourceService, 'request');
       getStub
         .withArgs('get', '/api/hello')
-        .returns(Observable.of(halResourceService.createHalResource(source)));
+        .returns(of(halResourceService.createHalResource(source)));
     });
 
     afterEach(() => {
@@ -127,8 +127,8 @@ describe('HalResource', () => {
 
         halResourceService.registerResource(
           'Other',
-          { cls: OtherResource, attrTypes: { someResource: 'Other' } }
-          );
+          {cls: OtherResource, attrTypes: {someResource: 'Other'}}
+        );
         resource = halResourceService.createHalResource(source, false);
       });
 
@@ -378,7 +378,7 @@ describe('HalResource', () => {
       let stub = sinon.stub(halResourceService, 'request');
       stub
         .withArgs('get', 'unicorn/69')
-        .returns(Observable.of(halResourceService.createHalResource({})));
+        .returns(of(halResourceService.createHalResource({})));
 
       expect(() => resource.$links.self()).to.not.throw(Error);
       stub.restore();
@@ -388,7 +388,7 @@ describe('HalResource', () => {
       let stub = sinon.stub(halResourceService, 'request');
       stub
         .withArgs('get', 'justin/420')
-        .returns(Observable.of(halResourceService.createHalResource({})));
+        .returns(of(halResourceService.createHalResource({})));
 
       expect(() => resource.$links.beaver()).to.not.throw(Error);
 
@@ -724,7 +724,7 @@ describe('HalResource', () => {
 
             getStub
               .withArgs('get', '/api/property')
-              .returns(Observable.of(result));
+              .returns(of(result));
 
             resource = resource.property;
             resource.$load();

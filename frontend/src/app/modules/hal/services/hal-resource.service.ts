@@ -28,12 +28,12 @@
 
 import {Injectable, Injector} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
+import {throwError} from 'rxjs/internal/observable/throwError';
 import {catchError, map, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {HalResource, HalResourceClass} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
-import {ErrorObservable} from 'rxjs/observable/ErrorObservable';
 import {initializeHalProperties} from 'core-app/modules/hal/helpers/hal-resource-builder';
 import {URLParamsEncoder} from 'core-app/modules/hal/services/url-params-encoder';
 
@@ -97,9 +97,9 @@ export class HalResourceService {
         map((response:any) => this.createHalResource(response)),
         catchError((error:HttpErrorResponse) => {
           console.error(`Failed to ${method} ${href}: ${error.name}`);
-          return new ErrorObservable(this.createHalResource(error.error));
+          return throwError(this.createHalResource(error.error));
         })
-      );
+      ) as any;
   }
 
   /**
