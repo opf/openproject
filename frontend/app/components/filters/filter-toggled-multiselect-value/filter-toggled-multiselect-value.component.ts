@@ -47,7 +47,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
   public isMultiselect:boolean;
-  public availableOptions:HalResource[] = [];
+  public _availableOptions:HalResource[] = [];
   public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
 
   readonly text = {
@@ -96,6 +96,34 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
     return _.isEmpty(this.filter.values);
   }
 
+
+  public get availableOptions() {
+    return this._availableOptions;
+  }
+
+  public set availableOptions(val:HalResource[]) {
+    const sortByProperty = this.sortingProperty();
+
+    if (sortByProperty === undefined) {
+      this._availableOptions = val;
+    } else {
+      this._availableOptions = _.sortBy<HalResource>(val, v => v[sortByProperty].toLowerCase());
+    }
+  }
+
+  private sortingProperty():string|undefined {
+    if (this.isUserResource) {
+      return 'name';
+    }
+
+    return;
+  }
+
+  private get isUserResource() {
+    let type = _.get(this.filter.currentSchema, 'values.type', null);
+    return type && type.indexOf('User') > 0;
+  }
+
   private fetchAllowedValues() {
     if ((this.filter.currentSchema!.values!.allowedValues as CollectionResource)['$load']) {
       this.loadAllowedValues();
@@ -113,8 +141,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
     // the current user's value from the set of allowedValues. The
     // copy will have it's name altered to 'me' and will then be
     // prepended to the list.
-    let isUserResource = valuesSchema.type.indexOf('User') > 0;
-    if (isUserResource) {
+    if (this.isUserResource) {
       loadingPromises.push(this.RootDm.load());
     }
 
@@ -122,15 +149,15 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
       .then(((resources:Array<HalResource>) => {
         let options = (resources[0] as CollectionResource).elements;
 
-        if (isUserResource && this.filter.filter.id !== 'memberOfGroup') {
-          this.addMeValue(options, (resources[1] as RootResource).user);
-        }
-
         this.availableOptions = options;
+
+        if (this.isUserResource && this.filter.filter.id !== 'memberOfGroup') {
+          this.addMeValue((resources[1] as RootResource).user);
+        }
       }));
   }
 
-  private addMeValue(options:HalResource[], currentUser:UserResource) {
+  private addMeValue(currentUser:UserResource) {
     if (!(currentUser && currentUser.$href)) {
       return;
     }
@@ -146,6 +173,6 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
       }, true
     );
 
-    options.unshift(me);
+    this._availableOptions.unshift(me);
   }
 }
