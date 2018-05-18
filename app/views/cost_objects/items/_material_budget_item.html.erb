@@ -69,8 +69,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   </td>
   <% if User.current.allowed_to? :view_cost_rates, @project %>
     <td class="currency budget-table--fields">
-      <cost-unit-subform obj-id="<%= "#{id_prefix}_costs" %>" obj-name="<%= "#{name_prefix}[budget]" %>">
-        <a href="javascript:;" id="<%= "#{id_prefix}_costs" %>" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
+      <% obj_id = "#{id_prefix}_costs" %>
+      <%# Keep current budget as hidden field because otherwise they will be overridden %>
+      <% if templated == false && !material_budget_item.new_record? && material_budget_item.overridden_budget? %>
+        <%= cost_form.hidden_field :budget, value: material_budget_item.budget %>
+      <% end %>
+      <cost-unit-subform obj-id="<%= obj_id %>" obj-name="<%= "#{name_prefix}[budget]" %>">
+        <a id="<%= obj_id %>" class="costs--edit-planned-costs-btn" role="button" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
           <%= number_to_currency(material_budget_item.budget || material_budget_item.calculated_costs(@cost_object.fixed_date)) %>
         </a>
       </cost-unit-subform>

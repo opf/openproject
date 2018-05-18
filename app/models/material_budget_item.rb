@@ -46,6 +46,10 @@ class MaterialBudgetItem < ActiveRecord::Base
     budget || calculated_costs
   end
 
+  def overridden_budget?
+    budget.present?
+  end
+
   def calculated_costs(fixed_date = cost_object.fixed_date)
     if units && cost_type && rate = cost_type.rate_at(fixed_date)
       rate.rate * units

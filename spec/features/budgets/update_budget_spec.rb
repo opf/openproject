@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
+require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
 describe 'updating a budget', type: :feature, js: true do
   let(:project) { FactoryGirl.create :project_with_types }
@@ -115,6 +115,82 @@ describe 'updating a budget', type: :feature, js: true do
       expect(page).to have_selector('tbody td.currency', text: '75.00 EUR')
       expect(budget_page.labor_costs_at(1)).to have_content '75.00 EUR'
       expect(budget_page.overall_labor_costs).to have_content '75.00 EUR'
+    end
+
+    context 'with two material budget items' do
+      let!(:material_budget_item_2) do
+        FactoryGirl.create :material_budget_item, units: 5,
+                           cost_type: cost_type,
+                           cost_object: budget
+      end
+
+      it 'keeps previous planned material costs (Regression test #27692)' do
+        budget_page.visit!
+        click_on 'Update'
+
+        # Update first element
+        budget_page.edit_planned_costs! material_budget_item.id, type: :material, costs: 123
+        expect(budget_page).to have_content('Successful update')
+        expect(page).to have_selector('tbody td.currency', text: '123.00 EUR')
+
+        click_on 'Update'
+
+        # Update second element
+        budget_page.edit_planned_costs! material_budget_item_2.id, type: :material, costs: 543
+        expect(budget_page).to have_content('Successful update')
+        expect(page).to have_selector('tbody td.currency', text: '123.00 EUR')
+        expect(page).to have_selector('tbody td.currency', text: '543.00 EUR')
+
+        # Expect overridden costs on both
+        material_budget_item.reload
+        material_budget_item_2.reload
+
+        # Expect budget == costs
+        expect(material_budget_item.budget).to eq(123.0)
+        expect(material_budget_item.overridden_budget?).to be_truthy
+        expect(material_budget_item.costs).to eq(123.0)
+        expect(material_budget_item_2.budget).to eq(543.0)
+        expect(material_budget_item_2.overridden_budget?).to be_truthy
+        expect(material_budget_item_2.costs).to eq(543.0)
+      end
+    end
+
+    context 'with two labor budget items' do
+      let!(:labor_budget_item_2) do
+        FactoryGirl.create :labor_budget_item, hours: 5,
+                           user: user,
+                           cost_object: budget
+      end
+
+      it 'keeps previous planned labor costs (Regression test #27692)' do
+        budget_page.visit!
+        click_on 'Update'
+
+        # Update first element
+        budget_page.edit_planned_costs! labor_budget_item.id, type: :labor, costs: 456
+        expect(budget_page).to have_content('Successful update')
+        expect(page).to have_selector('tbody td.currency', text: '456.00 EUR')
+
+        click_on 'Update'
+
+        # Update second element
+        budget_page.edit_planned_costs! labor_budget_item_2.id, type: :labor, costs: 987
+        expect(budget_page).to have_content('Successful update')
+        expect(page).to have_selector('tbody td.currency', text: '456.00 EUR')
+        expect(page).to have_selector('tbody td.currency', text: '987.00 EUR')
+
+        # Expect overridden costs on both
+        labor_budget_item.reload
+        labor_budget_item_2.reload
+
+        # Expect budget == costs
+        expect(labor_budget_item.budget).to eq(456.0)
+        expect(labor_budget_item.overridden_budget?).to be_truthy
+        expect(labor_budget_item.costs).to eq(456.0)
+        expect(labor_budget_item_2.budget).to eq(987.0)
+        expect(labor_budget_item_2.overridden_budget?).to be_truthy
+        expect(labor_budget_item_2.costs).to eq(987.0)
+      end
     end
 
     it 'removes existing cost items' do

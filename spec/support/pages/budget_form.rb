@@ -51,11 +51,29 @@ module Pages
     # Adds planned unit costs with the default cost type.
     #
     # @param type [String] Either 'existing' (default) or 'new'
-    def edit_unit_costs!(id, units:nil, comment: nil, type: 'existing')
+    def edit_unit_costs!(id, units:nil, comment: nil, type: :existing)
       prefix = "#{unit_cost_attr_id(type)}_#{id}"
 
       fill_in "#{prefix}_units", with: units if units.present?
       fill_in "#{prefix}_comments", with: comment if comment.present?
+    end
+
+    def edit_planned_costs!(id, costs:, type: )
+      row_id = "#cost_object_existing_#{type}_budget_item_attributes_#{id}"
+      editor_name = "cost_object_existing_#{type}_budget_item_attributes_#{id}_costs_edit"
+
+
+      page.within row_id do
+        find('.costs--edit-planned-costs-btn').click
+        fill_in editor_name, with: costs
+      end
+
+      submit_form!
+    end
+
+    # Submit the costs form
+    def submit_form!
+      find('#budget-table--submit-button').click
     end
 
     ##

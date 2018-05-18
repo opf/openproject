@@ -39,7 +39,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     subject { described_class.new(work_package: work_package) }
 
     before do
-      allow(project).to receive(:cost_objects).and_return(double('CostObjects'))
+      allow(project).to receive(:budgets).and_return(double('CostObjects'))
     end
 
     it 'returns project.cost_objects' do
