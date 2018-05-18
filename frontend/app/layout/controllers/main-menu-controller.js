@@ -35,7 +35,7 @@ module.exports = function($rootScope, $window) {
       var savedMainMenuWidth = parseInt(window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth"));
       if (savedMainMenuWidth < 230) {
         htmlNode.style.setProperty("--main-menu-width", '230px');
-        window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth"), '230';
+        window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth", '230');
       }
     }
     $rootScope.showNavigation = !$rootScope.showNavigation;

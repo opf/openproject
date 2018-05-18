@@ -94,7 +94,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <h1 class="hidden-for-sighted">
                 <%= l(:label_top_menu) %>
               </h1>
-              <div id="mobile-main-menu-toggle"
+              <div id="main-menu-toggle"
                    ng-controller="MainMenuController as mainMenu"
                    ng-click="mainMenu.toggleNavigation()">
                 <a icon="icon-hamburger"
@@ -192,7 +192,6 @@ See docs/COPYRIGHT.rdoc for more details.
       $('html')[0].style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
 
       wrapper.show();
-
 
       // Wrapper for page-specific JS from deprecated inline functions
       // no longer available with CSP.
