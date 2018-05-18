@@ -59,6 +59,10 @@ module API
             download_attachment_path(id, filename)
           end
 
+          def self.attachments_by_post(id)
+            "#{post(id)}/attachments"
+          end
+
           def self.attachments_by_work_package(id)
             "#{work_package(id)}/attachments"
           end
@@ -133,6 +137,10 @@ module API
 
           def self.my_preferences
             "#{root}/my_preferences"
+          end
+
+          def self.post(id)
+            "#{root}/posts/#{id}"
           end
 
           def self.principals

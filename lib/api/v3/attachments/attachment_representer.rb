@@ -53,6 +53,8 @@ module API
                             ::API::V3::WorkPackages::WorkPackageRepresenter
                           when WikiPage
                             ::API::V3::WikiPages::WikiPageRepresenter
+                          when Message
+                            ::API::V3::Posts::PostRepresenter
                           end
 
             representer.new(represented.container, current_user: current_user)
@@ -66,6 +68,8 @@ module API
                                       %i[work_package subject]
                                     when WikiPage
                                       %i[wiki_page title]
+                                    when Message
+                                      %i[post subject]
                                     end
 
             ::API::Decorators::LinkObject

@@ -38,11 +38,16 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
   end
   let(:project) { FactoryBot.create(:project, is_public: false) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { %i[view_work_packages view_wiki_pages edit_work_packages edit_wiki_pages] }
+  let(:permissions) do
+    %i[view_work_packages view_wiki_pages delete_wiki_pages_attachments
+       edit_work_packages edit_wiki_pages edit_messages]
+  end
   let(:work_package) { FactoryBot.create(:work_package, author: current_user, project: project) }
   let(:attachment) { FactoryBot.create(:attachment, container: container) }
   let(:wiki) { FactoryBot.create(:wiki, project: project) }
   let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki) }
+  let(:board) { FactoryBot.create(:board, project: project) }
+  let(:board_message) { FactoryBot.create(:message, board: board) }
   let(:container) { work_package }
 
   before do
@@ -53,10 +58,10 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
     subject(:response) { last_response }
     let(:get_path) { api_v3_paths.attachment attachment.id }
 
-    %i[wiki_page work_package].each do |attachment_type|
-      let(:container) { send(attachment_type) }
-
+    %i[wiki_page work_package board_message].each do |attachment_type|
       context "with a #{attachment_type} attachment" do
+        let(:container) { send(attachment_type) }
+
         context 'logged in user' do
           before do
             get get_path
@@ -80,7 +85,11 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
           end
 
           context 'requesting attachments without sufficient permissions' do
-            let(:permissions) { [] }
+            if attachment_type == :board_message
+              let(:current_user) { FactoryBot.create(:user) }
+            else
+              let(:permissions) { [] }
+            end
 
             it_behaves_like 'not found' do
               let(:type) { 'Attachment' }
@@ -100,37 +109,39 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
 
     subject(:response) { last_response }
 
-    %i[wiki_page work_package].each do |attachment_type|
-      let(:container) { send(attachment_type) }
+    %i[wiki_page work_package board_message].each do |attachment_type|
+      context "with a #{attachment_type} attachment" do
+        let(:container) { send(attachment_type) }
 
-      context 'with required permissions' do
-        it 'responds with HTTP No Content' do
-          expect(subject.status).to eq 204
-        end
+        context 'with required permissions' do
+          it 'responds with HTTP No Content' do
+            expect(subject.status).to eq 204
+          end
 
-        it 'deletes the attachment' do
-          expect(Attachment.exists?(attachment.id)).not_to be_truthy
-        end
+          it 'deletes the attachment' do
+            expect(Attachment.exists?(attachment.id)).not_to be_truthy
+          end
 
-        context 'for a non-existent attachment' do
-          let(:path) { api_v3_paths.attachment 1337 }
+          context 'for a non-existent attachment' do
+            let(:path) { api_v3_paths.attachment 1337 }
 
-          it_behaves_like 'not found' do
-            let(:id) { 1337 }
-            let(:type) { 'Attachment' }
+            it_behaves_like 'not found' do
+              let(:id) { 1337 }
+              let(:type) { 'Attachment' }
+            end
           end
         end
-      end
 
-      context 'without required permissions' do
-        let(:permissions) { %i[view_work_packages view_wiki_pages] }
+        context 'without required permissions' do
+          let(:permissions) { %i[view_work_packages view_wiki_pages] }
 
-        it 'responds with 403' do
-          expect(subject.status).to eq 403
-        end
+          it 'responds with 403' do
+            expect(subject.status).to eq 403
+          end
 
-        it 'does not delete the attachment' do
-          expect(Attachment.exists?(attachment.id)).to be_truthy
+          it 'does not delete the attachment' do
+            expect(Attachment.exists?(attachment.id)).to be_truthy
+          end
         end
       end
     end

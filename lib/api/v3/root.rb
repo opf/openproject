@@ -42,6 +42,7 @@ module API
       mount ::API::V3::CustomActions::CustomActionsAPI
       mount ::API::V3::CustomOptions::CustomOptionsAPI
       mount ::API::V3::HelpTexts::HelpTextsAPI
+      mount ::API::V3::Posts::PostsAPI
       mount ::API::V3::Principals::PrincipalsAPI
       mount ::API::V3::Priorities::PrioritiesAPI
       mount ::API::V3::Projects::ProjectsAPI

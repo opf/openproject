@@ -86,6 +86,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'path', '/attachments/1/file.png'
   end
 
+  describe '#attachments_by_post' do
+    subject { helper.attachments_by_post 1 }
+
+    it_behaves_like 'api v3 path', '/posts/1/attachments'
+  end
+
   describe '#attachments_by_work_package' do
     subject { helper.attachments_by_work_package 1 }
 
@@ -214,6 +220,12 @@ describe ::API::V3::Utilities::PathHelper do
         it { is_expected.to eql('/api/v3/render/plain') }
       end
     end
+  end
+
+  describe '#post' do
+    subject { helper.post 1 }
+
+    it_behaves_like 'api v3 path', '/posts/1'
   end
 
   describe '#principals' do
