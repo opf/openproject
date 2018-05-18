@@ -72,7 +72,7 @@ describe ::API::V3::Relations::RelationRepresenter do
         "to" => {
           "href" => "/api/v3/work_packages/#{to.id}",
           "title" => to.subject
-        },
+        }
       },
       "id" => relation.id,
       "name" => "follows",

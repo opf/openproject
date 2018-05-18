@@ -33,11 +33,11 @@ module OpenProject
   module Configuration
     extend Helpers
 
-    ENV_PREFIX = 'OPENPROJECT_'
+    ENV_PREFIX = 'OPENPROJECT_'.freeze
 
     # Configuration default values
     @defaults = {
-      'attachments_storage'     => 'file',
+      'attachments_storage' => 'file',
       'attachments_storage_path' => nil,
       'autologin_cookie_name'   => 'autologin',
       'autologin_cookie_path'   => '/',
@@ -74,12 +74,12 @@ module OpenProject
       'email_delivery_method' => nil,
       'smtp_address' => nil,
       'smtp_port' => nil,
-      'smtp_domain' => nil,  # HELO domain
+      'smtp_domain' => nil, # HELO domain
       'smtp_authentication' => nil,
       'smtp_user_name' => nil,
       'smtp_password' => nil,
       'smtp_enable_starttls_auto' => nil,
-      'smtp_openssl_verify_mode' => nil,  # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
+      'smtp_openssl_verify_mode' => nil, # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
       'sendmail_location' => '/usr/sbin/sendmail',
       'sendmail_arguments' => '-i',
 
@@ -118,7 +118,9 @@ module OpenProject
       'main_content_language' => 'english',
 
       # Allow in-context translations to be loaded with CSP
-      'crowdin_in_context_translations' => true
+      'crowdin_in_context_translations' => true,
+
+      'registration_footer' => {}
     }
 
     @config = nil
@@ -149,8 +151,8 @@ module OpenProject
       # exists
       def override_config!(config, source = default_override_source)
         config.keys
-          .select { |key| source.include? key.upcase }
-          .each   do |key| config[key] = extract_value key, source[key.upcase] end
+              .select { |key| source.include? key.upcase }
+              .each   { |key| config[key] = extract_value key, source[key.upcase] }
 
         config.deep_merge! merge_config(config, source)
       end
@@ -350,7 +352,6 @@ module OpenProject
         ActionMailer::Base.smtp_settings[:enable_starttls_auto] = Setting.smtp_enable_starttls_auto?
       end
 
-
       ##
       # The default source for overriding configuration values
       # is ENV, but may be changed for testing purposes
@@ -367,13 +368,12 @@ module OpenProject
       # @return A ruby object (e.g. Integer, Float, String, Hash, Boolean, etc.)
       # @raise [ArgumentError] If the string could not be parsed.
       def extract_value(key, value)
-
         # YAML parses '' as false, but empty ENV variables will be passed as that.
         # To specify specific values, one can use !!str (-> '') or !!null (-> nil)
         return value if value == ''
 
         YAML.load(value)
-      rescue => e
+      rescue StandardError => e
         raise ArgumentError, "Configuration value for '#{key}' is invalid: #{e.message}"
       end
 
@@ -410,9 +410,9 @@ module OpenProject
         if config['email_delivery']
           unless options[:disable_deprecation_message]
             ActiveSupport::Deprecation.warn 'Deprecated mail delivery settings used. Please ' +
-              'update them in config/configuration.yml or use ' +
-              'environment variables. See doc/CONFIGURATION.md for ' +
-              'more information.'
+                                            'update them in config/configuration.yml or use ' +
+                                            'environment variables. See doc/CONFIGURATION.md for ' +
+                                            'more information.'
           end
 
           config['email_delivery_method'] = config['email_delivery']['delivery_method'] || :smtp
