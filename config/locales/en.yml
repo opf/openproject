@@ -904,6 +904,7 @@ en:
   error_check_user_and_role: "Please choose a user and a role."
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Option does not exist."
+  error_dependent_work_package: "Error in dependent work package #%{related_id} %{related_subject}: %{error}"
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_invalid_group_by: "Can't group by: %{value}"
   error_invalid_query_column: "Invalid query column: %{value}"
