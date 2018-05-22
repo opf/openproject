@@ -28,11 +28,20 @@
 
 (function ($) {
   "use strict";
+
   $(function() {
+    // set selected page for menu tree if provided.
+    $('[data-selected-page].tree-menu--container').each(function(_i, tree){
+      var selectedPage = $(tree).data('selected-page');
+      if (selectedPage) {
+        $('[slug=' + selectedPage + ']', tree).toggleClass('-selected', true);
+      }
+    });
+
+    // set click handlers for expanding and collapsing tree nodes
     $('.pages-hierarchy.-with-hierarchy .tree-menu--hierarchy-span').click(function (event) {
       var target = $(event.target);
       var targetList = target.closest('.-with-hierarchy');
-      console.log("click was triggered", targetList);
       if (targetList.hasClass('-hierarchy-collapsed')) {
         targetList.addClass('-hierarchy-expanded');
         targetList.removeClass('-hierarchy-collapsed');

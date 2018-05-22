@@ -571,7 +571,7 @@ module ApplicationHelper
   private
 
   def render_hierarchy_item(page, is_parent, options = {})
-    content_tag(:span, class: hierarchy_item_classes(page)) do
+    content_tag(:span, class: 'tree-menu--item', slug: page.slug) do
       hierarchy_span_content = nil
       if is_parent
         hierarchy_span_content = if is_parent
@@ -594,14 +594,6 @@ module ApplicationHelper
     if options[:timestamp] && page.updated_on
       l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on))
     end
-  end
-
-  def hierarchy_item_classes(page)
-    item_classes = 'tree-menu--item'
-    if @page.present? && @page.id == page.id
-      item_classes += ' -selected'
-    end
-    item_classes
   end
 
   def render_leaf_indicator

@@ -31,7 +31,7 @@ require 'diff'
 require 'enumerator'
 
 class WikiPage < ActiveRecord::Base
-  belongs_to :wiki
+  belongs_to :wiki, touch: true
   has_one :project, through: :wiki
   has_one :content, class_name: 'WikiContent', foreign_key: 'page_id', dependent: :destroy
   acts_as_attachable delete_permission: :delete_wiki_pages_attachments
