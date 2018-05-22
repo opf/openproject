@@ -37,6 +37,7 @@ import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/c
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 
 @Component({
   selector: 'filter-toggled-multiselect-value',
@@ -58,6 +59,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
 
   constructor(readonly RootDm:RootDmService,
               readonly halResourceService:HalResourceService,
+              readonly halSorting:HalResourceSortingService,
               readonly PathHelper:PathHelperService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
   }
@@ -102,21 +104,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
   }
 
   public set availableOptions(val:HalResource[]) {
-    const sortByProperty = this.sortingProperty();
-
-    if (sortByProperty === undefined) {
-      this._availableOptions = val;
-    } else {
-      this._availableOptions = _.sortBy<HalResource>(val, v => v[sortByProperty].toLowerCase());
-    }
-  }
-
-  private sortingProperty():string|undefined {
-    if (this.isUserResource) {
-      return 'name';
-    }
-
-    return;
+    this._availableOptions = this.halSorting.sort(val);
   }
 
   private get isUserResource() {

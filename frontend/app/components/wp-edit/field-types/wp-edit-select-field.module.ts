@@ -30,6 +30,7 @@ import {EditField} from '../wp-edit-field/wp-edit-field.module';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 
 export interface ValueOption {
   name:string;
@@ -42,23 +43,23 @@ export class SelectEditField extends EditField {
   public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html';
   public text:{requiredPlaceholder:string, placeholder:string};
 
+  public I18n:op.I18n;
+  public halSorting:HalResourceSortingService
+
   protected initialize() {
-    const I18n:any = this.$injector.get(I18nToken);
+    this.I18n = this.$injector.get(I18nToken);
+    this.halSorting = this.$injector.get(HalResourceSortingService);
+
     this.text = {
-      requiredPlaceholder: I18n.t('js.placeholders.selection'),
-      placeholder: I18n.t('js.placeholders.default')
+      requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
+      placeholder: this.I18n.t('js.placeholders.default')
     };
 
     if (angular.isArray(this.schema.allowedValues)) {
       this.setValues(this.schema.allowedValues);
     } else if (this.schema.allowedValues) {
       this.schema.allowedValues.$load().then((values:CollectionResource) => {
-        // The select options of the project shall be sorted
-        if (values.count > 0 && (values.elements[0] as any)._type === 'Project') {
-          this.setValues(values.elements, true);
-        } else {
-          this.setValues(values.elements);
-        }
+        this.setValues(values.elements);
       });
     } else {
       this.setValues([]);
@@ -71,7 +72,7 @@ export class SelectEditField extends EditField {
   }
 
   public set selectedOption(val:ValueOption) {
-    const option = _.find(this.options, o => o.href === val.href);
+    let option = _.find(this.options, o => o.href === val.href);
 
     // Special case 'null' value, which angular
     // only understands in ng-options as an empty string.
@@ -82,16 +83,8 @@ export class SelectEditField extends EditField {
     this.value = option;
   }
 
-  private setValues(availableValues:any[], sortValuesByName = false) {
-    if (sortValuesByName) {
-      availableValues.sort(function(a, b) {
-        var nameA = a.name.toLowerCase();
-        var nameB = b.name.toLowerCase();
-        return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
-      });
-    }
-
-    this.options = availableValues;
+  private setValues(availableValues:HalResource[]) {
+    this.options = this.halSorting.sort(availableValues);
     this.addEmptyOption();
     this.valueOptions = this.options.map(el => {
       return { name: el.name, href: el.href };

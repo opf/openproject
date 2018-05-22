@@ -42,6 +42,8 @@ import {By} from '@angular/platform-browser';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {OpenprojectHalModule} from "core-app/modules/hal/openproject-hal.module";
+import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 
 require('core-app/angular4-test-setup');
 
@@ -59,10 +61,12 @@ describe('FilterToggledMultiselectValueComponent', () => {
 
   const allowedValues = [
     {
+      _type: 'Foo',
       name: 'New York',
       $href: 'api/new_york'
     },
     {
+      _type: 'Foo',
       name: 'California',
       $href: 'api/california'
     }
@@ -71,7 +75,7 @@ describe('FilterToggledMultiselectValueComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        FormsModule
+        FormsModule,
       ],
       declarations: [
         OpIcon,
@@ -83,7 +87,8 @@ describe('FilterToggledMultiselectValueComponent', () => {
         { provide: RootDmService, useValue: {} },
         { provide: $qToken, useValue: {} },
         { provide: $httpToken, useValue: {} },
-        { provide: HalResourceService, useValue: {} }
+        { provide: HalResourceService, useValue: {} },
+        HalResourceSortingService
       ]
     })
       .compileComponents()
