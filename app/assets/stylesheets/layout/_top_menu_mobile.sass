@@ -105,13 +105,18 @@
     #projects-menu
       font-size: 15px
       .button--dropdown-text
-        // Viewport minus #account-nav-right when logged out
-        // Long login translation: "Connexion" (French) to test
-        max-width: calc(100vW - 165px - 49px)
+        // Viewport minus #account-nav-right when logged out, which is
+        // 165px, as this is the space for the long login text label: "Connexion" (French).
+        // 21px is the padding around the project name.
+        max-width: calc(100vW - 165px - 21px - #{$hamburger-width} + (-1 * #{$hamburger-right}))
+        .nosidebar &
+          max-width: calc(100vW - 165px - 21px)
     .drop-down
       // Viewport minus #account-nav-right when logged out
-      // Long login translation: "Connexion" (French) to test
-      max-width: calc(100vW - 165px)
+      // 165px as this is the space for the long login text label: "Connexion" (French)
+      max-width: calc(100vW - 165px - #{$hamburger-width} + (-1 * #{$hamburger-right}))
+      .nosidebar &
+        max-width: calc(100vW - 165px)
       ul
         width: 100vw !important
         border: none
