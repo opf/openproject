@@ -37,24 +37,25 @@ module API
         resources :statuses do
           before do
             authorize(:view_work_packages, global: true)
-
-            @statuses = Status.all
           end
 
           get do
-            StatusCollectionRepresenter.new(@statuses,
+            StatusCollectionRepresenter.new(Status.all,
                                             api_v3_paths.statuses,
                                             current_user: current_user)
           end
 
           route_param :id do
-            before do
-              status = Status.find(params[:id])
-              @representer = StatusRepresenter.new(status, current_user: current_user)
+            helpers do
+              # Note that naming the method #status or having
+              # a variable named @status colides with grape.
+              def work_package_status
+                Status.find(params[:id])
+              end
             end
 
             get do
-              @representer
+              StatusRepresenter.new(work_package_status, current_user: current_user)
             end
           end
         end
