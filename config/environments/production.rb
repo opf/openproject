@@ -73,6 +73,18 @@ OpenProject::Application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = OpenProject::Configuration['rails_force_ssl']
+  config.ssl_options = {
+    # Disable redirect on the internal SYS API
+    redirect: {
+      exclude: ->(request) do
+        # Respect the relative URL
+        relative_url = Regexp.escape(OpenProject::Configuration['rails_relative_url_root'])
+        # When we match SYS controller API, allow non-https access
+        request.path =~ /#{relative_url}\/sys\//
+      end
+    },
+    secure_cookies: true
+  }
 
   # Set to :debug to see everything in the log.
   config.log_level = :warn
