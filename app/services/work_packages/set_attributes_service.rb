@@ -66,6 +66,7 @@ class WorkPackages::SetAttributesService
     update_project_dependent_attributes
     update_dates
     reset_custom_values
+    reassign_invalid_status_if_type_changed
   end
 
   def set_default_attributes
@@ -96,6 +97,7 @@ class WorkPackages::SetAttributesService
 
     set_fixed_version_to_nil
     reassign_category
+
     reassign_type unless work_package.type_id_changed?
   end
 
@@ -132,15 +134,22 @@ class WorkPackages::SetAttributesService
 
     work_package.type = available_types.detect(&:is_default) || available_types.first
 
-    reassign_status
+    reassign_status work_package.new_statuses_allowed_to(user, true)
   end
 
-  def reassign_status
-    available_statuses = work_package.new_statuses_allowed_to(user, true)
-
+  def reassign_status(available_statuses)
     return if available_statuses.include? work_package.status
 
-    work_package.status = available_statuses.detect(&:is_default) || available_statuses.first
+    new_status = available_statuses.detect(&:is_default) || available_statuses.first
+    work_package.status = new_status if new_status.present?
+  end
+
+  def reassign_invalid_status_if_type_changed
+    # Checks that the issue can not be moved to a type with the status unchanged
+    # and the target type does not have this status
+    if work_package.type_id_changed? && !work_package.status_id_changed?
+      reassign_status work_package.type.statuses(include_default: true)
+    end
   end
 
   def reset_custom_values

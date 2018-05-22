@@ -97,9 +97,18 @@ class ::Type < ActiveRecord::Base
     ::Type.includes(:projects).where(projects: { id: project })
   end
 
-  def statuses
+  def statuses(include_default: false)
     return [] if new_record?
+
     @statuses ||= ::Type.statuses([id])
+    return @statuses unless include_default
+
+    default = Status.default
+    if default.nil?
+      @statuses
+    else
+      [default] + @statuses
+    end
   end
 
   def enabled_in?(object)

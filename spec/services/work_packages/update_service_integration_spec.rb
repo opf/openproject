@@ -41,10 +41,10 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
     %i(view_work_packages edit_work_packages add_work_packages move_work_packages manage_subtasks)
   end
 
+  let(:status) { FactoryBot.create(:default_status) }
   let(:type) { FactoryBot.create(:type_standard) }
   let(:project_types) { [type] }
   let(:project) { FactoryBot.create(:project, types: project_types) }
-  let(:status) { FactoryBot.create(:status) }
   let(:priority) { FactoryBot.create(:priority) }
   let(:work_package_attributes) do
     { project_id: project.id,
@@ -279,8 +279,12 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
           let(:other_type) { FactoryBot.create(:type) }
           let(:default_type) { type }
           let(:project_types) { [type, other_type] }
-          # otherwise ar error
-          let!(:default_status) { FactoryBot.create(:default_status) }
+          let!(:workflow_type) {
+            FactoryBot.create(:workflow, type: default_type, role: role, old_status_id: status.id)
+          }
+          let!(:workflow_other_type) {
+            FactoryBot.create(:workflow, type: other_type, role: role, old_status_id: status.id)
+          }
 
           context 'with the type existing in the target project' do
             it 'keeps the type' do
@@ -310,6 +314,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
             it 'uses the first type' do
               expect(subject)
                 .to be_success
+
 
               expect(subject.result.type)
                 .to eql other_type
@@ -1140,6 +1145,37 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
 
     it 'allows changing the parent' do
       expect(subject).to be_success
+    end
+  end
+
+  describe 'Changing type to one that does not have the current status (Regression #27780)' do
+    let(:type) { FactoryBot.create :type_with_workflow }
+    let(:new_type) { FactoryBot.create :type }
+    let(:project_types) { [type, new_type] }
+    let(:attributes) { { type: new_type } }
+
+    context 'work package does NOT have default status' do
+      let(:status) { FactoryBot.create(:status) }
+
+      it 'assigns the default status' do
+        expect(work_package).to receive(:status=).and_call_original
+        expect(subject).to be_success
+
+        expect(work_package.status).to eq(Status.default)
+      end
+    end
+
+    context 'work package does have default status' do
+      let(:status) { FactoryBot.create :default_status }
+      let!(:workflow_type) {
+        FactoryBot.create(:workflow, type: new_type, role: role, old_status_id: status.id)
+      }
+
+
+      it 'does not set the status' do
+        expect(work_package).not_to receive(:status=)
+        expect(subject).to be_success
+      end
     end
   end
 end
