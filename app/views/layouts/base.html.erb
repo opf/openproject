@@ -188,10 +188,12 @@ See docs/COPYRIGHT.rdoc for more details.
         $('.can-hide-navigation').addClass('hidden-navigation');
       }
 
-      var savedMainMenuWidth = parseInt(window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth"));
-      $('html')[0].style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
+      var savedMainMenuWidth = window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth");
+      if (savedMainMenuWidth) {
+        $('html')[0].style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
 
-      wrapper.show();
+        wrapper.show();
+      }
 
       // Wrapper for page-specific JS from deprecated inline functions
       // no longer available with CSP.
