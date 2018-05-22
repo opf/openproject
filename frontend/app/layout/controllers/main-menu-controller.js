@@ -29,7 +29,10 @@
 module.exports = function($rootScope, $window) {
   var htmlNode = document.getElementsByTagName('html')[0];
 
-  this.toggleNavigation = function() {
+  this.toggleNavigation = function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (!$rootScope.showNavigation) {
       // Regain default width: Expand to default menu width if collapsed slimmer than default width.
       var savedMainMenuWidth = parseInt(window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth"));

@@ -35,7 +35,7 @@ import {Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit}
       <a href="#"
          title="{{toggleTitle}}"
          class="main-menu--navigation-toggler"
-         ng-click="mainMenu.toggleNavigation()">
+         ng-click="mainMenu.toggleNavigation($event)">
         <i class="icon-resizer-vertical-lines" aria-hidden="true"></i>
       </a>
     </div>
@@ -88,6 +88,12 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
 
   @HostListener('mousedown', ['$event'])
   private handleMouseDown(e:MouseEvent) {
+    // ignore event if it is a click on the collapse/expand handle
+    var toggler = jQuery('.main-menu--navigation-toggler i')[0];
+    if (e.target === toggler) {
+      return;
+    }
+
     e.preventDefault();
     e.stopPropagation();
 

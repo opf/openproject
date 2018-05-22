@@ -340,6 +340,7 @@ $arrow-left-width: 40px
   .hidden-navigation &
     text-align: right
     opacity: 0
+    cursor: col-resize
     &:hover
       @include varprop(color, main-menu-navigation-toggler-font-hover-color)
       i:before
@@ -350,7 +351,6 @@ $arrow-left-width: 40px
   position: absolute
   top: 0
   height: 40px
-  width: 28px
   text-align: left
   margin-top: 50vh
   margin-left: -14px
@@ -358,10 +358,15 @@ $arrow-left-width: 40px
   font-size: 14px
   // Center toggle icon vertically. The element is higher than it looks like.
   line-height: 38px
-  i:before
-    color: $light-gray
-    padding-right: 0
-    padding-left: 2px
+  i
+    display: inline-block
+    width: 30px
+    cursor: pointer
+    line-height: 40px
+    &:before
+      color: $light-gray
+      padding-right: 0
+      padding-left: 2px
   &:hover
     @include varprop(color, main-menu-navigation-toggler-font-hover-color)
     font-size: 11px
