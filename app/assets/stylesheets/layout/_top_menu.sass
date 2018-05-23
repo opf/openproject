@@ -26,11 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+$hamburger-right: -3px
+$hamburger-width: 50px
+
 #logo
   width: 230px
   @include varprop(height, header-height)
   position: absolute
-  left: calc(50% - #{$main-menu-width} / 2)
+  left: calc(50% - 230px / 2)
 
   .home-link
     margin-top: 14px
@@ -252,10 +255,11 @@ input.top-menu-search--input
 #account-nav-left
   .drop-down
     // Half viewport width minus half logo.
-    max-width: calc((100vW/2) - 115px)
-
+    max-width: calc((100vW/2) - 115px - #{$hamburger-width + $hamburger-right})
+    .nosidebar &
+      max-width: calc((100vW/2) - 115px)
   #projects-menu
-    padding-right: 15px
+    padding-right: 30px
     font-weight: bold
     padding-left: 6px
     .nosidebar &
@@ -264,9 +268,11 @@ input.top-menu-search--input
     .button--dropdown-text
       float: left
       // Half viewport width minus half logo minus margins.
-      max-width: calc((100vW/2) - 115px - 50px)
       text-overflow: ellipsis
       overflow: hidden
+      max-width: calc((100vW/2) - 115px - 50px - #{$hamburger-width + $hamburger-right})
+      .nosidebar &
+        max-width: calc((100vW/2) - 115px - 50px)
 
     &:after
       position: absolute
@@ -306,9 +312,6 @@ input.top-menu-search--input
 .top-menu-search:not(.-collapsed) .top-menu-search--button
   top: -3px
   z-index: 10
-
-$hamburger-right: -3px
-$hamburger-width: 50px
 
 #main-menu-toggle
   display: block
