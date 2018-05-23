@@ -78,12 +78,12 @@ module Redmine::MenuManager::MenuHelper
   def render_menu(menu, project = nil)
     links = []
     classes = ''
-    menu_items = menu_items_for(menu, project) do |node|
+    menu_items = first_level_menu_items_for(menu, project) do |node|
       links << render_menu_node(node, project)
     end
     if menu == :project_menu
-      selected = any_item_selected?(select_leafs(menu_items))
-      classes << (selected ? 'open' : 'closed')
+      first_level = any_item_selected?(select_leafs(menu_items)) || !current_menu_item_part_of_menu?(menu, project)
+      classes << (first_level ? 'open' : 'closed')
     end
 
     links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, class: 'menu_root ' + classes)
@@ -141,7 +141,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def any_item_selected?(items)
-    items.any? { |item| item.name == current_menu_item || item.name == "entry-item-#{current_menu_item}".to_sym }
+    items.any? { |item| item.name == current_menu_item || entry_page_selected?(item) }
   end
 
   def render_menu_node(node, project = nil)
@@ -222,9 +222,26 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  def menu_items_for(menu, project = nil)
+  def current_menu_item_part_of_menu?(menu, project = nil)
+    all_menu_items_for(menu, project).each do |node|
+      return true if node.name == current_menu_item
+    end
+
+    false
+  end
+
+  def all_menu_items_for(menu, project = nil)
+    menu_items_for(Redmine::MenuManager.items(menu).root, menu, project)
+  end
+
+  def first_level_menu_items_for(menu, project = nil, &block)
+    menu_items_for(Redmine::MenuManager.items(menu).root.children, menu, project, &block)
+  end
+
+  def menu_items_for(iteratable, menu, project = nil)
     items = []
-    Redmine::MenuManager.items(menu).root.children.each do |node|
+    iteratable.each do |node|
+      next if node.name == :root
       if allowed_node?(node, User.current, project) && visible_node?(menu, node)
         items << node
         if block_given?
@@ -232,7 +249,7 @@ module Redmine::MenuManager::MenuHelper
         end
       end
     end
-    # block_given? ? nil : items
+
     items
   end
 

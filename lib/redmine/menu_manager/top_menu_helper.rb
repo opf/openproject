@@ -49,7 +49,7 @@ module Redmine::MenuManager::TopMenuHelper
 
   private
 
-  def render_user_top_menu_node(items = menu_items_for(:account_menu))
+  def render_user_top_menu_node(items = first_level_menu_items_for(:account_menu))
     if User.current.logged?
       render_user_drop_down items
     elsif omniauth_direct_login?
@@ -145,7 +145,7 @@ module Redmine::MenuManager::TopMenuHelper
   def split_top_menu_into_main_or_more_menus
     @top_menu_split ||= begin
       items = Hash.new { |h, k| h[k] = [] }
-      menu_items_for(:top_menu) do |item|
+      first_level_menu_items_for(:top_menu) do |item|
         if item.name == :help
           items[:help] = item
         else

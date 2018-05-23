@@ -192,8 +192,8 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     end
   end
 
-  it 'should menu items for should yield all items if passed a block' do
-    menu_name = :test_menu_items_for_should_yield_all_items_if_passed_a_block
+  it 'should first level menu items for should yield all items if passed a block' do
+    menu_name = :test_first_level_menu_items_for_should_yield_all_items_if_passed_a_block
     Redmine::MenuManager.map menu_name do |menu|
       menu.push(:a_menu, '/', {})
       menu.push(:a_menu_2, '/', {})
@@ -201,27 +201,27 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     end
 
     items_yielded = []
-    menu_items_for(menu_name) do |item|
+    first_level_menu_items_for(menu_name) do |item|
       items_yielded << item
     end
 
     assert_equal 3, items_yielded.size
   end
 
-  it 'should menu items for should return all items' do
-    menu_name = :test_menu_items_for_should_return_all_items
+  it 'should first level menu items for should return all items' do
+    menu_name = :test_first_level_menu_items_for_should_return_all_items
     Redmine::MenuManager.map menu_name do |menu|
       menu.push(:a_menu, '/', {})
       menu.push(:a_menu_2, '/', {})
       menu.push(:a_menu_3, '/', {})
     end
 
-    items = menu_items_for(menu_name)
+    items = first_level_menu_items_for(menu_name)
     assert_equal 3, items.size
   end
 
-  it 'should menu items for should skip unallowed items on a project' do
-    menu_name = :test_menu_items_for_should_skip_unallowed_items_on_a_project
+  it 'should first level menu items for should skip unallowed items on a project' do
+    menu_name = :test_first_level_menu_items_for_should_skip_unallowed_items_on_a_project
     Redmine::MenuManager.map menu_name do |menu|
       menu.push(:a_menu, { controller: 'work_packages', action: 'index' }, {})
       menu.push(:a_menu_2, { controller: 'work_packages', action: 'index' }, {})
@@ -230,12 +230,12 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
 
     User.current = User.find(1)
 
-    items = menu_items_for(menu_name, Project.find(1))
+    items = first_level_menu_items_for(menu_name, Project.find(1))
     assert_equal 2, items.size
   end
 
-  it 'should menu items for should skip items that fail the conditions' do
-    menu_name = :test_menu_items_for_should_skip_items_that_fail_the_conditions
+  it 'should first level menu items for should skip items that fail the conditions' do
+    menu_name = :test_first_level_menu_items_for_should_skip_items_that_fail_the_conditions
     Redmine::MenuManager.map menu_name do |menu|
       menu.push(:a_menu, { controller: 'work_packages', action: 'index' }, {})
       menu.push(:unallowed,
@@ -245,7 +245,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
 
     User.current = User.find(1)
 
-    items = menu_items_for(menu_name, Project.find(1))
+    items = first_level_menu_items_for(menu_name, Project.find(1))
     assert_equal 1, items.size
   end
 end
