@@ -55,8 +55,8 @@ module API
             "#{root}/attachments/#{id}"
           end
 
-          def self.attachment_download(id, filename = nil)
-            download_attachment_path(id, filename)
+          def self.attachment_content(id)
+            "#{root}/attachments/#{id}/content"
           end
 
           def self.attachments_by_post(id)

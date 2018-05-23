@@ -86,8 +86,13 @@ module API
                             link: associated_container_link
 
         link :downloadLocation do
+          location = if represented.external_storage?
+                       represented.remote_url
+                     else
+                       api_v3_paths.attachment_content(represented.id)
+                     end
           {
-            href: api_v3_paths.attachment_download(represented.id, represented.filename)
+            href: location
           }
         end
 

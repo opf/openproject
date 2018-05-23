@@ -53,6 +53,19 @@ module API
               @attachment.container.attachments.delete(@attachment)
               status 204
             end
+
+            namespace :content do
+              get do
+                if @attachment.external_storage?
+                  redirect @attachment.external_url
+                else
+                  content_type @attachment.content_type
+                  header['Content-Disposition'] = "attachment; filename=#{@attachment.filename}"
+                  env['api.format'] = :binary
+                  @attachment.diskfile.read
+                end
+              end
+            end
           end
         end
       end

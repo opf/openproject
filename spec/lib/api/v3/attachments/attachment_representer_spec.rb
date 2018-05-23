@@ -108,6 +108,33 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
       end
     end
 
+    describe 'downloadLocation link' do
+      context 'for a local attachment' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'downloadLocation' }
+          let(:href) { api_v3_paths.attachment_content(attachment.id) }
+        end
+      end
+
+      context 'for a remote attachment' do
+        let(:remote_url) { 'https://some.bogus/download/xyz' }
+
+        before do
+          allow(attachment)
+            .to receive(:external_storage?)
+            .and_return(true)
+          allow(attachment)
+            .to receive(:remote_url)
+            .and_return(remote_url)
+        end
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'downloadLocation' }
+          let(:href) { remote_url }
+        end
+      end
+    end
+
     it_behaves_like 'has a titled link' do
       let(:link) { 'author' }
       let(:href) { api_v3_paths.user(attachment.author.id) }

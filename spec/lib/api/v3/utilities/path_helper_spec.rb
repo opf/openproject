@@ -74,16 +74,10 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/attachments/1'
   end
 
-  describe '#attachment_download without file name' do
-    subject { helper.attachment_download 1 }
+  describe '#attachment_content' do
+    subject { helper.attachment_content 1 }
 
-    it_behaves_like 'path', '/attachments/1'
-  end
-
-  describe '#attachment_download with file name' do
-    subject { helper.attachment_download 1, 'file.png' }
-
-    it_behaves_like 'path', '/attachments/1/file.png'
+    it_behaves_like 'api v3 path', '/attachments/1/content'
   end
 
   describe '#attachments_by_post' do
