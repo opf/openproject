@@ -43,6 +43,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 export class WorkPackageChildrenQueryComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;
   @Input() public query:any;
+  @Input() public addExistingChildEnabled:boolean = false;
   @ViewChild('childrenEmbeddedTable') private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
 
   public canHaveChildren:boolean;

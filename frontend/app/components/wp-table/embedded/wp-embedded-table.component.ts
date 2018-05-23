@@ -58,6 +58,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
   @Input('queryProps') public queryProps:any = {};
   @Input('configuration') private providedConfiguration:WorkPackageTableConfigurationObject;
   @Input() public uniqueEmbeddedTableName:string = `embedded-table-${Date.now()}`;
+  @Input() public initialLoadingIndicator:boolean = true;
   @Input() public tableActions:OpTableActionFactory[] = [];
   @Input() public compactTableStyle:boolean = false;
 
@@ -93,13 +94,13 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
     }
 
     // Load initial query
-    this.loadQuery();
+    this.loadQuery(this.initialLoadingIndicator);
 
     // Reload results on refresh requests
     this.tableState.refreshRequired
       .values$()
       .pipe(untilComponentDestroyed(this))
-      .subscribe(() => this.refresh());
+      .subscribe(() => this.refresh(false));
 
     // Reload results on changes to pagination
     this.tableState.ready.fireOnStateChange(this.wpTablePagination.state,
@@ -160,8 +161,8 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
     });
   }
 
-  public refresh():Promise<any> {
-    return this.loadingIndicator = this.loadQuery();
+  public refresh(visible:boolean = true):Promise<any> {
+    return this.loadQuery(visible);
   }
 
   public set loadingIndicator(promise:Promise<any>) {
@@ -172,7 +173,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
     }
   }
 
-  private loadQuery() {
+  private loadQuery(visible:boolean = true) {
 
     // HACK: Decrease loading time of queries when results are not needed.
     // We should allow the backend to disable results embedding instead.
@@ -180,13 +181,17 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
       this.queryProps.pageSize = 1;
     }
 
-    const promise = this.loadingIndicator = this.QueryDm
+    const promise = this.QueryDm
       .find(
         this.queryProps,
         this.queryId || '',
         this.projectIdentifier
       )
       .then((query:QueryResource) => this.initializeStates(query, query.results));
+
+    if (visible) {
+      this.loadingIndicator = promise;
+    }
 
     return promise;
   }
