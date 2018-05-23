@@ -1,5 +1,6 @@
 <wp-embedded-table #childrenEmbeddedTable
                    [compactTableStyle]="true"
+                   [initialLoadingIndicator]="false"
                    [queryProps]="childrenQueryProps"
                    [tableActions]="childrenTableActions"
                    [configuration]="{ actionsColumnEnabled: true,
@@ -14,4 +15,4 @@
 <wp-relation-add-child
     [workPackage]="workPackage"
     (onAdded)="refreshTable()"
-    *ngIf="canModifyHierarchy && canHaveChildren"></wp-relation-add-child>
+    *ngIf="canModifyHierarchy && canHaveChildren && addExistingChildEnabled"></wp-relation-add-child>
