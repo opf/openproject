@@ -33,11 +33,12 @@ module API
     module WorkPackages
       module Schema
         class TypedWorkPackageSchema < BaseWorkPackageSchema
-          attr_reader :project, :type
+          attr_reader :project, :type, :custom_fields
 
-          def initialize(project:, type:)
+          def initialize(project:, type:, custom_fields: nil)
             @project = project
             @type = type
+            @custom_fields = custom_fields
           end
 
           def milestone?
@@ -45,7 +46,7 @@ module API
           end
 
           def available_custom_fields
-            project.all_work_package_custom_fields.to_a & type.custom_fields.to_a
+            custom_fields || (project.all_work_package_custom_fields.to_a & type.custom_fields.to_a)
           end
 
           def no_caching?

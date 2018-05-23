@@ -34,30 +34,18 @@ module API
       class WorkPackageRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
         include API::Caching::CachedRepresenter
+        extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
-        cached_representer key_parts: %i(type project status priority category author responsible assigned_to),
+        cached_representer key_parts: %i(project),
                            disabled: false
-
-        class << self
-          def create_class(work_package)
-            injector_class = ::API::V3::Utilities::CustomFieldInjector
-            injector_class.create_value_representer(work_package,
-                                                    self)
-          end
-
-          def create(work_package, current_user:, embed_links: false)
-            create_class(work_package)
-              .new(work_package,
-                   current_user: current_user,
-                   embed_links: embed_links)
-          end
-        end
 
         def initialize(model, current_user:, embed_links: false)
           # Define all accessors on the customizable as they
           # will be used afterwards anyway. Otherwise, we will have to
           # go through method_missing which will take more time.
           model.define_all_custom_field_accessors
+
+          model = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap_one(model, current_user)
 
           super
         end
@@ -118,6 +106,7 @@ module API
 
         link :copy,
              cache_if: -> { current_user_allowed_to(:move_work_packages, context: represented.project) } do
+
           next if represented.new_record?
 
           {
@@ -222,7 +211,7 @@ module API
 
         link :watch,
              uncacheable: true do
-          next if current_user.anonymous? || represented.watcher_users.include?(current_user)
+          next if current_user.anonymous? || current_user_watcher?
 
           {
             href: api_v3_paths.work_package_watchers(represented.id),
@@ -233,7 +222,7 @@ module API
 
         link :unwatch,
              uncacheable: true do
-          next unless represented.watcher_users.include?(current_user)
+          next unless current_user_watcher?
           {
             href: api_v3_paths.watcher(current_user.id, represented.id),
             method: :delete
@@ -553,9 +542,13 @@ module API
                                                current_user: current_user)
         end
 
+        def current_user_watcher?
+          represented.watchers.any? { |w| w.user_id == current_user.id }
+        end
+
         def attachments
           self_path = api_v3_paths.attachments_by_work_package(represented.id)
-          attachments = represented.attachments
+          attachments = represented.attachments.includes(:container)
           ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachments,
                                                                       self_path,
                                                                       current_user: current_user)
@@ -624,31 +617,23 @@ module API
           represented.custom_actions(current_user).to_a.sort_by(&:position)
         end
 
-        self.to_eager_load = [{ children: { project: :enabled_modules } },
-                              { parent: { project: :enabled_modules } },
-                              { project: %i(enabled_modules work_package_custom_fields) },
-                              :status,
-                              :priority,
-                              { type: :custom_fields },
-                              :fixed_version,
-                              { custom_values: :custom_field },
-                              :author,
-                              :assigned_to,
-                              :responsible,
-                              :watcher_users,
-                              :category,
-                              :attachments]
+        self.to_eager_load = %i[parent
+                                type
+                                watchers]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super
         def json_cache_key
-          self.class.superclass.name.to_s.split('::') + [
-            'json',
-            I18n.locale,
-            json_key_model_parts,
-            Setting.work_package_done_ratio,
-            Setting.feeds_enabled?
-          ]
+          ['API',
+           'V3',
+           'WorkPackages',
+           'WorkPackageRepresenter',
+           'json',
+           I18n.locale,
+           json_key_model_parts,
+           represented.cache_checksum,
+           Setting.work_package_done_ratio,
+           Setting.feeds_enabled?]
         end
 
         def view_time_entries_allowed?

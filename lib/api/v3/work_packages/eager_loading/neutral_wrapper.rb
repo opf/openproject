@@ -30,25 +30,24 @@
 
 module API
   module V3
-    module Principals
-      module AssociatedSubclassLambda
-        def self.getter(name)
-          ->(*) {
-            next unless embed_links
+    module WorkPackages
+      module EagerLoading
+        class NeutralWrapper < SimpleDelegator
+          private_class_method :new
 
-            instance = represented.send(name)
+          def wrapped?
+            true
+          end
 
-            case instance
-            when User
-              ::API::V3::Users::UserRepresenter.new(represented.send(name), current_user: current_user)
-            when Group
-              ::API::V3::Groups::GroupRepresenter.new(represented.send(name), current_user: current_user)
-            when NilClass
-              nil
-            else
-              raise "undefined subclass for #{instance}"
+          class << self
+            def wrap_one(work_package, _current_user)
+              new(work_package)
             end
-          }
+
+            def name
+              "WorkPackage"
+            end
+          end
         end
       end
     end

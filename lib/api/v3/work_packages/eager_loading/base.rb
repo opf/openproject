@@ -30,26 +30,27 @@
 
 module API
   module V3
-    module Principals
-      module AssociatedSubclassLambda
-        def self.getter(name)
-          ->(*) {
-            next unless embed_links
+    module WorkPackages
+      module EagerLoading
+        class Base < SimpleDelegator
+          def initialize(work_packages)
+            self.work_packages = work_packages
+          end
 
-            instance = represented.send(name)
+          def apply(_work_package)
+            raise NotImplementedError
+          end
 
-            case instance
-            when User
-              ::API::V3::Users::UserRepresenter.new(represented.send(name), current_user: current_user)
-            when Group
-              ::API::V3::Groups::GroupRepresenter.new(represented.send(name), current_user: current_user)
-            when NilClass
-              nil
-            else
-              raise "undefined subclass for #{instance}"
-            end
-          }
+          def self.module
+            NoOp
+          end
+
+          protected
+
+          attr_accessor :work_packages
         end
+
+        module NoOp; end
       end
     end
   end

@@ -35,9 +35,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
   let(:schema) { double('wp_schema', available_custom_fields: available_custom_fields) }
   let(:current_user) { double('user') }
 
-  let(:representer) {
+  let(:representer) do
     described_class.create(schema, current_user: current_user)
-  }
+  end
   let(:summable_columns) { [] }
 
   before do

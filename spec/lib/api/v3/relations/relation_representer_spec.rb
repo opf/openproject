@@ -40,11 +40,11 @@ describe ::API::V3::Relations::RelationRepresenter do
 
   let(:relation) do
     FactoryBot.create :relation,
-                       from: from,
-                       to: to,
-                       relation_type: type,
-                       description: description,
-                       delay: delay
+                      from: from,
+                      to: to,
+                      relation_type: type,
+                      description: description,
+                      delay: delay
   end
 
   let(:representer) { described_class.new relation, current_user: user }

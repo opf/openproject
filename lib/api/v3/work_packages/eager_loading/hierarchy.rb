@@ -30,25 +30,25 @@
 
 module API
   module V3
-    module Principals
-      module AssociatedSubclassLambda
-        def self.getter(name)
-          ->(*) {
-            next unless embed_links
+    module WorkPackages
+      module EagerLoading
+        class Hierarchy < Base
+          def apply(work_package)
+            work_package.association(:children).loaded!
+            work_package.association(:children).target = children(work_package.id)
+          end
 
-            instance = represented.send(name)
+          private
 
-            case instance
-            when User
-              ::API::V3::Users::UserRepresenter.new(represented.send(name), current_user: current_user)
-            when Group
-              ::API::V3::Groups::GroupRepresenter.new(represented.send(name), current_user: current_user)
-            when NilClass
-              nil
-            else
-              raise "undefined subclass for #{instance}"
-            end
-          }
+          def children(id)
+            @children ||= WorkPackage
+                          .joins(:parent_relation)
+                          .where(relations: { from_id: work_packages.map(&:id) })
+                          .select(:id, :subject, :project_id, :from_id)
+                          .group_by(&:from_id).to_h
+
+            @children[id] || []
+          end
         end
       end
     end

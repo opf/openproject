@@ -34,7 +34,13 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:project) { FactoryBot.build_stubbed(:project_with_types) }
   let(:wp_type) { project.types.first }
   let(:custom_field) { FactoryBot.build_stubbed(:custom_field) }
-  let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package, project: project, type: wp_type) }
+  let(:work_package) do
+    FactoryBot.build_stubbed(:stubbed_work_package, project: project, type: wp_type) do |wp|
+      allow(wp)
+        .to receive(:available_custom_fields)
+        .and_return(available_custom_fields)
+    end
+  end
   let(:current_user) do
     FactoryBot.build_stubbed(:user)
   end
@@ -71,6 +77,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
                            current_user: current_user,
                            action: action)
   end
+  let(:available_custom_fields) { [] }
 
   before do
     allow(schema).to receive(:writable?).and_call_original
@@ -739,9 +746,10 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'custom fields' do
+      let(:available_custom_fields) { [FactoryBot.build_stubbed(:int_wp_custom_field)] }
       it 'uses a CustomFieldInjector' do
         expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_schema_representer)
-          .and_call_original
+          .and_return(described_class)
         representer.to_json
       end
     end
@@ -794,8 +802,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     it 'changes when the custom_fields changes' do
-      allow(work_package.project)
-        .to receive(:all_work_package_custom_fields)
+      allow(work_package)
+        .to receive(:available_custom_fields)
         .and_return [FactoryBot.build_stubbed(:custom_field)]
 
       expect(joined_cache_key).to_not eql(original_cache_key)

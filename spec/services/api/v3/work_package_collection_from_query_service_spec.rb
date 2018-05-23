@@ -241,10 +241,17 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
         end
 
         context 'with query.display_sums? being true' do
-          it 'has a struct containg the sums' do
+          it 'has a struct containg the sums and the available custom fields' do
             query.display_sums = true
 
-            expected = OpenStruct.new(estimated_hours: 0.0)
+            custom_fields = [FactoryBot.build_stubbed(:text_wp_custom_field),
+                             FactoryBot.build_stubbed(:int_wp_custom_field)]
+
+            allow(WorkPackageCustomField)
+              .to receive(:summable)
+              .and_return(custom_fields)
+
+            expected = OpenStruct.new(estimated_hours: 0.0, available_custom_fields: custom_fields)
 
             expect(subject.total_sums)
               .to eq(expected)

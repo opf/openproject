@@ -33,14 +33,14 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
   let(:time_entry) do
     FactoryBot.build_stubbed(:time_entry,
-                              comments: 'blubs',
-                              spent_on: Date.today,
-                              created_on: DateTime.now - 6.hours,
-                              updated_on: DateTime.now - 3.hours,
-                              hours: 5,
-                              activity: activity,
-                              project: project,
-                              user: user)
+                             comments: 'blubs',
+                             spent_on: Date.today,
+                             created_on: DateTime.now - 6.hours,
+                             updated_on: DateTime.now - 3.hours,
+                             hours: 5,
+                             activity: activity,
+                             project: project,
+                             user: user)
   end
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:work_package) { time_entry.work_package }
@@ -57,6 +57,8 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
       .to receive(:available_custom_fields)
       .and_return([])
   end
+
+  include_context 'eager loaded work package representer'
 
   describe '_links' do
     it_behaves_like 'has an untitled link' do
@@ -91,8 +93,8 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
     context 'for a non shared (project specific) activity' do
       let(:activity) do
         activity = FactoryBot.build_stubbed(:time_entry_activity,
-                                             project: project,
-                                             parent: parent_activity)
+                                            project: project,
+                                            parent: parent_activity)
         allow(activity)
           .to receive(:root)
           .and_return(parent_activity)

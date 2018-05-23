@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,45 +25,45 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module API
   module V3
     module WorkPackages
-      module CustomActions
-        class CustomActionsWrapper < SimpleDelegator
-          attr_writer :custom_actions
-          attr_accessor :work_package
+      module EagerLoading
+        class Project < Base
+          def apply(work_package)
+            work_package.project = project_for(work_package.project_id)
+            work_package.parent.project = project_for(work_package.parent.project_id) if work_package.parent
 
-          def initialize(work_package, actions)
-            super(work_package)
-            self.work_package = work_package
-            self.custom_actions = actions
-          end
-          private_class_method :new
-
-          # Hiding the work_package's own custom_actions method
-          # to profit from the eager loaded actions
-          def custom_actions(_user)
-            @custom_actions
-          end
-
-          def self.wrap(work_packages, user)
-            actions = CustomAction
-                      .available_conditions
-                      .inject(CustomAction.all) do |scope, condition|
-
-              scope.merge(condition.custom_action_scope(work_packages, user))
+            work_package.children.each do |child|
+              child.project = project_for(child.project_id)
             end
+          end
 
+          private
+
+          def project_for(project_id)
+            projects_by_id[project_id]
+          end
+
+          def projects_by_id
+            @projects_by_id ||= begin
+              ::Project
+                .includes(:enabled_modules)
+                .where(id: project_ids)
+                .to_a
+                .map { |p| [p.id, p] }
+                .to_h
+            end
+          end
+
+          def project_ids
             work_packages.map do |work_package|
-              applicable_actions = actions.select do |action|
-                action.conditions_fulfilled?(work_package, user)
-              end
-
-              new(work_package, applicable_actions)
-            end
+              [work_package.project_id, work_package.parent && work_package.parent.project_id] +
+                work_package.children.map(&:project_id)
+            end.flatten.uniq.compact
           end
         end
       end

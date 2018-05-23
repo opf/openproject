@@ -35,9 +35,9 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   let(:field_format) { 'bool' }
   let(:custom_field) do
     FactoryBot.build(:custom_field,
-                      id: 1,
-                      field_format: field_format,
-                      is_required: true)
+                     id: 1,
+                     field_format: field_format,
+                     is_required: true)
   end
 
   describe 'TYPE_MAP' do
@@ -50,7 +50,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
   describe '#inject_schema' do
     let(:base_class) { Class.new(::API::Decorators::SchemaRepresenter) }
-    let(:modified_class) { described_class.create_schema_representer(schema, base_class) }
+    let(:modified_class) { described_class.create_schema_representer([custom_field], base_class) }
     let(:schema) do
       double('WorkPackageSchema',
              project_id: 42,
@@ -74,10 +74,10 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       context 'with default set' do
         let(:custom_field) do
           FactoryBot.build(:custom_field,
-                            id: 1,
-                            field_format: 'string',
-                            default_value: 'foo',
-                            is_required: true)
+                           id: 1,
+                           field_format: 'string',
+                           default_value: 'foo',
+                           is_required: true)
         end
 
         it_behaves_like 'has basic schema properties' do
@@ -132,7 +132,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     describe 'version custom field' do
       let(:custom_field) do
         FactoryBot.build(:version_wp_custom_field,
-                          is_required: true)
+                         is_required: true)
       end
 
       let(:assignable_versions) { FactoryBot.build_list(:version, 3) }
@@ -207,8 +207,8 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     describe 'user custom field' do
       let(:custom_field) do
         FactoryBot.build(:custom_field,
-                          field_format: 'user',
-                          is_required: true)
+                         field_format: 'user',
+                         is_required: true)
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -252,7 +252,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
 
     let(:base_class) { Class.new(::API::Decorators::Single) }
-    let(:modified_class) { described_class.create_value_representer(represented, base_class) }
+    let(:modified_class) { described_class.create_value_representer([custom_field], base_class) }
     let(:represented) do
       double('represented',
              available_custom_fields: [custom_field],
@@ -429,11 +429,10 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   describe '#inject_patchable_link_value' do
     let(:base_class) { Class.new(::API::Decorators::Single) }
     let(:modified_class) do
-      described_class.create_value_representer(represented, base_class)
+      described_class.create_value_representer([custom_field], base_class)
     end
     let(:represented) do
-      double('represented',
-             available_custom_fields: [custom_field])
+      double('represented', available_custom_fields: [custom_field])
     end
     let(:custom_value) { double('CustomValue', value: value, typed_value: typed_value) }
     let(:value) { '' }

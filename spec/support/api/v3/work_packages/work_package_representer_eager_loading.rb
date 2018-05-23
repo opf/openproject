@@ -28,29 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Principals
-      module AssociatedSubclassLambda
-        def self.getter(name)
-          ->(*) {
-            next unless embed_links
+shared_context 'eager loaded work package representer' do
+  before do
+    allow(::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper)
+      .to receive(:wrap_one) do |work_package, user|
+      allow(work_package)
+        .to receive(:cache_checksum)
+        .and_return(srand)
 
-            instance = represented.send(name)
-
-            case instance
-            when User
-              ::API::V3::Users::UserRepresenter.new(represented.send(name), current_user: current_user)
-            when Group
-              ::API::V3::Groups::GroupRepresenter.new(represented.send(name), current_user: current_user)
-            when NilClass
-              nil
-            else
-              raise "undefined subclass for #{instance}"
-            end
-          }
-        end
-      end
+      work_package
     end
   end
 end

@@ -30,25 +30,18 @@
 
 module API
   module V3
-    module Principals
-      module AssociatedSubclassLambda
-        def self.getter(name)
-          ->(*) {
-            next unless embed_links
+    module WorkPackages
+      module EagerLoading
+        class Ancestor < Base
+          def apply(work_package)
+            work_package.work_package_ancestors = ancestors[work_package.id] || []
+          end
 
-            instance = represented.send(name)
+          private
 
-            case instance
-            when User
-              ::API::V3::Users::UserRepresenter.new(represented.send(name), current_user: current_user)
-            when Group
-              ::API::V3::Groups::GroupRepresenter.new(represented.send(name), current_user: current_user)
-            when NilClass
-              nil
-            else
-              raise "undefined subclass for #{instance}"
-            end
-          }
+          def ancestors
+            @ancestors ||= WorkPackage.aggregate_ancestors(work_packages.map(&:id), User.current)
+          end
         end
       end
     end
