@@ -32,6 +32,7 @@ require 'rack/test'
 describe 'API v3 Attachment resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
+  include FileHelpers
 
   let(:current_user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
@@ -97,6 +98,81 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
           end
         end
       end
+    end
+  end
+
+  describe '#post' do
+    let(:permissions) { %i[edit_wiki_pages] }
+
+    let(:request_path) { api_v3_paths.attachments }
+    let(:request_parts) { { metadata: metadata, file: file } }
+    let(:metadata) { { fileName: 'cat.png' }.to_json }
+    let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
+    let(:max_file_size) { 1 } # given in kiB
+
+    before do
+      allow(Setting).to receive(:attachment_max_size).and_return max_file_size.to_s
+      post request_path, request_parts
+    end
+
+    subject(:response) { last_response }
+
+    it 'should respond with HTTP Created' do
+      expect(subject.status).to eq(201)
+    end
+
+    it 'should return the new attachment without container' do
+      expect(subject.body).to be_json_eql('Attachment'.to_json).at_path('_type')
+      expect(subject.body).to be_json_eql(nil.to_json).at_path('_links/container/href')
+    end
+
+    it 'ignores the original file name' do
+      expect(subject.body).to be_json_eql('cat.png'.to_json).at_path('fileName')
+    end
+
+    context 'metadata section is missing' do
+      let(:request_parts) { { file: file } }
+
+      it_behaves_like 'invalid request body', I18n.t('api_v3.errors.multipart_body_error')
+    end
+
+    context 'file section is missing' do
+      # rack-test won't send a multipart request without a file being present
+      # however as long as we depend on correctly named sections this test should do just fine
+      let(:request_parts) { { metadata: metadata, wrongFileSection: file } }
+
+      it_behaves_like 'invalid request body', I18n.t('api_v3.errors.multipart_body_error')
+    end
+
+    context 'metadata section is no valid JSON' do
+      let(:metadata) { '"fileName": "cat.png"' }
+
+      it_behaves_like 'parse error'
+    end
+
+    context 'metadata is missing the fileName' do
+      let(:metadata) { Hash.new.to_json }
+
+      it_behaves_like 'constraint violation' do
+        let(:message) { "fileName #{I18n.t('activerecord.errors.messages.blank')}" }
+      end
+    end
+
+    context 'file is too large' do
+      let(:file) { mock_uploaded_file(content: 'a' * 2.kilobytes) }
+      let(:expanded_localization) do
+        I18n.t('activerecord.errors.messages.file_too_large', count: max_file_size.kilobytes)
+      end
+
+      it_behaves_like 'constraint violation' do
+        let(:message) { "File #{expanded_localization}" }
+      end
+    end
+
+    context 'missing permissions' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'unauthorized access'
     end
   end
 

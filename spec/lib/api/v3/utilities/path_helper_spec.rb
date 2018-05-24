@@ -74,6 +74,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/attachments/1'
   end
 
+  describe '#attachments' do
+    subject { helper.attachments }
+
+    it_behaves_like 'api v3 path', '/attachments'
+  end
+
   describe '#attachment_content' do
     subject { helper.attachment_content 1 }
 

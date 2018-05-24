@@ -36,7 +36,15 @@ module API
           # Global helper to set allowed content_types
           # This may be overriden when multipart is allowed (file uploads)
           def allowed_content_types
-            %w(multipart/form-data)
+            if post_request?
+              %w(multipart/form-data)
+            else
+              super
+            end
+          end
+
+          def post_request?
+            request.env['REQUEST_METHOD'] == 'POST'
           end
 
           def parse_metadata(json)

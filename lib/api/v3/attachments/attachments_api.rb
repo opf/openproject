@@ -33,6 +33,22 @@ module API
     module Attachments
       class AttachmentsAPI < ::API::OpenProjectAPI
         resources :attachments do
+          helpers API::V3::Attachments::AttachmentsByContainerAPI::Helpers
+
+          helpers do
+            def container
+              nil
+            end
+          end
+
+          post do
+            # TODO: get real permissions preferably via acts_as_attachable
+            authorize_any %i[add_work_packages edit_wiki_pages], global: true
+
+            ::API::V3::Attachments::AttachmentRepresenter.new(parse_and_create,
+                                                              current_user: current_user)
+          end
+
           params do
             requires :id, desc: 'Attachment id'
           end

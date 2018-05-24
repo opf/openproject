@@ -55,6 +55,10 @@ module API
             "#{root}/attachments/#{id}"
           end
 
+          def self.attachments
+            "#{root}/attachments"
+          end
+
           def self.attachment_content(id)
             "#{root}/attachments/#{id}/content"
           end
