@@ -26,31 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-@import layout/admin
-@import layout/base
-@import layout/base_mobile
-@import layout/grid
-@import layout/tree_menu
-@import layout/top_shelf
-@import layout/top_menu
-@import layout/top_menu_mobile
-@import layout/breadcrumb
-@import layout/main_menu
-@import layout/main_menu_mobile
-@import layout/drop_down
-@import layout/drop_down_mobile
-@import layout/toolbar
-@import layout/toolbar_mobile
-@import layout/zen_mode
-
-// Work packages page layouts
-@import layout/work_package_table
-@import layout/work_package_table_embedded
-@import layout/work_packages_details_view
-@import layout/work_packages_full_view
-@import layout/work_package_mobile
-@import layout/work_package_print
-
-
-// Print layout
-@import layout/print
+(function ($) {
+  "use strict";
+  $(function() {
+    $('.pages-hierarchy.-with-hierarchy .tree-menu--hierarchy-span').click(function (event) {
+      var target = $(event.target);
+      var targetList = target.closest('.-with-hierarchy');
+      console.log("click was triggered", targetList);
+      if (targetList.hasClass('-hierarchy-collapsed')) {
+        targetList.addClass('-hierarchy-expanded');
+        targetList.removeClass('-hierarchy-collapsed');
+      } else if (targetList.hasClass('-hierarchy-expanded')) {
+        targetList.addClass('-hierarchy-collapsed');
+        targetList.removeClass('-hierarchy-expanded');
+      }
+      return false;
+    })
+  });
+}(jQuery));

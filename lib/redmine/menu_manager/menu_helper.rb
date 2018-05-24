@@ -40,7 +40,7 @@ module Redmine::MenuManager::MenuHelper
   # Renders the application main menu
   def render_main_menu(project)
     if project
-      build_wiki_menus(project)
+      # build_wiki_menus(project)
       build_work_packages_menu(project)
     end
     render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
@@ -77,10 +77,17 @@ module Redmine::MenuManager::MenuHelper
 
   def render_menu(menu, project = nil)
     links = []
+    classes = ''
     menu_items_for(menu, project) do |node|
       links << render_menu_node(node, project)
     end
-    links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, class: 'menu_root')
+    if menu == :project_menu
+      menu_items = menu_items_for(menu, project)
+      selected = any_item_selected?(menu_items)
+      classes << (selected ? 'open' : 'closed')
+    end
+
+    links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, class: 'menu_root ' + classes)
   end
 
   ##
@@ -141,14 +148,21 @@ module Redmine::MenuManager::MenuHelper
       render_menu_node_with_children(node, project)
     else
       caption, url, selected = extract_node_details(node, project)
-      content_tag('li', render_single_menu_node(node, caption, url, selected))
+      if node.partial
+        content_tag('li', render(partial: node.partial), class: 'partial')
+      else
+        content_tag('li', render_single_menu_node(node, caption, url, selected))
+      end
     end
   end
 
   def render_menu_node_with_children(node, project = nil)
     caption, url, selected = extract_node_details(node, project)
-
-    content_tag :li do
+    html_options = {}
+    if selected || any_item_selected?(node.children)
+      html_options[:class] = 'open'
+    end
+    content_tag :li, html_options do
       # Standard children
       standard_children_list = node.children.map { |child|
         render_menu_node(child, project)
@@ -192,7 +206,6 @@ module Redmine::MenuManager::MenuHelper
     link_text << content_tag(:span, caption, class: 'menu-item--title ellipsis', lang: menu_item_locale(item))
     html_options = item.html_options(selected: selected)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
-
     link_to link_text, url, html_options
   end
 

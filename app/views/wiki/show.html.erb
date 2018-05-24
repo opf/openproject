@@ -90,7 +90,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= li_unless_nil(link_to_if_authorized(l(:button_rollback), {action: 'edit', id: @page, version: @content.version }, class: 'icon-context icon-cancel')) if @content.version < @page.content.version %>
       <% end %>
       <%= li_unless_nil(link_to_if_authorized(l(:label_history), {action: 'history', id: @page}, class: 'icon-context icon-wiki')) %>
-      <%= li_unless_nil(link_to_if_authorized(l(:button_manage_menu_entry), {controller: '/wiki_menu_items', action: 'edit', project_id: @project.identifier, id: @page}, class: 'icon-context icon-settings')) %>
+      <%# li_unless_nil(link_to_if_authorized(l(:button_manage_menu_entry), {controller: '/wiki_menu_items', action: 'edit', project_id: @project.identifier, id: @page}, class: 'icon-context icon-settings')) %>
       <%= li_unless_nil(link_to_if_authorized(l(:label_table_of_contents), {controller: '/wiki', action: 'index', project_id: @project.identifier, id: @page}, class: 'icon-context icon-view-list')) %>
     </ul>
   </li>

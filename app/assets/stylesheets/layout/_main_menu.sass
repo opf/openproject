@@ -77,8 +77,9 @@ $toggler-width: 40px
           align-items: center
 
       // -------------------- MAIN menu items ---------------------------
-      > li
+      li
         .main-item-wrapper
+
           display: flex
 
           @include default-transition
@@ -92,7 +93,7 @@ $toggler-width: 40px
                   @include varprop(background, main-menu-bg-hover-background)
 
 
-          > a
+          a
             @include default-transition
 
             &.selected, &.selected + a
@@ -119,7 +120,7 @@ $toggler-width: 40px
             
         .open .toggler
           .icon-toggler:before
-            @include icon-mixin-arrow-up1
+            @include icon-mixin-arrow-left1
 
         // padding for placeholder for highlighted left-item-border
         a
@@ -135,12 +136,20 @@ $toggler-width: 40px
       display: none
       padding-top: 10px
       padding-bottom: 10px
-      background-color: $main-menu-child-menu-bg-color
       padding: 0
       &.unattached
         border-top: 1px solid #ddd
       li
-        @include default-transition
+        &.partial
+          // NEEDS CLEANUP: resetting styles in partials.
+          background: initial
+          &:hover,
+          li,
+          li:hover
+            background: initial
+            a
+              @include varprop(color, main-menu-font-color)
+              padding: initial
 
         &:hover
           @include varprop(background, main-menu-child-bg-hover-color)
@@ -148,33 +157,28 @@ $toggler-width: 40px
           @if $main-menu-enable-toggle-highlighting != true
             // simultaneously hover all menu item anchor tags
             > a
-              @include varprop(color, main-menu-child-hover-font-color)
+              @include varprop(color, main-menu-bg-hover-background)
 
         > a
           @include default-transition
 
           &.selected, &.selected + a
-            @include varprop(background, main-menu-child-bg-selected-color)
+            @include varprop(background, main-menu-bg-selected-background)
 
 
           &:hover, &.selected, &.selected + a
-            @include varprop(color, main-menu-child-selected-font-color)
+            @include varprop(color, main-menu-bg-selected-background)
 
         a
           // children have no icon so we need to push them right.
-          padding-left: 54px
-          font-size: $main-menu-child-font-size
-          line-height: $main-menu-child-item-height
-          height: $main-menu-child-item-height
-          color: $main-menu-child-font-color
-          margin-top: 1px
+          padding-left: 32px
 
           &:hover
             text-decoration: none
-            @include varprop(color, main-menu-child-hover-font-color)
+            @include varprop(color, main-menu-hover-font-color)
           &.selected
             border: none !important
-            @include varprop(color, main-menu-child-selected-font-color)
+            @include varprop(color, main-menu-selected-font-color)
 
   a
     text-decoration: none
@@ -196,24 +200,26 @@ $toggler-width: 40px
     float: left
 
   #toggle-project-menu
-    border: none
     background: none
     height: 100vh
     width: 18px
     position: fixed
     top: 0px
-    left: calc(#{$main-menu-width} - 1px)
-    left: calc(var(--main-menu-width) - 1px)
+    border-left-width: 2px
+    border-left-style: solid
+    border-left-color: transparent
+    left: calc(#{$main-menu-width} - 2px)
+    left: calc(var(--main-menu-width) - 2px)
     vertical-align: middle
+    opacity: 0
 
     %absolute-layout-mode &
       z-index: 100
 
     @include default-transition
     &:hover
-      border-left-width: 2px
-      border-left-style: solid
       @include varprop(border-left-color, primary-color)
+      opacity: 1
     &.show
       left: calc(#{$main-menu-folded-width} - 1px)
       a.navigation-toggler
@@ -239,6 +245,51 @@ $toggler-width: 40px
   .icon-time
     background: none
     padding: 0
+
+$arrow-left-width: 40px
+#main-menu
+  ul.menu_root
+    &.closed
+      li
+        display: none
+      > li.open
+        display: list-item
+        .main-item-wrapper
+          display: none
+        .children-menu-header
+          padding: 10px
+          border-bottom: 1px solid
+          border-bottom: $main-menu-border-width solid $main-menu-border-color
+          height: calc(#{$main-menu-item-height} + (2 * 10px))
+
+          a.arrow-left-to-project
+            display: inline-block
+            width: $arrow-left-width
+            float: left
+            border-radius: 3px
+            padding-left: 14px
+            padding-right: 14px
+            width: 40px
+            margin-right: 10px
+            &:hover
+              @include varprop(background, main-menu-bg-hover-background)
+
+          span.parent-node
+            display: inline-block
+            width: calc(100% - #{$arrow-left-width})
+            height: $main-menu-item-height
+            line-height: $main-menu-item-height
+        ul.menu-children
+          width: 100%
+          display: block
+          li
+            display: list-item
+    &.open
+      > li
+        display: list-item
+        .children-menu-header
+          display: none
+
 
 .hidden-navigation
   #main-menu
@@ -309,6 +360,11 @@ $toggler-width: 40px
     li a
       padding: 0
 
+.menu-wiki-pages-tree
+  border-top: $main-menu-border-width solid $main-menu-border-color
+  padding-top: 7px
+  padding-left: 7px
+  padding-right: 7px
 
 
 // #main.hidden-navigation

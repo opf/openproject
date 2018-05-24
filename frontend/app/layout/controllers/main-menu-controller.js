@@ -27,13 +27,13 @@
 //++
 
 module.exports = function($rootScope, $window) {
-  var menuList = null;
+  var downToggler = null;
 
   this.toggleNavigation = function() {
     if ($rootScope.showNavigation) {
-      menuList = hideSubMenuEntries();
+      downToggler = hideSubMenuEntries();
     } else {
-      showSubMenuEntries(menuList);
+      showSubMenuEntries(downToggler);
     }
     $rootScope.showNavigation = !$rootScope.showNavigation;
     $rootScope.$broadcast('openproject.layout.navigationToggled', $rootScope.showNavigation);
@@ -43,20 +43,18 @@ module.exports = function($rootScope, $window) {
 };
 
 function hideSubMenuEntries() {
-  var togglers = jQuery('#main-menu .main-item-wrapper.open .toggler');
-  toggleMenus(togglers);
-
-  return togglers;
-}
-
-function showSubMenuEntries(togglers) {
-  if (togglers !== null) {
-    toggleMenus(togglers);
+  var upToggler = jQuery('ul.menu_root.closed > li.open .arrow-left-to-project');
+  var downToggler = null;
+  if (upToggler.length > 0) {
+    downToggler = upToggler.parents('li.open').first().find('a.toggler');
+    upToggler.trigger('click');
   }
+
+  return downToggler;
 }
 
-function toggleMenus(togglers) {
-  togglers.each(function(index) {
-    jQuery(this).trigger('click');
-  });
+function showSubMenuEntries(downToggler) {
+  if (downToggler !== null) {
+    downToggler.trigger('click');
+  }
 }
