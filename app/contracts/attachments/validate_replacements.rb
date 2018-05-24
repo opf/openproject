@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,26 +28,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/form_helper'
-require 'create_work_package_service'
-require 'work_packages/create_contract'
+require 'model_contract'
 
-module API
-  module V3
-    module WorkPackages
-      class CreateProjectFormAPI < ::API::OpenProjectAPI
-        resource :form do
-          helpers ::API::V3::WorkPackages::FormHelper
+module Attachments
+  module ValidateReplacements
+    extend ActiveSupport::Concern
 
-          post do
-            work_package = WorkPackage.new(project: @project)
-            respond_with_work_package_form(work_package,
-                                           contract_class: ::WorkPackages::CreateContract,
-                                           form_class: CreateProjectFormRepresenter,
-                                           action: :create)
-          end
-        end
+    included do
+      validate :validate_attachments_replacements
+    end
+
+    private
+
+    def validate_attachments_replacements
+      model.attachments_replacements and model.attachments_replacements.each do |attachment|
+        error_if_attachment_assigned(attachment)
+        error_if_other_user_attachment(attachment)
       end
+    end
+
+    def error_if_attachment_assigned(attachment)
+      errors.add :attachments, :unchangeable if attachment.container && attachment.container != model
+    end
+
+    def error_if_other_user_attachment(attachment)
+      errors.add :attachments, :does_not_exist if !attachment.container && attachment.author != user
     end
   end
 end

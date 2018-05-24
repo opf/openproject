@@ -1877,8 +1877,7 @@ ar:
     text_show_again: يمكنك إعادة تشغيل هذا الفيديو من قائمة المساعدة
     welcome: مرحبًا بكم في أوبِن بروجِكت
   permission_add_work_package_notes: إضافة ملاحظات
-  permission_add_work_packages: إضافة حزم العمل (كما يسمح لإضافة مرفقات إلى كافة حزم
-    العمل)
+  permission_add_work_packages: إضافة حزم العمل
   permission_add_messages: نشر الرسائل
   permission_add_project: إنشاء مشروع
   permission_add_subprojects: إنشاء مشاريع فرعية

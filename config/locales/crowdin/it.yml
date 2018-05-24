@@ -1840,8 +1840,7 @@ it:
     text_show_again: È possibile riavviare questo video dal menu Guida
     welcome: Benvenuto in OpenProject
   permission_add_work_package_notes: Aggiungi nota
-  permission_add_work_packages: Aggiungi macro-attività (permette anche di aggiungere
-    allegati a tutte le macro-attività)
+  permission_add_work_packages: Aggiungi macro-attività
   permission_add_messages: Postare messaggi
   permission_add_project: Creare un progetto
   permission_add_subprojects: Creare sotto-progetti

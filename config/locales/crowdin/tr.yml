@@ -1800,8 +1800,7 @@ tr:
     text_show_again: Bu videoyu Yardım menüsünden yeniden başlatabilirsiniz
     welcome: OpenProject'e hoş geldiniz
   permission_add_work_package_notes: Not eklemek
-  permission_add_work_packages: İş paketleri ekleyin (ayrıca tüm iş paketlerine ek
-    eklemenizi sağlar)
+  permission_add_work_packages: İş paketleri ekleyin
   permission_add_messages: İleti göndermek
   permission_add_project: Proje oluşturmak
   permission_add_subprojects: Alt proje oluşturmak

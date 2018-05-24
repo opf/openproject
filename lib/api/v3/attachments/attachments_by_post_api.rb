@@ -44,7 +44,7 @@ module API
           end
 
           get &API::V3::Attachments::AttachmentsByContainerAPI.read
-          post &API::V3::Attachments::AttachmentsByContainerAPI.create(%i[edit_messages add_messages])
+          post &API::V3::Attachments::AttachmentsByContainerAPI.create([:edit_messages])
         end
       end
     end

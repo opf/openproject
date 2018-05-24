@@ -1852,8 +1852,7 @@ lt:
     text_show_again: Jūs galite paleisti šį video iš naujo iš pagalbos meniu
     welcome: Sveiki atvykę į OpenProject
   permission_add_work_package_notes: Pridėti pastabų
-  permission_add_work_packages: Pridėti darbų paketų (taip pat leidžia prisegti priedus
-    prie visų darbų paketų)
+  permission_add_work_packages: Pridėti darbų paketų
   permission_add_messages: Skelbti pranešimus
   permission_add_project: Sukurti projektą
   permission_add_subprojects: Sukurti sub-projektus

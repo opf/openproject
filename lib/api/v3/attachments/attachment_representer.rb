@@ -44,39 +44,24 @@ module API
                             v3_path: :user,
                             representer: ::API::V3::Users::UserRepresenter
 
+        cached_representer key_parts: %i[author container]
+
         def self.associated_container_getter
           ->(*) do
             next unless embed_links
 
-            representer = case represented.container
-                          when WorkPackage
-                            ::API::V3::WorkPackages::WorkPackageRepresenter
-                          when WikiPage
-                            ::API::V3::WikiPages::WikiPageRepresenter
-                          when Message
-                            ::API::V3::Posts::PostRepresenter
-                          end
-
-            representer.new(represented.container, current_user: current_user)
+            container_representer
+              .new(represented.container, current_user: current_user)
           end
         end
 
         def self.associated_container_link
           ->(*) do
-            path, title_attribute = case represented.container
-                                    when WorkPackage
-                                      %i[work_package subject]
-                                    when WikiPage
-                                      %i[wiki_page title]
-                                    when Message
-                                      %i[post subject]
-                                    end
-
             ::API::Decorators::LinkObject
               .new(represented,
-                   path: path,
+                   path: v3_container_name,
                    property_name: :container,
-                   title_attribute: title_attribute)
+                   title_attribute: container_title_attribute)
               .to_hash
           end
         end
@@ -96,7 +81,6 @@ module API
           }
         end
 
-        # visibility of this link is also work_package specific!
         link :delete,
              cache_if: -> { represented.deletable?(current_user) } do
           {
@@ -121,13 +105,26 @@ module API
                    ::API::Decorators::Digest.new(digest, algorithm: 'md5')
                  },
                  render_nil: true
-        property :created_on,
-                 as: 'createdAt',
+        property :created_at,
                  exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_at) }
 
         def _type
           'Attachment'
+        end
+
+        def container_representer
+          name = v3_container_name.camelcase
+
+          "::API::V3::#{name.pluralize}::#{name}Representer".constantize
+        end
+
+        def v3_container_name
+          ::API::Utilities::PropertyNameConverter.from_ar_name(represented.container.class.name.underscore).underscore
+        end
+
+        def container_title_attribute
+          represented.container.respond_to?(:subject) ? :subject : :title
         end
       end
     end

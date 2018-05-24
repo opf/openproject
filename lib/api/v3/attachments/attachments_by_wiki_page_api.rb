@@ -44,7 +44,7 @@ module API
           end
 
           get &API::V3::Attachments::AttachmentsByContainerAPI.read
-          post &API::V3::Attachments::AttachmentsByContainerAPI.create([:edit_wiki_pages])
+          post &API::V3::Attachments::AttachmentsByContainerAPI.create
         end
       end
     end

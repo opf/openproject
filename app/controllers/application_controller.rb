@@ -557,8 +557,9 @@ class ApplicationController < ActionController::Base
 
   # Renders a warning flash if obj has unsaved attachments
   def render_attachment_warning_if_needed(obj)
-    if obj.unsaved_attachments.present?
-      flash[:warning] = l(:warning_attachments_not_saved, obj.unsaved_attachments.size)
+    unsaved_attachments = obj.attachments.select(&:new_record?)
+    if unsaved_attachments.any?
+      flash[:warning] = l(:warning_attachments_not_saved, unsaved_attachments.size)
     end
   end
 

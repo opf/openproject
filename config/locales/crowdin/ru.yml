@@ -1855,8 +1855,7 @@ ru:
     text_show_again: Вы можете перезапустить это видео из меню «Справка»
     welcome: Добро пожаловать в OpenProject
   permission_add_work_package_notes: Добавить заметки
-  permission_add_work_packages: Добавление пакетов работ (включет добавление к ним
-    вложений)
+  permission_add_work_packages: Добавление пакетов работ
   permission_add_messages: Написать сообщения
   permission_add_project: Создать проект
   permission_add_subprojects: Создать подпроект

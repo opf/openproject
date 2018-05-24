@@ -1840,8 +1840,7 @@ fr:
     text_show_again: Vous pouvez relancer cette vidéo au départ du menu d'aide
     welcome: Bienvenue dans OpenProject
   permission_add_work_package_notes: Ajouter des notes
-  permission_add_work_packages: Ajouter des lots de travaux (permet également d'ajouter
-    des pièces jointes à tous les lots de travaux)
+  permission_add_work_packages: Ajouter des lots de travaux
   permission_add_messages: Poster des messages
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets

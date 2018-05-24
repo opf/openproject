@@ -41,8 +41,7 @@ module API
         end
 
         link :addAttachment do
-          next unless current_user_allowed_to(:edit_messages, context: represented.project) ||
-                      current_user_allowed_to(:add_messages, context: represented.project)
+          next unless current_user_allowed_to(:edit_messages, context: represented.project)
 
           {
             href: api_v3_paths.attachments_by_post(represented.id),

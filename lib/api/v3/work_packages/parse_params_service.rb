@@ -26,23 +26,38 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/form_helper'
-require 'create_work_package_service'
-require 'work_packages/create_contract'
-
 module API
   module V3
     module WorkPackages
-      class CreateProjectFormAPI < ::API::OpenProjectAPI
-        resource :form do
-          helpers ::API::V3::WorkPackages::FormHelper
+      class ParseParamsService
+        def initialize(user)
+          @current_user = user
+        end
 
-          post do
-            work_package = WorkPackage.new(project: @project)
-            respond_with_work_package_form(work_package,
-                                           contract_class: ::WorkPackages::CreateContract,
-                                           form_class: CreateProjectFormRepresenter,
-                                           action: :create)
+        def call(request_body)
+          return {} unless request_body
+
+          parse_attributes(request_body)
+        end
+
+        private
+
+        attr_accessor :current_user
+
+        def parse_attributes(request_body)
+          struct = ParsingStruct.new
+
+          ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
+            .create_class(struct)
+            .new(struct, current_user: current_user)
+            .from_hash(Hash(request_body))
+            .to_h
+            .reverse_merge(lock_version: nil)
+        end
+
+        class ParsingStruct < OpenStruct
+          def available_custom_fields
+            @available_custom_fields ||= WorkPackageCustomField.all.to_a
           end
         end
       end

@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,26 +28,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/form_helper'
-require 'create_work_package_service'
-require 'work_packages/create_contract'
+class RemoveNonNullContainerOnAttachments < ActiveRecord::Migration[5.1]
+  def change
+    change_column_null :attachments, :container_id, true
+    change_column_null :attachments, :container_type, true
 
-module API
-  module V3
-    module WorkPackages
-      class CreateProjectFormAPI < ::API::OpenProjectAPI
-        resource :form do
-          helpers ::API::V3::WorkPackages::FormHelper
+    change_column_default :attachments, :container_id, from: 0, to: nil
+    change_column_default :attachments, :container_type, from: '', to: nil
 
-          post do
-            work_package = WorkPackage.new(project: @project)
-            respond_with_work_package_form(work_package,
-                                           contract_class: ::WorkPackages::CreateContract,
-                                           form_class: CreateProjectFormRepresenter,
-                                           action: :create)
-          end
-        end
-      end
+    change_column_null :attachment_journals, :container_id, true
+    change_column_null :attachment_journals, :container_type, true
+
+    change_column_default :attachment_journals, :container_id, from: 0, to: nil
+    change_column_default :attachment_journals, :container_type, from: '', to: nil
+
+    add_column :attachments, :updated_at, :datetime
+    rename_column :attachments, :created_on, :created_at
+
+    reversible do |change|
+      change.up { Attachment.update_all("updated_at = created_at") }
     end
   end
 end

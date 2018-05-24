@@ -54,6 +54,7 @@ class WorkPackages::UpdateService
     result = set_attributes(attributes)
 
     if result.success?
+      work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
       result.merge!(update_dependent)
     end
 

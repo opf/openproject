@@ -4,38 +4,38 @@ describe 'Switching types in work package table', js: true do
   let(:user) { FactoryBot.create :admin }
 
   describe 'switching to required CF' do
-    let(:cf_req_text) {
+    let(:cf_req_text) do
       FactoryBot.create(
         :work_package_custom_field,
         field_format: 'string',
         is_required: true,
         is_for_all: false
       )
-    }
-    let(:cf_text) {
+    end
+    let(:cf_text) do
       FactoryBot.create(
         :work_package_custom_field,
         field_format: 'string',
         is_required: false,
         is_for_all: false
       )
-    }
+    end
 
     let(:type_task) { FactoryBot.create(:type_task, custom_fields: [cf_text]) }
     let(:type_bug) { FactoryBot.create(:type_bug, custom_fields: [cf_req_text]) }
 
-    let(:project) {
+    let(:project) do
       FactoryBot.create(
         :project,
         types: [type_task, type_bug],
         work_package_custom_fields: [cf_text, cf_req_text]
       )
-    }
+    end
     let(:work_package) do
       FactoryBot.create(:work_package,
-                         subject: 'Foobar',
-                         type: type_task,
-                         project: project)
+                        subject: 'Foobar',
+                        type: type_task,
+                        project: project)
     end
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
@@ -173,30 +173,30 @@ describe 'Switching types in work package table', js: true do
   end
 
   describe 'switching to required bool CF with default value' do
-    let(:cf_req_bool) {
+    let(:cf_req_bool) do
       FactoryBot.create(
         :work_package_custom_field,
         field_format: 'bool',
         is_required: true,
         default_value: false
       )
-    }
+    end
 
     let(:type_task) { FactoryBot.create(:type_task) }
     let(:type_bug) { FactoryBot.create(:type_bug, custom_fields: [cf_req_bool]) }
 
-    let(:project) {
+    let(:project) do
       FactoryBot.create(
         :project,
         types: [type_task, type_bug],
         work_package_custom_fields: [cf_req_bool]
       )
-    }
+    end
     let(:work_package) do
       FactoryBot.create(:work_package,
-                         subject: 'Foobar',
-                         type: type_task,
-                         project: project)
+                        subject: 'Foobar',
+                        type: type_task,
+                        project: project)
     end
     let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
     let(:type_field) { wp_page.edit_field :type }
@@ -232,8 +232,8 @@ describe 'Switching types in work package table', js: true do
     let(:role) { FactoryBot.create :role, permissions: permissions }
     let(:user) do
       FactoryBot.create :user,
-                         member_in_project: project,
-                         member_through_role: role
+                        member_in_project: project,
+                        member_through_role: role
     end
 
     before do
@@ -260,10 +260,10 @@ describe 'Switching types in work package table', js: true do
     let!(:status) { FactoryBot.create(:default_status) }
     let!(:workflow) do
       FactoryBot.create :workflow,
-                         type_id: type.id,
-                         old_status: status,
-                         new_status: FactoryBot.create(:status),
-                         role: role
+                        type_id: type.id,
+                        old_status: status,
+                        new_status: FactoryBot.create(:status),
+                        role: role
     end
 
     let!(:priority) { FactoryBot.create :priority, is_default: true }

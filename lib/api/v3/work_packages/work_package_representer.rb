@@ -176,8 +176,7 @@ module API
 
         link :addAttachment,
              cache_if: -> do
-               current_user_allowed_to(:edit_work_packages, context: represented.project) ||
-                 current_user_allowed_to(:add_work_packages, context: represented.project)
+               current_user_allowed_to(:edit_work_packages, context: represented.project)
              end do
           {
             href: api_v3_paths.attachments_by_work_package(represented.id),
@@ -355,8 +354,8 @@ module API
                    datetime_formatter.format_date(represented.start_date, allow_nil: true)
                  end,
                  render_nil: true,
-                 if: ->(_) {
-                   !represented.milestone?
+                 skip_render: ->(_) {
+                   represented.milestone?
                  }
 
         property :due_date,
@@ -365,8 +364,8 @@ module API
                    datetime_formatter.format_date(represented.due_date, allow_nil: true)
                  end,
                  render_nil: true,
-                 if: ->(_) {
-                   !represented.milestone?
+                 skip_render: ->(_) {
+                   represented.milestone?
                  }
 
         property :date,
@@ -375,8 +374,8 @@ module API
                    datetime_formatter.format_date(represented.due_date, allow_nil: true)
                  end,
                  render_nil: true,
-                 if: ->(*) {
-                   represented.milestone?
+                 skip_render: ->(*) {
+                   !represented.milestone?
                  }
 
         property :estimated_time,

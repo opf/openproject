@@ -1808,8 +1808,7 @@ bg:
     text_show_again: Можете да рестартирате това видео от менюто помощ
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: Добавяне на бележки
-  permission_add_work_packages: Add work packages (also allows to add attachments
-    to all work packages)
+  permission_add_work_packages: Add work packages
   permission_add_messages: Post messages
   permission_add_project: Създаване на проект
   permission_add_subprojects: Create subprojects

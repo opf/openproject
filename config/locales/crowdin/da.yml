@@ -1799,8 +1799,7 @@ da:
     text_show_again: You can restart this video from the help menu
     welcome: Velkommen til OpenProject
   permission_add_work_package_notes: Tilføj noter
-  permission_add_work_packages: Add work packages (also allows to add attachments
-    to all work packages)
+  permission_add_work_packages: Add work packages
   permission_add_messages: Send beskeder
   permission_add_project: Opret projekt
   permission_add_subprojects: Opret underprojekter

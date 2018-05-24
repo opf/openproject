@@ -1857,8 +1857,7 @@ fil:
     text_show_again: Maari mong i-restart amg video na ito mula sa tulong ng pagpipilian
     welcome: Maligayang pagdating sa OpenProject
   permission_add_work_package_notes: Magdagdag ng mga talaan
-  permission_add_work_packages: Magdagdag ng mga work packages (ito rin ay nagpapahintulot
-    na mag dagdag ng mga attachment sa lahat ng mga work packages)
+  permission_add_work_packages: Magdagdag ng mga work packages
   permission_add_messages: Mga post na mensahe
   permission_add_project: Lumikha ng proyekto
   permission_add_subprojects: Lumikha ng mga subproject

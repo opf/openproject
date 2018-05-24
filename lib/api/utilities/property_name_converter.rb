@@ -60,7 +60,8 @@ module API
           mail: 'email',
           column_names: 'columns',
           is_public: 'public',
-          sort_criteria: 'sortBy'
+          sort_criteria: 'sortBy',
+          message: 'post'
         }.freeze
 
         # Converts the attribute name as refered to by ActiveRecord to a corresponding API-conform

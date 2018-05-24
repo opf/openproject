@@ -1795,8 +1795,7 @@ id:
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: Tambahkan catatan
-  permission_add_work_packages: Add work packages (also allows to add attachments
-    to all work packages)
+  permission_add_work_packages: Add work packages
   permission_add_messages: Kirim pesan
   permission_add_project: Buat Project
   permission_add_subprojects: Buat Sub Project

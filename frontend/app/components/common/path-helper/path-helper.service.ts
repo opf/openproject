@@ -45,6 +45,16 @@ export class PathHelperService {
     return this.appBasePath;
   }
 
+  public attachmentDownloadPath(attachmentIdentifier:string, slug:string|undefined) {
+    let path = this.staticBase + '/attachments/' + attachmentIdentifier;
+
+    if (slug) {
+      return path + "/" + slug;
+    } else {
+      return path;
+    }
+  }
+
   public boardPath(projectIdentifier:string, boardIdentifier:string) {
     return this.projectBoardsPath(projectIdentifier) + '/' + boardIdentifier;
   }

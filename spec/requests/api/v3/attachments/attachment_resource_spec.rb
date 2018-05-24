@@ -37,6 +37,9 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
   let(:current_user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
+  let(:author) do
+    current_user
+  end
   let(:project) { FactoryBot.create(:project, is_public: false) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) do
@@ -44,7 +47,7 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
        edit_work_packages edit_wiki_pages edit_messages]
   end
   let(:work_package) { FactoryBot.create(:work_package, author: current_user, project: project) }
-  let(:attachment) { FactoryBot.create(:attachment, container: container) }
+  let(:attachment) { FactoryBot.create(:attachment, container: container, author: author) }
   let(:wiki) { FactoryBot.create(:wiki, project: project) }
   let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki) }
   let(:board) { FactoryBot.create(:board, project: project) }
@@ -185,18 +188,32 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
 
     subject(:response) { last_response }
 
+    shared_examples_for 'deletes the attachment' do
+      it 'responds with HTTP No Content' do
+        expect(subject.status).to eq 204
+      end
+
+      it 'removes the attachment from the DB' do
+        expect(Attachment.exists?(attachment.id)).to be_falsey
+      end
+    end
+
+    shared_examples_for 'does not delete the attachment' do |status = 403|
+      it "responds with #{status}" do
+        expect(subject.status).to eq status
+      end
+
+      it 'does not delete the attachment' do
+        expect(Attachment.exists?(attachment.id)).to be_truthy
+      end
+    end
+
     %i[wiki_page work_package board_message].each do |attachment_type|
       context "with a #{attachment_type} attachment" do
         let(:container) { send(attachment_type) }
 
         context 'with required permissions' do
-          it 'responds with HTTP No Content' do
-            expect(subject.status).to eq 204
-          end
-
-          it 'deletes the attachment' do
-            expect(Attachment.exists?(attachment.id)).not_to be_truthy
-          end
+          it_behaves_like 'deletes the attachment'
 
           context 'for a non-existent attachment' do
             let(:path) { api_v3_paths.attachment 1337 }
@@ -211,14 +228,22 @@ describe 'API v3 Attachment resource', type: :request, content_type: :json do
         context 'without required permissions' do
           let(:permissions) { %i[view_work_packages view_wiki_pages] }
 
-          it 'responds with 403' do
-            expect(subject.status).to eq 403
-          end
-
-          it 'does not delete the attachment' do
-            expect(Attachment.exists?(attachment.id)).to be_truthy
-          end
+          it_behaves_like 'does not delete the attachment'
         end
+      end
+    end
+
+    context "with an uncontainered attachment" do
+      let(:container) { nil }
+
+      context 'with the user being the author' do
+        it_behaves_like 'deletes the attachment'
+      end
+
+      context 'with the user not being the author' do
+        let(:author) { FactoryBot.create(:user) }
+
+        it_behaves_like 'does not delete the attachment', 404
       end
     end
   end

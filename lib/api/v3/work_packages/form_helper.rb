@@ -26,24 +26,45 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/form_helper'
-require 'create_work_package_service'
-require 'work_packages/create_contract'
+require 'api/v3/work_packages/work_package_payload_representer'
 
 module API
   module V3
     module WorkPackages
-      class CreateProjectFormAPI < ::API::OpenProjectAPI
-        resource :form do
-          helpers ::API::V3::WorkPackages::FormHelper
+      module FormHelper
+        extend Grape::API::Helpers
 
-          post do
-            work_package = WorkPackage.new(project: @project)
-            respond_with_work_package_form(work_package,
-                                           contract_class: ::WorkPackages::CreateContract,
-                                           form_class: CreateProjectFormRepresenter,
-                                           action: :create)
+        def respond_with_work_package_form(work_package, contract_class:, form_class:, action: :update)
+          parameters = parse_body
+
+          result = ::WorkPackages::SetAttributesService
+                   .new(user: current_user, work_package: work_package, contract: contract_class)
+                   .call(parameters)
+
+          api_errors = ::API::Errors::ErrorBase.create_errors(result.errors)
+
+          # errors for invalid data (e.g. validation errors) are handled inside the form
+          if only_validation_errors(api_errors)
+            status 200
+            form_class.new(work_package,
+                           current_user: current_user,
+                           errors: api_errors,
+                           action: action)
+          else
+            fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
           end
+        end
+
+        private
+
+        def only_validation_errors(errors)
+          errors.all? { |error| error.code == 422 }
+        end
+
+        def parse_body
+          ::API::V3::WorkPackages::ParseParamsService
+            .new(current_user)
+            .call(request_body)
         end
       end
     end

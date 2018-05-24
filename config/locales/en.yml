@@ -462,6 +462,7 @@ en:
         before_or_equal_to: "must be before or equal to %{date}."
         could_not_be_copied: "could not be (fully) copied."
         regex_invalid: "could not be validated with the associated regular expression."
+        unchangeable: "cannot be changed."
       models:
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
@@ -1734,7 +1735,7 @@ en:
     welcome: "Welcome to OpenProject"
 
   permission_add_work_package_notes: "Add notes"
-  permission_add_work_packages: "Add work packages (also allows to add attachments to all work packages)"
+  permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
   permission_add_subprojects: "Create subprojects"

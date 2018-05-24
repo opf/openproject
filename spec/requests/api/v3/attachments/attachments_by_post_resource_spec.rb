@@ -134,9 +134,7 @@ describe 'API v3 Attachments by post resource', type: :request do
     context 'only allowed to add messages, but no edit permission' do
       let(:permissions) { %i[view_messages add_messages] }
 
-      it 'should respond with HTTP Created' do
-        expect(subject.status).to eq(201)
-      end
+      it_behaves_like 'unauthorized access'
     end
 
     context 'only allowed to view messages' do

@@ -1849,8 +1849,7 @@ es:
     text_show_again: Puede reiniciar este vídeo en el menú ayuda
     welcome: Bienvenido a OpenProject
   permission_add_work_package_notes: Añadir notas
-  permission_add_work_packages: Añadir paquete de trabajo (Tambien habilita los adjuntos
-    para todos los paquetes de trabajo)
+  permission_add_work_packages: Añadir paquete de trabajo
   permission_add_messages: Publicar mensajes
   permission_add_project: Crear proyecto
   permission_add_subprojects: Crear subproyectos

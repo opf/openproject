@@ -133,9 +133,7 @@ describe 'API v3 Attachments by work package resource', type: :request do
     context 'only allowed to add work packages, but no edit permission' do
       let(:permissions) { %i[view_work_packages add_work_packages] }
 
-      it 'should respond with HTTP Created' do
-        expect(subject.status).to eq(201)
-      end
+      it_behaves_like 'unauthorized access'
     end
 
     context 'only allowed to view work packages' do

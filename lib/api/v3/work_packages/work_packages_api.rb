@@ -86,14 +86,16 @@ module API
             end
 
             patch do
-              write_work_package_attributes(@work_package, request_body, reset_lock_version: true)
+              parameters = ::API::V3::WorkPackages::ParseParamsService
+                           .new(current_user)
+                           .call(request_body)
 
               call = ::WorkPackages::UpdateService
                      .new(
                        user: current_user,
                        work_package: @work_package
                      )
-                     .call(send_notifications: notify_according_to_params)
+                     .call(attributes: parameters, send_notifications: notify_according_to_params)
 
               if call.success?
                 @work_package.reload

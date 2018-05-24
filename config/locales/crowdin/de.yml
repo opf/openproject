@@ -1846,8 +1846,7 @@ de:
     text_show_again: Sie können dieses Video über das Hilfe-Menü erneut starten
     welcome: Willkommen bei OpenProject
   permission_add_work_package_notes: Kommentare hinzufügen
-  permission_add_work_packages: Arbeitspakete hinzufügen (enthält Recht Anhänge zu
-    Arbeitspaketen hinzuzufügen)
+  permission_add_work_packages: Arbeitspakete hinzufügen
   permission_add_messages: Forenbeiträge hinzufügen
   permission_add_project: Projekt erstellen
   permission_add_subprojects: Unterprojekte erstellen

@@ -37,7 +37,30 @@ module API
         cached_representer disabled: true
 
         def writeable_attributes
-          super + ["date"]
+          super + %w[date attachments]
+        end
+
+        property :attachments,
+                 exec_context: :decorator,
+                 getter: ->(*) {},
+                 setter: ->(fragment:, **) do
+                   ids = fragment.map do |link|
+                     ::API::Utilities::ResourceLinkParser.parse_id link['href'],
+                                                                   property: :attachment,
+                                                                   expected_version: '3',
+                                                                   expected_namespace: :attachments
+                   end
+
+                   represented.attachment_ids = ids
+                 end,
+                 skip_render: ->(*) { true },
+                 linked_resource: true,
+                 uncacheable: true
+
+        links :attachments do
+          represented.attachments.map do |attachment|
+            { href: api_v3_paths.attachment(attachment.id) }
+          end
         end
 
         def load_complete_model(model)

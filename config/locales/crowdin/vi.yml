@@ -1802,8 +1802,7 @@ vi:
     text_show_again: Bạn có thể khởi động lại video này từ trình đơn trợ giúp
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: Add notes
-  permission_add_work_packages: Add work packages (also allows to add attachments
-    to all work packages)
+  permission_add_work_packages: Add work packages
   permission_add_messages: Đăng tin nhắn
   permission_add_project: Tạo Dự án
   permission_add_subprojects: Tạo Dự án con
