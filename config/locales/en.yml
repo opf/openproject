@@ -1072,6 +1072,7 @@ en:
   label_calendar: "Calendar"
   label_calendar_show: "Show Calendar"
   label_category: "Category"
+  label_consent_settings: "User Consent"
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Select new main menu item
   label_select_project: "Select a project"
@@ -1930,6 +1931,9 @@ en:
   setting_commit_logtime_activity_id: "Activity for logged time"
   setting_commit_logtime_enabled: "Enable time logging"
   setting_commit_ref_keywords: "Referencing keywords"
+  setting_consent_info: "Consent information text"
+  setting_consent_label: "Consent (checkbox) label"
+  setting_consent_required: "Consent required"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_date_format: "Date format"
   setting_default_language: "Default language"

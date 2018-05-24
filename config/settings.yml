@@ -69,6 +69,24 @@ brute_force_block_minutes:
 brute_force_block_after_failed_logins:
   default: 20
   format: int
+# Date after which users have to have consented to what ever they need to consent
+# to (depending on other settings) such as a privacy policy.
+consent_date:
+  default: ''
+# Additional info about what the user is consenting to (optional).
+consent_info:
+  serialized: true
+  default:
+    en:
+# Label next to the checkbox showing what the user is consenting to in short (required).
+consent_label:
+  serialized: true
+  default:
+    en:
+# Indicates wether or not users need to consent to something such as privacy policy.
+consent_required:
+  default: 0
+  format: boolean
 welcome_title:
   default:
 welcome_text:

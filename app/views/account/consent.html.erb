@@ -27,27 +27,29 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= styled_form_tag({ action: 'edit', tab: 'users' } ) do %>
+<% disable_accessibility_css! %>
 
-  <div class ="form--section">
-    <div class="form--field">
-      <%= setting_check_box :users_deletable_by_admins %>
-    </div>
+<% breadcrumb_paths("Consent") %>
+<% html_title "Consent" %>
+<%= call_hook :view_account_consent_top %>
+<div id="login-form" class="form -bordered">
+  <h1>Consent</h1>
 
-    <div class="form--field">
-      <%= setting_check_box :users_deletable_by_self %>
-    </div>
-  </div>
+  <%= format_text consent_info %>
 
-  <fieldset class="form--fieldset">
-    <fieldset id="consent_settings" class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= I18n.t(:label_consent_settings) %></legend>
-      <div class="form--field">
-        <%= setting_check_box :consent_required %>
-      </div>
-      <%= cell Settings::TextSettingCell, I18n.locale, name: "consent_info" %>
-      <%= cell Settings::TextSettingCell, I18n.locale, name: "consent_label" %>
-    </fieldset>
-  </fieldset>
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-<% end %>
+  <%= form_tag(account_confirm_consent_path, method: :post, class: "form -wide-labels") do %>
+    <section class="form--section">
+      <label class="form--label-with-check-box">
+        <div class="form--check-box-container">
+          <input type="checkbox" class="form--check-box" required="required">
+        </div>
+
+        <%= format_text consent_label %>
+      </label>
+    </section>
+    <section class="form--section">
+      <input type="submit" class="button -highlight" value="OK"/>
+    </section>
+  <% end %>
+</div>
+<%= call_hook :view_account_consent_bottom %>
