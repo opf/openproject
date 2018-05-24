@@ -60,7 +60,7 @@ class ToV710AggregatedDocumentsMigrations < ActiveRecord::Migration[5.1]
 
   def migrations
     MIGRATION_FILES.split.map do |m|
-      m.gsub(/_.*\z/, '').to_i
+      m.gsub(/_.*\z/, '')
     end
   end
 end
