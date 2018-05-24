@@ -34,7 +34,9 @@ import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper
 
 export type WorkPackageAction = {
   text:string;
+  key:string;
   icon?:string;
+  indexBy?:(actions:WorkPackageAction[]) => number,
   link:string;
   href?:string;
 }
@@ -45,25 +47,25 @@ export class WorkPackageContextMenuHelperService {
   private BULK_ACTIONS = [
     {
       text: I18n.t('js.work_packages.bulk_actions.edit'),
-      icon: 'edit',
+      key: 'edit',
       link: 'update',
       href: this.PathHelper.staticBase + '/work_packages/bulk/edit'
     },
     {
       text: I18n.t('js.work_packages.bulk_actions.move'),
-      icon: 'move',
+      key: 'move',
       link: 'move',
       href: this.PathHelper.staticBase + '/work_packages/move/new'
     },
     {
       text: I18n.t('js.work_packages.bulk_actions.copy'),
-      icon: 'copy',
+      key: 'copy',
       link: 'copy',
       href: this.PathHelper.staticBase + '/work_packages/move/new?copy=true'
     },
     {
       text: I18n.t('js.work_packages.bulk_actions.delete'),
-      icon: 'delete',
+      key: 'delete',
       link: 'delete',
       href: this.PathHelper.staticBase + '/work_packages/bulk?_method=delete'
     }
@@ -82,8 +84,9 @@ export class WorkPackageContextMenuHelperService {
 
     angular.forEach(allowedActions, function(allowedAction) {
       singularPermittedActions.push({
-        icon: allowedAction.icon,
+        key: allowedAction.key,
         text: allowedAction.text,
+        icon: allowedAction.icon,
         link: workPackage[allowedAction.link].href
       });
     });
@@ -102,7 +105,7 @@ export class WorkPackageContextMenuHelperService {
 
     angular.forEach(permittedActions, (permittedAction:any) => {
       bulkPermittedActions.push({
-        icon: permittedAction.icon,
+        key: permittedAction.key,
         text: permittedAction.text,
         link: this.getBulkActionLink(permittedAction, workPackages)
       });
@@ -126,12 +129,12 @@ export class WorkPackageContextMenuHelperService {
     return link + '?' + queryParts.join('&');
   }
 
-  public getAllowedActions(workPackage:WorkPackageResource, actions:any):WorkPackageAction[] {
-    var allowedActions:any[] = [];
+  public getAllowedActions(workPackage:WorkPackageResource, actions:WorkPackageAction[]):WorkPackageAction[] {
+    var allowedActions:WorkPackageAction[] = [];
 
     angular.forEach(actions, (action) => {
       if (workPackage.hasOwnProperty(action.link)) {
-        action.text = action.text || I18n.t('js.button_' + action.icon);
+        action.text = action.text || I18n.t('js.button_' + action.key);
         allowedActions.push(action);
       }
     });
@@ -145,12 +148,12 @@ export class WorkPackageContextMenuHelperService {
 
     if (workPackage.addRelation && this.wpTableTimeline.isVisible) {
       allowedActions.push({
-        icon: "relation-precedes",
+        key: "relation-precedes",
         text: I18n.t("js.relation_buttons.add_predecessor"),
         link: "addRelation"
       });
       allowedActions.push({
-        icon: "relation-follows",
+        key: "relation-follows",
         text: I18n.t("js.relation_buttons.add_follower"),
         link: "addRelation"
       });
@@ -158,7 +161,7 @@ export class WorkPackageContextMenuHelperService {
 
     if (!!workPackage.addChild) {
       allowedActions.push({
-        icon: "relation-new-child",
+        key: "relation-new-child",
         text: I18n.t("js.relation_buttons.add_new_child"),
         link: "addChild"
       });
