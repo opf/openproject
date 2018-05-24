@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::RoleFilter, type: :model do
-  let(:role) { FactoryGirl.build_stubbed(:role) }
+  let(:role) { FactoryBot.build_stubbed(:role) }
 
   it_behaves_like 'basic query filter' do
     let(:order) { 7 }
@@ -76,7 +76,7 @@ describe Queries::WorkPackages::Filter::RoleFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:role2) { FactoryGirl.build_stubbed(:role) }
+      let(:role2) { FactoryBot.build_stubbed(:role) }
 
       before do
         allow(Role)

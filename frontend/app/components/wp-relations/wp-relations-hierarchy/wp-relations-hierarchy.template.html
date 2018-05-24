@@ -1,24 +1,25 @@
 <div class="wp-relations-hierarchy-section">
-    <div class="attributes-group--header">
-        <div class="attributes-group--header-container">
-            <h3 class="attributes-group--header-text"
-                [textContent]="text.parentHeadline">
-            </h3>
-        </div>
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"
+          [textContent]="text.parentHeadline">
+      </h3>
     </div>
+  </div>
 
-    <wp-relation-parent [workPackage]="workPackage"></wp-relation-parent>
-
-    <div class="attributes-group--header">
-        <div class="attributes-group--header-container">
-            <h3 class="attributes-group--header-text"
-                [textContent]="text.childrenHeadline">
-            </h3>
-        </div>
+  <wp-relation-parent [workPackage]="workPackage"></wp-relation-parent>
+</div>
+<div class="wp-relations-hierarchy-section wp-relations--children">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"
+          [textContent]="text.childrenHeadline">
+      </h3>
     </div>
-
-    <wp-children-query
-        [workPackage]="workPackage"
-        [query]="childrenQueryProps">
-    </wp-children-query>
+  </div>
+  <wp-children-query
+      [workPackage]="workPackage"
+      [addExistingChildEnabled]="true"
+      [query]="childrenQueryProps">
+  </wp-children-query>
 </div>

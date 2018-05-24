@@ -32,7 +32,7 @@ require_relative '../../../legacy_spec_helper'
 describe Redmine::Ciphering do
   it 'should password should be encrypted' do
     OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
-      r = FactoryGirl.create(:repository_subversion, password: 'foo')
+      r = FactoryBot.create(:repository_subversion, password: 'foo')
       assert_equal 'foo', r.password
       assert r.read_attribute(:password).match(/\Aaes-256-cbc:.+\Z/)
     end
@@ -40,7 +40,7 @@ describe Redmine::Ciphering do
 
   it 'should password should be clear with blank key' do
     OpenProject::Configuration.with 'database_cipher_key' => '' do
-      r = FactoryGirl.create(:repository_subversion, password: 'foo')
+      r = FactoryBot.create(:repository_subversion, password: 'foo')
       assert_equal 'foo', r.password
       assert_equal 'foo', r.read_attribute(:password)
     end
@@ -48,7 +48,7 @@ describe Redmine::Ciphering do
 
   it 'should password should be clear with nil key' do
     OpenProject::Configuration.with 'database_cipher_key' => nil do
-      r = FactoryGirl.create(:repository_subversion, password: 'foo')
+      r = FactoryBot.create(:repository_subversion, password: 'foo')
       assert_equal 'foo', r.password
       assert_equal 'foo', r.read_attribute(:password)
     end
@@ -56,7 +56,7 @@ describe Redmine::Ciphering do
 
   it 'should unciphered password should be readable' do
     OpenProject::Configuration.with 'database_cipher_key' => nil do
-      FactoryGirl.create(:repository_subversion, password: 'clear')
+      FactoryBot.create(:repository_subversion, password: 'clear')
     end
 
     OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
@@ -68,8 +68,8 @@ describe Redmine::Ciphering do
   it 'should encrypt all' do
     Repository.delete_all
     OpenProject::Configuration.with 'database_cipher_key' => nil do
-      FactoryGirl.create(:repository_subversion, password: 'foo')
-      FactoryGirl.create(:repository_subversion, password: 'bar')
+      FactoryBot.create(:repository_subversion, password: 'foo')
+      FactoryBot.create(:repository_subversion, password: 'bar')
     end
 
     OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
@@ -83,8 +83,8 @@ describe Redmine::Ciphering do
   it 'should decrypt all' do
     Repository.delete_all
     OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
-      FactoryGirl.create(:repository_subversion, password: 'foo')
-      FactoryGirl.create(:repository_subversion, password: 'bar')
+      FactoryBot.create(:repository_subversion, password: 'foo')
+      FactoryBot.create(:repository_subversion, password: 'bar')
 
       assert Repository.decrypt_all(:password)
       r = Repository.order('id DESC').first

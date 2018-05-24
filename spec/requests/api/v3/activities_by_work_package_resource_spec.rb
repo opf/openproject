@@ -34,12 +34,12 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
 
   describe 'activities' do
     let(:project) { work_package.project }
-    let(:work_package) { FactoryGirl.create(:work_package) }
+    let(:work_package) { FactoryBot.create(:work_package) }
     let(:comment) { 'This is a test comment!' }
     let(:current_user) do
-      FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+      FactoryBot.create(:user, member_in_project: project, member_through_role: role)
     end
-    let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
     let(:permissions) { %i(view_work_packages add_work_package_notes) }
 
     before do
@@ -56,7 +56,7 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
       end
 
       context 'not allowed to see work package' do
-        let(:current_user) { FactoryGirl.create(:user) }
+        let(:current_user) { FactoryBot.create(:user) }
 
         it 'fails with HTTP Not Found' do
           expect(last_response.status).to eql 404
@@ -65,7 +65,7 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
     end
 
     describe 'POST /api/v3/work_packages/:id/activities' do
-      let(:work_package) { FactoryGirl.create(:work_package) }
+      let(:work_package) { FactoryBot.create(:work_package) }
 
       shared_context 'create activity' do
         before do

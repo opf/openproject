@@ -34,7 +34,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
   let(:operator) { '=' }
   let(:values) { [status.id.to_s] }
 
-  let(:status) { FactoryGirl.build_stubbed(:status) }
+  let(:status) { FactoryBot.build_stubbed(:status) }
 
   let(:filter) do
     f = Queries::WorkPackages::Filter::StatusFilter.create!
@@ -166,7 +166,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
     end
 
     context 'with a bool custom field filter' do
-      let(:bool_cf) { FactoryGirl.create(:bool_wp_custom_field) }
+      let(:bool_cf) { FactoryBot.create(:bool_wp_custom_field) }
       let(:filter) do
         Queries::WorkPackages::Filter::CustomFieldFilter.create!(name: "cf_#{bool_cf.id}", operator: operator, values: values)
       end

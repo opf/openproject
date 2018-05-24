@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe SetLocalizationService do
-  let(:user) { FactoryGirl.build_stubbed(:user, language: user_language) }
+  let(:user) { FactoryBot.build_stubbed(:user, language: user_language) }
   let(:http_accept_header) { "#{http_accept_language},en-US;q=0.8,en;q=0.6" }
   let(:instance) { described_class.new(user, http_accept_header) }
   let(:user_language) { :bogus_language }
@@ -116,7 +116,7 @@ describe SetLocalizationService do
   end
 
   context 'for an anonymous user' do
-    let(:user) { FactoryGirl.build_stubbed(:anonymous) }
+    let(:user) { FactoryBot.build_stubbed(:anonymous) }
 
     it_behaves_like 'falls back to the header'
 

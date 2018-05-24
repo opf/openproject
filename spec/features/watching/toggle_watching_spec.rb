@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe 'Toggle watching', type: :feature, js: true do
-  let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_messages, :view_wiki_pages]) }
-  let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-  let(:news) { FactoryGirl.create(:news, project: project) }
-  let(:board) { FactoryGirl.create(:board, project: project) }
-  let(:message) { FactoryGirl.create(:message, board: board) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_messages, :view_wiki_pages]) }
+  let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  let(:news) { FactoryBot.create(:news, project: project) }
+  let(:board) { FactoryBot.create(:board, project: project) }
+  let(:message) { FactoryBot.create(:message, board: board) }
   let(:wiki) { project.wiki }
-  let(:wiki_page) { FactoryGirl.create(:wiki_page_with_content, wiki: wiki) }
+  let(:wiki_page) { FactoryBot.create(:wiki_page_with_content, wiki: wiki) }
 
   before do
     allow(User).to receive(:current).and_return user

@@ -46,6 +46,7 @@ import {UserDmService} from 'core-app/modules/hal/dm-services/user-dm.service';
 import {ProjectDmService} from 'core-app/modules/hal/dm-services/project-dm.service';
 import {StatusDmService} from 'core-app/modules/hal/dm-services/status-dm.service';
 import {PriorityDmService} from 'core-app/modules/hal/dm-services/priority-dm.service';
+import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import {PriorityDmService} from 'core-app/modules/hal/dm-services/priority-dm.se
   ],
   providers: [
     HalResourceService,
+    HalResourceSortingService,
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
     { provide: APP_INITIALIZER, useFactory: initializeHalResourceConfig, deps: [HalResourceService], multi: true },
     ConfigurationDmService,

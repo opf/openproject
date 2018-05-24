@@ -34,25 +34,25 @@ describe ApplicationHelper, type: :helper do
 
   before do
     # @project variable is used by helper
-    @project = FactoryGirl.create :valid_project
+    @project = FactoryBot.create :valid_project
     @project.reload # reload references to indirectly created entities (e.g. wiki)
 
-    @admin = FactoryGirl.create :admin
-    @anonymous = FactoryGirl.create :anonymous
-    @non_member = FactoryGirl.create :user
-    @project_member = FactoryGirl.create :user,
+    @admin = FactoryBot.create :admin
+    @anonymous = FactoryBot.create :anonymous
+    @non_member = FactoryBot.create :user
+    @project_member = FactoryBot.create :user,
                                          member_in_project: @project,
-                                         member_through_role: FactoryGirl.create(:role,
+                                         member_through_role: FactoryBot.create(:role,
                                                                                  permissions: [:view_work_packages, :edit_work_packages,
                                                                                                :browse_repository, :view_changesets, :view_wiki_pages])
 
-    @issue = FactoryGirl.create :work_package, project: @project, author: @project_member, type: @project.types.first
+    @issue = FactoryBot.create :work_package, project: @project, author: @project_member, type: @project.types.first
 
     file = LegacyFileHelpers.mock_uploaded_file name: 'logo.gif',
                                           content_type: 'image/gif',
                                           content: 'not actually a gif',
                                           binary: true
-    @attachment = FactoryGirl.create :attachment,
+    @attachment = FactoryBot.create :attachment,
                                      author: @project_member,
                                      file: file,
                                      content_type: 'image/gif',
@@ -184,7 +184,7 @@ RAW
   end
 
   it 'should cross project redmine links' do
-    version = FactoryGirl.create :version,
+    version = FactoryBot.create :version,
                                  name: '1.0',
                                  project: @project
 
@@ -195,10 +195,10 @@ RAW
       'invalid:version:"1.0"'                 => 'invalid:version:"1.0"'
     }
 
-    repository = FactoryGirl.create :repository_subversion,
+    repository = FactoryBot.create :repository_subversion,
                                     project: @project
 
-    changeset = FactoryGirl.create :changeset,
+    changeset = FactoryBot.create :changeset,
                                    repository: repository,
                                    comments: 'This commit fixes #1, #2 and references #1 & #3'
     identifier = @project.identifier
@@ -229,7 +229,7 @@ RAW
     )
 
     # helper.format_text "sees" the text is parses from the_other_project (and not @project)
-    the_other_project = FactoryGirl.create :valid_project
+    the_other_project = FactoryBot.create :valid_project
 
     to_test.each do |text, result|
       assert_dom_equal "<p>#{result}</p>",
@@ -343,8 +343,8 @@ EXPECTED
   it 'should wiki links in tables' do
     @project.wiki.start_page = 'Page'
     @project.wiki.save!
-    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Other page'
-    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Last page'
+    FactoryBot.create :wiki_page_with_content, wiki: @project.wiki, title: 'Other page'
+    FactoryBot.create :wiki_page_with_content, wiki: @project.wiki, title: 'Last page'
 
     to_test = { "|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
                  "<tr><td><a class=\"wiki-page new\" href=\"/projects/#{@project.identifier}/wiki/page?title=Link+title\">Link title</a></td>" +
@@ -395,8 +395,8 @@ EXPECTED
   it 'should table of content' do
     @project.wiki.start_page = 'Wiki'
     @project.wiki.save!
-    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
-    FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'another Wiki'
+    FactoryBot.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
+    FactoryBot.create :wiki_page_with_content, wiki: @project.wiki, title: 'another Wiki'
 
     raw = <<-RAW
 {{toc}}
@@ -457,9 +457,9 @@ RAW
   it 'should table of content should contain included page headings' do
     @project.wiki.start_page = 'Wiki'
     @project.save!
-    page  = FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
-    child = FactoryGirl.create :wiki_page, wiki: @project.wiki, title: 'Child_1', parent: page
-    child.content = FactoryGirl.create :wiki_content, page: child, text: "h1. Child page 1\n\nThis is a child page"
+    page  = FactoryBot.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
+    child = FactoryBot.create :wiki_page, wiki: @project.wiki, title: 'Child_1', parent: page
+    child.content = FactoryBot.create :wiki_content, page: child, text: "h1. Child page 1\n\nThis is a child page"
     child.save!
 
     raw = <<-RAW
@@ -506,7 +506,7 @@ RAW
   end
 
   it 'should link to user should not link to locked user' do
-    user = FactoryGirl.build :user
+    user = FactoryBot.build :user
     user.lock!
     assert user.locked?
     t = link_to_user(user)

@@ -28,7 +28,7 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'spec_helper'
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'rspec/rails'
 require 'shoulda/matchers'
 require 'rspec/example_disabler'

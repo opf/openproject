@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe ::Query::Results, type: :model do
   let(:query) do
-    FactoryGirl.build :query,
+    FactoryBot.build :query,
                       show_hierarchies: false
   end
   let(:query_results) do
@@ -44,9 +44,9 @@ describe ::Query::Results, type: :model do
                          ),
                          order: 'work_packages.root_id DESC, work_packages.lft ASC'
   end
-  let(:project_1) { FactoryGirl.create :project }
+  let(:project_1) { FactoryBot.create :project }
   let(:role_pm) do
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: %i(
                          view_work_packages
                          edit_work_packages
@@ -55,11 +55,11 @@ describe ::Query::Results, type: :model do
                        ))
   end
   let(:role_dev) do
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: [:view_work_packages])
   end
   let(:user_1) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        firstname: 'user',
                        lastname: '1',
                        member_in_project: project_1,
@@ -67,7 +67,7 @@ describe ::Query::Results, type: :model do
   end
   let(:wp_p1) do
     (1..3).map do
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          project: project_1,
                          assigned_to_id: user_1.id)
     end
@@ -75,7 +75,7 @@ describe ::Query::Results, type: :model do
 
   describe '#work_package_count_by_group' do
     let(:query) do
-      FactoryGirl.build :query,
+      FactoryBot.build :query,
                         show_hierarchies: false,
                         group_by: group_by
     end
@@ -90,16 +90,16 @@ describe ::Query::Results, type: :model do
   end
 
   describe '#work_packages' do
-    let!(:project_1) { FactoryGirl.create :project }
-    let!(:project_2) { FactoryGirl.create :project }
+    let!(:project_1) { FactoryBot.create :project }
+    let!(:project_2) { FactoryBot.create :project }
     let!(:member) do
-      FactoryGirl.create(:member,
+      FactoryBot.create(:member,
                          project: project_2,
                          principal: user_1,
                          roles: [role_pm])
     end
     let!(:user_2) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          firstname: 'user',
                          lastname: '2',
                          member_in_project: project_2,
@@ -107,12 +107,12 @@ describe ::Query::Results, type: :model do
     end
 
     let!(:wp_p2) do
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          project: project_2,
                          assigned_to_id: user_2.id)
     end
     let!(:wp2_p2) do
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          project: project_2,
                          assigned_to_id: user_1.id)
     end
@@ -130,7 +130,7 @@ describe ::Query::Results, type: :model do
       end
 
       context 'when a project is set' do
-        let(:query) { FactoryGirl.build :query, project: project_2 }
+        let(:query) { FactoryBot.build :query, project: project_2 }
 
         it 'should display only wp for selected project and selected role' do
           expect(query_results.work_packages).to match_array([wp_p2])
@@ -138,7 +138,7 @@ describe ::Query::Results, type: :model do
       end
 
       context 'when no project is set' do
-        let(:query) { FactoryGirl.build :query, project: nil }
+        let(:query) { FactoryBot.build :query, project: nil }
 
         it 'should display all wp from projects where User.current has access' do
           expect(query_results.work_packages).to match_array([wp_p2, wp2_p2])
@@ -151,13 +151,13 @@ describe ::Query::Results, type: :model do
     context 'with a custom field being returned and paginating' do
       let(:group_by) { nil }
       let(:query) do
-        FactoryGirl.build_stubbed :query,
+        FactoryBot.build_stubbed :query,
                                   show_hierarchies: false,
                                   group_by: group_by,
                                   project: project_2
       end
 
-      let!(:custom_field) { FactoryGirl.create(:work_package_custom_field, is_for_all: true) }
+      let!(:custom_field) { FactoryBot.create(:work_package_custom_field, is_for_all: true) }
 
       before do
         allow(User).to receive(:current).and_return(user_2)
@@ -205,7 +205,7 @@ describe ::Query::Results, type: :model do
 
     context 'when grouping by responsible' do
       let(:query) do
-        FactoryGirl.build :query,
+        FactoryBot.build :query,
                           show_hierarchies: false,
                           group_by: group_by,
                           project: project_1
@@ -227,15 +227,15 @@ describe ::Query::Results, type: :model do
   end
 
   describe '#sorted_work_packages' do
-    let(:work_package1) { FactoryGirl.create(:work_package, project: project_1) }
-    let(:work_package2) { FactoryGirl.create(:work_package, project: project_1) }
-    let(:work_package3) { FactoryGirl.create(:work_package, project: project_1) }
+    let(:work_package1) { FactoryBot.create(:work_package, project: project_1) }
+    let(:work_package2) { FactoryBot.create(:work_package, project: project_1) }
+    let(:work_package3) { FactoryBot.create(:work_package, project: project_1) }
     let(:sort_by) { [['parent', 'asc']] }
     let(:columns) { %i(id subject) }
     let(:group_by) { '' }
 
     let(:query) do
-      FactoryGirl.build_stubbed :query,
+      FactoryBot.build_stubbed :query,
                                 show_hierarchies: false,
                                 group_by: group_by,
                                 sort_criteria: sort_by,
@@ -247,9 +247,9 @@ describe ::Query::Results, type: :model do
       ::Query::Results.new query
     end
 
-    let(:user_a) { FactoryGirl.create(:user, firstname: 'AAA', lastname: 'AAA') }
-    let(:user_m) { FactoryGirl.create(:user, firstname: 'MMM', lastname: 'MMM') }
-    let(:user_z) { FactoryGirl.create(:user, firstname: 'ZZZ', lastname: 'ZZZ') }
+    let(:user_a) { FactoryBot.create(:user, firstname: 'AAA', lastname: 'AAA') }
+    let(:user_m) { FactoryBot.create(:user, firstname: 'MMM', lastname: 'MMM') }
+    let(:user_z) { FactoryBot.create(:user, firstname: 'ZZZ', lastname: 'ZZZ') }
 
     context 'grouping by assigned_to, having the author column selected' do
       let(:group_by) { 'assigned_to' }
@@ -387,15 +387,15 @@ describe ::Query::Results, type: :model do
     end
 
     context 'sorting by parent' do
-      let(:work_package1) { FactoryGirl.create(:work_package, project: project_1, subject: '1') }
-      let(:work_package2) { FactoryGirl.create(:work_package, project: project_1, parent: work_package1, subject: '2') }
-      let(:work_package3) { FactoryGirl.create(:work_package, project: project_1, parent: work_package2, subject: '3') }
-      let(:work_package4) { FactoryGirl.create(:work_package, project: project_1, parent: work_package1, subject: '4') }
-      let(:work_package5) { FactoryGirl.create(:work_package, project: project_1, parent: work_package4, subject: '5') }
-      let(:work_package6) { FactoryGirl.create(:work_package, project: project_1, parent: work_package4, subject: '6') }
-      let(:work_package7) { FactoryGirl.create(:work_package, project: project_1, subject: '7') }
-      let(:work_package8) { FactoryGirl.create(:work_package, project: project_1, subject: '8') }
-      let(:work_package9) { FactoryGirl.create(:work_package, project: project_1, parent: work_package8, subject: '9') }
+      let(:work_package1) { FactoryBot.create(:work_package, project: project_1, subject: '1') }
+      let(:work_package2) { FactoryBot.create(:work_package, project: project_1, parent: work_package1, subject: '2') }
+      let(:work_package3) { FactoryBot.create(:work_package, project: project_1, parent: work_package2, subject: '3') }
+      let(:work_package4) { FactoryBot.create(:work_package, project: project_1, parent: work_package1, subject: '4') }
+      let(:work_package5) { FactoryBot.create(:work_package, project: project_1, parent: work_package4, subject: '5') }
+      let(:work_package6) { FactoryBot.create(:work_package, project: project_1, parent: work_package4, subject: '6') }
+      let(:work_package7) { FactoryBot.create(:work_package, project: project_1, subject: '7') }
+      let(:work_package8) { FactoryBot.create(:work_package, project: project_1, subject: '8') }
+      let(:work_package9) { FactoryBot.create(:work_package, project: project_1, parent: work_package8, subject: '9') }
       let(:work_packages) do
         [work_package1, work_package2, work_package3, work_package4, work_package5,
          work_package6, work_package7, work_package8, work_package9]
@@ -431,9 +431,9 @@ describe ::Query::Results, type: :model do
     end
 
     context 'filtering by bool cf' do
-      let(:bool_cf) { FactoryGirl.create(:bool_wp_custom_field, is_filter: true) }
+      let(:bool_cf) { FactoryBot.create(:bool_wp_custom_field, is_filter: true) }
       let(:custom_value) do
-        FactoryGirl.create(:custom_value,
+        FactoryBot.create(:custom_value,
                            custom_field: bool_cf,
                            customized: work_package1,
                            value: value)
@@ -553,7 +553,7 @@ describe ::Query::Results, type: :model do
         let(:custom_value) { nil }
         let(:filter_value) { 'f' }
         let(:bool_cf) do
-          FactoryGirl.create(:bool_wp_custom_field,
+          FactoryBot.create(:bool_wp_custom_field,
                              is_filter: true,
                              is_for_all: true)
         end
@@ -580,7 +580,7 @@ describe ::Query::Results, type: :model do
   # dependent on columns in GROUP BY clause"
   context 'when grouping by custom field' do
     let!(:custom_field) do
-      FactoryGirl.create(:int_wp_custom_field, is_for_all: true, is_filter: true)
+      FactoryBot.create(:int_wp_custom_field, is_for_all: true, is_filter: true)
     end
 
     before do

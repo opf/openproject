@@ -337,4 +337,4 @@ default:
 
 ## Onboarding variables:
 
-* 'onboarding_video_url': An URL for the video displayed on the onboarding modal. This is only shown when the user logs in for the first time.
+* `onboarding_video_url`: An URL for the video displayed on the onboarding modal. This is only shown when the user logs in for the first time.

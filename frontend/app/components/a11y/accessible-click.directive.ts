@@ -36,13 +36,13 @@ export class AccessibleClickDirective {
   @Output('accessibleClick') onClick = new EventEmitter<JQueryEventObject>();
 
   @HostListener('click', ['$event'])
-  @HostListener('keyup', ['$event'])
+  @HostListener('keydown', ['$event'])
   public handleClick(event:JQueryEventObject) {
     if (event.type === 'click' || event.which === keyCodes.ENTER || event.which === keyCodes.SPACE) {
+      event.preventDefault();
+      event.stopPropagation();
+
       this.onClick.emit(event);
     }
-
-    event.preventDefault();
-    event.stopPropagation();
   }
 }

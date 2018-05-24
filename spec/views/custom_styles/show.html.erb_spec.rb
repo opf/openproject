@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'custom_styles/show', type: :view do
-  let(:user) { FactoryGirl.build(:admin) }
+  let(:user) { FactoryBot.build(:admin) }
 
   before do
     login_as user
@@ -48,7 +48,7 @@ describe 'custom_styles/show', type: :view do
 
   context "with existing custom logo" do
     before do
-      assign(:custom_style, FactoryGirl.build(:custom_style_with_logo))
+      assign(:custom_style, FactoryBot.build(:custom_style_with_logo))
       render
     end
 

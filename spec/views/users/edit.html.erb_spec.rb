@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'users/edit', type: :view do
-  let(:admin) { FactoryGirl.build :admin }
+  let(:admin) { FactoryBot.build :admin }
 
   before do
     # The url_for is missing the users id that is usually taken
@@ -39,7 +39,7 @@ describe 'users/edit', type: :view do
 
   context 'authentication provider' do
     let(:user) do
-      FactoryGirl.build :user, id: 1, # id is required to create route to edit
+      FactoryBot.build :user, id: 1, # id is required to create route to edit
                                identity_url: 'test_provider:veryuniqueid'
     end
 
@@ -65,7 +65,7 @@ describe 'users/edit', type: :view do
   end
 
   context 'with an invited user' do
-    let(:user) { FactoryGirl.build_stubbed :invited_user }
+    let(:user) { FactoryBot.build_stubbed :invited_user }
 
     before do
       assign(:user, user)
@@ -84,7 +84,7 @@ describe 'users/edit', type: :view do
     end
 
     context 'for a non-admin' do
-      let(:non_admin) { FactoryGirl.create :user }
+      let(:non_admin) { FactoryBot.create :user }
 
       before do
         allow(view).to receive(:current_user).and_return(non_admin)
@@ -98,7 +98,7 @@ describe 'users/edit', type: :view do
   end
 
   context 'with a normal (not invited) user' do
-    let(:user) { FactoryGirl.create :user }
+    let(:user) { FactoryBot.create :user }
 
     before do
       assign(:user, user)
@@ -114,7 +114,7 @@ describe 'users/edit', type: :view do
   end
 
   context 'with password-based login' do
-    let(:user) { FactoryGirl.build :user, id: 42 }
+    let(:user) { FactoryBot.build :user, id: 42 }
 
     before do
       assign :user, user
@@ -135,7 +135,7 @@ describe 'users/edit', type: :view do
       end
 
       context 'with auth sources' do
-        let(:auth_sources) { [FactoryGirl.create(:auth_source)] }
+        let(:auth_sources) { [FactoryBot.create(:auth_source)] }
 
         before do
           assign :auth_sources, auth_sources
@@ -161,7 +161,7 @@ describe 'users/edit', type: :view do
       end
 
       context 'with auth sources' do
-        let(:auth_sources) { [FactoryGirl.create(:auth_source)] }
+        let(:auth_sources) { [FactoryBot.create(:auth_source)] }
 
         before do
           assign :auth_sources, auth_sources

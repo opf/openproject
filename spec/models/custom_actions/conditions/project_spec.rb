@@ -34,8 +34,8 @@ describe CustomActions::Conditions::Project, type: :model do
 
     describe '#allowed_values' do
       it 'is the list of all projects' do
-        projects = [FactoryGirl.build_stubbed(:project),
-                    FactoryGirl.build_stubbed(:project)]
+        projects = [FactoryBot.build_stubbed(:project),
+                    FactoryBot.build_stubbed(:project)]
         allow(Project)
           .to receive_message_chain(:select, :order)
           .and_return(projects)

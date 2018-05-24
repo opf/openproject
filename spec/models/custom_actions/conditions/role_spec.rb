@@ -34,8 +34,8 @@ describe CustomActions::Conditions::Role, type: :model do
 
     describe '#allowed_values' do
       it 'is the list of all roles' do
-        roles = [FactoryGirl.build_stubbed(:role),
-                 FactoryGirl.build_stubbed(:role)]
+        roles = [FactoryBot.build_stubbed(:role),
+                 FactoryBot.build_stubbed(:role)]
 
         allow(Role)
           .to receive_message_chain(:givable, :select)

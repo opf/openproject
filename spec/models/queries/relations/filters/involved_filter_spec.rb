@@ -34,7 +34,7 @@ describe Queries::Relations::Filters::InvolvedFilter, type: :model do
   include_context 'filter tests'
   let(:values) { ['1'] }
   let(:model) { Relation }
-  let(:current_user) { FactoryGirl.build_stubbed(:user) }
+  let(:current_user) { FactoryBot.build_stubbed(:user) }
 
   it_behaves_like 'basic query filter' do
     let(:class_key) { :involved }

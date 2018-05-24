@@ -30,13 +30,13 @@ require 'spec_helper'
 require 'features/projects/project_settings_page'
 
 describe 'form configuration', type: :feature, js: true do
-  let(:admin) { FactoryGirl.create :admin }
-  let(:type) { FactoryGirl.create :type }
+  let(:admin) { FactoryBot.create :admin }
+  let(:type) { FactoryBot.create :type }
 
-  let(:project) { FactoryGirl.create :project, types: [type] }
-  let(:category) { FactoryGirl.create :category, project: project }
+  let(:project) { FactoryBot.create :project, types: [type] }
+  let(:category) { FactoryBot.create :category, project: project }
   let(:work_package) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        project: project,
                        type: type,
                        done_ratio: 10,
@@ -221,7 +221,7 @@ describe 'form configuration', type: :feature, js: true do
 
     describe 'required custom field' do
       let(:custom_fields) { [custom_field] }
-      let(:custom_field) { FactoryGirl.create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
+      let(:custom_field) { FactoryBot.create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
       let(:cf_identifier) { "custom_field_#{custom_field.id}" }
       let(:cf_identifier_api) { "customField#{custom_field.id}" }
 
@@ -251,7 +251,7 @@ describe 'form configuration', type: :feature, js: true do
       let(:project_settings_page) { ProjectSettingsPage.new(project) }
 
       let(:custom_fields) { [custom_field] }
-      let(:custom_field) { FactoryGirl.create(:integer_issue_custom_field, name: 'MyNumber') }
+      let(:custom_field) { FactoryBot.create(:integer_issue_custom_field, name: 'MyNumber') }
       let(:cf_identifier) { "custom_field_#{custom_field.id}" }
       let(:cf_identifier_api) { "customField#{custom_field.id}" }
 
@@ -310,7 +310,7 @@ describe 'form configuration', type: :feature, js: true do
 
       context 'active in project' do
         let(:project) do
-          FactoryGirl.create :project,
+          FactoryBot.create :project,
                              types: [type],
                              work_package_custom_fields: custom_fields
         end

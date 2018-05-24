@@ -35,7 +35,6 @@ angular.module('openproject.uiComponents')
     require('./copy-to-clipboard-directive')
   ])
   .constant('ENTER_KEY', 13)
-  .directive('expandableSearch', ['ENTER_KEY', require('./expandable-search')])
   .service('I18n', [require('./i18n')])
   .directive('persistentToggle', [
     '$timeout',

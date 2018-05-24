@@ -29,7 +29,7 @@
 require "spec_helper"
 
 describe User, "default time zone" do
-  let(:user) { FactoryGirl.create :user }
+  let(:user) { FactoryBot.create :user }
 
   context "with no system default set" do
     it "is not set" do

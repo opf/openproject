@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :custom_option do
     sequence(:value) { |n| "Custom Option #{n}" }
   end

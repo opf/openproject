@@ -102,8 +102,3 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
     // nothing to do
   }
 }
-
-opWorkPackagesModule.directive(
-  'wpRelationsHierarchy',
-  downgradeComponent({ component: WorkPackageRelationsHierarchyComponent })
-);

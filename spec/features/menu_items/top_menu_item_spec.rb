@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 feature 'Top menu items', js: true, selenium: true do
-  let(:user) { FactoryGirl.create :user }
+  let(:user) { FactoryBot.create :user }
   let(:open_menu) { true }
 
   def has_menu_items?(*labels)
@@ -56,8 +56,8 @@ feature 'Top menu items', js: true, selenium: true do
 
   before do |ex|
     allow(User).to receive(:current).and_return user
-    FactoryGirl.create(:anonymous_role)
-    FactoryGirl.create(:non_member)
+    FactoryBot.create(:anonymous_role)
+    FactoryBot.create(:non_member)
 
     if ex.metadata.key?(:allowed_to)
       allow(user).to receive(:allowed_to?).and_return(ex.metadata[:allowed_to])
@@ -76,7 +76,7 @@ feature 'Top menu items', js: true, selenium: true do
     let(:all_items) { [news_item, time_entries_item] }
 
     context 'as an admin' do
-      let(:user) { FactoryGirl.create :admin }
+      let(:user) { FactoryBot.create :admin }
       it 'displays all items' do
         has_menu_items?(time_entries_item, news_item)
       end
@@ -113,7 +113,7 @@ feature 'Top menu items', js: true, selenium: true do
     end
 
     context 'as an anonymous user' do
-      let(:user) { FactoryGirl.create :anonymous }
+      let(:user) { FactoryBot.create :anonymous }
       it 'displays only news' do
         has_menu_items? news_item
       end
@@ -128,7 +128,7 @@ feature 'Top menu items', js: true, selenium: true do
     let(:all_items) { [new_project, all_projects] }
 
     context 'as an admin' do
-      let(:user) { FactoryGirl.create :admin }
+      let(:user) { FactoryBot.create :admin }
       it 'displays all items' do
         has_menu_items?(new_project, all_projects)
       end
@@ -156,7 +156,7 @@ feature 'Top menu items', js: true, selenium: true do
     end
 
     context 'as an anonymous user' do
-      let(:user) { FactoryGirl.create :anonymous }
+      let(:user) { FactoryBot.create :anonymous }
       let(:open_menu) { false }
 
       it 'does not show the menu' do

@@ -49,7 +49,7 @@ module ResetCurrentUserCallback
 end
 
 describe ResetCurrentUser, type: :rails_request do
-  let!(:user) { FactoryGirl.create :user }
+  let!(:user) { FactoryBot.create :user }
 
   before do
     ApplicationController.prepend InsertUserSetupCallback

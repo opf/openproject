@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe UserSession do
-  subject { FactoryGirl.build(:user_session, user: user) }
+  subject { FactoryBot.build(:user_session, user: user) }
 
   shared_examples 'augments the user_id attribute' do
     it do
@@ -39,7 +39,7 @@ describe UserSession do
   end
 
   describe 'when user_id is present' do
-    let(:user) { FactoryGirl.build_stubbed(:user) }
+    let(:user) { FactoryBot.build_stubbed(:user) }
     let(:user_id) { user.id }
     it_behaves_like 'augments the user_id attribute'
   end
@@ -51,8 +51,8 @@ describe UserSession do
   end
 
   describe 'delete other sessions on destroy' do
-    let(:user) { FactoryGirl.build_stubbed(:user) }
-    let!(:sessions) { FactoryGirl.create_list(:user_session, 2, user: user) }
+    let(:user) { FactoryBot.build_stubbed(:user) }
+    let!(:sessions) { FactoryBot.create_list(:user_session, 2, user: user) }
 
     context 'when config is enabled',
             with_config: { drop_old_sessions_on_logout: true } do

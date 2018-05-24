@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe Authorization::UserAllowedService do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:instance) { described_class.new(user) }
   let(:action) { :an_action }
   let(:action_hash) { { controller: '/controller', action: 'action' } }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:other_project) { FactoryGirl.build_stubbed(:project) }
-  let(:role) { FactoryGirl.build_stubbed(:role) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:other_project) { FactoryBot.build_stubbed(:project) }
+  let(:role) { FactoryBot.build_stubbed(:role) }
   let(:user_roles_in_project) { [role] }
   let(:role_grants_action) { true }
   let(:project_allows_to) { true }

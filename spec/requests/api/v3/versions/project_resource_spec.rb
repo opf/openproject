@@ -34,7 +34,7 @@ describe "API v3 version's projects resource" do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    user = FactoryGirl.create(:user,
+    user = FactoryBot.create(:user,
                               member_in_project: project,
                               member_through_role: role)
 
@@ -42,13 +42,13 @@ describe "API v3 version's projects resource" do
 
     user
   end
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:role_without_permissions) { FactoryGirl.create(:role, permissions: []) }
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:project2) { FactoryGirl.create(:project, is_public: false) }
-  let(:project3) { FactoryGirl.create(:project, is_public: false) }
-  let(:project4) { FactoryGirl.create(:project, is_public: false) }
-  let(:version) { FactoryGirl.create(:version, project: project, sharing: 'system') }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:role_without_permissions) { FactoryBot.create(:role, permissions: []) }
+  let(:project) { FactoryBot.create(:project, is_public: false) }
+  let(:project2) { FactoryBot.create(:project, is_public: false) }
+  let(:project3) { FactoryBot.create(:project, is_public: false) }
+  let(:project4) { FactoryBot.create(:project, is_public: false) }
+  let(:version) { FactoryBot.create(:version, project: project, sharing: 'system') }
 
   subject(:response) { last_response }
 
@@ -60,12 +60,12 @@ describe "API v3 version's projects resource" do
         current_user
 
         # this is to be included
-        FactoryGirl.create(:member, user: current_user,
+        FactoryBot.create(:member, user: current_user,
                                     project: project2,
                                     roles: [role])
         # this is to be included as the user is a member of the project, the
         # lack of permissions is irrelevant.
-        FactoryGirl.create(:member, user: current_user,
+        FactoryBot.create(:member, user: current_user,
                                     project: project3,
                                     roles: [role_without_permissions])
         # project4 should NOT be included

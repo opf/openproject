@@ -106,12 +106,12 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
     this.state.putValue(this.currentState);
   }
 
-  private async loadCurrentFiltersSchemas(filters:QueryFilterInstanceResource[]):Promise<{}> {
+  private loadCurrentFiltersSchemas(filters:QueryFilterInstanceResource[]):Promise<{}> {
     return Promise.all(_.map(filters,
-                       async (filter:QueryFilterInstanceResource) => this.loadFilterSchema(filter)));
+                       (filter:QueryFilterInstanceResource) => this.loadFilterSchema(filter)));
   }
 
-  private async loadFilterSchema(filter:QueryFilterInstanceResource):Promise<{}> {
+  private loadFilterSchema(filter:QueryFilterInstanceResource):Promise<{}> {
     return new Promise((resolve, reject) => {
       filter.schema.$load()
         .catch(reject)

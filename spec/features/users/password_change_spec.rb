@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe 'random password generation', type: :feature, js: true do
-  let(:admin) { FactoryGirl.create :admin }
-  let(:auth_source) { FactoryGirl.build :dummy_auth_source }
+  let(:admin) { FactoryBot.create :admin }
+  let(:auth_source) { FactoryBot.build :dummy_auth_source }
   let(:old_password) { 'old_Password!123' }
   let(:new_password) { 'new_Password!123' }
-  let(:user) { FactoryGirl.create :user, password: old_password, password_confirmation: old_password }
+  let(:user) { FactoryBot.create :user, password: old_password, password_confirmation: old_password }
   let(:user_page) { ::Pages::Admin::User.new(user.id) }
 
   describe 'as admin user' do

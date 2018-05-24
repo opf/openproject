@@ -264,7 +264,7 @@ describe AccountController, type: :controller do
       end
 
       let(:user) do
-        FactoryGirl.build(:user, force_password_change: false,
+        FactoryBot.build(:user, force_password_change: false,
                                  identity_url: 'google:123545')
       end
 

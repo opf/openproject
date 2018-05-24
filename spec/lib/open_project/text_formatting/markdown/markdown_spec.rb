@@ -43,28 +43,28 @@ describe OpenProject::TextFormatting,
   end
 
   describe '.format_text' do
-    let(:project) { FactoryGirl.create :valid_project }
+    let(:project) { FactoryBot.create :valid_project }
     let(:identifier) { project.identifier }
     let(:role) do
-      FactoryGirl.create :role,
+      FactoryBot.create :role,
                          permissions: %i(view_work_packages edit_work_packages
                                          browse_repository view_changesets view_wiki_pages)
     end
 
     let(:project_member) do
-      FactoryGirl.create :user,
+      FactoryBot.create :user,
                          member_in_project: project,
                          member_through_role: role
     end
     let(:issue) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          project: project,
                          author: project_member,
                          type: project.types.first
     end
 
     let!(:non_member) do
-      FactoryGirl.create(:non_member)
+      FactoryBot.create(:non_member)
     end
 
     before do
@@ -75,16 +75,16 @@ describe OpenProject::TextFormatting,
 
     context 'Changeset links' do
       let(:repository) do
-        FactoryGirl.build_stubbed :repository_subversion,
+        FactoryBot.build_stubbed :repository_subversion,
                                   project: project
       end
       let(:changeset1) do
-        FactoryGirl.build_stubbed :changeset,
+        FactoryBot.build_stubbed :changeset,
                                   repository: repository,
                                   comments: 'My very first commit'
       end
       let(:changeset2) do
-        FactoryGirl.build_stubbed :changeset,
+        FactoryBot.build_stubbed :changeset,
                                   repository: repository,
                                   comments: 'This commit fixes #1, #2 and references #1 & #3'
       end
@@ -147,7 +147,7 @@ describe OpenProject::TextFormatting,
 
     context 'Version link' do
       let!(:version) {
-        FactoryGirl.create :version,
+        FactoryBot.create :version,
                            name: '1.0',
                            project: project
       }
@@ -194,10 +194,10 @@ describe OpenProject::TextFormatting,
     end
 
     context 'Message links' do
-      let(:board) { FactoryGirl.create :board, project: project }
-      let(:message1) { FactoryGirl.create :message, board: board }
+      let(:board) { FactoryBot.create :board, project: project }
+      let(:message1) { FactoryBot.create :message, board: board }
       let(:message2) {
-        FactoryGirl.create :message,
+        FactoryBot.create :message,
                            board: board,
                            parent: message1
       }
@@ -252,7 +252,7 @@ describe OpenProject::TextFormatting,
 
       context 'Cyclic Description Links' do
         let(:issue2) {
-          FactoryGirl.create :work_package,
+          FactoryBot.create :work_package,
                              project: project,
                              author: project_member,
                              type: project.types.first
@@ -282,7 +282,7 @@ describe OpenProject::TextFormatting,
     end
 
     context 'Project links' do
-      let(:subproject) { FactoryGirl.create :valid_project, parent: project, is_public: true }
+      let(:subproject) { FactoryBot.create :valid_project, parent: project, is_public: true }
       let(:project_url) { { controller: 'projects', action: 'show', id: subproject.identifier } }
 
       context 'Plain project link' do
@@ -306,13 +306,13 @@ describe OpenProject::TextFormatting,
 
     context 'User links' do
       let(:role) do
-        FactoryGirl.create :role,
+        FactoryBot.create :role,
                            permissions: %i[view_work_packages edit_work_packages
                                            browse_repository view_changesets view_wiki_pages]
       end
 
       let(:linked_project_member) do
-        FactoryGirl.create :user,
+        FactoryBot.create :user,
                            member_in_project: project,
                            member_through_role: role
       end
@@ -327,7 +327,7 @@ describe OpenProject::TextFormatting,
         end
 
         context 'when linked user not visible for reader' do
-          let(:role) { FactoryGirl.create(:non_member) }
+          let(:role) { FactoryBot.create(:non_member) }
 
           subject { format_text("user##{linked_project_member.id}") }
 
@@ -347,7 +347,7 @@ describe OpenProject::TextFormatting,
 
           context "with an email address as login name" do
             let(:linked_project_member) do
-              FactoryGirl.create :user,
+              FactoryBot.create :user,
                                  member_in_project: project,
                                  member_through_role: role,
                                  login: "foo@bar.com"
@@ -359,7 +359,7 @@ describe OpenProject::TextFormatting,
         end
 
         context 'when linked user not visible for reader' do
-          let(:role) { FactoryGirl.create(:non_member) }
+          let(:role) { FactoryBot.create(:non_member) }
 
           subject { format_text("user:\"#{linked_project_member.login}\"") }
 
@@ -372,13 +372,13 @@ describe OpenProject::TextFormatting,
 
     context 'Group reference' do
       let(:role) do
-        FactoryGirl.create :role,
+        FactoryBot.create :role,
                            permissions: []
       end
 
       let(:linked_project_member_group) do
-        FactoryGirl.create(:group).tap do |group|
-          FactoryGirl.create(:member,
+        FactoryBot.create(:group).tap do |group|
+          FactoryBot.create(:member,
                              principal: group,
                              project: project,
                              roles: [role])
@@ -410,26 +410,26 @@ describe OpenProject::TextFormatting,
 
     context 'Wiki links' do
       let(:project_2) {
-        FactoryGirl.create :valid_project,
+        FactoryBot.create :valid_project,
                            identifier: 'onlinestore'
       }
       let(:wiki_1) {
-        FactoryGirl.create :wiki,
+        FactoryBot.create :wiki,
                            start_page: 'CookBook documentation',
                            project: project
       }
       let(:wiki_page_1_1) {
-        FactoryGirl.create :wiki_page_with_content,
+        FactoryBot.create :wiki_page_with_content,
                            wiki: wiki_1,
                            title: 'CookBook documentation'
       }
       let(:wiki_page_1_2) {
-        FactoryGirl.create :wiki_page_with_content,
+        FactoryBot.create :wiki_page_with_content,
                            wiki: wiki_1,
                            title: 'Another page'
       }
       let(:wiki_page_1_3) {
-        FactoryGirl.create :wiki_page_with_content,
+        FactoryBot.create :wiki_page_with_content,
                            wiki: wiki_1,
                            title: '<script>alert("FOO")</script>'
       }
@@ -437,7 +437,7 @@ describe OpenProject::TextFormatting,
       before do
         project_2.reload
 
-        wiki_page_2_1 = FactoryGirl.create :wiki_page_with_content,
+        wiki_page_2_1 = FactoryBot.create :wiki_page_with_content,
                                            wiki: project_2.wiki,
                                            title: 'Start Page'
 
@@ -558,7 +558,7 @@ describe OpenProject::TextFormatting,
 
     context 'Redmine links' do
       let(:repository) do
-        FactoryGirl.build_stubbed :repository_subversion, project: project
+        FactoryBot.build_stubbed :repository_subversion, project: project
       end
 
       def source_url(**args)
@@ -607,12 +607,12 @@ describe OpenProject::TextFormatting,
 
     context 'Pre content should not parse wiki and redmine links' do
       let(:wiki) {
-        FactoryGirl.create :wiki,
+        FactoryBot.create :wiki,
                            start_page: 'CookBook documentation',
                            project: project
       }
       let(:wiki_page) {
-        FactoryGirl.create :wiki_page_with_content,
+        FactoryBot.create :wiki_page_with_content,
                            wiki: wiki,
                            title: 'CookBook documentation'
       }

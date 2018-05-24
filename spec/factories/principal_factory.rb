@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :principal do
     transient do
       member_in_project nil
@@ -43,7 +43,7 @@ FactoryGirl.define do
       (projects = evaluator.member_in_projects || [])
       projects << evaluator.member_in_project if evaluator.member_in_project
       if !projects.empty?
-        role = evaluator.member_through_role || FactoryGirl.build(:role, permissions: [:view_work_packages, :edit_work_packages])
+        role = evaluator.member_through_role || FactoryBot.build(:role, permissions: [:view_work_packages, :edit_work_packages])
         projects.each do |project|
           project.add_member! user, role if project
         end

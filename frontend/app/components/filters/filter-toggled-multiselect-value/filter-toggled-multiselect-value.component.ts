@@ -37,6 +37,7 @@ import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/c
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 
 @Component({
   selector: 'filter-toggled-multiselect-value',
@@ -47,7 +48,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
   public isMultiselect:boolean;
-  public availableOptions:HalResource[] = [];
+  public _availableOptions:HalResource[] = [];
   public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
 
   readonly text = {
@@ -58,6 +59,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
 
   constructor(readonly RootDm:RootDmService,
               readonly halResourceService:HalResourceService,
+              readonly halSorting:HalResourceSortingService,
               readonly PathHelper:PathHelperService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
   }
@@ -96,6 +98,20 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
     return _.isEmpty(this.filter.values);
   }
 
+
+  public get availableOptions() {
+    return this._availableOptions;
+  }
+
+  public set availableOptions(val:HalResource[]) {
+    this._availableOptions = this.halSorting.sort(val);
+  }
+
+  private get isUserResource() {
+    let type = _.get(this.filter.currentSchema, 'values.type', null);
+    return type && type.indexOf('User') > 0;
+  }
+
   private fetchAllowedValues() {
     if ((this.filter.currentSchema!.values!.allowedValues as CollectionResource)['$load']) {
       this.loadAllowedValues();
@@ -113,8 +129,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
     // the current user's value from the set of allowedValues. The
     // copy will have it's name altered to 'me' and will then be
     // prepended to the list.
-    let isUserResource = valuesSchema.type.indexOf('User') > 0;
-    if (isUserResource) {
+    if (this.isUserResource) {
       loadingPromises.push(this.RootDm.load());
     }
 
@@ -122,15 +137,15 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
       .then(((resources:Array<HalResource>) => {
         let options = (resources[0] as CollectionResource).elements;
 
-        if (isUserResource && this.filter.filter.id !== 'memberOfGroup') {
-          this.addMeValue(options, (resources[1] as RootResource).user);
-        }
-
         this.availableOptions = options;
+
+        if (this.isUserResource && this.filter.filter.id !== 'memberOfGroup') {
+          this.addMeValue((resources[1] as RootResource).user);
+        }
       }));
   }
 
-  private addMeValue(options:HalResource[], currentUser:UserResource) {
+  private addMeValue(currentUser:UserResource) {
     if (!(currentUser && currentUser.$href)) {
       return;
     }
@@ -146,6 +161,6 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
       }, true
     );
 
-    options.unshift(me);
+    this._availableOptions.unshift(me);
   }
 }

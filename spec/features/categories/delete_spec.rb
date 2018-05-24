@@ -30,8 +30,8 @@ require 'spec_helper'
 require 'features/categories/categories_page'
 
 describe 'Deletion', type: :feature do
-  let(:current_user) { FactoryGirl.create :admin }
-  let(:category) { FactoryGirl.create :category }
+  let(:current_user) { FactoryBot.create :admin }
+  let(:category) { FactoryBot.create :category }
   let(:categories_page) { CategoriesPage.new(category.project) }
   let(:delete_button) { 'div#tab-content-categories a.icon-delete' }
   let(:confirm_deletion_button) { 'input[type="submit"]' }
@@ -62,7 +62,7 @@ describe 'Deletion', type: :feature do
 
   describe 'with work package' do
     let!(:work_package) {
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          project: category.project,
                          category: category
     }

@@ -31,14 +31,14 @@ require 'legacy_spec_helper'
 describe Enumeration, type: :model do
   before do
     WorkPackage.delete_all
-    @low_priority = FactoryGirl.create :priority_low
-    @issues = FactoryGirl.create_list :work_package, 6, priority: @low_priority
-    @default_enumeration = FactoryGirl.create :default_enumeration
+    @low_priority = FactoryBot.create :priority_low
+    @issues = FactoryBot.create_list :work_package, 6, priority: @low_priority
+    @default_enumeration = FactoryBot.create :default_enumeration
   end
 
   it 'should in use' do
     assert @low_priority.in_use?
-    assert !FactoryGirl.create(:priority).in_use?
+    assert !FactoryBot.create(:priority).in_use?
   end
 
   it 'should default' do
@@ -79,7 +79,7 @@ describe Enumeration, type: :model do
   end
 
   it 'should destroy with reassign' do
-    new_priority = FactoryGirl.create :priority
+    new_priority = FactoryBot.create :priority
     Enumeration.find(@low_priority.id).destroy(new_priority)
     assert_nil WorkPackage.find_by(priority_id: @low_priority.id)
     assert_equal @issues.size, new_priority.objects_count

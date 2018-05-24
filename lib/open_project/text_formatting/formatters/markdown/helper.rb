@@ -38,7 +38,11 @@ module OpenProject::TextFormatting::Formatters
 
 
       def text_formatting_js_includes
-        view_context.javascript_include_tag 'vendor/ckeditor/ckeditor.js'
+        if Setting.use_wysiwyg?
+          view_context.javascript_include_tag 'vendor/ckeditor/ckeditor.js'
+        else
+          view_context.javascript_include_tag 'jstoolbar/markdown.js'
+        end
       end
 
       def text_formatting_has_preview?

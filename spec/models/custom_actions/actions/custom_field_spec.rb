@@ -30,39 +30,39 @@ require_relative '../shared_expectations'
 
 describe CustomActions::Actions::CustomField, type: :model do
   let(:list_custom_field) do
-    FactoryGirl.build_stubbed(:list_wp_custom_field,
-                              custom_options: [FactoryGirl.build_stubbed(:custom_option, value: 'A'),
-                                               FactoryGirl.build_stubbed(:custom_option, value: 'B')])
+    FactoryBot.build_stubbed(:list_wp_custom_field,
+                              custom_options: [FactoryBot.build_stubbed(:custom_option, value: 'A'),
+                                               FactoryBot.build_stubbed(:custom_option, value: 'B')])
   end
   let(:list_multi_custom_field) do
-    FactoryGirl.build_stubbed(:list_wp_custom_field,
-                              custom_options: [FactoryGirl.build_stubbed(:custom_option, value: 'A'),
-                                               FactoryGirl.build_stubbed(:custom_option, value: 'B')],
+    FactoryBot.build_stubbed(:list_wp_custom_field,
+                              custom_options: [FactoryBot.build_stubbed(:custom_option, value: 'A'),
+                                               FactoryBot.build_stubbed(:custom_option, value: 'B')],
                               multi_value: true)
   end
   let(:version_custom_field) do
-    FactoryGirl.build_stubbed(:version_wp_custom_field)
+    FactoryBot.build_stubbed(:version_wp_custom_field)
   end
   let(:bool_custom_field) do
-    FactoryGirl.build_stubbed(:bool_wp_custom_field)
+    FactoryBot.build_stubbed(:bool_wp_custom_field)
   end
   let(:user_custom_field) do
-    FactoryGirl.build_stubbed(:user_wp_custom_field)
+    FactoryBot.build_stubbed(:user_wp_custom_field)
   end
   let(:int_custom_field) do
-    FactoryGirl.build_stubbed(:int_wp_custom_field)
+    FactoryBot.build_stubbed(:int_wp_custom_field)
   end
   let(:float_custom_field) do
-    FactoryGirl.build_stubbed(:float_wp_custom_field)
+    FactoryBot.build_stubbed(:float_wp_custom_field)
   end
   let(:text_custom_field) do
-    FactoryGirl.build_stubbed(:text_wp_custom_field)
+    FactoryBot.build_stubbed(:text_wp_custom_field)
   end
   let(:string_custom_field) do
-    FactoryGirl.build_stubbed(:string_wp_custom_field)
+    FactoryBot.build_stubbed(:string_wp_custom_field)
   end
   let(:date_custom_field) do
-    FactoryGirl.build_stubbed(:date_wp_custom_field)
+    FactoryBot.build_stubbed(:date_wp_custom_field)
   end
 
   let(:custom_field) do
@@ -320,10 +320,10 @@ describe CustomActions::Actions::CustomField, type: :model do
 
     context 'for a version custom field' do
       let(:custom_field) { version_custom_field }
-      let(:project) { FactoryGirl.build_stubbed(:project) }
-      let(:a_version) { FactoryGirl.build_stubbed(:version, name: 'aaaaa', project: project) }
-      let(:m_version) { FactoryGirl.build_stubbed(:version, name: 'mmmmm', project: project) }
-      let(:z_version) { FactoryGirl.build_stubbed(:version, name: 'zzzzz', project: project) }
+      let(:project) { FactoryBot.build_stubbed(:project) }
+      let(:a_version) { FactoryBot.build_stubbed(:version, name: 'aaaaa', project: project) }
+      let(:m_version) { FactoryBot.build_stubbed(:version, name: 'mmmmm', project: project) }
+      let(:z_version) { FactoryBot.build_stubbed(:version, name: 'zzzzz', project: project) }
       let(:versions) { [z_version, a_version, m_version] }
 
       before do
@@ -360,9 +360,9 @@ describe CustomActions::Actions::CustomField, type: :model do
     context 'for a user custom field' do
       let(:custom_field) { user_custom_field }
       let(:users) do
-        [FactoryGirl.build_stubbed(:user),
-         FactoryGirl.build_stubbed(:user),
-         FactoryGirl.build_stubbed(:user)]
+        [FactoryBot.build_stubbed(:user),
+         FactoryBot.build_stubbed(:user),
+         FactoryBot.build_stubbed(:user)]
       end
 
       before do
@@ -436,9 +436,9 @@ describe CustomActions::Actions::CustomField, type: :model do
     context 'for a user custom field' do
       let(:custom_field) { user_custom_field }
       let(:users) do
-        [FactoryGirl.build_stubbed(:user),
-         FactoryGirl.build_stubbed(:user),
-         FactoryGirl.build_stubbed(:user)]
+        [FactoryBot.build_stubbed(:user),
+         FactoryBot.build_stubbed(:user),
+         FactoryBot.build_stubbed(:user)]
       end
 
       before do
@@ -458,11 +458,11 @@ describe CustomActions::Actions::CustomField, type: :model do
 
     context 'for a version custom field' do
       let(:custom_field) { version_custom_field }
-      let(:project) { FactoryGirl.build_stubbed(:project) }
+      let(:project) { FactoryBot.build_stubbed(:project) }
       let(:versions) do
-        [FactoryGirl.build_stubbed(:version, project: project),
-         FactoryGirl.build_stubbed(:version, project: project),
-         FactoryGirl.build_stubbed(:version, project: project)]
+        [FactoryBot.build_stubbed(:version, project: project),
+         FactoryBot.build_stubbed(:version, project: project),
+         FactoryBot.build_stubbed(:version, project: project)]
       end
 
       before do

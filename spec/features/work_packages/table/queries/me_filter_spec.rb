@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'filter me value', js: true do
-  let(:project) { FactoryGirl.create :project, is_public: true }
-  let(:role) { FactoryGirl.create :existing_role, permissions: [:view_work_packages] }
-  let(:admin) { FactoryGirl.create :admin }
-  let(:user) { FactoryGirl.create :user }
+  let(:project) { FactoryBot.create :project, is_public: true }
+  let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
+  let(:admin) { FactoryBot.create :admin }
+  let(:user) { FactoryBot.create :user }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
@@ -43,12 +43,12 @@ describe 'filter me value', js: true do
   end
 
   describe 'assignee' do
-    let(:wp_admin) { FactoryGirl.create :work_package, project: project, assigned_to: admin }
-    let(:wp_user) { FactoryGirl.create :work_package, project: project, assigned_to: user }
+    let(:wp_admin) { FactoryBot.create :work_package, project: project, assigned_to: admin }
+    let(:wp_user) { FactoryBot.create :work_package, project: project, assigned_to: user }
 
     context 'as anonymous', with_settings: { login_required?: false } do
       let(:assignee_query) do
-        query = FactoryGirl.create(:query,
+        query = FactoryBot.create(:query,
                                    name: 'Assignee Query',
                                    project: project,
                                    user: user)
@@ -108,16 +108,16 @@ describe 'filter me value', js: true do
 
   describe 'custom_field of type user' do
     let(:custom_field) do
-      FactoryGirl.create(
+      FactoryBot.create(
         :work_package_custom_field,
         name: 'CF user',
         field_format: 'user',
         is_required: false
       )
     end
-    let(:type_task) { FactoryGirl.create(:type_task, custom_fields: [custom_field]) }
+    let(:type_task) { FactoryBot.create(:type_task, custom_fields: [custom_field]) }
     let(:project) do
-      FactoryGirl.create(:project,
+      FactoryBot.create(:project,
                          types: [type_task],
                          work_package_custom_fields: [custom_field])
     end
@@ -125,14 +125,14 @@ describe 'filter me value', js: true do
     let(:cf_accessor) { "cf_#{custom_field.id}" }
     let(:cf_accessor_frontend) { "customField#{custom_field.id}" }
     let(:wp_admin) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          type: type_task,
                          project: project,
                          custom_field_values: { custom_field.id => admin.id }
     end
 
     let(:wp_user) do
-      FactoryGirl.create :work_package,
+      FactoryBot.create :work_package,
                          type: type_task,
                          project: project,
                          custom_field_values: { custom_field.id => user.id }
@@ -140,7 +140,7 @@ describe 'filter me value', js: true do
 
     context 'as anonymous', with_settings: { login_required?: false } do
       let(:assignee_query) do
-        query = FactoryGirl.create(:query,
+        query = FactoryBot.create(:query,
                                    name: 'CF user Query',
                                    project: project,
                                    user: user)

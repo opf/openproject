@@ -44,7 +44,7 @@ describe 'Login', type: :feature do
     let(:user_password) { 'bob' * 4 }
     let(:new_user_password) { 'obb' * 4 }
     let(:user) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          force_password_change: true,
                          first_login: true,
                          login: 'bob',

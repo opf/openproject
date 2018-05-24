@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe PermittedParams, type: :model do
-  let(:user) { FactoryGirl.build(:user) }
-  let(:admin) { FactoryGirl.build(:admin) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:admin) { FactoryBot.build(:admin) }
 
   shared_context 'prepare params comparison' do
     let(:params_key) { defined?(hash_key) ? hash_key : attribute }
@@ -859,6 +859,48 @@ describe PermittedParams, type: :model do
           'default_projects_modules' => ['value', 'value'],
           'emails_footer' => { 'en' => 'value' }
         }
+      end
+
+      it { expect(subject).to eq(permitted_hash) }
+    end
+
+    describe 'with no registration footer configured' do
+      before do
+        allow(OpenProject::Configuration)
+          .to receive(:registration_footer)
+          .and_return({})
+      end
+
+      let(:hash) do
+        {
+          'registration_footer' => {
+            'en' => 'some footer'
+          }
+        }
+      end
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'with a registration footer configured' do
+      include_context 'prepare params comparison'
+
+      before do
+        allow(OpenProject::Configuration)
+          .to receive(:registration_footer)
+          .and_return("en" => "configured footer")
+      end
+
+      let(:hash) do
+        {
+          'registration_footer' => {
+            'en' => 'some footer'
+          }
+        }
+      end
+
+      let(:permitted_hash) do
+        {}
       end
 
       it { expect(subject).to eq(permitted_hash) }

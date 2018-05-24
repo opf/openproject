@@ -31,9 +31,9 @@
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::ParentFilter, type: :model do
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:query) do
-    FactoryGirl.build_stubbed(:query, project: project)
+    FactoryBot.build_stubbed(:query, project: project)
   end
 
   it_behaves_like 'basic query filter' do
@@ -105,7 +105,7 @@ describe Queries::WorkPackages::Filter::ParentFilter, type: :model do
     end
 
     describe '#value_object' do
-      let(:visible_wp) { FactoryGirl.build_stubbed(:work_package) }
+      let(:visible_wp) { FactoryBot.build_stubbed(:work_package) }
 
       it 'returns the work package for the values' do
         allow(WorkPackage)
@@ -145,8 +145,8 @@ describe Queries::WorkPackages::Filter::ParentFilter, type: :model do
     end
 
     describe '#valid_values!' do
-      let(:visible_wp) { FactoryGirl.build_stubbed(:work_package) }
-      let(:invisible_wp) { FactoryGirl.build_stubbed(:work_package) }
+      let(:visible_wp) { FactoryBot.build_stubbed(:work_package) }
+      let(:invisible_wp) { FactoryBot.build_stubbed(:work_package) }
 
       context 'within a project' do
         it 'removes all non existing/non visible ids' do
@@ -189,8 +189,8 @@ describe Queries::WorkPackages::Filter::ParentFilter, type: :model do
     end
 
     describe '#validate' do
-      let(:visible_wp) { FactoryGirl.build_stubbed(:work_package) }
-      let(:invisible_wp) { FactoryGirl.build_stubbed(:work_package) }
+      let(:visible_wp) { FactoryBot.build_stubbed(:work_package) }
+      let(:invisible_wp) { FactoryBot.build_stubbed(:work_package) }
 
       context 'within a project' do
         it 'is valid if only visible wps are values' do
@@ -254,8 +254,8 @@ describe Queries::WorkPackages::Filter::ParentFilter, type: :model do
     end
 
     describe '#where and #includes' do
-      let(:parent) { FactoryGirl.create(:work_package) }
-      let(:visible_wp) { FactoryGirl.create(:work_package, parent: parent) }
+      let(:parent) { FactoryBot.create(:work_package) }
+      let(:visible_wp) { FactoryBot.create(:work_package, parent: parent) }
 
       before do
         visible_wp

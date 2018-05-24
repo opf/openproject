@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe API::V3, type: :request do
   describe 'basic auth' do
-    let(:user)     { FactoryGirl.create :user }
+    let(:user)     { FactoryBot.create :user }
     let(:resource) { "/api/v3/users/#{user.id}" }
 
     let(:response_401) do
@@ -166,7 +166,7 @@ describe API::V3, type: :request do
         it_behaves_like 'it is basic auth protected'
 
         describe 'user basic auth' do
-          let(:api_key) { FactoryGirl.create :api_token }
+          let(:api_key) { FactoryBot.create :api_token }
 
           let(:username) { 'apikey' }
           let(:password) { api_key.plain_value }
@@ -177,7 +177,7 @@ describe API::V3, type: :request do
       end
 
       describe 'user basic auth' do
-        let(:api_key) { FactoryGirl.create :api_token }
+        let(:api_key) { FactoryBot.create :api_token }
 
         let(:username) { 'apikey' }
         let(:password) { api_key.plain_value }
@@ -198,8 +198,8 @@ describe API::V3, type: :request do
           let(:username) { 'hancholo' }
           let(:password) { 'olooleol' }
 
-          let(:api_user) { FactoryGirl.create :user, login: 'user_account' }
-          let(:api_key)  { FactoryGirl.create :api_token, user: api_user }
+          let(:api_user) { FactoryBot.create :user, login: 'user_account' }
+          let(:api_key)  { FactoryBot.create :api_token, user: api_user }
 
           before do
             config = { user: 'global_account', password: 'global_password' }

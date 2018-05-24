@@ -33,7 +33,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
   let(:self_base_link) { '/api/v3/example' }
   let(:work_packages) { WorkPackage.all }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   let(:query) { {} }
   let(:groups) { nil }
@@ -66,7 +66,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       .to receive(:allowed_to?)
       .and_return(true)
 
-    FactoryGirl.create_list(:work_package, total)
+    FactoryBot.create_list(:work_package, total)
   end
 
   context 'generation' do
@@ -116,7 +116,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
           end
 
           context 'with project scope' do
-            let(:project) { FactoryGirl.build_stubbed(:project) }
+            let(:project) { FactoryBot.build_stubbed(:project) }
 
             it 'has a project scoped collection of export formats if inside a project' do
               expected_query = query.merge(pageSize: 30, offset: 1)
@@ -243,7 +243,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       end
 
       context 'in project context' do
-        let(:project) { FactoryGirl.build_stubbed :project }
+        let(:project) { FactoryBot.build_stubbed :project }
 
         it 'has no link to create work_packages' do
           is_expected
@@ -384,7 +384,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
     context 'with project admin priviliges' do
       # In this spec a user responds to `allowed_to` with true per default.
-      let(:project) { FactoryGirl.build_stubbed(:project) }
+      let(:project) { FactoryBot.build_stubbed(:project) }
 
       it 'has a link to set the custom fields for that project' do
         expected = {
@@ -401,7 +401,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
     context 'without project admin priviliges' do
       # In this spec a user responds to `allowed_to` with true per default.
-      let(:project) { FactoryGirl.build_stubbed(:project) }
+      let(:project) { FactoryBot.build_stubbed(:project) }
 
       before do
         allow(user).to receive(:allowed_to?).with(:edit_project, project).and_return(false)
@@ -414,8 +414,8 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
     context 'with project and general admin priviliges' do
       # In this spec a user responds to `allowed_to` with true per default.
-      let(:project) { FactoryGirl.build_stubbed(:project) }
-      let(:user) { FactoryGirl.build_stubbed(:admin) }
+      let(:project) { FactoryBot.build_stubbed(:project) }
+      let(:user) { FactoryBot.build_stubbed(:admin) }
 
       before do
         allow(user).to receive(:allowed_to?).with(:edit_project, project).and_return(false)

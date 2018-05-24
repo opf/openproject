@@ -2,24 +2,24 @@ require 'spec_helper'
 
 describe 'Inline editing work packages', js: true do
   let(:manager_role) do
-    FactoryGirl.create :role,
+    FactoryBot.create :role,
                        permissions: [:view_work_packages,
                                      :edit_work_packages]
   end
   let(:manager) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        firstname:           'Manager',
                        lastname:            'Guy',
                        member_in_project:   project,
                        member_through_role: manager_role
   end
-  let(:type) { FactoryGirl.create :type }
-  let(:status1) { FactoryGirl.create :status }
-  let(:status2) { FactoryGirl.create :status }
+  let(:type) { FactoryBot.create :type }
+  let(:status1) { FactoryBot.create :status }
+  let(:status2) { FactoryBot.create :status }
 
-  let(:project) { FactoryGirl.create(:project, types: [type]) }
+  let(:project) { FactoryBot.create(:project, types: [type]) }
   let(:work_package) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        type:    type,
                        status:  status1,
@@ -29,14 +29,14 @@ describe 'Inline editing work packages', js: true do
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   let(:workflow) do
-    FactoryGirl.create :workflow,
+    FactoryBot.create :workflow,
                        type_id:    type.id,
                        old_status: status1,
                        new_status: status2,
                        role:       manager_role
   end
-  let(:version) { FactoryGirl.create :version, project: project }
-  let(:category) { FactoryGirl.create :category, project: project }
+  let(:version) { FactoryBot.create :version, project: project }
+  let(:category) { FactoryBot.create :category, project: project }
 
   before do
     login_as(manager)
@@ -118,14 +118,14 @@ describe 'Inline editing work packages', js: true do
   context 'custom field' do
     let(:custom_fields) {
       fields = [
-        FactoryGirl.create(
+        FactoryBot.create(
           :work_package_custom_field,
           field_format:    'list',
           possible_values: %w(foo bar xyz),
           is_required:     true,
           is_for_all:      false
         ),
-        FactoryGirl.create(
+        FactoryBot.create(
           :work_package_custom_field,
           field_format: 'string',
           is_required:  true,
@@ -135,10 +135,10 @@ describe 'Inline editing work packages', js: true do
 
       fields
     }
-    let(:type) { FactoryGirl.create(:type_task, custom_fields: custom_fields) }
-    let(:project) { FactoryGirl.create(:project, types: [type]) }
+    let(:type) { FactoryBot.create(:type_task, custom_fields: custom_fields) }
+    let(:project) { FactoryBot.create(:project, types: [type]) }
     let(:work_package) {
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          subject: 'Foobar',
                          status:  status1,
                          type:    type,

@@ -71,9 +71,10 @@ describe('accessibleByKeyboard component', () => {
       fixture.detectChanges();
 
       // Trigger click
-      element.triggerEventHandler('click', {type: 'click'});
-      element.triggerEventHandler('keyup', {type: 'keyup', which: 13});
-      element.triggerEventHandler('keyup', {type: 'keyup', which: 32});
+      const eventBase = { preventDefault: () => undefined, stopPropagation: () => undefined };
+      element.triggerEventHandler('click', _.assign({type: 'click' }, eventBase));
+      element.triggerEventHandler('keydown', _.assign({type: 'keydown', which: 13}, eventBase));
+      element.triggerEventHandler('keydown', _.assign({type: 'keydown', which: 32}, eventBase));
 
       tick();
       fixture.detectChanges();

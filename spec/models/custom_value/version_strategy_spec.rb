@@ -37,8 +37,8 @@ describe CustomValue::VersionStrategy do
            customized: customized)
   end
   let(:customized) { double('customized') }
-  let(:custom_field) { FactoryGirl.build(:custom_field) }
-  let(:version) { FactoryGirl.build_stubbed(:version) }
+  let(:custom_field) { FactoryBot.build(:custom_field) }
+  let(:version) { FactoryBot.build_stubbed(:version) }
 
   describe '#parse_value/#typed_value' do
     subject { instance }

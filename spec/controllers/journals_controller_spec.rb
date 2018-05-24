@@ -29,22 +29,22 @@
 require 'spec_helper'
 
 describe JournalsController, type: :controller do
-  let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-  let(:project) { FactoryGirl.create(:project_with_types) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  let(:project) { FactoryBot.create(:project_with_types) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:member) {
-    FactoryGirl.build(:member, project: project,
+    FactoryBot.build(:member, project: project,
                                roles: [role],
                                principal: user)
   }
   let(:work_package) {
-    FactoryGirl.build(:work_package, type: project.types.first,
+    FactoryBot.build(:work_package, type: project.types.first,
                                      author: user,
                                      project: project,
                                      description: '')
   }
   let(:journal) {
-    FactoryGirl.create(:work_package_journal,
+    FactoryBot.create(:work_package_journal,
                        journable: work_package,
                        user: user)
   }

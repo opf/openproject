@@ -29,39 +29,43 @@
 #++require 'rspec'
 
 require 'spec_helper'
+require_relative './eager_loading_mock_wrapper'
 
-describe ::API::V3::WorkPackages::CustomActions::CustomActionsWrapper do
-  let!(:work_package1) { FactoryGirl.create(:work_package) }
-  let!(:work_package2) { FactoryGirl.create(:work_package) }
+describe ::API::V3::WorkPackages::EagerLoading::CustomAction do
+  let!(:work_package1) { FactoryBot.create(:work_package) }
+  let!(:work_package2) { FactoryBot.create(:work_package) }
   let!(:user) do
-    FactoryGirl.create(:user,
-                       member_in_project: work_package2.project,
-                       member_through_role: role)
+    FactoryBot.create(:user,
+                      member_in_project: work_package2.project,
+                      member_through_role: role)
   end
-  let!(:role) { FactoryGirl.create(:role) }
+  let!(:role) { FactoryBot.create(:role) }
   let!(:status_custom_action) do
-    FactoryGirl.create(:custom_action,
-                       conditions: [CustomActions::Conditions::Status.new(work_package1.status_id.to_s)])
+    FactoryBot.create(:custom_action,
+                      conditions: [CustomActions::Conditions::Status.new(work_package1.status_id.to_s)])
   end
   let!(:role_custom_action) do
-    FactoryGirl.create(:custom_action,
-                       conditions: [CustomActions::Conditions::Role.new(role.id)])
+    FactoryBot.create(:custom_action,
+                      conditions: [CustomActions::Conditions::Role.new(role.id)])
   end
 
-  describe '.wrap' do
+  before do
+    login_as(user)
+  end
+
+  describe '.apply' do
     it 'preloads the correct custom_actions' do
-      wrapped = described_class
-                .wrap([work_package1, work_package2], user)
+      wrapped = EagerLoadingMockWrapper.wrap(described_class, [work_package1, work_package2])
 
       expect(work_package1)
         .not_to receive(:custom_actions)
       expect(work_package2)
         .not_to receive(:custom_actions)
 
-      expect(wrapped.detect { |w| w.work_package == work_package1 }.custom_actions(user))
+      expect(wrapped.detect { |w| w.id == work_package1.id }.custom_actions(user))
         .to match_array [status_custom_action]
 
-      expect(wrapped.detect { |w| w.work_package == work_package2 }.custom_actions(user))
+      expect(wrapped.detect { |w| w.id == work_package2.id }.custom_actions(user))
         .to match_array [role_custom_action]
     end
   end

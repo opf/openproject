@@ -31,7 +31,7 @@ require 'legacy_spec_helper'
 describe 'ProjectNestedSet', type: :model do
   context 'nested set' do
     before do
-      FactoryGirl.create(:type_standard)
+      FactoryBot.create(:type_standard)
       Project.delete_all
 
       @a = Project.create!(name: 'Project A', identifier: 'projecta')

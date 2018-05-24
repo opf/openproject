@@ -30,24 +30,24 @@ require 'spec_helper'
 require 'features/projects/project_settings_page'
 
 describe 'form subelements configuration', type: :feature, js: true do
-  let(:admin) { FactoryGirl.create :admin }
-  let(:type_bug) { FactoryGirl.create :type_bug }
-  let(:type_task) { FactoryGirl.create :type_task }
+  let(:admin) { FactoryBot.create :admin }
+  let(:type_bug) { FactoryBot.create :type_bug }
+  let(:type_task) { FactoryBot.create :type_task }
 
-  let(:project) { FactoryGirl.create :project, types: [type_bug, type_task] }
+  let(:project) { FactoryBot.create :project, types: [type_bug, type_task] }
   let!(:work_package) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        project: project,
                        type: type_bug
   end
   let!(:subtask) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        parent: work_package,
                        project: project,
                        type: type_task
   end
   let!(:subbug) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        parent: work_package,
                        project: project,
                        type: type_bug

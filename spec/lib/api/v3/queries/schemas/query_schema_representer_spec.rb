@@ -279,7 +279,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
 
         context 'when embedding' do
           let(:form_embedded) { true }
-          let(:type) { FactoryGirl.build_stubbed(:type) }
+          let(:type) { FactoryBot.build_stubbed(:type) }
           let(:available_values) do
             [Queries::WorkPackages::Columns::PropertyColumn.new(:bogus1),
              Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2),
@@ -336,7 +336,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         end
 
         context 'when project query' do
-          let(:project) { FactoryGirl.build_stubbed(:project) }
+          let(:project) { FactoryBot.build_stubbed(:project) }
           let(:href) { api_v3_paths.query_project_filter_instance_schemas(project.id) }
 
           it 'contains the link to the filter schemas' do
@@ -453,7 +453,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         end
 
         context 'when project query' do
-          let(:project) { FactoryGirl.build_stubbed(:project) }
+          let(:project) { FactoryBot.build_stubbed(:project) }
           let(:href) { api_v3_paths.query_project_filter_instance_schemas(project.id) }
 
           it 'contains a collection of filter schemas' do

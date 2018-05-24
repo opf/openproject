@@ -33,8 +33,8 @@ describe CustomField, type: :model do
     CustomField.destroy_all
   end
 
-  let(:field)  { FactoryGirl.build :custom_field }
-  let(:field2) { FactoryGirl.build :custom_field }
+  let(:field)  { FactoryBot.build :custom_field }
+  let(:field2) { FactoryBot.build :custom_field }
 
   describe '#name' do
     it { should validate_presence_of(:name) }
@@ -178,7 +178,7 @@ describe CustomField, type: :model do
   end
 
   describe '#accessor_name' do
-    let(:field) { FactoryGirl.build_stubbed :custom_field }
+    let(:field) { FactoryBot.build_stubbed :custom_field }
 
     it 'is formatted as expected' do
       expect(field.accessor_name).to eql("custom_field_#{field.id}")
@@ -186,9 +186,9 @@ describe CustomField, type: :model do
   end
 
   describe '#possible_values_options' do
-    let(:project) { FactoryGirl.build_stubbed(:project) }
-    let(:user1) { FactoryGirl.build_stubbed(:user) }
-    let(:user2) { FactoryGirl.build_stubbed(:user) }
+    let(:project) { FactoryBot.build_stubbed(:project) }
+    let(:user1) { FactoryBot.build_stubbed(:user) }
+    let(:user2) { FactoryBot.build_stubbed(:user) }
 
     context 'for a user custom field' do
       before do
@@ -229,8 +229,8 @@ describe CustomField, type: :model do
     end
 
     context 'for a list custom field' do
-      let(:option1) { FactoryGirl.build_stubbed(:custom_option) }
-      let(:option2) { FactoryGirl.build_stubbed(:custom_option) }
+      let(:option1) { FactoryBot.build_stubbed(:custom_option) }
+      let(:option2) { FactoryBot.build_stubbed(:custom_option) }
 
       before do
         field.field_format = 'list'
@@ -247,9 +247,9 @@ describe CustomField, type: :model do
   end
 
   describe 'nested attributes for custom options' do
-    let(:option) { FactoryGirl.build(:custom_option) }
+    let(:option) { FactoryBot.build(:custom_option) }
     let(:options) { [option] }
-    let(:field) { FactoryGirl.build :custom_field, field_format: 'list', custom_options: options }
+    let(:field) { FactoryBot.build :custom_field, field_format: 'list', custom_options: options }
 
     before do
       field.save!

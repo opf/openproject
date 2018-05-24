@@ -394,7 +394,6 @@ en:
         grouping_other: "Other"
         noneSelection: "(none)"
       name: "Name"
-      new_work_package: "New work package"
       outline: "Reset Outline"
       outlines:
         aggregation: "Show aggregations only"
@@ -486,10 +485,13 @@ en:
       inline_create:
        title: 'Click here to add a new work package to this list'
       create:
+        title: 'New work package'
         header: 'New %{type}'
         header_no_type: 'New work package (Type not yet set)'
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: 'Create'
+      copy:
+        title: 'Copy work package'
       hierarchy:
         show: "Show hierarchy mode"
         hide: "Hide hierarchy mode"

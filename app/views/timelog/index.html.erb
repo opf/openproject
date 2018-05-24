@@ -60,7 +60,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <% end %>
   <% end %>
 </div>
-<% html_title l(:label_spent_time), l(:label_details) %>
+<% html_title l(:label_spent_time) %>
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, {issue_id: @issue, format: 'atom', key: User.current.rss_key}, title: l(:label_spent_time)) %>
 <% end %>

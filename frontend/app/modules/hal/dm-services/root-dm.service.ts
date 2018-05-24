@@ -37,7 +37,7 @@ export class RootDmService {
               protected pathHelper:PathHelperService) {
   }
 
-  public async load():Promise<RootResource> {
+  public load():Promise<RootResource> {
     return this.halResourceService
       .get<RootResource>(this.pathHelper.api.v3.root.toString())
       .toPromise();

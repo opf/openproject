@@ -38,7 +38,7 @@ module OpenProject::TextFormatting::Formatters
       end
 
       def text_formatting_js_includes
-        # TODO Nothing to do here yet, since the js_toolbar is still part of application
+        view_context.javascript_include_tag 'jstoolbar/textile.js'
       end
 
       def text_formatting_has_preview?

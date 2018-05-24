@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :repository_subversion, class: Repository::Subversion do
     url 'file://tmp/svn_test_repo'
     scm_type 'existing'

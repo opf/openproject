@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user_session do
     sequence(:session_id) do |n| "session_#{n}" end
     association :user

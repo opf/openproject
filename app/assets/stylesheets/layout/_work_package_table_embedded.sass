@@ -29,10 +29,12 @@
 // Disable CSS containment in the embedded container
 // unless we're setting an external height with overflow, containment will not work.
 .work-packages-embedded-view--container
-  margin-left: -6px
+  .generic-table--sort-header-outer
+    padding: 0 12px 0 0px
 
   .work-package-table--container
     contain: initial !important
+    overflow: visible
 
     .generic-table--header,
     .generic-table--sort-header

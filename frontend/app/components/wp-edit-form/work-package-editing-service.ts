@@ -116,7 +116,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     }
   }
 
-  protected async load(id:string) {
+  protected load(id:string) {
     return this.wpCacheService.require(id)
       .then((wp:WorkPackageResource) => {
         return new WorkPackageChangeset(this.injector, wp);
@@ -124,7 +124,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
   }
 
   protected loadAll(ids:string[]) {
-    return Promise.all(ids.map(async id => this.load(id))) as any;
+    return Promise.all(ids.map(id => this.load(id))) as any;
   }
 
   protected get multiState() {

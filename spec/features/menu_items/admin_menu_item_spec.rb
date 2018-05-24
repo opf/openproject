@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 feature 'Admin menu items' do
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
 
   before do
     allow(User).to receive(:current).and_return user

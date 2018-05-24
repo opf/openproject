@@ -188,6 +188,8 @@
 .top-menu-search--button
   line-height: $header-height
   height: $header-height
+  width: $header-height
+  padding: 0 12px
   @include varprop(color, header-item-font-color)
   @include varprop(font-size, header-item-font-size)
   font-weight: normal
@@ -297,14 +299,15 @@ input.top-menu-search--input
 // Temporary overwrite searchfield styles for mobile view
 // until we have a full responsive layout
 input.top-menu-search--input
-  margin: 0 0 0 20px
+  margin: 0
   position: absolute
-  right: 0
-  top: 6px
+  right: 170px
+  bottom: 10px
   z-index: 10
 
 .top-menu-search:not(.-collapsed) .top-menu-search--button
-  top: -3px
+  position: relative
+  top: 0
   z-index: 10
 
 @media only screen and (max-width: 18.75rem)

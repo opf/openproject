@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'Planning Comparison', type: :model do
-  let (:project) { FactoryGirl.create(:project) }
-  let (:admin)  { FactoryGirl.create(:admin) }
+  let (:project) { FactoryBot.create(:project) }
+  let (:admin)  { FactoryBot.create(:admin) }
 
   before do
     # query implicitly uses the logged in user to check for allowed work_packages/projects
@@ -43,7 +43,7 @@ describe 'Planning Comparison', type: :model do
       wp = nil
       # create 2 journal-entries, to make sure, that the comparison actually picks up the latest one
       Timecop.travel(2.weeks.ago) do
-        wp = FactoryGirl.create(:work_package, project: project, start_date: '01/01/2020', due_date: '01/03/2020')
+        wp = FactoryBot.create(:work_package, project: project, start_date: '01/01/2020', due_date: '01/03/2020')
         wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
       end
 
@@ -93,9 +93,9 @@ describe 'Planning Comparison', type: :model do
 
   describe 'filtering work_packages also applies to the history' do
     let(:assigned_to_user) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: project,
-                         member_through_role: FactoryGirl.build(:role))
+                         member_through_role: FactoryBot.build(:role))
     end
     let (:filter) do
       { f: ['assigned_to_id'],
@@ -107,7 +107,7 @@ describe 'Planning Comparison', type: :model do
       wp = nil
       # create 2 journal-entries, to make sure, that the comparison actually picks up the latest one
       Timecop.travel(1.week.ago) do
-        wp = FactoryGirl.create(:work_package, project: project, due_date: '01/03/2020', assigned_to_id: assigned_to_user.id)
+        wp = FactoryBot.create(:work_package, project: project, due_date: '01/03/2020', assigned_to_id: assigned_to_user.id)
         wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
       end
 
@@ -118,11 +118,11 @@ describe 'Planning Comparison', type: :model do
     end
 
     let (:filtered_work_package) do
-      other_user = FactoryGirl.create(:user)
+      other_user = FactoryBot.create(:user)
       wp = nil
       # create 2 journal-entries, to make sure, that the comparison actually picks up the latest one
       Timecop.travel(1.week.ago) do
-        wp = FactoryGirl.create(:work_package, project: project, due_date: '01/03/2020', assigned_to_id: other_user.id)
+        wp = FactoryBot.create(:work_package, project: project, due_date: '01/03/2020', assigned_to_id: other_user.id)
         wp.save # triggers the journaling and saves the old due_date, creating the baseline for the comparison
       end
 

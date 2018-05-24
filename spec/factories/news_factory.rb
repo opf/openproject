@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :news do
     sequence(:title) do |n| "News title#{n}" end
     sequence(:summary) do |n| "News summary#{n}" end

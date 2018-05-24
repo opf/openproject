@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,21 +27,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+class Setting
 
-feature 'resend invitation', type: :feature do
-  let(:current_user) { FactoryGirl.create :admin }
-  let(:user) { FactoryGirl.create :invited_user, mail: 'holly@openproject.com' }
+  ##
+  # Shorthand to common setting aliases to avoid checking values
+  module Aliases
 
-  before do
-    allow(User).to receive(:current).and_return current_user
-
-    visit edit_user_path(user)
-  end
-
-  scenario 'admin resends the invitation' do
-    click_on I18n.t(:label_send_invitation)
-
-    expect(page).to have_text 'An invitation has been sent to holly@openproject.com.'
+    ##
+    # Whether the application is configured to use or force SSL output
+    # for cookie storage et al.
+    def https?
+      Setting.protocol == 'https' || Rails.configuration.force_ssl
+    end
   end
 end

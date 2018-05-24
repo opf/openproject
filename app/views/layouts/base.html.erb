@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width">
-    <%= display_meta_tags site: Setting.app_title, title: html_title %>
+    <%= output_title_and_meta_tags %>
 
     <meta name="app_base_path" content="<%= OpenProject::Configuration['rails_relative_url_root'] || '' %>" />
     <% if @project %>
@@ -50,9 +50,9 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= csrf_meta_tags %>
     <%= render 'common/favicons' %>
     <%= stylesheet_link_tag 'openproject', media: "all" %>
-    <%= text_formatting_js_includes %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
+    <%= text_formatting_js_includes %>
     <!-- project specific tags -->
     <%= call_hook :view_layouts_base_html_head %>
     <!-- page specific tags -->

@@ -37,11 +37,11 @@ describe 'API v3 Query Sort Bys resource', type: :request do
     let(:path) { api_v3_paths.query_sort_by(column_name, direction) }
     let(:column_name) { 'status' }
     let(:direction) { 'desc' }
-    let(:project) { FactoryGirl.create(:project) }
-    let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+    let(:project) { FactoryBot.create(:project) }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
     let(:permissions) { [:view_work_packages] }
     let(:user) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: project,
                          member_through_role: role)
     end

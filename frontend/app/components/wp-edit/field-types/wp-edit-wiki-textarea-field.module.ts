@@ -62,7 +62,7 @@ export class WikiTextareaEditField extends EditField {
 
   protected initialize() {
     const configurationService:ConfigurationService = this.$injector.get(ConfigurationService);
-    this.wysiwig = configurationService.textFormat() === 'markdown';
+    this.wysiwig = configurationService.textFormat() === 'markdown' && configurationService.useWysiwyg();
     this.setupTemplate();
 
     this.text = {

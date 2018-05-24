@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe UserPreference do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
-  subject { FactoryGirl.build(:user_preference, user: user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
+  subject { FactoryBot.build(:user_preference, user: user) }
 
   describe 'default settings' do
     it 'hides the email address' do
@@ -136,7 +136,7 @@ describe UserPreference do
   end
 
   describe '[]=' do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
 
     context 'for attributes stored in "others"' do
       it 'will save the values on sending "save"' do

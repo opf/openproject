@@ -77,7 +77,7 @@ export abstract class WorkPackageTableBaseService<T> {
     return this.state.values$().pipe(takeUntil(unsubscribe));
   }
 
-  public async onReady() {
+  public onReady() {
     return this.state.values$()
       .pipe(
         take(1),

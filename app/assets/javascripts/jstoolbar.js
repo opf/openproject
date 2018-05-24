@@ -28,5 +28,3 @@
 
 //= require jstoolbar/jstoolbar
 //= require jstoolbar/translations
-//= require jstoolbar/textile
-//= require jstoolbar/markdown

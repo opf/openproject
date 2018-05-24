@@ -30,10 +30,10 @@ require 'spec_helper'
 require 'features/projects/projects_page'
 
 describe 'Projects custom fields', type: :feature do
-  let(:current_user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project, name: 'Foo project', identifier: 'foo-project') }
+  let(:current_user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
   let!(:custom_field) do
-    FactoryGirl.create(:bool_project_custom_field)
+    FactoryBot.create(:bool_project_custom_field)
   end
 
   let(:identifier) { "project_custom_field_values_#{custom_field.id}" }

@@ -40,13 +40,13 @@ export class ProjectCacheService extends StateCacheService<ProjectResource> {
     super();
   }
 
-  protected async loadAll(ids:string[]):Promise<undefined> {
+  protected loadAll(ids:string[]):Promise<undefined> {
     return Promise
-      .all(ids.map(async id => this.load(id)))
+      .all(ids.map(id => this.load(id)))
       .then(_ => undefined);
   }
 
-  protected async load(id:string):Promise<ProjectResource> {
+  protected load(id:string):Promise<ProjectResource> {
     return this.projectDmService.load(id);
   }
 

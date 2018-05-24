@@ -30,14 +30,14 @@
 require 'spec_helper'
 
 describe EnqueueWorkPackageNotificationJob, type: :model do
-  let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:recipient) do
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role, login: "johndoe")
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role, login: "johndoe")
   end
-  let(:author) { FactoryGirl.create(:user, login: "marktwain") }
+  let(:author) { FactoryBot.create(:user, login: "marktwain") }
   let(:work_package) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        author: author,
                        assigned_to: recipient)
@@ -278,7 +278,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
           context "that is an email address" do
             let(:recipient) do
-              FactoryGirl.create(:user,
+              FactoryBot.create(:user,
                                  member_in_project: project,
                                  member_through_role: role,
                                  login: "foo@bar.com")
@@ -302,7 +302,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
         context "the recipient turned off all mail notifications" do
           let(:recipient) do
-            FactoryGirl.create(:user,
+            FactoryBot.create(:user,
                                member_in_project: project,
                                member_through_role: role,
                                mail_notification: 'none')
@@ -321,7 +321,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
       context "mentioned user is not allowed to view the work package" do
         let(:recipient) do
-          FactoryGirl.create(:user,
+          FactoryBot.create(:user,
                              login: "foo@bar.com")
         end
         let(:added_text) do
@@ -336,13 +336,13 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     end
 
     context 'for groups' do
-      let(:group_member) { FactoryGirl.create(:user) }
+      let(:group_member) { FactoryBot.create(:user) }
 
       let(:group) do
-        FactoryGirl.create(:group) do |group|
+        FactoryBot.create(:group) do |group|
           group.users << group_member
 
-          FactoryGirl.create(:member,
+          FactoryBot.create(:member,
                              project: project,
                              principal: group,
                              roles: [role])
@@ -362,7 +362,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
         end
 
         context 'user disabled notifications' do
-          let(:group_member) { FactoryGirl.create(:user, mail_notification: User::USER_MAIL_OPTION_NON.first) }
+          let(:group_member) { FactoryBot.create(:user, mail_notification: User::USER_MAIL_OPTION_NON.first) }
 
           it "group member is ignored" do
             is_expected
@@ -372,7 +372,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       end
 
       context 'group is not allowed to view the work package' do
-        let(:role) { FactoryGirl.create(:role, permissions: []) }
+        let(:role) { FactoryBot.create(:role, permissions: []) }
 
         it "group member is ignored" do
           is_expected
@@ -381,10 +381,10 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
         context 'but group member is allowed individually' do
           before do
-            FactoryGirl.create(:member,
+            FactoryBot.create(:member,
                                project: project,
                                principal: group_member,
-                               roles: [FactoryGirl.create(:role, permissions: [:view_work_packages])])
+                               roles: [FactoryBot.create(:role, permissions: [:view_work_packages])])
           end
 
           it "group member gets detected" do

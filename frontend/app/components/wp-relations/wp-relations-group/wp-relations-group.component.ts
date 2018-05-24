@@ -26,35 +26,48 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from '../../angular-modules';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-/**
- * Contains methods and attributes shared
- * between common relations and parent-child relations
- */
-export class WorkPackageSingleRelationController {
-  public workPackagePath = this.PathHelper.workPackagePath.bind(this.PathHelper);
+import {Component, ElementRef, EventEmitter, Inject, Input, Output, ViewChild} from "@angular/core";
+import {I18nToken} from "core-app/angular4-transition-utils";
 
-  constructor(protected PathHelper:PathHelperService) {
-  }
 
-  public getFullIdentifier(workPackage:WorkPackageResource, hideType?:boolean) {
-    if (hideType) {
-      return workPackage.subject;
-    }
+@Component({
+  selector: 'wp-relations-group',
+  template: require('!!raw-loader!./wp-relations-group.template.html')
+})
+export class WorkPackageRelationsGroupComponent {
+  @Input() public relatedWorkPackages:WorkPackageResource[];
+  @Input() public workPackage:WorkPackageResource;
+  @Input() public header:string;
+  @Input() public firstGroup:boolean;
+  @Input() public groupByWorkPackageType:boolean;
 
-    return workPackage.subjectWithType;
-  }
-}
+  @Output() public onToggleGroupBy = new EventEmitter<undefined>();
 
-function wpSingleRelationDirective():any {
-  return {
-    restrict: 'A',
-    controller: WorkPackageSingleRelationController,
-    controllerAs: 'singleRelationCtrl',
-    bindToController: true,
+  @ViewChild('wpRelationGroupByToggler') readonly toggleElement:ElementRef;
+
+  public text = {
+    groupByType: this.I18n.t('js.relation_buttons.group_by_wp_type'),
+    groupByRelation: this.I18n.t('js.relation_buttons.group_by_relation_type')
   };
-}
 
-wpDirectivesModule.directive('wpSingleRelation', wpSingleRelationDirective);
+  constructor(
+    @Inject(I18nToken) public I18n:op.I18n) {
+  }
+
+  public get togglerText() {
+    if (this.groupByWorkPackageType) {
+      return this.text.groupByRelation;
+    } else {
+      return this.text.groupByType;
+    }
+  }
+
+  public toggleButton() {
+    this.onToggleGroupBy.emit();
+
+    setTimeout(() => {
+      this.toggleElement.nativeElement.focus();
+    }, 20);
+  }
+}

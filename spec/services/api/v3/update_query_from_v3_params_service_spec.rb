@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ::API::V3::UpdateQueryFromV3ParamsService,
          type: :model do
 
-  let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:query) { FactoryGirl.build_stubbed(:query) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:query) { FactoryBot.build_stubbed(:query) }
 
   let(:params) { double('params') }
   let(:parsed_params) { double('parsed_params') }

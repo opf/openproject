@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe WorkPackages::MoveService, type: :model do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:work_package) do
-    FactoryGirl.build_stubbed(:stubbed_work_package)
+    FactoryBot.build_stubbed(:stubbed_work_package)
   end
-  let(:type) { FactoryGirl.build_stubbed(:type) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
 
   let(:instance) { described_class.new(work_package, user) }
   let(:child_service_result_work_package) { work_package }
@@ -45,7 +45,7 @@ describe WorkPackages::MoveService, type: :model do
 
   context 'when copying' do
     let(:expected_attributes) { { project: project } }
-    let(:child_service_result_work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
+    let(:child_service_result_work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
 
     before do
       copy_double = double('copy service double')
@@ -86,10 +86,10 @@ describe WorkPackages::MoveService, type: :model do
 
     context 'for a parent' do
       let(:child_work_package) do
-        FactoryGirl.build_stubbed(:stubbed_work_package, parent: work_package)
+        FactoryBot.build_stubbed(:stubbed_work_package, parent: work_package)
       end
       let(:copied_child_work_package) do
-        FactoryGirl.build_stubbed(:stubbed_work_package)
+        FactoryBot.build_stubbed(:stubbed_work_package)
       end
       let(:child_child_service_result) do
         ServiceResult.new success: true,

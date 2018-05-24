@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:bool_cf) { FactoryGirl.build_stubbed(:bool_wp_custom_field) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:bool_cf) { FactoryBot.build_stubbed(:bool_wp_custom_field) }
   let(:filter) do
     Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: bool_cf,
                                                                         context: project

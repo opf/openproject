@@ -36,7 +36,7 @@ export class FocusHelperService {
   private lastFocusSwitch = -this.minimumOffsetForNewSwitchInMs;
   private lastPriority = -1;
 
-  private static FOCUSABLE_SELECTORS = ['a, button, :input, [tabindex], select'];
+  private static FOCUSABLE_SELECTORS = 'a, button, :input, [tabindex], select';
 
   public throttleAndCheckIfAllowedFocusChangeBasedOnTimeout() {
     var allowFocusSwitch = (Date.now() - this.lastFocusSwitch) >= this.minimumOffsetForNewSwitchInMs;

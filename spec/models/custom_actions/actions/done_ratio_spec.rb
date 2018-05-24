@@ -35,7 +35,7 @@ describe CustomActions::Actions::DoneRatio, type: :model do
 
   it_behaves_like 'base custom action' do
     describe '#apply' do
-      let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
+      let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
 
       it 'sets the done_ratio to the action\'s value' do
         instance.values = [95]
@@ -56,7 +56,7 @@ describe CustomActions::Actions::DoneRatio, type: :model do
 
     describe 'validate' do
       let(:errors) do
-        FactoryGirl.build_stubbed(:custom_action).errors
+        FactoryBot.build_stubbed(:custom_action).errors
       end
 
       it 'is valid for values between 0 and 100' do

@@ -30,14 +30,14 @@
 require 'spec_helper'
 
 describe DeliverWorkPackageNotificationJob, type: :model do
-  let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:recipient) {
-    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   }
-  let(:author) { FactoryGirl.create(:user) }
+  let(:author) { FactoryBot.create(:user) }
   let(:work_package) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        author: author)
   }
@@ -103,7 +103,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     let(:journal) { work_package.journals.last }
 
     before do
-      work_package.add_journal(FactoryGirl.create(:user), 'a comment')
+      work_package.add_journal(FactoryBot.create(:user), 'a comment')
       work_package.save!
     end
 
@@ -137,7 +137,7 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     end
 
     context 'for a known current user' do
-      let(:current_user) { FactoryGirl.create(:user) }
+      let(:current_user) { FactoryBot.create(:user) }
 
       it 'resets to the previous current user after running' do
         User.current = current_user

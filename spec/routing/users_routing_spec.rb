@@ -52,7 +52,7 @@ describe UsersController, type: :routing do
     end
 
     describe 'my' do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryBot.create(:user) }
 
       before do
         login_as(user)

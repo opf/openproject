@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 describe ::Type, type: :model do
-  let(:type) { FactoryGirl.build(:type) }
-  let(:admin) { FactoryGirl.create(:admin) }
+  let(:type) { FactoryBot.build(:type) }
+  let(:admin) { FactoryBot.create(:admin) }
 
   before do
     # Clear up the request store cache for all_work_package_attributes
@@ -91,8 +91,8 @@ describe ::Type, type: :model do
     end
 
     context 'with a query group' do
-      let(:type) { FactoryGirl.create(:type) }
-      let(:query) { FactoryGirl.build(:global_query, user_id: 0) }
+      let(:type) { FactoryBot.create(:type) }
+      let(:query) { FactoryBot.build(:global_query, user_id: 0) }
 
       before do
         login_as(admin)
@@ -111,7 +111,7 @@ describe ::Type, type: :model do
       end
 
       it 'removes the former query if a new one is assigned' do
-        new_query = FactoryGirl.build(:global_query, user_id: 0)
+        new_query = FactoryBot.build(:global_query, user_id: 0)
         type.attribute_groups[0].attributes = new_query
         type.save!
         type.reload
@@ -189,7 +189,7 @@ describe ::Type, type: :model do
     end
 
     context 'with an invalid query' do
-      let(:query) { FactoryGirl.build(:global_query, name: '') }
+      let(:query) { FactoryBot.build(:global_query, name: '') }
 
       before do
         type.attribute_groups = [['some name', [query]]]
@@ -203,7 +203,7 @@ describe ::Type, type: :model do
 
   describe 'custom fields' do
     let!(:custom_field) do
-      FactoryGirl.create(
+      FactoryBot.create(
         :work_package_custom_field,
         field_format: 'string'
       )
@@ -225,13 +225,13 @@ describe ::Type, type: :model do
 
   describe 'custom field added implicitly to type' do
     let(:custom_field) do
-      FactoryGirl.create(
+      FactoryBot.create(
         :work_package_custom_field,
         field_format: 'string',
         is_for_all: true
       )
     end
-    let!(:type) { FactoryGirl.create(:type, custom_fields: [custom_field]) }
+    let!(:type) { FactoryBot.create(:type, custom_fields: [custom_field]) }
 
     it 'has the custom field in the default group' do
       OpenProject::Cache.clear
@@ -253,7 +253,7 @@ describe ::Type, type: :model do
   end
 
   describe '#destroy' do
-    let(:query) { FactoryGirl.build(:global_query, user_id: 0) }
+    let(:query) { FactoryBot.build(:global_query, user_id: 0) }
 
     before do
       login_as(admin)

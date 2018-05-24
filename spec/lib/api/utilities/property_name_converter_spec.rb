@@ -79,7 +79,7 @@ describe ::API::Utilities::PropertyNameConverter do
 
   describe '#to_ar_name' do
     let(:attribute_name) { 'anAttribute' }
-    let(:context) { FactoryGirl.build_stubbed(:work_package) }
+    let(:context) { FactoryBot.build_stubbed(:work_package) }
 
     subject { described_class.to_ar_name(attribute_name, context: context) }
 
@@ -164,7 +164,7 @@ describe ::API::Utilities::PropertyNameConverter do
         end
 
         context 'in an appropriate context' do
-          let(:context) { FactoryGirl.build_stubbed(:version) }
+          let(:context) { FactoryBot.build_stubbed(:version) }
 
           it 'should be performed' do
             is_expected.to eql('updated_on')

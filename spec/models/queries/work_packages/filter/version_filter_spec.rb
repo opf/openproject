@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
-  let(:version) { FactoryGirl.build_stubbed(:version) }
+  let(:version) { FactoryBot.build_stubbed(:version) }
 
   it_behaves_like 'basic query filter' do
     let(:order) { 7 }
@@ -108,8 +108,8 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:version1) { FactoryGirl.build_stubbed(:version) }
-      let(:version2) { FactoryGirl.build_stubbed(:version) }
+      let(:version1) { FactoryBot.build_stubbed(:version) }
+      let(:version2) { FactoryBot.build_stubbed(:version) }
 
       before do
         allow(project)

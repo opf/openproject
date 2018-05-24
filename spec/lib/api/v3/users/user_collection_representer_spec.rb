@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::Users::UserCollectionRepresenter do
   let(:users) {
-    FactoryGirl.build_stubbed_list(:user,
+    FactoryBot.build_stubbed_list(:user,
                                    3,
                                    created_on: Time.now,
                                    updated_on: Time.now)

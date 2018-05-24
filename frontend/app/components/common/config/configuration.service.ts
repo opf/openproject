@@ -48,11 +48,11 @@ export class ConfigurationService {
 
   }
 
-  public async fetchSettings () {
+  public fetchSettings () {
     return this.http.get<any>(this.path).toPromise();
   }
 
-  public async api() {
+  public api() {
     return new Promise((resolve, reject) => {
       if (this.cache) {
         resolve(this.cache);
@@ -127,6 +127,10 @@ export class ConfigurationService {
 
   public textFormat() {
     return this.settings.display.text_format;
+  }
+
+  public useWysiwyg() {
+    return this.settings.display.use_wysiwyg;
   }
 
   public dateFormat()  {

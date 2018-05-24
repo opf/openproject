@@ -37,8 +37,8 @@ describe Queries::Projects::Filters::LatestActivityAtFilter, type: :model do
     let(:model) { Project.with_latest_activity }
     let(:attribute) { :activity }
     let(:values) { ['3'] }
-    let(:admin) { FactoryGirl.build_stubbed(:admin) }
-    let(:user) { FactoryGirl.build_stubbed(:user) }
+    let(:admin) { FactoryBot.build_stubbed(:admin) }
+    let(:user) { FactoryBot.build_stubbed(:user) }
 
     describe '#available?' do
       context 'for an admin' do

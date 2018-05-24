@@ -30,10 +30,10 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Query selection', type: :feature do
-  let(:project) { FactoryGirl.create :project, identifier: 'test_project', is_public: false }
-  let(:role) { FactoryGirl.create :role, permissions: [:view_work_packages] }
+  let(:project) { FactoryBot.create :project, identifier: 'test_project', is_public: false }
+  let(:role) { FactoryBot.create :role, permissions: [:view_work_packages] }
   let(:current_user) do
-    FactoryGirl.create :user, member_in_project: project,
+    FactoryBot.create :user, member_in_project: project,
                               member_through_role: role
   end
 
@@ -41,10 +41,10 @@ describe 'Query selection', type: :feature do
   let(:filter_2_name) { 'percentageDone' }
   let(:i18n_filter_1_name) { WorkPackage.human_attribute_name(:assigned_to) }
   let(:i18n_filter_2_name) { WorkPackage.human_attribute_name(:done_ratio) }
-  let(:default_status) { FactoryGirl.create(:default_status) }
+  let(:default_status) { FactoryBot.create(:default_status) }
 
   let(:query) do
-    FactoryGirl.build(:query, project: project, is_public: true).tap do |query|
+    FactoryBot.build(:query, project: project, is_public: true).tap do |query|
       query.filters.clear
       query.add_filter('assigned_to_id', '=', ['me'])
       query.add_filter('done_ratio', '>=', [10])
@@ -100,7 +100,7 @@ describe 'Query selection', type: :feature do
 
   context 'when the selected query is changed' do
     let(:query2) do
-      FactoryGirl.create(:query, project: project, is_public: true)
+      FactoryBot.create(:query, project: project, is_public: true)
     end
 
     before do

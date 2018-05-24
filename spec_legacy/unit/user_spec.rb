@@ -40,8 +40,8 @@ describe User, type: :model do
   end
 
   specify 'object_daddy creation' do
-    FactoryGirl.create(:user, firstname: 'Testing connection')
-    FactoryGirl.create(:user, firstname: 'Testing connection')
+    FactoryBot.create(:user, firstname: 'Testing connection')
+    FactoryBot.create(:user, firstname: 'Testing connection')
     assert_equal 2, User.where(firstname: 'Testing connection').count
   end
 
@@ -79,11 +79,11 @@ describe User, type: :model do
 
   context 'User#before_create' do
     it 'should set the mail_notification to the default Setting' do
-      @user1 = FactoryGirl.create(:user, mail_notification: nil)
+      @user1 = FactoryBot.create(:user, mail_notification: nil)
       assert_equal 'only_my_events', @user1.mail_notification
 
       Setting.default_notification_option = 'all'
-      @user2 = FactoryGirl.create(:user)
+      @user2 = FactoryBot.create(:user)
       assert_equal 'all', @user2.mail_notification
     end
   end
@@ -155,7 +155,7 @@ describe User, type: :model do
     end
 
     it 'should select the exact matching user first' do
-      case_sensitive_user = FactoryGirl.create(:user, login: 'changed', password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
+      case_sensitive_user = FactoryBot.create(:user, login: 'changed', password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
 
@@ -286,8 +286,8 @@ describe User, type: :model do
     end
 
     it 'should return nil if the key is found for an inactive user' do
-      user = FactoryGirl.create(:user, status: User::STATUSES[:locked])
-      token = FactoryGirl.build(:api_token, user: user)
+      user = FactoryBot.create(:user, status: User::STATUSES[:locked])
+      token = FactoryBot.build(:api_token, user: user)
       user.api_token = token
       user.save
 
@@ -295,8 +295,8 @@ describe User, type: :model do
     end
 
     it 'should return the user if the key is found for an active user' do
-      user = FactoryGirl.create(:user, status: User::STATUSES[:active])
-      token = FactoryGirl.build(:api_token, user: user)
+      user = FactoryBot.create(:user, status: User::STATUSES[:active])
+      token = FactoryBot.build(:api_token, user: user)
       user.api_token = token
       user.save
 
@@ -323,7 +323,7 @@ describe User, type: :model do
   end
 
   it 'should projects by role for user with no role' do
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     assert_equal({}, user.projects_by_role)
   end
 

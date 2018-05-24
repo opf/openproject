@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Lost password', type: :feature do
-  let!(:user) { FactoryGirl.create :user }
+  let!(:user) { FactoryBot.create :user }
 
   it 'shows same flash for invalid and existing users' do
     visit account_lost_password_path

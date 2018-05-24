@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'search/index', type: :helper do
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryBot.create(:project) }
   let(:scope) { 'foobar' }
 
   before do

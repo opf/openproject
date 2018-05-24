@@ -144,6 +144,15 @@ module Components
         expect(page).to have_no_selector('.relation-row--parent', text: removed_text, wait: 10)
       end
 
+      def inline_create_child(subject_text)
+        container = find('.wp-relations--children')
+        scroll_to_and_click(container.find('.wp-inline-create-button-row .wp-inline-create--add-link'))
+
+        subject = ::WorkPackageField.new(container, 'subject')
+        subject.expect_active!
+        subject.update subject_text
+      end
+
       def add_existing_child(work_package)
         # Locate the create row container
         container = find('.wp-relations--child-form')
@@ -153,6 +162,10 @@ module Components
         select_autocomplete(autocomplete, query: work_package.id, select_text: work_package.subject)
 
         container.find('.wp-create-relation--save').click
+      end
+
+      def children_table
+        ::Pages::EmbeddedWorkPackagesTable.new find('.work-packages-embedded-view--container')
       end
 
       def remove_child(work_package)

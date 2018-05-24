@@ -71,6 +71,11 @@ namespace :packager do
         ENV.fetch('SERVER_PROTOCOL', Setting.protocol)
       end
 
+    # Set https configured, set Rails force_ssl to true
+    if Setting.https?
+      shell_setup(['config:set', "OPENPROJECT_RAILS__FORCE__SSL=true"])
+    end
+
     # Run customization step, if it is defined.
     # Use to define custom postinstall steps required after each configure,
     # or to configure products.

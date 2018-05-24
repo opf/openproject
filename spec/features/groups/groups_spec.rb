@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 feature 'group memberships through groups page', type: :feature do
-  let(:admin)  { FactoryGirl.create :admin }
-  let!(:group) { FactoryGirl.create :group, lastname: "Bob's Team" }
+  let(:admin)  { FactoryBot.create :admin }
+  let!(:group) { FactoryBot.create :group, lastname: "Bob's Team" }
 
   let(:groups_page) { Pages::Groups.new }
 

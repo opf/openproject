@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 feature 'group memberships through groups page', type: :feature, js: true do
-  let!(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
+  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
-  let(:admin)     { FactoryGirl.create :admin }
+  let(:admin)     { FactoryBot.create :admin }
   let!(:peter) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        firstname: 'Peter',
                        lastname: 'Pan',
                        mail: 'foo@example.org',
@@ -43,7 +43,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
   end
 
   let!(:hannibal) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        firstname: 'Pan',
                        lastname: 'Hannibal',
                        mail: 'foo@example.com',
@@ -51,7 +51,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
                        member_through_role: role
 
   end
-  let(:role) { FactoryGirl.create(:role, permissions: %i(add_work_packages)) }
+  let(:role) { FactoryBot.create(:role, permissions: %i(add_work_packages)) }
   let(:members_page) { Pages::Members.new project.identifier }
 
   before do

@@ -83,7 +83,7 @@ export class AttributeHelpTextComponent implements OnInit {
     });
   }
 
-  private async load() {
+  private load() {
     if (this.helpTextId) {
       return this.helpTextDm.load(this.helpTextId);
     } else {

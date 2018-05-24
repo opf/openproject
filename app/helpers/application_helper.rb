@@ -322,21 +322,6 @@ module ApplicationHelper
     end
   end
 
-  def html_title(*args)
-    title = []
-
-    if args.empty?
-      title << h(@project.name) if @project
-      title += @html_title if @html_title
-    else
-      @html_title ||= []
-      @html_title += args
-      title += @html_title
-    end
-
-    title.select { |t| !t.blank? }.join(' - ').html_safe
-  end
-
   # Returns the theme, controller name, and action as css classes for the
   # HTML body.
   def body_css_classes

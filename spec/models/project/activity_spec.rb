@@ -30,89 +30,89 @@ require 'spec_helper'
 
 describe Project::Activity, type: :model do
   let(:project) {
-    FactoryGirl.create(:project)
+    FactoryBot.create(:project)
   }
 
   let(:initial_time) { Time.now }
 
   let(:work_package) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project)
   }
 
   let(:work_package2) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project)
   }
 
   let(:wiki_content) {
     project.reload
 
-    page = FactoryGirl.create(:wiki_page,
+    page = FactoryBot.create(:wiki_page,
                               wiki: project.wiki)
 
-    FactoryGirl.create(:wiki_content,
+    FactoryBot.create(:wiki_content,
                        page: page)
   }
 
   let(:wiki_content2) {
     project.reload
 
-    page = FactoryGirl.create(:wiki_page,
+    page = FactoryBot.create(:wiki_page,
                               wiki: project.wiki)
 
-    FactoryGirl.create(:wiki_content,
+    FactoryBot.create(:wiki_content,
                        page: page)
   }
 
   let(:news) {
-    FactoryGirl.create(:news,
+    FactoryBot.create(:news,
                        project: project)
   }
 
   let(:news2) {
-    FactoryGirl.create(:news,
+    FactoryBot.create(:news,
                        project: project)
   }
 
   let(:repository) {
-    FactoryGirl.create(:repository_git,
+    FactoryBot.create(:repository_git,
                        project: project)
   }
 
   let(:changeset) {
-    FactoryGirl.create(:changeset,
+    FactoryBot.create(:changeset,
                        repository: repository)
   }
 
   let(:changeset2) {
-    FactoryGirl.create(:changeset,
+    FactoryBot.create(:changeset,
                        repository: repository)
   }
 
   let(:board) {
-    FactoryGirl.create(:board,
+    FactoryBot.create(:board,
                        project: project)
   }
 
   let(:message) {
-    FactoryGirl.create(:message,
+    FactoryBot.create(:message,
                        board: board)
   }
 
   let(:message2) {
-    FactoryGirl.create(:message,
+    FactoryBot.create(:message,
                        board: board)
   }
 
   let(:time_entry) {
-    FactoryGirl.create(:time_entry,
+    FactoryBot.create(:time_entry,
                        work_package: work_package,
                        project: project)
   }
 
   let(:time_entry2) {
-    FactoryGirl.create(:time_entry,
+    FactoryBot.create(:time_entry,
                        work_package: work_package,
                        project: project)
   }

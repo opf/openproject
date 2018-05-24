@@ -1,16 +1,18 @@
 <wp-embedded-table #childrenEmbeddedTable
                    [compactTableStyle]="true"
+                   [initialLoadingIndicator]="false"
                    [queryProps]="childrenQueryProps"
                    [tableActions]="childrenTableActions"
                    [configuration]="{ actionsColumnEnabled: true,
                                       hierarchyToggleEnabled: false,
-                                      inlineCreateEnabled: false,
+                                      inlineCreateEnabled: true,
                                       columnMenuEnabled: false,
                                       contextMenuEnabled: false,
+                                      projectIdentifier: workPackage.project.idFromLink,
                                       projectContext: false }" >
 </wp-embedded-table>
 
 <wp-relation-add-child
     [workPackage]="workPackage"
     (onAdded)="refreshTable()"
-    *ngIf="canModifyHierarchy && canHaveChildren"></wp-relation-add-child>
+    *ngIf="canModifyHierarchy && canHaveChildren && addExistingChildEnabled"></wp-relation-add-child>

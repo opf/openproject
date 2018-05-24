@@ -29,18 +29,18 @@
 require 'spec_helper'
 
 describe 'Wiki unicode title spec', type: :feature, js: true do
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create :project }
+  let(:user) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create :project }
   let(:wiki_page_1) {
-    FactoryGirl.build :wiki_page_with_content,
+    FactoryBot.build :wiki_page_with_content,
                        title: '<script>alert("FOO")</script>'
   }
   let(:wiki_page_2) {
-    FactoryGirl.build :wiki_page_with_content,
+    FactoryBot.build :wiki_page_with_content,
                        title: 'Base de données'
   }
   let(:wiki_page_3) {
-    FactoryGirl.build :wiki_page_with_content,
+    FactoryBot.build :wiki_page_with_content,
                        title: 'Base_de_données'
   }
 

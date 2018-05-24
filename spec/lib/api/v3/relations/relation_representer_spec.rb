@@ -29,22 +29,22 @@
 require 'spec_helper'
 
 describe ::API::V3::Relations::RelationRepresenter do
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
 
-  let(:from) { FactoryGirl.create :work_package }
-  let(:to) { FactoryGirl.create :work_package }
+  let(:from) { FactoryBot.create :work_package }
+  let(:to) { FactoryBot.create :work_package }
 
   let(:type) { "follows" }
   let(:description) { "This first" }
   let(:delay) { 3 }
 
   let(:relation) do
-    FactoryGirl.create :relation,
-                       from: from,
-                       to: to,
-                       relation_type: type,
-                       description: description,
-                       delay: delay
+    FactoryBot.create :relation,
+                      from: from,
+                      to: to,
+                      relation_type: type,
+                      description: description,
+                      delay: delay
   end
 
   let(:representer) { described_class.new relation, current_user: user }
@@ -72,7 +72,7 @@ describe ::API::V3::Relations::RelationRepresenter do
         "to" => {
           "href" => "/api/v3/work_packages/#{to.id}",
           "title" => to.subject
-        },
+        }
       },
       "id" => relation.id,
       "name" => "follows",
