@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -28,30 +26,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomValue::ListStrategy < CustomValue::ARObjectStrategy
-  def validate_type_of_value
-    unless custom_field.custom_options.pluck(:id).include?(value.to_i)
-      :inclusion
-    end
+require 'spec_helper'
+
+describe CustomValue::ListStrategy, 'integration tests' do
+  let(:type) { FactoryBot.create :type }
+  let(:project) { FactoryBot.create :project, types: [type] }
+  let!(:custom_field) do
+    FactoryBot.create(
+      :list_wp_custom_field,
+      name: "Invalid List CF",
+      multi_value: true,
+      types: [type],
+      projects: [project],
+      possible_values: ['A', 'B']
+    )
   end
 
-  def typed_value
-    super_value = super
-    super_value && super_value.to_s || nil
-  end
+  let!(:work_package) {
+    FactoryBot.create :work_package,
+                      project: project,
+                      type: type,
+                      custom_values: { custom_field.id => custom_field.custom_options.find_by(value: 'A') }
+  }
 
-  private
+  it 'can handle invalid CustomOptions (Regression test)' do
+    expect(work_package.public_send(:"custom_field_#{custom_field.id}")).to eq(%w(A))
 
-  def ar_class
-    CustomOption
-  end
+    # Remove the custom value without replacement
+    CustomValue.find_by(customized_id: work_package.id).update_columns(value: 'invalid')
+    work_package.reload
+    work_package.reset_custom_values!
 
-  def ar_object(value)
-    option = CustomOption.find_by(id: value.to_s)
-    if option.nil?
-      "#{value} not found"
-    else
-      option.value
-    end
+    expect(work_package.public_send(:"custom_field_#{custom_field.id}")).to eq(['invalid not found'])
   end
 end
