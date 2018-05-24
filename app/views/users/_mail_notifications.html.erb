@@ -27,35 +27,44 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% active_sections = if @user.mail_notification == 'selected'
+                      [{key: 'notified_projects'}]
+                     else
+                      []
+                     end %>
+
+<%= initialize_hide_sections_with [{key: 'notified_projects'}],  active_sections %>
+
+
 <div class="form--field">
   <%= styled_label_tag "user_mail_notification", t(:'user.settings.mail_notifications') %>
   <div class="form--field-container">
     <div class="form--select-container">
-      <%= styled_select_tag 'user[mail_notification]',
+      <show-section-dropdown opt-value="selected" hide-sec-with-name="notified_projects">
+        <%= styled_select_tag 'user[mail_notification]',
             options_for_select(user_mail_notification_options(@user),
             @user.mail_notification),
-            :'ng-model' => 'mail_notifications',
-            :'ng-init' => "mail_notifications = '#{@user.mail_notification}'",
             container_class: '-wide' %>
+      </show-section-dropdown>
     </div>
   </div>
 </div>
 
-<%= content_tag 'div', id: 'notified-projects', class: "ng-cloak", :'ng-if' => "mail_notifications === 'selected'" do %>
-  <div class="form--field -no-label">
-    <div class="form--field-container -vertical">
-      <% @user.projects.each do |project| %>
-        <label class="form--label-with-check-box">
-          <%= styled_check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %>
-          <%= project.name %>
-        </label>
-      <% end %>
-    </div>
-    <div class="form--field-instructions">
-      <%= t(:'user.settings.mail_project_explanaition') %>
-    </div>
+<hide-section section-name="notified_projects">
+  <div id="notified-projects" class="form--field -no-label">
+      <div class="form--field-container -vertical">
+        <% @user.projects.each do |project| %>
+          <label class="form--label-with-check-box">
+            <%= styled_check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %>
+            <%= project.name %>
+          </label>
+        <% end %>
+      </div>
+      <div class="form--field-instructions">
+        <%= t(:'user.settings.mail_project_explanaition') %>
+      </div>
   </div>
-<% end %>
+</hide-section>
 
 <div class="form--field">
   <%= styled_label_tag 'self_notified', t(:'user.settings.mail_self_notified') %>
