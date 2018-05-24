@@ -57,24 +57,29 @@ openprojectCostsApp.run(['HookService', function(HookService) {
     return null;
   });
 
-  HookService.register('workPackageDetailsMoreMenu', function(params) {
-    return [{
+  HookService.register('workPackageSingleContextMenu', function(params) {
+    return {
       key: 'log_costs',
       icon: 'icon-projects',
+      indexBy: function(actions) {
+          var index = _.findIndex(actions, { key: 'log_time' });
+          return index !== -1 ? index + 1 : actions.length;
+      },
       resource: 'workPackage',
       link: 'logCosts'
-    }];
+    };
   });
 
   HookService.register('workPackageTableContextMenu', function(params) {
     return {
+      key: 'log_costs',
+      icon: 'icon-projects',
       link: 'logCosts',
       indexBy: function(actions) {
         var index = _.findIndex(actions, { link: 'logTime' });
         return index !== -1 ? index + 1 : actions.length;
       },
       text: I18n.t('js.button_log_costs'),
-      icon: 'projects'
     };
   });
 }]);
