@@ -113,11 +113,15 @@ class CostReportsController < ApplicationController
   # Set a default query to cut down initial load time
   def default_filter_parameters
     {
-      operators: { user_id: '=', spent_on: '>d' },
-      values: { user_id: [User.current.id], spent_on: [30.days.ago.strftime('%Y-%m-%d')] }
+      operators: { spent_on: '>d' },
+      values: { spent_on: [30.days.ago.strftime('%Y-%m-%d')] }
     }.tap do |hash|
       if @project
         set_project_filter(hash, @project.id)
+      end
+
+      if current_user.logged?
+        set_me_filter(hash)
       end
     end
   end
@@ -158,6 +162,11 @@ class CostReportsController < ApplicationController
     filters[:project_context] = project_id
     filters[:operators].merge! project_id: '='
     filters[:values].merge! project_id: [project_id]
+  end
+
+  def set_me_filter(filters)
+    filters[:operators].merge! user_id: '='
+    filters[:values].merge! user_id: [CostQuery::Filter::UserId.me_value]
   end
 
   ##
