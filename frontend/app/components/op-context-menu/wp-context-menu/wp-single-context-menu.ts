@@ -37,8 +37,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
       this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
       var authorization = new WorkPackageAuthorization(this.workPackage, this.PathHelper, this.$state);
-      const permittedActions = angular.extend(this.getPermittedActions(authorization),
-        this.getPermittedPluginActions(authorization));
+      const permittedActions = this.getPermittedActions(authorization);
 
       this.buildItems(permittedActions);
       this.opContextMenu.show(this, evt);
@@ -76,16 +75,20 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   }
 
   private getPermittedActions(authorization:WorkPackageAuthorization) {
-    return authorization.permittedActionsWithLinks(PERMITTED_CONTEXT_MENU_ACTIONS);
+    let actions:WorkPackageAction[] = authorization.permittedActionsWithLinks(PERMITTED_CONTEXT_MENU_ACTIONS);
+
+    // Splice plugin actions onto the core actions
+    _.each(this.getPermittedPluginActions(authorization), (action:WorkPackageAction) => {
+      let index = action.indexBy ? action.indexBy(actions) : actions.length;
+      actions.splice(index, 0, action);
+    });
+
+    return actions;
   }
 
   private getPermittedPluginActions(authorization:WorkPackageAuthorization) {
-    var pluginActions:WorkPackageAction[] = [];
-    angular.forEach(this.HookService.call('workPackageDetailsMoreMenu'), function(action) {
-      pluginActions = pluginActions.concat(action);
-    });
-
-    return authorization.permittedActionsWithLinks(pluginActions);
+    let actions:WorkPackageAction[] = this.HookService.call('workPackageSingleContextMenu');
+    return authorization.permittedActionsWithLinks(actions);
   }
 
   protected buildItems(permittedActions:WorkPackageAction[]) {
