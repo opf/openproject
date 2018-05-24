@@ -14,6 +14,7 @@ import {AuthorisationService} from "core-components/common/model-auth/model-auth
 import {StateService} from "@uirouter/core";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
+import {PathHelperService} from "core-components/common/path-helper/path-helper.service";
 
 @Directive({
   selector: '[wpSingleContextMenu]'
@@ -23,6 +24,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
   constructor(@Inject(HookServiceToken) readonly HookService:any,
               @Inject($stateToken) readonly $state:StateService,
+              readonly PathHelper:PathHelperService,
               readonly elementRef:ElementRef,
               readonly opModalService:OpModalService,
               readonly opContextMenuService:OPContextMenuService,
@@ -34,7 +36,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     this.workPackage.project.$load().then(() => {
       this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
-      var authorization = new WorkPackageAuthorization(this.workPackage);
+      var authorization = new WorkPackageAuthorization(this.workPackage, this.PathHelper, this.$state);
       const permittedActions = angular.extend(this.getPermittedActions(authorization),
         this.getPermittedPluginActions(authorization));
 
@@ -88,12 +90,12 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
   protected buildItems(permittedActions:WorkPackageAction[]) {
     this.items = permittedActions.map((action:WorkPackageAction) => {
-      const key = action.icon!;
+      const key = action.key;
       return {
         disabled: false,
         linkText: I18n.t('js.button_' + key),
         href: action.link,
-        icon: `icon-${key}`,
+        icon: action.icon || `icon-${key}`,
         onClick: ($event:JQueryEventObject) => {
           if (action.link && LinkHandling.isClickedWithModifier($event)) {
             return false;

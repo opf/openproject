@@ -34,6 +34,7 @@ import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper
 
 export type WorkPackageAction = {
   text:string;
+  key:string;
   icon?:string;
   link:string;
   href?:string;

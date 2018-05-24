@@ -1,31 +1,31 @@
 export const PERMITTED_CONTEXT_MENU_ACTIONS = [
   {
-    icon: 'log_time',
+    key: 'log_time',
     link: 'logTime',
     resource: 'workPackage'
   },
   {
-    icon: 'move',
+    key: 'move',
     link: 'move',
     resource: 'workPackage'
   },
   {
-    icon: 'copy',
+    key: 'copy',
     link: 'copy',
     resource: 'workPackage'
   },
   {
-    icon: 'delete',
+    key: 'delete',
     link: 'delete',
     resource: 'workPackage'
   },
   {
-    icon: 'export-pdf',
+    key: 'export-pdf',
     link: 'pdf',
     resource: 'workPackage'
   },
   {
-    icon: 'export-atom',
+    key: 'export-atom',
     link: 'atom',
     resource: 'workPackage'
   }
