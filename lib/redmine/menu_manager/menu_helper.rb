@@ -223,6 +223,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def current_menu_item_part_of_menu?(menu, project = nil)
+    return true if no_menu_item_wiki_prefix? || wiki_prefix?
     all_menu_items_for(menu, project).each do |node|
       return true if node.name == current_menu_item
     end
@@ -313,15 +314,23 @@ module Redmine::MenuManager::MenuHelper
   def node_selected?(item)
     current_menu_item == item.name ||
       entry_page_selected?(item) ||
-      no_menu_item_selected?(item)
+      no_wiki_menu_item_selected?(item)
   end
 
   def entry_page_selected?(item)
     item.name == "entry-item-#{current_menu_item}".to_sym
   end
 
-  def no_menu_item_selected?(item)
-    current_menu_item.to_s =~ /^no-menu-item-wiki-/ &&
+  def no_wiki_menu_item_selected?(item)
+    no_menu_item_wiki_prefix? &&
       item.name == current_menu_item.to_s.gsub(/^no-menu-item-/, '').to_sym
+  end
+
+  def no_menu_item_wiki_prefix?
+    current_menu_item.to_s.match? /^no-menu-item-wiki-/
+  end
+
+  def wiki_prefix?
+    current_menu_item.to_s.match? /^wiki-/
   end
 end
