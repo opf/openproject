@@ -75,7 +75,7 @@ module API
           end
 
           def json_cache_key
-            [operator.to_sym, I18n.locale]
+            [operator.to_sym, I18n.locale, form_embedded]
           end
 
           private
