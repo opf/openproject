@@ -103,7 +103,9 @@ class Setting < ActiveRecord::Base
 
       def self.#{name}?
         # when running too early, there is no settings table. do nothing
-        self[:#{name}].to_i > 0 if settings_table_exists_yet?
+        return unless settings_table_exists_yet?
+        value = self[:#{name}]
+        ActiveRecord::Type::Boolean.new.cast(value)
       end
 
       def self.#{name}=(value)
@@ -136,11 +138,19 @@ class Setting < ActiveRecord::Base
   end
 
   def value=(v)
-    if v && @@available_settings[name] && @@available_settings[name]['serialized']
-      v = v.to_yaml
+    write_attribute(:value, formatted_value(v))
+  end
+
+  def formatted_value(value)
+    return value unless value.present?
+
+    default = @@available_settings[name]
+
+    if default['serialized']
+      return value.to_yaml
     end
 
-    write_attribute(:value, v.to_s)
+    value.to_s
   end
 
   # Returns the value of the setting named name
@@ -247,14 +257,30 @@ class Setting < ActiveRecord::Base
   def self.deserialize(name, v)
     default = @@available_settings[name]
 
-    v = YAML::load(v) if default['serialized'] && v.is_a?(String)
-
-    unless v.blank?
-      v = v.to_sym if default['format'] == 'symbol'
-      v = v.to_i if default['format'] == 'int'
+    if default['serialized'] && v.is_a?(String)
+      YAML::load(v)
+    elsif v.present?
+      read_formatted_setting v, default["format"]
+    else
+      v
     end
+  end
 
-    v
+  def self.read_formatted_setting(value, format)
+    case format
+    when "boolean"
+      ActiveRecord::Type::Boolean.new.cast(value)
+    when "symbol"
+      value.to_sym
+    when "int"
+      value.to_i
+    when "date"
+      Date.parse value
+    when "datetime"
+      DateTime.parse value
+    else
+      value
+    end
   end
 
   require_dependency 'setting/callbacks'

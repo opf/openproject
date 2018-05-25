@@ -69,6 +69,21 @@ brute_force_block_minutes:
 brute_force_block_after_failed_logins:
   default: 20
   format: int
+# Time after which users have to have consented to what ever they need to consent
+# to (depending on other settings) such as a privacy policy.
+consent_time:
+  format: datetime
+# Additional info about what the user is consenting to (optional).
+consent_info:
+  serialized: true
+  default:
+    en: "h2. Consent\n\nYou need to agree to the privacy and security policy of this OpenProject instance."
+# Indicates wether or not users need to consent to something such as privacy policy.
+consent_required:
+  default: 0
+  format: boolean
+consent_decline_mail:
+  default:
 welcome_title:
   default:
 welcome_text:

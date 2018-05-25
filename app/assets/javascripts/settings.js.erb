@@ -54,15 +54,24 @@ See doc/COPYRIGHT.rdoc for more details.
     });
 
     /* Javascript for Settings::TextSettingCell */
-    $(document).ready(function() {
-      $(".lang-select-switch").change(function() {
-        var self = $(this);
-        var id = self.attr("id");
-        var lang = self.val();
+    $(".lang-select-switch").change(function() {
+      var self = $(this);
+      var id = self.attr("id");
+      var lang = self.val();
 
-        $("." + id).hide();
-        $("#" + id + "-" + lang).show();
-      });
+      $("." + id).hide();
+      $("#" + id + "-" + lang).show();
+    });
+
+    $('.admin-settings--form').submit(function() {
+       /* Update consent time if consent required */
+       if ($('#settings_consent_required').is(':checked') && $('#toggle_consent_time').is(':checked')) {
+           $('#settings_consent_time')
+               .val(new Date().toISOString())
+               .prop('disabled', false);
+       }
+
+      return true;
     });
 
     /** Toggle notification settings fields */
