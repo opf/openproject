@@ -56,6 +56,12 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= I18n.t("text_consent_date") %>
         </div>
       </div>
+      <div class="form--field">
+        <%= setting_text_field :consent_decline_mail, size: 6, container_class: '-middle' %>
+        <span class="form--field-instructions">
+          <%= t('consent.contact_mail_instructions') %>
+        </span>
+      </div>
     </fieldset>
   </fieldset>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>

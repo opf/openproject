@@ -60,7 +60,10 @@ module Concerns
       session[:stage_secrets] = session[:authentication_stages]
         .map { |ident| [ident, stage_secret(ident)] }
         .to_h
-      session[:back_url] = back_url
+
+      # Remember back_url from params since we're redirecting
+      # but don't use the referer
+      session[:back_url] = params[:back_url]
 
       stages
     end

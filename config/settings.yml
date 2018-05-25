@@ -82,6 +82,8 @@ consent_info:
 consent_required:
   default: 0
   format: boolean
+consent_decline_mail:
+  default:
 welcome_title:
   default:
 welcome_text:

@@ -668,6 +668,7 @@ en:
   button_create: "Create"
   button_create_and_continue: "Create and continue"
   button_delete: "Delete"
+  button_decline: "Decline"
   button_delete_watcher: "Delete watcher %{name}"
   button_download: "Download"
   button_duplicate: "Duplicate"
@@ -716,6 +717,9 @@ en:
     title: User Consent
     user_has_consented: User has consented to your configured statement at the given time.
     not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have your account deleted.
 
   copy_project:
     started: "Started to copy project \"%{source_project_name}\" to \"%{target_project_name}\". You will be informed by mail as soon as \"%{target_project_name}\" is available."
@@ -1944,6 +1948,7 @@ en:
   setting_consent_date: "Consent date"
   setting_consent_info: "Consent information text"
   setting_consent_required: "Consent required"
+  setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_date_format: "Date format"
   setting_default_language: "Default language"
