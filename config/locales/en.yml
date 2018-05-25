@@ -82,13 +82,6 @@ en:
     show:
       no_results_title_text: There are currently no posts for the board.
 
-  consent:
-    checkbox_label: I have noted and do do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    user_has_consentend: User has consented to your configured statement at the given time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    title: Consent
-
   custom_fields:
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before
@@ -669,10 +662,10 @@ en:
   button_close: 'Close'
   button_collapse_all: "Collapse all"
   button_configure: "Configure"
+  button_continue: "Continue"
   button_copy: "Copy"
   button_copy_and_follow: "Copy and follow"
   button_create: "Create"
-  button_continue: "Continue"
   button_create_and_continue: "Create and continue"
   button_delete: "Delete"
   button_delete_watcher: "Delete watcher %{name}"
@@ -716,6 +709,13 @@ en:
   button_add_menu_entry: "Add menu item"
   button_configure_menu_entry: "Configure menu item"
   button_delete_menu_entry: "Delete menu item"
+
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    user_has_consented: User has consented to your configured statement at the given time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
 
   copy_project:
     started: "Started to copy project \"%{source_project_name}\" to \"%{target_project_name}\". You will be informed by mail as soon as \"%{target_project_name}\" is available."
@@ -1278,6 +1278,7 @@ en:
   label_my_page_block: "My page block"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"
+  label_never: "Never"
   label_new: "New"
   label_new_statuses_allowed: "New statuses allowed"
   label_news_added: "News added"
@@ -1289,7 +1290,6 @@ en:
   label_news_view_all: "View all news"
   label_next: "Next"
   label_next_week: "Next week"
-  label_never: "never"
   label_no_change_option: "(No change)"
   label_no_data: "No data to display"
   label_nothing_display: "Nothing to display"
@@ -1941,8 +1941,8 @@ en:
   setting_commit_logtime_activity_id: "Activity for logged time"
   setting_commit_logtime_enabled: "Enable time logging"
   setting_commit_ref_keywords: "Referencing keywords"
+  setting_consent_date: "Consent date"
   setting_consent_info: "Consent information text"
-  setting_consent_label: "Consent (checkbox) label"
   setting_consent_required: "Consent required"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_date_format: "Date format"
@@ -2055,6 +2055,9 @@ en:
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_comma_separated: "Multiple values allowed (comma separated)."
   text_comment_wiki_page: "Comment to wiki page: %{page}"
+  text_consent_date: >
+    The last date at which the terms users have to agree to changed.
+    Users who have agreed to the configured terms before this date will have to agree to them again.
   text_custom_field_possible_values_info: "One line for each value"
   text_custom_field_hint_activate_per_project: >
     When using custom fields: Keep in mind that custom fields need to be
