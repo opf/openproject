@@ -103,7 +103,9 @@ class Setting < ActiveRecord::Base
 
       def self.#{name}?
         # when running too early, there is no settings table. do nothing
-        self[:#{name}].to_i > 0 if settings_table_exists_yet?
+        return unless settings_table_exists_yet?
+        value = self[:#{name}]
+        ActiveRecord::Type::Boolean.new.cast(value)
       end
 
       def self.#{name}=(value)
@@ -266,6 +268,8 @@ class Setting < ActiveRecord::Base
 
   def self.read_formatted_setting(value, format)
     case format
+    when "boolean"
+      ActiveRecord::Type::Boolean.new.cast(value)
     when "symbol"
       value.to_sym
     when "int"

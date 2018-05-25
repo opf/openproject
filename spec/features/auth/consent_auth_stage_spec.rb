@@ -45,6 +45,10 @@ describe 'Authentication Stages', type: :feature, js: true do
     )
   end
 
+  before do
+    Setting.consent_required = consent_required
+  end
+
   def expect_logged_in
     visit my_account_path
     expect(page).to have_selector('.form--field-container', text: user.login)
@@ -56,7 +60,8 @@ describe 'Authentication Stages', type: :feature, js: true do
   end
 
 
-  context 'when disabled', with_settings: { consent_required?: false } do
+  context 'when disabled' do
+    let(:consent_required) { false }
     it 'should not show consent' do
       login_with user.login, user_password
       expect(page).to have_no_selector('.account-consent')
@@ -64,16 +69,21 @@ describe 'Authentication Stages', type: :feature, js: true do
     end
   end
 
-  context 'when enabled, but no consent info', with_settings: { consent_required?: true, consent_info: {} } do
+  context 'when enabled, but no consent info', with_settings: { consent_info: {} } do
+    let(:consent_required) { true }
     it 'should not show consent' do
-      expect(Rails.logger).to receive(:error).with('Instance is configured to require consent, but no consent_info has been set.')
+      expect(Rails.logger)
+        .to receive(:error)
+        .at_least(:once)
+        .with('Instance is configured to require consent, but no consent_info has been set.')
       login_with user.login, user_password
       expect(page).to have_no_selector('.account-consent')
       expect_logged_in
     end
   end
 
-  context 'when enabled, but consent exists', with_settings: { consent_required?: true, consent_info: { en: 'h1. Consent header!'} } do
+  context 'when enabled, but consent exists', with_settings: { consent_info: { en: 'h1. Consent header!'} } do
+    let(:consent_required) { true }
     it 'should show consent' do
       expect(Setting.consent_time).to be_blank
       login_with user.login, user_password
@@ -126,6 +136,36 @@ describe 'Authentication Stages', type: :feature, js: true do
       # Should now have consented for this date
       visit signout_path
       login_with user.login, user_password
+      expect_logged_in
+    end
+
+    it 'should require consent from newly registered users' do
+      login_as user
+
+      # Invite new user
+      visit new_user_path
+      fill_in 'user_mail', with: 'foo@example.org'
+      fill_in 'user_firstname', with: 'First'
+      fill_in 'user_lastname', with: 'Last'
+
+      click_on I18n.t(:button_create)
+
+      # Get invitation token and log in as that user
+      visit signout_path
+      token = Token::Invitation.last.value
+      visit "/account/activate?token=#{token}"
+
+      expect(page).to have_selector('h1', text: 'Consent header')
+      # Cannot create without accepting
+      fill_in 'user_password', with: user_password
+      fill_in 'user_password_confirmation', with: user_password
+      click_on I18n.t(:button_create)
+
+      expect(page).to have_selector('h1', text: 'Consent header')
+      check 'consent_check'
+      click_on I18n.t(:button_create)
+
+      expect(page).to have_selector('.flash.notice')
       expect_logged_in
     end
 

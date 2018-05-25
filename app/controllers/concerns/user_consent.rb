@@ -30,9 +30,11 @@
 # Intended to be used by the AccountController to implement the user consent
 # check.
 module Concerns::UserConsent
+  include ::UserConsentHelper
+
   def consent
     if consent_required?
-      render 'account/consent', locals: { consent_info: consent_info }
+      render 'account/consent'
     else
       consent_finished
     end
@@ -41,11 +43,19 @@ module Concerns::UserConsent
   def confirm_consent
     user = consenting_user
 
-    if user.present? && params[:consent_check]
+    if user.present? && consent_param?
       approve_consent!(user)
     else
       reject_consent!
     end
+  end
+
+  def consent_required?
+    # Ensure consent is enabled and a text is provided
+    return false unless user_consent_required?
+
+    # Require the user to consent if he hasn't already
+    consent_expired?
   end
 
   def decline_consent
@@ -61,24 +71,6 @@ module Concerns::UserConsent
     redirect_to authentication_stage_failure_path :consent
   end
 
-  def consent_required?
-    # Ensure consent is enabled and a text is provided
-    return false unless Setting.consent_required? && consent_configured?
-
-    # Require the user to consent if he hasn't already
-    consent_expired?
-  end
-
-  def consent_configured?
-    if Setting.consent_info.count == 0
-      Rails.logger.error 'Instance is configured to require consent, but no consent_info has been set.'
-
-      false
-    else
-      true
-    end
-  end
-
   def consent_expired?
     consented_at = consenting_user.try(:consented_at)
 
@@ -90,11 +82,6 @@ module Concerns::UserConsent
 
     # Otherwise, expires when consent_time is newer than last consented_at
     consented_at < Setting.consent_time
-  end
-
-  def consent_info
-    all = Setting.consent_info
-    all.fetch(I18n.locale) { all.values.first }
   end
 
   def consenting_user

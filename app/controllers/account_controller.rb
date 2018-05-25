@@ -321,6 +321,11 @@ class AccountController < ApplicationController
       @user.register
     end
 
+    # Set consent if received from registration form
+    if consent_param?
+      @user.consented_at = DateTime.now
+    end
+
     if session[:auth_source_registration]
       # on-the-fly registration via omniauth or via auth source
       if pending_omniauth_registration?

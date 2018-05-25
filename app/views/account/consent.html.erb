@@ -34,21 +34,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= call_hook :view_account_consent_top %>
 <div id="login-form" class="account-consent form -bordered">
 
-  <%= format_text consent_info %>
 
   <%= form_tag(account_confirm_consent_path, method: :post, class: "form -wide-labels") do %>
-    <section class="form--section">
-      <label class="form--label-with-check-box">
-        <div class="form--check-box-container">
-          <input type="checkbox" name="consent_check" class="form--check-box" required="required" />
-        </div>
-
-        <%= t('consent.checkbox_label') %>
-      </label>
-    </section>
+    <%= render partial: 'user_consent_check' %>
     <section class="form--section">
       <button type="submit" class="button -highlight">
-        <span class="button--text"><%= t(:button_continue) %></span>
+      <span class="button--text"><%= t(:button_continue) %></span>
       </button>
       <%= link_to t(:button_decline), account_decline_consent_path, class: 'button' %>
     </section>
