@@ -85,6 +85,8 @@ en:
   consent:
     checkbox_label: I do consent to the conditions stated above.
     failure_message: Consent failed, cannot proceed.
+    user_has_consentend: User has consented to your configured statement at the given time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
     title: Consent
 
   custom_fields:
@@ -370,6 +372,7 @@ en:
         mail_notification: "Email notifications"
         new_password: "New password"
         password_confirmation: "Confirmation"
+        consented_at: "Consented at"
       user_preference:
         comments_sorting: "Display comments"
         hide_mail: "Hide my email address"
@@ -1286,6 +1289,7 @@ en:
   label_news_view_all: "View all news"
   label_next: "Next"
   label_next_week: "Next week"
+  label_never: "never"
   label_no_change_option: "(No change)"
   label_no_data: "No data to display"
   label_nothing_display: "Nothing to display"
