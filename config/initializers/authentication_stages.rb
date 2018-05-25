@@ -5,6 +5,7 @@ OpenProject::Application.configure do |application|
     OpenProject::Authentication::Stage
       .register(
         :consent,
+        run_after_activation: true,
         active: ->() { Setting.consent_required? }
       ) {
         account_consent_path
