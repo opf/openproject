@@ -42,11 +42,9 @@ module Concerns::UserConsent
     user = consenting_user
 
     if user.present? && params[:consent_check]
-      update_user_consent! user
-
-      consent_finished
+      approve_consent!
     else
-      consent_failed
+      reject_consent!
     end
   end
 
@@ -70,15 +68,12 @@ module Concerns::UserConsent
     User.find_by id: session[:authenticated_user_id]
   end
 
-  def update_user_consent!(user)
+  def approve_consent!
     user.update_column(:consented_at, DateTime.now)
-  end
-
-  def consent_finished
     redirect_to authentication_stage_complete_path(:consent)
   end
 
-  def consent_failed
+  def reject_consent!
     flash[:error] = I18n.t('consent.failure_message')
     redirect_to authentication_stage_failure_path :consent
   end
