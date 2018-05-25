@@ -69,12 +69,15 @@ describe Redmine::WikiFormatting::Macros, type: :helper do
   end
 
   it 'should macro child pages' do
-    expected =  "<p><ul class=\"pages-hierarchy -with-hierarchy -hierarchy-expanded\">" +
-                "<li><span class=\"tree-menu--item\" slug=\"child-1\"><span class=\"tree-menu--hierarchy-span\">" +
-                "</span><a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/child-1\">Child 1</a>" +
+    expected =  "<p><ul class=\"pages-hierarchy -with-hierarchy -hierarchy-expanded\"><li>" +
+                "<span class=\"tree-menu--item\" slug=\"child-1\"><span class=\"tree-menu--hierarchy-span\">" +
+                "<span tabindex=\"0\" class=\"tree-menu--leaf-indicator\">" +
+                "<span class=\"hidden-for-sighted\">Hierarchy leaf</span></span></span>" +
+                "<a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/child-1\">Child 1</a>" +
                 "</span></li><li><span class=\"tree-menu--item\" slug=\"child-2\">" +
-                "<span class=\"tree-menu--hierarchy-span\">" +
-                "</span><a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/child-2\">Child 2</a>" +
+                "<span class=\"tree-menu--hierarchy-span\"><span tabindex=\"0\" class=\"tree-menu--leaf-indicator\">" +
+                "<span class=\"hidden-for-sighted\">Hierarchy leaf</span></span></span>" +
+                "<a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/child-2\">Child 2</a>" +
                 "</span></li></ul></p>"
 
     @project = Project.find(1)
@@ -88,20 +91,22 @@ describe Redmine::WikiFormatting::Macros, type: :helper do
   end
 
   it 'should macro child pages with option' do
-    expected =  "<p><ul class=\"pages-hierarchy -with-hierarchy -hierarchy-expanded\">" +
-                "<li><span class=\"tree-menu--item\" slug=\"another-page\">" +
-                "<span class=\"tree-menu--hierarchy-span\">" +
+    expected =  "<p><ul class=\"pages-hierarchy -with-hierarchy -hierarchy-expanded\"><li>" +
+                "<span class=\"tree-menu--item\" slug=\"another-page\"><span class=\"tree-menu--hierarchy-span\">" +
                 "<a tabindex=\"0\" role=\"button\" class=\"tree-menu--hierarchy-indicator\">" +
-                "<span aria-hidden=\"true\" class=\"tree-menu--hierarchy-indicator-icon\"></span>" +
-                "<span class=\"tree-menu--hierarchy-indicator-expanded hidden-for-sighted\">Expanded. Click to collapse</span>" +
-                "<span class=\"tree-menu--hierarchy-indicator-collapsed hidden-for-sighted\">Collapsed. Click to show</span>" +
-                "</a></span><a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/another-page\">Another page</a>" +
+                "<span aria-hidden=\"true\" class=\"tree-menu--hierarchy-indicator-icon\">" +
+                "</span><span class=\"tree-menu--hierarchy-indicator-expanded hidden-for-sighted\">Expanded. Click to collapse</span>" +
+                "<span class=\"tree-menu--hierarchy-indicator-collapsed hidden-for-sighted\">Collapsed. Click to show</span></a>" +
+                "</span><a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/another-page\">Another page</a>" +
                 "</span><ul class=\"pages-hierarchy -with-hierarchy -hierarchy-expanded\"><li>" +
-                "<span class=\"tree-menu--item\" slug=\"child-1\"><span class=\"tree-menu--hierarchy-span\"></span>" +
-                "<a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/child-1\">Child 1</a></span></li>" +
-                "<li><span class=\"tree-menu--item\" slug=\"child-2\"><span class=\"tree-menu--hierarchy-span\"></span>" +
-                "<a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/child-2\">Child 2</a></span>" +
-                "</li></ul></li></ul></p>"
+                "<span class=\"tree-menu--item\" slug=\"child-1\"><span class=\"tree-menu--hierarchy-span\">" +
+                "<span tabindex=\"0\" class=\"tree-menu--leaf-indicator\">" +
+                "<span class=\"hidden-for-sighted\">Hierarchy leaf</span>" +
+                "</span></span><a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/child-1\">Child 1</a>" +
+                "</span></li><li><span class=\"tree-menu--item\" slug=\"child-2\"><span class=\"tree-menu--hierarchy-span\">" +
+                "<span tabindex=\"0\" class=\"tree-menu--leaf-indicator\"><span class=\"hidden-for-sighted\">Hierarchy leaf</span>" +
+                "</span></span><a class=\"tree-menu--title ellipsis\" href=\"/projects/ecookbook/wiki/child-2\">Child 2</a>" +
+                "</span></li></ul></li></ul></p>"
 
     @project = Project.find(1)
     # child pages of the current wiki page
