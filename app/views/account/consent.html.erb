@@ -29,11 +29,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% disable_accessibility_css! %>
 
-<% breadcrumb_paths("Consent") %>
-<% html_title "Consent" %>
+<% breadcrumb_paths(t('consent.title')) %>
+<% html_title t('consent.title') %>
 <%= call_hook :view_account_consent_top %>
 <div id="login-form" class="form -bordered">
-  <h1>Consent</h1>
+  <h1><%= t('consent.title') %></h1>
 
   <%= format_text consent_info %>
 
@@ -41,14 +41,16 @@ See doc/COPYRIGHT.rdoc for more details.
     <section class="form--section">
       <label class="form--label-with-check-box">
         <div class="form--check-box-container">
-          <input type="checkbox" class="form--check-box" required="required">
+          <input type="checkbox" name="consent_check" class="form--check-box" required="required">
         </div>
 
         <%= format_text consent_label %>
       </label>
     </section>
     <section class="form--section">
-      <input type="submit" class="button -highlight" value="OK"/>
+      <button type="submit" class="button -highlight">
+        <span class="button--text"><%= t(:button_continue) %></span>
+      </button>
     </section>
   <% end %>
 </div>

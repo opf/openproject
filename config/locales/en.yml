@@ -82,6 +82,10 @@ en:
     show:
       no_results_title_text: There are currently no posts for the board.
 
+  consent:
+    failure_message: Consent failed, cannot proceed.
+    title: Consent
+
   custom_fields:
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before
@@ -664,6 +668,7 @@ en:
   button_copy: "Copy"
   button_copy_and_follow: "Copy and follow"
   button_create: "Create"
+  button_continue: "Continue"
   button_create_and_continue: "Create and continue"
   button_delete: "Delete"
   button_delete_watcher: "Delete watcher %{name}"
