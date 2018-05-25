@@ -58,16 +58,7 @@ module Concerns::UserConsent
     return false unless Setting.consent_info.count > 0
 
     # Require the user to consent if he hasn't already
-    consent_expired?
-  end
-
-  def consent_expired?
-    return true if Setting.consent_date.blank?
-
-    consented_at = consenting_user.try(:consented_at)
-    return true if consented_at.nil?
-
-    consented_at < Setting.consent_date
+    consenting_user.consented_at.nil?
   end
 
   def consent_info
@@ -80,7 +71,7 @@ module Concerns::UserConsent
   end
 
   def update_user_consent!(user)
-    user.update consented_at: DateTime.now
+    user.update_column(:consented_at, DateTime.now)
   end
 
   def consent_finished
