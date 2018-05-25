@@ -44,6 +44,8 @@
   &.-compact-tables
     .wp-table--row
       border-bottom: none !important
+      &:hover
+        @include varprop(background-color, table-row-highlighting-color)
 
     .generic-table--sort-header-outer
       line-height: 28px
