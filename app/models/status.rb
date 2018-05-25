@@ -51,7 +51,11 @@ class Status < ActiveRecord::Base
 
   # Returns the default status for new issues
   def self.default
-    where(['is_default=?', true]).first
+    where_default.first
+  end
+
+  def self.where_default
+    where(['is_default=?', true])
   end
 
   # Update all the +Issues+ setting their done_ratio to the value of their +Status+

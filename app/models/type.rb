@@ -98,16 +98,14 @@ class ::Type < ActiveRecord::Base
   end
 
   def statuses(include_default: false)
-    return [] if new_record?
-
-    @statuses ||= ::Type.statuses([id])
-    return @statuses unless include_default
-
-    default = Status.default
-    if default.nil?
-      @statuses
+    if new_record?
+      Status.none
+    elsif include_default
+      ::Type
+        .statuses([id])
+        .or(Status.where_default)
     else
-      [default] + @statuses
+      ::Type.statuses([id])
     end
   end
 
