@@ -184,7 +184,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= nonced_javascript_tag do %>
     (function($) {
       var wrapper = $('#wrapper');
-      if (window.sessionStorage.getItem('openproject:navigation-toggle') === 'collapsed') {
+      if (window.sessionStorage.getItem('openproject:navigation-toggle') === 'collapsed' || window.innerWidth < 680) {
         $('.can-hide-navigation').addClass('hidden-navigation');
       }
 
