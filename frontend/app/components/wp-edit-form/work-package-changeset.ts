@@ -207,10 +207,7 @@ export class WorkPackageChangeset {
           .catch(error => {
             // Update the resource anyway
             this.buildResource();
-            deferred.reject({
-              errorsOnForm: false,
-              error: error
-            });
+            deferred.reject(error);
           });
       })
       .catch(deferred.reject);
