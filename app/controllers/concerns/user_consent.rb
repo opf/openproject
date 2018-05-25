@@ -44,7 +44,7 @@ module Concerns::UserConsent
   def confirm_consent
     user = consenting_user
 
-    if user.present?
+    if user.present? && params[:consent_check]
       update_user_consent! user
 
       consent_finished
@@ -90,6 +90,7 @@ module Concerns::UserConsent
   end
 
   def consent_failed
-    redirect_to Stage.failure_path(:consent)
+    flash[:error] = I18n.t('consent.failure_message')
+    redirect_to authentication_stage_failure_path :consent
   end
 end
