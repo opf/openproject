@@ -86,7 +86,7 @@ module Redmine::MenuManager::MenuHelper
       classes << (first_level ? 'open' : 'closed')
     end
 
-    links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, class: 'menu_root ' + classes)
+    links.empty? ? nil : content_tag('ul', safe_join(links, "\n"), class: 'menu_root ' + classes)
   end
 
   def select_leafs(items)
@@ -181,7 +181,7 @@ module Redmine::MenuManager::MenuHelper
         node << content_tag(:ul, unattached_children_list, class: 'main-menu--children unattached')
       end
 
-      node.join("\n").html_safe
+      safe_join(node, "\n")
     end
   end
 
@@ -318,7 +318,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def entry_page_selected?(item)
-    item.name == "entry-item-#{current_menu_item}".to_sym
+    item.name == MenuItems::WikiMenuItem.add_entry_item_prefix(current_menu_item)
   end
 
   def no_wiki_menu_item_selected?(item)

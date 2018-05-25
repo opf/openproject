@@ -94,7 +94,7 @@ module Redmine::MenuManager::WikiMenuHelper
   end
 
   def push_wiki_entry_page_item(main_item, menu)
-    menu.push "entry-item-#{main_item.menu_identifier}".to_sym,
+    menu.push main_item.as_entry_item_symbol,
               { controller: '/wiki', action: 'show', id: main_item.slug },
               param: :project_id,
               caption: t('label_entry_page'),

@@ -1215,6 +1215,7 @@ en:
   label_here: here
   label_hide: "Hide"
   label_history: "History"
+  label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Home"
   label_in: "in"
   label_in_less_than: "in less than"

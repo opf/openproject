@@ -190,7 +190,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
       var savedMainMenuWidth = window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth");
       if (savedMainMenuWidth) {
-        $('html')[0].style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
+        document.documentElement.style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
       }
 
       wrapper.show();

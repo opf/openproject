@@ -42,13 +42,7 @@
     $('.pages-hierarchy.-with-hierarchy .tree-menu--hierarchy-span').click(function (event) {
       var target = $(event.target);
       var targetList = target.closest('.-with-hierarchy');
-      if (targetList.hasClass('-hierarchy-collapsed')) {
-        targetList.addClass('-hierarchy-expanded');
-        targetList.removeClass('-hierarchy-collapsed');
-      } else if (targetList.hasClass('-hierarchy-expanded')) {
-        targetList.addClass('-hierarchy-collapsed');
-        targetList.removeClass('-hierarchy-expanded');
-      }
+      targetList.toggleClass('-hierarchy-collapsed -hierarchy-expanded');
       return false;
     })
   });

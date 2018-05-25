@@ -53,7 +53,8 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
   private mouseMoveHandler:any;
   private element:HTMLElement;
   private htmlNode:HTMLElement;
-  private toggleTitle:string;
+
+  public toggleTitle:string;
 
   public moving:boolean = false;
 
@@ -110,7 +111,7 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
       // Change cursor icon
       // This is handled via JS to ensure
       // that the cursor stays the same even when the mouse leaves the actual resizer.
-      document.getElementsByTagName("body")[0].setAttribute('style',
+      document.body.setAttribute('style',
         'cursor: col-resize !important');
 
       // Enable mouse move

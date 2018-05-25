@@ -27,8 +27,6 @@
 //++
 
 module.exports = function($rootScope, $window) {
-  var htmlNode = document.getElementsByTagName('html')[0];
-
   this.toggleNavigation = function(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -37,7 +35,7 @@ module.exports = function($rootScope, $window) {
       // Regain default width: Expand to default menu width if collapsed slimmer than default width.
       var savedMainMenuWidth = parseInt(window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth"));
       if (savedMainMenuWidth < 230) {
-        htmlNode.style.setProperty("--main-menu-width", '230px');
+        document.documentElement.style.setProperty("--main-menu-width", '230px');
         window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth", '230');
       }
     }

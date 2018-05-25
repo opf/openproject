@@ -572,14 +572,12 @@ module ApplicationHelper
 
   def render_hierarchy_item(page, is_parent, options = {})
     content_tag(:span, class: 'tree-menu--item', slug: page.slug) do
-      hierarchy_span_content = nil
-      if is_parent
-        hierarchy_span_content = if is_parent
-                                   render_hierarchy_indicator_icons
-                                 else
-                                   render_leaf_indicator
-                                 end
-      end
+      hierarchy_span_content = if is_parent
+                                 render_hierarchy_indicator_icons
+                               else
+                                 render_leaf_indicator
+                               end
+
       concat content_tag(:span, hierarchy_span_content, class: 'tree-menu--hierarchy-span')
 
       concat link_to(page.title,
@@ -592,14 +590,14 @@ module ApplicationHelper
 
   def hierarchy_item_title(options, page)
     if options[:timestamp] && page.updated_on
-      l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on))
+      ::I18n.t(:label_updated_time, value: distance_of_time_in_words(Time.now, page.updated_on))
     end
   end
 
   def render_leaf_indicator
     content_tag(:span, tabindex: 0, class: 'tree-menu--leaf-indicator') do
       content_tag(:span,
-                  'Hierarchy leaf',
+                  ::I18n.t(:label_hierarchy_leaf),
                   class: 'hidden-for-sighted')
     end
   end
