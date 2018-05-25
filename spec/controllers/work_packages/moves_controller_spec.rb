@@ -40,7 +40,7 @@ describe WorkPackages::MovesController, type: :controller do
   end
   let(:type) { FactoryBot.create :type }
   let(:type_2) { FactoryBot.create :type }
-  let(:status) { FactoryBot.create :default_status }
+  let!(:status) { FactoryBot.create :default_status }
   let(:target_status) { FactoryBot.create :status }
   let(:priority) { FactoryBot.create :priority }
   let(:target_priority) { FactoryBot.create :priority }
