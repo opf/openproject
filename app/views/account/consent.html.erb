@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% breadcrumb_paths(t('consent.title')) %>
 <% html_title t('consent.title') %>
 <%= call_hook :view_account_consent_top %>
-<div id="login-form" class="form -bordered">
+<div id="login-form" class="account-consent form -bordered">
 
   <%= format_text consent_info %>
 
@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <section class="form--section">
       <label class="form--label-with-check-box">
         <div class="form--check-box-container">
-          <input type="checkbox" name="consent_check" class="form--check-box" required="required">
+          <input type="checkbox" name="consent_check" class="form--check-box" required="required" />
         </div>
 
         <%= t('consent.checkbox_label') %>

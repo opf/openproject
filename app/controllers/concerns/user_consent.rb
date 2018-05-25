@@ -42,7 +42,7 @@ module Concerns::UserConsent
     user = consenting_user
 
     if user.present? && params[:consent_check]
-      approve_consent!
+      approve_consent!(user)
     else
       reject_consent!
     end
@@ -53,7 +53,10 @@ module Concerns::UserConsent
     return false unless Setting.consent_required?
 
     # Ensure at least one translation is provided
-    return false unless Setting.consent_info.count > 0
+    if Setting.consent_info.count == 0
+      Rails.logger.error 'Instance is configured to require consent, but no consent_info has been set.'
+      return false
+    end
 
     # Require the user to consent if he hasn't already
     consenting_user.consented_at.nil?
@@ -68,8 +71,12 @@ module Concerns::UserConsent
     User.find_by id: session[:authenticated_user_id]
   end
 
-  def approve_consent!
+  def approve_consent!(user)
     user.update_column(:consented_at, DateTime.now)
+    consent_finished
+  end
+
+  def consent_finished
     redirect_to authentication_stage_complete_path(:consent)
   end
 
