@@ -83,7 +83,7 @@ en:
       no_results_title_text: There are currently no posts for the board.
 
   consent:
-    checkbox_label: I do consent to the conditions stated above.
+    checkbox_label: I have noted and do do consent to the above.
     failure_message: Consent failed, cannot proceed.
     user_has_consentend: User has consented to your configured statement at the given time.
     not_yet_consented: User has not consented yet, will be requested upon next login.
