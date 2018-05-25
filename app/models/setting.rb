@@ -247,14 +247,26 @@ class Setting < ActiveRecord::Base
   def self.deserialize(name, v)
     default = @@available_settings[name]
 
-    v = YAML::load(v) if default['serialized'] && v.is_a?(String)
-
-    unless v.blank?
-      v = v.to_sym if default['format'] == 'symbol'
-      v = v.to_i if default['format'] == 'int'
+    if default['serialized'] && v.is_a?(String)
+      YAML::load(v)
+    elsif v.present?
+      read_formatted_setting v, default["format"]
+    else
+      v
     end
+  end
 
-    v
+  def self.read_formatted_setting(value, format)
+    case format
+    when "symbol"
+      value.to_sym
+    when "int"
+      value.to_i
+    when "datetime"
+      DateTime.parse value
+    else
+      value
+    end
   end
 
   require_dependency 'setting/callbacks'
