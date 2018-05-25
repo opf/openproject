@@ -227,6 +227,7 @@ import {WorkPackageRelationsGroupComponent,} from "core-components/wp-relations/
 import {WorkPackageRelationRowComponent} from "core-components/wp-relations/wp-relation-row/wp-relation-row.component";
 import {Ng1FieldControlsWrapper} from "core-components/wp-edit/field-controls/wp-edit-field-controls-ng1-wrapper";
 import {WorkPackageRelationsCreateComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-create.component";
+import {HighlightColDirective} from "core-components/common/highlight-col/highlight-col.directive";
 
 @NgModule({
   imports: [
@@ -348,6 +349,7 @@ import {WorkPackageRelationsCreateComponent} from "core-components/wp-relations/
     WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
     SortHeaderDirective,
+    HighlightColDirective,
 
     // Query filters
     WorkPackageFilterContainerComponent,
