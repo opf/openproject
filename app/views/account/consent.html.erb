@@ -50,6 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <button type="submit" class="button -highlight">
         <span class="button--text"><%= t(:button_continue) %></span>
       </button>
+      <%= link_to t(:button_decline), account_decline_consent_path, class: 'button' %>
     </section>
   <% end %>
 </div>

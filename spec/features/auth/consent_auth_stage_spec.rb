@@ -73,7 +73,7 @@ describe 'Authentication Stages', type: :feature, js: true do
   end
 
   context 'when enabled, but consent exists', with_settings: { consent_required?: true, consent_info: { en: 'h1. Consent header!'} } do
-    it 'should not show consent' do
+    it 'should show consent' do
       login_with user.login, user_password
 
       expect(page).to have_selector('.account-consent')
@@ -93,6 +93,20 @@ describe 'Authentication Stages', type: :feature, js: true do
 
       user.reload
       expect(user.consented_at).to be_present
+    end
+
+    context 'with contact mail address', with_settings: { consent_decline_mail: 'foo@example.org' } do
+      it 'shows that address to users when declining' do
+        login_with user.login, user_password
+
+        expect(page).to have_selector('.account-consent')
+        expect(page).to have_selector('h1', text: 'Consent header')
+
+        # Decline the consent
+        click_on I18n.t(:button_decline)
+
+        expect(page).to have_selector('.flash.error', text: 'foo@example.org')
+      end
     end
   end
 end

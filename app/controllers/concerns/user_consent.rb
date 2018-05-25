@@ -48,6 +48,19 @@ module Concerns::UserConsent
     end
   end
 
+  def decline_consent
+    message = I18n.t('consent.decline_warning_message') + "\n"
+    message <<
+      if Setting.consent_decline_mail
+        I18n.t('consent.contact_this_mail_address', mail_address: Setting.consent_decline_mail)
+      else
+        I18n.t('consent.contact_your_administrator')
+      end
+
+    flash[:error] = message
+    redirect_to authentication_stage_failure_path :consent
+  end
+
   def consent_required?
     # Ensure consent is enabled
     return false unless Setting.consent_required?

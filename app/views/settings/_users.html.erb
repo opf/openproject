@@ -45,6 +45,12 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="form--field">
         <%= setting_check_box :consent_required %>
       </div>
+      <div class="form--field">
+        <%= setting_text_field :consent_decline_mail, size: 6, container_class: '-middle' %>
+        <span class="form--field-instructions">
+          <%= t('consent.contact_mail_instructions') %>
+        </span>
+      </div>
       <%= cell Settings::TextSettingCell, I18n.locale, name: "consent_info" %>
     </fieldset>
   </fieldset>
