@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 describe 'Authentication Stages', type: :feature, js: true do
+  let(:language) { 'en' }
   let(:user_password) { 'bob' * 4 }
   let(:user) do
     FactoryGirl.create(
@@ -40,6 +41,7 @@ describe 'Authentication Stages', type: :feature, js: true do
       mail: 'bob@example.com',
       firstname: 'Bo',
       lastname: 'B',
+      language: language,
       password: user_password,
       password_confirmation: user_password
     )
@@ -79,6 +81,18 @@ describe 'Authentication Stages', type: :feature, js: true do
       login_with user.login, user_password
       expect(page).to have_no_selector('.account-consent')
       expect_logged_in
+    end
+  end
+  context 'when enabled, localized consent exists',
+          with_settings: { consent_info: { de: 'h1. Einwilligung', en: 'h1. Consent header!'} } do
+    let(:consent_required) { true }
+    let(:language) { 'de' }
+
+    it 'should show localized consent' do
+      login_with user.login, user_password
+
+      expect(page).to have_selector('.account-consent')
+      expect(page).to have_selector('h1', text: 'Einwilligung')
     end
   end
 

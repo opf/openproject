@@ -34,7 +34,7 @@ module Concerns::UserConsent
 
   def consent
     if consent_required?
-      render 'account/consent'
+      render 'account/consent', locals: { consenting_user: consenting_user }
     else
       consent_finished
     end

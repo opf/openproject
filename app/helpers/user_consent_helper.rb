@@ -38,9 +38,10 @@ module ::UserConsentHelper
     Setting.consent_required? && consent_configured?
   end
 
-  def user_consent_instructions
+  def user_consent_instructions(user)
+    language = user.try(:language) || Setting.default_language
     all = Setting.consent_info
-    all.fetch(I18n.locale) { all.values.first }
+    all.fetch(language) { all.values.first }
   end
 
   def consent_configured?

@@ -94,7 +94,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
       <% if user_consent_required? %>
         <hr/>
-        <%= render partial: 'account/user_consent_check' %>
+        <%= render partial: 'account/user_consent_check', locals: { consenting_user: @user } %>
       <% end %>
 
       <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
