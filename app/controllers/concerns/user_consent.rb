@@ -51,7 +51,14 @@ module Concerns::UserConsent
   end
 
   def consent_required?
-    Setting.consent_required? && consent_expired?
+    # Ensure consent is enabled
+    return false unless Setting.consent_required?
+
+    # Ensure at least one translation is provided
+    return false unless Setting.consent_info.count > 0
+
+    # Require the user to consent if he hasn't already
+    consent_expired?
   end
 
   def consent_expired?
@@ -65,7 +72,7 @@ module Concerns::UserConsent
 
   def consent_info
     all = Setting.consent_info
-    all.fetch(I18n.locale) { all['en'] }
+    all.fetch(I18n.locale) { all.values.first }
   end
 
   def consenting_user
