@@ -83,6 +83,7 @@ en:
       no_results_title_text: There are currently no posts for the board.
 
   consent:
+    checkbox_label: I do consent to the conditions stated above.
     failure_message: Consent failed, cannot proceed.
     title: Consent
 

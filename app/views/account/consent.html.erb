@@ -33,7 +33,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title t('consent.title') %>
 <%= call_hook :view_account_consent_top %>
 <div id="login-form" class="form -bordered">
-  <h1><%= t('consent.title') %></h1>
 
   <%= format_text consent_info %>
 
@@ -44,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <input type="checkbox" name="consent_check" class="form--check-box" required="required">
         </div>
 
-        <%= format_text consent_label %>
+        <%= t('consent.checkbox_label') %>
       </label>
     </section>
     <section class="form--section">

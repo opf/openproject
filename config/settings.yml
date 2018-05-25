@@ -77,12 +77,7 @@ consent_date:
 consent_info:
   serialized: true
   default:
-    en:
-# Label next to the checkbox showing what the user is consenting to in short (required).
-consent_label:
-  serialized: true
-  default:
-    en:
+    en: "h2. Consent\n\nYou need to consent into the privacy and security policy of this OpenProject instance."
 # Indicates wether or not users need to consent to something such as privacy policy.
 consent_required:
   default: 0

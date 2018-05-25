@@ -31,13 +31,10 @@
 # check.
 module Concerns::UserConsent
   def consent
-    if !consent_required?
-      consent_finished
+    if consent_required?
+      render 'account/consent', locals: { consent_info: consent_info }
     else
-      render 'account/consent', locals: {
-        consent_info: consent_info[I18n.locale],
-        consent_label: consent_label[I18n.locale]
-      }
+      consent_finished
     end
   end
 
@@ -61,20 +58,14 @@ module Concerns::UserConsent
     return true if Setting.consent_date.blank?
 
     consented_at = consenting_user.try(:consented_at)
+    return true if consented_at.nil?
 
-    if consented_at.present?
-      consented_at >= Setting.consent_date
-    else
-      false
-    end
+    consented_at < Setting.consent_date
   end
 
   def consent_info
-    Setting.consent_info
-  end
-
-  def consent_label
-    Setting.consent_label
+    all = Setting.consent_info
+    all.fetch(I18n.locale) { all['en'] }
   end
 
   def consenting_user
