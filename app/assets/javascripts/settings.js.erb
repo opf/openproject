@@ -53,8 +53,8 @@ See doc/COPYRIGHT.rdoc for more details.
       }
     });
 
-    /* Javascript for Settings::TextSettingCell */
     $(document).ready(function() {
+      /* Javascript for Settings::TextSettingCell */
       $(".lang-select-switch").change(function() {
         var self = $(this);
         var id = self.attr("id");
@@ -63,6 +63,9 @@ See doc/COPYRIGHT.rdoc for more details.
         $("." + id).hide();
         $("#" + id + "-" + lang).show();
       });
+
+      /* Javascript for user settings consent date */
+      $("#consent-date").datepicker();
     });
 
     /** Toggle notification settings fields */

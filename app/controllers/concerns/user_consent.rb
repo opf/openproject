@@ -49,17 +49,29 @@ module Concerns::UserConsent
   end
 
   def consent_required?
-    # Ensure consent is enabled
-    return false unless Setting.consent_required?
-
-    # Ensure at least one translation is provided
-    if Setting.consent_info.count == 0
-      Rails.logger.error 'Instance is configured to require consent, but no consent_info has been set.'
-      return false
-    end
+    # Ensure consent is enabled and a text is provided
+    return false unless Setting.consent_required? && consent_configured?
 
     # Require the user to consent if he hasn't already
-    consenting_user.consented_at.nil?
+    consent_expired?
+  end
+
+  def consent_configured?
+    if Setting.consent_info.count == 0
+      Rails.logger.error 'Instance is configured to require consent, but no consent_info has been set.'
+
+      false
+    else
+      true
+    end
+  end
+
+  def consent_expired?
+    return true if Setting.consent_date.blank?
+
+    consented_at = consenting_user.try(:consented_at)
+
+    consented_at.blank? || consented_at < Setting.consent_date
   end
 
   def consent_info

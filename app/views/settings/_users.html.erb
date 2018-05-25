@@ -42,10 +42,20 @@ See doc/COPYRIGHT.rdoc for more details.
   <fieldset class="form--fieldset">
     <fieldset id="consent_settings" class="form--fieldset">
       <legend class="form--fieldset-legend"><%= I18n.t(:label_consent_settings) %></legend>
+      <%= cell Settings::TextSettingCell, I18n.locale, name: "consent_info" %>
       <div class="form--field">
         <%= setting_check_box :consent_required %>
       </div>
-      <%= cell Settings::TextSettingCell, I18n.locale, name: "consent_info" %>
+      <div class="form--field">
+        <%= setting_block("consent_date") do %>
+          <span class="form--text-field-container -slim">
+            <input type="text" id="consent-date">
+          </span>
+        <% end %>
+        <div class="form--field-instructions">
+          <%= I18n.t("text_consent_date") %>
+        </div>
+      </div>
     </fieldset>
   </fieldset>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
