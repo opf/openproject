@@ -27,13 +27,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Relations
-      class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Relations::RelationRepresenter
-        self.to_eager_load = ::API::V3::Relations::RelationRepresenter.to_eager_load
-      end
+module ::UserConsentHelper
+
+  def consent_param?
+    params[:consent_check].present?
+  end
+
+  def user_consent_required?
+    # Ensure consent is enabled and a text is provided
+    Setting.consent_required? && consent_configured?
+  end
+
+  def user_consent_instructions(user)
+    language = user.try(:language) || Setting.default_language
+    all = Setting.consent_info
+    all.fetch(language) { all.values.first }
+  end
+
+  def consent_configured?
+    if Setting.consent_info.count == 0
+      Rails.logger.error 'Instance is configured to require consent, but no consent_info has been set.'
+
+      false
+    else
+      true
     end
   end
 end

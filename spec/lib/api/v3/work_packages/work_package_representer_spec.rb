@@ -940,7 +940,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         before do
           allow(work_package)
-            .to receive_message_chain(:visible_relations, :non_hierarchy)
+            .to receive_message_chain(:visible_relations, :non_hierarchy, :includes)
             .and_return([relation])
         end
 

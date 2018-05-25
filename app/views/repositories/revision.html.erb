@@ -51,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><% if @changeset.scmid %>ID: <%= h(@changeset.scmid) %><br />
   <% end %>
   <span class="author"><%= authoring(@changeset.committed_on, @changeset.author) %></span></p>
-<%= format_text @changeset.comments %>
+<%= format_revision_text @changeset.comments %>
 <% if @changeset.work_packages.visible.any? %>
   <h3><%= l(:label_related_work_packages) %></h3>
   <ul>

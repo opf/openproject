@@ -128,7 +128,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 <%=h changeset.author %>
               </td>
               <td class="comments">
-                <%= format_text(truncate_at_line_break(Changeset.to_utf8(changeset.comments, changeset.repository.repo_log_encoding))) %>
+                <%= format_revision_text(truncate_at_line_break(Changeset.to_utf8(changeset.comments, changeset.repository.repo_log_encoding))) %>
               </td>
             </tr>
             <% line_num += 1 %>

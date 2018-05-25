@@ -133,6 +133,10 @@ module SettingsHelper
     )
   end
 
+  def setting_block(setting, options = {}, &block)
+    setting_label(setting, options) + wrap_field_outer(options, &block)
+  end
+
   # Renders a notification field for a Redmine::Notifiable option
   def notification_field(notifiable, options = {})
     content_tag(:label, class: 'form--label-with-check-box' + (notifiable.parent.present? ? ' parent' : '')) do

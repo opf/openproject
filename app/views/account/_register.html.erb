@@ -92,9 +92,14 @@ See doc/COPYRIGHT.rdoc for more details.
         <% end %>
       </section>
 
-        <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+      <% if user_consent_required? %>
+        <hr/>
+        <%= render partial: 'account/user_consent_check', locals: { consenting_user: @user } %>
+      <% end %>
 
-        <%= render partial: 'account/auth_providers', locals: { omniauth_title: I18n.t('account.signup_with_auth_provider'), wide: true } %>
+      <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+
+      <%= render partial: 'account/auth_providers', locals: { omniauth_title: I18n.t('account.signup_with_auth_provider'), wide: true } %>
     </div>
     <div class="modal--footer">
       <%= render partial: 'account/footer' %>

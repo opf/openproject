@@ -46,12 +46,15 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </fieldset>
 
-    <fieldset class="form--fieldset">
-      <fieldset id="registration_footer" class="form--fieldset">
-        <legend class="form--fieldset-legend"><%= I18n.t(:setting_registration_footer) %></legend>
-        <%= cell Settings::TextSettingCell, I18n.locale, name: "registration_footer" %>
+    <%# Footers defined in the OpenProject configuration override and disable those from Settings. %>
+    <% if OpenProject::Configuration.registration_footer.blank? %>
+      <fieldset class="form--fieldset">
+        <fieldset id="registration_footer" class="form--fieldset">
+          <legend class="form--fieldset-legend"><%= I18n.t(:setting_registration_footer) %></legend>
+          <%= cell Settings::TextSettingCell, I18n.locale, name: "registration_footer" %>
+        </fieldset>
       </fieldset>
-    </fieldset>
+    <% end %>
 
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= I18n.t(:passwords, scope: [:settings]) %></legend>

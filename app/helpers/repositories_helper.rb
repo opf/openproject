@@ -40,6 +40,12 @@ module RepositoriesHelper
     end
   end
 
+  ##
+  # Format revision commits with plain formatter
+  def format_revision_text(commit_message)
+    format_text(commit_message, format: 'plain')
+  end
+
   def truncate_at_line_break(text, length = 255)
     if text
       text.gsub(%r{^(.{#{length}}[^\n]*)\n.+$}m, '\\1...')

@@ -365,6 +365,7 @@ en:
         mail_notification: "Email notifications"
         new_password: "New password"
         password_confirmation: "Confirmation"
+        consented_at: "Consented at"
       user_preference:
         comments_sorting: "Display comments"
         hide_mail: "Hide my email address"
@@ -661,11 +662,13 @@ en:
   button_close: 'Close'
   button_collapse_all: "Collapse all"
   button_configure: "Configure"
+  button_continue: "Continue"
   button_copy: "Copy"
   button_copy_and_follow: "Copy and follow"
   button_create: "Create"
   button_create_and_continue: "Create and continue"
   button_delete: "Delete"
+  button_decline: "Decline"
   button_delete_watcher: "Delete watcher %{name}"
   button_download: "Download"
   button_duplicate: "Duplicate"
@@ -707,6 +710,19 @@ en:
   button_add_menu_entry: "Add menu item"
   button_configure_menu_entry: "Configure menu item"
   button_delete_menu_entry: "Delete menu item"
+
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: "Last update of consent: %{update_time}"
 
   copy_project:
     started: "Started to copy project \"%{source_project_name}\" to \"%{target_project_name}\". You will be informed by mail as soon as \"%{target_project_name}\" is available."
@@ -904,6 +920,7 @@ en:
   error_check_user_and_role: "Please choose a user and a role."
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Option does not exist."
+  error_dependent_work_package: "Error in dependent work package #%{related_id} %{related_subject}: %{error}"
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_invalid_group_by: "Can't group by: %{value}"
   error_invalid_query_column: "Invalid query column: %{value}"
@@ -1072,6 +1089,7 @@ en:
   label_calendar: "Calendar"
   label_calendar_show: "Show Calendar"
   label_category: "Category"
+  label_consent_settings: "User Consent"
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Select new main menu item
   label_select_project: "Select a project"
@@ -1268,6 +1286,7 @@ en:
   label_my_page_block: "My page block"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"
+  label_never: "Never"
   label_new: "New"
   label_new_statuses_allowed: "New statuses allowed"
   label_news_added: "News added"
@@ -1930,6 +1949,10 @@ en:
   setting_commit_logtime_activity_id: "Activity for logged time"
   setting_commit_logtime_enabled: "Enable time logging"
   setting_commit_ref_keywords: "Referencing keywords"
+  setting_consent_time: "Consent time"
+  setting_consent_info: "Consent information text"
+  setting_consent_required: "Consent required"
+  setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_date_format: "Date format"
   setting_default_language: "Default language"

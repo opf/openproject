@@ -49,6 +49,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= call_hook(:view_users_form, user: @user, form: f) %>
 </section>
 
+<% if Setting.consent_required? %>
+  <%= render partial: "users/consent" %>
+<% end %>
+
 <section class="form--section">
   <h3 class="form--section-title"><%=t(:label_ui, app_title: Setting.app_title)%></h3>
   <%= render partial: "users/impaired_settings" %>

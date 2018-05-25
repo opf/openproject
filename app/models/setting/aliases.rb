@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,16 +24,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Relations
-      class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Relations::RelationRepresenter
-        self.to_eager_load = ::API::V3::Relations::RelationRepresenter.to_eager_load
-      end
+class Setting
+
+  ##
+  # Shorthand to common setting aliases to avoid checking values
+  module Aliases
+
+    ##
+    # Whether the application is configured to use or force SSL output
+    # for cookie storage et al.
+    def https?
+      Setting.protocol == 'https' || Rails.configuration.force_ssl
     end
   end
 end
