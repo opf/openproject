@@ -80,11 +80,16 @@ module Concerns::UserConsent
   end
 
   def consent_expired?
-    return true if Setting.consent_date.blank?
-
     consented_at = consenting_user.try(:consented_at)
 
-    consented_at.blank? || consented_at < Setting.consent_date
+    # Always if the user has not consented
+    return true if consented_at.blank?
+
+    # Did not expire if no consent_time set, but user has consented at some point
+    return false if Setting.consent_time.blank?
+
+    # Otherwise, expires when consent_time is newer than last consented_at
+    consented_at < Setting.consent_time
   end
 
   def consent_info

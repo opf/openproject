@@ -148,12 +148,7 @@ class Setting < ActiveRecord::Base
       return value.to_yaml
     end
 
-    case default['format']
-    when "datetime"
-      value.iso8601
-    else
-      value.to_s
-    end
+    value.to_s
   end
 
   # Returns the value of the setting named name
@@ -275,6 +270,8 @@ class Setting < ActiveRecord::Base
       value.to_sym
     when "int"
       value.to_i
+    when "date"
+      Date.parse value
     when "datetime"
       DateTime.parse value
     else

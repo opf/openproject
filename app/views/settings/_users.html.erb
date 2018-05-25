@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= styled_form_tag({ action: 'edit', tab: 'users' } ) do %>
+<%= styled_form_tag({ action: 'edit', tab: 'users' }, class: 'admin-settings--form') do %>
 
   <div class ="form--section">
     <div class="form--field">
@@ -42,18 +42,30 @@ See doc/COPYRIGHT.rdoc for more details.
   <fieldset class="form--fieldset">
     <fieldset id="consent_settings" class="form--fieldset">
       <legend class="form--fieldset-legend"><%= I18n.t(:label_consent_settings) %></legend>
-      <%= cell Settings::TextSettingCell, I18n.locale, name: "consent_info" %>
+
       <div class="form--field">
         <%= setting_check_box :consent_required %>
       </div>
+
+      <%= cell Settings::TextSettingCell, I18n.locale, name: "consent_info" %>
+
       <div class="form--field">
-        <%= setting_block("consent_date") do %>
-          <span class="form--text-field-container -slim">
-            <input type="text" name="settings[consent_date]" id="settings_consent_date">
+        <%= setting_block("consent_time") do %>
+          <span class="form--check-box-field-container -slim">
+            <input type="hidden" name="settings[consent_time]" disabled id="settings_consent_time">
+            <%= check_box_tag 'toggle_consent_time',
+                              '1',
+                              !Setting.consent_time.present?,
+                              id: 'toggle_consent_time' %>
           </span>
         <% end %>
         <div class="form--field-instructions">
-          <%= I18n.t("text_consent_date") %>
+          <%= I18n.t('consent.text_update_consent_time') %>
+          <br/>
+          <strong>
+            <%= I18n.t('consent.update_consent_last_time',
+                       update_time: Setting.consent_time.present? ? format_time(Setting.consent_time) : t(:label_never)) %>
+          </strong>
         </div>
       </div>
       <div class="form--field">

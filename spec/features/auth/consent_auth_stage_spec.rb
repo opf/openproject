@@ -33,6 +33,7 @@ describe 'Authentication Stages', type: :feature, js: true do
   let(:user) do
     FactoryGirl.create(
       :user,
+      admin: true,
       force_password_change: false,
       first_login: false,
       login: 'bob',
@@ -74,6 +75,7 @@ describe 'Authentication Stages', type: :feature, js: true do
 
   context 'when enabled, but consent exists', with_settings: { consent_required?: true, consent_info: { en: 'h1. Consent header!'} } do
     it 'should show consent' do
+      expect(Setting.consent_time).to be_blank
       login_with user.login, user_password
 
       expect(page).to have_selector('.account-consent')
@@ -91,8 +93,40 @@ describe 'Authentication Stages', type: :feature, js: true do
 
       expect_logged_in
 
+      # Should have set consent date
       user.reload
       expect(user.consented_at).to be_present
+
+      # Log in again should not show consent
+      visit signout_path
+      login_with user.login, user_password
+      expect_logged_in
+
+      # Update consent date
+      visit settings_path(tab: 'users')
+      find("#toggle_consent_time").set(true)
+
+      within '#tab-content-users' do
+        click_on 'Save'
+      end
+      expect(page).to have_selector('.flash.notice')
+
+      Setting.clear_cache
+      expect(Setting.consent_time).to be_present
+
+      # Will now have to consent again after logout
+      visit signout_path
+      login_with user.login, user_password
+
+      # Confirm consent
+      check 'consent_check'
+      click_on I18n.t(:button_continue)
+      expect_logged_in
+
+      # Should now have consented for this date
+      visit signout_path
+      login_with user.login, user_password
+      expect_logged_in
     end
 
     context 'with contact mail address', with_settings: { consent_decline_mail: 'foo@example.org' } do

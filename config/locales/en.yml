@@ -715,11 +715,14 @@ en:
     checkbox_label: I have noted and do consent to the above.
     failure_message: Consent failed, cannot proceed.
     title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
     user_has_consented: User has consented to your configured statement at the given time.
     not_yet_consented: User has not consented yet, will be requested upon next login.
     contact_mail_instructions: Define the mail address that users can reach a data controller to perform data change or removal requests.
     contact_your_administrator: Please contact your administrator if you want to have your account deleted.
     contact_this_mail_address: Please contact %{mail_address} if you want to have your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: "Last update of consent: %{update_time}"
 
   copy_project:
     started: "Started to copy project \"%{source_project_name}\" to \"%{target_project_name}\". You will be informed by mail as soon as \"%{target_project_name}\" is available."
@@ -1945,7 +1948,7 @@ en:
   setting_commit_logtime_activity_id: "Activity for logged time"
   setting_commit_logtime_enabled: "Enable time logging"
   setting_commit_ref_keywords: "Referencing keywords"
-  setting_consent_date: "Consent date"
+  setting_consent_time: "Consent time"
   setting_consent_info: "Consent information text"
   setting_consent_required: "Consent required"
   setting_consent_decline_mail: "Consent contact mail address"
@@ -2060,9 +2063,6 @@ en:
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_comma_separated: "Multiple values allowed (comma separated)."
   text_comment_wiki_page: "Comment to wiki page: %{page}"
-  text_consent_date: >
-    The last date at which the terms users have to agree to changed.
-    Users who have agreed to the configured terms before this date will have to agree to them again.
   text_custom_field_possible_values_info: "One line for each value"
   text_custom_field_hint_activate_per_project: >
     When using custom fields: Keep in mind that custom fields need to be

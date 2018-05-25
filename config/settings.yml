@@ -69,9 +69,9 @@ brute_force_block_minutes:
 brute_force_block_after_failed_logins:
   default: 20
   format: int
-# Date after which users have to have consented to what ever they need to consent
+# Time after which users have to have consented to what ever they need to consent
 # to (depending on other settings) such as a privacy policy.
-consent_date:
+consent_time:
   format: datetime
 # Additional info about what the user is consenting to (optional).
 consent_info:
