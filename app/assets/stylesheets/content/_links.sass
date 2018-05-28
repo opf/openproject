@@ -46,14 +46,14 @@ a
     background-repeat: no-repeat
     &.asc:after
       @include icon-font-common
-      @extend .icon-sort-ascending:before
+      @include icon-mixin-sort-ascending
       margin-left: 5px
       font-size: 1.2em
       vertical-align: text-bottom
 
     &.desc:after
       @include icon-font-common
-      @extend .icon-sort-descending:before
+      @include icon-mixin-sort-descending
       margin-left: 5px
       font-size: 1.2em
       vertical-align: text-bottom

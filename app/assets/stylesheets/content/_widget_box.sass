@@ -99,8 +99,8 @@ $widget-box--enumeration-width: 20px
 
       li:before
         @include icon-font-common
+        @include icon-mixin-arrow-right2
         @extend .icon-context
-        @extend .icon-arrow-right2:before
         display: inline-block
         font-size: 0.6rem
         color: $content-icon-link-color
@@ -130,8 +130,7 @@ $widget-box--enumeration-width: 20px
 
       li:before
         @include icon-common
-        @extend .icon-notice
-        @extend .icon-notice:before
+        @include icon-mixin-arrow-right2
         display: inline-block
         font-size: 0.6rem
         color: $alternative-color
