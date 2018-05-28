@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, OnInit,ElementRef, Input} from '@angular/core';
+import {Component, OnInit, ElementRef, Input} from '@angular/core';
 import {HideSectionService} from 'core-components/common/hide-section/hide-section.service';
 import {opUiComponentsModule} from "core-app/angular-modules";
 import {downgradeComponent} from '@angular/upgrade/static';
@@ -46,13 +46,13 @@ export class ShowSectionDropdownComponent implements OnInit {
 
   ngOnInit() {
     jQuery(this.elementRef.nativeElement).change(event => {
-      let selectedOption = jQuery("option:selected", event.target)[0];
+      let selectedOption = jQuery("option:selected", event.target);
 
-      if (selectedOption.value !== this.optValue) {
+      if (selectedOption.val() !== this.optValue) {
         this.hideSections.hide(this.hideSecWithName);
       }
       else {
-        this.hideSections.show({key: this.hideSecWithName});
+        this.hideSections.show({key: this.hideSecWithName, label: ""});
       }
     });
   }
