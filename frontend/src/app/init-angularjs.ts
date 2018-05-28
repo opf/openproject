@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {getUIRouter} from '@uirouter/angular-hybrid';
 import ExpressionService from 'core-components/common/xss/expression.service';
 
 // Run the browser detection
@@ -149,6 +150,18 @@ openprojectModule
             });
       }
     ]);
+
+openprojectModule
+  .config([ '$urlServiceProvider', ($urlServiceProvider:any) => {
+    // Defer the routing until the upgraded module is being bootstrapped
+    $urlServiceProvider.deferIntercept();
+  }])
+  .run(['$$angularInjector', ($$angularInjector:any) => {
+    // Synchronize the current URL now that we are being bootstrapped
+    const url:any = getUIRouter($$angularInjector).urlService;
+    url.listen();
+    url.sync();
+  }]);
 
 require('./layout');
 require('./services');

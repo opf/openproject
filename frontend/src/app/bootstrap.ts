@@ -1,6 +1,7 @@
 import {enableProdMode, NgModuleRef} from '@angular/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {setAngularJSGlobal, UpgradeModule} from '@angular/upgrade/static';
+import {openprojectModule} from 'core-app/angular-modules';
 import * as jQuery from 'jquery';
 import {AppModule} from './app.module';
 import {environment} from '../environments/environment';
@@ -16,7 +17,8 @@ export function bootstrapWithUiRouter(platformRef:NgModuleRef<any>):void {
   setAngularJSGlobal(angular);
   const injector = platformRef.injector;
   const upgradeModule = injector.get(UpgradeModule);
-  upgradeModule.bootstrap(document.body, ['openproject'], {strictDi: false});
+  upgradeModule.bootstrap(document.body, [openprojectModule.name], {strictDi: false});
+  angular.element('body').addClass('__ng2-bootstrap-has-run');
 }
 
 jQuery(function() {
@@ -27,4 +29,5 @@ jQuery(function() {
       return bootstrapWithUiRouter(platformRef);
     });
 });
+
 
