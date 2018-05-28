@@ -635,7 +635,7 @@ export function currentProjectFactory(i:any) {
 }
 
 export function firstRouteFactory(i:any) {
-  return i.get('firstRouteService');
+  return i.get('firstRoute');
 }
 
 

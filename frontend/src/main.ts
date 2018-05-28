@@ -1,6 +1,6 @@
 (window as any).global = window;
 
 
-require('./app/vendors');
-require('./app/init-app');
+require('./app/init-vendors');
+require('./app/init-angularjs');
 require('./app/bootstrap');
