@@ -32,7 +32,8 @@ namespace :ldap_groups do
        'Will only synchronize for those users already present in the application.'
   task synchronize: :environment do
 
-    return unless EnterpriseToken.allows_to?(:ldap_groups)
+    next unless EnterpriseToken.allows_to?(:ldap_groups)
+
     begin
       LdapAuthSource.find_each do |ldap|
         puts ("-" * 20)
