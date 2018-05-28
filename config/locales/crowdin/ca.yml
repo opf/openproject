@@ -363,6 +363,7 @@ ca:
         mail_notification: Avisos de correu electrònic
         new_password: Nova contrasenya
         password_confirmation: Confirmació
+        consented_at: Consented at
       user_preference:
         comments_sorting: Mostra els comentaris
         hide_mail: Oculta la meva adreça de correu electrònic
@@ -666,11 +667,13 @@ ca:
   button_close: Close
   button_collapse_all: Replega-ho tot
   button_configure: Configurar
+  button_continue: Continue
   button_copy: Copiar
   button_copy_and_follow: Copiar i continuar
   button_create: Crear
   button_create_and_continue: Crear i continuar
   button_delete: Esborrar
+  button_decline: Decline
   button_delete_watcher: Suprimir l'observador %{name}
   button_download: Descàrrega
   button_duplicate: Duplicar
@@ -712,6 +715,23 @@ ca:
   button_add_menu_entry: Afegir l'element de menú
   button_configure_menu_entry: Configurar l'element de menú
   button_delete_menu_entry: Suprimeix element de menú
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: S'ha començat a copiar el projecte "%{source_project_name}" a "%{target_project_name}".
       Se li comunicarà per correu electrònic tan aviat com "%{target_project_name}"
@@ -942,6 +962,8 @@ ca:
     les cookies estan habilitades, ja que aquesta aplicació no pot funcionar correctament
     sense.
   error_custom_option_not_found: Option does not exist.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1121,6 +1143,7 @@ ca:
   label_calendar: Calendari
   label_calendar_show: Mostreu el calendari
   label_category: Categoria
+  label_consent_settings: User Consent
   label_wiki_menu_item: Element de menú Wiki
   label_select_main_menu_item: Seleccioneu nou element de menú principal
   label_select_project: Select a project
@@ -1318,6 +1341,7 @@ ca:
   label_my_page_block: El meu bloc de pàgina
   label_my_projects: Els meus projectes
   label_my_queries: Les meves consultes personalitzades
+  label_never: Never
   label_new: Nou
   label_new_statuses_allowed: Nous estats permesos
   label_news_added: Notícies afegides
@@ -2061,6 +2085,10 @@ ca:
   setting_commit_logtime_activity_id: Activitat dels temps registrats
   setting_commit_logtime_enabled: Habilitar registre d'hores
   setting_commit_ref_keywords: Paraules clau de referència
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Permetre les relacions creuades entre
     projectes pels paquets de treball
   setting_date_format: Format de data

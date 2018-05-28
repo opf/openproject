@@ -360,6 +360,7 @@ fr:
         mail_notification: Notifications par courriel
         new_password: Nouveau mot de passe
         password_confirmation: Confirmation
+        consented_at: Consented at
       user_preference:
         comments_sorting: Afficher les commentaires
         hide_mail: Masquer mon adresse courriel
@@ -675,11 +676,13 @@ fr:
   button_close: Fermer
   button_collapse_all: Tout replier
   button_configure: Configurer
+  button_continue: Continue
   button_copy: Copier
   button_copy_and_follow: Copier et suivre
   button_create: Créer
   button_create_and_continue: Créer et continuer
   button_delete: Supprimer
+  button_decline: Decline
   button_delete_watcher: Supprimer l'observateur %{name}
   button_download: Télécharger
   button_duplicate: Dupliquer
@@ -721,6 +724,23 @@ fr:
   button_add_menu_entry: Ajouter un élément de menu
   button_configure_menu_entry: Configurer l'élément de menu
   button_delete_menu_entry: Supprimer l'élément de menu
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: La copie du projet "%{source_project_name}" vers "%{target_project_name}"
       a débuté. Vous serez informé par courriel dès que "%{target_project_name}" sera
@@ -952,6 +972,8 @@ fr:
   error_cookie_missing: Le cookie OpenProject est manquant. Assurez-vous que les cookies
     sont activés, sans quoi cette application ne fonctionnera pas correctement.
   error_custom_option_not_found: L'option n'existe pas.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: Échec lors de la suppression de cette entrée.
   error_invalid_group_by: 'Impossible de grouper par : %{value}'
   error_invalid_query_column: 'Colonne de requête invalide : %{value}'
@@ -1132,6 +1154,7 @@ fr:
   label_calendar: Calendrier
   label_calendar_show: Afficher le calendrier
   label_category: Catégorie
+  label_consent_settings: User Consent
   label_wiki_menu_item: Élément de menu wiki
   label_select_main_menu_item: Sélectionner nouvel élément de menu principal
   label_select_project: Sélectionner un projet
@@ -1330,6 +1353,7 @@ fr:
   label_my_page_block: Ma page bloc
   label_my_projects: Mes projets
   label_my_queries: Mes requêtes personnalisées
+  label_never: Never
   label_new: Nouveau
   label_new_statuses_allowed: Nouveaux statuts autorisés
   label_news_added: Actualités ajoutées
@@ -2065,6 +2089,10 @@ fr:
   setting_commit_logtime_activity_id: Activité pour les « Logged Time »
   setting_commit_logtime_enabled: Activer « time logging »
   setting_commit_ref_keywords: Referencement des mots clés
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Autoriser les relations entre lots
     de travaux de projets différents
   setting_date_format: Format de date

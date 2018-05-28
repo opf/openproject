@@ -351,6 +351,7 @@ lt:
         mail_notification: El. pašto priminimai
         new_password: Naujas slaptažodis
         password_confirmation: Patvirtinimas
+        consented_at: Consented at
       user_preference:
         comments_sorting: Rodyti komentarus
         hide_mail: Slėpti mano el. pašto adresą
@@ -663,11 +664,13 @@ lt:
   button_close: Uždaryti
   button_collapse_all: Sutraukti visus
   button_configure: Konfigūruoti
+  button_continue: Continue
   button_copy: Kopijuoti
   button_copy_and_follow: Kopijuoti ir sekti
   button_create: Sukurti
   button_create_and_continue: Sukurti ir tęsti
   button_delete: Ištrinti
+  button_decline: Decline
   button_delete_watcher: Pašalinti stebėtoją vardu %{name}
   button_download: Atsiųsti
   button_duplicate: Dublikuoti
@@ -709,6 +712,23 @@ lt:
   button_add_menu_entry: Pridėti meniu punktą
   button_configure_menu_entry: Konfigūruoti meniu punktą
   button_delete_menu_entry: Panaikinti meniu punktą
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Pradėtas kopijuoti „%{source_project_name}“ projektas į „%{target_project_name}“.
       Jums bus pranešta laišku, kai tik „%{target_project_name}“ projektas taps pasiekiamas.
@@ -963,6 +983,8 @@ lt:
   error_cookie_missing: OpenProject sausainėlis nerastas. Prašome patikrinti, ar sausainėliai
     yra įgalinti, nes kitaip aplikacija tinkamai neveiks.
   error_custom_option_not_found: Galimybė neegzistuoja.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: Šio įrašo nepavyko panaikinti.
   error_invalid_group_by: 'Negalima grupuoti naudojant: %{value}'
   error_invalid_query_column: 'Netinkamas užklausos stulpelis: %{value}'
@@ -1137,6 +1159,7 @@ lt:
   label_calendar: Kalendorius
   label_calendar_show: Rodyti kalendorių
   label_category: Kategorija
+  label_consent_settings: User Consent
   label_wiki_menu_item: Wiki meniu punktas
   label_select_main_menu_item: Pasirinkti naują pagrindinio meniu punktą
   label_select_project: Pasirinkti projektą
@@ -1334,6 +1357,7 @@ lt:
   label_my_page_block: Mano puslapio blokas
   label_my_projects: Mano projektai
   label_my_queries: Mano sukurtos užklausos
+  label_never: Never
   label_new: Naujas
   label_new_statuses_allowed: Naujos galimos būsenos
   label_news_added: Pridėta naujiena
@@ -2076,6 +2100,10 @@ lt:
   setting_commit_logtime_activity_id: Veiklos įrašai prisijungus
   setting_commit_logtime_enabled: Įjungti laiko registravimą
   setting_commit_ref_keywords: Nuoroda į reikšminius žodžius
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Leisti tarp-projektinius darbų paketo
     ryšius
   setting_date_format: Datos formatas
