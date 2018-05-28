@@ -26,24 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-@include breakpoint(680px down)
+(function ($) {
+  "use strict";
 
-  .main-menu
-    position: absolute !important
-    min-height: 0
-    z-index: 11
-    border-bottom: 1px solid $main-menu-border-color
-    width: 100vw !important
-    border: none
+  $(function() {
+    // set selected page for menu tree if provided.
+    $('[data-selected-page].tree-menu--container').each(function(_i, tree){
+      var selectedPage = $(tree).data('selected-page');
+      if (selectedPage) {
+        $('[slug=' + selectedPage + ']', tree).toggleClass('-selected', true);
+      }
+    });
 
-    %absolute-layout-mode &
-      height: auto
-
-  .hidden-navigation .main-menu
-    display: none
-
-  .main-item-wrapper a
-    width: 100%
-
-  .main-menu--resizer
-    display: none
+    // set click handlers for expanding and collapsing tree nodes
+    $('.pages-hierarchy.-with-hierarchy .tree-menu--hierarchy-span').click(function (event) {
+      var target = $(event.target);
+      var targetList = target.closest('.-with-hierarchy');
+      targetList.toggleClass('-hierarchy-collapsed -hierarchy-expanded');
+      return false;
+    })
+  });
+}(jQuery));

@@ -392,8 +392,6 @@ en:
       version:
         effective_date: "Due date"
         sharing: "Sharing"
-      wiki:
-        start_page: "Start page"
       wiki_content:
         text: "Text"
       wiki_page:
@@ -1053,6 +1051,7 @@ en:
   label_all: "all"
   label_all_time: "all time"
   label_all_words: "All words"
+  label_all_open_wps: "All open"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
   label_and_its_subprojects: "%{value} and its subprojects"
@@ -1115,6 +1114,7 @@ en:
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
   label_collapse: "Collapse"
+  label_collapsed_click_to_show: "Collapsed. Click to show"
   label_configuration: configuration
   label_comment_add: "Add a comment"
   label_comment_added: "Comment added"
@@ -1181,11 +1181,13 @@ en:
   label_enumerations: "Enumerations"
   label_enterprise: "Enterprise"
   label_enterprise_edition: "Enterprise Edition"
+  label_entry_page: "Entry page"
   label_environment: "Environment"
   label_estimates_and_time: "Estimates and time"
   label_equals: "is"
   label_example: "Example"
   label_export_to: "Also available in:"
+  label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
   label_feed_plural: "Feeds"
@@ -1214,6 +1216,7 @@ en:
   label_here: here
   label_hide: "Hide"
   label_history: "History"
+  label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Home"
   label_in: "in"
   label_in_less_than: "in less than"
@@ -1504,6 +1507,7 @@ en:
   label_wiki_show_menu_item: "Show as menu item in project navigation"
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
+  label_wiki_start: "Start page"
   label_work_package: "Work package"
   label_work_package_added: "Work package added"
   label_work_package_attachments: "Work package attachments"
@@ -2040,8 +2044,6 @@ en:
     textile: 'Textile'
     markdown: 'Markdown'
     plain: 'Plain text'
-
-  show_hide_project_menu: "Expand/Collapse project menu"
 
   status_active: "active"
   status_archived: "archived"

@@ -35,7 +35,7 @@ describe('MainMenuController', function() {
 
   beforeEach(inject(function($rootScope, $controller) {
     rootScope = $rootScope.$new();
-
+    event = new Event('conclick');
     var fakeSession = {};
     sessionStorage = {
       setItem: function(k, v) { fakeSession[k] = v; },
@@ -51,30 +51,30 @@ describe('MainMenuController', function() {
   describe('toggleNavigation', function() {
     it('should toggle navigation off', function() {
       rootScope.showNavigation = true;
-      ctrl.toggleNavigation();
+      ctrl.toggleNavigation(event);
       expect(rootScope.showNavigation).to.be.false;
     });
 
     it('should toggle navigation on', function() {
       rootScope.showNavigation = false;
-      ctrl.toggleNavigation();
+      ctrl.toggleNavigation(event);
       expect(rootScope.showNavigation).to.be.true;
     });
 
     it('should fire an event when toggled', function() {
       var callback = sinon.spy();
       rootScope.$on('openproject.layout.navigationToggled', callback);
-      ctrl.toggleNavigation();
+      ctrl.toggleNavigation(event);
       expect(callback).to.have.been.calledWithMatch(sinon.match.any, sinon.match.truthy);
     });
 
     it('should persist choice to sessionStorage', function() {
       expect(sessionStorage.getItem('openproject:navigation-toggle')).to.be.undefined;
 
-      ctrl.toggleNavigation();
+      ctrl.toggleNavigation(event);
       expect(sessionStorage.getItem('openproject:navigation-toggle')).to.equal('expanded');
 
-      ctrl.toggleNavigation();
+      ctrl.toggleNavigation(event);
       expect(sessionStorage.getItem('openproject:navigation-toggle')).to.equal('collapsed');
     });
   });
