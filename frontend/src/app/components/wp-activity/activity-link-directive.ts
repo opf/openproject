@@ -13,7 +13,7 @@ function activityLink() {
       onBlur: '&',
       onFocus: '&'
     },
-    link: function(scope) {
+    link: function(scope:any) {
       scope.workPackageId = scope.workPackage.id;
       scope.activityHtmlId = 'activity-' + scope.activityNo;
     }
