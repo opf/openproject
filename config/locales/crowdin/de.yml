@@ -173,9 +173,9 @@ de:
       form_configuration: Formularkonfiguration
       projects: Projekte
       enabled_projects: Aktivierte Projekte
-      add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_group: Attributgruppe hinzufügen
+      add_subelements: Kindelemente-Gruppe hinzufügen
+      edit_query: Eingebettete Abfrage bearbeiten
       reset: Auf Standardwerte zurücksetzen
   versions:
     overview:
@@ -379,7 +379,7 @@ de:
         mail_notification: Mailbenachrichtigung
         new_password: Neues Kennwort
         password_confirmation: Bestätigung
-        consented_at: Consented at
+        consented_at: Eingewilligt am
       user_preference:
         comments_sorting: Kommentare anzeigen
         hide_mail: E-Mail-Adresse nicht anzeigen
@@ -403,7 +403,7 @@ de:
       work_package:
         begin_insertion: Beginn der Einfügung
         begin_deletion: Beginn des Löschvorgangs
-        children: Subelements
+        children: Kindelemente
         done_ratio: Fortschritt (%)
         end_insertion: Ende der Einfügung
         end_deletion: Ende des Löschvorgangs
@@ -539,8 +539,8 @@ de:
             status_id:
               status_transition_invalid: ist ungültig da kein valider Übergang vom
                 alten zum neuen Status für die aktuelle Rolle des Nutzers existiert.
-              status_invalid_in_type: is invalid because the current status does not
-                exist in this type.
+              status_invalid_in_type: ist ungültig, da der aktuelle Status nicht in
+                diesem Typ vorhanden ist.
             priority_id:
               only_active_priorities_allowed: muss aktiv sein.
             category:
@@ -693,7 +693,7 @@ de:
   button_create: Anlegen
   button_create_and_continue: Anlegen und weiter
   button_delete: Löschen
-  button_decline: Decline
+  button_decline: Ablehnen
   button_delete_watcher: Lösche Beobachter %{name}
   button_download: Download
   button_duplicate: Duplizieren
@@ -736,21 +736,26 @@ de:
   button_configure_menu_entry: Menüpunkt verwalten
   button_delete_menu_entry: Menüpunkt entfernen
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
+    checkbox_label: Ich habe die obigen Angaben zur Kenntnis genommen und erkläre
+      mich einverstanden.
+    failure_message: Einwilligung fehlgeschlagen, kann nicht fortfahren.
+    title: Nutzer-Einwilligung
+    decline_warning_message: Sie haben die Einwilligung abgelehnt und wurden deshalb
+      abgelehnt.
+    user_has_consented: Der Benutzer hat seine Einwilligung zu dem Statement dieser
+      Instanz zu der angegebenen Zeit gegeben.
+    not_yet_consented: Der Benutzer hat seine Einwilligung noch nicht gegeben und
+      wird beim nächsten Login dazu befragt.
+    contact_mail_instructions: Definieren Sie die E-Mail-Adresse, über die Benutzer
+      einen Daten-Controller erreichen können, um Anfragen zu Datenänderung oder -löschung
+      einzureichen.
+    contact_your_administrator: Bitte kontaktieren Sie Ihren Administrator um bspw.
+      eine Löschung Ihres Accounts zu beantragen.
+    contact_this_mail_address: 'Bitte kontaktieren Sie für Datenänderungs- oder Löschanfragen
+      Ihren Administrator unter: %{mail_address}.'
+    text_update_consent_time: Aktivieren Sie dieses Häkchen, um Benutzer erneut zur
+      Einwilligung einer Datenschutz- oder Nutzungserklärung aufzufordern. Aktivieren
+      Sie es immer dann, wenn Sie rechtliche Aspekte der Zustimmung verändert haben.
     update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Das Kopieren des Projekts "%{source_project_name}" nach "%{target_project_name}"
@@ -1134,7 +1139,7 @@ de:
   label_all: alle
   label_all_time: gesamter Zeitraum
   label_all_words: Alle Wörter
-  label_all_open_wps: All open
+  label_all_open_wps: Alle offenen
   label_always_visible: Immer angezeigt
   label_announcement: Ankündigung
   label_and_its_subprojects: "%{value} und dessen Unterprojekte"
@@ -1175,7 +1180,7 @@ de:
   label_calendar: Kalender
   label_calendar_show: Kalender anzeigen
   label_category: Kategorie
-  label_consent_settings: User Consent
+  label_consent_settings: Nutzer-Einwilligung
   label_wiki_menu_item: Wiki Menüpunkt
   label_select_main_menu_item: Neuen Hauptmenüpunkt auwählen
   label_select_project: Projekt auswählen
@@ -1198,7 +1203,7 @@ de:
   label_close_versions: Abgeschlossene Versionen schließen
   label_closed_work_packages: geschlossen
   label_collapse: Zuklappen
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: Ausgeblendet. Klicken Sie zum Anzeigen
   label_configuration: Konfiguration
   label_comment_add: Kommentar hinzufügen
   label_comment_added: Kommentar hinzugefügt
@@ -1266,13 +1271,13 @@ de:
   label_enumerations: Aufzählungen
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise-Edition
-  label_entry_page: Entry page
+  label_entry_page: Einstiegsseite
   label_environment: Umgebung
   label_estimates_and_time: Schätzungen & Zeit
   label_equals: ist
   label_example: Beispiel
   label_export_to: 'Auch abrufbar als:'
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: Erweitert. Klicken Sie zum Ausblenden
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
   label_feed_plural: Feeds
@@ -1302,7 +1307,7 @@ de:
   label_here: hier
   label_hide: Verbergen
   label_history: Historie
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: Hierarchie-Blatt
   label_home: Hauptseite
   label_in: an
   label_in_less_than: in weniger als
@@ -1316,7 +1321,7 @@ de:
   label_information_plural: Informationen
   label_integer: Zahl
   label_internal: Intern
-  label_introduction_video: Introduction video
+  label_introduction_video: Einführungsvideo
   label_invite_user: Nutzer einladen
   label_show_hide: Einblenden / Ausblenden
   label_show_all_registered_users: Alle registrierten Benutzer anzeigen
@@ -1404,7 +1409,7 @@ de:
   label_open_menu: Menü öffnen
   label_open_work_packages: offen
   label_open_work_packages_plural: offen
-  label_openproject_website: OpenProject website
+  label_openproject_website: OpenProject Webseite
   label_optional_description: Beschreibung
   label_options: Optionen
   label_other: Sonstiges
@@ -2110,9 +2115,10 @@ de:
     fehlgeschlagener Loginversuche
   setting_brute_force_block_minutes: Sperre Benutzer für Dauer von
   setting_cache_formatted_text: Formatierten Text im Cache speichern
-  setting_use_wysiwyg: WYSIWYG editor
-  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
-    users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_use_wysiwyg: WYSIWYG-Editor
+  setting_use_wysiwyg_description: Aktivieren, um den CKEditor5 WYSIWYG-Editor für
+    alle Nutzer zu aktivieren. CKEditor hat aktuell eingeschränkte Formatierungsfunktionen
+    für Markdown.
   setting_column_options: Anpassen der Darstellung der Arbeitspaketlisten
   setting_commit_fix_keywords: Schlüsselwörter (Status)
   setting_commit_logs_encoding: Codierung der Commit-Log-Meldungen
@@ -2225,7 +2231,7 @@ de:
   text_formatting:
     textile: Textile
     markdown: Markdown
-    plain: Plain text
+    plain: Reiner Text
   status_active: aktiv
   status_archived: archiviert
   status_invited: eingeladen
