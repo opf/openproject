@@ -364,6 +364,7 @@ tr:
         mail_notification: E-posta bildirimleri
         new_password: Yeni parola
         password_confirmation: Onay
+        consented_at: Consented at
       user_preference:
         comments_sorting: Yorumları görüntüle
         hide_mail: E-mail adresimi gizle
@@ -662,11 +663,13 @@ tr:
   button_close: Kapat
   button_collapse_all: Tümünü daralt
   button_configure: Düzenle
+  button_continue: Continue
   button_copy: Kopyala
   button_copy_and_follow: Kopyala ve takip et
   button_create: Oluştur
   button_create_and_continue: Oluştur ve devam et
   button_delete: Sil
+  button_decline: Decline
   button_delete_watcher: "%{name} isimli takipçiyi sil"
   button_download: İndir
   button_duplicate: Çoğalt
@@ -708,6 +711,23 @@ tr:
   button_add_menu_entry: Menü öğesi ekle
   button_configure_menu_entry: Menü öğesini düzenle
   button_delete_menu_entry: Menü öğesini sil
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: '"%{source_project_name}" adlı proje "%{target_project_name}" adlı yeni
       bir projeye kopyalanmaya başladı. "%{target_project_name}" projesi hazır olduğunda
@@ -938,6 +958,8 @@ tr:
   error_cookie_missing: OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi
     için, tarayıcınızda çerezlere izin verildiğine emin olun.
   error_custom_option_not_found: Seçenek yok.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: Girdi silinemedi.
   error_invalid_group_by: "%{value} ya göre guplandırılamadı"
   error_invalid_query_column: 'Geçersiz sorgu sütunu: %{value}'
@@ -1119,6 +1141,7 @@ tr:
   label_calendar: Takvim
   label_calendar_show: Takvimi Göster
   label_category: Kategori
+  label_consent_settings: User Consent
   label_wiki_menu_item: Viki menü öğesi
   label_select_main_menu_item: Yeni ana menü öğesi seç
   label_select_project: Bir proje seçin
@@ -1317,6 +1340,7 @@ tr:
   label_my_page_block: Sayfa bloğum
   label_my_projects: Projelerim
   label_my_queries: Özel sorgularım
+  label_never: Never
   label_new: Yeni
   label_new_statuses_allowed: Yeni durumlara izin verildi
   label_news_added: Haberler eklendi
@@ -2025,6 +2049,10 @@ tr:
   setting_commit_logtime_activity_id: Kaydedilen zaman için faaliyet
   setting_commit_logtime_enabled: Zaman kaydını etkinleştir
   setting_commit_ref_keywords: Anahtar kelimeleri referansla
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Projeler arası iş paketi ilişkilerine
     izin ver
   setting_date_format: Tarih formatı

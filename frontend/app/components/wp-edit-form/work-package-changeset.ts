@@ -199,10 +199,7 @@ export class WorkPackageChangeset {
             .catch(error => {
               // Update the resource anyway
               this.buildResource();
-              reject({
-                errorsOnForm: false,
-                error: error
-              });
+              reject(error);
             })
             .catch(reject);
         });

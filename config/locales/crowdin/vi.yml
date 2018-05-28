@@ -369,6 +369,7 @@ vi:
         mail_notification: Thông báo qua email
         new_password: Mật khẩu mới
         password_confirmation: Xác nhận lại mật khẩu
+        consented_at: Consented at
       user_preference:
         comments_sorting: Hiện bình luận
         hide_mail: Ẩn địa chỉ email của tôi
@@ -666,11 +667,13 @@ vi:
   button_close: Đóng
   button_collapse_all: Thu gọn tất cả
   button_configure: Thiết lập
+  button_continue: Continue
   button_copy: Sao chép
   button_copy_and_follow: Sao chép và làm theo
   button_create: Tạo mới
   button_create_and_continue: Tạo và tiếp tục
   button_delete: Xoá
+  button_decline: Decline
   button_delete_watcher: Xóa watcher %{name}
   button_download: Tải
   button_duplicate: Nhân đôi
@@ -712,6 +715,23 @@ vi:
   button_add_menu_entry: Thêm mục trình đơn
   button_configure_menu_entry: Cấu hình các mục trình đơn
   button_delete_menu_entry: Xóa mục trình đơn
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Bắt đầu sao chép dự án "%{source_project_name}" sang "%{target_project_name}".
       Bạn sẽ được thông báo bằng thư ngay sau khi "%{target_project_name}" sẵn sàng.
@@ -938,6 +958,8 @@ vi:
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1122,6 +1144,7 @@ vi:
   label_calendar: Lịch
   label_calendar_show: Hiển thị Lịch
   label_category: Thể loại
+  label_consent_settings: User Consent
   label_wiki_menu_item: Khoản mục menu wiki
   label_select_main_menu_item: Chọn mục trình đơn chính mới
   label_select_project: Select a project
@@ -1319,6 +1342,7 @@ vi:
   label_my_page_block: Block trang của tôi
   label_my_projects: Dự án của tôi
   label_my_queries: Các truy vấn tùy biến của tôi
+  label_never: Never
   label_new: Mới
   label_new_statuses_allowed: Trạng thái mới được phép
   label_news_added: Đã thêm tin
@@ -2031,6 +2055,10 @@ vi:
   setting_commit_logtime_activity_id: Activity for logged time
   setting_commit_logtime_enabled: Enable time logging
   setting_commit_ref_keywords: Referencing keywords
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Allow cross-project work package relations
   setting_date_format: Date format
   setting_default_language: Default language

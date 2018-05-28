@@ -163,6 +163,11 @@ module OpenProject
           after: nil,
           &block
         )
+          if stages.detect { |s| s.identifier == identifier }
+            Rails.logger.warn "Trying to register stage (#{identifier}) that exists already."
+            return
+          end
+
           stage = Entry.new identifier, path || block, run_after_activation, active
           i = stages.index { |s| s.identifier == (before || after) }
 

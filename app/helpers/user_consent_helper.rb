@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,38 +24,33 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rack_session_access/capybara'
+module ::UserConsentHelper
 
-module AuthenticationHelpers
-  def login_as(user)
-    if is_a? RSpec::Rails::FeatureExampleGroup
-      # If we want to mock having finished the login process
-      # we must set the user_id in rack.session accordingly
-      # Otherwise e.g. calls to Warden will behave unexpectantly
-      # as they will login AnonymousUser
-      page.set_rack_session(user_id: user.id, updated_at: Time.now)
+  def consent_param?
+    params[:consent_check].present?
+  end
+
+  def user_consent_required?
+    # Ensure consent is enabled and a text is provided
+    Setting.consent_required? && consent_configured?
+  end
+
+  def user_consent_instructions(user)
+    language = user.try(:language) || Setting.default_language
+    all = Setting.consent_info
+    all.fetch(language) { all.values.first }
+  end
+
+  def consent_configured?
+    if Setting.consent_info.count == 0
+      Rails.logger.error 'Instance is configured to require consent, but no consent_info has been set.'
+
+      false
+    else
+      true
     end
-
-    allow(User).to receive(:current).and_return(user)
   end
-
-  def login_with(login, password)
-    visit signin_path
-    within('#login-form') do
-      fill_in 'username', with: login
-      fill_in 'password', with: password
-      click_button I18n.t(:button_login)
-    end
-  end
-
-  def logout
-    visit signout_path
-  end
-end
-
-RSpec.configure do |config|
-  config.include AuthenticationHelpers
 end

@@ -364,6 +364,7 @@ hu:
         mail_notification: Email értesítés
         new_password: Új jelszó
         password_confirmation: Új jelszó újra
+        consented_at: Consented at
       user_preference:
         comments_sorting: Hozzászólások megjelenítése
         hide_mail: E-mail címem elrejtése
@@ -663,11 +664,13 @@ hu:
   button_close: Bezár
   button_collapse_all: Az összes bezárása
   button_configure: Beállítások
+  button_continue: Continue
   button_copy: Másol
   button_copy_and_follow: Másol és folytat
   button_create: Létrehoz
   button_create_and_continue: Létrehoz és folytat
   button_delete: Törlés
+  button_decline: Decline
   button_delete_watcher: Megfigyelő törlése %{name}
   button_download: Letöltés
   button_duplicate: Másolás ide
@@ -709,6 +712,23 @@ hu:
   button_add_menu_entry: Menüpont hozzáadása
   button_configure_menu_entry: Menüpont beállitása
   button_delete_menu_entry: Menüpont törlése
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Projekt másolása elindult a "%{source_project_name}" nevű projektből
       a "%{target_project_name}" projektbe. E-mailben értesítjük, amint "%{target_project_name}"
@@ -939,6 +959,8 @@ hu:
     a cookie-k használata engedélyezve van, mert anélkül ez az alkalmazás nem tud
     megfelelően működni.
   error_custom_option_not_found: A beállítás nem létezik.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: Nem sikerült törölni ezt a bejegyzést.
   error_invalid_group_by: 'Nem csoportosítható e szerint: %{value}'
   error_invalid_query_column: 'Érvénytelen lekérdezési oszlop: %{value}'
@@ -1125,6 +1147,7 @@ hu:
   label_calendar: Naptár
   label_calendar_show: Kalendárium mutatása
   label_category: Kategória
+  label_consent_settings: User Consent
   label_wiki_menu_item: Wiki menüpont
   label_select_main_menu_item: Válasszon ki új fő menüpontot
   label_select_project: Válasszon projektet
@@ -1323,6 +1346,7 @@ hu:
   label_my_page_block: Az én oldalam blokkolva
   label_my_projects: Az én projektjeim
   label_my_queries: Az én egyéni lekérdezéseim
+  label_never: Never
   label_new: Új
   label_new_statuses_allowed: Létrehozás engedélyezett az alábbi státuszokkal
   label_news_added: Hírek hozzáadva
@@ -2035,6 +2059,10 @@ hu:
   setting_commit_logtime_activity_id: Tevékenységek a naplózott időben
   setting_commit_logtime_enabled: Bejelentkezési idő naplózásának engedélyezése
   setting_commit_ref_keywords: Viszonyítási kulcsszavak
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Projektek közötti munkacsomagok kapcsolatainak
     engedélyezése
   setting_date_format: Dátum formátum
