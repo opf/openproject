@@ -659,7 +659,7 @@ sv-SE:
   button_close: Close
   button_collapse_all: Fäll ihop alla
   button_configure: Konfigurera
-  button_continue: Continue
+  button_continue: Fortsätt
   button_copy: Kopiera
   button_copy_and_follow: Kopiera och följ
   button_create: Skapa
@@ -1325,7 +1325,7 @@ sv-SE:
   label_my_page_block: Området "Min Sida"
   label_my_projects: Mina projekt
   label_my_queries: Min anpassade frågor
-  label_never: Never
+  label_never: Aldrig
   label_new: Ny
   label_new_statuses_allowed: Nya statusar tillåtna
   label_news_added: Nyheter tillagda

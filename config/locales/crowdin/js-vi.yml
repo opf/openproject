@@ -29,7 +29,7 @@ vi:
     button_filter: Bộ lọc
     button_list_view: Xem kiểu danh sách
     button_show_view: Xem toàn màn hình
-    button_log_time: Log time
+    button_log_time: Thời gian truy cập
     button_more: Xem thêm
     button_move: Di chuyển
     button_open_details: Mở thông tin chi tiết xem
@@ -245,7 +245,7 @@ vi:
       label_loading: lấy danh sách người theo dõi...
       label_error_loading: Lỗi khi tải về danh sách người theo dõi
       label_search_watchers: Tìm kiếm người theo dõi
-      label_add: Add watchers
+      label_add: Thêm người theo dõi
       label_discard: Loại bỏ lựa chọn
       typeahead_placeholder: Search for possible watchers
     relation_labels:

@@ -601,7 +601,7 @@ zh:
   button_close: 关闭
   button_collapse_all: 全部折叠
   button_configure: 配置
-  button_continue: Continue
+  button_continue: 继续
   button_copy: 复制
   button_copy_and_follow: 复制和跟踪
   button_create: 创建
@@ -702,11 +702,11 @@ zh:
     day_names:
     - 星期日
     - 星期一
-    - 星期二
+    - '星期二 '
     - 星期三
     - 星期四
-    - 星期五
-    - 星期六
+    - '星期五 '
+    - '星期六 '
     formats:
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
@@ -1243,7 +1243,7 @@ zh:
   label_my_page_block: 我的页块
   label_my_projects: 我的项目
   label_my_queries: 我的自定义查询
-  label_never: Never
+  label_never: 永不
   label_new: 新增
   label_new_statuses_allowed: 允许的新状态
   label_news_added: 添加新闻

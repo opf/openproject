@@ -603,7 +603,7 @@ ja:
   button_close: 閉じる
   button_collapse_all: 全てを折りたたむ
   button_configure: 設定
-  button_continue: Continue
+  button_continue: 続行
   button_copy: コピー
   button_copy_and_follow: コピー後表示
   button_create: 作成
@@ -1245,7 +1245,7 @@ ja:
   label_my_page_block: このページ上のブロック
   label_my_projects: 参加しているプロジェクト
   label_my_queries: 個人のクエリ
-  label_never: Never
+  label_never: なし
   label_new: 新しく作成
   label_new_statuses_allowed: ステータスの移行先
   label_news_added: ニュースが追加されました。

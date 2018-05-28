@@ -669,7 +669,7 @@ cs:
   button_close: Zavřít
   button_collapse_all: Sbalit vše
   button_configure: Přizpůsobit
-  button_continue: Continue
+  button_continue: Pokračovat
   button_copy: Kopírovat
   button_copy_and_follow: Kopírovat a pokračovat
   button_create: Vytvořit
@@ -1358,7 +1358,7 @@ cs:
   label_my_page_block: My page block
   label_my_projects: Moje projekty
   label_my_queries: Moje vlastní dotazy
-  label_never: Never
+  label_never: Nikdy
   label_new: Nové
   label_new_statuses_allowed: Nové povolené stavy
   label_news_added: Přidané novinky

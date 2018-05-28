@@ -656,7 +656,7 @@ hu:
   button_close: Bezár
   button_collapse_all: Az összes bezárása
   button_configure: Beállítások
-  button_continue: Continue
+  button_continue: Folytatás
   button_copy: Másol
   button_copy_and_follow: Másol és folytat
   button_create: Létrehoz
@@ -1330,7 +1330,7 @@ hu:
   label_my_page_block: Az én oldalam blokkolva
   label_my_projects: Az én projektjeim
   label_my_queries: Az én egyéni lekérdezéseim
-  label_never: Never
+  label_never: Soha
   label_new: Új
   label_new_statuses_allowed: Létrehozás engedélyezett az alábbi státuszokkal
   label_news_added: Hírek hozzáadva

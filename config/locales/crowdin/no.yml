@@ -657,7 +657,7 @@
   button_close: Lukk
   button_collapse_all: Skjul alle
   button_configure: Konfigurer
-  button_continue: Continue
+  button_continue: Fortsett
   button_copy: Kopier
   button_copy_and_follow: Kopier og følg
   button_create: Opprett
@@ -1324,7 +1324,7 @@
   label_my_page_block: Min side-blokk
   label_my_projects: Mine prosjekter
   label_my_queries: Minne egendefinerte spørringer
-  label_never: Never
+  label_never: Aldri
   label_new: Ny
   label_new_statuses_allowed: Nye statuser tillatt
   label_news_added: Lagt til nyhet

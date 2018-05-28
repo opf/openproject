@@ -3,9 +3,9 @@ zh-TW:
   js:
     ajax:
       hide: 隱藏
-      loading: 正在載入…
-    close_popup_title: 關閉彈出窗口
-    close_filter_title: Close filter
+      loading: 載入中…
+    close_popup_title: 關閉彈出式視窗
+    close_filter_title: 關閉篩選器
     close_form_title: 關閉表單
     clipboard:
       browser_error: 您的瀏覽器不支援複製到剪貼簿。請手動複製選取的文字。
@@ -15,13 +15,13 @@ zh-TW:
     button_cancel: 取消
     button_close: 關閉
     button_check_all: 勾選全部
-    button_configure-form: Configure form
+    button_configure-form: 配置表單
     button_confirm: 確認
-    button_continue: Continue
+    button_continue: 繼續
     button_copy: 複製
     button_custom-fields: 自訂欄位
     button_delete: 删除
-    button_delete_watcher: 刪除監看者
+    button_delete_watcher: 刪除關注者
     button_details_view: 詳細檢視
     button_duplicate: 複本
     button_edit: 編輯
@@ -32,31 +32,31 @@ zh-TW:
     button_more: 更多
     button_move: 移動
     button_open_details: 開啟詳細檢視
-    button_close_details: Close details view
+    button_close_details: 關閉詳細檢視
     button_open_fullscreen: 開啟全螢幕檢視
     button_quote: 引言
     button_save: 儲存
     button_settings: 設定
     button_uncheck_all: 取消全選
     button_update: 更新
-    button_export-pdf: Download PDF
-    button_export-atom: Download Atom
+    button_export-pdf: 下載 PDF
+    button_export-atom: 下載 Atom
     description_available_columns: 可用欄
     description_current_position: 您在這裏：
     description_select_work_package: '選取工作項目 #%{id}'
     description_selected_columns: 所選的欄
     description_subwork_package: '子工作項目 #%{id}'
     error:
-      internal: An internal error has occurred.
+      internal: 發生內部錯誤。
     filter:
       description:
         text_open_filter: 使用 ALT 和方向鍵打開此篩選器。
         text_close_filter: 要選擇條目離開焦點例如按輸入。離開沒有篩選器的情況下選擇的第一個 （空） 條目。
       noneElement: "（無）"
       time_zone_converted:
-        two_values: "%{from} - %{to} in your local time."
-        only_start: From %{from} in your local time.
-        only_end: Till %{to} in your local time.
+        two_values: "%{from} - %{to}（以您的當地時間為基準）。"
+        only_start: 從您的當地時間 %{from} 開始。
+        only_end: 至您的當地時間 %{to} 結束。
       value_spacer: "-"
       sorting:
         criteria:
@@ -70,7 +70,7 @@ zh-TW:
     label_activate: 啟用
     label_activity_no: 活動條目編號 %{activityNo}
     label_activity_with_comment_no: 活動條目編號 %{activityNo}。有的使用者評論。
-    label_add_columns: Add columns
+    label_add_columns: 增加欄
     label_add_comment: 新增評論
     label_add_comment_title: 註解並輸入 @ 來標記其他人
     label_add_selected_columns: 新增所選欄
@@ -78,11 +78,11 @@ zh-TW:
     label_added_time_by: 由 %{author} 於%{age} 新增
     label_ago: 天前
     label_all: 所有
-    label_all_work_packages: 所有工作項
+    label_all_work_packages: 所有工作項目
     label_and: 和
     label_ascending: 昇冪
     label_author: '作者: %{user}'
-    label_between: between
+    label_between: 介於
     label_board_locked: 鎖定
     label_board_sticky: 附著
     label_create_work_package: 建立新的工作項目
@@ -95,7 +95,7 @@ zh-TW:
     label_cancel_comment: 取消注釋
     label_closed_work_packages: 已關閉
     label_collapse: 折疊
-    label_collapsed: 摺疊
+    label_collapsed: 已收合
     label_collapse_all: 全部摺疊
     label_comment: 評論
     label_committed_at: 在 %{date} %{committed_revision_link}
@@ -106,7 +106,7 @@ zh-TW:
     label_edit_status: 編輯工作項目的狀態
     label_equals: 是
     label_expand: 展開
-    label_expanded: 展開
+    label_expanded: 已展開
     label_expand_all: 全部展開
     label_export: 匯出
     label_filename: 檔案
@@ -124,7 +124,7 @@ zh-TW:
     label_less_than_ago: 少於幾天前
     label_loading: 讀取中...
     label_me: 我
-    label_menu_collapse: 摺疊
+    label_menu_collapse: 收合
     label_menu_expand: 展開
     label_more_than_ago: 很多天之前
     label_next: 下一個
@@ -140,13 +140,13 @@ zh-TW:
     label_password: 密碼
     label_previous: 上一個
     label_per_page: 每頁：
-    label_please_wait: Please wait
+    label_please_wait: 請稍候
     label_visibility_settings: 可見度設定
     label_quote_comment: 引述這個評論
     label_reset: 重置
     label_remove_columns: 移除所選欄
     label_save_as: 保存為
-    label_select_watcher: 選擇監看者
+    label_select_watcher: 選擇一位關注者
     label_selected_filter_list: 所選的篩選器
     label_show_attributes: 顯示所有屬性
     label_show_in_menu: 在功能表中顯示頁面
@@ -162,18 +162,18 @@ zh-TW:
     label_activity_show_only_comments: 只顯示活動和其評論
     label_activity_show_all: 顯示所有的活動
     label_total_progress: "%{percent}%總進度"
-    label_visible_for_others: 其他人可見的頁面
+    label_visible_for_others: 頁面可被他人訪問
     label_updated_on: 更新於
     label_warning: 警告
     label_work_package: 工作項目
     label_work_package_plural: 工作項目
     label_watch: 監看
-    label_watch_work_package: 監看工作項目
-    label_watcher_added_successfully: 成功新增監看者！
-    label_watcher_deleted_successfully: 成功刪除監看者！
+    label_watch_work_package: 關注工作項目
+    label_watcher_added_successfully: 已成功新增關注者！
+    label_watcher_deleted_successfully: 已成功刪除關注者！
     label_work_package_details_you_are_here: 目前在 %{type} %{subject} 的第 %{tab} 個頁籤
     label_unwatch: 取消監看
-    label_unwatch_work_package: 取消監看工作項目
+    label_unwatch_work_package: 取消關注工作項目
     label_uploaded_by: 上傳者
     label_global_queries: 共用的查詢
     label_custom_queries: 私人查詢
@@ -200,10 +200,10 @@ zh-TW:
       field_description: 您需要輸入您的帳戶密碼，以確認此更改。
       title: 確認您的密碼以便繼續
     pagination:
-      no_other_page: You are on the only page.
+      no_other_page: 您位於唯一頁面上。
       pages:
-        next: Forward to the next page
-        previous: Back to the previous page
+        next: 前往下一頁
+        previous: 回到上一頁
     placeholders:
       default: "-"
       subject: 在此輸入主旨
@@ -219,62 +219,59 @@ zh-TW:
     text_are_you_sure: 是否確定？
     types:
       attribute_groups:
-        error_duplicate_group_name: The name %{group} is used more than once. Group
-          names must be unique.
-        reset_title: Reset form configuration
+        error_duplicate_group_name: 名稱 %{group} 已被使用，群組名稱不可重複。
+        reset_title: 重設表單配置
         confirm_reset: '警告：您確定要重設表單設定嗎？這將會重新設定所有屬性至它們的預設群組，取消所有可見度勾選和停用所有的自訂欄位。
 
 '
-        upgrade_to_ee: Upgrade to Enterprise Edition
-        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
-          you mind supporting us OpenSource developers by becoming an Enterprise Edition
-          client?
-        more_information: More information
-        nevermind: Nevermind
+        upgrade_to_ee: 升級到企業版
+        upgrade_to_ee_text: 哇！如果您需要使用此功能，說明您非常專業！您是否願意成為企業版客戶來支持 OpenSource 開發人員？
+        more_information: 更多資訊
+        nevermind: 無視
     watchers:
       label_loading: 正在載入關注者...
       label_error_loading: 而發生錯誤裝載的觀察家
       label_search_watchers: 搜尋關注者
       label_add: 新增監看者
       label_discard: 放棄選擇
-      typeahead_placeholder: Search for possible watchers
+      typeahead_placeholder: 尋找可能的關注者
     relation_labels:
       parent: 主
       children: 子階
       relates: 關聯於
       duplicates: 重複
-      duplicated: 複製者
-      blocks: 區塊
-      blocked: 禁止者
-      precedes: 前置
-      follows: 後置
+      duplicated: 重複於
+      blocks: 攔阻
+      blocked: 攔阻於
+      precedes: 前置項目
+      follows: 後置項目
       includes: 包括
       partof: 一部分
       requires: 需求
-      required: Required by
-      relation_type: relation type
+      required: 被以下需要
+      relation_type: 關聯類型
     relations_hierarchy:
       hierarchy_headline: 階層
     relation_buttons:
-      change_parent: 更改父級
-      remove_parent: Remove parent
-      group_by_wp_type: Group by work package type
-      group_by_relation_type: Group by relation type
-      add_parent: Add existing parent
-      add_new_child: Create new child
-      add_existing_child: Add existing child
-      remove_child: Remove child
-      add_new_relation: Create new relation
-      update_description: Set or update description of this relation
+      change_parent: 改變上層
+      remove_parent: 移除上一層
+      group_by_wp_type: 按工作包類型分組
+      group_by_relation_type: 按關聯類型分組
+      add_parent: 增加現有的上一層
+      add_new_child: 建立新子項
+      add_existing_child: 加入現有子項
+      remove_child: 移除子項
+      add_new_relation: 建立新關聯
+      update_description: 設置或更新此關聯的說明
       toggle_description: 切換關係描述
       update_relation: 按一下此處以更改關聯類型
-      add_follower: Add follower
-      add_predecessor: Add predecessor
+      add_follower: 增加後置項目
+      add_predecessor: 增加前置項目
       remove: 刪除關係
-      save: Save relation
+      save: 儲存關聯
       abort: 捨棄
     relations_autocomplete:
-      placeholder: Enter the related work package id
+      placeholder: 輸入相關的工作包 ID
     repositories:
       select_tag: 選擇標籤
       select_branch: 選擇分支
@@ -282,27 +279,23 @@ zh-TW:
     select2:
       input_too_short:
         one: Please enter one more character
-        other: |-
-          請再輸入一個字元
-          請再{{count}} 輸入更多字元
+        other: 請再輸入{{count}} 個字元
         zero: Please enter more characters
-      load_more: 正在載入更多結果
+      load_more: 正在載入更多結果...
       no_matches: 找不到符合項目
       searching: 正在搜尋…
       selection_too_big:
         one: You can only select one item
-        other: |-
-          您只能選擇一個選項
-          您只能選擇 {{limit}} 項目
+        other: 您只能選擇 {{limit}} 個項目
         zero: You cannot select any items
     sort:
-      sorted_asc: 'Ascending sort applied, '
-      sorted_dsc: 'Descending sort applied, '
-      sorted_no: 'No sort applied, '
-      sorting_disabled: sorting is disabled
-      activate_asc: activate to apply an ascending sort
-      activate_dsc: activate to apply a descending sort
-      activate_no: activate to remove the sort
+      sorted_asc: '已套用升冪排序， '
+      sorted_dsc: '已套用降冪排序， '
+      sorted_no: '已套用不排序, '
+      sorting_disabled: 已禁用排序
+      activate_asc: 啟動以套用昇冪排序
+      activate_dsc: 啟動以套用降冪排序
+      activate_no: 啟動以移除排序
     text_work_packages_destroy_confirmation: 你確定要刪除選定的工作項目嗎？
     text_query_destroy_confirmation: 確定要刪除已選擇的查詢項目嗎?
     text_attachment_destroy_confirmation: 你確定你想要刪除附件?
@@ -317,16 +310,15 @@ zh-TW:
         description: '選擇要在甘特圖的對應位置上始終顯示的屬性。請注意, 在游標停在元素上時, 將顯示其日期標籤, 而不是這些屬性。
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: 啟動 timeline 模式
+      button_deactivate: 停用 timeline 模式
       cancel: 取消
       change: 更改計劃
       due_date: 截止日期
       empty: "(空)"
-      error: An error has occurred.
+      error: 發生錯誤。
       errors:
-        not_implemented: The timeline could not be rendered because it uses a feature
-          that is not yet implemented.
+        not_implemented: 不會呈現時間軸，因為它使用了一種尚未實現的功能。
         report_comparison: The timeline could not render the configured comparisons.
           Please check the appropriate section in the configuration, resetting it
           can help solve this problem.
@@ -361,7 +353,7 @@ zh-TW:
       responsible: 責任歸屬者
       save: 儲存
       start_date: 起始日期
-      tooManyProjects: 比 %{count} 更多專案. 請使用較好的篩選條件.
+      tooManyProjects: 超過 %{count} 個專案. 請使用更好的篩選條件.
       selection_mode:
         notification: 按一下任何標示的工作項目來建立關聯。按 ESC 取消。
       zoom:
@@ -379,18 +371,17 @@ zh-TW:
       outlines: 層次結構級別
     unsupported_browser:
       title: 系統不支援您的瀏覽器版本
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
+      message: Openproject 不再支援您正在使用的瀏覽器版本。
+      update_message: 請升級您的瀏覽器。
+      update_ie_user: 請改用Mozilla Firefox或Google Chrome，或者升級到Microsoft Edge。
       learn_more: 了解更多
-      close_warning: Ignore this warning.
+      close_warning: 忽略此警告。
     wiki_formatting:
       strong: 粗體
       italic: 斜體
       underline: 底線
       deleted: 已刪除
-      code: 行間內程式碼
+      code: 內嵌代碼
       heading1: 標題 1
       heading2: 標題 2
       heading3: 標題 3
@@ -409,58 +400,52 @@ zh-TW:
         delete: 整批刪除
       button_clear: 清除
       comment_added: 成功添加注釋。
-      comment_send_failed: An error has occurred. Could not submit the comment.
+      comment_send_failed: 發生錯誤。無法提交評論。
       comment_updated: 注釋已成功更新。
-      confirm_edit_cancel: Are you sure you want to cancel editing the work package?
+      confirm_edit_cancel: 是否確定取消編輯中的工作包
       description_filter: 篩選器
       description_enter_text: 輸入文字
       description_options_hide: 隱藏選項
       description_options_show: 顯示選項
       error:
-        edit_prohibited: Editing %{attribute} is blocked for this work package. Either
-          this attribute is derived from relations (e.g, children) or otherwise not
-          configurable.
+        edit_prohibited: 已禁止對此工作包編輯 %{attribute}。此屬性來源於關聯 (如：子項) 或無法配置。
         format:
-          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
-        general: An error has occurred.
+          date: "%{attribute} 不是有效日期 - 需要 YYYY-MM-DD。"
+        general: 發生錯誤。
       edit_attribute: "%{attribute} - 編輯"
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: 啟用多個選項
-      label_disable_multi_select: 停用多個選項
+      label_enable_multi_select: 啟用複選
+      label_disable_multi_select: 停用複選
       label_filter_add: 新增篩選器
       label_options: 選項
       label_column_multiselect: '組合的下拉欄位: 使用方向鍵選擇，用 enter 鍵確認，用backspace鍵刪除'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
+      label_switch_to_single_select: 切換為單選
+      label_switch_to_multi_select: 切換為複選
       message_error_during_bulk_delete: 刪除工作項目時發生錯誤
-      message_successful_bulk_delete: 成功刪除工作包
-      message_successful_show_in_fullscreen: Click here to open this work package
-        in fullscreen view.
-      message_view_spent_time: Show spent time for this work package
-      no_value: 沒有值
+      message_successful_bulk_delete: 成功刪除工作項目
+      message_successful_show_in_fullscreen: 點擊此處以全螢幕開啟此工作包
+      message_view_spent_time: 顯示這個工作包所花費的時間
+      no_value: 無值
       inline_create:
         title: 點擊添加新的工作項目到此清單
       create:
-        header: New %{type}
-        header_no_type: New work package (Type not yet set)
-        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        header: 新 %{type}
+        header_no_type: 新工作包(類型尚未設置)
+        header_with_parent: 新 %{type} (%{parent_type}＃%{id} 子元素)
         button: 建立
       hierarchy:
-        show: Show hierarchy mode
-        hide: Hide hierarchy mode
-        toggle_button: Click to toggle hierarchy mode.
-        leaf: Work package leaf at level %{level}.
-        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
-          filtered children
-        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
-          filtered children
+        show: 顯示層次結構模式
+        hide: 隱藏層次結構模式
+        toggle_button: 點擊以切換層次結構模式。
+        leaf: 工作包葉處於 %{level} 級別。
+        children_collapsed: 層次級別 %{level} 已收合。點擊以顯示篩選的子任務
+        children_expanded: 層次級別 %{level} 已展開。點擊以收合篩選的子任務
       faulty_query:
-        title: Work packages could not be loaded.
-        description: Your query is erroneous and could not be processed.
+        title: 無法載入工作包。
+        description: 您的查詢不正確, 無法處理。
       no_results:
-        title: No work packages to display.
-        description: Either none have been created or all work packages are filtered
-          out.
+        title: 無工作項目可顯示
+        description: 無工作項目或是被篩選器把工作項目隱藏了
       property_groups:
         details: 詳細資料
         people: 人員
@@ -489,11 +474,10 @@ zh-TW:
         versionName: 版本
         version: 版本
       jump_marks:
-        pagination: Jump to table pagination
-        label_pagination: Click here to skip over the work packages table and go to
-          pagination
-        content: Jump to content
-        label_content: Click here to skip over the menu and go to the content
+        pagination: 跳轉至表格分頁
+        label_pagination: 點擊此處跳過工作包表格並轉到分頁
+        content: 跳到內容
+        label_content: 點擊此處跳過功能表直接轉到內容
       placeholders:
         default: "-"
         description: 點擊此處輸入描述…
@@ -501,11 +485,9 @@ zh-TW:
         column_names: 欄
         group_by: 分組依據
         group: 分組依據
-        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
-          mode being active.
-        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
-          being grouped by %{column}.
-        hierarchy_mode: Hierarchy mode
+        group_by_disabled_by_hierarchy: 分組依據已禁用，因為層次結構模式處於活動狀態。
+        hierarchy_disabled_by_group_by: 層次結構模式已禁用，因為結果依據 %{column} 分組。
+        hierarchy_mode: 層次結構模式
         sort_ascending: 昇冪排序
         sort_descending: 降冪排序
         move_column_left: 欄向左移
@@ -516,18 +498,17 @@ zh-TW:
         display_sums: 顯示加總
         errors:
           unretrievable_query: 無法從 URL 取得查詢結果
-          not_found: There is no such query
-        text_no_results: No matching queries were found.
+          not_found: 無此查詢
+        text_no_results: 未找到匹配的查詢。
       table:
-        summary: Table with rows of work package and columns of work package attributes.
-        text_inline_edit: Most cells of this table are buttons that activate inline-editing
-          functionality of that attribute.
+        summary: 由工作項目和工作項目屬性列組成的表格。
+        text_inline_edit: 該表中的大多數單元格都內嵌可以編輯屬性的按鈕。
         text_sort_hint: 通過表格標題中的鏈接，您可以排序，分組，重新排序，刪除和添加表格列。
-        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+        text_select_hint: 請使用Alt+方向鍵打開選擇框。
       tabs:
         overview: 概要
         activity: 活動
-        relations: 關連
+        relations: 關聯
         watchers: 監看者
         attachments: 附加檔
       time_relative:
@@ -539,10 +520,10 @@ zh-TW:
         columns: 欄
         sort_by: 排序條件...
         group_by: 分組條件...
-        display_sums: 顯示總和
-        display_hierarchy: Display hierarchy
-        hide_hierarchy: Hide hierarchy
-        hide_sums: 隱藏總和
+        display_sums: 顯示匯總
+        display_hierarchy: 顯示層次結構
+        hide_hierarchy: 隱藏層次結構
+        hide_sums: 隱藏匯總
         save: 儲存
         save_as: 另存為…
         export: 匯出...
@@ -556,14 +537,14 @@ zh-TW:
     modals:
       label_settings: 重新命名查詢
       label_name: 名稱
-      label_delete_page: 刪除本頁
+      label_delete_page: 刪除目前的頁面
       button_apply: 套用
       button_save: 儲存
       button_submit: 提交
       button_cancel: 取消
       form_submit:
-        title: Confirm to continue
-        text: Are you sure you want to perform this action?
+        title: 確認以繼續
+        text: 確定要執行此操作嗎？
       upsale_relation_columns: 需要檢視工作項目清單的關係嗎
       upsale_relation_columns_link: 請查閱企業版
       destroy_work_package:
@@ -576,7 +557,7 @@ zh-TW:
     notice_successful_update: 更新成功
     notice_bad_request: 錯誤的請求
     relations:
-      empty: 關連不存在
+      empty: 無關聯存在
       remove: 刪除關係
     inplace:
       button_edit: "%{attribute}: 編輯"
@@ -587,16 +568,16 @@ zh-TW:
       link_formatting_help: 文本格式説明
       btn_preview_enable: 預覽
       btn_preview_disable: 停用預覽
-      null_value_label: 沒有值
+      null_value_label: 無值
       clear_value_label: "-"
       errors:
-        required: "%{field} 不能為空白"
+        required: "%{field} 不能為空"
         number: "%{field} 不是一個有效的數字"
         maxlength: "%{field} 不能包含多於 %{maxLength} 個為位數"
         minlength: "%{field} 不能少於 %{minLength} 位數"
-        messages_on_field: 'This field is invalid: %{messages}'
+        messages_on_field: '此欄位無效: %{messages}'
     error_could_not_resolve_version_name: 無法解析版本名稱
-    error_could_not_resolve_user_name: 無法解決使用者名稱
+    error_could_not_resolve_user_name: 無法解析使用者名稱
     units:
       workPackage:
         one: work package
@@ -606,8 +587,8 @@ zh-TW:
         other: "%{count} 個子工作項目"
       hour:
         one: 1 hour
-        other: "%{count} 一個小時"
+        other: "%{count} 小時"
         zero: 0 hours
     zen_mode:
-      button_activate: Activate zen mode
-      button_deactivate: Deactivate zen mode
+      button_activate: 啟動 zen 模式
+      button_deactivate: 停用 zen 模式

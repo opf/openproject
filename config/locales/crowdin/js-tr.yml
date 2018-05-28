@@ -355,9 +355,9 @@ tr:
         noneSelection: "(yok)"
       name: İsim
       new_work_package: Yeni iş paketi
-      outline: Reset Outline
+      outline: Anahat Sıfırla
       outlines:
-        aggregation: Show aggregations only
+        aggregation: Sadece toplu gösterimler
         level1: Düzey 1 genişletin
         level2: Düzey 2 genişletin
         level3: Düzey 3 genişletin

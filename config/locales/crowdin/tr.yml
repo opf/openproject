@@ -342,8 +342,9 @@ tr:
       user:
         admin: Yönetici
         auth_source: Kimlik doğrulama modu
-        current_password: Mevcut şifre
-        force_password_change: Sonraki oturum açma işleminde şifre değişikliğine zorla
+        current_password: Mevcut parola
+        force_password_change: Sonraki oturum açma işleminde parola değişikliğine
+          zorla
         language: Dil
         last_login_on: Son giriş
         mail_notification: E-posta bildirimleri
@@ -541,7 +542,7 @@ tr:
                   birini seçiniz.
               match:
                 confirm: Yeni parolayı doğrulayın.
-                description: '"Parola onayı" ''yeni şifre'' alanı girişi aynı olmalıdır.'
+                description: '"Parola onayı" ''yeni parola'' alanı girişi aynı olmalıdır.'
             status:
               invalid_on_create: yeni kullanıcılar için geçerli bir durum değil.
             auth_source:
@@ -655,7 +656,7 @@ tr:
   button_close: Kapat
   button_collapse_all: Tümünü daralt
   button_configure: Düzenle
-  button_continue: Continue
+  button_continue: Devam et
   button_copy: Kopyala
   button_copy_and_follow: Kopyala ve takip et
   button_create: Oluştur
@@ -1065,7 +1066,7 @@ tr:
   label_activate_user: Aktif kullanıcı
   label_active_in_new_projects: Yeni projelerde etkin
   label_activity: Etkinlik
-  label_add_edit_translations: Ekle ve çevirileri düzenle
+  label_add_edit_translations: Çeviri ekle ve düzenle
   label_add_another_file: Başka bir dosya ekle
   label_add_columns: Seçilen sütunları ekle
   label_add_note: Not ekle
@@ -1324,7 +1325,7 @@ tr:
   label_my_page_block: Sayfa bloğum
   label_my_projects: Projelerim
   label_my_queries: Özel sorgularım
-  label_never: Never
+  label_never: Hiçbir zaman
   label_new: Yeni
   label_new_statuses_allowed: Yeni durumlara izin verildi
   label_news_added: Haberler eklendi
@@ -1641,14 +1642,14 @@ tr:
     Hesap onayınızı bekliyor:'
   mail_body_account_information: Hesap bilgilerinizi giriniz
   mail_body_account_information_external: Giriş yapmak için %{value} hesabınızı kullanabilirsiniz.
-  mail_body_lost_password: 'Şifrenizi değiştirmek için aşağıdaki bağlantıyı tıklayın:'
+  mail_body_lost_password: 'Parolanızı değiştirmek için aşağıdaki bağlantıyı tıklayın:'
   mail_body_register: 'Hesabınızı etkinleştirmek için aşağıdaki bağlantıyı tıklayın:'
   mail_body_reminder: 'Size tahsis edilen(ler) %{count} iş paketinin bir sonraki %{days}
     gün içinde ödemesi gerekiyor:'
   mail_body_wiki_content_added: "' %{id} ' wiki sayfası %{author} tarafından eklendi."
   mail_body_wiki_content_updated: "'%{id}' wiki sayfası, %{author} tarafından güncellendi."
   mail_subject_account_activation_request: "%{value} hesap etkinleştirme isteği"
-  mail_subject_lost_password: Sizin %{value} şifre
+  mail_subject_lost_password: Sizin %{value} parola
   mail_subject_register: İşletme %{value} hesap etkinleştirme
   mail_subject_reminder: "%{days} günde %{count} iş paketi(ler) geçecek"
   mail_subject_wiki_content_added: "'%{id}' viki sayfası eklendi"
@@ -1667,12 +1668,12 @@ tr:
   notice_account_invalid_credentials_or_blocked: Geçersiz kullanıcı, parola ya da
     hesap birden fazla başarısız giriş denemesinden dolayı engellendi. Eğer öyleyse
     kısa bir zaman sonra otomatik olarak engel kaldırılacaktır.
-  notice_account_lost_email_sent: Yeni bir şifre seçme talimatlarını içeren bir E-Posta
-    size göndermiştir.
+  notice_account_lost_email_sent: Size yeni bir parola seçme talimatlarını içeren
+    bir e-posta göndermiştir.
   notice_account_new_password_forced: Yeni bir parola gerekli.
-  notice_account_password_expired: Şifrenizin yüzdesi %{days} günün sonunda doldu.
-    Lütfen yenisini ayarla.
-  notice_account_password_updated: Şifreniz başarıyla güncellendi.
+  notice_account_password_expired: Parolanız %{days} günün sonunda geçerliliğini yitirdi.
+    Lütfen yenisini ayarlayın.
+  notice_account_password_updated: Parolanız başarıyla güncellendi.
   notice_account_pending: Hesabınız oluşturuldu ve şimdi yönetici onayını bekliyor.
   notice_account_register_done: Hesap başarıyla oluşturuldu. Hesabınızı etkinleştirmek
     için size e-postayla gönderilen bağlantıyı tıklayın.
@@ -1999,7 +2000,7 @@ tr:
       managed_introduction: OpenProject yerel bir Subversion havuzunu otomatik olarak
         oluşturup entegre edin.
       managed_url: Yönetilen URL
-      password: Depo şifre
+      password: Depo Parolası
       username: Depo kullanıcı adı
     truncated: Üzgünüz, dosyaları %{limit} ile limitlemek zorunda kaldık. %{truncated}
       girdileri listeden göz ardı edildi.
@@ -2391,16 +2392,16 @@ tr:
       grouping: Gruplama
       grouping_hide_group: '"%{group}" grubunu gizle'
       grouping_one: İlk gruplama ölçütü
-      grouping_one_phrase: Is a subproject of
+      grouping_one_phrase: Şunun bir alt projesi
       grouping_other: Diğer
       hide_chart: Grafiği gizle
       noneElement: "(yok)"
       noneSelection: "(yok)"
-      outline: Initial outline expansion
-      parent: Show subprojects of
+      outline: İlk seferde anahat genişletme
+      parent: Şunun altprojelerini göster
       work_package_filters: İş paketlerini filtrele
       work_package_responsible: Show work packages with responsible
-      work_package_assignee: Show work packages with assignee
+      work_package_assignee: Atanmış kişiye ait iş paketlerini göster
       types: Türleri göster
       status: Durumu göster
       project_time_filter: Projects with a work package of a certain type in a certain
@@ -2433,9 +2434,9 @@ tr:
       izniniz yok.
     no_timeline_for_id: "%{id} kimlik numaralı bir zaman akışı yok."
     notice_successful_deleted_all_elements: Tüm elementler başarıyla silindi
-    outline: Reset Outline
+    outline: Anahat Sıfırla
     outlines:
-      aggregation: Show aggregations only
+      aggregation: Sadece toplu gösterimler
       level1: Düzey 1 genişletin
       level2: Düzey 2 genişletin
       level3: Düzey 3 genişletin

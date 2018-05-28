@@ -686,7 +686,7 @@ fil:
   button_close: Isara
   button_collapse_all: Bumagsak lahat
   button_configure: I-configure
-  button_continue: Continue
+  button_continue: Magpatuloy
   button_copy: Kopyahin
   button_copy_and_follow: Kopyahin at sundin
   button_create: Lumikha
@@ -1366,7 +1366,7 @@ fil:
   label_my_page_block: Ang pahinang block
   label_my_projects: Ang mga aking proyekto
   label_my_queries: Ang mga aking custom query
-  label_never: Never
+  label_never: Hindi kailanman
   label_new: Bago
   label_new_statuses_allowed: Pinayagang bagong estado
   label_news_added: Bagong idinagdag

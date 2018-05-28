@@ -669,7 +669,7 @@ ru:
   button_close: Закрыть
   button_collapse_all: Свернуть все
   button_configure: Настройка
-  button_continue: Continue
+  button_continue: Далее
   button_copy: Копировать
   button_copy_and_follow: Скопировать и продолжить
   button_create: Создать
@@ -1362,7 +1362,7 @@ ru:
   label_my_page_block: Блоки на моей странице
   label_my_projects: Мои проекты
   label_my_queries: Мои пользовательские запросы
-  label_never: Never
+  label_never: Никогда
   label_new: Новое
   label_new_statuses_allowed: Новые статусы разрешены
   label_news_added: Новость добавлена

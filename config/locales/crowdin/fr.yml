@@ -676,7 +676,7 @@ fr:
   button_close: Fermer
   button_collapse_all: Tout replier
   button_configure: Configurer
-  button_continue: Continue
+  button_continue: Continuer
   button_copy: Copier
   button_copy_and_follow: Copier et suivre
   button_create: Créer
@@ -1353,7 +1353,7 @@ fr:
   label_my_page_block: Ma page bloc
   label_my_projects: Mes projets
   label_my_queries: Mes requêtes personnalisées
-  label_never: Never
+  label_never: Jamais
   label_new: Nouveau
   label_new_statuses_allowed: Nouveaux statuts autorisés
   label_news_added: Actualités ajoutées

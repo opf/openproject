@@ -675,7 +675,7 @@ de:
   button_close: Schließen
   button_collapse_all: Alle zuklappen
   button_configure: Konfigurieren
-  button_continue: Continue
+  button_continue: Fortfahren
   button_copy: Kopieren
   button_copy_and_follow: Kopieren und Arbeitspaket anzeigen
   button_create: Anlegen
@@ -1229,7 +1229,7 @@ de:
   label_download_plural: "%{count} Downloads"
   label_downloads_abbr: D/L
   label_duplicated_by: Dupliziert durch
-  label_duplicate: Dublikat
+  label_duplicate: Duplikat
   label_duplicates: Duplikat von
   label_edit: Bearbeiten
   label_enable_multi_select: Mehrfachauswahl umschalten
@@ -1353,7 +1353,7 @@ de:
   label_my_page_block: Bereich "Meine Seite"
   label_my_projects: Meine Projekte
   label_my_queries: Meine Berichte
-  label_never: Never
+  label_never: Nie
   label_new: Neu
   label_new_statuses_allowed: Neuer Status
   label_news_added: Neuigkeit hinzugefügt

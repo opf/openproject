@@ -672,7 +672,7 @@ it:
   button_close: Chiuso
   button_collapse_all: Comprimi Tutto
   button_configure: Configura
-  button_continue: Continue
+  button_continue: Continua
   button_copy: Copia
   button_copy_and_follow: Copia e segui
   button_create: Crea
@@ -1350,7 +1350,7 @@ it:
   label_my_page_block: Il mio blocco pagina
   label_my_projects: I miei progetti
   label_my_queries: Le mie query personalizzate
-  label_never: Never
+  label_never: Mai
   label_new: Nuovo
   label_new_statuses_allowed: Nuovi stati acconsentiti
   label_news_added: Notizie aggiunte

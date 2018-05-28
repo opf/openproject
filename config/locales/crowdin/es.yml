@@ -680,7 +680,7 @@ es:
   button_close: Cerrar
   button_collapse_all: Colapsar todo
   button_configure: Configurar
-  button_continue: Continue
+  button_continue: Continuar
   button_copy: Copiar
   button_copy_and_follow: Copiar y seguir
   button_create: Crear
@@ -1357,7 +1357,7 @@ es:
   label_my_page_block: Mi bloque de página
   label_my_projects: Mis proyectos
   label_my_queries: Mis consultas personalizadas
-  label_never: Never
+  label_never: Nunca
   label_new: Nuevo
   label_new_statuses_allowed: Nuevos estados permitidos
   label_news_added: Noticias añadidas

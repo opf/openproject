@@ -665,7 +665,7 @@ hr:
   button_close: Close
   button_collapse_all: Sažmi sve
   button_configure: Postavi
-  button_continue: Continue
+  button_continue: Nastavi
   button_copy: Kopiraj
   button_copy_and_follow: Kopirajte i pratite
   button_create: Stvori
@@ -1345,7 +1345,7 @@ hr:
   label_my_page_block: Moj blok stranice
   label_my_projects: Moji projekati
   label_my_queries: Moji prilagođeni upiti
-  label_never: Never
+  label_never: Nikad
   label_new: Novi
   label_new_statuses_allowed: Novi statusi dopušteni
   label_news_added: Vijest dodana

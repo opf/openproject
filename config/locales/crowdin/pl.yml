@@ -662,7 +662,7 @@ pl:
   button_close: Zamknij
   button_collapse_all: Zwiń wszystko
   button_configure: Konfigurowanie
-  button_continue: Continue
+  button_continue: Kontynuuj
   button_copy: Kopiuj
   button_copy_and_follow: Skopiuj i wykonaj
   button_create: Utwórz
@@ -1358,7 +1358,7 @@ pl:
   label_my_page_block: Mój blok strony
   label_my_projects: Moje projekty
   label_my_queries: Moje zapytania niestandardowe
-  label_never: Never
+  label_never: Nigdy
   label_new: Nowy
   label_new_statuses_allowed: Nowe statusy dozwolone
   label_news_added: Wiadomość dodana
@@ -1674,9 +1674,10 @@ pl:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: Wywołanie makra create_work_package_link spoza kontekstu
+          projektu.
+        invalid_type: Nie znaleziono żadnego typu o nazwie '%{type}' w projekcie '%{project}
+          '.
       link_name: Nowy pakiet roboczy
       link_name_type: Nowy %{type_name}
   mail:
@@ -2679,7 +2680,7 @@ pl:
       multipart_body_error: Żądanie źródła nie zawiera oczekiwanych wieloczęściowych
         elementów.
       multiple_errors: Zostały naruszone ograniczenia wielu pól.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Nie można utworzyć załącznika
       render:
         context_not_parsable: Podany kontekst nie jest linkiem do zasobu.
         unsupported_context: Podany zasób nie jest obsługiwany jako kontekst.

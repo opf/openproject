@@ -658,7 +658,7 @@ da:
   button_close: Close
   button_collapse_all: Fold alle sammen
   button_configure: Opsæt
-  button_continue: Continue
+  button_continue: Fortsæt
   button_copy: Kopier
   button_copy_and_follow: Kopier og følg
   button_create: Opret
@@ -1325,7 +1325,7 @@ da:
   label_my_page_block: Min sideblok
   label_my_projects: Mine projekter
   label_my_queries: Mine selvvalgte forespørgsler
-  label_never: Never
+  label_never: Aldrig
   label_new: Ny
   label_new_statuses_allowed: Nye statuser tilladt
   label_news_added: Nyheder tilføjet

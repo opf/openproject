@@ -405,7 +405,7 @@ vi:
         spent_hours: Thời gian
         spent_time: Thời gian
         subproject: Dự án con
-        time_entries: Log time
+        time_entries: Thời gian truy cập
         type: Kiểu
         watcher: Người quan sát
     errors:
@@ -677,7 +677,7 @@ vi:
   button_generate: Generate
   button_list: Danh sách
   button_lock: Khóa
-  button_log_time: Log time
+  button_log_time: Thời gian truy cập
   button_login: Đăng nhập
   button_move: Di chuyển
   button_move_and_follow: Di chuyển và thực hiện theo
@@ -881,7 +881,7 @@ vi:
   default_role_member: Thành viên
   default_type: Work Package
   default_type_bug: Lỗi
-  default_type_deliverable: Deliverable
+  default_type_deliverable: Có thể giao nhận
   default_type_epic: Sử thi
   default_type_feature: Tính năng
   default_type_milestone: Milestone
@@ -1664,7 +1664,7 @@ vi:
   notice_account_activated: Your account has been activated. You can now log in.
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_token: Invalid activation token
-  notice_account_invalid_credentials: Invalid user or password
+  notice_account_invalid_credentials: Tài khoản hoặc mật mã không hợp lệ
   notice_account_invalid_credentials_or_blocked: Invalid user or password or the account
     is blocked due to multiple failed login attempts. If so, it will be unblocked
     automatically in a short time.
@@ -1778,21 +1778,21 @@ vi:
   permission_add_work_package_notes: Add notes
   permission_add_work_packages: Add work packages (also allows to add attachments
     to all work packages)
-  permission_add_messages: Post messages
-  permission_add_project: Create project
-  permission_add_subprojects: Create subprojects
-  permission_add_work_package_watchers: Add watchers
+  permission_add_messages: Đăng tin nhắn
+  permission_add_project: Tạo Dự án
+  permission_add_subprojects: Tạo Dự án con
+  permission_add_work_package_watchers: Thêm người theo dõi
   permission_browse_repository: Read-only access to repository (browse and checkout)
-  permission_change_wiki_parent_page: Change parent wiki page
-  permission_comment_news: Comment news
+  permission_change_wiki_parent_page: Thay đổi trang wiki cha
+  permission_comment_news: Chú thích vào tin mới
   permission_commit_access: Read/write access to repository (commit)
-  permission_copy_projects: Copy projects
-  permission_delete_work_package_watchers: Delete watchers
-  permission_delete_work_packages: Delete work packages
-  permission_delete_messages: Delete messages
-  permission_delete_own_messages: Delete own messages
-  permission_delete_project_associations: Delete project dependencies
-  permission_delete_reportings: Delete reportings
+  permission_copy_projects: Sao chép dự án
+  permission_delete_work_package_watchers: Xóa người xem
+  permission_delete_work_packages: Xóa gói công việc
+  permission_delete_messages: Xóa tin nhắn
+  permission_delete_own_messages: Xóa tin nhắn của tôi
+  permission_delete_project_associations: Xóa phụ thuộc của dự án
+  permission_delete_reportings: Xóa các báo cáo
   permission_delete_timelines: Delete timelines
   permission_delete_wiki_pages: Delete wiki pages
   permission_delete_wiki_pages_attachments: Delete attachments

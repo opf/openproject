@@ -664,7 +664,7 @@ lt:
   button_close: Uždaryti
   button_collapse_all: Sutraukti visus
   button_configure: Konfigūruoti
-  button_continue: Continue
+  button_continue: Tęsti
   button_copy: Kopijuoti
   button_copy_and_follow: Kopijuoti ir sekti
   button_create: Sukurti
@@ -1357,7 +1357,7 @@ lt:
   label_my_page_block: Mano puslapio blokas
   label_my_projects: Mano projektai
   label_my_queries: Mano sukurtos užklausos
-  label_never: Never
+  label_never: Niekada
   label_new: Naujas
   label_new_statuses_allowed: Naujos galimos būsenos
   label_news_added: Pridėta naujiena
