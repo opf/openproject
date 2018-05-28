@@ -96,11 +96,10 @@ See docs/COPYRIGHT.rdoc for more details.
               </h1>
               <div id="main-menu-toggle"
                    ng-controller="MainMenuController as mainMenu"
-                   ng-click="mainMenu.toggleNavigation($event)">
-                <a icon="icon-hamburger"
-                   title="<%= t('js.show_hide_project_menu') %>"
-                   aria-haspopup="true"
-                   href="">
+                   ng-click="mainMenu.toggleNavigation($event)"
+                   title="Expand/Collapse project menu"
+                   aria-haspopup="true">
+                <a icon="icon-hamburger">
                   <i class="icon-hamburger" aria-hidden="true"></i>
                 </a>
               </div>

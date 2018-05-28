@@ -65,7 +65,6 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
     this.elementClass    = "main-menu";
     this.resizeEvent     = "main-menu-resize";
     this.localStorageKey = "openProject-mainMenuWidth";
-    this.toggleTitle     = I18n.t('js.show_hide_project_menu');
 
     this.htmlNode = <HTMLElement>document.getElementsByTagName('html')[0];
 
@@ -80,6 +79,14 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
 
     // Add event listener
     this.element = this.elementRef.nativeElement;
+
+    // set correct label for resizer
+    if (this.resizingElement.offsetWidth < 10) {
+      this.toggleTitle = I18n.t('js.label_expand_project_menu');
+    } else {
+      this.toggleTitle = I18n.t('js.label_hide_project_menu');
+    }
+
   }
 
   ngOnDestroy() {
