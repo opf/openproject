@@ -19,11 +19,22 @@ SecureHeaders::Configuration.default do |config|
   # Valid for iframes
   frame_src = %w['self' https://player.vimeo.com]
 
+  # Default src
+  default_src = %w('self')
+
+  # Allow requests to CLI in dev mode
+  connect_src =
+    if Rails.env.development?
+      default_src + %w[ws://localhost:4200 http://localhost:4200]
+    else
+      default_src
+    end
+
   config.csp = {
     preserve_schemes: true,
 
     # Fallback when no value is defined
-    default_src: %w('self'),
+    default_src: default_src,
     # Allowed uri in <base> tag
     base_uri: %w('self'),
 
@@ -42,6 +53,7 @@ SecureHeaders::Configuration.default do |config|
     # Allow unsafe-inline styles
     style_src: assets_src + %w('unsafe-inline'),
 
-    connect_src: ["ws://localhost:4200", "http://localhost:4200"]
+    # Connect sources for CLI in dev mode
+    connect_src: connect_src
   }
 end
