@@ -54,6 +54,7 @@ ja:
     description_subwork_package: '作業項目の子 #%{id}'
     error:
       internal: 内部エラーが発生しました。
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: "'ALT' と矢印キーでこのフィルタを開きます。"
@@ -145,6 +146,7 @@ ja:
     label_not_equals: 等しくない
     label_on: オン
     label_open_menu: メニューを開く
+    label_open_context_menu: Open context menu
     label_open_work_packages: 未完了
     label_password: パスワード
     label_previous: 前へ
@@ -168,6 +170,7 @@ ja:
     label_subject: 題名
     label_this_week: 今週
     label_today: 今日
+    label_up: Up
     label_activity_show_only_comments: コメントのみのアクティビティを表示
     label_activity_show_all: すべてのアクティビティを表示
     label_total_progress: "%{percent}% 進行状況"
@@ -261,7 +264,8 @@ ja:
       required: 以下が必要：
       relation_type: 関係タイプ
     relations_hierarchy:
-      hierarchy_headline: 階層
+      parent_headline: 親項目
+      children_headline: 子
     relation_buttons:
       change_parent: 親タスクの変更
       remove_parent: 親関係を削除
@@ -298,6 +302,7 @@ ja:
         one: You can only select one item
         other: "{{limit}}つ項目のみを選択できます。"
         zero: You cannot select any items
+    show_hide_project_menu: プロジェクトメニューの展開/折りたたみ
     sort:
       sorted_asc: '昇順の並べ替えを適用しました。 '
       sorted_dsc: '降順の並べ替えを適用しました。 '
@@ -312,6 +317,7 @@ ja:
     timelines:
       gantt_chart: ガントチャート
       labels:
+        title: Label configuration
         bar: バーのラベル
         left: 左
         right: 右
@@ -344,7 +350,6 @@ ja:
         grouping_other: その他
         noneSelection: "(なし)"
       name: 名称
-      new_work_package: 新しい作業項目
       outline: 概要をリセットする
       outlines:
         aggregation: 集計のみを表示
@@ -437,10 +442,13 @@ ja:
       inline_create:
         title: クリックしてこのリストに新しい作業項目を追加します
       create:
+        title: 新しい作業項目
         header: 新しい %{type}
         header_no_type: 新しいワークパッケージ（タイプ未設定）
         header_with_parent: '新しい %{type}（%{parent_type} #%{id} の子要素）'
         button: 作成
+      copy:
+        title: Copy work package
       hierarchy:
         show: 階層モードを表示
         hide: 階層モードを非表示
@@ -495,7 +503,6 @@ ja:
         group: グループ化
         group_by_disabled_by_hierarchy: 階層モードが有効なため、グループ化は無効です。
         hierarchy_disabled_by_group_by: 結果が %{column} でグループ化されているため、階層モードは無効です。
-        hierarchy_mode: 階層モード
         sort_ascending: 昇順にソート
         sort_descending: 降順にソート
         move_column_left: 列を左に移動
@@ -509,10 +516,28 @@ ja:
           not_found: そのようなクエリはありません
         text_no_results: 一致するクエリが見つかりませんでした。
       table:
+        configure_button: Configure work package table
         summary: 作業項目の行と、作業項目の属性の列から成る表。
         text_inline_edit: この表のほとんどのセルは、属性のインライン編集機能を有効にするボタンです。
         text_sort_hint: テーブル見出しのリンクで、並べ替え、グループ化、再並べ替え、削除、およびテーブルの列を追加ができます。
         text_select_hint: 選択ボックスは 'ALT'と矢印キーで開きます。
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: 階層モード
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: 概要
         activity: 活動

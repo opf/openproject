@@ -1,6 +1,8 @@
 <%# The javscript for this cell is included in `settings.js.erb`. %>
 
-<div class="form--field -vertical">
+<div class="form--field">
+  <%# Empty label for styling only %>
+  <%= styled_label_tag "lang", '' %>
   <div class="form--field-container">
     <%=
       styled_select_tag(
@@ -19,7 +21,7 @@
        <%= "style=\"display:none\"" unless lang == current_language.to_s %>
        class="lang-select lang-for-<%= name %>"
   >
-    <div class="form--field -vertical">
+    <div class="form--field">
       <%= styled_label_tag "settings[#{name}][#{lang}]", t("setting_#{name}") %>
       <div class="form--field-container">
         <%=

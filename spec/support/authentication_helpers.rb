@@ -42,7 +42,7 @@ module AuthenticationHelpers
   end
 
   def login_with(login, password)
-    visit '/login'
+    visit signin_path
     within('#login-form') do
       fill_in 'username', with: login
       fill_in 'password', with: password

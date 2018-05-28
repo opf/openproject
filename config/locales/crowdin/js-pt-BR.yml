@@ -6,10 +6,10 @@ pt-BR:
       loading: Carregando ...
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
-      active: Active %{label} %{name}
+        multi: Adicionar "%{name}"
+        single: Selecionar "%{name}"
+      remove: Remover %{name}
+      active: Ativar %{label} %{name}
     close_popup_title: Fechar pop-up
     close_filter_title: Fechar filtro
     close_form_title: Fechar formulário
@@ -55,6 +55,7 @@ pt-BR:
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     error:
       internal: Ocorreu um erro interno.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Abra este filtro com a tecla 'ALT' e as teclas de seta.
@@ -71,7 +72,7 @@ pt-BR:
           one: Primeiro critério de classificação
           two: Segundo critério de classificação
           three: Terceiro critério de classificação
-      upsale_for_more: For more advanced filters, check out the
+      upsale_for_more: Para filtros avançados, confira o
       upsale_link: Enterprise Edition.
     general_text_no: não
     general_text_yes: sim
@@ -148,6 +149,7 @@ pt-BR:
     label_not_equals: não é
     label_on: ligado
     label_open_menu: Abrir menu
+    label_open_context_menu: Open context menu
     label_open_work_packages: aberto
     label_password: Senha
     label_previous: Anterior
@@ -171,6 +173,7 @@ pt-BR:
     label_subject: Assunto
     label_this_week: esta semana
     label_today: hoje
+    label_up: Up
     label_activity_show_only_comments: Mostrar somente as atividades com comentários
     label_activity_show_all: Mostrar todas as atividades
     label_total_progress: "%{percent}% Total de progresso"
@@ -274,7 +277,8 @@ pt-BR:
       required: Requerido por
       relation_type: tipo de relação
     relations_hierarchy:
-      hierarchy_headline: hierarquia
+      parent_headline: Ascendente
+      children_headline: Filhos
     relation_buttons:
       change_parent: Alterar pai
       remove_parent: Remover pai
@@ -311,6 +315,7 @@ pt-BR:
         one: Você pode selecionar somente um item
         other: Você pode selecionar {{limit}} itens
         zero: You cannot select any items
+    show_hide_project_menu: Expandir/Recolher o menu do projeto
     sort:
       sorted_asc: 'Classificação crescente aplicada, '
       sorted_dsc: 'Ordenação decrescente aplicada, '
@@ -326,6 +331,7 @@ pt-BR:
     timelines:
       gantt_chart: Gráfico de Gantt
       labels:
+        title: Label configuration
         bar: Barra de rótulos
         left: Esquerda
         right: Direita
@@ -364,7 +370,6 @@ pt-BR:
         grouping_other: Outro
         noneSelection: "(nenhum)"
       name: Nome
-      new_work_package: Novo pacote de trabalho
       outline: Redefinir o contorno
       outlines:
         aggregation: Mostrar somente agregações
@@ -464,10 +469,13 @@ pt-BR:
       inline_create:
         title: Clique aqui para adicionar um novo pacote de trabalho a esta lista
       create:
+        title: Novo pacote de trabalho
         header: Novo %{type}
         header_no_type: Novo pacote de trabalho (Tipo ainda não definido)
         header_with_parent: 'Novo %{type} (Filho de %{parent_type} #%{id})'
         button: Criar
+      copy:
+        title: Copy work package
       hierarchy:
         show: Mostrar o modo de hierarquia
         hide: Ocultar o modo de hierarquia
@@ -527,7 +535,6 @@ pt-BR:
           de hierarquia está ativo.
         hierarchy_disabled_by_group_by: O modo de hierarquia está desativado, pois
           os resultados estão agrupados por %{column}.
-        hierarchy_mode: Modo de hierarquia
         sort_ascending: Ordenação crescente
         sort_descending: Ordenação decrescente
         move_column_left: Mover coluna para esquerda
@@ -541,6 +548,7 @@ pt-BR:
           not_found: Não existe tal consulta
         text_no_results: Nenhuma consulta correspondente foi encontrada.
       table:
+        configure_button: Configure work package table
         summary: Tabela com linhas de pacote de trabalho e colunas com atributos do
           pacote de trabalho.
         text_inline_edit: A maioria das células desta tabela são botões que ativam
@@ -549,6 +557,23 @@ pt-BR:
           agrupar, reordenar, remover e adicionar colunas na tabela.
         text_select_hint: Caixas de seleção devem ser abertas com 'ALT' e teclas de
           seta.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Modo de hierarquia
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Visão geral
         activity: Atividade

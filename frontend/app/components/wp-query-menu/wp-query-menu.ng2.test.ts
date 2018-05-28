@@ -41,7 +41,7 @@ import {OpTitleService} from 'core-components/html/op-title.service';
   template: `
     <div id="main-menu-work-packages-wrapper">
       <a id="main-menu-work-packages">Work packages</a>
-      <ul class="menu-children"></ul>'
+      <ul class="main-menu--children"></ul>'
     </div>
   `
 })
@@ -88,7 +88,7 @@ describe('wp-query-menu', () => {
         fixture = TestBed.createComponent(WpQueryMenuTestComponent);
         app = fixture.debugElement.componentInstance;
         element = jQuery(fixture.elementRef.nativeElement);
-        menuContainer = element.find('ul.menu-children');
+        menuContainer = element.find('ul.main-menu--children');
         queryMenuService.initialize();
       });
   }));

@@ -27,13 +27,17 @@
 //++
 
 module.exports = function($rootScope, $window) {
-  var menuList = null;
+  this.toggleNavigation = function(event) {
+    event.preventDefault();
+    event.stopPropagation();
 
-  this.toggleNavigation = function() {
-    if ($rootScope.showNavigation) {
-      menuList = hideSubMenuEntries();
-    } else {
-      showSubMenuEntries(menuList);
+    if (!$rootScope.showNavigation) {
+      // Regain default width: Expand to default menu width if collapsed slimmer than default width.
+      var savedMainMenuWidth = parseInt(window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth"));
+      if (savedMainMenuWidth < 230) {
+        document.documentElement.style.setProperty("--main-menu-width", '230px');
+        window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth", '230');
+      }
     }
     $rootScope.showNavigation = !$rootScope.showNavigation;
     $rootScope.$broadcast('openproject.layout.navigationToggled', $rootScope.showNavigation);
@@ -41,22 +45,3 @@ module.exports = function($rootScope, $window) {
       !$rootScope.showNavigation ? 'collapsed' : 'expanded');
   };
 };
-
-function hideSubMenuEntries() {
-  var togglers = jQuery('#main-menu .main-item-wrapper.open .toggler');
-  toggleMenus(togglers);
-
-  return togglers;
-}
-
-function showSubMenuEntries(togglers) {
-  if (togglers !== null) {
-    toggleMenus(togglers);
-  }
-}
-
-function toggleMenus(togglers) {
-  togglers.each(function(index) {
-    jQuery(this).trigger('click');
-  });
-}

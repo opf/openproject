@@ -6,10 +6,10 @@ nl:
       loading: Bezig met laden ...
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
-      active: Active %{label} %{name}
+        multi: Toevoegen "%{name}"
+        single: Selecteer "%{name}"
+      remove: Verwijder %{name}
+      active: Actieve %{label} %{name}
     close_popup_title: Popup sluiten
     close_filter_title: Sluit filter
     close_form_title: Sluit formulier
@@ -55,6 +55,7 @@ nl:
     description_subwork_package: 'Kind van werkpakket #%{id}'
     error:
       internal: Een interne fout is opgetreden.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Open dit filter met de 'ALT'-knop en toetsenbord pijlen.
@@ -72,7 +73,7 @@ nl:
           one: Eerste sorteercriteria
           two: Tweede sorteercriteria
           three: Derde sorteercriteria
-      upsale_for_more: For more advanced filters, check out the
+      upsale_for_more: Voor meer geavanceerde filters, bekijk de
       upsale_link: Enterprise Edition.
     general_text_no: Nee
     general_text_yes: Ja
@@ -84,7 +85,8 @@ nl:
       gebruikerscommentaar.
     label_add_columns: Kolommen toevoegen
     label_add_comment: Commentaar toevoegen
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Plaats een opmerking en gebruik het @-teken om anderen
+      te informeren
     label_add_selected_columns: Geselecteerde kolommen toevoegen
     label_added_by: toegevoegd door
     label_added_time_by: Toegevoegd door %{author} %{age}
@@ -116,7 +118,7 @@ nl:
     label_contains: bevat
     label_created_on: gecreëerd op
     label_edit_comment: Deze opmerking bewerken
-    label_edit_status: Edit the status of the work package
+    label_edit_status: De status van het werkpakket bewerken
     label_equals: is
     label_expand: Uitbreiden
     label_expanded: uitgebreid
@@ -149,6 +151,7 @@ nl:
     label_not_equals: is niet
     label_on: op
     label_open_menu: Menu openen
+    label_open_context_menu: Open context menu
     label_open_work_packages: Open
     label_password: Wachtwoord
     label_previous: Vorige
@@ -172,6 +175,7 @@ nl:
     label_subject: Onderwerp
     label_this_week: deze week
     label_today: vandaag
+    label_up: Up
     label_activity_show_only_comments: Geef alleen activiteiten met commentaar weer
     label_activity_show_all: Geef alle activiteiten weer
     label_total_progress: "%{percent}% totale vooruitgang"
@@ -233,7 +237,7 @@ nl:
       work_package_belongs_to: Dit werkpakket behoort tot project %{projectname}.
       click_to_switch_context: Open dit werkpakket in dat project.
       autocompleter:
-        label: Project autocompletion
+        label: Project auto aanvullen
     text_are_you_sure: Weet u het zeker?
     types:
       attribute_groups:
@@ -274,7 +278,8 @@ nl:
       required: Vereist door
       relation_type: relatie type
     relations_hierarchy:
-      hierarchy_headline: hiërarchie
+      parent_headline: Bovenliggende
+      children_headline: Subdocumenten
     relation_buttons:
       change_parent: Wijzig bovenliggende pagina
       remove_parent: Verwijder bovenliggende map
@@ -311,6 +316,7 @@ nl:
         one: Je kunt maar {{limit}} onderdeel selecteren
         other: Je kunt maar {{limit}} onderdelen selecteren
         zero: You cannot select any items
+    show_hide_project_menu: Project menu uitvouwen/samenvouwen
     sort:
       sorted_asc: 'Oplopende sorteervolgorde toegepast, '
       sorted_dsc: 'Aflopende sorteervolgorde toegepast, '
@@ -327,14 +333,16 @@ nl:
     timelines:
       gantt_chart: Gantt-grafiek
       labels:
-        bar: Bar labels
+        title: Label configuration
+        bar: Bar etiketten
         left: Linkerkant
         right: Rechterkant
         farRight: Uiterst rechts
-        showNone: "-- No label --"
-        description: 'Select the attributes you want to be shown in the respective
-          positions of the Gantt chart at all times. Note that when hovering an element,
-          its date labels will be shown instead of these attributes.
+        showNone: "--Geen label--"
+        description: 'Selecteer de kenmerken die u wilt te allen tijde in de respectieve
+          standpunten van het Gantt-diagram worden weergegeven. Merk op dat wanneer
+          u over een element zweeft, de datumlabels worden weergegeven in plaats van
+          deze kenmerken.
 
 '
       button_activate: Activeren van de tijdlijnmodus
@@ -366,7 +374,6 @@ nl:
         grouping_other: Overig
         noneSelection: "(geen)"
       name: Naam
-      new_work_package: Nieuw werkpakket
       outline: Reset omlijning
       outlines:
         aggregation: Toon alleen aggregaties
@@ -467,10 +474,13 @@ nl:
       inline_create:
         title: Klik hier om een nieuw werkpakket aan deze lijst toe te voegen
       create:
+        title: Nieuw werkpakket
         header: Nieuw %{type}
         header_no_type: Nieuw werkpakket (Type nog niet ingesteld)
         header_with_parent: 'Nieuw %{type} (Kind van %{parent_type} #%{id})'
         button: Maken
+      copy:
+        title: Copy work package
       hierarchy:
         show: Toon hiërarchie modus
         hide: Hiërarchie modus verbergen
@@ -530,7 +540,6 @@ nl:
           de hiërarchie-modus actief.
         hierarchy_disabled_by_group_by: Hiërarchie-modus is uitgeschakeld als gevolg
           van de resultaten die worden gegroepeerd op %{column}.
-        hierarchy_mode: Hiërarchie-modus
         sort_ascending: Sorteer opgaand
         sort_descending: Sorteer afgaand
         move_column_left: Verplaats kolom naar links
@@ -544,6 +553,7 @@ nl:
           not_found: Er is geen dergelijke query
         text_no_results: Geen overeenkomende query's werden gevonden.
       table:
+        configure_button: Configure work package table
         summary: Tabel met rijen van werkpakket en kolommen werk pakket kenmerken.
         text_inline_edit: De meeste cellen van deze tabel zijn knoppen die de inline-bewerken
           functionaliteit van dat kenmerk te activeren.
@@ -551,6 +561,23 @@ nl:
           rangschikken, verwijderen en tabelkolommen toevoegen.
         text_select_hint: Selecteer vakken die moeten worden geopend met 'ALT' en
           pijl.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Hiërarchie-modus
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Overzicht
         activity: Activiteit
@@ -628,10 +655,10 @@ nl:
     units:
       workPackage:
         one: werkpakket
-        other: work packages
+        other: werkpakketten
       child_work_packages:
         one: één onderliggend werkpakket
-        other: "%{count} work package children"
+        other: "%{count} werkpakket kinderen"
       hour:
         one: "%{count} uur"
         other: "%{count} uren"

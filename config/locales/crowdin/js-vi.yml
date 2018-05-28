@@ -35,7 +35,7 @@ vi:
     button_filter: Bộ lọc
     button_list_view: Xem kiểu danh sách
     button_show_view: Xem toàn màn hình
-    button_log_time: Log time
+    button_log_time: Thời gian truy cập
     button_more: Xem thêm
     button_move: Di chuyển
     button_open_details: Mở thông tin chi tiết xem
@@ -55,6 +55,7 @@ vi:
     description_subwork_package: 'Con của work package #%{id}'
     error:
       internal: Lỗi nội bộ đã xảy ra.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Mở bộ lọc này với 'ALT' và phím mũi tên.
@@ -148,6 +149,7 @@ vi:
     label_not_equals: không là
     label_on: 'on'
     label_open_menu: Mở trình đơn
+    label_open_context_menu: Open context menu
     label_open_work_packages: mở
     label_password: Mật khẩu
     label_previous: Trước đó
@@ -171,6 +173,7 @@ vi:
     label_subject: Chủ đề
     label_this_week: tuần này
     label_today: hôm nay
+    label_up: Up
     label_activity_show_only_comments: Hiển thị các hoạt động với các bình luận
     label_activity_show_all: Hiển thị các hoạt động
     label_total_progress: "%{percent}% Total progress"
@@ -253,7 +256,7 @@ vi:
       label_loading: lấy danh sách người theo dõi...
       label_error_loading: Lỗi khi tải về danh sách người theo dõi
       label_search_watchers: Tìm kiếm người theo dõi
-      label_add: Add watchers
+      label_add: Thêm người theo dõi
       label_discard: Loại bỏ lựa chọn
       typeahead_placeholder: Search for possible watchers
     relation_labels:
@@ -272,7 +275,8 @@ vi:
       required: Required by
       relation_type: relation type
     relations_hierarchy:
-      hierarchy_headline: hierarchy
+      parent_headline: Cha
+      children_headline: Children
     relation_buttons:
       change_parent: Change parent
       remove_parent: Remove parent
@@ -309,6 +313,7 @@ vi:
         one: You can only select one item
         other: You can only select {{limit}} items
         zero: You cannot select any items
+    show_hide_project_menu: Mở rộng/Thu gọn menu dự án
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -325,6 +330,7 @@ vi:
     timelines:
       gantt_chart: Gantt chart
       labels:
+        title: Label configuration
         bar: Bar labels
         left: Left
         right: Right
@@ -363,7 +369,6 @@ vi:
         grouping_other: Khác
         noneSelection: "(none)"
       name: Tên
-      new_work_package: Work package mới
       outline: Reset Outline
       outlines:
         aggregation: Show aggregations only
@@ -463,10 +468,13 @@ vi:
       inline_create:
         title: Click vào đây để thêm một work package mới vào danh sách này
       create:
+        title: Work package mới
         header: New %{type}
         header_no_type: New work package (Type not yet set)
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: Tạo mới
+      copy:
+        title: Copy work package
       hierarchy:
         show: Show hierarchy mode
         hide: Hide hierarchy mode
@@ -526,7 +534,6 @@ vi:
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
           being grouped by %{column}.
-        hierarchy_mode: Hierarchy mode
         sort_ascending: Sort ascending
         sort_descending: Sort descending
         move_column_left: Move column left
@@ -540,12 +547,30 @@ vi:
           not_found: There is no such query
         text_no_results: No matching queries were found.
       table:
+        configure_button: Configure work package table
         summary: Bảng với hàng work package và cột của các thuộc tính work package.
         text_inline_edit: Hầu hết các ô của bảng này là các nút kích hoạt chức năng
           chỉnh sửa nội tuyến của thuộc tính đó.
         text_sort_hint: Với các liên kết trong các tiêu đề bảng bạn có thể sắp xếp,
           nhóm, sắp xếp lại, loại bỏ và thêm bảng cột.
         text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Hierarchy mode
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Tổng quan
         activity: Hoạt động

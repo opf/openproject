@@ -55,6 +55,7 @@ pl:
     description_subwork_package: 'Otwórz zadanie-dziecko #%{id}'
     error:
       internal: Wystąpił błąd wewnętrzny.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Otwórz filtr klawiszami strzałek przytrzymując klawisz 'ALT'.
@@ -82,7 +83,7 @@ pl:
     label_activity_with_comment_no: Aktywność %{activityNo} została skomentowana.
     label_add_columns: Dodaj kolumny
     label_add_comment: Dodaj komentarz
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Skomentuj - wpisz @ by powiadomić inne osoby
     label_add_selected_columns: Dodaj wybrane kolumny
     label_added_by: dodał
     label_added_time_by: Dodał %{author} %{age}
@@ -146,6 +147,7 @@ pl:
     label_not_equals: nie jest
     label_on: wł
     label_open_menu: Otwórz menu
+    label_open_context_menu: Open context menu
     label_open_work_packages: Otwarte
     label_password: Hasło
     label_previous: Poprzedni
@@ -169,6 +171,7 @@ pl:
     label_subject: Temat
     label_this_week: ten tydzień
     label_today: dzisiaj
+    label_up: Up
     label_activity_show_only_comments: Wyświetl aktywności tylko z komentarzami
     label_activity_show_all: Wyświetl wszystkie aktywności
     label_total_progress: "%{percent}% Całkowitego postępu"
@@ -229,7 +232,7 @@ pl:
       work_package_belongs_to: Ten pakiet roboczy należy do projektu %{projectname}.
       click_to_switch_context: Otwórz ten pakiet roboczy w tym projekcie.
       autocompleter:
-        label: Project autocompletion
+        label: Autouzupełnianie projektu
     text_are_you_sure: Jesteś pewien?
     types:
       attribute_groups:
@@ -270,7 +273,8 @@ pl:
       required: Wymagane przez
       relation_type: typ relacji
     relations_hierarchy:
-      hierarchy_headline: hierarchia
+      parent_headline: Rodzic
+      children_headline: Dzieci
     relation_buttons:
       change_parent: Zmień nadrzędny
       remove_parent: Usuń nadrzędny
@@ -311,6 +315,7 @@ pl:
         zero: You cannot select any items
         few: Możesz wybrać tylko {{limit}} elementów
         many: You can only select {{limit}} items
+    show_hide_project_menu: Rozwiń/zwiń menu projektu
     sort:
       sorted_asc: 'Zastosowano sortowanie rosnące, '
       sorted_dsc: 'Zastosowano sortowanie malejące, '
@@ -327,6 +332,7 @@ pl:
     timelines:
       gantt_chart: Wykres Gantta
       labels:
+        title: Label configuration
         bar: Pasek etykiety
         left: Lewa
         right: Prawa
@@ -365,7 +371,6 @@ pl:
         grouping_other: Inne
         noneSelection: "(brak)"
       name: Nazwa
-      new_work_package: Nowy pakiet roboczy
       outline: Reset Outline
       outlines:
         aggregation: Pokaż tylko podsumowania
@@ -465,10 +470,13 @@ pl:
       inline_create:
         title: Kliknij tutaj, aby dodać nowy pakiet prac do tej listy
       create:
+        title: Nowy pakiet roboczy
         header: Nowy %{type}
         header_no_type: Nowy pakiet roboczy (typ jeszcze nie ustawiony)
         header_with_parent: 'Nowy %{type} (podrzędny %{parent_type} #%{id})'
         button: Utwórz
+      copy:
+        title: Copy work package
       hierarchy:
         show: Pokaż tryb hierarchii
         hide: Ukryj tryb hierarchii
@@ -527,7 +535,6 @@ pl:
           jest wyłączone.
         hierarchy_disabled_by_group_by: Tryb hierarchii jest wyłączony z powodu grupowania
           wyników wg %{column}.
-        hierarchy_mode: Tryb hierarchii
         sort_ascending: Sortuj rosnąco
         sort_descending: Sortuj malejąco
         move_column_left: Przenieść kolumnę w lewo
@@ -541,6 +548,7 @@ pl:
           not_found: Tam jest nie takiego wyniku zapytania
         text_no_results: Nie znaleziono pasujących kwerend.
       table:
+        configure_button: Configure work package table
         summary: Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty.
         text_inline_edit: Większość komórek w tej tabeli to przyciski uruchamiające
           edycję danego atrybutu.
@@ -548,6 +556,23 @@ pl:
           zmieniać kolejność, usuwać i dodać kolumny.
         text_select_hint: Zaznacz boxy które powinny zostać otwarte poprzez jednoczesne
           użycie klawisza 'ALT' oraz strzałek.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Tryb hierarchii
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Przegląd
         activity: Działanie

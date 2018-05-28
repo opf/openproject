@@ -56,22 +56,14 @@ describe WikiPage, type: :model do
     end
   end
 
-  describe '#nearest_parent_menu_item' do
+  describe '#nearest_main_item' do
     let(:child_page) { FactoryBot.create(:wiki_page, parent: wiki_page, wiki: wiki) }
     let!(:child_page_wiki_menu_item) { FactoryBot.create(:wiki_menu_item, wiki: wiki, name: child_page.slug, parent: wiki_page.menu_item) }
     let(:grand_child_page) { FactoryBot.create(:wiki_page, parent: child_page, wiki: wiki) }
     let!(:grand_child_page_wiki_menu_item) { FactoryBot.create(:wiki_menu_item, wiki: wiki, name: grand_child_page.slug) }
 
-    context 'when called without options' do
-      it 'returns the menu item of the parent page' do
-        expect(grand_child_page.nearest_parent_menu_item).to eq(child_page_wiki_menu_item)
-      end
-    end
-
-    context 'when called with {is_main_item => true}' do
-      it 'returns the menu item of the grand parent if the menu item of its parent is not a main item' do
-        expect(grand_child_page.nearest_parent_menu_item(is_main_item: true)).to eq(wiki_page.menu_item)
-      end
+    it 'returns the menu item of the grand parent if the menu item of its parent is not a main item' do
+      expect(grand_child_page.nearest_main_item).to eq(wiki_page.menu_item)
     end
   end
 

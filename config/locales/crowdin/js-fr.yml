@@ -6,9 +6,9 @@ fr:
       loading: Chargement…
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
+        multi: Ajouter «%{name} »
+        single: Sélectionner «%{name} »
+      remove: Supprimer %{name}
       active: Active %{label} %{name}
     close_popup_title: Fermer popup
     close_filter_title: Fermer le filtre
@@ -55,6 +55,7 @@ fr:
     description_subwork_package: 'Enfant du lot de travaux #%{id}'
     error:
       internal: Une erreur interne s'est produite.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Ouvrir ce filtre avec les touches « ALT » et fléchées.
@@ -72,7 +73,7 @@ fr:
           one: Premier critère de tri
           two: Second critère de tri
           three: Troisième critère de tri
-      upsale_for_more: For more advanced filters, check out the
+      upsale_for_more: Découvrez les options de filtrage avancées
       upsale_link: Enterprise Edition.
     general_text_no: non
     general_text_yes: oui
@@ -149,6 +150,7 @@ fr:
     label_not_equals: n'est pas
     label_on: le
     label_open_menu: Ouvrir le menu
+    label_open_context_menu: Open context menu
     label_open_work_packages: ouvert
     label_password: Mot de passe
     label_previous: Précédent
@@ -172,6 +174,7 @@ fr:
     label_subject: Objet
     label_this_week: cette semaine
     label_today: aujourd'hui
+    label_up: Up
     label_activity_show_only_comments: Afficher les activités avec les commentaires
       seulement
     label_activity_show_all: Afficher toutes les activités
@@ -278,7 +281,8 @@ fr:
       required: Requis par
       relation_type: type de relation
     relations_hierarchy:
-      hierarchy_headline: hiérarchie
+      parent_headline: Parent
+      children_headline: Enfants
     relation_buttons:
       change_parent: Changer le parent
       remove_parent: Supprimer le parent
@@ -315,6 +319,7 @@ fr:
         one: Vous ne pouvez sélectionner qu'un seul élément
         other: Vous ne pouvez sélectionner que {{limit}} éléments
         zero: You cannot select any items
+    show_hide_project_menu: Déplier/Replier le menu du projet
     sort:
       sorted_asc: 'Tri par ordre croissant appliqué, '
       sorted_dsc: 'Tri par ordre décroissant appliqué, '
@@ -332,6 +337,7 @@ fr:
     timelines:
       gantt_chart: Diagramme de Gantt
       labels:
+        title: Label configuration
         bar: Libellés des barres
         left: Gauche
         right: Droite
@@ -372,7 +378,6 @@ fr:
         grouping_other: Autre
         noneSelection: "(none)"
       name: Nom
-      new_work_package: Nouveau Lot de Travaux
       outline: Réinitialiser le contour
       outlines:
         aggregation: Ne montrer que les agrégations
@@ -476,10 +481,13 @@ fr:
       inline_create:
         title: Cliquez ici pour ajouter un nouveau lot de travaux à cette liste
       create:
+        title: Nouveau Lot de Travaux
         header: Nouveau lot (%{type})
         header_no_type: Nouveau lot de travaux (type non encore spécifié)
         header_with_parent: 'Nouveau %{type} (enfant de %{parent_type} #%{id})'
         button: Créer
+      copy:
+        title: Copy work package
       hierarchy:
         show: Afficher le mode hiérarchie
         hide: Masquer le mode hiérarchie
@@ -539,7 +547,6 @@ fr:
           est activé.
         hierarchy_disabled_by_group_by: Le mode hiérarchie est désactivé, car les
           résultats sont groupés par %{column}.
-        hierarchy_mode: Mode hiérarchie
         sort_ascending: Trier par ordre croissant
         sort_descending: Trier par ordre décroissant
         move_column_left: Déplacer la colonne de gauche
@@ -553,6 +560,7 @@ fr:
           not_found: Il y a aucune requête de ce type
         text_no_results: Aucune requête correspondante n'a été trouvée.
       table:
+        configure_button: Configure work package table
         summary: Tableau avec lignes de lots de travaux et colonnes d’attributs de
           lots de travaux.
         text_inline_edit: La plupart des cellules de ce tableau sont des boutons qui
@@ -561,6 +569,23 @@ fr:
           regrouper, réorganiser, supprimer et ajouter des colonnes.
         text_select_hint: Les boîtes de sélection doivent être ouvertes avec la touche
           « ALT » et les flèches directionelles.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Mode hiérarchie
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Vue globale
         activity: Activité

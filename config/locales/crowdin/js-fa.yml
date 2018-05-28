@@ -55,6 +55,7 @@ fa:
     description_subwork_package: 'Child of work package #%{id}'
     error:
       internal: An internal error has occurred.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Open this filter with 'ALT' and arrow keys.
@@ -149,6 +150,7 @@ fa:
     label_not_equals: is not
     label_on: برخط
     label_open_menu: Open menu
+    label_open_context_menu: Open context menu
     label_open_work_packages: open
     label_password: Password
     label_previous: Previous
@@ -172,6 +174,7 @@ fa:
     label_subject: Subject
     label_this_week: this week
     label_today: today
+    label_up: Up
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} مجموع پیشرفت"
@@ -274,7 +277,8 @@ fa:
       required: Required by
       relation_type: relation type
     relations_hierarchy:
-      hierarchy_headline: hierarchy
+      parent_headline: بالادستی
+      children_headline: بچه ها
     relation_buttons:
       change_parent: تغییر والدین
       remove_parent: Remove parent
@@ -311,6 +315,7 @@ fa:
         one: You can only select one item
         other: You can only select {{limit}} items
         zero: You cannot select any items
+    show_hide_project_menu: Expand/Collapse project menu
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -327,6 +332,7 @@ fa:
     timelines:
       gantt_chart: نمودار گانت
       labels:
+        title: Label configuration
         bar: برچسب های نوار
         left: چپ
         right: راست
@@ -365,7 +371,6 @@ fa:
         grouping_other: Other
         noneSelection: "(none)"
       name: نام
-      new_work_package: New work package
       outline: Reset Outline
       outlines:
         aggregation: Show aggregations only
@@ -465,10 +470,13 @@ fa:
       inline_create:
         title: Click here to add a new work package to this list
       create:
+        title: New work package
         header: New %{type}
         header_no_type: New work package (Type not yet set)
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: Create
+      copy:
+        title: Copy work package
       hierarchy:
         show: Show hierarchy mode
         hide: Hide hierarchy mode
@@ -529,7 +537,6 @@ fa:
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
           being grouped by %{column}.
-        hierarchy_mode: Hierarchy mode
         sort_ascending: Sort ascending
         sort_descending: Sort descending
         move_column_left: Move column left
@@ -543,12 +550,30 @@ fa:
           not_found: There is no such query
         text_no_results: No matching queries were found.
       table:
+        configure_button: Configure work package table
         summary: Table with rows of work package and columns of work package attributes.
         text_inline_edit: Most cells of this table are buttons that activate inline-editing
           functionality of that attribute.
         text_sort_hint: With the links in the table headers you can sort, group, reorder,
           remove and add table columns.
         text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Hierarchy mode
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Overview
         activity: فعالیت

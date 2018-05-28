@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {NgModule} from '@angular/core';
+import {ApplicationRef, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {FormsModule} from '@angular/forms';
@@ -52,7 +52,8 @@ import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageInlineCreateComponent} from 'core-components/wp-inline-create/wp-inline-create.component';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import {WpResizerDirective} from 'core-components/wp-resizer/wp-resizer.component';
+import {WpResizerDirective} from 'core-components/resizer/wp-resizer.component';
+import {MainMenuResizerDirective} from 'core-components/resizer/main-menu-resizer.component';
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
@@ -344,6 +345,7 @@ import {WorkPackageRelationsCreateComponent} from "core-components/wp-relations/
     WorkPackageTimelineButtonComponent,
     WorkPackageZenModeButtonComponent,
     WpResizerDirective,
+    MainMenuResizerDirective,
     WpCustomActionComponent,
     WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
@@ -550,6 +552,9 @@ import {WorkPackageRelationsCreateComponent} from "core-components/wp-relations/
 
     // External query configuration
     ExternalQueryConfigurationComponent,
+
+    // Main menu
+    MainMenuResizerDirective
   ]
 })
 export class OpenProjectModule {
@@ -557,8 +562,12 @@ export class OpenProjectModule {
   }
 
   // noinspection JSUnusedGlobalSymbols
-  ngDoBootstrap() {
+  ngDoBootstrap(appRef:ApplicationRef) {
     // Already done in openproject-app.ts
     // this.upgrade.bootstrap(document.body, ['openproject'], {strictDi: false});
+
+    if (document.getElementsByTagName('main-menu-resizer').length > 0) {
+      appRef.bootstrap(MainMenuResizerDirective);
+    }
   }
 }

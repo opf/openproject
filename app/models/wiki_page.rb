@@ -31,7 +31,7 @@ require 'diff'
 require 'enumerator'
 
 class WikiPage < ActiveRecord::Base
-  belongs_to :wiki
+  belongs_to :wiki, touch: true
   has_one :project, through: :wiki
   has_one :content, class_name: 'WikiContent', foreign_key: 'page_id', dependent: :destroy
   acts_as_attachable delete_permission: :delete_wiki_pages_attachments
@@ -211,21 +211,14 @@ class WikiPage < ActiveRecord::Base
     MenuItems::WikiMenuItem.find_by(name: slug, navigatable_id: wiki_id)
   end
 
-  def nearest_menu_item
-    menu_item || nearest_parent_menu_item
-  end
-
-  # Returns the wiki menu item of nearest ancestor page that has a wiki menu item.
-  # To restrict the result to main menu items pass <tt>is_main_item: true</tt> as +options+ hash
-  def nearest_parent_menu_item(options = {})
+  # Returns the wiki menu item of nearest ancestor page that has a wiki menu item which is a main item.
+  def nearest_main_item
     return nil unless parent
 
-    options = options.with_indifferent_access
-
-    if (parent_menu_item = parent.menu_item) && (!options[:is_main_item] || parent_menu_item.is_main_item?)
+    if (parent_menu_item = parent.menu_item) && parent_menu_item.is_main_item?
       parent_menu_item
     else
-      parent.nearest_parent_menu_item
+      parent.nearest_main_item
     end
   end
 

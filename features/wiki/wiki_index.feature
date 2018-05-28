@@ -44,7 +44,7 @@ Feature: Viewing the wiki index page
   Scenario: Visiting the wiki index page without a related page should show the overall index page and select no menu item
     When I go to the wiki index page of the project called "project1"
     Then I should see "Index by title" within "#content"
-    And there should be no menu item selected
+    And there should be no child menu item selected
 
   Scenario: Visiting the wiki index page with a related page that has the index page option enabled on it's menu item should show the page and select the toc menu entry within the wiki menu item
     Given the project "project1" has 1 wiki page with the following:
@@ -59,4 +59,4 @@ Feature: Viewing the wiki index page
       | title      | ParentWikiPage |
     When I go to the wiki index page below the "ParentWikiPage" page of the project called "project1"
     Then I should see "Index by title" within "#content"
-    And there should be no menu item selected
+    And there should be no child menu item selected

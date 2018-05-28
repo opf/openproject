@@ -53,7 +53,7 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     // Get element
     this.resizingElement = <HTMLElement>document.getElementsByClassName(this.elementClass)[0];
 
-    // Get inital width from local storage and apply
+    // Get initial width from local storage and apply
     let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
     this.elementFlex = localStorageValue ? parseInt(localStorageValue,
       10) : this.resizingElement.offsetWidth;

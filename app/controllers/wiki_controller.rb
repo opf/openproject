@@ -65,6 +65,7 @@ class WikiController < ApplicationController
 
   include AttachmentsHelper
   include PaginationHelper
+  include Redmine::MenuManager::WikiMenuHelper
   include OpenProject::Concerns::Preview
 
   attr_reader :page, :related_page
@@ -372,10 +373,14 @@ class WikiController < ApplicationController
   end
 
   def current_menu_item_sym(page)
-    menu_item = send(page).try(:nearest_menu_item)
+    page = send(page)
+    menu_item = page.try(:menu_item)
 
     if menu_item.present?
       menu_item.menu_identifier
+    elsif page.present?
+      menu_item = default_menu_item(page)
+      "no-menu-item-#{menu_item.menu_identifier}".to_sym
     end
   end
 

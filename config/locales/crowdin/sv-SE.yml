@@ -171,7 +171,9 @@ sv-SE:
       form_configuration: Ställ in formulär
       projects: Projekt
       enabled_projects: Aktiverade projekt
-      add_group: Lägg till grupp
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Återställ standardinställningar
   versions:
     overview:
@@ -367,6 +369,7 @@ sv-SE:
         mail_notification: E-postaviseringar
         new_password: Nytt lösenord
         password_confirmation: Bekräftelse
+        consented_at: Consented at
       user_preference:
         comments_sorting: Visa kommentarer
         hide_mail: Dölj min E-postadress
@@ -378,8 +381,6 @@ sv-SE:
       version:
         effective_date: Förfallodatum
         sharing: Delas
-      wiki:
-        start_page: Startsida
       wiki_content:
         text: Text
       wiki_page:
@@ -392,6 +393,7 @@ sv-SE:
       work_package:
         begin_insertion: Början av införandet
         begin_deletion: Början av raderingen
+        children: Subelements
         done_ratio: Progress (%)
         end_insertion: Slutet av införandet
         end_deletion: Slutet av raderingen
@@ -519,6 +521,8 @@ sv-SE:
               status_transition_invalid: är ogiltig eftersom det finns någon giltig
                 övergång ifrån den gamla till nya statusen för den aktuella användarens
                 roller.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: måste vara aktiv.
             category:
@@ -665,11 +669,13 @@ sv-SE:
   button_close: Close
   button_collapse_all: Fäll ihop alla
   button_configure: Konfigurera
+  button_continue: Fortsätt
   button_copy: Kopiera
   button_copy_and_follow: Kopiera och följ
   button_create: Skapa
   button_create_and_continue: Skapa och fortsätt
   button_delete: Ta bort
+  button_decline: Decline
   button_delete_watcher: Ta bort bevakare %{name}
   button_download: Ladda ner
   button_duplicate: Duplicera
@@ -711,6 +717,23 @@ sv-SE:
   button_add_menu_entry: Lägga till menyalternativ
   button_configure_menu_entry: Konfigurera menyalternativ
   button_delete_menu_entry: Ta bort menyalternativ
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Började kopiera projekt "%{source_project_name}" till "%{target_project_name}".
       Du kommer att informeras via E-post när "%{target_project_name}" finns tillgängligt.
@@ -936,6 +959,8 @@ sv-SE:
   error_cookie_missing: OpenProject cookie saknas. Vänligen kontrollera att cookies
     är aktiverade, eftersom detta program inte fungerar korrekt annars.
   error_custom_option_not_found: Alternativet finns inte.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: Det gick inte ta bort denna post.
   error_invalid_group_by: 'Kan inte gruppera efter: %{value}'
   error_invalid_query_column: 'Ogiltig frågekolumn: %{value}'
@@ -1079,6 +1104,7 @@ sv-SE:
   label_all: alla
   label_all_time: all tid
   label_all_words: Alla ord
+  label_all_open_wps: All open
   label_always_visible: Visas alltid
   label_announcement: Meddelande
   label_and_its_subprojects: "%{value} och dess delprojekt"
@@ -1119,6 +1145,7 @@ sv-SE:
   label_calendar: Kalender
   label_calendar_show: Visa kalendern
   label_category: Kategori
+  label_consent_settings: User Consent
   label_wiki_menu_item: Wiki menyalternativ
   label_select_main_menu_item: Välj ny huvudmenypost
   label_select_project: Välj ett projekt
@@ -1141,6 +1168,7 @@ sv-SE:
   label_close_versions: Stäng slutförda versioner
   label_closed_work_packages: stängt
   label_collapse: Fäll ihop
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: konfiguration
   label_comment_add: Lägg till en kommentar
   label_comment_added: Kommentar tillagd
@@ -1208,11 +1236,13 @@ sv-SE:
   label_enumerations: Textvärden
   label_enterprise: Företag
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Miljö
   label_estimates_and_time: Uppskattningar och tid
   label_equals: är
   label_example: Exempel
   label_export_to: 'Finns även som:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} timme"
   label_f_hour_plural: "%{value} timmar"
   label_feed_plural: Flöden
@@ -1242,6 +1272,7 @@ sv-SE:
   label_here: här
   label_hide: Dölj
   label_history: Historik
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Hem
   label_in: i
   label_in_less_than: i mindre än
@@ -1255,6 +1286,7 @@ sv-SE:
   label_information_plural: Information
   label_integer: Heltal
   label_internal: Intern
+  label_introduction_video: Introduction video
   label_invite_user: Bjud in användare
   label_show_hide: Visa/Dölj
   label_show_all_registered_users: Show all registered users
@@ -1317,6 +1349,7 @@ sv-SE:
   label_my_page_block: Området "Min Sida"
   label_my_projects: Mina projekt
   label_my_queries: Min anpassade frågor
+  label_never: Aldrig
   label_new: Ny
   label_new_statuses_allowed: Nya statusar tillåtna
   label_news_added: Nyheter tillagda
@@ -1341,6 +1374,7 @@ sv-SE:
   label_open_menu: Öppna meny
   label_open_work_packages: öppna
   label_open_work_packages_plural: öppna
+  label_openproject_website: OpenProject website
   label_optional_description: Beskrivning
   label_options: Alternativ
   label_other: Andra
@@ -1510,7 +1544,7 @@ sv-SE:
   label_version_sharing_none: Inte delade
   label_version_sharing_system: Med alla projekt
   label_version_sharing_tree: Med projektträd
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Visa alla revisioner
   label_view_diff: Visa skillnader
   label_view_revisions: Visa revisioner
@@ -1531,6 +1565,7 @@ sv-SE:
   label_wiki_show_menu_item: Visa som menyobjekt i projektets meny
   label_wiki_show_new_page_link: Visa undermenyn "Skapa ny underordnad sida"
   label_wiki_show_submenu_item: 'Visa som undermenyalternativ för '
+  label_wiki_start: Startsida
   label_work_package: Arbetspaket
   label_work_package_added: Arbetspaket lades till
   label_work_package_attachments: Work package attachments
@@ -2017,12 +2052,19 @@ sv-SE:
     felaktiga inloggningsförsök
   setting_brute_force_block_minutes: Tiden som användaren är blockerad
   setting_cache_formatted_text: Cache-formaterad text
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Anpassa utseendet på arbetspaketslistan
   setting_commit_fix_keywords: Nyckelord för fixande
   setting_commit_logs_encoding: Kodning av incheckningsmeddelanden
   setting_commit_logtime_activity_id: Aktivitet för tidrapport
   setting_commit_logtime_enabled: Aktivera tidrapportering
   setting_commit_ref_keywords: Nyckelord för referens
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Tillåt relationer mellan arbetspaket
     i olika projekt
   setting_date_format: Datumformat
@@ -2117,7 +2159,10 @@ sv-SE:
     passwords: Lösenord
     session: Session
     brute_force_prevention: Automatiserad användarblockering
-  show_hide_project_menu: Expandera/minimera projektmenyn
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: aktiv
   status_archived: archived
   status_invited: inbjuden

@@ -65,12 +65,12 @@ tr:
     conditions: Koşullar
     plural: Özel eylemler
     new: Özel eylem ekle
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+    edit: Özel eylem %{name} Düzenle
+    execute: "%{name} yürütmek"
     upsale:
-      title: Custom actions is an Enterprise Edition feature
-      description: Custom actions streamline everyday work by combining a set of individual
-        steps into one button.
+      title: Özel eylemler bir Enterprise Edition özelliğidir
+      description: Özel eylemler bir düğme içine tek tek adımları bir dizi birleştirerek
+        günlük iş düzene.
   custom_fields:
     text_add_new_custom_field: 'Bir projeye yeni özel alanlar eklemeden önce onları
       oluşturmalısınız.
@@ -168,7 +168,9 @@ tr:
       form_configuration: Formu yapılandırma
       projects: Projeler
       enabled_projects: Etkin projeler
-      add_group: Grup ekle
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Varsayılanlara geri yükle
   versions:
     overview:
@@ -269,8 +271,8 @@ tr:
       announcements:
         show_until: Son yayın tarihi
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Ek içeriği
+        attachment_file_name: Ek dosya adı
         downloads: İndirmeler
         file: Dosya
         filename: Dosya
@@ -357,13 +359,15 @@ tr:
       user:
         admin: Yönetici
         auth_source: Kimlik doğrulama modu
-        current_password: Mevcut şifre
-        force_password_change: Sonraki oturum açma işleminde şifre değişikliğine zorla
+        current_password: Mevcut parola
+        force_password_change: Sonraki oturum açma işleminde parola değişikliğine
+          zorla
         language: Dil
         last_login_on: Son giriş
         mail_notification: E-posta bildirimleri
         new_password: Yeni parola
         password_confirmation: Onay
+        consented_at: Consented at
       user_preference:
         comments_sorting: Yorumları görüntüle
         hide_mail: E-mail adresimi gizle
@@ -375,8 +379,6 @@ tr:
       version:
         effective_date: Teslim tarihi
         sharing: Paylaşım
-      wiki:
-        start_page: Başlangıç sayfası
       wiki_content:
         text: Metin
       wiki_page:
@@ -389,6 +391,7 @@ tr:
       work_package:
         begin_insertion: Eklemeye başlama
         begin_deletion: Silme işleminin başlangıcı
+        children: Subelements
         done_ratio: İlerleme (%)
         end_insertion: Ekleme işlemi bitti
         end_deletion: Silme işlemi bitti
@@ -451,12 +454,13 @@ tr:
         custom_field:
           at_least_one_custom_option: En az bir seçeneğin uygun olması gerekir.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
+          only_one_allowed: "(%{name}) yalnızca bir değer verilir."
           empty: "(%{name}) değeri boş olamaz."
           inclusion: "(%{name}) değer izin verilen değerlerden birine ayarlı değil."
           not_an_integer: "(%{name}) bir tamsayı değil."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          smaller_than_or_equal_to: "(%{name}) %{count} ' e eşit veya daha küçük olmalıdır."
+          greater_than_or_equal_to: "(%{name}) sıfırdan büyük veya %{count} ' e eşit
+            olması gerekir."
         enterprise_token:
           unreadable: okunamıyor. Desteklenen bir destek anahtarı olduğuna emin misiniz?
         parse_schema_filter_params_service:
@@ -517,6 +521,8 @@ tr:
             status_id:
               status_transition_invalid: geçerli kullanıcının rolleri için eski durumdan
                 yeni duruma geçerli bir geçiş mevcut olmadığından geçersiz.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: etkin olması gerekir.
             category:
@@ -547,7 +553,7 @@ tr:
                   birini seçiniz.
               match:
                 confirm: Yeni parolayı doğrulayın.
-                description: '"Parola onayı" ''yeni şifre'' alanı girişi aynı olmalıdır.'
+                description: '"Parola onayı" ''yeni parola'' alanı girişi aynı olmalıdır.'
             status:
               invalid_on_create: yeni kullanıcılar için geçerli bir durum değil.
             auth_source:
@@ -662,11 +668,13 @@ tr:
   button_close: Kapat
   button_collapse_all: Tümünü daralt
   button_configure: Düzenle
+  button_continue: Devam et
   button_copy: Kopyala
   button_copy_and_follow: Kopyala ve takip et
   button_create: Oluştur
   button_create_and_continue: Oluştur ve devam et
   button_delete: Sil
+  button_decline: Decline
   button_delete_watcher: "%{name} isimli takipçiyi sil"
   button_download: İndir
   button_duplicate: Çoğalt
@@ -708,6 +716,23 @@ tr:
   button_add_menu_entry: Menü öğesi ekle
   button_configure_menu_entry: Menü öğesini düzenle
   button_delete_menu_entry: Menü öğesini sil
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: '"%{source_project_name}" adlı proje "%{target_project_name}" adlı yeni
       bir projeye kopyalanmaya başladı. "%{target_project_name}" projesi hazır olduğunda
@@ -938,6 +963,8 @@ tr:
   error_cookie_missing: OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi
     için, tarayıcınızda çerezlere izin verildiğine emin olun.
   error_custom_option_not_found: Seçenek yok.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: Girdi silinemedi.
   error_invalid_group_by: "%{value} ya göre guplandırılamadı"
   error_invalid_query_column: 'Geçersiz sorgu sütunu: %{value}'
@@ -993,12 +1020,12 @@ tr:
       pdf_with_descriptions: Açıklamalı PDF
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotext kullanılabilir (isteğe bağlı)
+      unrtf: Unrtf kullanılabilir (isteğe bağlı)
+      catdoc: Catdoc kullanılabilir (isteğe bağlı)
+      xls2csv: Xls2csv kullanılabilir (isteğe bağlı)
+      catppt: Catppt kullanılabilir (isteğe bağlı)
+      tesseract: Tesseract kullanılabilir (isteğe bağlı)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1059,7 +1086,7 @@ tr:
   label_activate_user: Aktif kullanıcı
   label_active_in_new_projects: Yeni projelerde etkin
   label_activity: Etkinlik
-  label_add_edit_translations: Ekle ve çevirileri düzenle
+  label_add_edit_translations: Çeviri ekle ve düzenle
   label_add_another_file: Başka bir dosya ekle
   label_add_columns: Seçilen sütunları ekle
   label_add_note: Not ekle
@@ -1078,6 +1105,7 @@ tr:
   label_all: tüm
   label_all_time: her zaman
   label_all_words: Bütün kelimeler
+  label_all_open_wps: All open
   label_always_visible: Her zaman görüntüle
   label_announcement: Duyuru
   label_and_its_subprojects: "%{value} ve onun alt projeler"
@@ -1119,6 +1147,7 @@ tr:
   label_calendar: Takvim
   label_calendar_show: Takvimi Göster
   label_category: Kategori
+  label_consent_settings: User Consent
   label_wiki_menu_item: Viki menü öğesi
   label_select_main_menu_item: Yeni ana menü öğesi seç
   label_select_project: Bir proje seçin
@@ -1141,6 +1170,7 @@ tr:
   label_close_versions: Tamamlanmış sürümleri kapat
   label_closed_work_packages: kapalı
   label_collapse: Daralt
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: konfigürasyon
   label_comment_add: Yorum ekle
   label_comment_added: Yorum eklendi
@@ -1208,11 +1238,13 @@ tr:
   label_enumerations: Sayım Listesi
   label_enterprise: Kurumsal
   label_enterprise_edition: Kurumsal Sürüm
+  label_entry_page: Entry page
   label_environment: Ortam
   label_estimates_and_time: Tahminler & zaman
   label_equals: şuysa
   label_example: Örnek
   label_export_to: 'Ayrıca şu adreste bulunabilir:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} saat"
   label_f_hour_plural: "%{value} saat"
   label_feed_plural: Akışlar
@@ -1242,6 +1274,7 @@ tr:
   label_here: buraya
   label_hide: Gizle
   label_history: Geçmiş
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Ana sayfa
   label_in: şurada
   label_in_less_than: daha azdır
@@ -1255,6 +1288,7 @@ tr:
   label_information_plural: Bilgi
   label_integer: Tamsayı
   label_internal: Dahili
+  label_introduction_video: Introduction video
   label_invite_user: Kullanıcı davet et
   label_show_hide: Göster/gizle
   label_show_all_registered_users: Tüm kayıtlı kullanıcıları göster
@@ -1317,6 +1351,7 @@ tr:
   label_my_page_block: Sayfa bloğum
   label_my_projects: Projelerim
   label_my_queries: Özel sorgularım
+  label_never: Hiçbir zaman
   label_new: Yeni
   label_new_statuses_allowed: Yeni durumlara izin verildi
   label_news_added: Haberler eklendi
@@ -1341,6 +1376,7 @@ tr:
   label_open_menu: Menüyü Aç
   label_open_work_packages: açık
   label_open_work_packages_plural: açık
+  label_openproject_website: OpenProject website
   label_optional_description: Açıklama
   label_options: Ayarlar
   label_other: Diğer
@@ -1513,7 +1549,7 @@ tr:
   label_version_sharing_none: Paylaşılmamış
   label_version_sharing_system: Tüm projeler ile
   label_version_sharing_tree: Proje ağacı ile
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Tüm revizyonları görüntüle
   label_view_diff: Farklılıkları gör
   label_view_revisions: Düzeltmeleri izle
@@ -1534,6 +1570,7 @@ tr:
   label_wiki_show_menu_item: Proje gezintisinde menü öğesi olarak göster
   label_wiki_show_new_page_link: Alt menü öğesini göster 'Yeni alt sayfa oluştur'
   label_wiki_show_submenu_item: 'Alt menü öğesi olarak göster '
+  label_wiki_start: Başlangıç sayfası
   label_work_package: İş paketi
   label_work_package_added: İş paketi eklendi
   label_work_package_attachments: İş paketi ekleri
@@ -1633,14 +1670,14 @@ tr:
     Hesap onayınızı bekliyor:'
   mail_body_account_information: Hesap bilgilerinizi giriniz
   mail_body_account_information_external: Giriş yapmak için %{value} hesabınızı kullanabilirsiniz.
-  mail_body_lost_password: 'Şifrenizi değiştirmek için aşağıdaki bağlantıyı tıklayın:'
+  mail_body_lost_password: 'Parolanızı değiştirmek için aşağıdaki bağlantıyı tıklayın:'
   mail_body_register: 'Hesabınızı etkinleştirmek için aşağıdaki bağlantıyı tıklayın:'
   mail_body_reminder: 'Size tahsis edilen(ler) %{count} iş paketinin bir sonraki %{days}
     gün içinde ödemesi gerekiyor:'
   mail_body_wiki_content_added: "' %{id} ' wiki sayfası %{author} tarafından eklendi."
   mail_body_wiki_content_updated: "'%{id}' wiki sayfası, %{author} tarafından güncellendi."
   mail_subject_account_activation_request: "%{value} hesap etkinleştirme isteği"
-  mail_subject_lost_password: Sizin %{value} şifre
+  mail_subject_lost_password: Sizin %{value} parola
   mail_subject_register: İşletme %{value} hesap etkinleştirme
   mail_subject_reminder: "%{days} günde %{count} iş paketi(ler) geçecek"
   mail_subject_wiki_content_added: "'%{id}' viki sayfası eklendi"
@@ -1659,12 +1696,12 @@ tr:
   notice_account_invalid_credentials_or_blocked: Geçersiz kullanıcı, parola ya da
     hesap birden fazla başarısız giriş denemesinden dolayı engellendi. Eğer öyleyse
     kısa bir zaman sonra otomatik olarak engel kaldırılacaktır.
-  notice_account_lost_email_sent: Yeni bir şifre seçme talimatlarını içeren bir E-Posta
-    size göndermiştir.
+  notice_account_lost_email_sent: Size yeni bir parola seçme talimatlarını içeren
+    bir e-posta göndermiştir.
   notice_account_new_password_forced: Yeni bir parola gerekli.
-  notice_account_password_expired: Şifrenizin yüzdesi %{days} günün sonunda doldu.
-    Lütfen yenisini ayarla.
-  notice_account_password_updated: Şifreniz başarıyla güncellendi.
+  notice_account_password_expired: Parolanız %{days} günün sonunda geçerliliğini yitirdi.
+    Lütfen yenisini ayarlayın.
+  notice_account_password_updated: Parolanız başarıyla güncellendi.
   notice_account_pending: Hesabınız oluşturuldu ve şimdi yönetici onayını bekliyor.
   notice_account_register_done: Hesap başarıyla oluşturuldu. Hesabınızı etkinleştirmek
     için size e-postayla gönderilen bağlantıyı tıklayın.
@@ -1988,7 +2025,7 @@ tr:
       managed_introduction: OpenProject yerel bir Subversion havuzunu otomatik olarak
         oluşturup entegre edin.
       managed_url: Yönetilen URL
-      password: Depo şifre
+      password: Depo Parolası
       username: Depo kullanıcı adı
     truncated: Üzgünüz, dosyaları %{limit} ile limitlemek zorunda kaldık. %{truncated}
       girdileri listeden göz ardı edildi.
@@ -2019,12 +2056,19 @@ tr:
     kullanıcıyı engelle
   setting_brute_force_block_minutes: Kullanıcının engellediği süre
   setting_cache_formatted_text: Biçimlendirilmiş metni önbelleğe al
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: İş paketi listelerinin görünümünü özelleştirme
   setting_commit_fix_keywords: Anahtar kelimeleri düzeltme
   setting_commit_logs_encoding: İleti kodlamayı tamamla
   setting_commit_logtime_activity_id: Kaydedilen zaman için faaliyet
   setting_commit_logtime_enabled: Zaman kaydını etkinleştir
   setting_commit_ref_keywords: Anahtar kelimeleri referansla
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Projeler arası iş paketi ilişkilerine
     izin ver
   setting_date_format: Tarih formatı
@@ -2043,7 +2087,7 @@ tr:
   setting_feeds_limit: Besleme içeriği sınırı
   setting_file_max_size_displayed: Satır içi görüntülenen maksimum metin dosyası boyutu
   setting_host_name: Ana bilgisayar adı
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: Etkinleştirme e-posta kullanım süresi sonu
   setting_work_package_done_ratio: İş tamamlanma oranını hesapla yöntemi
   setting_work_package_done_ratio_field: İş paketi alanını kullan
   setting_work_package_done_ratio_status: İş paketi durumunu kullan
@@ -2107,7 +2151,7 @@ tr:
   setting_accessibility_mode_for_anonymous: İsimsiz kullanıcılar için erişilebilirlik
     modunu etkinleştir
   setting_user_format: Kullanıcılar biçimi görüntüler
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: Kullanıcıların varsayılan saat dilimi
   setting_users_deletable_by_admins: Yöneticiler kullanıcı hesaplarını silebilsin
   setting_users_deletable_by_self: Kullanıcılar kendi hesaplarını silebilsin
   setting_welcome_text: Hoş geldiniz blok metini
@@ -2122,7 +2166,10 @@ tr:
     passwords: Parolalar
     session: Oturum
     brute_force_prevention: Otomatik kullanıcı engelleme
-  show_hide_project_menu: Genişlet/Daralt proje menüsü
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: etkin
   status_archived: arşivlendi
   status_invited: davet
@@ -2177,7 +2224,7 @@ tr:
     Aksi halde iOS üzerinde çok kötü gözükür.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: Veritabanı TSVector erişimi  (isteğe bağlı)
   text_default_administrator_account_changed: Varsayılan yönetici hesabı değişti
   text_default_encoding: 'Varsayılan: UTF-8'
   text_destroy: Sil
@@ -2213,7 +2260,7 @@ tr:
   text_journal_aggregation_time_explanation: Yaş farkı belirtilen zaman aralığından
     azsa dergileri görüntü için birleştirin. Bu aynı zamanda posta bildirimlerini
     aynı süreyle erteleyecektir.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} %{old} </br><strong></strong> %{new} olarak değişti"
   text_journal_changed_no_detail: "%{label} güncellendi"
   text_journal_changed_with_diff: "%{label} değişti ( %{link})"
   text_journal_deleted: "%{label}, ( %{old}) silindi"
@@ -2377,16 +2424,16 @@ tr:
       grouping: Gruplama
       grouping_hide_group: '"%{group}" grubunu gizle'
       grouping_one: İlk gruplama ölçütü
-      grouping_one_phrase: Is a subproject of
+      grouping_one_phrase: Şunun bir alt projesi
       grouping_other: Diğer
       hide_chart: Grafiği gizle
       noneElement: "(yok)"
       noneSelection: "(yok)"
-      outline: Initial outline expansion
-      parent: Show subprojects of
+      outline: İlk seferde anahat genişletme
+      parent: Şunun altprojelerini göster
       work_package_filters: İş paketlerini filtrele
       work_package_responsible: Show work packages with responsible
-      work_package_assignee: Show work packages with assignee
+      work_package_assignee: Atanmış kişiye ait iş paketlerini göster
       types: Türleri göster
       status: Durumu göster
       project_time_filter: Projects with a work package of a certain type in a certain
@@ -2419,9 +2466,9 @@ tr:
       izniniz yok.
     no_timeline_for_id: "%{id} kimlik numaralı bir zaman akışı yok."
     notice_successful_deleted_all_elements: Tüm elementler başarıyla silindi
-    outline: Reset Outline
+    outline: Anahat Sıfırla
     outlines:
-      aggregation: Show aggregations only
+      aggregation: Sadece toplu gösterimler
       level1: Düzey 1 genişletin
       level2: Düzey 2 genişletin
       level3: Düzey 3 genişletin
@@ -2474,8 +2521,8 @@ tr:
       quarters: Üç aylık
       years: Yıl
   title_remove_and_delete_user: Davet edilen kullanıcıyı projeden çıkarın ve onu silin.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'Yeni kullanıcılar için varsayılan saat dilimi. Bir
+    kullanıcının ayarlarında değiştirilebilir.
 
 '
   tooltip_resend_invitation: 'Eskisi geçersiz olduysa ya da orjinal e-posta alınamadıysa
@@ -2548,9 +2595,10 @@ tr:
     bırakıldı.
   warning: Uyarı
   warning_attachments_not_saved: "%{count} dosya (lar) kaydedilemedi."
-  warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+  warning_registration_token_expired: 'Etkinleştirme e-postası süresi doldu. Sana
+    yeni bir %{email} gönderdik. Hesabınızı etkinleştirmek için linki tıklayınız.
+
+'
   menu_item: Menü seçeneği
   menu_item_setting: Görünürlük
   wiki_menu_item_for: Wikipage için menü öğesi " %{title} "

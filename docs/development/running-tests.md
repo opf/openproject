@@ -101,6 +101,11 @@ rake tasks using the command `bundle exec rake <task>`.
       be enclosed in quotation marks.
 
       Example: `bundle exec rake "cucumber:custom[features/issues features/projects]"`
+      
+    In some development environments you might need to run single features differently as the former example results in weird error messages.
+    
+    `RAILS_ENV=test bundle exec cucumber -r features <path-to-feature-file> `
+
 
 `cucumber:plugins` and `cucumber:all` accept an optional parameter which
 allows specifying custom options to cucumber. This can be used for

@@ -55,6 +55,7 @@ fil:
     description_subwork_package: 'Bata ng work package #%{id}'
     error:
       internal: Isang internal error ang naganap.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Buksan ang filter na ito sa 'ALT' at ang mga arrow key.
@@ -147,6 +148,7 @@ fil:
     label_not_equals: ay hindi
     label_on: sa
     label_open_menu: Buksan ang pagpipilian
+    label_open_context_menu: Open context menu
     label_open_work_packages: buksan
     label_password: Password
     label_previous: Nakaraan
@@ -170,6 +172,7 @@ fil:
     label_subject: Paksa
     label_this_week: ngayong semana
     label_today: ngayon
+    label_up: Up
     label_activity_show_only_comments: Magpakita ng mga aktibidad sa komento lamang
     label_activity_show_all: Ipakita lahat ang mga aktibidad
     label_total_progress: "%{percent}% Kabuang progreso"
@@ -277,7 +280,8 @@ fil:
       required: Kinakailangan ng
       relation_type: uri ng naguugnay
     relations_hierarchy:
-      hierarchy_headline: hierarchy
+      parent_headline: Magulang
+      children_headline: Ang mga bata
     relation_buttons:
       change_parent: Palitan ng magulang
       remove_parent: Alisin ang magulang
@@ -314,6 +318,7 @@ fil:
         one: Maari ka lamang oumili ng isang aytem
         other: Maari ka lamang pumili ng mga {{limit}} aytem
         zero: You cannot select any items
+    show_hide_project_menu: Palawakin/Pagbagsak na proyektong pagpipilian
     sort:
       sorted_asc: 'Pataas na paayos ang inilapat '
       sorted_dsc: 'Pababa na paayosi ang inilapat '
@@ -331,6 +336,7 @@ fil:
     timelines:
       gantt_chart: Gantt tsart
       labels:
+        title: Label configuration
         bar: Mga label ng bar
         left: Kaliwa
         right: Kanan
@@ -371,7 +377,6 @@ fil:
         grouping_other: Iba pa
         noneSelection: "(wala)"
       name: Pangalan
-      new_work_package: Bagong work package
       outline: I-reset ang balangkas
       outlines:
         aggregation: Ipakita lamang ang mga pinagsama-sama
@@ -475,10 +480,13 @@ fil:
         title: Pindutin dito upang magdagdag ng bagong work package sa listahan na
           ito
       create:
+        title: Bagong work package
         header: Bago %{type}
         header_no_type: Bagong work package ( Uri ay hindi pa naitakda)
         header_with_parent: 'Bago %{type} ( Anak ng %{parent_type} #%{id})'
         button: Lumikha
+      copy:
+        title: Copy work package
       hierarchy:
         show: Magpakita ng hierarchy mode
         hide: Itahi ang hierarcy mode
@@ -540,7 +548,6 @@ fil:
           aktibo ng hierarchy mode.
         hierarchy_disabled_by_group_by: Ang Hierarchy mode ay hindi pinagana dahil
           sa mga resulta na pag-grupo sa pamamagitan ng %{column}.
-        hierarchy_mode: Hierarchy mode
         sort_ascending: Ayusin pataas
         sort_descending: Ayusin pababa
         move_column_left: Ilipat ang hanay sa kaliwa
@@ -554,6 +561,7 @@ fil:
           not_found: Walang ganitong query
         text_no_results: Walang mga nagkakatugmang query ay natagpuan.
       table:
+        configure_button: Configure work package table
         summary: Talaab sa mga hilera ng work package at mga hanay na katangian ng
           work package.
         text_inline_edit: Karamihan sa mga cell ng talaan na ito ay nga pindutan na
@@ -562,6 +570,23 @@ fil:
           ayusin, i-grupo, alisin at idagdag sa talaan ng mga hanay.
         text_select_hint: Pumili ng mga kahon na maaring mabukasan sa 'ALT' at mga
           arrow key.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Hierarchy mode
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Buod
         activity: Aktibidad

@@ -58,7 +58,7 @@ Feature: Viewing the wiki new child page
       | title      | ParentWikiPage |
     When I go to the wiki new child page below the "ParentWikiPage" page of the project called "project1"
     Then I should see "Wiki page" within "#content"
-    And there should be no menu item selected
+    And there should be no child menu item selected
 
   Scenario: Visiting the wiki new child page with an invalid parent page
     When I go to the wiki new child page below the "InvalidPage" page of the project called "project1"
