@@ -54,6 +54,7 @@ zh:
     description_subwork_package: '子工作包 #%{id}'
     error:
       internal: 发生了内部错误。
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: 使用 ALT 和方向键打开筛选器。
@@ -144,6 +145,7 @@ zh:
     label_not_equals: 不是
     label_on: 于
     label_open_menu: 打开菜单
+    label_open_context_menu: Open context menu
     label_open_work_packages: 打开
     label_password: 密码
     label_previous: 上一个
@@ -167,6 +169,7 @@ zh:
     label_subject: 主题
     label_this_week: 这一周
     label_today: 今天
+    label_up: Up
     label_activity_show_only_comments: 仅显示批注的活动
     label_activity_show_all: 显示所有项目
     label_total_progress: "%{percent} %总进度"
@@ -259,7 +262,8 @@ zh:
       required: 请求
       relation_type: 关系类型
     relations_hierarchy:
-      hierarchy_headline: 层次结构
+      parent_headline: 父
+      children_headline: 子类
     relation_buttons:
       change_parent: 更改父级
       remove_parent: 删除上一级
@@ -296,6 +300,7 @@ zh:
         one: You can only select one item
         other: 您可以只选择 {{limit}} 个条目
         zero: You cannot select any items
+    show_hide_project_menu: 展开/折叠项目菜单
     sort:
       sorted_asc: '升序排列已应用， '
       sorted_dsc: '降序排列已应用， '
@@ -310,6 +315,7 @@ zh:
     timelines:
       gantt_chart: 甘特图
       labels:
+        title: Label configuration
         bar: 条形标签
         left: 左
         right: 右
@@ -342,7 +348,6 @@ zh:
         grouping_other: 其他
         noneSelection: "(无)"
       name: 名称
-      new_work_package: 新工作包
       outline: 重置大纲
       outlines:
         aggregation: 仅显示聚合
@@ -434,10 +439,13 @@ zh:
       inline_create:
         title: 单击此处将新工作包添加至此列表
       create:
+        title: 新工作包
         header: 新 %{type}
         header_no_type: 新工作包(类型尚未设置)
         header_with_parent: '新的 %{type} （%{parent_type} #%{id} 子）'
         button: 创建
+      copy:
+        title: Copy work package
       hierarchy:
         show: 显示层次结构模式
         hide: 隐藏层次结构模式
@@ -492,7 +500,6 @@ zh:
         group: 分组按照
         group_by_disabled_by_hierarchy: 分组依据已禁用，因为层次结构模式处于活动状态。
         hierarchy_disabled_by_group_by: 层次结构模式已禁用，因为结果依据 %{column} 分组。
-        hierarchy_mode: 层次结构模式
         sort_ascending: 升序排序
         sort_descending: 降序排序
         move_column_left: 左移列
@@ -506,10 +513,28 @@ zh:
           not_found: 无此查询
         text_no_results: 未找到匹配的查询。
       table:
+        configure_button: Configure work package table
         summary: 行为工作包且列为工作包属性的表格。
         text_inline_edit: 大多数此表格的单元格为激活工作包属性的直接编辑功能的按钮。
         text_sort_hint: 使用表格标题中的链接，您可以对表格中的列排序、分组、重排序、删除和添加。
         text_select_hint: 请使用Alt+方向键打开选择框。
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: 层次结构模式
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: 概述
         activity: 活动

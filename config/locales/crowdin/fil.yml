@@ -178,7 +178,9 @@ fil:
       form_configuration: Form kompigurasyon
       projects: Mga proyekto
       enabled_projects: Paganahin ang mga proyekto
-      add_group: Magdagdag ng grupo
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: I-reset sa mga default
   versions:
     overview:
@@ -400,8 +402,6 @@ fil:
       version:
         effective_date: Takdang petsa
         sharing: Pagbababahagi
-      wiki:
-        start_page: Simulan ang pahina
       wiki_content:
         text: Teksto
       wiki_page:
@@ -414,6 +414,7 @@ fil:
       work_package:
         begin_insertion: Nagsimula na ang pagpasok
         begin_deletion: Nagsimula na ang pagbubura
+        children: Subelements
         done_ratio: Isinasagawa (%)
         end_insertion: Katapusan na
         end_deletion: Katapusan ng pagbubura
@@ -547,6 +548,8 @@ fil:
               status_transition_invalid: ay invalid dahil walang valid na transisyon
                 na umiiral mula sa luma hanggang sa bagong estado para sa mga role
                 ng kasalukuyang user.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: ay kinakailangang maging aktibo.
             category:
@@ -695,7 +698,7 @@ fil:
   button_close: Isara
   button_collapse_all: Bumagsak lahat
   button_configure: I-configure
-  button_continue: Continue
+  button_continue: Magpatuloy
   button_copy: Kopyahin
   button_copy_and_follow: Kopyahin at sundin
   button_create: Lumikha
@@ -1143,6 +1146,7 @@ fil:
   label_all: lahat
   label_all_time: sa lahat ng oras
   label_all_words: Lahat ng mga salita
+  label_all_open_wps: All open
   label_always_visible: Palaging ipinapakita
   label_announcement: Anunsyo
   label_and_its_subprojects: "%{value} at ang mga subproject na ito"
@@ -1207,6 +1211,7 @@ fil:
   label_close_versions: Isara ang nakompletong bersyon
   label_closed_work_packages: isinara
   label_collapse: Bumagsak
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: kumpigurasyon
   label_comment_add: Magdagdag ng komento
   label_comment_added: Idinagdag na komento
@@ -1274,11 +1279,13 @@ fil:
   label_enumerations: Mga enumerasyon
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Kalikasan
   label_estimates_and_time: Mga pagtatantya at oras
   label_equals: ay
   label_example: Halimbawa
   label_export_to: 'Magagamit rin sa:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} oras"
   label_f_hour_plural: "%{value} mga oras"
   label_feed_plural: Ang mga feed
@@ -1308,6 +1315,7 @@ fil:
   label_here: dito
   label_hide: Itago
   label_history: Kasaysayan
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Tahanan
   label_in: sa
   label_in_less_than: mas mababa kaysa
@@ -1321,6 +1329,7 @@ fil:
   label_information_plural: Impormasyon
   label_integer: Numero
   label_internal: Panloob
+  label_introduction_video: Introduction video
   label_invite_user: Imbitahan ang user
   label_show_hide: Ipakita/itago
   label_show_all_registered_users: Ipakita lahay ang mga nakarehistrong gumagamit
@@ -1383,7 +1392,7 @@ fil:
   label_my_page_block: Ang pahinang block
   label_my_projects: Ang mga aking proyekto
   label_my_queries: Ang mga aking custom query
-  label_never: Never
+  label_never: Hindi kailanman
   label_new: Bago
   label_new_statuses_allowed: Pinayagang bagong estado
   label_news_added: Bagong idinagdag
@@ -1408,6 +1417,7 @@ fil:
   label_open_menu: Buksan ang pagpipilian
   label_open_work_packages: buksan
   label_open_work_packages_plural: buksan
+  label_openproject_website: OpenProject website
   label_optional_description: Deskripsyon
   label_options: Mga opsyon
   label_other: Iba pa
@@ -1581,7 +1591,7 @@ fil:
   label_version_sharing_none: Hindi ibinahagi
   label_version_sharing_system: Sa lahat ng mga proyekto
   label_version_sharing_tree: Sa proyektong puno
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Tingnan lahat ang mga rebisyon
   label_view_diff: Tingnan ang mga pagka-iba
   label_view_revisions: Tingnan ang mga rebisyon
@@ -1603,6 +1613,7 @@ fil:
   label_wiki_show_new_page_link: Ipakita ang submenu aytem 'Lumikha ng bagong bata
     na pahina'
   label_wiki_show_submenu_item: 'Ipakita bilang submenu. aytem ng '
+  label_wiki_start: Simulan ang pahina
   label_work_package: Work package
   label_work_package_added: Idinagdag ng work package
   label_work_package_attachments: Nakakalakip na pahinag trabaho
@@ -2118,6 +2129,9 @@ fil:
     ang numero na ito ay nabigo sa pagtatangkang pag-login
   setting_brute_force_block_minutes: Oras ng user na na-block sa
   setting_cache_formatted_text: Tesktong naka-format na cache
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: I-customize ang hitsura ng mga listahan ng work package
   setting_commit_fix_keywords: Isinasaayos ang mga keyword
   setting_commit_logs_encoding: Paglalagay ng commit mensahe
@@ -2235,7 +2249,10 @@ fil:
     passwords: Ang mga password
     session: Sesyon
     brute_force_prevention: Naka-automate na user block
-  show_hide_project_menu: Palawakin/Pagbagsak na proyektong pagpipilian
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: aktibo
   status_archived: naka-archive
   status_invited: imbitado

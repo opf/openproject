@@ -67,7 +67,7 @@ pt-BR:
     plural: Ações personalizadas
     new: Nova ação personalizada
     edit: Editar ação personalizada %{name}
-    execute: Execute %{name}
+    execute: Executar %{name}
     upsale:
       title: Ações personalizadas são funcionalidades da versão Enterprise Edition
       description: As ações personalizadas simplificam o trabalho diário combinando
@@ -170,7 +170,9 @@ pt-BR:
       form_configuration: Configuração do formulário
       projects: Projetos
       enabled_projects: Projetos habilitados
-      add_group: Adicionar grupo
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Redefinir para os padrões
   versions:
     overview:
@@ -272,8 +274,8 @@ pt-BR:
       announcements:
         show_until: Exibir até
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Conteúdo anexado
+        attachment_file_name: Nome do arquivo anexado
         downloads: Transferências
         file: Arquivo
         filename: Arquivo
@@ -379,8 +381,6 @@ pt-BR:
       version:
         effective_date: Prazo
         sharing: Compartilhamento
-      wiki:
-        start_page: Página inicial
       wiki_content:
         text: Texto
       wiki_page:
@@ -393,6 +393,7 @@ pt-BR:
       work_package:
         begin_insertion: Início da inserção
         begin_deletion: Início da exclusão
+        children: Subelements
         done_ratio: Progresso (%)
         end_insertion: Final da inserção
         end_deletion: Final da exclusão
@@ -457,8 +458,8 @@ pt-BR:
           empty: "(%{name}) valor não pode ser vazio."
           inclusion: "(%{name}) valor não está definido como um dos valores permitidos."
           not_an_integer: "(%{name}) não é um número inteiro."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          smaller_than_or_equal_to: "(%{name}) deve ser menor ou igual a %{count}."
+          greater_than_or_equal_to: "(%{name}) deve ser maior ou igual a %{count}."
         enterprise_token:
           unreadable: não pode ser lido. Tem certeza que é um token de suporte?
         parse_schema_filter_params_service:
@@ -519,6 +520,8 @@ pt-BR:
             status_id:
               status_transition_invalid: é inválido porque não existe transição válida
                 da antiga para a nova situação para o papel do usuário atual.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: precisa ser ativo.
             category:
@@ -666,7 +669,7 @@ pt-BR:
   button_close: Fechar
   button_collapse_all: Recolher todos
   button_configure: Configurar
-  button_continue: Continue
+  button_continue: Continuar
   button_copy: Copiar
   button_copy_and_follow: Copiar e seguir
   button_create: Criar
@@ -1023,12 +1026,12 @@ pt-BR:
       pdf_with_descriptions: PDF com descrições
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotext disponível (opcional)
+      unrtf: Unrtf disponível (opcional)
+      catdoc: Catdoc disponível (opcional)
+      xls2csv: Xls2csv disponível (opcional)
+      catppt: Catppt disponível (opcional)
+      tesseract: Tesseract disponível (opcional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1108,6 +1111,7 @@ pt-BR:
   label_all: todos
   label_all_time: todos os tempos
   label_all_words: Todas as palavras
+  label_all_open_wps: All open
   label_always_visible: Sempre exibido
   label_announcement: Anúncio
   label_and_its_subprojects: "%{value} e seus subprojetos"
@@ -1172,6 +1176,7 @@ pt-BR:
   label_close_versions: Fechar versões concluídas
   label_closed_work_packages: fechado
   label_collapse: Recolher
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: configuração
   label_comment_add: Adicionar um comentário
   label_comment_added: Comentário adicionado
@@ -1239,11 +1244,13 @@ pt-BR:
   label_enumerations: Enumerações
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Ambiente
   label_estimates_and_time: Estimativas e tempo
   label_equals: é
   label_example: Exemplo
   label_export_to: 'Também disponível em:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
   label_feed_plural: Feeds
@@ -1273,6 +1280,7 @@ pt-BR:
   label_here: aqui
   label_hide: Ocultar
   label_history: Histórico
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Início
   label_in: em
   label_in_less_than: em menos de
@@ -1286,6 +1294,7 @@ pt-BR:
   label_information_plural: Informação
   label_integer: Número inteiro
   label_internal: Interno
+  label_introduction_video: Introduction video
   label_invite_user: Convidar usuário
   label_show_hide: Exibir/ocultar
   label_show_all_registered_users: Mostrar todos usuários registrados
@@ -1348,7 +1357,7 @@ pt-BR:
   label_my_page_block: Meu bloco de página
   label_my_projects: Meus projetos
   label_my_queries: Minhas consultas personalizadas
-  label_never: Never
+  label_never: Nunca
   label_new: Novo
   label_new_statuses_allowed: Novas situações permitidas
   label_news_added: Notícia adicionada
@@ -1373,6 +1382,7 @@ pt-BR:
   label_open_menu: Abrir menu
   label_open_work_packages: aberto
   label_open_work_packages_plural: aberto
+  label_openproject_website: OpenProject website
   label_optional_description: Descrição
   label_options: Opções
   label_other: Outro
@@ -1544,7 +1554,7 @@ pt-BR:
   label_version_sharing_none: Não compartilhado
   label_version_sharing_system: Com todos os projetos
   label_version_sharing_tree: Com a árvore de projetos
-  label_video: Vídeo
+  label_videos: Videos
   label_view_all_revisions: Ver todas as revisões
   label_view_diff: Ver diferenças
   label_view_revisions: Ver revisões
@@ -1565,6 +1575,7 @@ pt-BR:
   label_wiki_show_menu_item: Mostrar como item de menu de navegação do projeto
   label_wiki_show_new_page_link: Mostrar o item de submenu 'Criar nova página filho'
   label_wiki_show_submenu_item: 'Mostrar como item do submenu de '
+  label_wiki_start: Página inicial
   label_work_package: Pacote de trabalho
   label_work_package_added: Pacote de trabalho adicionado
   label_work_package_attachments: Anexos de pacote de trabalho
@@ -2066,6 +2077,9 @@ pt-BR:
     de tentativas de login
   setting_brute_force_block_minutes: Tempo que o usuário está bloqueado para
   setting_cache_formatted_text: Texto formatado em cache
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Personalizar a aparência das listas de pacotes de trabalho
   setting_commit_fix_keywords: Corrigindo palavras chave
   setting_commit_logs_encoding: Codificação das mensagens de commit
@@ -2160,7 +2174,7 @@ pt-BR:
   setting_accessibility_mode_for_anonymous: Ativar o modo de acessibilidade para usuários
     anônimos
   setting_user_format: Formato de exibição de usuários
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: Fuso horário padrão
   setting_users_deletable_by_admins: Contas de usuário podem ser excluídas pelos administradores
   setting_users_deletable_by_self: Usuários podem excluir suas contas
   setting_welcome_text: Texto do bloco de boas-vindas
@@ -2176,7 +2190,10 @@ pt-BR:
     passwords: Senhas
     session: Sessão
     brute_force_prevention: Bloqueio de usuário automatizado
-  show_hide_project_menu: Expandir/Recolher o menu do projeto
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: ativo
   status_archived: arquivado
   status_invited: convidado
@@ -2234,7 +2251,7 @@ pt-BR:
     de fundo da imagem não é transparente caso contrário vai ficar ruim no iOS.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: Banco de dados permite TSVector (opcional)
   text_default_administrator_account_changed: Conta do administrador padrão alterada
   text_default_encoding: 'Padrão: UTF-8'
   text_destroy: Excluir
@@ -2271,7 +2288,7 @@ pt-BR:
   text_journal_aggregation_time_explanation: Combine diários para exibir se a diferença
     de tempo for menor que o intervalo de tempo especificado. Isso também vai atrasar
     as notificações de email pela mesma quantidade de tempo.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} alterado de %{old} </br><strong>para</strong> %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
   text_journal_changed_with_diff: "%{label} alterado %{link}"
   text_journal_deleted: "%{label} excluído %{old} "
@@ -2537,8 +2554,8 @@ pt-BR:
       quarters: Trimestres
       years: Anos
   title_remove_and_delete_user: Remover o usuário convidado do projeto e excluí-lo.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'Fuso horário padrão para novos usuários. Pode ser
+    alterado nas configurações do usuário.
 
 '
   tooltip_resend_invitation: 'Envia outro e-mail de convite com um novo token, caso

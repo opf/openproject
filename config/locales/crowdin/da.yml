@@ -170,7 +170,9 @@ da:
       form_configuration: Form configuration
       projects: Projekter
       enabled_projects: Enabled projects
-      add_group: Add group
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Reset to defaults
   versions:
     overview:
@@ -380,8 +382,6 @@ da:
       version:
         effective_date: Forfaldsdato
         sharing: Deler
-      wiki:
-        start_page: Startside
       wiki_content:
         text: Tekst
       wiki_page:
@@ -394,6 +394,7 @@ da:
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
+        children: Subelements
         done_ratio: Fremskridt (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
@@ -518,6 +519,8 @@ da:
             status_id:
               status_transition_invalid: er ugyldig, da der mangler gyldig overførsel
                 fra gammel til ny status for den aktuelle brugers roller.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: skal være aktiv.
             category:
@@ -665,7 +668,7 @@ da:
   button_close: Close
   button_collapse_all: Fold alle sammen
   button_configure: Opsæt
-  button_continue: Continue
+  button_continue: Fortsæt
   button_copy: Kopier
   button_copy_and_follow: Kopier og følg
   button_create: Opret
@@ -1102,6 +1105,7 @@ da:
   label_all: alle
   label_all_time: alle tider
   label_all_words: Alle ord
+  label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
   label_and_its_subprojects: "%{value} og dets delprojekter"
@@ -1165,6 +1169,7 @@ da:
   label_close_versions: Luk afsluttede versioner
   label_closed_work_packages: lukket
   label_collapse: Fold sammen
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: opsætning
   label_comment_add: Tilføj kommentar
   label_comment_added: Kommentar tilføjet
@@ -1231,11 +1236,13 @@ da:
   label_enumerations: Opremsninger
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Miljø
   label_estimates_and_time: Estimates and time
   label_equals: er
   label_example: Eksempel
   label_export_to: 'Også til rådighed i:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} time"
   label_f_hour_plural: "%{value} timer"
   label_feed_plural: Indlæg
@@ -1265,6 +1272,7 @@ da:
   label_here: her
   label_hide: Gem
   label_history: Historik
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Hjem
   label_in: i
   label_in_less_than: på mindre end
@@ -1278,6 +1286,7 @@ da:
   label_information_plural: Information
   label_integer: Heltal
   label_internal: Intern
+  label_introduction_video: Introduction video
   label_invite_user: Invitér bruger
   label_show_hide: Vis/Skjul
   label_show_all_registered_users: Show all registered users
@@ -1340,7 +1349,7 @@ da:
   label_my_page_block: Min sideblok
   label_my_projects: Mine projekter
   label_my_queries: Mine selvvalgte forespørgsler
-  label_never: Never
+  label_never: Aldrig
   label_new: Ny
   label_new_statuses_allowed: Nye statuser tilladt
   label_news_added: Nyheder tilføjet
@@ -1365,6 +1374,7 @@ da:
   label_open_menu: Åbn menuen
   label_open_work_packages: åbn
   label_open_work_packages_plural: åbn
+  label_openproject_website: OpenProject website
   label_optional_description: Beskrivelse
   label_options: Muligheder
   label_other: Andet
@@ -1534,7 +1544,7 @@ da:
   label_version_sharing_none: Ikke delt
   label_version_sharing_system: Med alle projekter
   label_version_sharing_tree: Med projekttræ
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Se alle revisioner
   label_view_diff: Se forskelle
   label_view_revisions: Se ændringer
@@ -1555,6 +1565,7 @@ da:
   label_wiki_show_menu_item: Vis som menupunkt i projektnavigeringen
   label_wiki_show_new_page_link: Vis undermenupunktet 'Opret ny underside'
   label_wiki_show_submenu_item: 'Vis som punkt i undermenu til '
+  label_wiki_start: Startside
   label_work_package: Arbejdspakke
   label_work_package_added: Arbejdspakke tilføjet
   label_work_package_attachments: Work package attachments
@@ -2046,6 +2057,9 @@ da:
     forsøg på login
   setting_brute_force_block_minutes: Periode, brugeren vil være blokeret
   setting_cache_formatted_text: Gem tekstformat i cache
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Tilpas udseendet af listen over arbejdspakker
   setting_commit_fix_keywords: Tilpasser nøgleord
   setting_commit_logs_encoding: Udfør kodning af meddelelser
@@ -2148,7 +2162,10 @@ da:
     passwords: Adgangskoder
     session: Session
     brute_force_prevention: Automatiseret brugerblokering
-  show_hide_project_menu: Expand/Collapse project menu
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: aktiv
   status_archived: archived
   status_invited: inviteret

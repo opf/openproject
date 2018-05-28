@@ -170,7 +170,9 @@ bg:
       form_configuration: Конфигурация на формата
       projects: Проекти
       enabled_projects: Enabled projects
-      add_group: Add group
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Reset to defaults
   versions:
     overview:
@@ -382,8 +384,6 @@ bg:
       version:
         effective_date: Дата на падеж
         sharing: Споделяне
-      wiki:
-        start_page: Начална страница
       wiki_content:
         text: Текст
       wiki_page:
@@ -396,6 +396,7 @@ bg:
       work_package:
         begin_insertion: Начало на вмъкване
         begin_deletion: Начало на изтриване
+        children: Subelements
         done_ratio: Прогрес (%)
         end_insertion: Край на вмъкване
         end_deletion: Края на изтриване
@@ -521,6 +522,8 @@ bg:
             status_id:
               status_transition_invalid: е невалидно, защото не съществува валиден
                 преход от старото към новото състояние за текущите потребителски роли.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: трябва да бъде активен.
             category:
@@ -1106,6 +1109,7 @@ bg:
   label_all: всички
   label_all_time: всички времена
   label_all_words: Всички думи
+  label_all_open_wps: All open
   label_always_visible: Винаги се показват
   label_announcement: Известие
   label_and_its_subprojects: "%{value} и неговите подпроекти"
@@ -1170,6 +1174,7 @@ bg:
   label_close_versions: Затвори завършени версии
   label_closed_work_packages: затворен
   label_collapse: Свий
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: конфигурация
   label_comment_add: Добави коментар
   label_comment_added: Добавен коментар
@@ -1237,11 +1242,13 @@ bg:
   label_enumerations: Списъци
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Среда
   label_estimates_and_time: Estimates and time
   label_equals: е
   label_example: Пример
   label_export_to: 'Also available in:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} час"
   label_f_hour_plural: "%{value} часа"
   label_feed_plural: Информационни канали
@@ -1271,6 +1278,7 @@ bg:
   label_here: тук
   label_hide: Скрий
   label_history: История
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Начална страница
   label_in: в
   label_in_less_than: в по-малко от
@@ -1284,6 +1292,7 @@ bg:
   label_information_plural: Информация
   label_integer: Цяло число
   label_internal: Вътрешен
+  label_introduction_video: Introduction video
   label_invite_user: Покани потребител
   label_show_hide: Покажи/Скрий
   label_show_all_registered_users: Show all registered users
@@ -1346,7 +1355,7 @@ bg:
   label_my_page_block: Блок Моята страница
   label_my_projects: Моите проекти
   label_my_queries: Моите потребителски заявки
-  label_never: Never
+  label_never: Никога
   label_new: Нов
   label_new_statuses_allowed: Новите статуси за разрешени
   label_news_added: Добавени новини
@@ -1371,6 +1380,7 @@ bg:
   label_open_menu: Open menu
   label_open_work_packages: open
   label_open_work_packages_plural: open
+  label_openproject_website: OpenProject website
   label_optional_description: Описание
   label_options: Опции
   label_other: Други
@@ -1542,7 +1552,7 @@ bg:
   label_version_sharing_none: Не е споделен
   label_version_sharing_system: С всички проекти
   label_version_sharing_tree: С проектно дърво
-  label_video: Видео
+  label_videos: Videos
   label_view_all_revisions: Покажи всички ревизии
   label_view_diff: Прегледай различията
   label_view_revisions: Изглед ревизии
@@ -1563,6 +1573,7 @@ bg:
   label_wiki_show_menu_item: Покажи като меню в проектната навигация
   label_wiki_show_new_page_link: Показване на елемент от подменю "Създай нова подстраница"
   label_wiki_show_submenu_item: 'Покажи като елемент от подменюто на '
+  label_wiki_start: Начална страница
   label_work_package: Работен пакет
   label_work_package_added: Работния пакет е добавен
   label_work_package_attachments: Work package attachments
@@ -2052,6 +2063,9 @@ bg:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Cache formatted text
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Customize the appearance of the work package lists
   setting_commit_fix_keywords: Fixing keywords
   setting_commit_logs_encoding: Commit messages encoding
@@ -2154,7 +2168,10 @@ bg:
     passwords: Пароли
     session: Сесия
     brute_force_prevention: Automated user blocking
-  show_hide_project_menu: Разгъване/свиване на проектното меню
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: active
   status_archived: archived
   status_invited: invited

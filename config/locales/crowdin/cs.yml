@@ -171,7 +171,9 @@ cs:
       form_configuration: Form configuration
       projects: Projekty
       enabled_projects: Povolit projekty
-      add_group: Přidat skupinu
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Obnovit výchozí nastavení
   versions:
     overview:
@@ -382,8 +384,6 @@ cs:
       version:
         effective_date: Uzavřít do
         sharing: Sdílení
-      wiki:
-        start_page: Úvodní stránka
       wiki_content:
         text: Text
       wiki_page:
@@ -396,6 +396,7 @@ cs:
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
+        children: Subelements
         done_ratio: Průběh (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
@@ -521,6 +522,8 @@ cs:
             status_id:
               status_transition_invalid: is invalid because no valid transition exists
                 from old to new status for the current user's roles.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: musí být aktivní.
             category:
@@ -676,7 +679,7 @@ cs:
   button_close: Zavřít
   button_collapse_all: Sbalit vše
   button_configure: Přizpůsobit
-  button_continue: Continue
+  button_continue: Pokračovat
   button_copy: Kopírovat
   button_copy_and_follow: Kopírovat a pokračovat
   button_create: Vytvořit
@@ -1135,6 +1138,7 @@ cs:
   label_all: vše
   label_all_time: all time
   label_all_words: Všechna slova
+  label_all_open_wps: All open
   label_always_visible: Vždy zobrazovat
   label_announcement: Oznámení
   label_and_its_subprojects: "%{value} a její dílčí projekty"
@@ -1198,6 +1202,7 @@ cs:
   label_close_versions: Close completed versions
   label_closed_work_packages: closed
   label_collapse: Collapse
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: konfigurace
   label_comment_add: Přidat komentář
   label_comment_added: Komentář byl přidán
@@ -1264,11 +1269,13 @@ cs:
   label_enumerations: Číselníky
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edice
+  label_entry_page: Entry page
   label_environment: Prostředí
   label_estimates_and_time: Odhady a čas
   label_equals: is
   label_example: Příklad
   label_export_to: 'Také k dispozici:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} hodina"
   label_f_hour_plural: "%{value} hodin"
   label_feed_plural: Informační kanály (feedy)
@@ -1298,6 +1305,7 @@ cs:
   label_here: zde
   label_hide: Skrýt
   label_history: Historie
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Domů
   label_in: v
   label_in_less_than: in less than
@@ -1311,6 +1319,7 @@ cs:
   label_information_plural: Informace
   label_integer: Celé číslo
   label_internal: Interní
+  label_introduction_video: Introduction video
   label_invite_user: Invite user
   label_show_hide: Show/hide
   label_show_all_registered_users: Zobrazit registrované uživatele
@@ -1373,7 +1382,7 @@ cs:
   label_my_page_block: My page block
   label_my_projects: Moje projekty
   label_my_queries: Moje vlastní dotazy
-  label_never: Never
+  label_never: Nikdy
   label_new: Nové
   label_new_statuses_allowed: Nové povolené stavy
   label_news_added: Přidané novinky
@@ -1398,6 +1407,7 @@ cs:
   label_open_menu: Open menu
   label_open_work_packages: open
   label_open_work_packages_plural: open
+  label_openproject_website: OpenProject website
   label_optional_description: Popis
   label_options: Options
   label_other: Ostatní
@@ -1567,7 +1577,7 @@ cs:
   label_version_sharing_none: Není sdíleno
   label_version_sharing_system: Se všemi projekty
   label_version_sharing_tree: Se stromem projektu
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Zobrazit všechny revize
   label_view_diff: Zobrazit rozdíly
   label_view_revisions: Zobrazit revize
@@ -1588,6 +1598,7 @@ cs:
   label_wiki_show_menu_item: Zobrazit jako položku nabídky navigaci projektu
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
   label_wiki_show_submenu_item: 'Show as submenu item of '
+  label_wiki_start: Úvodní stránka
   label_work_package: Pracovní balíček
   label_work_package_added: Pracovní balíček přidán
   label_work_package_attachments: Přílohy pracovních balíčků
@@ -2089,6 +2100,9 @@ cs:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Ukládat formátovaný text do vyrovnávací paměti
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Customize the appearance of the work package lists
   setting_commit_fix_keywords: Fixing keywords
   setting_commit_logs_encoding: Commit messages encoding
@@ -2192,7 +2206,10 @@ cs:
     passwords: Hesla
     session: Relace
     brute_force_prevention: Automated user blocking
-  show_hide_project_menu: Rozbalit/sbalit nabídku projektu
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: active
   status_archived: archivováno
   status_invited: invited

@@ -170,7 +170,9 @@ uk:
       form_configuration: Form configuration
       projects: Projects
       enabled_projects: Enabled projects
-      add_group: Add group
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Reset to defaults
   versions:
     overview:
@@ -381,8 +383,6 @@ uk:
       version:
         effective_date: Due date
         sharing: Поширення
-      wiki:
-        start_page: Початкова сторінка
       wiki_content:
         text: Текст
       wiki_page:
@@ -395,6 +395,7 @@ uk:
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
+        children: Subelements
         done_ratio: Progress (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
@@ -520,6 +521,8 @@ uk:
             status_id:
               status_transition_invalid: is invalid because no valid transition exists
                 from old to new status for the current user's roles.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: needs to be active.
             category:
@@ -1137,6 +1140,7 @@ uk:
   label_all: all
   label_all_time: all time
   label_all_words: All words
+  label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
   label_and_its_subprojects: "%{value} and its subprojects"
@@ -1200,6 +1204,7 @@ uk:
   label_close_versions: Close completed versions
   label_closed_work_packages: closed
   label_collapse: Collapse
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: configuration
   label_comment_add: Add a comment
   label_comment_added: Comment added
@@ -1266,11 +1271,13 @@ uk:
   label_enumerations: Enumerations
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Environment
   label_estimates_and_time: Estimates and time
   label_equals: is
   label_example: Example
   label_export_to: 'Also available in:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
   label_feed_plural: Feeds
@@ -1300,6 +1307,7 @@ uk:
   label_here: here
   label_hide: Hide
   label_history: History
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_in: in
   label_in_less_than: in less than
@@ -1313,6 +1321,7 @@ uk:
   label_information_plural: Information
   label_integer: Integer
   label_internal: Internal
+  label_introduction_video: Introduction video
   label_invite_user: Invite user
   label_show_hide: Show/hide
   label_show_all_registered_users: Show all registered users
@@ -1400,6 +1409,7 @@ uk:
   label_open_menu: Open menu
   label_open_work_packages: open
   label_open_work_packages_plural: open
+  label_openproject_website: OpenProject website
   label_optional_description: Description
   label_options: Options
   label_other: Other
@@ -1569,7 +1579,7 @@ uk:
   label_version_sharing_none: Not shared
   label_version_sharing_system: With all projects
   label_version_sharing_tree: With project tree
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: View all revisions
   label_view_diff: View differences
   label_view_revisions: View revisions
@@ -1590,6 +1600,7 @@ uk:
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
   label_wiki_show_submenu_item: 'Показати як пункт підменю '
+  label_wiki_start: Початкова сторінка
   label_work_package: Work package
   label_work_package_added: Work package added
   label_work_package_attachments: Work package attachments
@@ -2093,6 +2104,9 @@ uk:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Cache formatted text
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Налаштовувати зовнішній вигляд списків пакетів роботи
   setting_commit_fix_keywords: Fixing keywords
   setting_commit_logs_encoding: Commit messages encoding
@@ -2195,7 +2209,10 @@ uk:
     passwords: Паролі
     session: Session
     brute_force_prevention: Автоматизоване блокування користувачів
-  show_hide_project_menu: Expand/Collapse project menu
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: active
   status_archived: archived
   status_invited: invited

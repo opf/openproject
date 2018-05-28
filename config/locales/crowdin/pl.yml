@@ -170,7 +170,9 @@ pl:
       form_configuration: Konfiguracja formularza
       projects: Projekty
       enabled_projects: Aktywne projekty
-      add_group: Dodaj grupę
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Resetuj do ustawień domyślnych
   versions:
     overview:
@@ -376,8 +378,6 @@ pl:
       version:
         effective_date: Termin
         sharing: Udostępnianie
-      wiki:
-        start_page: Strona startowa
       wiki_content:
         text: Tekst
       wiki_page:
@@ -390,6 +390,7 @@ pl:
       work_package:
         begin_insertion: Początek wstawiania
         begin_deletion: Początek usuwania
+        children: Subelements
         done_ratio: Postęp (%)
         end_insertion: Koniec wstawiania
         end_deletion: Koniec usuwania
@@ -518,6 +519,8 @@ pl:
             status_id:
               status_transition_invalid: jest niewłaściwy z powodu braku prawidłowego
                 przekształcenia ze starego do nowego statusu dla aktualnej roli użytkownika.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: musi być aktywny.
             category:
@@ -669,7 +672,7 @@ pl:
   button_close: Zamknij
   button_collapse_all: Zwiń wszystko
   button_configure: Konfigurowanie
-  button_continue: Continue
+  button_continue: Kontynuuj
   button_copy: Kopiuj
   button_copy_and_follow: Skopiuj i wykonaj
   button_create: Utwórz
@@ -1134,6 +1137,7 @@ pl:
   label_all: wszystkie
   label_all_time: cały czas
   label_all_words: Wszystkie słowa
+  label_all_open_wps: All open
   label_always_visible: Zawsze wyświetlana
   label_announcement: Ogłoszenie
   label_and_its_subprojects: "%{value} oraz jego projekty podrzędne"
@@ -1197,6 +1201,7 @@ pl:
   label_close_versions: Zamknij zakończone wersje
   label_closed_work_packages: Zamknięte
   label_collapse: Zwiń
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: konfiguracja
   label_comment_add: Dodaj komentarz
   label_comment_added: Komentarz dodany
@@ -1264,11 +1269,13 @@ pl:
   label_enumerations: Listy
   label_enterprise: Przedsiębiorstwo
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Środowisko
   label_estimates_and_time: Szacowany czas
   label_equals: jest
   label_example: Przykład
   label_export_to: 'Dostępne również w:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} godzin"
   label_f_hour_plural: "%{value} godzin"
   label_feed_plural: Kanały
@@ -1298,6 +1305,7 @@ pl:
   label_here: tutaj
   label_hide: Ukryj
   label_history: Historia
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Strona główna
   label_in: w
   label_in_less_than: w mniej niż
@@ -1311,6 +1319,7 @@ pl:
   label_information_plural: Informacje
   label_integer: Liczba całkowita
   label_internal: Wewnętrzne
+  label_introduction_video: Introduction video
   label_invite_user: Zaproś użytkownika
   label_show_hide: Pokaż/Ukryj
   label_show_all_registered_users: Pokaż wszystkich zarejestrowanych użytkowników
@@ -1373,7 +1382,7 @@ pl:
   label_my_page_block: Mój blok strony
   label_my_projects: Moje projekty
   label_my_queries: Moje zapytania niestandardowe
-  label_never: Never
+  label_never: Nigdy
   label_new: Nowy
   label_new_statuses_allowed: Nowe statusy dozwolone
   label_news_added: Wiadomość dodana
@@ -1398,6 +1407,7 @@ pl:
   label_open_menu: Otwórz menu
   label_open_work_packages: Otwarte
   label_open_work_packages_plural: Otwarte
+  label_openproject_website: OpenProject website
   label_optional_description: Opis
   label_options: Opcje
   label_other: Inne
@@ -1568,7 +1578,7 @@ pl:
   label_version_sharing_none: Nie udostępnione
   label_version_sharing_system: Z wszystkich projektów
   label_version_sharing_tree: Z drzewa projektu
-  label_video: Wideo
+  label_videos: Videos
   label_view_all_revisions: Zobacz wszystkie rewizje
   label_view_diff: Widok różnic
   label_view_revisions: Widok rewizji
@@ -1589,6 +1599,7 @@ pl:
   label_wiki_show_menu_item: Pokaż jako element menu w nawigacji projektu
   label_wiki_show_new_page_link: Pokaż element podmenu "Utwórz nową stronę podrzędną"
   label_wiki_show_submenu_item: 'Pokaż jako pozycję podmenu '
+  label_wiki_start: Strona startowa
   label_work_package: Pakiet roboczy
   label_work_package_added: Dodano zadanie
   label_work_package_attachments: Załączniki pakietu roboczego
@@ -1689,9 +1700,10 @@ pl:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: Wywołanie makra create_work_package_link spoza kontekstu
+          projektu.
+        invalid_type: Nie znaleziono żadnego typu o nazwie '%{type}' w projekcie '%{project}
+          '.
       link_name: Nowy pakiet roboczy
       link_name_type: Nowy %{type_name}
   mail:
@@ -2100,6 +2112,9 @@ pl:
     nieudanych prób zalogowania
   setting_brute_force_block_minutes: Czas, kiedy użytkownik jest zablokowany
   setting_cache_formatted_text: Tekst sformatowany w pamięci podręcznej
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Dostosuj wygląd list pakietów roboczych
   setting_commit_fix_keywords: Stałe słowa kluczowe
   setting_commit_logs_encoding: Commit messages encoding
@@ -2208,7 +2223,10 @@ pl:
     passwords: Hasła
     session: Sesja
     brute_force_prevention: Automatyczne blokowanie użytkowników
-  show_hide_project_menu: Rozwiń/zwiń menu projektu
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: aktywne
   status_archived: w archiwum
   status_invited: zaproszony
@@ -2691,7 +2709,7 @@ pl:
       multipart_body_error: Żądanie źródła nie zawiera oczekiwanych wieloczęściowych
         elementów.
       multiple_errors: Zostały naruszone ograniczenia wielu pól.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Nie można utworzyć załącznika
       render:
         context_not_parsable: Podany kontekst nie jest linkiem do zasobu.
         unsupported_context: Podany zasób nie jest obsługiwany jako kontekst.

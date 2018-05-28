@@ -168,7 +168,9 @@ hr:
       form_configuration: Form configuration
       projects: Projekti
       enabled_projects: Omogućeni projekti
-      add_group: Add group
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Reset to defaults
   versions:
     overview:
@@ -382,8 +384,6 @@ hr:
       version:
         effective_date: Krajnji rok
         sharing: Dijeljenje
-      wiki:
-        start_page: Početna stranica
       wiki_content:
         text: Tekst
       wiki_page:
@@ -396,6 +396,7 @@ hr:
       work_package:
         begin_insertion: Početak umetanja
         begin_deletion: Početak brisanja
+        children: Subelements
         done_ratio: Napredak (%)
         end_insertion: Kraj umetanja
         end_deletion: Kraj brisanja
@@ -522,6 +523,8 @@ hr:
             status_id:
               status_transition_invalid: nije valjano, zato jer ne postoji valjan
                 prijelaz s starog na novi status za trenutne korisničke role.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: mora biti aktivno.
             category:
@@ -672,7 +675,7 @@ hr:
   button_close: Close
   button_collapse_all: Sažmi sve
   button_configure: Postavi
-  button_continue: Continue
+  button_continue: Nastavi
   button_copy: Kopiraj
   button_copy_and_follow: Kopirajte i pratite
   button_create: Stvori
@@ -1122,6 +1125,7 @@ hr:
   label_all: sve
   label_all_time: sve vrijeme
   label_all_words: Sve riječi
+  label_all_open_wps: All open
   label_always_visible: Uvijek se prikazuje
   label_announcement: Obavijest
   label_and_its_subprojects: "%{value} i njegovi podprojekti"
@@ -1185,6 +1189,7 @@ hr:
   label_close_versions: Blizu finalne verzije
   label_closed_work_packages: zaključen
   label_collapse: Prikaži sve
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: konfiguracija
   label_comment_add: Dodaj komentar
   label_comment_added: Komentar je dodan
@@ -1251,11 +1256,13 @@ hr:
   label_enumerations: Numeriranja
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise verzija
+  label_entry_page: Entry page
   label_environment: Okruženje
   label_estimates_and_time: Estimates and time
   label_equals: je
   label_example: Primjer
   label_export_to: 'Također dostupan kao:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} sat"
   label_f_hour_plural: "%{value} sati"
   label_feed_plural: Feeds
@@ -1285,6 +1292,7 @@ hr:
   label_here: ovdje
   label_hide: Sakrij
   label_history: Povijest
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Početna
   label_in: u
   label_in_less_than: u manje od
@@ -1298,6 +1306,7 @@ hr:
   label_information_plural: Informacija
   label_integer: Integer
   label_internal: Unutarnji
+  label_introduction_video: Introduction video
   label_invite_user: Pozovi korisnika
   label_show_hide: Pokaži/Sakrij
   label_show_all_registered_users: Show all registered users
@@ -1360,7 +1369,7 @@ hr:
   label_my_page_block: Moj blok stranice
   label_my_projects: Moji projekati
   label_my_queries: Moji prilagođeni upiti
-  label_never: Never
+  label_never: Nikad
   label_new: Novi
   label_new_statuses_allowed: Novi statusi dopušteni
   label_news_added: Vijest dodana
@@ -1385,6 +1394,7 @@ hr:
   label_open_menu: Otvori izbornik
   label_open_work_packages: otvori
   label_open_work_packages_plural: otvori
+  label_openproject_website: OpenProject website
   label_optional_description: Opis
   label_options: Mogućnosti
   label_other: Ostalo
@@ -1556,7 +1566,7 @@ hr:
   label_version_sharing_none: Nije dijeljeno
   label_version_sharing_system: Sa svim projektima
   label_version_sharing_tree: S verzijom projektnog stabla
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Prikaži sve revizije
   label_view_diff: Prikaži razlike
   label_view_revisions: Prikaz revizija
@@ -1578,6 +1588,7 @@ hr:
   label_wiki_show_new_page_link: Prikaži stavku podizbornika 'Kreiraj novu podređenu
     stranicu'
   label_wiki_show_submenu_item: 'Prikaži kao stavku podizbornika iz '
+  label_wiki_start: Početna stranica
   label_work_package: Radni paket
   label_work_package_added: Radni paket dodan
   label_work_package_attachments: Work package attachments
@@ -2083,6 +2094,9 @@ hr:
     krivih pokušaja spajanja
   setting_brute_force_block_minutes: Vrijeme u kojem je korisnik blokiran
   setting_cache_formatted_text: Formatirani tekst u međumemoriji
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Prilagodite izgled liste radnih paketa
   setting_commit_fix_keywords: Ispravljanje ključnih riječi
   setting_commit_logs_encoding: Commitajte kodiranje poruka
@@ -2188,7 +2202,10 @@ hr:
     passwords: Lozinke
     session: Sesija
     brute_force_prevention: Automatizirano blokiranje korisnika
-  show_hide_project_menu: Expand/Collapse project menu
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: aktivno
   status_archived: archived
   status_invited: pozvani

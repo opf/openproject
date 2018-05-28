@@ -173,7 +173,9 @@ de:
       form_configuration: Formularkonfiguration
       projects: Projekte
       enabled_projects: Aktivierte Projekte
-      add_group: Gruppe hinzufügen
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Auf Standardwerte zurücksetzen
   versions:
     overview:
@@ -389,8 +391,6 @@ de:
       version:
         effective_date: Abgabedatum
         sharing: Gemeinsame Verwendung
-      wiki:
-        start_page: Hauptseite
       wiki_content:
         text: Text
       wiki_page:
@@ -403,6 +403,7 @@ de:
       work_package:
         begin_insertion: Beginn der Einfügung
         begin_deletion: Beginn des Löschvorgangs
+        children: Subelements
         done_ratio: Fortschritt (%)
         end_insertion: Ende der Einfügung
         end_deletion: Ende des Löschvorgangs
@@ -538,6 +539,8 @@ de:
             status_id:
               status_transition_invalid: ist ungültig da kein valider Übergang vom
                 alten zum neuen Status für die aktuelle Rolle des Nutzers existiert.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: muss aktiv sein.
             category:
@@ -684,7 +687,7 @@ de:
   button_close: Schließen
   button_collapse_all: Alle zuklappen
   button_configure: Konfigurieren
-  button_continue: Continue
+  button_continue: Fortfahren
   button_copy: Kopieren
   button_copy_and_follow: Kopieren und Arbeitspaket anzeigen
   button_create: Anlegen
@@ -1131,6 +1134,7 @@ de:
   label_all: alle
   label_all_time: gesamter Zeitraum
   label_all_words: Alle Wörter
+  label_all_open_wps: All open
   label_always_visible: Immer angezeigt
   label_announcement: Ankündigung
   label_and_its_subprojects: "%{value} und dessen Unterprojekte"
@@ -1194,6 +1198,7 @@ de:
   label_close_versions: Abgeschlossene Versionen schließen
   label_closed_work_packages: geschlossen
   label_collapse: Zuklappen
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: Konfiguration
   label_comment_add: Kommentar hinzufügen
   label_comment_added: Kommentar hinzugefügt
@@ -1246,7 +1251,7 @@ de:
   label_download_plural: "%{count} Downloads"
   label_downloads_abbr: D/L
   label_duplicated_by: Dupliziert durch
-  label_duplicate: Dublikat
+  label_duplicate: Duplikat
   label_duplicates: Duplikat von
   label_edit: Bearbeiten
   label_enable_multi_select: Mehrfachauswahl umschalten
@@ -1261,11 +1266,13 @@ de:
   label_enumerations: Aufzählungen
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise-Edition
+  label_entry_page: Entry page
   label_environment: Umgebung
   label_estimates_and_time: Schätzungen & Zeit
   label_equals: ist
   label_example: Beispiel
   label_export_to: 'Auch abrufbar als:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
   label_feed_plural: Feeds
@@ -1295,6 +1302,7 @@ de:
   label_here: hier
   label_hide: Verbergen
   label_history: Historie
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Hauptseite
   label_in: an
   label_in_less_than: in weniger als
@@ -1308,6 +1316,7 @@ de:
   label_information_plural: Informationen
   label_integer: Zahl
   label_internal: Intern
+  label_introduction_video: Introduction video
   label_invite_user: Nutzer einladen
   label_show_hide: Einblenden / Ausblenden
   label_show_all_registered_users: Alle registrierten Benutzer anzeigen
@@ -1370,7 +1379,7 @@ de:
   label_my_page_block: Bereich "Meine Seite"
   label_my_projects: Meine Projekte
   label_my_queries: Meine Berichte
-  label_never: Never
+  label_never: Nie
   label_new: Neu
   label_new_statuses_allowed: Neuer Status
   label_news_added: Neuigkeit hinzugefügt
@@ -1395,6 +1404,7 @@ de:
   label_open_menu: Menü öffnen
   label_open_work_packages: offen
   label_open_work_packages_plural: offen
+  label_openproject_website: OpenProject website
   label_optional_description: Beschreibung
   label_options: Optionen
   label_other: Sonstiges
@@ -1566,7 +1576,7 @@ de:
   label_version_sharing_none: Nicht gemeinsam verwenden
   label_version_sharing_system: Mit allen Projekten
   label_version_sharing_tree: Mit Projektbaum
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Alle Revisionen anzeigen
   label_view_diff: Unterschiede anzeigen
   label_view_revisions: Revisionen anzeigen
@@ -1588,6 +1598,7 @@ de:
   label_wiki_show_new_page_link: "'Neue Unterseite anlegen' Link als Untermenüpunkt
     anzeigen"
   label_wiki_show_submenu_item: 'als Untermenüpunkt anzeigen von '
+  label_wiki_start: Hauptseite
   label_work_package: Arbeitspaket
   label_work_package_added: Arbeitspaket hinzugefügt
   label_work_package_attachments: Anhänge des Arbeitspakets
@@ -2099,6 +2110,9 @@ de:
     fehlgeschlagener Loginversuche
   setting_brute_force_block_minutes: Sperre Benutzer für Dauer von
   setting_cache_formatted_text: Formatierten Text im Cache speichern
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Anpassen der Darstellung der Arbeitspaketlisten
   setting_commit_fix_keywords: Schlüsselwörter (Status)
   setting_commit_logs_encoding: Codierung der Commit-Log-Meldungen
@@ -2208,7 +2222,10 @@ de:
     passwords: Passwörter
     session: Sitzung
     brute_force_prevention: Automatisches Sperren von Benutzern
-  show_hide_project_menu: Projektmenü einblenden / ausblenden
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: aktiv
   status_archived: archiviert
   status_invited: eingeladen
@@ -2303,7 +2320,7 @@ de:
   text_journal_aggregation_time_explanation: Fasst Änderungen bei der Anzeige zusammen,
     falls ihr Zeitunterschied weniger als die angegebene Zeitspanne beträgt. Der Versand
     von Benachrichtigungen wird um die gleiche Zeit verzögert.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} von %{old} </br><strong>in</strong> %{new} geändert"
   text_journal_changed_no_detail: "%{label} aktualisiert"
   text_journal_changed_with_diff: "%{label} geändert (%{link})"
   text_journal_deleted: "%{label} %{old} wurde gelöscht"

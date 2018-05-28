@@ -170,7 +170,9 @@ af:
       form_configuration: Vorm konfigurasie
       projects: Projekte
       enabled_projects: Enabled projects
-      add_group: Add group
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Reset to defaults
   versions:
     overview:
@@ -381,8 +383,6 @@ af:
       version:
         effective_date: Sperdatum
         sharing: Meedeling
-      wiki:
-        start_page: Begin bladsy
       wiki_content:
         text: Teks
       wiki_page:
@@ -395,6 +395,7 @@ af:
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
+        children: Subelements
         done_ratio: Progress (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
@@ -520,6 +521,8 @@ af:
             status_id:
               status_transition_invalid: is invalid because no valid transition exists
                 from old to new status for the current user's roles.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: needs to be active.
             category:
@@ -1110,6 +1113,7 @@ af:
   label_all: alle
   label_all_time: alle tye
   label_all_words: Alle woorde
+  label_all_open_wps: All open
   label_always_visible: Altyd vertoon
   label_announcement: Aankondiging
   label_and_its_subprojects: "%{value} en sy subprojekte"
@@ -1173,6 +1177,7 @@ af:
   label_close_versions: Maak voltooide weergawes toe
   label_closed_work_packages: gesluit
   label_collapse: Vou in
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: konfigurasie
   label_comment_add: Voeg 'n opmerking by
   label_comment_added: Kommentaar bygevoeg
@@ -1240,11 +1245,13 @@ af:
   label_enumerations: Lyste
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Omgewing
   label_estimates_and_time: Estimates and time
   label_equals: is
   label_example: Voorbeeld
   label_export_to: 'Ook beskikbaar in:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} uur"
   label_f_hour_plural: "%{value} ure"
   label_feed_plural: Toevoere
@@ -1274,6 +1281,7 @@ af:
   label_here: hier
   label_hide: Versteek
   label_history: Geskiedenis
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Tuis
   label_in: in
   label_in_less_than: in minder as
@@ -1287,6 +1295,7 @@ af:
   label_information_plural: Inligting
   label_integer: Heelgetal
   label_internal: Interne
+  label_introduction_video: Introduction video
   label_invite_user: Invite user
   label_show_hide: Show/hide
   label_show_all_registered_users: Show all registered users
@@ -1374,6 +1383,7 @@ af:
   label_open_menu: Maak kieslys oop
   label_open_work_packages: maak oop
   label_open_work_packages_plural: maak oop
+  label_openproject_website: OpenProject website
   label_optional_description: Beskrywing
   label_options: Opsies
   label_other: Ander
@@ -1544,7 +1554,7 @@ af:
   label_version_sharing_none: Not shared
   label_version_sharing_system: With all projects
   label_version_sharing_tree: With project tree
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: View all revisions
   label_view_diff: View differences
   label_view_revisions: View revisions
@@ -1565,6 +1575,7 @@ af:
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
   label_wiki_show_submenu_item: 'Show as submenu item of '
+  label_wiki_start: Begin bladsy
   label_work_package: Werkspakket
   label_work_package_added: Werkspakket bygevoeg
   label_work_package_attachments: Work package attachments
@@ -2055,6 +2066,9 @@ af:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Cache formatted text
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Customize the appearance of the work package lists
   setting_commit_fix_keywords: Fixing keywords
   setting_commit_logs_encoding: Commit messages encoding
@@ -2158,7 +2172,10 @@ af:
     passwords: Passwords
     session: Session
     brute_force_prevention: Automated user blocking
-  show_hide_project_menu: Vergroot/verklein projek kieslys
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: active
   status_archived: geargiveer
   status_invited: invited

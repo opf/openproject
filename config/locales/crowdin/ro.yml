@@ -174,7 +174,9 @@ ro:
       form_configuration: Configurarea formularului
       projects: Proiecte
       enabled_projects: Enabled projects
-      add_group: Add group
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Reset to defaults
   versions:
     overview:
@@ -389,8 +391,6 @@ ro:
       version:
         effective_date: Dată scadentă
         sharing: Distribuire
-      wiki:
-        start_page: Pagină de start
       wiki_content:
         text: Text
       wiki_page:
@@ -403,6 +403,7 @@ ro:
       work_package:
         begin_insertion: Început de inserare
         begin_deletion: Început de ștergere
+        children: Subelements
         done_ratio: Progres (%)
         end_insertion: Sfârșit de inserare
         end_deletion: Sfârșit de ștergere
@@ -528,6 +529,8 @@ ro:
             status_id:
               status_transition_invalid: este invalid, deoarece nu există nici o tranziție
                 validă din vechea în noua stare pentru rolurile utilizatorului curent.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: trebuie să fie activ(ă).
             category:
@@ -1127,6 +1130,7 @@ ro:
   label_all: toate
   label_all_time: oricând
   label_all_words: Toate cuvintele
+  label_all_open_wps: All open
   label_always_visible: Afișat permanent
   label_announcement: Anunţ
   label_and_its_subprojects: "%{value} şi subproiectele sale"
@@ -1190,6 +1194,7 @@ ro:
   label_close_versions: Închidere versiuni complete
   label_closed_work_packages: închis
   label_collapse: Restrângere
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: configurație
   label_comment_add: Adăugare comentariu
   label_comment_added: Comentariu adăugat
@@ -1256,11 +1261,13 @@ ro:
   label_enumerations: Enumerări
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Mediu
   label_estimates_and_time: Estimates and time
   label_equals: este
   label_example: Exemplu
   label_export_to: 'Disponibil și în:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} oră"
   label_f_hour_plural: "%{value} ore"
   label_feed_plural: Fluxuri
@@ -1290,6 +1297,7 @@ ro:
   label_here: aici
   label_hide: Ascundere
   label_history: Istoric
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Pagina de start
   label_in: în
   label_in_less_than: în mai puțin de
@@ -1303,6 +1311,7 @@ ro:
   label_information_plural: Informații
   label_integer: Număr întreg
   label_internal: Intern
+  label_introduction_video: Introduction video
   label_invite_user: Invitare utilizator
   label_show_hide: Afișare/ascundere
   label_show_all_registered_users: Show all registered users
@@ -1365,7 +1374,7 @@ ro:
   label_my_page_block: Bloc pentru pagina mea
   label_my_projects: Proiectele mele
   label_my_queries: Interogările mele
-  label_never: Never
+  label_never: Niciodată
   label_new: Nou
   label_new_statuses_allowed: Stări noi permise
   label_news_added: Noutăți adăugate
@@ -1390,6 +1399,7 @@ ro:
   label_open_menu: Deschidere meniu
   label_open_work_packages: deschise
   label_open_work_packages_plural: deschise
+  label_openproject_website: OpenProject website
   label_optional_description: Descriere
   label_options: Opțiuni
   label_other: Altele
@@ -1563,7 +1573,7 @@ ro:
   label_version_sharing_none: Nu este publică
   label_version_sharing_system: Cu toate proiectele
   label_version_sharing_tree: Cu arborele proiectelor
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Cu toate reviziile
   label_view_diff: Afișare diferențe
   label_view_revisions: Afișare revizii
@@ -1584,6 +1594,7 @@ ro:
   label_wiki_show_menu_item: Afișare ca meniu în navigarea proiectului
   label_wiki_show_new_page_link: Afișare submeniu 'Creare pagină copil'
   label_wiki_show_submenu_item: 'Afișare ca submeniu pentru '
+  label_wiki_start: Pagină de start
   label_work_package: Pachet de lucru
   label_work_package_added: Pachet de lucru adăugat
   label_work_package_attachments: Work package attachments
@@ -2087,6 +2098,9 @@ ro:
     de încercări de autentificare nereușite
   setting_brute_force_block_minutes: Durata pentru care utilizatorul este blocat
   setting_cache_formatted_text: Păstrare text formatat în memorie
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Personalizați aspectul listelor cu pachete de lucru
   setting_commit_fix_keywords: Cuvinte cheie pentru rezolvări
   setting_commit_logs_encoding: Encodare pentru mesajele la încărcare
@@ -2200,7 +2214,10 @@ ro:
     passwords: Parole
     session: Sesiune
     brute_force_prevention: Blocare automată a utilizatorilor
-  show_hide_project_menu: Extindere/Restrângere meniu proiect
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: activ
   status_archived: archived
   status_invited: invitat

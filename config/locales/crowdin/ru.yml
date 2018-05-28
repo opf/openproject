@@ -168,7 +168,9 @@ ru:
       form_configuration: Настройка форм
       projects: Проекты
       enabled_projects: Доступные проекты
-      add_group: Добавить группу
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Восстановить значения по умолчанию
   versions:
     overview:
@@ -379,8 +381,6 @@ ru:
       version:
         effective_date: Дата завершения
         sharing: Совместное использование
-      wiki:
-        start_page: Начальная страница
       wiki_content:
         text: Текст
       wiki_page:
@@ -393,6 +393,7 @@ ru:
       work_package:
         begin_insertion: Начало вставки
         begin_deletion: Начало удаления
+        children: Subelements
         done_ratio: Прогресс (%)
         end_insertion: Завершение вставки
         end_deletion: Завершение удаления
@@ -519,6 +520,8 @@ ru:
             status_id:
               status_transition_invalid: недопустимо, так как  для текущих ролей пользователя
                 нет правильного перехода от старого этапа к новому.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: требуется быть активным.
             category:
@@ -677,7 +680,7 @@ ru:
   button_close: Закрыть
   button_collapse_all: Свернуть все
   button_configure: Настройка
-  button_continue: Continue
+  button_continue: Далее
   button_copy: Копировать
   button_copy_and_follow: Скопировать и продолжить
   button_create: Создать
@@ -1140,6 +1143,7 @@ ru:
   label_all: все
   label_all_time: все время
   label_all_words: Все слова
+  label_all_open_wps: All open
   label_always_visible: Всегда отображается
   label_announcement: Объявление
   label_and_its_subprojects: "%{value} и его подпроекты"
@@ -1203,6 +1207,7 @@ ru:
   label_close_versions: Закрыть завершённые этапы
   label_closed_work_packages: закрыто
   label_collapse: Свернуть
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: Настройки
   label_comment_add: Добавить комментарий
   label_comment_added: Комментарий добавлен
@@ -1269,11 +1274,13 @@ ru:
   label_enumerations: Перечисления
   label_enterprise: Предприятие
   label_enterprise_edition: Корпоративная версия
+  label_entry_page: Entry page
   label_environment: Переменные среды
   label_estimates_and_time: Оценки и время
   label_equals: "—"
   label_example: Пример
   label_export_to: 'Также доступна на:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} часов"
   label_f_hour_plural: "%{value} часов"
   label_feed_plural: Ленты
@@ -1303,6 +1310,7 @@ ru:
   label_here: здесь
   label_hide: Скрыть
   label_history: История
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Главная
   label_in: в
   label_in_less_than: менее чем
@@ -1316,6 +1324,7 @@ ru:
   label_information_plural: Информация
   label_integer: Целое число
   label_internal: Внутренние
+  label_introduction_video: Introduction video
   label_invite_user: Пригласить пользователя
   label_show_hide: Показать/скрыть
   label_show_all_registered_users: Показать всех зарегистрированных пользователей
@@ -1378,7 +1387,7 @@ ru:
   label_my_page_block: Блоки на моей странице
   label_my_projects: Мои проекты
   label_my_queries: Мои пользовательские запросы
-  label_never: Never
+  label_never: Никогда
   label_new: Новое
   label_new_statuses_allowed: Новые статусы разрешены
   label_news_added: Новость добавлена
@@ -1403,6 +1412,7 @@ ru:
   label_open_menu: Открыть меню
   label_open_work_packages: открыто
   label_open_work_packages_plural: открыто
+  label_openproject_website: OpenProject website
   label_optional_description: Описание
   label_options: Опции
   label_other: Другие
@@ -1576,7 +1586,7 @@ ru:
   label_version_sharing_none: Не используется другими
   label_version_sharing_system: Со всеми проектами
   label_version_sharing_tree: С деревом проектов
-  label_video: Bидeo
+  label_videos: Videos
   label_view_all_revisions: Посмотреть все версии
   label_view_diff: Посмотреть различия
   label_view_revisions: Просмотр версий
@@ -1597,6 +1607,7 @@ ru:
   label_wiki_show_menu_item: Показать как меню в навигации по проекту
   label_wiki_show_new_page_link: Показать пункт подменю «Создать новую дочернюю страницу»
   label_wiki_show_submenu_item: 'Показать как пункт подменю '
+  label_wiki_start: Начальная страница
   label_work_package: Пакет работ
   label_work_package_added: Пакет работ добавлен
   label_work_package_attachments: Вложения пакета работ
@@ -2103,6 +2114,9 @@ ru:
     количества неудачных попыток входа
   setting_brute_force_block_minutes: Время блокирования пользователя за
   setting_cache_formatted_text: Кэшировать форматированный текст
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Настройка внешнего вида  списка пакетов работ
   setting_commit_fix_keywords: Корректирующие ключевые слова
   setting_commit_logs_encoding: Зафиксировать кодировку сообщений
@@ -2212,7 +2226,10 @@ ru:
     passwords: Пароли
     session: Сессия
     brute_force_prevention: Автоматическое блокирование пользователя
-  show_hide_project_menu: Развернуть или свернуть меню проекта
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: Активно
   status_archived: в архиве
   status_invited: приглашено

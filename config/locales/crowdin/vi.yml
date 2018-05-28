@@ -170,7 +170,9 @@ vi:
       form_configuration: Mẫu cấu hình
       projects: Các dự án
       enabled_projects: Enabled projects
-      add_group: Add group
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Reset to defaults
   versions:
     overview:
@@ -381,8 +383,6 @@ vi:
       version:
         effective_date: Ngày hết hạn
         sharing: Chia sẻ
-      wiki:
-        start_page: Trang bắt đầu
       wiki_content:
         text: Văn bản
       wiki_page:
@@ -395,6 +395,7 @@ vi:
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
+        children: Subelements
         done_ratio: Progress (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
@@ -408,7 +409,7 @@ vi:
         spent_hours: Thời gian
         spent_time: Thời gian
         subproject: Dự án con
-        time_entries: Log time
+        time_entries: Thời gian truy cập
         type: Kiểu
         watcher: Người quan sát
     errors:
@@ -520,6 +521,8 @@ vi:
             status_id:
               status_transition_invalid: is invalid because no valid transition exists
                 from old to new status for the current user's roles.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: needs to be active.
             category:
@@ -684,7 +687,7 @@ vi:
   button_generate: Generate
   button_list: Danh sách
   button_lock: Khóa
-  button_log_time: Log time
+  button_log_time: Thời gian truy cập
   button_login: Đăng nhập
   button_move: Di chuyển
   button_move_and_follow: Di chuyển và thực hiện theo
@@ -888,7 +891,7 @@ vi:
   default_role_member: Thành viên
   default_type: Work Package
   default_type_bug: Lỗi
-  default_type_deliverable: Deliverable
+  default_type_deliverable: Có thể giao nhận
   default_type_epic: Sử thi
   default_type_feature: Tính năng
   default_type_milestone: Milestone
@@ -1104,6 +1107,7 @@ vi:
   label_all: tất cả
   label_all_time: tất cả thời gian
   label_all_words: Tất cả các từ
+  label_all_open_wps: All open
   label_always_visible: Luôn luôn hiển thị
   label_announcement: Thông báo
   label_and_its_subprojects: "%{value} và các dự án con của nó"
@@ -1167,6 +1171,7 @@ vi:
   label_close_versions: Đóng các phiên bản đã hoàn thành
   label_closed_work_packages: đã đóng
   label_collapse: Thu gọn
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: cấu hình
   label_comment_add: Thêm bình luận
   label_comment_added: Đã thêm bình luận
@@ -1233,11 +1238,13 @@ vi:
   label_enumerations: Enumerations
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Environment
   label_estimates_and_time: Estimates and time
   label_equals: is
   label_example: Ví dụ
   label_export_to: 'Cũng có sẵn tại:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} giờ"
   label_f_hour_plural: "%{value} giờ"
   label_feed_plural: Feeds
@@ -1267,6 +1274,7 @@ vi:
   label_here: đây
   label_hide: Ẩn
   label_history: Lịch sử
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_in: trong
   label_in_less_than: ít hơn
@@ -1280,6 +1288,7 @@ vi:
   label_information_plural: Thông tin
   label_integer: Số nguyên
   label_internal: Nội bộ
+  label_introduction_video: Introduction video
   label_invite_user: Invite user
   label_show_hide: Show/hide
   label_show_all_registered_users: Show all registered users
@@ -1367,6 +1376,7 @@ vi:
   label_open_menu: Mở trình đơn
   label_open_work_packages: mở
   label_open_work_packages_plural: mở
+  label_openproject_website: OpenProject website
   label_optional_description: Mô tả
   label_options: Tuỳ chọn
   label_other: Khác
@@ -1536,7 +1546,7 @@ vi:
   label_version_sharing_none: Không được chia sẻ
   label_version_sharing_system: Với tất cả dự án
   label_version_sharing_tree: Với cây dự án
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Xem tất cả các phiên bản
   label_view_diff: View differences
   label_view_revisions: View revisions
@@ -1557,6 +1567,7 @@ vi:
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
   label_wiki_show_submenu_item: 'Show as submenu item of '
+  label_wiki_start: Trang bắt đầu
   label_work_package: Work Package
   label_work_package_added: Đã thêm work package
   label_work_package_attachments: Work package attachments
@@ -1679,7 +1690,7 @@ vi:
   notice_account_activated: Your account has been activated. You can now log in.
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_token: Invalid activation token
-  notice_account_invalid_credentials: Invalid user or password
+  notice_account_invalid_credentials: Tài khoản hoặc mật mã không hợp lệ
   notice_account_invalid_credentials_or_blocked: Invalid user or password or the account
     is blocked due to multiple failed login attempts. If so, it will be unblocked
     automatically in a short time.
@@ -1793,20 +1804,20 @@ vi:
   permission_add_work_package_notes: Add notes
   permission_add_work_packages: Add work packages (also allows to add attachments
     to all work packages)
-  permission_add_messages: Post messages
-  permission_add_project: Create project
-  permission_add_subprojects: Create subprojects
-  permission_add_work_package_watchers: Add watchers
+  permission_add_messages: Đăng tin nhắn
+  permission_add_project: Tạo Dự án
+  permission_add_subprojects: Tạo Dự án con
+  permission_add_work_package_watchers: Thêm người theo dõi
   permission_browse_repository: Read-only access to repository (browse and checkout)
-  permission_change_wiki_parent_page: Change parent wiki page
-  permission_comment_news: Comment news
+  permission_change_wiki_parent_page: Thay đổi trang wiki cha
+  permission_comment_news: Chú thích vào tin mới
   permission_commit_access: Read/write access to repository (commit)
-  permission_copy_projects: Copy projects
-  permission_delete_work_package_watchers: Delete watchers
-  permission_delete_work_packages: Delete work packages
-  permission_delete_messages: Delete messages
-  permission_delete_own_messages: Delete own messages
-  permission_delete_reportings: Delete reportings
+  permission_copy_projects: Sao chép dự án
+  permission_delete_work_package_watchers: Xóa người xem
+  permission_delete_work_packages: Xóa gói công việc
+  permission_delete_messages: Xóa tin nhắn
+  permission_delete_own_messages: Xóa tin nhắn của tôi
+  permission_delete_reportings: Xóa các báo cáo
   permission_delete_timelines: Delete timelines
   permission_delete_wiki_pages: Delete wiki pages
   permission_delete_wiki_pages_attachments: Delete attachments
@@ -2049,6 +2060,9 @@ vi:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Cache formatted text
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Customize the appearance of the work package lists
   setting_commit_fix_keywords: Fixing keywords
   setting_commit_logs_encoding: Commit messages encoding
@@ -2151,7 +2165,10 @@ vi:
     passwords: Passwords
     session: Session
     brute_force_prevention: Automated user blocking
-  show_hide_project_menu: Mở rộng/Thu gọn menu dự án
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: active
   status_archived: archived
   status_invited: invited

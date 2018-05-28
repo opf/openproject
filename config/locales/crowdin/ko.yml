@@ -157,7 +157,9 @@ ko:
       form_configuration: 양식 구성
       projects: 프로젝트
       enabled_projects: 활성화 된 프로젝트
-      add_group: 그룹 추가
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: 기본값으로 초기화
   versions:
     overview:
@@ -349,8 +351,6 @@ ko:
       version:
         effective_date: 기한
         sharing: 공유
-      wiki:
-        start_page: 시작 페이지
       wiki_content:
         text: 텍스트
       wiki_page:
@@ -363,6 +363,7 @@ ko:
       work_package:
         begin_insertion: 삽입 시작
         begin_deletion: 삭제 시작
+        children: Subelements
         done_ratio: 진행률 (%)
         end_insertion: 삽입 끝
         end_deletion: 삭제 끝
@@ -484,6 +485,8 @@ ko:
                 관계를 위반하지 않도록 하기 위해서입니다.
             status_id:
               status_transition_invalid: 현재 사용자 역할이 새 상태로 바르게 전환될 수 없으므로 유효 하지 않음
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: 활성화가 요구됨
             category:
@@ -625,7 +628,7 @@ ko:
   button_close: 닫기
   button_collapse_all: 모두 축소
   button_configure: 구성
-  button_continue: Continue
+  button_continue: 계속
   button_copy: 복사
   button_copy_and_follow: 복사하고 따라가기
   button_create: 만들기
@@ -1068,6 +1071,7 @@ ko:
   label_all: 모두
   label_all_time: 모든 시간
   label_all_words: 모든 단어
+  label_all_open_wps: All open
   label_always_visible: 항상 표시
   label_announcement: 공지 사항
   label_and_its_subprojects: "%{value} 및 하위 프로젝트"
@@ -1131,6 +1135,7 @@ ko:
   label_close_versions: 완료된 버전 닫기
   label_closed_work_packages: 닫음
   label_collapse: 축소
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: 구성
   label_comment_add: 코멘트 추가
   label_comment_added: 코멘트 추가됨
@@ -1197,11 +1202,13 @@ ko:
   label_enumerations: 열거형
   label_enterprise: 엔터프라이즈
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: 환경
   label_estimates_and_time: 견적 및 시간
   label_equals: 일치함
   label_example: 예
   label_export_to: '다음에서도 사용 가능:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value}시간"
   label_f_hour_plural: "%{value}시간"
   label_feed_plural: 피드
@@ -1230,6 +1237,7 @@ ko:
   label_here: 여기
   label_hide: 숨기기
   label_history: 기록
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: 홈
   label_in: "-"
   label_in_less_than: 보다 작음
@@ -1243,6 +1251,7 @@ ko:
   label_information_plural: 정보
   label_integer: 정수
   label_internal: 내부
+  label_introduction_video: Introduction video
   label_invite_user: 사용자 초대
   label_show_hide: 표시/숨기기
   label_show_all_registered_users: 등록된 사용자 모두 표시
@@ -1305,7 +1314,7 @@ ko:
   label_my_page_block: 내 페이지 블록
   label_my_projects: 내 프로젝트
   label_my_queries: 내 사용자 지정 쿼리
-  label_never: Never
+  label_never: 사용 안 함
   label_new: 새로 만들기
   label_new_statuses_allowed: 새 상태 허용됨
   label_news_added: 뉴스 추가됨
@@ -1330,6 +1339,7 @@ ko:
   label_open_menu: 메뉴 열기
   label_open_work_packages: 열기
   label_open_work_packages_plural: 열기
+  label_openproject_website: OpenProject website
   label_optional_description: 설명
   label_options: 옵션
   label_other: 기타
@@ -1498,7 +1508,7 @@ ko:
   label_version_sharing_none: 공유 안 됨
   label_version_sharing_system: 모든 프로젝트 포함
   label_version_sharing_tree: 프로젝트 트리 포함
-  label_video: 비디오
+  label_videos: Videos
   label_view_all_revisions: 모든 수정 보기
   label_view_diff: 차이점 보기
   label_view_revisions: 수정 보기
@@ -1519,6 +1529,7 @@ ko:
   label_wiki_show_menu_item: 프로젝트 탐색에서 메뉴 항목으로 표시
   label_wiki_show_new_page_link: 하위 메뉴 항목 '새 자식 페이지 만들기' 표시
   label_wiki_show_submenu_item: '다음의 하위 메뉴 항목으로 표시: '
+  label_wiki_start: 시작 페이지
   label_work_package: 작업 패키지
   label_work_package_added: 작업 패키지 추가됨
   label_work_package_attachments: 작업 패키지 첨부 파일
@@ -1971,6 +1982,9 @@ ko:
   setting_brute_force_block_after_failed_logins: 이 로그인 시도 실패 횟수를 넘으면 사용자 차단
   setting_brute_force_block_minutes: 사용자가 다음 시간 동안 차단되었습니다.
   setting_cache_formatted_text: 캐시 서식 있는 텍스트
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: 작업 패키지 목록의 모양 사용자 지정
   setting_commit_fix_keywords: 키워드 수정
   setting_commit_logs_encoding: 커밋 메시지 인코딩
@@ -2064,7 +2078,10 @@ ko:
     passwords: 암호
     session: 세션
     brute_force_prevention: 자동화된 사용자 차단
-  show_hide_project_menu: 프로젝트 메뉴 확장/축소
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: 활성
   status_archived: 보관됨
   status_invited: 초대됨

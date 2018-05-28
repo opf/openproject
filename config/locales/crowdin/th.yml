@@ -170,7 +170,9 @@ th:
       form_configuration: Form configuration
       projects: โครงการ
       enabled_projects: Enabled projects
-      add_group: Add group
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Reset to defaults
   versions:
     overview:
@@ -377,8 +379,6 @@ th:
       version:
         effective_date: วันครบกำหนด
         sharing: แบ่งปัน
-      wiki:
-        start_page: เพจเริ่มต้น
       wiki_content:
         text: ข้อความ
       wiki_page:
@@ -391,6 +391,7 @@ th:
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
+        children: Subelements
         done_ratio: Progress (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
@@ -515,6 +516,8 @@ th:
             status_id:
               status_transition_invalid: is invalid because no valid transition exists
                 from old to new status for the current user's roles.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: needs to be active.
             category:
@@ -1090,6 +1093,7 @@ th:
   label_all: ทั้งหมด
   label_all_time: ตลอดเวลา
   label_all_words: ทุกคำ
+  label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
   label_and_its_subprojects: "%{value} และโครงการย่อยที่เกี่ยวข้องทั้งหมด"
@@ -1153,6 +1157,7 @@ th:
   label_close_versions: ปิดเวอร์ชั่นที่เสร็จแล้ว
   label_closed_work_packages: ปิด
   label_collapse: ยุบ
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: การกำหนดค่า
   label_comment_add: เพิ่มความคิดเห็น
   label_comment_added: เพิ่มความคิดเห็นแล้ว
@@ -1219,11 +1224,13 @@ th:
   label_enumerations: การระบุหมายเลข
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: สภาพแวดล้อม
   label_estimates_and_time: Estimates and time
   label_equals: เป็น
   label_example: ตัวอย่าง
   label_export_to: 'ยังสามารถพบใน:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} ชั่วโมง"
   label_f_hour_plural: "%{value} ชั่วโมง"
   label_feed_plural: ตัวดึงข้อมูล
@@ -1252,6 +1259,7 @@ th:
   label_here: ที่นี่
   label_hide: ซ่อน
   label_history: ประวัติย้อนหลัง
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: หน้าหลัก
   label_in: ใน
   label_in_less_than: ในไม่เกิน
@@ -1265,6 +1273,7 @@ th:
   label_information_plural: ข้อมูล
   label_integer: จำนวนเต็ม
   label_internal: ภายใน
+  label_introduction_video: Introduction video
   label_invite_user: Invite user
   label_show_hide: แสดง/ซ่อน
   label_show_all_registered_users: Show all registered users
@@ -1352,6 +1361,7 @@ th:
   label_open_menu: เปิดเมนู
   label_open_work_packages: เปิด
   label_open_work_packages_plural: เปิด
+  label_openproject_website: OpenProject website
   label_optional_description: คำอธิบาย
   label_options: ตัวเลือก
   label_other: อื่น ๆ
@@ -1520,7 +1530,7 @@ th:
   label_version_sharing_none: ไม่ได้แบ่งปัน
   label_version_sharing_system: พร้อมด้วยทุกโครงการ
   label_version_sharing_tree: พร้อมด้วยแผนผังโครงการ
-  label_video: วิดีโอ
+  label_videos: Videos
   label_view_all_revisions: ดูการปรับปรุงทั้งหมด
   label_view_diff: ดูผลต่าง
   label_view_revisions: ดูการปรับปรุง
@@ -1541,6 +1551,7 @@ th:
   label_wiki_show_menu_item: แสดงเป็นเมนูในการนำทางของโครงการ
   label_wiki_show_new_page_link: แสดงรายการเมนูย่อย 'สร้างหน้าย่อยใหม่'
   label_wiki_show_submenu_item: แสดงเป็นรายการเมนูย่อยของ 
+  label_wiki_start: เพจเริ่มต้น
   label_work_package: ชุดภารกิจ
   label_work_package_added: ชุดภารกิจที่เพิ่ม
   label_work_package_attachments: Work package attachments
@@ -2017,6 +2028,9 @@ th:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: ข้อความที่กำหนดรูปแบบที่มีการเก็บแคชไว้
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: กำหนดรูปแบบการแสดงผลของรายการชุดภารกิจ
   setting_commit_fix_keywords: แก้ไขคำสำคัญ
   setting_commit_logs_encoding: มีการเข้ารหัสข้อความที่ส่ง
@@ -2115,7 +2129,10 @@ th:
     passwords: รหัสผ่าน
     session: เซสชั่น
     brute_force_prevention: การบล็อกผู้ใช้อัตโนมัติ
-  show_hide_project_menu: ขยาย/ยุบเมนูโครงการ
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: ใช้งานอยู่
   status_archived: archived
   status_invited: invited

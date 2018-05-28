@@ -171,7 +171,9 @@ it:
       form_configuration: Configurazione del modulo
       projects: Progetti
       enabled_projects: Progetti abilitati
-      add_group: Aggiungi gruppo
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Ripristino predefinite
   versions:
     overview:
@@ -386,8 +388,6 @@ it:
       version:
         effective_date: Data di consegna
         sharing: Condivisione
-      wiki:
-        start_page: Pagina iniziale
       wiki_content:
         text: Testo
       wiki_page:
@@ -400,6 +400,7 @@ it:
       work_package:
         begin_insertion: Inizio inserimento
         begin_deletion: Inizio cancellazione
+        children: Subelements
         done_ratio: Avanzamento (%)
         end_insertion: Fine inserimento
         end_deletion: Fine cancellazione
@@ -532,6 +533,8 @@ it:
               status_transition_invalid: non è valido perché non esiste alcuna transizione
                 valida dal vecchio al nuovo status sulla base del ruolo dell'utente
                 attuale.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: deve essere attivo.
             category:
@@ -680,7 +683,7 @@ it:
   button_close: Chiuso
   button_collapse_all: Comprimi Tutto
   button_configure: Configura
-  button_continue: Continue
+  button_continue: Continua
   button_copy: Copia
   button_copy_and_follow: Copia e segui
   button_create: Crea
@@ -1127,6 +1130,7 @@ it:
   label_all: tutti
   label_all_time: tutto il tempo
   label_all_words: Tutte le parole
+  label_all_open_wps: All open
   label_always_visible: Visualizzato sempre
   label_announcement: Annuncio
   label_and_its_subprojects: "%{value} e i suoi sotto-progetti"
@@ -1191,6 +1195,7 @@ it:
   label_close_versions: Chiudi le versioni complete
   label_closed_work_packages: chiuso
   label_collapse: Comprimi
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: configurazione
   label_comment_add: Inserisci un commento
   label_comment_added: Commento aggiunto
@@ -1257,11 +1262,13 @@ it:
   label_enumerations: Enumerazioni
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Ambiente
   label_estimates_and_time: Stime e tempi
   label_equals: è
   label_example: Esempio
   label_export_to: 'Disponibile anche in:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} ora"
   label_f_hour_plural: "%{value} ore"
   label_feed_plural: Feed
@@ -1291,6 +1298,7 @@ it:
   label_here: qui
   label_hide: Nascondi
   label_history: Registro cronologico
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Radice (home)
   label_in: in
   label_in_less_than: in meno di
@@ -1304,6 +1312,7 @@ it:
   label_information_plural: Informazioni
   label_integer: Intero
   label_internal: Interno
+  label_introduction_video: Introduction video
   label_invite_user: Invita utente
   label_show_hide: Mostra/Nascondi
   label_show_all_registered_users: Mostra tutti gli utenti registrati
@@ -1366,7 +1375,7 @@ it:
   label_my_page_block: Il mio blocco pagina
   label_my_projects: I miei progetti
   label_my_queries: Le mie query personalizzate
-  label_never: Never
+  label_never: Mai
   label_new: Nuovo
   label_new_statuses_allowed: Nuovi stati acconsentiti
   label_news_added: Notizie aggiunte
@@ -1391,6 +1400,7 @@ it:
   label_open_menu: Apri menu
   label_open_work_packages: aperte
   label_open_work_packages_plural: aperte
+  label_openproject_website: OpenProject website
   label_optional_description: Descrizione
   label_options: Opzioni
   label_other: Altro
@@ -1565,7 +1575,7 @@ it:
   label_version_sharing_none: Non condivisi
   label_version_sharing_system: Con tutti i progetti
   label_version_sharing_tree: Con albero di progetto
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Mostra tutte le revisioni
   label_view_diff: Mostra le differenze
   label_view_revisions: Vedi revisioni
@@ -1587,6 +1597,7 @@ it:
   label_wiki_show_menu_item: Mostra come voce del menù nella navigazione del progetto
   label_wiki_show_new_page_link: Mostra voce del sotto-menù 'Crea nuova pagina figlio'
   label_wiki_show_submenu_item: 'Mostra come voce di sottomenù di '
+  label_wiki_start: Pagina iniziale
   label_work_package: Macro-attività
   label_work_package_added: Macro-attività (work package) aggiunta
   label_work_package_attachments: Allegati macro-attività
@@ -2100,6 +2111,9 @@ it:
     di tentativi di login
   setting_brute_force_block_minutes: Durata del blocco utente
   setting_cache_formatted_text: Cache del testo formattato
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Personalizza l'aspetto degli elenchi di macro-attività (work
     package)
   setting_commit_fix_keywords: Parole chiave di ripristino
@@ -2219,7 +2233,10 @@ it:
     passwords: Password
     session: Sessione
     brute_force_prevention: Blocco automatico degli utenti
-  show_hide_project_menu: Espandi/Comprimi il menù di progetto
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: attivo
   status_archived: archiviato
   status_invited: invitato

@@ -62,14 +62,14 @@ fr:
   custom_actions:
     actions:
       name: Actions
-      add: Add action
+      add: Ajouter une action
     conditions: Conditions
     plural: Actions personnalisées
     new: Nouvelle action personnalisée
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+    edit: Modifier l’action personnalisée %{name}
+    execute: Exécuter %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
+      title: Personnaliser les actions n'est disponible qu'avec "Enterprise Edition"
       description: Custom actions streamline everyday work by combining a set of individual
         steps into one button.
   custom_fields:
@@ -170,7 +170,9 @@ fr:
       form_configuration: Configuration du formulaire
       projects: Projets
       enabled_projects: Projets activés
-      add_group: Ajouter un groupe
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Rétablir les valeurs par défaut
   versions:
     overview:
@@ -279,8 +281,8 @@ fr:
       announcements:
         show_until: Afficher jusqu'à
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Pièces jointes
+        attachment_file_name: Nom de la pièce jointe
         downloads: Téléchargements
         file: Fichier
         filename: Fichier
@@ -387,8 +389,6 @@ fr:
       version:
         effective_date: Échéance
         sharing: Partage
-      wiki:
-        start_page: Page d'accueil
       wiki_content:
         text: Texte
       wiki_page:
@@ -401,6 +401,7 @@ fr:
       work_package:
         begin_insertion: Début de l’insertion
         begin_deletion: Début de la suppression
+        children: Subelements
         done_ratio: Progrès (%)
         end_insertion: Fin de l’insertion
         end_deletion: Fin de la suppression
@@ -463,12 +464,12 @@ fr:
         custom_field:
           at_least_one_custom_option: Au moins une option doit être disponible.
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: "(%{name}) seule valeur est autorisée."
+          empty: La zone (%{name}) ne peut pas être vide.
+          inclusion: "(%{name}) n'est pas une valeur autorisé."
+          not_an_integer: "(%{name}) n’est pas un nombre entier."
+          smaller_than_or_equal_to: "(%{name}) doit être inférieure ou égale à %{count}."
+          greater_than_or_equal_to: "(%{name}) doit être supérieur ou égal à %{count}."
         enterprise_token:
           unreadable: ne peut être lu. Êtes-vous sûr qu'il s'agisse d'une licence
             Entreprise ?
@@ -535,6 +536,8 @@ fr:
               status_transition_invalid: n'est pas valide, car aucune transition valide
                 n'existe de l'ancien vers le nouveau statut pour les rôles de l'utilisateur
                 actuel.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: doit être active.
             category:
@@ -683,7 +686,7 @@ fr:
   button_close: Fermer
   button_collapse_all: Tout replier
   button_configure: Configurer
-  button_continue: Continue
+  button_continue: Continuer
   button_copy: Copier
   button_copy_and_follow: Copier et suivre
   button_create: Créer
@@ -1129,6 +1132,7 @@ fr:
   label_all: tous
   label_all_time: tout le temps
   label_all_words: Tous les mots
+  label_all_open_wps: All open
   label_always_visible: Toujours affiché
   label_announcement: 'Annonce ou avis. '
   label_and_its_subprojects: "%{value} et ses sous-projets"
@@ -1192,6 +1196,7 @@ fr:
   label_close_versions: Fermer les versions complètes
   label_closed_work_packages: clôturé
   label_collapse: Regrouper
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: configuration
   label_comment_add: Ajouter un commentaire
   label_comment_added: Commentaire ajouté
@@ -1259,11 +1264,13 @@ fr:
   label_enumerations: Énumérations
   label_enterprise: Entreprise
   label_enterprise_edition: Version Entreprise
+  label_entry_page: Entry page
   label_environment: Environement
   label_estimates_and_time: Estimations et temps
   label_equals: est
   label_example: Exemple
   label_export_to: 'Aussi disponible en :'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} heure"
   label_f_hour_plural: "%{value} heures"
   label_feed_plural: Fluxs
@@ -1293,6 +1300,7 @@ fr:
   label_here: ici
   label_hide: Masquer
   label_history: Historique
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Accueil
   label_in: dans
   label_in_less_than: en moins de
@@ -1306,6 +1314,7 @@ fr:
   label_information_plural: Information
   label_integer: Nombre entier
   label_internal: Interne
+  label_introduction_video: Introduction video
   label_invite_user: Inviter utilisateur
   label_show_hide: Afficher/masquer
   label_show_all_registered_users: Afficher tous les utilisateurs enregistrés
@@ -1368,7 +1377,7 @@ fr:
   label_my_page_block: Ma page bloc
   label_my_projects: Mes projets
   label_my_queries: Mes requêtes personnalisées
-  label_never: Never
+  label_never: Jamais
   label_new: Nouveau
   label_new_statuses_allowed: Nouveaux statuts autorisés
   label_news_added: Actualités ajoutées
@@ -1393,6 +1402,7 @@ fr:
   label_open_menu: Ouvrir le menu
   label_open_work_packages: ouvert
   label_open_work_packages_plural: ouvert
+  label_openproject_website: OpenProject website
   label_optional_description: Description
   label_options: Options
   label_other: Autre
@@ -1565,7 +1575,7 @@ fr:
   label_version_sharing_none: Non partagé
   label_version_sharing_system: Avec tous les projets
   label_version_sharing_tree: Avec l'arbre du projet
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Afficher toutes les révisions
   label_view_diff: Afficher les différences
   label_view_revisions: Afficher les révisions
@@ -1588,6 +1598,7 @@ fr:
     du projet
   label_wiki_show_new_page_link: Montrer le sous-menu 'Créer une nouvelle page enfant'
   label_wiki_show_submenu_item: 'Montrer comme sous-menu de '
+  label_wiki_start: Page d'accueil
   label_work_package: Lot de travaux
   label_work_package_added: Lot de Travaux ajouté
   label_work_package_attachments: Pièces jointes du lot de travaux
@@ -2095,6 +2106,9 @@ fr:
     de tentatives de connexion échouées
   setting_brute_force_block_minutes: Temps de bloquage de l'utilisateur
   setting_cache_formatted_text: Mettre le text formatté en memoire cache
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Personnaliser l'apparence des listes de Lot de Travaux
   setting_commit_fix_keywords: Réparer les mots clés
   setting_commit_logs_encoding: Encoding of the Commit messages
@@ -2124,7 +2138,7 @@ fr:
   setting_file_max_size_displayed: Taille maximale de l'affichage du fichers texte
     inline
   setting_host_name: Nom d'hôte
-  setting_invitation_expiration_days: Activation E-Mail expires after
+  setting_invitation_expiration_days: L'émail d’activation expire après
   setting_work_package_done_ratio: Calculer le taux d'avancement du lot de travaux
     avec
   setting_work_package_done_ratio_field: Utiliser le champ Lot de Travaux
@@ -2189,7 +2203,7 @@ fr:
   setting_accessibility_mode_for_anonymous: Activer le mode d'accessibilité pour les
     utilisateurs anonymes
   setting_user_format: Utilisateur affiche format
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: Fuseau horaire par défaut des utilisateurs
   setting_users_deletable_by_admins: Comptes utilisateurs effaçables par admins
   setting_users_deletable_by_self: Utilisateurs autorisés à supprimer leur compte
   setting_welcome_text: Bloc de texte de bienvenue
@@ -2205,7 +2219,10 @@ fr:
     passwords: Mots de passe
     session: Session
     brute_force_prevention: Bloquage d'utilisateur automatique (pour èviter les pirates)
-  show_hide_project_menu: Déplier/Replier le menu du projet
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: actif
   status_archived: archivé
   status_invited: invité
@@ -2571,8 +2588,8 @@ fr:
       quarters: Trimestres
       years: Années
   title_remove_and_delete_user: Retirer du projet l'utilisateur invité et le supprimer.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'Fuseau horaire par défaut des nouveaux utilisateurs.
+    Il peut-être modifié dans les paramètres utilisateur.
 
 '
   tooltip_resend_invitation: 'Envoie un nouveau courriel d''invitation avec un nouveau
@@ -2646,9 +2663,11 @@ fr:
     par %{configuration}.
   warning: Attention
   warning_attachments_not_saved: "%{count} fichier(s) n'ont pu être sauvegardés."
-  warning_registration_token_expired: |
-    The activation email has expired. We sent you a new one to %{email}.
-    Please click the link inside of it to activate your account.
+  warning_registration_token_expired: 'L’émail d’activation a expiré. Nous vous avons
+    envoyé un nouveau lien à l''adresse %{email}. Merci de cliquer sur ce lien pour
+    activer votre compte.
+
+'
   menu_item: Éléments de menu
   menu_item_setting: Visibilité
   wiki_menu_item_for: Élément de menu pour wikipage « %{title} »

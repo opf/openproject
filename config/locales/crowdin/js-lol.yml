@@ -54,6 +54,7 @@ lol:
     description_subwork_package: crwdns98375:0%{id}crwdne98375:0
     error:
       internal: crwdns98376:0crwdne98376:0
+      query_saving: crwdns98900:0crwdne98900:0
     filter:
       description:
         text_open_filter: crwdns98377:0crwdne98377:0
@@ -144,6 +145,7 @@ lol:
     label_not_equals: crwdns98457:0crwdne98457:0
     label_on: crwdns98458:0crwdne98458:0
     label_open_menu: crwdns98459:0crwdne98459:0
+    label_open_context_menu: crwdns98901:0crwdne98901:0
     label_open_work_packages: crwdns98460:0crwdne98460:0
     label_password: crwdns98461:0crwdne98461:0
     label_previous: crwdns98462:0crwdne98462:0
@@ -167,6 +169,7 @@ lol:
     label_subject: crwdns98480:0crwdne98480:0
     label_this_week: crwdns98481:0crwdne98481:0
     label_today: crwdns98482:0crwdne98482:0
+    label_up: crwdns98946:0crwdne98946:0
     label_activity_show_only_comments: crwdns98483:0crwdne98483:0
     label_activity_show_all: crwdns98484:0crwdne98484:0
     label_total_progress: crwdns98485:0%{percent}crwdne98485:0
@@ -259,7 +262,8 @@ lol:
       required: crwdns98559:0crwdne98559:0
       relation_type: crwdns98560:0crwdne98560:0
     relations_hierarchy:
-      hierarchy_headline: crwdns98561:0crwdne98561:0
+      parent_headline: crwdns98902:0crwdne98902:0
+      children_headline: crwdns98903:0crwdne98903:0
     relation_buttons:
       change_parent: crwdns98562:0crwdne98562:0
       remove_parent: crwdns98563:0crwdne98563:0
@@ -296,6 +300,7 @@ lol:
         one: crwdns98587:1crwdne98587:1
         other: crwdns98587:5{{limit}}crwdne98587:5
         zero: You cannot select any items
+    show_hide_project_menu: crwdns98947:0crwdne98947:0
     sort:
       sorted_asc: crwdns98588:0crwdne98588:0
       sorted_dsc: crwdns98589:0crwdne98589:0
@@ -310,6 +315,7 @@ lol:
     timelines:
       gantt_chart: crwdns98598:0crwdne98598:0
       labels:
+        title: crwdns98904:0crwdne98904:0
         bar: crwdns98599:0crwdne98599:0
         left: crwdns98600:0crwdne98600:0
         right: crwdns98601:0crwdne98601:0
@@ -342,7 +348,6 @@ lol:
         grouping_other: crwdns98623:0crwdne98623:0
         noneSelection: crwdns98624:0crwdne98624:0
       name: crwdns98625:0crwdne98625:0
-      new_work_package: crwdns98626:0crwdne98626:0
       outline: crwdns98627:0crwdne98627:0
       outlines:
         aggregation: crwdns98628:0crwdne98628:0
@@ -434,10 +439,13 @@ lol:
       inline_create:
         title: crwdns98705:0crwdne98705:0
       create:
+        title: crwdns98905:0crwdne98905:0
         header: crwdns98706:0%{type}crwdne98706:0
         header_no_type: crwdns98707:0crwdne98707:0
         header_with_parent: crwdns98708:0%{type}crwdnd98708:0%{parent_type}crwdnd98708:0%{id}crwdne98708:0
         button: crwdns98709:0crwdne98709:0
+      copy:
+        title: crwdns98906:0crwdne98906:0
       hierarchy:
         show: crwdns98710:0crwdne98710:0
         hide: crwdns98711:0crwdne98711:0
@@ -492,7 +500,6 @@ lol:
         group: crwdns98753:0crwdne98753:0
         group_by_disabled_by_hierarchy: crwdns98754:0crwdne98754:0
         hierarchy_disabled_by_group_by: crwdns98755:0%{column}crwdne98755:0
-        hierarchy_mode: crwdns98756:0crwdne98756:0
         sort_ascending: crwdns98757:0crwdne98757:0
         sort_descending: crwdns98758:0crwdne98758:0
         move_column_left: crwdns98759:0crwdne98759:0
@@ -506,10 +513,23 @@ lol:
           not_found: crwdns98766:0crwdne98766:0
         text_no_results: crwdns98767:0crwdne98767:0
       table:
+        configure_button: crwdns98907:0crwdne98907:0
         summary: crwdns98768:0crwdne98768:0
         text_inline_edit: crwdns98769:0crwdne98769:0
         text_sort_hint: crwdns98770:0crwdne98770:0
         text_select_hint: crwdns98771:0crwdne98771:0
+      table_configuration:
+        button: crwdns98908:0crwdne98908:0
+        modal_title: crwdns98909:0crwdne98909:0
+        embedded_tab_disabled: crwdns98910:0crwdne98910:0
+        display_settings: crwdns98911:0crwdne98911:0
+        grouped_mode: crwdns98912:0crwdne98912:0
+        grouped_hint: crwdns98913:0crwdne98913:0
+        default_mode: crwdns98914:0crwdne98914:0
+        hierarchy_mode: crwdns98915:0crwdne98915:0
+        hierarchy_hint: crwdns98916:0crwdne98916:0
+        display_sums_hint: crwdns98917:0crwdne98917:0
+        show_timeline_hint: crwdns98918:0crwdne98918:0
       tabs:
         overview: crwdns98772:0crwdne98772:0
         activity: crwdns98773:0crwdne98773:0

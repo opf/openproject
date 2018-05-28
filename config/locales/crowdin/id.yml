@@ -171,7 +171,9 @@ id:
       form_configuration: Form configuration
       projects: Project
       enabled_projects: Proyek-proyek yang diaktifkan
-      add_group: Menambah grup
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Disetel ulang ke kondisi bawaan
   versions:
     overview:
@@ -376,8 +378,6 @@ id:
       version:
         effective_date: Tenggat waktu
         sharing: Sharing
-      wiki:
-        start_page: Homepage
       wiki_content:
         text: Teks
       wiki_page:
@@ -390,6 +390,7 @@ id:
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
+        children: Subelements
         done_ratio: Progress (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
@@ -518,6 +519,8 @@ id:
             status_id:
               status_transition_invalid: gagal melakukan transisi dari status lama
                 ke status baru untuk role ini.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: prioritas harus aktif.
             category:
@@ -663,7 +666,7 @@ id:
   button_close: Tutup
   button_collapse_all: Tutup semua
   button_configure: Konfigurasi
-  button_continue: Continue
+  button_continue: Lanjut
   button_copy: Salin
   button_copy_and_follow: Salin dan amati
   button_create: Buat baru
@@ -1101,6 +1104,7 @@ id:
   label_all: semua
   label_all_time: Sepanjang waktu
   label_all_words: Semua kata
+  label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
   label_and_its_subprojects: "%{value} dan Sub Project yang"
@@ -1164,6 +1168,7 @@ id:
   label_close_versions: Tutup versi yang sudah komplit
   label_closed_work_packages: berakhir
   label_collapse: Tampilkan
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: Konfigurasi
   label_comment_add: Tambahkan komentar
   label_comment_added: Komentar telah ditambahkan
@@ -1231,11 +1236,13 @@ id:
   label_enumerations: Enumerasi
   label_enterprise: Perusahaan
   label_enterprise_edition: Edisi Perusahaan
+  label_entry_page: Entry page
   label_environment: Environment
   label_estimates_and_time: Perkiraan dan waktu
   label_equals: adalah
   label_example: Contoh
   label_export_to: 'Juga tersedia dalam:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} jam"
   label_f_hour_plural: "%{value} jam"
   label_feed_plural: Feed
@@ -1264,6 +1271,7 @@ id:
   label_here: disini
   label_hide: Sembunyikan
   label_history: Histori
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_in: dalam
   label_in_less_than: kurang dari
@@ -1277,6 +1285,7 @@ id:
   label_information_plural: Informasi
   label_integer: Integer
   label_internal: Internal
+  label_introduction_video: Introduction video
   label_invite_user: Invite user
   label_show_hide: Show/hide
   label_show_all_registered_users: Menampilkan semua pengguna teregistrasi
@@ -1364,6 +1373,7 @@ id:
   label_open_menu: Buka menu
   label_open_work_packages: buka
   label_open_work_packages_plural: buka
+  label_openproject_website: OpenProject website
   label_optional_description: Deskripsi
   label_options: Opsi
   label_other: Lainnya
@@ -1534,7 +1544,7 @@ id:
   label_version_sharing_none: Tidak dishare
   label_version_sharing_system: Dengan semua Project
   label_version_sharing_tree: Dengan Project tree
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Tampilkan semua revisi
   label_view_diff: Lihat perbedaan
   label_view_revisions: Lihat revisi
@@ -1555,6 +1565,7 @@ id:
   label_wiki_show_menu_item: Tampilkan sebagai item menu navigasi Project
   label_wiki_show_new_page_link: Tampilkan submenu item 'Buat sub-halaman baru'
   label_wiki_show_submenu_item: 'Tampilkan sebagai submenu item '
+  label_wiki_start: Homepage
   label_work_package: Paket-Penugasan
   label_work_package_added: Paket-Penugasan telah ditambah
   label_work_package_attachments: Lampiran paket kerja
@@ -2039,6 +2050,9 @@ id:
   setting_brute_force_block_after_failed_logins: Jumlah percobaan login sebelum diblokir
   setting_brute_force_block_minutes: Waktu tunggu blokir
   setting_cache_formatted_text: Cache teks yang diformat
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Sesuaikan tampilan daftar Paket-Penugasan
   setting_commit_fix_keywords: Perbaiki kata kunci
   setting_commit_logs_encoding: Commit pesan enkoding
@@ -2142,7 +2156,10 @@ id:
     passwords: Password
     session: Sesi
     brute_force_prevention: Pemblokiran otomatis user
-  show_hide_project_menu: Expand/Collapse project menu
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: aktif
   status_archived: diarsipkan
   status_invited: invited

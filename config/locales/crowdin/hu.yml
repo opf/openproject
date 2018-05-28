@@ -167,7 +167,9 @@ hu:
       form_configuration: Űrlap konfiguráció
       projects: Projektek
       enabled_projects: Engedélyezett projektek
-      add_group: Csoport hozzáadása
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Alapbeállítások visszaállítása
   versions:
     overview:
@@ -376,8 +378,6 @@ hu:
       version:
         effective_date: Lejárati időpont
         sharing: Megosztás
-      wiki:
-        start_page: Kezdő oldal
       wiki_content:
         text: Szöveg
       wiki_page:
@@ -390,6 +390,7 @@ hu:
       work_package:
         begin_insertion: Beillesztés kezdete
         begin_deletion: Törlés kezdete
+        children: Subelements
         done_ratio: Folyamat állapot (%)
         end_insertion: Beillesztés vége
         end_deletion: Törlés vége
@@ -518,6 +519,8 @@ hu:
             status_id:
               status_transition_invalid: érvénytelen, mert nincs érvényes átmenet
                 a régi és új felhasználói szerepkör állapota között.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: aktívnak kell lenni.
             category:
@@ -664,7 +667,7 @@ hu:
   button_close: Bezár
   button_collapse_all: Az összes bezárása
   button_configure: Beállítások
-  button_continue: Continue
+  button_continue: Folytatás
   button_copy: Másol
   button_copy_and_follow: Másol és folytat
   button_create: Létrehoz
@@ -1106,6 +1109,7 @@ hu:
   label_all: mind
   label_all_time: minden alkalommal
   label_all_words: Minden szó
+  label_all_open_wps: All open
   label_always_visible: Mindig látható
   label_announcement: Hirdetmény
   label_and_its_subprojects: "%{value} és az alprojektjei"
@@ -1170,6 +1174,7 @@ hu:
   label_close_versions: Lezárja a befejezett változatokat
   label_closed_work_packages: Lezárva
   label_collapse: Collapse
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: Konfiguráció
   label_comment_add: Vélemény hozzáadása
   label_comment_added: Vélemény hozzáadása
@@ -1237,11 +1242,13 @@ hu:
   label_enumerations: Elnevezések
   label_enterprise: Vállalati
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Környezet
   label_estimates_and_time: Becslések & időpontok
   label_equals: van
   label_example: Példa
   label_export_to: 'Is elérhető:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} óra"
   label_f_hour_plural: "%{value} óra"
   label_feed_plural: Hírek
@@ -1271,6 +1278,7 @@ hu:
   label_here: itt
   label_hide: Elrejt
   label_history: Előzmény
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_in: in
   label_in_less_than: kevesebb, mint
@@ -1284,6 +1292,7 @@ hu:
   label_information_plural: Információk
   label_integer: Egész szám
   label_internal: Belső
+  label_introduction_video: Introduction video
   label_invite_user: Felhasználó meghívása
   label_show_hide: Megjelenítés/Elrejtés
   label_show_all_registered_users: Minden regisztrált felhasználó megjelenítése
@@ -1346,7 +1355,7 @@ hu:
   label_my_page_block: Az én oldalam blokkolva
   label_my_projects: Az én projektjeim
   label_my_queries: Az én egyéni lekérdezéseim
-  label_never: Never
+  label_never: Soha
   label_new: Új
   label_new_statuses_allowed: Létrehozás engedélyezett az alábbi státuszokkal
   label_news_added: Hírek hozzáadva
@@ -1371,6 +1380,7 @@ hu:
   label_open_menu: Menü megnyitása
   label_open_work_packages: nyitott
   label_open_work_packages_plural: nyitott
+  label_openproject_website: OpenProject website
   label_optional_description: Leírás
   label_options: Beállítások
   label_other: Egyéb
@@ -1542,7 +1552,7 @@ hu:
   label_version_sharing_none: Nem megosztott
   label_version_sharing_system: Az összes projekt
   label_version_sharing_tree: A projekt fában
-  label_video: Videó
+  label_videos: Videos
   label_view_all_revisions: Az összes módosítás megtekintése
   label_view_diff: A különbségek megtekintése
   label_view_revisions: A változtatások megtekintése
@@ -1564,6 +1574,7 @@ hu:
   label_wiki_show_menu_item: Megjeleníti mint menüpont a projekt navigációban
   label_wiki_show_new_page_link: Almenüpont megjelenítése " új gyermekoldal létrehozása"
   label_wiki_show_submenu_item: 'Megjelenítés mint: almenüpont '
+  label_wiki_start: Kezdő oldal
   label_work_package: Munkacsomag
   label_work_package_added: Munka-csomag hozzáadva
   label_work_package_attachments: Munkacsomag mellékletek
@@ -2053,6 +2064,9 @@ hu:
     után tiltsa a felhasználót
   setting_brute_force_block_minutes: Mennyi időre tiltsa ki
   setting_cache_formatted_text: Gyorsítótárazott formázott szöveg
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: A munkacsomag listák megjelenésének testreszabása
   setting_commit_fix_keywords: Kulcsszavak rögzítése
   setting_commit_logs_encoding: Üzenetek kódolása
@@ -2159,7 +2173,10 @@ hu:
     passwords: Jelszavak
     session: Munkamenet
     brute_force_prevention: Felhasználó automatikus blokkolása
-  show_hide_project_menu: Kibontás/Összecsukás projekt menü
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: aktív
   status_archived: archivált
   status_invited: meghívott
