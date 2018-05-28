@@ -10,7 +10,7 @@ import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp
 
 @Component({
   selector: 'wp-relation-parent',
-  template: require('!!raw-loader!./wp-relations-parent.html')
+  templateUrl: './wp-relations-parent.html'
 })
 export class WpRelationParentComponent implements OnInit, OnDestroy {
   @Input() public workPackage:WorkPackageResource;

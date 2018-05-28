@@ -37,7 +37,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
   selector: '[tablePagination]',
-  template: require('!!raw-loader!./table-pagination.component.html')
+  templateUrl: './table-pagination.component.html'
 })
 export class TablePaginationComponent implements OnInit {
   @Input() totalEntries:string;

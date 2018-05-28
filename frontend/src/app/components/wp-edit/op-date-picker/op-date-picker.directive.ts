@@ -121,7 +121,7 @@ class OPDatePickerController {
 angular
   .module('openproject')
   .component('opDatePicker', {
-    templateUrl: '/components/wp-edit/op-date-picker/op-date-picker.directive.html',
+    template: require('./op-date-picker.directive.html'),
     transclude: true,
     controller: OPDatePickerController,
     bindings: {

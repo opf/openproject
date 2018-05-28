@@ -41,7 +41,7 @@ import {I18nToken} from '../../../angular4-transition-utils';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 
 @Component({
-  template: require('!!raw-loader!./watchers-tab.html'),
+  templateUrl: './watchers-tab.html',
   selector: 'wp-watchers-tab',
 })
 export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {

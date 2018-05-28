@@ -30,8 +30,8 @@ import {WorkPackageCreateController} from 'core-components/wp-new/wp-create.cont
 import {Component} from '@angular/core';
 
 @Component({
-  template: require('!!raw-loader!./wp-new-split-view.html'),
   selector: 'wp-new-split-view',
+  templateUrl: './wp-new-split-view.html'
 })
 export class WorkPackageNewSplitViewComponent extends WorkPackageCreateController {
   public successState:string = 'work-packages.list.details';

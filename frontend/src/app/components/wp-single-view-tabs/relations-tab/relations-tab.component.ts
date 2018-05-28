@@ -35,7 +35,7 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-  template: require('!!raw-loader!./relations-tab.html'),
+  templateUrl: './relations-tab.html',
   selector: 'wp-relations-tab',
 })
 export class WorkPackageRelationsTabComponent implements OnInit, OnDestroy {

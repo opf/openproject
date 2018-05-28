@@ -27,7 +27,7 @@
 //++
 
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
-import WorkPackageFiltersService from "../../filters/wp-filters/wp-filters.service";
+import {WorkPackageFiltersService} from "../../filters/wp-filters/wp-filters.service";
 import {Component, Inject, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {I18nToken} from 'core-app/angular4-transition-utils';
@@ -41,9 +41,10 @@ const ADD_FILTER_SELECT_INDEX = -1;
 
 @Component({
   selector: 'query-filters',
-  template: require('!!raw-loader!./query-filters.component.html')
+  templateUrl: './query-filters.component.html'
 })
 export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
+
   @Input() public filters:WorkPackageTableFilters;
   @Input() public showCloseFilter:boolean = false;
   @Output() public filtersChanged = new DebouncedEventEmitter<WorkPackageTableFilters>(componentDestroyed(this));

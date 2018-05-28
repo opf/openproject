@@ -51,15 +51,24 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= render 'common/favicons' %>
     <%= stylesheet_link_tag 'openproject', media: "all" %>
 
-    <script type="text/javascript" src="main.js"></script>
-	<script type="text/javascript" src="polyfills.js"></script>
-	<script type="text/javascript" src="runtime.js"></script>
-	<script type="text/javascript" src="styles.js"></script>
-	<script type="text/javascript" src="vendor.js"></script>
+
+
+
+	<script type="text/javascript" src="/vendor.js"></script>
+	<script type="text/javascript" src="/polyfills.js"></script>
+	<script type="text/javascript" src="/runtime.js"></script>
+	<script type="text/javascript" src="/styles.js"></script>
+    <script type="text/javascript" src="/main.js"></script>
+
+
 
     <%= text_formatting_js_includes %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
+	<!--
+    -->
+
+
     <!-- project specific tags -->
     <%= call_hook :view_layouts_base_html_head %>
     <!-- page specific tags -->

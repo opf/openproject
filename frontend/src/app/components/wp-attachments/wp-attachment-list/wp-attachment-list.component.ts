@@ -31,8 +31,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 @Component({
-  template: require('!!raw-loader!./wp-attachment-list.html'),
   selector: 'wp-attachment-list',
+  templateUrl: './wp-attachment-list.html'
 })
 export class WorkPackageAttachmentListComponent implements OnInit {
   @Input('workPackage') public workPackage:WorkPackageResource;

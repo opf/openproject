@@ -115,7 +115,7 @@ export abstract class WorkPackageNavigationButtonComponent extends AbstractWorkP
 export function wpButtonDirective(config:Object):ng.IDirective {
   return opDirective({
     restrict: 'E',
-    templateUrl: '/components/wp-buttons/wp-button.template.html',
+    template: require('./wp-button.template.html'),
 
     scope: {
       disabled: '=?'

@@ -35,7 +35,7 @@ import {
 } from 'core-components/common/notifications/notifications.service';
 
 @Component({
-  template: require('!!raw-loader!./notification.component.html'),
+  templateUrl: './notification.component.html',
   selector: 'notification'
 })
 export class NotificationComponent implements OnInit {

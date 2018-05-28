@@ -44,7 +44,7 @@ export class WorkPackageFieldControlsController {
 function wpEditFieldControls():any {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-edit/field-controls/wp-edit-field-controls.directive.html',
+    template: require('./wp-edit-field-controls.directive.html'),
 
     scope: {
       fieldController: '=',

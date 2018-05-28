@@ -44,7 +44,7 @@ export interface QueryGroupDescriptor {
 
 @Component({
   selector: 'wp-query-group',
-  template: require('!!raw-loader!./wp-query-group.template.html')
+  templateUrl: './wp-query-group.template.html'
 })
 export class WorkPackageFormQueryGroupComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;

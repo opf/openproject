@@ -140,6 +140,7 @@
     "reactivestates": "2.0.0",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^6.1.0",
+    "rxjs-compat": "6.1.0",
     "screenfull": "^3.2.0",
     "shelljs": "^0.3.0",
     "style-loader": "^0.8.2",
@@ -150,6 +151,7 @@
     "zone.js": "^0.8.26"
   },
   "scripts": {
+    "serve": "ng serve --proxy-config cli_to_rails_proxy.js",
     "__postinstall": "./node_modules/.bin/webpack --colors --progress  --debug --config webpack-vendors-config.js",
     "pretest": "npm run webpack-with-test",
     "tslint_typechecks": "tslint -p . -c tslint_typechecks.json",

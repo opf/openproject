@@ -1,5 +1,3 @@
-import {Directive, ElementRef, Injector, Input} from '@angular/core';
-import {UpgradeComponent} from '@angular/upgrade/static';
 //-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,6 +25,8 @@ import {UpgradeComponent} from '@angular/upgrade/static';
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
+import {Directive, ElementRef, Injector, Input} from '@angular/core';
+import {UpgradeComponent} from '@angular/upgrade/static';
 import {openprojectModule} from '../../angular-modules';
 
 export class WorkPackageResizerController {
@@ -152,7 +152,7 @@ export class WorkPackageResizerController {
 function wpResizer():any {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-resizer/wp-resizer.directive.html',
+    template: require('./wp-resizer.directive.html'),
     scope: {
       elementClass: '<',
       resizeEvent: '@',

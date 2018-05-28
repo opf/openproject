@@ -40,7 +40,7 @@ import {FirstRouteService} from 'core-components/routing/first-route-service';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 
 @Component({
-  template: require('!!raw-loader!./wp-full-view.html'),
+  templateUrl: './wp-full-view.html',
   selector: 'wp-full-view-entry',
   // Required class to support inner scrolling on page
   host: { 'class': 'work-packages-page--ui-view' }

@@ -1,9 +1,11 @@
+import {environment} from '../../environments/environment';
+
 /**
  * Execute the callback when DEBUG is defined
  * through webpack.
  */
 export function whenDebugging(cb:Function) {
-  if (DEBUG) {
+  if (!environment.production) {
     cb();
   }
 }
@@ -17,7 +19,7 @@ export function debugLog(...args:any[]) {
 }
 
 export function timeOutput(msg:string, cb:() => void):any {
-  if (DEBUG) {
+  if (!environment.production) {
     var t0 = performance.now();
 
     var results = cb();

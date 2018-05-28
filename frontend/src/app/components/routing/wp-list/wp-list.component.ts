@@ -53,7 +53,7 @@ import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp
 
 @Component({
   selector: 'wp-list',
-  template: require('!!raw-loader!./wp.list.component.html')
+  templateUrl: './wp.list.component.html'
 })
 export class WorkPackagesListComponent implements OnInit, OnDestroy {
 

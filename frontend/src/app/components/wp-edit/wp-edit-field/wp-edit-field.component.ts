@@ -49,8 +49,8 @@ import {NotificationsService} from 'core-components/common/notifications/notific
 import {I18nToken} from 'core-app/angular4-transition-utils';
 
 @Component({
-  template: require('!!raw-loader!./wp-edit-field.html'),
   selector: 'wp-edit-field',
+  templateUrl: './wp-edit-field.html'
 })
 export class WorkPackageEditFieldComponent implements OnInit {
   @Input('fieldName') public fieldName:string;

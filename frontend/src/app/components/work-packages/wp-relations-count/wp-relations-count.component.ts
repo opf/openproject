@@ -6,7 +6,7 @@ import {wpControllersModule} from '../../../angular-modules';
 import {RelationsStateValue, WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
 
 @Component({
-  template: require('!!raw-loader!./wp-relations-count.html'),
+  templateUrl: './wp-relations-count.html',
   selector: 'wp-relations-count',
 })
 export class WorkPackageRelationsCountComponent implements OnInit, OnDestroy {

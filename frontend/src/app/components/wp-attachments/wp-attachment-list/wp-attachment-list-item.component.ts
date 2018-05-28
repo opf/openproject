@@ -33,8 +33,8 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 @Component({
-  template: require('!!raw-loader!./wp-attachment-list-item.html'),
   selector: 'wp-attachment-list-item',
+  templateUrl: './wp-attachment-list-item.html'
 })
 export class WorkPackageAttachmentListItemComponent {
   @Input('workPackage') public workPackage:WorkPackageResource;

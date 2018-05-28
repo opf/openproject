@@ -37,7 +37,7 @@ import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
-  template: require('!!raw-loader!core-components/wp-buttons/wp-button.template.html'),
+  templateUrl: '../wp-button.template.html',
   selector: 'wp-details-view-button',
 })
 export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageButtonComponent {

@@ -28,7 +28,7 @@
 
 import {filtersModule} from '../../../angular-modules';
 
-export default class WorkPackageFiltersService {
+export class WorkPackageFiltersService {
   public visible:boolean = false;
 
   public toggleVisibility() {

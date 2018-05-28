@@ -32,7 +32,7 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
 
 @Component({
   selector: 'filter-boolean-value',
-  template: require('!!raw-loader!./filter-boolean-value.component.html')
+  templateUrl: './filter-boolean-value.component.html'
 })
 export class FilterBooleanValueComponent {
   @Input() public filter:QueryFilterInstanceResource;

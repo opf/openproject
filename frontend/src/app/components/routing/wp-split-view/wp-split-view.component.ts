@@ -39,7 +39,7 @@ import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.servic
 import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
 
 @Component({
-  template: require('!!raw-loader!./wp-split-view.html'),
+  templateUrl: './wp-split-view.html',
   selector: 'wp-split-view-entry',
 })
 export class WorkPackageSplitViewComponent extends WorkPackageViewController {

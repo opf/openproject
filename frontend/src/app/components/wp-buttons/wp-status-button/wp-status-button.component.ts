@@ -32,8 +32,8 @@ import {Component, Inject, Input} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 
 @Component({
-  template: require('!!raw-loader!./wp-status-button.html'),
   selector: 'wp-status-button',
+  templateUrl: './wp-status-button.html'
 })
 export class WorkPackageStatusButtonComponent {
   @Input('workPackage') public workPackage:WorkPackageResource;

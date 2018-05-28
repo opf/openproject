@@ -26,9 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Inject, InjectionToken} from '@angular/core';
-import {IQService, IRootScopeService, ITimeoutService} from 'angular';
+import {InjectionToken} from '@angular/core';
 import {StateService} from '@uirouter/core';
+import {IQService, IRootScopeService, ITimeoutService} from 'angular';
 
 export const $rootScopeToken = new InjectionToken<IRootScopeService>('$rootScope');
 export const $qToken = new InjectionToken<IQService>('$q');
@@ -53,25 +53,35 @@ export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LO
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 export const HookServiceToken = new InjectionToken<any>('HookService');
 
-export function upgradeService(ng1InjectorName:string, providedType:any) {
-  return {
-    provide: providedType,
-    useFactory: (i:any) => i.get(ng1InjectorName),
-    deps: ['$injector']
-  };
-}
+// export const WorkPackageFiltersServiceToken = new InjectionToken<any>('WorkPackageFiltersService');
 
-export function upgradeServiceWithToken(ng1InjectorName:string, token:InjectionToken<any>) {
+// export function upgradeService(ng1InjectorName:string, providedType:any) {
+//   return {
+//     provide: providedType,
+//     useFactory: (i:any) => i.get(ng1InjectorName),
+//     deps: ['$injector']
+//   };
+// }
+//
+// export function upgradeServiceWithToken(ng1InjectorName:string, token:InjectionToken<any>) {
+//   return {
+//     provide: token,
+//     useFactory: (i:any) => {
+//       try {
+//         return i.get(ng1InjectorName);
+//       } catch (e) {
+//         console.trace('Failed to inject service ' + ng1InjectorName);
+//         throw e;
+//       }
+//     },
+//     deps: ['$injector']
+//   };
+// }
+
+export function upgradeService(factory:(i:any) => any, token:any) {
   return {
     provide: token,
-    useFactory: (i:any) => {
-      try {
-        return i.get(ng1InjectorName);
-      } catch (e) {
-        console.trace("Failed to inject service " + ng1InjectorName);
-        throw e;
-      }
-    },
+    useFactory: factory,
     deps: ['$injector']
   };
 }

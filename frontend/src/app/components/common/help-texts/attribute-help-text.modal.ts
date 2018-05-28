@@ -33,7 +33,7 @@ import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
 
 @Component({
-  template: require('!!raw-loader!./help-text.modal.html')
+  templateUrl: './help-text.modal.html'
 })
 export class AttributeHelpTextModal extends OpModalComponent {
 

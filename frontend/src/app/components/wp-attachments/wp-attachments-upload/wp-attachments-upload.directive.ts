@@ -68,7 +68,7 @@ function wpUploadDirective():any {
 
   return {
     restrict: 'AE',
-    templateUrl: '/components/wp-attachments/wp-attachments-upload/wp-attachments-upload.html',
+    template: require('./wp-attachments-upload.html'),
 
     scope: {
       workPackage: '='

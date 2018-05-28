@@ -39,7 +39,7 @@ import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/a
 
 @Component({
   selector: 'wp-custom-action',
-  template: require('!!raw-loader!./wp-custom-action.component.html')
+  templateUrl: './wp-custom-action.component.html'
 })
 export class WpCustomActionComponent {
 

@@ -35,7 +35,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 @Component({
-  template: require('!!raw-loader!./authoring.html'),
+  templateUrl: './authoring.html',
   selector: 'authoring',
 })
 export class AuthoringComponent implements OnInit {

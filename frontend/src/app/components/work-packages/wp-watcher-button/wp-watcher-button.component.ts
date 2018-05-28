@@ -35,8 +35,8 @@ import {takeUntil} from 'rxjs/operators';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 
 @Component({
-  template: require('!!raw-loader!./wp-watcher-button.html'),
   selector: 'wp-watcher-button',
+  templateUrl: './wp-watcher-button.html'
 })
 export class WorkPackageWatcherButtonComponent implements OnInit,  OnDestroy {
   @Input('workPackage') public workPackage:WorkPackageResource;

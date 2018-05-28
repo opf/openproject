@@ -166,7 +166,7 @@ class WpRelationRowDirectiveController {
 function WpRelationRowDirective($timeout:ng.ITimeoutService):any {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-relations/wp-relation-row/wp-relation-row.template.html',
+    template: require('./wp-relation-row.template.html'),
     scope: {
       workPackage: '=',
       groupByWorkPackageType: '=',

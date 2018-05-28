@@ -1,15 +1,13 @@
 import {Component, Inject, Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {
   QUERY_SORT_BY_ASC,
   QUERY_SORT_BY_DESC,
   QuerySortByResource
 } from 'core-app/modules/hal/resources/query-sort-by-resource';
-import {take} from 'rxjs/operators';
 import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
-import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
-import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
+import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
+import {take} from 'rxjs/operators';
 
 class SortModalObject {
   constructor(public column:SortColumn,
@@ -19,11 +17,11 @@ class SortModalObject {
 
 interface SortColumn {
   name:string;
-  href:string|null;
+  href:string | null;
 }
 
 @Component({
-  template: require('!!raw-loader!./sort-by-tab.component.html')
+  templateUrl: './sort-by-tab.component.html'
 })
 export class WpTableConfigurationSortByTab implements TabComponent {
 
@@ -36,14 +34,14 @@ export class WpTableConfigurationSortByTab implements TabComponent {
   };
 
   readonly availableDirections = [
-    { $href: QUERY_SORT_BY_ASC, name: this.I18n.t('js.label_ascending') },
-    { $href: QUERY_SORT_BY_DESC, name: this.I18n.t('js.label_descending') }
+    {$href: QUERY_SORT_BY_ASC, name: this.I18n.t('js.label_ascending')},
+    {$href: QUERY_SORT_BY_DESC, name: this.I18n.t('js.label_descending')}
   ];
 
   public availableColumns:SortColumn[] = [];
   public allColumns:SortColumn[] = [];
   public sortationObjects:SortModalObject[] = [];
-  public emptyColumn:SortColumn = { name: this.text.placeholder, href: null };
+  public emptyColumn:SortColumn = {name: this.text.placeholder, href: null};
 
   constructor(readonly injector:Injector,
               @Inject(I18nToken) readonly I18n:op.I18n,
@@ -69,7 +67,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
       .then(() => {
         let allColumns:SortColumn[] = this.wpTableSortBy.available.map(
           (sort:QuerySortByResource) => {
-            return { name: sort.column.name, href: sort.column.$href };
+            return {name: sort.column.name, href: sort.column.$href};
           }
         );
 
@@ -79,7 +77,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
 
         _.each(this.wpTableSortBy.currentSortBys, sort => {
           this.sortationObjects.push(
-            new SortModalObject({ name: sort.column.name, href: sort.column.$href },
+            new SortModalObject({name: sort.column.name, href: sort.column.$href},
               sort.direction.$href!)
           );
         });
@@ -89,7 +87,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
       });
   }
 
-  public updateSelection(sort:SortModalObject, selected:string|null) {
+  public updateSelection(sort:SortModalObject, selected:string | null) {
     sort.column = _.find(this.allColumns, (column) => column.href === selected) || this.emptyColumn;
     this.updateUsedColumns();
   }

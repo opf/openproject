@@ -33,7 +33,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 
 @Component({
   selector: 'wp-custom-actions',
-  template: require('!!raw-loader!./wp-custom-actions.component.html')
+  templateUrl: './wp-custom-actions.component.html'
 })
 export class WpCustomActionsComponent {
 

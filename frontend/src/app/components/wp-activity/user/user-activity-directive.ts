@@ -208,7 +208,7 @@ angular
   .directive('userActivity', function() {
     return {
       restrict: 'E',
-      templateUrl: '/templates/work_packages/activities/_user.html',
+      template: require('../../../templates/work_packages/activities/_user.html'),
       scope: {
         workPackage: '=',
         activity: '=',

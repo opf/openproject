@@ -125,7 +125,7 @@ export class WorkPackageEditorFieldController {
 }
 
 opWorkPackagesModule.component('wpEditorField', {
-  templateUrl: '/components/work-packages/wp-editor-field/wp-editor-field.component.html',
+  template: require('./wp-editor-field.component.html'),
   controller: WorkPackageEditorFieldController,
   require: {
     wpEditFieldGroup: '^wpEditFieldGroup'

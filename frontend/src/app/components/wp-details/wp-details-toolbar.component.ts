@@ -33,8 +33,8 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
-  template: require('!!raw-loader!./wp-details-toolbar.html'),
   selector: 'wp-details-toolbar',
+  templateUrl: './wp-details-toolbar.html'
 })
 export class WorkPackageSplitViewToolbarComponent {
   @Input('workPackage') workPackage:WorkPackageResource;

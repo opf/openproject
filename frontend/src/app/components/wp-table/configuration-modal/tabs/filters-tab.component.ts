@@ -1,12 +1,12 @@
 import {Component, Inject, Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
+import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTableFilters} from 'core-components/wp-fast-table/wp-table-filters';
 
 @Component({
-  template: require('!!raw-loader!./filters-tab.component.html')
+  templateUrl: './filters-tab.component.html'
 })
 export class WpTableConfigurationFiltersTab implements TabComponent {
 

@@ -22,7 +22,7 @@ import {
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 
 @Component({
-  template: require('!!raw-loader!./wp-table-configuration.modal.html')
+  templateUrl: './wp-table-configuration.modal.html'
 })
 export class WpTableConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy  {
 

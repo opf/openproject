@@ -32,7 +32,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Component({
-  template: require('!!raw-loader!./wp-breadcrumb.html'),
+  templateUrl: './wp-breadcrumb.html',
   selector: 'wp-breadcrumb',
 })
 export class WorkPackageBreadcrumbComponent {

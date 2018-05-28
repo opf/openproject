@@ -28,7 +28,7 @@ import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-c
 
 @Component({
   selector: 'wp-embedded-table',
-  template: require('!!raw-loader!./wp-embedded-table.html'),
+  templateUrl: './wp-embedded-table.html',
   providers: [
     TableState,
     OpTableActionsService,

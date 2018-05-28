@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import WorkPackageFiltersService from "./wp-filters.service";
+import {WorkPackageFiltersService} from "./wp-filters.service";
 const expect = chai.expect;
 
 describe('wpFiltersService', () => {

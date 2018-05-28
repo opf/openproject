@@ -34,7 +34,7 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
 @Component({
   selector: 'filter-string-value',
-  template: require('!!raw-loader!./filter-string-value.component.html')
+  templateUrl: './filter-string-value.component.html'
 })
 export class FilterStringValueComponent implements OnDestroy {
   @Input() public filter:QueryFilterInstanceResource;

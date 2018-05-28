@@ -31,9 +31,9 @@
 // dependencies required by classic (Rails) and Angular application.
 
 // Angular 4 deps. Must be loaded early!
-require('reflect-metadata');
-require('zone.js');
-require('@angular/core');
+// require('reflect-metadata');
+// require('zone.js');
+// require('@angular/core');
 
 // ES6 Promise polyfill
 require('expose-loader?Promise!es6-promise');
@@ -86,7 +86,7 @@ require('at.js/dist/js/jquery.atwho.js');
 
 require('moment-timezone/builds/moment-timezone-with-data.min.js');
 
-require('select2/select2.min.js');
+require('../../vendor/select2/select2.min.js');
 
 require('ui-select/dist/select.min.js');
 
@@ -94,3 +94,5 @@ require('ng-dialog/js/ngDialog.min.js');
 
 require('expose-loader?URI!URIjs');
 require('URIjs/src/URITemplate');
+
+require("expose-loader?I18n!../vendor/i18n");

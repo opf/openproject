@@ -35,7 +35,7 @@ import {takeUntil} from 'rxjs/operators';
 import {I18nToken} from '../../../angular4-transition-utils';
 
 @Component({
-  template: require('!!raw-loader!./overview-tab.html'),
+  templateUrl: './overview-tab.html',
   selector: 'wp-overview-tab',
 })
 export class WorkPackageOverviewTabComponent implements OnDestroy {

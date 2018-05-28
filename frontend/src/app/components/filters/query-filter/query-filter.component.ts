@@ -29,13 +29,13 @@
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import {Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
+import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 
 @Component({
   selector: '[query-filter]',
-  template: require('!!raw-loader!./query-filter.component.html')
+  templateUrl: './query-filter.component.html'
 })
 export class QueryFilterComponent implements OnInit, OnDestroy {
   @Input() public filter:QueryFilterResource;

@@ -41,5 +41,7 @@ SecureHeaders::Configuration.default do |config|
     script_src: assets_src + %w('unsafe-eval'),
     # Allow unsafe-inline styles
     style_src: assets_src + %w('unsafe-inline'),
+
+    connect_src: ["ws://localhost:4200", "http://localhost:4200"]
   }
 end

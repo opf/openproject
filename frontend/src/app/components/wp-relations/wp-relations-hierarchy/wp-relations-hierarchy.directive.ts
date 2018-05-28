@@ -39,7 +39,7 @@ import {WorkPackageCacheService} from '../../work-packages/work-package-cache.se
 
 @Component({
   selector: 'wp-relations-hierarchy',
-  template: require('!!raw-loader!./wp-relations-hierarchy.template.html')
+  templateUrl: './wp-relations-hierarchy.template.html'
 })
 export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy {
   @Input() public workPackage:WorkPackageResource;

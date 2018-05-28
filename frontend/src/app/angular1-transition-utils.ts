@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,17 +24,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {wpControllersModule} from '../../../angular-modules';
 
-function saveModalService(btfModal:any) {
-  return btfModal({
-    controller: 'SaveModalController',
-    controllerAs: '$ctrl',
-    afterFocusOn: '#work-packages-settings-button',
-    template: require('./save-modal.service.html')
-  });
-}
-
-wpControllersModule.factory('saveModal', saveModalService);
+// declare const require:any;
+//
+// export function loadNg1Template(path:string):string {
+//   return require(path);
+// }

@@ -8,7 +8,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 
 @Component({
   selector: 'wp-relation-add-child',
-  template: require('!!raw-loader!./wp-relation-add-child.html')
+  templateUrl: './wp-relation-add-child.html'
 })
 export class WpRelationAddChildComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;

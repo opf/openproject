@@ -1,11 +1,13 @@
-import {multiInput, StatesGroup} from 'reactivestates';
+import {IRootScopeService} from 'angular';
+import {runInScopeDigest} from 'core-app/helpers/angular-rx-utils';
+import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.service';
+import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {multiInput, StatesGroup} from 'reactivestates';
 import {opServicesModule} from '../../angular-modules';
 import {StateCacheService} from '../states/state-cache.service';
-import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.service';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
 
 export type RelationsStateValue = { [relationId:number]:RelationResource };
 
@@ -25,7 +27,8 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   private relationStates:RelationStateGroup;
 
   /*@ngInject*/
-  constructor(private relationsDm:RelationsDmService,
+  constructor(private $rootScope:IRootScopeService,
+              private relationsDm:RelationsDmService,
               private wpTableRefresh:WorkPackageTableRefreshService,
               private $q:ng.IQService,
               private PathHelper:PathHelperService) {
@@ -54,17 +57,17 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   }
 
   protected loadAll(ids:string[]) {
-    const deferred = this.$q.defer<undefined>();
-
-    this.relationsDm
-      .loadInvolved(ids)
-      .then((elements:RelationResource[]) => {
-        this.clearSome(...ids);
-        this.accumulateRelationsFromInvolved(ids, elements);
-        deferred.resolve();
-      });
-
-    return deferred.promise;
+    return new Promise<undefined>(resolve => {
+      this.relationsDm
+        .loadInvolved(ids)
+        .then((elements:RelationResource[]) => {
+          runInScopeDigest(this.$rootScope, () => {
+            this.clearSome(...ids);
+            this.accumulateRelationsFromInvolved(ids, elements);
+            resolve();
+          });
+        });
+    });
   }
 
   /**
@@ -95,7 +98,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     return this.updateRelation(relation, params);
   }
 
-  public async updateRelation(relation:RelationResource, params:{[key:string]: any}) {
+  public async updateRelation(relation:RelationResource, params:{ [key:string]:any }) {
     return relation.updateImmediately(params)
       .then((savedRelation:RelationResource) => {
         this.insertIntoStates(savedRelation);
@@ -108,12 +111,12 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   }
 
   public async addCommonRelation(workPackage:WorkPackageResource,
-                           relationType:string,
-                           relatedWpId:string) {
+                                 relationType:string,
+                                 relatedWpId:string) {
     const params = {
       _links: {
         from: {href: workPackage.href},
-        to: {href: this.PathHelper.api.v3.work_packages.id(relatedWpId).toString() }
+        to: {href: this.PathHelper.api.v3.work_packages.id(relatedWpId).toString()}
       },
       type: relationType
     };
@@ -154,7 +157,9 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
         delete value[relation.id];
         return value;
-      }, () => { return {}; });
+      }, () => {
+        return {};
+      });
     });
   }
 
@@ -169,7 +174,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     const state = this.multiState.get(wpId);
     const relationsToInsert = _.keyBy(relations, r => r.id);
 
-    state.putValue(relationsToInsert, "Overriding relations state.");
+    state.putValue(relationsToInsert, 'Overriding relations state.');
   }
 
   /**

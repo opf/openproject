@@ -50,7 +50,7 @@ interface IQueryAutocompleteJQuery extends JQuery {
 }
 
 @Component({
-  template: require('!!raw-loader!./wp-query-select.template.html')
+  templateUrl: './wp-query-select.template.html'
 })
 export class WorkPackageQuerySelectDropdownComponent implements OnInit {
   public loaded = false;

@@ -1,6 +1,6 @@
-import {wpDirectivesModule} from '../../../angular-modules';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp-relations-hierarchy.service';
@@ -86,13 +86,8 @@ export class WorkPackageRelationsCreateController {
 }
 
 function wpRelationsCreate():any {
-  return {
+  const config:any = {
     restrict: 'E',
-
-    templateUrl: (el:ng.IAugmentedJQuery, attrs:ng.IAttributes) => {
-      return '/components/wp-relations/wp-relations-create/' + attrs['template'] + '.template.html';
-    },
-
     scope: {
       workPackage: '=?',
       fixedRelationType: '@?',
@@ -103,6 +98,14 @@ function wpRelationsCreate():any {
     bindToController: true,
     controllerAs: '$ctrl',
   };
+
+  // Hack: This way the Angular template compiler does not try to load the this template (which is an AngularJS1 template)
+  config['templateUrl'] = (el:ng.IAugmentedJQuery, attrs:ng.IAttributes) => {
+    return '/components/wp-relations/wp-relations-create/' + attrs['template'] + '.template.html';
+  };
+
+
+  return config;
 }
 
 wpDirectivesModule.directive('wpRelationsCreate', wpRelationsCreate);

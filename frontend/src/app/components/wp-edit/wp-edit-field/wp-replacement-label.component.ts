@@ -31,8 +31,8 @@ import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edi
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 
 @Component({
-  template: require('!!raw-loader!./wp-replacement-label.html'),
   selector: 'wp-replacement-label',
+  templateUrl: './wp-replacement-label.html'
 })
 export class WorkPackageReplacementLabelComponent implements OnInit {
   @Input('fieldName') public fieldName:string;

@@ -98,7 +98,7 @@ openprojectModule
           query_id: { dynamic: true },
           query_props: { dynamic: true }
         },
-        templateUrl: '/components/routing/main/work-packages.html',
+        template: require('./main/work-packages.html'),
         controller: 'WorkPackagesController'
       })
 

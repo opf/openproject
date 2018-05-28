@@ -26,14 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnDestroy} from '@angular/core';
+import {Component, Inject, OnDestroy} from '@angular/core';
 import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTableFilters} from 'core-components/wp-fast-table/wp-table-filters';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
+import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 
 @Component({
-  template: require('!!raw-loader!core-components/filters/filter-container/filter-container.directive.html'),
+  templateUrl: './filter-container.directive.html',
   selector: 'filter-container',
 })
 export class WorkPackageFilterContainerComponent implements OnDestroy {

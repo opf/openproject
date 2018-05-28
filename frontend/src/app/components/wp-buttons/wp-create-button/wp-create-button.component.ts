@@ -33,8 +33,8 @@ import {Component, Inject, Input} from '@angular/core';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
 
 @Component({
-  template: require('!!raw-loader!./wp-create-button.html'),
   selector: 'wp-create-button',
+  templateUrl: './wp-create-button.html'
 })
 export class WorkPackageCreateButtonComponent {
   @Input('projectIdentifier') projectIdentifier:string;

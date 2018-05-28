@@ -42,7 +42,7 @@ export class QuerySharingForm {
 }
 
 wpControllersModule.component('querySharingForm', {
-  templateUrl: '/components/modals/share-modal/query-sharing-form.html',
+  template:require('./query-sharing-form.html'),
   controller: QuerySharingForm,
   bindings: {
     onChange: '&',

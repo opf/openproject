@@ -44,7 +44,7 @@ import {
 
 @Component({
   selector: 'sortHeader',
-  template: require('!!raw-loader!./sort-header.directive.html')
+  templateUrl: './sort-header.directive.html'
 })
 export class SortHeaderDirective implements OnDestroy, AfterViewInit {
 

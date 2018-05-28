@@ -36,7 +36,7 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
 @Component({
   selector: 'filter-integer-value',
-  template: require('!!raw-loader!./filter-integer-value.component.html')
+  templateUrl: './filter-integer-value.component.html'
 })
 export class FilterIntegerValueComponent implements OnDestroy {
   @Input() public filter:QueryFilterInstanceResource;

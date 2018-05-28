@@ -8,7 +8,7 @@ import {
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 
 @Component({
-  template: require('!!raw-loader!./op-context-menu.html')
+  templateUrl: './op-context-menu.html'
 })
 export class OPContextMenuComponent {
   public items:OpContextMenuItem[];

@@ -53,7 +53,7 @@ import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 
 @Component({
-  template: require('!!raw-loader!./wp-table.directive.html'),
+  templateUrl: './wp-table.directive.html',
   selector: 'wp-table',
 })
 export class WorkPackagesTableController implements OnInit, OnDestroy {

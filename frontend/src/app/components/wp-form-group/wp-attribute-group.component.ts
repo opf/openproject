@@ -36,8 +36,8 @@ import {
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Component({
-  template: require('!!raw-loader!./wp-attribute-group.template.html'),
   selector: 'wp-attribute-group',
+  templateUrl: './wp-attribute-group.template.html'
 })
 export class WorkPackageFormAttributeGroupComponent {
   @Input() public workPackage:WorkPackageResource;

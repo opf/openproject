@@ -40,7 +40,7 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 
 @Component({
   selector: 'filter-toggled-multiselect-value',
-  template: require('!!raw-loader!./filter-toggled-multiselect-value.component.html')
+  templateUrl: './filter-toggled-multiselect-value.component.html'
 })
 export class FilterToggledMultiselectValueComponent implements OnInit {
   @Input() public filter:QueryFilterInstanceResource;

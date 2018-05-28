@@ -7,7 +7,7 @@ import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/
 import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
 
 @Component({
-  template: require('!!raw-loader!./display-settings-tab.component.html')
+  templateUrl: './display-settings-tab.component.html'
 })
 export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
 

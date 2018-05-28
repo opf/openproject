@@ -33,7 +33,7 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 @Component({
   selector: 'op-date-picker',
-  template: require('!!raw-loader!./op-date-picker.component.html')
+  templateUrl: './op-date-picker.component.html'
 })
 export class OpDatePickerComponent implements OnInit {
   @Output() public onChange = new EventEmitter<string>();

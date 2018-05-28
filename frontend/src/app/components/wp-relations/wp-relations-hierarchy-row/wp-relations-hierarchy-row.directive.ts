@@ -1,10 +1,10 @@
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
 import {wpDirectivesModule} from '../../../angular-modules';
-import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp-relations-hierarchy.service';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
-import {scopedObservable} from '../../../helpers/angular-rx-utils';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp-relations-hierarchy.service';
 
 class WpRelationsHierarchyRowDirectiveController {
   public workPackage:WorkPackageResource;
@@ -32,12 +32,12 @@ class WpRelationsHierarchyRowDirectiveController {
   }
 
   public text = {
-    change_parent:this.I18n.t('js.relation_buttons.change_parent'),
-    remove_parent:this.I18n.t('js.relation_buttons.remove_parent'),
-    remove_child:this.I18n.t('js.relation_buttons.remove_child'),
-    remove:this.I18n.t('js.relation_buttons.remove'),
-    parent:this.I18n.t('js.relation_labels.parent'),
-    children:this.I18n.t('js.relation_labels.children')
+    change_parent: this.I18n.t('js.relation_buttons.change_parent'),
+    remove_parent: this.I18n.t('js.relation_buttons.remove_parent'),
+    remove_child: this.I18n.t('js.relation_buttons.remove_child'),
+    remove: this.I18n.t('js.relation_buttons.remove'),
+    parent: this.I18n.t('js.relation_labels.parent'),
+    children: this.I18n.t('js.relation_labels.children')
   };
 
   public get relationReady() {
@@ -95,17 +95,17 @@ class WpRelationsHierarchyRowDirectiveController {
 
 function WpRelationsHierarchyRowDirective():any {
   return {
-    restrict:'E',
-    templateUrl:'/components/wp-relations/wp-relations-hierarchy-row/wp-relations-hierarchy-row.template.html',
-    scope:{
-      indentBy:'@?',
-      workPackage:'=',
-      relatedWorkPackage:'=?',
-      relationType:'@'
+    restrict: 'E',
+    template: require('../wp-relations-hierarchy/wp-relations-hierarchy.template.html'),
+    scope: {
+      indentBy: '@?',
+      workPackage: '=',
+      relatedWorkPackage: '=?',
+      relationType: '@'
     },
-    controller:WpRelationsHierarchyRowDirectiveController,
-    controllerAs:'$ctrl',
-    bindToController:true
+    controller: WpRelationsHierarchyRowDirectiveController,
+    controllerAs: '$ctrl',
+    bindToController: true
   };
 }
 

@@ -35,7 +35,7 @@ import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 @Component({
   selector: 'filter-dates-value',
-  template: require('!!raw-loader!./filter-dates-value.component.html')
+  templateUrl: './filter-dates-value.component.html'
 })
 export class FilterDatesValueComponent implements OnDestroy {
   @Input() public filter:QueryFilterInstanceResource;

@@ -37,7 +37,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
   selector: 'attribute-help-text',
-  template: require('!!raw-loader!./help-text.directive.html')
+  templateUrl: './help-text.directive.html'
 })
 export class AttributeHelpTextComponent implements OnInit {
   // Attribute to show help text for

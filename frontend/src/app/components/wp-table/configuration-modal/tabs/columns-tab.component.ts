@@ -7,7 +7,7 @@ import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-por
 import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 @Component({
-  template: require('!!raw-loader!./columns-tab.component.html')
+  templateUrl: './columns-tab.component.html'
 })
 export class WpTableConfigurationColumnsTab implements TabComponent {
 

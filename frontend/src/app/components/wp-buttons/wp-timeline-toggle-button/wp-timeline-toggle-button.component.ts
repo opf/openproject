@@ -41,7 +41,7 @@ interface TimelineButtonText extends ButtonControllerText {
 }
 
 @Component({
-  template: require('!!raw-loader!core-components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.html'),
+  templateUrl: './wp-timeline-toggle-button.html',
   selector: 'wp-timeline-toggle-button',
 })
 export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButtonComponent  {

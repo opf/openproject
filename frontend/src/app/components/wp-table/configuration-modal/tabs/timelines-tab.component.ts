@@ -7,7 +7,7 @@ import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/stat
 import {QueryColumn} from 'core-components/wp-query/query-column';
 
 @Component({
-  template: require('!!raw-loader!./timelines-tab.component.html')
+  templateUrl: './timelines-tab.component.html'
 })
 export class WpTableConfigurationTimelinesTab implements TabComponent {
 

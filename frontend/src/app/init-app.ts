@@ -28,13 +28,12 @@
 
 import ExpressionService from 'core-components/common/xss/expression.service';
 
-// Require vendors for global exposes. DLL handles the extraction
-// into a separate bundle
-require('./vendors');
+// Run the browser detection
+require('expose-loader?bowser!bowser');
 
 // Styles for global dependencies
 require('at.js/dist/css/jquery.atwho.min.css');
-require('select2/select2.css');
+require('../../vendor/select2/select2.css');
 require('ui-select/dist/select.min.css');
 require('ng-dialog/css/ngDialog.min.css');
 require('jquery-ui/themes/base/core.css');
@@ -153,8 +152,6 @@ require('./services');
 require('./ui_components');
 require('./work_packages');
 
-// Run the browser detection
-require('expose-loader?bowser!bowser');
 
 var requireTemplate = require.context('./templates', true, /\.html$/);
 requireTemplate.keys().forEach(requireTemplate);

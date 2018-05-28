@@ -32,12 +32,12 @@ import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {Component, Inject, OnDestroy} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
-import WorkPackageFiltersService from 'core-components/filters/wp-filters/wp-filters.service';
+import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
 @Component({
-  template: require('!!raw-loader!./wp-filter-button.html'),
   selector: 'wp-filter-button',
+  templateUrl: './wp-filter-button.html'
 })
 export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonComponent implements OnDestroy  {
   public count:number;

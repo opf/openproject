@@ -34,8 +34,8 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageCacheService} from '../work-package-cache.service';
 
 @Component({
-  template: require('!!raw-loader!./wp-subject.html'),
   selector: 'wp-subject',
+  templateUrl: './wp-subject.html'
 })
 export class WorkPackageSubjectComponent implements OnInit, OnDestroy {
   @Input('workPackage') workPackage:WorkPackageResource;

@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import * as angular from 'angular';
+
 declare const I18n:op.I18n;
 
 // global

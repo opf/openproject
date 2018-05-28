@@ -52,7 +52,7 @@ function CollapsibleSection():any {
     restrict: 'E',
     replace: true,
     transclude: true,
-    templateUrl: '/components/common/collapsible-section/collapsible-section.directive.html',
+    template: require('./collapsible-section.directive.html'),
 
     scope: {
       sectionTitle: '@'

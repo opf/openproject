@@ -39,7 +39,7 @@ function wpRelationsAutocompleteDirective(
   I18n:op.I18n) {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.template.html',
+    template: require('./wp-relations-autocomplete.template.html'),
     scope: {
       selectedWpId: '=',
       loadingPromiseName: '@',
