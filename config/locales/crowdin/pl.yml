@@ -170,7 +170,9 @@ pl:
       form_configuration: Konfiguracja formularza
       projects: Projekty
       enabled_projects: Aktywne projekty
-      add_group: Dodaj grupę
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Resetuj do ustawień domyślnych
   versions:
     overview:
@@ -364,6 +366,7 @@ pl:
         mail_notification: Powiadomienia e-mail
         new_password: Nowe hasło
         password_confirmation: Potwierdzenie
+        consented_at: Consented at
       user_preference:
         comments_sorting: Wyświetlanie komentarzy
         hide_mail: Ukryj mój adres e-mail
@@ -375,8 +378,6 @@ pl:
       version:
         effective_date: Termin
         sharing: Udostępnianie
-      wiki:
-        start_page: Strona startowa
       wiki_content:
         text: Tekst
       wiki_page:
@@ -389,6 +390,7 @@ pl:
       work_package:
         begin_insertion: Początek wstawiania
         begin_deletion: Początek usuwania
+        children: Subelements
         done_ratio: Postęp (%)
         end_insertion: Koniec wstawiania
         end_deletion: Koniec usuwania
@@ -517,6 +519,8 @@ pl:
             status_id:
               status_transition_invalid: jest niewłaściwy z powodu braku prawidłowego
                 przekształcenia ze starego do nowego statusu dla aktualnej roli użytkownika.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: musi być aktywny.
             category:
@@ -668,11 +672,13 @@ pl:
   button_close: Zamknij
   button_collapse_all: Zwiń wszystko
   button_configure: Konfigurowanie
+  button_continue: Kontynuuj
   button_copy: Kopiuj
   button_copy_and_follow: Skopiuj i wykonaj
   button_create: Utwórz
   button_create_and_continue: Utwórz i kontynuuj
   button_delete: Usuń
+  button_decline: Decline
   button_delete_watcher: Usunąć obserwatora %{name}
   button_download: Pobierz
   button_duplicate: Duplikat
@@ -714,6 +720,23 @@ pl:
   button_add_menu_entry: Dodaj element menu
   button_configure_menu_entry: Konfigurowanie elementu menu
   button_delete_menu_entry: Usuń element menu
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Rozpoczęto kopiowanie projektu "%{source_project_name}" do "%{target_project_name}".
       Poinformujemy Cię przez e-mail tak szybko jak "%{target_project_name}" będzie
@@ -967,6 +990,8 @@ pl:
     plików cookie jest włączona, ponieważ bez tego aplikacja nie będzie funkcjonować
     prawidłowo.
   error_custom_option_not_found: Opcja nie istnieje.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: Nie udało się usunąć tego wpisu.
   error_invalid_group_by: 'Nie można grupować przez: %{value}'
   error_invalid_query_column: 'Nieprawidłowa kolumna zapytań: %{value}'
@@ -1112,6 +1137,7 @@ pl:
   label_all: wszystkie
   label_all_time: cały czas
   label_all_words: Wszystkie słowa
+  label_all_open_wps: All open
   label_always_visible: Zawsze wyświetlana
   label_announcement: Ogłoszenie
   label_and_its_subprojects: "%{value} oraz jego projekty podrzędne"
@@ -1152,6 +1178,7 @@ pl:
   label_calendar: Kalendarz
   label_calendar_show: Pokaż kalendarz
   label_category: Kategoria
+  label_consent_settings: User Consent
   label_wiki_menu_item: Element menu Wiki
   label_select_main_menu_item: Wybierz nową pozycję menu głównego
   label_select_project: Wybierz projekt
@@ -1174,6 +1201,7 @@ pl:
   label_close_versions: Zamknij zakończone wersje
   label_closed_work_packages: Zamknięte
   label_collapse: Zwiń
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: konfiguracja
   label_comment_add: Dodaj komentarz
   label_comment_added: Komentarz dodany
@@ -1241,11 +1269,13 @@ pl:
   label_enumerations: Listy
   label_enterprise: Przedsiębiorstwo
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Środowisko
   label_estimates_and_time: Szacowany czas
   label_equals: jest
   label_example: Przykład
   label_export_to: 'Dostępne również w:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} godzin"
   label_f_hour_plural: "%{value} godzin"
   label_feed_plural: Kanały
@@ -1275,6 +1305,7 @@ pl:
   label_here: tutaj
   label_hide: Ukryj
   label_history: Historia
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Strona główna
   label_in: w
   label_in_less_than: w mniej niż
@@ -1288,6 +1319,7 @@ pl:
   label_information_plural: Informacje
   label_integer: Liczba całkowita
   label_internal: Wewnętrzne
+  label_introduction_video: Introduction video
   label_invite_user: Zaproś użytkownika
   label_show_hide: Pokaż/Ukryj
   label_show_all_registered_users: Pokaż wszystkich zarejestrowanych użytkowników
@@ -1350,6 +1382,7 @@ pl:
   label_my_page_block: Mój blok strony
   label_my_projects: Moje projekty
   label_my_queries: Moje zapytania niestandardowe
+  label_never: Nigdy
   label_new: Nowy
   label_new_statuses_allowed: Nowe statusy dozwolone
   label_news_added: Wiadomość dodana
@@ -1374,6 +1407,7 @@ pl:
   label_open_menu: Otwórz menu
   label_open_work_packages: Otwarte
   label_open_work_packages_plural: Otwarte
+  label_openproject_website: OpenProject website
   label_optional_description: Opis
   label_options: Opcje
   label_other: Inne
@@ -1544,7 +1578,7 @@ pl:
   label_version_sharing_none: Nie udostępnione
   label_version_sharing_system: Z wszystkich projektów
   label_version_sharing_tree: Z drzewa projektu
-  label_video: Wideo
+  label_videos: Videos
   label_view_all_revisions: Zobacz wszystkie rewizje
   label_view_diff: Widok różnic
   label_view_revisions: Widok rewizji
@@ -1565,6 +1599,7 @@ pl:
   label_wiki_show_menu_item: Pokaż jako element menu w nawigacji projektu
   label_wiki_show_new_page_link: Pokaż element podmenu "Utwórz nową stronę podrzędną"
   label_wiki_show_submenu_item: 'Pokaż jako pozycję podmenu '
+  label_wiki_start: Strona startowa
   label_work_package: Pakiet roboczy
   label_work_package_added: Dodano zadanie
   label_work_package_attachments: Załączniki pakietu roboczego
@@ -1665,9 +1700,10 @@ pl:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: Wywołanie makra create_work_package_link spoza kontekstu
+          projektu.
+        invalid_type: Nie znaleziono żadnego typu o nazwie '%{type}' w projekcie '%{project}
+          '.
       link_name: Nowy pakiet roboczy
       link_name_type: Nowy %{type_name}
   mail:
@@ -2076,12 +2112,19 @@ pl:
     nieudanych prób zalogowania
   setting_brute_force_block_minutes: Czas, kiedy użytkownik jest zablokowany
   setting_cache_formatted_text: Tekst sformatowany w pamięci podręcznej
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Dostosuj wygląd list pakietów roboczych
   setting_commit_fix_keywords: Stałe słowa kluczowe
   setting_commit_logs_encoding: Commit messages encoding
   setting_commit_logtime_activity_id: Aktywność dla logowania czasu pracy
   setting_commit_logtime_enabled: Włącz logowanie czasu pracy
   setting_commit_ref_keywords: Referencing keywords
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Zezwól na powiązania pakietów roboczych
     pomiędzy projektami
   setting_date_format: Format daty
@@ -2180,7 +2223,10 @@ pl:
     passwords: Hasła
     session: Sesja
     brute_force_prevention: Automatyczne blokowanie użytkowników
-  show_hide_project_menu: Rozwiń/zwiń menu projektu
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: aktywne
   status_archived: w archiwum
   status_invited: zaproszony
@@ -2663,7 +2709,7 @@ pl:
       multipart_body_error: Żądanie źródła nie zawiera oczekiwanych wieloczęściowych
         elementów.
       multiple_errors: Zostały naruszone ograniczenia wielu pól.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Nie można utworzyć załącznika
       render:
         context_not_parsable: Podany kontekst nie jest linkiem do zasobu.
         unsupported_context: Podany zasób nie jest obsługiwany jako kontekst.

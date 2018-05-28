@@ -9,13 +9,14 @@ import {WpTableConfigurationFiltersTab} from 'core-components/wp-table/configura
 export interface WpTableConfigurationTabReference {
   name:string;
   title:string;
+  disableBecause?:string;
   componentClass:{ new(...args:any[]):any };
 }
 
 @Injectable()
 export class WpTableConfigurationService {
 
-  public tabs:WpTableConfigurationTabReference[] = [
+  protected _tabs:WpTableConfigurationTabReference[] = [
     {
       name: 'filters',
       title: this.I18n.t('js.work_packages.query.filters'),
@@ -43,8 +44,10 @@ export class WpTableConfigurationService {
     }
   ];
 
-  constructor(readonly injector:Injector,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+  constructor(@Inject(I18nToken) readonly I18n:op.I18n) {
+  }
 
+  public get tabs() {
+    return this._tabs;
   }
 }

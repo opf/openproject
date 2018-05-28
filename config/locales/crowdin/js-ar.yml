@@ -55,6 +55,7 @@ ar:
     description_subwork_package: 'إنتاج مجموعة العمل #%{id}'
     error:
       internal: حدث خطأ داخلي.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: فتح هذا المرشح باستخدام 'ALT' و مفاتيح الأسهم.
@@ -146,6 +147,7 @@ ar:
     label_not_equals: ليس
     label_on: في
     label_open_menu: فتح القائمة
+    label_open_context_menu: Open context menu
     label_open_work_packages: فتح
     label_password: كلمة المرور
     label_previous: السابق
@@ -169,6 +171,7 @@ ar:
     label_subject: الموضوع
     label_this_week: هذا الأسبوع
     label_today: اليوم
+    label_up: Up
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} من التقدم الكلي"
@@ -268,7 +271,8 @@ ar:
       required: مطلوب من قبل
       relation_type: نوع العلاقة
     relations_hierarchy:
-      hierarchy_headline: تسلسل هرمي
+      parent_headline: الجذر
+      children_headline: الأطفال
     relation_buttons:
       change_parent: تغيير الوالد
       remove_parent: إزالة والد
@@ -311,6 +315,7 @@ ar:
         two: تستطيع فقط اختيار {{limit}} عناصر
         few: تستطيع فقط اختيار {{limit}} عناصر
         many: تستطيع فقط اختيار {{limit}} عناصر
+    show_hide_project_menu: توسيع/طي قائمة المشروع
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -326,6 +331,7 @@ ar:
     timelines:
       gantt_chart: Gantt chart
       labels:
+        title: Label configuration
         bar: Bar labels
         left: Left
         right: Right
@@ -363,7 +369,6 @@ ar:
         grouping_other: اخرى
         noneSelection: "(بلا)"
       name: الاسم
-      new_work_package: مجموعة عمل جديدة
       outline: إعادة تعيين المخطط التفصيلي
       outlines:
         aggregation: إظهار المجموعات فقط
@@ -461,10 +466,13 @@ ar:
       inline_create:
         title: اضغط هنا لإضافة مجموعة عمل جديدة للقائمة
       create:
+        title: مجموعة عمل جديدة
         header: "%{type} جديد"
         header_no_type: حزمة عمل جديدة (النوع لم يحدد بعد)
         header_with_parent: "%{type} جديد (طفل %{parent_type} #%{id})"
         button: إنشاء
+      copy:
+        title: Copy work package
       hierarchy:
         show: Show hierarchy mode
         hide: Hide hierarchy mode
@@ -524,7 +532,6 @@ ar:
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
           being grouped by %{column}.
-        hierarchy_mode: Hierarchy mode
         sort_ascending: ترتيب تصاعدي
         sort_descending: ترتيب تنازلي
         move_column_left: انقل العمود لليسار
@@ -538,12 +545,30 @@ ar:
           not_found: لا يوجد مثل هذا الإستعلام
         text_no_results: No matching queries were found.
       table:
+        configure_button: Configure work package table
         summary: أسطر الجدول كتب عمل والاعمدة واصفات لكتب العمل.
         text_inline_edit: معظم خلايا الجدول هي أزرار لتنشيط وظائف التحرير المضمنة
           لتلك الواصفة.
         text_sort_hint: مع الارتباطات الموجودة في رؤوس الجدول يمكنك فرز، والمجموعة،
           وإعادة ترتيب، وإزالة وإضافة أعمدة الجدول.
         text_select_hint: يجب فتح الخانات المختارة بمفتاح "ألت" ومفاتيح الأسهم.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Hierarchy mode
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: نظرة عامة
         activity: النشاط

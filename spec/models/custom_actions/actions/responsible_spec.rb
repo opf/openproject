@@ -32,8 +32,8 @@ describe CustomActions::Actions::Responsible, type: :model do
   let(:key) { :responsible }
   let(:type) { :associated_property }
   let(:allowed_values) do
-    users = [FactoryGirl.build_stubbed(:user),
-             FactoryGirl.build_stubbed(:user)]
+    users = [FactoryBot.build_stubbed(:user),
+             FactoryBot.build_stubbed(:user)]
 
     allow(User)
       .to receive_message_chain(:active_or_registered, :select, :order_by_name)

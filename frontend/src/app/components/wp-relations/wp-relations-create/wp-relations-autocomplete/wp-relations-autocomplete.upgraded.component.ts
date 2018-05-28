@@ -35,7 +35,7 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 
 @Component({
   selector: 'wp-relations-autocomplete-upgraded',
-  templateUrl: './wp-relations-autocomplete.upgraded.html'
+  template: require('!!raw-loader!./wp-relations-autocomplete.upgraded.html')
 })
 export class WpRelationsAutocompleteComponent implements OnInit {
   @Input() workPackage:WorkPackageResource;
@@ -97,7 +97,7 @@ export class WpRelationsAutocompleteComponent implements OnInit {
     }
   }
 
-  private async autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
+  private autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
     this.$element.find('.ui-autocomplete--loading').show();
 
     return this.workPackage.available_relation_candidates.$link.$fetch({

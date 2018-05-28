@@ -38,45 +38,14 @@ export const $stateToken = new InjectionToken<StateService>('$state');
 export const $sceToken = new InjectionToken<ng.ISCEService>('$sceToken');
 
 export const I18nToken = new InjectionToken<op.I18n>('I18n');
-export const shareModalToken = new InjectionToken<any>('shareModal');
-export const saveModalToken = new InjectionToken<any>('saveModal');
-export const settingsModalToken = new InjectionToken<any>('settingsModal');
-export const exportModalToken = new InjectionToken<any>(' exportModal');
 
 export const AutoCompleteHelperServiceToken = new InjectionToken<any>('AutoCompleteHelperServiceToken');
 export const TextileServiceToken = new InjectionToken<any>('TextileServiceToken');
-export const FocusHelperToken = new InjectionToken<any>('FocusHelper');
-export const wpMoreMenuServiceToken = new InjectionToken<any>('wpMoreMenuService');
 export const $httpToken = new InjectionToken<any>('$http');
-export const wpDestroyModalToken = new InjectionToken<any>('wpDestroyModal');
 export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 export const HookServiceToken = new InjectionToken<any>('HookService');
-
-// export const WorkPackageFiltersServiceToken = new InjectionToken<any>('WorkPackageFiltersService');
-
-// export function upgradeService(ng1InjectorName:string, providedType:any) {
-//   return {
-//     provide: providedType,
-//     useFactory: (i:any) => i.get(ng1InjectorName),
-//     deps: ['$injector']
-//   };
-// }
-//
-// export function upgradeServiceWithToken(ng1InjectorName:string, token:InjectionToken<any>) {
-//   return {
-//     provide: token,
-//     useFactory: (i:any) => {
-//       try {
-//         return i.get(ng1InjectorName);
-//       } catch (e) {
-//         console.trace('Failed to inject service ' + ng1InjectorName);
-//         throw e;
-//       }
-//     },
-//     deps: ['$injector']
-//   };
-// }
+export const WorkPackageServiceToken = new InjectionToken<any>('WorkPackageService');
 
 export function upgradeService(factory:(i:any) => any, token:any) {
   return {

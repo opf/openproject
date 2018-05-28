@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Repository::Subversion, type: :model do
-  let(:instance) { FactoryGirl.build(:repository_subversion) }
+  let(:instance) { FactoryBot.build(:repository_subversion) }
   let(:adapter)  { instance.scm }
   let(:config)   { {} }
   let(:enabled_scm) { %w[subversion] }
@@ -98,7 +98,7 @@ describe Repository::Subversion, type: :model do
 
     context 'with managed config' do
       let(:config) { { manages: managed_path } }
-      let(:project) { FactoryGirl.build :project }
+      let(:project) { FactoryBot.build :project }
 
       it 'is manageable' do
         expect(instance.manageable?).to be true
@@ -127,8 +127,8 @@ describe Repository::Subversion, type: :model do
       end
 
       context 'and associated project with parent' do
-        let(:parent) { FactoryGirl.build :project }
-        let(:project) { FactoryGirl.build :project, parent: parent }
+        let(:parent) { FactoryBot.build :project }
+        let(:project) { FactoryBot.build :project, parent: parent }
 
         before do
           instance.project = project
@@ -144,7 +144,7 @@ describe Repository::Subversion, type: :model do
 
   describe 'with a remote repository' do
     let(:instance) {
-      FactoryGirl.build(:repository_subversion,
+      FactoryBot.build(:repository_subversion,
                         url: 'https://somewhere.example.org/svn/foo'
                        )
     }
@@ -157,7 +157,7 @@ describe Repository::Subversion, type: :model do
   describe 'with an actual repository' do
     with_subversion_repository do |repo_dir|
       let(:url)      { "file://#{repo_dir}" }
-      let(:instance) { FactoryGirl.create(:repository_subversion, url: url, root_url: url) }
+      let(:instance) { FactoryBot.create(:repository_subversion, url: url, root_url: url) }
 
       it 'should be available' do
         expect(instance.scm).to be_available
@@ -301,8 +301,8 @@ describe Repository::Subversion, type: :model do
       end
 
       context 'with an admin browsing activity' do
-        let(:user) { FactoryGirl.create(:admin) }
-        let(:project) { FactoryGirl.create(:project) }
+        let(:user) { FactoryBot.create(:admin) }
+        let(:project) { FactoryBot.create(:project) }
 
         def find_events(user, options = {})
           fetcher = Redmine::Activity::Fetcher.new(user, options)

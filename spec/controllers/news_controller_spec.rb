@@ -34,14 +34,14 @@ describe NewsController, type: :controller do
   include BecomeMember
 
   let(:user)    {
-    user = FactoryGirl.create(:admin)
+    user = FactoryBot.create(:admin)
 
-    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
 
     user
   }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:news)    { FactoryGirl.create(:news)    }
+  let(:project) { FactoryBot.create(:project) }
+  let(:news)    { FactoryBot.create(:news)    }
 
   before do
     allow(User).to receive(:current).and_return user

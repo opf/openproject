@@ -33,6 +33,7 @@ module Type::AttributeGroups
 
   included do
     before_save :write_attribute_groups_objects
+    after_save :unset_attribute_groups_objects
     after_destroy :remove_attribute_groups_queries
     validate :validate_attribute_group_names
     validate :validate_attribute_groups
@@ -93,13 +94,22 @@ module Type::AttributeGroups
       to_attribute_group_class(groups)
     end
 
-    # TODO: move appending of children default query to #default_attribute_groups
-    # once query groups can be configured
-    attribute_groups_objects + [::Type::QueryGroup.new(self, :children, default_children_query)]
+    attribute_groups_objects
   end
 
+  ##
+  # Resets the default attribute groups
+  def reset_attribute_groups
+    # Remove all active custom fields
+    self.custom_field_ids = []
+
+    self.attribute_groups_objects = to_attribute_group_class(default_attribute_groups)
+  end
+
+  ##
+  # Update the attribute groups object.
   def attribute_groups=(groups)
-    self.attribute_groups_objects = groups.empty? ? nil : to_attribute_group_class(groups)
+    self.attribute_groups_objects = to_attribute_group_class(groups)
   end
 
   ##
@@ -108,20 +118,21 @@ module Type::AttributeGroups
   def default_attribute_groups
     values = work_package_attributes_by_default_group_key
 
-    default_groups.keys.each_with_object([]) do |groupkey, array|
+    groups = default_groups.keys.each_with_object([]) do |groupkey, array|
       members = values[groupkey]
       array << [groupkey, members] if members.present?
     end
-  end
 
-  # TODO: remove once queries can be configured as well
-  def non_query_attribute_groups
-    attribute_groups.select { |g| g.is_a?(Type::AttributeGroup) }
+    groups
   end
 
   def reload(*args)
-    self.attribute_groups_objects = nil
+    unset_attribute_groups_objects
     super
+  end
+
+  def unset_attribute_groups_objects
+    self.attribute_groups_objects = nil
   end
 
   protected
@@ -133,20 +144,13 @@ module Type::AttributeGroups
   def write_attribute_groups_objects
     return if attribute_groups_objects.nil?
 
-    groups = attribute_groups_objects.map do |group|
-      attributes = if group.is_a?(Type::QueryGroup)
-                     query = group.query
+    groups = if attribute_groups_objects == to_attribute_group_class(default_attribute_groups)
+               nil
+             else
+               to_attribute_group_array(attribute_groups_objects)
+             end
 
-                     query.save
-
-                     [group.query_attribute_name]
-                   else
-                     group.attributes
-                   end
-      [group.key, attributes]
-    end
-
-    write_attribute(:attribute_groups, groups) if groups != default_attribute_groups
+    write_attribute(:attribute_groups, groups)
 
     cleanup_query_groups_queries
   end
@@ -202,10 +206,16 @@ module Type::AttributeGroups
     end
   end
 
+  ##
+  # Get the default attribute groups for this type.
+  # If it has activated custom fields through +custom_field_ids=+,
+  # it will put them into the other group.
   def work_package_attributes_by_default_group_key
+    active_cfs = active_custom_field_attributes
+
     work_package_attributes
       .keys
-      .reject { |key| CustomField.custom_field_attribute?(key) && !has_custom_field?(key) }
+      .reject { |key| CustomField.custom_field_attribute?(key) && !active_cfs.include?(key) }
       .group_by { |key| default_group_key(key.to_sym) }
   end
 
@@ -226,13 +236,19 @@ module Type::AttributeGroups
     end
   end
 
-  def default_children_query
-    query = Query.new_default
-    query.column_names = %w(id type subject)
-    query.show_hierarchies = false
-    query.filters = []
-    query.add_filter('parent', '=', ::Queries::Filters::TemplatedValue::KEY)
-    query
+  def to_attribute_group_array(groups)
+    groups.map do |group|
+      attributes = if group.is_a?(Type::QueryGroup)
+                     query = group.query
+
+                     query.save
+
+                     [group.query_attribute_name]
+                   else
+                     group.attributes
+                   end
+      [group.key, attributes]
+    end
   end
 
   def new_attribute_group(key, attributes)

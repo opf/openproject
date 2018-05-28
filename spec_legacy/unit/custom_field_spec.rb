@@ -53,7 +53,7 @@ describe CustomField, type: :model do
   end
 
   it 'should destroy' do
-    field = FactoryGirl.create :custom_field
+    field = FactoryBot.create :custom_field
     assert field.destroy
   end
 end

@@ -150,7 +150,7 @@ class GroupsController < ApplicationController
     if result.success?
       flash[:notice] = I18n.t :notice_successful_update
     else
-      flash[:error] = reusult.errors.full_mesages.join("\n")
+      flash[:error] = result.errors.full_mesages.join("\n")
     end
     redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships'
   end

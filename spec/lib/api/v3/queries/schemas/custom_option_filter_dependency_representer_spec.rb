@@ -31,15 +31,15 @@ require 'spec_helper'
 describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
   let(:custom_field) do
-    cf = FactoryGirl.build_stubbed(:list_wp_custom_field)
+    cf = FactoryBot.build_stubbed(:list_wp_custom_field)
 
     allow(cf)
       .to receive(:custom_options)
-      .and_return([FactoryGirl.build_stubbed(:custom_option),
-                   FactoryGirl.build_stubbed(:custom_option)])
+      .and_return([FactoryBot.build_stubbed(:custom_option),
+                   FactoryBot.build_stubbed(:custom_option)])
     cf
   end
   let(:filter) do
@@ -135,6 +135,16 @@ describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter, c
         I18n.with_locale(:de) do
           instance.to_json
         end
+      end
+
+      it 'busts the cache on different form_embedded' do
+        embedded_instance = described_class.new(filter,
+                                                operator,
+                                                form_embedded: !form_embedded)
+        expect(embedded_instance)
+          .to receive(:to_hash)
+
+        embedded_instance.to_json
       end
     end
   end

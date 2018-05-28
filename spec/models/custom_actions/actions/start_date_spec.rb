@@ -36,7 +36,7 @@ describe CustomActions::Actions::StartDate, type: :model do
 
   it_behaves_like 'base custom action' do
     describe '#apply' do
-      let(:work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
+      let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
 
       it 'sets the start_date to the action\'s value' do
         instance.values = [Date.today]

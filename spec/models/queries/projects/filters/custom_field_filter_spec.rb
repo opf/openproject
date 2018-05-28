@@ -37,15 +37,15 @@ describe Queries::Projects::Filters::CustomFieldFilter, type: :model do
   let(:instance_key) { nil }
   let(:name) { field.name }
 
-  let(:list_project_custom_field) { FactoryGirl.create(:list_project_custom_field) }
-  let(:bool_project_custom_field) { FactoryGirl.build_stubbed(:bool_project_custom_field) }
-  let(:int_project_custom_field) { FactoryGirl.build_stubbed(:int_project_custom_field) }
-  let(:float_project_custom_field) { FactoryGirl.build_stubbed(:float_project_custom_field) }
-  let(:text_project_custom_field) { FactoryGirl.build_stubbed(:text_project_custom_field) }
-  let(:user_project_custom_field) { FactoryGirl.build_stubbed(:user_project_custom_field) }
-  let(:version_project_custom_field) { FactoryGirl.build_stubbed(:version_project_custom_field) }
-  let(:date_project_custom_field) { FactoryGirl.build_stubbed(:date_project_custom_field) }
-  let(:string_project_custom_field) { FactoryGirl.build_stubbed(:string_project_custom_field) }
+  let(:list_project_custom_field) { FactoryBot.create(:list_project_custom_field) }
+  let(:bool_project_custom_field) { FactoryBot.build_stubbed(:bool_project_custom_field) }
+  let(:int_project_custom_field) { FactoryBot.build_stubbed(:int_project_custom_field) }
+  let(:float_project_custom_field) { FactoryBot.build_stubbed(:float_project_custom_field) }
+  let(:text_project_custom_field) { FactoryBot.build_stubbed(:text_project_custom_field) }
+  let(:user_project_custom_field) { FactoryBot.build_stubbed(:user_project_custom_field) }
+  let(:version_project_custom_field) { FactoryBot.build_stubbed(:version_project_custom_field) }
+  let(:date_project_custom_field) { FactoryBot.build_stubbed(:date_project_custom_field) }
+  let(:string_project_custom_field) { FactoryBot.build_stubbed(:string_project_custom_field) }
   let(:custom_field) { list_project_custom_field }
 
   let(:all_custom_fields) do
@@ -418,8 +418,8 @@ describe Queries::Projects::Filters::CustomFieldFilter, type: :model do
       end
 
       describe '#value_objects' do
-        let(:user1) { FactoryGirl.build_stubbed(:user) }
-        let(:user2) { FactoryGirl.build_stubbed(:user) }
+        let(:user1) { FactoryBot.build_stubbed(:user) }
+        let(:user2) { FactoryBot.build_stubbed(:user) }
 
         before do
           allow(Principal)
@@ -447,8 +447,8 @@ describe Queries::Projects::Filters::CustomFieldFilter, type: :model do
       end
 
       describe '#value_objects' do
-        let(:version1) { FactoryGirl.build_stubbed(:version) }
-        let(:version2) { FactoryGirl.build_stubbed(:version) }
+        let(:version1) { FactoryBot.build_stubbed(:version) }
+        let(:version2) { FactoryBot.build_stubbed(:version) }
 
         before do
           allow(Version)

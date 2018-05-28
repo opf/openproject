@@ -29,13 +29,27 @@
 // Disable CSS containment in the embedded container
 // unless we're setting an external height with overflow, containment will not work.
 .work-packages-embedded-view--container
+
+  // Align with section header
+  .wp-table--table-header:first-child .generic-table--sort-header-outer,
+  .wp-table--cell-td:first-child .wp-edit-field--display-field,
+  .wp-inline-create--add-link i:before
+    padding-left: 0
+
   .work-package-table--container
     contain: initial !important
+    overflow: visible
+
+    .generic-table--header,
+    .generic-table--sort-header
+      font-size: 12px
 
 
   &.-compact-tables
     .wp-table--row
       border-bottom: none !important
+      &:hover
+        @include varprop(background-color, table-row-highlighting-color)
 
     .generic-table--sort-header-outer
       line-height: 28px
@@ -46,3 +60,16 @@
       height: 28px !important
       padding-top: 2px
       padding-bottom: 2px
+
+    // Disable default padding when hierarchies are disabled
+    &.-hierarchy-disabled
+      .wp-table--cell-td.subject
+        padding-left: 0
+
+    // Reduce width of action column
+    .wp-table--context-menu-td,
+    .wp-table--context-menu-th
+      width: 25px
+
+wp-query-group .wp-relations-create-button
+  margin-left: -6px

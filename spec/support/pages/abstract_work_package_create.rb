@@ -51,12 +51,10 @@ module Pages
     def select_attribute(property, value)
       element = page.first(".wp-edit-field.#{property.downcase} select")
 
-      if element
-        element.select(value)
-        element
-      else
-        nil
-      end
+      element.select(value)
+      element
+    rescue Capybara::ExpectationNotMet
+      nil
     end
 
     def expect_fully_loaded

@@ -32,8 +32,8 @@ require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::CreateContract do
   let(:work_package) { WorkPackage.new }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   subject(:contract) { described_class.new(work_package, user) }
   let(:validated_contract) {
@@ -125,7 +125,7 @@ describe WorkPackages::CreateContract do
     end
 
     it 'is invalid if the user is different from the user the contract is evaluated for' do
-      work_package.author = FactoryGirl.build_stubbed(:user)
+      work_package.author = FactoryBot.build_stubbed(:user)
 
       expect(validated_contract.errors.symbols_for(:author_id))
         .to match_array [:invalid]

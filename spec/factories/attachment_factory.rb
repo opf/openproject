@@ -28,7 +28,7 @@
 
 require Rails.root + 'spec/support/file_helpers'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :attachment do
     container factory: :work_package
     author factory: :user

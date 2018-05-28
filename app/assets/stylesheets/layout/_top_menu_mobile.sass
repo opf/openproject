@@ -27,27 +27,8 @@
 //++
 
 @include breakpoint(680px down)
-  $hamburger-right: -13px
+  $hamburger-right: -3px
   $hamburger-width: 50px
-
-  #mobile-main-menu-toggle
-    display: block
-    width: $hamburger-width
-    height: $header-height-mobile
-    float: left
-    text-align: center
-    margin-right: $hamburger-right
-    a
-      height: $header-height-mobile
-      line-height: $header-height-mobile
-      zoom: 1
-      @include varprop(color, header-item-font-color)
-      @include varprop(font-size, header-item-font-size)
-      text-decoration: none
-      padding: 0 15px
-  .nosidebar
-    #mobile-main-menu-toggle
-      display: none
   #logo
     background-color: transparent
 
@@ -81,8 +62,10 @@
     li.drop-down > ul.drop-down--projects
       width: 100vw
       border-right: none
-      left: -1 * ($hamburger-width + $hamburger-right)
       border-left: none
+      left: -1 * ($hamburger-width + $hamburger-right)
+      .nosidebar &
+        left: 0px
 
   #account-nav-right
     > li
@@ -122,13 +105,18 @@
     #projects-menu
       font-size: 15px
       .button--dropdown-text
-        // Viewport minus #account-nav-right when logged out
-        // Long login translation: "Connexion" (French) to test
-        max-width: calc(100vW - 165px - 49px)
+        // Viewport minus #account-nav-right when logged out, which is
+        // 165px, as this is the space for the long login text label: "Connexion" (French).
+        // 36px is the padding around the project name.
+        max-width: calc(100vW - 165px - 36px - #{$hamburger-width + $hamburger-right})
+        .nosidebar &
+          max-width: calc(100vW - 165px - 36px)
     .drop-down
       // Viewport minus #account-nav-right when logged out
-      // Long login translation: "Connexion" (French) to test
-      max-width: calc(100vW - 165px)
+      // 165px as this is the space for the long login text label: "Connexion" (French)
+      max-width: calc(100vW - 165px - #{$hamburger-width + $hamburger-right})
+      .nosidebar &
+        max-width: calc(100vW - 165px)
       ul
         width: 100vw !important
         border: none

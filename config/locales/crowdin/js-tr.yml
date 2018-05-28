@@ -6,10 +6,10 @@ tr:
       loading: Yükleniyor ...
     autocomplete_select:
       placeholder:
-        multi: Add "%{name}"
-        single: Select "%{name}"
-      remove: Remove %{name}
-      active: Active %{label} %{name}
+        multi: '"%{name}" ekle'
+        single: '"%{name}" Seç'
+      remove: "%{name} kaldır"
+      active: Etkin %{label} %{name}
     close_popup_title: Pencereyi kapat
     close_filter_title: Filtreyi kapat
     close_form_title: Formu kapat
@@ -55,6 +55,7 @@ tr:
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
     error:
       internal: İç hata oluştu.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Bu filtreyi 'ALT' ve ok tuşları ile açın.
@@ -71,8 +72,8 @@ tr:
           one: İlk sıralama ölçütü
           two: İkinci sıralama ölçütü
           three: Üçüncü sıralama ölçütleri
-      upsale_for_more: For more advanced filters, check out the
-      upsale_link: Enterprise Edition.
+      upsale_for_more: Daha gelişmiş filtreler için kontrol edin
+      upsale_link: Kurumsal Sürüm.
     general_text_no: hayır
     general_text_yes: evet
     general_text_No: Hayır
@@ -149,6 +150,7 @@ tr:
     label_not_equals: değildir
     label_on: açık
     label_open_menu: Menüyü Aç
+    label_open_context_menu: Open context menu
     label_open_work_packages: açık
     label_password: Parola
     label_previous: Önceki
@@ -172,6 +174,7 @@ tr:
     label_subject: Konu
     label_this_week: bu hafta
     label_today: bugün
+    label_up: Up
     label_activity_show_only_comments: Sadece yorumların olduğu etkinlikleri göster
     label_activity_show_all: Tüm etkinlikleri göster
     label_total_progress: Toplam ilerleme %{percent}%
@@ -273,7 +276,8 @@ tr:
       required: Tarafından gerekli
       relation_type: ilişki türü
     relations_hierarchy:
-      hierarchy_headline: hiyerarşi
+      parent_headline: Kaynak
+      children_headline: Çocuk
     relation_buttons:
       change_parent: Üstünü değiştir
       remove_parent: Üstündekini kaldır
@@ -310,6 +314,7 @@ tr:
         one: Yalnızca bir öğe seçebilirsiniz
         other: Sadece {{limit}} tane seçebilirsiniz
         zero: You cannot select any items
+    show_hide_project_menu: Genişlet/Daralt proje menüsü
     sort:
       sorted_asc: 'Artan sıralama, uygulandı, '
       sorted_dsc: 'Azalan sırılama uygulandı, '
@@ -325,6 +330,7 @@ tr:
     timelines:
       gantt_chart: Gantt görünümü
       labels:
+        title: Label configuration
         bar: Çubuk etiketleri
         left: Sol
         right: Sağ
@@ -362,10 +368,9 @@ tr:
         grouping_other: Diğer
         noneSelection: "(yok)"
       name: İsim
-      new_work_package: Yeni iş paketi
-      outline: Reset Outline
+      outline: Anahat Sıfırla
       outlines:
-        aggregation: Show aggregations only
+        aggregation: Sadece toplu gösterimler
         level1: Düzey 1 genişletin
         level2: Düzey 2 genişletin
         level3: Düzey 3 genişletin
@@ -464,10 +469,13 @@ tr:
       inline_create:
         title: Listeden yeni bir iş paketi eklemek için buraya tıklayınız
       create:
+        title: Yeni iş paketi
         header: Yeni %{type}
         header_no_type: Yeni iş paketi (türü henüz ayarlanmadı)
         header_with_parent: 'Yeni %{type} (%{parent_type} #%{id} altında)'
         button: Oluştur
+      copy:
+        title: Copy work package
       hierarchy:
         show: Hiyerarşiyi göster
         hide: Hiyerarşiyi gizle
@@ -527,7 +535,6 @@ tr:
           özelliği devre dışı.
         hierarchy_disabled_by_group_by: Sonuşlar %{column} sütununa göre gruplandığından,
           hiyerarşi modu devre dışı.
-        hierarchy_mode: Hiyerarşi modu
         sort_ascending: Artan sırala
         sort_descending: Azalan sırala
         move_column_left: Sütunu sola taşı
@@ -541,12 +548,30 @@ tr:
           not_found: Böyle bir sorgu bulunmamakta
         text_no_results: Aranan sorgu maalesef bulunamadı.
       table:
+        configure_button: Configure work package table
         summary: İş paketi satır tabloları ve iş paketi nitelik sütunları.
         text_inline_edit: Bu tablodaki çoğu hücre o öznitelikteki satır içi düzenleme
           işlevselliğini etkinleşirme düğmeleridir.
         text_sort_hint: Tablo başlığındaki bağlantılardan tablo sütunlarını sırayalabilir,
           gruplayabilir, yeniden düzenleyebilir, silebilir ya da ekleyebilirsiniz.
         text_select_hint: Seçim kutuları 'ALT' ve ok tuşları ile açılmalıdır.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Hiyerarşi modu
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Genel Bakış
         activity: Etkinlik

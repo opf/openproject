@@ -34,7 +34,7 @@ module API
       class ProjectsAPI < ::API::OpenProjectAPI
         resources :projects do
           get do
-            ::API::V3::Utilities::ParamsToQuery.collection_response(Project.visible(current_user),
+            ::API::V3::Utilities::ParamsToQuery.collection_response(Project.visible(current_user).includes(:enabled_modules),
                                                                     current_user,
                                                                     params)
           end

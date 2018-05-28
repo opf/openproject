@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :workflow do
     old_status factory: :status
     new_status factory: :status

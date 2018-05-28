@@ -34,12 +34,14 @@ import {Component} from '@angular/core';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {TransitionService} from '@uirouter/core';
 import {$stateToken} from 'core-app/angular4-transition-utils';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {OpTitleService} from 'core-components/html/op-title.service';
 
 @Component({
   template: `
     <div id="main-menu-work-packages-wrapper">
       <a id="main-menu-work-packages">Work packages</a>
-      <ul class="menu-children"></ul>'
+      <ul class="main-menu--children"></ul>'
     </div>
   `
 })
@@ -57,20 +59,25 @@ describe('wp-query-menu', () => {
   const $transitionStub = {
     onStart: (criteria:any, callback:(transition:any) => any) => {
       transitionCallback = (id:any) => callback({
+        to: () => {
+          return { name: 'asdf' };
+        },
         params: (val:string) => { return { query_id: id }; }
       } as any);
     }
   };
 
 
-  beforeEach((async () => {
+  beforeEach((() => {
     // noinspection JSIgnoredPromiseFromCall
     return TestBed.configureTestingModule({
       declarations: [
         WpQueryMenuTestComponent
       ],
       providers: [
-        { provide: $stateToken, useValue: { go: (...args:any[]) => undefined } },
+        { provide: I18nToken, useValue: I18n },
+        { provide: OpTitleService, useValue: { setFirstPart: () => { return; } } },
+        { provide: $stateToken, useValue: { params: { query_id: null }, go: (...args:any[]) => undefined } },
         { provide: WorkPackagesListChecksumService, useValue: { clear: () => undefined } },
         { provide: TransitionService, useValue: $transitionStub },
         QueryMenuService,
@@ -81,7 +88,7 @@ describe('wp-query-menu', () => {
         fixture = TestBed.createComponent(WpQueryMenuTestComponent);
         app = fixture.debugElement.componentInstance;
         element = jQuery(fixture.elementRef.nativeElement);
-        menuContainer = element.find('ul.menu-children');
+        menuContainer = element.find('ul.main-menu--children');
         queryMenuService.initialize();
       });
   }));

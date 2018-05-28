@@ -34,33 +34,53 @@ describe 'API v3 Principals resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   describe '#get principals' do
-    let(:path) { api_v3_paths.principals }
-    let(:project) { FactoryGirl.create(:project) }
-    let(:other_project) { FactoryGirl.create(:project) }
-    let(:non_member_project) { FactoryGirl.create(:project) }
-    let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+    let(:path) do
+      path = api_v3_paths.principals
+
+      query_props = []
+
+      if order
+        query_props << "sortBy=#{JSON.dump(order.map { |(k, v)| [k, v] })}"
+      end
+
+      if filter
+        query_props << "filters=#{CGI.escape(JSON.dump(filter))}"
+      end
+
+      "#{path}?#{query_props.join('&')}"
+    end
+    let(:order) { { name: :desc } }
+    let(:filter) { nil }
+    let(:project) { FactoryBot.create(:project) }
+    let(:other_project) { FactoryBot.create(:project) }
+    let(:non_member_project) { FactoryBot.create(:project) }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
     let(:permissions) { [] }
     let(:user) do
-      user = FactoryGirl.create(:user,
+      user = FactoryBot.create(:user,
                                 member_in_project: project,
-                                member_through_role: role)
+                                member_through_role: role,
+                                lastname: 'aaaa')
 
       other_project.add_member! user, role
 
       user
     end
     let(:other_user) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: other_project,
-                         member_through_role: role)
+                         member_through_role: role,
+                         lastname: 'bbbb')
     end
     let(:user_in_non_member_project) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: non_member_project,
-                         member_through_role: role)
+                         member_through_role: role,
+                         lastname: 'cccc')
     end
     let(:group) do
-      group = FactoryGirl.create(:group)
+      group = FactoryBot.create(:group,
+                                 lastname: 'gggg')
 
       project.add_member! group, role
 
@@ -86,15 +106,17 @@ describe 'API v3 Principals resource', type: :request do
 
     it_behaves_like 'API V3 collection response', 3, 3, 'User' do
       let(:response) { last_response }
+
+      it 'has the group as the last element' do
+        is_expected
+          .to be_json_eql('Group'.to_json)
+          .at_path('_embedded/elements/2/_type')
+      end
     end
 
     context 'provide filter for project the user is member in' do
       let(:filter) do
         [{ member: { operator: '=', values: [project.id.to_s] } }]
-      end
-
-      let(:path) do
-        "#{api_v3_paths.principals}?filters=#{CGI.escape(JSON.dump(filter))}"
       end
 
       it_behaves_like 'API V3 collection response', 2, 2, 'User' do
@@ -107,10 +129,6 @@ describe 'API v3 Principals resource', type: :request do
         [{ type: { operator: '=', values: ['User'] } }]
       end
 
-      let(:path) do
-        "#{api_v3_paths.principals}?filters=#{CGI.escape(JSON.dump(filter))}"
-      end
-
       it_behaves_like 'API V3 collection response', 2, 2, 'User' do
         let(:response) { last_response }
       end
@@ -121,17 +139,13 @@ describe 'API v3 Principals resource', type: :request do
         [{ type: { operator: '=', values: ['Group'] } }]
       end
 
-      let(:path) do
-        "#{api_v3_paths.principals}?filters=#{CGI.escape(JSON.dump(filter))}"
-      end
-
-      it_behaves_like 'API V3 collection response', 1, 1, 'User' do
+      it_behaves_like 'API V3 collection response', 1, 1, 'Group' do
         let(:response) { last_response }
       end
     end
 
     context 'user without a project membership' do
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryBot.create(:user) }
 
       # The user herself
       it_behaves_like 'API V3 collection response', 1, 1, 'User' do

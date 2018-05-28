@@ -29,12 +29,17 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div class="modal-wrapper--content">
   <div class="onboarding--start-modal">
-    <div class="onboarding--top-menu modal--header">
+    <div class="onboarding--top-menu op-modal--modal-header">
       <%= homescreen_user_avatar %>
       <h2><%= I18n.t('onboarding.welcome') %></h2>
+      <a class="op-modal--modal-close-button dynamic-content-modal--close-button"
+         title="<%= t('js.close_popup_title') %>"
+         aria-label="<%= t('js.close_popup_title') %>">
+        <%= op_icon('icon-close') %>
+      </a>
     </div>
 
-    <div class="onboarding--main modal--main">
+    <div class="onboarding--main op-modal--modal-body">
       <h2><%= I18n.t('onboarding.heading_getting_started') %></h2>
       <div class="onboarding--video-block">
         <div class="onboarding--video-text">
@@ -45,11 +50,10 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
     </div>
 
-    <div class="onboarding--footer modal--footer">
+    <div class="onboarding--footer op-modal--modal-footer">
       <em><label><%= I18n.t('onboarding.text_show_again') %></label></em>
-      <button class="button -highlight -large"
-              ng-click="closeThisDialog()"
-              title=<%= l(:label_next)%>> <%= l(:label_next)%>
+      <button class="dynamic-content-modal--close-button button -highlight -large"
+              title=<%= t(:label_next)%>> <%= t(:label_next)%>
       </button>
     </div>
   </div>

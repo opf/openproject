@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ApplicationController, type: :controller do
-  let(:user) { FactoryGirl.create(:user, lastname: "Crazy! Name with \r\n Newline") }
+  let(:user) { FactoryBot.create(:user, lastname: "Crazy! Name with \r\n Newline") }
 
   # Fake controller to test calling an action
   controller do
@@ -109,7 +109,7 @@ describe ApplicationController, type: :controller do
       end
 
       it 'logs out the user' do
-        @controller.send(:logged_user=, FactoryGirl.create(:user))
+        @controller.send(:logged_user=, FactoryBot.create(:user))
         allow(@controller).to receive(:render_error)
 
         @controller.send :handle_unverified_request

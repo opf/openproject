@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user_password, class: UserPassword.active_type do
     association :user
     plain_password 'adminADMIN!'

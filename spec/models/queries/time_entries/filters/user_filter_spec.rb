@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 describe Queries::TimeEntries::Filters::UserFilter, type: :model do
-  let(:user1) { FactoryGirl.build_stubbed(:user) }
-  let(:user2) { FactoryGirl.build_stubbed(:user) }
+  let(:user1) { FactoryBot.build_stubbed(:user) }
+  let(:user2) { FactoryBot.build_stubbed(:user) }
 
   before do
     allow(Principal)

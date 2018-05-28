@@ -7,8 +7,7 @@
               href
               role="link"
               focus-ng1-wrapper
-              (click)="handleAddRowClick()"
-              (keydown.enter)="handleAddRowClick()"
+              (accessibleClick)="handleAddRowClick()"
               [attr.disabled]="!isAllowed"
               [attr.aria-label]="text.create"
               aria-haspopup="true">

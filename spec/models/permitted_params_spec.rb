@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe PermittedParams, type: :model do
-  let(:user) { FactoryGirl.build(:user) }
-  let(:admin) { FactoryGirl.build(:admin) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:admin) { FactoryBot.build(:admin) }
 
   shared_context 'prepare params comparison' do
     let(:params_key) { defined?(hash_key) ? hash_key : attribute }
@@ -95,6 +95,30 @@ describe PermittedParams, type: :model do
     it 'raises an argument error if key does not exist' do
       expect { PermittedParams.permit(:bogus_key) }.to raise_error ArgumentError
     end
+  end
+
+  describe '#type' do
+    let(:attribute) { :type }
+    let(:hash) do
+      attribute_groups = JSON.dump([['group1', ['attributes group 1'], false],
+                                    ['group2', ['attributes_group 2'], true]])
+
+      { name: 'blubs',
+        is_in_roadmap: 'true',
+        in_aggregation: 'true',
+        is_milestone: 'true',
+        color_id: '1',
+        project_ids: %w(2 3 4),
+        attribute_groups: attribute_groups }.with_indifferent_access
+    end
+    let(:allowed_params) do
+      attribute_groups = [['group1', ['attributes group 1']],
+                          [:group2, ['attributes_group 2']]]
+
+      hash.merge(attribute_groups: attribute_groups)
+    end
+
+    it_behaves_like 'allows params'
   end
 
   describe '#project_type' do
@@ -835,6 +859,48 @@ describe PermittedParams, type: :model do
           'default_projects_modules' => ['value', 'value'],
           'emails_footer' => { 'en' => 'value' }
         }
+      end
+
+      it { expect(subject).to eq(permitted_hash) }
+    end
+
+    describe 'with no registration footer configured' do
+      before do
+        allow(OpenProject::Configuration)
+          .to receive(:registration_footer)
+          .and_return({})
+      end
+
+      let(:hash) do
+        {
+          'registration_footer' => {
+            'en' => 'some footer'
+          }
+        }
+      end
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'with a registration footer configured' do
+      include_context 'prepare params comparison'
+
+      before do
+        allow(OpenProject::Configuration)
+          .to receive(:registration_footer)
+          .and_return("en" => "configured footer")
+      end
+
+      let(:hash) do
+        {
+          'registration_footer' => {
+            'en' => 'some footer'
+          }
+        }
+      end
+
+      let(:permitted_hash) do
+        {}
       end
 
       it { expect(subject).to eq(permitted_hash) }

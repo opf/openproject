@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'Work package table context menu', js: true do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:work_package) { FactoryGirl.create(:work_package) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:work_package) { FactoryBot.create(:work_package) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(work_package.project) }
@@ -52,7 +52,7 @@ describe 'Work package table context menu', js: true do
     goto_context_menu
     menu.choose('Copy')
     # Split view open in copy state
-    expect(page).to have_selector('.wp-new-top-row', text: "#{work_package.status.name.capitalize} #{work_package.type}")
+    expect(page).to have_selector('.wp-new-top-row', text: "#{work_package.status.name.capitalize}\n#{work_package.type}")
     expect(page).to have_field('wp-new-inline-edit--field-subject', with: work_package.subject)
 
     # Open Delete
@@ -87,7 +87,7 @@ describe 'Work package table context menu', js: true do
   end
 
   context 'multiple selected' do
-    let!(:work_package2) { FactoryGirl.create(:work_package) }
+    let!(:work_package2) { FactoryBot.create(:work_package) }
 
     before do
       # Go to table

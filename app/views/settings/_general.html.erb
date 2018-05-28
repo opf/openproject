@@ -50,6 +50,12 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
     <div class="form--field"><%= setting_select :protocol, [['HTTP', 'http'], ['HTTPS', 'https']], container_class: '-xslim' %></div>
     <div class="form--field"><%= setting_select :text_formatting, OpenProject::TextFormatting::Formatters.format_names.collect{|name| [t("text_formatting.#{name}"), name]}, container_class: '-xslim' %></div>
+    <div class="form--field">
+      <%= setting_check_box :use_wysiwyg %>
+      <span class="form--field-instructions">
+        <%= t(:setting_use_wysiwyg_description) %>
+      </span>
+    </div>
     <div class="form--field"><%= setting_check_box :cache_formatted_text %></div>
     <div class="form--field"><%= setting_select :wiki_compression, [['Gzip', 'gzip']], blank: :label_none, container_class: '-xslim' %></div>
     <div class="form--field"><%= setting_check_box :feeds_enabled, size: 6 %></div>
@@ -63,8 +69,13 @@ See docs/COPYRIGHT.rdoc for more details.
       <legend class="form--fieldset-legend"><%= t(:setting_welcome_text) %></legend>
       <div class="form--field"><%= setting_text_field :welcome_title, size: 30, container_class: '-wide' %></div>
       <div class="form--field">
-        <%= setting_text_area :welcome_text, cols: 60, rows: 5, class: 'wiki-edit', container_class: '-wide' %>
-        <%= wikitoolbar_for 'settings_welcome_text' %>
+        <%= setting_text_area :welcome_text,
+                              cols: 60,
+                              rows: 5,
+                              class: 'wiki-edit',
+                              id: 'settings_welcome_text',
+                              with_text_formatting: true,
+                              container_class: '-wide' %>
       </div>
       <div class="form--field"><%= setting_check_box :welcome_on_homescreen %></div>
       <div class="form--field"><%= setting_check_box :welcome_on_projects_page %></div>

@@ -29,23 +29,23 @@
 require 'spec_helper'
 
 RSpec.feature 'Work package create uses attributes from filters', js: true, selenium: true do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:type_bug) { FactoryGirl.create(:type_bug) }
-  let(:type_task) { FactoryGirl.create(:type_task) }
-  let(:project) { FactoryGirl.create(:project, types: [type_task, type_bug]) }
-  let(:status) { FactoryGirl.create(:default_status) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:type_bug) { FactoryBot.create(:type_bug) }
+  let(:type_task) { FactoryBot.create(:type_task) }
+  let(:project) { FactoryBot.create(:project, types: [type_task, type_bug]) }
+  let(:status) { FactoryBot.create(:default_status) }
 
-  let!(:status) { FactoryGirl.create(:default_status) }
-  let!(:priority) { FactoryGirl.create :priority, is_default: true }
+  let!(:status) { FactoryBot.create(:default_status) }
+  let!(:priority) { FactoryBot.create :priority, is_default: true }
 
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:split_view_create) { ::Pages::SplitWorkPackageCreate.new(project: project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
-  let(:role) { FactoryGirl.create :existing_role, permissions: [:view_work_packages] }
+  let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
   let!(:assignee) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                       firstname: 'An',
                       lastname: 'assignee',
                       member_in_project: project,
@@ -53,7 +53,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
   end
 
   let!(:query) do
-    FactoryGirl.build(:query, project: project, user: user).tap do |query|
+    FactoryBot.build(:query, project: project, user: user).tap do |query|
       query.filters.clear
       query.column_names = ['id', 'subject', 'type', 'assigned_to']
       query.save!

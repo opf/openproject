@@ -27,6 +27,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require 'permitted_params/allowed_settings'
+
 class PermittedParams
   # This class intends to provide a method for all params hashes coming from the
   # client and that are used for mass assignment.
@@ -180,18 +182,7 @@ class PermittedParams
 
   def settings
     permitted_params = params.require(:settings).permit
-
-    all_setting_keys = Setting.available_settings.keys
-    all_valid_keys = if OpenProject::Configuration.disable_password_login?
-                       all_setting_keys - %w(password_min_length
-                                             password_active_rules
-                                             password_min_adhered_rules
-                                             password_days_valid
-                                             password_count_former_banned
-                                             lost_password)
-                     else
-                       all_setting_keys
-                     end
+    all_valid_keys = AllowedSettings.all
 
     permitted_params.merge(params[:settings].to_unsafe_hash.slice(*all_valid_keys))
   end
@@ -241,7 +232,18 @@ class PermittedParams
 
   def type(args = {})
     permitted = permitted_attributes(:type, args)
-    params.require(:type).permit(*permitted)
+
+    type_params = params.require(:type)
+
+    whitelisted = type_params.permit(*permitted)
+
+    if type_params[:attribute_groups]
+      whitelisted[:attribute_groups] = JSON
+                                       .parse(type_params[:attribute_groups])
+                                       .map { |group| [(group[2] ? group[0].to_sym : group[0]), group[1]] }
+    end
+
+    whitelisted
   end
 
   def type_move
@@ -592,8 +594,7 @@ class PermittedParams
           :is_milestone,
           :is_default,
           :color_id,
-          project_ids: [],
-          custom_field_ids: []
+          project_ids: []
         ],
         user: %i(
           firstname

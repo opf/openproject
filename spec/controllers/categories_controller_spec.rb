@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe CategoriesController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:project) { FactoryBot.create(:project) }
   let(:role) {
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: [:manage_categories])
   }
   let(:member) {
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project,
                        principal: user,
                        roles: [role])
@@ -93,7 +93,7 @@ describe CategoriesController, type: :controller do
 
   describe '#edit' do
     let(:category) {
-      FactoryGirl.create(:category,
+      FactoryBot.create(:category,
                          project: project)
     }
 
@@ -120,7 +120,7 @@ describe CategoriesController, type: :controller do
 
     context 'valid category' do
       let(:category) {
-        FactoryGirl.create(:category,
+        FactoryBot.create(:category,
                            project: project)
       }
 
@@ -162,11 +162,11 @@ describe CategoriesController, type: :controller do
 
   describe '#destroy' do
     let(:category) {
-      FactoryGirl.create(:category,
+      FactoryBot.create(:category,
                          project: project)
     }
     let(:work_package) {
-      FactoryGirl.create(:work_package,
+      FactoryBot.create(:work_package,
                          project: project,
                          category: category)
     }
@@ -211,7 +211,7 @@ describe CategoriesController, type: :controller do
 
     describe '#reassign' do
       let(:target) {
-        FactoryGirl.create(:category,
+        FactoryBot.create(:category,
                            project: project)
       }
       before do

@@ -31,17 +31,17 @@ require 'legacy_spec_helper'
 describe Principal, type: :model do
   context '#like' do
     before do
-      FactoryGirl.create(:principal, login: 'login')
-      FactoryGirl.create(:principal, login: 'login2')
+      FactoryBot.create(:principal, login: 'login')
+      FactoryBot.create(:principal, login: 'login2')
 
-      FactoryGirl.create(:principal, firstname: 'firstname')
-      FactoryGirl.create(:principal, firstname: 'firstname2')
+      FactoryBot.create(:principal, firstname: 'firstname')
+      FactoryBot.create(:principal, firstname: 'firstname2')
 
-      FactoryGirl.create(:principal, lastname: 'lastname')
-      FactoryGirl.create(:principal, lastname: 'lastname2')
+      FactoryBot.create(:principal, lastname: 'lastname')
+      FactoryBot.create(:principal, lastname: 'lastname2')
 
-      FactoryGirl.create(:principal, mail: 'mail@example.com')
-      FactoryGirl.create(:principal, mail: 'mail2@example.com')
+      FactoryBot.create(:principal, mail: 'mail@example.com')
+      FactoryBot.create(:principal, mail: 'mail2@example.com')
     end
 
     it 'should search login' do

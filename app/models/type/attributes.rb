@@ -175,12 +175,9 @@ module Type::Attributes
   end
 
   ##
-  # Returns whether this type has the custom field currently
-  # (e.g. because it was checked in the removed CF view).
-  def has_custom_field?(attribute)
-    @has_custom_field_custom_field_ids ||= custom_field_ids.map { |id| "custom_field_#{id}" }
-
-    @has_custom_field_custom_field_ids.include? attribute
+  # Returns the active custom_field_attributes
+  def active_custom_field_attributes
+    custom_field_ids.map { |id| "custom_field_#{id}" }
   end
 
   ##

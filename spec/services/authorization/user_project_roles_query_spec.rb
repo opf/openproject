@@ -29,22 +29,22 @@
 require 'spec_helper'
 
 describe Authorization::UserProjectRolesQuery do
-  let(:user) { FactoryGirl.build(:user) }
-  let(:anonymous) { FactoryGirl.build(:anonymous) }
-  let(:project) { FactoryGirl.build(:project, is_public: false) }
-  let(:project2) { FactoryGirl.build(:project, is_public: false) }
-  let(:public_project) { FactoryGirl.build(:project, is_public: true) }
-  let(:role) { FactoryGirl.build(:role) }
-  let(:role2) { FactoryGirl.build(:role) }
-  let(:anonymous_role) { FactoryGirl.build(:anonymous_role) }
-  let(:non_member) { FactoryGirl.build(:non_member) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:anonymous) { FactoryBot.build(:anonymous) }
+  let(:project) { FactoryBot.build(:project, is_public: false) }
+  let(:project2) { FactoryBot.build(:project, is_public: false) }
+  let(:public_project) { FactoryBot.build(:project, is_public: true) }
+  let(:role) { FactoryBot.build(:role) }
+  let(:role2) { FactoryBot.build(:role) }
+  let(:anonymous_role) { FactoryBot.build(:anonymous_role) }
+  let(:non_member) { FactoryBot.build(:non_member) }
   let(:member) {
-    FactoryGirl.build(:member, project: project,
+    FactoryBot.build(:member, project: project,
                                roles: [role],
                                principal: user)
   }
   let(:member2) {
-    FactoryGirl.build(:member, project: project2,
+    FactoryBot.build(:member, project: project2,
                                roles: [role2],
                                principal: user)
   }

@@ -35,8 +35,8 @@ When /^I toggle the "([^"]+)" submenu$/ do |menu_name|
   nodes.first.click if nodes.present?
 end
 
-Then /^there should be no menu item selected$/ do
-  page.should_not have_css('#main-menu .selected')
+Then /^there should be no child menu item selected$/ do
+  page.should_not have_css('.main-menu--children .selected')
 end
 
 Then /^there should not be a main menu$/ do

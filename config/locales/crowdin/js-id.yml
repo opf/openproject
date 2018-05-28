@@ -7,7 +7,7 @@ id:
     autocomplete_select:
       placeholder:
         multi: Add "%{name}"
-        single: Select "%{name}"
+        single: Pilih "%{name}"
       remove: Remove %{name}
       active: Active %{label} %{name}
     close_popup_title: Tutup
@@ -55,6 +55,7 @@ id:
     description_subwork_package: 'Child of work package #%{id}'
     error:
       internal: An internal error has occurred.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Buka filter ini dengan 'ALT' dan tombol panah.
@@ -72,7 +73,7 @@ id:
           two: Kriteria penyortiran kedua
           three: Kriteria penyortiran ketiga
       upsale_for_more: For more advanced filters, check out the
-      upsale_link: Enterprise Edition.
+      upsale_link: Pesanlah edisi enterprise.
     general_text_no: 'no'
     general_text_yes: 'yes'
     general_text_No: 'No'
@@ -149,6 +150,7 @@ id:
     label_not_equals: tidak
     label_on: pada
     label_open_menu: Buka menu
+    label_open_context_menu: Open context menu
     label_open_work_packages: buka
     label_password: Password
     label_previous: Sebelumnya
@@ -172,6 +174,7 @@ id:
     label_subject: Perihal
     label_this_week: minggu ini
     label_today: hari ini
+    label_up: Up
     label_activity_show_only_comments: Tampilkan hanya aktivitas bersama komentar
     label_activity_show_all: Tampilkan semua aktivitas
     label_total_progress: "%{percent}% total progres"
@@ -274,7 +277,8 @@ id:
       required: Required by
       relation_type: relation type
     relations_hierarchy:
-      hierarchy_headline: hierarchy
+      parent_headline: Induk
+      children_headline: Sub
     relation_buttons:
       change_parent: Perubahan induk
       remove_parent: Remove parent
@@ -311,6 +315,7 @@ id:
         one: You can only select one item
         other: Anda hanya dapat memilih {{limit}} item
         zero: You cannot select any items
+    show_hide_project_menu: Expand/Collapse project menu
     sort:
       sorted_asc: 'Urutan menaik diterapkan, '
       sorted_dsc: 'Urutan menurun diterapkan, '
@@ -326,6 +331,7 @@ id:
     timelines:
       gantt_chart: Bagan Gantt
       labels:
+        title: Label configuration
         bar: Label batang
         left: Kiri
         right: Kanan
@@ -364,7 +370,6 @@ id:
         grouping_other: Lainnya
         noneSelection: "(kosong)"
       name: Nama
-      new_work_package: Paket-Penugasan baru
       outline: Reset Outline
       outlines:
         aggregation: Hanya tampilkan agregasi
@@ -463,10 +468,13 @@ id:
       inline_create:
         title: Click here to add a new work package to this list
       create:
+        title: Paket-Penugasan baru
         header: New %{type}
         header_no_type: New work package (Type not yet set)
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: Buat baru
+      copy:
+        title: Copy work package
       hierarchy:
         show: Menampilkan modus hiraki
         hide: Sembunyikan modus hirarki
@@ -527,7 +535,6 @@ id:
           dengan modus hirarki menjadi aktif.
         hierarchy_disabled_by_group_by: Modus hirarki dinonaktifkan sehubungan dengan
           hasil yang dikelompokkan menurut %{column}.
-        hierarchy_mode: Modus hirarki
         sort_ascending: Urutkan askending
         sort_descending: Urutkan deskending
         move_column_left: Pindahkan kolom ke kiri
@@ -541,6 +548,7 @@ id:
           not_found: Tidak ada pertanyaan lagi
         text_no_results: Tidak ada pertanyaan yang cocok ditemukan.
       table:
+        configure_button: Configure work package table
         summary: Table with rows of work package and columns of work package attributes.
         text_inline_edit: Most cells of this table are buttons that activate inline-editing
           functionality of that attribute.
@@ -548,6 +556,23 @@ id:
           remove and add table columns.
         text_select_hint: Pilih kotak yang seharusnya terbuka dengan 'ALT' dan tanda
           kursor.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Modus hirarki
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Tinjauan
         activity: Activity

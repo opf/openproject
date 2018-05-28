@@ -27,7 +27,7 @@
 // ++
 
 import {Injector} from '@angular/core';
-import {$qToken, $timeoutToken, FocusHelperToken} from 'core-app/angular4-transition-utils';
+import {$qToken, $timeoutToken} from 'core-app/angular4-transition-utils';
 import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
@@ -38,6 +38,9 @@ import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-reque
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {WorkPackageEditForm} from './work-package-edit-form';
+import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
+import {WorkPackageEditField} from "core-components/wp-edit/field-types/wp-edit-work-package-field.module";
 
 export class TableRowEditContext implements WorkPackageEditContext {
 
@@ -46,7 +49,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
   public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
   public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
   public states:States = this.injector.get(States);
-  public FocusHelper:any = this.injector.get(FocusHelperToken);
+  public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   public $q:ng.IQService = this.injector.get($qToken);
   public $timeout:ng.ITimeoutService = this.injector.get($timeoutToken);
 
@@ -56,7 +59,8 @@ export class TableRowEditContext implements WorkPackageEditContext {
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder(this.injector);
 
-  constructor(public readonly injector:Injector,
+  constructor(readonly table:WorkPackageTable,
+              readonly injector:Injector,
               public workPackageId:string,
               public classIdentifier:string) {
     // injectorBridge(this);
@@ -70,50 +74,48 @@ export class TableRowEditContext implements WorkPackageEditContext {
     return this.rowContainer.find(`.${tdClassName}.${fieldName}`).first();
   }
 
-  public async activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
-    const deferred = this.$q.defer<WorkPackageEditFieldHandler>();
+  public activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
+    return new Promise<WorkPackageEditFieldHandler>((resolve, reject) => {
+      this.waitForContainer(fieldName)
+        .then((cell) => {
 
-    this.waitForContainer(fieldName)
-      .then((cell) => {
+          // Forcibly set the width since the edit field may otherwise
+          // be given more width
+          const td = this.findCell(fieldName);
+          const width = td.css('width');
+          td.css('max-width', width);
+          td.css('width', width);
 
-        // Forcibly set the width since the edit field may otherwise
-        // be given more width
-        const td = this.findCell(fieldName);
-        const width = td.css('width');
-        td.css('max-width', width);
-        td.css('width', width);
+          // Create a field handler for the newly active field
+          const fieldHandler = new WorkPackageEditFieldHandler(
+            this.injector,
+            form,
+            fieldName,
+            field,
+            cell,
+            errors
+          );
 
-        // Create a field handler for the newly active field
-        const fieldHandler = new WorkPackageEditFieldHandler(
-          this.injector,
-          form,
-          fieldName,
-          field,
-          cell,
-          errors
-        );
+          fieldHandler.$scope = this.templateRenderer.createRenderScope();
+          const promise = this.templateRenderer.renderIsolated(
+            // Replace the current cell
+            cell,
+            fieldHandler.$scope,
+            '/components/wp-edit-form/wp-edit-form.template.html',
+            {
+              vm: fieldHandler,
+            }
+          );
 
-        fieldHandler.$scope = this.templateRenderer.createRenderScope();
-        const promise = this.templateRenderer.renderIsolated(
-          // Replace the current cell
-          cell,
-          fieldHandler.$scope,
-          '/components/wp-edit-form/wp-edit-form.template.html',
-          {
-            vm: fieldHandler,
-          }
-        );
-
-        promise.then(() => {
-          // Assure the element is visible
-          this.$timeout(() => {
-            fieldHandler.focus();
-            deferred.resolve(fieldHandler);
-          });
-        }).catch(deferred.reject.bind(deferred));
-      }).catch(deferred.reject.bind(deferred));
-
-    return deferred.promise;
+          promise.then(() => {
+            // Assure the element is visible
+            this.$timeout(() => {
+              fieldHandler.focus();
+              resolve(fieldHandler);
+            });
+          }).catch(reject);
+        }).catch(reject);
+    });
   }
 
   public refreshField(field:EditField, handler:WorkPackageEditFieldHandler) {
@@ -134,7 +136,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     }
   }
 
-  public async requireVisible(fieldName:string):Promise<any> {
+  public requireVisible(fieldName:string):Promise<any> {
     this.wpTableColumns.addColumn(fieldName);
     return this.waitForContainer(fieldName);
   }
@@ -149,22 +151,20 @@ export class TableRowEditContext implements WorkPackageEditContext {
 
   // Ensure the given field is visible.
   // We may want to look into MutationObserver if we need this in several places.
-  private async waitForContainer(fieldName:string):Promise<JQuery> {
-    const deferred = this.$q.defer<JQuery>();
+  private waitForContainer(fieldName:string):Promise<JQuery> {
+    return new Promise<JQuery>((resolve, reject) => {
+      const interval = setInterval(() => {
+        const container = this.findContainer(fieldName);
 
-    const interval = setInterval(() => {
-      const container = this.findContainer(fieldName);
-
-      if (container.length > 0) {
-        clearInterval(interval);
-        deferred.resolve(container);
-      }
-    }, 100);
-
-    return deferred.promise;
+        if (container.length > 0) {
+          clearInterval(interval);
+          resolve(container);
+        }
+      }, 100);
+    });
   }
 
   private get rowContainer() {
-    return jQuery(`.${this.classIdentifier}-table`);
+    return jQuery(this.table.container).find(`.${this.classIdentifier}-table`);
   }
 }

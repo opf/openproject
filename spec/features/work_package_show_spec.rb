@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 RSpec.feature 'Work package show page', selenium: true do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:user) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:project) }
   let(:work_package) {
-    FactoryGirl.build(:work_package,
+    FactoryBot.build(:work_package,
                       project: project,
                       assigned_to: user,
                       responsible: user)

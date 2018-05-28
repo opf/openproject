@@ -3,16 +3,16 @@ require 'features/work_packages/work_packages_page'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
 describe 'custom field inplace editor', js: true do
-  let(:user) { FactoryGirl.create :admin }
-  let(:type) { FactoryGirl.create(:type_standard, custom_fields: custom_fields) }
+  let(:user) { FactoryBot.create :admin }
+  let(:type) { FactoryBot.create(:type_standard, custom_fields: custom_fields) }
   let(:project) do
-    FactoryGirl.create :project,
+    FactoryBot.create :project,
                        types: [type],
                        work_package_custom_fields: custom_fields
   end
   let(:custom_fields) { [custom_field] }
   let(:work_package) do
-    FactoryGirl.create :work_package,
+    FactoryBot.create :work_package,
                        type: type,
                        project: project,
                        custom_values: initial_custom_values
@@ -40,7 +40,7 @@ describe 'custom field inplace editor', js: true do
 
   describe 'long text' do
     let(:custom_field) do
-      FactoryGirl.create(:text_issue_custom_field, name: 'LongText')
+      FactoryBot.create(:text_issue_custom_field, name: 'LongText')
     end
     let(:field) { WorkPackageEditorField.new wp_page, property_name }
     let(:initial_custom_values) { { custom_field.id => 'foo' } }
@@ -64,12 +64,12 @@ describe 'custom field inplace editor', js: true do
 
   describe 'custom field lists' do
     let(:custom_field1) do
-      FactoryGirl.create(:list_wp_custom_field,
+      FactoryBot.create(:list_wp_custom_field,
                          is_required: false,
                          possible_values: %w(foo bar baz))
     end
     let(:custom_field2) do
-      FactoryGirl.create(:list_wp_custom_field,
+      FactoryBot.create(:list_wp_custom_field,
                          is_required: false,
                          possible_values: %w(X Y Z))
     end
@@ -122,7 +122,7 @@ describe 'custom field inplace editor', js: true do
 
   describe 'integer type' do
     let(:custom_field) do
-      FactoryGirl.create(:integer_issue_custom_field, args.merge(name: 'MyNumber'))
+      FactoryBot.create(:integer_issue_custom_field, args.merge(name: 'MyNumber'))
     end
     let(:initial_custom_values) { { custom_field.id => 123 } }
 
@@ -190,13 +190,13 @@ describe 'custom field inplace editor', js: true do
 
   describe 'float type' do
     let(:custom_field) do
-      FactoryGirl.create(:float_wp_custom_field, args.merge(name: 'MyFloat'))
+      FactoryBot.create(:float_wp_custom_field, args.merge(name: 'MyFloat'))
     end
     let(:args) { {} }
     let(:initial_custom_values) { { custom_field.id => 123.50 } }
 
     context 'with english locale' do
-      let(:user) { FactoryGirl.create :admin, language: 'en' }
+      let(:user) { FactoryBot.create :admin, language: 'en' }
 
       it 'displays the float with english locale and allows editing' do
         field.expect_state_text '123.5'
@@ -210,7 +210,7 @@ describe 'custom field inplace editor', js: true do
 
     context 'with german locale',
             driver: :chrome_headless_de do
-      let(:user) { FactoryGirl.create :admin, language: 'de' }
+      let(:user) { FactoryBot.create :admin, language: 'de' }
 
       it 'displays the float with german locale and allows editing' do
         field.expect_state_text '123,5'

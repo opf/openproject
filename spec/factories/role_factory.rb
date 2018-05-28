@@ -28,7 +28,7 @@
 
 require 'digest'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :role do
     permissions []
     sequence(:name) do |n| "role_#{n}" end

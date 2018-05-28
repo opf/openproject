@@ -122,6 +122,10 @@ class Attachment < ActiveRecord::Base
     file.readable?
   end
 
+  def cache_key
+    "#{super}-#{created_on.to_i}"
+  end
+
   # Bulk attaches a set of files to an object
   #
   # Returns a Hash of the results:

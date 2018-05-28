@@ -47,6 +47,10 @@ class Member < ActiveRecord::Base
   after_save :save_notification
   after_destroy :destroy_notification
 
+  scope :of, ->(project) {
+    where(project_id: project)
+  }
+
   def self.visible(user)
     where(project_id: Project.visible_by(user))
   end

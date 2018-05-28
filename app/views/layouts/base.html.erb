@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width">
-    <%= display_meta_tags site: Setting.app_title, title: html_title %>
+    <%= output_title_and_meta_tags %>
 
     <meta name="app_base_path" content="<%= OpenProject::Configuration['rails_relative_url_root'] || '' %>" />
     <% if @project %>
@@ -62,13 +62,10 @@ See docs/COPYRIGHT.rdoc for more details.
 
 
 
-    <%= text_formatting_js_includes %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
-	<!--
-    -->
-
-
+    <!-- Text formatting specific includes -->
+    <%= text_formatting_js_includes %>
     <!-- project specific tags -->
     <%= call_hook :view_layouts_base_html_head %>
     <!-- page specific tags -->
@@ -110,19 +107,19 @@ See docs/COPYRIGHT.rdoc for more details.
               <h1 class="hidden-for-sighted">
                 <%= l(:label_top_menu) %>
               </h1>
-              <div id="mobile-main-menu-toggle"
+              <div id="main-menu-toggle"
                    ng-controller="MainMenuController as mainMenu"
-                   ng-click="mainMenu.toggleNavigation()">
+                   ng-click="mainMenu.toggleNavigation($event)">
                 <a icon="icon-hamburger"
-                   title="<%= l(:show_hide_project_menu) %>"
+                   title="<%= t('js.show_hide_project_menu') %>"
                    aria-haspopup="true"
                    href="">
                   <i class="icon-hamburger" aria-hidden="true"></i>
                 </a>
               </div>
               <a href="" class="hidden-for-sighted skip-navigation-link"
-                  aria-label="<%= I18n.t('js.work_packages.jump_marks.label_content') %>">
-                    <%= I18n.t('js.work_packages.jump_marks.content') %>
+                 aria-label="<%= I18n.t('js.work_packages.jump_marks.label_content') %>">
+                <%= I18n.t('js.work_packages.jump_marks.content') %>
               </a>
               <%= render_top_menu_left %>
               <div id="logo" class="hidden-for-mobile">
@@ -141,17 +138,9 @@ See docs/COPYRIGHT.rdoc for more details.
            class="<%= initial_classes %>"
            ng-class="{ 'hidden-navigation': !showNavigation }">
         <% if (side_displayed && show_decoration) %>
-          <div id="main-menu" ng-controller="MainMenuController as mainMenu">
+          <div id="main-menu" class="main-menu" ng-controller="MainMenuController as mainMenu">
             <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
-            <div id="toggle-project-menu"
-                 ng-class="{ 'show': !showNavigation }">
-              <a href="#"
-                 title="<%= l(:show_hide_project_menu) %>"
-                 class="navigation-toggler"
-                 ng-click="mainMenu.toggleNavigation()">
-                <%= op_icon('icon4 icon-arrow-left2') %>
-              </a>
-            </div>
+            <main-menu-resizer></main-menu-resizer>
             <div id="menu-sidebar">
               <%= main_menu %>
               <%= content_for :main_menu %>
@@ -176,7 +165,9 @@ See docs/COPYRIGHT.rdoc for more details.
           <%= render_flash_messages %>
           <notifications-container></notifications-container>
           <% if show_onboarding_modal? %>
-            <modal-wrapper initialize="true" iframe-url="<%= OpenProject::Configuration.onboarding_video_url %>" modal-params="{ appendClassName: 'onboarding-modal modal-wrapper' }">
+            <modal-wrapper initialize="true"
+                           iframe-url="<%= OpenProject::Configuration.onboarding_video_url %>"
+                           modal-class-name="onboarding-modal -highlight">
               <%= render partial: '/onboarding/starting_video_modal' %>
             </modal-wrapper>
           <% end %>
@@ -201,14 +192,20 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
       <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
     </div>
-    <%# Properly decides main menu expanded state before its drawn. Fixes flickering side menu
+    <%# Properly decides main menu expanded state and width before its drawn. Fixes flickering side menu
         where menu is first expanded, then being collapsed in angular. %>
     <%= nonced_javascript_tag do %>
     (function($) {
       var wrapper = $('#wrapper');
-      if (window.sessionStorage.getItem('openproject:navigation-toggle') === 'collapsed') {
+      if (window.sessionStorage.getItem('openproject:navigation-toggle') === 'collapsed' || window.innerWidth < 680) {
         $('.can-hide-navigation').addClass('hidden-navigation');
       }
+
+      var savedMainMenuWidth = window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth");
+      if (savedMainMenuWidth) {
+        document.documentElement.style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
+      }
+
       wrapper.show();
 
 

@@ -47,6 +47,11 @@ class CustomValue::ListStrategy < CustomValue::ARObjectStrategy
   end
 
   def ar_object(value)
-    CustomOption.where(id: value.to_s).limit(1).map(&:value).first || "#{value} not found"
+    option = CustomOption.find_by(id: value.to_s)
+    if option.nil?
+      "#{value} not found"
+    else
+      option.value
+    end
   end
 end

@@ -69,14 +69,12 @@ module Redmine
 
       def receive(message_id, imap, imap_options, options)
         msg = imap.fetch(message_id, 'RFC822')[0].attr['RFC822']
+        raise "Message was not successfully handled." unless MailHandler.receive(msg, options)
 
-        log_debug { "Receiving message #{message_id}" }
-
-        if MailHandler.receive(msg, options)
-          message_received(message_id, imap, imap_options)
-        else
-          message_error(message_id, imap, imap_options)
-        end
+        message_received(message_id, imap, imap_options)
+      rescue => e
+        Rails.logger.error { "Message #{message_id} resulted in error #{e} #{e.message}" }
+        message_error(message_id, imap, imap_options)
       end
 
       def message_received(message_id, imap, imap_options)

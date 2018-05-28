@@ -29,13 +29,15 @@
 require 'spec_helper'
 
 describe Status, type: :model do
+  let(:stubbed_status) { FactoryBot.build_stubbed(:status) }
+
   describe '.new_statuses_allowed' do
-    let(:role) { FactoryGirl.create(:role) }
-    let(:type) { FactoryGirl.create(:type) }
-    let(:statuses) { (1..4).map { |_i| FactoryGirl.create(:status) } }
+    let(:role) { FactoryBot.create(:role) }
+    let(:type) { FactoryBot.create(:type) }
+    let(:statuses) { (1..4).map { |_i| FactoryBot.create(:status) } }
     let(:status) { statuses[0] }
     let(:workflow_a) do
-      FactoryGirl.create(:workflow, role_id: role.id,
+      FactoryBot.create(:workflow, role_id: role.id,
                                     type_id: type.id,
                                     old_status_id: statuses[0].id,
                                     new_status_id: statuses[1].id,
@@ -43,7 +45,7 @@ describe Status, type: :model do
                                     assignee: false)
     end
     let(:workflow_b) do
-      FactoryGirl.create(:workflow, role_id: role.id,
+      FactoryBot.create(:workflow, role_id: role.id,
                                     type_id: type.id,
                                     old_status_id: statuses[0].id,
                                     new_status_id: statuses[2].id,
@@ -51,7 +53,7 @@ describe Status, type: :model do
                                     assignee: false)
     end
     let(:workflow_c) do
-      FactoryGirl.create(:workflow, role_id: role.id,
+      FactoryBot.create(:workflow, role_id: role.id,
                                     type_id: type.id,
                                     old_status_id: statuses[0].id,
                                     new_status_id: statuses[3].id,
@@ -82,6 +84,28 @@ describe Status, type: :model do
     it 'should respect workflows w/ author and w/ assignee' do
       expect(Status.new_statuses_allowed(status, [role], type, true, true))
         .to match_array([statuses[1], statuses[2], statuses[3]])
+    end
+  end
+
+  describe 'default status' do
+    context 'when default exists' do
+      let!(:status) { FactoryBot.create(:default_status) }
+
+      it 'returns that one' do
+        expect(Status.default).to eq(status)
+        expect(Status.where_default.pluck(:id)).to eq([status.id])
+      end
+    end
+  end
+
+  describe '#cache_key' do
+    it 'updates when the updated_at field changes' do
+      old_cache_key = stubbed_status.cache_key
+
+      stubbed_status.updated_at = Time.now
+
+      expect(stubbed_status.cache_key)
+        .not_to eql old_cache_key
     end
   end
 end

@@ -65,17 +65,17 @@ describe SystemUser, type: :model do
   end
 
   describe '#run_given' do
-    let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
-    let(:user) { FactoryGirl.build(:user) }
-    let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+    let(:project) { FactoryBot.create(:project_with_types, is_public: false) }
+    let(:user) { FactoryBot.build(:user) }
+    let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
     let(:member) {
-      FactoryGirl.build(:member, project: project,
+      FactoryBot.build(:member, project: project,
                                  roles: [role],
                                  principal: user)
     }
-    let(:status) { FactoryGirl.create(:status) }
+    let(:status) { FactoryBot.create(:status) }
     let(:issue) {
-      FactoryGirl.build(:work_package, type: project.types.first,
+      FactoryBot.build(:work_package, type: project.types.first,
                                        author: user,
                                        project: project,
                                        status: status)

@@ -32,26 +32,26 @@ require 'spec_helper'
 
 describe WorkPackage, 'custom_actions', type: :model do
   let(:work_package) do
-    FactoryGirl.build_stubbed(:stubbed_work_package,
+    FactoryBot.build_stubbed(:stubbed_work_package,
                               project: project)
   end
-  let(:project) { FactoryGirl.create(:project) }
-  let(:status) { FactoryGirl.create(:status) }
-  let(:other_status) { FactoryGirl.create(:status) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:status) { FactoryBot.create(:status) }
+  let(:other_status) { FactoryBot.create(:status) }
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: work_package.project,
                        member_through_role: role)
   end
   let(:role) do
-    FactoryGirl.create(:role)
+    FactoryBot.create(:role)
   end
   let(:conditions) do
     [CustomActions::Conditions::Status.new([status.id])]
   end
 
   let!(:custom_action) do
-    action = FactoryGirl.build(:custom_action)
+    action = FactoryBot.build(:custom_action)
     action.conditions = conditions
 
     action.save!
@@ -111,7 +111,7 @@ describe WorkPackage, 'custom_actions', type: :model do
       end
 
       context 'with the condition requiring a different role' do
-        let(:other_role) { FactoryGirl.create(:role) }
+        let(:other_role) { FactoryBot.create(:role) }
 
         let(:conditions) do
           [CustomActions::Conditions::Role.new(other_role.id)]

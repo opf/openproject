@@ -153,9 +153,6 @@ gem 'sass', '3.5.1'
 gem 'sass-rails', '~> 5.0.6'
 gem 'sprockets', '~> 3.7.0'
 
-# small wrapper around the command line
-gem 'cocaine', '~> 0.6.0'
-
 # required by Procfile, for deployment on heroku or packaging with packager.io.
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
@@ -168,8 +165,9 @@ gem 'nokogiri', '~> 1.8.2'
 gem 'fog-aws'
 gem 'carrierwave', '~> 1.2.2'
 
-# Require aws-sdk for SMS and other features
-gem 'aws-sdk', '~> 2.10.1'
+gem 'aws-sdk-core', '~> 3.20.2'
+# File upload via fog + screenshots on travis
+gem 'aws-sdk-s3', '~> 1.9.1'
 
 gem 'openproject-token', '~> 1.0.1'
 
@@ -180,19 +178,19 @@ group :test do
   gem 'shoulda-context', '~> 1.2'
   gem 'launchy', '~> 2.4.3'
 
-  # Require factory_girl for usage with openproject plugins testing
-  # FactoryGirl needs to be available when loading app otherwise factory
+  # Require factory_bot for usage with openproject plugins testing
+  # FactoryBot needs to be available when loading app otherwise factory
   # definitions from core are not available in the plugin thus specs break
-  gem 'factory_girl', '~> 4.5'
-  # require factory_girl_rails for convenience in core development
-  gem 'factory_girl_rails', '~> 4.7', require: false
+  gem 'factory_bot', '~> 4.8'
+  # require factory_bot_rails for convenience in core development
+  gem 'factory_bot_rails', '~> 4.8', require: false
 
   # Test prof provides factories from code
   # and other niceties
   gem 'test-prof', '~> 0.4.0'
 
   gem 'cucumber', '~> 3.0.0'
-  gem 'cucumber-rails', '~> 1.5.0', require: false
+  gem 'cucumber-rails', '~> 1.6.0', require: false
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
   # not possible to upgrade to 3.6+ until rails is 5.1+
@@ -211,8 +209,8 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 2.18.0'
-  gem 'capybara-screenshot', '~> 1.0.14'
+  gem 'capybara', '~> 3.0.0'
+  gem 'capybara-screenshot', '~> 1.0.17'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'chromedriver-helper', '~> 1.2.0'
   gem 'selenium-webdriver', '~> 3.11'
@@ -221,7 +219,7 @@ group :test do
   gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.1.0', require: false
 
-  gem 'simplecov', '~> 0.14.0', require: false
+  gem 'simplecov', '~> 0.16.0', require: false
   gem 'shoulda-matchers', '~> 3.1', require: nil
   gem 'json_spec', '~> 1.1.4'
   gem 'equivalent-xml', '~> 0.6'

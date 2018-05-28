@@ -74,9 +74,9 @@ export class CommentFieldDirectiveController {
 
     scopedObservable<string>(this.$scope, this.wpActivityService.quoteEvents.values$())
       .subscribe((quote:string) => {
-      this.activate(quote);
-      this.$element.find('.work-packages--activity--add-comment')[0].scrollIntoView();
-    });
+        this.activate(quote);
+        this.$element.find('.work-packages--activity--add-comment')[0].scrollIntoView();
+      });
   }
 
   public get htmlId() {
@@ -104,7 +104,7 @@ export class CommentFieldDirectiveController {
     this.waitForField()
       .then(() => {
         this.field.$onInit(this.$element);
-    });
+      });
   }
 
   public get project() {

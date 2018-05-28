@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::PriorityFilter, type: :model do
-  let(:priority) { FactoryGirl.build_stubbed(:priority) }
+  let(:priority) { FactoryBot.build_stubbed(:priority) }
 
   it_behaves_like 'basic query filter' do
     let(:order) { 3 }
@@ -75,7 +75,7 @@ describe Queries::WorkPackages::Filter::PriorityFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:priority2) { FactoryGirl.build_stubbed(:priority) }
+      let(:priority2) { FactoryBot.build_stubbed(:priority) }
 
       before do
         allow(IssuePriority)

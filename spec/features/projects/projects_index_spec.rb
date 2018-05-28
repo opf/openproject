@@ -34,21 +34,21 @@ describe 'Projects index page',
          js: true,
          with_settings: { login_required?: false } do
 
-  let!(:admin) { FactoryGirl.create :admin }
+  let!(:admin) { FactoryBot.create :admin }
 
-  let!(:manager)   { FactoryGirl.create :role, name: 'Manager' }
-  let!(:developer) { FactoryGirl.create :role, name: 'Developer' }
+  let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
+  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
 
-  let!(:custom_field) { FactoryGirl.create :project_custom_field }
-  let!(:invisible_custom_field) { FactoryGirl.create :project_custom_field, visible: false }
+  let!(:custom_field) { FactoryBot.create :project_custom_field }
+  let!(:invisible_custom_field) { FactoryBot.create :project_custom_field, visible: false }
 
   let!(:project) do
-    FactoryGirl.create(:project,
+    FactoryBot.create(:project,
                        name: 'Plain project',
                        identifier: 'plain-project')
   end
   let!(:public_project) do
-    project = FactoryGirl.create(:project,
+    project = FactoryBot.create(:project,
                                  name: 'Public project',
                                  identifier: 'public-project',
                                  is_public: true)
@@ -57,11 +57,11 @@ describe 'Projects index page',
     project
   end
   let!(:development_project) do
-    FactoryGirl.create(:project,
+    FactoryBot.create(:project,
                        name: 'Development project',
                        identifier: 'development-project')
   end
-  let(:news) { FactoryGirl.create(:news, project: project) }
+  let(:news) { FactoryBot.create(:news, project: project) }
 
   def load_and_open_filters(user)
     login_as(user)
@@ -148,7 +148,7 @@ describe 'Projects index page',
 
     feature 'for project members' do
       let!(:user) do
-        FactoryGirl.create(:user,
+        FactoryBot.create(:user,
                            member_in_project: development_project,
                            member_through_role: developer,
                            login: 'nerd',
@@ -356,7 +356,7 @@ describe 'Projects index page',
 
     feature 'Active or archived' do
       let!(:archived_project) do
-        FactoryGirl.create(:project,
+        FactoryBot.create(:project,
                            name: 'Archived project',
                            identifier: 'archived-project',
                            status: Project::STATUS_ARCHIVED)
@@ -400,8 +400,8 @@ describe 'Projects index page',
     end
 
     feature 'other filter types' do
-      let!(:list_custom_field) { FactoryGirl.create :list_project_custom_field }
-      let!(:date_custom_field) { FactoryGirl.create :date_project_custom_field }
+      let!(:list_custom_field) { FactoryBot.create :list_project_custom_field }
+      let!(:date_custom_field) { FactoryBot.create :date_project_custom_field }
       let(:datetime_of_this_week) do
         today = Date.today
         # Ensure that the date is not today but still in the middle of the week to not run into week-start-issues here.
@@ -411,7 +411,7 @@ describe 'Projects index page',
       let(:fixed_datetime) { DateTime.parse('2017-11-11T11:11:11+00:00') }
 
       let!(:project_created_on_today) do
-        project = FactoryGirl.create(:project,
+        project = FactoryBot.create(:project,
                                      name: 'Created today project',
                                      created_on: DateTime.now)
         project.custom_field_values = { list_custom_field.id => list_custom_field.possible_values[2],
@@ -420,23 +420,23 @@ describe 'Projects index page',
         project
       end
       let!(:project_created_on_this_week) do
-        FactoryGirl.create(:project,
+        FactoryBot.create(:project,
                            name: 'Created on this week project',
                            created_on: datetime_of_this_week)
       end
       let!(:project_created_on_six_days_ago) do
-        FactoryGirl.create(:project,
+        FactoryBot.create(:project,
                            name: 'Created on six days ago project',
                            created_on: DateTime.now - 6.days)
       end
       let!(:project_created_on_fixed_date) do
-        FactoryGirl.create(:project,
+        FactoryBot.create(:project,
                            name: 'Created on fixed date project',
                            created_on: fixed_datetime)
       end
       let!(:todays_wp) do
         # This WP should trigger a change to the project's 'latest activity at' DateTime
-        FactoryGirl.create(:work_package,
+        FactoryBot.create(:work_package,
                            updated_at: DateTime.now,
                            project: project_created_on_today)
       end
@@ -612,30 +612,30 @@ describe 'Projects index page',
 
   feature 'Non-admins with role with permission' do
     let!(:can_copy_projects_role) do
-      FactoryGirl.create :role, name: 'Can Copy Projects Role', permissions: [:copy_projects]
+      FactoryBot.create :role, name: 'Can Copy Projects Role', permissions: [:copy_projects]
     end
     let!(:can_add_subprojects_role) do
-      FactoryGirl.create :role, name: 'Can Add Subprojects Role', permissions: [:add_subprojects]
+      FactoryBot.create :role, name: 'Can Add Subprojects Role', permissions: [:add_subprojects]
     end
 
     let!(:parent_project) do
-      FactoryGirl.create(:project,
+      FactoryBot.create(:project,
                          name: 'Parent project',
                          identifier: 'parent-project')
     end
 
     let!(:can_copy_projects_manager) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: parent_project,
                          member_through_role: can_copy_projects_role)
     end
     let!(:can_add_subprojects_manager) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: parent_project,
                          member_through_role: can_add_subprojects_role)
     end
     let!(:simple_member) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: parent_project,
                          member_through_role: developer)
     end
@@ -718,16 +718,16 @@ describe 'Projects index page',
   end
 
   feature 'order' do
-    let!(:integer_custom_field) { FactoryGirl.create(:int_project_custom_field) }
+    let!(:integer_custom_field) { FactoryBot.create(:int_project_custom_field) }
     # order is important here as the implementation uses lft
     # first but then reorders in ruby
     let!(:child_project_z) do
-      FactoryGirl.create(:project,
+      FactoryBot.create(:project,
                          parent: project,
                          name: "Z Child")
     end
     let!(:child_project_a) do
-      FactoryGirl.create(:project,
+      FactoryBot.create(:project,
                          parent: project,
                          name: "A Child")
     end

@@ -269,10 +269,19 @@ module WorkPackages
     end
 
     def invalid_relations_with_new_hierarchy
-      Relation
-        .from_parent_to_self_and_descendants(model)
-        .or(Relation.from_self_and_descendants_to_ancestors(model))
-        .direct
+      query = Relation.from_parent_to_self_and_descendants(model)
+                      .or(Relation.from_self_and_descendants_to_ancestors(model))
+                      .direct
+
+      # Ignore the immediate relation from the old parent to the model
+      # since that will still exist before saving.
+      old_parent_id = model.parent_id_was
+
+      if old_parent_id.present?
+        query.where.not(hierarchy: 1, from_id: old_parent_id, to_id: model.id)
+      else
+        query
+      end
     end
   end
 end

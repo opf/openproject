@@ -48,7 +48,7 @@ Given /^the following (user|issue|work package) custom fields are defined:$/ do 
       attr_hash[:default_value] = r[:default_value] ? r[:default_value] : nil
       attr_hash[:is_for_all] = r[:is_for_all] || true
 
-      FactoryGirl.create type, attr_hash
+      FactoryBot.create type, attr_hash
     end
   end
 end

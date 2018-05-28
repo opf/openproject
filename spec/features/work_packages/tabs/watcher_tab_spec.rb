@@ -4,11 +4,11 @@ require 'features/work_packages/work_packages_page'
 require 'support/work_packages/work_package_field'
 
 describe 'Watcher tab', js: true, selenium: true do
-  let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
 
-  let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) {
     %i(view_work_packages
        view_work_package_watchers
@@ -77,7 +77,7 @@ describe 'Watcher tab', js: true, selenium: true do
 
     context 'with a user with arbitrary characters' do
       let!(:html_user) {
-        FactoryGirl.create :user,
+        FactoryBot.create :user,
                            firstname: '<em>foo</em>',
                            member_in_project: project,
                            member_through_role: role

@@ -27,7 +27,7 @@
 // ++
 
 import {PortalModule} from '@angular/cdk/portal';
-import {NgModule} from '@angular/core';
+import {ApplicationRef, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
@@ -35,8 +35,6 @@ import {UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
-import {ClickOnKeypressComponent} from 'core-app/ui_components/click-on-keypress-upgraded.component';
-import {FocusDirectiveUpgraded} from 'core-app/ui_components/focus-directive-upgraded';
 import {AccessibleByKeyboardComponent} from 'core-components/a11y/accessible-by-keyboard.component';
 import {SimpleTemplateRenderer} from 'core-components/angular/simple-template-renderer';
 import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
@@ -45,9 +43,7 @@ import {AutocompleteSelectDecorationComponent} from 'core-components/common/auto
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
 import {OpDateTimeComponent} from 'core-components/common/date/op-date-time.component';
 import {WorkPackageEditActionsBarComponent} from 'core-components/common/edit-actions-bar/wp-edit-actions-bar.component';
-import {FocusWithinDirective} from 'core-components/common/focus-within/focus-within.upgraded.directive';
 import {GonRef} from 'core-components/common/gon-ref/gon-ref';
-import {Ng1AttributeHelpTextWrapper} from 'core-components/common/help-texts/attribute-help-text-ng1-wrapper';
 import {AttributeHelpTextComponent} from 'core-components/common/help-texts/attribute-help-text.component';
 import {AttributeHelpTextModal} from 'core-components/common/help-texts/attribute-help-text.modal';
 import {AttributeHelpTextsService} from 'core-components/common/help-texts/attribute-help-text.service';
@@ -95,6 +91,7 @@ import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list
 import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {States} from 'core-components/states.service';
+import {ExpandableSearchComponent} from 'core-components/expandable-search/expandable-search.component';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {UserCacheService} from 'core-components/user/user-cache.service';
 import {UserLinkComponent} from 'core-components/user/user-link/user-link.component';
@@ -141,10 +138,12 @@ import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-
 import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableSumService} from 'core-components/wp-fast-table/state/wp-table-sum.service';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
+import {WorkPackageInlineCreateComponent} from 'core-components/wp-inline-create/wp-inline-create.component';
+import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import {WpResizerDirective} from 'core-components/resizer/wp-resizer.component';
+import {MainMenuResizerDirective} from 'core-components/resizer/main-menu-resizer.component';
 import {WorkPackageFieldService} from 'core-components/wp-field/wp-field.service';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
-import {WorkPackageFormQueryGroupComponent} from 'core-components/wp-form-group/wp-query-group.component';
-import {WorkPackageInlineCreateComponent,} from 'core-components/wp-inline-create/wp-inline-create.component';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
 import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
@@ -156,19 +155,14 @@ import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.serv
 import {WorkPackageQuerySelectDropdownComponent} from 'core-components/wp-query-select/wp-query-select-dropdown.component';
 import {WorkPackageQuerySelectableTitleComponent} from 'core-components/wp-query-select/wp-query-selectable-title.component';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
-import {Ng1RelationsDirectiveWrapper} from 'core-components/wp-relations/ng1-wp-relations-wrapper.directive';
 import {WpRelationAddChildComponent} from 'core-components/wp-relations/wp-relation-add-child/wp-relation-add-child';
-import {Ng1RelationsCreateWrapper} from 'core-components/wp-relations/wp-relations-create/ng1-wp-relations-create.directive';
-import {WpRelationsAutocompleteComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.upgraded.component';
 import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
 import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {WpRelationParentComponent} from 'core-components/wp-relations/wp-relations-parent/wp-relations-parent.component';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
-import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
 import {NewestActivityOnOverviewComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-on-overview.component';
 import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
 import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
 import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
@@ -203,18 +197,34 @@ import {
   $stateToken,
   $timeoutToken,
   AutoCompleteHelperServiceToken,
-  exportModalToken,
-  FocusHelperToken,
   HookServiceToken,
   I18nToken,
-  saveModalToken,
-  settingsModalToken,
-  shareModalToken,
   TextileServiceToken,
   upgradeService,
-  wpDestroyModalToken,
-  wpMoreMenuServiceToken
 } from './angular4-transition-utils';
+import {ExternalQueryConfigurationComponent} from 'core-components/wp-table/external-configuration/external-query-configuration.component';
+import {ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
+import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-export.modal";
+import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
+import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
+import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
+import {PasswordConfirmationModal} from "core-components/modals/request-for-confirmation/password-confirmation.modal";
+import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
+import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
+import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing-form.component";
+import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename-query.modal";
+import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
+import {FocusWithinDirective} from "core-components/common/focus/focus-within.upgraded.directive";
+import {AccessibleClickDirective} from "core-components/a11y/accessible-click.directive";
+import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp-relation-children/wp-children-query.component';
+import {OpTitleService} from 'core-components/html/op-title.service';
+import {WorkPackageRelationsComponent} from "core-components/wp-relations/wp-relations.component";
+import {WorkPackageRelationsGroupComponent} from "core-components/wp-relations/wp-relations-group/wp-relations-group.component";
+import {WorkPackageRelationRowComponent} from "core-components/wp-relations/wp-relation-row/wp-relation-row.component";
+import {Ng1FieldControlsWrapper} from "core-components/wp-edit/field-controls/wp-edit-field-controls-ng1-wrapper";
+import {WorkPackageRelationsCreateComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-create.component";
+import {WpRelationsAutocompleteComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.upgraded.component";
 
 @NgModule({
   imports: [
@@ -241,16 +251,11 @@ import {
     upgradeService(textileServiceFactory, TextileServiceToken),
     upgradeService(AutoCompleteHelperFactory, AutoCompleteHelperServiceToken),
     NotificationsService,
-    upgradeService(FocusHelperFactory, FocusHelperToken),
+    FocusHelperService,
     PathHelperService,
-    upgradeService(wpMoreMenuServiceFactory, wpMoreMenuServiceToken),
+    OpTitleService,
     TimezoneService,
-    upgradeService(wpDestroyModalFactory, wpDestroyModalToken),
-    upgradeService(shareModalFactory, shareModalToken),
-    upgradeService(saveModalFactory, saveModalToken),
-    upgradeService(settingsModalFactory, settingsModalToken),
-    upgradeService(exportModalFactory, exportModalToken),
-    upgradeService(wpRelationsFactory, WorkPackageRelationsService),
+    WorkPackageRelationsService,
     UrlParamsHelperService,
     WorkPackageCacheService,
     WorkPackageEditingService,
@@ -310,17 +315,19 @@ import {
     // OP Modals service
     OpModalService,
     WpTableConfigurationService,
+    ConfirmDialogService,
 
     AttributeHelpTextsService,
+    // External query configuration
+    ExternalQueryConfigurationService,
   ],
   declarations: [
     WorkPackagesListComponent,
     OpIcon,
     OpDatePickerComponent,
     OpContextMenuTrigger,
-    Ng1AttributeHelpTextWrapper,
-    FocusDirectiveUpgraded,
     AccessibleByKeyboardComponent,
+    AccessibleClickDirective,
     TablePaginationComponent,
     WorkPackageTablePaginationComponent,
     WorkPackageTimelineHeaderController,
@@ -334,7 +341,8 @@ import {
     WorkPackageDetailsViewButtonComponent,
     WorkPackageTimelineButtonComponent,
     WorkPackageZenModeButtonComponent,
-    WpResizerDirectiveUpgraded,
+    WpResizerDirective,
+    MainMenuResizerDirective,
     WpCustomActionComponent,
     WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
@@ -384,8 +392,7 @@ import {
     WorkPackageAttachmentListItemComponent,
     OpDateTimeComponent,
     UserLinkComponent,
-    ClickOnKeypressComponent,
-    WorkPackageFormQueryGroupComponent,
+    WorkPackageChildrenQueryComponent,
     WorkPackageFormAttributeGroupComponent,
 
     // Activity Tab
@@ -396,8 +403,11 @@ import {
 
     // Relations Tab
     WorkPackageRelationsTabComponent,
-    Ng1RelationsDirectiveWrapper,
-    Ng1RelationsCreateWrapper,
+    WorkPackageRelationsComponent,
+    WorkPackageRelationsGroupComponent,
+    WorkPackageRelationRowComponent,
+    WorkPackageRelationsCreateComponent,
+    Ng1FieldControlsWrapper,
     WorkPackageRelationsHierarchyComponent,
     WpRelationsAutocompleteComponent,
     WpRelationAddChildComponent,
@@ -406,6 +416,9 @@ import {
     // Watchers tab
     WorkPackageWatchersTabComponent,
     WorkPackageWatcherEntryComponent,
+
+    // Searchbar
+    ExpandableSearchComponent,
 
     // WP Edit Fields
     WorkPackageEditFieldComponent,
@@ -444,11 +457,23 @@ import {
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
+    WpTableExportModal,
+    ConfirmDialogModal,
+    DynamicContentModal,
+    PasswordConfirmationModal,
+    QuerySharingModal,
+    SaveQueryModal,
+    QuerySharingForm,
+    RenameQueryModal,
+    WpDestroyModal,
 
     // Notifications
     NotificationsContainerComponent,
     NotificationComponent,
     UploadProgressComponent,
+
+    // External query configuration
+    ExternalQueryConfigurationComponent,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -478,6 +503,9 @@ import {
     WorkPackageOverviewTabComponent,
     WorkPackageEditFieldGroupComponent,
 
+    // Searchbar
+    ExpandableSearchComponent,
+
     // WP new
     WorkPackageNewFullViewComponent,
     WorkPackageNewSplitViewComponent,
@@ -503,6 +531,14 @@ import {
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
     AttributeHelpTextModal,
+    WpTableExportModal,
+    DynamicContentModal,
+    ConfirmDialogModal,
+    PasswordConfirmationModal,
+    QuerySharingModal,
+    SaveQueryModal,
+    RenameQueryModal,
+    WpDestroyModal,
 
     // Notifications
     NotificationsContainerComponent,
@@ -510,16 +546,26 @@ import {
 
     // Entries for ng1 downgraded components
     AttributeHelpTextComponent,
+
+    // External query configuration
+    ExternalQueryConfigurationComponent,
+
+    // Main menu
+    MainMenuResizerDirective
   ]
 })
 export class OpenProjectModule {
-  constructor(private upgrade:UpgradeModule) {
+  constructor() {
   }
 
   // noinspection JSUnusedGlobalSymbols
-  ngDoBootstrap() {
+  ngDoBootstrap(appRef:ApplicationRef) {
     // Already done in openproject-app.ts
     // this.upgrade.bootstrap(document.body, ['openproject'], {strictDi: false});
+
+    if (document.getElementsByTagName('main-menu-resizer').length > 0) {
+      appRef.bootstrap(MainMenuResizerDirective);
+    }
   }
 }
 
@@ -631,11 +677,11 @@ export function ExpressionServiceFactory(i:any) {
 }
 
 export function currentProjectFactory(i:any) {
-  return i.get('currentProjectService');
+  return i.get('currentProject');
 }
 
 export function firstRouteFactory(i:any) {
-  return i.get('firstRouteService');
+  return i.get('firstRoute');
 }
 
 

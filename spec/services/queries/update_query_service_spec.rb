@@ -31,12 +31,12 @@
 require 'spec_helper'
 
 describe UpdateQueryService do
-  let(:query) { FactoryGirl.create(:query) }
+  let(:query) { FactoryBot.create(:query) }
   let(:menu_item) do
-    FactoryGirl.create(:query_menu_item,
+    FactoryBot.create(:query_menu_item,
                        query: query)
   end
-  let(:user) { FactoryGirl.create(:admin) }
+  let(:user) { FactoryBot.create(:admin) }
   let(:instance) { UpdateQueryService.new(user: user) }
 
   describe "a query's menu item" do
@@ -64,7 +64,7 @@ describe UpdateQueryService do
     context 'unsuccessful saving of the menu item' do
       before do
         # violating the validations
-        violating_menu_item = FactoryGirl.build(:query_menu_item,
+        violating_menu_item = FactoryBot.build(:query_menu_item,
                                                 name: menu_item.name,
                                                 navigatable_id: menu_item.navigatable_id)
 

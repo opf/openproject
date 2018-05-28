@@ -34,7 +34,7 @@ describe TabularFormBuilder do
 
   let(:helper)   { ActionView::Base.new }
   let(:resource) {
-    FactoryGirl.build(:user,
+    FactoryBot.build(:user,
                       firstname:  'JJ',
                       lastname:   'Abrams',
                       login:      'lost',
@@ -186,6 +186,26 @@ describe TabularFormBuilder do
           name="user[name]" title="Name">
 JJ Abrams</textarea>
       }).at_path('textarea')
+    end
+
+    context 'when requesting a text formatting wrapper', with_settings: { text_formatting: :markdown } do
+      let(:options) { { title: 'Name', class: 'custom-class', with_text_formatting: true } }
+
+      context 'an id is missing' do
+        it 'does not output the wrapper' do
+          expect(output).to have_selector 'textarea'
+          expect(output).to have_no_selector 'op-ckeditor-form'
+        end
+      end
+
+      context 'with id present' do
+        let(:options) { { id: 'my-id', title: 'Name', class: 'custom-class', with_text_formatting: true } }
+
+        it 'outputs the wysiwyg wrapper' do
+          expect(output).to have_selector 'textarea'
+          expect(output).to have_selector 'op-ckeditor-form'
+        end
+      end
     end
   end
 
@@ -599,7 +619,7 @@ JJ Abrams</textarea>
 
       context 'with ActiveModel and without specified label' do
         let(:resource) {
-          FactoryGirl.build_stubbed(:user,
+          FactoryBot.build_stubbed(:user,
                                     firstname:  'JJ',
                                     lastname:   'Abrams',
                                     login:      'lost',

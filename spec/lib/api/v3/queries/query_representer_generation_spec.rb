@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ::API::V3::Queries::QueryRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:user) { double('current_user', allowed_to?: true, admin: true, admin?: true) }
   let(:embed_links) { true }
   let(:representer) do
@@ -102,6 +102,8 @@ describe ::API::V3::Queries::QueryRepresenter do
         let(:href) do
           params = {
             offset: 1,
+            showSums: false,
+            showHierarchies: false,
             pageSize: Setting.per_page_options_array.first,
             filters: []
           }
@@ -115,7 +117,7 @@ describe ::API::V3::Queries::QueryRepresenter do
       end
 
       context 'has no project' do
-        let(:query) { FactoryGirl.build_stubbed(:query, project: nil) }
+        let(:query) { FactoryBot.build_stubbed(:query, project: nil) }
 
         it_behaves_like 'has an empty link' do
           let(:link) { 'project' }
@@ -132,6 +134,8 @@ describe ::API::V3::Queries::QueryRepresenter do
             params = {
               offset: 1,
               pageSize: Setting.per_page_options_array.first,
+              showSums: false,
+              showHierarchies: false,
               filters: []
             }
             "#{api_v3_paths.work_packages}?#{non_empty_to_query(params)}"
@@ -146,7 +150,7 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
 
         context 'without a project' do
-          let(:query) { FactoryGirl.build_stubbed(:query, project: nil) }
+          let(:query) { FactoryBot.build_stubbed(:query, project: nil) }
 
           it_behaves_like 'has an untitled link' do
             let(:link) { 'schema' }
@@ -155,7 +159,7 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
 
         context 'when unpersisted' do
-          let(:query) { FactoryGirl.build(:query, project: project) }
+          let(:query) { FactoryBot.build(:query, project: project) }
 
           it_behaves_like 'has an untitled link' do
             let(:link) { 'update' }
@@ -164,7 +168,7 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
 
         context 'when unpersisted outside a project' do
-          let(:query) { FactoryGirl.build(:query) }
+          let(:query) { FactoryBot.build(:query) }
 
           it_behaves_like 'has an untitled link' do
             let(:link) { 'update' }
@@ -182,7 +186,7 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
 
         context 'when not persisted' do
-          let(:query) { FactoryGirl.build(:query, project: project) }
+          let(:query) { FactoryBot.build(:query, project: project) }
 
           it_behaves_like 'has no link' do
             let(:link) { 'delete' }
@@ -216,7 +220,7 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
 
         context 'when not persisted and lacking permission' do
-          let(:query) { FactoryGirl.build(:query, project: project) }
+          let(:query) { FactoryBot.build(:query, project: project) }
 
           it_behaves_like 'has no link' do
             let(:link) { 'updateImmediately' }
@@ -226,7 +230,7 @@ describe ::API::V3::Queries::QueryRepresenter do
         context 'when not persisted and having permission' do
           let(:permissions) { [:create] }
 
-          let(:query) { FactoryGirl.build(:query, project: project) }
+          let(:query) { FactoryBot.build(:query, project: project) }
 
           it_behaves_like 'has an untitled link' do
             let(:link) { 'updateImmediately' }
@@ -259,7 +263,7 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
 
         let(:query) do
-          query = FactoryGirl.build_stubbed(:query, project: project)
+          query = FactoryBot.build_stubbed(:query, project: project)
           query.add_filter('subject', '~', ['bogus'])
           query.group_by = 'author'
           query.sort_criteria = [['assigned_to', 'asc'], ['type', 'desc']]
@@ -272,6 +276,8 @@ describe ::API::V3::Queries::QueryRepresenter do
             offset: 1,
             pageSize: Setting.per_page_options_array.first,
             filters: JSON::dump([{ subject: { operator: '~', values: ['bogus'] } }]),
+            showSums: false,
+            showHierarchies: false,
             groupBy: 'author',
             sortBy: JSON::dump([['assignee', 'asc'], ['type', 'desc']])
           }
@@ -296,6 +302,8 @@ describe ::API::V3::Queries::QueryRepresenter do
           params = {
             offset: 2,
             pageSize: 25,
+            showSums: false,
+            showHierarchies: false,
             filters: []
           }
 
@@ -310,7 +318,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       context 'without columns' do
         let(:query) do
-          query = FactoryGirl.build_stubbed(:query, project: project)
+          query = FactoryBot.build_stubbed(:query, project: project)
 
           # need to write bogus here because the query
           # will otherwise sport the default columns
@@ -328,7 +336,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       context 'with columns' do
         let(:query) do
-          query = FactoryGirl.build_stubbed(:query, project: project)
+          query = FactoryBot.build_stubbed(:query, project: project)
 
           query.column_names = ['status', 'assigned_to', 'updated_at']
 
@@ -367,7 +375,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       context 'with group_by' do
         let(:query) do
-          query = FactoryGirl.build_stubbed(:query, project: project)
+          query = FactoryBot.build_stubbed(:query, project: project)
 
           query.group_by = 'status'
 
@@ -391,7 +399,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       context 'with sort_by' do
         let(:query) do
-          FactoryGirl.build_stubbed(:query,
+          FactoryBot.build_stubbed(:query,
                                     sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
         end
 
@@ -515,7 +523,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       describe 'with filters' do
         let(:query) do
-          query = FactoryGirl.build_stubbed(:query)
+          query = FactoryBot.build_stubbed(:query)
           query.add_filter('status_id', '=', [filter_status.id.to_s])
           allow(query.filters.last)
             .to receive(:value_objects)
@@ -527,8 +535,8 @@ describe ::API::V3::Queries::QueryRepresenter do
           query
         end
 
-        let(:filter_status) { FactoryGirl.build_stubbed(:status) }
-        let(:filter_user) { FactoryGirl.build_stubbed(:user) }
+        let(:filter_status) { FactoryBot.build_stubbed(:status) }
+        let(:filter_user) { FactoryBot.build_stubbed(:user) }
 
         it 'should render the filters' do
           expected_status = {
@@ -586,7 +594,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       describe 'with sort criteria' do
         let(:query) do
-          FactoryGirl.build_stubbed(:query,
+          FactoryBot.build_stubbed(:query,
                                     sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
         end
 
@@ -603,7 +611,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       describe 'with columns' do
         let(:query) do
-          query = FactoryGirl.build_stubbed(:query, project: project)
+          query = FactoryBot.build_stubbed(:query, project: project)
 
           query.column_names = ['status', 'assigned_to', 'updated_at']
 
@@ -630,7 +638,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       describe 'with group by' do
         let(:query) do
-          query = FactoryGirl.build_stubbed(:query, project: project)
+          query = FactoryBot.build_stubbed(:query, project: project)
 
           query.group_by = 'status'
 
@@ -657,7 +665,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       describe 'when timeline is visible' do
         let(:query) do
-          FactoryGirl.build_stubbed(:query, project: project).tap do |query|
+          FactoryBot.build_stubbed(:query, project: project).tap do |query|
             query.timeline_visible = true
           end
         end
@@ -668,7 +676,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       describe 'when labels are overridden' do
         let(:query) do
-          FactoryGirl.build_stubbed(:query, project: project).tap do |query|
+          FactoryBot.build_stubbed(:query, project: project).tap do |query|
             query.timeline_labels = expected
           end
         end
@@ -683,7 +691,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       describe 'when timeline zoom level is changed' do
         let(:query) do
-          FactoryGirl.build_stubbed(:query, project: project).tap do |query|
+          FactoryBot.build_stubbed(:query, project: project).tap do |query|
             query.timeline_zoom_level = :weeks
           end
         end
@@ -694,7 +702,7 @@ describe ::API::V3::Queries::QueryRepresenter do
     end
 
     describe 'embedded results' do
-      let(:query) { FactoryGirl.build_stubbed(:query) }
+      let(:query) { FactoryBot.build_stubbed(:query) }
       let(:representer) do
         described_class.new(query,
                             current_user: user,

@@ -32,6 +32,8 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
+      def initialize; end
+
       def self.do_and_save
         new.tap do |modal|
           yield modal
@@ -75,6 +77,10 @@ module Components
 
       def expect_closed
         expect(page).to have_no_selector(selector)
+      end
+
+      def expect_disabled_tab(name)
+        expect(page).to have_selector("#{selector} .tab-show.-disabled", text: name)
       end
 
       def switch_to(target)

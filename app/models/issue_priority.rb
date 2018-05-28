@@ -41,6 +41,6 @@ class IssuePriority < Enumeration
   end
 
   def transfer_relations(to)
-    work_packages.update_all("priority_id = #{to.id}")
+    work_packages.update_all(priority_id: to.id)
   end
 end

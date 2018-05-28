@@ -144,10 +144,12 @@ module OpenProject::TextFormatting::Formatters
         # see https://github.com/jgm/pandoc/issues/3020
         textile.gsub!(/-          # (\d+)/, "* \\1")
 
-        command = %w(pandoc --wrap=preserve -f textile -t gfm)
+        # TODO pandoc recommends format 'gfm' but that isnt available in current LTS
+        # markdown_github, which is deprecated, is however available.
+        command = %w(pandoc --wrap=preserve -f textile -t markdown_github)
         markdown, stderr_str, status = Open3.capture3(*command, stdin_data: textile)
 
-        raise 'Pandoc failed: #{stderr.read}' unless status.success?
+        raise "Pandoc failed: #{stderr_str}" unless status.success?
 
         # Remove the \ pandoc puts before * and > at begining of lines
         markdown.gsub!(/^((\\[*>])+)/) { $1.gsub("\\", "") }

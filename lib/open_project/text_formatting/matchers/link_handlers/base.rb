@@ -76,11 +76,13 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def oid
-        id = matcher.identifier
-
-        unless id.nil?
-          id.to_i
+        unless identifier.nil?
+          identifier.to_i
         end
+      end
+
+      def identifier
+        matcher.identifier
       end
 
       def project

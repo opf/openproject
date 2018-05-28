@@ -32,7 +32,7 @@ require 'features/projects/projects_page'
 describe 'my', type: :feature, js: true do
   let(:user_password) { 'bob' * 4 }
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        mail: 'old@mail.com',
                        login: 'bob',
                        password: user_password,
@@ -89,7 +89,7 @@ describe 'my', type: :feature, js: true do
 
         context 'as admin' do
           let(:user) {
-            FactoryGirl.create :admin,
+            FactoryBot.create :admin,
                                password: user_password,
                                password_confirmation: user_password
           }

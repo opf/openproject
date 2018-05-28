@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 describe Queries::TimeEntries::Filters::WorkPackageFilter, type: :model do
-  let(:work_package1) { FactoryGirl.build_stubbed(:work_package) }
-  let(:work_package2) { FactoryGirl.build_stubbed(:work_package) }
+  let(:work_package1) { FactoryBot.build_stubbed(:work_package) }
+  let(:work_package2) { FactoryBot.build_stubbed(:work_package) }
 
   before do
     allow(WorkPackage)

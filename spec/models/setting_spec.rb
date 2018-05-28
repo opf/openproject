@@ -172,7 +172,6 @@ describe Setting, type: :model do
       it 'expires the cache when writing a setting' do
         Setting.available_languages = %w(en)
         expect(RequestStore.read(:cached_settings)).to be_nil
-        expect(Rails.cache.read(cache_key)).to be_nil
 
         # Creates a new cache key
         new_cache_key = Setting.send(:cache_key)

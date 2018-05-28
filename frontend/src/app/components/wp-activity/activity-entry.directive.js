@@ -33,7 +33,7 @@ angular
 function activityEntry(PathHelper) {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-activity/activity-entry.directive.html',
+    template: require('!!raw-loader!./activity-entry.directive.html'),
 
     scope: {
       workPackage: '=',

@@ -55,6 +55,7 @@ de:
     description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     error:
       internal: Ein interner Fehler ist aufgetreten.
+      query_saving: Die Abfrage konnte nicht gespeichert werden.
     filter:
       description:
         text_open_filter: Öffnen Sie diesen Filter mittels "Alt" und den Pfeiltasten.
@@ -148,6 +149,7 @@ de:
     label_not_equals: ist nicht
     label_on: am
     label_open_menu: Menü öffnen
+    label_open_context_menu: Kontextmenü öffnen
     label_open_work_packages: offen
     label_password: Kennwort
     label_previous: Zurück
@@ -171,6 +173,7 @@ de:
     label_subject: Thema
     label_this_week: aktuelle Woche
     label_today: heute
+    label_up: Nach oben
     label_activity_show_only_comments: Nur Aktivitäten mit Kommentaren
     label_activity_show_all: Alle Aktivitäten anzeigen
     label_total_progress: "%{percent}% Gesamtfortschritt"
@@ -273,7 +276,8 @@ de:
       required: Benötigt von
       relation_type: Beziehungstyp
     relations_hierarchy:
-      hierarchy_headline: Hierarchie
+      parent_headline: Übergeordnete Aufgabe
+      children_headline: Untergeordnete Arbeitspakete
     relation_buttons:
       change_parent: Übergeordnetes Arbeitspaket ändern
       remove_parent: Übergeordnetes Arbeitspaket entfernen
@@ -310,6 +314,7 @@ de:
         one: Sie dürfen nur ein Element auswählen
         other: Sie dürfen nur {{limit}} Elemente auswählen
         zero: You cannot select any items
+    show_hide_project_menu: Projektmenü einblenden / ausblenden
     sort:
       sorted_asc: 'Aufsteigende Sortierung angewendet, '
       sorted_dsc: 'Absteigende Sortierung angewendet, '
@@ -327,6 +332,7 @@ de:
     timelines:
       gantt_chart: Gantt-Diagramm
       labels:
+        title: Konfiguration von Beschriftungen
         bar: Balkenbeschriftungen
         left: Links
         right: Rechts
@@ -367,7 +373,6 @@ de:
         grouping_other: Sonstiges
         noneSelection: "(keines)"
       name: Name
-      new_work_package: Neues Arbeitspaket
       outline: Hierarchie zurücksetzen
       outlines:
         aggregation: Nur Aggregationen anzeigen
@@ -468,10 +473,13 @@ de:
       inline_create:
         title: Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen
       create:
+        title: Neues Arbeitspaket
         header: 'Neu: %{type}'
         header_no_type: Neues Arbeitspaket (Typ noch nicht gesetzt)
         header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})'
         button: Anlegen
+      copy:
+        title: Arbeitspaket kopieren
       hierarchy:
         show: Hierarchie-Modus anzeigen
         hide: Hierarchie-Modus verbergen
@@ -533,7 +541,6 @@ de:
           aktiv ist.
         hierarchy_disabled_by_group_by: Der Hierarchie-Modus ist deaktiviert da die
           Ergebnisse nach %{column} gruppiert sind.
-        hierarchy_mode: Hierarchie-Modus
         sort_ascending: Sortiere aufsteigend
         sort_descending: Sortiere absteigend
         move_column_left: Spalte nach links
@@ -547,6 +554,7 @@ de:
           not_found: Filter existiert nicht
         text_no_results: Keine passenden Filter gefunden.
       table:
+        configure_button: Arbeitspaket-Tabelle konfigurieren
         summary: Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen
           dieser Arbeitspakete.
         text_inline_edit: Die meisten Zellen dieser Tabelle sind Schalter, über die
@@ -555,6 +563,25 @@ de:
           gruppiert, verschoben, entfernt oder hinzugefügt werden.
         text_select_hint: Auswahlfelder können mit 'ALT' und Pfeiltasten geöffnet
           werden.
+      table_configuration:
+        button: Konfigurieren Sie diese Arbeitspaket-Tabelle
+        modal_title: Konfiguration der Arbeitspaket-Tabelle
+        embedded_tab_disabled: Dieser Tab ist nicht verfübar für diese eingebettete
+          Tabelle.
+        display_settings: Anzeige-Einstellungen
+        grouped_mode: Gruppierte Ansicht
+        grouped_hint: Ergebnisse der Tabelle werden anhand des angegebenen Attributs
+          gruppiert.
+        default_mode: Standardmodus
+        hierarchy_mode: Hierarchie-Modus
+        hierarchy_hint: Zusätzlich zu den Ergebnissen der Tabelle werden die Eltern
+          der Elemente angezeigt. Hierarchien können in der Tabelle ein- und ausgeklappt
+          werden.
+        display_sums_hint: Zeigt eine Zeile mit den Summen aller summierbaren Spalten
+          unterhalb den Ergebnissen an.
+        show_timeline_hint: Zeigt ein interaktives Gantt-Diagramm auf der rechten
+          Seite der Tabelle an. Sie können die Aufteilung der beiden Elemente über
+          Ziehen des Trennstrichs zwischen Tabelle und Gantt-Diagramm konfigurieren.
       tabs:
         overview: Übersicht
         activity: Aktivität

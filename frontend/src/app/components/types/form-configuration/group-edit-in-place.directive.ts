@@ -54,13 +54,13 @@ function groupEditInPlace($timeout:any, $parse:any):any {
       onvaluechange: '=',
       onupsale: '='
     },
-    link: function(scope:GroupEditInPlaceScope, element:any, attributes:any) {
+    link: function (scope:GroupEditInPlaceScope, element:any, attributes:any) {
       scope.editing = false;
-      scope.name         = attributes.name || '';
+      scope.name = attributes.name || '';
       // The name before last change;
       scope.nameOriginal = attributes.name || '';
 
-      scope.enterEditingMode = function() {
+      scope.enterEditingMode = function () {
         if(attributes.onupsale) {
           scope.onupsale();
           return;
@@ -89,7 +89,7 @@ function groupEditInPlace($timeout:any, $parse:any):any {
         scope.nameOriginal = scope.name;
         scope.name = newValue.trim();
         scope.leaveEditingMode();
-        if (scope.nameOriginal != scope.name) {
+        if (scope.nameOriginal !== scope.name) {
           if (attributes.onvaluechange) {
             scope.onvaluechange(attributes.key, newValue);
           }

@@ -50,7 +50,7 @@ export class QueryDmService {
               protected PayloadDm:PayloadDmService) {
   }
 
-  public async find(queryData:Object, queryId?:string, projectIdentifier?:string):Promise<QueryResource> {
+  public find(queryData:Object, queryId?:string, projectIdentifier?:string):Promise<QueryResource> {
     let path:string;
 
     if (queryId) {
@@ -64,11 +64,11 @@ export class QueryDmService {
       .toPromise();
   }
 
-  public async findDefault(queryData:Object, projectIdentifier?:string):Promise<QueryResource> {
+  public findDefault(queryData:Object, projectIdentifier?:string):Promise<QueryResource> {
     return this.find(queryData, undefined, projectIdentifier);
   }
 
-  public async reload(query:QueryResource, pagination:PaginationObject):Promise<QueryResource> {
+  public reload(query:QueryResource, pagination:PaginationObject):Promise<QueryResource> {
     let path = this.pathHelper.api.v3.queries.id(query.id).toString();
 
     return this.halResourceService
@@ -76,7 +76,7 @@ export class QueryDmService {
       .toPromise();
   }
 
-  public async loadResults(query:QueryResource, pagination:PaginationObject):Promise<WorkPackageCollectionResource> {
+  public loadResults(query:QueryResource, pagination:PaginationObject):Promise<WorkPackageCollectionResource> {
     if (!query.results) {
       throw 'No results embedded when expected';
     }
@@ -90,7 +90,7 @@ export class QueryDmService {
       .toPromise();
   }
 
-  public async loadIdsUpdatedSince(ids:any, timestamp:any):Promise<WorkPackageCollectionResource> {
+  public loadIdsUpdatedSince(ids:any, timestamp:any):Promise<WorkPackageCollectionResource> {
     const filters = [
       {
         id: {
@@ -111,7 +111,7 @@ export class QueryDmService {
       .toPromise();
   }
 
-  public async update(query:QueryResource, form:QueryFormResource) {
+  public update(query:QueryResource, form:QueryFormResource) {
     return new Promise<QueryResource>((resolve, reject) => {
       this.extractPayload(query, form)
         .then(payload => {
@@ -125,8 +125,8 @@ export class QueryDmService {
     });
   }
 
-  public async create(query:QueryResource, form:QueryFormResource):Promise<QueryResource> {
-    return this.extractPayload(query, form).then(async payload => {
+  public create(query:QueryResource, form:QueryFormResource):Promise<QueryResource> {
+    return this.extractPayload(query, form).then(payload => {
       let path:string = this.pathHelper.api.v3.queries.toString();
 
       return this.halResourceService
@@ -135,11 +135,11 @@ export class QueryDmService {
     });
   }
 
-  public async delete(query:QueryResource) {
+  public delete(query:QueryResource) {
     return query.delete();
   }
 
-  public async toggleStarred(query:QueryResource) {
+  public toggleStarred(query:QueryResource) {
     if (query.starred) {
       return query.unstar();
     } else {
@@ -147,7 +147,7 @@ export class QueryDmService {
     }
   }
 
-  public async all(projectIdentifier?:string):Promise<CollectionResource> {
+  public all(projectIdentifier?:string):Promise<CollectionResource> {
     let filters = new ApiV3FilterBuilder();
 
     if (projectIdentifier) {
@@ -165,10 +165,10 @@ export class QueryDmService {
       .toPromise();
   }
 
-  private async extractPayload(query:QueryResource, form:QueryFormResource):Promise<QueryResource> {
+  private extractPayload(query:QueryResource, form:QueryFormResource):Promise<QueryResource> {
     // Extracting requires having the filter schemas loaded as the dependencies
     // need to be present. This should be handled within the cached information however, so it is fast.
-    const promises = _.map(query.filters, async filter => filter.schema.$load());
+    const promises = _.map(query.filters, filter => filter.schema.$load());
 
     return Promise
       .all(promises)

@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe CopyProjectsController, type: :controller do
-  let(:current_user) { FactoryGirl.create(:admin) }
+  let(:current_user) { FactoryBot.create(:admin) }
   let(:redirect_path) { "/projects/#{project.id}/settings" }
   let(:permission) { :copy_projects }
-  let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
+  let(:project) { FactoryBot.create(:project_with_types, is_public: false) }
   let(:copy_project_params) {
     {
       'description' => 'Some pretty description',
@@ -139,7 +139,7 @@ describe CopyProjectsController, type: :controller do
     end
 
     let(:permission) { [:copy_projects, :add_project] }
-    let(:project) { FactoryGirl.create(:project, is_public: false) }
+    let(:project) { FactoryBot.create(:project, is_public: false) }
 
     it_should_behave_like 'a controller action which needs project permissions'
   end

@@ -65,8 +65,8 @@ module OpenProject::Plugins
         end
 
         # adds our factories to factory girl's load path
-        initializer "#{engine_name}.register_factories", after: 'factory_girl.set_factory_paths' do |_app|
-          FactoryGirl.definition_file_paths << File.expand_path(root.to_s + '/spec/factories') if defined?(FactoryGirl)
+        initializer "#{engine_name}.register_factories", after: 'factory_bot.set_factory_paths' do |_app|
+          FactoryBot.definition_file_paths << File.expand_path(root.to_s + '/spec/factories') if defined?(FactoryBot)
         end
 
         initializer "#{engine_name}.append_migrations" do |app|
@@ -253,7 +253,7 @@ module OpenProject::Plugins
       def add_api_representer_cache_key(*path,
                                         &keys)
         mod = Module.new
-        mod.send :define_method, :cache_key do
+        mod.send :define_method, :json_cache_key do
           if defined?(super)
             existing = super()
 

@@ -30,87 +30,87 @@ require 'spec_helper'
 
 describe 'Custom actions', type: :feature, js: true do
   let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let!(:other_role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:admin) { FactoryGirl.create(:admin) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let!(:other_role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:admin) { FactoryBot.create(:admin) }
   let(:user) do
-    user = FactoryGirl.create(:user,
-                              firstname: 'A',
-                              lastname: 'User')
+    user = FactoryBot.create(:user,
+                             firstname: 'A',
+                             lastname: 'User')
 
-    FactoryGirl.create(:member,
-                       project: project,
-                       roles: [role],
-                       user: user)
+    FactoryBot.create(:member,
+                      project: project,
+                      roles: [role],
+                      user: user)
 
-    FactoryGirl.create(:member,
-                       project: other_project,
-                       roles: [role],
-                       user: user)
+    FactoryBot.create(:member,
+                      project: other_project,
+                      roles: [role],
+                      user: user)
     user
   end
   let!(:other_member_user) do
-    FactoryGirl.create(:user,
-                       firstname: 'Other member',
-                       lastname: 'User',
-                       member_in_project: project,
-                       member_through_role: role)
+    FactoryBot.create(:user,
+                      firstname: 'Other member',
+                      lastname: 'User',
+                      member_in_project: project,
+                      member_through_role: role)
   end
-  let(:project) { FactoryGirl.create(:project) }
-  let(:other_project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:other_project) { FactoryBot.create(:project) }
   let!(:work_package) do
-    FactoryGirl.create(:work_package,
-                       project: project,
-                       assigned_to: user,
-                       priority: default_priority,
-                       status: default_status)
+    FactoryBot.create(:work_package,
+                      project: project,
+                      assigned_to: user,
+                      priority: default_priority,
+                      status: default_status)
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:default_priority) do
-    FactoryGirl.create(:default_priority, name: 'Normal')
+    FactoryBot.create(:default_priority, name: 'Normal')
   end
   let!(:immediate_priority) do
-    FactoryGirl.create(:issue_priority,
-                       name: 'At once',
-                       position: IssuePriority.maximum(:position) + 1)
+    FactoryBot.create(:issue_priority,
+                      name: 'At once',
+                      position: IssuePriority.maximum(:position) + 1)
   end
   let(:default_status) do
-    FactoryGirl.create(:default_status)
+    FactoryBot.create(:default_status)
   end
   let(:closed_status) do
-    FactoryGirl.create(:closed_status, name: 'Closed')
+    FactoryBot.create(:closed_status, name: 'Closed')
   end
   let(:rejected_status) do
-    FactoryGirl.create(:closed_status, name: 'Rejected')
+    FactoryBot.create(:closed_status, name: 'Rejected')
   end
   let(:other_type) do
-    type = FactoryGirl.create(:type)
+    type = FactoryBot.create(:type)
 
     other_project.types << type
 
     type
   end
   let!(:workflows) do
-    FactoryGirl.create(:workflow,
-                       old_status: work_package.status,
-                       new_status: closed_status,
-                       role: role,
-                       type: work_package.type)
+    FactoryBot.create(:workflow,
+                      old_status: work_package.status,
+                      new_status: closed_status,
+                      role: role,
+                      type: work_package.type)
 
-    FactoryGirl.create(:workflow,
-                       new_status: work_package.status,
-                       old_status: closed_status,
-                       role: role,
-                       type: work_package.type)
-    FactoryGirl.create(:workflow,
-                       old_status: work_package.status,
-                       new_status: rejected_status,
-                       role: role,
-                       type: work_package.type)
+    FactoryBot.create(:workflow,
+                      new_status: work_package.status,
+                      old_status: closed_status,
+                      role: role,
+                      type: work_package.type)
+    FactoryBot.create(:workflow,
+                      old_status: work_package.status,
+                      new_status: rejected_status,
+                      role: role,
+                      type: work_package.type)
   end
   let!(:list_custom_field) do
-    cf = FactoryGirl.create(:list_wp_custom_field, multi_value: true)
+    cf = FactoryBot.create(:list_wp_custom_field, multi_value: true)
 
     project.work_package_custom_fields = [cf]
     work_package.type.custom_fields = [cf]
@@ -118,13 +118,13 @@ describe 'Custom actions', type: :feature, js: true do
     cf
   end
   let!(:int_custom_field) do
-    FactoryGirl.create(:int_wp_custom_field)
+    FactoryBot.create(:int_wp_custom_field)
   end
   let(:selected_list_custom_field_options) do
     [list_custom_field.custom_options.first, list_custom_field.custom_options.last]
   end
   let!(:date_custom_field) do
-    cf = FactoryGirl.create(:date_wp_custom_field)
+    cf = FactoryBot.create(:date_wp_custom_field)
 
     other_project.work_package_custom_fields = [cf]
     other_type.custom_fields = [cf]
@@ -246,20 +246,22 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.dismiss_notification!
 
     ## Bump the lockVersion and by that force a conflict.
-    WorkPackage.where(id: work_package.id).update_all(lock_version: 10)
+    work_package.reload.touch
 
     wp_page.click_custom_action('Escalate')
 
     wp_page.expect_notification type: :error, message: I18n.t('api_v3.errors.code_409')
 
-    wp_page.visit!
+    sleep(4)
+    # reload the page
+    page.driver.browser.navigate.refresh
 
     wp_page.click_custom_action('Escalate')
 
     wp_page.expect_attributes priority: immediate_priority.name,
                               status: default_status.name,
                               assignee: '-',
-                              "customField#{list_custom_field.id}" => selected_list_custom_field_options.map(&:name).join(' ')
+                              "customField#{list_custom_field.id}" => selected_list_custom_field_options.map(&:name).join("\n")
 
     expect(page)
       .to have_selector('.work-package-details-activities-activity-contents a.user-mention', text: other_member_user.name)

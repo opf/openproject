@@ -38,7 +38,7 @@ function revisionActivity($compile,
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/work_packages/activities/_revision.html',
+    template: require('!!raw-loader!./revision-activity.directive.html'),
     scope: {
       workPackage: '=',
       activity: '=',

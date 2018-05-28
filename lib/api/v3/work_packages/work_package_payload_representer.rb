@@ -34,6 +34,14 @@ module API
       class WorkPackagePayloadRepresenter < WorkPackageRepresenter
         include ::API::Utilities::PayloadRepresenter
 
+        cached_representer disabled: true
+
+        def initialize(model, current_user:, embed_links: false)
+          model = ::API::V3::WorkPackages::EagerLoading::NeutralWrapper.wrap_one(model, current_user)
+
+          super
+        end
+
         def writeable_attributes
           super + ["date"]
         end

@@ -1,21 +1,32 @@
-<div class="confirm-form-submit--modal">
-  <div class="modal--header">
-    <span class="icon-context icon-attention"></span>
-    <h2 ng-bind="::text.title"></h2>
-  </div>
-  <div class="ngdialog-body modal--main">
-    <p ng-bind="::text.text"></p>
-  </div>
-  <div class="modal--footer">
-    <button class="confirm-form-submit--cancel button"
-            ng-click="cancel()"
-            ng-bind="::text.button_cancel"
-            ng-attr-title="{{ ::text.button_cancel }}">
-    </button>
-    <button class="confirm-form-submit--continue button -highlight"
-            ng-click="confirmAndClose()"
-            ng-bind="::text.button_continue"
-            ng-attr-title="{{ ::text.button_continue }}">
-    </button>
+<div class="op-modal--portal confirm-form-submit--modal  ngdialog-theme-openproject">
+  <div class="op-modal--modal-container confirm-dialog--modal loading-indicator--location"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button" *ngIf="showClose">
+        <i
+            class="icon-close"
+            (click)="closeMe($event)"
+            [attr.title]="text.close_popup">
+        </i>
+      </a>
+      <h3 class="icon-context icon-attention" [textContent]="text.title"></h3>
+    </div>
+
+    <div class="ngdialog-body op-modal--modal-body">
+      <p [textContent]="text.text"></p>
+    </div>
+    <div class="op-modal--modal-footer">
+      <button class="confirm-form-submit--cancel button"
+              (click)="closeMe($event)"
+              [textContent]="text.button_cancel"
+              [attr.title]="text.button_cancel">
+      </button>
+      <button class="confirm-form-submit--continue button -highlight"
+              (click)="confirmAndClose($event)"
+              [textContent]="text.button_continue"
+              [attr.title]="text.button_continue">
+      </button>
+    </div>
   </div>
 </div>

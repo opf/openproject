@@ -34,11 +34,11 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryGirl.build(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.build(:user, member_in_project: project, member_through_role: role)
   end
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
-  let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
+  let(:project) { FactoryBot.create(:project_with_types, is_public: false) }
   let(:path) { api_v3_paths.work_packages_by_project project.id }
 
   before do
@@ -59,7 +59,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     end
 
     context 'not allowed to see the project' do
-      let(:current_user) { FactoryGirl.build(:user) }
+      let(:current_user) { FactoryBot.build(:user) }
 
       it 'fails with HTTP Not Found' do
         expect(subject.status).to eql 404
@@ -81,7 +81,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
 
       describe 'sorting' do
         let(:query) { { sortBy: '[["id", "desc"]]' } }
-        let(:work_packages) { FactoryGirl.create_list(:work_package, 2, project: project) }
+        let(:work_packages) { FactoryBot.create_list(:work_package, 2, project: project) }
 
         it 'returns both elements' do
           expect(subject.body).to be_json_eql(2).at_path('count')
@@ -110,12 +110,12 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
             ].to_json
           }
         end
-        let(:priority1) { FactoryGirl.create(:priority, name: 'Prio A') }
-        let(:priority2) { FactoryGirl.create(:priority, name: 'Prio B') }
+        let(:priority1) { FactoryBot.create(:priority, name: 'Prio A') }
+        let(:priority2) { FactoryBot.create(:priority, name: 'Prio B') }
         let(:work_packages) do
           [
-            FactoryGirl.create(:work_package, project: project, priority: priority1),
-            FactoryGirl.create(:work_package, project: project, priority: priority2)
+            FactoryBot.create(:work_package, project: project, priority: priority1),
+            FactoryBot.create(:work_package, project: project, priority: priority2)
           ]
         end
 
@@ -132,19 +132,19 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
 
       describe 'grouping' do
         let(:query) { { groupBy: 'priority' } }
-        let(:priority1) { FactoryGirl.build(:priority, name: 'Prio A', position: 2) }
-        let(:priority2) { FactoryGirl.build(:priority, name: 'Prio B', position: 1) }
+        let(:priority1) { FactoryBot.build(:priority, name: 'Prio A', position: 2) }
+        let(:priority2) { FactoryBot.build(:priority, name: 'Prio B', position: 1) }
         let(:work_packages) do
           [
-            FactoryGirl.create(:work_package,
+            FactoryBot.create(:work_package,
                                project: project,
                                priority: priority1,
                                estimated_hours: 1),
-            FactoryGirl.create(:work_package,
+            FactoryBot.create(:work_package,
                                project: project,
                                priority: priority2,
                                estimated_hours: 2),
-            FactoryGirl.create(:work_package,
+            FactoryBot.create(:work_package,
                                project: project,
                                priority: priority1,
                                estimated_hours: 3)
@@ -253,8 +253,8 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
         let(:query) { { showSums: 'true' } }
         let(:work_packages) do
           [
-            FactoryGirl.create(:work_package, project: project, estimated_hours: 1),
-            FactoryGirl.create(:work_package, project: project, estimated_hours: 2)
+            FactoryBot.create(:work_package, project: project, estimated_hours: 1),
+            FactoryBot.create(:work_package, project: project, estimated_hours: 2)
           ]
         end
 
@@ -276,8 +276,8 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
 
   describe '#post' do
     let(:permissions) { [:add_work_packages, :view_project] }
-    let(:status) { FactoryGirl.build(:status, is_default: true) }
-    let(:priority) { FactoryGirl.build(:priority, is_default: true) }
+    let(:status) { FactoryBot.build(:status, is_default: true) }
+    let(:priority) { FactoryBot.build(:priority, is_default: true) }
     let(:parameters) do
       {
         subject: 'new work packages',
@@ -293,7 +293,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
       status.save!
       priority.save!
 
-      FactoryGirl.create(:user_preference, user: current_user, others: { no_self_notified: false })
+      FactoryBot.create(:user_preference, user: current_user, others: { no_self_notified: false })
       post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
     end
 
@@ -334,7 +334,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     end
 
     context 'no permissions' do
-      let(:current_user) { FactoryGirl.create(:user) }
+      let(:current_user) { FactoryBot.create(:user) }
 
       it 'should hide the endpoint' do
         expect(last_response.status).to eq(404)

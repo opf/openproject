@@ -43,7 +43,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
 
     filter
   end
-  let(:custom_field) { FactoryGirl.build_stubbed(:list_wp_custom_field) }
+  let(:custom_field) { FactoryBot.build_stubbed(:list_wp_custom_field) }
   let(:instance) do
     described_class.new(filter,
                         self_link,
@@ -53,7 +53,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
   let(:form_embedded) { false }
   let(:self_link) { 'bogus_self_path' }
   let(:project) { nil }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:json_cacheable) { true }
   let(:json_cache_key) { 'some key' }
   let(:dependency) do

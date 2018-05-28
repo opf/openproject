@@ -1,7 +1,7 @@
-<div class="op-modal--container ng-modal-window loading-indicator--location"
+<div class="op-modal--portal  loading-indicator--location"
      data-indicator-name="modal">
-  <div class="ng-modal-inner attribute-help-text--modal" tabindex="0">
-    <div class="modal-header">
+  <div class="op-modal--modal-container attribute-help-text--modal" tabindex="0">
+    <div class="op-modal--modal-header">
       <a>
         <i
           class="icon-close"
@@ -16,7 +16,7 @@
       <span class="ellipsis" [textContent]="helpText.attributeCaption"></span>
     </h3>
 
-    <div class="modal--main -formattable"
+    <div class="op-modal--modal-body -formattable"
          tabindex="0"
          [innerHtml]="helpText.helpText.html">
     </div>

@@ -170,7 +170,9 @@ et:
       form_configuration: Form configuration
       projects: Projektid
       enabled_projects: Enabled projects
-      add_group: Add group
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Reset to defaults
   versions:
     overview:
@@ -367,6 +369,7 @@ et:
         mail_notification: Eposti märguandmed
         new_password: Uus parool
         password_confirmation: Kinnitamine
+        consented_at: Consented at
       user_preference:
         comments_sorting: Kuva kommentaare
         hide_mail: Peida minu eposti aadress
@@ -378,8 +381,6 @@ et:
       version:
         effective_date: Tähtaeg
         sharing: Jagamine
-      wiki:
-        start_page: Esileht
       wiki_content:
         text: Tekst
       wiki_page:
@@ -392,6 +393,7 @@ et:
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
+        children: Subelements
         done_ratio: Progress (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
@@ -517,6 +519,8 @@ et:
             status_id:
               status_transition_invalid: is invalid because no valid transition exists
                 from old to new status for the current user's roles.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: needs to be active.
             category:
@@ -664,11 +668,13 @@ et:
   button_close: Close
   button_collapse_all: Ahenda kõik
   button_configure: Seadista
+  button_continue: Continue
   button_copy: Kopeeri
   button_copy_and_follow: Kopeeri ja järgne
   button_create: Loo uus
   button_create_and_continue: Loo uus ja jätka
   button_delete: Kustuta
+  button_decline: Decline
   button_delete_watcher: Kustuta jälgija %{name}
   button_download: Laadi alla
   button_duplicate: Duplitseeri
@@ -710,6 +716,23 @@ et:
   button_add_menu_entry: Lisa menüükäsk
   button_configure_menu_entry: Muuda menüükäsk
   button_delete_menu_entry: Kustuta menüükäsk
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
@@ -936,6 +959,8 @@ et:
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1081,6 +1106,7 @@ et:
   label_all: kõik
   label_all_time: kogu aeg
   label_all_words: Kõik sõnad
+  label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
   label_and_its_subprojects: "%{value} ja selle alamprojektid"
@@ -1121,6 +1147,7 @@ et:
   label_calendar: Kalender
   label_calendar_show: Kuva kalender
   label_category: Kategooria
+  label_consent_settings: User Consent
   label_wiki_menu_item: Viki menüüvalik
   label_select_main_menu_item: Vali uus peamenüü valik
   label_select_project: Select a project
@@ -1143,6 +1170,7 @@ et:
   label_close_versions: Sule lõpetatud versioonid
   label_closed_work_packages: suletud
   label_collapse: Koonda
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: configuration
   label_comment_add: Lisa kommentaar
   label_comment_added: Kommentaar lisatud
@@ -1210,11 +1238,13 @@ et:
   label_enumerations: Loendid
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Keskkond
   label_estimates_and_time: Estimates and time
   label_equals: võrdub
   label_example: Näide
   label_export_to: 'Saadaval ka:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} tund"
   label_f_hour_plural: "%{value} tundi"
   label_feed_plural: Kanalid
@@ -1244,6 +1274,7 @@ et:
   label_here: here
   label_hide: Peida
   label_history: Ajalugu
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Avaleht
   label_in: sisaldub hulgas
   label_in_less_than: on väiksem kui
@@ -1257,6 +1288,7 @@ et:
   label_information_plural: Teave
   label_integer: Täisarv
   label_internal: Sisemine
+  label_introduction_video: Introduction video
   label_invite_user: Invite user
   label_show_hide: Show/hide
   label_show_all_registered_users: Show all registered users
@@ -1319,6 +1351,7 @@ et:
   label_my_page_block: Uus blokk
   label_my_projects: Minu projektid
   label_my_queries: Mu omaloodud päringud
+  label_never: Mitte kunagi
   label_new: Uus
   label_new_statuses_allowed: Uued olekud lubatud
   label_news_added: Uudis lisatud
@@ -1343,6 +1376,7 @@ et:
   label_open_menu: Ava menüü
   label_open_work_packages: avatud
   label_open_work_packages_plural: avatud
+  label_openproject_website: OpenProject website
   label_optional_description: Kirjeldus
   label_options: Valikud
   label_other: Muu
@@ -1512,7 +1546,7 @@ et:
   label_version_sharing_none: Ei jaga
   label_version_sharing_system: Kõigi projektidega
   label_version_sharing_tree: Projekti puuga
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Kogu ajalugu
   label_view_diff: Vaata erinevusi
   label_view_revisions: Haru ajalugu
@@ -1533,6 +1567,7 @@ et:
   label_wiki_show_menu_item: Näita lehe nime projektimenüüs
   label_wiki_show_new_page_link: Näita alammenüüs valikut 'Loo uus alamleht'
   label_wiki_show_submenu_item: 'Näita kui alammenüüd (<--) '
+  label_wiki_start: Esileht
   label_work_package: Teema
   label_work_package_added: Teema lisatud
   label_work_package_attachments: Work package attachments
@@ -2016,12 +2051,19 @@ et:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Vormindatud teksti jaoks kasutatakse vahemälu
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Teemade nimekirja vaikimisi veerud
   setting_commit_fix_keywords: Paranduste võtmesõnad
   setting_commit_logs_encoding: Sissekannete kodeering
   setting_commit_logtime_activity_id: Tegevus kulunud ajal
   setting_commit_logtime_enabled: Luba ajakulu sisestamine
   setting_commit_ref_keywords: Viitade võtmesõnad
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Võimalda seostada teemasid teistest
     projektidest
   setting_date_format: Kuupäevaformaat
@@ -2116,7 +2158,10 @@ et:
     passwords: Paroolid
     session: Seanss
     brute_force_prevention: Automatiseeritud kasutajate blokeerimine
-  show_hide_project_menu: Expand/Collapse project menu
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: aktiivne
   status_archived: archived
   status_invited: invited

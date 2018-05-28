@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe Query, type: :model do
-  let(:query) { FactoryGirl.build(:query) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:query) { FactoryBot.build(:query) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:relation_columns_allowed) { true }
 
   before do
@@ -113,7 +113,7 @@ describe Query, type: :model do
     end
 
     context 'results caching' do
-      let(:project2) { FactoryGirl.build_stubbed(:project) }
+      let(:project2) { FactoryBot.build_stubbed(:project) }
 
       it 'does not call the db twice' do
         query.project = project
@@ -168,14 +168,14 @@ describe Query, type: :model do
 
     context 'relation_to_type columns' do
       let(:type_in_project) do
-        type = FactoryGirl.create(:type)
+        type = FactoryBot.create(:type)
         project.types << type
 
         type
       end
 
       let(:type_not_in_project) do
-        FactoryGirl.create(:type)
+        FactoryBot.create(:type)
       end
 
       before do
@@ -250,8 +250,8 @@ describe Query, type: :model do
   end
 
   describe '.available_columns' do
-    let(:custom_field) { FactoryGirl.create(:list_wp_custom_field) }
-    let(:type) { FactoryGirl.create(:type) }
+    let(:custom_field) { FactoryBot.create(:list_wp_custom_field) }
+    let(:type) { FactoryBot.create(:type) }
 
     before do
       stub_const('Relation::TYPES',
@@ -313,8 +313,8 @@ describe Query, type: :model do
     end
 
     context 'when filters are blank' do
-      let(:status) { FactoryGirl.create :status }
-      let(:query) { FactoryGirl.build(:query).tap { |q| q.filters = [] } }
+      let(:status) { FactoryBot.create :status }
+      let(:query) { FactoryBot.build(:query).tap { |q| q.filters = [] } }
 
       it 'is valid' do
         expect(query.valid?).to be_truthy
@@ -323,7 +323,7 @@ describe Query, type: :model do
 
     context 'with a missing value for a custom field' do
       let(:custom_field) do
-        FactoryGirl.create :text_issue_custom_field, is_filter: true, is_for_all: true
+        FactoryBot.create :text_issue_custom_field, is_filter: true, is_for_all: true
       end
 
       before do
@@ -348,7 +348,7 @@ describe Query, type: :model do
   end
 
   describe '#valid_subset!' do
-    let(:valid_status) { FactoryGirl.build_stubbed(:status) }
+    let(:valid_status) { FactoryBot.build_stubbed(:status) }
 
     context 'filters' do
       before do

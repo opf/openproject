@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Queries::TimeEntries::TimeEntryQuery, type: :model do
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
   let(:base_scope) { TimeEntry.visible(user) }
   let(:instance) { described_class.new }
 

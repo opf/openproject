@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -37,7 +38,7 @@ module API
   module V3
     module Users
       class PaginatedUserCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        element_decorator ::API::V3::Users::UserRepresenter
+        include API::V3::Principals::GroupOrUserElements
       end
     end
   end

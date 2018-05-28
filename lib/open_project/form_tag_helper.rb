@@ -73,8 +73,24 @@ module OpenProject
     def styled_text_area_tag(name, content = nil, options = {})
       apply_css_class_to_options(options, 'form--text-area')
       wrap_field 'text-area', options do
-        text_area_tag(name, content, options)
+        output = text_area_tag(name, content, options)
+
+        if options[:with_text_formatting]
+          output << text_formatting_wrapper(options[:id])
+        end
+
+        output
       end
+    end
+
+    ##
+    # Create a wrapper for the text formatting toolbar for this field
+    def text_formatting_wrapper(target_id)
+      return ''.html_safe unless target_id.present?
+
+      format = Setting.text_formatting
+      helper = ::OpenProject::TextFormatting::Formatters.helper_for(format).new(self)
+      helper.wikitoolbar_for target_id
     end
 
     def styled_check_box_tag(name, value = '1', checked = false, options = {})

@@ -32,6 +32,6 @@ Given (/^I open the registration modal$/) do
     Given I am on the homepage
     And I open the "Sign in" menu
     And I click link "#registration-modal--activation-link"
-    Then I should see "t:onboarding.welcome" within ".modal--header" [i18n]
+    Then I should see "t:onboarding.welcome" within ".op-modal--modal-header" [i18n]
   }
 end

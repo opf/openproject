@@ -49,7 +49,7 @@ export class ApiWorkPackagesService {
    * @param force Bypass any cached value?
    * @returns {IPromise<any>|IPromise<WorkPackageResource>} A promise for the WorkPackage.
    */
-  public async loadWorkPackageById(id:string, force = false) {
+  public loadWorkPackageById(id:string, force = false) {
     const url = this.pathHelper.api.v3.work_packages.id(id).toString();
 
     return this.halResourceService.get<WorkPackageResource>(url).toPromise();
@@ -62,7 +62,7 @@ export class ApiWorkPackagesService {
    * @param ids
    * @return {WorkPackageCollectionResource[]}
    */
-  public async loadWorkPackagesCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
+  public loadWorkPackagesCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
     return this.halResourceService.getAllPaginated(
       this.pathHelper.api.v3.work_packages.toString(),
       ids.length,
@@ -77,7 +77,7 @@ export class ApiWorkPackagesService {
    *
    * @returns An empty work package form resource.
    */
-  public async emptyCreateForm(request:any, projectIdentifier?:string):Promise<HalResource> {
+  public emptyCreateForm(request:any, projectIdentifier?:string):Promise<HalResource> {
     return this.halResourceService
       .post<HalResource>(this.workPackagesFormPath(projectIdentifier), request)
       .toPromise();
@@ -91,7 +91,7 @@ export class ApiWorkPackagesService {
    * @param projectIdentifier: The project to which the work package is initialized
    * @returns An empty work package form resource.
    */
-  public async typedCreateForm(typeId:number, projectIdentifier?:string):Promise<HalResource> {
+  public typedCreateForm(typeId:number, projectIdentifier?:string):Promise<HalResource> {
 
     const typeUrl = this.pathHelper.api.v3.types.id(typeId).toString();
     const request = { _links: { type: { href: typeUrl } } };
@@ -107,7 +107,7 @@ export class ApiWorkPackagesService {
    * @param payload
    * @return {Promise<WorkPackageResource>}
    */
-  public async createWorkPackage(payload:any):Promise<WorkPackageResource> {
+  public createWorkPackage(payload:any):Promise<WorkPackageResource> {
     return this.halResourceService
       .post<WorkPackageResource>(this.pathHelper.api.v3.work_packages.path, payload)
       .toPromise();

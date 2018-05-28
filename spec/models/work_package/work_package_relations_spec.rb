@@ -31,31 +31,31 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   describe '#relation' do
     let(:closed_state) do
-      FactoryGirl.create(:status,
+      FactoryBot.create(:status,
                          is_closed: true)
     end
 
     describe '#duplicate' do
-      let(:original) { FactoryGirl.create(:work_package) }
+      let(:original) { FactoryBot.create(:work_package) }
       let(:dup_1) do
-        FactoryGirl.create(:work_package,
+        FactoryBot.create(:work_package,
                            project: original.project,
                            type: original.type,
                            status: original.status)
       end
       let(:relation_org_dup_1) do
-        FactoryGirl.create(:relation,
+        FactoryBot.create(:relation,
                            from: dup_1,
                            to: original,
                            relation_type: Relation::TYPE_DUPLICATES)
       end
       let(:workflow) do
-        FactoryGirl.create(:workflow,
+        FactoryBot.create(:workflow,
                            old_status: original.status,
                            new_status: closed_state,
                            type_id: original.type_id)
       end
-      let(:user) { FactoryGirl.create(:user) }
+      let(:user) { FactoryBot.create(:user) }
 
       before do
         allow(User).to receive(:current).and_return user
@@ -65,20 +65,20 @@ describe WorkPackage, type: :model do
 
       context 'closes duplicates' do
         let(:dup_2) do
-          FactoryGirl.create(:work_package,
+          FactoryBot.create(:work_package,
                              project: original.project,
                              type: original.type,
                              status: original.status)
         end
         let(:relation_dup_1_dup_2) do
-          FactoryGirl.create(:relation,
+          FactoryBot.create(:relation,
                              from: dup_2,
                              to: dup_1,
                              relation_type: Relation::TYPE_DUPLICATES)
         end
         # circular dependency
         let(:relation_dup_2_org) do
-          FactoryGirl.create(:relation,
+          FactoryBot.create(:relation,
                              from: dup_2,
                              to: original,
                              relation_type: Relation::TYPE_DUPLICATES)
@@ -119,27 +119,27 @@ describe WorkPackage, type: :model do
     end
 
     describe '#blocks' do
-      let(:user) { FactoryGirl.create(:user) }
-      let(:role) { FactoryGirl.create(:role) }
-      let(:type) { FactoryGirl.create(:type) }
+      let(:user) { FactoryBot.create(:user) }
+      let(:role) { FactoryBot.create(:role) }
+      let(:type) { FactoryBot.create(:type) }
       let(:project) do
-        FactoryGirl.create(:project,
+        FactoryBot.create(:project,
                            types: [type])
       end
-      let(:status) { FactoryGirl.create(:status) }
+      let(:status) { FactoryBot.create(:status) }
       let(:blocks) do
-        FactoryGirl.create(:work_package,
+        FactoryBot.create(:work_package,
                            project: project,
                            status: status)
       end
       let(:blocked) do
-        FactoryGirl.create(:work_package,
+        FactoryBot.create(:work_package,
                            project: project,
                            type: blocks.type,
                            status: status)
       end
       let(:relation_blocks) do
-        FactoryGirl.create(:relation,
+        FactoryBot.create(:relation,
                            from: blocks,
                            to: blocked,
                            relation_type: Relation::TYPE_BLOCKS)
@@ -165,19 +165,19 @@ describe WorkPackage, type: :model do
 
       describe 'closed state' do
         let(:project_member) do
-          FactoryGirl.create(:member,
+          FactoryBot.create(:member,
                              project: project,
                              principal: user,
                              roles: [role])
         end
         let(:workflow_1) do
-          FactoryGirl.create(:workflow,
+          FactoryBot.create(:workflow,
                              role: role,
                              old_status: status,
                              new_status: status)
         end
         let(:workflow_2) do
-          FactoryGirl.create(:workflow,
+          FactoryBot.create(:workflow,
                              role: role,
                              old_status: status,
                              new_status: closed_state)
@@ -227,18 +227,18 @@ describe WorkPackage, type: :model do
     end
 
     describe '#soonest_start' do
-      let(:work_package_1) { FactoryGirl.create(:work_package) }
+      let(:work_package_1) { FactoryBot.create(:work_package) }
       let(:work_package_2) do
-        FactoryGirl.create(:work_package,
+        FactoryBot.create(:work_package,
                            project: work_package_1.project)
       end
       let!(:work_package_2_1) do
-        FactoryGirl.create(:work_package,
+        FactoryBot.create(:work_package,
                            parent: work_package_2,
                            project: work_package_1.project)
       end
       let!(:relation_1) do
-        FactoryGirl.create(:relation,
+        FactoryBot.create(:relation,
                            from: work_package_1,
                            to: work_package_2,
                            relation_type: Relation::TYPE_PRECEDES)

@@ -43,19 +43,4 @@ describe ::Type, type: :model do
     target.reload
     assert_equal 89, target.workflows.size
   end
-
-  it 'should statuses' do
-    type = ::Type.find(1)
-    Workflow.delete_all
-    Workflow.create!(role_id: 1, type_id: 1, old_status_id: 2, new_status_id: 3)
-    Workflow.create!(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 5)
-
-    expect(type.statuses).to all be_kind_of Status
-    assert_equal [2, 3, 5], ::Type.find(1).statuses.map(&:id)
-  end
-
-  it 'should statuses empty' do
-    Workflow.where(type_id: 1).delete_all
-    assert_equal [], ::Type.find(1).statuses
-  end
 end

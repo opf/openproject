@@ -36,6 +36,7 @@ module API
     module Attachments
       class AttachmentRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
+        include API::Caching::CachedRepresenter
 
         self_link title_getter: ->(*) { represented.filename }
 
@@ -56,8 +57,8 @@ module API
         end
 
         # visibility of this link is also work_package specific!
-        link :delete do
-          next unless current_user_allowed_to(:edit_work_packages, context: represented.container.project)
+        link :delete,
+             cache_if: -> { current_user_allowed_to(:edit_work_packages, context: represented.container.project) } do
           {
             href: api_v3_paths.attachment(represented.id),
             method: :delete

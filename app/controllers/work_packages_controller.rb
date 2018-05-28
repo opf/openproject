@@ -78,7 +78,7 @@ class WorkPackagesController < ApplicationController
   end
 
   current_menu_item :index do
-    :work_packages
+    :all_open_wps
   end
 
   protected

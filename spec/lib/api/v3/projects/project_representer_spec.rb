@@ -31,10 +31,10 @@ require 'spec_helper'
 describe ::API::V3::Projects::ProjectRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:representer) { described_class.new(project, current_user: user) }
   let(:user) do
-    FactoryGirl.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user)
   end
   let(:permissions) { [:add_work_packages] }
 
@@ -146,6 +146,52 @@ describe ::API::V3::Projects::ProjectRepresenter do
           it 'has no types link' do
             is_expected.to_not have_json_path('_links/types/href')
           end
+        end
+      end
+    end
+
+    describe 'caching' do
+      it 'is based on the representer\'s cache_key' do
+        expect(OpenProject::Cache)
+          .to receive(:fetch)
+          .with(representer.json_cache_key)
+          .and_call_original
+
+        representer.to_json
+      end
+
+      describe '#json_cache_key' do
+        let(:project_type) { FactoryBot.build_stubbed(:project_type) }
+
+        before do
+          project.project_type = project_type
+        end
+        let!(:former_cache_key) { representer.json_cache_key }
+
+        it 'includes the name of the representer class' do
+          expect(representer.json_cache_key)
+            .to include('API', 'V3', 'Projects', 'ProjectRepresenter')
+        end
+
+        it 'changes when the locale changes' do
+          I18n.with_locale(:fr) do
+            expect(representer.json_cache_key)
+              .not_to eql former_cache_key
+          end
+        end
+
+        it 'changes when the project is updated' do
+          project.updated_on = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the project\'s project_type is updated' do
+          project.project_type.updated_at = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
         end
       end
     end

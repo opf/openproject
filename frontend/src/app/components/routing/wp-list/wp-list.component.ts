@@ -222,11 +222,11 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     });
   }
 
-  async updateResults() {
+  updateResults() {
     return this.wpListService.reloadCurrentResultsList();
   }
 
-  async updateToFirstResultsPage() {
+  updateToFirstResultsPage() {
     return this.wpListService.loadCurrentResultsListFirstPage();
   }
 

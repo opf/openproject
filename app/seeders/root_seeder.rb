@@ -63,9 +63,9 @@ class RootSeeder < Seeder
 
       if Rails.env.development?
         puts '*** Seeding development data'
-        require 'factory_girl'
-        # Load FactoryGirl factories
-        ::FactoryGirl.find_definitions
+        require 'factory_bot'
+        # Load FactoryBot factories
+        ::FactoryBot.find_definitions
 
         DevelopmentDataSeeder.new.seed!
       end

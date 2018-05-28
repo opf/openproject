@@ -55,6 +55,7 @@ uk:
     description_subwork_package: 'Нащадок пакету робіт #%{id}'
     error:
       internal: Сталася внутрішня помилка.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Відкрийте цей фільтр за допомогою «ALT» і клавіш зі стрілками.
@@ -149,6 +150,7 @@ uk:
     label_not_equals: is not
     label_on: на
     label_open_menu: Open menu
+    label_open_context_menu: Open context menu
     label_open_work_packages: open
     label_password: Password
     label_previous: Previous
@@ -172,6 +174,7 @@ uk:
     label_subject: Subject
     label_this_week: this week
     label_today: today
+    label_up: Up
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% загального прогресу"
@@ -274,7 +277,8 @@ uk:
       required: Required by
       relation_type: relation type
     relations_hierarchy:
-      hierarchy_headline: hierarchy
+      parent_headline: Parent
+      children_headline: Дочірні елементи
     relation_buttons:
       change_parent: Змінити батьківський об'єкт
       remove_parent: Remove parent
@@ -315,6 +319,7 @@ uk:
         zero: You cannot select any items
         few: Ви можете вибрати тільки {{limit}} елементи
         many: You can only select {{limit}} items
+    show_hide_project_menu: Expand/Collapse project menu
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -330,6 +335,7 @@ uk:
     timelines:
       gantt_chart: Gantt chart
       labels:
+        title: Label configuration
         bar: Bar labels
         left: Left
         right: Right
@@ -368,7 +374,6 @@ uk:
         grouping_other: Other
         noneSelection: "(none)"
       name: Name
-      new_work_package: New work package
       outline: Reset Outline
       outlines:
         aggregation: Показати тільки агрегати
@@ -468,10 +473,13 @@ uk:
       inline_create:
         title: Клацніть тут, щоб додати до цього списку новий пакет робіт
       create:
+        title: New work package
         header: Новий %{type}
         header_no_type: New work package (Type not yet set)
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: Create
+      copy:
+        title: Copy work package
       hierarchy:
         show: Show hierarchy mode
         hide: Hide hierarchy mode
@@ -531,7 +539,6 @@ uk:
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
           being grouped by %{column}.
-        hierarchy_mode: Hierarchy mode
         sort_ascending: Сортувати за зростанням
         sort_descending: Сортувати за спаданням
         move_column_left: Перемістити стовпець ліворуч
@@ -545,6 +552,7 @@ uk:
           not_found: Немає такого запиту
         text_no_results: No matching queries were found.
       table:
+        configure_button: Configure work package table
         summary: Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт.
         text_inline_edit: Більшість секцій цієї таблиці - це кнопки, які активують
           функціонал інлайн-редагування відповідного атрибуту.
@@ -552,6 +560,23 @@ uk:
           групувати, перевпорядковувати, видаляти та додавати стовпці таблиці.
         text_select_hint: Прапорці можуть бути відкриті використовуючи «ALT» та клавіш
           зі стрілками.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Hierarchy mode
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Overview
         activity: Activity

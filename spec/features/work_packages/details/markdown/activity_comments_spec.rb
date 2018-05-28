@@ -6,9 +6,9 @@ require 'features/work_packages/details/inplace_editor/shared_examples'
 describe 'activity comments',
          with_settings: { text_formatting: 'markdown' },
          js: true do
-  let(:project) { FactoryGirl.create :project, is_public: true }
+  let(:project) { FactoryBot.create :project, is_public: true }
   let!(:work_package) {
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        journal_notes: initial_comment)
   }
@@ -27,7 +27,7 @@ describe 'activity comments',
   end
 
   context 'with permission' do
-    let(:current_user) { FactoryGirl.create :admin }
+    let(:current_user) { FactoryBot.create :admin }
 
     before do
       wp_page.visit!
@@ -99,7 +99,7 @@ describe 'activity comments',
         end
 
         describe 'work packages' do
-          let!(:wp2) { FactoryGirl.create(:work_package, project: project, subject: 'AutoFoo') }
+          let!(:wp2) { FactoryBot.create(:work_package, project: project, subject: 'AutoFoo') }
           it 'autocompletes the other work package' do
             comment_field.input_element.send_keys("##{wp2.id}")
             expect(page).to have_selector('.atwho-view-ul li', text: wp2.to_s.strip)
@@ -191,8 +191,8 @@ describe 'activity comments',
   end
 
   context 'with no permission' do
-    let(:current_user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { FactoryGirl.create :role, permissions: %i(view_work_packages) }
+    let(:current_user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+    let(:role) { FactoryBot.create :role, permissions: %i(view_work_packages) }
 
     before do
       wp_page.visit!

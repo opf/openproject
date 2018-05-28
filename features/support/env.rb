@@ -42,11 +42,7 @@ end
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'capybara-screenshot/cucumber'
-require 'capybara-select2'
-require 'factory_girl_rails'
-
-# json-spec is used to specifiy our json-apis
-require 'json_spec/cucumber'
+require 'factory_bot_rails'
 
 # Load paths to ensure they are loaded before the plugin's paths.rbs.
 # Plugin's path_to functions rely on being loaded after the core's path_to
@@ -56,13 +52,12 @@ require 'json_spec/cucumber'
 require_relative 'paths.rb'
 
 # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
-# order to ease the transition to Capybara we set the default here. If you'd
+# order to ease the transition to Capyba we set the default here. If you'd
 # prefer to use XPath just remove this line and adjust any selectors in your
 # steps to use the XPath syntax.
 Capybara.configure do |config|
   config.default_selector = :css
   config.default_max_wait_time = 5
-  config.exact_options = true
   config.ignore_hidden_elements = true
   config.match = :one
   config.visible_text_only = true
@@ -79,6 +74,12 @@ if ENV['OPENPROJECT_ENABLE_CAPYBARA_SCREENSHOT_S3_UPLOADS'] && ENV['AWS_ACCESS_K
     bucket_name: ENV.fetch('S3_BUCKET_NAME', 'openproject-travis-logs')
   }
 end
+
+Capybara.register_server :thin do |app, port, host|
+  require 'rack/handler/thin'
+  Rack::Handler::Thin.run(app, Port: port, Host: host, signals: false)
+end
+Capybara.server = :thin
 
 unless (env_no = ENV['TEST_ENV_NUMBER'].to_i).zero?
   Capybara.server_port = 8888 + env_no
@@ -149,13 +150,8 @@ Before do
 end
 
 Before do
-  FactoryGirl.create(:non_member)
-  FactoryGirl.create(:anonymous_role)
+  FactoryBot.create(:non_member)
+  FactoryBot.create(:anonymous_role)
 end
-
-# Capybara.register_driver :selenium do |app|
-#     Capybara::Selenium::Driver.new(app, browser: :chrome)
-# end
-#
 
 World(Capybara::Select2)

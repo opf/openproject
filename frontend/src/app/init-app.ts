@@ -35,7 +35,6 @@ require('expose-loader?bowser!bowser');
 require('at.js/dist/css/jquery.atwho.min.css');
 require('../../vendor/select2/select2.css');
 require('ui-select/dist/select.min.css');
-require('ng-dialog/css/ngDialog.min.css');
 require('jquery-ui/themes/base/core.css');
 require('jquery-ui/themes/base/datepicker.css');
 require('jquery-ui/themes/base/dialog.css');
@@ -57,6 +56,7 @@ import {openprojectModule} from './angular-modules';
 import {whenDebugging} from 'core-app/helpers/debug_output';
 import {enableReactiveStatesLogging} from 'reactivestates';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
@@ -110,10 +110,12 @@ openprojectModule
     .run([
       '$rootScope',
       '$window',
+      'externalQueryConfiguration',
       'ExpressionService',
       'KeyboardShortcutService',
       function($rootScope:any,
                $window:ng.IWindowService,
+               externalQueryConfiguration:ExternalQueryConfigurationService,
                ExpressionService:ExpressionService,
                KeyboardShortcutService:any) {
 
@@ -123,7 +125,7 @@ openprojectModule
         $rootScope.DOUBLE_LEFT_CURLY_BRACE = ExpressionService.UNESCAPED_EXPRESSION;
 
         if ($window.innerWidth < 680) {
-          // On mobile sized screens navigation shall allways be callapsed when
+          // On mobile sized screens navigation shall always be collapsed when
           // window loads.
           $rootScope.showNavigation = false;
         } else {
@@ -131,6 +133,9 @@ openprojectModule
               $window.sessionStorage.getItem('openproject:navigation-toggle') !==
               'collapsed';
         }
+
+        // Setup query configuration listener
+        externalQueryConfiguration.setupListener();
 
         KeyboardShortcutService.activate();
 
@@ -145,16 +150,11 @@ openprojectModule
       }
     ]);
 
-require('./helpers');
 require('./layout');
-require('./models');
 require('./services');
 require('./ui_components');
 require('./work_packages');
 
-
-var requireTemplate = require.context('./templates', true, /\.html$/);
-requireTemplate.keys().forEach(requireTemplate);
 
 var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|ts|html)$/);
 requireComponent.keys().forEach(requireComponent);

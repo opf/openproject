@@ -62,7 +62,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% unless form.object.errors[:identifier].blank? %>
-  <script type="text/javascript">
+  <%= nonced_javascript_tag do %>
     jQuery('#advanced-settings > .advanced-settings-inner').show();
-  </script>
+  <% end %>
 <% end %>

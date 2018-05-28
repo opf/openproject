@@ -27,7 +27,7 @@
 #++
 
 shared_examples_for 'GET individual query' do
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:filter) { [] }
   let(:path) do
     if filter.any?

@@ -29,16 +29,16 @@
 require 'spec_helper'
 
 describe AttachmentsController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:project) { FactoryBot.create(:project) }
   let(:role) {
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: [:edit_work_packages,
                                      :view_work_packages,
                                      :delete_wiki_pages_attachments])
   }
   let!(:member) {
-    FactoryGirl.create(:member,
+    FactoryBot.create(:member,
                        project: project,
                        principal: user,
                        roles: [role])
@@ -48,7 +48,7 @@ describe AttachmentsController, type: :controller do
 
   describe '#destroy' do
     let(:attachment) {
-      FactoryGirl.create(:attachment,
+      FactoryBot.create(:attachment,
                          container: container)
     }
 
@@ -68,7 +68,7 @@ describe AttachmentsController, type: :controller do
 
     context 'work_package' do
       let(:container) {
-        FactoryGirl.create(:work_package,
+        FactoryBot.create(:work_package,
                            author: user,
                            project: project)
       }
@@ -85,7 +85,7 @@ describe AttachmentsController, type: :controller do
 
     context 'wiki' do
       let(:container) {
-        FactoryGirl.create(:wiki_page,
+        FactoryBot.create(:wiki_page,
                            wiki: project.wiki)
       }
       let(:redirect_path) { project_wiki_path(project, project.wiki) }
@@ -104,7 +104,7 @@ describe AttachmentsController, type: :controller do
 
   describe '#download' do
     let(:file) { FileHelpers.mock_uploaded_file name: 'foobar.txt' }
-    let(:work_package) { FactoryGirl.create :work_package, project: project }
+    let(:work_package) { FactoryBot.create :work_package, project: project }
     let(:uploader) { nil }
 
     ##

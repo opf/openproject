@@ -127,6 +127,16 @@ export class WorkPackageStatesInitializationService {
     this.authorisationService.initModelAuth('query', query.$links);
   }
 
+  public applyToQuery(query:QueryResource) {
+    this.wpTableFilters.applyToQuery(query);
+    this.wpTableSum.applyToQuery(query);
+    this.wpTableColumns.applyToQuery(query);
+    this.wpTableSortBy.applyToQuery(query);
+    this.wpTableGroupBy.applyToQuery(query);
+    this.wpTableTimeline.applyToQuery(query);
+    this.wpTableHierarchies.applyToQuery(query);
+  }
+
   public clearStates() {
     const reason = 'Clearing states before re-initialization.';
 

@@ -29,15 +29,14 @@
 require 'spec_helper'
 
 describe ::API::V3::Users::UserRepresenter do
-  let(:user) { FactoryGirl.build_stubbed(:user, status: 1) }
-  let(:current_user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user, status: 1) }
+  let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:representer) { described_class.new(user, current_user: current_user) }
 
   context 'generation' do
     subject(:generated) { representer.to_json }
 
     it do is_expected.to include_json('User'.to_json).at_path('_type') end
-
 
     context 'as regular user' do
       it 'hides as much information as possible' do
@@ -70,14 +69,14 @@ describe ::API::V3::Users::UserRepresenter do
     end
 
     context 'as admin' do
-      let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+      let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
       it 'shows everything' do
-       is_expected.to have_json_path('id')
-       is_expected.to have_json_path('login')
-       is_expected.to have_json_path('firstName')
-       is_expected.to have_json_path('lastName')
-       is_expected.to have_json_path('name')
+        is_expected.to have_json_path('id')
+        is_expected.to have_json_path('login')
+        is_expected.to have_json_path('firstName')
+        is_expected.to have_json_path('lastName')
+        is_expected.to have_json_path('name')
       end
 
       it_behaves_like 'has UTC ISO 8601 date and time' do
@@ -92,9 +91,10 @@ describe ::API::V3::Users::UserRepresenter do
     end
 
     describe 'email' do
+      let(:user) { FactoryBot.build_stubbed(:user, status: 1, preference: preference) }
+
       context 'user shows his E-Mail address' do
-        let(:preference) { FactoryGirl.build(:user_preference, hide_mail: false) }
-        let(:user) { FactoryGirl.build_stubbed(:user, status: 1, preference: preference) }
+        let(:preference) { FactoryBot.build(:user_preference, hide_mail: false) }
 
         it 'shows the users E-Mail address' do
           is_expected.to be_json_eql(user.mail.to_json).at_path('email')
@@ -102,8 +102,7 @@ describe ::API::V3::Users::UserRepresenter do
       end
 
       context 'user hides his E-Mail address' do
-        let(:preference) { FactoryGirl.build(:user_preference, hide_mail: true) }
-        let(:user) { FactoryGirl.build_stubbed(:user, status: 1, preference: preference) }
+        let(:preference) { FactoryBot.build(:user_preference, hide_mail: true) }
 
         it 'does not render the users E-Mail address' do
           is_expected.to be_json_eql(nil.to_json).at_path('email')
@@ -136,7 +135,7 @@ describe ::API::V3::Users::UserRepresenter do
       end
 
       context 'when current_user is admin' do
-        let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+        let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
         it 'should link to lock and update' do
           expect(subject).to have_json_path('_links/lock/href')
@@ -172,6 +171,63 @@ describe ::API::V3::Users::UserRepresenter do
 
         it 'should not link to delete' do
           expect(subject).not_to have_json_path('_links/delete/href')
+        end
+      end
+    end
+
+    describe 'caching' do
+      it 'is based on the representer\'s cache_key' do
+        expect(OpenProject::Cache)
+          .to receive(:fetch)
+                .with(representer.json_cache_key)
+                .and_call_original
+
+        representer.to_json
+      end
+
+      describe 'caching' do
+        it 'is based on the representer\'s cache_key' do
+          expect(OpenProject::Cache)
+            .to receive(:fetch)
+            .with(representer.json_cache_key)
+            .and_call_original
+
+          representer.to_json
+        end
+
+        describe '#json_cache_key' do
+          let(:auth_source) { FactoryBot.build_stubbed(:auth_source) }
+
+          before do
+            user.auth_source = auth_source
+          end
+          let!(:former_cache_key) { representer.json_cache_key }
+
+          it 'includes the name of the representer class' do
+            expect(representer.json_cache_key)
+              .to include('API', 'V3', 'Users', 'UserRepresenter')
+          end
+
+          it 'changes when the locale changes' do
+            I18n.with_locale(:fr) do
+              expect(representer.json_cache_key)
+                .not_to eql former_cache_key
+            end
+          end
+
+          it 'changes when the user is updated' do
+            user.updated_on = Time.now + 20.seconds
+
+            expect(representer.json_cache_key)
+              .not_to eql former_cache_key
+          end
+
+          it 'changes when the user\'s auth_source is updated' do
+            user.auth_source.updated_at = Time.now + 20.seconds
+
+            expect(representer.json_cache_key)
+              .not_to eql former_cache_key
+          end
         end
       end
     end

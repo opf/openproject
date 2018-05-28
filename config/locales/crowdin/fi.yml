@@ -169,7 +169,9 @@ fi:
       form_configuration: Lomakkeen muokkaus
       projects: Projektit
       enabled_projects: Enabled projects
-      add_group: Add group
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Reset to defaults
   versions:
     overview:
@@ -369,6 +371,7 @@ fi:
         mail_notification: Sähköposti-ilmoitukset
         new_password: Uusi salasana
         password_confirmation: Vahvistus
+        consented_at: Consented at
       user_preference:
         comments_sorting: Näytä kommentit
         hide_mail: Piiloita sähköpostiosoitteeni
@@ -380,8 +383,6 @@ fi:
       version:
         effective_date: Määräpäivä
         sharing: Jakaminen
-      wiki:
-        start_page: Aloitussivu
       wiki_content:
         text: Teksti
       wiki_page:
@@ -394,6 +395,7 @@ fi:
       work_package:
         begin_insertion: Lisäyksen alku
         begin_deletion: Poistokohdan alku
+        children: Subelements
         done_ratio: Edistyminen (%)
         end_insertion: Lisäyksen loppu
         end_deletion: Poistokohdan loppu
@@ -519,6 +521,8 @@ fi:
             status_id:
               status_transition_invalid: ei kelpaa, koska siirtymää ei ole määritelty
                 vanhan ja uuden tilan välille nykyisen käyttäjän rooleissa.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: täytyy olla aktiivinen.
             category:
@@ -664,11 +668,13 @@ fi:
   button_close: Close
   button_collapse_all: Tiivistä kaikki
   button_configure: Asetukset
+  button_continue: Jatka
   button_copy: Kopioi
   button_copy_and_follow: Kopioi ja seuraa
   button_create: Luo
   button_create_and_continue: Luo ja jatka
   button_delete: Poista
+  button_decline: Decline
   button_delete_watcher: Poista seuraaja %{name}
   button_download: Lataa
   button_duplicate: Kahdenna
@@ -710,6 +716,23 @@ fi:
   button_add_menu_entry: Lisää valikkovaihtoehto
   button_configure_menu_entry: Muokkaa valikkovaihtoehtoa
   button_delete_menu_entry: Poista valikkovaihtoehto
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Projektin "%{source_project_name}" kopiointi uudeksi projektiksi "%{target_project_name}"
       alkoi. Sinulle ilmoitetaan sähköpostitse, kun "%{target_project_name}" on saatavilla.
@@ -935,6 +958,8 @@ fi:
   error_cookie_missing: OpenProject evästeen puuttuu. Varmista, että evästeet ovat
     käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.
   error_custom_option_not_found: Vaihtoehtoa ei ole olemassa.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: Tämän merkinnän poisto ei onnistunut.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1079,6 +1104,7 @@ fi:
   label_all: kaikki
   label_all_time: koko ajalta
   label_all_words: kaikki sanat
+  label_all_open_wps: All open
   label_always_visible: Aina näkyvissä
   label_announcement: Ilmoitus
   label_and_its_subprojects: "%{value} ja aliprojektit"
@@ -1119,6 +1145,7 @@ fi:
   label_calendar: Kalenteri
   label_calendar_show: Näytä kalenteri
   label_category: Kategoria
+  label_consent_settings: User Consent
   label_wiki_menu_item: Wiki-valikkovaihtoehto
   label_select_main_menu_item: Valitse uusi valikkovaihtoehto päävalikkoon
   label_select_project: Valitse projekti
@@ -1141,6 +1168,7 @@ fi:
   label_close_versions: Sulje valmiit versiot
   label_closed_work_packages: suljettu
   label_collapse: Pienennä
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: asetukset
   label_comment_add: Lisää kommentti
   label_comment_added: Kommentti lisätty
@@ -1207,11 +1235,13 @@ fi:
   label_enumerations: Lista
   label_enterprise: Yritys
   label_enterprise_edition: Yritysversio
+  label_entry_page: Entry page
   label_environment: Ympäristö
   label_estimates_and_time: Estimates and time
   label_equals: sama kuin
   label_example: Esimerkki
   label_export_to: Vie
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} tunti"
   label_f_hour_plural: "%{value} tuntia"
   label_feed_plural: Syötteet
@@ -1241,6 +1271,7 @@ fi:
   label_here: tässä
   label_hide: Piilota
   label_history: Historia
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Koti
   label_in: tässä
   label_in_less_than: pienempi kuin
@@ -1254,6 +1285,7 @@ fi:
   label_information_plural: Tieto
   label_integer: Kokonaisluku
   label_internal: Sisäinen
+  label_introduction_video: Introduction video
   label_invite_user: Kutsu käyttäjä
   label_show_hide: Näytä/piilota
   label_show_all_registered_users: Show all registered users
@@ -1316,6 +1348,7 @@ fi:
   label_my_page_block: Minun sivu
   label_my_projects: Omat projektit
   label_my_queries: Omat hakuni
+  label_never: Never
   label_new: Uusi
   label_new_statuses_allowed: Uudet tilat sallittu
   label_news_added: Uutinen lisätty
@@ -1340,6 +1373,7 @@ fi:
   label_open_menu: Avaa valikko
   label_open_work_packages: avoinna
   label_open_work_packages_plural: avoinna
+  label_openproject_website: OpenProject website
   label_optional_description: Kuvaus
   label_options: Valinnat
   label_other: Muut
@@ -1510,7 +1544,7 @@ fi:
   label_version_sharing_none: Ei ole jaettu
   label_version_sharing_system: Kaikille projekteille
   label_version_sharing_tree: Projektin rakenteen kanssa
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Katso kaikki versiot
   label_view_diff: Näytä erot
   label_view_revisions: Näytä versiot
@@ -1531,6 +1565,7 @@ fi:
   label_wiki_show_menu_item: Näytä valikon kohta projekti navigaatio
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
   label_wiki_show_submenu_item: 'Show as submenu item of '
+  label_wiki_start: Aloitussivu
   label_work_package: Työpaketti
   label_work_package_added: Työpaketti lisätty
   label_work_package_attachments: Work package attachments
@@ -2015,12 +2050,19 @@ fi:
     kirjautumisyrityksiä on tätä arvoa enemmän
   setting_brute_force_block_minutes: Aika jonka käyttäjä on estettynä
   setting_cache_formatted_text: Käytä välimuistia muotoillulle tekstille
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Mukauta työpakettilistan ulkoasua
   setting_commit_fix_keywords: Korjaavat hakusanat
   setting_commit_logs_encoding: Commit messages encoding
   setting_commit_logtime_activity_id: Aktiviteetti kirjatulle ajalle
   setting_commit_logtime_enabled: Mahdollista ajan kirjaaminen
   setting_commit_ref_keywords: Viittaavat hakusanat
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Salli projektien väliset työpakettien
     suhteet
   setting_date_format: Päivän muoto
@@ -2114,7 +2156,10 @@ fi:
     passwords: Passwords
     session: Session
     brute_force_prevention: Automated user blocking
-  show_hide_project_menu: Laajenna tai tiivistä projektivalikko
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: aktiivinen
   status_archived: archived
   status_invited: kutsuttu

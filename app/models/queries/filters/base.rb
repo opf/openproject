@@ -98,6 +98,13 @@ class Queries::Filters::Base
     true
   end
 
+  ##
+  # Return whether this filter is templated
+  # and must be substituted by the frontend.
+  def templated?
+    values == %w[templated]
+  end
+
   def available_operators
     type_strategy.supported_operator_classes
   end

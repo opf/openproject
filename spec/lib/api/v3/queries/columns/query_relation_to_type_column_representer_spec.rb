@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
-  let(:type) { FactoryGirl.build_stubbed(:type) }
+  let(:type) { FactoryBot.build_stubbed(:type) }
   let(:column) { Queries::WorkPackages::Columns::RelationToTypeColumn.new(type) }
   let(:representer) { described_class.new(column) }
 

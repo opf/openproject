@@ -34,34 +34,34 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  let(:closed_status) { FactoryGirl.create(:closed_status) }
+  let(:closed_status) { FactoryBot.create(:closed_status) }
 
   let(:work_package) {
-    FactoryGirl.create(:work_package, project_id: project.id,
+    FactoryBot.create(:work_package, project_id: project.id,
                                       description: 'lorem ipsum'
                       )
   }
   let(:project) do
-    FactoryGirl.create(:project, identifier: 'test_project', is_public: false)
+    FactoryBot.create(:project, identifier: 'test_project', is_public: false)
   end
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages, :edit_work_packages] }
   let(:current_user) do
-    user = FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
 
-    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
 
     user
   end
   let(:watcher) do
-    FactoryGirl
+    FactoryBot
       .create(:user, member_in_project: project, member_through_role: role)
       .tap do |user|
         work_package.add_watcher(user)
       end
   end
-  let(:unauthorize_user) { FactoryGirl.create(:user) }
-  let(:type) { FactoryGirl.create(:type) }
+  let(:unauthorize_user) { FactoryBot.create(:user) }
+  let(:type) { FactoryBot.create(:type) }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -84,12 +84,12 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
     end
 
     it 'returns visible work packages' do
-      FactoryGirl.create(:work_package, project: project)
+      FactoryBot.create(:work_package, project: project)
       expect(subject.body).to be_json_eql(1.to_json).at_path('total')
     end
 
     it 'embedds the work package schemas' do
-      FactoryGirl.create(:work_package, project: project)
+      FactoryBot.create(:work_package, project: project)
 
       expect(subject.body)
         .to be_json_eql(api_v3_paths.work_package_schema(project.id, work_package.type.id).to_json)
@@ -98,7 +98,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
     context 'user not seeing any work packages' do
       include_context 'with non-member permissions from non_member_permissions'
-      let(:current_user) { FactoryGirl.create(:user) }
+      let(:current_user) { FactoryBot.create(:user) }
       let(:non_member_permissions) { [:view_work_packages] }
 
       it 'succeeds' do
@@ -106,7 +106,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       it 'returns no work packages' do
-        FactoryGirl.create(:work_package, project: project)
+        FactoryBot.create(:work_package, project: project)
         expect(subject.body).to be_json_eql(0.to_json).at_path('total')
       end
 
@@ -134,11 +134,11 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       describe 'response body' do
         subject(:parsed_response) { JSON.parse(last_response.body) }
         let!(:other_wp)    {
-          FactoryGirl.create(:work_package, project_id: project.id,
+          FactoryBot.create(:work_package, project_id: project.id,
                                             status: closed_status)
         }
         let(:work_package) {
-          FactoryGirl.create(:work_package, project_id: project.id,
+          FactoryBot.create(:work_package, project_id: project.id,
                                             description: description
                             )
         }
@@ -234,8 +234,8 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
     context 'user without needed permissions' do
       context 'no permission to see the work package' do
-        let(:work_package) { FactoryGirl.create(:work_package) }
-        let(:current_user) { FactoryGirl.create :user }
+        let(:work_package) { FactoryBot.create(:work_package) }
+        let(:current_user) { FactoryBot.create :user }
         let(:params) { valid_params }
 
         include_context 'patch request'
@@ -244,9 +244,9 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       context 'no permission to edit the work package' do
-        let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+        let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
         let(:current_user) {
-          FactoryGirl.create(:user,
+          FactoryBot.create(:user,
                              member_in_project: work_package.project,
                              member_through_role: role)
         }
@@ -383,7 +383,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       context 'status' do
-        let(:target_status) { FactoryGirl.create(:status) }
+        let(:target_status) { FactoryBot.create(:status) }
         let(:status_link) { api_v3_paths.status target_status.id }
         let(:status_parameter) { { _links: { status: { href: status_link } } } }
         let(:params) { valid_params.merge(status_parameter) }
@@ -392,7 +392,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
         context 'valid status' do
           let!(:workflow) {
-            FactoryGirl.create(:workflow,
+            FactoryBot.create(:workflow,
                                type_id: work_package.type.id,
                                old_status: work_package.status,
                                new_status: target_status,
@@ -439,7 +439,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       context 'type' do
-        let(:target_type) { FactoryGirl.create(:type) }
+        let(:target_type) { FactoryBot.create(:type) }
         let(:type_link) { api_v3_paths.type target_type.id }
         let(:type_parameter) { { _links: { type: { href: type_link } } } }
         let(:params) { valid_params.merge(type_parameter) }
@@ -464,7 +464,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
         end
 
         context 'valid type changing custom fields' do
-          let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
+          let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
           let(:custom_field_parameter) { { :"customField#{custom_field.id}" => true } }
           let(:params) { valid_params.merge(type_parameter).merge(custom_field_parameter) }
 
@@ -509,17 +509,17 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
       context 'project' do
         let(:target_project) do
-          FactoryGirl.create(:project, is_public: false)
+          FactoryBot.create(:project, is_public: false)
         end
         let(:project_link) { api_v3_paths.project target_project.id }
         let(:project_parameter) { { _links: { project: { href: project_link } } } }
         let(:params) { valid_params.merge(project_parameter) }
 
         before do
-          FactoryGirl.create :member,
+          FactoryBot.create :member,
                              user: current_user,
                              project: target_project,
-                             roles: [FactoryGirl.create(:role, permissions: [:move_work_packages])]
+                             roles: [FactoryBot.create(:role, permissions: [:move_work_packages])]
 
           allow(User).to receive(:current).and_return current_user
         end
@@ -543,7 +543,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
         end
 
         context 'with a custom field defined on the target project' do
-          let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
+          let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
           let(:custom_field_parameter) { { :"customField#{custom_field.id}" => true } }
           let(:params) { valid_params.merge(project_parameter).merge(custom_field_parameter) }
 
@@ -563,10 +563,10 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       context 'assignee and responsible' do
-        let(:user) { FactoryGirl.create(:user, member_in_project: project) }
+        let(:user) { FactoryBot.create(:user, member_in_project: project) }
         let(:params) { valid_params.merge(user_parameter) }
         let(:work_package) {
-          FactoryGirl.create(:work_package,
+          FactoryBot.create(:work_package,
                              project: project,
                              assigned_to: current_user,
                              responsible: current_user)
@@ -575,10 +575,10 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
         before do allow(User).to receive(:current).and_return current_user end
 
         shared_context 'setup group membership' do |group_assignment|
-          let(:group) { FactoryGirl.create(:group) }
-          let(:group_role) { FactoryGirl.create(:role) }
+          let(:group) { FactoryBot.create(:group) }
+          let(:group_role) { FactoryBot.create(:role) }
           let(:group_member) {
-            FactoryGirl.create(:member,
+            FactoryBot.create(:member,
                                principal: group,
                                project: project,
                                roles: [group_role])
@@ -659,7 +659,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
             end
 
             context 'user is not visible' do
-              let(:invalid_user) { FactoryGirl.create(:user) }
+              let(:invalid_user) { FactoryBot.create(:user) }
               let(:user_href) { api_v3_paths.user invalid_user.id }
 
               it_behaves_like 'constraint violation' do
@@ -711,7 +711,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       context 'version' do
-        let(:target_version) { FactoryGirl.create(:version, project: project) }
+        let(:target_version) { FactoryBot.create(:version, project: project) }
         let(:version_link) { api_v3_paths.version target_version.id }
         let(:version_parameter) { { _links: { version: { href: version_link } } } }
         let(:params) { valid_params.merge(version_parameter) }
@@ -733,7 +733,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       context 'category' do
-        let(:target_category) { FactoryGirl.create(:category, project: project) }
+        let(:target_category) { FactoryBot.create(:category, project: project) }
         let(:category_link) { api_v3_paths.category target_category.id }
         let(:category_parameter) { { _links: { category: { href: category_link } } } }
         let(:params) { valid_params.merge(category_parameter) }
@@ -755,7 +755,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       end
 
       context 'priority' do
-        let(:target_priority) { FactoryGirl.create(:priority) }
+        let(:target_priority) { FactoryBot.create(:priority) }
         let(:priority_link) { api_v3_paths.priority target_priority.id }
         let(:priority_parameter) { { _links: { priority: { href: priority_link } } } }
         let(:params) { valid_params.merge(priority_parameter) }
@@ -778,7 +778,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
       context 'list custom field' do
         let(:custom_field) do
-          FactoryGirl.create(:list_wp_custom_field)
+          FactoryBot.create(:list_wp_custom_field)
         end
 
         let(:target_value) { custom_field.possible_values.last }
@@ -966,8 +966,8 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   describe '#post' do
     let(:path) { api_v3_paths.work_packages }
     let(:permissions) { [:add_work_packages, :view_project] }
-    let(:status) { FactoryGirl.build(:status, is_default: true) }
-    let(:priority) { FactoryGirl.build(:priority, is_default: true) }
+    let(:status) { FactoryBot.build(:status, is_default: true) }
+    let(:priority) { FactoryBot.build(:priority, is_default: true) }
     let(:type) { project.types.first }
     let(:parameters) do
       {
@@ -987,7 +987,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       status.save!
       priority.save!
 
-      FactoryGirl.create(:user_preference, user: current_user, others: { no_self_notified: false })
+      FactoryBot.create(:user_preference, user: current_user, others: { no_self_notified: false })
       post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
     end
 
@@ -1036,7 +1036,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
     end
 
     context 'no permissions' do
-      let(:current_user) { FactoryGirl.create(:user) }
+      let(:current_user) { FactoryBot.create(:user) }
 
       it 'should hide the endpoint' do
         expect(last_response.status).to eq(403)

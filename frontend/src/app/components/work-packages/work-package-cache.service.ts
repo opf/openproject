@@ -81,7 +81,7 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     }
   }
 
-  async saveWorkPackage(workPackage:WorkPackageResource):Promise<WorkPackageResource | null> {
+  saveWorkPackage(workPackage:WorkPackageResource):Promise<WorkPackageResource | null> {
     if (!(workPackage.dirty || workPackage.isNew)) {
       return Promise.reject<any>(null);
     }
@@ -118,7 +118,7 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     return state;
   }
 
-  protected async loadAll(ids:string[]) {
+  protected loadAll(ids:string[]) {
     return new Promise<undefined>((resolve, reject) => {
       this.apiWorkPackages
         .loadWorkPackagesCollectionsFor(_.uniq(ids))
@@ -140,7 +140,7 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     });
   }
 
-  protected async load(id:string) {
+  protected load(id:string) {
     return new Promise<WorkPackageResource>((resolve, reject) => {
       this.apiWorkPackages.loadWorkPackageById(id, true)
         .then((workPackage:WorkPackageResource) => {

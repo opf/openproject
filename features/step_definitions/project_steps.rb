@@ -35,5 +35,5 @@ Given /^there is a project named "([^"]*)"(?: of type "([^"]*)")?$/ do |name, pr
     attributes.merge!(project_type: ProjectType.find_by!(name: project_type_name))
   end
 
-  FactoryGirl.create(:project, attributes)
+  FactoryBot.create(:project, attributes)
 end

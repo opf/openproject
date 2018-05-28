@@ -30,41 +30,41 @@ require 'spec_helper'
 
 describe 'Going back and forth through the browser history', type: :feature, js: true do
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   end
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryBot.create(:project) }
   let(:type) { project.types.first }
   let(:role) do
-    FactoryGirl.create(:role,
+    FactoryBot.create(:role,
                        permissions: [:view_work_packages,
                                      :save_queries])
   end
 
   let(:work_package_1) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        type: type)
   end
   let(:work_package_2) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        type: type,
                        assigned_to: user)
   end
   let(:version) do
-    FactoryGirl.create(:version,
+    FactoryBot.create(:version,
                        project: project)
   end
   let(:work_package_3) do
-    FactoryGirl.create(:work_package,
+    FactoryBot.create(:work_package,
                        project: project,
                        type: type,
                        fixed_version: version)
   end
   let(:assignee_query) do
-    query = FactoryGirl.create(:query,
+    query = FactoryBot.create(:query,
                                name: 'Assignee Query',
                                project: project,
                                user: user)
@@ -75,7 +75,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     query
   end
   let(:version_query) do
-    query = FactoryGirl.create(:query,
+    query = FactoryBot.create(:query,
                                name: 'Version Query',
                                project: project,
                                user: user)

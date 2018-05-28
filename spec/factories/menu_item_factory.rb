@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :menu_item do
     sequence(:name) do |n| "Item No. #{n}" end
     sequence(:title) do |n| "Menu item Title #{n}" end
@@ -43,7 +43,7 @@ FactoryGirl.define do
 
       factory :wiki_menu_item_with_parent do
         callback(:after_build) do |wiki_menu_item|
-          parent = FactoryGirl.build(:wiki_menu_item, wiki: wiki_menu_item.wiki)
+          parent = FactoryBot.build(:wiki_menu_item, wiki: wiki_menu_item.wiki)
           wiki_menu_item.wiki.wiki_menu_items << parent
           wiki_menu_item.parent = parent
         end

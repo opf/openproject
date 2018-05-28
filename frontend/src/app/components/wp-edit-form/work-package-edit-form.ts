@@ -114,7 +114,7 @@ export class WorkPackageEditForm {
    * @param fieldName
    * @param noWarnings Ignore warnings if the field cannot be opened
    */
-  public async activate(fieldName:string, noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
+  public activate(fieldName:string, noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
     return new Promise<WorkPackageEditFieldHandler>((resolve, reject) => {
       this.buildField(fieldName)
         .then((field:EditField) => {
@@ -178,7 +178,7 @@ export class WorkPackageEditForm {
    * Save the active changeset.
    * @return {any}
    */
-  public async submit():Promise<WorkPackageResource> {
+  public submit():Promise<WorkPackageResource> {
     if (this.changeset.empty && !this.workPackage.isNew) {
       this.closeEditFields();
       return Promise.resolve(this.workPackage);
@@ -206,7 +206,7 @@ export class WorkPackageEditForm {
           this.editContext.onSaved(isInitial, savedWorkPackage);
           this.wpTableRefresh.request(`Saved work package ${savedWorkPackage.id}`);
         })
-        .catch((error:ErrorResource | Object) => {
+        .catch((error:ErrorResource|Object) => {
           this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
 
           if (error instanceof ErrorResource) {
@@ -269,7 +269,7 @@ export class WorkPackageEditForm {
 
   private setErrorsForFields(erroneousFields:string[]) {
     // Accumulate errors for the given response
-    let promises:Promise<any>[] = erroneousFields.map(async (fieldName:string) => {
+    let promises:Promise<any>[] = erroneousFields.map((fieldName:string) => {
       return this.editContext.requireVisible(fieldName).then(() => {
         if (this.activeFields[fieldName]) {
           this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
@@ -293,7 +293,7 @@ export class WorkPackageEditForm {
       });
   }
 
-  private async buildField(fieldName:string):Promise<EditField> {
+  private buildField(fieldName:string):Promise<EditField> {
     return new Promise<EditField>((resolve, reject) => {
       this.changeset.getForm()
         .then((form:FormResource) => {

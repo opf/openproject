@@ -26,7 +26,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :principal do
+    transient do
+      member_in_project nil
+      member_in_projects nil
+      member_through_role nil
+    end
+
+    # necessary as we have created_on instead of created_at for which factory girl would
+    # provide values automatically
+    created_on { Time.now }
+    updated_on { Time.now }
+
+    callback(:after_build) do |user, evaluator| # this is also done after :create
+      (projects = evaluator.member_in_projects || [])
+      projects << evaluator.member_in_project if evaluator.member_in_project
+      if !projects.empty?
+        role = evaluator.member_through_role || FactoryBot.build(:role, permissions: [:view_work_packages, :edit_work_packages])
+        projects.each do |project|
+          project.add_member! user, role if project
+        end
+      end
+    end
   end
 end

@@ -36,10 +36,10 @@ shared_examples 'an auth aware field' do
 
   context 'when user is not authorized' do
     let(:user) {
-      FactoryGirl.create(
+      FactoryBot.create(
         :user,
         member_in_project: project,
-        member_through_role: FactoryGirl.build(
+        member_through_role: FactoryBot.build(
           :role,
           permissions: [:view_work_packages]
         )
@@ -123,7 +123,7 @@ shared_examples 'a previewable field' do
 end
 
 shared_examples 'a workpackage autocomplete field' do
-  let!(:wp2) { FactoryGirl.create(:work_package, project: project, subject: 'AutoFoo') }
+  let!(:wp2) { FactoryBot.create(:work_package, project: project, subject: 'AutoFoo') }
 
   before do
     skip('Markdown mode does not provide autocompleting') if Setting.text_formatting == 'markdown'
@@ -137,23 +137,23 @@ shared_examples 'a workpackage autocomplete field' do
 end
 
 shared_examples 'a principal autocomplete field' do
-  let(:role) { FactoryGirl.create(:role, permissions: %i[view_work_packages edit_work_packages]) }
+  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages edit_work_packages]) }
   let!(:user) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        member_in_project: project,
                        member_through_role: role,
                        firstname: 'John'
   end
   let!(:mentioned_user) do
-    FactoryGirl.create :user,
+    FactoryBot.create :user,
                        member_in_project: project,
                        member_through_role: role,
                        firstname: 'Laura',
                        lastname: 'Foobar'
   end
   let!(:mentioned_group) do
-    FactoryGirl.create(:group, lastname: 'Laudators').tap do |group|
-      FactoryGirl.create :member,
+    FactoryBot.create(:group, lastname: 'Laudators').tap do |group|
+      FactoryBot.create :member,
                          principal: group,
                          project: project,
                          roles: [role]

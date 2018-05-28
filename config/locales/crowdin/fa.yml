@@ -170,7 +170,9 @@ fa:
       form_configuration: Form configuration
       projects: Projects
       enabled_projects: Enabled projects
-      add_group: Add group
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Reset to defaults
   versions:
     overview:
@@ -367,6 +369,7 @@ fa:
         mail_notification: اعلان های ایمیل
         new_password: رمز عبور جديد
         password_confirmation: تاییدیه
+        consented_at: Consented at
       user_preference:
         comments_sorting: نمایش نظرات
         hide_mail: مخفی کردن آدرس ایمیل من
@@ -378,8 +381,6 @@ fa:
       version:
         effective_date: موعد مقرر
         sharing: اشتراک گذاری
-      wiki:
-        start_page: صفحه‌ی شروع
       wiki_content:
         text: متن
       wiki_page:
@@ -392,6 +393,7 @@ fa:
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
+        children: Subelements
         done_ratio: Progress (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
@@ -517,6 +519,8 @@ fa:
             status_id:
               status_transition_invalid: is invalid because no valid transition exists
                 from old to new status for the current user's roles.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: needs to be active.
             category:
@@ -664,11 +668,13 @@ fa:
   button_close: Close
   button_collapse_all: Collapse all
   button_configure: Configure
+  button_continue: Continue
   button_copy: کپی
   button_copy_and_follow: Copy and follow
   button_create: Create
   button_create_and_continue: Create and continue
   button_delete: Delete
+  button_decline: Decline
   button_delete_watcher: Delete watcher %{name}
   button_download: Download
   button_duplicate: Duplicate
@@ -710,6 +716,23 @@ fa:
   button_add_menu_entry: Add menu item
   button_configure_menu_entry: Configure menu item
   button_delete_menu_entry: Delete menu item
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
       You will be informed by mail as soon as "%{target_project_name}" is available.
@@ -936,6 +959,8 @@ fa:
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
   error_custom_option_not_found: Option does not exist.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1080,6 +1105,7 @@ fa:
   label_all: all
   label_all_time: all time
   label_all_words: All words
+  label_all_open_wps: All open
   label_always_visible: Always displayed
   label_announcement: Announcement
   label_and_its_subprojects: "%{value} and its subprojects"
@@ -1120,6 +1146,7 @@ fa:
   label_calendar: Calendar
   label_calendar_show: Show Calendar
   label_category: Category
+  label_consent_settings: User Consent
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Select new main menu item
   label_select_project: Select a project
@@ -1142,6 +1169,7 @@ fa:
   label_close_versions: Close completed versions
   label_closed_work_packages: closed
   label_collapse: Collapse
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: configuration
   label_comment_add: Add a comment
   label_comment_added: Comment added
@@ -1208,11 +1236,13 @@ fa:
   label_enumerations: Enumerations
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Environment
   label_estimates_and_time: Estimates and time
   label_equals: is
   label_example: Example
   label_export_to: 'Also available in:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
   label_feed_plural: Feeds
@@ -1242,6 +1272,7 @@ fa:
   label_here: here
   label_hide: Hide
   label_history: History
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Home
   label_in: in
   label_in_less_than: in less than
@@ -1255,6 +1286,7 @@ fa:
   label_information_plural: Information
   label_integer: Integer
   label_internal: Internal
+  label_introduction_video: Introduction video
   label_invite_user: Invite user
   label_show_hide: Show/hide
   label_show_all_registered_users: نمایش تمام کاربران ثبت نام شده
@@ -1317,6 +1349,7 @@ fa:
   label_my_page_block: My page block
   label_my_projects: My projects
   label_my_queries: My custom queries
+  label_never: Never
   label_new: New
   label_new_statuses_allowed: New statuses allowed
   label_news_added: News added
@@ -1341,6 +1374,7 @@ fa:
   label_open_menu: Open menu
   label_open_work_packages: open
   label_open_work_packages_plural: open
+  label_openproject_website: OpenProject website
   label_optional_description: توضیحات
   label_options: Options
   label_other: Other
@@ -1509,7 +1543,7 @@ fa:
   label_version_sharing_none: Not shared
   label_version_sharing_system: With all projects
   label_version_sharing_tree: With project tree
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: View all revisions
   label_view_diff: View differences
   label_view_revisions: View revisions
@@ -1530,6 +1564,7 @@ fa:
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
   label_wiki_show_submenu_item: 'Show as submenu item of '
+  label_wiki_start: صفحه‌ی شروع
   label_work_package: Work package
   label_work_package_added: Work package added
   label_work_package_attachments: پیوست بسته کاری
@@ -2019,12 +2054,19 @@ fa:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Cache formatted text
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Customize the appearance of the work package lists
   setting_commit_fix_keywords: Fixing keywords
   setting_commit_logs_encoding: Commit messages encoding
   setting_commit_logtime_activity_id: Activity for logged time
   setting_commit_logtime_enabled: Enable time logging
   setting_commit_ref_keywords: Referencing keywords
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Allow cross-project work package relations
   setting_date_format: Date format
   setting_default_language: Default language
@@ -2117,7 +2159,10 @@ fa:
     passwords: Passwords
     session: Session
     brute_force_prevention: Automated user blocking
-  show_hide_project_menu: Expand/Collapse project menu
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: active
   status_archived: بایگانی
   status_invited: invited

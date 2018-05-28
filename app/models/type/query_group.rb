@@ -45,6 +45,13 @@ class Type::QueryGroup < Type::FormGroup
     :"query_#{query.id}"
   end
 
+  def ==(other)
+    other.is_a?(self.class) &&
+      key == other.key &&
+      type == other.type &&
+      query.to_json == other.attributes.to_json
+  end
+
   alias :query :attributes
 
   def members

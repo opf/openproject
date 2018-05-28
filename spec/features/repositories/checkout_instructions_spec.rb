@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'Create repository', type: :feature, js: true do
-  let(:current_user) { FactoryGirl.create (:admin) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:current_user) { FactoryBot.create (:admin) }
+  let(:project) { FactoryBot.create(:project) }
   let(:enabled_scms) { %w[git] }
 
   before do
@@ -54,7 +54,7 @@ describe 'Create repository', type: :feature, js: true do
     }
 
     let!(:repository) {
-      repo = FactoryGirl.build(:repository_git, scm_type: :managed)
+      repo = FactoryBot.build(:repository_git, scm_type: :managed)
       repo.project = project
       repo.configure(:managed, nil)
       repo.save!

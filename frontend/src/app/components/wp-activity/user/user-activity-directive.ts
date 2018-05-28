@@ -172,7 +172,7 @@ export class UserActivityController {
         this.wpLinkedActivities.require(this.workPackage, true);
         this.wpCacheService.updateWorkPackage(this.workPackage);
         this.inEdit = false;
-    });
+      });
     this.focusEditIcon();
   }
 
@@ -208,7 +208,7 @@ angular
   .directive('userActivity', function() {
     return {
       restrict: 'E',
-      template: require('../../../templates/work_packages/activities/_user.html'),
+      template: require('!!raw-loader!./user-activity.directive.html'),
       scope: {
         workPackage: '=',
         activity: '=',
@@ -221,5 +221,4 @@ angular
       controllerAs: 'vm'
     };
   });
-
 

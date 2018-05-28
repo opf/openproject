@@ -141,7 +141,7 @@ class MailHandler < ActionMailer::Base
     # TODO: send a email to the user
     logger.error e.message if logger
     false
-  rescue MissingInformation
+  rescue MissingInformation => e
     log "missing information from #{user}: #{e.message}", :error
     false
   rescue UnauthorizedAction

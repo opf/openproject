@@ -37,7 +37,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
   end
 
   describe '.used_attributes' do
-    let!(:instance) { FactoryGirl.create :work_package_help_text }
+    let!(:instance) { FactoryBot.create :work_package_help_text }
     subject { described_class.used_attributes instance.type }
 
     it 'returns used attributes' do
@@ -46,21 +46,21 @@ describe AttributeHelpText::WorkPackage, type: :model do
   end
 
   describe '.visible' do
-    let(:project) { FactoryGirl.create(:project) }
-    let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+    let(:project) { FactoryBot.create(:project) }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
     let(:user) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          member_in_project: project,
                          member_through_role: role)
     end
     let(:permission) { [] }
-    let(:static_instance) { FactoryGirl.create :work_package_help_text, attribute_name: 'project' }
+    let(:static_instance) { FactoryBot.create :work_package_help_text, attribute_name: 'project' }
     let(:cf_instance) do
-      custom_field = FactoryGirl.create :text_wp_custom_field
-      FactoryGirl.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+      custom_field = FactoryBot.create :text_wp_custom_field
+      FactoryBot.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
     end
 
-    subject { FactoryGirl.build :work_package_help_text }
+    subject { FactoryBot.build :work_package_help_text }
 
     before do
       # need to clear the cache to free the memoized
@@ -75,7 +75,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
 
     context 'user having no permission' do
       let(:user) do
-        FactoryGirl.create(:user)
+        FactoryBot.create(:user)
       end
 
       it 'returns the help text for the static attribute but not the one for the custom field' do
@@ -96,33 +96,33 @@ describe AttributeHelpText::WorkPackage, type: :model do
     context 'user being member in a project with activated custom fields' do
       let(:permissions) { [] }
       let(:type) do
-        type = FactoryGirl.create(:type)
+        type = FactoryBot.create(:type)
         project.types << type
 
         type
       end
       let(:cf_instance_active) do
-        custom_field = FactoryGirl.create(:text_wp_custom_field)
+        custom_field = FactoryBot.create(:text_wp_custom_field)
         project.work_package_custom_fields << custom_field
         type.custom_fields << custom_field
-        FactoryGirl.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+        FactoryBot.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
       end
       let(:cf_instance_inactive) do
         cf_instance
       end
       let(:cf_instance_inactive_no_type) do
-        custom_field = FactoryGirl.create(:text_wp_custom_field)
+        custom_field = FactoryBot.create(:text_wp_custom_field)
         project.work_package_custom_fields << custom_field
-        FactoryGirl.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+        FactoryBot.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
       end
       let(:cf_instance_inactive_not_in_project) do
-        custom_field = FactoryGirl.create(:text_wp_custom_field)
+        custom_field = FactoryBot.create(:text_wp_custom_field)
         type.custom_fields << custom_field
-        FactoryGirl.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+        FactoryBot.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
       end
       let(:cf_instance_for_all) do
-        custom_field = FactoryGirl.create(:text_wp_custom_field, is_for_all: true)
-        FactoryGirl.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+        custom_field = FactoryBot.create(:text_wp_custom_field, is_for_all: true)
+        FactoryBot.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
       end
 
       before do
@@ -185,7 +185,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
   end
 
   describe 'instance' do
-    subject { FactoryGirl.build :work_package_help_text }
+    subject { FactoryBot.build :work_package_help_text }
 
     it 'provides a caption of its type' do
       expect(subject.attribute_scope).to eq 'WorkPackage'

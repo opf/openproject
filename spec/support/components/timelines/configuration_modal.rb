@@ -57,7 +57,7 @@ module Components
         get_select(:right).find('option', text: right).select_option
         get_select(:farRight).find('option', text: farRight).select_option
 
-        page.within '.ng-modal-window' do
+        page.within '.op-modal--portal' do
           click_on 'Apply'
         end
       end

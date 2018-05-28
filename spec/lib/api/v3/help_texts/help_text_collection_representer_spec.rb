@@ -31,12 +31,12 @@ require 'spec_helper'
 describe ::API::V3::HelpTexts::HelpTextCollectionRepresenter do
   let!(:help_texts) do
     [
-      FactoryGirl.build_stubbed(:work_package_help_text, attribute_name: 'id'),
-      FactoryGirl.build_stubbed(:work_package_help_text, attribute_name: 'status')
+      FactoryBot.build_stubbed(:work_package_help_text, attribute_name: 'id'),
+      FactoryBot.build_stubbed(:work_package_help_text, attribute_name: 'status')
     ]
   end
 
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   def self_link
     'a link that is provided'

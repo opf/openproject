@@ -29,17 +29,17 @@
 require 'spec_helper'
 
 describe User, type: :model do
-  let(:user) { FactoryGirl.build(:user) }
-  let(:project) { FactoryGirl.create(:project_with_types) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:project) { FactoryBot.create(:project_with_types) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:member) {
-    FactoryGirl.build(:member, project: project,
+    FactoryBot.build(:member, project: project,
                                roles: [role],
                                principal: user)
   }
-  let(:status) { FactoryGirl.create(:status) }
+  let(:status) { FactoryBot.create(:status) }
   let(:issue) {
-    FactoryGirl.build(:work_package, type: project.types.first,
+    FactoryBot.build(:work_package, type: project.types.first,
                                      author: user,
                                      project: project,
                                      status: status)
@@ -208,7 +208,7 @@ describe User, type: :model do
 
   describe '#blocked' do
     let!(:blocked_user) do
-      FactoryGirl.create(:user,
+      FactoryBot.create(:user,
                          failed_login_count: 3,
                          last_failed_login_on: Time.now)
     end
@@ -226,7 +226,7 @@ describe User, type: :model do
   end
 
   describe '#change_password_allowed?' do
-    let(:user) { FactoryGirl.build(:user) }
+    let(:user) { FactoryBot.build(:user) }
 
     context 'for user without auth source' do
       before do
@@ -239,7 +239,7 @@ describe User, type: :model do
     end
 
     context 'for user with an auth source' do
-      let(:allowed_auth_source) { FactoryGirl.create :auth_source }
+      let(:allowed_auth_source) { FactoryBot.create :auth_source }
 
       context 'that allows password changes' do
         before do
@@ -253,7 +253,7 @@ describe User, type: :model do
       end
 
       context 'that does not allow password changes' do
-        let(:denied_auth_source) { FactoryGirl.create :auth_source }
+        let(:denied_auth_source) { FactoryBot.create :auth_source }
 
         before do
           def denied_auth_source.allow_password_changes?; false; end
@@ -310,7 +310,7 @@ describe User, type: :model do
 
   describe '#uses_external_authentication?' do
     context 'with identity_url' do
-      let(:user) { FactoryGirl.build(:user, identity_url: 'test_provider:veryuniqueid') }
+      let(:user) { FactoryBot.build(:user, identity_url: 'test_provider:veryuniqueid') }
 
       it 'should return true' do
         expect(user.uses_external_authentication?).to be_truthy
@@ -318,7 +318,7 @@ describe User, type: :model do
     end
 
     context 'without identity_url' do
-      let(:user) { FactoryGirl.build(:user, identity_url: nil) }
+      let(:user) { FactoryBot.build(:user, identity_url: nil) }
 
       it 'should return false' do
         expect(user.uses_external_authentication?).to be_falsey
@@ -382,9 +382,9 @@ describe User, type: :model do
     end
 
     context 'with an external auth source' do
-      let(:auth_source) { FactoryGirl.build(:auth_source) }
+      let(:auth_source) { FactoryBot.build(:auth_source) }
       let(:user_with_external_auth_source) do
-        user = FactoryGirl.build(:user, login: 'user')
+        user = FactoryBot.build(:user, login: 'user')
         allow(user).to receive(:auth_source).and_return(auth_source)
         user
       end
@@ -444,7 +444,7 @@ describe User, type: :model do
   end
 
   describe '.default_admin_account_deleted_or_changed?' do
-    let(:default_admin) { FactoryGirl.build(:user, login: 'admin', password: 'admin', password_confirmation: 'admin', admin: true) }
+    let(:default_admin) { FactoryBot.build(:user, login: 'admin', password: 'admin', password_confirmation: 'admin', admin: true) }
 
     before do
       Setting.password_min_length = 5
@@ -509,8 +509,8 @@ describe User, type: :model do
   end
 
   describe '#impaired?' do
-    let(:anonymous) { FactoryGirl.create(:anonymous) }
-    let(:user) { FactoryGirl.create(:user) }
+    let(:anonymous) { FactoryBot.create(:anonymous) }
+    let(:user) { FactoryBot.create(:user) }
 
     context 'anonymous user with accessibility mode disabled for anonymous users' do
       before do
@@ -543,25 +543,25 @@ describe User, type: :model do
 
   describe '#notify_about?' do
     let(:work_package) do
-      FactoryGirl.build_stubbed(:work_package,
+      FactoryBot.build_stubbed(:work_package,
                                 assigned_to: assignee,
                                 responsible: responsible,
                                 author: author)
     end
     let(:author) do
-      FactoryGirl.build_stubbed(:user)
+      FactoryBot.build_stubbed(:user)
     end
     let(:assignee) do
-      FactoryGirl.build_stubbed(:user)
+      FactoryBot.build_stubbed(:user)
     end
     let(:responsible) do
-      FactoryGirl.build_stubbed(:user)
+      FactoryBot.build_stubbed(:user)
     end
     let(:project) do
       work_package.project
     end
     let(:role) do
-      FactoryGirl.build_stubbed(:role)
+      FactoryBot.build_stubbed(:role)
     end
 
     it 'is false for an inactive user' do
@@ -582,7 +582,7 @@ describe User, type: :model do
       end
 
       it "is false for a user with :only_my_events who has no relation to the work package" do
-        user = FactoryGirl.build_stubbed(:user, mail_notification: 'only_my_events')
+        user = FactoryBot.build_stubbed(:user, mail_notification: 'only_my_events')
         (Member.new.tap do |m|
           m.attributes = { user: user, project: project, role_ids: [role.id] }
         end)
@@ -640,7 +640,7 @@ describe User, type: :model do
       end
 
       it "is false for a user with :only_my_events who has no relation to the work package" do
-        user = FactoryGirl.build(:user, mail_notification: 'selected')
+        user = FactoryBot.build(:user, mail_notification: 'selected')
         (Member.new.tap do |m|
           m.attributes = { user: user, project: project, role_ids: [role.id] }
         end)
@@ -650,9 +650,9 @@ describe User, type: :model do
   end
 
   describe 'scope.newest' do
-    let!(:anonymous) { FactoryGirl.create(:anonymous) }
-    let!(:user1) { FactoryGirl.create(:user) }
-    let!(:user2) { FactoryGirl.create(:user) }
+    let!(:anonymous) { FactoryBot.create(:anonymous) }
+    let!(:user1) { FactoryBot.create(:user) }
+    let!(:user2) { FactoryBot.create(:user) }
 
     it 'without anonymous user' do
       expect(User.newest).to match_array([user1, user2])

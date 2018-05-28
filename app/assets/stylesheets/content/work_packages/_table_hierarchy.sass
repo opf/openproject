@@ -1,7 +1,7 @@
 
 // Style the hierarchy group indicator arrow
 // default: open arrow down
-// collapsed: left arrow
+// collapsed: right arrow
 .wp-table--hierarchy-indicator
   @include varprop(color, body-font-color)
   pointer-events: all
@@ -66,10 +66,13 @@
 // Style hierarchy column differently
 
 // Padding for the hierarchy mode
-.wp-table--cell-td.subject:not(.-with-hierarchy)
-  padding-left: 25px !important
+.wp-table--cell-td.subject
+  padding-left: 8px
 
 .wp-table--cell-td.subject.-with-hierarchy
+  // Disable padding on the element itself 
+  padding-left: 0
+
   .wp-table--cell-span
     padding-left: 0
 

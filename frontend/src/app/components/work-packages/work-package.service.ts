@@ -36,7 +36,6 @@ angular
 
 function WorkPackageService($http:ng.IHttpService,
                             $window:ng.IWindowService,
-                            $cacheFactory:any,
                             $state:StateService,
                             states:States,
                             I18n:op.I18n,
@@ -45,34 +44,7 @@ function WorkPackageService($http:ng.IHttpService,
                             NotificationsService:any,
                             wpTableRefresh:WorkPackageTableRefreshService) {
 
-  var workPackageCache = $cacheFactory('workPackageCache');
-
   var WorkPackageService = {
-
-    doQuery: function (url:string, params:any) {
-      return $http({
-        method: 'GET',
-        url: url,
-        params: params,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      }).then(function (response) {
-            return response.data;
-          },
-          function (failedResponse) {
-            var error = '';
-            if (failedResponse.status === 404) {
-              error = I18n.t('js.work_packages.query.errors.not_found');
-            }
-            else {
-              error = I18n.t('js.work_packages.query.errors.unretrievable_query');
-            }
-
-            NotificationsService.addError(error);
-          }
-      );
-    },
 
     performBulkDelete: function (ids:any, defaultHandling:any) {
       var params = {
@@ -104,11 +76,6 @@ function WorkPackageService($http:ng.IHttpService,
 
       return promise;
     },
-
-    cache: function () {
-      return workPackageCache;
-    }
-
   };
 
   return WorkPackageService;

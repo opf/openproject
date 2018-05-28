@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
+FactoryBot.define do
   factory(:project_type, class: ProjectType) do
     sequence(:name) do |n| "Project Type No. #{n}" end
     sequence(:position) { |n| n }

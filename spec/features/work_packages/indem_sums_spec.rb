@@ -30,16 +30,16 @@ require 'spec_helper'
 
 RSpec.feature 'Work package index sums', js: true do
 
-  let(:admin) { FactoryGirl.create(:admin) }
+  let(:admin) { FactoryBot.create(:admin) }
   let(:project) {
-    FactoryGirl.create(:project, name: 'project1', identifier: 'project1')
+    FactoryBot.create(:project, name: 'project1', identifier: 'project1')
   }
 
   let!(:work_package_1) {
-    FactoryGirl.create(:work_package, project: project, estimated_hours: 10)
+    FactoryBot.create(:work_package, project: project, estimated_hours: 10)
   }
   let!(:work_package_2) {
-    FactoryGirl.create(:work_package, project: project, estimated_hours: 15)
+    FactoryBot.create(:work_package, project: project, estimated_hours: 15)
   }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }

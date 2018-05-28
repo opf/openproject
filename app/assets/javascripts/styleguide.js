@@ -38,5 +38,5 @@ jQuery(document).ready(function () {
 angular.element(document).ready(function() {
   angular.bootstrap(document, ['openproject']);
 });
-angular.module('openproject-style-guide', ['ui.select', 'ngSanitize']);
+angular.module('openproject-style-guide', ['ui.select']);
 

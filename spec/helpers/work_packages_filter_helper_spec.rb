@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe WorkPackagesFilterHelper, type: :helper do
-  let(:project) { FactoryGirl.create(:project) }
-  let(:version) { FactoryGirl.create(:version, project: project) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:version) { FactoryBot.create(:version, project: project) }
   let(:global) { false }
 
   shared_examples_for 'work package path with query_props' do

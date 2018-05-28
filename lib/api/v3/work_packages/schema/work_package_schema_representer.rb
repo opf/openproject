@@ -35,19 +35,14 @@ module API
     module WorkPackages
       module Schema
         class WorkPackageSchemaRepresenter < ::API::Decorators::SchemaRepresenter
+          include API::Caching::CachedRepresenter
+          extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+
+          custom_field_injector type: :schema_representer
+
           class << self
             def represented_class
               WorkPackage
-            end
-
-            def create_class(work_package_schema)
-              injector_class = ::API::V3::Utilities::CustomFieldInjector
-              injector_class.create_schema_representer(work_package_schema,
-                                                       WorkPackageSchemaRepresenter)
-            end
-
-            def create(work_package_schema, self_link, context)
-              create_class(work_package_schema).new(work_package_schema, self_link, context)
             end
 
             def attribute_group(property)
@@ -88,14 +83,15 @@ module API
             super(schema, self_link, context)
           end
 
-          def cache_key
-            custom_fields = represented.project.all_work_package_custom_fields
+          def json_cache_key
+            parts = ['api/v3/work_packages/schemas',
+                     project_type_cache_key,
+                     I18n.locale,
+                     project_cache_key,
+                     type_cache_key,
+                     custom_field_cache_key]
 
-            OpenProject::Cache::CacheKey.key('api/v3/work_packages/schemas',
-                                             "#{represented.project.id}-#{represented.type.id}",
-                                             I18n.locale,
-                                             represented.type.updated_at,
-                                             OpenProject::Cache::CacheKey.expand(custom_fields))
+            OpenProject::Cache::CacheKey.key(parts)
           end
 
           link :baseSchema do
@@ -145,7 +141,8 @@ module API
 
           schema :spent_time,
                  type: 'Duration',
-                 required: false
+                 required: false,
+                 show_if: ->(*) { represented.project && represented.project.module_enabled?('time_tracking') }
 
           schema :percentage_done,
                  type: 'Integer',
@@ -275,6 +272,32 @@ module API
             end
 
             @attribute_group_map[key]
+          end
+
+          private
+
+          def custom_field_cache_key
+            custom_fields = represented.available_custom_fields
+            OpenProject::Cache::CacheKey.expand(custom_fields)
+          end
+
+          def project_type_cache_key
+            project_cache_key = represented.project ? represented.project.id : nil
+            type_cache_key = represented.type ? represented.type.id : nil
+
+            "#{project_cache_key}-#{type_cache_key}"
+          end
+
+          def type_cache_key
+            represented.type.try(:updated_at)
+          end
+
+          def project_cache_key
+            represented.project.updated_on
+          end
+
+          def no_caching?
+            represented.no_caching?
           end
         end
       end

@@ -1,8 +1,9 @@
-import {ElementRef, OnInit} from '@angular/core';
+import {ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
+import {EventEmitter} from '@angular/core';
 
-export abstract class OpModalComponent implements OnInit {
+export abstract class OpModalComponent implements OnInit, OnDestroy {
 
   /* Close on escape? */
   public closeOnEscape:boolean = true;
@@ -15,11 +16,18 @@ export abstract class OpModalComponent implements OnInit {
 
   public $element:JQuery;
 
+  /** Closing event called from the service when closing this modal */
+  public closingEvent = new EventEmitter<this>();
+
   constructor(public locals:OpModalLocalsMap, readonly elementRef:ElementRef) {
   }
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
+  }
+
+  ngOnDestroy() {
+    this.closingEvent.complete();
   }
 
   /**

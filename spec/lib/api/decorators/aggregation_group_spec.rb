@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe ::API::Decorators::AggregationGroup do
   let(:query) do
-    query = FactoryGirl.build_stubbed(:query)
+    query = FactoryBot.build_stubbed(:query)
     query.group_by = :assigned_to
 
     query

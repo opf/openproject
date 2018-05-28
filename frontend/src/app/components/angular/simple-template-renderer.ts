@@ -53,9 +53,9 @@ export class SimpleTemplateRenderer {
    * All content of the element is replaced.
    */
   public async renderIsolated(element:JQuery,
-                        scope:ng.IScope,
-                        template:string,
-                        scopeValues:Object):Promise<ng.IAugmentedJQuery> {
+                              scope:ng.IScope,
+                              template:string,
+                              scopeValues:Object):Promise<ng.IAugmentedJQuery> {
     const deferred = this.$q.defer<ng.IAugmentedJQuery>();
     _.assign(scope, scopeValues);
 

@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 describe Queries::TimeEntries::Filters::ProjectFilter, type: :model do
-  let(:project1) { FactoryGirl.build_stubbed(:project) }
-  let(:project2) { FactoryGirl.build_stubbed(:project) }
+  let(:project1) { FactoryBot.build_stubbed(:project) }
+  let(:project2) { FactoryBot.build_stubbed(:project) }
 
   before do
     allow(Project)

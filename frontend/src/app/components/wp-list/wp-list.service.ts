@@ -74,13 +74,13 @@ export class WorkPackagesListService {
    * Load a query.
    * The query is either a persisted query, identified by the query_id parameter, or the default query. Both will be modified by the parameters in the query_props parameter.
    */
-  public async fromQueryParams(queryParams:any, projectIdentifier ?:string):Promise<QueryResource> {
+  public fromQueryParams(queryParams:any, projectIdentifier ?:string):Promise<QueryResource> {
     const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(queryParams.query_props);
     const wpListPromise = this.QueryDm.find(queryData, queryParams.query_id, projectIdentifier);
     const promise = this.updateStatesFromQueryOnPromise(wpListPromise);
 
     promise
-      .catch(async (error) => {
+      .catch((error) => {
         const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(queryParams.query_props);
 
         return this.handleQueryLoadingError(error, queryProps, queryParams.query_id, projectIdentifier);
@@ -92,14 +92,14 @@ export class WorkPackagesListService {
   /**
    * Load the default query.
    */
-  public async loadDefaultQuery(projectIdentifier ?:string):Promise<QueryResource> {
+  public loadDefaultQuery(projectIdentifier ?:string):Promise<QueryResource> {
     return this.fromQueryParams({}, projectIdentifier);
   }
 
   /**
    * Reloads the current query and set the pagination to the first page.
    */
-  public async reloadQuery(query:QueryResource):Promise<QueryResource> {
+  public reloadQuery(query:QueryResource):Promise<QueryResource> {
     let pagination = this.getPaginationInfo();
     pagination.offset = 1;
 
@@ -108,7 +108,7 @@ export class WorkPackagesListService {
     let promise = this.updateStatesFromQueryOnPromise(wpListPromise);
 
     promise
-      .catch(async (error) => {
+      .catch((error) => {
         let projectIdentifier = query.project && query.project.id;
 
         return this.handleQueryLoadingError(error, {}, query.id, projectIdentifier);
@@ -120,7 +120,7 @@ export class WorkPackagesListService {
   /**
    * Update the list from an existing query object.
    */
-  public async loadResultsList(query:QueryResource, additionalParams:PaginationObject):Promise<WorkPackageCollectionResource> {
+  public loadResultsList(query:QueryResource, additionalParams:PaginationObject):Promise<WorkPackageCollectionResource> {
     let wpListPromise = this.QueryDm.loadResults(query, additionalParams);
 
     return this.updateStatesFromWPListOnPromise(query, wpListPromise);
@@ -130,7 +130,7 @@ export class WorkPackagesListService {
    * Reload the list of work packages for the current query keeping the
    * pagination options.
    */
-  public async reloadCurrentResultsList():Promise<WorkPackageCollectionResource> {
+  public reloadCurrentResultsList():Promise<WorkPackageCollectionResource> {
     let pagination = this.getPaginationInfo();
     let query = this.currentQuery;
 
@@ -140,7 +140,7 @@ export class WorkPackagesListService {
   /**
    * Reload the first page of work packages for the current query
    */
-  public async loadCurrentResultsListFirstPage():Promise<WorkPackageCollectionResource> {
+  public loadCurrentResultsListFirstPage():Promise<WorkPackageCollectionResource> {
     let pagination = this.getPaginationInfo();
     pagination.offset = 1;
     let query = this.currentQuery;
@@ -160,7 +160,7 @@ export class WorkPackagesListService {
       });
   }
 
-  public async loadForm(query:QueryResource):Promise<QueryFormResource> {
+  public loadForm(query:QueryResource):Promise<QueryFormResource> {
     return this.QueryFormDm.load(query).then((form:QueryFormResource) => {
       this.wpStatesInitialization.updateStatesFromForm(query, form);
 
@@ -172,7 +172,7 @@ export class WorkPackagesListService {
    * Persist the current query in the backend.
    * After the update, the new query is reloaded (e.g. for the work packages)
    */
-  public async create(query:QueryResource, name:string):Promise<QueryResource> {
+  public create(query:QueryResource, name:string):Promise<QueryResource> {
     let form = this.states.query.form.value!;
 
     query.name = name;
@@ -192,7 +192,7 @@ export class WorkPackagesListService {
   /**
    * Destroy the current query.
    */
-  public async delete() {
+  public delete() {
     let query = this.currentQuery;
 
     let promise = this.QueryDm.delete(query);
@@ -214,7 +214,7 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  public async save(query?:QueryResource) {
+  public save(query?:QueryResource) {
     query = query || this.currentQuery;
 
     let form = this.states.query.form.value!;
@@ -241,7 +241,7 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  public async toggleStarred(query:QueryResource):Promise<any> {
+  public toggleStarred(query:QueryResource):Promise<any> {
     let promise = this.QueryDm.toggleStarred(query);
 
     promise.then((query:QueryResource) => {
@@ -264,13 +264,13 @@ export class WorkPackagesListService {
     };
   }
 
-  private async conditionallyLoadForm(promise:Promise<QueryResource>):Promise<QueryResource> {
+  private conditionallyLoadForm(promise:Promise<QueryResource>):Promise<QueryResource> {
     promise.then(query => {
 
       let currentForm = this.states.query.form.value;
 
       if (!currentForm || query.$links.update.$href !== currentForm.$href) {
-        setTimeout(async () => this.loadForm(query), 0);
+        setTimeout(() => this.loadForm(query), 0);
       }
 
       return query;
@@ -279,7 +279,7 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  private async updateStatesFromQueryOnPromise(promise:Promise<QueryResource>):Promise<QueryResource> {
+  private updateStatesFromQueryOnPromise(promise:Promise<QueryResource>):Promise<QueryResource> {
     promise
       .then(query => {
         this.tableState.ready.doAndTransition('Query loaded', () => {
@@ -293,7 +293,7 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  private async updateStatesFromWPListOnPromise(query:QueryResource, promise:Promise<WorkPackageCollectionResource>):Promise<WorkPackageCollectionResource> {
+  private updateStatesFromWPListOnPromise(query:QueryResource, promise:Promise<WorkPackageCollectionResource>):Promise<WorkPackageCollectionResource> {
     return promise.then((results) => {
       this.tableState.ready.doAndTransition('Query loaded', () => {
         this.wpStatesInitialization.updateTableState(query, results);
@@ -319,7 +319,7 @@ export class WorkPackagesListService {
     }
   }
 
-  private async handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId:number, projectIdentifier?:string) {
+  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId:number, projectIdentifier?:string) {
     this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {

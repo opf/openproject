@@ -76,7 +76,7 @@ describe ::API::V3::Queries::Filters::QueryFilterRepresenter do
     end
 
     context 'for a custom field filter' do
-      let(:custom_field) { FactoryGirl.build_stubbed(:list_wp_custom_field) }
+      let(:custom_field) { FactoryBot.build_stubbed(:list_wp_custom_field) }
       let(:filter) do
         Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: custom_field
       end

@@ -65,6 +65,7 @@ class WikiController < ApplicationController
 
   include AttachmentsHelper
   include PaginationHelper
+  include Redmine::MenuManager::WikiMenuHelper
   include OpenProject::Concerns::Preview
 
   attr_reader :page, :related_page
@@ -135,7 +136,7 @@ class WikiController < ApplicationController
     if @page.new_record?
       if User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
         edit
-        render action: 'edit'
+        render action: 'new'
       else
         render_404
       end
@@ -256,7 +257,7 @@ class WikiController < ApplicationController
 
   def wiki_root_menu_items
     MenuItems::WikiMenuItem
-      .where(parent_id: nil)
+      .main_items(@wiki.id)
       .map { |it| OpenStruct.new name: it.name, caption: it.title, item: it }
   end
 
@@ -372,10 +373,14 @@ class WikiController < ApplicationController
   end
 
   def current_menu_item_sym(page)
-    menu_item = send(page).try(:nearest_menu_item)
+    page = send(page)
+    menu_item = page.try(:menu_item)
 
     if menu_item.present?
       menu_item.menu_identifier
+    elsif page.present?
+      menu_item = default_menu_item(page)
+      "no-menu-item-#{menu_item.menu_identifier}".to_sym
     end
   end
 
@@ -403,7 +408,7 @@ class WikiController < ApplicationController
   private
 
   def wiki_page_title
-    params[:id]
+    params[:title] || params[:id]
   end
 
   def find_wiki
@@ -436,8 +441,7 @@ class WikiController < ApplicationController
   # Returns the default content of a new wiki page
   def initial_page_content(page)
     helper = OpenProject::TextFormatting::Formatters.helper_for(Setting.text_formatting)
-    extend helper unless self.instance_of?(helper)
-    helper.instance_method(:initial_page_content).bind(self).call(page)
+    helper.initial_page_content page
   end
 
   def load_pages_for_index

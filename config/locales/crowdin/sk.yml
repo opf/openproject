@@ -170,7 +170,9 @@ sk:
       form_configuration: Konfigurácia formulára
       projects: Projekty
       enabled_projects: Enabled projects
-      add_group: Add group
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Reset to defaults
   versions:
     overview:
@@ -373,6 +375,7 @@ sk:
         mail_notification: Upozornenia e-mailom
         new_password: Nové heslo
         password_confirmation: Potvrdenie
+        consented_at: Consented at
       user_preference:
         comments_sorting: Zobraziť komentáre
         hide_mail: Skryť svoju emailovú adresu
@@ -384,8 +387,6 @@ sk:
       version:
         effective_date: Do dátumu
         sharing: Zdieľanie
-      wiki:
-        start_page: Úvodná stránka
       wiki_content:
         text: Text
       wiki_page:
@@ -398,6 +399,7 @@ sk:
       work_package:
         begin_insertion: Začiatok vkladania
         begin_deletion: Začiatok odstraňovania
+        children: Subelements
         done_ratio: Stav spracovania (%)
         end_insertion: Koniec vkladania
         end_deletion: Koniec odstraňovania
@@ -527,6 +529,8 @@ sk:
               status_transition_invalid: je neplatný, pretože neexistuje žiadny platný
                 prechod zo starého na nový stav v prípade aktuálne pridelených rolí
                 používateľa.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: musí byť aktívna.
             category:
@@ -681,11 +685,13 @@ sk:
   button_close: Zatvoriť
   button_collapse_all: Zbaliť všetko
   button_configure: Konfigurovať
+  button_continue: Continue
   button_copy: Kopírovať
   button_copy_and_follow: Kopírovať a nasledovať
   button_create: Vytvoriť
   button_create_and_continue: Vytvoriť a pokračovať
   button_delete: Odstrániť
+  button_decline: Decline
   button_delete_watcher: Odobrať pozorovateľa %{name}
   button_download: Prevziať
   button_duplicate: Duplikovať
@@ -727,6 +733,23 @@ sk:
   button_add_menu_entry: Pridať položku menu
   button_configure_menu_entry: Nakonfigurovať položku menu
   button_delete_menu_entry: Odstrániť položku menu
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Začalo sa kopírovanie projektu "%{source_project_name}" do projektu "%{target_project_name}".
       Budete informovaní mailom hneď ako bude "%{target_project_name}" k dispozícii.
@@ -979,6 +1002,8 @@ sk:
   error_cookie_missing: Chýbajú súbory cookie pre OpenProject. Skontrolujte, či sú
     povolené súbory cookie, nakoľko bez nich táto aplikácia nebude správne fungovať.
   error_custom_option_not_found: Option does not exist.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1124,6 +1149,7 @@ sk:
   label_all: Všetky
   label_all_time: všetok čas
   label_all_words: Všetky slová
+  label_all_open_wps: All open
   label_always_visible: Vždy zobrazené
   label_announcement: Oznámenie
   label_and_its_subprojects: "%{value} a jemu podriadené projekty"
@@ -1164,6 +1190,7 @@ sk:
   label_calendar: Kalendár
   label_calendar_show: Zobraziť kalendár
   label_category: Kategória
+  label_consent_settings: User Consent
   label_wiki_menu_item: Položka menu wiki
   label_select_main_menu_item: Vyberte novú položku hlavného menu
   label_select_project: Select a project
@@ -1186,6 +1213,7 @@ sk:
   label_close_versions: Zavrieť ukončené verzie
   label_closed_work_packages: uzatvorené
   label_collapse: Zbaliť
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: konfigurácia
   label_comment_add: Pridať komentár
   label_comment_added: Komentár pridaný
@@ -1252,11 +1280,13 @@ sk:
   label_enumerations: Výpočet
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: Prostredie
   label_estimates_and_time: Estimates and time
   label_equals: je
   label_example: Príklad
   label_export_to: 'K dispozícii tiež ako:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} hodina"
   label_f_hour_plural: "%{value} hodín"
   label_feed_plural: RSS správy (Feeds?)
@@ -1286,6 +1316,7 @@ sk:
   label_here: tu
   label_hide: Skryť
   label_history: História
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Úvod
   label_in: v
   label_in_less_than: v menej ako
@@ -1299,6 +1330,7 @@ sk:
   label_information_plural: Informácie
   label_integer: Celé číslo
   label_internal: Interné
+  label_introduction_video: Introduction video
   label_invite_user: Pozvať používateľa
   label_show_hide: Zobraziť/skryť
   label_show_all_registered_users: Zobraziť všetkých registrovaných užívateľov
@@ -1361,6 +1393,7 @@ sk:
   label_my_page_block: Blok mojich strán
   label_my_projects: Moje projekty
   label_my_queries: Moje vlastné dopyty
+  label_never: Nikdy
   label_new: Nový
   label_new_statuses_allowed: Nové stavy povolené
   label_news_added: Novinky pridané
@@ -1385,6 +1418,7 @@ sk:
   label_open_menu: Otvorte menu
   label_open_work_packages: otvorené
   label_open_work_packages_plural: otvorené
+  label_openproject_website: OpenProject website
   label_optional_description: Popis
   label_options: Voľby
   label_other: Ostatné
@@ -1554,7 +1588,7 @@ sk:
   label_version_sharing_none: Nezdieľané
   label_version_sharing_system: So všetkými projektmi
   label_version_sharing_tree: S projektovým stromom
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Zobraziť všetky revízie
   label_view_diff: Zobraziť rozdiely
   label_view_revisions: Zobraziť revízie
@@ -1575,6 +1609,7 @@ sk:
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
   label_wiki_show_submenu_item: 'Show as submenu item of '
+  label_wiki_start: Úvodná stránka
   label_work_package: Pracovný balíček
   label_work_package_added: Pracovný balíček pridáný
   label_work_package_attachments: Prílohy pracovného balíčka
@@ -2081,12 +2116,19 @@ sk:
     login attempts
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Cache formatted text
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Customize the appearance of the work package lists
   setting_commit_fix_keywords: Fixing keywords
   setting_commit_logs_encoding: Commit messages encoding
   setting_commit_logtime_activity_id: Activity for logged time
   setting_commit_logtime_enabled: Enable time logging
   setting_commit_ref_keywords: Referencing keywords
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Allow cross-project work package relations
   setting_date_format: Date format
   setting_default_language: Default language
@@ -2180,7 +2222,10 @@ sk:
     passwords: Heslá
     session: Relácie
     brute_force_prevention: Automatizované blokovanie používateľa
-  show_hide_project_menu: Rozbaliť/Zbaliť ponuku projektu
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: active
   status_archived: archived
   status_invited: invited

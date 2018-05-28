@@ -1,0 +1,25 @@
+<div class="type-form-conf-group type-form-query-group"
+     data-original-key="<%= group.key.to_s %>"
+     data-key="<%= group.key %>"
+     data-key-is-symbol="<%= group.key.is_a? Symbol %>">
+  <div class="group-head">
+    <span class="group-handle icon-toggle"></span>
+    <group-edit-in-place
+      name="<%= group.translated_key %>"
+      key="<%= group.key %>"
+      onvaluechange="groupNameChange"
+      onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
+      class="group-name">
+      <%= group.translated_key %>
+    </group-edit-in-place>
+    <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
+  </div>
+  <%= content_tag :div,
+                  class: 'type-form-query',
+                  data: { query: query_json } do %>
+    <span class="type-form-query-group--edit-button" ng-click="editQuery($event)">
+      <%= op_icon('button--icon icon-edit') %>
+      <%= t('types.edit.edit_query') %>
+    </span>
+  <% end %>
+</div> <!-- END query group -->

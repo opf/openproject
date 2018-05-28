@@ -29,15 +29,15 @@
 require 'spec_helper'
 
 feature 'group memberships through groups page', type: :feature do
-  let!(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
+  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
-  let(:admin)     { FactoryGirl.create :admin }
-  let!(:peter)    { FactoryGirl.create :user, firstname: 'Peter', lastname: 'Pan' }
-  let!(:hannibal) { FactoryGirl.create :user, firstname: 'Hannibal', lastname: 'Smith' }
-  let(:group)     { FactoryGirl.create :group, lastname: 'A-Team' }
+  let(:admin)     { FactoryBot.create :admin }
+  let!(:peter)    { FactoryBot.create :user, firstname: 'Peter', lastname: 'Pan' }
+  let!(:hannibal) { FactoryBot.create :user, firstname: 'Hannibal', lastname: 'Smith' }
+  let(:group)     { FactoryBot.create :group, lastname: 'A-Team' }
 
-  let!(:manager)   { FactoryGirl.create :role, name: 'Manager' }
-  let!(:developer) { FactoryGirl.create :role, name: 'Developer' }
+  let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
+  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
 
   let(:members_page) { Pages::Members.new project.identifier }
   let(:group_page)   { Pages::Groups.new.group(group.id) }
@@ -90,7 +90,7 @@ feature 'group memberships through groups page', type: :feature do
 
       group_page.remove_from_project! 'Project 1'
       expect(page).to have_text 'Successful deletion'
-      expect(page).to have_text ' There are currently no projects part of this group.'
+      expect(page).to have_text 'There are currently no projects part of this group.'
     end
   end
 end

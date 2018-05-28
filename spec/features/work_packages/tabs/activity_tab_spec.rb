@@ -11,9 +11,9 @@ describe 'Activity tab', js: true, selenium: true do
     note_journal.update_attributes(created_at: at, user: attributes[:user])
   end
 
-  let(:project) { FactoryGirl.create :project_with_types, is_public: true }
+  let(:project) { FactoryBot.create :project_with_types, is_public: true }
   let!(:work_package) {
-    work_package = FactoryGirl.create(:work_package,
+    work_package = FactoryBot.create(:work_package,
                                       project: project,
                                       created_at: 5.days.ago.to_date.to_s(:db),
                                       subject: initial_subject,
@@ -51,7 +51,7 @@ describe 'Activity tab', js: true, selenium: true do
     alter_work_package_at(work_package,
                           attributes: attributes,
                           at: 1.days.ago.to_date.to_s(:db),
-                          user: FactoryGirl.create(:admin))
+                          user: FactoryBot.create(:admin))
 
     work_package.journals.last
   }
@@ -115,11 +115,11 @@ describe 'Activity tab', js: true, selenium: true do
 
     context 'with permission' do
       let(:role) {
-        FactoryGirl.create(:role, permissions: [:view_work_packages,
+        FactoryBot.create(:role, permissions: [:view_work_packages,
                                                 :add_work_package_notes])
       }
       let(:user) {
-        FactoryGirl.create(:user,
+        FactoryBot.create(:user,
                            member_in_project: project,
                            member_through_role: role)
       }
@@ -174,10 +174,10 @@ describe 'Activity tab', js: true, selenium: true do
 
     context 'with no permission' do
       let(:role) {
-        FactoryGirl.create(:role, permissions: [:view_work_packages])
+        FactoryBot.create(:role, permissions: [:view_work_packages])
       }
       let(:user) {
-        FactoryGirl.create(:user,
+        FactoryBot.create(:user,
                            member_in_project: project,
                            member_through_role: role)
       }

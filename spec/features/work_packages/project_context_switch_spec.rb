@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe 'Project context switching spec', js: true do
-  let(:user) { FactoryGirl.create :admin }
+  let(:user) { FactoryBot.create :admin }
 
-  let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new  }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }

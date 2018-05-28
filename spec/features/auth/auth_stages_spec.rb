@@ -50,7 +50,7 @@ describe 'Authentication Stages', type: :feature do
 
   let(:user_password) { 'bob' * 4 }
   let(:user) do
-    FactoryGirl.create(
+    FactoryBot.create(
       :user,
       force_password_change: false,
       first_login: false,

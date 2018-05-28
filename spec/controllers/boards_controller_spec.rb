@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe BoardsController, type: :controller do
-  let(:user) { FactoryGirl.build(:user) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:project) { FactoryBot.create(:project) }
   let!(:board) {
-    FactoryGirl.build(:board,
+    FactoryBot.build(:board,
                       project: project)
   }
 
@@ -95,14 +95,14 @@ describe BoardsController, type: :controller do
   end
 
   describe '#move' do
-    let(:project) { FactoryGirl.create(:project) }
+    let(:project) { FactoryBot.create(:project) }
     let!(:board_1) {
-      FactoryGirl.create(:board,
+      FactoryBot.create(:board,
                          project: project,
                          position: 1)
     }
     let!(:board_2) {
-      FactoryGirl.create(:board,
+      FactoryBot.create(:board,
                          project: project,
                          position: 2)
     }
@@ -129,7 +129,7 @@ describe BoardsController, type: :controller do
 
   describe '#update' do
     let!(:board) {
-      FactoryGirl.create(:board, name: 'Board name',
+      FactoryBot.create(:board, name: 'Board name',
                                  description: 'Board description')
     }
 
@@ -186,10 +186,10 @@ describe BoardsController, type: :controller do
   end
 
   describe '#sticky' do
-    let!(:message1) { FactoryGirl.create(:message, board: board) }
-    let!(:message2) { FactoryGirl.create(:message, board: board) }
+    let!(:message1) { FactoryBot.create(:message, board: board) }
+    let!(:message2) { FactoryBot.create(:message, board: board) }
     let!(:sticked_message1) {
-      FactoryGirl.create(:message, board_id: board.id,
+      FactoryBot.create(:message, board_id: board.id,
                                    subject: 'How to',
                                    content: 'How to install this cool app',
                                    sticky: '1',
@@ -197,7 +197,7 @@ describe BoardsController, type: :controller do
     }
 
     let!(:sticked_message2) {
-      FactoryGirl.create(:message, board_id: board.id,
+      FactoryBot.create(:message, board_id: board.id,
                                    subject: 'FAQ',
                                    content: 'Frequestly asked question',
                                    sticky: '1',

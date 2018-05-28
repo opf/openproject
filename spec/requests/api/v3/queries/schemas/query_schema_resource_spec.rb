@@ -33,11 +33,11 @@ describe 'API v3 Query Schema resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.create(:project) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:project) { FactoryBot.create(:project) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
   let(:user) do
-    FactoryGirl.create(:user,
+    FactoryBot.create(:user,
                        member_in_project: project,
                        member_through_role: role)
   end

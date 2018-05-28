@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe TimelogController, type: :controller do
-  let!(:activity) { FactoryGirl.create(:default_activity) }
-  let(:project) { FactoryGirl.create(:project) }
+  let!(:activity) { FactoryBot.create(:default_activity) }
+  let(:project) { FactoryBot.create(:project) }
   let(:user) do
-    FactoryGirl.create(:admin,
+    FactoryBot.create(:admin,
                        member_in_project: project)
   end
   let(:params) do
@@ -78,7 +78,7 @@ describe TimelogController, type: :controller do
 
       context 'with a required custom field' do
         let(:custom_field) do
-          FactoryGirl.build_stubbed :time_entry_custom_field,
+          FactoryBot.build_stubbed :time_entry_custom_field,
                                     name: 'supplies',
                                     is_required: true
         end
@@ -110,7 +110,7 @@ describe TimelogController, type: :controller do
     context 'work_package' do
       describe '#valid' do
         let(:work_package) do
-          FactoryGirl.create(:work_package,
+          FactoryBot.create(:work_package,
                              project: project)
         end
         let(:work_package_id) { work_package.id }

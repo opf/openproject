@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe Principal, type: :model do
-  let(:user) { FactoryGirl.build(:user) }
-  let(:group) { FactoryGirl.build(:group) }
+  let(:user) { FactoryBot.build(:user) }
+  let(:group) { FactoryBot.build(:group) }
 
   def self.should_return_groups_and_users_if_active(method, *params)
     it 'should return a user' do

@@ -28,13 +28,21 @@
 require 'spec_helper'
 
 describe Attachment, type: :model do
-  let(:author)           { FactoryGirl.create :user }
+  let(:author)           { FactoryBot.create :user }
   let(:long_description) { 'a' * 300 }
-  let(:work_package)     { FactoryGirl.create :work_package, description: '' }
-  let(:file)             { FactoryGirl.create :uploaded_jpg, name: 'test.jpg' }
+  let(:work_package)     { FactoryBot.create :work_package, description: '' }
+  let(:file)             { FactoryBot.create :uploaded_jpg, name: 'test.jpg' }
 
   let(:attachment) do
-    FactoryGirl.build(
+    FactoryBot.build(
+      :attachment,
+      author:       author,
+      container:    work_package,
+      content_type: nil, # so that it is detected
+      file:         file)
+  end
+  let(:stubbed_attachment) do
+    FactoryBot.build_stubbed(
       :attachment,
       author:       author,
       container:    work_package,
@@ -67,7 +75,7 @@ describe Attachment, type: :model do
     end
 
     context 'with wrong content-type' do
-      let(:file) { FactoryGirl.create :uploaded_jpg, content_type: 'text/html' }
+      let(:file) { FactoryBot.create :uploaded_jpg, content_type: 'text/html' }
 
       it 'should detect the correct content-type' do
         expect(attachment.content_type).to eq 'image/jpeg'
@@ -113,6 +121,20 @@ describe Attachment, type: :model do
 
     it "deletes the attachment's file" do
       expect(File.exists?(attachment.file.path)).to eq false
+    end
+  end
+
+  # Made necessary as attachments only have the created_on field which is not factored
+  # into the cache_key. While it shouldn't be a problem in production, as attachments cannot be
+  # altered, it is a problem in the tests.
+  describe '#cache_key' do
+    before do
+      stubbed_attachment.created_on = Time.now
+    end
+
+    it 'factors in id and created_on' do
+      expect(stubbed_attachment.cache_key)
+        .to eql("attachments/#{stubbed_attachment.id}-#{stubbed_attachment.created_on.to_i}")
     end
   end
 end

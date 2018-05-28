@@ -33,13 +33,13 @@ declare const I18n:op.I18n;
   $(function () {
     // Specifies minimum versions to be supported
     // As we don't support ANY version of msie, so treat 11 (last ie before edge) as unsupported
-    const unsupported = {
+    const minimumSupported = {
       msie: '12',
-      firefox: '52'
+      firefox: '60'
     };
     let additionalMessage = I18n.t("js.unsupported_browser.update_message");
 
-    if (bowser.isUnsupportedBrowser(unsupported, window.navigator.userAgent)) {
+    if (bowser.isUnsupportedBrowser(minimumSupported, window.navigator.userAgent)) {
       if (bowser.msie) {
         additionalMessage = I18n.t("js.unsupported_browser.update_ie_user");
       }

@@ -74,18 +74,18 @@ describe 'Angular expression escaping', type: :feature do
   end
 
   describe '#WorkPackage description field', js: true do
-    let(:project) { FactoryGirl.create :project }
+    let(:project) { FactoryBot.create :project }
     let(:property_name) { :description }
     let(:property_title) { 'Description' }
     let(:description_text) { 'Expression {{ 3 + 5 }}' }
     let!(:work_package) {
-      FactoryGirl.create(
+      FactoryBot.create(
         :work_package,
         project: project,
         description: description_text
       )
     }
-    let(:user) { FactoryGirl.create :admin }
+    let(:user) { FactoryBot.create :admin }
     let(:field) { WorkPackageEditorField.new wp_page, 'description' }
     let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
 
@@ -110,13 +110,13 @@ describe 'Angular expression escaping', type: :feature do
   end
 
   describe '#wiki edit previewing', js: true do
-    let(:user) { FactoryGirl.create :admin }
-    let(:project) { FactoryGirl.create :project, enabled_module_names: %w(wiki) }
+    let(:user) { FactoryBot.create :admin }
+    let(:project) { FactoryBot.create :project, enabled_module_names: %w(wiki) }
 
     let(:content) { find '#content_text' }
     let(:preview) { find '#preview' }
     let(:btn_preview) { find '#wiki_form-preview' }
-    let(:btn_cancel) { find '#wiki_form a.button', text: I18n.t(:button_cancel) }
+    let(:btn_save) { find '.button.-highlight', text: I18n.t(:button_save) }
 
     before do
       login_as(user)
@@ -130,7 +130,7 @@ describe 'Angular expression escaping', type: :feature do
       expect(preview.text).not_to include '{{ $root.DOUBLE_LEFT_CURLY_BRACE }}'
       expect(preview.text).to match /\{\{[\s\w]+\}\}/
 
-      btn_cancel.click
+      btn_save.click
     end
   end
 

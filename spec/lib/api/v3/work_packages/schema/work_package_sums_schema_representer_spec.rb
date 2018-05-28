@@ -35,9 +35,9 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
   let(:schema) { double('wp_schema', available_custom_fields: available_custom_fields) }
   let(:current_user) { double('user') }
 
-  let(:representer) {
+  let(:representer) do
     described_class.create(schema, current_user: current_user)
-  }
+  end
   let(:summable_columns) { [] }
 
   before do
@@ -81,7 +81,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
   end
 
   context 'custom field x' do
-    let(:custom_field)  { FactoryGirl.build_stubbed(:integer_issue_custom_field) }
+    let(:custom_field)  { FactoryBot.build_stubbed(:integer_issue_custom_field) }
     let(:available_custom_fields) { [custom_field] }
 
     context 'with it being configured to be summable' do
