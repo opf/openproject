@@ -35,7 +35,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:work_package) do
-    FactoryGirl.create(
+    FactoryBot.create(
       :work_package,
       project_id: project.id,
       parent: parent,
@@ -44,7 +44,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   end
 
   let!(:parent) do
-    FactoryGirl.create(:work_package, project_id: project.id, type: type, subject: "Invalid Dependent WorkPackage").tap do |parent|
+    FactoryBot.create(:work_package, project_id: project.id, type: type, subject: "Invalid Dependent WorkPackage").tap do |parent|
       parent.custom_values.create custom_field: custom_field, value: custom_field.possible_values.first.id
 
       cv = parent.custom_values.last
@@ -53,21 +53,21 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   end
 
   let(:project) do
-    FactoryGirl.create(:project, identifier: 'deperr', is_public: false).tap do |project|
+    FactoryBot.create(:project, identifier: 'deperr', is_public: false).tap do |project|
       project.types << type
     end
   end
 
   let(:type) do
-    FactoryGirl.create(:type).tap do |type|
+    FactoryBot.create(:type).tap do |type|
       type.custom_fields << custom_field
     end
   end
 
-  let(:status) { FactoryGirl.create :status }
+  let(:status) { FactoryBot.create :status }
 
   let(:custom_field) do
-    FactoryGirl.create(
+    FactoryBot.create(
       :list_wp_custom_field,
       name: "Gate",
       possible_values: %w(A B C),
@@ -75,13 +75,13 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
     )
   end
 
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages, :edit_work_packages, :create_work_packages] }
 
   let(:current_user) do
-    user = FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+    user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
 
-    FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
+    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
 
     user
   end
@@ -148,7 +148,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   end
 
   describe '#post' do
-    let(:current_user) { FactoryGirl.create :admin }
+    let(:current_user) { FactoryBot.create :admin }
 
     let(:path) { api_v3_paths.work_packages }
     let(:valid_params) do
