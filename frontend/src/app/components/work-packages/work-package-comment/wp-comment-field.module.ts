@@ -27,11 +27,11 @@
 // ++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WikiTextareaEditField} from '../../wp-edit/field-types/wp-edit-wiki-textarea-field.module';
 import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {FormattableEditField} from "core-app/modules/fields/edit/field-types/formattable-edit-field";
 
-export class WorkPackageCommentField extends WikiTextareaEditField {
+export class WorkPackageCommentField extends FormattableEditField {
   public _value:any;
   public isBusy:boolean = false;
 

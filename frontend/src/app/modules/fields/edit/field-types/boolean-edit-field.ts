@@ -26,40 +26,32 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Component} from "@angular/core";
+import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 
-export class WorkPackageFieldControlsController {
-  public cancelTitle:string;
-  public saveTitle:string;
-  public fieldController:any;
-  public onSave:any;
-  public onCancel:any;
 
-  public get field():EditField {
-    return this.fieldController.field;
+@Component({
+  template: `
+    <input type="checkbox"
+           class="wp-inline-edit--field wp-inline-edit--boolean-field"
+           [attr.aria-required]="field.required"
+           [checked]="field.value"
+           (change)="updateValue(!field.value)"
+           (keydown)="handler.handleUserKeydown($event)"
+           [disabled]="field.inFlight"
+           [attr.id]="handler.htmlId" />
+  `
+})
+export class BooleanEditFieldComponent extends EditFieldComponent {
+  public field:BooleanEditField;
+
+  public updateValue(newValue:boolean) {
+    this.field.value = newValue;
+    this.handler.handleUserSubmit();
   }
 }
 
-function wpEditFieldControls():any {
-  return {
-    restrict: 'E',
-    template: require('./wp-edit-field-controls.directive.html'),
-
-    scope: {
-      fieldController: '=',
-      onSave: '&',
-      onCancel: '&',
-      cancelTitle: '@',
-      saveTitle: '@'
-    },
-
-    controller: WorkPackageFieldControlsController,
-    controllerAs: 'vm',
-    bindToController: true
-  };
+export class BooleanEditField extends EditField {
+  public component = BooleanEditFieldComponent;
 }
-
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditFieldControls', wpEditFieldControls);

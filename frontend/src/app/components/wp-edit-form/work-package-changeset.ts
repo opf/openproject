@@ -38,6 +38,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import {IFieldSchema} from "core-app/modules/fields/field.base";
 
 export class WorkPackageChangeset {
   // Injections
@@ -273,7 +274,7 @@ export class WorkPackageChangeset {
   /**
    * Extract the link(s) in the given changed value
    */
-  private getLinkedValue(val:any, fieldSchema:op.FieldSchema) {
+  private getLinkedValue(val:any, fieldSchema:IFieldSchema) {
     var isArray = (fieldSchema.type || '').startsWith('[]');
 
     if (isArray) {

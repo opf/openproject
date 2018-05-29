@@ -26,40 +26,49 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Component, Inject, InjectionToken, Injector} from "@angular/core";
+import {WorkPackageEditFieldHandler} from "core-components/wp-edit-form/work-package-edit-field-handler";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
 
-export class WorkPackageFieldControlsController {
-  public cancelTitle:string;
-  public saveTitle:string;
-  public fieldController:any;
-  public onSave:any;
-  public onCancel:any;
+export const OpEditingPortalLocalsToken = new InjectionToken('wp-editing-portal-locals');
+export interface EditFieldLocals {
+  handler:WorkPackageEditFieldHandler;
+  field:any;
+}
 
-  public get field():EditField {
-    return this.fieldController.field;
+@Component({
+  template: ''
+})
+export class EditFieldComponent {
+  public handler = this.locals.handler;
+  public field = this.locals.field;
+
+  constructor(@Inject(OpEditingPortalLocalsToken) readonly locals:EditFieldLocals,
+              readonly injector:Injector) {
+    this.initialize();
+  }
+
+  protected initialize() {
+  }
+
+  protected get value() {
+    return this.field.value;
+  }
+
+  protected set value(val:any) {
+    this.field.value = val;
+  }
+
+  protected get name() {
+    return this.field.name;
+  }
+
+  protected get schema():IFieldSchema {
+    return this.field.schema;
+  }
+
+  protected get changeset() {
+    return this.field.changeset;
   }
 }
-
-function wpEditFieldControls():any {
-  return {
-    restrict: 'E',
-    template: require('./wp-edit-field-controls.directive.html'),
-
-    scope: {
-      fieldController: '=',
-      onSave: '&',
-      onCancel: '&',
-      cancelTitle: '@',
-      saveTitle: '@'
-    },
-
-    controller: WorkPackageFieldControlsController,
-    controllerAs: 'vm',
-    bindToController: true
-  };
-}
-
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditFieldControls', wpEditFieldControls);

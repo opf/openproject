@@ -26,40 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {TextEditField} from "core-app/modules/fields/edit/field-types/text-edit-field";
 
-export class WorkPackageFieldControlsController {
-  public cancelTitle:string;
-  public saveTitle:string;
-  public fieldController:any;
-  public onSave:any;
-  public onCancel:any;
+export class WorkPackageEditField extends TextEditField {
 
-  public get field():EditField {
-    return this.fieldController.field;
+  public get writable() {
+    return false;
   }
 }
-
-function wpEditFieldControls():any {
-  return {
-    restrict: 'E',
-    template: require('./wp-edit-field-controls.directive.html'),
-
-    scope: {
-      fieldController: '=',
-      onSave: '&',
-      onCancel: '&',
-      cancelTitle: '@',
-      saveTitle: '@'
-    },
-
-    controller: WorkPackageFieldControlsController,
-    controllerAs: 'vm',
-    bindToController: true
-  };
-}
-
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditFieldControls', wpEditFieldControls);

@@ -1,7 +1,6 @@
 import {Injector} from '@angular/core';
 import {States} from '../../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageDisplayFieldService} from './../../wp-display/wp-display-field/wp-display-field.service';
 import {tdClassName} from './cell-builder';
 import {WorkPackageTableRelationColumnsService} from '../state/wp-table-relation-columns.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
@@ -16,8 +15,6 @@ export class RelationCellbuilder {
   public states = this.injector.get(States);
   public wpRelations = this.injector.get(WorkPackageRelationsService);
   public wpTableRelationColumns = this.injector.get(WorkPackageTableRelationColumnsService);
-
-  public wpDisplayField:WorkPackageDisplayFieldService;
 
   constructor(public readonly injector:Injector) {
   }

@@ -31,7 +31,6 @@ import {$qToken, $timeoutToken} from 'core-app/angular4-transition-utils';
 import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
-import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {CellBuilder, editCellContainer, tdClassName} from '../wp-fast-table/builders/cell-builder';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
@@ -40,7 +39,10 @@ import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {WorkPackageEditForm} from './work-package-edit-form';
 import {FocusHelperService} from 'core-components/common/focus/focus-helper';
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
-import {WorkPackageEditField} from "core-components/wp-edit/field-types/wp-edit-work-package-field.module";
+import {
+  WorkPackageEditingPortalService
+} from "core-components/wp-edit/editing-portal/wp-editing-portal-service";
+import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 
 export class TableRowEditContext implements WorkPackageEditContext {
 
@@ -52,6 +54,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
   public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
   public $q:ng.IQService = this.injector.get($qToken);
   public $timeout:ng.ITimeoutService = this.injector.get($timeoutToken);
+  public wpEditingPortalService:WorkPackageEditingPortalService = this.injector.get(WorkPackageEditingPortalService);
 
   // other fields
   public successState:string;
@@ -86,34 +89,18 @@ export class TableRowEditContext implements WorkPackageEditContext {
           td.css('max-width', width);
           td.css('width', width);
 
-          // Create a field handler for the newly active field
-          const fieldHandler = new WorkPackageEditFieldHandler(
-            this.injector,
-            form,
-            fieldName,
-            field,
+          const handler = this.wpEditingPortalService.create(
             cell,
+            form,
+            field,
+            fieldName,
             errors
           );
 
-          fieldHandler.$scope = this.templateRenderer.createRenderScope();
-          const promise = this.templateRenderer.renderIsolated(
-            // Replace the current cell
-            cell,
-            fieldHandler.$scope,
-            '/components/wp-edit-form/wp-edit-form.template.html',
-            {
-              vm: fieldHandler,
-            }
-          );
-
-          promise.then(() => {
-            // Assure the element is visible
-            this.$timeout(() => {
-              fieldHandler.focus();
-              resolve(fieldHandler);
-            });
-          }).catch(reject);
+          setTimeout(() => {
+            handler.focus();
+            resolve(handler);
+          });
         }).catch(reject);
     });
   }

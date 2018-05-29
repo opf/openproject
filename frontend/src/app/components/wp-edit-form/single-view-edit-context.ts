@@ -32,7 +32,6 @@ import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-fie
 import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
-import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 import {Injector} from '@angular/core';
@@ -42,6 +41,8 @@ import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-
 import {WorkPackageEditForm} from 'core-components/wp-edit-form/work-package-edit-form';
 import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {WorkPackageEditingPortalService} from "core-components/wp-edit/editing-portal/wp-editing-portal-service";
 
 export class SingleViewEditContext implements WorkPackageEditContext {
 
@@ -52,6 +53,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   public templateRenderer:SimpleTemplateRenderer = this.injector.get(SimpleTemplateRenderer);
   public $state:StateService = this.injector.get($stateToken);
   public wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
+  public wpEditingPortalService:WorkPackageEditingPortalService = this.injector.get(WorkPackageEditingPortalService);
   protected wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);
 
   // other fields
@@ -62,45 +64,23 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   }
 
   public async activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
-    const ctrl = await this.fieldCtrl(field.name);
-    const container = ctrl.editContainer;
-
-    // Create a field handler for the newly active field
-    const fieldHandler = new WorkPackageEditFieldHandler(
-      this.injector,
-      form,
-      fieldName,
-      field,
-      container,
-      errors
-    );
-
-    // Hide the display element
-    ctrl.displayContainer.hide();
-
-    // Render the edit element
-    fieldHandler.$scope = this.templateRenderer.createRenderScope();
-    const promise = this.templateRenderer.renderIsolated(
-      // Replace the current cell
-      container,
-      fieldHandler.$scope,
-      '/components/wp-edit-form/wp-edit-form.template.html',
-      {
-        vm: fieldHandler,
-      }
-    );
-
     return new Promise<WorkPackageEditFieldHandler>((resolve, reject) => {
-      promise
-        .then(() => {
-          ctrl.editContainer.show();
-          // Assure the element is visible
-          setTimeout(() => {
-            field.$onInit(container);
-            resolve(fieldHandler);
-          });
-        })
-        .catch(reject);
+      this.fieldCtrl(field.name).then((ctrl) => {
+        const container = ctrl.editContainer;
+        const handler = this.wpEditingPortalService.create(
+          container,
+          form,
+          field,
+          fieldName,
+          errors
+        );
+
+        container.show();
+        setTimeout(() => {
+          field.$onInit(container)
+          resolve(handler);
+        });
+      }).catch(reject);
     });
   }
 

@@ -27,13 +27,13 @@
 // ++
 
 import {WorkPackageEditForm} from './work-package-edit-form';
-import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {keyCodes} from '../common/keyCodes.enum';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {ConfigurationService} from 'core-components/common/config/configuration.service';
 import {Injector} from '@angular/core';
 import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 
 export class WorkPackageEditFieldHandler {
   // Injections
@@ -57,7 +57,8 @@ export class WorkPackageEditFieldHandler {
               public fieldName:string,
               public field:EditField,
               public element:JQuery,
-              public withErrors?:string[]) {
+              protected onDestroy:() => void,
+              protected withErrors?:string[]) {
 
     this.editContext = form.editContext;
     this.schemaName = field.name;
@@ -158,7 +159,7 @@ export class WorkPackageEditFieldHandler {
   public deactivate(focus:boolean = false) {
     delete this.form.activeFields[this.fieldName];
     this.editContext.reset(this.workPackage, this.fieldName, focus);
-    this.$scope && this.$scope.$destroy();
+    this.onDestroy();
   }
 
   /**

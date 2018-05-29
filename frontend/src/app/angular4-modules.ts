@@ -118,12 +118,10 @@ import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy
 import {WpCustomActionsComponent} from 'core-components/wp-custom-actions/wp-custom-actions.component';
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
 import {WorkPackageSplitViewToolbarComponent} from 'core-components/wp-details/wp-details-toolbar.component';
-import {WorkPackageDisplayFieldService} from 'core-components/wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
 import {OpDatePickerComponent} from 'core-components/wp-edit/op-date-picker/op-date-picker.component';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
-import {WorkPackageEditFieldService} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.service';
 import {WorkPackageReplacementLabelComponent} from 'core-components/wp-edit/wp-edit-field/wp-replacement-label.component';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {WorkPackageTableAdditionalElementsService} from 'core-components/wp-fast-table/state/wp-table-additional-elements.service';
@@ -142,7 +140,6 @@ import {WorkPackageInlineCreateComponent} from 'core-components/wp-inline-create
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WpResizerDirective} from 'core-components/resizer/wp-resizer.component';
 import {MainMenuResizerDirective} from 'core-components/resizer/main-menu-resizer.component';
-import {WorkPackageFieldService} from 'core-components/wp-field/wp-field.service';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
@@ -225,6 +222,10 @@ import {WorkPackageRelationRowComponent} from "core-components/wp-relations/wp-r
 import {Ng1FieldControlsWrapper} from "core-components/wp-edit/field-controls/wp-edit-field-controls-ng1-wrapper";
 import {WorkPackageRelationsCreateComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-create.component";
 import {WpRelationsAutocompleteComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.upgraded.component";
+import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
+import {
+  WorkPackageEditingPortalService
+} from "core-components/wp-edit/editing-portal/wp-editing-portal-service";
 
 @NgModule({
   imports: [
@@ -235,7 +236,13 @@ import {WpRelationsAutocompleteComponent} from "core-components/wp-relations/wp-
     // Angular CDK
     PortalModule,
     // Hal Module
-    OpenprojectHalModule
+    OpenprojectHalModule,
+    // Display + Edit field functionality
+    OpenprojectFieldsModule
+  ],
+  exports: [
+    OpIcon,
+    Ng1FieldControlsWrapper
   ],
   providers: [
     GonRef,
@@ -266,7 +273,7 @@ import {WpRelationsAutocompleteComponent} from "core-components/wp-relations/wp-
     PaginationService,
     upgradeService(keepTabFactory, KeepTabService),
     upgradeService(templateRendererFactory, SimpleTemplateRenderer),
-    upgradeService(wpDisplayFieldFactory, WorkPackageDisplayFieldService),
+    WorkPackageEditingPortalService,
     WorkPackageNotificationService,
     WorkPackagesListChecksumService,
     WorkPackageRelationsHierarchyService,
@@ -290,9 +297,7 @@ import {WpRelationsAutocompleteComponent} from "core-components/wp-relations/wp-
     WorkPackagesListInvalidQueryService,
     WorkPackageTableFocusService,
     WorkPackageTableSelection,
-    WorkPackageFieldService,
-    WorkPackageDisplayFieldService,
-    WorkPackageEditFieldService,
+
     upgradeService(ExpressionServiceFactory, ExpressionService),
     WorkPackageCreateService,
     OpTableActionsService,
@@ -555,9 +560,6 @@ import {WpRelationsAutocompleteComponent} from "core-components/wp-relations/wp-
   ]
 })
 export class OpenProjectModule {
-  constructor() {
-  }
-
   // noinspection JSUnusedGlobalSymbols
   ngDoBootstrap(appRef:ApplicationRef) {
     // Already done in openproject-app.ts
@@ -654,10 +656,6 @@ export function keepTabFactory(i:any) {
 
 export function templateRendererFactory(i:any) {
   return i.get('templateRenderer');
-}
-
-export function wpDisplayFieldFactory(i:any) {
-  return i.get('wpDisplayField');
 }
 
 export function wpFiltersServiceFactory(i:any) {

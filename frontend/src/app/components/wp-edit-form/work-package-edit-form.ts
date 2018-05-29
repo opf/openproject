@@ -34,14 +34,14 @@ import {Subscription} from 'rxjs';
 import {debugLog} from '../../helpers/debug_output';
 import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
-import {WorkPackageEditFieldService} from '../wp-edit/wp-edit-field/wp-edit-field.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
 import {WorkPackageChangeset} from './work-package-changeset';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {WorkPackageEditingService} from './work-package-editing-service';
+import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service";
+import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 
 export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
 export const activeFieldClassName = 'wp-inline-edit--field';
@@ -51,7 +51,7 @@ export class WorkPackageEditForm {
   public states:States = this.injector.get(States);
   public wpCacheService = this.injector.get(WorkPackageCacheService);
   public wpEditing = this.injector.get(WorkPackageEditingService);
-  public wpEditField = this.injector.get(WorkPackageEditFieldService);
+  public wpEditField = this.injector.get(EditFieldService);
   public wpTableRefresh = this.injector.get(WorkPackageTableRefreshService);
   public wpNotificationsService = this.injector.get(WorkPackageNotificationService);
 

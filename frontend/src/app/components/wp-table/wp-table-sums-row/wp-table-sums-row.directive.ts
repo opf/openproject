@@ -33,10 +33,10 @@ import {I18nToken} from '../../../angular4-transition-utils';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {States} from '../../states.service';
-import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
-import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageTableColumns} from '../../wp-fast-table/wp-table-columns';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
 
 @Directive({
   selector: '[wpTableSumsRow]'
@@ -51,7 +51,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
               public readonly elementRef:ElementRef,
               public readonly tableState:TableState,
               private states:States,
-              private wpDisplayField:WorkPackageDisplayFieldService,
+              private displayFieldService:DisplayFieldService,
               @Inject(I18nToken) private I18n:op.I18n) {
 
     this.text = {
@@ -112,9 +112,9 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
     this.$element.append(`<td><div class="generic-table--footer-outer"></div></td>`);
   }
 
-  private renderContent(sums:any, name:string, fieldSchema:op.FieldSchema) {
+  private renderContent(sums:any, name:string, fieldSchema:IFieldSchema) {
     const div = document.createElement('div');
-    const field = this.wpDisplayField.getField(sums, name, fieldSchema) as DisplayField;
+    const field = this.displayFieldService.getField(sums, name, fieldSchema);
 
     if (!field.isEmpty()) {
       field.render(div, field.valueString);

@@ -28,8 +28,8 @@
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageEditForm} from './work-package-edit-form';
-import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
+import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 export interface WorkPackageEditContext {
   /**
    * Activate the field, returning the element and associated field handler

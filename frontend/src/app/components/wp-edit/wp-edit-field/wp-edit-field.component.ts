@@ -47,6 +47,7 @@ import {ConfigurationService} from 'core-components/common/config/configuration.
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {NotificationsService} from 'core-components/common/notifications/notifications.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {IFieldSchema} from "core-app/modules/fields/field.base";
 
 @Component({
   selector: 'wp-edit-field',
@@ -107,7 +108,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
   }
 
   public get isEditable() {
-    const fieldSchema = this.resource.schema[this.fieldName] as op.FieldSchema;
+    const fieldSchema = this.resource.schema[this.fieldName] as IFieldSchema;
     return this.resource.isEditable && fieldSchema && fieldSchema.writable;
   }
 

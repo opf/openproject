@@ -26,40 +26,47 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {$stateToken} from 'core-app/angular4-transition-utils';
+import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import {StateService} from '@uirouter/core';
+import {UiStateLinkBuilder} from "core-components/wp-fast-table/builders/ui-state-link-builder";
 
-export class WorkPackageFieldControlsController {
-  public cancelTitle:string;
-  public saveTitle:string;
-  public fieldController:any;
-  public onSave:any;
-  public onCancel:any;
+export class IdDisplayField extends DisplayField {
 
-  public get field():EditField {
-    return this.fieldController.field;
-  }
-}
-
-function wpEditFieldControls():any {
-  return {
-    restrict: 'E',
-    template: require('./wp-edit-field-controls.directive.html'),
-
-    scope: {
-      fieldController: '=',
-      onSave: '&',
-      onCancel: '&',
-      cancelTitle: '@',
-      saveTitle: '@'
-    },
-
-    controller: WorkPackageFieldControlsController,
-    controllerAs: 'vm',
-    bindToController: true
+  public text = {
+    linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
   };
-}
 
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditFieldControls', wpEditFieldControls);
+  private $state:StateService = this.$injector.get($stateToken);
+  private keepTab:KeepTabService = this.$injector.get(KeepTabService);
+  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
+
+  public get value() {
+    if (this.resource.isNew) {
+      return null;
+    }
+    else {
+      return this.resource[this.name];
+    }
+  }
+
+  public render(element:HTMLElement, displayText:string):void {
+    if (!this.value) {
+      return;
+    }
+
+    let link = this.uiStateBuilder.linkToShow(
+      this.value,
+      displayText,
+      this.value
+    );
+
+    element.appendChild(link);
+  }
+
+  public isEmpty():boolean {
+    return false;
+  }
+
+}

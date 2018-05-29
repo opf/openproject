@@ -35,11 +35,11 @@ import {debugLog} from '../../../helpers/debug_output';
 import {CurrentProjectService} from '../../projects/current-project.service';
 import {States} from '../../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
-import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {input} from 'reactivestates';
+import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
+import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 
 export interface FieldDescriptor {
   name:string;
@@ -112,7 +112,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected PathHelper:PathHelperService,
               protected states:States,
               protected wpEditing:WorkPackageEditingService,
-              protected wpDisplayField:WorkPackageDisplayFieldService,
+              protected displayFieldService:DisplayFieldService,
               protected wpCacheService:WorkPackageCacheService) {
   }
 
@@ -310,7 +310,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   }
 
   private displayField(resource:WorkPackageResource, name:string):DisplayField {
-    return this.wpDisplayField.getField(
+    return this.displayFieldService.getField(
       resource,
       name,
       resource.schema[name]

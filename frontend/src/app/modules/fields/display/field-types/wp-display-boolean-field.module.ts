@@ -26,40 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 
-export class WorkPackageFieldControlsController {
-  public cancelTitle:string;
-  public saveTitle:string;
-  public fieldController:any;
-  public onSave:any;
-  public onCancel:any;
+export class BooleanDisplayField extends DisplayField {
 
-  public get field():EditField {
-    return this.fieldController.field;
+  public get valueString() {
+    return this.translatedValue();
+  }
+
+  public get placeholder() {
+    return this.translatedValue();
+  }
+
+  public translatedValue() {
+    if (this.value) {
+      return this.I18n.t('js.general_text_yes');
+    } else {
+      return this.I18n.t('js.general_text_no');
+    }
+  }
+
+  public isEmpty():boolean {
+    // We treat an empty value the same as if the user had set
+    // the value to false;
+    return false;
   }
 }
-
-function wpEditFieldControls():any {
-  return {
-    restrict: 'E',
-    template: require('./wp-edit-field-controls.directive.html'),
-
-    scope: {
-      fieldController: '=',
-      onSave: '&',
-      onCancel: '&',
-      cancelTitle: '@',
-      saveTitle: '@'
-    },
-
-    controller: WorkPackageFieldControlsController,
-    controllerAs: 'vm',
-    bindToController: true
-  };
-}
-
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditFieldControls', wpEditFieldControls);

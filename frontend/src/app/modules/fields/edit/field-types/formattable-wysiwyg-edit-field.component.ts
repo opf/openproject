@@ -1,4 +1,3 @@
-// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -26,40 +25,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {Component} from "@angular/core";
+import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
+import {FormattableEditField} from "core-app/modules/fields/edit/field-types/formattable-edit-field";
 
-export class WorkPackageFieldControlsController {
-  public cancelTitle:string;
-  public saveTitle:string;
-  public fieldController:any;
-  public onSave:any;
-  public onCancel:any;
-
-  public get field():EditField {
-    return this.fieldController.field;
-  }
+@Component({
+  template: `
+    <div class="textarea-wrapper">
+      <div class="op-ckeditor-wrapper op-ckeditor-element">
+      </div>
+      <ng1-wp-field-controls-wrapper *ngIf="handler.inEditMode"
+                                     [fieldController]="handler"
+                                     (onSave)="handler.handleUserSubmit()"
+                                     (onCancel)="handler.handleUserCancel()"
+                                     [saveTitle]="field.text.save"
+                                     [cancelTitle]="field.text.cancel">
+      </ng1-wp-field-controls-wrapper>
+    </div>
+  `
+})
+export class FormattableWysiwygEditFieldComponent extends EditFieldComponent {
+  public field:FormattableEditField;
 }
-
-function wpEditFieldControls():any {
-  return {
-    restrict: 'E',
-    template: require('./wp-edit-field-controls.directive.html'),
-
-    scope: {
-      fieldController: '=',
-      onSave: '&',
-      onCancel: '&',
-      cancelTitle: '@',
-      saveTitle: '@'
-    },
-
-    controller: WorkPackageFieldControlsController,
-    controllerAs: 'vm',
-    bindToController: true
-  };
-}
-
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditFieldControls', wpEditFieldControls);

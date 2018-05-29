@@ -26,40 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Component} from "@angular/core";
+import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 
-export class WorkPackageFieldControlsController {
-  public cancelTitle:string;
-  public saveTitle:string;
-  public fieldController:any;
-  public onSave:any;
-  public onCancel:any;
-
-  public get field():EditField {
-    return this.fieldController.field;
-  }
+@Component({
+  template: `
+    <input type="text"
+           class="wp-inline-edit--field"
+           [attr.aria-required]="field.required"
+           [attr.required]="field.required"
+           [attr.disabled]="field.inFlight"
+           [(ngModel)]="value"
+           (keydown)="handler.handleUserKeydown($event)"
+           [attr.id]="handler.htmlId" />
+  `
+})
+export class TextEditFieldComponent extends EditFieldComponent {
+  public field:TextEditField;
 }
 
-function wpEditFieldControls():any {
-  return {
-    restrict: 'E',
-    template: require('./wp-edit-field-controls.directive.html'),
-
-    scope: {
-      fieldController: '=',
-      onSave: '&',
-      onCancel: '&',
-      cancelTitle: '@',
-      saveTitle: '@'
-    },
-
-    controller: WorkPackageFieldControlsController,
-    controllerAs: 'vm',
-    bindToController: true
-  };
+export class TextEditField extends EditField {
+  public component = TextEditFieldComponent;
 }
-
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditFieldControls', wpEditFieldControls);

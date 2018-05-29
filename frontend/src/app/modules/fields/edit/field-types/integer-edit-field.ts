@@ -1,4 +1,3 @@
-// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -26,40 +25,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {DurationEditField} from "core-app/modules/fields/edit/field-types/duration-edit-field";
+import {Component} from "@angular/core";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 
-export class WorkPackageFieldControlsController {
-  public cancelTitle:string;
-  public saveTitle:string;
-  public fieldController:any;
-  public onSave:any;
-  public onCancel:any;
-
-  public get field():EditField {
-    return this.fieldController.field;
-  }
+@Component({
+  template: `
+    <input type="number"
+           class="wp-inline-edit--field"
+           [attr.aria-required]="field.required"
+           [attr.required]="field.required"
+           [attr.disabled]="field.inFlight"
+           [(ngModel)]="field.value"
+           (keydown)="handler.handleUserKeydown($event)"
+           [attr.id]="handler.htmlId" />
+  `
+})
+export class IntegerEditFieldComponent extends EditFieldComponent {
+  public field:DurationEditField;
 }
 
-function wpEditFieldControls():any {
-  return {
-    restrict: 'E',
-    template: require('./wp-edit-field-controls.directive.html'),
-
-    scope: {
-      fieldController: '=',
-      onSave: '&',
-      onCancel: '&',
-      cancelTitle: '@',
-      saveTitle: '@'
-    },
-
-    controller: WorkPackageFieldControlsController,
-    controllerAs: 'vm',
-    bindToController: true
-  };
+export class IntegerEditField extends EditField {
+  public component = IntegerEditFieldComponent;
 }
-
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditFieldControls', wpEditFieldControls);

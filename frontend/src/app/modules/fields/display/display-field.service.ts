@@ -26,40 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {Injectable, Injector} from '@angular/core';
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {AbstractFieldService, IFieldType} from "core-app/modules/fields/field.service";
+import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
 
-export class WorkPackageFieldControlsController {
-  public cancelTitle:string;
-  public saveTitle:string;
-  public fieldController:any;
-  public onSave:any;
-  public onCancel:any;
+export interface IDisplayFieldType extends IFieldType<DisplayField> {
+  new(resource:HalResource, attributeType:string, schema:IFieldSchema):DisplayField;
+}
 
-  public get field():EditField {
-    return this.fieldController.field;
+@Injectable()
+export class DisplayFieldService extends AbstractFieldService<DisplayField, IDisplayFieldType> {
+
+  constructor(injector:Injector) {
+    super(injector);
   }
 }
-
-function wpEditFieldControls():any {
-  return {
-    restrict: 'E',
-    template: require('./wp-edit-field-controls.directive.html'),
-
-    scope: {
-      fieldController: '=',
-      onSave: '&',
-      onCancel: '&',
-      cancelTitle: '@',
-      saveTitle: '@'
-    },
-
-    controller: WorkPackageFieldControlsController,
-    controllerAs: 'vm',
-    bindToController: true
-  };
-}
-
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditFieldControls', wpEditFieldControls);

@@ -26,40 +26,41 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import ExpressionService from "core-components/common/xss/expression.service";
 
-export class WorkPackageFieldControlsController {
-  public cancelTitle:string;
-  public saveTitle:string;
-  public fieldController:any;
-  public onSave:any;
-  public onCancel:any;
+export class FormattableDisplayField extends DisplayField {
+  protected ExpressionService:ExpressionService = this.$injector.get(ExpressionService);
 
-  public get field():EditField {
-    return this.fieldController.field;
+  public render(element:HTMLElement, displayText:string):void {
+    angular.element(element).addClass('-multiline');
+    angular.element(element).addClass('read-value--html');
+
+    let span = document.createElement('span');
+    span.innerHTML = displayText;
+
+    element.innerHTML = '';
+    element.appendChild(span);
+  }
+
+  public get isFormattable():boolean {
+    return true;
+  }
+
+  public get value() {
+    if (!this.schema) {
+      return null;
+    }
+    return this.unescape(this.resource[this.name].html);
+  }
+
+  // Escape the given HTML string from the backend, which contains escaped Angular expressions.
+  // Since formattable fields are only binded to but never evaluated, we can safely remove these expressions.
+  protected unescape(html:string) {
+    if (html) {
+      return this.ExpressionService.unescape(html);
+    } else {
+      return '';
+    }
   }
 }
-
-function wpEditFieldControls():any {
-  return {
-    restrict: 'E',
-    template: require('./wp-edit-field-controls.directive.html'),
-
-    scope: {
-      fieldController: '=',
-      onSave: '&',
-      onCancel: '&',
-      cancelTitle: '@',
-      saveTitle: '@'
-    },
-
-    controller: WorkPackageFieldControlsController,
-    controllerAs: 'vm',
-    bindToController: true
-  };
-}
-
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditFieldControls', wpEditFieldControls);

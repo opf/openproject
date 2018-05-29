@@ -1,0 +1,24 @@
+<select [(ngModel)]="selectedOption"
+        class="wp-inline-edit--field form--select"
+        [attr.aria-required]="field.required"
+        [required]="field.required"
+        [disabled]="field.inFlight"
+        [attr.id]="handler.htmlId"
+        (keydown)="handler.handleUserKeydown($event, true)"
+        (change)="handler.handleUserSubmit()"
+        role="listbox">
+  <option
+      value=""
+      [textContent]="text.requiredPlaceholder"
+      *ngIf="currentValueInvalid"
+      [selected]="currentValueInvalid"
+      disabled>
+  </option>
+  <option
+      *ngFor="let value of valueOptions"
+      [ngValue]="value"
+      [textContent]="value.name"
+      disabled>
+  </option>
+
+</select>

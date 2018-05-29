@@ -1,11 +1,12 @@
-import {ProgressTextDisplayField} from './../wp-display/field-types/wp-display-progress-text-field.module';
-import {WorkPackageDisplayFieldService} from '../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {DisplayField} from '../wp-display/wp-display-field/wp-display-field.module';
-import {MultipleLinesStringObjectsDisplayField} from '../wp-display/field-types/wp-display-multiple-lines-string-objects-field.module';
 import {WorkPackageChangeset} from './work-package-changeset';
 import {Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
+import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
+import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {MultipleLinesStringObjectsDisplayField} from "core-app/modules/fields/display/field-types/wp-display-multiple-lines-string-objects-field.module";
+import {ProgressTextDisplayField} from "core-app/modules/fields/display/field-types/wp-display-progress-text-field.module";
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
@@ -18,7 +19,7 @@ export const cellEmptyPlaceholder = '-';
 
 export class DisplayFieldRenderer {
 
-  readonly wpDisplayField:WorkPackageDisplayFieldService = this.injector.get(WorkPackageDisplayFieldService);
+  readonly displayFieldService:DisplayFieldService = this.injector.get(DisplayFieldService);
   readonly I18n:op.I18n = this.injector.get(I18nToken);
 
   constructor(readonly injector:Injector, public context:'table' | 'single-view' | 'timeline') {
@@ -66,7 +67,7 @@ export class DisplayFieldRenderer {
   }
 
   public getField(workPackage:WorkPackageResource,
-                  fieldSchema:op.FieldSchema,
+                  fieldSchema:IFieldSchema,
                   name:string,
                   changeset:WorkPackageChangeset|null):DisplayField {
     const field = this.getFieldForCurrentContext(workPackage, fieldSchema, name);
@@ -75,20 +76,20 @@ export class DisplayFieldRenderer {
     return field;
   }
 
-  private getFieldForCurrentContext(workPackage:WorkPackageResource, fieldSchema:op.FieldSchema, name:string) {
+  private getFieldForCurrentContext(workPackage:WorkPackageResource, fieldSchema:IFieldSchema, name:string):DisplayField {
 
     // We handle multi value fields differently in the single view context
     const isMultiLinesField = ['[]CustomOption', '[]User'].indexOf(fieldSchema.type) >= 0;
     if (this.context === 'single-view' && isMultiLinesField) {
-      return new MultipleLinesStringObjectsDisplayField(workPackage as any, name, fieldSchema) as DisplayField;
+      return new MultipleLinesStringObjectsDisplayField(workPackage, name, fieldSchema) as DisplayField;
     }
 
     // We handle progress differently in the timeline
     if (this.context === 'timeline' && name === 'percentageDone') {
-      return new ProgressTextDisplayField(workPackage as any, name, fieldSchema);
+      return new ProgressTextDisplayField(workPackage, name, fieldSchema);
     }
 
-    return this.wpDisplayField.getField(workPackage, name, fieldSchema) as DisplayField;
+    return this.displayFieldService.getField(workPackage, name, fieldSchema);
   }
 
   private getText(field:DisplayField, placeholder:string):string {
@@ -129,7 +130,7 @@ export class DisplayFieldRenderer {
     if (field.isFormattable && !field.isEmpty()) {
       try {
         titleContent = _.escape(angular.element(`<div>${labelContent}</div>`).text());
-      } catch(e) {
+      } catch (e) {
         console.error("Failed to parse formattable labelContent");
         titleContent = "Label for " + field.displayName;
       }

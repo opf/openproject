@@ -92,15 +92,6 @@ declare namespace op {
     locale:string;
   }
 
-  interface FieldSchema {
-    type:string;
-    writable:boolean;
-    allowedValues:any;
-    required?:boolean;
-    hasDefault:boolean;
-    name?:string;
-  }
-
   interface QueryParams {
     offset?:number;
     pageSize?:number;
