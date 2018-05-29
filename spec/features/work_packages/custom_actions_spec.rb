@@ -138,7 +138,7 @@ describe 'Custom actions', type: :feature, js: true do
     login_as(admin)
   end
 
-  scenario 'viewing workflow buttons' do
+  scenario 'viewing workflow buttons', retry: 3 do
     # create custom action 'Unassign'
     index_ca_page.visit!
 

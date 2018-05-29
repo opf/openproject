@@ -55,7 +55,7 @@ de:
     description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     error:
       internal: Ein interner Fehler ist aufgetreten.
-      query_saving: The query could not be saved.
+      query_saving: Die Abfrage konnte nicht gespeichert werden.
     filter:
       description:
         text_open_filter: Öffnen Sie diesen Filter mittels "Alt" und den Pfeiltasten.
@@ -149,7 +149,7 @@ de:
     label_not_equals: ist nicht
     label_on: am
     label_open_menu: Menü öffnen
-    label_open_context_menu: Open context menu
+    label_open_context_menu: Kontextmenü öffnen
     label_open_work_packages: offen
     label_password: Kennwort
     label_previous: Zurück
@@ -173,7 +173,7 @@ de:
     label_subject: Thema
     label_this_week: aktuelle Woche
     label_today: heute
-    label_up: Up
+    label_up: Nach oben
     label_activity_show_only_comments: Nur Aktivitäten mit Kommentaren
     label_activity_show_all: Alle Aktivitäten anzeigen
     label_total_progress: "%{percent}% Gesamtfortschritt"
@@ -332,7 +332,7 @@ de:
     timelines:
       gantt_chart: Gantt-Diagramm
       labels:
-        title: Label configuration
+        title: Konfiguration von Beschriftungen
         bar: Balkenbeschriftungen
         left: Links
         right: Rechts
@@ -479,7 +479,7 @@ de:
         header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})'
         button: Anlegen
       copy:
-        title: Copy work package
+        title: Arbeitspaket kopieren
       hierarchy:
         show: Hierarchie-Modus anzeigen
         hide: Hierarchie-Modus verbergen
@@ -554,7 +554,7 @@ de:
           not_found: Filter existiert nicht
         text_no_results: Keine passenden Filter gefunden.
       table:
-        configure_button: Configure work package table
+        configure_button: Arbeitspaket-Tabelle konfigurieren
         summary: Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen
           dieser Arbeitspakete.
         text_inline_edit: Die meisten Zellen dieser Tabelle sind Schalter, über die
@@ -564,22 +564,24 @@ de:
         text_select_hint: Auswahlfelder können mit 'ALT' und Pfeiltasten geöffnet
           werden.
       table_configuration:
-        button: Configure this work package table
-        modal_title: Work package table configuration
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
-        display_settings: Display settings
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
+        button: Konfigurieren Sie diese Arbeitspaket-Tabelle
+        modal_title: Konfiguration der Arbeitspaket-Tabelle
+        embedded_tab_disabled: Dieser Tab ist nicht verfübar für diese eingebettete
+          Tabelle.
+        display_settings: Anzeige-Einstellungen
+        grouped_mode: Gruppierte Ansicht
+        grouped_hint: Ergebnisse der Tabelle werden anhand des angegebenen Attributs
+          gruppiert.
+        default_mode: Standardmodus
         hierarchy_mode: Hierarchie-Modus
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
+        hierarchy_hint: Zusätzlich zu den Ergebnissen der Tabelle werden die Eltern
+          der Elemente angezeigt. Hierarchien können in der Tabelle ein- und ausgeklappt
+          werden.
+        display_sums_hint: Zeigt eine Zeile mit den Summen aller summierbaren Spalten
+          unterhalb den Ergebnissen an.
+        show_timeline_hint: Zeigt ein interaktives Gantt-Diagramm auf der rechten
+          Seite der Tabelle an. Sie können die Aufteilung der beiden Elemente über
+          Ziehen des Trennstrichs zwischen Tabelle und Gantt-Diagramm konfigurieren.
       tabs:
         overview: Übersicht
         activity: Aktivität

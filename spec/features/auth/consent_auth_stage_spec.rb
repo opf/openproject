@@ -32,7 +32,7 @@ describe 'Authentication Stages', type: :feature, js: true do
   let(:language) { 'en' }
   let(:user_password) { 'bob' * 4 }
   let(:user) do
-    FactoryGirl.create(
+    FactoryBot.create(
       :user,
       admin: true,
       force_password_change: false,
@@ -48,7 +48,9 @@ describe 'Authentication Stages', type: :feature, js: true do
   end
 
   before do
-    Setting.consent_required = consent_required
+    allow(Setting)
+      .to receive(:consent_required?)
+      .and_return(consent_required)
   end
 
   def expect_logged_in
@@ -60,7 +62,6 @@ describe 'Authentication Stages', type: :feature, js: true do
     visit my_account_path
     expect(page).to have_no_selector('.form--field-container', text: user.login)
   end
-
 
   context 'when disabled' do
     let(:consent_required) { false }
@@ -84,7 +85,7 @@ describe 'Authentication Stages', type: :feature, js: true do
     end
   end
   context 'when enabled, localized consent exists',
-          with_settings: { consent_info: { de: 'h1. Einwilligung', en: 'h1. Consent header!'} } do
+          with_settings: { consent_info: { de: 'h1. Einwilligung', en: 'h1. Consent header!' } } do
     let(:consent_required) { true }
     let(:language) { 'de' }
 
@@ -96,7 +97,7 @@ describe 'Authentication Stages', type: :feature, js: true do
     end
   end
 
-  context 'when enabled, but consent exists', with_settings: { consent_info: { en: 'h1. Consent header!'} } do
+  context 'when enabled, but consent exists', with_settings: { consent_info: { en: 'h1. Consent header!' } } do
     let(:consent_required) { true }
     it 'should show consent' do
       expect(Setting.consent_time).to be_blank

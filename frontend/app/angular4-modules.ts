@@ -87,6 +87,7 @@ import {HideSectionComponent} from 'core-components/common/hide-section/hide-sec
 import {HideSectionService} from 'core-components/common/hide-section/hide-section.service';
 import {AddSectionDropdownComponent} from 'core-components/common/hide-section/add-section-dropdown/add-section-dropdown.component';
 import {HideSectionLinkComponent} from 'core-components/common/hide-section/hide-section-link/hide-section-link.component';
+import {ShowSectionDropdownComponent} from 'core-components/common/hide-section/show-section-dropdown.component';
 import {GonRef} from 'core-components/common/gon-ref/gon-ref';
 import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
 import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
@@ -368,6 +369,7 @@ import {WorkPackageRelationsCreateComponent} from "core-components/wp-relations/
     HideSectionComponent,
     HideSectionLinkComponent,
     AddSectionDropdownComponent,
+    ShowSectionDropdownComponent,
     AutocompleteSelectDecorationComponent,
 
     // Split view
@@ -489,6 +491,7 @@ import {WorkPackageRelationsCreateComponent} from "core-components/wp-relations/
     HideSectionComponent,
     HideSectionLinkComponent,
     AddSectionDropdownComponent,
+    ShowSectionDropdownComponent,
     AutocompleteSelectDecorationComponent,
 
     // Split view
