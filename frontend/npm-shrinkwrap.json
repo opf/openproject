@@ -2367,9 +2367,7 @@
       "dev": true
     },
     "foundation-apps": {
-      "version": "1.1.0",
-      "resolved": "https://registry.npmjs.org/foundation-apps/-/foundation-apps-1.1.0.tgz",
-      "integrity": "sha1-urkXW+qLXSN8qH/j7MIUqtM9z5w="
+      "version": "git://github.com/opf/foundation-apps.git#1bc8c3ab51e757d19a636747e45e519cde00e902"
     },
     "fresh": {
       "version": "0.5.0",

@@ -208,20 +208,20 @@ tr.dir
   a
     &.dir-expander i
       @include icon-common
+      @extend .icon-plus
       cursor: pointer
       &:before
-        @extend .icon-plus:before
         margin-left: 5px
         padding: 0
   &.loading
-    .dir-expander i:before
-      @extend .icon-loading1:before
+    .dir-expander i
+      @extend .icon-loading1
   &.collapsed
-    .dir-expander i:before
-      @extend .icon-plus:before
+    .dir-expander i
+      @extend .icon-plus
   &.open
-    .dir-expander i:before
-      @extend .icon-minus1:before
+    .dir-expander i
+      @extend .icon-minus1
 
 tr
   &.entry

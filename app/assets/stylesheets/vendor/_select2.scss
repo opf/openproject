@@ -204,7 +204,7 @@ $se2-width: 100%;
 .select2-drop {
   .select2-search {
     &:before {
-      @extend .icon-search:before;
+      @include icon-mixin-search;
       font-family: "openproject-icon-font";
       color: #E0E0E0;
       position: absolute;
