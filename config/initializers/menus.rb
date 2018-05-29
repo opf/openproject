@@ -70,15 +70,12 @@ end
 Redmine::MenuManager.map :account_menu do |menu|
   menu.push :my_page,
             { controller: '/my', action: 'page' },
-            html: { class: 'hidden-for-mobile' },
             if: Proc.new { User.current.logged? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
-            html: { class: 'hidden-for-mobile' },
             if: Proc.new { User.current.logged? }
   menu.push :administration,
             { controller: '/users', action: 'index' },
-            html: { class: 'hidden-for-mobile' },
             if: Proc.new { User.current.admin? }
   menu.push :logout, :signout_path,
             if: Proc.new { User.current.logged? }
