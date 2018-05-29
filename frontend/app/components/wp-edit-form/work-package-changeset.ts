@@ -53,14 +53,14 @@ export class WorkPackageChangeset {
   public wpEditing:WorkPackageEditingService;
 
   // The changeset to be applied to the work package
-  private changes:{[attribute:string]:any} = {};
+  private changes:{ [attribute:string]:any } = {};
   public inFlight:boolean = false;
 
   // The current work package form
   public wpForm = input<FormResourceInterface>();
 
   // The current editing resource
-  public resource:WorkPackageResourceInterface|null;
+  public resource:WorkPackageResourceInterface | null;
 
   constructor(public workPackage:WorkPackageResourceInterface, form?:FormResourceInterface) {
     $injectFields(
@@ -139,7 +139,7 @@ export class WorkPackageChangeset {
     if (this.wpForm.hasValue()) {
       return Promise.resolve(this.wpForm.value!);
     } else {
-      return new Promise((resolve, ) => this.wpForm.valuesPromise().then(resolve));
+      return new Promise((resolve,) => this.wpForm.valuesPromise().then(resolve));
     }
   }
 
@@ -270,31 +270,41 @@ export class WorkPackageChangeset {
   }
 
   private get minimalPayload() {
-    return { lockVersion: this.workPackage.lockVersion, _links: {} };
+    return {lockVersion: this.workPackage.lockVersion, _links: {}};
   }
 
   /**
    * Extract the link(s) in the given changed value
    */
   private getLinkedValue(val:any, fieldSchema:op.FieldSchema) {
-    var isArray = (fieldSchema.type || '').startsWith('[]');
+    // Links should always be nullified as { href: null }, but
+    // this wasn't always the case, so ensure null values are returned as such.
+    if (_.isNil(val)) {
+      return {href: null};
+    }
 
-    if (isArray) {
+    // Test if we either have a CollectionResource or a HAL array,
+    // or a single hal value.
+    let isArrayType = (fieldSchema.type || '').startsWith('[]');
+    let isArray = false;
+
+    if (val.forEach || val.elements) {
+      isArray = true;
+    }
+
+    if (isArray && isArrayType) {
       var links:{ href:string }[] = [];
+      var elements = val.forEach ? val : val.elements;
 
-      if (val) {
-        var elements = (val.forEach && val) || val.elements;
-
-        elements.forEach((link:{ href:string }) => {
-          if (link.href) {
-            links.push({href: link.href});
-          }
-        });
-      }
+      elements.forEach((link:{ href:string }) => {
+        if (link.href) {
+          links.push({href: link.href});
+        }
+      });
 
       return links;
     } else {
-      return { href: _.get(val, 'href', null) };
+      return {href: _.get(val, 'href', null)};
     }
   }
 
