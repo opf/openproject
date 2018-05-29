@@ -47,6 +47,10 @@ module API
         property :name,
                  exec_context: :decorator
 
+        def _type
+          "BacklogsType"
+        end
+
         def id
           represented.last
         end

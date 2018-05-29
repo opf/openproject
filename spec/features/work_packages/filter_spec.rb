@@ -58,21 +58,21 @@ describe 'Filter by backlog type', js: true do
 
   let(:member) do
     FactoryBot.create(:member,
-                       user: user,
-                       project: project,
-                       roles: [FactoryBot.create(:role)])
+                      user: user,
+                      project: project,
+                      roles: [FactoryBot.create(:role)])
   end
 
   let(:work_package_with_story_type) do
     FactoryBot.create(:work_package,
-                       type: story_type,
-                       project: project)
+                      type: story_type,
+                      project: project)
   end
 
   let(:work_package_with_task_type) do
     FactoryBot.create(:work_package,
-                       type: task_type,
-                       project: project)
+                      type: task_type,
+                      project: project)
   end
 
   before do
