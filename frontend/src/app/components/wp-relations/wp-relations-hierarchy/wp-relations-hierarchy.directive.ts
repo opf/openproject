@@ -31,7 +31,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 import {opWorkPackagesModule} from 'core-app/angular-modules';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {take, takeUntil} from 'rxjs/operators';

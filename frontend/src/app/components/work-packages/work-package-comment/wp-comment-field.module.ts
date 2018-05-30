@@ -28,7 +28,7 @@
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
-import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {FormattableEditField} from "core-app/modules/fields/edit/field-types/formattable-edit-field";
 
 export class WorkPackageCommentField extends FormattableEditField {

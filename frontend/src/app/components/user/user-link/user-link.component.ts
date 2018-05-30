@@ -29,7 +29,7 @@
 import {Component, Inject, Input} from '@angular/core';
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 
 @Component({
   selector: 'user-link',

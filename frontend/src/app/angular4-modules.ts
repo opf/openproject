@@ -35,31 +35,9 @@ import {UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
-import {AccessibleByKeyboardComponent} from 'core-components/a11y/accessible-by-keyboard.component';
 import {SimpleTemplateRenderer} from 'core-components/angular/simple-template-renderer';
 import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
-import {AuthoringComponent} from 'core-components/common/authoring/authoring.component';
-import {AutocompleteSelectDecorationComponent} from 'core-components/common/autocomplete-select-decoration/autocomplete-select-decoration.component';
-import {ConfigurationService} from 'core-components/common/config/configuration.service';
-import {OpDateTimeComponent} from 'core-components/common/date/op-date-time.component';
-import {WorkPackageEditActionsBarComponent} from 'core-components/common/edit-actions-bar/wp-edit-actions-bar.component';
-import {GonRef} from 'core-components/common/gon-ref/gon-ref';
-import {AttributeHelpTextComponent} from 'core-components/common/help-texts/attribute-help-text.component';
-import {AttributeHelpTextModal} from 'core-components/common/help-texts/attribute-help-text.modal';
-import {AttributeHelpTextsService} from 'core-components/common/help-texts/attribute-help-text.service';
-import {AddSectionDropdownComponent} from 'core-components/common/hide-section/add-section-dropdown/add-section-dropdown.component';
-import {HideSectionLinkComponent} from 'core-components/common/hide-section/hide-section-link/hide-section-link.component';
-import {HideSectionComponent} from 'core-components/common/hide-section/hide-section.component';
-import {HideSectionService} from 'core-components/common/hide-section/hide-section.service';
-import {OpIcon} from 'core-components/common/icon/op-icon';
-import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
-import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
-import {NotificationComponent} from 'core-components/common/notifications/notification.component';
-import {NotificationsContainerComponent} from 'core-components/common/notifications/notifications-container.component';
-import {NotificationsService} from 'core-components/common/notifications/notifications.service';
-import {UploadProgressComponent} from 'core-components/common/notifications/upload-progress.component';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
-import ExpressionService from 'core-components/common/xss/expression.service';
+
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {FilterBooleanValueComponent} from 'core-components/filters/filter-boolean-value/filter-boolean-value.component';
 import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
@@ -119,7 +97,6 @@ import {WpCustomActionsComponent} from 'core-components/wp-custom-actions/wp-cus
 import {WpCustomActionComponent} from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
 import {WorkPackageSplitViewToolbarComponent} from 'core-components/wp-details/wp-details-toolbar.component';
 import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
-import {OpDatePickerComponent} from 'core-components/wp-edit/op-date-picker/op-date-picker.component';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 import {WorkPackageReplacementLabelComponent} from 'core-components/wp-edit/wp-edit-field/wp-replacement-label.component';
@@ -210,22 +187,20 @@ import {QuerySharingModal} from "core-components/modals/share-modal/query-sharin
 import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
 import {QuerySharingForm} from "core-components/modals/share-modal/query-sharing-form.component";
 import {RenameQueryModal} from "core-components/modals/rename-query-modal/rename-query.modal";
-import {FocusHelperService} from 'core-components/common/focus/focus-helper';
 import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
-import {FocusWithinDirective} from "core-components/common/focus/focus-within.upgraded.directive";
-import {AccessibleClickDirective} from "core-components/a11y/accessible-click.directive";
 import {WorkPackageChildrenQueryComponent} from 'core-components/wp-relations/wp-relation-children/wp-children-query.component';
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {WorkPackageRelationsComponent} from "core-components/wp-relations/wp-relations.component";
 import {WorkPackageRelationsGroupComponent} from "core-components/wp-relations/wp-relations-group/wp-relations-group.component";
 import {WorkPackageRelationRowComponent} from "core-components/wp-relations/wp-relation-row/wp-relation-row.component";
-import {Ng1FieldControlsWrapper} from "core-components/wp-edit/field-controls/wp-edit-field-controls-ng1-wrapper";
 import {WorkPackageRelationsCreateComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-create.component";
 import {WpRelationsAutocompleteComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.upgraded.component";
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 import {
   WorkPackageEditingPortalService
 } from "core-components/wp-edit/editing-portal/wp-editing-portal-service";
+import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
+import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
 
 @NgModule({
   imports: [
@@ -235,18 +210,16 @@ import {
     UIRouterUpgradeModule,
     // Angular CDK
     PortalModule,
+    // Commons
+    OpenprojectCommonModule,
+    // A11y
+    OpenprojectAccessibilityModule,
     // Hal Module
     OpenprojectHalModule,
     // Display + Edit field functionality
     OpenprojectFieldsModule
   ],
-  exports: [
-    OpIcon,
-    Ng1FieldControlsWrapper
-  ],
   providers: [
-    GonRef,
-    HideSectionService,
     upgradeService($rootScopeFactory, $rootScopeToken),
     upgradeService(I18nFactory, I18nToken),
     // {provide: I18nToken, useValue: (window as any).I18n},
@@ -257,9 +230,6 @@ import {
     upgradeService($localeFactory, $localeToken),
     upgradeService(textileServiceFactory, TextileServiceToken),
     upgradeService(AutoCompleteHelperFactory, AutoCompleteHelperServiceToken),
-    NotificationsService,
-    FocusHelperService,
-    PathHelperService,
     OpTitleService,
     TimezoneService,
     WorkPackageRelationsService,
@@ -278,7 +248,6 @@ import {
     WorkPackagesListChecksumService,
     WorkPackageRelationsHierarchyService,
     upgradeService(wpFiltersServiceFactory, WorkPackageFiltersService),
-    upgradeService(loadingIndicatorFactory, LoadingIndicatorService),
     ApiWorkPackagesService,
     // Table and query states services
     WorkPackageTableRelationColumnsService,
@@ -298,16 +267,12 @@ import {
     WorkPackageTableFocusService,
     WorkPackageTableSelection,
 
-    upgradeService(ExpressionServiceFactory, ExpressionService),
     WorkPackageCreateService,
     OpTableActionsService,
-    upgradeService(authorisationServiceFactory, AuthorisationService),
-    ConfigurationService,
     upgradeService(currentProjectFactory, CurrentProjectService),
+    upgradeService(firstRouteFactory, FirstRouteService),
     QueryMenuService,
     // Split view
-    upgradeService(firstRouteFactory, FirstRouteService),
-    PathHelperService,
     WorkPackagesActivityService,
     WorkPackageWatchersService,
     // Context menus
@@ -322,17 +287,12 @@ import {
     WpTableConfigurationService,
     ConfirmDialogService,
 
-    AttributeHelpTextsService,
     // External query configuration
     ExternalQueryConfigurationService,
   ],
   declarations: [
     WorkPackagesListComponent,
-    OpIcon,
-    OpDatePickerComponent,
     OpContextMenuTrigger,
-    AccessibleByKeyboardComponent,
-    AccessibleClickDirective,
     TablePaginationComponent,
     WorkPackageTablePaginationComponent,
     WorkPackageTimelineHeaderController,
@@ -366,11 +326,6 @@ import {
     FilterStringValueComponent,
     FilterToggledMultiselectValueComponent,
 
-    // Add functionality to rails rendered templates
-    HideSectionComponent,
-    HideSectionLinkComponent,
-    AddSectionDropdownComponent,
-    AutocompleteSelectDecorationComponent,
 
     // Split view
     WorkPackageSplitViewComponent,
@@ -388,14 +343,10 @@ import {
     WorkPackageOverviewTabComponent,
     WorkPackageSingleViewComponent,
     WorkPackageStatusButtonComponent,
-    AttributeHelpTextComponent,
     WorkPackageReplacementLabelComponent,
-    FocusWithinDirective,
-    AuthoringComponent,
     Ng1WorkPackageAttachmentsUploadWrapper,
     WorkPackageAttachmentListComponent,
     WorkPackageAttachmentListItemComponent,
-    OpDateTimeComponent,
     UserLinkComponent,
     WorkPackageChildrenQueryComponent,
     WorkPackageFormAttributeGroupComponent,
@@ -412,7 +363,6 @@ import {
     WorkPackageRelationsGroupComponent,
     WorkPackageRelationRowComponent,
     WorkPackageRelationsCreateComponent,
-    Ng1FieldControlsWrapper,
     WorkPackageRelationsHierarchyComponent,
     WpRelationsAutocompleteComponent,
     WpRelationAddChildComponent,
@@ -432,7 +382,6 @@ import {
     WorkPackageNewFullViewComponent,
     WorkPackageNewSplitViewComponent,
     WorkPackageTypeStatusComponent,
-    WorkPackageEditActionsBarComponent,
 
     // WP Copy
     WorkPackageCopyFullViewComponent,
@@ -461,7 +410,6 @@ import {
     WpTableConfigurationFiltersTab,
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
-    AttributeHelpTextModal,
     WpTableExportModal,
     ConfirmDialogModal,
     DynamicContentModal,
@@ -472,10 +420,6 @@ import {
     RenameQueryModal,
     WpDestroyModal,
 
-    // Notifications
-    NotificationsContainerComponent,
-    NotificationComponent,
-    UploadProgressComponent,
 
     // External query configuration
     ExternalQueryConfigurationComponent,
@@ -486,12 +430,6 @@ import {
     WorkPackagesTableController,
     TablePaginationComponent,
     WpCustomActionsComponent,
-
-    // Add functionality to rails rendered templates
-    HideSectionComponent,
-    HideSectionLinkComponent,
-    AddSectionDropdownComponent,
-    AutocompleteSelectDecorationComponent,
 
     // Split view
     WorkPackageSplitViewComponent,
@@ -535,7 +473,6 @@ import {
     WpTableConfigurationFiltersTab,
     WpTableConfigurationSortByTab,
     WpTableConfigurationTimelinesTab,
-    AttributeHelpTextModal,
     WpTableExportModal,
     DynamicContentModal,
     ConfirmDialogModal,
@@ -544,13 +481,6 @@ import {
     SaveQueryModal,
     RenameQueryModal,
     WpDestroyModal,
-
-    // Notifications
-    NotificationsContainerComponent,
-    OpDateTimeComponent,
-
-    // Entries for ng1 downgraded components
-    AttributeHelpTextComponent,
 
     // External query configuration
     ExternalQueryConfigurationComponent,
@@ -614,36 +544,8 @@ export function FocusHelperFactory(i:any) {
   return i.get('FocusHelper');
 }
 
-export function wpMoreMenuServiceFactory(i:any) {
-  return i.get('wpMoreMenuService');
-}
-
-export function wpDestroyModalFactory(i:any) {
-  return i.get('wpDestroyModal');
-}
-
-export function shareModalFactory(i:any) {
-  return i.get('shareModal');
-}
-
-export function saveModalFactory(i:any) {
-  return i.get('saveModal');
-}
-
-export function settingsModalFactory(i:any) {
-  return i.get('settingsModal');
-}
-
-export function exportModalFactory(i:any) {
-  return i.get('exportModal');
-}
-
 export function HookServiceFactory(i:any) {
   return i.get('HookService');
-}
-
-export function wpRelationsFactory(i:any) {
-  return i.get('wpRelations');
 }
 
 export function statesFactory(i:any) {
@@ -660,18 +562,6 @@ export function templateRendererFactory(i:any) {
 
 export function wpFiltersServiceFactory(i:any) {
   return i.get('wpFiltersService');
-}
-
-export function loadingIndicatorFactory(i:any) {
-  return i.get('loadingIndicator');
-}
-
-export function authorisationServiceFactory(i:any) {
-  return i.get('authorisationService');
-}
-
-export function ExpressionServiceFactory(i:any) {
-  return i.get('ExpressionService');
 }
 
 export function currentProjectFactory(i:any) {

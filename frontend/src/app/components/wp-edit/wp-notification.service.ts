@@ -35,10 +35,10 @@ import {
   $stateToken,
   I18nToken,
 } from 'core-app/angular4-transition-utils';
-import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
+import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import {NotificationsService} from 'core-components/common/notifications/notifications.service';
+import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 
 @Injectable()
 export class WorkPackageNotificationService {

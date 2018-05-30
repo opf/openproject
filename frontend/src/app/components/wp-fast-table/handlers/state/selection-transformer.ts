@@ -9,7 +9,7 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {WPTableRowSelectionState} from '../../wp-table.interfaces';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 
 export class SelectionTransformer {
 

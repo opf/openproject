@@ -36,12 +36,12 @@ import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
 import {FilterToggledMultiselectValueComponent} from './filter-toggled-multiselect-value.component';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {FormsModule} from '@angular/forms';
-import {OpIcon} from 'core-components/common/icon/op-icon';
+import {OpIcon} from 'core-app/modules/common/icon/op-icon';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {OpenprojectHalModule} from "core-app/modules/hal/openproject-hal.module";
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 

@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import {I18nToken, OpModalLocalsToken} from 'core-app/angular4-transition-utils';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
-import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
@@ -24,7 +24,7 @@ import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm
 import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
-import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
+import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 
 @Component({

@@ -1,6 +1,6 @@
 import {wpControllersModule} from '../../../angular-modules';
 import {States} from '../../states.service';
-import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {Component, Inject, Input, OnInit, Output} from "@angular/core";
 import {I18nToken} from "core-app/angular4-transition-utils";
 import {EventEmitter} from "@angular/core";

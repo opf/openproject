@@ -44,13 +44,17 @@ import {MultiSelectEditFieldComponent} from "core-app/modules/fields/edit/field-
 import {SelectEditFieldComponent} from "core-app/modules/fields/edit/field-types/select-edit-field";
 import {FormattableWysiwygEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-wysiwyg-edit-field.component";
 import {TextEditFieldComponent} from "core-app/modules/fields/edit/field-types/text-edit-field";
-import {OpenProjectModule} from "core-app/angular4-modules";
+import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
+import {Ng1FieldControlsWrapper} from "core-app/modules/fields/edit/field-controls/wp-edit-field-controls-ng1-wrapper";
 
 @NgModule({
   imports: [
     FormsModule,
     BrowserModule,
-    OpenProjectModule,
+    OpenprojectCommonModule,
+  ],
+  exports: [
+    Ng1FieldControlsWrapper,
   ],
   providers: [
     DisplayFieldService,
@@ -58,6 +62,7 @@ import {OpenProjectModule} from "core-app/angular4-modules";
     { provide: APP_INITIALIZER, useFactory: initializeCoreEditFields, deps: [EditFieldService], multi: true },
     { provide: APP_INITIALIZER, useFactory: initializeCoreDisplayFields, deps: [DisplayFieldService], multi: true },
   ], declarations: [
+    Ng1FieldControlsWrapper,
     EditFieldComponent,
     BooleanEditFieldComponent,
     DateiEditFieldComponent,

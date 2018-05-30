@@ -28,8 +28,6 @@
 
 import {Injector} from '@angular/core';
 import * as moment from 'moment';
-import {keyCodes} from '../../../common/keyCodes.enum';
-import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
 import {States} from '../../../states.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
@@ -42,6 +40,8 @@ import {WorkPackageCellLabels} from './wp-timeline-cell';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import Moment = moment.Moment;
+import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
+import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 
 export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';

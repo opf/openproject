@@ -34,7 +34,7 @@ import {async, TestBed} from '@angular/core/testing';
 import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
 import {I18nToken} from '../../../angular4-transition-utils';
 import {UserResource} from '../../../modules/hal/resources/user-resource';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 
 describe('UserLinkComponent component test', () => {
   const I18nStub = {

@@ -27,10 +27,10 @@
 //++
 
 import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
+import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 
 @Component({

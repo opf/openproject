@@ -32,7 +32,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
+import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';

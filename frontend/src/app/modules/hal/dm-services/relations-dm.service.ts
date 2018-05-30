@@ -33,7 +33,7 @@ import {buildApiV3Filter} from 'core-app/components/api/api-v3/api-v3-filter-bui
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 
 @Injectable()
 export class RelationsDmService {

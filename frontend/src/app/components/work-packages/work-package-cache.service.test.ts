@@ -44,8 +44,8 @@ import {
   I18nToken,
 } from 'core-app/angular4-transition-utils';
 import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
-import {NotificationsService} from 'core-components/common/notifications/notifications.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 
 describe('WorkPackageCacheService', () => {
   let injector:Injector;

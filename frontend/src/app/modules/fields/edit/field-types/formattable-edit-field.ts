@@ -26,10 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AutoCompleteHelperService} from 'core-components/common/autocomplete/auto-complete-helper.service';
-import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {AutoCompleteHelperService} from 'core-app/modules/common/autocomplete/auto-complete-helper.service';
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {AutoCompleteHelperServiceToken, I18nToken, TextileServiceToken} from 'core-app/angular4-transition-utils';
-import {TextileService} from "core-components/common/textile/textile-service";
+import {TextileService} from "core-app/modules/common/textile/textile-service";
 import {ICkeditorStatic} from "core-components/ckeditor/op-ckeditor-form.component";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {FormattableTextareaEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-textarea-edit-field.component";

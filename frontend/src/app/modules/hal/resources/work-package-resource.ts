@@ -44,8 +44,8 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
-import {NotificationsService} from 'core-components/common/notifications/notifications.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 
 interface WorkPackageResourceEmbedded {
   activities:CollectionResource;

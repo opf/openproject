@@ -28,7 +28,7 @@
 
 import {Directive, ElementRef, Inject, Input, OnDestroy} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
 import {States} from 'core-components/states.service';

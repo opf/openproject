@@ -40,7 +40,7 @@ import {IPaginationOptions, PaginationService} from 'core-components/table-pagin
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 
 function setupMocks(paginationService:PaginationService) {
   sinon.stub(paginationService, 'loadPaginationOptions', () => {

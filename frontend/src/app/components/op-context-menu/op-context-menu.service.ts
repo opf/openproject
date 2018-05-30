@@ -8,8 +8,8 @@ import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-m
 import {OpContextMenuLocalsToken} from "core-app/angular4-transition-utils";
 import {OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";
 import {OPContextMenuComponent} from "core-components/op-context-menu/op-context-menu.component";
-import {keyCodes} from 'core-components/common/keyCodes.enum';
-import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
+import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 
 @Injectable()
 export class OPContextMenuService {

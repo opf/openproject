@@ -36,7 +36,7 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {filter, takeUntil} from 'rxjs/operators';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -60,7 +60,7 @@ import {
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 
 @Component({
   selector: '[wpInlineCreate]',

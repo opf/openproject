@@ -27,7 +27,7 @@
 
 import {Component} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
-import ExpressionService from "core-components/common/xss/expression.service";
+import ExpressionService from "core-app/modules/common/xss/expression.service";
 import {FormattableEditField} from "core-app/modules/fields/edit/field-types/formattable-edit-field";
 
 @Component({

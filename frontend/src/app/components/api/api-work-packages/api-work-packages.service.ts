@@ -33,7 +33,7 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {Inject, Injectable} from '@angular/core';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 
 @Injectable()
 export class ApiWorkPackagesService {

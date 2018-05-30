@@ -1,5 +1,5 @@
 import {Injector} from '@angular/core';
-import {keyCodes} from '../../../common/keyCodes.enum';
+import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ContextMenuHandler} from './context-menu-handler';
 

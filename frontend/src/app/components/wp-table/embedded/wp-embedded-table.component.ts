@@ -23,7 +23,7 @@ import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
 import {opUiComponentsModule} from 'core-app/angular-modules';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
+import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';

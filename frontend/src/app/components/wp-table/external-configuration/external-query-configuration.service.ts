@@ -5,7 +5,7 @@ import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {ExternalQueryConfigurationComponent} from 'core-components/wp-table/external-configuration/external-query-configuration.component';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {opServicesModule} from 'core-app/angular-modules';
-import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 
 export const external_table_trigger_class = 'external-table-configuration--container';
 export const OpQueryConfigurationLocalsToken = new InjectionToken<any>('OpQueryConfigurationLocalsToken');

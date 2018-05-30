@@ -31,9 +31,9 @@ import {WorkPackageCommentField} from './wp-comment-field.module';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
-import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 import {scopedObservable} from 'core-app/helpers/angular-rx-utils';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 
 export class CommentFieldDirectiveController {
   public workPackage:WorkPackageResource;

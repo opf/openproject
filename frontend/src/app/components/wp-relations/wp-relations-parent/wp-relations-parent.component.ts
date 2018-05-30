@@ -1,7 +1,7 @@
 import {Component, ElementRef, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';

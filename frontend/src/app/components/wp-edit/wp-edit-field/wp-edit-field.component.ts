@@ -36,18 +36,18 @@ import {
   DisplayFieldRenderer,
   editFieldContainerClass
 } from '../../wp-edit-form/display-field-renderer';
-import {ClickPositionMapper} from '../../common/set-click-position/set-click-position';
 import {WorkPackageEditFieldHandler} from '../../wp-edit-form/work-package-edit-field-handler';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {SelectionHelpers} from '../../../helpers/selection-helpers';
 import {debugLog} from '../../../helpers/debug_output';
 import {Component, ElementRef, Inject, Injector, Input, OnInit} from '@angular/core';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
-import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {NotificationsService} from 'core-components/common/notifications/notifications.service';
+import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 
 @Component({
   selector: 'wp-edit-field',

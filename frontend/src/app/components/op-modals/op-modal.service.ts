@@ -9,10 +9,10 @@ import {ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector} from '@
 import {TransitionService} from '@uirouter/core';
 import {OpModalLocalsToken} from 'core-app/angular4-transition-utils';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
-import {keyCodes} from 'core-components/common/keyCodes.enum';
+import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {opServicesModule} from "core-app/angular-modules";
 import {downgradeInjectable} from "@angular/upgrade/static";
-import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 
 @Injectable()
 export class OpModalService {

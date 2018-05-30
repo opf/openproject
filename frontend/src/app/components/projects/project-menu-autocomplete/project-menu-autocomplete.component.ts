@@ -26,14 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {wpControllersModule} from '../../../angular-modules';
 import {
   IAutocompleteItem,
   ILazyAutocompleterBridge
-} from 'core-components/common/autocomplete/lazyloaded/lazyloaded-autocompleter';
-import {keyCodes} from 'core-components/common/keyCodes.enum';
-import {LinkHandling} from 'core-components/common/link-handling/link-handling';
+} from 'core-app/modules/common/autocomplete/lazyloaded/lazyloaded-autocompleter';
+import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
+import {LinkHandling} from 'core-app/modules/common/link-handling/link-handling';
 
 interface IProjectMenuEntry {
   id:number;

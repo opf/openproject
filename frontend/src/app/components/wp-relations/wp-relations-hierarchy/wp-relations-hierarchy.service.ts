@@ -34,7 +34,7 @@ import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-re
 import {StateService} from '@uirouter/core';
 import {$stateToken} from 'core-app/angular4-transition-utils';
 import {Inject, Injectable} from '@angular/core';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
 

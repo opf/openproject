@@ -1,7 +1,7 @@
 import {Component, Inject, Injector} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {QueryColumn} from 'core-components/wp-query/query-column';
-import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';

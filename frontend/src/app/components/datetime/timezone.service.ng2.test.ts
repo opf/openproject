@@ -30,9 +30,9 @@
 
 import {TestBed} from '@angular/core/testing';
 import {HttpClientModule} from '@angular/common/http';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 
 describe('TimezoneService', function () {

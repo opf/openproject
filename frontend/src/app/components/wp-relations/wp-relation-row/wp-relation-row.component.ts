@@ -2,7 +2,7 @@ import {WorkPackageCacheService} from '../../work-packages/work-package-cache.se
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageRelationsService} from '../wp-relations.service';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {Component, ElementRef, Inject, Input, OnInit, ViewChild} from "@angular/core";
 import {I18nToken} from "core-app/angular4-transition-utils";

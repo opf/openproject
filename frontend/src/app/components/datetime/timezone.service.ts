@@ -28,7 +28,7 @@
 
 import {Inject, Injectable} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
 

@@ -29,7 +29,6 @@
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {States} from '../states.service';
 import {WorkPackagesListService} from '../wp-list/wp-list.service';
-import {LoadingIndicatorService} from '../common/loading-indicator/loading-indicator.service';
 import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
 import {StateService} from '@uirouter/core';
 import {Component, Inject, OnInit} from "@angular/core";
@@ -39,6 +38,7 @@ import {
 } from "core-app/angular4-transition-utils";
 import {OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
+import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 
 interface IAutocompleteItem {
   label:string;

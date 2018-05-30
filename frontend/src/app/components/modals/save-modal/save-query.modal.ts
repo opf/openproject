@@ -30,7 +30,7 @@ import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {States} from '../../states.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {NotificationsService} from "core-components/common/notifications/notifications.service";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {Component, ElementRef, Inject, ViewChild} from "@angular/core";
 import {I18nToken, OpModalLocalsToken} from "core-app/angular4-transition-utils";

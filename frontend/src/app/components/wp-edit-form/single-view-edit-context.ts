@@ -40,7 +40,7 @@ import {WorkPackageEditContext} from 'core-components/wp-edit-form/work-package-
 import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {WorkPackageEditForm} from 'core-components/wp-edit-form/work-package-edit-form';
 import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
-import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {WorkPackageEditingPortalService} from "core-components/wp-edit/editing-portal/wp-editing-portal-service";
 

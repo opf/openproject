@@ -31,7 +31,7 @@ import {StateService} from '@uirouter/core';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {Directive, ElementRef, Inject, Input} from "@angular/core";
 import {$stateToken} from "core-app/angular4-transition-utils";
-import {LinkHandling} from "core-components/common/link-handling/link-handling";
+import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';

@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
 import {States} from '../../../states.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
@@ -37,6 +36,7 @@ import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
 import {registerWorkPackageMouseHandler} from './wp-timeline-cell-mouse-handler';
 import {Injector} from '@angular/core';
+import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 
 export const classNameLeftLabel = 'labelLeft';
 export const classNameRightContainer = 'containerRight';

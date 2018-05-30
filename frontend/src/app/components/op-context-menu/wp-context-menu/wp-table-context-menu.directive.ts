@@ -8,7 +8,7 @@ import {States} from "core-components/states.service";
 import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {$stateToken} from "core-app/angular4-transition-utils";
 import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
-import {LinkHandling} from "core-components/common/link-handling/link-handling";
+import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-menu-handler";
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {

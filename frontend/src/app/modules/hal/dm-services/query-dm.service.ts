@@ -35,7 +35,7 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {ApiV3FilterBuilder} from 'core-app/components/api/api-v3/api-v3-filter-builder';
 import {Injectable} from '@angular/core';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 
 export interface PaginationObject {
   pageSize:number;

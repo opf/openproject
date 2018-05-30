@@ -30,7 +30,6 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {RootResource} from 'core-app/modules/hal/resources/root-resource';
-import {PathHelperService} from '../../common/path-helper/path-helper.service';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
@@ -38,6 +37,7 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Component({
   selector: 'filter-toggled-multiselect-value',

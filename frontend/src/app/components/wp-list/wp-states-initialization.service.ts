@@ -15,7 +15,7 @@ import {WorkPackageTableRelationColumnsService} from '../wp-fast-table/state/wp-
 import {WorkPackagesListChecksumService} from './wp-list-checksum.service';
 import {WorkPackageTableSortByService} from '../wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableAdditionalElementsService} from '../wp-fast-table/state/wp-table-additional-elements.service';
-import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';

@@ -29,7 +29,7 @@
 import {Component, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
-import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';

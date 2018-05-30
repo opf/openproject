@@ -1,7 +1,7 @@
 import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {multiInput, StatesGroup} from 'reactivestates';
 import {StateCacheService} from '../states/state-cache.service';
 import {Injectable} from "@angular/core";

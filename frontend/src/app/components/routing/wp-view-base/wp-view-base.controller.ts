@@ -28,7 +28,7 @@
 
 import {Injector, OnDestroy} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
@@ -40,7 +40,7 @@ import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-re
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {ProjectCacheService} from 'core-components/projects/project-cache.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
-import {AuthorisationService} from "core-components/common/model-auth/model-auth.service";
+import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 
 export class WorkPackageViewController implements OnDestroy {
 

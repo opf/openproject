@@ -9,7 +9,7 @@ import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {TableEventHandler} from '../table-handler-registry';
-import {LinkHandling} from "core-components/common/link-handling/link-handling";
+import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 
 export class RowDoubleClickHandler implements TableEventHandler {
 

@@ -29,13 +29,12 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
-import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {auditTime, distinctUntilChanged, filter, take, withLatestFrom} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 import {States} from '../../states.service';
 import {WorkPackageQueryStateService} from '../../wp-fast-table/state/wp-table-base.service';
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
@@ -50,6 +49,7 @@ import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.se
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
+import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 
 @Component({
   selector: 'wp-list',

@@ -27,7 +27,7 @@
 // ++
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import ExpressionService from "core-components/common/xss/expression.service";
+import ExpressionService from "core-app/modules/common/xss/expression.service";
 
 export class FormattableDisplayField extends DisplayField {
   protected ExpressionService:ExpressionService = this.$injector.get(ExpressionService);

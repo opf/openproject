@@ -28,11 +28,11 @@
 
 import {WorkPackageEditForm} from './work-package-edit-form';
 import {WorkPackageEditContext} from './work-package-edit-context';
-import {keyCodes} from '../common/keyCodes.enum';
+import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {Injector} from '@angular/core';
-import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 
 export class WorkPackageEditFieldHandler {

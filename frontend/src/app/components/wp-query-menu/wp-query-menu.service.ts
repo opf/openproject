@@ -29,7 +29,7 @@
 import {Inject, Injectable} from '@angular/core';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
-import {LinkHandling} from 'core-components/common/link-handling/link-handling';
+import {LinkHandling} from 'core-app/modules/common/link-handling/link-handling';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {Title} from '@angular/platform-browser';
 import {OpTitleService} from 'core-components/html/op-title.service';

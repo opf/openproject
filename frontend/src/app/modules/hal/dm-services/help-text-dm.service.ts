@@ -29,7 +29,7 @@
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {Injectable} from '@angular/core';
 
 @Injectable()

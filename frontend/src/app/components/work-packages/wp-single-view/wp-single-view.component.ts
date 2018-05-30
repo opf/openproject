@@ -28,7 +28,7 @@
 
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {distinctUntilChanged, map, takeUntil} from 'rxjs/operators';
 import {debugLog} from '../../../helpers/debug_output';

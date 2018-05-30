@@ -1,6 +1,5 @@
 import {Injector} from '@angular/core';
 import {debugLog} from '../../../../helpers/debug_output';
-import {ClickPositionMapper} from '../../../common/set-click-position/set-click-position';
 import {States} from '../../../states.service';
 import {cellClassName, editableClassName, readOnlyClassName} from '../../../wp-edit-form/display-field-renderer';
 import {WorkPackageEditingService} from '../../../wp-edit-form/work-package-editing-service';
@@ -8,6 +7,7 @@ import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
 import {TableEventHandler} from '../table-handler-registry';
+import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
 

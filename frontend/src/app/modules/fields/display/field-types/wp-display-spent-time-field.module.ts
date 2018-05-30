@@ -27,7 +27,7 @@
 // ++
 
 import {DurationDisplayField} from './wp-display-duration-field.module';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {ProjectCacheService} from "core-components/projects/project-cache.service";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";

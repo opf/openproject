@@ -35,10 +35,10 @@ import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table
 import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
 import {WorkPackageStatesInitializationService} from './wp-states-initialization.service';
 import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
-import {AuthorisationService} from 'core-components/common/model-auth/model-auth.service';
+import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {StateService} from '@uirouter/core';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
-import {LoadingIndicatorService} from 'core-components/common/loading-indicator/loading-indicator.service';
+import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Inject, Injectable} from '@angular/core';
 import {
@@ -47,7 +47,7 @@ import {
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
-import {NotificationsService} from 'core-components/common/notifications/notifications.service';
+import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
 

@@ -28,14 +28,14 @@
 
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {TextileService} from './../../common/textile/textile-service';
 import {ActivityService} from './../activity-service';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
-import {ConfigurationService} from 'core-components/common/config/configuration.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageCommentField} from 'core-components/work-packages/work-package-comment/wp-comment-field.module';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import {TextileService} from "core-app/modules/common/textile/textile-service";
 
 export class UserActivityController {
   public workPackage:WorkPackageResource;

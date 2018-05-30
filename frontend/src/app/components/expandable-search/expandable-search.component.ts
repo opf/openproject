@@ -30,9 +30,8 @@ import {openprojectModule} from '../../angular-modules';
 import {Component, ElementRef, HostListener, Inject, OnDestroy, Renderer2, ViewChild} from '@angular/core';
 import {I18nToken} from '../../angular4-transition-utils';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {FocusHelperService} from '../common/focus/focus-helper';
-import {ContainHelpers} from "core-components/common/focus/contain-helpers";
-
+import {ContainHelpers} from "core-app/modules/common/focus/contain-helpers";
+import {FocusHelperService} from "core-app/modules/common/focus/focus-helper";
 
 @Component({
   selector: 'expandable-search',

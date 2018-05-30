@@ -59,7 +59,7 @@ import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {
   INotification,
   NotificationsService
-} from 'core-components/common/notifications/notifications.service';
+} from 'core-app/modules/common/notifications/notifications.service';
 import * as moment from 'moment';
 
 @Component({

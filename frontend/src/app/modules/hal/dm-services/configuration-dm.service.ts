@@ -29,7 +29,7 @@
 import {Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {ConfigurationResource} from 'core-app/modules/hal/resources/configuration-resource';
-import {PathHelperService} from 'core-components/common/path-helper/path-helper.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 
 @Injectable()
 export class ConfigurationDmService {

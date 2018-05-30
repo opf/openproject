@@ -4,17 +4,17 @@ import {
   $stateToken,
   HookServiceToken
 } from "core-app/angular4-transition-utils";
-import {LinkHandling} from "core-components/common/link-handling/link-handling";
+import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {PERMITTED_CONTEXT_MENU_ACTIONS} from "core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {WorkPackageAuthorization} from "core-components/work-packages/work-package-authorization.service";
-import {AuthorisationService} from "core-components/common/model-auth/model-auth.service";
+import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
 import {StateService} from "@uirouter/core";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
-import {PathHelperService} from "core-components/common/path-helper/path-helper.service";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Directive({
   selector: '[wpSingleContextMenu]'

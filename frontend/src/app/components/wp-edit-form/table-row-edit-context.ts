@@ -37,7 +37,7 @@ import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-reque
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {WorkPackageEditForm} from './work-package-edit-form';
-import {FocusHelperService} from 'core-components/common/focus/focus-helper';
+import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 import {
   WorkPackageEditingPortalService
