@@ -77,8 +77,12 @@ class WorkPackagesController < ApplicationController
     end
   end
 
-  current_menu_item :index do
-    :all_open_wps
+  current_menu_item :index do |controller|
+    if controller.params[:query_props] == OpenProject::DefaultWpQueries::GANTT
+      :gantt
+    else
+      :all_open_wps
+    end
   end
 
   protected

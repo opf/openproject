@@ -41,6 +41,14 @@ Redmine::MenuManager.map :top_menu do |menu|
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_work_packages, nil, global: true)
             }
+
+  menu.push :gantt,
+            { controller: '/work_packages',
+              action: 'index',
+              query_props: OpenProject::DefaultWpQueries::GANTT },
+            param: :project_id,
+            caption: :label_gantt
+
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
             context: :modules,
@@ -240,7 +248,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/work_packages', action: 'index' },
             param: :project_id,
             caption: :label_work_package_plural,
-            icon: 'icon2 icon-work-packages',
+            icon: 'icon2 icon-view-timeline',
             html: {
               id: 'main-menu-work-packages',
               :'wp-query-menu' => 'wp-query-menu'
@@ -250,6 +258,14 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/work_packages', action: 'index' },
             param: :project_id,
             caption: :label_all_open_wps,
+            parent: :work_packages
+
+  menu.push :gantt,
+            { controller: '/work_packages',
+              action: 'index',
+              query_props: OpenProject::DefaultWpQueries::GANTT },
+            param: :project_id,
+            caption: :label_gantt,
             parent: :work_packages
 
   menu.push :summary_field,
