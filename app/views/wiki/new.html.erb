@@ -61,7 +61,12 @@ See docs/COPYRIGHT.rdoc for more details.
           <h3 class="attributes-group--header-text"><%= WikiPage.human_attribute_name(:text) %></h3>
          </div>
        </div>
-      <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit op-auto-complete', :accesskey => accesskey(:edit) %>
+      <%= f.text_area :text,
+                      cols: 100,
+                      rows: 25,
+                      class: 'wiki-edit op-auto-complete',
+                      accesskey: accesskey(:edit) %>
+      <%= wikitoolbar_for 'content_text' %>
     </div>
 
     <div class="form--field">
@@ -74,7 +79,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
   <%= preview_link preview_project_wiki_index_path(@project), 'wiki_form-preview' %>
 
-  <%= wikitoolbar_for 'content_text' %>
 <% end %>
 
 <div id="preview"></div>
