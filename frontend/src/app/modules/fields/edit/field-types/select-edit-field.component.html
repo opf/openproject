@@ -3,7 +3,7 @@
         [attr.aria-required]="field.required"
         [required]="field.required"
         [disabled]="field.inFlight"
-        [attr.id]="handler.htmlId"
+        [id]="handler.htmlId"
         (keydown)="handler.handleUserKeydown($event, true)"
         (change)="handler.handleUserSubmit()"
         role="listbox">
@@ -17,8 +17,7 @@
   <option
       *ngFor="let value of valueOptions"
       [ngValue]="value"
-      [textContent]="value.name"
-      disabled>
+      [textContent]="value.name">
   </option>
 
 </select>

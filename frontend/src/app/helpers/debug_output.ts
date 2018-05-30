@@ -32,3 +32,16 @@ export function timeOutput(msg:string, cb:() => void):any {
     return cb();
   }
 }
+
+export function asyncTimeOutput(msg:string, promise:Promise<any>):any {
+  if (!environment.production) {
+    var t0 = performance.now();
+
+    return promise.then(() => {
+      var t1 = performance.now();
+      console.log(`%c${msg} [completed in ${(t1 - t0)} milliseconds.`, 'color:#00A093;');
+    });
+  } else {
+    return promise;
+  }
+}

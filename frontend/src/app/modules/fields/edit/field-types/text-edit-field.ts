@@ -36,10 +36,10 @@ import {EditField} from "core-app/modules/fields/edit/edit.field.module";
            class="wp-inline-edit--field"
            [attr.aria-required]="field.required"
            [attr.required]="field.required"
-           [attr.disabled]="field.inFlight"
+           [disabled]="field.inFlight"
            [(ngModel)]="value"
            (keydown)="handler.handleUserKeydown($event)"
-           [attr.id]="handler.htmlId" />
+           [id]="handler.htmlId" />
   `
 })
 export class TextEditFieldComponent extends EditFieldComponent {

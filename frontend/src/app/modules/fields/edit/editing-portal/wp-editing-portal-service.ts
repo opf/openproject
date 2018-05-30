@@ -7,6 +7,7 @@ import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector} from "@a
 import {ComponentPortal, DomPortalOutlet, PortalInjector} from "@angular/cdk/portal";
 import {EditFieldLocals, OpEditingPortalLocalsToken} from "core-app/modules/fields/edit/edit-field.component";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.component";
 
 @Injectable()
 export class WorkPackageEditingPortalService {
@@ -33,12 +34,17 @@ export class WorkPackageEditingPortalService {
       fieldName,
       field,
       container,
-      () => outlet.dispose(),
+      () => outlet.detach(), // Don't call .dispose() on the outlet, it destroys the DOM element
       errors
     );
 
-    // Attach the edit field portal to the outlet
-    const portal = new ComponentPortal(field.component, null, this.createLocalInjector(fieldHandler, field));
+    // Create a portal for the edit-form/field
+    const portal = new ComponentPortal(EditFormPortalComponent, null, this.createLocalInjector(fieldHandler, field));
+
+    // Clear the container
+    container.empty();
+
+    // Attach the portal to the outlet
     outlet.attachComponentPortal(portal);
 
     return fieldHandler;

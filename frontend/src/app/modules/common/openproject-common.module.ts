@@ -102,6 +102,7 @@ const EXPORTED_DECLARATIONS = [
   exports: EXPORTED_DECLARATIONS,
   declarations: EXPORTED_DECLARATIONS,
   entryComponents: [
+    OpDateTimeComponent,
     NotificationsContainerComponent,
   ],
   providers: [

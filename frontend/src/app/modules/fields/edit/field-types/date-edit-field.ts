@@ -45,9 +45,9 @@ import {EditField} from "core-app/modules/fields/edit/edit.field.module";
              class="wp-inline-edit--field"
              (keydown)="handler.handleUserKeydown($event)"
              [attr.required]="field.required"
-             [attr.disabled]="field.inFlight"
+             [disabled]="field.inFlight"
              [attr.placeholder]="field.placeholder"
-             [attr.id]="handler.htmlId" />
+             [id]="handler.htmlId" />
 
     </op-date-picker>
 

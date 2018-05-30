@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {PathHelperService} from '../path-helper/path-helper.service';
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 export class AutoCompleteHelperService {
   public constructor(public $http:ng.IHttpService, public PathHelper:PathHelperService) {}

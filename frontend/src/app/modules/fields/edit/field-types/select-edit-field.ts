@@ -43,15 +43,16 @@ export interface ValueOption {
   templateUrl: './select-edit-field.component.html'
 })
 export class SelectEditFieldComponent extends EditFieldComponent {
-  readonly I18n:op.I18n = this.injector.get(I18nToken);
   public options:any[];
   public valueOptions:ValueOption[];
   public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html';
   public text:{ requiredPlaceholder:string, placeholder:string };
 
+  public I18n:op.I18n;
   public halSorting:HalResourceSortingService;
 
   protected initialize() {
+    this.I18n = this.injector.get(I18nToken);
     this.halSorting = this.injector.get(HalResourceSortingService);
 
     this.text = {

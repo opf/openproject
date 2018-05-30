@@ -85,12 +85,12 @@
               name="description"
               (keyup)="handleDescriptionKey($event)"
               [(ngModel)]="userInputs.newRelationText"></textarea>
-      <ng1-wp-field-controls-wrapper [fieldController]="fieldController"
-                                     (onSave)="saveDescription()"
-                                     (onCancel)="cancelDescriptionEdit()"
-                                     [saveTitle]="text.save"
-                                     [cancelTitle]="text.cancel">
-      </ng1-wp-field-controls-wrapper>
+      <edit-field-controls [fieldController]="fieldController"
+                           (onSave)="saveDescription()"
+                           (onCancel)="cancelDescriptionEdit()"
+                           [saveTitle]="text.save"
+                           [cancelTitle]="text.cancel">
+      </edit-field-controls>
     </div>
   </div>
 </div>

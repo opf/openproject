@@ -42,8 +42,8 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
            (ngModelChange)="parser($event)"
            [attr.required]="field.required"
            (keydown)="handler.handleUserKeydown($event)"
-           [attr.disabled]="field.inFlight"
-           [attr.id]="handler.htmlId" />
+           [disabled]="field.inFlight"
+           [id]="handler.htmlId" />
   `
 })
 export class DurationEditFieldComponent extends EditFieldComponent {

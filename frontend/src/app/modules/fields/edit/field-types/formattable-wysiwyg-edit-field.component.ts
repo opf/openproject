@@ -34,13 +34,13 @@ import {FormattableEditField} from "core-app/modules/fields/edit/field-types/for
     <div class="textarea-wrapper">
       <div class="op-ckeditor-wrapper op-ckeditor-element">
       </div>
-      <ng1-wp-field-controls-wrapper *ngIf="handler.inEditMode"
-                                     [fieldController]="handler"
-                                     (onSave)="handler.handleUserSubmit()"
-                                     (onCancel)="handler.handleUserCancel()"
-                                     [saveTitle]="field.text.save"
-                                     [cancelTitle]="field.text.cancel">
-      </ng1-wp-field-controls-wrapper>
+      <edit-field-controls *ngIf="handler.inEditMode"
+                           [fieldController]="handler"
+                           (onSave)="handler.handleUserSubmit()"
+                           (onCancel)="handler.handleUserCancel()"
+                           [saveTitle]="field.text.save"
+                           [cancelTitle]="field.text.cancel">
+      </edit-field-controls>
     </div>
   `
 })

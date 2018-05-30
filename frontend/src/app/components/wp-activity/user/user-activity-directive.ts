@@ -36,6 +36,8 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {TextileService} from "core-app/modules/common/textile/textile-service";
+import {AutoCompleteHelperServiceToken, TextileServiceToken} from "core-app/angular4-transition-utils";
+import {Inject} from "@angular/core";
 
 export class UserActivityController {
   public workPackage:WorkPackageResource;
@@ -65,8 +67,6 @@ export class UserActivityController {
   public accessibilityModeEnabled = this.ConfigurationService.accessibilityModeEnabled();
 
   constructor(readonly $uiViewScroll:any,
-              readonly $scope:ng.IScope,
-              readonly $timeout:ng.ITimeoutService,
               readonly $q:ng.IQService,
               readonly $element:ng.IAugmentedJQuery,
               readonly $location:ng.ILocationService,
@@ -77,8 +77,8 @@ export class UserActivityController {
               readonly wpActivityService:ActivityService,
               readonly wpCacheService:WorkPackageCacheService,
               readonly ConfigurationService:ConfigurationService,
-              readonly AutoCompleteHelper:any,
-              readonly textileService:TextileService) {
+              @Inject(AutoCompleteHelperServiceToken) readonly AutoCompleteHelper:any,
+              @Inject(TextileServiceToken) readonly textileService:TextileService) {
   }
 
   public $onInit() {
@@ -182,11 +182,11 @@ export class UserActivityController {
   }
 
   public focus() {
-    this.$timeout(() => this.focused = true);
+    setTimeout(() => this.focused = true);
   }
 
   public blur() {
-    this.$timeout(() => this.focused = false);
+    setTimeout(() => this.focused = false);
   }
 
   public focussing() {

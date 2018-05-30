@@ -38,10 +38,10 @@ import {FormattableEditField} from "core-app/modules/fields/edit/field-types/for
         class="focus-input wp-inline-edit--field inplace-edit--textarea -animated"
         name="value"
         *ngIf="!field.isPreview"
-        [attr.required]="field.required"
-        [attr.disabled]="field.isBusy || field.inFlight"
+        [disabled]="field.isBusy || field.inFlight"
+        [required]="field.required"
         [(ngModel)]="field.rawValue"
-        [attr.id="handler.htmlId">
+        [id]="handler.htmlId">
       </textarea>
       <div class="inplace-edit--preview"
            *ngIf="field.isPreview && !field.isBusy">
@@ -51,12 +51,13 @@ import {FormattableEditField} from "core-app/modules/fields/edit/field-types/for
            class="wp-edit-field-attachment-label">
         <span [textContent]="field.text.attachmentLabel"></span>
       </div>
-      <ng1-wp-field-controls-wrapper [fieldController]="handler"
-                                     (onSave)="handler.handleUserSubmit()"
-                                     (onCancel)="handler.handleUserCancel()"
-                                     [saveTitle]="field.text.save"
-                                     [cancelTitle]="field.text.cancel">
-      </ng1-wp-field-controls-wrapper>
+      <edit-field-controls *ngIf="!handler.inEditMode"
+                           [fieldController]="handler"
+                           (onSave)="handler.handleUserSubmit()"
+                           (onCancel)="handler.handleUserCancel()"
+                           [saveTitle]="field.text.save"
+                           [cancelTitle]="field.text.cancel">
+      </edit-field-controls>
     </div>
 
   `

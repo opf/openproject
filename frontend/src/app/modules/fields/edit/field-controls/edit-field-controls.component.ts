@@ -27,39 +27,28 @@
 // ++
 
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {Component, Input, Output, EventEmitter} from "@angular/core";
 
-export class WorkPackageFieldControlsController {
-  public cancelTitle:string;
-  public saveTitle:string;
-  public fieldController:any;
-  public onSave:any;
-  public onCancel:any;
+@Component({
+  selector: 'edit-field-controls',
+  templateUrl: './edit-field-controls.component.html'
+})
+export class EditFieldControlsComponent {
+  @Input() public cancelTitle:string;
+  @Input() public saveTitle:string;
+  @Input() public fieldController:any;
+  @Output() public onSave = new EventEmitter<void>();
+  @Output() public onCancel = new EventEmitter<void>();
 
   public get field():EditField {
     return this.fieldController.field;
   }
+
+  public save() {
+    this.onSave.emit();
+  }
+
+  public canel() {
+    this.onCancel.emit();
+  }
 }
-
-function wpEditFieldControls():any {
-  return {
-    restrict: 'E',
-    template: require('./wp-edit-field-controls.directive.html'),
-
-    scope: {
-      fieldController: '=',
-      onSave: '&',
-      onCancel: '&',
-      cancelTitle: '@',
-      saveTitle: '@'
-    },
-
-    controller: WorkPackageFieldControlsController,
-    controllerAs: 'vm',
-    bindToController: true
-  };
-}
-
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditFieldControls', wpEditFieldControls);

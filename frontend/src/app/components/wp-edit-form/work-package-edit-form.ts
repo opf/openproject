@@ -131,7 +131,7 @@ export class WorkPackageEditForm {
   }
 
   /**
-   * Refreshes an active field by simply updating the fieldHandler $scope.
+   * Refreshes an active field
    * @param {string} fieldName
    * @return {Promise<any>}
    */

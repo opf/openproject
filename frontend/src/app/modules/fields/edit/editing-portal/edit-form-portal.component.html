@@ -1,18 +1,17 @@
 <div class="wp-inline-edit--active-field wp-edit-field inplace-edit {{ handler.field.name }}"
      ng-class="{'-error': handler.isErrorenous }">
-  <form ng-click="handler.stopPropagation($event)"
-        ng-dblclick="handler.stopPropagation($event)"
-        ng-submit="handler.handleUserSubmit()"
+  <form (click)="handler.stopPropagation($event)"
+        (dblclick)="handler.stopPropagation($event)"
+        (submit)="handler.handleUserSubmit()"
         role="form"
         tabindex="-1">
 
-    <label for="{{handler.htmlId}}"
+    <label [for]="handler.htmlId"
            class="hidden-for-sighted">
       {{handler.fieldLabel}}
 
       {{handler.errorMessageOnLabel}}
     </label>
-
-    <ng-container *ngComponentOutlet="editFieldComponent"></ng-container>`
+    <ng-container *ngComponentOutlet="editFieldComponent"></ng-container>
   </form>
 </div>

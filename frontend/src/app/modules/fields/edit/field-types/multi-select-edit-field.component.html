@@ -8,7 +8,7 @@
       [attr.aria-required]="field.required"
       [required]="field.required"
       [disabled]="field.inFlight"
-      [attr.id]="handler.htmlId"
+      [id]="handler.htmlId"
       (keydown)="handler.handleUserKeydown($event, true)"
       (change)="handler.handleUserSubmit()"
   >
@@ -34,7 +34,7 @@
       [attr.aria-required]="field.required"
       [required]="field.required"
       [disabled]="field.inFlight"
-      [attr.id]="handler.htmlId"
+      [id]="handler.htmlId"
       (keydown)="handler.handleUserKeydown($event, true)"
       (change)="handler.handleUserSubmit()"
       multiple
@@ -65,11 +65,11 @@
              [icon-title]="text.switch_to_multi_select"></op-icon>
   </a>
 
-  <ng1-wp-field-controls-wrapper [fieldController]="handler"
-                                 *ngIf="!handler.inEditMode"
-                                 (onSave)="handler.handleUserSubmit()"
-                                 (onCancel)="handler.handleUserCancel()"
-                                 [saveTitle]="text.save"
-                                 [cancelTitle]="text.cancel">
-  </ng1-wp-field-controls-wrapper>
+  <edit-field-controls [fieldController]="handler"
+                       *ngIf="!handler.inEditMode"
+                       (onSave)="handler.handleUserSubmit()"
+                       (onCancel)="handler.handleUserCancel()"
+                       [saveTitle]="text.save"
+                       [cancelTitle]="text.cancel">
+  </edit-field-controls>
 </div>

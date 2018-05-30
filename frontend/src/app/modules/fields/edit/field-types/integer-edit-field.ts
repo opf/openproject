@@ -36,10 +36,10 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
            class="wp-inline-edit--field"
            [attr.aria-required]="field.required"
            [attr.required]="field.required"
-           [attr.disabled]="field.inFlight"
+           [disabled]="field.inFlight"
            [(ngModel)]="field.value"
            (keydown)="handler.handleUserKeydown($event)"
-           [attr.id]="handler.htmlId" />
+           [id]="handler.htmlId" />
   `
 })
 export class IntegerEditFieldComponent extends EditFieldComponent {

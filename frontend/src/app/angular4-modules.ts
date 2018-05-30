@@ -35,7 +35,6 @@ import {UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
-import {SimpleTemplateRenderer} from 'core-components/angular/simple-template-renderer';
 import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
 
 import {TimezoneService} from 'core-components/datetime/timezone.service';
@@ -196,9 +195,6 @@ import {WorkPackageRelationRowComponent} from "core-components/wp-relations/wp-r
 import {WorkPackageRelationsCreateComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-create.component";
 import {WpRelationsAutocompleteComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.upgraded.component";
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
-import {
-  WorkPackageEditingPortalService
-} from "core-components/wp-edit/editing-portal/wp-editing-portal-service";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
 
@@ -242,8 +238,6 @@ import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-
     upgradeService(statesFactory, States),
     PaginationService,
     upgradeService(keepTabFactory, KeepTabService),
-    upgradeService(templateRendererFactory, SimpleTemplateRenderer),
-    WorkPackageEditingPortalService,
     WorkPackageNotificationService,
     WorkPackagesListChecksumService,
     WorkPackageRelationsHierarchyService,

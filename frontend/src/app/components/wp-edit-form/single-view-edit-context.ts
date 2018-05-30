@@ -29,7 +29,6 @@
 import {StateService} from '@uirouter/core';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
-import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
@@ -42,7 +41,7 @@ import {WorkPackageEditForm} from 'core-components/wp-edit-form/work-package-edi
 import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
-import {WorkPackageEditingPortalService} from "core-components/wp-edit/editing-portal/wp-editing-portal-service";
+import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
 
 export class SingleViewEditContext implements WorkPackageEditContext {
 
@@ -50,7 +49,6 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
   public states:States = this.injector.get(States);
   public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
-  public templateRenderer:SimpleTemplateRenderer = this.injector.get(SimpleTemplateRenderer);
   public $state:StateService = this.injector.get($stateToken);
   public wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
   public wpEditingPortalService:WorkPackageEditingPortalService = this.injector.get(WorkPackageEditingPortalService);
@@ -85,7 +83,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   }
 
   public refreshField(field:EditField, handler:WorkPackageEditFieldHandler) {
-    handler.$scope.$evalAsync(() => handler.field = field);
+    handler.field = field;
   }
 
   public async reset(workPackage:WorkPackageResource, fieldName:string, focus:boolean = false) {

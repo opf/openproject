@@ -27,8 +27,6 @@
 // ++
 
 import {Injector} from '@angular/core';
-import {$qToken, $timeoutToken} from 'core-app/angular4-transition-utils';
-import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
 import {CellBuilder, editCellContainer, tdClassName} from '../wp-fast-table/builders/cell-builder';
@@ -39,21 +37,17 @@ import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {WorkPackageEditForm} from './work-package-edit-form';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
-import {
-  WorkPackageEditingPortalService
-} from "core-components/wp-edit/editing-portal/wp-editing-portal-service";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
+import {asyncTimeOutput} from "core-app/helpers/debug_output";
 
 export class TableRowEditContext implements WorkPackageEditContext {
 
   // Injections
-  public templateRenderer:SimpleTemplateRenderer = this.injector.get(SimpleTemplateRenderer);
   public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
   public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
   public states:States = this.injector.get(States);
   public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
-  public $q:ng.IQService = this.injector.get($qToken);
-  public $timeout:ng.ITimeoutService = this.injector.get($timeoutToken);
   public wpEditingPortalService:WorkPackageEditingPortalService = this.injector.get(WorkPackageEditingPortalService);
 
   // other fields
@@ -98,15 +92,15 @@ export class TableRowEditContext implements WorkPackageEditContext {
           );
 
           setTimeout(() => {
-            handler.focus();
             resolve(handler);
+            handler.focus();
           });
         }).catch(reject);
     });
   }
 
   public refreshField(field:EditField, handler:WorkPackageEditFieldHandler) {
-    handler.$scope.$evalAsync(() => handler.field = field);
+    handler.field = field;
   }
 
   public reset(workPackage:WorkPackageResource, fieldName:string, focus?:boolean) {

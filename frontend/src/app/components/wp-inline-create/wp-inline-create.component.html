@@ -8,7 +8,7 @@
               role="link"
               focus-ng1-wrapper
               (accessibleClick)="handleAddRowClick()"
-              [attr.disabled]="!isAllowed"
+              [attr.disabled]="!isAllowed || undefined"
               [attr.aria-label]="text.create"
               aria-haspopup="true">
         <op-icon icon-classes="icon icon-add"></op-icon>

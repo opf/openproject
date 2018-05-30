@@ -41,9 +41,6 @@ export class WorkPackageEditFieldHandler {
   readonly ConfigurationService = this.injector.get(ConfigurationService);
   readonly I18n:op.I18n = this.injector.get(I18nToken);
 
-  // Scope the field has been rendered in
-  public $scope:ng.IScope;
-
   // Other fields
   public editContext:WorkPackageEditContext;
   public schemaName:string;
@@ -158,8 +155,8 @@ export class WorkPackageEditFieldHandler {
    */
   public deactivate(focus:boolean = false) {
     delete this.form.activeFields[this.fieldName];
-    this.editContext.reset(this.workPackage, this.fieldName, focus);
     this.onDestroy();
+    this.editContext.reset(this.workPackage, this.fieldName, focus);
   }
 
   /**

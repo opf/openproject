@@ -28,7 +28,7 @@
 
 import {openprojectModule} from "../../angular-modules";
 import {CurrentProjectService} from '../projects/current-project.service';
-import {AutoCompleteHelperService} from 'core-app/modules/common/autocomplete/auto-complete-helper.service';
+import {AutoCompleteHelperService} from "core-components/legacy-ng1/auto-complete-helper.service";
 
 function opAutoComplete(AutoCompleteHelper:AutoCompleteHelperService, currentProject: CurrentProjectService) {
   return {

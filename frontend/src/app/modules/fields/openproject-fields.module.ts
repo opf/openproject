@@ -45,24 +45,45 @@ import {SelectEditFieldComponent} from "core-app/modules/fields/edit/field-types
 import {FormattableWysiwygEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-wysiwyg-edit-field.component";
 import {TextEditFieldComponent} from "core-app/modules/fields/edit/field-types/text-edit-field";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {Ng1FieldControlsWrapper} from "core-app/modules/fields/edit/field-controls/wp-edit-field-controls-ng1-wrapper";
+import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
+import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.component";
+import {EditFieldControlsComponent,} from "core-app/modules/fields/edit/field-controls/edit-field-controls.component";
+import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
 
 @NgModule({
   imports: [
     FormsModule,
     BrowserModule,
     OpenprojectCommonModule,
+    OpenprojectAccessibilityModule,
   ],
   exports: [
-    Ng1FieldControlsWrapper,
+    EditFieldControlsComponent,
   ],
   providers: [
+    WorkPackageEditingPortalService,
     DisplayFieldService,
     EditFieldService,
     { provide: APP_INITIALIZER, useFactory: initializeCoreEditFields, deps: [EditFieldService], multi: true },
     { provide: APP_INITIALIZER, useFactory: initializeCoreDisplayFields, deps: [DisplayFieldService], multi: true },
-  ], declarations: [
-    Ng1FieldControlsWrapper,
+  ],
+  declarations: [
+    EditFormPortalComponent,
+    EditFieldComponent,
+    BooleanEditFieldComponent,
+    DateiEditFieldComponent,
+    DurationEditFieldComponent,
+    FloatEditFieldComponent,
+    IntegerEditFieldComponent,
+    FormattableWysiwygEditFieldComponent,
+    FormattableTextareaEditFieldComponent,
+    MultiSelectEditFieldComponent,
+    SelectEditFieldComponent,
+    TextEditFieldComponent,
+    EditFieldControlsComponent,
+  ],
+  entryComponents: [
+    EditFormPortalComponent,
     EditFieldComponent,
     BooleanEditFieldComponent,
     DateiEditFieldComponent,

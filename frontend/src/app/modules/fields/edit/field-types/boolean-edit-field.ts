@@ -40,7 +40,7 @@ import {EditField} from "core-app/modules/fields/edit/edit.field.module";
            (change)="updateValue(!field.value)"
            (keydown)="handler.handleUserKeydown($event)"
            [disabled]="field.inFlight"
-           [attr.id]="handler.htmlId" />
+           [id]="handler.htmlId" />
   `
 })
 export class BooleanEditFieldComponent extends EditFieldComponent {
