@@ -59,6 +59,7 @@ import {FocusWithinDirective} from "core-app/modules/common/focus/focus-within.u
 import {upgradeService} from "core-app/angular4-transition-utils";
 import {FocusHelperService} from "core-app/modules/common/focus/focus-helper";
 import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
+import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
 
 const EXPORTED_DECLARATIONS = [
   OpDatePickerComponent,
@@ -90,6 +91,7 @@ const EXPORTED_DECLARATIONS = [
   HideSectionComponent,
   HideSectionLinkComponent,
   AddSectionDropdownComponent,
+  ShowSectionDropdownComponent,
   AutocompleteSelectDecorationComponent,
 ];
 
@@ -103,6 +105,10 @@ const EXPORTED_DECLARATIONS = [
   declarations: EXPORTED_DECLARATIONS,
   entryComponents: [
     OpDateTimeComponent,
+    ShowSectionDropdownComponent,
+    AddSectionDropdownComponent,
+    HideSectionComponent,
+    HideSectionLinkComponent,
     NotificationsContainerComponent,
   ],
   providers: [

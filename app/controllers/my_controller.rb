@@ -32,6 +32,8 @@ class MyController < ApplicationController
   include Concerns::PasswordConfirmation
   layout 'my'
 
+  helper_method :gon
+
   before_action :require_login
   before_action :check_password_confirmation,
                 only: [:account],
