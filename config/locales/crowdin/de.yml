@@ -744,7 +744,7 @@ de:
     text_update_consent_time: Aktivieren Sie dieses Häkchen, um Benutzer erneut zur
       Einwilligung einer Datenschutz- oder Nutzungserklärung aufzufordern. Aktivieren
       Sie es immer dann, wenn Sie rechtliche Aspekte der Zustimmung verändert haben.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    update_consent_last_time: 'Letzte Änderung der Einwilligungsinformationen: %{update_time}'
   copy_project:
     started: Das Kopieren des Projekts "%{source_project_name}" nach "%{target_project_name}"
       wurde gestartet. Sie werden per Mail benachrichtigt, sobald "%{target_project_name}"
@@ -977,8 +977,8 @@ de:
     Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt
     funktioniert.
   error_custom_option_not_found: Option ist nicht vorhanden.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
+  error_dependent_work_package: 'Fehler in abhängigem Arbeitspaket #%{related_id}
+    %{related_subject}: %{error}'
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
   error_invalid_group_by: 'Kann nicht gruppieren nach: %{value}'
   error_invalid_query_column: 'Ungültige Filter-Spalte: %{value}'

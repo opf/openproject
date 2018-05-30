@@ -674,7 +674,7 @@ nl:
   button_create: Maken
   button_create_and_continue: Aanmaken en doorgaan
   button_delete: Verwijderen
-  button_decline: Decline
+  button_decline: Weigeren
   button_delete_watcher: Verwijderen van watcher %{name}
   button_download: Downloaden
   button_duplicate: Dupliceren
@@ -718,9 +718,9 @@ nl:
   button_delete_menu_entry: Menu-item verwijderen
   consent:
     checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
+    failure_message: Toestemming mislukt, kan niet doorgaan.
+    title: Gebruikers toestemming
+    decline_warning_message: U heeft de toestemming geweigerd en bent uitgelogd.
     user_has_consented: User has consented to your configured statement at the given
       time.
     not_yet_consented: User has not consented yet, will be requested upon next login.
@@ -1142,7 +1142,7 @@ nl:
   label_calendar: Agenda
   label_calendar_show: Agenda weergeven
   label_category: Categorie
-  label_consent_settings: User Consent
+  label_consent_settings: Gebruikers toestemming
   label_wiki_menu_item: Wiki menu-item
   label_select_main_menu_item: Selecteer nieuwe hoofdmenu-item
   label_select_project: Selecteer een project
