@@ -245,17 +245,6 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 
-    ## Bump the lockVersion and by that force a conflict.
-    work_package.reload.touch
-
-    wp_page.click_custom_action('Escalate')
-
-    wp_page.expect_notification type: :error, message: I18n.t('api_v3.errors.code_409')
-
-    sleep(4)
-    # reload the page
-    page.driver.browser.navigate.refresh
-
     wp_page.click_custom_action('Escalate')
 
     wp_page.expect_attributes priority: immediate_priority.name,
@@ -354,10 +343,18 @@ describe 'Custom actions', type: :feature, js: true do
     # Move project
     wp_page.click_custom_action('Move project')
 
-    # TODO: check project
     wp_page.expect_attributes assignee: '-',
                               status: rejected_status.name,
                               type: other_type.name,
                               "customField#{date_custom_field.id}" => (Date.today + 5.days).strftime('%m/%d/%Y')
+    expect(page)
+      .to have_content(I18n.t('js.project.work_package_belongs_to', projectname: other_project.name))
+
+    ## Bump the lockVersion and by that force a conflict.
+    work_package.reload.touch
+
+    wp_page.click_custom_action('Escalate')
+
+    wp_page.expect_notification type: :error, message: I18n.t('api_v3.errors.code_409')
   end
 end
