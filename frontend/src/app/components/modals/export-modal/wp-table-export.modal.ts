@@ -13,7 +13,7 @@ interface ExportLink extends HalLink {
 }
 
 @Component({
-  template: require('!!raw-loader!./wp-table-export.modal.html')
+  templateUrl: './wp-table-export.modal.html'
 })
 export class WpTableExportModal extends OpModalComponent implements OnInit {
 

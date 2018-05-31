@@ -39,7 +39,7 @@ import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/
 import {StateService} from '@uirouter/core';
 
 @Component({
-  template: require('!!raw-loader!./wp-destroy.modal.html')
+  templateUrl: './wp-destroy.modal.html'
 })
 export class WpDestroyModal extends OpModalComponent implements OnInit {
   // When deleting multiple

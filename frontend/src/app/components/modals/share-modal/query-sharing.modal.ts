@@ -38,7 +38,7 @@ import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {QuerySharingChange} from "core-components/modals/share-modal/query-sharing-form.component";
 
 @Component({
-  template: require('!!raw-loader!./query-sharing.modal.html')
+  templateUrl: './query-sharing.modal.html'
 })
 export class QuerySharingModal extends OpModalComponent implements OnInit {
   public query:QueryResource;

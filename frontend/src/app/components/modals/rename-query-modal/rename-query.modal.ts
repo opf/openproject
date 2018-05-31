@@ -38,7 +38,7 @@ import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {QuerySharingChange} from "core-components/modals/share-modal/query-sharing-form.component";
 
 @Component({
-  template: require('!!raw-loader!./rename-query.modal.html')
+  templateUrl: './rename-query.modal.html'
 })
 export class RenameQueryModal extends OpModalComponent implements OnInit {
   public queryName:string = '';

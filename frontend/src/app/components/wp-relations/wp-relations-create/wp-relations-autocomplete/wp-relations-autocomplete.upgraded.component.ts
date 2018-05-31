@@ -35,7 +35,7 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 
 @Component({
   selector: 'wp-relations-autocomplete-upgraded',
-  template: require('!!raw-loader!./wp-relations-autocomplete.upgraded.html')
+  templateUrl: './wp-relations-autocomplete.upgraded.html'
 })
 export class WpRelationsAutocompleteComponent implements OnInit {
   @Input() workPackage:WorkPackageResource;

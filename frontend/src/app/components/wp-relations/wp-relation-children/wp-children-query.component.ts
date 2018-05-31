@@ -38,7 +38,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 
 @Component({
   selector: 'wp-children-query',
-  template: require('!!raw-loader!./wp-children-query.html')
+  templateUrl: './wp-children-query.html'
 })
 export class WorkPackageChildrenQueryComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;

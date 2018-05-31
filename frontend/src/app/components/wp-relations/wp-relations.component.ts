@@ -41,7 +41,7 @@ import {componentDestroyed} from "ng2-rx-componentdestroyed";
 
 @Component({
   selector: 'wp-relations',
-  template: require('!!raw-loader!./wp-relations.template.html')
+  templateUrl: './wp-relations.template.html'
 })
 export class WorkPackageRelationsComponent implements OnInit, OnDestroy {
   @Input() public workPackage:WorkPackageResource;

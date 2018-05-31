@@ -33,7 +33,7 @@ import {I18nToken} from "core-app/angular4-transition-utils";
 
 @Component({
   selector: 'wp-relations-group',
-  template: require('!!raw-loader!./wp-relations-group.template.html')
+  templateUrl: './wp-relations-group.template.html'
 })
 export class WorkPackageRelationsGroupComponent {
   @Input() public relatedWorkPackages:WorkPackageResource[];

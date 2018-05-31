@@ -32,7 +32,7 @@ import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 
 @Component({
-  template: require('!!raw-loader!./dynamic-content.modal.html')
+  templateUrl: './dynamic-content.modal.html'
 })
 export class DynamicContentModal extends OpModalComponent implements OnInit, OnDestroy {
   constructor(readonly elementRef:ElementRef,

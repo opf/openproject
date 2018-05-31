@@ -60,6 +60,8 @@ import {upgradeService} from "core-app/angular4-transition-utils";
 import {FocusHelperService} from "core-app/modules/common/focus/focus-helper";
 import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
 import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
+import {FocusDirective} from "core-app/modules/common/focus/focus.directive";
+import {Ng1AttributeHelpTextWrapper} from "core-app/modules/common/help-texts/attribute-help-text-ng1-wrapper";
 
 const EXPORTED_DECLARATIONS = [
   OpDatePickerComponent,
@@ -72,9 +74,11 @@ const EXPORTED_DECLARATIONS = [
   AddSectionDropdownComponent,
   AutocompleteSelectDecorationComponent,
 
+  Ng1AttributeHelpTextWrapper,
   AttributeHelpTextComponent,
   AttributeHelpTextModal,
   FocusWithinDirective,
+  FocusDirective,
   AuthoringComponent,
   WorkPackageEditActionsBarComponent,
 

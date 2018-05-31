@@ -35,7 +35,7 @@ import {FocusHelperService} from "core-app/modules/common/focus/focus-helper";
 
 @Component({
   selector: 'expandable-search',
-  template: require('!!raw-loader!./expandable-search.component.html')
+  templateUrl: './expandable-search.component.html'
 })
 
 export class ExpandableSearchComponent implements OnDestroy {

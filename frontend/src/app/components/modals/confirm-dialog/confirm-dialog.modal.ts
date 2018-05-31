@@ -44,7 +44,7 @@ export interface ConfirmDialogOptions {
 }
 
 @Component({
-  template: require('!!raw-loader!./confirm-dialog.modal.html')
+  templateUrl: './confirm-dialog.modal.html'
 })
 export class ConfirmDialogModal extends OpModalComponent {
 

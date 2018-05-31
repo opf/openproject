@@ -9,7 +9,7 @@ import {I18nToken} from "core-app/angular4-transition-utils";
 
 @Component({
   selector: 'wp-relation-row',
-  template: require('!!raw-loader!./wp-relation-row.template.html')
+  templateUrl: './wp-relation-row.template.html'
 })
 export class WorkPackageRelationRowComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;

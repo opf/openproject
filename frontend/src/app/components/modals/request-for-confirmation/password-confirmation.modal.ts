@@ -30,7 +30,7 @@ import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 
 @Component({
-  template: require('!!raw-loader!./password-confirmation.modal.html')
+  templateUrl: './password-confirmation.modal.html'
 })
 export class PasswordConfirmationModal extends ConfirmDialogModal implements OnInit {
 

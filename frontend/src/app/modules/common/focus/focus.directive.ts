@@ -52,5 +52,3 @@ export class FocusDirective implements AfterViewInit {
     }
   }
 }
-
-opUiComponentsModule. directive('focus', downgradeAttributeDirective(FocusDirective));

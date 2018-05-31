@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opDirective} from '../open-project.module';
 import {StateService} from '@uirouter/core';
 
 export interface ButtonControllerText {
@@ -110,18 +109,4 @@ export abstract class WorkPackageNavigationButtonComponent extends AbstractWorkP
   public isActive():boolean {
     return this.$state.includes(this.activeState);
   }
-}
-
-export function wpButtonDirective(config:Object):ng.IDirective {
-  return opDirective({
-    restrict: 'E',
-    template: require('./wp-button.template.html'),
-
-    scope: {
-      disabled: '=?'
-    },
-
-    controllerAs: 'vm',
-    bindToController: true
-  }, config);
 }

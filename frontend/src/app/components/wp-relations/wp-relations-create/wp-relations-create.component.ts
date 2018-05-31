@@ -8,7 +8,7 @@ import {I18nToken} from "../../../angular4-transition-utils";
 
 @Component({
   selector: 'wp-relations-create',
-  template: require('!!raw-loader!./wp-relation-create.template.html')
+  templateUrl: './wp-relation-create.template.html'
 })
 export class WorkPackageRelationsCreateComponent {
   @Input() readonly workPackage:WorkPackageResource;
