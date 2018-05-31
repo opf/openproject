@@ -30,7 +30,6 @@
 require 'redmine/menu_manager'
 
 Redmine::MenuManager.map :top_menu do |menu|
-
   # projects menu will be added by
   # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
 
@@ -261,12 +260,6 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :label_workflow_summary,
             parent: :work_packages
-
-  menu.push :timelines,
-            { controller: '/timelines', action: 'index' },
-            param: :project_id,
-            caption: :'timelines.project_menu.timelines',
-            icon: 'icon2 icon-view-timeline'
 
   menu.push :calendar,
             { controller: '/work_packages/calendars', action: 'index' },

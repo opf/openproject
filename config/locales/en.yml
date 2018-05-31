@@ -2208,10 +2208,6 @@ en:
       colors: "Colors"
       project_type: "Project type"
       project_types: "Project types"
-    project_menu:
-      reportings: "Status reportings"
-      reports: "Timeline reports"
-      timelines: "Timelines"
     associations: "Dependencies"
     board_could_not_be_saved: "Board could not be saved"
     button_delete_all: "Delete all"
