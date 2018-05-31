@@ -686,7 +686,7 @@ es:
   button_create: Crear
   button_create_and_continue: Crear y continuar
   button_delete: Borrar
-  button_decline: Decline
+  button_decline: Rechazar
   button_delete_watcher: Eliminar observador %{name}
   button_download: Descargar
   button_duplicate: Duplicar
@@ -729,9 +729,9 @@ es:
   button_configure_menu_entry: Configurar el menú
   button_delete_menu_entry: Eliminar el elemento del menú
   consent:
-    checkbox_label: I have noted and do consent to the above.
+    checkbox_label: He tomado nota y doy mi consentimiento a lo anterior.
     failure_message: Consent failed, cannot proceed.
-    title: User Consent
+    title: Consentimiento del usuario
     decline_warning_message: You have declined to consent and have been logged out.
     user_has_consented: User has consented to your configured statement at the given
       time.
@@ -1159,7 +1159,7 @@ es:
   label_calendar: Calendario
   label_calendar_show: Mostrar Calendario
   label_category: Categoría
-  label_consent_settings: User Consent
+  label_consent_settings: Consentimiento del usuario
   label_wiki_menu_item: Elemento de menú wiki
   label_select_main_menu_item: Seleccione nuevo elemento de menú principal
   label_select_project: Seleccione un proyecto
@@ -2101,9 +2101,9 @@ es:
   setting_commit_logtime_activity_id: Actividad para tiempo registrado
   setting_commit_logtime_enabled: Activar registro de tiempo
   setting_commit_ref_keywords: Referenciando palabras clave
-  setting_consent_time: Consent time
+  setting_consent_time: Tiempo de consentimiento
   setting_consent_info: Consent information text
-  setting_consent_required: Consent required
+  setting_consent_required: Se requiere consentimiento
   setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Permitir relaciones cruzadas en paquetes
     de trabajo de proyecto
