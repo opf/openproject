@@ -53,7 +53,7 @@ import {NotificationsContainerComponent} from 'core-app/modules/common/notificat
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {UploadProgressComponent} from 'core-app/modules/common/notifications/upload-progress.component';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import ExpressionService from 'core-app/modules/common/xss/expression.service';
+import {ExpressionService} from 'core-app/modules/common/xss/expression.service';
 import {OpDatePickerComponent} from "core-app/modules/common/op-date-picker/op-date-picker.component";
 import {FocusWithinDirective} from "core-app/modules/common/focus/focus-within.upgraded.directive";
 import {upgradeService} from "core-app/angular4-transition-utils";
@@ -64,50 +64,82 @@ import {FocusDirective} from "core-app/modules/common/focus/focus.directive";
 import {Ng1AttributeHelpTextWrapper} from "core-app/modules/common/help-texts/attribute-help-text-ng1-wrapper";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
-const EXPORTED_DECLARATIONS = [
-  OpDatePickerComponent,
-  OpDateTimeComponent,
-  OpIcon,
-
-  // Add functionality to rails rendered templates
-  HideSectionComponent,
-  HideSectionLinkComponent,
-  AddSectionDropdownComponent,
-  AutocompleteSelectDecorationComponent,
-
-  Ng1AttributeHelpTextWrapper,
-  AttributeHelpTextComponent,
-  AttributeHelpTextModal,
-  FocusWithinDirective,
-  FocusDirective,
-  AuthoringComponent,
-  WorkPackageEditActionsBarComponent,
-
-  // Notifications
-  NotificationsContainerComponent,
-  NotificationComponent,
-  UploadProgressComponent,
-  OpDateTimeComponent,
-
-  // Entries for ng1 downgraded components
-  AttributeHelpTextComponent,
-
-  // Add functionality to rails rendered templates
-  HideSectionComponent,
-  HideSectionLinkComponent,
-  AddSectionDropdownComponent,
-  ShowSectionDropdownComponent,
-  AutocompleteSelectDecorationComponent,
-];
-
 @NgModule({
   imports: [
     FormsModule,
     BrowserModule,
     OpenprojectAccessibilityModule,
   ],
-  exports: EXPORTED_DECLARATIONS,
-  declarations: EXPORTED_DECLARATIONS,
+  exports: [
+    OpDatePickerComponent,
+    OpDateTimeComponent,
+    OpIcon,
+
+    // Add functionality to rails rendered templates
+    HideSectionComponent,
+    HideSectionLinkComponent,
+    AddSectionDropdownComponent,
+    AutocompleteSelectDecorationComponent,
+
+    Ng1AttributeHelpTextWrapper,
+    AttributeHelpTextComponent,
+    AttributeHelpTextModal,
+    FocusWithinDirective,
+    FocusDirective,
+    AuthoringComponent,
+    WorkPackageEditActionsBarComponent,
+
+    // Notifications
+    NotificationsContainerComponent,
+    NotificationComponent,
+    UploadProgressComponent,
+    OpDateTimeComponent,
+
+    // Entries for ng1 downgraded components
+    AttributeHelpTextComponent,
+
+    // Add functionality to rails rendered templates
+    HideSectionComponent,
+    HideSectionLinkComponent,
+    AddSectionDropdownComponent,
+    ShowSectionDropdownComponent,
+    AutocompleteSelectDecorationComponent,
+  ],
+  declarations: [
+    OpDatePickerComponent,
+    OpDateTimeComponent,
+    OpIcon,
+
+    // Add functionality to rails rendered templates
+    HideSectionComponent,
+    HideSectionLinkComponent,
+    AddSectionDropdownComponent,
+    AutocompleteSelectDecorationComponent,
+
+    Ng1AttributeHelpTextWrapper,
+    AttributeHelpTextComponent,
+    AttributeHelpTextModal,
+    FocusWithinDirective,
+    FocusDirective,
+    AuthoringComponent,
+    WorkPackageEditActionsBarComponent,
+
+    // Notifications
+    NotificationsContainerComponent,
+    NotificationComponent,
+    UploadProgressComponent,
+    OpDateTimeComponent,
+
+    // Entries for ng1 downgraded components
+    AttributeHelpTextComponent,
+
+    // Add functionality to rails rendered templates
+    HideSectionComponent,
+    HideSectionLinkComponent,
+    AddSectionDropdownComponent,
+    ShowSectionDropdownComponent,
+    AutocompleteSelectDecorationComponent,
+  ],
   entryComponents: [
     OpDateTimeComponent,
     ShowSectionDropdownComponent,

@@ -27,7 +27,7 @@
 // ++
 
 import {getUIRouter} from '@uirouter/angular-hybrid';
-import ExpressionService from 'core-app/modules/common/xss/expression.service';
+import {ExpressionService} from 'core-app/modules/common/xss/expression.service';
 
 // Run the browser detection
 require('expose-loader?bowser!bowser');

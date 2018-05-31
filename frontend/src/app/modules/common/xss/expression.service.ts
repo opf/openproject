@@ -29,7 +29,7 @@
 import {opServicesModule} from '../../../angular-modules';
 
 // @Injectable()
-export default class ExpressionService {
+export class ExpressionService {
 
   // This is what returned by rails-angular-xss when it discoveres double open curly braces
   // See https://github.com/opf/rails-angular-xss for more information.
