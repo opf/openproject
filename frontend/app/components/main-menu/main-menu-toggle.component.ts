@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,67 +24,64 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {Component, ElementRef, Input, OnDestroy, OnInit} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
-import {HideSectionService} from 'core-components/common/hide-section/hide-section.service';
+import {Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit, Inject} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {MainMenuToggleService} from './main-menu-toggle.service';
 import {distinctUntilChanged, map, take} from 'rxjs/operators';
 import {Subscription} from 'rxjs/Subscription';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {opUiComponentsModule} from '../../../angular-modules';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {opUiComponentsModule} from '../../angular-modules';
 
 @Component({
-  selector: 'hide-section',
-  template: '<span *ngIf="displayed"><ng-content></ng-content></span>'
+  selector: 'main-menu-toggle',
+  template: `
+    <div id="main-menu-toggle"
+        title="{{toggleTitle}}"
+        aria-haspopup="true"
+        (accessibleClick)="toggleService.toggleNavigation()"
+        tabindex="0">
+      <a icon="icon-hamburger">
+        <i class="icon-hamburger" aria-hidden="true"></i>
+      </a>
+    </div>
+  `
 })
-export class HideSectionComponent implements OnInit, OnDestroy {
-  displayed:boolean = false;
 
-  private displayedSubscription:Subscription;
-  private initializationSubscription:Subscription;
+/*
+* Groesse des Menus feststellen
+* pruefen, ob kleiner 10 -> Groesse der Sidebar setzen
+* collapsed boolean setzen, label im resizer und hamburger icon setzen
+*
+*/
+export class MainMenuToggleComponent implements OnInit {
 
-  @Input() sectionName:string;
-  @Input() onDisplayed:Function;
+  localStorageKey:string = "openProject-mainMenuWidth";
+  toggleTitle:string = "";
+  showNavigation:boolean;
 
-  constructor(protected hideSection:HideSectionService,
+  private subscription:Subscription;
+
+  constructor(protected toggleService: MainMenuToggleService,
               private elementRef:ElementRef) {
   }
 
   ngOnInit() {
-    let mappedDisplayed = this.hideSection.displayed$
-      .pipe(
-        map(all_displayed => _.some(all_displayed, candidate => candidate.key === this.sectionName))
-      );
+    this.toggleService.initializeMenu();
 
-    this.initializationSubscription = mappedDisplayed
-      .pipe(
-        take(1)
-      )
-      .subscribe(show => {
-        jQuery(this.elementRef.nativeElement).addClass('-initialized');
-      });
-
-    this.displayedSubscription = mappedDisplayed
+    this.subscription = this.toggleService.all$
       .pipe(
         distinctUntilChanged()
       )
-      .subscribe(show => {
-        this.displayed = show;
-
-        if (this.displayed && this.onDisplayed !== undefined) {
-          setTimeout(this.onDisplayed());
-        }
+      .subscribe( setToggleTitle => {
+        this.toggleTitle = setToggleTitle;
       });
-  }
-
-  ngOnDestroy() {
-    this.displayedSubscription.unsubscribe();
-    this.initializationSubscription.unsubscribe();
   }
 }
 
 opUiComponentsModule.directive(
-  'hideSection',
-  downgradeComponent({component: HideSectionComponent})
+  'mainMenuToggle',
+  downgradeComponent({component: MainMenuToggleComponent})
 );
