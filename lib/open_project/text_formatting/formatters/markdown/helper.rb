@@ -64,6 +64,11 @@ module OpenProject::TextFormatting::Formatters
       private
 
       def wysiwyg_for(field_id)
+        # Hide the original textarea
+        view_context.content_for(:additional_js_dom_ready) do
+          "document.getElementById('#{field_id}').style.display = 'none';".html_safe
+        end
+
         view_context.content_tag 'op-ckeditor-form', '', 'textarea-selector': "##{field_id}"
       end
 

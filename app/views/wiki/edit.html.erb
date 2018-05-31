@@ -33,7 +33,11 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= error_messages_for 'content' %>
 
   <div class="attributes-group">
-    <%= f.text_area :text, cols: 100, rows: 25, class: 'wiki-edit op-auto-complete', accesskey:  accesskey(:edit) %>
+    <%= f.text_area :text,
+                    cols: 100,
+                    rows: 25,
+                    class: 'wiki-edit op-auto-complete',
+                    accesskey:  accesskey(:edit) %>
     <%= wikitoolbar_for 'content_text' %>
   </div>
 
