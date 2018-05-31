@@ -39,6 +39,7 @@ module OpenProject
     @defaults = {
       'attachments_storage' => 'file',
       'attachments_storage_path' => nil,
+      'attachments_grace_period' => 180,
       'autologin_cookie_name'   => 'autologin',
       'autologin_cookie_path'   => '/',
       'autologin_cookie_secure' => false,
@@ -457,15 +458,15 @@ module OpenProject
 
       def define_config_methods
         @config.keys.each do |setting|
-          (class << self; self; end).class_eval do
-            define_method setting do
-              self[setting]
-            end
+          next if respond_to? setting
 
-            define_method "#{setting}?" do
-              ['true', true, '1'].include? self[setting]
-            end
-          end unless respond_to? setting
+          define_singleton_method setting do
+            self[setting]
+          end
+
+          define_singleton_method "#{setting}?" do
+            ['true', true, '1'].include? self[setting]
+          end
         end
       end
     end

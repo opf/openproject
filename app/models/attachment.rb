@@ -52,6 +52,9 @@ class Attachment < ActiveRecord::Base
 
   after_commit :extract_fulltext, on: :create
 
+  after_create :schedule_cleanup_uncontainered_job,
+               unless: :containered?
+
   ##
   # Returns an URL if the attachment is stored in an external (fog) attachment storage
   # or nil otherwise.
@@ -121,6 +124,10 @@ class Attachment < ActiveRecord::Base
     file.readable?
   end
 
+  def containered?
+    container.present?
+  end
+
   def diskfile
     file.local_file
   end
@@ -179,6 +186,10 @@ class Attachment < ActiveRecord::Base
   end
 
   private
+
+  def schedule_cleanup_uncontainered_job
+    Delayed::Job::enqueue Attachments::CleanupUncontaineredJob.new
+  end
 
   def filesize_below_allowed_maximum
     if filesize > Setting.attachment_max_size.to_i.kilobytes

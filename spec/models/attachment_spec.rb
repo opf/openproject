@@ -134,6 +134,20 @@ describe Attachment, type: :model do
     end
   end
 
+  describe '#containered?' do
+    it 'is false if the attachment has no container' do
+      stubbed_attachment.container = nil
+
+      expect(stubbed_attachment)
+        .not_to be_containered
+    end
+
+    it 'is true if the attachment has a container' do
+      expect(stubbed_attachment)
+        .to be_containered
+    end
+  end
+
   describe 'create' do
     it('creates a jpg file called test') do
       expect(File.exists?(attachment.diskfile.path)).to eq true
@@ -159,6 +173,29 @@ describe Attachment, type: :model do
     it 'creates an md5 digest' do
       expect(attachment.digest)
         .to eql Digest::MD5.file(file.path).hexdigest
+    end
+
+    it 'adds no cleanup job' do
+      expect(Delayed::Job)
+        .not_to receive(:enqueue)
+        .with an_instance_of(Attachments::CleanupUncontaineredJob)
+
+      attachment.save!
+    end
+
+    context 'with an unclaimed attachment' do
+      let(:container) { nil }
+
+      it 'adds a cleanup job' do
+        allow(Delayed::Job)
+          .to receive(:enqueue)
+
+        expect(Delayed::Job)
+          .to receive(:enqueue)
+          .with an_instance_of(Attachments::CleanupUncontaineredJob)
+
+        attachment.save!
+      end
     end
   end
 
