@@ -27,7 +27,7 @@
 // ++
 
 import {Component, EventEmitter, Inject, Output} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageEditFieldGroupComponent} from "core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive";
 
 @Component({
@@ -44,7 +44,7 @@ export class WorkPackageEditActionsBarComponent {
     cancel: this.I18n.t('js.button_cancel')
   };
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+  constructor(readonly I18n:I18nService,
               readonly wpEditFieldGroup:WorkPackageEditFieldGroupComponent) {
   }
 

@@ -31,7 +31,7 @@ import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Moment} from 'moment';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {filter, map, take, takeUntil, withLatestFrom} from 'rxjs/operators';
-import {I18nToken} from '../../../../angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {debugLog, timeOutput} from '../../../../helpers/debug_output';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../../../states.service';
@@ -106,7 +106,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private wpNotificationsService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService,
               private wpTableHierarchies:WorkPackageTableHierarchiesService,
-              @Inject(I18nToken) private I18n:op.I18n) {
+              readonly I18n:I18nService) {
     'ngInject';
   }
 

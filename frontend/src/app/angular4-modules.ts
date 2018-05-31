@@ -169,7 +169,6 @@ import {
   $timeoutToken,
   AutoCompleteHelperServiceToken,
   HookServiceToken,
-  I18nToken,
   TextileServiceToken,
   upgradeService,
 } from './angular4-transition-utils';
@@ -221,8 +220,6 @@ import {WorkPackageCommentComponent} from "core-components/work-packages/work-pa
   ],
   providers: [
     upgradeService($rootScopeFactory, $rootScopeToken),
-    upgradeService(I18nFactory, I18nToken),
-    // {provide: I18nToken, useValue: (window as any).I18n},
     upgradeService($stateFactory, $stateToken),
     upgradeService($sceFactory, $sceToken),
     upgradeService($qFactory, $qToken),
@@ -508,10 +505,6 @@ export class OpenProjectModule {
 
 export function $rootScopeFactory(i:any) {
   i.get('$rootScope');
-}
-
-export function I18nFactory(i:any) {
-  return i.get('I18n');
 }
 
 export function $stateFactory(i:any) {

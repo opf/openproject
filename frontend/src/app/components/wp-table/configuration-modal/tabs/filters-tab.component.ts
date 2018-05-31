@@ -1,5 +1,5 @@
 import {Component, Inject, Injector} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {WorkPackageTableFiltersService} from 'core-components/wp-fast-table/state/wp-table-filters.service';
@@ -23,7 +23,7 @@ export class WpTableConfigurationFiltersTab implements TabComponent {
   };
 
   constructor(readonly injector:Injector,
-              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly I18n:I18nService,
               readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpFiltersService:WorkPackageFiltersService) {
   }

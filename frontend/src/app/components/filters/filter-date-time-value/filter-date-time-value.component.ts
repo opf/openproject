@@ -29,7 +29,7 @@
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {AbstractDateTimeValueController} from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller'
 import {Component, EventEmitter, Inject, Input, OnDestroy, Output} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
@@ -42,7 +42,7 @@ export class FilterDateTimeValueComponent extends AbstractDateTimeValueControlle
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+  constructor(readonly I18n:I18nService,
               readonly timezoneService:TimezoneService) {
     super(I18n, timezoneService);
   }

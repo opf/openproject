@@ -37,7 +37,6 @@ export const $localeToken = new InjectionToken<any>('$locale');
 export const $stateToken = new InjectionToken<StateService>('$state');
 export const $sceToken = new InjectionToken<ng.ISCEService>('$sceToken');
 
-export const I18nToken = new InjectionToken<op.I18n>('I18n');
 export const shareModalToken = new InjectionToken<any>('shareModal');
 export const saveModalToken = new InjectionToken<any>('saveModal');
 export const settingsModalToken = new InjectionToken<any>('settingsModal');

@@ -26,12 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 import {Component, Inject, Input, OnInit} from "@angular/core";
-import {I18nToken} from "core-app/angular4-transition-utils";
+
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {UserCacheService} from "core-components/user/user-cache.service";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {TimezoneService} from "core-components/datetime/timezone.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'revision-activity',
@@ -57,7 +58,7 @@ export class RevisionActivityComponent implements OnInit {
 
   public revisionLink:string;
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+  constructor(readonly I18n:I18nService,
               readonly timezoneService:TimezoneService,
               readonly userCacheService:UserCacheService) {
   }

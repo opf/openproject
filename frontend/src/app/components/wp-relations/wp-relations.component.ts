@@ -35,8 +35,9 @@ import {WorkPackageCacheService} from '../work-packages/work-package-cache.servi
 import {RelatedWorkPackagesGroup} from './wp-relations.interfaces';
 import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.service';
 import {Component, Inject, Input, OnDestroy, OnInit} from "@angular/core";
-import {I18nToken} from "core-app/angular4-transition-utils";
+
 import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 
 @Component({
@@ -59,7 +60,7 @@ export class WorkPackageRelationsComponent implements OnInit, OnDestroy {
   public currentRelations:WorkPackageResource[] = [];
 
   constructor(
-    @Inject(I18nToken) readonly I18n:op.I18n,
+    readonly I18n:I18nService,
     readonly wpRelations:WorkPackageRelationsService,
     readonly wpCacheService:WorkPackageCacheService) {
   }

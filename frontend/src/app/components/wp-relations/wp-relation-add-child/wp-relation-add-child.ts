@@ -3,7 +3,7 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Component({
@@ -30,7 +30,7 @@ export class WpRelationAddChildComponent implements OnInit {
 
   private $element:JQuery;
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+  constructor(readonly I18n:I18nService,
               readonly elementRef:ElementRef,
               protected wpRelations:WorkPackageRelationsService,
               protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,

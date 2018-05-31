@@ -28,7 +28,7 @@
 
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {Directive, ElementRef, Inject, Input} from "@angular/core";
-import {I18nToken} from "core-app/angular4-transition-utils";
+
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {QueryColumn} from "core-components/wp-query/query-column";
 import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
@@ -38,6 +38,7 @@ import {WorkPackageTableColumnsService} from "core-components/wp-fast-table/stat
 import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Directive({
   selector: '[opColumnsContextMenu]'
@@ -53,7 +54,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
               readonly wpTableGroupBy:WorkPackageTableGroupByService,
               readonly wpTableHierarchies:WorkPackageTableHierarchiesService,
               readonly opModalService:OpModalService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
 
     super(elementRef, opContextMenu);
   }

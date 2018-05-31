@@ -1,5 +1,5 @@
 import {Injector} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../states.service';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
@@ -25,7 +25,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
   public states = this.injector.get(States);
   public wpTableSelection = this.injector.get(WorkPackageTableSelection);
   public wpTableColumns = this.injector.get(WorkPackageTableColumnsService);
-  public I18n = this.injector.get(I18nToken);
+  public I18n = this.injector.get(I18nService);
 
   protected text:{ cancelButton:string };
 

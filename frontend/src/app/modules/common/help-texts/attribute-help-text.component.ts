@@ -30,7 +30,7 @@ import {opUiComponentsModule} from '../../../angular-modules';
 import {AttributeHelpTextsService} from './attribute-help-text.service';
 import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
 import {Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {AttributeHelpTextModal} from 'core-app/modules/common/help-texts/attribute-help-text.modal';
 import {downgradeComponent} from '@angular/upgrade/static';
@@ -62,7 +62,7 @@ export class AttributeHelpTextComponent implements OnInit {
               protected helpTextDm:HelpTextDmService,
               protected attributeHelpTexts:AttributeHelpTextsService,
               protected opModalService:OpModalService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
   }
 
   ngOnInit() {

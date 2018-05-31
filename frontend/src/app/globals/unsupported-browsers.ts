@@ -26,7 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-declare const I18n:op.I18n;
+import {GlobalI18n} from "core-app/modules/common/i18n/i18n.service";
+
+declare const I18n:GlobalI18n;
 
 (function ($:JQueryStatic) {
 

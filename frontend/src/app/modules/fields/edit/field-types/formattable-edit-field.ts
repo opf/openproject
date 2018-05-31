@@ -27,7 +27,7 @@
 // ++
 
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {AutoCompleteHelperServiceToken, I18nToken, TextileServiceToken} from 'core-app/angular4-transition-utils';
+import {AutoCompleteHelperServiceToken, TextileServiceToken} from 'core-app/angular4-transition-utils';
 import {TextileService} from "core-app/modules/common/textile/textile-service";
 import {ICkeditorStatic} from "core-components/ckeditor/op-ckeditor-form.component";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
@@ -46,7 +46,6 @@ declare global {
 export class FormattableEditField extends EditField {
   // Dependencies
   readonly textileService:TextileService = this.$injector.get(TextileServiceToken);
-  readonly I18n:op.I18n = this.$injector.get(I18nToken);
   readonly AutoCompleteHelper:AutoCompleteHelperService = this.$injector.get(
     AutoCompleteHelperServiceToken);
   readonly ConfigurationService:ConfigurationService = this.$injector.get(ConfigurationService);

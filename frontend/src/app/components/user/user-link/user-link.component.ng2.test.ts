@@ -32,17 +32,11 @@ require('core-app/angular4-test-setup');
 
 import {async, TestBed} from '@angular/core/testing';
 import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
-import {I18nToken} from '../../../angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {UserResource} from '../../../modules/hal/resources/user-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 
 describe('UserLinkComponent component test', () => {
-  const I18nStub = {
-    t: sinon.stub()
-      .withArgs('js.label_author', { author: 'First Last' })
-      .returns('Author: First Last')
-  };
-
   const PathHelperStub = {
     userPath: sinon.stub()
       .withArgs('1')
@@ -57,7 +51,7 @@ describe('UserLinkComponent component test', () => {
         UserLinkComponent
       ],
       providers: [
-        { provide: I18nToken, useValue: I18nStub },
+        I18nService,
         { provide: PathHelperService, useValue: PathHelperStub },
       ]
     }).compileComponents();

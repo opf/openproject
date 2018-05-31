@@ -28,7 +28,7 @@
 
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import {Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
@@ -60,7 +60,7 @@ export class QueryFilterComponent implements OnInit, OnDestroy {
 
   constructor(readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpFiltersService:WorkPackageFiltersService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
   }
 
   public onFilterUpdated(filter:QueryFilterInstanceResource) {

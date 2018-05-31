@@ -36,7 +36,7 @@ export class WorkPackageUploadDirectiveController {
   public text: any;
   public maxFileSize: number;
 
-  constructor(protected $q:ng.IQService, ConfigurationService:any, protected I18n:op.I18n) {
+  constructor(protected $q:ng.IQService, ConfigurationService:any) {
     this.text = {
       uploadLabel: I18n.t('js.label_add_attachments'),
       dropFiles: I18n.t('js.label_drop_files'),

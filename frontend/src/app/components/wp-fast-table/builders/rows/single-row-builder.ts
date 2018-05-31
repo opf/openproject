@@ -1,5 +1,5 @@
 import {Injector} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {locateTableRowByIdentifier} from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
 import {debugLog} from '../../../../helpers/debug_output';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -27,7 +27,7 @@ export class SingleRowBuilder {
   // Injections
   public wpTableSelection = this.injector.get(WorkPackageTableSelection);
   public wpTableColumns = this.injector.get(WorkPackageTableColumnsService);
-  public I18n:op.I18n = this.injector.get(I18nToken);
+  public I18n:I18nService = this.injector.get(I18nService);
 
   // Cell builder instance
   protected cellBuilder = new CellBuilder(this.injector);

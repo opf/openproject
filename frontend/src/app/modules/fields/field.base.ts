@@ -27,7 +27,7 @@
 // ++
 
 import {Injector} from '@angular/core';
-import {I18nToken} from "core-app/angular4-transition-utils";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export interface IFieldSchema {
   type:string;
@@ -84,11 +84,11 @@ export class Field {
   }
 
 
-  protected I18n:op.I18n;
+  protected I18n:I18nService
   constructor(public resource:any,
               public name:string,
               public schema:IFieldSchema) {
-    this.I18n = this.$injector.get(I18nToken);
+    this.I18n = this.$injector.get(I18nService);
     this.initializer();
   }
 }

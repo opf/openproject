@@ -1,5 +1,5 @@
 import {Component, Inject, Injector} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {TimelineLabels} from 'core-app/modules/hal/resources/query-resource';
@@ -33,7 +33,7 @@ export class WpTableConfigurationTimelinesTab implements TabComponent {
   };
 
   constructor(readonly injector:Injector,
-              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly I18n:I18nService,
               readonly wpTableTimeline:WorkPackageTableTimelineService,
               readonly wpTableColumns:WorkPackageTableColumnsService) {
   }

@@ -27,7 +27,7 @@
 //++
 import {openprojectModule} from '../../angular-modules';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {Component, Inject, Input} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {downgradeComponent} from '@angular/upgrade/static';
@@ -43,7 +43,7 @@ export class WorkPackageSplitViewToolbarComponent {
     button_more: this.I18n.t('js.button_more')
   }
 
-constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+constructor(readonly I18n:I18nService,
   public wpEditing:WorkPackageEditingService) {}
 }
 

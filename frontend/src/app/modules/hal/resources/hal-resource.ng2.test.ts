@@ -28,7 +28,7 @@
 
 import {Injector} from '@angular/core';
 import {async, TestBed} from '@angular/core/testing';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
@@ -58,7 +58,7 @@ describe('HalResource', () => {
         HalResourceService,
         States,
         TypeDmService,
-        {provide: I18nToken, useValue: {}},
+        I18nService,
       ]
     })
       .compileComponents()

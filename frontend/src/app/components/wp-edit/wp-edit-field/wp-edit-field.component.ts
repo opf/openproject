@@ -45,7 +45,7 @@ import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edi
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 
@@ -79,7 +79,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
               // Get parent field group from injector
               protected wpEditFieldGroup:WorkPackageEditFieldGroupComponent,
               protected NotificationsService:NotificationsService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
 
   }
 

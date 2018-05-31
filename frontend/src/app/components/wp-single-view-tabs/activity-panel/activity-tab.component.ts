@@ -28,7 +28,7 @@
 
 import {Component, Inject, OnDestroy} from '@angular/core';
 import {Transition} from '@uirouter/core';
-import {I18nToken} from '../../../angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {ActivityPanelBaseController} from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
@@ -44,7 +44,7 @@ export class WorkPackageActivityTabComponent extends ActivityPanelBaseController
 
   constructor(readonly wpCacheService:WorkPackageCacheService,
               readonly $transition:Transition,
-              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly I18n:I18nService,
               readonly wpActivity:WorkPackagesActivityService) {
     super(wpCacheService, I18n, wpActivity);
     this.workPackageId = this.$transition.params('to').workPackageId;

@@ -28,7 +28,7 @@
 
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {Component, Inject, Input, OnDestroy, Output} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
@@ -44,7 +44,7 @@ export class FilterStringValueComponent implements OnDestroy {
     enter_text: this.I18n.t('js.work_packages.description_enter_text')
   };
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n) {
+  constructor(readonly I18n:I18nService) {
   }
 
   ngOnDestroy() {

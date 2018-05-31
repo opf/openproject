@@ -1,5 +1,5 @@
 import {Component, Inject, Injector} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {QueryColumn} from 'core-components/wp-query/query-column';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
@@ -29,7 +29,7 @@ export class WpTableConfigurationColumnsTab implements TabComponent {
   };
 
   constructor(readonly injector:Injector,
-              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly I18n:I18nService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
               readonly ConfigurationService:ConfigurationService) {
   }

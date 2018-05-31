@@ -2,8 +2,9 @@ import {wpControllersModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {Component, Inject, Input, OnInit, Output} from "@angular/core";
-import {I18nToken} from "core-app/angular4-transition-utils";
+
 import {EventEmitter} from "@angular/core";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export interface QuerySharingChange {
   isStarred:boolean;
@@ -27,7 +28,7 @@ export class QuerySharingForm {
 
   constructor(readonly states:States,
               readonly authorisationService:AuthorisationService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
   }
 
   public get canStar() {

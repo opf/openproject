@@ -27,7 +27,7 @@
 // ++
 
 import {AfterViewInit, Component, ElementRef, Inject, Input, OnDestroy} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {RelationQueryColumn, TypeRelationQueryColumn} from 'core-components/wp-query/query-column';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
@@ -82,7 +82,7 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
               private wpTableGroupBy:WorkPackageTableGroupByService,
               private wpTableRelationColumns:WorkPackageTableRelationColumnsService,
               private elementRef:ElementRef,
-              @Inject(I18nToken) private I18n:op.I18n) {
+              readonly I18n:I18nService) {
   }
 
   // noinspection TsLint

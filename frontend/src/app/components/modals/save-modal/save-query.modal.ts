@@ -33,9 +33,10 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {Component, ElementRef, Inject, ViewChild} from "@angular/core";
-import {I18nToken, OpModalLocalsToken} from "core-app/angular4-transition-utils";
+import {OpModalLocalsToken} from "core-app/angular4-transition-utils";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {QuerySharingChange} from "core-components/modals/share-modal/query-sharing-form.component";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   templateUrl: './save-query.modal.html'
@@ -61,7 +62,7 @@ export class SaveQueryModal extends OpModalComponent {
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly I18n:I18nService,
               readonly states:States,
               readonly wpListService:WorkPackagesListService,
               readonly wpNotificationsService:WorkPackageNotificationService,

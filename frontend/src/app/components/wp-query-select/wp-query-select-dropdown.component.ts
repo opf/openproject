@@ -33,12 +33,13 @@ import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.servi
 import {StateService} from '@uirouter/core';
 import {Component, Inject, OnInit} from "@angular/core";
 import {
-  $stateToken, I18nToken,
+  $stateToken,
   OpContextMenuLocalsToken
 } from "core-app/angular4-transition-utils";
 import {OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 interface IAutocompleteItem {
   label:string;
@@ -64,7 +65,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit {
 
   constructor(readonly QueryDm:QueryDmService,
               @Inject($stateToken) readonly $state:StateService,
-              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly I18n:I18nService,
               @Inject(OpContextMenuLocalsToken) public locals:OpContextMenuLocalsMap,
               readonly states:States,
               readonly wpListService:WorkPackagesListService,

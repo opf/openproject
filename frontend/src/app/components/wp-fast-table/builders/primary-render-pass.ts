@@ -1,5 +1,5 @@
 import {Injector} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {timeOutput} from '../../../helpers/debug_output';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {States} from '../../states.service';
@@ -35,7 +35,7 @@ export abstract class PrimaryRenderPass {
 
   public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
   public states:States = this.injector.get(States);
-  public I18n:op.I18n = this.injector.get(I18nToken);
+  public I18n:I18nService = this.injector.get(I18nService);
 
   /** The rendered order of rows of work package IDs or <null>, if not a work package row */
   public renderedOrder:RowRenderInfo[];

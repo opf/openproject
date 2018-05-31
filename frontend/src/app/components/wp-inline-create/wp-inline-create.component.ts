@@ -59,7 +59,7 @@ import {
 } from './inline-create-row-builder';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 
 @Component({
@@ -94,7 +94,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   constructor(readonly elementRef:ElementRef,
               readonly injector:Injector,
               readonly FocusHelper:FocusHelperService,
-              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly I18n:I18nService,
               readonly tableState:TableState,
               readonly wpCacheService:WorkPackageCacheService,
               readonly wpEditing:WorkPackageEditingService,

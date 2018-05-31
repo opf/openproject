@@ -1,5 +1,5 @@
 import {Component, ElementRef, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -24,7 +24,7 @@ export class WpRelationParentComponent implements OnInit, OnDestroy {
               readonly wpCacheService:WorkPackageCacheService,
               readonly wpNotificationsService:WorkPackageNotificationService,
               readonly PathHelper:PathHelperService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
   }
 
   public text = {

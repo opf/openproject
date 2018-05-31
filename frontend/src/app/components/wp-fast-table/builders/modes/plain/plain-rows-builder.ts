@@ -1,5 +1,5 @@
 import {Injector} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageTable} from '../../../wp-fast-table';
 import {PrimaryRenderPass} from '../../primary-render-pass';
 import {SingleRowBuilder} from '../../rows/single-row-builder';
@@ -9,7 +9,7 @@ import {PlainRenderPass} from './plain-render-pass';
 export class PlainRowsBuilder extends RowsBuilder {
 
   // Injections
-  public I18n:op.I18n = this.injector.get(I18nToken);
+  public I18n:I18nService = this.injector.get(I18nService);
 
   protected rowBuilder:SingleRowBuilder;
 

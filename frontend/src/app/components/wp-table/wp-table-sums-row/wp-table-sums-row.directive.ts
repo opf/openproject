@@ -29,7 +29,7 @@
 import {AfterViewInit, Directive, ElementRef, Inject, Injector} from '@angular/core';
 import {combine} from 'reactivestates';
 import {takeUntil} from 'rxjs/operators';
-import {I18nToken} from '../../../angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {States} from '../../states.service';
@@ -52,7 +52,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
               public readonly tableState:TableState,
               private states:States,
               private displayFieldService:DisplayFieldService,
-              @Inject(I18nToken) private I18n:op.I18n) {
+              readonly I18n:I18nService) {
 
     this.text = {
       sumFor: I18n.t('js.label_sum_for'),

@@ -28,7 +28,7 @@
 
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {Component, Inject, Input, OnDestroy, Output} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
@@ -46,7 +46,7 @@ export class FilterDatesValueComponent implements OnDestroy {
   };
 
   constructor(readonly timezoneService:TimezoneService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
   }
 
   ngOnDestroy() {

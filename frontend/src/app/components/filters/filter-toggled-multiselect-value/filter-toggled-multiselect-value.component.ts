@@ -33,7 +33,7 @@ import {RootResource} from 'core-app/modules/hal/resources/root-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
@@ -61,7 +61,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
               readonly halResourceService:HalResourceService,
               readonly halSorting:HalResourceSortingService,
               readonly PathHelper:PathHelperService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
   }
 
   ngOnInit() {

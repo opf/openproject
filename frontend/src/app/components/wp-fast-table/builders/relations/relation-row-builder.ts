@@ -1,5 +1,5 @@
 import {Injector} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {States} from '../../../states.service';
 import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
@@ -22,7 +22,7 @@ export const relationCellClassName = 'wp-table--relation-cell-td';
 export class RelationRowBuilder extends SingleRowBuilder {
 
   public states:States = this.injector.get(States);
-  public I18n:op.I18n = this.injector.get(I18nToken);
+  public I18n:I18nService = this.injector.get(I18nService);
 
   constructor(public readonly injector:Injector,
               protected workPackageTable:WorkPackageTable) {

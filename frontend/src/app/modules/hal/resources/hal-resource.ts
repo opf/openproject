@@ -30,7 +30,7 @@ import {InputState} from "reactivestates";
 import {HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
 import {Injector} from '@angular/core';
 import {States} from 'core-components/states.service';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
 
 export interface HalResourceClass<T extends HalResource = HalResource> {
@@ -55,7 +55,7 @@ export class HalResource {
   public $halType:string;
 
   protected readonly states:States = this.injector.get(States);
-  protected readonly I18n:op.I18n = this.injector.get(I18nToken);
+  protected readonly I18n:I18nService = this.injector.get(I18nService);
 
   /**
    * Constructs and initializes the HalResource. For this, the halResoureFactory is required.

@@ -29,7 +29,7 @@
 import {Component, ElementRef, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -98,7 +98,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
               readonly tableState:TableState,
               readonly opModalService:OpModalService,
               private opContextMenu:OPContextMenuService,
-              @Inject(I18nToken) private I18n:op.I18n,
+              readonly I18n:I18nService,
               private wpTableGroupBy:WorkPackageTableGroupByService,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpTableColumns:WorkPackageTableColumnsService) {

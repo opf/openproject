@@ -27,7 +27,7 @@
 //++
 
 import {Inject, Injectable} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
@@ -35,7 +35,7 @@ import {downgradeInjectable} from '@angular/upgrade/static';
 @Injectable()
 export class TimezoneService {
   constructor(readonly ConfigurationService:ConfigurationService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
     this.setupLocale();
   }
 

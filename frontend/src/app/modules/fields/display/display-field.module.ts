@@ -26,14 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
+import {Field} from "core-app/modules/fields/field.base";
 import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {I18nToken} from "core-app/angular4-transition-utils";
 
 export class DisplayField extends Field {
   public static type:string;
-  public I18n:op.I18n;
   public mode:string | null = null;
   public changeset:WorkPackageChangeset|null = null;
 

@@ -1,5 +1,5 @@
 import {Inject, Injectable, Injector} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WpTableConfigurationDisplaySettingsTab} from 'core-components/wp-table/configuration-modal/tabs/display-settings-tab.component';
 import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configuration-modal/tabs/columns-tab.component';
 import {WpTableConfigurationSortByTab} from 'core-components/wp-table/configuration-modal/tabs/sort-by-tab.component';
@@ -38,7 +38,7 @@ export class WpTableConfigurationService {
     }
   ];
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n) {
+  constructor(readonly I18n:I18nService) {
   }
 
   public get tabs() {

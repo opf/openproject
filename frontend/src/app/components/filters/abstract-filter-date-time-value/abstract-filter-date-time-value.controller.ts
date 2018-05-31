@@ -29,11 +29,12 @@
 import {Moment} from 'moment';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export abstract class AbstractDateTimeValueController {
   public filter:QueryFilterInstanceResource;
 
-  constructor(protected I18n:op.I18n,
+  constructor(protected I18n:I18nService,
               protected timezoneService:TimezoneService) {
     _.remove(this.filter.values as string[], value => !this.timezoneService.isValidISODateTime(value));
   }

@@ -32,7 +32,7 @@ import {wpDirectivesModule} from '../../../angular-modules';
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {Inject, OnDestroy, Component} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {downgradeComponent} from '@angular/upgrade/static';
 
@@ -43,7 +43,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 export class WorkPackageTablePaginationComponent extends TablePaginationComponent implements OnDestroy {
   constructor(protected paginationService:PaginationService,
               protected wpTablePagination:WorkPackageTablePaginationService,
-              @Inject(I18nToken) protected I18n:op.I18n) {
+              readonly I18n:I18nService) {
     super(paginationService, I18n);
 
   }

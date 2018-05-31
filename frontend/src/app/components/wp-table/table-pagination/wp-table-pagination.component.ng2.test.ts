@@ -33,7 +33,7 @@ require('core-app/angular4-test-setup');
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
 import {async, inject, TestBed} from '@angular/core/testing';
-import {$httpToken, $qToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {$httpToken, $qToken} from 'core-app/angular4-transition-utils';
 import {States} from 'core-components/states.service';
 import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
 import {IPaginationOptions, PaginationService} from 'core-components/table-pagination/pagination-service';
@@ -41,6 +41,7 @@ import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/s
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 function setupMocks(paginationService:PaginationService) {
   sinon.stub(paginationService, 'loadPaginationOptions', () => {
@@ -78,7 +79,7 @@ describe('wpTablePagination Directive', () => {
         HalResourceService,
         ConfigurationDmService,
         TableState,
-        {provide: I18nToken, useValue: (window as any).I18n},
+        I18nService,
         {provide: $qToken, useValue: {}},
         {provide: $httpToken, useValue: {}},
       ]

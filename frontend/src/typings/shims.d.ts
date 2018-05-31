@@ -25,6 +25,7 @@ import {OpenProject} from 'core-app/globals/openproject';
 import * as TLodash from 'lodash';
 import * as TMoment from 'moment';
 import * as TSinon from 'sinon';
+import {GlobalI18n} from "core-app/modules/common/i18n/i18n.service";
 
 declare global {
   const _:typeof TLodash;
@@ -32,6 +33,7 @@ declare global {
   const sinon:typeof TSinon;
   const moment:typeof TMoment;
   const bowser:any;
+  const I18n:GlobalI18n;
 
   declare const require:any;
   declare const describe:any;

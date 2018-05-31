@@ -30,7 +30,8 @@ import {OPContextMenuService} from "core-components/op-context-menu/op-context-m
 import {Component, ElementRef, Inject, Input} from "@angular/core";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {WorkPackageQuerySelectDropdownComponent} from "core-components/wp-query-select/wp-query-select-dropdown.component";
-import {I18nToken} from "core-app/angular4-transition-utils";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+
 
 @Component({
   selector: 'wp-query-selectable-title',
@@ -44,7 +45,7 @@ export class WorkPackageQuerySelectableTitleComponent extends OpContextMenuTrigg
 
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
 
     super(elementRef, opContextMenu);
   }

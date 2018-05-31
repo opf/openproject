@@ -34,11 +34,12 @@ import {WorkPackageCommentField} from 'core-components/work-packages/work-packag
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {TextileService} from "core-app/modules/common/textile/textile-service";
-import {AutoCompleteHelperServiceToken, I18nToken, TextileServiceToken} from "core-app/angular4-transition-utils";
+import {AutoCompleteHelperServiceToken, TextileServiceToken} from "core-app/angular4-transition-utils";
 import {AfterViewInit, Component, ElementRef, Inject, Input, OnInit} from "@angular/core";
 import {UserCacheService} from "core-components/user/user-cache.service";
 import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
 import {CommentService} from "core-components/wp-activity/comment-service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'user-activity',
@@ -88,7 +89,7 @@ export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterVi
               readonly wpCacheService:WorkPackageCacheService,
               readonly ConfigurationService:ConfigurationService,
               readonly userCacheService:UserCacheService,
-              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly I18n:I18nService,
               @Inject(AutoCompleteHelperServiceToken) readonly AutoCompleteHelper:any,
               @Inject(TextileServiceToken) readonly textileService:TextileService) {
   }

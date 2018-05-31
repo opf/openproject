@@ -28,6 +28,7 @@
 
 import IAugmentedJQuery = angular.IAugmentedJQuery;
 import {ConfirmDialogService} from './../confirm-dialog/confirm-dialog.service';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export class ConfirmFormSubmitController {
 
@@ -37,7 +38,7 @@ export class ConfirmFormSubmitController {
 
   constructor(protected $element:IAugmentedJQuery,
               protected confirmDialog:ConfirmDialogService,
-              protected I18n:op.I18n) {
+              protected I18n:I18nService) {
 
     this.text = {
       title: I18n.t('js.modals.form_submit.title'),

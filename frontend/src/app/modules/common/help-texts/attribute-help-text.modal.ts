@@ -27,10 +27,11 @@
 // ++
 
 import {Component, ElementRef, Inject} from '@angular/core';
-import {I18nToken, OpModalLocalsToken} from 'core-app/angular4-transition-utils';
+import {OpModalLocalsToken} from 'core-app/angular4-transition-utils';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   templateUrl: './help-text.modal.html'
@@ -51,7 +52,7 @@ export class AttributeHelpTextModal extends OpModalComponent {
   public helpText:HelpTextResource = this.locals.helpText!;
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly I18n:I18nService,
               readonly elementRef:ElementRef) {
     super(locals, elementRef);
   }

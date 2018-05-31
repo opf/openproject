@@ -29,7 +29,7 @@
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {opWorkPackagesModule} from 'core-app/angular-modules';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
@@ -56,7 +56,7 @@ export class WorkPackageRelationsHierarchyComponent implements OnInit, OnDestroy
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected wpCacheService:WorkPackageCacheService,
               protected PathHelper:PathHelperService,
-              @Inject(I18nToken) protected I18n:op.I18n) {
+              readonly I18n:I18nService) {
   }
 
   public text = {

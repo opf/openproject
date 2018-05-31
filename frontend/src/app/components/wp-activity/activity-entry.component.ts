@@ -29,7 +29,8 @@
 import {Component, Inject, Input, OnInit} from "@angular/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {I18nToken} from "core-app/angular4-transition-utils";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+
 
 @Component({
   selector: 'activity-entry',
@@ -46,7 +47,7 @@ export class ActivityEntryComponent implements OnInit {
   public activityLabel:string;
 
   constructor(readonly PathHelper:PathHelperService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
   }
 
 

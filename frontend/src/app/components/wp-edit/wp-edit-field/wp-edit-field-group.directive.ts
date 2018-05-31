@@ -28,7 +28,7 @@
 
 import {Component, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
-import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {$stateToken} from 'core-app/angular4-transition-utils';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
@@ -44,6 +44,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {WorkPackageCreateService} from './../../wp-new/wp-create.service';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'wp-edit-field-group,[wp-edit-field-group]',
@@ -69,7 +70,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
               protected $transitions:TransitionService,
               protected ConfigurationService:ConfigurationService,
               @Inject($stateToken) readonly $state:StateService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
 
     const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
     const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();

@@ -27,7 +27,7 @@
 // ++
 
 import {Component, Inject, Input, OnInit} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {
   INotification,
   NotificationsService,
@@ -49,7 +49,7 @@ export class NotificationComponent implements OnInit {
   public uploadCount = 0;
   public show = false;
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+  constructor(readonly I18n:I18nService,
               readonly notificationsService:NotificationsService) {
   }
 

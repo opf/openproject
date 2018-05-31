@@ -29,7 +29,7 @@
 import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {Component, Inject, OnDestroy} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
@@ -46,7 +46,7 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
   public buttonId:string = 'work-packages-filter-toggle-button';
   public iconClass:string = 'icon-filter';
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+  constructor(readonly I18n:I18nService,
               protected wpFiltersService:WorkPackageFiltersService,
               protected wpTableFilters:WorkPackageTableFiltersService) {
     'ngInject';

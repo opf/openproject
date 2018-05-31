@@ -28,7 +28,7 @@
 
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {Component} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field";
@@ -38,7 +38,7 @@ import {EditField} from "core-app/modules/fields/edit/edit.field.module";
   templateUrl: './multi-select-edit-field.component.html'
 })
 export class MultiSelectEditFieldComponent extends EditFieldComponent {
-  readonly I18n:op.I18n = this.injector.get(I18nToken);
+  readonly I18n:I18nService = this.injector.get(I18nService);
   public options:any[];
   public valueOptions:ValueOption[];
   public text = {

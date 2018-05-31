@@ -32,11 +32,12 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {Component, ElementRef, Inject, OnInit} from "@angular/core";
-import {$stateToken, I18nToken, OpModalLocalsToken, WorkPackageServiceToken} from "core-app/angular4-transition-utils";
+import {$stateToken, OpModalLocalsToken, WorkPackageServiceToken} from "core-app/angular4-transition-utils";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService} from '@uirouter/core';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   templateUrl: './wp-destroy.modal.html'
@@ -62,7 +63,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
   constructor(readonly elementRef:ElementRef,
               @Inject(WorkPackageServiceToken) readonly WorkPackageService:any,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly I18n:I18nService,
               @Inject($stateToken) readonly $state:StateService,
               readonly states:States,
               readonly wpTableFocus:WorkPackageTableFocusService,

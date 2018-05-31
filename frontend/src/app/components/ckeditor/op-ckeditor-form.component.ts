@@ -64,8 +64,7 @@ export class OpCkeditorFormComponent {
 
   constructor(protected $element:ng.IAugmentedJQuery,
               protected $timeout:ng.ITimeoutService,
-              protected ConfigurationService:any,
-              protected I18n:op.I18n) {
+              protected ConfigurationService:any) {
 
   }
 

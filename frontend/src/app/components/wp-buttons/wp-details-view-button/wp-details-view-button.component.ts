@@ -33,8 +33,9 @@ import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/
 import {StateService} from '@uirouter/core';
 import {Component, Inject} from '@angular/core';
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
-import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {$stateToken} from 'core-app/angular4-transition-utils';
 import {downgradeComponent} from '@angular/upgrade/static';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   templateUrl: '../wp-button.template.html',
@@ -54,7 +55,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
 
   constructor(
     @Inject($stateToken) readonly $state:StateService,
-    @Inject(I18nToken) readonly I18n:op.I18n,
+    readonly I18n:I18nService,
     public states:States,
     public wpTableFocus:WorkPackageTableFocusService,
     public keepTab:KeepTabService) {

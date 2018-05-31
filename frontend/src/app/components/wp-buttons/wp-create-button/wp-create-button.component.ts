@@ -30,7 +30,8 @@ import {wpButtonsModule} from '../../../angular-modules';
 import {StateService} from '@uirouter/core';
 import {downgradeComponent} from '@angular/upgrade/static'
 import {Component, Inject, Input} from '@angular/core';
-import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {$stateToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'wp-create-button',
@@ -49,7 +50,7 @@ export class WorkPackageCreateButtonComponent {
   };
 
   constructor(@Inject($stateToken) readonly $state:StateService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
   }
 
   public $onInit() {

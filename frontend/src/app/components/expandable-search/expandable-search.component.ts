@@ -28,7 +28,7 @@
 
 import {openprojectModule} from '../../angular-modules';
 import {Component, ElementRef, HostListener, Inject, OnDestroy, Renderer2, ViewChild} from '@angular/core';
-import {I18nToken} from '../../angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {ContainHelpers} from "core-app/modules/common/focus/contain-helpers";
 import {FocusHelperService} from "core-app/modules/common/focus/focus-helper";
@@ -50,7 +50,7 @@ export class ExpandableSearchComponent implements OnDestroy {
   constructor(readonly FocusHelper:FocusHelperService,
               readonly elementRef:ElementRef,
               readonly renderer:Renderer2,
-              @Inject(I18nToken) public I18n:op.I18n) {
+              readonly I18n:I18nService) {
   }
 
   // detect if click is outside or inside the element

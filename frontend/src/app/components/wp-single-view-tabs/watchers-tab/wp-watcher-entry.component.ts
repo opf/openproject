@@ -27,7 +27,7 @@
 //++
 
 import {Component, Inject, Input, OnInit} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageWatchersTabComponent} from './watchers-tab.component';
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 
@@ -40,7 +40,7 @@ export class WorkPackageWatcherEntryComponent implements OnInit {
   public deleting = false;
   public text:{ remove:string };
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+  constructor(readonly I18n:I18nService,
               readonly panelCtrl:WorkPackageWatchersTabComponent) {
   }
 

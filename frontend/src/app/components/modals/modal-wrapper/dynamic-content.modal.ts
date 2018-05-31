@@ -27,9 +27,10 @@
 // ++
 
 import {Component, ElementRef, Inject, OnDestroy, OnInit} from "@angular/core";
-import {I18nToken, OpModalLocalsToken} from "core-app/angular4-transition-utils";
+import {OpModalLocalsToken} from "core-app/angular4-transition-utils";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   templateUrl: './dynamic-content.modal.html'
@@ -37,7 +38,7 @@ import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 export class DynamicContentModal extends OpModalComponent implements OnInit, OnDestroy {
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
 
     super(locals, elementRef);
   }

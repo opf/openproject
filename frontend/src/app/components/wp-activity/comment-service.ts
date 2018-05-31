@@ -32,9 +32,10 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {input} from 'reactivestates';
 import {Inject, Injectable} from "@angular/core";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {I18nToken} from "core-app/angular4-transition-utils";
+
 import {opServicesModule} from "core-app/angular-modules";
 import {downgradeInjectable} from "@angular/upgrade/static";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Injectable()
 export class CommentService {
@@ -44,7 +45,7 @@ export class CommentService {
   public quoteEvents = input<string>();
 
   constructor(
-    @Inject(I18nToken) private I18n:op.I18n,
+    readonly I18n:I18nService,
     private wpNotificationsService:WorkPackageNotificationService,
     private NotificationsService:NotificationsService) {
     }

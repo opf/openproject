@@ -35,7 +35,6 @@ const autoScroll:any = require('dom-autoscroller');
 function typesFormConfigurationCtrl(
   dragulaService:any,
   NotificationsService:any,
-  I18n:op.I18n,
   $scope:any,
   $element:any,
   confirmDialog:ConfirmDialogService,

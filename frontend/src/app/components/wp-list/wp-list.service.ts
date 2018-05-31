@@ -40,21 +40,19 @@ import {StateService} from '@uirouter/core';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {Inject, Injectable} from '@angular/core';
-import {
-  I18nToken,
-} from 'core-app/angular4-transition-utils';
+import {Injectable} from '@angular/core';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {PaginationObject, QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Injectable()
 export class WorkPackagesListService {
   constructor(protected NotificationsService:NotificationsService,
-              @Inject(I18nToken) protected I18n:op.I18n,
+              readonly I18n:I18nService,
               protected UrlParamsHelper:UrlParamsHelperService,
               protected authorisationService:AuthorisationService,
               protected $state:StateService,
@@ -150,7 +148,6 @@ export class WorkPackagesListService {
 
   /**
    * Load the query from the given state params
-   * @param stateParams
    */
   public loadCurrentQueryFromParams(projectIdentifier?:string) {
     this.wpListChecksumService.clear();

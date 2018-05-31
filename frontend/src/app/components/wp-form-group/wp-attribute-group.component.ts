@@ -27,7 +27,7 @@
 // ++
 
 import {Component, Inject, Input} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {
   FieldDescriptor,
@@ -50,7 +50,7 @@ export class WorkPackageFormAttributeGroupComponent {
     },
   };
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+  constructor(readonly I18n:I18nService,
               public wpEditFieldGroup:WorkPackageEditFieldGroupComponent) {
   }
 

@@ -32,7 +32,7 @@ import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {async, TestBed} from '@angular/core/testing';
 import {Injector} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 

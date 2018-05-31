@@ -31,7 +31,7 @@ import {WorkPackageCacheService} from '../../work-packages/work-package-cache.se
 import {ActivityPanelBaseController} from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
 import {Component, Inject, Input} from '@angular/core';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
 
@@ -45,7 +45,7 @@ export class NewestActivityOnOverviewComponent extends ActivityPanelBaseControll
   public latestActivityInfo:ActivityEntryInfo[] = [];
 
   constructor(readonly wpCacheService:WorkPackageCacheService,
-              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly I18n:I18nService,
               readonly wpActivity:WorkPackagesActivityService) {
     super(wpCacheService, I18n, wpActivity);
   }

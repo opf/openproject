@@ -1,5 +1,5 @@
 import {Component, ElementRef, Inject, OnInit} from '@angular/core';
-import {I18nToken, OpModalLocalsToken} from 'core-app/angular4-transition-utils';
+import {OpModalLocalsToken} from 'core-app/angular4-transition-utils';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
@@ -7,6 +7,7 @@ import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 interface ExportLink extends HalLink {
   identifier:string;
@@ -32,7 +33,7 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
   };
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly I18n:I18nService,
               readonly elementRef:ElementRef,
               readonly UrlParamsHelper:UrlParamsHelperService,
               readonly tableState:TableState,

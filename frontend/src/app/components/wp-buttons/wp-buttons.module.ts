@@ -27,6 +27,7 @@
 // ++
 
 import {StateService} from '@uirouter/core';
+import {GlobalI18n, I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export interface ButtonControllerText {
   activate:string;
@@ -44,7 +45,7 @@ export abstract class AbstractWorkPackageButtonComponent {
 
   protected text:ButtonControllerText;
 
-  constructor(public I18n:op.I18n) {
+  constructor(public I18n:I18nService) {
     this.text = {
       activate: this.I18n.t('js.label_activate'),
       deactivate: this.I18n.t('js.label_deactivate'),
@@ -94,7 +95,7 @@ export abstract class WorkPackageNavigationButtonComponent extends AbstractWorkP
   public activeState:string;
   public accessKey:number;
 
-  constructor(public $state:StateService, public I18n:op.I18n) {
+  constructor(public $state:StateService, public I18n:I18nService) {
     super(I18n);
   }
 

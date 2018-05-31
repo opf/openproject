@@ -29,7 +29,6 @@
 import {
   $httpToken,
   $qToken,
-  I18nToken,
 } from 'core-app/angular4-transition-utils';
 import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
@@ -42,8 +41,8 @@ import {By} from '@angular/platform-browser';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {OpenprojectHalModule} from "core-app/modules/hal/openproject-hal.module";
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 require('core-app/angular4-test-setup');
 
@@ -82,7 +81,7 @@ describe('FilterToggledMultiselectValueComponent', () => {
         FilterToggledMultiselectValueComponent
       ],
       providers: [
-        { provide: I18nToken, useValue: I18nStub },
+        { provide: I18nService, useValue: I18nStub },
         { provide: PathHelperService, useValue: {} },
         { provide: RootDmService, useValue: {} },
         { provide: $qToken, useValue: {} },

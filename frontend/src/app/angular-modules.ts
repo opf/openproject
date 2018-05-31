@@ -28,8 +28,6 @@
 
 import * as angular from 'angular';
 
-declare const I18n:op.I18n;
-
 // global
 export const opUiComponentsModule = angular.module('openproject.uiComponents',
   ['ui.select', 'ui.router', 'ui.router.upgrade', 'openproject.workPackages.services'])

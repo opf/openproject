@@ -33,16 +33,16 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {Inject, Injectable} from '@angular/core';
 import {
   $stateToken,
-  I18nToken,
 } from 'core-app/angular4-transition-utils';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Injectable()
 export class WorkPackageNotificationService {
-  constructor(@Inject(I18nToken) protected I18n:op.I18n,
+  constructor(readonly I18n:I18nService,
               @Inject($stateToken) protected $state:StateService,
               protected halResourceService:HalResourceService,
               protected NotificationsService:NotificationsService,

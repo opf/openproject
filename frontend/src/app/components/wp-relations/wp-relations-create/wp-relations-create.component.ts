@@ -4,7 +4,7 @@ import {WorkPackageCacheService} from '../../work-packages/work-package-cache.se
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {Component, ElementRef, Inject, Input, ViewChild} from "@angular/core";
-import {I18nToken} from "../../../angular4-transition-utils";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'wp-relations-create',
@@ -28,7 +28,7 @@ export class WorkPackageRelationsCreateComponent {
     addNewRelation: this.I18n.t('js.relation_buttons.add_new_relation')
   };
 
-  constructor(@Inject(I18nToken) protected I18n:op.I18n,
+  constructor(readonly I18n:I18nService,
               protected wpRelations:WorkPackageRelationsService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpCacheService:WorkPackageCacheService) {

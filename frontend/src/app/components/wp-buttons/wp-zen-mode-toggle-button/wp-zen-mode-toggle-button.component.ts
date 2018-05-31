@@ -29,7 +29,7 @@
 import {wpButtonsModule} from '../../../angular-modules';
 import {AbstractWorkPackageButtonComponent,} from '../wp-buttons.module';
 import {Component, Inject} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {downgradeComponent} from '@angular/upgrade/static';
 
 const screenfull:any = require('screenfull/dist/screenfull.js');
@@ -49,7 +49,7 @@ export class WorkPackageZenModeButtonComponent extends AbstractWorkPackageButton
   private deactivateLabel:string;
   private scope:ng.IScope;
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n) {
+  constructor(readonly I18n:I18nService) {
     super(I18n);
 
     this.activateLabel = I18n.t('js.zen_mode.button_activate');

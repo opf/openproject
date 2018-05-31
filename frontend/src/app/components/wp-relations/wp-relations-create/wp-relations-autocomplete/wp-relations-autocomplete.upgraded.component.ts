@@ -28,7 +28,7 @@
 
 import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
@@ -58,7 +58,7 @@ export class WpRelationsAutocompleteComponent implements OnInit {
   constructor(readonly elementRef:ElementRef,
               readonly PathHelper:PathHelperService,
               readonly loadingIndicatorService:LoadingIndicatorService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
 
   }
 

@@ -29,7 +29,7 @@
 import {Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
 import {opUiComponentsModule} from 'core-app/angular-modules';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
 interface AutocompleteSelectDecorationItem {
   id:number;
@@ -54,7 +54,7 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
   @Input('label') labelOverride:string|null = null;
 
   constructor(private elementRef:ElementRef,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
   }
 
   public remove(item:AutocompleteSelectDecorationItem) {

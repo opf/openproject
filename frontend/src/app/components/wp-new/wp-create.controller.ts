@@ -28,7 +28,7 @@
 
 import {Inject, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
-import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {$stateToken} from 'core-app/angular4-transition-utils';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {States} from '../states.service';
@@ -44,6 +44,7 @@ import {WorkPackageCreateService} from './wp-create.service';
 import {takeUntil} from 'rxjs/operators';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 
 export class WorkPackageCreateController implements OnInit, OnDestroy {
@@ -59,7 +60,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
 
   constructor(readonly $transition:Transition,
               @Inject($stateToken) readonly $state:StateService,
-              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly I18n:I18nService,
               readonly titleService:OpTitleService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected states:States,

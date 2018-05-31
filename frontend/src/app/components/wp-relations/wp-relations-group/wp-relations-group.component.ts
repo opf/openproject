@@ -28,7 +28,8 @@
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {Component, ElementRef, EventEmitter, Inject, Input, Output, ViewChild} from "@angular/core";
-import {I18nToken} from "core-app/angular4-transition-utils";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+
 
 
 @Component({
@@ -52,7 +53,7 @@ export class WorkPackageRelationsGroupComponent {
   };
 
   constructor(
-    @Inject(I18nToken) public I18n:op.I18n) {
+    readonly I18n:I18nService) {
   }
 
   public get togglerText() {

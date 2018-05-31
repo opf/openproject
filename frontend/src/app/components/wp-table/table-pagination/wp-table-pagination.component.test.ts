@@ -34,7 +34,6 @@ describe.skip('wpTablePagination Directive', function () {
   let state:any;
   let subject:any;
   var wpTablePagination:any;
-  var I18n:op.I18n;
 
   beforeEach(angular.mock.module('openproject.workPackages.directives'));
   beforeEach(angular.mock.module('openproject.templates'));
@@ -48,9 +47,8 @@ describe.skip('wpTablePagination Directive', function () {
     $provide.constant('wpTablePagination', wpTablePagination);
   }));
 
-  beforeEach(angular.mock.inject(function (_paginationService_:PaginationService, _I18n_:op.I18n) {
+  beforeEach(angular.mock.inject(function (_paginationService_:PaginationService) {
     paginationService = _paginationService_;
-    I18n = _I18n_;
   }));
 
   let setTotalResults = (total:number) => {
@@ -187,17 +185,6 @@ describe.skip('wpTablePagination Directive', function () {
   });
 
   describe('perPage options', function () {
-    var t;
-
-    beforeEach(function() {
-      t = sinon.stub(I18n, 't');
-      t.withArgs('js.label_per_page').returns('Per page:');
-    });
-
-    afterEach(inject(function() {
-      (I18n.t as any).restore();
-    }));
-
     describe('with no entries', function() {
       beforeEach(function() {
         compile();

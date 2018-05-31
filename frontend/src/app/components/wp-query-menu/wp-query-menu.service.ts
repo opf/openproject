@@ -28,20 +28,13 @@
 
 import {Inject, Injectable} from '@angular/core';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
-import {$stateToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {$stateToken} from 'core-app/angular4-transition-utils';
 import {LinkHandling} from 'core-app/modules/common/link-handling/link-handling';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
-import {Title} from '@angular/platform-browser';
 import {OpTitleService} from 'core-components/html/op-title.service';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export const QUERY_MENU_ITEM_TYPE = 'query-menu-item';
-
-export type QueryMenuEvent = {
-  event:'add' | 'remove' | 'rename';
-  queryId:string;
-  path?:string;
-  label?:string;
-};
 
 @Injectable()
 export class QueryMenuService {
@@ -51,7 +44,7 @@ export class QueryMenuService {
   private container:JQuery;
 
   constructor(@Inject($stateToken) readonly $state:StateService,
-              @Inject(I18nToken) readonly I18n:op.I18n,
+              readonly I18n:I18nService,
                readonly titleService:OpTitleService,
                readonly $transitions:TransitionService,
                readonly wpListChecksumService:WorkPackagesListChecksumService) {
@@ -134,7 +127,7 @@ export class QueryMenuService {
       // Unselect default query if a current query id is set
       this.container.find('.all-open-wps-menu-item').removeClass('selected');
       // Set active query to selected.
-      let current = queries.filter(`#wp-query-menu-item-${this.currentQueryId}`)
+      let current = queries.filter(`#wp-query-menu-item-${this.currentQueryId}`);
       current.addClass('selected');
 
       // Set the page title

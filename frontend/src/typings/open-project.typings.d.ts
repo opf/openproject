@@ -83,15 +83,6 @@ interface JQuery {
 declare var Factory:any;
 
 declare namespace op {
-  /**
-   * General components
-   */
-  interface I18n {
-    t(translateId:string, parameters?:any):string;
-    lookup(translateId:string):boolean|undefined;
-    locale:string;
-  }
-
   interface QueryParams {
     offset?:number;
     pageSize?:number;

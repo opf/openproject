@@ -29,7 +29,7 @@
 import {WorkPackageEditForm} from './work-package-edit-form';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {Injector} from '@angular/core';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
@@ -43,7 +43,7 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
   // Injections
   readonly FocusHelper:FocusHelperService = this.injector.get(FocusHelperService)
   readonly ConfigurationService = this.injector.get(ConfigurationService);
-  readonly I18n:op.I18n = this.injector.get(I18nToken);
+  readonly I18n:I18nService = this.injector.get(I18nService);
 
   // Other fields
   public editContext:WorkPackageEditContext;

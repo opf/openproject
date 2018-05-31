@@ -46,10 +46,11 @@ import {
   ViewChild
 } from "@angular/core";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
-import {I18nToken} from "core-app/angular4-transition-utils";
+
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'work-package-comment',
@@ -84,7 +85,7 @@ export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, O
               protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected NotificationsService:NotificationsService,
-              @Inject(I18nToken) protected I18n:op.I18n) {
+              protected I18n:I18nService) {
 
   }
 

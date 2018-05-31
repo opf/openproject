@@ -32,7 +32,7 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
-import {I18nToken} from '../../../angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
 @Component({
   templateUrl: './overview-tab.html',
@@ -43,7 +43,7 @@ export class WorkPackageOverviewTabComponent implements OnDestroy {
   public workPackage:WorkPackageResource;
   public tabName = this.I18n.t('js.label_latest_activity');
 
-  public constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+  public constructor(readonly I18n:I18nService,
                      readonly $transition:Transition,
                      readonly wpCacheService:WorkPackageCacheService) {
 

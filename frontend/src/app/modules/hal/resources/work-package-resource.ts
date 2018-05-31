@@ -27,7 +27,7 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AttachmentCollectionResource} from 'core-app/modules/hal/resources/attachment-collection-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
@@ -124,7 +124,7 @@ export class WorkPackageResource extends HalResource {
   public pendingAttachments:UploadFile[] = [];
   public overriddenSchema?:SchemaResource;
 
-  readonly I18n:op.I18n = this.injector.get(I18nToken);
+  readonly I18n:I18nService = this.injector.get(I18nService);
   readonly states:States = this.injector.get(States);
   readonly apiWorkPackages:ApiWorkPackagesService = this.injector.get(ApiWorkPackagesService);
   readonly wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);

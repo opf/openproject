@@ -28,7 +28,7 @@
 
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {Component, EventEmitter, Inject, Input, Output} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
 @Component({
   selector: 'filter-boolean-value',
@@ -44,7 +44,7 @@ export class FilterBooleanValueComponent {
     false: this.I18n.t('js.general_text_No')
   }
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n) {
+  constructor(readonly I18n:I18nService) {
   }
 
   public get value() {

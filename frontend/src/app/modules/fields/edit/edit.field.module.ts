@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {I18nToken} from 'core-app/angular4-transition-utils';
 import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
 import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
@@ -34,7 +33,6 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
 
 export class EditField extends Field {
   readonly component:typeof EditFieldComponent;
-  readonly I18n:op.I18n = this.$injector.get(I18nToken);
 
   constructor(public changeset:WorkPackageChangeset,
               public name:string,

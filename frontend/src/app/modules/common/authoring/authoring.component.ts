@@ -27,7 +27,7 @@
 //++
 
 import {Component, Inject, Input, OnInit} from '@angular/core';
-import {I18nToken} from '../../../angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {opUiComponentsModule} from 'core-app/angular-modules';
@@ -52,7 +52,7 @@ export class AuthoringComponent implements OnInit {
   public userLink:string;
 
   public constructor(readonly PathHelper:PathHelperService,
-                     @Inject(I18nToken) readonly I18n:op.I18n,
+                     readonly I18n:I18nService,
                      readonly timezoneService:TimezoneService) {
 
   }

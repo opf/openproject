@@ -34,7 +34,7 @@ import {Component} from '@angular/core';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {TransitionService} from '@uirouter/core';
 import {$stateToken} from 'core-app/angular4-transition-utils';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
 
 @Component({
@@ -75,7 +75,7 @@ describe('wp-query-menu', () => {
         WpQueryMenuTestComponent
       ],
       providers: [
-        { provide: I18nToken, useValue: I18n },
+        I18nService,
         { provide: OpTitleService, useValue: { setFirstPart: () => { return; } } },
         { provide: $stateToken, useValue: { params: { query_id: null }, go: (...args:any[]) => undefined } },
         { provide: WorkPackagesListChecksumService, useValue: { clear: () => undefined } },

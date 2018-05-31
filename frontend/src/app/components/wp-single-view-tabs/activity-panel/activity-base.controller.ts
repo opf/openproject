@@ -34,6 +34,7 @@ import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/a
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export class ActivityPanelBaseController implements OnInit, OnDestroy {
   public workPackage:WorkPackageResource;
@@ -56,7 +57,7 @@ export class ActivityPanelBaseController implements OnInit, OnDestroy {
   };
 
   constructor(readonly wpCacheService:WorkPackageCacheService,
-              readonly I18n:op.I18n,
+              readonly I18n:I18nService,
               readonly wpActivity:WorkPackagesActivityService) {
 
     this.reverse = wpActivity.isReversed;

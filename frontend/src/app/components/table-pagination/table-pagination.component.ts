@@ -32,7 +32,7 @@ import {PaginationInstance} from 'core-components/table-pagination/pagination-in
 import {IPaginationOptions} from './pagination-service';
 import {Component} from '@angular/core';
 import {OnInit, Inject, Input, EventEmitter, Output} from '@angular/core';
-import {I18nToken} from '../../angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
@@ -59,7 +59,7 @@ export class TablePaginationComponent implements OnInit {
   public perPageOptions:number[] = [];
 
   constructor(protected paginationService:PaginationService,
-              @Inject(I18nToken) protected I18n:op.I18n) {
+              readonly I18n:I18nService) {
 
 
   }

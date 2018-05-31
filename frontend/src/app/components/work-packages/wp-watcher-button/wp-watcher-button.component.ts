@@ -29,7 +29,7 @@
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
@@ -49,7 +49,7 @@ export class WorkPackageWatcherButtonComponent implements OnInit,  OnDestroy {
   public buttonId:string;
   public watchIconClass:string;
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+  constructor(readonly I18n:I18nService,
               readonly wpWatchersService:WorkPackageWatchersService,
               readonly wpCacheService:WorkPackageCacheService) {
   }

@@ -62,6 +62,7 @@ import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-
 import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
 import {FocusDirective} from "core-app/modules/common/focus/focus.directive";
 import {Ng1AttributeHelpTextWrapper} from "core-app/modules/common/help-texts/attribute-help-text-ng1-wrapper";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 const EXPORTED_DECLARATIONS = [
   OpDatePickerComponent,
@@ -116,6 +117,7 @@ const EXPORTED_DECLARATIONS = [
     NotificationsContainerComponent,
   ],
   providers: [
+    I18nService,
     GonRef,
     HideSectionService,
     NotificationsService,

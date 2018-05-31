@@ -5,7 +5,8 @@ import {WorkPackageRelationsService} from '../wp-relations.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {Component, ElementRef, Inject, Input, OnInit, ViewChild} from "@angular/core";
-import {I18nToken} from "core-app/angular4-transition-utils";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+
 
 @Component({
   selector: 'wp-relation-row',
@@ -55,7 +56,7 @@ export class WorkPackageRelationRowComponent implements OnInit {
   constructor(protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpRelations:WorkPackageRelationsService,
-              @Inject(I18nToken) protected I18n:op.I18n,
+              readonly I18n:I18nService,
               protected PathHelper:PathHelperService) {
   }
 

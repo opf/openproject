@@ -27,9 +27,10 @@
 // ++
 
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
-import {I18nToken, OpModalLocalsToken} from "core-app/angular4-transition-utils";
+import {OpModalLocalsToken} from "core-app/angular4-transition-utils";
 import {Component, ElementRef, Inject} from "@angular/core";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export interface ConfirmDialogOptions {
   text:{
@@ -64,7 +65,7 @@ export class ConfirmDialogModal extends OpModalComponent {
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
 
     super(locals, elementRef);
 

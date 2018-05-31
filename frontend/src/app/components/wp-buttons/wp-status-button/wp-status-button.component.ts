@@ -29,7 +29,7 @@
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
 import {Component, Inject, Input} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
 @Component({
   selector: 'wp-status-button',
@@ -43,7 +43,7 @@ export class WorkPackageStatusButtonComponent {
     explanation: this.I18n.t('js.label_edit_status')
   };
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+  constructor(readonly I18n:I18nService,
               protected wpEditing:WorkPackageEditingService) {
   }
 

@@ -34,6 +34,7 @@ import {
 } from 'core-app/modules/common/autocomplete/lazyloaded/lazyloaded-autocompleter';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {LinkHandling} from 'core-app/modules/common/link-handling/link-handling';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 interface IProjectMenuEntry {
   id:number;
@@ -65,7 +66,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
               protected $q:ng.IQService,
               protected $window:ng.IWindowService,
               protected $http:ng.IHttpService,
-              public I18n:op.I18n) {
+              public I18n:I18nService) {
     super('projectMenuAutocomplete');
 
     this.text = {

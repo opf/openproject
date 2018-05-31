@@ -27,7 +27,7 @@
 // ++
 
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {distinctUntilChanged, map, takeUntil} from 'rxjs/operators';
@@ -109,7 +109,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
 
   protected firstTimeFocused:boolean = false;
 
-  constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+  constructor(readonly I18n:I18nService,
               protected currentProject:CurrentProjectService,
               protected PathHelper:PathHelperService,
               protected states:States,

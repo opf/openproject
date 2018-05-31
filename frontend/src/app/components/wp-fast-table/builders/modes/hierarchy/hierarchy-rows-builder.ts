@@ -1,5 +1,5 @@
 import {Injector} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {States} from '../../../../states.service';
 import {WorkPackageTableColumnsService} from '../../../state/wp-table-columns.service';
 import {WorkPackageTableHierarchiesService} from '../../../state/wp-table-hierarchy.service';
@@ -14,7 +14,6 @@ export class HierarchyRowsBuilder extends RowsBuilder {
   public states = this.injector.get(States);
   public wpTableColumns = this.injector.get(WorkPackageTableColumnsService);
   public wpTableHierarchies = this.injector.get(WorkPackageTableHierarchiesService);
-  public I18n = this.injector.get(I18nToken);
 
   protected rowBuilder:SingleHierarchyRowBuilder;
 

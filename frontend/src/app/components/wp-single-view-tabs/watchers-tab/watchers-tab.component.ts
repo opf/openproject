@@ -37,7 +37,7 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
-import {I18nToken} from '../../../angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 
 @Component({
@@ -65,7 +65,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
     }
   };
 
-  public constructor(@Inject(I18nToken) readonly I18n:op.I18n,
+  public constructor(readonly I18n:I18nService,
                      readonly elementRef:ElementRef,
                      readonly wpWatchersService:WorkPackageWatchersService,
                      readonly $transition:Transition,

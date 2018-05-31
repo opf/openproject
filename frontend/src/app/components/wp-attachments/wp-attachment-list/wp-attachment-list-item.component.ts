@@ -29,7 +29,7 @@
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {Component, Inject, Input} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 @Component({
@@ -46,7 +46,7 @@ export class WorkPackageAttachmentListItemComponent {
   }
 
   constructor(protected wpNotificationsService:WorkPackageNotificationService,
-              @Inject(I18nToken) readonly I18n:op.I18n) {
+              readonly I18n:I18nService) {
   }
 
   public confirmRemoveAttachment($event:JQueryEventObject) {

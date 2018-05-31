@@ -1,5 +1,5 @@
 import {Injector} from '@angular/core';
-import {I18nToken} from 'core-app/angular4-transition-utils';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {States} from '../../../../states.service';
 import {WorkPackageTableColumnsService} from '../../../state/wp-table-columns.service';
 import {WorkPackageTable} from '../../../wp-fast-table';
@@ -20,7 +20,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
   private readonly tableState = this.injector.get(TableState);
   public states:States = this.injector.get(States);
   public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
-  public I18n:op.I18n = this.injector.get(I18nToken);
+  public I18n:I18nService = this.injector.get(I18nService);
 
   private headerBuilder:GroupHeaderBuilder;
 

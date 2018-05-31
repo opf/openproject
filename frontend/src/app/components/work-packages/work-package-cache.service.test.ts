@@ -40,12 +40,10 @@ import {take, takeWhile} from 'rxjs/operators';
 import {Injector} from '@angular/core';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {
-  I18nToken,
-} from 'core-app/angular4-transition-utils';
 import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 describe('WorkPackageCacheService', () => {
   let injector:Injector;
@@ -66,7 +64,7 @@ describe('WorkPackageCacheService', () => {
         SchemaCacheService,
         ApiWorkPackagesService,
         { provide: PathHelperService, useValue: {} },
-        { provide: I18nToken, useValue: {} },
+        { provide: I18nService, useValue: { t: (...args:any[]) => 'translation' } },
         { provide: WorkPackageResource, useValue: {}},
         { provide: WorkPackageCreateService, useValue: {}},
         { provide: NotificationsService, useValue: {}},
