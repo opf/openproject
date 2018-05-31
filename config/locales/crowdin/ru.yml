@@ -352,7 +352,7 @@ ru:
         mail_notification: Уведомления по электронной почте
         new_password: Новый пароль
         password_confirmation: Подтверждение
-        consented_at: Consented at
+        consented_at: Согласен с
       user_preference:
         comments_sorting: Показывать комментарии
         hide_mail: Скрывать мой адрес электронной почты
@@ -675,7 +675,7 @@ ru:
   button_create: Создать
   button_create_and_continue: Создать и продолжить
   button_delete: Удалить
-  button_decline: Decline
+  button_decline: Отклонить
   button_delete_watcher: Удаление наблюдателя %{name}
   button_download: Скачать
   button_duplicate: Дублировать
@@ -718,22 +718,22 @@ ru:
   button_configure_menu_entry: Настройка пункта меню
   button_delete_menu_entry: Удаление пункта меню
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    checkbox_label: Принимаю к сведению и соглашаюсь с вышеизложенным.
+    failure_message: Согласие не получено, продолжение невозможно.
+    title: Согласие пользователя
+    decline_warning_message: Вы отказались согласиться и были занесены в журнал.
+    user_has_consented: На данный момент пользователь согласен с вашей формулировкой.
+    not_yet_consented: Согласие от пользователя пока не получено и будет у него запрошено
+      при следующем его входе в систему.
+    contact_mail_instructions: Укажите адрес электронной почты для контроля пользователями
+      выполнения запросов на изменение или удаление данных.
+    contact_your_administrator: Пожалуйста, обратитесь к администратору, если хотите,
+      чтобы ваша учетная запись была удалена.
+    contact_this_mail_address: Пожалуйста, свяжитесь по %{mail_address}, если хотите,
+      чтобы ваша учетная запись была удалена.
+    text_update_consent_time: Установите этот флажок для повторного запроса согласия
+      у пользователей. Включите, если вы изменили юридический аспект согласия с вышеизложенным.
+    update_consent_last_time: 'Последнее обновление согласования: %{update_time}'
   copy_project:
     started: Копирование проекта «%{source_project_name}» в «%{target_project_name}»
       началось. Вы будете проинформированы по электронной почте, как только «%{target_project_name}»
@@ -985,8 +985,8 @@ ru:
   error_cookie_missing: Отсутствуют cookie OpenProject. Пожалуйста, убедитесь, что
     Cookie разрешены. Без них приложение не будет функционировать должным образом.
   error_custom_option_not_found: Параметр не существует.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
+  error_dependent_work_package: 'Ошибка в зависимостях пакетов работ #%{related_id}
+    %{related_subject}: %{error}'
   error_failed_to_delete_entry: Не удалось удалить эту запись.
   error_invalid_group_by: 'Невозможно группировать по: %{value}'
   error_invalid_query_column: 'Недопустимый столбец в запросе: %{value}'
@@ -1164,7 +1164,7 @@ ru:
   label_calendar: Календарь
   label_calendar_show: Показать календарь
   label_category: Категория
-  label_consent_settings: User Consent
+  label_consent_settings: Согласие пользователя
   label_wiki_menu_item: Пункт меню wiki
   label_select_main_menu_item: Выберите новый пункт главного меню
   label_select_project: Выберите проект
@@ -2096,10 +2096,10 @@ ru:
   setting_commit_logtime_activity_id: Деятельности с учетом времени
   setting_commit_logtime_enabled: Включить учет времени
   setting_commit_ref_keywords: Ссылки на ключевые слова
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: Время соглашения
+  setting_consent_info: Текст соглашения
+  setting_consent_required: Требуется согласие
+  setting_consent_decline_mail: Контактный почтовый адрес для согласия
   setting_cross_project_work_package_relations: Разрешить перектестные связи пакетов
     работ проекта
   setting_date_format: Формат даты
