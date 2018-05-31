@@ -31,52 +31,79 @@ import {WorkPackageCommentField} from './wp-comment-field.module';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
-import {scopedObservable} from 'core-app/helpers/angular-rx-utils';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {CommentService} from "core-components/wp-activity/comment-service";
+import {
+  Component,
+  ContentChild,
+  ElementRef,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild
+} from "@angular/core";
+import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import {I18nToken} from "core-app/angular4-transition-utils";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
 
-export class CommentFieldDirectiveController {
-  public workPackage:WorkPackageResource;
+@Component({
+  selector: 'work-package-comment',
+  templateUrl: './work-package-comment.component.html'
+})
+export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, OnDestroy {
+  @Input() public workPackage:WorkPackageResource;
+
+  @ContentChild(TemplateRef) template:TemplateRef<any>;
+  @ViewChild('commentContainer') public commentContainer:ElementRef;
+
   public field:WorkPackageCommentField;
+  public handler:IEditFieldHandler = this;
 
-  protected text:Object;
+  public text = {
+    editTitle: this.I18n.t('js.label_add_comment_title'),
+    addComment: this.I18n.t('js.label_add_comment'),
+    cancelTitle: this.I18n.t('js.label_cancel_comment'),
+    placeholder: this.I18n.t('js.label_add_comment_title')
+  };
+  public fieldLabel:string = this.text.editTitle;
 
   protected editing = false;
   protected canAddComment:boolean;
   protected showAbove:boolean;
-  protected _forceFocus:boolean = false;
 
-  constructor(protected $scope:ng.IScope,
-              protected $rootScope:ng.IRootScopeService,
-              protected $timeout:ng.ITimeoutService,
-              protected $q:ng.IQService,
-              protected $element:ng.IAugmentedJQuery,
-              protected wpActivityService:any,
+  constructor(protected elementRef:ElementRef,
+              protected commentService:CommentService,
               protected wpLinkedActivities:WorkPackagesActivityService,
-              protected ConfigurationService:any,
+              protected ConfigurationService:ConfigurationService,
               protected loadingIndicator:LoadingIndicatorService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
-              protected NotificationsService:any,
-              protected I18n:op.I18n) {
+              protected NotificationsService:NotificationsService,
+              @Inject(I18nToken) protected I18n:op.I18n) {
 
-    this.text = {
-      editTitle: I18n.t('js.label_add_comment_title'),
-      addComment: I18n.t('js.label_add_comment'),
-      cancelTitle: I18n.t('js.label_cancel_comment'),
-      placeholder: I18n.t('js.label_add_comment_title')
-    };
   }
 
-  public $onInit() {
+  public ngOnInit() {
     this.canAddComment = !!this.workPackage.addComment;
     this.showAbove = this.ConfigurationService.commentsSortedInDescendingOrder();
 
-    scopedObservable<string>(this.$scope, this.wpActivityService.quoteEvents.values$())
+    this.commentService.quoteEvents.values$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
       .subscribe((quote:string) => {
         this.activate(quote);
-        this.$element.find('.work-packages--activity--add-comment')[0].scrollIntoView();
+        this.commentContainer.nativeElement.scrollIntoView();
       });
+  }
+
+  public ngOnDestroy() {
+    // Nothing to do.
   }
 
   public get htmlId() {
@@ -91,48 +118,43 @@ export class CommentFieldDirectiveController {
     return false;
   }
 
-  public shouldFocus() {
-    return this._forceFocus;
-  }
-
   public activate(withText?:string) {
-    this._forceFocus = true;
     this.editing = true;
 
-    this.resetField(withText);
-
-    this.waitForField()
-      .then(() => {
-        this.field.$onInit(this.$element);
-      });
+    this.reset(withText);
   }
 
   public get project() {
     return this.workPackage.project;
   }
 
-  public resetField(withText?:string) {
+  public reset(withText?:string) {
     this.field = new WorkPackageCommentField(this.workPackage);
     this.field.initializeFieldValue(withText);
+  }
+
+  public deactivate(focus:boolean) {
+    focus && this.focus();
+    this.editing = false;
   }
 
   public handleUserSubmit() {
     this.field.onSubmit();
     if (this.field.isBusy || this.field.isEmpty()) {
-      return;
+      return Promise.resolve();
     }
 
     this.field.isBusy = true;
     let indicator = this.loadingIndicator.wpDetails;
-    indicator.promise = this.wpActivityService.createComment(this.workPackage, this.field.value)
+    return indicator.promise = this.commentService.createComment(this.workPackage, this.field.value)
       .then(() => {
         this.editing = false;
         this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
 
         this.wpLinkedActivities.require(this.workPackage, true);
         this.wpCacheService.updateWorkPackage(this.workPackage);
-        this._forceFocus = true;
         this.field.isBusy = false;
+        this.focus();
       })
       .catch((error:any) => {
         this.field.isBusy = false;
@@ -146,43 +168,23 @@ export class CommentFieldDirectiveController {
   }
 
   public handleUserCancel() {
-    this.editing = false;
-    this.field.initializeFieldValue();
-    this._forceFocus = true;
+    this.deactivate(true);
   }
 
-  // Ensure the nested ng-include has rendered
-  private async waitForField():Promise<JQuery> {
-    const deferred = this.$q.defer<JQuery>();
+  focus():void {
+    const trigger = this.elementRef.nativeElement.querySelector('.inplace-editing--trigger-container');
+    trigger && trigger.focus();
+  }
 
-    const interval = setInterval(() => {
-      const container = this.$element.find('.op-ckeditor-element');
+  handleUserKeydown(event:JQueryEventObject, onlyCancel?:boolean):void {
+    // We only save comments through field controls
+  }
 
-      if (container.length > 0) {
-        clearInterval(interval);
-        deferred.resolve(container);
-      }
-    }, 100);
+  isChanged():boolean {
+    return false;
+  }
 
-    return deferred.promise;
+  stopPropagation(evt:JQueryEventObject):boolean {
+    return false;
   }
 }
-
-function workPackageComment():any {
-  return {
-    restrict: 'E',
-    transclude: true,
-    template: require('./work-package-comment.directive.html'),
-    scope: {
-      workPackage: '='
-    },
-
-    controllerAs: 'vm',
-    bindToController: true,
-    controller: CommentFieldDirectiveController
-  };
-}
-
-angular
-  .module('openproject.workPackages.directives')
-  .directive('workPackageComment', workPackageComment);

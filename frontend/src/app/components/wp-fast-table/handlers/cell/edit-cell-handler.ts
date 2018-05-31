@@ -63,13 +63,8 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
 
     // Activate the field
     form.activate(fieldName)
-      .then((handler) => {
-        const element = handler.element.find('input');
-        ClickPositionMapper.setPosition(element, positionOffset);
-      })
-      .catch(() => {
-        target.addClass(readOnlyClassName);
-      });
+      .then((handler) => handler.focus(positionOffset))
+      .catch(() => target.addClass(readOnlyClassName));
 
     return false;
   }

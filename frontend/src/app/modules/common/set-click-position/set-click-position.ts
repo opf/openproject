@@ -8,9 +8,9 @@ export namespace ClickPositionMapper {
    * @param element The element to set the cursor to
    * @param offset The character offset retrieved from getPosition.
    */
-  export function setPosition(element:JQuery, offset:number):void {
+  export function setPosition(element:HTMLInputElement, offset:number):void {
     try {
-      (element[0] as HTMLInputElement).setSelectionRange(offset, offset);
+      element.setSelectionRange(offset, offset);
     } catch (e) {
       debugLog('Failed to set click position for edit field.', e);
     }

@@ -26,20 +26,35 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Component, Inject, Input, OnInit} from "@angular/core";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {I18nToken} from "core-app/angular4-transition-utils";
 
-import {UpgradeComponent} from '@angular/upgrade/static';
-import {Directive, ElementRef, Injector, Input} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-
-@Directive({
-  selector: 'work-package-comment-upgraded'
+@Component({
+  selector: 'activity-entry',
+  templateUrl: './activity-entry.component.html'
 })
-export class WorkPackageCommentDirectiveUpgraded extends UpgradeComponent {
-  @Input('workPackage') public workPackage:WorkPackageResource;
-  @Input('activities') public activities:CollectionResource;
+export class ActivityEntryComponent implements OnInit {
+  @Input() public workPackage:WorkPackageResource;
+  @Input() public activity:any;
+  @Input() public activityNo:number;
+  @Input() public isInitial:boolean;
 
-  constructor(elementRef:ElementRef, injector:Injector) {
-    super('workPackageComment', elementRef, injector);
+  public projectId:string;
+  public activityType:string;
+  public activityLabel:string;
+
+  constructor(readonly PathHelper:PathHelperService,
+              @Inject(I18nToken) readonly I18n:op.I18n) {
+  }
+
+
+  ngOnInit() {
+    this.projectId = this.workPackage.project.idFromLink;
+
+    this.activityType = this.activity._type;
+    this.activityLabel = this.I18n.t('js.label_activity_no', {activityNo: this.activityNo});
   }
 }
+

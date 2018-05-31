@@ -73,14 +73,12 @@ import {PaginationService} from 'core-components/table-pagination/pagination-ser
 import {UserCacheService} from 'core-components/user/user-cache.service';
 import {UserLinkComponent} from 'core-components/user/user-link/user-link.component';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {WorkPackageCommentDirectiveUpgraded} from 'core-components/work-packages/work-package-comment/work-package-comment.directive.upgraded';
 import {WorkPackageBreadcrumbComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb.component';
 import {WorkPackageRelationsCountComponent} from 'core-components/work-packages/wp-relations-count/wp-relations-count.component';
 import {WorkPackageSingleViewComponent} from 'core-components/work-packages/wp-single-view/wp-single-view.component';
 import {WorkPackageSubjectComponent} from 'core-components/work-packages/wp-subject/wp-subject.component';
 import {WorkPackageTypeStatusComponent} from 'core-components/work-packages/wp-type-status/wp-type-status.component';
 import {WorkPackageWatcherButtonComponent} from 'core-components/work-packages/wp-watcher-button/wp-watcher-button.component';
-import {ActivityEntryDirectiveUpgraded} from 'core-components/wp-activity/activity-entry.directive.upgraded';
 import {WorkPackageAttachmentListItemComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list-item.component';
 import {WorkPackageAttachmentListComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list.component';
 import {Ng1WorkPackageAttachmentsUploadWrapper} from 'core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload-ng1-wrapper';
@@ -197,6 +195,12 @@ import {WpRelationsAutocompleteComponent} from "core-components/wp-relations/wp-
 import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
+import {ActivityEntryComponent} from "core-components/wp-activity/activity-entry.component";
+import {UserActivityComponent} from "core-components/wp-activity/user/user-activity.component";
+import {ActivityLinkComponent} from "core-components/wp-activity/activity-link.component";
+import {RevisionActivityComponent} from "core-components/wp-activity/revision/revision-activity.component";
+import {CommentService} from "core-components/wp-activity/comment-service";
+import {WorkPackageCommentComponent} from "core-components/work-packages/work-package-comment/work-package-comment.component";
 
 @NgModule({
   imports: [
@@ -267,6 +271,7 @@ import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-
     upgradeService(firstRouteFactory, FirstRouteService),
     QueryMenuService,
     // Split view
+    CommentService,
     WorkPackagesActivityService,
     WorkPackageWatchersService,
     // Context menus
@@ -347,8 +352,11 @@ import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-
 
     // Activity Tab
     NewestActivityOnOverviewComponent,
-    WorkPackageCommentDirectiveUpgraded,
-    ActivityEntryDirectiveUpgraded,
+    WorkPackageCommentComponent,
+    ActivityEntryComponent,
+    UserActivityComponent,
+    RevisionActivityComponent,
+    ActivityLinkComponent,
     WorkPackageActivityTabComponent,
 
     // Relations Tab

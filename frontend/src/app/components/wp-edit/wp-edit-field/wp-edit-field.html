@@ -5,10 +5,12 @@
       wrapperClasses || '-small'
      ]">
 
-  <div class="__d_edit_container">
+  <div #editContainer
+       hidden>
   </div>
 
   <div (accessibleClick)="activateIfEditable($event)"
+       [hidden]="active"
        tabindex="-1"
-       class="__d_display_container"></div>
+       #displayContainer></div>
 </div>

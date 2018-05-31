@@ -28,93 +28,118 @@
 
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {ActivityService} from './../activity-service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageCommentField} from 'core-components/work-packages/work-package-comment/wp-comment-field.module';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {TextileService} from "core-app/modules/common/textile/textile-service";
-import {AutoCompleteHelperServiceToken, TextileServiceToken} from "core-app/angular4-transition-utils";
-import {Inject} from "@angular/core";
+import {AutoCompleteHelperServiceToken, I18nToken, TextileServiceToken} from "core-app/angular4-transition-utils";
+import {AfterViewInit, Component, ElementRef, Inject, Input, OnInit} from "@angular/core";
+import {UserCacheService} from "core-components/user/user-cache.service";
+import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
+import {CommentService} from "core-components/wp-activity/comment-service";
 
-export class UserActivityController {
-  public workPackage:WorkPackageResource;
-  public activity:HalResource;
-  public activityNo:string;
-  public activityLabel:string;
-  public isInitial:boolean;
+@Component({
+  selector: 'user-activity',
+  templateUrl: './user-activity.component.html'
+})
+export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterViewInit {
+  @Input() public workPackage:WorkPackageResource;
+  @Input() public activity:any;
+  @Input() public activityNo:number;
+  @Input() public activityLabel:string;
+  @Input() public isInitial:boolean;
 
+  public handler = this;
   public inEdit = false;
   public inEditMode = false;
   public userCanEdit = false;
   public userCanQuote = false;
 
-  public userId:string|number;
+  public userId:string | number;
   public userName:string;
   public userAvatar:string;
   public userActive:boolean;
-  public userPath:string|null;
+  public userPath:string | null;
   public userLabel:string;
   public postedComment:string;
-  public activityLabelWithComment?:string;
+  public fieldLabel:string;
   public details:any[] = [];
+  public isComment:boolean;
 
   public field:WorkPackageCommentField;
   public focused = false;
 
-  public accessibilityModeEnabled = this.ConfigurationService.accessibilityModeEnabled();
+  public text = {
+    label_created_on: this.I18n.t('js.label_created_on'),
+    label_updated_on: this.I18n.t('js.label_updated_on'),
+    quote_comment: this.I18n.t('js.label_quote_comment'),
+    edit_comment: this.I18n.t('js.label_edit_comment'),
+  }
 
-  constructor(readonly $uiViewScroll:any,
-              readonly $q:ng.IQService,
-              readonly $element:ng.IAugmentedJQuery,
-              readonly $location:ng.ILocationService,
-              readonly $sce:ng.ISCEService,
-              readonly I18n:op.I18n,
+  public accessibilityModeEnabled = this.ConfigurationService.accessibilityModeEnabled();
+  private $element:JQuery;
+
+  constructor(readonly elementRef:ElementRef,
               readonly PathHelper:PathHelperService,
               readonly wpLinkedActivities:WorkPackagesActivityService,
-              readonly wpActivityService:ActivityService,
+              readonly commentService:CommentService,
               readonly wpCacheService:WorkPackageCacheService,
               readonly ConfigurationService:ConfigurationService,
+              readonly userCacheService:UserCacheService,
+              @Inject(I18nToken) readonly I18n:op.I18n,
               @Inject(AutoCompleteHelperServiceToken) readonly AutoCompleteHelper:any,
               @Inject(TextileServiceToken) readonly textileService:TextileService) {
   }
 
-  public $onInit() {
-    this.resetField();
+  public ngOnInit() {
+    this.isComment = this.activity._type === 'Activity::Comment';
+    this.$element = jQuery(this.elementRef.nativeElement);
+    this.reset();
     this.userCanEdit = !!this.activity.update;
     this.userCanQuote = !!this.workPackage.addComment;
-    this.postedComment = this.$sce.trustAsHtml(this.activity.comment.html);
+    this.postedComment = this.activity.comment.html;
 
     if (this.postedComment) {
-      this.activityLabelWithComment = I18n.t('js.label_activity_with_comment_no', {
+      this.fieldLabel = this.I18n.t('js.label_activity_with_comment_no', {
         activityNo: this.activityNo
       });
+    } else {
+      this.fieldLabel = this.I18n.t('js.label_activity_no', {activityNo: this.activityNo});
     }
 
     this.$element.bind('focusin', this.focus.bind(this));
     this.$element.bind('focusout', this.blur.bind(this));
 
-    angular.forEach(this.activity.details,  (detail:any) => {
-      this.details.push(this.$sce.trustAsHtml(detail.html));
+    _.each(this.activity.details, (detail:any) => {
+      this.details.push(detail.html);
     });
 
-    if (this.$location.hash() === 'activity-' + this.activityNo) {
-      this.$uiViewScroll(this.$element);
-    }
-
-    this.activity.user.$load().then((user:UserResource) => {
-      this.userId = user.id;
-      this.userName = user.name;
-      this.userAvatar = user.avatar;
-      this.userActive = user.isActive;
-      this.userPath = user.showUser.href;
-      this.userLabel = this.I18n.t('js.label_author', {user: this.userName});
-    });
+    this.userCacheService
+      .require(this.activity.user.idFromLink)
+      .then((user:UserResource) => {
+        this.userId = user.id;
+        this.userName = user.name;
+        this.userAvatar = user.avatar;
+        this.userActive = user.isActive;
+        this.userPath = user.showUser.href;
+        this.userLabel = this.I18n.t('js.label_author', {user: this.userName});
+      });
   }
 
-  public resetField(withText?:string) {
+  public shouldHideIcons():boolean {
+    return !(this.isComment && (this.focussing() || this.accessibilityModeEnabled));
+  }
+
+
+  public ngAfterViewInit() {
+    if (window.location.hash === 'activity-' + this.activityNo) {
+      this.elementRef.nativeElement.scrollIntoView(true);
+    }
+  }
+
+  public reset(withText?:string) {
     this.field = new WorkPackageCommentField(this.workPackage);
     this.field.initializeFieldValue(withText);
   }
@@ -122,14 +147,13 @@ export class UserActivityController {
   public handleUserSubmit() {
     this.field.onSubmit();
     if (this.field.isBusy || this.field.isEmpty()) {
-      return;
+      return Promise.resolve();
     }
-    this.updateComment();
+    return this.updateComment();
   }
 
   public handleUserCancel() {
-    this.inEdit = false;
-    this.focusEditIcon();
+    this.deactivate(true);
   }
 
   public get active() {
@@ -138,42 +162,20 @@ export class UserActivityController {
 
   public editComment() {
     this.inEdit = true;
-
-    this.resetField(this.activity.comment.raw);
-    this.waitForField()
-      .then(() => {
-        this.field.$onInit(this.$element);
-      });
-  }
-
-  // Ensure the nested ng-include has rendered
-  private async waitForField():Promise<JQuery> {
-    const deferred = this.$q.defer<JQuery>();
-
-    const interval = setInterval(() => {
-      const container = this.$element.find('.op-ckeditor-element');
-
-      if (container.length > 0) {
-        clearInterval(interval);
-        deferred.resolve(container);
-      }
-    }, 100);
-
-    return deferred.promise;
+    this.reset(this.activity.comment.raw);
   }
 
   public quoteComment() {
-    this.wpActivityService.quoteEvents.putValue(this.quotedText(this.activity.comment.raw));
+    this.commentService.quoteEvents.putValue(this.quotedText(this.activity.comment.raw));
   }
 
   public updateComment() {
-    this.wpActivityService.updateComment(this.activity, this.field.rawValue || '')
+    return this.commentService.updateComment(this.activity, this.field.rawValue || '')
       .then(() => {
         this.wpLinkedActivities.require(this.workPackage, true);
         this.wpCacheService.updateWorkPackage(this.workPackage);
-        this.inEdit = false;
+        this.deactivate(true);
       });
-    this.focusEditIcon();
   }
 
   public focusEditIcon() {
@@ -195,30 +197,34 @@ export class UserActivityController {
 
   public quotedText(rawComment:string) {
     var quoted = rawComment.split('\n')
-      .map(function (line:string) {
+      .map(function(line:string) {
         return '\n> ' + line;
       })
       .join('');
     return this.userName + ' wrote:\n' + quoted;
   }
+
+  public get htmlId() {
+    return `user_activity_edit_field_${this.activityNo}`;
+  }
+
+  deactivate(focus:boolean):void {
+    this.inEdit = false;
+
+    if (focus) {
+
+      this.focusEditIcon();
+    }
+  }
+
+  handleUserKeydown(event:JQueryEventObject, onlyCancel?:boolean):void {
+  }
+
+  isChanged():boolean {
+    return false;
+  }
+
+  stopPropagation(evt:JQueryEventObject):boolean {
+    return false;
+  }
 }
-
-angular
-  .module('openproject.workPackages.activities')
-  .directive('userActivity', function() {
-    return {
-      restrict: 'E',
-      template: require('!!raw-loader!./user-activity.directive.html'),
-      scope: {
-        workPackage: '=',
-        activity: '=',
-        activityNo: '=',
-        activityLabel: '=',
-        isInitial: '='
-      },
-      controller: UserActivityController,
-      bindToController: true,
-      controllerAs: 'vm'
-    };
-  });
-

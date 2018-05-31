@@ -1,0 +1,61 @@
+<div class="work-package-details-activities-activity-contents"
+     tabindex="0"
+     *ngIf="workPackage"
+     [attr.aria-label]="fieldLabel || activityLabel"
+     (mouseenter)="focus()"
+     (mouseleave)="blur()">
+  <div *ngIf="userAvatar">
+    <img class="avatar"
+         [attr.src]="userAvatar"
+         [attr.title]="userName"
+         alt="Avatar" />
+  </div>
+  <span class="user" *ngIf="userActive">
+    <a [attr.href]="userPath"
+       [attr.aria-label]="userLabel"
+       [textContent]="userName">
+    </a>
+  </span>
+  <span class="user" *ngIf="!userActive">{{ userName }}</span>
+  <span class="date">
+    {{ isInitial ? text.label_created_on : text.label_updated_on }}
+    <op-date-time [dateTimeValue]="activity.createdAt"></op-date-time>
+  </span>
+  <div class="comments-number">
+    <activity-link [workPackage]="workPackage"
+                   [activityNo]="activityNo">
+    </activity-link>
+    <div class="comments-icons"
+         [hidden]="shouldHideIcons()"
+         ng-show="">
+      <accessible-by-keyboard *ngIf="userCanQuote"
+                              (execute)="quoteComment()"
+                              [linkTitle]="text.quote_comment">
+        <op-icon icon-classes="action-icon icon-quote" [icon-title]="text.quote_comment"></op-icon>
+      </accessible-by-keyboard>
+      <accessible-by-keyboard *ngIf="userCanEdit"
+                              (execute)="editComment()"
+                              [linkTitle]="text.edit_comment"
+                              class="edit-activity--{{activityNo}}">
+        <op-icon icon-classes="action-icon icon-edit" [icon-title]="text.edit_comment"></op-icon>
+      </accessible-by-keyboard>
+    </div>
+  </div>
+  <div class="user-comment wiki">
+    <div *ngIf="inEdit" class="inplace-edit">
+      <div class="user-comment--form inplace-edit--write-value">
+        <edit-form-portal [editFieldInput]="field"
+                          [editFieldHandler]="handler">
+        </edit-form-portal>
+      </div>
+    </div>
+    <span *ngIf="!inEdit && isComment"
+          class="message"
+          [innerHtml]="postedComment"></span>
+    <ul class="work-package-details-activities-messages" *ngIf="!isInitial">
+      <li *ngFor="let detail of details">
+        <span class="message" [innerHtml]="detail"></span>
+      </li>
+    </ul>
+  </div>
+</div>

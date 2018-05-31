@@ -30,21 +30,17 @@ import {Component, Inject, InjectionToken, Injector} from "@angular/core";
 import {WorkPackageEditFieldHandler} from "core-components/wp-edit-form/work-package-edit-field-handler";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
 
-export const OpEditingPortalLocalsToken = new InjectionToken('wp-editing-portal-locals');
-export interface EditFieldLocals {
-  handler:WorkPackageEditFieldHandler;
-  field:any;
-}
+export const OpEditingPortalFieldToken = new InjectionToken('wp-editing-portal--field');
+export const OpEditingPortalHandlerToken = new InjectionToken('wp-editing-portal--handler');
 
 @Component({
   template: ''
 })
 export class EditFieldComponent {
-  public handler = this.locals.handler;
-  public field = this.locals.field;
-
-  constructor(@Inject(OpEditingPortalLocalsToken) readonly locals:EditFieldLocals,
+  constructor(@Inject(OpEditingPortalFieldToken) readonly field:EditField,
+              @Inject(OpEditingPortalHandlerToken) readonly handler:IEditFieldHandler,
               readonly injector:Injector) {
     this.initialize();
   }

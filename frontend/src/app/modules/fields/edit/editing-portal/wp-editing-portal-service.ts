@@ -4,10 +4,11 @@
 import {WorkPackageEditFieldHandler} from "core-components/wp-edit-form/work-package-edit-field-handler";
 import {WorkPackageEditForm} from "core-components/wp-edit-form/work-package-edit-form";
 import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector} from "@angular/core";
-import {ComponentPortal, DomPortalOutlet, PortalInjector} from "@angular/cdk/portal";
-import {EditFieldLocals, OpEditingPortalLocalsToken} from "core-app/modules/fields/edit/edit-field.component";
+import {ComponentPortal, DomPortalOutlet} from "@angular/cdk/portal";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.component";
+import {createLocalInjector} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.injector";
+import {take} from "rxjs/operators";
 
 @Injectable()
 export class WorkPackageEditingPortalService {
@@ -18,14 +19,14 @@ export class WorkPackageEditingPortalService {
 
   }
 
-  public create(container:JQuery,
+  public create(container:HTMLElement,
                 form:WorkPackageEditForm,
                 field:EditField,
                 fieldName:string,
-                errors:string[]):WorkPackageEditFieldHandler {
+                errors:string[]):Promise<WorkPackageEditFieldHandler> {
 
     // Create the portal outlet
-    const outlet = this.createDomOutlet(container[0]);
+    const outlet = this.createDomOutlet(container);
 
     // Create a field handler for the newly active field
     const fieldHandler = new WorkPackageEditFieldHandler(
@@ -38,16 +39,27 @@ export class WorkPackageEditingPortalService {
       errors
     );
 
+    // Create an injector that contains injectable reference to the edit field and handler
+    const injector = createLocalInjector(this.injector, fieldHandler, field);
+
     // Create a portal for the edit-form/field
-    const portal = new ComponentPortal(EditFormPortalComponent, null, this.createLocalInjector(fieldHandler, field));
+    const portal = new ComponentPortal(EditFormPortalComponent, null, injector);
 
     // Clear the container
-    container.empty();
+    container.innerHTML = '';
 
     // Attach the portal to the outlet
-    outlet.attachComponentPortal(portal);
+    const ref = outlet.attachComponentPortal(portal);
 
-    return fieldHandler;
+    // Wait until the content is initialized
+    return ref
+      .instance
+      .onAfterViewInit
+      .pipe(
+        take(1)
+      )
+      .toPromise()
+      .then(() => fieldHandler);
   }
 
   /**
@@ -66,22 +78,6 @@ export class WorkPackageEditingPortalService {
   }
 
 
-  /**
-   * Creates an injector for the edit field portal to pass data into.
-   *
-   * @param data
-   * @returns {PortalInjector}
-   */
-  private createLocalInjector(fieldHandler:WorkPackageEditFieldHandler, field:EditField) {
-    const injectorTokens = new WeakMap();
-    injectorTokens.set(OpEditingPortalLocalsToken, {
-      handler: fieldHandler,
-      field: field,
-      fieldName: field.name
-    } as EditFieldLocals);
-
-    return new PortalInjector(this.injector, injectorTokens);
-  }
 }
 
 

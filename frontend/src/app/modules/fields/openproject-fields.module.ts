@@ -59,6 +59,7 @@ import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-
   ],
   exports: [
     EditFieldControlsComponent,
+    EditFormPortalComponent,
   ],
   providers: [
     WorkPackageEditingPortalService,

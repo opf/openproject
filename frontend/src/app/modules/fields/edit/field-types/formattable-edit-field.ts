@@ -34,6 +34,7 @@ import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {FormattableTextareaEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-textarea-edit-field.component";
 import {FormattableWysiwygEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-wysiwyg-edit-field.component";
 import {AutoCompleteHelperService} from "core-components/legacy-ng1/auto-complete-helper.service";
+import HTML = Mocha.reporters.HTML;
 
 declare global {
   interface Window {
@@ -86,18 +87,16 @@ export class FormattableEditField extends EditField {
     }
   }
 
-  public $onInit(container:JQuery) {
+  public $onInit(container:HTMLElement) {
     if (this.wysiwig) {
       this.setupMarkdownEditor(container);
-    } else {
-      jQuery('body').css('background', 'red !important');
     }
   }
 
-  public setupMarkdownEditor(container:JQuery) {
-    const element = container.find('.op-ckeditor-element');
+  public setupMarkdownEditor(container:HTMLElement) {
+    const element = container.querySelector('.op-ckeditor-element') as HTMLElement;
     window.OPBalloonEditor
-      .create(element[0])
+      .create(element)
       .then((editor:any) => {
         editor.config['openProject'] = {
           context: this.resource,
@@ -109,7 +108,7 @@ export class FormattableEditField extends EditField {
           this.reset();
         }
 
-        this.AutoCompleteHelper.enableTextareaAutoCompletion(element, this.resource.project.id);
+        this.AutoCompleteHelper.enableTextareaAutoCompletion(jQuery(element), this.resource.project.id);
 
         setTimeout(() => editor.editing.view.focus());
       })

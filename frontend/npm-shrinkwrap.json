@@ -1597,14 +1597,6 @@
       "resolved": "https://registry.npmjs.org/@types/mousetrap/-/mousetrap-1.6.0.tgz",
       "integrity": "sha512-Jn2cF8X6RAMiSmJaATGjf2r3GzIfpZQpvnQhKprQ5sAbMaNXc7hc9sA2XHdMl3bEMEQhTV79JVW7n4Pgg7sjtg=="
     },
-    "@types/ng-dialog": {
-      "version": "0.6.2",
-      "resolved": "https://registry.npmjs.org/@types/ng-dialog/-/ng-dialog-0.6.2.tgz",
-      "integrity": "sha512-HyuGb6SAWmd2uYGViXChqOFTWTQaUw3P5ZRtpVnMkecLUm9n3VZ7KlQ53hhKe+pBwgQ7PJFAzZiNXYUL+XZTJQ==",
-      "requires": {
-        "@types/angular": "*"
-      }
-    },
     "@types/node": {
       "version": "6.0.106",
       "resolved": "https://registry.npmjs.org/@types/node/-/node-6.0.106.tgz",
@@ -1914,11 +1906,6 @@
       "resolved": "https://registry.npmjs.org/angular-aria/-/angular-aria-1.5.11.tgz",
       "integrity": "sha1-JpY6wzaJHO17GZ5Zr9fpsl5T1qY="
     },
-    "angular-cache": {
-      "version": "4.6.0",
-      "resolved": "https://registry.npmjs.org/angular-cache/-/angular-cache-4.6.0.tgz",
-      "integrity": "sha1-XMkK0Sc/sVAgXcHHG4FBrjnki/8="
-    },
     "angular-dragula": {
       "version": "1.2.8",
       "resolved": "https://registry.npmjs.org/angular-dragula/-/angular-dragula-1.2.8.tgz",
@@ -1946,20 +1933,6 @@
       "resolved": "https://registry.npmjs.org/angular-mocks/-/angular-mocks-1.5.11.tgz",
       "integrity": "sha1-oOHdDqVf137np1fXVTbF6WTIb4E=",
       "dev": true
-    },
-    "angular-modal": {
-      "version": "git://github.com/finnlabs/angular-modal.git#d45eb9ceb720b8785613ba89ba0f14f8ab197569",
-      "from": "angular-modal@git://github.com/finnlabs/angular-modal.git#d45eb9ceb720b8785613ba89ba0f14f8ab197569"
-    },
-    "angular-sanitize": {
-      "version": "1.3.20",
-      "resolved": "https://registry.npmjs.org/angular-sanitize/-/angular-sanitize-1.3.20.tgz",
-      "integrity": "sha1-WxyqQXa42yA519HBUnU3phvjzWc="
-    },
-    "angular-ui-bootstrap": {
-      "version": "2.5.6",
-      "resolved": "https://registry.npmjs.org/angular-ui-bootstrap/-/angular-ui-bootstrap-2.5.6.tgz",
-      "integrity": "sha512-yzcHpPMLQl0232nDzm5P4iAFTFQ9dMw0QgFLuKYbDj9M0xJ62z0oudYD/Lvh1pWfRsukiytP4Xj6BHOSrSXP8A=="
     },
     "animation-frame-polyfill": {
       "version": "1.0.1",
@@ -6695,7 +6668,8 @@
         "balanced-match": {
           "version": "0.4.2",
           "resolved": "https://registry.npmjs.org/balanced-match/-/balanced-match-0.4.2.tgz",
-          "integrity": "sha1-yz8+PHMtwPAe5wtAPzAuYddwmDg="
+          "integrity": "sha1-yz8+PHMtwPAe5wtAPzAuYddwmDg=",
+          "optional": true
         },
         "bcrypt-pbkdf": {
           "version": "1.0.1",
@@ -6728,6 +6702,7 @@
           "version": "1.1.7",
           "resolved": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.7.tgz",
           "integrity": "sha1-Pv/DxQ4ABTH7cg6v+A8K6O8jz1k=",
+          "optional": true,
           "requires": {
             "balanced-match": "^0.4.1",
             "concat-map": "0.0.1"
@@ -6769,7 +6744,8 @@
         "concat-map": {
           "version": "0.0.1",
           "resolved": "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz",
-          "integrity": "sha1-2Klr13/Wjfd5OnMDajug1UBdR3s="
+          "integrity": "sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=",
+          "optional": true
         },
         "console-control-strings": {
           "version": "1.1.0",
@@ -6883,7 +6859,8 @@
         "fs.realpath": {
           "version": "1.0.0",
           "resolved": "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz",
-          "integrity": "sha1-FQStJSMVjKpA20onh8sBQRmU6k8="
+          "integrity": "sha1-FQStJSMVjKpA20onh8sBQRmU6k8=",
+          "optional": true
         },
         "fstream": {
           "version": "1.0.11",
@@ -6945,6 +6922,7 @@
           "version": "7.1.2",
           "resolved": "https://registry.npmjs.org/glob/-/glob-7.1.2.tgz",
           "integrity": "sha512-MJTUg1kjuLeQCJ+ccE4Vpa6kKVXkPYJ2mOCQyUuKLcLQsdrMCpBPUi8qVE6+YuaJkozeA9NusTAw3hLr8Xe5EQ==",
+          "optional": true,
           "requires": {
             "fs.realpath": "^1.0.0",
             "inflight": "^1.0.4",
@@ -6997,7 +6975,8 @@
         "hoek": {
           "version": "2.16.3",
           "resolved": "https://registry.npmjs.org/hoek/-/hoek-2.16.3.tgz",
-          "integrity": "sha1-ILt0A9POo5jpHcRxCo/xuCdKJe0="
+          "integrity": "sha1-ILt0A9POo5jpHcRxCo/xuCdKJe0=",
+          "optional": true
         },
         "http-signature": {
           "version": "1.1.1",
@@ -7014,6 +6993,7 @@
           "version": "1.0.6",
           "resolved": "https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz",
           "integrity": "sha1-Sb1jMdfQLQwJvJEKEHW6gWW1bfk=",
+          "optional": true,
           "requires": {
             "once": "^1.3.0",
             "wrappy": "1"
@@ -7138,6 +7118,7 @@
           "version": "3.0.4",
           "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.0.4.tgz",
           "integrity": "sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==",
+          "optional": true,
           "requires": {
             "brace-expansion": "1.1.7"
           }
@@ -7255,7 +7236,8 @@
         "path-is-absolute": {
           "version": "1.0.1",
           "resolved": "https://registry.npmjs.org/path-is-absolute/-/path-is-absolute-1.0.1.tgz",
-          "integrity": "sha1-F0uSaHNVNP+8es5r9TpanhtcX18="
+          "integrity": "sha1-F0uSaHNVNP+8es5r9TpanhtcX18=",
+          "optional": true
         },
         "performance-now": {
           "version": "0.2.0",
@@ -7350,6 +7332,7 @@
           "version": "2.6.1",
           "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-2.6.1.tgz",
           "integrity": "sha1-wjOOxkPfeht/5cVPqG9XQopV8z0=",
+          "optional": true,
           "requires": {
             "glob": "^7.0.5"
           }
@@ -11702,11 +11685,6 @@
         "normalize-path": "^2.0.1",
         "source-map": "^0.5.6"
       }
-    },
-    "ng-dialog": {
-      "version": "0.6.6",
-      "resolved": "https://registry.npmjs.org/ng-dialog/-/ng-dialog-0.6.6.tgz",
-      "integrity": "sha1-qtekfI5ByAf3AxPbEpbb6d4x2n0="
     },
     "ng-file-upload": {
       "version": "12.2.13",

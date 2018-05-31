@@ -72,31 +72,24 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 
   public activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
-    return new Promise<WorkPackageEditFieldHandler>((resolve, reject) => {
-      this.waitForContainer(fieldName)
-        .then((cell) => {
+    return this.waitForContainer(fieldName)
+      .then((cell) => {
 
-          // Forcibly set the width since the edit field may otherwise
-          // be given more width
-          const td = this.findCell(fieldName);
-          const width = td.css('width');
-          td.css('max-width', width);
-          td.css('width', width);
+        // Forcibly set the width since the edit field may otherwise
+        // be given more width
+        const td = this.findCell(fieldName);
+        const width = td.css('width');
+        td.css('max-width', width);
+        td.css('width', width);
 
-          const handler = this.wpEditingPortalService.create(
-            cell,
-            form,
-            field,
-            fieldName,
-            errors
-          );
-
-          setTimeout(() => {
-            resolve(handler);
-            handler.focus();
-          });
-        }).catch(reject);
-    });
+        return this.wpEditingPortalService.create(
+          cell,
+          form,
+          field,
+          fieldName,
+          errors
+        );
+      });
   }
 
   public refreshField(field:EditField, handler:WorkPackageEditFieldHandler) {
@@ -132,14 +125,14 @@ export class TableRowEditContext implements WorkPackageEditContext {
 
   // Ensure the given field is visible.
   // We may want to look into MutationObserver if we need this in several places.
-  private waitForContainer(fieldName:string):Promise<JQuery> {
-    return new Promise<JQuery>((resolve, reject) => {
+  private waitForContainer(fieldName:string):Promise<HTMLElement> {
+    return new Promise<HTMLElement>((resolve, reject) => {
       const interval = setInterval(() => {
         const container = this.findContainer(fieldName);
 
         if (container.length > 0) {
           clearInterval(interval);
-          resolve(container);
+          resolve(container[0]);
         }
       }, 100);
     });

@@ -34,7 +34,7 @@ import {FormattableEditField} from "core-app/modules/fields/edit/field-types/for
     <div class="textarea-wrapper">
       <div class="op-ckeditor-wrapper op-ckeditor-element">
       </div>
-      <edit-field-controls *ngIf="handler.inEditMode"
+      <edit-field-controls *ngIf="!handler.inEditMode"
                            [fieldController]="handler"
                            (onSave)="handler.handleUserSubmit()"
                            (onCancel)="handler.handleUserCancel()"

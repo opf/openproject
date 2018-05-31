@@ -34,8 +34,12 @@ import {ConfigurationService} from 'core-app/modules/common/config/configuration
 import {Injector} from '@angular/core';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
+import HTML = Mocha.reporters.HTML;
+import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
+import {debugLog} from "core-app/helpers/debug_output";
 
-export class WorkPackageEditFieldHandler {
+export class WorkPackageEditFieldHandler implements IEditFieldHandler {
   // Injections
   readonly FocusHelper:FocusHelperService = this.injector.get(FocusHelperService)
   readonly ConfigurationService = this.injector.get(ConfigurationService);
@@ -53,7 +57,7 @@ export class WorkPackageEditFieldHandler {
               public form:WorkPackageEditForm,
               public fieldName:string,
               public field:EditField,
-              public element:JQuery,
+              public element:HTMLElement,
               protected onDestroy:() => void,
               protected withErrors?:string[]) {
 
@@ -81,13 +85,26 @@ export class WorkPackageEditFieldHandler {
     return true;
   }
 
-  public focus() {
-    this.element.find('.wp-inline-edit--field').focus();
+  public focus(setClickOffset?:number) {
+    const target = this.element.querySelector('.wp-inline-edit--field') as HTMLElement;
+
+    if (!target) {
+      debugLog(`Tried to focus on ${this.fieldName}, but element does not (yet) exist.`);
+      return;
+    }
+
+    // Focus the input
+    target.focus();
+
+    // Set selection state if input element
+    if (setClickOffset && target.tagName === 'INPUT') {
+      ClickPositionMapper.setPosition(target as HTMLInputElement, setClickOffset);
+    }
   }
 
   public setErrors(newErrors:string[]) {
     this.errors = newErrors;
-    this.element.toggleClass('-error', this.isErrorenous);
+    this.element.classList.toggle('-error', this.isErrorenous);
   }
 
   /**
@@ -129,12 +146,6 @@ export class WorkPackageEditFieldHandler {
     return true;
   }
 
-  public onlyInAccessibilityMode(callback:Function) {
-    if (this.ConfigurationService.accessibilityModeEnabled()) {
-      callback.apply(this);
-    }
-  }
-
   /**
    * Cancel edit
    */
@@ -157,16 +168,6 @@ export class WorkPackageEditFieldHandler {
     delete this.form.activeFields[this.fieldName];
     this.onDestroy();
     this.editContext.reset(this.workPackage, this.fieldName, focus);
-  }
-
-  /**
-   * Returns whether the work package is submittable.
-   */
-  public get isSubmittable():boolean {
-    return !(this.form.editMode ||
-    (this.field.required && this.field.isEmpty()) ||
-    (this.isErrorenous && !this.isChanged()) ||
-    this.workPackage.inFlight);
   }
 
   /**

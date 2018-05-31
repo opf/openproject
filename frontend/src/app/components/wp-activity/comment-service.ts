@@ -25,26 +25,28 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-/* globals URI */
 
-import {opServicesModule} from './../../angular-modules';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {input} from 'reactivestates';
+import {Inject, Injectable} from "@angular/core";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {I18nToken} from "core-app/angular4-transition-utils";
+import {opServicesModule} from "core-app/angular-modules";
+import {downgradeInjectable} from "@angular/upgrade/static";
 
-export class ActivityService {
+@Injectable()
+export class CommentService {
 
   // Replacement for $scope.$emit on activty-entry to mark comments to be quoted.
   // Should be generalized if needed for more than that.
   public quoteEvents = input<string>();
 
   constructor(
-    private $http:ng.IHttpService,
-    private I18n:op.I18n,
+    @Inject(I18nToken) private I18n:op.I18n,
     private wpNotificationsService:WorkPackageNotificationService,
-    private NotificationsService:any,
-    private $q:ng.IQService) {
+    private NotificationsService:NotificationsService) {
     }
 
   public createComment(workPackage:WorkPackageResource, comment:string) {
@@ -56,7 +58,7 @@ export class ActivityService {
   }
 
   public updateComment(activity:HalResource, comment:string) {
-    var options = {
+    const options = {
       ajax: {
         method: 'PATCH',
         data: JSON.stringify({ comment: comment }),
@@ -69,7 +71,7 @@ export class ActivityService {
       { 'Content-Type': 'application/json; charset=UTF-8' }
     ).then((activity:HalResource) => {
         this.NotificationsService.addSuccess(
-          I18n.t('js.work_packages.comment_updated')
+          this.I18n.t('js.work_packages.comment_updated')
         );
 
         return activity;
@@ -80,8 +82,8 @@ export class ActivityService {
     this.wpNotificationsService.handleErrorResponse(error, workPackage);
 
     // returning a reject will enable to correctly work with subsequent then/catch handlers.
-    return this.$q.reject(error);
+    return Promise.reject(error);
   }
 }
 
-opServicesModule.service('wpActivityService', ActivityService);
+opServicesModule.service('commentService', downgradeInjectable(CommentService));

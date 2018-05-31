@@ -40,7 +40,7 @@ import {WorkPackageEditFieldHandler} from '../../wp-edit-form/work-package-edit-
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {SelectionHelpers} from '../../../helpers/selection-helpers';
 import {debugLog} from '../../../helpers/debug_output';
-import {Component, ElementRef, Inject, Injector, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, Injector, Input, OnInit, ViewChild} from '@angular/core';
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
@@ -59,10 +59,13 @@ export class WorkPackageEditFieldComponent implements OnInit {
   @Input('wrapperClasses') public wrapperClasses?:string;
   @Input('displayPlaceholder') public displayPlaceholder?:string;
 
+  @ViewChild('displayContainer') readonly displayContainer:ElementRef;
+  @ViewChild('editContainer') readonly editContainer:ElementRef;
+
   public workPackage:WorkPackageResource;
   public fieldRenderer = new DisplayFieldRenderer(this.injector, 'single-view');
   public editFieldContainerClass = editFieldContainerClass;
-  private active = false;
+  public active = false;
   private $element:ng.IAugmentedJQuery;
 
   constructor(protected states:States,
@@ -87,14 +90,13 @@ export class WorkPackageEditFieldComponent implements OnInit {
 
   public render() {
     const el = this.fieldRenderer.render(this.resource, this.fieldName, null, this.displayPlaceholder);
-    this.displayContainer[0].innerHTML = '';
-    this.displayContainer[0].appendChild(el);
+    this.displayContainer.nativeElement.innerHTML = '';
+    this.displayContainer.nativeElement.appendChild(el);
   }
 
   public deactivate(focus:boolean = false) {
-    this.editContainer.empty().hide();
-    this.displayContainer.show();
-
+    this.editContainer.nativeElement.innerHTML = '';
+    this.editContainer.nativeElement.hidden = true;
     this.active = false;
     if (focus) {
       this.$element.find(`.${displayClassName}`).focus();
@@ -150,7 +152,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
       // Skip activation if the user clicked on a link
       const target = jQuery(evt.target);
 
-      if (target.closest('a', this.displayContainer[0]).length > 0) {
+      if (target.closest('a', this.displayContainer.nativeElement).length > 0) {
         return true;
       }
 
@@ -160,20 +162,10 @@ export class WorkPackageEditFieldComponent implements OnInit {
 
     this.activate()
       .then((handler) => {
-        handler.focus();
-        const input = handler.element.find('input');
-        ClickPositionMapper.setPosition(input, positionOffset);
+        handler.focus(positionOffset);
       });
 
     return false;
-  }
-
-  public get displayContainer() {
-    return this.$element.find('.__d_display_container');
-  }
-
-  public get editContainer() {
-    return this.$element.find('.__d_edit_container');
   }
 
   public reset(workPackage:WorkPackageResource) {

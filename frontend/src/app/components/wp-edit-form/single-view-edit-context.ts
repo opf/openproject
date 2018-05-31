@@ -62,23 +62,16 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   }
 
   public async activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
-    return new Promise<WorkPackageEditFieldHandler>((resolve, reject) => {
-      this.fieldCtrl(field.name).then((ctrl) => {
-        const container = ctrl.editContainer;
-        const handler = this.wpEditingPortalService.create(
-          container,
-          form,
-          field,
-          fieldName,
-          errors
-        );
-
-        container.show();
-        setTimeout(() => {
-          field.$onInit(container)
-          resolve(handler);
-        });
-      }).catch(reject);
+    return this.fieldCtrl(field.name).then((ctrl) => {
+      const container = ctrl.editContainer.nativeElement;
+      container.hidden = false;
+      return this.wpEditingPortalService.create(
+        container,
+        form,
+        field,
+        fieldName,
+        errors
+      );
     });
   }
 
@@ -97,7 +90,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   }
 
   public requireVisible(fieldName:string):Promise<void> {
-    return new Promise<void>((resolve, ) => {
+    return new Promise<void>((resolve,) => {
       const interval = setInterval(() => {
         const field = this.fieldGroup.fields[fieldName];
 
