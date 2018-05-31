@@ -24,6 +24,7 @@ export class WorkPackageRelationsCreateComponent {
   public text = {
     save: this.I18n.t('js.relation_buttons.save'),
     abort: this.I18n.t('js.relation_buttons.abort'),
+    relationType: this.I18n.t('js.relation_buttons.relation_type'),
     addNewRelation: this.I18n.t('js.relation_buttons.add_new_relation')
   };
 

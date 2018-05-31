@@ -60,8 +60,8 @@
       <accessible-by-keyboard *ngIf="relation.delete"
                               (execute)="removeRelation(relation)"
                               aria-hidden="false"
-                              [linkAriaLabel]="text.remove"
-                              [linkTitle]="text.remove"
+                              [linkAriaLabel]="text.removeButton"
+                              [linkTitle]="text.removeButton"
                               linkClass="relation-row--remove-btn">
         <op-icon icon-classes="icon-remove wp-relations--icon" [icon-title]="text.removeButton"></op-icon>
       </accessible-by-keyboard>

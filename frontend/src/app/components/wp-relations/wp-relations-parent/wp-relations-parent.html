@@ -7,8 +7,8 @@
                   class="wp-relations-hierarchy-subject">
                 <a ui-sref="work-packages.show.relations({ workPackageId: workPackage.parent.id})"
                    class="wp-relations--subject-field"
+                   id="wp-relations-parent-element"
                    [attr.aria-label]="text.parent"
-                   [attr.id]="wp-relations-parent-element"
                    [textContent]="workPackage.parent.subjectWithType()">
                 </a>
             </span>

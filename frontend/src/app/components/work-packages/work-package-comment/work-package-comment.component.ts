@@ -72,9 +72,9 @@ export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, O
   };
   public fieldLabel:string = this.text.editTitle;
 
-  protected editing = false;
-  protected canAddComment:boolean;
-  protected showAbove:boolean;
+  public editing = false;
+  public canAddComment:boolean;
+  public showAbove:boolean;
 
   constructor(protected elementRef:ElementRef,
               protected commentService:CommentService,

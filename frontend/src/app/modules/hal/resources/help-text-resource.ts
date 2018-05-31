@@ -27,7 +27,7 @@
 //++
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {HalLink} from 'core-app/modules/hal/hal-link/hal-link';
+import {CallableHalLink, HalLink} from 'core-app/modules/hal/hal-link/hal-link';
 
 export class HelpTextResource extends HalResource {
 
@@ -35,8 +35,9 @@ export class HelpTextResource extends HalResource {
   public attribute:string;
   public attributeCaption:string;
   public scope:string;
+  public helpText:api.v3.Formattable;
 }
 
 export interface HelpTextResource {
-  editText?:HalLink;
+  editText?:CallableHalLink;
 }

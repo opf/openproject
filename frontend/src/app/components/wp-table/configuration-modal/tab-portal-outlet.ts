@@ -13,6 +13,7 @@ import {
 
 export interface TabInterface {
   name:string;
+  title:string;
   disableBecause?:string;
   componentClass:{ new(...args:any[]):TabComponent };
 }

@@ -41,7 +41,10 @@ import {opUiComponentsModule} from '../../../../angular-modules';
 export class AddSectionDropdownComponent implements OnInit, OnDestroy {
   selectable:HideSectionDefinition[] = [];
   turnedActive:HideSectionDefinition | null = null;
-  texts:{ [key:string]:string } = {};
+
+  public texts = {
+    placeholder: this.I18n.t('js.placeholders.selection')
+  };
 
   @Input()
   htmlId:string;
@@ -50,9 +53,6 @@ export class AddSectionDropdownComponent implements OnInit, OnDestroy {
 
   constructor(protected hideSections:HideSectionService,
               @Inject(I18nToken) protected I18n:op.I18n) {
-    this.texts = {
-      placeholder: I18n.t('js.placeholders.selection')
-    };
   }
 
   ngOnInit() {

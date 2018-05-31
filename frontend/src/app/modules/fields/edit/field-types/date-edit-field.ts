@@ -53,7 +53,8 @@ import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 
   `
 })
-export class DateiEditFieldComponent extends EditFieldComponent {
+export class DateEditFieldComponent extends EditFieldComponent {
+  public field:DateEditField;
   readonly timezoneService = this.injector.get(TimezoneService);
 
   public parser(data:any) {

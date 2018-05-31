@@ -61,7 +61,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   // Get the view child we'll use as the portal host
   @ViewChild('tabContentOutlet') tabContentOutlet:ElementRef;
   // And a reference to the actual portal host interface
-  private tabPortalHost:TabPortalOutlet;
+  public tabPortalHost:TabPortalOutlet;
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               @Inject(I18nToken) readonly I18n:op.I18n,

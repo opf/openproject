@@ -3,7 +3,6 @@
   <op-date-picker (onChange)="begin = parser($event)">
     <input [ngModel]="formatter(begin)"
            (ngModelChange)="begin = parser($event)"
-           [disabled]="isLoading"
            required
            id="values-{{filter.id}}-begin"
            name="v[{{filter.id}}]-begin"
@@ -18,7 +17,6 @@
   <op-date-picker (onChange)="end = parser($event)">
     <input [ngModel]="formatter(end)"
            (ngModelChange)="end = parser($event)"
-           [disabled]="isLoading"
            required
            id="values-{{filter.id}}-end"
            name="v[{{filter.id}}]-end"

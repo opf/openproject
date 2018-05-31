@@ -48,7 +48,7 @@ export class EditFieldControlsComponent {
     this.onSave.emit();
   }
 
-  public canel() {
+  public cancel() {
     this.onCancel.emit();
   }
 }

@@ -43,6 +43,7 @@ export interface HalLinkInterface {
 }
 
 export interface CallableHalLink extends HalLinkInterface {
+  $link:this;
   data?:Promise<HalResource>;
 }
 

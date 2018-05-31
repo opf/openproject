@@ -21,8 +21,8 @@ export class WorkPackageRelationRowComponent implements OnInit {
   public relationType:string;
   public showRelationInfo:boolean = false;
   public showEditForm:boolean = false;
-  public availableRelationTypes:{ name:string }[];
-  public selectedRelationType:RelationResource;
+  public availableRelationTypes:{ label:string, name:string }[];
+  public selectedRelationType:{ name:string };
 
   public userInputs = {
     newRelationText: '',
@@ -65,7 +65,7 @@ export class WorkPackageRelationRowComponent implements OnInit {
     this.userInputs.newRelationText = this.relation.description || '';
     this.availableRelationTypes = RelationResource.LOCALIZED_RELATION_TYPES(false);
     this.selectedRelationType = _.find(this.availableRelationTypes,
-      {'name': this.relation.normalizedType(this.workPackage)}) as RelationResource;
+      {'name': this.relation.normalizedType(this.workPackage)})!;
   }
 
   /**

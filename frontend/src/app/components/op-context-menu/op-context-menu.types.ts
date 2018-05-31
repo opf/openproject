@@ -4,19 +4,14 @@ export interface OpContextMenuLocalsMap {
   [key:string]:any;
 };
 
-export interface OpContextMenuEntry {
+export interface OpContextMenuItem {
   disabled?:boolean;
   hidden?:boolean;
   icon?:string;
   href?:string;
   class?:string;
   ariaLabel?:string;
-  linkText:string;
-  onClick:($event:JQueryEventObject) => boolean;
+  linkText?:string;
+  divider?:boolean;
+  onClick?:($event:JQueryEventObject) => boolean;
 }
-
-export interface OpContextMenuDivider {
-  divider:true;
-}
-
-export type OpContextMenuItem = OpContextMenuEntry | OpContextMenuDivider;

@@ -53,11 +53,11 @@ export class FilterDatesValueComponent implements OnDestroy {
     // Nothing to do, added for interface compatibility
   }
 
-  public get begin() {
+  public get begin():any {
     return this.filter.values[0];
   }
 
-  public set begin(val) {
+  public set begin(val:any) {
     this.filter.values[0] = val || '';
     this.filterChanged.emit(this.filter);
   }

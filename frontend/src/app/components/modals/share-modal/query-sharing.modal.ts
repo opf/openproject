@@ -46,7 +46,7 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
   public isPublic = false;
   public isBusy = false;
 
-  public text:{ [key:string]:string } = {
+  public text = {
     title: this.I18n.t('js.modals.form_submit.title'),
     text: this.I18n.t('js.modals.form_submit.text'),
     save_as: this.I18n.t('js.label_save_as'),

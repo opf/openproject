@@ -48,6 +48,7 @@ export class UploadProgressComponent implements OnInit {
 
   public file:string = '';
   public value:number = 0;
+  public error:boolean = false;
   public completed = false;
 
   ngOnInit() {
@@ -65,6 +66,7 @@ export class UploadProgressComponent implements OnInit {
       this.completed = true;
       this.onSuccess.emit();
     }).error(() => {
+      this.error = true;
       this.onError.emit();
     });
   }

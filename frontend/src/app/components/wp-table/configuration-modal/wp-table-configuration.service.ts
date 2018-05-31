@@ -5,18 +5,12 @@ import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configura
 import {WpTableConfigurationSortByTab} from 'core-components/wp-table/configuration-modal/tabs/sort-by-tab.component';
 import {WpTableConfigurationTimelinesTab} from 'core-components/wp-table/configuration-modal/tabs/timelines-tab.component';
 import {WpTableConfigurationFiltersTab} from 'core-components/wp-table/configuration-modal/tabs/filters-tab.component';
-
-export interface WpTableConfigurationTabReference {
-  name:string;
-  title:string;
-  disableBecause?:string;
-  componentClass:{ new(...args:any[]):any };
-}
+import {TabInterface} from "core-components/wp-table/configuration-modal/tab-portal-outlet";
 
 @Injectable()
 export class WpTableConfigurationService {
 
-  protected _tabs:WpTableConfigurationTabReference[] = [
+  protected _tabs:TabInterface[] = [
     {
       name: 'filters',
       title: this.I18n.t('js.work_packages.query.filters'),

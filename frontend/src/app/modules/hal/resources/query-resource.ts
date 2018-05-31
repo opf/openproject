@@ -61,6 +61,7 @@ export class QueryResource extends HalResource {
   public filters:QueryFilterInstanceResource[];
   public starred:boolean;
   public sums:boolean;
+  public hasError:boolean;
   public timelineVisible:boolean;
   public timelineZoomLevel:TimelineZoomLevel;
   public timelineLabels:TimelineLabels;

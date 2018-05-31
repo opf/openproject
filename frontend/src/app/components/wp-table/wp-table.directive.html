@@ -15,7 +15,7 @@
         <th *ngFor="let column of columns"
             class="wp-table--table-header">
           <sortHeader [headerColumn]="column"
-                      [locale]="column.custom_field && columns.custom_field.name_locale || locale"
+                      [locale]="column.custom_field && column.custom_field.name_locale || locale"
                       [table]="workPackageTable"
 
                       opColumnsContextMenu

@@ -2,7 +2,6 @@
   <op-date-picker (onChange)="begin = isoDateParser($event)">
     <input [ngModel]="isoDateFormatter(begin)"
            (ngModelChange)="begin = isoDateParser($event)"
-           [disabled]="isLoading"
            required
            id="values-{{filter.id}}-begin"
            name="v[{{filter.id}}]-begin"
@@ -17,7 +16,6 @@
   <op-date-picker (onChange)="end = isoDateParser($event)">
     <input [ngModel]="isoDateFormatter(end)"
            (ngModelChange)="end = isoDateParser($event)"
-           [disabled]="isLoading"
            id="values-{{filter.id}}-end"
            name="v[{{filter.id}}]-end"
            class="advanced-filters--date-field"

@@ -5,18 +5,18 @@
     <ng-template [ngIf]="!shouldHideField(descriptor)">
       <div
         class="attributes-key-value--key"
-        *ngIf="!descriptor.multiple">
+        *ngIf="!descriptor.multiple && descriptor.field">
         <wp-replacement-label [fieldName]="descriptor.name">
           {{ descriptor.label }}
           <span class="required"
-                *ngIf="descriptor.field.required && descriptor.field.writable"> *</span>
+                *ngIf="descriptor.field!.required && descriptor.field!.writable"> *</span>
           <attribute-help-text [attribute]="descriptor.name" [attributeScope]="'WorkPackage'"></attribute-help-text>
         </wp-replacement-label>
       </div>
-      <div *ngIf="!descriptor.multiple"
+      <div *ngIf="!descriptor.multiple && descriptor.field"
            class="attributes-key-value--value-container">
 
-        <wp-edit-field *ngIf="descriptor.field.isFormattable"
+        <wp-edit-field *ngIf="descriptor.field!.isFormattable"
                        class="wp-edit-formattable-field"
                        [workPackageId]="workPackage.id"
                        [fieldName]="descriptor.name">
@@ -24,7 +24,7 @@
         <wp-edit-field *ngIf="!descriptor.field.isFormattable"
                        [workPackageId]="workPackage.id"
                        [fieldName]="descriptor.name"
-                       [ngClass]="descriptor.field.type === 'text' ? 'wp-edit-field--text' : '' ">
+                       [ngClass]="descriptor.field!.type === 'text' ? 'wp-edit-field--text' : '' ">
         </wp-edit-field>
       </div>
       <div

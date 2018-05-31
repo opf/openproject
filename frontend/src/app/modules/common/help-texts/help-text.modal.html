@@ -24,7 +24,7 @@
     <div class="modal--form-actions">
       <a class="help-text--edit-button button"
          *ngIf="helpText.editText"
-         [attr.href]="helpText.editText && helpText.editText.$link.href"
+         [attr.href]="helpTextLink"
          [attr.title]="text.edit">
         <op-icon icon-classes="button--icon icon-edit"></op-icon>
         <span class="button--text" [textContent]="text.edit"></span>

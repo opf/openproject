@@ -41,7 +41,7 @@ export abstract class AbstractDateTimeValueController {
   public abstract get lowerBoundary():Moment|null;
   public abstract get upperBoundary():Moment|null;
 
-  public isoDateParser(data:string) {
+  public isoDateParser(data:any) {
     if (!this.timezoneService.isValidISODate(data)) {
       return '';
     }
@@ -49,7 +49,7 @@ export abstract class AbstractDateTimeValueController {
     return this.timezoneService.formattedISODateTime(d);
   }
 
-  public isoDateFormatter(data:string) {
+  public isoDateFormatter(data:any) {
     if (!this.timezoneService.isValidISODateTime(data)) {
       return '';
     }

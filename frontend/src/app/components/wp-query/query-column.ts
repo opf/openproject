@@ -17,6 +17,7 @@ export function isRelationColumn(column:QueryColumn) {
 export interface QueryColumn extends HalResource {
   id:string;
   name:string;
+  custom_field?:any;
   _links?: {
     self:{ href:string, title:string };
   };

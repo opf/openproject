@@ -47,7 +47,7 @@
                       [value]="''"></option>
               <option *ngFor="let group of availableGroups"
                       [textContent]="group.name"
-                      [selected]="currentGroup && currentGroup.href === group.href"
+                      [selected]="currentGroup && currentGroup!.href === group.href"
                       [value]="group.href"></option>
             </select>
           </div>
@@ -55,7 +55,7 @@
       </div>
     </div>
     <div *ngIf="displayMode === 'hierarchy'">
-      <h4 [textContent]="text.display_mode.hierarchy_mode"></h4>
+      <h4 [textContent]="text.display_mode.hierarchy"></h4>
       <p [textContent]="text.display_mode.hierarchy_hint"></p>
     </div>
 

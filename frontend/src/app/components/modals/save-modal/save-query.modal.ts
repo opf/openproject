@@ -48,7 +48,7 @@ export class SaveQueryModal extends OpModalComponent {
 
   @ViewChild('queryNameField') queryNameField:ElementRef;
 
-  public text:{ [key:string]:string } = {
+  public text = {
     title: this.I18n.t('js.modals.form_submit.title'),
     text: this.I18n.t('js.modals.form_submit.text'),
     save_as: this.I18n.t('js.label_save_as'),

@@ -5,7 +5,6 @@
           *ngIf="!isMultiselect"
           [(ngModel)]="value"
           [compareWith]="compareByHrefOrString"
-          [disabled]="disabled"
           id="values-{{filter.id}}"
           name="v[{{filter.id}}][]"
           class="advanced-filters--select">
@@ -23,7 +22,6 @@
           *ngIf="isMultiselect"
           [(ngModel)]="value"
           [compareWith]="compareByHrefOrString"
-          [disabled]="disabled"
           id="values-{{filter.id}}"
           name="v[{{filter.id}}][]"
           class="advanced-filters--select">

@@ -33,6 +33,8 @@ export class WpRelationParentComponent implements OnInit, OnDestroy {
     remove_parent: this.I18n.t('js.relation_buttons.remove_parent'),
     remove: this.I18n.t('js.relation_buttons.remove'),
     parent: this.I18n.t('js.relation_labels.parent'),
+    abort: this.I18n.t('js.relation_buttons.abort'),
+    save: this.I18n.t('js.relation_buttons.save'),
   };
 
   ngOnDestroy() {

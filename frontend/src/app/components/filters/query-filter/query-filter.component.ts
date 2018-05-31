@@ -32,13 +32,14 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
+import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
 
 @Component({
   selector: '[query-filter]',
   templateUrl: './query-filter.component.html'
 })
 export class QueryFilterComponent implements OnInit, OnDestroy {
-  @Input() public filter:QueryFilterResource;
+  @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new EventEmitter<QueryFilterResource>();
   @Output() public deactivateFilter = new EventEmitter<QueryFilterResource>();
 
@@ -62,9 +63,9 @@ export class QueryFilterComponent implements OnInit, OnDestroy {
               @Inject(I18nToken) readonly I18n:op.I18n) {
   }
 
-  public onFilterUpdated(filter:QueryFilterResource) {
+  public onFilterUpdated(filter:QueryFilterInstanceResource) {
     this.filter = filter;
-    this.showValuesInput = this.filter.currentSchema.isValueRequired();
+    this.showValuesInput = this.filter.currentSchema!.isValueRequired();
     this.filterChanged.emit(this.filter);
   }
 
@@ -75,7 +76,7 @@ export class QueryFilterComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.eeShowBanners = angular.element('body').hasClass('ee-banners-visible');
     this.availableOperators = this.filter.schema.availableOperators;
-    this.showValuesInput = this.filter.currentSchema.isValueRequired();
+    this.showValuesInput = this.filter.currentSchema!.isValueRequired();
   }
 
   ngOnDestroy() {

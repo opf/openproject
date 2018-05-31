@@ -34,7 +34,7 @@ import {initializeCoreEditFields} from "core-app/modules/fields/edit/edit-field.
 import {initializeCoreDisplayFields} from "core-app/modules/fields/display/display-field.initializer";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {BooleanEditFieldComponent} from "core-app/modules/fields/edit/field-types/boolean-edit-field";
-import {DateiEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field";
+import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field";
 import {FormsModule} from "@angular/forms";
 import {DurationEditFieldComponent} from "core-app/modules/fields/edit/field-types/duration-edit-field";
 import {FloatEditFieldComponent} from "core-app/modules/fields/edit/field-types/float-edit-field";
@@ -72,7 +72,7 @@ import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-
     EditFormPortalComponent,
     EditFieldComponent,
     BooleanEditFieldComponent,
-    DateiEditFieldComponent,
+    DateEditFieldComponent,
     DurationEditFieldComponent,
     FloatEditFieldComponent,
     IntegerEditFieldComponent,
@@ -87,7 +87,7 @@ import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-
     EditFormPortalComponent,
     EditFieldComponent,
     BooleanEditFieldComponent,
-    DateiEditFieldComponent,
+    DateEditFieldComponent,
     DurationEditFieldComponent,
     FloatEditFieldComponent,
     IntegerEditFieldComponent,

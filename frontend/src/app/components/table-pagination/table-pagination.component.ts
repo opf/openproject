@@ -45,7 +45,12 @@ export class TablePaginationComponent implements OnInit {
   @Output() updateResults = new EventEmitter<PaginationInstance>();
 
   public pagination:PaginationInstance;
-  public text:{[key:string]:string};
+  public text = {
+    label_previous: this.I18n.t('js.pagination.pages.previous'),
+    label_next: this.I18n.t('js.pagination.pages.next'),
+    per_page: this.I18n.t('js.label_per_page'),
+    no_other_page: this.I18n.t('js.pagination.no_other_page')
+  };
 
   public currentRange:string = '';
   public pageNumbers:number[] = [];
@@ -56,12 +61,7 @@ export class TablePaginationComponent implements OnInit {
   constructor(protected paginationService:PaginationService,
               @Inject(I18nToken) protected I18n:op.I18n) {
 
-    this.text = {
-      label_previous: I18n.t('js.pagination.pages.previous'),
-      label_next: I18n.t('js.pagination.pages.next'),
-      per_page: I18n.t('js.label_per_page'),
-      no_other_page: I18n.t('js.pagination.no_other_page')
-    };
+
   }
 
   ngOnInit():void {

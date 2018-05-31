@@ -42,10 +42,11 @@ import {QuerySharingChange} from "core-components/modals/share-modal/query-shari
 })
 export class RenameQueryModal extends OpModalComponent implements OnInit {
   public queryName:string = '';
+  public isBusy = false;
 
   @ViewChild('queryNameField') queryNameField:ElementRef;
 
-  public text:{ [key:string]:string } = {
+  public text = {
     title: this.I18n.t('js.modals.label_settings'),
     text: this.I18n.t('js.modals.form_submit.text'),
     save_as: this.I18n.t('js.label_save_as'),
@@ -84,12 +85,14 @@ export class RenameQueryModal extends OpModalComponent implements OnInit {
 
   public updateQuery($event:JQueryEventObject) {
     const query = this.currentQuery;
+    this.isBusy = true;
     query.name = this.queryName;
 
     this.wpListService.save(query)
       .then(() => {
         this.closeMe($event);
       })
-      .catch((error) => this.wpNotificationsService.handleErrorResponse(error));
+      .catch((error) => this.wpNotificationsService.handleErrorResponse(error))
+      .then(() => this.isBusy = false);
   };
 }

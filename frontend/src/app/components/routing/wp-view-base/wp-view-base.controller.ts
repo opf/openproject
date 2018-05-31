@@ -62,7 +62,7 @@ export class WorkPackageViewController implements OnDestroy {
   public workPackage:WorkPackageResource;
   public projectIdentifier:string;
 
-  protected focusAnchorLabel:string;
+  public focusAnchorLabel:string;
   public showStaticPagePath:string;
 
   readonly titleService:OpTitleService = this.injector.get(OpTitleService);

@@ -54,7 +54,7 @@ export class ConfirmDialogModal extends OpModalComponent {
 
   private options:ConfirmDialogOptions;
 
-  public text:{ [key:string]: string } = {
+  public text:any = {
     title: this.I18n.t('js.modals.form_submit.title'),
     text: this.I18n.t('js.modals.form_submit.text'),
     button_continue: this.I18n.t('js.button_continue'),

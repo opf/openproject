@@ -50,7 +50,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
   public singleWorkPackage:WorkPackageResource;
   public singleWorkPackageChildren:WorkPackageResource[];
 
-  public text:{ [key:string]:any } = {
+  public text:any = {
     label_visibility_settings: this.I18n.t('js.label_visibility_settings'),
     button_save: this.I18n.t('js.modals.button_save'),
     confirm: this.I18n.t('js.button_confirm'),

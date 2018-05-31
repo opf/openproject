@@ -1,7 +1,6 @@
 import {Component, Inject} from "@angular/core";
 import {OpContextMenuLocalsToken} from "core-app/angular4-transition-utils";
 import {
-  OpContextMenuEntry,
   OpContextMenuItem,
   OpContextMenuLocalsMap
 } from "core-components/op-context-menu/op-context-menu.types";
@@ -19,12 +18,12 @@ export class OPContextMenuComponent {
     this.service = this.locals.service;
   }
 
-  public handleClick(item:OpContextMenuEntry, $event:JQueryEventObject) {
-    if (item.disabled) {
+  public handleClick(item:OpContextMenuItem, $event:JQueryEventObject) {
+    if (item.disabled || item.divider) {
       return false;
     }
 
-    if (item.onClick($event)) {
+    if (item.onClick!($event)) {
       this.locals.service.close();
       $event.preventDefault();
       $event.stopPropagation();

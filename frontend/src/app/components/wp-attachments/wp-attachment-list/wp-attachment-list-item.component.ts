@@ -38,7 +38,7 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 })
 export class WorkPackageAttachmentListItemComponent {
   @Input('workPackage') public workPackage:WorkPackageResource;
-  @Input('attachment') public attachment:HalResource;
+  @Input('attachment') public attachment:any;
 
   public text = {
     destroyConfirmation: this.I18n.t('js.text_attachment_destroy_confirmation'),

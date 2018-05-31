@@ -3,9 +3,9 @@
     <p>
       <span [textContent]="notification.message"></span>
       <a class="notification-box--target-link"
-         *ngIf="!!notification.link"
+         *ngIf="notification.link"
          (click)="executeTarget($event)"
-         [textContent]="notification.link.text">
+         [textContent]="notification.link!.text">
       </a>
     </p>
     <div [ngSwitch]="type">

@@ -7,7 +7,7 @@
 
   <span *ngIf="activity">
     <a [attr.title]="time"
-       [attr.href]="activityFromPath(createdOn.format('YYYY-MM-DD'))"
+       [attr.href]="activityFromPath(createdOnTime.format('YYYY-MM-DD'))"
        [textContent]="timeago"></a>
   </span>
   <span *ngIf="!activity"

@@ -40,6 +40,7 @@ import {WorkPackageCacheService} from '../work-package-cache.service';
 import {input} from 'reactivestates';
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 
 export interface FieldDescriptor {
   name:string;
@@ -53,6 +54,7 @@ export interface FieldDescriptor {
 export interface GroupDescriptor {
   name:string;
   members:FieldDescriptor[];
+  query?:QueryResource;
   type:string;
 }
 

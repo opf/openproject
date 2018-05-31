@@ -48,23 +48,23 @@ export class EditFieldComponent {
   protected initialize() {
   }
 
-  protected get value() {
+  public get value() {
     return this.field.value;
   }
 
-  protected set value(val:any) {
+  public set value(val:any) {
     this.field.value = val;
   }
 
-  protected get name() {
+  public get name() {
     return this.field.name;
   }
 
-  protected get schema():IFieldSchema {
+  public get schema():IFieldSchema {
     return this.field.schema;
   }
 
-  protected get changeset() {
+  public get changeset() {
     return this.field.changeset;
   }
 }
