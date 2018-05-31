@@ -2408,10 +2408,6 @@ de:
       colors: Farben
       project_type: Projekttyp
       project_types: Projekt-Typen
-    project_menu:
-      reportings: Statusberichte
-      reports: Zeitplan-Reporte
-      timelines: Zeitpläne
     associations: Abhängigkeiten
     board_could_not_be_saved: Forum konnte nicht gespeichert werden
     button_delete_all: Alle löschen
@@ -2591,6 +2587,10 @@ de:
       months: Monate
       quarters: Quartale
       years: Jahre
+    project_menu:
+      reportings: Statusberichte
+      reports: Zeitplan-Reporte
+      timelines: Zeitpläne
   title_remove_and_delete_user: Den eingeladenen Benutzer aus dem Projekt entfernen
     und löschen.
   tooltip_user_default_timezone: 'Die Standardzeitzone für neue Benutzer. Kann in

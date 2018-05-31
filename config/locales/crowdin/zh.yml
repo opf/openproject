@@ -2130,10 +2130,6 @@ zh:
       colors: 颜色
       project_type: 项目类型
       project_types: 项目类型
-    project_menu:
-      reportings: 状态报告
-      reports: 时间线报表
-      timelines: 时间线
     associations: 依赖项
     board_could_not_be_saved: 面板不能被保存
     button_delete_all: 删除所有
@@ -2295,6 +2291,10 @@ zh:
       months: 月
       quarters: 季度
       years: 年
+    project_menu:
+      reportings: 状态报告
+      reports: 时间线报表
+      timelines: 时间线
   title_remove_and_delete_user: 从项目中移除所邀请的用户并删除他/她。
   tooltip_user_default_timezone: '新用户的默认时区。可以在用户设置中更改。
 

@@ -2335,10 +2335,6 @@
       colors: Farger
       project_type: Prosjekttype
       project_types: Prosjekttyper
-    project_menu:
-      reportings: Statusrapporteringer
-      reports: Tidslinjerapporter
-      timelines: Tidslinjer
     associations: Avhengigheter
     board_could_not_be_saved: Forum kunne ikke lagres
     button_delete_all: Slett alle
@@ -2514,6 +2510,10 @@
       months: Måneder
       quarters: Kvartaler
       years: År
+    project_menu:
+      reportings: Statusrapporteringer
+      reports: Tidslinjerapporter
+      timelines: Tidslinjer
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed

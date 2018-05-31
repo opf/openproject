@@ -2390,10 +2390,6 @@ pt:
       colors: Cores
       project_type: Tipo do projeto
       project_types: Tipos de projeto
-    project_menu:
-      reportings: Relatórios de estado
-      reports: Relatório de linha temporal
-      timelines: Cronogramas
     associations: Dependências
     board_could_not_be_saved: Não foi possível guardar o quadro
     button_delete_all: Eliminar tudo
@@ -2572,6 +2568,10 @@ pt:
       months: Meses
       quarters: Trimestres
       years: Anos
+    project_menu:
+      reportings: Relatórios de estado
+      reports: Relatório de linha temporal
+      timelines: Cronogramas
   title_remove_and_delete_user: Remova o utilizador convidado do projeto e apague-o/a.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.

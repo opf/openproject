@@ -55,7 +55,7 @@ ru:
     description_subwork_package: 'Потомок пакета работ #%{id}'
     error:
       internal: Произошла внутренняя ошибка.
-      query_saving: The query could not be saved.
+      query_saving: Запрос не может быть сохранен.
     filter:
       description:
         text_open_filter: Откройте этот фильтр с «ALT» и клавишей со стрелкой.
@@ -149,7 +149,7 @@ ru:
     label_not_equals: не
     label_on: на
     label_open_menu: Открыть меню
-    label_open_context_menu: Open context menu
+    label_open_context_menu: Открыть контекстное меню
     label_open_work_packages: открыто
     label_password: Пароль
     label_previous: Предыдущие
@@ -173,7 +173,7 @@ ru:
     label_subject: Тема
     label_this_week: на этой неделе
     label_today: Сегодня
-    label_up: Up
+    label_up: Вверх
     label_activity_show_only_comments: Показать только деятельности с комментариями
     label_activity_show_all: Показать все активности
     label_total_progress: "%{percent}% общего прогресса"
@@ -332,7 +332,7 @@ ru:
     timelines:
       gantt_chart: Диаграмма Гантта
       labels:
-        title: Label configuration
+        title: Настройка меток
         bar: Полоса меток
         left: Влево
         right: Вправо
@@ -478,7 +478,7 @@ ru:
         header_with_parent: Новый %{type} (дочерний элемент %{parent_type} № %{id})
         button: Создать
       copy:
-        title: Copy work package
+        title: Копировать пакет работ
       hierarchy:
         show: Скрыть режим иерархии
         hide: Скрыть режим иерархии
@@ -550,7 +550,7 @@ ru:
           not_found: Нет такого запроса
         text_no_results: Подходящие запросы не найдены.
       table:
-        configure_button: Configure work package table
+        configure_button: Настроить таблицу пакетов работ
         summary: Таблица с названиями пакетов работ в строках и атрибутами пакетов
           работ в столбцах.
         text_inline_edit: Большинство клеток этой таблицы – кнопки для активирования
@@ -560,22 +560,21 @@ ru:
         text_select_hint: Чек-боксы могут быть открыты с использованием «ALT» и клавиш
           со стрелками.
       table_configuration:
-        button: Configure this work package table
-        modal_title: Work package table configuration
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
-        display_settings: Display settings
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
+        button: Настроить эту таблицу пакетов работ
+        modal_title: Настройка таблицы пакетов работ
+        embedded_tab_disabled: Эта вкладка конфигурации не доступна для редактируемого
+          вами встроенного запроса.
+        display_settings: Настройки экрана
+        grouped_mode: Режим группировки
+        grouped_hint: Результаты таблицы будет сгруппированы по заданным атрибутом.
+        default_mode: Режим по умолчанию
         hierarchy_mode: Режим иерархии
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
+        hierarchy_hint: Все отфильтрованные результаты таблицы будут дополнены их
+          предками. Иерархии можно разворачивать и сворачивать.
+        display_sums_hint: Отображать сумму всех суммируемых атрибутов в строке под
+          таблицей результатов.
+        show_timeline_hint: Показать интерактивную диаграмму Гантта справа от таблицы.
+          Ширина диаграммы изменяется с помощью разделяющей ее и таблицу линии.
       tabs:
         overview: Обзор
         activity: Деятельность

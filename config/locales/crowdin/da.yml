@@ -2336,10 +2336,6 @@ da:
       colors: Farver
       project_type: Projekttype
       project_types: Projekttyper
-    project_menu:
-      reportings: Statusrapporteringer
-      reports: Tidslinjerapporter
-      timelines: Tidslinjer
     associations: Aflæggere
     board_could_not_be_saved: Tavle kan ikke gemmes
     button_delete_all: Slet alt
@@ -2515,6 +2511,10 @@ da:
       months: Måneder
       quarters: Kvartaler
       years: År
+    project_menu:
+      reportings: Statusrapporteringer
+      reports: Tidslinjerapporter
+      timelines: Tidslinjer
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed

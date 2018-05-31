@@ -2403,10 +2403,6 @@ ar:
       colors: الألوان
       project_type: نوع المشروع
       project_types: أنواع المشاريع
-    project_menu:
-      reportings: تقارير الحالة
-      reports: تقارير الجدول الزمني
-      timelines: الخطوط الزمنية
     associations: الاعتماديات
     board_could_not_be_saved: لا يمكن حفظ عنصر
     button_delete_all: حذف الكل
@@ -2580,6 +2576,10 @@ ar:
       months: أشهر
       quarters: أرباع
       years: السنوات
+    project_menu:
+      reportings: تقارير الحالة
+      reports: تقارير الجدول الزمني
+      timelines: الخطوط الزمنية
   title_remove_and_delete_user: قم بإزالة المستخدم المدعوين من المشروع وحذفه/حذفها.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
