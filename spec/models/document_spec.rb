@@ -53,7 +53,6 @@ describe Document do
   end
 
   describe "create with a valid document" do
-
     let(:valid_document) {Document.new(title: "Test", project: project, category: documentation_category)}
 
     it "should add a document" do
@@ -69,7 +68,6 @@ describe Document do
       expect{
         valid_document.save
       }.to change{ActionMailer::Base.deliveries.size}.by 1
-
     end
 
     it "should send notifications to the recipients of the project" do
@@ -97,7 +95,7 @@ describe Document do
 
       valid_document.reload
       expect(valid_document.attachments.size).to eql 3
-      expect(valid_document.attachments.map(&:created_on).max).to eql valid_document.updated_on
+      expect(valid_document.attachments.map(&:created_at).max).to eql valid_document.updated_on
     end
 
     it "without attachments, the updated-on-date is taken from the document's date" do
