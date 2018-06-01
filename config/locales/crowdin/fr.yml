@@ -35,8 +35,8 @@ fr:
     label_one_time_password: 'Mot de passe à usage unique'
     label_2fa_enabled: 'Authentification à deux facteurs est active'
     label_2fa_disabled: 'Authentification à deux facteurs non active'
-    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
-    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_otp_delivery_message_sms: "Votre mot de passe à usage unique pour %{app_title} est %{token}"
+    text_otp_delivery_message_voice: "Votre mot de passe à usage unique pour %{app_title} est: %{pause} %{token}. %{pause} Je répète: %{pause} %{token}"
     text_enter_2fa: 'Veuillez entrer le mot de passe unique de votre appareil.'
     text_2fa_enabled: 'Lors de chaque connexion, il vous sera demandé d’entrer un jeton OTP depuis votre appareil 2FA par défaut.'
     text_2fa_disabled: 'Pour activer l’authentification à deux facteurs, utilisez le bouton ci-dessus pour inscrire un nouvel appareil 2FA. Si vous avez déjà un dispositif, vous devez en faire un appareil par défaut.'
@@ -129,8 +129,8 @@ fr:
     sns:
       delivery_failed: 'Remise SNS a échoué:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'La distribution du SMS MessageBird a échoué.'
+      voice_delivery_failed: 'L''appel vocal MessageBird a échoué.'
     restdt:
       delivery_failed_with_code: 'Remise du jeton a échoué. (Error code %{code})'
     strategies:
