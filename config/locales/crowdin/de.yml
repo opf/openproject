@@ -16,7 +16,7 @@ de:
   label_work_package_tracking: "Arbeitspaket-Verfolgung"
   label_members: "Mitglieder"
   label_member_view_all: "Alle Mitglieder anzeigen"
-  label_no_visible_members: "This project has no visible members."
+  label_no_visible_members: "Dieses Projekt hat keine sichtbaren Mitglieder."
   label_subprojects: "Unterprojekte"
   project_page:
     all: "Alle anzeigen"
