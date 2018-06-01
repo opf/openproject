@@ -56,6 +56,7 @@
   text_duration_in_hours: "Duration in hours"
   text_in_hours: "i timer"
   text_meeting_agenda_for_meeting: 'saksliste for møtet "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
   text_meeting_agenda_open_are_you_sure: "Ulagret innhold i refarat går tapt! Vil du fortsette?"
   text_meeting_minutes_for_meeting: 'referat for møtet "%{meeting}"'
   text_review_meeting_agenda: "%{author} har lagt opp %{link} for gjennomgang."

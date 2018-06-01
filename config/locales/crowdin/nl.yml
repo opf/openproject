@@ -56,6 +56,7 @@ nl:
   text_duration_in_hours: "Duration in hours"
   text_in_hours: "in uren"
   text_meeting_agenda_for_meeting: 'agenda voor de vergadering "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
   text_meeting_agenda_open_are_you_sure: "Niet-opgeslagen inhoud in de notulen zullen verloren gaan! Blijven?"
   text_meeting_minutes_for_meeting: 'minuten voor de vergadering "%{meeting}"'
   text_review_meeting_agenda: "%{author} heeft de %{link} geselecteerd voor herziening."

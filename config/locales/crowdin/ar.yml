@@ -37,7 +37,7 @@ ar:
   label_meeting_date_time: "التاريخ/الوقت"
   label_meeting_diff: "الاختلاف"
   label_notify: "إرسال للمراجعة"
-  label_icalendar: "Send iCalendar"
+  label_icalendar: "إرسال iCalendar"
   label_version: "النسخة"
   label_time_zone: "المنطقة الزمنية"
   label_start_date: "تاريخ البدء"
@@ -56,8 +56,9 @@ ar:
   text_duration_in_hours: "المدة بالساعات"
   text_in_hours: "في الساعات"
   text_meeting_agenda_for_meeting: 'جدول أعمال للاجتماع "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
   text_meeting_agenda_open_are_you_sure: "سيتم فقدان محتوى محضر الجلسة التي لم يتم حفظها! هل تريد المتابعة؟"
   text_meeting_minutes_for_meeting: 'محضر الجسلة للاجتماع "%{meeting}"'
   text_review_meeting_agenda: "%{author} طرح %{link} للمراجعة."
   text_review_meeting_minutes: "%{author} طرح %{link} للمراجعة."
-  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
+  text_notificiation_invited: "هذا البريد الألكتروني يحتوي على مدخل (ics) للاجتماع أدناه:"
