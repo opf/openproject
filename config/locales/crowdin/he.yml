@@ -56,6 +56,7 @@ he:
   text_duration_in_hours: "משך הזמן בשעות"
   text_in_hours: "בשעות"
   text_meeting_agenda_for_meeting: 'סדר היום לפגישה "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
   text_meeting_agenda_open_are_you_sure: "תוכן שלא נשמר בדקות יאבד! האם להמשיך?"
   text_meeting_minutes_for_meeting: 'דקות לפגישה "%{meeting}"'
   text_review_meeting_agenda: "על %{author} לשים את %{link} לבדיקה."

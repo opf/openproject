@@ -56,6 +56,7 @@ pl:
   text_duration_in_hours: "Czas trwania w godzinach"
   text_in_hours: "w godzinach"
   text_meeting_agenda_for_meeting: 'agenda spotkania "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
   text_meeting_agenda_open_are_you_sure: "Niezapisane zmiany protokołu zostaną utracone! Kontynuować?"
   text_meeting_minutes_for_meeting: 'protokół ze spotkania "%{meeting}"'
   text_review_meeting_agenda: "%{author} umieścił %{link} do przeglądu."

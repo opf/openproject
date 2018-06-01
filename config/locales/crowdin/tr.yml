@@ -56,6 +56,7 @@ tr:
   text_duration_in_hours: "Saat süresi"
   text_in_hours: "saatlerde"
   text_meeting_agenda_for_meeting: 'toplantı gündemi "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
   text_meeting_agenda_open_are_you_sure: "Dakikalar içinde kaydedilmemiş içerik kaybolacak! Devam et?"
   text_meeting_minutes_for_meeting: 'toplantı için dakikalar "%{meeting}"'
   text_review_meeting_agenda: "%{author}, %{link} 'i incelemeye koydu."

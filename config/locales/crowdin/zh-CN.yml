@@ -56,6 +56,7 @@ zh-CN:
   text_duration_in_hours: "持续时间（单位：小时）"
   text_in_hours: "时长"
   text_meeting_agenda_for_meeting: '“%{meeting}”会议议程'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
   text_meeting_agenda_open_are_you_sure: "会议记录中未保存的内容将丢失！确定要继续吗？"
   text_meeting_minutes_for_meeting: '“%{meeting}“会议记录'
   text_review_meeting_agenda: "%{author} 已经将 %{link} 上传待审阅。"
