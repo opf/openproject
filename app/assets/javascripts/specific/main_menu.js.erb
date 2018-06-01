@@ -47,7 +47,7 @@ jQuery(document).ready(function($) {
   };
 
   var toggler = $('<a class="toggler" href="#"><i class="icon6 icon-toggler icon-arrow-right3" aria-hidden="true"></i><span class="hidden-for-sighted"></span></a>')
-    .click(function(event) {
+    .click(function() {
       var target = $(this);
       if (target.hasClass('toggler')) {
 
@@ -94,9 +94,12 @@ jQuery(document).ready(function($) {
     var header = $('<div class="main-menu--children-menu-header"></div>');
     var upLink = $('<a class="main-menu--arrow-left-to-project" href="#"><i class="icon-arrow-left1" aria-hidden="true"></i></a>');
     upLink.attr('title', I18n.t('js.label_up'));
-    upLink.click(function(target){
-      $(target).parent('li').first().removeClass('open');
+    upLink.click(function() {
+      var target = $(this);
+      $(target).parents('li').first().removeClass('open');
       $(".menu_root").removeClass('closed').addClass('open');
+
+      target.parents('li').first().find('.toggler').first().focus();
 
       // TODO: Instead of hiding the sidebar move sidebar's contents to submenus and cache it.
       $('#sidebar').toggleClass('-hidden', false);

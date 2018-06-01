@@ -57,7 +57,6 @@ export class MainMenuToggleService {
       this.saveWidth("openProject-mainMenuWidth", 230);
     } else {  // Get initial width from mainMenu and save in storage
       this.saveWidth("openProject-mainMenuWidth", this.mainMenu.offsetWidth);
-      console.log("initial saved width: ", this.localStorageValue);
     }
     // set correct value of boolean and label
     if (this.localStorageValue < 10) {
@@ -69,15 +68,16 @@ export class MainMenuToggleService {
   }
 
   // click on arrow or hamburger icon
-  public toggleNavigation() {
+  public toggleNavigation(event:JQueryEventObject) {
+  event.stopPropagation();
+  event.preventDefault();
+
     if (this.mainMenu.offsetWidth < 10) { // sidebar is hidden -> show menu
       this.showNavigation = true;
       if (this.oldStorageValue != undefined && this.oldStorageValue > 230) {  // save storage value and apply to menu width
         this.saveWidth("openProject-mainMenuWidth", this.oldStorageValue);
-        console.log("width set to: ", this.oldStorageValue);
       } else { // if value of storage value < 230, set back to default size
         this.saveWidth("openProject-mainMenuWidth", 230);
-        console.log("width set to default: ", this.oldStorageValue);
       }
     } else { // sidebar is expanded -> close menu
       this.showNavigation = false;
@@ -85,6 +85,23 @@ export class MainMenuToggleService {
       this.saveWidth("openProject-mainMenuWidth", 0);
     }
     this.setToggleTitle();
+
+    if (this.showNavigation) {
+      // main menu shall expand.
+
+      // Set focus on first visible main menu item.
+      //
+      // This needs to be called after AngularJS has rendered the menu, which happens some when after(!) we leave this
+      // method here. So we need to set the focus after a timeout.
+      setTimeout(function() {
+        jQuery('#main-menu [class*="-menu-item"]:visible').first().focus();
+      }, 100);
+
+      // On mobile the main menu shall close whenever you click outside the menu.
+      if (window.innerWidth < 680) {
+        this.setupAutocloseMainMenu();
+      }
+    }
 
 
   }
@@ -104,13 +121,31 @@ export class MainMenuToggleService {
     this.setWidth(this.mainMenu, width);
   }
 
-  public setWidth(element:HTMLElement, width:number, ) {
+  public setWidth(element:HTMLElement, width:number) {
     let viewportWidth = document.documentElement.clientWidth;
-    console.log("--> set Width() Viewpport width: ", viewportWidth);
     let newValue = width <= 10 ? 0 : width;
     newValue = newValue >= viewportWidth - 150 ? viewportWidth - 150 : newValue;
-    console.log("New Value: ", newValue);
     this.htmlNode.style.setProperty("--main-menu-width", newValue + 'px');
+  }
+
+  private setupAutocloseMainMenu() {
+    let that = this;
+    jQuery('#main-menu').on('focusout.main_menu', function (event) {
+      jQuery('#main-menu').off('focusout.main_menu');
+      // Check that main menu is not closed and that the `focusout` event is not a click on an element that tries to close
+      // the menu anyways.
+      if (that.showNavigation ||
+          jQuery.contains(<Element>document.getElementById('main-menu-toggle'), event.relatedTarget)) {
+        return;
+      }
+    });
+    // There might be a time gap between `focusout` and the focussing of the activeElement, thus we need a timeout.
+    setTimeout(function() {
+      if (!jQuery.contains(<Element>document.getElementById('main-menu'), document.activeElement)) {
+        // activeElement is outside of main menu.
+        that.toggleNavigation(jQuery.Event('onclick'));
+      }
+    }, 0);
   }
 }
 

@@ -41,7 +41,7 @@ import {opUiComponentsModule} from '../../angular-modules';
       <a href="#"
          title="{{toggleTitle}}"
          class="main-menu--navigation-toggler"
-         (accessibleClick)="toggleService.toggleNavigation()">
+         (accessibleClick)="toggleService.toggleNavigation($event)">
         <i class="icon-resizer-vertical-lines"
           aria-hidden="true"></i>
       </a>

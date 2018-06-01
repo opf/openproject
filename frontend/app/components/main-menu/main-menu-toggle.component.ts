@@ -41,7 +41,7 @@ import {opUiComponentsModule} from '../../angular-modules';
     <div id="main-menu-toggle"
         title="{{toggleTitle}}"
         aria-haspopup="true"
-        (accessibleClick)="toggleService.toggleNavigation()"
+        (accessibleClick)="toggleService.toggleNavigation($event)"
         tabindex="0">
       <a icon="icon-hamburger">
         <i class="icon-hamburger" aria-hidden="true"></i>
