@@ -126,8 +126,8 @@ fr:
     sns:
       delivery_failed: 'Remise SNS a échoué:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'La distribution du SMS MessageBird a échoué.'
+      voice_delivery_failed: 'L''appel vocal MessageBird a échoué.'
     restdt:
       delivery_failed_with_code: 'Jeton remise a échoué. (Error code %{code})'
     strategies:
