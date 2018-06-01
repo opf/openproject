@@ -29,7 +29,7 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
+              "aot": false, // TODO broken https://github.com/opf/openproject/pull/6346#issue-190950635
               "extractLicenses": true,
               "vendorChunk": true,
               "buildOptimizer": false,

@@ -28,9 +28,14 @@
 #++
 
 module FrontendAssetHelper
+
+  def frontend_assets_proxied?
+    Rails.env.development? && !ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_NO_CLI_PROXY'])
+  end
+
   def frontend_asset_path(unhashed, options = {})
     file_name = ::OpenProject::Assets.lookup_asset unhashed
 
-    asset_path "assets/frontend/#{file_name}", options
+    asset_path "assets/frontend/#{file_name}", options.merge(skip_pipeline: true)
   end
 end

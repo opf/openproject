@@ -52,7 +52,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= stylesheet_link_tag 'openproject', media: "all" %>
 
   <%# Pass global proxied assets in development mode %>
-  <% if false %>
+  <% if frontend_assets_proxied? %>
     <script type="text/javascript" src="/vendor.js"></script>
     <script type="text/javascript" src="/polyfills.js"></script>
     <script type="text/javascript" src="/runtime.js"></script>
