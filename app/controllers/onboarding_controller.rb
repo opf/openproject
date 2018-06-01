@@ -32,11 +32,17 @@ class OnboardingController < ApplicationController
     @user = User.current
 
     result = Users::UpdateService
-               .new(current_user: User.current)
-               .call(request, permitted_params, params)
+             .new(current_user: @user)
+             .call(request, permitted_params, params)
 
     if result && result.success
-      redirect_to :back
+      # Remove the first_time_user param so that the modal is not shown again after redirect
+      uri = Addressable::URI.parse(request.referrer.to_s)
+      params = uri.query_values
+      params.delete('first_time_user')
+      uri.query_values = params
+
+      redirect_to uri.to_s
       flash[:notice] = l(:notice_account_updated)
     end
   end

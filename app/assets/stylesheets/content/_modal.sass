@@ -82,6 +82,9 @@ $ng-modal-image-width: $ng-modal-image-height
   margin: 1em 0
   padding: 0 1.5rem
 
+  button:last-of-type
+    margin-right: 0
+
 .op-modal--modal-close-button
   float: right
   cursor: pointer
@@ -99,7 +102,7 @@ $ng-modal-image-width: $ng-modal-image-height
     display: flex
     align-items: center
     height: $header-height
-    padding-left: 1.5rem
+    padding: 0 1.5rem
     border-bottom-style: solid
     @include varprop(background-color, header-bg-color)
     @include varprop(border-bottom-width, header-border-bottom-width)
@@ -109,6 +112,9 @@ $ng-modal-image-width: $ng-modal-image-height
       @include varprop(color, header-item-font-color)
       height: $header-height
       line-height: $header-height
+
+    h2, h3
+      @include text-shortener
 
   .op-modal--modal-close-button
     float: none
@@ -191,5 +197,6 @@ ul.export-options
     max-width: 100%
 
 @include breakpoint(680px down)
-  .wp-table--configuration-modal
+  .wp-table--configuration-modal,
+  .op-modal--modal-container
     width: 90vw

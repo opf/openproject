@@ -47,9 +47,9 @@ module Users
       if request.patch?
         current_user.attributes = permitted_params.user
         current_user.pref.attributes = if params[:pref].present?
-                                  permitted_params.pref
-                                else
-                                  {}
+                                         permitted_params.pref
+                                       else
+                                         {}
                                        end
 
         if current_user.save

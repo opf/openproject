@@ -165,7 +165,7 @@ describe MyController, type: :controller do
       end
 
       it 'redirects to settings' do
-        expect(response).to redirect_to my_settings_path
+        expect(request.path).to eq(my_settings_path)
       end
 
       it 'has a successful flash' do
