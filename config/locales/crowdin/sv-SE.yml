@@ -2506,10 +2506,6 @@ sv-SE:
       months: Månader
       quarters: Kvartal
       years: År
-    project_menu:
-      reportings: Statusrapporter
-      reports: Tidslinjerapporter
-      timelines: Tidslinjer
   title_remove_and_delete_user: Ta bort den inbjudna medlemmen från projektet och
     radera honom/henne.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed

@@ -2576,10 +2576,6 @@ pl:
       months: Miesiące
       quarters: Kwartały
       years: Lata
-    project_menu:
-      reportings: Raporty statusów
-      reports: Sprawozdania terminów
-      timelines: Terminarz
   title_remove_and_delete_user: Usuń dotychczasowego użytkownika z projektu i usuń
     go.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed

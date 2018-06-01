@@ -2618,10 +2618,6 @@ fil:
       months: Mga buwan
       quarters: Mga quarter
       years: Mga taon
-    project_menu:
-      reportings: Ang mga estado ng ulat
-      reports: Ang mga ulat ng timeline
-      timelines: Ang mga timeline
   title_remove_and_delete_user: Alisin ang inimbitahan na user mula proyekto at tanggalin
     siya.
   tooltip_user_default_timezone: 'Ang default time zone para sa mga bagong gumagamit.

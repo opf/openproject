@@ -2568,10 +2568,6 @@ pt:
       months: Meses
       quarters: Trimestres
       years: Anos
-    project_menu:
-      reportings: Relatórios de estado
-      reports: Relatório de linha temporal
-      timelines: Cronogramas
   title_remove_and_delete_user: Remova o utilizador convidado do projeto e apague-o/a.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.

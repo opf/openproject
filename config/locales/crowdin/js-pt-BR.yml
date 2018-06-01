@@ -55,7 +55,7 @@ pt-BR:
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     error:
       internal: Ocorreu um erro interno.
-      query_saving: The query could not be saved.
+      query_saving: A consulta não pôde ser salva.
     filter:
       description:
         text_open_filter: Abra este filtro com a tecla 'ALT' e as teclas de seta.
@@ -149,7 +149,7 @@ pt-BR:
     label_not_equals: não é
     label_on: ligado
     label_open_menu: Abrir menu
-    label_open_context_menu: Open context menu
+    label_open_context_menu: Abrir menu de contexto
     label_open_work_packages: aberto
     label_password: Senha
     label_previous: Anterior
@@ -173,7 +173,7 @@ pt-BR:
     label_subject: Assunto
     label_this_week: esta semana
     label_today: hoje
-    label_up: Up
+    label_up: Acima
     label_activity_show_only_comments: Mostrar somente as atividades com comentários
     label_activity_show_all: Mostrar todas as atividades
     label_total_progress: "%{percent}% Total de progresso"
@@ -331,7 +331,7 @@ pt-BR:
     timelines:
       gantt_chart: Gráfico de Gantt
       labels:
-        title: Label configuration
+        title: Configuração de etiqueta
         bar: Barra de rótulos
         left: Esquerda
         right: Direita
@@ -475,7 +475,7 @@ pt-BR:
         header_with_parent: 'Novo %{type} (Filho de %{parent_type} #%{id})'
         button: Criar
       copy:
-        title: Copy work package
+        title: Copiar pacote de trabalho
       hierarchy:
         show: Mostrar o modo de hierarquia
         hide: Ocultar o modo de hierarquia
@@ -548,7 +548,7 @@ pt-BR:
           not_found: Não existe tal consulta
         text_no_results: Nenhuma consulta correspondente foi encontrada.
       table:
-        configure_button: Configure work package table
+        configure_button: Configurar a tabela de pacote de trabalho
         summary: Tabela com linhas de pacote de trabalho e colunas com atributos do
           pacote de trabalho.
         text_inline_edit: A maioria das células desta tabela são botões que ativam
@@ -558,22 +558,22 @@ pt-BR:
         text_select_hint: Caixas de seleção devem ser abertas com 'ALT' e teclas de
           seta.
       table_configuration:
-        button: Configure this work package table
-        modal_title: Work package table configuration
-        embedded_tab_disabled: This configuration tab is not available for the embedded
-          query you're editing.
-        display_settings: Display settings
-        grouped_mode: Grouped mode
-        grouped_hint: Table results will be grouped by the given attribute.
-        default_mode: Default mode
+        button: Configurar esta tabela de pacote de trabalho
+        modal_title: Configuração de tabela de pacote de trabalho
+        embedded_tab_disabled: Esta guia de configuração não está disponível para
+          a consulta embutida que você está editando.
+        display_settings: Configurações de exibição
+        grouped_mode: Modo agrupado
+        grouped_hint: Resultados da tabela serão agrupados pelo atributo determinado.
+        default_mode: Modo padrão
         hierarchy_mode: Modo de hierarquia
-        hierarchy_hint: All filtered table results will be augmented with their ancestors.
-          Hierarchies can be expanded and collapsed.
-        display_sums_hint: Display sums of all summable attributes in a row below
-          the table results.
-        show_timeline_hint: Show an interactive gantt chart on the right side of the
-          table. You can change its width by dragging the divider between table and
-          gantt chart.
+        hierarchy_hint: Todos os resultados da tabela filtrada serão aumentados com
+          seus ancestrais. As hierarquias podem ser expandidas e recolhidas.
+        display_sums_hint: Exiba as somas de todos os atributos somáveis na linha
+          abaixo da tabela de resultados.
+        show_timeline_hint: Exiba um gráfico de gantt interativo no lado direito da
+          tela. Você pode alterar a largura arrastando a linha divisória entre a tabela
+          e o gráfico.
       tabs:
         overview: Visão geral
         activity: Atividade

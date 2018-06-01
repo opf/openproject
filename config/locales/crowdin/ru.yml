@@ -2584,10 +2584,6 @@ ru:
       months: Месяцы
       quarters: Кварталы
       years: Годы
-    project_menu:
-      reportings: Отчетность
-      reports: Отчеты по графикам
-      timelines: Графики
   title_remove_and_delete_user: Исключить из проекта приглашенного пользователя и
     удалить его.
   tooltip_user_default_timezone: 'Часовой пояс по умолчанию для новых пользователей.
