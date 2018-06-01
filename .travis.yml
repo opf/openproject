@@ -91,8 +91,8 @@ env:
 
 before_install:
 
-  # Install Node LTS Boron (6.9.1)
-  - "nvm install 6.9.1"
+  # Install Node latest LTS
+  - "nvm install --lts"
   # work around https://github.com/travis-ci/travis-ci/issues/8969
   - travis_retry gem update --system
   - gem install bundler
