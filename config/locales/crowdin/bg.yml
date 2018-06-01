@@ -2342,10 +2342,6 @@ bg:
       colors: Цветове
       project_type: Тип проект
       project_types: Project types
-    project_menu:
-      reportings: Status reportings
-      reports: Timeline reports
-      timelines: Timelines
     associations: Dependencies
     board_could_not_be_saved: Board could not be saved
     button_delete_all: Изтриване на всичко
@@ -2522,6 +2518,10 @@ bg:
       months: Месеци
       quarters: Tримесечие
       years: Години
+    project_menu:
+      reportings: Status reportings
+      reports: Timeline reports
+      timelines: Timelines
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed

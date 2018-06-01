@@ -756,7 +756,7 @@ de:
     text_update_consent_time: Aktivieren Sie dieses Häkchen, um Benutzer erneut zur
       Einwilligung einer Datenschutz- oder Nutzungserklärung aufzufordern. Aktivieren
       Sie es immer dann, wenn Sie rechtliche Aspekte der Zustimmung verändert haben.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    update_consent_last_time: 'Letzte Änderung der Einwilligungsinformationen: %{update_time}'
   copy_project:
     started: Das Kopieren des Projekts "%{source_project_name}" nach "%{target_project_name}"
       wurde gestartet. Sie werden per Mail benachrichtigt, sobald "%{target_project_name}"
@@ -989,8 +989,8 @@ de:
     Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt
     funktioniert.
   error_custom_option_not_found: Option ist nicht vorhanden.
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
+  error_dependent_work_package: 'Fehler in abhängigem Arbeitspaket #%{related_id}
+    %{related_subject}: %{error}'
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
   error_invalid_group_by: 'Kann nicht gruppieren nach: %{value}'
   error_invalid_query_column: 'Ungültige Filter-Spalte: %{value}'
@@ -2408,10 +2408,6 @@ de:
       colors: Farben
       project_type: Projekttyp
       project_types: Projekt-Typen
-    project_menu:
-      reportings: Statusberichte
-      reports: Zeitplan-Reporte
-      timelines: Zeitpläne
     associations: Abhängigkeiten
     board_could_not_be_saved: Forum konnte nicht gespeichert werden
     button_delete_all: Alle löschen
@@ -2591,6 +2587,10 @@ de:
       months: Monate
       quarters: Quartale
       years: Jahre
+    project_menu:
+      reportings: Statusberichte
+      reports: Zeitplan-Reporte
+      timelines: Zeitpläne
   title_remove_and_delete_user: Den eingeladenen Benutzer aus dem Projekt entfernen
     und löschen.
   tooltip_user_default_timezone: 'Die Standardzeitzone für neue Benutzer. Kann in

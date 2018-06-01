@@ -2422,10 +2422,6 @@ es:
       colors: Colores
       project_type: Tipo de proyecto
       project_types: Tipos de proyecto
-    project_menu:
-      reportings: Informes de estado
-      reports: Informes de cronograma
-      timelines: Líneas de tiempo
     associations: Dependencias
     board_could_not_be_saved: La tarjeta no a sido grabada
     button_delete_all: Borrar todo
@@ -2598,6 +2594,10 @@ es:
       months: Meses
       quarters: Cuatrimestres
       years: Años
+    project_menu:
+      reportings: Informes de estado
+      reports: Informes de cronograma
+      timelines: Líneas de tiempo
   title_remove_and_delete_user: Eliminar al usurio invitado del proyecto y eliminarlo.
   tooltip_user_default_timezone: 'La zona horaria por defecto para los nuevos usuarios.
     Puede ser modificada en la configuración del usuario.

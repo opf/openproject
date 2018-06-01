@@ -675,7 +675,7 @@ pt-BR:
   button_create: Criar
   button_create_and_continue: Criar e continuar
   button_delete: Excluir
-  button_decline: Decline
+  button_decline: Rejeitar
   button_delete_watcher: Excluir observador %{name}
   button_download: Baixar
   button_duplicate: Duplicar
@@ -2369,10 +2369,6 @@ pt-BR:
       colors: Cores
       project_type: Tipo de projeto
       project_types: Tipo de projeto
-    project_menu:
-      reportings: Relatórios de situação
-      reports: Relatórios de cronograma
-      timelines: Cronogramas
     associations: Dependências
     board_could_not_be_saved: Painel não pôde ser salvo
     button_delete_all: Apagar tudo
@@ -2553,6 +2549,10 @@ pt-BR:
       months: Meses
       quarters: Trimestres
       years: Anos
+    project_menu:
+      reportings: Relatórios de situação
+      reports: Relatórios de cronograma
+      timelines: Cronogramas
   title_remove_and_delete_user: Remover o usuário convidado do projeto e excluí-lo.
   tooltip_user_default_timezone: 'Fuso horário padrão para novos usuários. Pode ser
     alterado nas configurações do usuário.

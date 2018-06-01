@@ -2232,10 +2232,6 @@ ko:
       colors: 색상
       project_type: 프로젝트 형식
       project_types: 프로젝트 유형
-    project_menu:
-      reportings: 상태 보고
-      reports: 타임라인 보고서
-      timelines: 타임라인
     associations: 종속성
     board_could_not_be_saved: 보드를 저장할 수 없습니다.
     button_delete_all: 모두 삭제
@@ -2400,6 +2396,10 @@ ko:
       months: 개월
       quarters: 분기
       years: 년
+    project_menu:
+      reportings: 상태 보고
+      reports: 타임라인 보고서
+      timelines: 타임라인
   title_remove_and_delete_user: 초대받은 사용자를 프로젝트에서 제거하고 해당 사용자를 삭제하세요.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.

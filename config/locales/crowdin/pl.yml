@@ -2397,10 +2397,6 @@ pl:
       colors: Kolory
       project_type: Typ projektu
       project_types: Typy projektów
-    project_menu:
-      reportings: Raporty statusów
-      reports: Sprawozdania terminów
-      timelines: Terminarz
     associations: Zależności
     board_could_not_be_saved: Pulpit nie może być zapisany
     button_delete_all: Usuń wszystkie
@@ -2580,6 +2576,10 @@ pl:
       months: Miesiące
       quarters: Kwartały
       years: Lata
+    project_menu:
+      reportings: Raporty statusów
+      reports: Sprawozdania terminów
+      timelines: Terminarz
   title_remove_and_delete_user: Usuń dotychczasowego użytkownika z projektu i usuń
     go.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed

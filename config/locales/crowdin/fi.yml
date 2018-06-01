@@ -2329,10 +2329,6 @@ fi:
       colors: Colors
       project_type: Projektityyppi
       project_types: Projektityypit
-    project_menu:
-      reportings: Tilanneraportit
-      reports: Aikajanaraportit
-      timelines: Aikataulut
     associations: Riippuvuudet
     board_could_not_be_saved: Taulua ei voitu tallentaa
     button_delete_all: Poista kaikki
@@ -2507,6 +2503,10 @@ fi:
       months: Months
       quarters: Quarters
       years: Years
+    project_menu:
+      reportings: Tilanneraportit
+      reports: Aikajanaraportit
+      timelines: Aikataulut
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed

@@ -30,7 +30,6 @@
 require 'redmine/menu_manager'
 
 Redmine::MenuManager.map :top_menu do |menu|
-
   # projects menu will be added by
   # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
 
@@ -70,15 +69,12 @@ end
 Redmine::MenuManager.map :account_menu do |menu|
   menu.push :my_page,
             { controller: '/my', action: 'page' },
-            html: { class: 'hidden-for-mobile' },
             if: Proc.new { User.current.logged? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
-            html: { class: 'hidden-for-mobile' },
             if: Proc.new { User.current.logged? }
   menu.push :administration,
             { controller: '/users', action: 'index' },
-            html: { class: 'hidden-for-mobile' },
             if: Proc.new { User.current.admin? }
   menu.push :logout, :signout_path,
             if: Proc.new { User.current.logged? }
@@ -261,12 +257,6 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :label_workflow_summary,
             parent: :work_packages
-
-  menu.push :timelines,
-            { controller: '/timelines', action: 'index' },
-            param: :project_id,
-            caption: :'timelines.project_menu.timelines',
-            icon: 'icon2 icon-view-timeline'
 
   menu.push :calendar,
             { controller: '/work_packages/calendars', action: 'index' },

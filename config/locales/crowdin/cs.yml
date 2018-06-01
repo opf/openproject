@@ -2381,10 +2381,6 @@ cs:
       colors: Barvy
       project_type: Typ projektu
       project_types: Typy projektů
-    project_menu:
-      reportings: Přehledy stavu
-      reports: Přehledy časové osy
-      timelines: Časové osy
     associations: Závislosti
     board_could_not_be_saved: Board could not be saved
     button_delete_all: Odstranit vše
@@ -2563,6 +2559,10 @@ cs:
       months: Měsíce
       quarters: Čtvrtletí
       years: Roky
+    project_menu:
+      reportings: Přehledy stavu
+      reports: Přehledy časové osy
+      timelines: Časové osy
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_user_default_timezone: 'Výchozí časové pásmo pro nové uživatele. Lze změnit

@@ -2109,10 +2109,6 @@ lol:
       colors: crwdns98103:0crwdne98103:0
       project_type: crwdns98104:0crwdne98104:0
       project_types: crwdns98105:0crwdne98105:0
-    project_menu:
-      reportings: crwdns98106:0crwdne98106:0
-      reports: crwdns98107:0crwdne98107:0
-      timelines: crwdns98108:0crwdne98108:0
     associations: crwdns98109:0crwdne98109:0
     board_could_not_be_saved: crwdns98110:0crwdne98110:0
     button_delete_all: crwdns98111:0crwdne98111:0
@@ -2273,6 +2269,10 @@ lol:
       months: crwdns98245:0crwdne98245:0
       quarters: crwdns98246:0crwdne98246:0
       years: crwdns98247:0crwdne98247:0
+    project_menu:
+      reportings: crwdns98106:0crwdne98106:0
+      reports: crwdns98107:0crwdne98107:0
+      timelines: crwdns98108:0crwdne98108:0
   title_remove_and_delete_user: crwdns98248:0crwdne98248:0
   tooltip_user_default_timezone: 'crwdns98867:0crwdne98867:0
 

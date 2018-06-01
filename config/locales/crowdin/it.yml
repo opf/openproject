@@ -2419,10 +2419,6 @@ it:
       colors: Colori
       project_type: Tipo di progetto
       project_types: Tipi di progetto
-    project_menu:
-      reportings: Prospetti sullo stato
-      reports: Rapporti tempistiche
-      timelines: Tempistiche
     associations: Dipendenze
     board_could_not_be_saved: Il quadro non può essere salvato
     button_delete_all: Cancella tutti
@@ -2607,6 +2603,10 @@ it:
       months: Mesi
       quarters: Trimestri
       years: Anni
+    project_menu:
+      reportings: Prospetti sullo stato
+      reports: Rapporti tempistiche
+      timelines: Tempistiche
   title_remove_and_delete_user: Rimuovi l'utente invitato dal progetto ed eliminalo/a.
   tooltip_user_default_timezone: 'L''orario predefinito per i nuovi utenti. Può essere
     cambiato in un impostazione utenti.

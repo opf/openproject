@@ -27,11 +27,28 @@
 //++
 
 module.exports = function($rootScope, $window) {
+  var self = this;
+
   this.toggleNavigation = function(event) {
     event.preventDefault();
     event.stopPropagation();
 
     if (!$rootScope.showNavigation) {
+      // main menu shall expand.
+
+      // Set focus on first visible main menu item.
+      //
+      // This needs to be called after AngularJS has rendered the menu, which happens some when after(!) we leave this
+      // method here. So we need to set the focus after a timeout.
+      setTimeout(function() {
+        jQuery('#main-menu [class*="-menu-item"]:visible').first().focus();
+      }, 100);
+
+      // On mobile the main menu shall close whenever you click outside the menu.
+      if ($window.innerWidth < 680) {
+        self.setupAutocloseMainMenu();
+      }
+
       // Regain default width: Expand to default menu width if collapsed slimmer than default width.
       var savedMainMenuWidth = parseInt(window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth"));
       if (savedMainMenuWidth < 230) {
@@ -40,8 +57,30 @@ module.exports = function($rootScope, $window) {
       }
     }
     $rootScope.showNavigation = !$rootScope.showNavigation;
+
     $rootScope.$broadcast('openproject.layout.navigationToggled', $rootScope.showNavigation);
     $window.sessionStorage.setItem('openproject:navigation-toggle',
       !$rootScope.showNavigation ? 'collapsed' : 'expanded');
   };
+
+  this.setupAutocloseMainMenu = function() {
+    jQuery('#main-menu').on('focusout.main_menu', function (event) {
+      jQuery('#main-menu').off('focusout.main_menu');
+
+      // Check that main menu is not closed and that the `focusout` event is not a click on an element that tries to close
+      // the menu anyways.
+      if (!$rootScope.showNavigation ||
+          jQuery.contains(document.getElementById('main-menu-toggle'), event.relatedTarget)) {
+        return;
+      }
+
+      // There might be a time gap between `focusout` and the focussing of the activeElement, thus we need a timeout.
+      setTimeout(function() {
+        if (!jQuery.contains(document.getElementById('main-menu'), document.activeElement)) {
+          // activeElement is outside of main menu.
+          self.toggleNavigation(new Event('onclick'));
+        }
+      }, 0);
+    });
+  }
 };

@@ -2397,10 +2397,6 @@ ca:
       colors: Colors
       project_type: Tipus de projecte
       project_types: Tipus de projecte
-    project_menu:
-      reportings: Informes d'estat
-      reports: Cronologia d'informes
-      timelines: Terminis
     associations: Dependències
     board_could_not_be_saved: No es pot desar el tauler
     button_delete_all: Esborrar tot
@@ -2581,6 +2577,10 @@ ca:
       months: Mesos
       quarters: Quatrimestres
       years: Anys
+    project_menu:
+      reportings: Informes d'estat
+      reports: Cronologia d'informes
+      timelines: Terminis
   title_remove_and_delete_user: Eliminar l'usuari convidat del projecte i suprimir
     l'usuari.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
