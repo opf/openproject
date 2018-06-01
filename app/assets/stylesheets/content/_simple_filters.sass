@@ -102,8 +102,7 @@ $filters--border-color: $gray !default
       max-width: 25%
       padding-right: 0
       margin-right: 1rem
-      overflow: hidden
-      text-overflow: ellipsis
+      @include text-shortener
     .simple-filters--filter-value
       flex-basis: 70%
       max-width: 70%
