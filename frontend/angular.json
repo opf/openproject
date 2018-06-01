@@ -11,7 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "../public/assets/frontend/",
             "index": "src/index2.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
@@ -31,8 +31,8 @@
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
+              "vendorChunk": true,
+              "buildOptimizer": false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
