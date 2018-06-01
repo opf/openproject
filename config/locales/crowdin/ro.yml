@@ -2393,10 +2393,6 @@ ro:
       colors: Culori
       project_type: Tip proiect
       project_types: Tipuri de proiect
-    project_menu:
-      reportings: Raportări de stare
-      reports: Raportări de interval
-      timelines: Planificări
     associations: Dependenţe
     board_could_not_be_saved: Forumul nu a putut fi salvat
     button_delete_all: Șterge tot
@@ -2575,6 +2571,10 @@ ro:
       months: Luni
       quarters: Trimestre
       years: Ani
+    project_menu:
+      reportings: Raportări de stare
+      reports: Raportări de interval
+      timelines: Planificări
   title_remove_and_delete_user: Eliminaţi utilizatorul invitat din proiect şi ştergeţi-l.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.

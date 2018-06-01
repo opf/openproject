@@ -2376,10 +2376,6 @@ hr:
       colors: Boje
       project_type: Tip projekta
       project_types: Tipovi projekta
-    project_menu:
-      reportings: Izvješća statusa
-      reports: Izvješća vremenskog tijeka
-      timelines: Kronologija
     associations: Ovisnosti
     board_could_not_be_saved: Forum nije moguće spremiti
     button_delete_all: Obriši sve
@@ -2556,6 +2552,10 @@ hr:
       months: Mjeseci
       quarters: Kvartali
       years: Godine
+    project_menu:
+      reportings: Izvješća statusa
+      reports: Izvješća vremenskog tijeka
+      timelines: Kronologija
   title_remove_and_delete_user: Uklonite pozvanog korinsika iz projekta i izbrište
     njega/nju.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed

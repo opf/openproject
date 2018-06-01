@@ -2340,10 +2340,6 @@ tr:
       colors: Renkler
       project_type: Proje türü
       project_types: Proje türü
-    project_menu:
-      reportings: Durum raporları
-      reports: Zaman çizelgesi raporu
-      timelines: Zaman çizelgeleri
     associations: Bağımlılıklar
     board_could_not_be_saved: Kurul kaydedilemedi
     button_delete_all: Tümünü sil
@@ -2520,6 +2516,10 @@ tr:
       months: Ay
       quarters: Üç aylık
       years: Yıl
+    project_menu:
+      reportings: Durum raporları
+      reports: Zaman çizelgesi raporu
+      timelines: Zaman çizelgeleri
   title_remove_and_delete_user: Davet edilen kullanıcıyı projeden çıkarın ve onu silin.
   tooltip_user_default_timezone: 'Yeni kullanıcılar için varsayılan saat dilimi. Bir
     kullanıcının ayarlarında değiştirilebilir.

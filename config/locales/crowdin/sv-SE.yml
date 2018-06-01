@@ -2331,10 +2331,6 @@ sv-SE:
       colors: Färger
       project_type: Projekttyp
       project_types: Typer av projekt
-    project_menu:
-      reportings: Statusrapporter
-      reports: Tidslinjerapporter
-      timelines: Tidslinjer
     associations: Beroenden
     board_could_not_be_saved: Anslagstavlan kunde inte sparas
     button_delete_all: Ta bort alla
@@ -2510,6 +2506,10 @@ sv-SE:
       months: Månader
       quarters: Kvartal
       years: År
+    project_menu:
+      reportings: Statusrapporter
+      reports: Tidslinjerapporter
+      timelines: Tidslinjer
   title_remove_and_delete_user: Ta bort den inbjudna medlemmen från projektet och
     radera honom/henne.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed

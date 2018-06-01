@@ -2351,10 +2351,6 @@ hu:
       colors: Színek
       project_type: Projekt típus
       project_types: Projekt típusok
-    project_menu:
-      reportings: Állapot jelentés
-      reports: Jelentések az idővonalakról
-      timelines: Idővonalak
     associations: Szükséges összetevők
     board_could_not_be_saved: A tábla nem menthető
     button_delete_all: Összes törlése
@@ -2532,6 +2528,10 @@ hu:
       months: Hónap
       quarters: Negyedek
       years: Évek
+    project_menu:
+      reportings: Állapot jelentés
+      reports: Jelentések az idővonalakról
+      timelines: Idővonalak
   title_remove_and_delete_user: Távolítsa el a meghívott felhasználót a projektből,
     és törölje őt.
   tooltip_user_default_timezone: 'Az új felhasználók alapértelmezett időzónája. A
