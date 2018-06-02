@@ -2561,10 +2561,6 @@ nl:
       months: Maanden
       quarters: Kwartalen
       years: Jaren
-    project_menu:
-      reportings: Status rapporteringen
-      reports: Tijdlijn rapporten
-      timelines: Tijdlijnen
   title_remove_and_delete_user: De uitgenodigde gebruiker uit het project verwijderen
     en verwijder hem/haar.
   tooltip_user_default_timezone: 'De standaardtijdzone voor nieuwe gebruikers. Deze

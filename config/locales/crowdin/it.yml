@@ -2603,10 +2603,6 @@ it:
       months: Mesi
       quarters: Trimestri
       years: Anni
-    project_menu:
-      reportings: Prospetti sullo stato
-      reports: Rapporti tempistiche
-      timelines: Tempistiche
   title_remove_and_delete_user: Rimuovi l'utente invitato dal progetto ed eliminalo/a.
   tooltip_user_default_timezone: 'L''orario predefinito per i nuovi utenti. Può essere
     cambiato in un impostazione utenti.

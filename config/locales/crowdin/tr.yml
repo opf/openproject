@@ -2516,10 +2516,6 @@ tr:
       months: Ay
       quarters: Üç aylık
       years: Yıl
-    project_menu:
-      reportings: Durum raporları
-      reports: Zaman çizelgesi raporu
-      timelines: Zaman çizelgeleri
   title_remove_and_delete_user: Davet edilen kullanıcıyı projeden çıkarın ve onu silin.
   tooltip_user_default_timezone: 'Yeni kullanıcılar için varsayılan saat dilimi. Bir
     kullanıcının ayarlarında değiştirilebilir.

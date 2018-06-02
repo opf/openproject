@@ -2577,10 +2577,6 @@ ca:
       months: Mesos
       quarters: Quatrimestres
       years: Anys
-    project_menu:
-      reportings: Informes d'estat
-      reports: Cronologia d'informes
-      timelines: Terminis
   title_remove_and_delete_user: Eliminar l'usuari convidat del projecte i suprimir
     l'usuari.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed

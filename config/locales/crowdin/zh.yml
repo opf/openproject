@@ -2291,10 +2291,6 @@ zh:
       months: 月
       quarters: 季度
       years: 年
-    project_menu:
-      reportings: 状态报告
-      reports: 时间线报表
-      timelines: 时间线
   title_remove_and_delete_user: 从项目中移除所邀请的用户并删除他/她。
   tooltip_user_default_timezone: '新用户的默认时区。可以在用户设置中更改。
 

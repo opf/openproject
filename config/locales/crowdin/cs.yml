@@ -2559,10 +2559,6 @@ cs:
       months: Měsíce
       quarters: Čtvrtletí
       years: Roky
-    project_menu:
-      reportings: Přehledy stavu
-      reports: Přehledy časové osy
-      timelines: Časové osy
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_user_default_timezone: 'Výchozí časové pásmo pro nové uživatele. Lze změnit
