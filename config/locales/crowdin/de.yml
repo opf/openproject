@@ -2096,10 +2096,10 @@ de:
   setting_commit_logtime_activity_id: Aktivität für die Zeiterfassung
   setting_commit_logtime_enabled: Aktiviere Zeiterfassung
   setting_commit_ref_keywords: Schlüsselwörter (Beziehungen)
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: Zeitpunkt der Einwilligung
+  setting_consent_info: Informationen zur Einwilligung
+  setting_consent_required: Einwilligung erforderlich
+  setting_consent_decline_mail: Kontaktadresse bei Rückfragen zur Einwilligung
   setting_cross_project_work_package_relations: Arbeitspaket-Beziehungen zwischen
     Projekten erlauben
   setting_date_format: Datumsformat
