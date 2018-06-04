@@ -27,8 +27,8 @@
 // ++
 
 import {CurrentProjectService} from '../projects/current-project.service';
-import {AutoCompleteHelperService} from "core-components/legacy-ng1/auto-complete-helper.service";
-import {Directive, ElementRef, Input, OnChanges, OnInit} from "@angular/core";
+import {Directive, ElementRef, Input, OnChanges} from "@angular/core";
+import {AutoCompleteHelperService} from "core-components/input/auto-complete-helper.service";
 
 @Directive({
   selector: '.op-auto-complete, [op-auto-complete]',

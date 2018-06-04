@@ -56,12 +56,10 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {ExpressionService} from 'core-app/modules/common/xss/expression.service';
 import {OpDatePickerComponent} from "core-app/modules/common/op-date-picker/op-date-picker.component";
 import {FocusWithinDirective} from "core-app/modules/common/focus/focus-within.upgraded.directive";
-import {upgradeService} from "core-app/angular4-transition-utils";
 import {FocusHelperService} from "core-app/modules/common/focus/focus-helper";
 import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
 import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
 import {FocusDirective} from "core-app/modules/common/focus/focus.directive";
-import {Ng1AttributeHelpTextWrapper} from "core-app/modules/common/help-texts/attribute-help-text-ng1-wrapper";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
 import {PersistentToggleDirective} from "core-app/modules/common/persistent-toggle/persistent-toggle.directive";
@@ -86,7 +84,6 @@ import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-to
     AddSectionDropdownComponent,
     AutocompleteSelectDecorationComponent,
 
-    Ng1AttributeHelpTextWrapper,
     AttributeHelpTextComponent,
     AttributeHelpTextModal,
     FocusWithinDirective,
@@ -122,7 +119,6 @@ import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-to
     AddSectionDropdownComponent,
     AutocompleteSelectDecorationComponent,
 
-    Ng1AttributeHelpTextWrapper,
     AttributeHelpTextComponent,
     AttributeHelpTextModal,
     FocusWithinDirective,

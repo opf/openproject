@@ -2,5 +2,5 @@
 
 
 require('./app/init-vendors');
-require('./app/init-angularjs');
+require('./app/init-globals');
 require('./app/bootstrap');

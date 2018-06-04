@@ -27,7 +27,6 @@
 //++
 
 
-import {opWorkPackagesModule} from '../../angular-modules';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {StateService} from '@uirouter/core';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";

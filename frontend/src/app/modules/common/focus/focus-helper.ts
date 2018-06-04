@@ -26,8 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {opServicesModule} from 'core-app/angular-modules';
-import {downgradeInjectable} from '@angular/upgrade/static';
 import {Injectable} from '@angular/core';
 
 @Injectable()
@@ -106,5 +104,3 @@ export class FocusHelperService {
     });
   }
 }
-
-opServicesModule.service('FocusHelper', downgradeInjectable(FocusHelperService));

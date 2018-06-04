@@ -31,7 +31,6 @@ import {Directive, ElementRef, HostListener, Input, OnInit} from "@angular/core"
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {setTimeout} from "timers";
 
 @Directive({
   selector: 'copy-to-clipboard'

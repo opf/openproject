@@ -75,14 +75,6 @@ describe('HookService', function() {
       shouldBehaveLikeEmptyResult(invalidId);
     });
 
-    describe('non function callback registered', function() {
-      beforeEach(function() {
-        service.register('myInvalidCallbacks', 'eeek');
-      });
-
-      shouldBehaveLikeEmptyResult(invalidId);
-    });
-
     describe('valid function callback registered', function() {
       beforeEach(function() {
         callback = sinon.spy();
@@ -135,7 +127,7 @@ describe('HookService', function() {
 
     describe('function that returns something that is not undefined', function() {
       beforeEach(function() {
-        callback = siton.spy();
+        callback = sinon.spy();
         invalidCallback = sinon.spy();
 
         service.register('myValidCallbacks', callback);

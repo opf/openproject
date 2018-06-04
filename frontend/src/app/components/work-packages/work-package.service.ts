@@ -26,56 +26,56 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {States} from "../states.service";
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
 import {StateService} from '@uirouter/core';
+import {Injectable} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
-angular
-    .module('openproject.services')
-    .factory('WorkPackageService', WorkPackageService);
+@Injectable()
+export class WorkPackageService {
 
-function WorkPackageService($http:ng.IHttpService,
-                            $window:ng.IWindowService,
-                            $state:StateService,
-                            states:States,
-                            PathHelper:any,
-                            UrlParamsHelper:any,
-                            NotificationsService:any,
-                            wpTableRefresh:WorkPackageTableRefreshService) {
-
-  var WorkPackageService = {
-
-    performBulkDelete: function (ids:any, defaultHandling:any) {
-      var params = {
-        'ids[]': ids
-      };
-      var promise = $http['delete'](PathHelper.workPackagesBulkDeletePath(), {params: params});
-
-      if (defaultHandling) {
-        promise
-            .then(function () {
-              // TODO wire up to API and process API response
-              NotificationsService.addSuccess(
-                  I18n.t('js.work_packages.message_successful_bulk_delete')
-              );
-              wpTableRefresh.request('Bulk delete removed elements', true);
-
-              if ($state.includes('**.list.details.**')
-                  && ids.indexOf(+$state.params.workPackageId) > -1) {
-                $state.go('work-packages.list', $state.params);
-              }
-            })
-            .catch(function () {
-              // FIXME catch this kind of failover in angular instead of redirecting
-              // to a rails-based legacy view
-              params = UrlParamsHelper.buildQueryString(params);
-              window.location.href = PathHelper.workPackagesBulkDeletePath() + '?' + params;
-            });
-      }
-
-      return promise;
-    },
+  private text = {
+    successful_delete: this.I18n.t('js.work_packages.message_successful_bulk_delete')
   };
 
-  return WorkPackageService;
+  constructor(private readonly http:HttpClient,
+              private readonly $state:StateService,
+              private readonly PathHelper:PathHelperService,
+              private readonly UrlParamsHelper:UrlParamsHelperService,
+              private readonly NotificationsService:NotificationsService,
+              private readonly I18n:I18nService,
+              private readonly wpTableRefresh:WorkPackageTableRefreshService) {
+  }
+
+  public performBulkDelete(ids:string[], defaultHandling:boolean) {
+    const params = {
+      'ids[]': ids
+    };
+    const promise = this.http
+      .delete(this.PathHelper.workPackagesBulkDeletePath(), {params: params})
+      .toPromise();
+
+    if (defaultHandling) {
+      promise
+        .then(() => {
+          this.NotificationsService.addSuccess(this.text.successful_delete);
+          this.wpTableRefresh.request('Bulk delete removed elements', true);
+
+          if (this.$state.includes('**.list.details.**')
+            && ids.indexOf(this.$state.params.workPackageId) > -1) {
+            this.$state.go('work-packages.list', this.$state.params);
+          }
+        })
+        .catch(() => {
+          const urlParams = this.UrlParamsHelper.buildQueryString(params);
+          window.location.href = this.PathHelper.workPackagesBulkDeletePath() + '?' + urlParams;
+        });
+    }
+
+    return promise;
+  }
 }

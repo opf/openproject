@@ -27,11 +27,10 @@
 // ++
 
 import {PortalModule} from '@angular/cdk/portal';
-import {ApplicationRef, NgModule} from '@angular/core';
+import {APP_INITIALIZER, ApplicationRef, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
-import {UIRouterUpgradeModule} from '@uirouter/angular-hybrid';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
@@ -194,13 +193,21 @@ import {FocusWithinDirective} from "core-app/modules/common/focus/focus-within.d
 import {OpDragScrollDirective} from "core-app/modules/common/ui/op-drag-scroll.directive";
 import {TextileService} from "core-app/modules/common/textile/textile-service";
 import {AutoCompleteHelperService} from "core-components/input/auto-complete-helper.service";
+import {UIRouterModule} from "@uirouter/angular";
+import {initializeUiRouterConfiguration, OPENPROJECT_ROUTES} from "core-components/routing/ui-router.config";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {TransitionService} from "@uirouter/core";
+import {WorkPackagesBaseComponent} from "core-components/routing/main/work-packages-base.component";
+import {ExpressionService} from "core-app/modules/common/xss/expression.service";
+import {WorkPackageService} from "core-components/work-packages/work-package.service";
 
 @NgModule({
   imports: [
     BrowserModule,
     UpgradeModule,
     FormsModule,
-    UIRouterUpgradeModule,
+    // UI router routes configuration
+    UIRouterModule.forRoot({states: OPENPROJECT_ROUTES}),
     // Angular CDK
     PortalModule,
     // Commons
@@ -213,6 +220,26 @@ import {AutoCompleteHelperService} from "core-components/input/auto-complete-hel
     OpenprojectFieldsModule
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeUiRouterConfiguration,
+      deps: [
+        TransitionService,
+        NotificationsService,
+        CurrentProjectService,
+        FirstRouteService
+      ],
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeServices,
+      deps: [
+        ExpressionService,
+        ExternalQueryConfigurationService
+      ],
+      multi: true
+    },
     TextileService,
     AutoCompleteHelperService,
     OpTitleService,
@@ -224,13 +251,14 @@ import {AutoCompleteHelperService} from "core-components/input/auto-complete-hel
     SchemaCacheService,
     ProjectCacheService,
     UserCacheService,
-    { provide: States, useValue: new States() },
+    {provide: States, useValue: new States()},
     PaginationService,
     KeepTabService,
     WorkPackageNotificationService,
     WorkPackagesListChecksumService,
     WorkPackageRelationsHierarchyService,
     WorkPackageFiltersService,
+    WorkPackageService,
     ApiWorkPackagesService,
     // Table and query states services
     WorkPackageTableRelationColumnsService,
@@ -418,6 +446,7 @@ import {AutoCompleteHelperService} from "core-components/input/auto-complete-hel
     OpAutoCompleteDirective,
   ],
   entryComponents: [
+    WorkPackagesBaseComponent,
     WorkPackagesListComponent,
     WorkPackageTablePaginationComponent,
     WorkPackagesTableController,
@@ -496,4 +525,29 @@ export class OpenProjectModule {
       appRef.bootstrap(MainMenuResizerDirective);
     }
   }
+}
+
+
+export function initializeServices(ExpressionService:ExpressionService,
+                                   externalQueryConfiguration:ExternalQueryConfigurationService) {
+  return () => {
+    const global = (window as any);
+
+    // Set the escaping target of opening double curly braces
+    // This is what returned by rails-angular-xss when it discoveres double open curly braces
+    // See https://github.com/opf/rails-angular-xss for more information.
+    global.DOUBLE_LEFT_CURLY_BRACE = ExpressionService.UNESCAPED_EXPRESSION;
+
+    if (window.innerWidth < 680) {
+      // On mobile sized screens navigation shall always be collapsed when
+      // window loads.
+      global.showNavigation = false;
+    } else {
+      global.showNavigation =
+        window.OpenProject.guardedLocalStorage('openproject:navigation-toggle') !== 'collapsed';
+    }
+
+    // Setup query configuration listener
+    externalQueryConfiguration.setupListener();
+  };
 }

@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.layout.controllers')
-  .controller('MainMenuController', [
-    '$rootScope',
-    '$window',
-    require('./main-menu-controller')
-  ]);
+// angular.module('openproject.layout.controllers')
+//   .controller('MainMenuController', [
+//     '$rootScope',
+//     '$window',
+//     require('./main-menu-controller')
+//   ]);

@@ -27,7 +27,6 @@
 //++
 
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {wpControllersModule} from '../../../angular-modules';
 import {
   IAutocompleteItem,
   ILazyAutocompleterBridge
@@ -35,6 +34,8 @@ import {
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {LinkHandling} from 'core-app/modules/common/link-handling/link-handling';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {HttpClient} from "@angular/common/http";
+import {Component, ElementRef, OnInit} from "@angular/core";
 
 interface IProjectMenuEntry {
   id:number;
@@ -46,7 +47,11 @@ interface IProjectMenuEntry {
 
 type ProjectAutocompleteItem = IAutocompleteItem<IProjectMenuEntry>;
 
-export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<IProjectMenuEntry> {
+@Component({
+  templateUrl: './project-menu-autocomplete.template.html',
+  selector: 'project-menu-autocomplete'
+})
+export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<IProjectMenuEntry> implements OnInit {
   public text:any;
 
   // The project dropdown menu
@@ -60,13 +65,13 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
   public results:null|IProjectMenuEntry[] = null;
 
   private loaded = false;
+  private $element:JQuery;
+
 
   constructor(protected PathHelper:PathHelperService,
-              protected $element:ng.IAugmentedJQuery,
-              protected $q:ng.IQService,
-              protected $window:ng.IWindowService,
-              protected $http:ng.IHttpService,
-              public I18n:I18nService) {
+              protected elementRef:ElementRef,
+              protected http:HttpClient,
+              protected I18n:I18nService) {
     super('projectMenuAutocomplete');
 
     this.text = {
@@ -76,10 +81,11 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
     };
   }
 
-  public $onInit() {
+  ngOnInit() {
+    this.$element = jQuery(this.elementRef.nativeElement);
     this.dropdownMenu = this.$element.parents('li.drop-down');
     this.input = this.$element.find('.project-menu-autocomplete--input');
-    this.noResults = angular.element('.project-menu-autocomplete--no-results');
+    this.noResults = this.$element.find('.project-menu-autocomplete--no-results');
 
     this.dropdownMenu.on('opened', () => this.open());
     this.dropdownMenu.on('closed', () => this.close());
@@ -111,7 +117,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
   }
 
   onItemSelected(project:IProjectMenuEntry):void {
-    this.$window.location.href = this.projectLink(project.identifier);
+    window.location.href = this.projectLink(project.identifier);
   }
 
   onNoResultsFound(event:JQueryUI.AutocompleteEvent, ui:any):void {
@@ -127,7 +133,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
 
     // Needed for iOS to ensure that the link is executed on the first click (touch)
     link.on('touchstart',(evt:JQueryEventObject) => {
-      this.$window.location.href =  this.projectLink(item.object.identifier);
+      window.location.href =  this.projectLink(item.object.identifier);
     });
 
     // When in hierarchy, indent
@@ -159,12 +165,13 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
 
   private loadProjects() {
     if (this.results !== null) {
-      return this.$q.resolve(this.results);
+      return Promise.resolve(this.results);
     }
 
     const url = this.PathHelper.projectLevelListPath();
-    return this.$http
+    return this.http
       .get(url)
+      .toPromise()
       .then((result:any) => {
         return this.results = this.augmentWithParents(result.data.projects);
       });
@@ -272,10 +279,3 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
     return params;
   }
 }
-
-wpControllersModule.component('projectMenuAutocomplete', {
-  template: require('./project-menu-autocomplete.template.html'),
-  controller: ProjectMenuAutocompleteController,
-  controllerAs: '$ctrl'
-});
-

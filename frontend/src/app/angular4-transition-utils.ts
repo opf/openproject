@@ -39,8 +39,6 @@ export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LO
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 export const HookServiceToken = new InjectionToken<any>('HookService');
 
-export const WorkPackageServiceToken = new InjectionToken<any>('WorkPackageService');
-
 export function upgradeService(factory:(i:any) => any, token:any) {
   return {
     provide: token,

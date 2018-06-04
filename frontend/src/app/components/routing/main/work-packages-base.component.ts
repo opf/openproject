@@ -26,23 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {StateService, StateParams} from '@uirouter/core';
+import {Component} from "@angular/core";
 
-angular
-  .module('openproject.workPackages.controllers')
-  .controller('WorkPackagesController', WorkPackagesController);
-
-function WorkPackagesController($scope:any,
-                                $state:StateService,
-                                $stateParams:StateParams) {
-
-  // Setup
-  $scope.$state = $state;
-  $scope.selectedTitle = I18n.t('js.label_work_package_plural');
-  $scope.query_id = $stateParams.query_id;
-
-  $scope.getToggleActionLabel = function(active:boolean) {
-    return (active) ? I18n.t('js.label_deactivate') : I18n.t('js.label_activate');
-  };
-
+@Component({
+  selector: 'wp-app-base',
+  template: `<div ui-view class="work-packages-page--ui-view"></div>`
+})
+export class WorkPackagesBaseComponent {
 }

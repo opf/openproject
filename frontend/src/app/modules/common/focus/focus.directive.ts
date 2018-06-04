@@ -28,8 +28,6 @@
 
 import {AfterViewInit, Directive, ElementRef, Input} from "@angular/core";
 import {FocusHelperService} from "core-app/modules/common/focus/focus-helper";
-import {opUiComponentsModule} from "core-app/angular-modules";
-import {downgradeAttributeDirective} from "core-components/angular/downgrade-attribute-directive";
 
 @Directive({
   selector: '[focus]'

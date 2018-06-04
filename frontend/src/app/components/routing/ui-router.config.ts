@@ -26,9 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {openprojectModule} from '../../angular-modules';
 import {FirstRouteService} from 'app/components/routing/first-route-service';
-import {Transition, TransitionService, UrlMatcherFactory, UrlService} from '@uirouter/core';
+import {Transition, TransitionService} from '@uirouter/core';
 import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
@@ -40,6 +39,8 @@ import {WorkPackageNewFullViewComponent} from 'core-components/wp-new/wp-new-ful
 import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-full-view.component';
 import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
 import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 const panels = {
   get overview() {
@@ -82,161 +83,151 @@ const panels = {
   },
 };
 
-openprojectModule
-  .config(($stateProvider:any,
-           $urlRouterProvider:any,
-           $urlMatcherFactoryProvider:UrlMatcherFactory) => {
+// Prepend the baseurl to the route to avoid using a base tag
+// For more information, see
+// https://github.com/angular/angular.js/issues/5519
+// https://github.com/opf/openproject/pull/5685
+const baseUrl = (window as any).appBasePath;
+export const OPENPROJECT_ROUTES = [
+  {
+    name: 'work-packages',
+    url: baseUrl + '/{projects}/{projectPath}/work_packages?query_id&query_props',
+    abstract: true,
+    params: {
+      // value: null makes the parameter optional
+      // squash: true avoids duplicate slashes when the paramter is not provided
+      projectPath: {value: null, squash: true},
+      projects: {value: null, squash: true},
+      query_id: {dynamic: true},
+      query_props: {dynamic: true}
+    }
+  },
+  {
+    name: 'work-packages.new',
+    url: '/new?type&parent_id',
+    component: WorkPackageNewFullViewComponent,
+    reloadOnSearch: false,
+    data: {
+      allowMovingInEditMode: true
+    },
+    onEnter: () => jQuery('body').addClass('full-create'),
+    onExit: () => jQuery('body').removeClass('full-create'),
+  },
+  {
+    name: 'work-packages.copy',
+    url: '/{copiedFromWorkPackageId:[0-9]+}/copy',
+    component: WorkPackageCopyFullViewComponent,
+    reloadOnSearch: false,
+    data: {
+      allowMovingInEditMode: true
+    },
+    onEnter: () => jQuery('body').addClass('action-show'),
+    onExit: () => jQuery('body').removeClass('action-show')
+  },
+  {
+    name: 'work-packages.show',
+    url: '/{workPackageId:[0-9]+}',
+    // Redirect to 'activity' by default.
+    redirectTo: 'work-packages.show.activity',
+    component: WorkPackagesFullViewComponent,
+    onEnter: () => jQuery('body').addClass('action-show'),
+    onExit: () => jQuery('body').removeClass('action-show')
+  },
+  _.assign(panels.activity, {name: 'work-packages.show.activity'}),
+  _.assign(panels.activityDetails, {name: 'work-packages.show.activity.details'}),
+  _.assign(panels.relations, {name: 'work-packages.show.relations'}),
+  _.assign(panels.watchers, {name: 'work-packages.show.watchers'}),
+  {
+    name: 'work-packages.list',
+    url: '',
+    component: WorkPackagesListComponent,
+    reloadOnSearch: false,
+    onEnter: () => jQuery('body').addClass('action-index'),
+    onExit: () => jQuery('body').removeClass('action-index')
+  },
+  {
+    name: 'work-packages.list.new',
+    url: '/create_new?type&parent_id',
+    component: WorkPackageNewSplitViewComponent,
+    reloadOnSearch: false,
+    data: {
+      allowMovingInEditMode: true
+    },
+    onEnter: () => jQuery('body').addClass('action-create'),
+    onExit: () => jQuery('body').removeClass('action-create')
+  },
+  {
+    name: 'work-packages.list.copy',
+    url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
+    component: WorkPackageCopySplitViewComponent,
+    reloadOnSearch: false,
+    data: {
+      allowMovingInEditMode: true
+    },
+    onEnter: () => jQuery('body').addClass('action-details'),
+    onExit: () => jQuery('body').removeClass('action-details')
+  },
+  {
+    name: 'work-packages.list.details',
+    redirectTo: 'work-packages.list.details.overview',
+    url: '/details/{workPackageId:[0-9]+}',
+    component: WorkPackageSplitViewComponent,
+    reloadOnSearch: false,
+    params: {
+      focus: {
+        dynamic: true,
+        value: true
+      }
+    },
+    onEnter: () => jQuery('body').addClass('action-details'),
+    onExit: () => jQuery('body').removeClass('action-details')
+  },
+  _.extend(panels.overview, {name: 'work-packages.list.details.overview'}),
+  _.extend(panels.activity, {name: 'work-packages.list.details.activitiy'}),
+  _.extend(panels.activityDetails, {name: 'work-packages.list.details.activity.details'}),
+  _.extend(panels.relations, {name: 'work-packages.list.details.relations'}),
+  _.extend(panels.watchers, {name: 'work-packages.list.details.watchers'})
+];
 
-    $urlMatcherFactoryProvider.strictMode(false);
-
-    // Prepend the baseurl to the route to avoid using a base tag
-    // For more information, see
-    // https://github.com/angular/angular.js/issues/5519
-    // https://github.com/opf/openproject/pull/5685
-    const baseUrl = (window as any).appBasePath;
-    $stateProvider
-      .state('work-packages', {
-        url: baseUrl + '/{projects}/{projectPath}/work_packages?query_id&query_props',
-        abstract: true,
-        params: {
-          // value: null makes the parameter optional
-          // squash: true avoids duplicate slashes when the paramter is not provided
-          projectPath: {value: null, squash: true},
-          projects: {value: null, squash: true},
-          query_id: { dynamic: true },
-          query_props: { dynamic: true }
-        },
-        template: require('./main/work-packages.html'),
-        controller: 'WorkPackagesController'
-      })
-
-      .state('work-packages.new', {
-        url: '/new?type&parent_id',
-        component: WorkPackageNewFullViewComponent,
-        reloadOnSearch: false,
-        data: {
-          allowMovingInEditMode: true
-        },
-        onEnter: () => angular.element('body').addClass('full-create'),
-        onExit: () => angular.element('body').removeClass('full-create'),
-      })
-
-      .state('work-packages.copy', {
-        url: '/{copiedFromWorkPackageId:[0-9]+}/copy',
-        component: WorkPackageCopyFullViewComponent,
-        reloadOnSearch: false,
-        data: {
-          allowMovingInEditMode: true
-        },
-        onEnter: () => angular.element('body').addClass('action-show'),
-        onExit: () => angular.element('body').removeClass('action-show')
-      })
-      .state('work-packages.show', {
-        url: '/{workPackageId:[0-9]+}',
-        // Redirect to 'activity' by default.
-        redirectTo: 'work-packages.show.activity',
-        component: WorkPackagesFullViewComponent,
-        onEnter: () => angular.element('body').addClass('action-show'),
-        onExit: () => angular.element('body').removeClass('action-show')
-      })
-      .state('work-packages.show.activity', panels.activity)
-      .state('work-packages.show.activity.details', panels.activityDetails)
-      .state('work-packages.show.relations', panels.relations)
-      .state('work-packages.show.watchers', panels.watchers)
-
-      .state('work-packages.list', {
-        url: '',
-        component: WorkPackagesListComponent,
-        reloadOnSearch: false,
-        onEnter: () => angular.element('body').addClass('action-index'),
-        onExit: () => angular.element('body').removeClass('action-index')
-      })
-      .state('work-packages.list.new', {
-        url: '/create_new?type&parent_id',
-        component: WorkPackageNewSplitViewComponent,
-        reloadOnSearch: false,
-        data: {
-          allowMovingInEditMode: true
-        },
-        onEnter: () => angular.element('body').addClass('action-create'),
-        onExit: () => angular.element('body').removeClass('action-create')
-      })
-      .state('work-packages.list.copy', {
-        url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
-        component: WorkPackageCopySplitViewComponent,
-        reloadOnSearch: false,
-        data: {
-          allowMovingInEditMode: true
-        },
-        onEnter: () => angular.element('body').addClass('action-details'),
-        onExit: () => angular.element('body').removeClass('action-details')
-      })
-      .state('work-packages.list.details', {
-        redirectTo: 'work-packages.list.details.overview',
-        url: '/details/{workPackageId:[0-9]+}',
-        component: WorkPackageSplitViewComponent,
-        reloadOnSearch: false,
-        params: {
-          focus: {
-            dynamic: true,
-            value: true
-          }
-        },
-        onEnter: () => angular.element('body').addClass('action-details'),
-        onExit: () => angular.element('body').removeClass('action-details')
-      })
-      .state('work-packages.list.details.overview', panels.overview)
-      .state('work-packages.list.details.activity', panels.activity)
-      .state('work-packages.list.details.activity.details', panels.activityDetails)
-      .state('work-packages.list.details.relations', panels.relations)
-      .state('work-packages.list.details.watchers', panels.watchers);
-  })
-
-  .run(($location:ng.ILocationService,
-        $rootElement:ng.IRootElementService,
-        firstRoute:FirstRouteService,
-        $timeout:ng.ITimeoutService,
-        $rootScope:ng.IRootScopeService,
-        $trace:any,
-        $transitions:TransitionService,
-        $window:ng.IWindowService) => {
-
-      $trace.enable(1);
-
-      // Our application is still a hybrid one, meaning most routes are still
-      // handled by Rails. As such, we disable the default link-hijacking that
-      // Angular's HTML5-mode turns on.
-      $rootElement.off('click');
-
+export function initializeUiRouterConfiguration($transitions:TransitionService,
+                                                notificationsService:NotificationsService,
+                                                currentProject:CurrentProjectService,
+                                                firstRoute:FirstRouteService) {
+  return () => {
+    // Our application is still a hybrid one, meaning most routes are still
+    // handled by Rails. As such, we disable the default link-hijacking that
+    // Angular's HTML5-mode turns on.
+    jQuery(document.body)
+      .off('click')
       // Prevent angular handling clicks on href="#" links from other libraries
       // (especially jquery-ui and its datepicker) from routing to <base url>/#
-      angular.element('body').on('click', 'a[href="#"]', function (evt) {
-        evt.preventDefault();
-      });
+      .on('click', 'a[href="#"]', (evt) => evt.preventDefault());
 
-      $transitions.onStart({}, function (transition:Transition) {
-        const $state = transition.router.stateService;
-        const toParams = transition.params('to');
-        const toState = transition.to();
+    $transitions.onStart({}, function(transition:Transition) {
+      const $state = transition.router.stateService;
+      const toParams = transition.params('to');
+      const toState = transition.to();
 
-        // We need to distinguish between actions that should run on the initial page load
-        // (ie. openining a new tab in the details view should focus on the element in the table)
-        // so we need to know which route we visited initially
-        firstRoute.setIfFirst(toState.name, toParams);
+      // We need to distinguish between actions that should run on the initial page load
+      // (ie. openining a new tab in the details view should focus on the element in the table)
+      // so we need to know which route we visited initially
+      firstRoute.setIfFirst(toState.name, toParams);
 
 
-        if (transition.options().notify !== false) {
-          $rootScope.$emit('notifications.clearAll');
-        }
+      // Clear all notifications when actually moving between states.
+      if (transition.to().name !== transition.from().name) {
+        notificationsService.clear();
+      }
 
-        const projectIdentifier = toParams.projectPath || ($rootScope as any)['projectIdentifier'];
+      const projectIdentifier = toParams.projectPath || currentProject.identifier;
 
-        if (!toParams.projects && projectIdentifier) {
-          const newParams = _.clone(toParams);
-          _.assign(newParams, {projectPath: projectIdentifier, projects: 'projects'});
-          return $state.target(toState, newParams, {location: 'replace'});
-        }
+      if (!toParams.projects && projectIdentifier) {
+        const newParams = _.clone(toParams);
+        _.assign(newParams, {projectPath: projectIdentifier, projects: 'projects'});
+        return $state.target(toState, newParams, {location: 'replace'});
+      }
 
-        return true;
-      });
+      return true;
     });
+  };
+}
