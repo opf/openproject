@@ -26,21 +26,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: General Timelines administration
-  As a ChiliProject Admin
-  I want to see useful information instead of an empty table
-  So that I can see the reason why I cannot see anything
+require 'spec_helper'
 
-  Scenario: The admin gets 'There are currently no colors' when there are no colors defined
-    Given I am already admin
-     When I go to the admin page
-      And I follow "Colors"
-     Then I should see "There are currently no colors"
-      And I should see "New color"
+feature 'project type administration', type: :feature do
+  let(:admin) { FactoryBot.create(:admin) }
 
-  Scenario: The admin gets 'There are currently no project types' when there are no project types defined
-    Given I am already admin
-     When I go to the admin page
-      And I follow "Project types"
-     Then I should see "There are currently no project types"
-      And I should see "New project type"
+  before do
+    login_as(admin)
+  end
+
+  scenario 'CRUD' do
+    # Only a stub for now
+
+    visit project_types_path
+
+    expect(page)
+      .to have_content(I18n.t(:'project_types.index.no_results_title_text'))
+
+    click_link I18n.t(:'project_types.index.no_results_content_text')
+  end
+end
