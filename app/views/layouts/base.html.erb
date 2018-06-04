@@ -85,8 +85,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <% main_menu = render_main_menu(@project) %>
     <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
     <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
-    <div id="wrapper" style="<%= initial_menu_styles %>" class="<%= initial_classes %>"
-         ng-class="{ 'hidden-navigation': !showNavigation }">
+    <div id="wrapper" style="<%= initial_menu_styles %>" class="<%= initial_classes %>">
       <% if show_decoration %>
         <div id="top-menu">
           <div id="header">
@@ -94,16 +93,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <h1 class="hidden-for-sighted">
                 <%= l(:label_top_menu) %>
               </h1>
-              <div id="main-menu-toggle"
-                   ng-controller="MainMenuController as mainMenu"
-                   ng-click="mainMenu.toggleNavigation($event)">
-                <a icon="icon-hamburger"
-                   title="<%= t('js.show_hide_project_menu') %>"
-                   aria-haspopup="true"
-                   href="">
-                  <i class="icon-hamburger" aria-hidden="true"></i>
-                </a>
-              </div>
+              <main-menu-toggle></main-menu-toggle>
               <a href="" class="hidden-for-sighted skip-navigation-link"
                  id="skip-navigation--content"
                   aria-label="<%= I18n.t('js.work_packages.jump_marks.label_content') %>">
@@ -123,10 +113,9 @@ See docs/COPYRIGHT.rdoc for more details.
         </div>
       <% end %>
       <div id="main"
-           class="<%= initial_classes %>"
-           ng-class="{ 'hidden-navigation': !showNavigation }">
+           class="<%= initial_classes %>">
         <% if (side_displayed && show_decoration) %>
-          <div id="main-menu" class="main-menu" ng-controller="MainMenuController as mainMenu">
+          <div id="main-menu" class="main-menu">
             <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
             <main-menu-resizer></main-menu-resizer>
             <div id="menu-sidebar">
@@ -140,11 +129,9 @@ See docs/COPYRIGHT.rdoc for more details.
             </div>
           </div>
         <% end %>
-        <div id="content-wrapper" class="<%= initial_classes %>"
-             ng-class="{ 'hidden-navigation': !showNavigation }">
+        <div id="content-wrapper" class="<%= initial_classes %>">
           <% if show_decoration %>
-            <div id="breadcrumb" class="<%= initial_classes %><%= show_breadcrumb ? ' -show' : '' %>"
-                 ng-class="{ 'hidden-navigation': !showNavigation }">
+            <div id="breadcrumb" class="<%= initial_classes %><%= show_breadcrumb ? ' -show' : '' %>">
               <%= you_are_here_info %>
               <%= full_breadcrumb %>
               <%= call_hook :view_layouts_base_breadcrumb %>
@@ -159,8 +146,7 @@ See docs/COPYRIGHT.rdoc for more details.
               <%= render partial: '/onboarding/starting_video_modal' %>
             </modal-wrapper>
           <% end %>
-          <div id="content" class="<%= initial_classes %>"
-               ng-class="{ 'hidden-navigation': !showNavigation }">
+          <div id="content" class="<%= initial_classes %>">
             <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
             <%= content_for :content_body %>
             <% unless local_assigns[:no_action_menu] %>

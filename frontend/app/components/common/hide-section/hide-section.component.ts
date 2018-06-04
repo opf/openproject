@@ -31,6 +31,7 @@ import {downgradeComponent} from '@angular/upgrade/static';
 import {HideSectionService} from 'core-components/common/hide-section/hide-section.service';
 import {distinctUntilChanged, map, take} from 'rxjs/operators';
 import {Subscription} from 'rxjs/Subscription';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {opUiComponentsModule} from '../../../angular-modules';
 
 @Component({

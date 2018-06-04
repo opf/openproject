@@ -151,7 +151,6 @@ openprojectModule
       }
     ]);
 
-require('./layout');
 require('./services');
 require('./ui_components');
 require('./work_packages');
@@ -167,4 +166,3 @@ requireComponent.keys().forEach(requireComponent);
 
 // Enable debug logging for reactive states
 whenDebugging(enableReactiveStatesLogging);
-

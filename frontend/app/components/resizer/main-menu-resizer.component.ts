@@ -26,65 +26,66 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, Injector, Input, OnInit, OnDestroy} from '@angular/core';
+import {MainMenuToggleService} from '../main-menu/main-menu-toggle.service';
+import {distinctUntilChanged, map, take} from 'rxjs/operators';
+import {Subscription} from 'rxjs/Subscription';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {opUiComponentsModule} from '../../angular-modules';
 
 @Component({
   selector: 'main-menu-resizer',
   template: `
-    <div class="main-menu--resizer" ng-class="{ 'show': !showNavigation }">
+    <div class="main-menu--resizer">
       <a href="#"
          title="{{toggleTitle}}"
          class="main-menu--navigation-toggler"
-         ng-click="mainMenu.toggleNavigation($event)">
-        <i class="icon-resizer-vertical-lines" aria-hidden="true"></i>
+         (accessibleClick)="toggleService.toggleNavigation($event)">
+        <i class="icon-resizer-vertical-lines"
+          aria-hidden="true"></i>
       </a>
     </div>
   `
 })
 
-export class MainMenuResizerDirective implements OnInit, OnDestroy {
-  private elementClass:string;
+export class MainMenuResizerComponent implements OnInit, OnDestroy {
   private resizeEvent:string;
   private localStorageKey:string;
+  private toggleTitle:string;
 
-  private resizingElement:HTMLElement;
   private elementWidth:number;
   private oldPosition:number;
   private mouseMoveHandler:any;
   private element:HTMLElement;
   private htmlNode:HTMLElement;
-
-  public toggleTitle:string;
+  private mainMenu = jQuery('#main-menu')[0];
 
   public moving:boolean = false;
 
-  constructor(private elementRef:ElementRef) {
+  private subscription:Subscription;
+
+  constructor(protected toggleService:MainMenuToggleService,
+              private elementRef:ElementRef) {
   }
 
   ngOnInit() {
-    this.elementClass    = "main-menu";
+    this.subscription = this.toggleService.allData$
+      .pipe(
+        distinctUntilChanged(),
+        untilComponentDestroyed(this)
+      )
+      .subscribe(setToggleTitle => {
+        this.toggleTitle = setToggleTitle;
+      });
+
     this.resizeEvent     = "main-menu-resize";
     this.localStorageKey = "openProject-mainMenuWidth";
-    this.toggleTitle     = I18n.t('js.show_hide_project_menu');
-
-    this.htmlNode = <HTMLElement>document.getElementsByTagName('html')[0];
-
-    // Get element
-    this.resizingElement = <HTMLElement>document.getElementsByClassName(this.elementClass)[0];
-    // Get initial width from local storage and apply
-    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
-    this.elementWidth = localStorageValue ? parseInt(localStorageValue,
-      10) : this.resizingElement.offsetWidth;
-
-    this.setWidth(this.resizingElement, this.elementWidth);
-
-    // Add event listener
-    this.element = this.elementRef.nativeElement;
   }
 
   ngOnDestroy() {
-    // Reset the style when killing this directive, otherwise the style remains
-    this.resizingElement.style.width = null;
+    this.subscription.unsubscribe();
   }
 
   @HostListener('mousedown', ['$event'])
@@ -102,16 +103,16 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
     if (e.buttons === 1 || e.which === 1) {
       // Getting starting position
       this.oldPosition = e.clientX;
-      this.elementWidth = this.resizingElement.clientWidth;
+      this.elementWidth = this.mainMenu.clientWidth;
       this.moving = true;
 
       // Necessary to encapsulate this to be able to remove the event listener later
-      this.mouseMoveHandler = this.resizeElement.bind(this, this.resizingElement);
+      this.mouseMoveHandler = this.resizeElement.bind(this, this.mainMenu);
 
       // Change cursor icon
       // This is handled via JS to ensure
       // that the cursor stays the same even when the mouse leaves the actual resizer.
-      document.body.setAttribute('style',
+      document.getElementsByTagName("body")[0].setAttribute('style',
         'cursor: col-resize !important');
 
       // Enable mouse move
@@ -133,7 +134,9 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
 
     this.moving = false;
 
-    this.saveWidth();
+    // save new width in service
+    this.toggleService.saveWidth(this.localStorageKey, this.elementWidth);
+    console.log("Saved element width: ", this.elementWidth);
 
     // Send a event that we resized this element
     const event = new Event(this.resizeEvent);
@@ -148,34 +151,27 @@ export class MainMenuResizerDirective implements OnInit, OnDestroy {
 
     let delta = e.clientX - this.oldPosition;
     this.oldPosition = e.clientX;
-
     this.elementWidth = this.elementWidth + delta;
 
     let collapsedState = sessionStorage.getItem('openproject:navigation-toggle');
     if (collapsedState === 'collapsed') {
       if (this.elementWidth > 10) {
         jQuery('#main-menu-toggle').click();
-        this.setWidth(element, this.elementWidth);
+        this.toggleService.setWidth(element, this.elementWidth);
       } else {
-        this.setWidth(this.resizingElement, 0);
+        this.toggleService.setWidth(this.mainMenu, 0);
       }
     } else if (this.elementWidth <= 10) {
       jQuery('#main-menu-toggle').click();
-      this.setWidth(this.resizingElement, 0);
+      this.toggleService.setWidth(this.mainMenu, 0);
     } else {
-      this.setWidth(element, this.elementWidth);
+      this.toggleService.setWidth(element, this.elementWidth);
     }
   }
 
-  private setWidth(element:HTMLElement, width:number, ) {
-    let viewportWidth = document.documentElement.clientWidth;
-    let newValue = width <= 10 ? 0 : width;
-    newValue = newValue >= viewportWidth - 150 ? viewportWidth - 150 : newValue;
-
-    this.htmlNode.style.setProperty("--main-menu-width", newValue + 'px');
-  }
-
-  private saveWidth() {
-    window.OpenProject.guardedLocalStorage(this.localStorageKey, String(this.elementWidth));
-  }
 }
+
+opUiComponentsModule.directive(
+  'mainMenuResizer',
+  downgradeComponent({component: MainMenuResizerComponent})
+);

@@ -53,7 +53,9 @@ import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/sta
 import {WorkPackageInlineCreateComponent} from 'core-components/wp-inline-create/wp-inline-create.component';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WpResizerDirective} from 'core-components/resizer/wp-resizer.component';
-import {MainMenuResizerDirective} from 'core-components/resizer/main-menu-resizer.component';
+import {MainMenuResizerComponent} from 'core-components/resizer/main-menu-resizer.component';
+import {MainMenuToggleComponent} from 'core-components/main-menu/main-menu-toggle.component';
+import {MainMenuToggleService} from 'core-components/main-menu/main-menu-toggle.service';
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
@@ -244,6 +246,7 @@ import {WorkPackageRelationsCreateComponent} from "core-components/wp-relations/
   providers: [
     GonRef,
     HideSectionService,
+    MainMenuToggleService,
     upgradeServiceWithToken('$rootScope', $rootScopeToken),
     upgradeServiceWithToken('I18n', I18nToken),
     upgradeServiceWithToken('$state', $stateToken),
@@ -346,7 +349,8 @@ import {WorkPackageRelationsCreateComponent} from "core-components/wp-relations/
     WorkPackageTimelineButtonComponent,
     WorkPackageZenModeButtonComponent,
     WpResizerDirective,
-    MainMenuResizerDirective,
+    MainMenuResizerComponent,
+    MainMenuToggleComponent,
     WpCustomActionComponent,
     WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
@@ -557,7 +561,8 @@ import {WorkPackageRelationsCreateComponent} from "core-components/wp-relations/
     ExternalQueryConfigurationComponent,
 
     // Main menu
-    MainMenuResizerDirective
+    MainMenuResizerComponent,
+    MainMenuToggleComponent
   ]
 })
 export class OpenProjectModule {
@@ -569,8 +574,8 @@ export class OpenProjectModule {
     // Already done in openproject-app.ts
     // this.upgrade.bootstrap(document.body, ['openproject'], {strictDi: false});
 
-    if (document.getElementsByTagName('main-menu-resizer').length > 0) {
-      appRef.bootstrap(MainMenuResizerDirective);
-    }
+    /*if (document.getElementsByTagName('main-menu-resizer').length > 0) {
+      appRef.bootstrap(MainMenuResizerComponent);
+    }*/
   }
 }
