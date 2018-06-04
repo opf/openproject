@@ -26,11 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, HostListener, Injector, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, Injector, Input, OnInit, OnDestroy} from '@angular/core';
 import {MainMenuToggleService} from '../main-menu/main-menu-toggle.service';
 import {distinctUntilChanged, map, take} from 'rxjs/operators';
 import {Subscription} from 'rxjs/Subscription';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {opUiComponentsModule} from '../../angular-modules';
 
@@ -49,7 +50,7 @@ import {opUiComponentsModule} from '../../angular-modules';
   `
 })
 
-export class MainMenuResizerComponent implements OnInit {
+export class MainMenuResizerComponent implements OnInit, OnDestroy {
   private resizeEvent:string;
   private localStorageKey:string;
   private toggleTitle:string;
@@ -72,7 +73,8 @@ export class MainMenuResizerComponent implements OnInit {
   ngOnInit() {
     this.subscription = this.toggleService.all$
       .pipe(
-        distinctUntilChanged()
+        distinctUntilChanged(),
+        untilComponentDestroyed(this)
       )
       .subscribe(setToggleTitle => {
         this.toggleTitle = setToggleTitle;
@@ -80,6 +82,9 @@ export class MainMenuResizerComponent implements OnInit {
 
     this.resizeEvent     = "main-menu-resize";
     this.localStorageKey = "openProject-mainMenuWidth";
+  }
+
+  ngOnDestroy() {
   }
 
   @HostListener('mousedown', ['$event'])

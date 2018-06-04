@@ -32,6 +32,7 @@ import {MainMenuToggleService} from './main-menu-toggle.service';
 import {distinctUntilChanged, map, take} from 'rxjs/operators';
 import {Subscription} from 'rxjs/Subscription';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {opUiComponentsModule} from '../../angular-modules';
 
@@ -56,7 +57,7 @@ import {opUiComponentsModule} from '../../angular-modules';
 * collapsed boolean setzen, label im resizer und hamburger icon setzen
 *
 */
-export class MainMenuToggleComponent implements OnInit {
+export class MainMenuToggleComponent implements OnInit, OnDestroy {
 
   localStorageKey:string = "openProject-mainMenuWidth";
   toggleTitle:string = "";
@@ -73,11 +74,15 @@ export class MainMenuToggleComponent implements OnInit {
 
     this.subscription = this.toggleService.all$
       .pipe(
-        distinctUntilChanged()
+        distinctUntilChanged(),
+        untilComponentDestroyed(this)
       )
       .subscribe( setToggleTitle => {
         this.toggleTitle = setToggleTitle;
       });
+  }
+
+  ngOnDestroy() {
   }
 }
 
