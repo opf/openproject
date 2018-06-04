@@ -2522,10 +2522,6 @@ af:
       months: Months
       quarters: Quarters
       years: Years
-    project_menu:
-      reportings: Status reportings
-      reports: Timeline reports
-      timelines: Timelines
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_user_default_timezone: 'Die verstektydsone vir nuwe gebruikers. Kan in ’n

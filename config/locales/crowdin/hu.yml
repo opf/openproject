@@ -2528,10 +2528,6 @@ hu:
       months: Hónap
       quarters: Negyedek
       years: Évek
-    project_menu:
-      reportings: Állapot jelentés
-      reports: Jelentések az idővonalakról
-      timelines: Idővonalak
   title_remove_and_delete_user: Távolítsa el a meghívott felhasználót a projektből,
     és törölje őt.
   tooltip_user_default_timezone: 'Az új felhasználók alapértelmezett időzónája. A

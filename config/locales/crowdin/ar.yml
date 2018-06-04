@@ -2576,10 +2576,6 @@ ar:
       months: أشهر
       quarters: أرباع
       years: السنوات
-    project_menu:
-      reportings: تقارير الحالة
-      reports: تقارير الجدول الزمني
-      timelines: الخطوط الزمنية
   title_remove_and_delete_user: قم بإزالة المستخدم المدعوين من المشروع وحذفه/حذفها.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.

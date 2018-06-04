@@ -2320,10 +2320,6 @@ zh-TW:
       months: 月
       quarters: 季
       years: 年
-    project_menu:
-      reportings: 狀態報表
-      reports: 時間軸報表
-      timelines: 時間軸
   title_remove_and_delete_user: 從專案移除已被邀請的使用者別且刪除他/她
   tooltip_user_default_timezone: '新使用者預設時區，可以在使用者設定中修改。
 

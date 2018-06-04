@@ -349,6 +349,8 @@ en:
         other: "You can only select {{limit}} items"
         zero: "You cannot select any items"
 
+    project_menu_details: "Details"
+
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

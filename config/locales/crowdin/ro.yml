@@ -2571,10 +2571,6 @@ ro:
       months: Luni
       quarters: Trimestre
       years: Ani
-    project_menu:
-      reportings: Raportări de stare
-      reports: Raportări de interval
-      timelines: Planificări
   title_remove_and_delete_user: Eliminaţi utilizatorul invitat din proiect şi ştergeţi-l.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.

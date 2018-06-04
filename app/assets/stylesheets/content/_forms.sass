@@ -343,8 +343,7 @@ fieldset.form--fieldset
       display: block
 
   &.-break-words > .form--label
-    text-overflow: ellipsis
-    overflow: hidden
+    @include text-shortener
 
   &.-required
     input.form--text-field:invalid
@@ -356,9 +355,8 @@ fieldset.form--fieldset
 .form--label
   @include grid-content(2)
   @extend %label-style
-  overflow-x: hidden
+  @include text-shortener
   overflow-y: visible
-  text-overflow: ellipsis
   padding:      0 1rem 0 0
   font-size:    $form-label-fontsize
   line-height:  $base-line-height

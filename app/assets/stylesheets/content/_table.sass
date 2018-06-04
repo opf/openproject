@@ -138,9 +138,8 @@ table.generic-table
       border-bottom: 1px solid $table-row-border-color
 
     td
+      @include text-shortener
       max-width: 300px
-      overflow:  hidden
-      text-overflow: ellipsis
       text-align: left
       line-height: 1.6
       padding-top: 0.5rem

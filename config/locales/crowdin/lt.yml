@@ -2582,10 +2582,6 @@ lt:
       months: Mėnesiai(-ių)
       quarters: Ketvirčiai
       years: Metai(-ų)
-    project_menu:
-      reportings: Būsenos ataskaitos
-      reports: Laiko juostos ataskaitos
-      timelines: Laiko juostos
   title_remove_and_delete_user: Pašalinti pakviestą vartotoją iš projekto ir ištrinti
     jį/ją.
   tooltip_user_default_timezone: 'Numatytoji laiko juosta naujiems vartotojams. Gali
