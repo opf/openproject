@@ -64,7 +64,7 @@ export class MainMenuToggleComponent implements OnInit {
 
   private subscription:Subscription;
 
-  constructor(protected toggleService: MainMenuToggleService,
+  constructor(protected toggleService:MainMenuToggleService,
               private elementRef:ElementRef) {
   }
 

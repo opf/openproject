@@ -128,7 +128,7 @@ export class MainMenuResizerComponent implements OnInit {
 
     this.moving = false;
 
-    // save new width in service (if width < 230 set default value after reloading the page)
+    // save new width in service
     this.toggleService.saveWidth(this.localStorageKey, this.elementWidth);
     console.log("Saved element width: ", this.elementWidth);
 
