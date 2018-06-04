@@ -301,6 +301,7 @@ lol:
         other: crwdns98587:5{{limit}}crwdne98587:5
         zero: You cannot select any items
     show_hide_project_menu: crwdns98947:0crwdne98947:0
+    project_menu_details: crwdns98971:0crwdne98971:0
     sort:
       sorted_asc: crwdns98588:0crwdne98588:0
       sorted_dsc: crwdns98589:0crwdne98589:0

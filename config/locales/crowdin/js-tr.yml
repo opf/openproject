@@ -315,6 +315,7 @@ tr:
         other: Sadece {{limit}} tane seçebilirsiniz
         zero: You cannot select any items
     show_hide_project_menu: Genişlet/Daralt proje menüsü
+    project_menu_details: Detaylar
     sort:
       sorted_asc: 'Artan sıralama, uygulandı, '
       sorted_dsc: 'Azalan sırılama uygulandı, '

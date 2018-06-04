@@ -319,6 +319,7 @@ cs:
         few: You can only select {{limit}} items
         many: You can only select {{limit}} items
     show_hide_project_menu: Rozbalit/sbalit nabídku projektu
+    project_menu_details: Podrobnosti
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

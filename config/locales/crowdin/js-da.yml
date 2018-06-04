@@ -313,6 +313,7 @@ da:
         other: Du kan kun vælge {{limit}} emner
         zero: You cannot select any items
     show_hide_project_menu: Expand/Collapse project menu
+    project_menu_details: Detaljer
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

@@ -320,6 +320,7 @@ es:
         other: Solo puede seleccionar {{limit}} objetos
         zero: You cannot select any items
     show_hide_project_menu: Expandir o Contraer Menú Proyecto
+    project_menu_details: Detalles
     sort:
       sorted_asc: 'Orden ascendiente aplicado '
       sorted_dsc: 'Orden descendiente aplicado '

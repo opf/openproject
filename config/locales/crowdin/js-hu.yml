@@ -314,6 +314,7 @@ hu:
         other: Csak {{limit}} elem választható
         zero: You cannot select any items
     show_hide_project_menu: Kibontás/Összecsukás projekt menü
+    project_menu_details: Részletek
     sort:
       sorted_asc: 'Növekvő sorrend alkalmazása, '
       sorted_dsc: 'Csökkenő rendezés alkalmazva, '

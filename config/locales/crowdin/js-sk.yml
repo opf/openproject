@@ -317,6 +317,7 @@ sk:
         few: Môžete vybrať maximálne {{limit}} položky
         many: You can only select {{limit}} items
     show_hide_project_menu: Rozbaliť/Zbaliť ponuku projektu
+    project_menu_details: Podrobnosti
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

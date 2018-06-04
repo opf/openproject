@@ -317,6 +317,7 @@ it:
         other: Puoi selezionare solo {{limit}} elementi
         zero: You cannot select any items
     show_hide_project_menu: Espandi/Comprimi il menù di progetto
+    project_menu_details: Dettagli
     sort:
       sorted_asc: 'Ordinamento crescente applicato, '
       sorted_dsc: 'Ordinamento decrescente applicato, '

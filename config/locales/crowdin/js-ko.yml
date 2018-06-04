@@ -306,6 +306,7 @@ ko:
         other: "{{limit}}개만 선택하실 수 있습니다."
         zero: You cannot select any items
     show_hide_project_menu: 프로젝트 메뉴 확장/축소
+    project_menu_details: 세부 정보
     sort:
       sorted_asc: '오름차순 정렬이 적용됨, '
       sorted_dsc: '내림차순 정렬이 적용됨, '

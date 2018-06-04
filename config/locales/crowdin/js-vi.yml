@@ -314,6 +314,7 @@ vi:
         other: You can only select {{limit}} items
         zero: You cannot select any items
     show_hide_project_menu: Mở rộng/Thu gọn menu dự án
+    project_menu_details: Chi tiết
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

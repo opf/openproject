@@ -301,6 +301,7 @@ zh-TW:
         other: 您只能選擇 {{limit}} 個項目
         zero: You cannot select any items
     show_hide_project_menu: 展開/折疊專案選單
+    project_menu_details: 詳細資料
     sort:
       sorted_asc: '已套用升冪排序， '
       sorted_dsc: '已套用降冪排序， '
