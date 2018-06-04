@@ -28,7 +28,9 @@
 
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {ReplaySubject} from 'rxjs';
+import {Injectable} from "@angular/core";
 
+@Injectable()
 export class KeepTabService {
   protected currentTab:string = 'overview';
 
@@ -125,7 +127,3 @@ export class KeepTabService {
     this.updateTab('details');
   }
 }
-
-angular
-  .module('openproject.workPackages.services')
-  .service('keepTab', KeepTabService);

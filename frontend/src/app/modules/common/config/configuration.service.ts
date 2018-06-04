@@ -27,11 +27,9 @@
 // ++
 
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {HttpClient} from '@angular/common/http';
-import {opServicesModule} from 'core-app/angular-modules';
-import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
 export class ConfigurationService {
@@ -171,5 +169,3 @@ export class ConfigurationService {
     return '';
   }
 }
-
-opServicesModule.service('ConfigurationService', downgradeInjectable(ConfigurationService));

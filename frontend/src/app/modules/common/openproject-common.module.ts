@@ -66,6 +66,8 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
 import {PersistentToggleDirective} from "core-app/modules/common/persistent-toggle/persistent-toggle.directive";
 import {HighlightColDirective} from "core-app/modules/common/highlight-col/highlight-col.directive";
+import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive";
+import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-toolbar.directive";
 
 @NgModule({
   imports: [
@@ -147,6 +149,8 @@ import {HighlightColDirective} from "core-app/modules/common/highlight-col/highl
     ShowSectionDropdownComponent,
     AutocompleteSelectDecorationComponent,
     PersistentToggleDirective,
+    CopyToClipboardDirective,
+    WikiToolbarDirective,
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -158,6 +162,8 @@ import {HighlightColDirective} from "core-app/modules/common/highlight-col/highl
     CollapsibleSectionComponent,
     PersistentToggleDirective,
     HighlightColDirective,
+    CopyToClipboardDirective,
+    WikiToolbarDirective,
   ],
   providers: [
     I18nService,
@@ -165,24 +171,12 @@ import {HighlightColDirective} from "core-app/modules/common/highlight-col/highl
     HideSectionService,
     NotificationsService,
     FocusHelperService,
-    upgradeService(loadingIndicatorFactory, LoadingIndicatorService),
-    upgradeService(ExpressionServiceFactory, ExpressionService),
-    upgradeService(authorisationServiceFactory, AuthorisationService),
+    LoadingIndicatorService,
+    ExpressionService,
+    AuthorisationService,
     AttributeHelpTextsService,
     ConfigurationService,
     PathHelperService,
   ]
 })
 export class OpenprojectCommonModule { }
-
-export function loadingIndicatorFactory(i:any) {
-  return i.get('loadingIndicator');
-}
-
-export function authorisationServiceFactory(i:any) {
-  return i.get('authorisationService');
-}
-
-export function ExpressionServiceFactory(i:any) {
-  return i.get('ExpressionService');
-}

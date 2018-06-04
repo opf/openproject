@@ -26,81 +26,82 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpDirectivesModule} from "../../../angular-modules";
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
+import {Directive, ElementRef, Input, OnDestroy, OnInit} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
 
-function remoteFieldUpdater($http:ng.IHttpService) {
-  return {
-    restrict: 'E',
-    scope: {
-      url: '@',
-      method: '@'
-    },
-    link: (scope:any, element:ng.IAugmentedJQuery) => {
-      const input = element.find('.remote-field--input');
-      const target = element.find('.remote-field--target');
-      const htmlMode = target.length > 0;
-      const method = (scope.method || 'GET').toUpperCase();
+@Directive({
+  selector: 'remote-field-updater'
+})
+export class RemoteFieldUpdaterDirective implements OnInit, OnDestroy {
+  @Input() public url:string;
+  @Input() public method:string;
 
-      function buildRequest(params:any) {
-        const request:any = {
-          url: scope.url,
-          method: method,
-          headers: {},
-        };
+  private inputs:JQuery;
+  private target:JQuery;
 
-        // In HTML mode, expect html response
-        if (htmlMode) {
-          request.headers['Accept'] = 'text/html';
-        } else {
-          request.headers['Accept'] = 'application/javascript';
-        }
+  constructor(readonly elementRef:ElementRef,
+              readonly http:HttpClient) {
+  }
 
-        // Append request to either URL params or body
-        // Angular doesn't differentiate between those two on its own.
-        if (method === 'GET') {
-          request['params'] = params;
-        } else {
-          request['data'] = params;
-        }
+  ngOnInit() {
+    const element = jQuery(this.elementRef.nativeElement);
+    this.inputs = element.find('.remote-field--input');
+    this.target = element.find('.remote-field--target');
 
-        return request;
-      }
-
-      function updater() {
-        var params:any = {};
-
-        // Gather request keys
-        input.each((i, el) => {
-          var field = angular.element(el);
-          params[field.data('remoteFieldKey')] = field.val();
-        });
-
-        $http(buildRequest(params)).then((response:any) => {
-          // Replace the given target
-          if (htmlMode) {
-            target.html(response.data);
-          } else {
-            eval(response.data);
-          }
-        });
-      }
-
-      input.on('keyup change', _.debounce(function(event:any) {
+    this.inputs.on('keyup.remoteFieldUpdater change.remoteFieldUpdater', _.debounce((event:any) => {
         // This prevents an update of the result list when
         // tabbing to the result list (9),
         // pressing enter (13)
         // tabbing back with shift (16) and
         // special cases where the tab code is not correctly recognized (undefined).
         // Thus the focus is kept on the first element of the result list.
-        let keyCodesArray = [keyCodes.TAB, keyCodes.ENTER, keyCodes.SHIFT]
-        if (keyCodesArray.indexOf(event.keyCode) == -1 && event.keyCode != undefined) {
-          updater();
+        let keyCodesArray = [keyCodes.TAB, keyCodes.ENTER, keyCodes.SHIFT];
+        if (keyCodesArray.indexOf(event.keyCode) === -1 && event.keyCode !== undefined) {
+          this.updater();
         }
-        }, 200)
-      );
-    }
-  };
-}
+      }, 200)
+    );
+  }
 
-wpDirectivesModule.directive('remoteFieldUpdater', remoteFieldUpdater);
+  ngOnDestroy() {
+    this.inputs.off('.remoteFieldUpdater');
+  }
+
+  private updater() {
+    let params:any = {};
+
+    // Gather request keys
+    this.inputs.each((i, el) => {
+      const field = jQuery(el);
+      params[field.data('remoteFieldKey')] = field.val();
+    });
+
+    this
+      .request(params)
+      .subscribe((response:any) => {
+        this.target.html(response.data);
+      });
+  }
+
+  private request(params:any) {
+    const method = (this.method || 'GET').toUpperCase();
+
+    const request = {
+      headers: { Accept: 'text/html' },
+      params: {},
+      body: {},
+      responseType: 'text'
+    };
+
+    // Append request to either URL params or body
+    // Angular doesn't differentiate between those two on its own.
+    if (method === 'GET') {
+      request['params'] = params;
+    } else {
+      request['body'] = params;
+    }
+
+    return this.http.request(this.url, method, params);
+  }
+}

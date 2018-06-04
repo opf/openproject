@@ -27,7 +27,6 @@
 // ++
 
 import {ConfirmDialogModal, ConfirmDialogOptions} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
-import {downgradeInjectable} from "@angular/upgrade/static";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {Injectable} from "@angular/core";
 
@@ -53,7 +52,3 @@ export class ConfirmDialogService {
     });
   }
 }
-
-angular
-  .module('openproject.uiComponents')
-  .service('confirmDialog', downgradeInjectable(ConfirmDialogService));

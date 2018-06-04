@@ -26,16 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
-import {$stateToken} from 'core-app/angular4-transition-utils';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {input} from 'reactivestates';
 import {filter, map, take, takeUntil} from 'rxjs/operators';
-import {opWorkPackagesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
 import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
@@ -69,7 +67,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
               protected wpTableFocus:WorkPackageTableFocusService,
               protected $transitions:TransitionService,
               protected ConfigurationService:ConfigurationService,
-              @Inject($stateToken) readonly $state:StateService,
+              readonly $state:StateService,
               readonly I18n:I18nService) {
 
     const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');

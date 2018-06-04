@@ -32,7 +32,7 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {Component, ElementRef, Inject, OnInit} from "@angular/core";
-import {$stateToken, OpModalLocalsToken, WorkPackageServiceToken} from "core-app/angular4-transition-utils";
+import {OpModalLocalsToken, WorkPackageServiceToken} from "core-app/angular4-transition-utils";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
@@ -64,7 +64,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
               @Inject(WorkPackageServiceToken) readonly WorkPackageService:any,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly I18n:I18nService,
-              @Inject($stateToken) readonly $state:StateService,
+              readonly $state:StateService,
               readonly states:States,
               readonly wpTableFocus:WorkPackageTableFocusService,
               readonly wpListService:WorkPackagesListService,
@@ -77,7 +77,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
     super.ngOnInit();
 
     this.workPackages = this.locals.workPackages;
-    this.workPackageLabel = this.I18n.t('js.units.workPackage', { count: this.workPackages.length });
+    this.workPackageLabel = this.I18n.t('js.units.workPackage', {count: this.workPackages.length});
 
     // Ugly way to provide the same view bindings as the ng-init in the previous template.
     if (this.workPackages.length === 1) {
@@ -85,18 +85,21 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
       this.singleWorkPackageChildren = this.singleWorkPackage.children;
     }
 
-    this.text.title = this.I18n.t('js.modals.destroy_work_package.title', { label: this.workPackageLabel }),
-    this.text.text = this.I18n.t('js.modals.destroy_work_package.text', { label: this.workPackageLabel, count: this.workPackages.length }),
+    this.text.title = this.I18n.t('js.modals.destroy_work_package.title', {label: this.workPackageLabel}),
+      this.text.text = this.I18n.t('js.modals.destroy_work_package.text', {
+        label: this.workPackageLabel,
+        count: this.workPackages.length
+      }),
 
-    this.text.childCount = (wp:WorkPackageResource) => {
-      const count = this.children(wp).length;
-      return this.I18n.t('js.units.child_work_packages', {count: count});
-    };
+      this.text.childCount = (wp:WorkPackageResource) => {
+        const count = this.children(wp).length;
+        return this.I18n.t('js.units.child_work_packages', {count: count});
+      };
 
     this.text.hasChildren = (wp:WorkPackageResource) =>
-      this.I18n.t('js.modals.destroy_work_package.has_children', {childUnits: this.text.childCount(wp) }),
+      this.I18n.t('js.modals.destroy_work_package.has_children', {childUnits: this.text.childCount(wp)}),
 
-    this.text.deletesChildren = this.I18n.t('js.modals.destroy_work_package.deletes_children');
+      this.text.deletesChildren = this.I18n.t('js.modals.destroy_work_package.deletes_children');
   }
 
 

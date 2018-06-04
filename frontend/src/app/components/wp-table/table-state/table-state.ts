@@ -20,8 +20,6 @@ import {
   WorkPackageCollectionResource
 } from 'core-app/modules/hal/resources/wp-collection-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {downgradeInjectable} from '@angular/upgrade/static';
-import {opServicesModule} from 'core-app/angular-modules';
 
 @Injectable()
 export class TableState extends StatesGroup {
@@ -124,5 +122,3 @@ export class UserUpdaterStates {
   relationUpdates = this.tableState.ready.fireOnStateChange(this.tableState.relationColumns,
     'Query loaded');
 }
-
-opServicesModule.service('tableState', downgradeInjectable(TableState));

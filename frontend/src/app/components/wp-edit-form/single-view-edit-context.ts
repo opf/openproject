@@ -34,7 +34,6 @@ import {States} from '../states.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 import {Injector} from '@angular/core';
-import {$stateToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageEditContext} from 'core-components/wp-edit-form/work-package-edit-context';
 import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {WorkPackageEditForm} from 'core-components/wp-edit-form/work-package-edit-form';
@@ -49,7 +48,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
   public states:States = this.injector.get(States);
   public FocusHelper:FocusHelperService = this.injector.get(FocusHelperService);
-  public $state:StateService = this.injector.get($stateToken);
+  public $state:StateService = this.injector.get(StateService);
   public wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
   public wpEditingPortalService:WorkPackageEditingPortalService = this.injector.get(WorkPackageEditingPortalService);
   protected wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);

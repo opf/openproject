@@ -27,8 +27,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opServicesModule} from '../../angular-modules';
+import {Injectable} from "@angular/core";
 
+@Injectable()
 export class FirstRouteService {
   public name:string;
   public params:any;
@@ -44,5 +45,3 @@ export class FirstRouteService {
     this.params = params;
   }
 }
-
-opServicesModule.service('firstRoute', FirstRouteService);

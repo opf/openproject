@@ -1,8 +1,6 @@
 import {InputState} from 'reactivestates';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
-import {opServicesModule} from 'core-app/angular-modules';
-import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
 export class WorkPackageTableRefreshService {
@@ -30,6 +28,4 @@ export class WorkPackageTableRefreshService {
     return this.tableState.refreshRequired;
   }
 }
-
-opServicesModule.service('wpTableRefresh', downgradeInjectable(WorkPackageTableRefreshService));
 

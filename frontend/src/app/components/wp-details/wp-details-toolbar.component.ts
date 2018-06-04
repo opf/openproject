@@ -25,12 +25,10 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-import {openprojectModule} from '../../angular-modules';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {Component, Inject, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
   selector: 'wp-details-toolbar',
@@ -46,7 +44,3 @@ export class WorkPackageSplitViewToolbarComponent {
 constructor(readonly I18n:I18nService,
   public wpEditing:WorkPackageEditingService) {}
 }
-
-openprojectModule.directive('wpDetailsToolbar',
-  downgradeComponent({component: WorkPackageSplitViewToolbarComponent })
-);

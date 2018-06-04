@@ -27,12 +27,10 @@
 // ++
 
 import {State} from 'reactivestates';
-import {opWorkPackagesModule} from '../../angular-modules';
 import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
 import {States} from '../states.service';
 import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
 import {StateCacheService} from '../states/state-cache.service';
-import {downgradeInjectable} from '@angular/upgrade/static';
 import {SchemaCacheService} from './../schemas/schema-cache.service';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
@@ -157,5 +155,3 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
   }
 
 }
-
-opWorkPackagesModule.service('wpCacheService', downgradeInjectable(WorkPackageCacheService));

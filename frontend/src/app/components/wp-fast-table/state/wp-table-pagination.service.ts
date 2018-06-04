@@ -28,12 +28,10 @@
 
 import {Injectable} from '@angular/core';
 import {WorkPackageTableBaseService,} from './wp-table-base.service';
-import {opServicesModule} from '../../../angular-modules';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource'
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTablePagination} from '../wp-table-pagination';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {downgradeInjectable} from '@angular/upgrade/static';
 import {PaginationObject} from 'core-app/modules/hal/dm-services/query-dm.service';
 
 interface PaginationUpdateObject {
@@ -93,5 +91,3 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
     return this.state.value!;
   }
 }
-
-opServicesModule.service('wpTablePagination', downgradeInjectable(WorkPackageTablePaginationService));

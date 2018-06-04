@@ -30,11 +30,9 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {input} from 'reactivestates';
-import {Inject, Injectable} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
-import {opServicesModule} from "core-app/angular-modules";
-import {downgradeInjectable} from "@angular/upgrade/static";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Injectable()
@@ -86,5 +84,3 @@ export class CommentService {
     return Promise.reject(error);
   }
 }
-
-opServicesModule.service('commentService', downgradeInjectable(CommentService));

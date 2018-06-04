@@ -103,9 +103,6 @@ openprojectModule
             }
           };
         });
-
-        // add global event handlers
-        angular.element('body').attr('global-drag-and-drop-handler','');
       }
     ])
     .run([
@@ -138,12 +135,10 @@ openprojectModule
         // Setup query configuration listener
         externalQueryConfiguration.setupListener();
 
-        KeyboardShortcutService.activate();
-
         angular.element('body').addClass('__ng-bootstrap-has-run');
 
         $rootScope.$on('$stateChangeError',
-            function(event:JQueryEventObject){
+            function(event:JQueryEventObject) {
               event.preventDefault();
               // transitionTo() promise will be rejected with
               // a 'transition prevented' error
@@ -164,8 +159,6 @@ openprojectModule
   }]);
 
 require('./layout');
-require('./services');
-require('./ui_components');
 
 
 var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|ts|html)$/);

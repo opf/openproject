@@ -26,9 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
-import {$stateToken} from 'core-app/angular4-transition-utils';
 import {LinkHandling} from 'core-app/modules/common/link-handling/link-handling';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
@@ -43,7 +42,7 @@ export class QueryMenuService {
   private uiRouteStateName = 'work-packages.list';
   private container:JQuery;
 
-  constructor(@Inject($stateToken) readonly $state:StateService,
+  constructor(readonly $state:StateService,
               readonly I18n:I18nService,
                readonly titleService:OpTitleService,
                readonly $transitions:TransitionService,

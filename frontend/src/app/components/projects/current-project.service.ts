@@ -26,12 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opServicesModule} from '../../angular-modules';
+import {Injectable} from "@angular/core";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
+@Injectable()
 export class CurrentProjectService {
   private current:{ id:string, identifier:string, name:string };
 
-  constructor(private PathHelper:any) {
+  constructor(private PathHelper:PathHelperService) {
     this.detect();
   }
 
@@ -89,5 +91,3 @@ export class CurrentProjectService {
     }
   }
 }
-
-opServicesModule.service('currentProject', CurrentProjectService);

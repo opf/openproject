@@ -26,15 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpButtonsModule} from '../../../angular-modules';
 import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import {States} from '../../states.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService} from '@uirouter/core';
-import {Component, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
-import {$stateToken} from 'core-app/angular4-transition-utils';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
@@ -54,7 +51,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
   public deactivateLabel:string;
 
   constructor(
-    @Inject($stateToken) readonly $state:StateService,
+    readonly $state:StateService,
     readonly I18n:I18nService,
     public states:States,
     public wpTableFocus:WorkPackageTableFocusService,
@@ -109,8 +106,3 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
     this.$state.go(this.keepTab.currentDetailsState, params);
   }
 }
-
-wpButtonsModule.directive(
-  'wpDetailsViewButton',
-  downgradeComponent({ component: WorkPackageDetailsViewButtonComponent })
-);

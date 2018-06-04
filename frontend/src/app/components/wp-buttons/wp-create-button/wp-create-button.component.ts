@@ -27,8 +27,7 @@
 // ++
 
 import {StateService} from '@uirouter/core';
-import {Component, Inject, Input} from '@angular/core';
-import {$stateToken} from 'core-app/angular4-transition-utils';
+import {Component, Input} from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
@@ -47,7 +46,7 @@ export class WorkPackageCreateButtonComponent {
     explanation: this.I18n.t('js.label_create_work_package')
   };
 
-  constructor(@Inject($stateToken) readonly $state:StateService,
+  constructor(readonly $state:StateService,
               readonly I18n:I18nService) {
   }
 

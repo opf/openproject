@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opApiModule} from '../../../angular-modules';
 import IQService = angular.IQService;
 import IPromise = angular.IPromise;
 
@@ -70,5 +69,3 @@ export class OpenProjectFileUploadService {
     return {uploads, finished} as any;
   }
 }
-
-opApiModule.service('opFileUpload', OpenProjectFileUploadService);

@@ -29,7 +29,6 @@
 import {StateService} from '@uirouter/core';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {Directive, ElementRef, Inject, Input} from "@angular/core";
-import {$stateToken} from "core-app/angular4-transition-utils";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
@@ -46,7 +45,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
 
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
-              @Inject($stateToken) readonly $state:StateService,
+              readonly $state:StateService,
               protected wpEditing:WorkPackageEditingService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpTableRefresh:WorkPackageTableRefreshService) {

@@ -1,17 +1,9 @@
-import {
-  ApplicationRef,
-  ComponentFactoryResolver, ComponentRef,
-  Inject,
-  Injectable,
-  Injector
-} from '@angular/core';
+import {ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector} from '@angular/core';
 import {ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector} from '@angular/cdk/portal';
 import {TransitionService} from '@uirouter/core';
 import {OpModalLocalsToken} from 'core-app/angular4-transition-utils';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
-import {opServicesModule} from "core-app/angular-modules";
-import {downgradeInjectable} from "@angular/upgrade/static";
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 
 @Injectable()
@@ -133,5 +125,3 @@ export class OpModalService {
     return new PortalInjector(injector, injectorTokens);
   }
 }
-
-opServicesModule.service('opModalService', downgradeInjectable(OpModalService));

@@ -27,14 +27,13 @@
 // ++
 
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {AutoCompleteHelperServiceToken, TextileServiceToken} from 'core-app/angular4-transition-utils';
+import {TextileServiceToken} from 'core-app/angular4-transition-utils';
 import {TextileService} from "core-app/modules/common/textile/textile-service";
 import {ICkeditorStatic} from "core-components/ckeditor/op-ckeditor-form.component";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {FormattableTextareaEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-textarea-edit-field.component";
 import {FormattableWysiwygEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-wysiwyg-edit-field.component";
-import {AutoCompleteHelperService} from "core-components/legacy-ng1/auto-complete-helper.service";
-import HTML = Mocha.reporters.HTML;
+import {AutoCompleteHelperService} from "core-components/input/auto-complete-helper.service";
 
 declare global {
   interface Window {
@@ -46,8 +45,7 @@ declare global {
 export class FormattableEditField extends EditField {
   // Dependencies
   readonly textileService:TextileService = this.$injector.get(TextileServiceToken);
-  readonly AutoCompleteHelper:AutoCompleteHelperService = this.$injector.get(
-    AutoCompleteHelperServiceToken);
+  readonly AutoCompleteHelper:AutoCompleteHelperService = this.$injector.get(AutoCompleteHelperService);
   readonly ConfigurationService:ConfigurationService = this.$injector.get(ConfigurationService);
 
   // Values used in template

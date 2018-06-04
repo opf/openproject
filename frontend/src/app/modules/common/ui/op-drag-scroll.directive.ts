@@ -1,4 +1,3 @@
-import {opApiModule} from './../../../angular-modules';
 //-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,61 +25,55 @@ import {opApiModule} from './../../../angular-modules';
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
+import {Directive, ElementRef, OnInit} from "@angular/core";
 
-import {opUiComponentsModule} from '../../../angular-modules';
+@Directive({
+  selector: 'op-drag-scroll',
+})
+export class OpDragScrollDirective implements OnInit {
 
-interface DragScrollData {
-  delta: {
-    x: number,
-    y: number
-  };
+  constructor(readonly elementRef:ElementRef) {
+  }
 
-  
-}
+  ngOnInit() {
+    const element = jQuery(this.elementRef.nativeElement);
+    const eventName = 'op:dragscroll';
 
-function opDragScroll() {
-  return {
-    restrict: 'A',
-    link: function(scope:ng.IScope, element:ng.IAugmentedJQuery, attr:ng.IAttributes) {
-      const eventName = 'op:dragscroll';
+    // Is mouse down?
+    var mousedown = false;
 
-      // Is mouse down?
-      var mousedown = false;
+    // Position of last mousedown
+    var mousedownX:number, mousedownY:number;
 
-      // Position of last mousedown
-      var mousedownX:number, mousedownY:number;
-
-      // Mousedown: Potential drag start
-      element.on('mousedown', (evt:JQueryEventObject) => {
-        setTimeout(() => {
-          mousedown = true;
-          mousedownX = evt.clientX;
-          mousedownY = evt.clientY;
-        }, 50, false);
-      });
-
-      // Mouseup: Potential drag stop
-      element.on('mouseup', () => { mousedown = false; });
-
-      // Mousemove: Report movement if mousedown
-      element.on('mousemove', (evt:JQueryEventObject) => {
-         if (!mousedown) {
-           return;
-         }
-
-        // Trigger drag scroll event
-        element.trigger(eventName, {
-          x: evt.clientX - mousedownX,
-          y: evt.clientY - mousedownY
-        });
-
-        // Update last mouse position
+    // Mousedown: Potential drag start
+    element.on('mousedown', (evt:JQueryEventObject) => {
+      setTimeout(() => {
+        mousedown = true;
         mousedownX = evt.clientX;
         mousedownY = evt.clientY;
+      }, 50, false);
+    });
+
+    // Mouseup: Potential drag stop
+    element.on('mouseup', () => {
+      mousedown = false;
+    });
+
+    // Mousemove: Report movement if mousedown
+    element.on('mousemove', (evt:JQueryEventObject) => {
+      if (!mousedown) {
+        return;
+      }
+
+      // Trigger drag scroll event
+      element.trigger(eventName, {
+        x: evt.clientX - mousedownX,
+        y: evt.clientY - mousedownY
       });
-    }
-  };
+
+      // Update last mouse position
+      mousedownX = evt.clientX;
+      mousedownY = evt.clientY;
+    });
+  }
 }
-
-opUiComponentsModule.directive('opDragScroll', opDragScroll);
-

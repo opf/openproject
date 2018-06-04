@@ -1,10 +1,8 @@
 import {States} from '../../states.service';
-import {opServicesModule} from '../../../angular-modules';
 import {InputState} from 'reactivestates';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
-import {downgradeInjectable} from '@angular/upgrade/static';
 import {distinctUntilChanged, filter, map} from 'rxjs/operators';
 
 export interface WPFocusState {
@@ -85,5 +83,3 @@ export class WorkPackageTableFocusService {
       });
   }
 }
-
-opServicesModule.service('wpTableFocus', downgradeInjectable(WorkPackageTableFocusService));

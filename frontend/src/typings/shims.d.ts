@@ -51,6 +51,12 @@ declare global {
     ng2Injector:Injector;
     OpenProject:OpenProject;
   }
+
+  interface JQuery {
+    topShelf:any;
+    atwho:any;
+    mark:any;
+  }
 }
 
 export {};

@@ -27,7 +27,6 @@
 // ++
 
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
-import {opServicesModule} from '../../../angular-modules';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTableColumns} from '../wp-table-columns';
 import {QueryColumn, queryColumnTypes} from '../../wp-query/query-column';
@@ -35,7 +34,6 @@ import {InputState} from 'reactivestates';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {States} from 'core-components/states.service';
 import {Injectable} from '@angular/core';
-import {downgradeInjectable} from '@angular/upgrade/static';
 import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 @Injectable()
@@ -260,5 +258,3 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService<
     return _.differenceBy(this.all, this.getColumns(), '$href');
   }
 }
-
-opServicesModule.service('wpTableColumns', downgradeInjectable(WorkPackageTableColumnsService));

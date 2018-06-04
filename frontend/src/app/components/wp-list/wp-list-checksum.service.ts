@@ -31,12 +31,11 @@ import {WorkPackageTablePagination} from '../wp-fast-table/wp-table-pagination';
 import {StateService} from '@uirouter/core';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
 import {Inject, Injectable} from '@angular/core';
-import {$stateToken} from 'core-app/angular4-transition-utils';
 
 @Injectable()
 export class WorkPackagesListChecksumService {
   constructor(protected UrlParamsHelper:UrlParamsHelperService,
-              @Inject($stateToken) protected $state:StateService) {
+              protected $state:StateService) {
   }
 
   public id:number | null;

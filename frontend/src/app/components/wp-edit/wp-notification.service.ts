@@ -30,20 +30,15 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
 import {StateService} from '@uirouter/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {Inject, Injectable} from '@angular/core';
-import {
-  $stateToken,
-} from 'core-app/angular4-transition-utils';
+import {Injectable} from '@angular/core';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {opServicesModule} from 'core-app/angular-modules';
-import {downgradeInjectable} from '@angular/upgrade/static';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Injectable()
 export class WorkPackageNotificationService {
   constructor(readonly I18n:I18nService,
-              @Inject($stateToken) protected $state:StateService,
+              protected $state:StateService,
               protected halResourceService:HalResourceService,
               protected NotificationsService:NotificationsService,
               protected loadingIndicator:LoadingIndicatorService) {
@@ -146,6 +141,3 @@ export class WorkPackageNotificationService {
     };
   }
 }
-
-opServicesModule.service('wpNotificationsService',
-  downgradeInjectable(WorkPackageNotificationService));

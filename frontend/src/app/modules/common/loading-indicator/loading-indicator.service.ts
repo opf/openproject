@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Injectable} from "@angular/core";
+
 export const indicatorLocationSelector = '.loading-indicator--location';
 export const indicatorBackgroundSelector = '.loading-indicator--background';
 
@@ -56,6 +58,7 @@ export class LoadingIndicator {
   }
 }
 
+@Injectable()
 export class LoadingIndicatorService {
 
   private indicatorTemplate:string =
@@ -85,7 +88,3 @@ export class LoadingIndicatorService {
     return jQuery(indicatorLocationSelector).filter(`[data-indicator-name="${name}"]`);
   }
 }
-
-
-import {opServicesModule} from '../../../angular-modules';
-opServicesModule.service('loadingIndicator', LoadingIndicatorService);

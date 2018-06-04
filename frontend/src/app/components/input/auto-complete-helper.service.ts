@@ -27,9 +27,13 @@
 //++
 
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {Injectable} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
 
+@Injectable()
 export class AutoCompleteHelperService {
-  public constructor(public $http:ng.IHttpService, public PathHelper:PathHelperService) {}
+  public constructor(private http:HttpClient,
+                     private PathHelper:PathHelperService) {}
 
   public getAtWhoParametersMentionable(at:string, textarea:HTMLElement, projectId:string) {
     return {
@@ -46,8 +50,8 @@ export class AutoCompleteHelperService {
       callbacks: {
         remoteFilter: (query:string, callback:Function) => {
           const url:string = this.PathHelper.api.v3.principals(projectId, query);
-          this.$http.get(url)
-            .then((response:any) => {
+          this.http.get(url)
+            .subscribe((response:any) => {
               if (response && response.data) {
                 const data = response.data;
 
@@ -58,7 +62,7 @@ export class AutoCompleteHelperService {
                   principals[i]['typePrefix'] = principals[i]['_type'].toLowerCase();
                 }
 
-                if (angular.element(textarea).is(':visible')) {
+                if (jQuery(textarea).is(':visible')) {
                   callback(principals);
                 }
                 else {
@@ -90,8 +94,8 @@ export class AutoCompleteHelperService {
       callbacks: {
         remoteFilter: (query:string, callback:Function) => {
           if (query.length > 0) {
-            this.$http.get(url, { params: { q: query, scope: 'all' } })
-              .then(function(response:any) {
+            this.http.get(url, { params: { q: query, scope: 'all' } })
+              .subscribe(function(response:any) {
                 if (response && response.data) {
                   const data = response.data;
                   // atjs needs the search key to be a string
@@ -99,7 +103,7 @@ export class AutoCompleteHelperService {
                     data[i]['id_subject'] = data[i]['id'].toString() + ' ' + data[i]['subject'];
                   }
 
-                  if (angular.element(textarea).is(':visible')) {
+                  if (jQuery(textarea).is(':visible')) {
                     callback(data);
                   }
                   else {
@@ -119,22 +123,18 @@ export class AutoCompleteHelperService {
   }
 
   public enableTextareaAutoCompletion(textareas:ng.IAugmentedJQuery, projectId:string|null) {
-    angular.forEach(textareas, (textarea) => {
+    textareas.each((i, textarea:HTMLElement) => {
 
       // only activate autocompleter for mentioniong users if the user is
       // in the context of a project and work package.
-      if (angular.element('body.controller-work_packages').length > 0 &&
+      if (jQuery('body.controller-work_packages').length > 0 &&
          projectId &&
          projectId.length > 0) {
-        angular.element(textarea).atwho(this.getAtWhoParametersMentionable('@', textarea, projectId));
-        angular.element(textarea).atwho(this.getAtWhoParametersMentionable('user#', textarea, projectId));
+        jQuery(textarea).atwho(this.getAtWhoParametersMentionable('@', textarea, projectId));
+        jQuery(textarea).atwho(this.getAtWhoParametersMentionable('user#', textarea, projectId));
       }
 
-      angular.element(textarea).atwho(this.getAtWhoParametersWPID(textarea));
+      jQuery(textarea).atwho(this.getAtWhoParametersWPID(textarea));
     });
   }
 }
-
-angular
-  .module('openproject.helpers')
-  .service('AutoCompleteHelper', AutoCompleteHelperService);

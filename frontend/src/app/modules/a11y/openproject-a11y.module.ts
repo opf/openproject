@@ -32,6 +32,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
 import {AccessibleClickDirective} from "core-app/modules/a11y/accessible-click.directive";
 import {AccessibleByKeyboardComponent} from "core-app/modules/a11y/accessible-by-keyboard.component";
+import {KeyboardShortcutService} from "core-app/modules/a11y/keyboard-shortcut-service";
 
 @NgModule({
   imports: [
@@ -41,6 +42,9 @@ import {AccessibleByKeyboardComponent} from "core-app/modules/a11y/accessible-by
   exports: [
     AccessibleClickDirective,
     AccessibleByKeyboardComponent,
+  ],
+  providers: [
+    KeyboardShortcutService
   ],
   declarations: [
     AccessibleClickDirective,

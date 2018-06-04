@@ -30,26 +30,30 @@ import {PathHelperService} from './../path-helper/path-helper.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalLink} from 'core-app/modules/hal/hal-link/hal-link';
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {Inject, Injectable} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
 
+@Injectable()
 export class TextileService {
-  constructor(public $http:ng.IHttpService,
-              public wpNotificationsService:WorkPackageNotificationService,
-              public PathHelper:PathHelperService) {}
+  constructor(private readonly http:HttpClient,
+              private readonly wpNotificationsService:WorkPackageNotificationService,
+              private readonly PathHelper:PathHelperService) {
+  }
 
   public renderWithWorkPackageContext(workPackage:WorkPackageResource, text:string) {
     return this.render(workPackage.previewMarkup, text);
   }
 
   public render(link:HalLink, text:string) {
-    return this.$http({
-      url: link.href!,
-      method: link.method,
-      data: text,
-      headers: { 'Content-Type': 'text/plain; charset=UTF-8' }
-    })
-    .catch((error:any) => this.wpNotificationsService.handleRawError(error));
+    return this.http
+      .request(
+          link.method,
+          link.href!, {
+            body: text,
+            responseType: 'text',
+            headers: {'Content-Type': 'text/plain; charset=UTF-8'}
+          })
+      .toPromise()
+      .catch((error:any) => this.wpNotificationsService.handleRawError(error));
   }
 }
-
-angular.module('openproject.services')
-  .service('textileService', TextileService);

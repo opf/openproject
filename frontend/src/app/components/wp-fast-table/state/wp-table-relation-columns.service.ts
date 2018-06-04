@@ -43,8 +43,6 @@ import {
 } from '../../wp-relations/wp-relations.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
-import {opServicesModule} from 'core-app/angular-modules';
-import {downgradeInjectable} from '@angular/upgrade/static';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
@@ -190,4 +188,3 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
   }
 }
 
-opServicesModule.service('wpTableRelationColumns', downgradeInjectable(WorkPackageTableRelationColumnsService));

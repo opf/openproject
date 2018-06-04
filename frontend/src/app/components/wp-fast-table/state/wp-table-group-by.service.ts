@@ -28,7 +28,6 @@
 
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
-import {opServicesModule} from '../../../angular-modules';
 import {WorkPackageTableGroupBy} from '../wp-table-group-by';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {QueryColumn} from '../../wp-query/query-column';
@@ -38,7 +37,6 @@ import {States} from 'core-components/states.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
-import {downgradeInjectable} from '@angular/upgrade/static';
 import {cloneHalResource} from 'core-app/modules/hal/helpers/hal-resource-builder';
 
 @Injectable()
@@ -126,5 +124,3 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService<
     return !!(this.current && this.current.id === column.id);
   }
 }
-
-opServicesModule.service('wpTableGroupBy', downgradeInjectable(WorkPackageTableGroupByService));

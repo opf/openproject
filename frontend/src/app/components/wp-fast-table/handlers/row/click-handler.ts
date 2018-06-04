@@ -1,6 +1,5 @@
 import {Injector} from '@angular/core';
 import {StateService} from '@uirouter/core';
-import {$stateToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {debugLog} from '../../../../helpers/debug_output';
 import {States} from '../../../states.service';
@@ -14,7 +13,7 @@ import {TableEventHandler} from '../table-handler-registry';
 export class RowClickHandler implements TableEventHandler {
 
   // Injections
-  public $state:StateService = this.injector.get($stateToken);
+  public $state:StateService = this.injector.get(StateService);
   public states:States = this.injector.get(States);
   public keepTab:KeepTabService = this.injector.get(KeepTabService);
   public wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);

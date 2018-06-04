@@ -28,8 +28,6 @@
 
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {Injectable} from '@angular/core';
-import {opServicesModule} from 'core-app/angular-modules';
-import {downgradeInjectable} from '@angular/upgrade/static';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
@@ -143,5 +141,3 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService<
     });
   }
 }
-
-opServicesModule.service('wpTableFilters', downgradeInjectable(WorkPackageTableFiltersService));

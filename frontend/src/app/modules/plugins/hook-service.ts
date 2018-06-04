@@ -26,11 +26,37 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
-  .service('HookService', require('./hook-service'))
-  .service('KeyboardShortcutService', [
-    '$window',
-    '$rootScope',
-    '$timeout',
-    'PathHelper',
-    require('./keyboard-shortcut-service')]);
+import {Injectable} from "@angular/core";
+
+@Injectable()
+export class HookService {
+  private hooks:{[hook:string]:Function[]} = {};
+
+  public register(id:string, callback:Function) {
+    if (!callback) {
+      return;
+    }
+
+    if (!this.hooks[id]) {
+      this.hooks[id] = [];
+    }
+
+    this.hooks[id].push(callback);
+  }
+
+  public call(id:string, ...params:any[]):any[] {
+    var results = [];
+
+    if (this.hooks[id]) {
+      for (var x = 0; x < this.hooks[id].length; x++) {
+        var result = this.hooks[id][x](...params);
+
+        if (result) {
+          results.push(result);
+        }
+      }
+    }
+
+    return results;
+  }
+}

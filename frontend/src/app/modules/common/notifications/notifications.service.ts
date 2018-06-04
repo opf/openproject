@@ -29,8 +29,6 @@
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {input, State} from 'reactivestates';
 import {Injectable} from '@angular/core';
-import {downgradeInjectable} from '@angular/upgrade/static';
-import {opServicesModule} from 'core-app/angular-modules';
 
 export function removeSuccessFlashMessages() {
   jQuery('.flash.notice').remove();
@@ -140,5 +138,3 @@ export class NotificationsService {
     return notification;
   }
 }
-
-opServicesModule.service('NotificationsService', downgradeInjectable(NotificationsService));

@@ -26,14 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opUiComponentsModule} from '../../angular-modules';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
 import {IPaginationOptions} from './pagination-service';
-import {Component} from '@angular/core';
-import {OnInit, Inject, Input, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
   selector: '[tablePagination]',
@@ -162,7 +159,3 @@ export class TablePaginationComponent implements OnInit {
     }
   }
 }
-
-opUiComponentsModule.directive(
-  'tablePagination',
-  downgradeComponent({component: TablePaginationComponent}));

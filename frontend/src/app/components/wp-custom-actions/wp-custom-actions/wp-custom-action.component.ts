@@ -26,13 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opUiComponentsModule} from '../../../angular-modules';
 
-import {Component, HostListener, Inject, Input} from '@angular/core';
+import {Component, HostListener, Input} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {CustomActionResource} from 'core-app/modules/hal/resources/custom-action-resource';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
@@ -86,7 +84,3 @@ export class WpCustomActionComponent {
   }
 }
 
-opUiComponentsModule.directive(
-  'wpCustomAction',
-  downgradeComponent({component: WpCustomActionComponent})
-);

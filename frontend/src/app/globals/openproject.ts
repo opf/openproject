@@ -26,31 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-export class OpenProjectAngularHelpers {
-  private memoizedCompileScope: any = null;
-
-  public get injector() {
-    return (window as any).ngInjector || angular.element(document.body).injector();
-  }
-
-  public get compileScope() {
-    if (!this.memoizedCompileScope) {
-      this.memoizedCompileScope = this.injector.get('$rootScope').$new();
-    }
-
-    return this.memoizedCompileScope;
-  }
-
-  public compile(html: string) {
-    const compile = this.injector.get('$compile');
-    return compile(html)(this.compileScope);
-  }
-}
-
 /**
 * OpenProject instance methods
 */
 export class OpenProject {
+
+  public get injector() {
+    return (window as any).ngInjector;
+  }
 
   public get urlRoot(): string {
     return jQuery('meta[name=app_base_path]').attr('content') || '';
@@ -81,12 +64,6 @@ export class OpenProject {
     } catch (e) {
       console.error('Failed to access your browsers local storage. Is your local database corrupted?');
     }
-  }
-
-  public get Helpers() {
-    return {
-      Angular: new OpenProjectAngularHelpers()
-    };
   }
 }
 

@@ -28,13 +28,9 @@
 
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {opServicesModule} from '../../../angular-modules';
 import {WorkPackageTableSum} from '../wp-table-sum';
-import {States} from 'core-components/states.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {Injectable} from '@angular/core';
-import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
-import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
 export class WorkPackageTableSumService extends WorkPackageTableBaseService<WorkPackageTableSum> implements WorkPackageQueryStateService {
@@ -98,5 +94,3 @@ export class WorkPackageTableSumService extends WorkPackageTableBaseService<Work
     }
   }
 }
-
-opServicesModule.service('wpTableSum', downgradeInjectable(WorkPackageTableSumService));

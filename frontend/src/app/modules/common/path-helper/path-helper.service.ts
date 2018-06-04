@@ -176,7 +176,3 @@ export class PathHelperService {
     return this.projectsPath() +  '/level_list.json';
   }
 }
-
-angular
-  .module('openproject.helpers')
-  .service('PathHelper', PathHelperService);

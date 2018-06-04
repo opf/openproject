@@ -1,4 +1,4 @@
-import {Component, Input, EventEmitter, Output, OnInit} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 @Component({
@@ -37,7 +37,3 @@ function activityLink() {
     }
   };
 }
-
-angular
-  .module('openproject.workPackages.activities')
-  .directive('activityLink', activityLink);

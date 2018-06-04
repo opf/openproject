@@ -159,18 +159,6 @@ import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/time
 import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
 import {WorkPackagesTableController} from 'core-components/wp-table/wp-table.directive';
-import {
-  $localeToken,
-  $qToken,
-  $rootScopeToken,
-  $sceToken,
-  $stateToken,
-  $timeoutToken,
-  AutoCompleteHelperServiceToken,
-  HookServiceToken,
-  TextileServiceToken,
-  upgradeService,
-} from './angular4-transition-utils';
 import {ExternalQueryConfigurationComponent} from 'core-components/wp-table/external-configuration/external-query-configuration.component';
 import {ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
 import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-export.modal";
@@ -202,6 +190,10 @@ import {WorkPackageCommentComponent} from "core-components/work-packages/work-pa
 import {OpCkeditorFormComponent} from "core-components/ckeditor/op-ckeditor-form.component";
 import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.directive";
 import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload.component";
+import {FocusWithinDirective} from "core-app/modules/common/focus/focus-within.directive";
+import {OpDragScrollDirective} from "core-app/modules/common/ui/op-drag-scroll.directive";
+import {TextileService} from "core-app/modules/common/textile/textile-service";
+import {AutoCompleteHelperService} from "core-components/input/auto-complete-helper.service";
 
 @NgModule({
   imports: [
@@ -221,14 +213,8 @@ import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-atta
     OpenprojectFieldsModule
   ],
   providers: [
-    upgradeService($rootScopeFactory, $rootScopeToken),
-    upgradeService($stateFactory, $stateToken),
-    upgradeService($sceFactory, $sceToken),
-    upgradeService($qFactory, $qToken),
-    upgradeService($timeoutFactory, $timeoutToken),
-    upgradeService($localeFactory, $localeToken),
-    upgradeService(textileServiceFactory, TextileServiceToken),
-    upgradeService(AutoCompleteHelperFactory, AutoCompleteHelperServiceToken),
+    TextileService,
+    AutoCompleteHelperService,
     OpTitleService,
     TimezoneService,
     WorkPackageRelationsService,
@@ -238,9 +224,9 @@ import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-atta
     SchemaCacheService,
     ProjectCacheService,
     UserCacheService,
-    upgradeService(statesFactory, States),
+    { provide: States, useValue: new States() },
     PaginationService,
-    upgradeService(keepTabFactory, KeepTabService),
+    KeepTabService,
     WorkPackageNotificationService,
     WorkPackagesListChecksumService,
     WorkPackageRelationsHierarchyService,
@@ -266,8 +252,8 @@ import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-atta
 
     WorkPackageCreateService,
     OpTableActionsService,
-    upgradeService(currentProjectFactory, CurrentProjectService),
-    upgradeService(firstRouteFactory, FirstRouteService),
+    CurrentProjectService,
+    FirstRouteService,
     QueryMenuService,
     // Split view
     CommentService,
@@ -275,7 +261,6 @@ import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-atta
     WorkPackageWatchersService,
     // Context menus
     OPContextMenuService,
-    upgradeService(HookServiceFactory, HookServiceToken),
     WorkPackageContextMenuHelperService,
     QueryFormDmService,
     TableState,
@@ -348,6 +333,7 @@ import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-atta
     WorkPackageChildrenQueryComponent,
     WorkPackageFormAttributeGroupComponent,
     WorkPackageUploadComponent,
+    FocusWithinDirective,
 
     // Activity Tab
     NewestActivityOnOverviewComponent,
@@ -423,6 +409,9 @@ import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-atta
 
     // External query configuration
     ExternalQueryConfigurationComponent,
+
+    // Form configuration
+    OpDragScrollDirective,
 
     // CkEditor
     OpCkeditorFormComponent,
@@ -508,64 +497,3 @@ export class OpenProjectModule {
     }
   }
 }
-
-
-// provider factories:
-
-export function $rootScopeFactory(i:any) {
-  i.get('$rootScope');
-}
-
-export function $stateFactory(i:any) {
-  return i.get('$state');
-}
-
-export function $sceFactory(i:any) {
-  return i.get('$sce');
-}
-
-export function $qFactory(i:any) {
-  return i.get('$q');
-}
-
-export function $timeoutFactory(i:any) {
-  return i.get('$timeout');
-}
-
-export function $localeFactory(i:any) {
-  return i.get('$locale');
-}
-
-export function textileServiceFactory(i:any) {
-  return i.get('textileService');
-}
-
-export function AutoCompleteHelperFactory(i:any) {
-  return i.get('AutoCompleteHelper');
-}
-
-export function FocusHelperFactory(i:any) {
-  return i.get('FocusHelper');
-}
-
-export function HookServiceFactory(i:any) {
-  return i.get('HookService');
-}
-
-export function statesFactory(i:any) {
-  return i.get('states');
-}
-
-export function keepTabFactory(i:any) {
-  return i.get('keepTab');
-}
-
-export function currentProjectFactory(i:any) {
-  return i.get('currentProject');
-}
-
-export function firstRouteFactory(i:any) {
-  return i.get('firstRoute');
-}
-
-

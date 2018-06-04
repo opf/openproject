@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -24,27 +24,17 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+// ++    Ng1FieldControlsWrapper,
 
-import {wpDirectivesModule} from "../../../angular-modules";
 
-export class GlobalDragAndDropHandlerLink {
-  
-  constructor(protected $scope:ng.IScope,
-              protected $element:ng.IAugmentedJQuery) {
+import {NgModule} from "@angular/core";
+import {HookService} from "core-app/modules/plugins/hook-service";
 
-    $element.on('dragenter dragover dragleave drop',(evt:JQueryEventObject)=>{
-      evt.preventDefault();
-    })
+@NgModule({
+  providers: [
+    HookService,
+  ],
+})
+export class OpenprojectPluginsModule { }
 
-  }
-}
 
-function GlobalDragAndDropHandler():any {
-  return {
-    restrict: 'A',
-    link: GlobalDragAndDropHandlerLink
-  };
-}
-
-wpDirectivesModule.directive('globalDragAndDropHandler', GlobalDragAndDropHandler);

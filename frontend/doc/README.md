@@ -25,10 +25,9 @@ Please commit `npm-shrinkwrap.json` along with any changes to `package.json`.
 
 The individual topics for the documentation for the frontend are
 
-1. `OVERVIEW.md` - a general overview on the folder structure and a general "what is where"
-2. `BUILD.md` - notes on building the JavaScript for the asset pipeline
-3. `TESTING.md` - documentation of our approach to integration and unit testing
-4. `STYLING.md` - notes on styling and the Sass-Pipeline
-5. `API.md` - notes on dealing with the several APIs provided by OpenProject
-6. `RAILS.md` - an overview for the frontend parts still left in the Rails stack (mostly the JavaScript)
-7. `MISC.md` - contains additional topics not fitting anywhere else
+1. `BUILD.md` - notes on building the JavaScript for the asset pipeline
+2. `TESTING.md` - documentation of our approach to integration and unit testing
+3. `STYLING.md` - notes on styling and the Sass-Pipeline
+4. `API.md` - notes on dealing with the several APIs provided by OpenProject
+5. `RAILS.md` - an overview for the frontend parts still left in the Rails stack (mostly the JavaScript)
+6. `MISC.md` - contains additional topics not fitting anywhere else

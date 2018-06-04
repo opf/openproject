@@ -32,7 +32,6 @@ import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.ser
 import {Injector} from '@angular/core';
 import {States} from 'core-components/states.service';
 import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
-import {$stateToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
@@ -46,6 +45,7 @@ import {SinonStub} from 'sinon';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {StateService} from "@uirouter/core";
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
@@ -81,7 +81,7 @@ describe('WorkPackage', () => {
         I18nService,
         { provide: ApiWorkPackagesService, useValue: {} },
         { provide: WorkPackageCreateService, useValue: {} },
-        { provide: $stateToken, useValue: {} },
+        { provide: StateService, useValue: {} },
         { provide: SchemaCacheService, useValue: {} },
       ]
     })

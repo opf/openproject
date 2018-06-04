@@ -26,9 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Inject, OnDestroy, OnInit} from '@angular/core';
+import {OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
-import {$stateToken} from 'core-app/angular4-transition-utils';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {States} from '../states.service';
@@ -59,7 +58,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   };
 
   constructor(readonly $transition:Transition,
-              @Inject($stateToken) readonly $state:StateService,
+              readonly $state:StateService,
               readonly I18n:I18nService,
               readonly titleService:OpTitleService,
               protected wpNotificationsService:WorkPackageNotificationService,

@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpControllersModule} from '../../../angular-modules';
 import {Component, Input} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 @Component({
@@ -38,10 +36,5 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 export class WorkPackageBreadcrumbComponent {
   @Input('workPackage') workPackage:WorkPackageResource;
 }
-
-wpControllersModule.directive(
-  'wpBreadcrumb',
-  downgradeComponent({component: WorkPackageBreadcrumbComponent })
-);
 
 

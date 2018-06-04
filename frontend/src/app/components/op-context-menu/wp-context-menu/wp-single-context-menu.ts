@@ -1,9 +1,5 @@
 import {Directive, ElementRef, Inject, Input} from "@angular/core";
 import {WorkPackageAction} from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
-import {
-  $stateToken,
-  HookServiceToken
-} from "core-app/angular4-transition-utils";
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
@@ -15,6 +11,7 @@ import {StateService} from "@uirouter/core";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {HookService} from "core-app/modules/plugins/hook-service";
 
 @Directive({
   selector: '[wpSingleContextMenu]'
@@ -22,8 +19,8 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger {
   @Input('wpSingleContextMenu-workPackage') public workPackage:WorkPackageResource;
 
-  constructor(@Inject(HookServiceToken) readonly HookService:any,
-              @Inject($stateToken) readonly $state:StateService,
+  constructor(readonly HookService:HookService,
+              readonly $state:StateService,
               readonly PathHelper:PathHelperService,
               readonly elementRef:ElementRef,
               readonly opModalService:OpModalService,

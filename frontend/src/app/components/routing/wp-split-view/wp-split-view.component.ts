@@ -28,7 +28,6 @@
 
 import {Component, Inject, Injector} from '@angular/core';
 import {StateService} from '@uirouter/core';
-import {$stateToken} from 'core-app/angular4-transition-utils';
 import {FirstRouteService} from 'core-components/routing/first-route-service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -50,7 +49,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageViewController {
               public keepTab:KeepTabService,
               public wpTableSelection:WorkPackageTableSelection,
               public wpTableFocus:WorkPackageTableFocusService,
-              @Inject($stateToken) readonly $state:StateService) {
+              readonly $state:StateService) {
     super(injector, $state.params['workPackageId']);
     this.observeWorkPackage();
 

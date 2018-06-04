@@ -32,8 +32,7 @@ import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {StateService} from '@uirouter/core';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
-import {Component, Inject, Injector} from '@angular/core';
-import {$stateToken} from 'core-app/angular4-transition-utils';
+import {Component, Injector} from '@angular/core';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {States} from 'core-components/states.service';
 import {FirstRouteService} from 'core-components/routing/first-route-service';
@@ -70,7 +69,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageViewController {
               public keepTab:KeepTabService,
               public wpTableSelection:WorkPackageTableSelection,
               public wpTableFocus:WorkPackageTableFocusService,
-              @Inject($stateToken) readonly $state:StateService) {
+              readonly $state:StateService) {
     super(injector, $state.params['workPackageId']);
     this.observeWorkPackage();
   }

@@ -26,24 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpDirectivesModule} from "../../../angular-modules";
 
-function refreshOnFormChanges($http:ng.IHttpService, $window:ng.IWindowService) {
-  return {
-    restrict: 'EA',
-    scope: {
-      url: '@',
-      inputSelector: '@',
-    },
-    link: (scope:any, element:ng.IAugmentedJQuery, attr:ng.IAttributes) => {
-      const form = element.closest('form');
-      const input = element.find(scope.inputSelector);
+import {Directive, ElementRef, Input, OnInit} from "@angular/core";
 
-      input.on('change', function() {
-        ($window as any).location = scope.url + '?' + form.serialize();
-      });
-    }
-  };
+@Directive({
+  selector: '[refresh-on-form-changes]'
+})
+export class RefreshOnFormChangesDirective implements OnInit {
+  @Input() public url:string;
+  @Input('input-selector') public inputSelector:string;
+
+  constructor(readonly elementRef:ElementRef) {
+  }
+
+  ngOnInit() {
+    const element = jQuery(this.elementRef.nativeElement);
+    const form = element.closest('form');
+    const input = element.find(this.inputSelector);
+
+    input.on('change', () => {
+      window.location.href = this.url + '?' + form.serialize();
+    });
+  }
 }
-
-wpDirectivesModule.directive('refreshOnFormChanges', refreshOnFormChanges);

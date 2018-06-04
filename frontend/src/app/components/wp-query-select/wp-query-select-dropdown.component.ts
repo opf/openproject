@@ -33,7 +33,6 @@ import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.servi
 import {StateService} from '@uirouter/core';
 import {Component, Inject, OnInit} from "@angular/core";
 import {
-  $stateToken,
   OpContextMenuLocalsToken
 } from "core-app/angular4-transition-utils";
 import {OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";
@@ -64,7 +63,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit {
   };
 
   constructor(readonly QueryDm:QueryDmService,
-              @Inject($stateToken) readonly $state:StateService,
+              readonly $state:StateService,
               readonly I18n:I18nService,
               @Inject(OpContextMenuLocalsToken) public locals:OpContextMenuLocalsMap,
               readonly states:States,

@@ -30,14 +30,9 @@ import {InjectionToken} from '@angular/core';
 import {StateService} from '@uirouter/core';
 import {IQService, IRootScopeService, ITimeoutService} from 'angular';
 
-export const $rootScopeToken = new InjectionToken<IRootScopeService>('$rootScope');
 export const $qToken = new InjectionToken<IQService>('$q');
-export const $timeoutToken = new InjectionToken<ITimeoutService>('$timeout');
 export const $localeToken = new InjectionToken<any>('$locale');
-export const $stateToken = new InjectionToken<StateService>('$state');
-export const $sceToken = new InjectionToken<ng.ISCEService>('$sceToken');
 
-export const AutoCompleteHelperServiceToken = new InjectionToken<any>('AutoCompleteHelperServiceToken');
 export const TextileServiceToken = new InjectionToken<any>('TextileServiceToken');
 export const $httpToken = new InjectionToken<any>('$http');
 export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');

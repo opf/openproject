@@ -1,10 +1,7 @@
 import {ApplicationRef, ComponentFactoryResolver, Inject, Injectable, InjectionToken, Injector} from '@angular/core';
 import {ComponentPortal, DomPortalOutlet, PortalInjector} from '@angular/cdk/portal';
 import {TransitionService} from '@uirouter/core';
-import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {ExternalQueryConfigurationComponent} from 'core-components/wp-table/external-configuration/external-query-configuration.component';
-import {downgradeInjectable} from '@angular/upgrade/static';
-import {opServicesModule} from 'core-app/angular-modules';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 
 export const external_table_trigger_class = 'external-table-configuration--container';
@@ -103,5 +100,3 @@ export class ExternalQueryConfigurationService {
     return new PortalInjector(this.injector, injectorTokens);
   }
 }
-
-opServicesModule.service('externalQueryConfiguration', downgradeInjectable(ExternalQueryConfigurationService))

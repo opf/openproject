@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opServicesModule} from '../../../angular-modules';
+import {Injectable} from "@angular/core";
 
-// @Injectable()
+@Injectable()
 export class ExpressionService {
 
-  // This is what returned by rails-angular-xss when it discoveres double open curly braces
+  // This is what returned by rails-angular-xss when it discovers double open curly braces
   // See https://github.com/opf/rails-angular-xss for more information.
   public get UNESCAPED_EXPRESSION() {
     return '{{';
@@ -49,5 +49,3 @@ export class ExpressionService {
     return input.replace(new RegExp(this.ESCAPED_EXPRESSION, 'g'), this.UNESCAPED_EXPRESSION);
   }
 }
-
-opServicesModule.service('ExpressionService', ExpressionService);

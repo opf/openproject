@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTableColumnsService} from './wp-table-columns.service';
@@ -125,5 +124,3 @@ export class WorkPackageTableAdditionalElementsService {
     return ids;
   }
 }
-
-opServicesModule.service('wpTableAdditionalElements', WorkPackageTableAdditionalElementsService);

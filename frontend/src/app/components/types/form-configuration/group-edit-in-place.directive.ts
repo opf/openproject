@@ -29,21 +29,21 @@
 import {openprojectModule} from '../../../angular-modules';
 
 interface GroupEditInPlaceScope {
-  cancelEdition:Function,
-  editing:boolean,
-  enterEditingMode:Function,
-  keyDown:Function,
-  leaveEditingMode:Function,
+  cancelEdition:Function;
+  editing:boolean;
+  enterEditingMode:Function;
+  keyDown:Function;
+  leaveEditingMode:Function;
   // The current name:
-  name:string|null,
+  name:string|null;
   // The name before this edition. Important in case user changes several times
   // before submitting the form:
-  nameBefore:string|null,
+  nameBefore:string|null;
   // The orginal value in case user cancels edition.
-  nameOriginal:string|null,
-  onvaluechange:Function,
-  onupsale:Function,
-  saveEdition:Function
+  nameOriginal:string|null;
+  onvaluechange:Function;
+  onupsale:Function;
+  saveEdition:Function;
 }
 
 function groupEditInPlace($timeout:any, $parse:any):any {

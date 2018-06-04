@@ -32,8 +32,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
 import {Component} from '@angular/core';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
-import {TransitionService} from '@uirouter/core';
-import {$stateToken} from 'core-app/angular4-transition-utils';
+import {StateService, TransitionService} from '@uirouter/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
 
@@ -77,7 +76,7 @@ describe('wp-query-menu', () => {
       providers: [
         I18nService,
         { provide: OpTitleService, useValue: { setFirstPart: () => { return; } } },
-        { provide: $stateToken, useValue: { params: { query_id: null }, go: (...args:any[]) => undefined } },
+        { provide: StateService, useValue: { params: { query_id: null }, go: (...args:any[]) => undefined } },
         { provide: WorkPackagesListChecksumService, useValue: { clear: () => undefined } },
         { provide: TransitionService, useValue: $transitionStub },
         QueryMenuService,

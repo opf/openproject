@@ -28,33 +28,29 @@
 
 /*jshint expr: true*/
 
-describe('HookService', function() {
+import {HookService} from "core-app/modules/plugins/hook-service";
 
-  var HookService;
-  var callback, invalidCallback;
+describe('HookService', function() {
+  let service = new HookService();
+
+  var callback:any, invalidCallback:any;
   var validId = 'myValidCallbacks';
 
-  beforeEach(angular.mock.module('openproject.services'));
-
-  beforeEach(inject(function(_HookService_){
-    HookService = _HookService_;
-  }));
-
-  var shouldBehaveLikeEmptyResult = function(id) {
+  var shouldBehaveLikeEmptyResult = function(id:string) {
     it('returns empty results', function() {
-      expect(HookService.call(id)).to.be.empty;
+      expect(service.call(id)).to.be.empty;
     });
   };
 
-  var shouldBehaveLikeResultWithElements = function(id, count) {
+  var shouldBehaveLikeResultWithElements = function(id:string, count:number) {
     it('returns #count results', function() {
-      expect(HookService.call(id).length).to.eq(count);
+      expect(service.call(id).length).to.eq(count);
     });
   };
 
-  var shouldBehaveLikeCalledCallback = function(id) {
+  var shouldBehaveLikeCalledCallback = function(id:string) {
     beforeEach(function() {
-      HookService.call(id);
+      service.call(id);
     });
 
     it('is called', function() {
@@ -62,9 +58,9 @@ describe('HookService', function() {
     });
   };
 
-  var shouldBehaveLikeUncalledCallback = function(id) {
+  var shouldBehaveLikeUncalledCallback = function(id:string) {
     beforeEach(function() {
-      HookService.call(id);
+      service.call(id);
     });
 
     it('is not called', function() {
@@ -79,17 +75,9 @@ describe('HookService', function() {
       shouldBehaveLikeEmptyResult(invalidId);
     });
 
-    describe('undefined callback registered', function() {
-      beforeEach(function() {
-        HookService.register('myInvalidCallbacks');
-      });
-
-      shouldBehaveLikeEmptyResult(invalidId);
-    });
-
     describe('non function callback registered', function() {
       beforeEach(function() {
-        HookService.register('myInvalidCallbacks', 'eeek');
+        service.register('myInvalidCallbacks', 'eeek');
       });
 
       shouldBehaveLikeEmptyResult(invalidId);
@@ -98,7 +86,7 @@ describe('HookService', function() {
     describe('valid function callback registered', function() {
       beforeEach(function() {
         callback = sinon.spy();
-        HookService.register('myValidCallbacks', callback);
+        service.register('myValidCallbacks', callback);
       });
 
       shouldBehaveLikeEmptyResult(validId);
@@ -111,7 +99,7 @@ describe('HookService', function() {
     describe('function that returns undefined', function() {
       beforeEach(function() {
         callback = sinon.spy();
-        HookService.register('myValidCallbacks', callback);
+        service.register('myValidCallbacks', callback);
       });
 
       shouldBehaveLikeCalledCallback(validId);
@@ -122,9 +110,9 @@ describe('HookService', function() {
     describe('function that returns something that is not undefined', function() {
       beforeEach(function() {
         callback = sinon.stub();
-        callback.returns(new Object());
+        callback.returns({});
 
-        HookService.register('myValidCallbacks', callback);
+        service.register('myValidCallbacks', callback);
       });
 
       shouldBehaveLikeCalledCallback(validId);
@@ -135,9 +123,9 @@ describe('HookService', function() {
     describe('function that returns something that is not undefined', function() {
       beforeEach(function() {
         callback = sinon.stub();
-        callback.returns(new Object());
+        callback.returns({});
 
-        HookService.register('myValidCallbacks', callback);
+        service.register('myValidCallbacks', callback);
       });
 
       shouldBehaveLikeCalledCallback(validId);
@@ -147,12 +135,12 @@ describe('HookService', function() {
 
     describe('function that returns something that is not undefined', function() {
       beforeEach(function() {
-        callback = sinon.spy();
+        callback = siton.spy();
         invalidCallback = sinon.spy();
 
-        HookService.register('myValidCallbacks', callback);
+        service.register('myValidCallbacks', callback);
 
-        HookService.register('myInvalidCallbacks', invalidCallback);
+        service.register('myInvalidCallbacks', invalidCallback);
       });
 
       shouldBehaveLikeCalledCallback(validId);
@@ -165,12 +153,12 @@ describe('HookService', function() {
 
       beforeEach(function() {
         callback1 = sinon.stub();
-        callback1.returns(new Object());
+        callback1.returns({});
         callback2 = sinon.stub();
-        callback2.returns(new Object());
+        callback2.returns({});
 
-        HookService.register('myValidCallbacks', callback1);
-        HookService.register('myValidCallbacks', callback2);
+        service.register('myValidCallbacks', callback1);
+        service.register('myValidCallbacks', callback2);
       });
 
       shouldBehaveLikeResultWithElements(validId, 2);

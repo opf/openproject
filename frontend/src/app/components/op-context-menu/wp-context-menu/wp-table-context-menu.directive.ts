@@ -6,7 +6,6 @@ import {
 import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
 import {States} from "core-components/states.service";
 import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import {$stateToken} from "core-app/angular4-transition-utils";
 import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-menu-handler";
@@ -18,13 +17,14 @@ import {
 import {PERMITTED_CONTEXT_MENU_ACTIONS} from "core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
+import {StateService} from "@uirouter/core";
 
 export class OpWorkPackageContextMenu extends OpContextMenuHandler {
 
   private states = this.injector.get(States);
   private wpRelationsHierarchyService = this.injector.get(WorkPackageRelationsHierarchyService);
   private opModalService:OpModalService = this.injector.get(OpModalService);
-  private $state = this.injector.get($stateToken);
+  private $state:StateService = this.injector.get(StateService);
   private wpTableSelection = this.injector.get(WorkPackageTableSelection);
   private WorkPackageContextMenuHelper = this.injector.get(WorkPackageContextMenuHelperService);
 

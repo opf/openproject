@@ -26,9 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
-import {$stateToken} from 'core-app/angular4-transition-utils';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -86,7 +85,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
               readonly wpListChecksumService:WorkPackagesListChecksumService,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly $transitions:TransitionService,
-              @Inject($stateToken) readonly $state:StateService,
+              readonly $state:StateService,
               readonly I18n:I18nService) {
 
   }

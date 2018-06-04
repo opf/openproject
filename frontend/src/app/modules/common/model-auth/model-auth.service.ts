@@ -27,8 +27,11 @@
 // ++
 
 
+import {Injectable} from "@angular/core";
+
 type ModelLinks = {[action:string]:any};
 
+@Injectable()
 export class AuthorisationService {
   private links:{[model:string]:ModelLinks} = {};
 
@@ -45,7 +48,3 @@ export class AuthorisationService {
     return !this.can(modelName, action);
   }
 }
-
-angular
-  .module('openproject.services')
-  .service('authorisationService', AuthorisationService);
