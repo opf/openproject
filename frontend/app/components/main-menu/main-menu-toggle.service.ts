@@ -34,7 +34,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class MainMenuToggleService {
-  showNavigation:boolean;
+  showNavigation:boolean = true;
   toggleTitle:string;
   oldStorageValue:number; // menu width after hiding menu (applied after reload)
   localStorageValue:number;
@@ -44,8 +44,8 @@ export class MainMenuToggleService {
   mainMenu = jQuery('#main-menu')[0];  // main menu, containing sidebar and resizer
   hideElements = jQuery('.can-hide-navigation');
 
-  private all = new BehaviorSubject<string>('');
-  public all$ = this.all.asObservable();
+  private allData = new BehaviorSubject<string>('');
+  public allData$ = this.allData.asObservable();
 
   constructor(@Inject(I18nToken) protected I18n:op.I18n) {
   }
@@ -59,16 +59,11 @@ export class MainMenuToggleService {
     else {
       if (this.mainMenu.offsetWidth < 10) { // if mainMenu is collapsed, set width 0 in localStorage
         this.saveWidth("openProject-mainMenuWidth", 0);
-      } else if (this.mainMenu.offsetWidth < 230) { // set back to default width
+        this.showNavigation = false;
+      } else if (this.mainMenu.offsetWidth < 230 && this.mainMenu.offsetWidth > 10) { // set back to default width
         this.saveWidth("openProject-mainMenuWidth", 230);
       } else {  // Get initial width from mainMenu and save in storage
         this.saveWidth("openProject-mainMenuWidth", this.mainMenu.offsetWidth);
-      }
-      // set correct value of boolean and label
-      if (this.localStorageValue < 10) {
-        this.showNavigation = false;
-      } else {
-        this.showNavigation = true;
       }
     }
     this.addRemoveClassHidden();
@@ -81,8 +76,8 @@ export class MainMenuToggleService {
     event.preventDefault();
     // mobile version
     if (window.innerWidth < 680) {
-        if(this.localStorageValue === 0) {
-          this.showNavigation = true;   // main menu shall expand.
+        if (this.localStorageValue === 0) { // if main menu collapsed -> menu shall expand
+          this.showNavigation = true;
           this.saveWidth("openProject-mainMenuWidth", window.innerWidth);
           // On mobile the main menu shall close whenever you click outside the menu.
           this.setupAutocloseMainMenu();
@@ -126,7 +121,7 @@ export class MainMenuToggleService {
     } else {
       this.toggleTitle = I18n.t('js.label_expand_project_menu');
     }
-    this.all.next(this.toggleTitle);
+    this.allData.next(this.toggleTitle);
   }
 
   private addRemoveClassHidden() {

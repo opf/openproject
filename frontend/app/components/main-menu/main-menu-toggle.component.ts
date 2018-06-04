@@ -72,7 +72,7 @@ export class MainMenuToggleComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.toggleService.initializeMenu();
 
-    this.subscription = this.toggleService.all$
+    this.subscription = this.toggleService.allData$
       .pipe(
         distinctUntilChanged(),
         untilComponentDestroyed(this)
@@ -83,6 +83,7 @@ export class MainMenuToggleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
 

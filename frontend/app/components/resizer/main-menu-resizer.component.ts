@@ -71,7 +71,7 @@ export class MainMenuResizerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscription = this.toggleService.all$
+    this.subscription = this.toggleService.allData$
       .pipe(
         distinctUntilChanged(),
         untilComponentDestroyed(this)
@@ -85,6 +85,7 @@ export class MainMenuResizerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   @HostListener('mousedown', ['$event'])
