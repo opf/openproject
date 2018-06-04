@@ -26,11 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpButtonsModule} from '../../../angular-modules';
 import {AbstractWorkPackageButtonComponent,} from '../wp-buttons.module';
-import {Component, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {downgradeComponent} from '@angular/upgrade/static';
 
 const screenfull:any = require('screenfull/dist/screenfull.js');
 
@@ -108,8 +106,3 @@ export class WorkPackageZenModeButtonComponent extends AbstractWorkPackageButton
     }
   }
 }
-
-wpButtonsModule.directive(
-  'wpZenModeToggleButton',
-  downgradeComponent({ component: WorkPackageZenModeButtonComponent })
-);

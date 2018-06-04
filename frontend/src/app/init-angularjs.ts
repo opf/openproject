@@ -166,7 +166,6 @@ openprojectModule
 require('./layout');
 require('./services');
 require('./ui_components');
-require('./work_packages');
 
 
 var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|ts|html)$/);

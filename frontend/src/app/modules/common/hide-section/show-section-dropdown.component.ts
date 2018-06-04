@@ -27,8 +27,6 @@
 //++
 
 import {Component, OnInit, ElementRef, Input} from '@angular/core';
-import {opUiComponentsModule} from "core-app/angular-modules";
-import {downgradeComponent} from '@angular/upgrade/static';
 import {HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
 
 @Component({
@@ -57,7 +55,3 @@ export class ShowSectionDropdownComponent implements OnInit {
     });
   }
 }
-
-opUiComponentsModule.directive('showSectionDropdown',
-  downgradeComponent({component: ShowSectionDropdownComponent})
-);

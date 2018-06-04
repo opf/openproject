@@ -26,10 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opUiComponentsModule} from '../../../../angular-modules';
 import {Component} from '@angular/core';
-import {OnInit, Input} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
+import {Input} from '@angular/core';
 import {HideSectionService} from 'core-app/modules/common/hide-section/hide-section.service';
 
 @Component({
@@ -48,8 +46,3 @@ export class HideSectionLinkComponent {
     return false;
   }
 }
-
-opUiComponentsModule.directive(
-  'hideSectionLink',
-  downgradeComponent({component: HideSectionLinkComponent})
-);

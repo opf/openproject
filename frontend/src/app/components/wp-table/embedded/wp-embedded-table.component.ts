@@ -21,8 +21,6 @@ import {
 import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
 import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
-import {opUiComponentsModule} from 'core-app/angular-modules';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
@@ -195,11 +193,4 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
 
     return promise;
   }
-
 }
-
-// TODO: remove as this should also work by angular2 only
-opUiComponentsModule.directive(
-  'wpEmbeddedTable',
-  downgradeComponent({component: WorkPackageEmbeddedTableComponent})
-);

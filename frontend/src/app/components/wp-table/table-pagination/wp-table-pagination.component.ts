@@ -28,10 +28,9 @@
 
 import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
-import {wpDirectivesModule} from '../../../angular-modules';
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {Inject, OnDestroy, Component} from '@angular/core';
+import {OnDestroy, Component} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {downgradeComponent} from '@angular/upgrade/static';
@@ -69,7 +68,3 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
     this.wpTablePagination.updateFromObject({page: pageNumber});
   }
 }
-
-wpDirectivesModule
-  .directive('wpTablePagination',
-             downgradeComponent({component: WorkPackageTablePaginationComponent}));

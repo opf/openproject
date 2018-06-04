@@ -1,8 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
-import {wpControllersModule} from '../../../angular-modules';
 import {RelationsStateValue, WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
 
 @Component({
@@ -32,9 +30,3 @@ export class WorkPackageRelationsCountComponent implements OnInit, OnDestroy {
     // Nothing to do
   }
 }
-
-wpControllersModule.directive(
-  'wpRelationsCount',
-  downgradeComponent({component: WorkPackageRelationsCountComponent})
-);
-

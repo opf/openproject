@@ -26,17 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opApiModule} from '../../../angular-modules';
 import {OpenProjectFileUploadService, UploadFile} from './op-file-upload.service';
 import IRootScopeService = angular.IRootScopeService;
 
 describe('opFileUpload service', () => {
-  var $rootScope: IRootScopeService;
-  var opFileUpload: OpenProjectFileUploadService;
+  var $rootScope:IRootScopeService;
+  var opFileUpload:OpenProjectFileUploadService;
   var Upload:any;
 
-  beforeEach(angular.mock.module(opApiModule.name));
-  beforeEach(angular.mock.inject(function (_$rootScope_:any, _opFileUpload_:any, _Upload_:any) {
+  beforeEach(angular.mock.inject(function(_$rootScope_:any, _opFileUpload_:any, _Upload_:any) {
     [$rootScope, opFileUpload, Upload] = _.toArray(arguments);
   }));
 
@@ -47,11 +45,11 @@ describe('opFileUpload service', () => {
   describe('when uploading multiple files', () => {
     var uploadStub:any;
     var result:any;
-    const file: any = {
+    const file:any = {
       name: 'name',
       description: 'description'
     };
-    const directory: any = {type: 'directory'};
+    const directory:any = {type: 'directory'};
     const files = [file, file, directory, directory];
     const filtered = [file, file];
 

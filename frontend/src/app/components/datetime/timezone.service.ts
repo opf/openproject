@@ -29,7 +29,6 @@
 import {Inject, Injectable} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {opServicesModule} from 'core-app/angular-modules';
 import {downgradeInjectable} from '@angular/upgrade/static';
 
 @Injectable()
@@ -161,5 +160,3 @@ export class TimezoneService {
     return this.ConfigurationService.timeFormatPresent() ? this.ConfigurationService.timeFormat() : 'LT';
   }
 }
-
-opServicesModule.service('timezoneService', downgradeInjectable(TimezoneService));

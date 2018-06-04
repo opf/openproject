@@ -81,10 +81,9 @@ import {WorkPackageTypeStatusComponent} from 'core-components/work-packages/wp-t
 import {WorkPackageWatcherButtonComponent} from 'core-components/work-packages/wp-watcher-button/wp-watcher-button.component';
 import {WorkPackageAttachmentListItemComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list-item.component';
 import {WorkPackageAttachmentListComponent} from 'core-components/wp-attachments/wp-attachment-list/wp-attachment-list.component';
-import {Ng1WorkPackageAttachmentsUploadWrapper} from 'core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload-ng1-wrapper';
 import {WorkPackageCreateButtonComponent} from 'core-components/wp-buttons/wp-create-button/wp-create-button.component';
 import {WorkPackageDetailsViewButtonComponent} from 'core-components/wp-buttons/wp-details-view-button/wp-details-view-button.component';
-import {WorkPackageFilterButtonComponent} from 'core-components/wp-buttons/wp-filter-button/wp-filter-button.directive';
+import {WorkPackageFilterButtonComponent} from 'core-components/wp-buttons/wp-filter-button/wp-filter-button.component';
 import {WorkPackageStatusButtonComponent} from 'core-components/wp-buttons/wp-status-button/wp-status-button.component';
 import {WorkPackageTimelineButtonComponent} from 'core-components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component';
 import {WorkPackageZenModeButtonComponent} from 'core-components/wp-buttons/wp-zen-mode-toggle-button/wp-zen-mode-toggle-button.component';
@@ -200,6 +199,9 @@ import {ActivityLinkComponent} from "core-components/wp-activity/activity-link.c
 import {RevisionActivityComponent} from "core-components/wp-activity/revision/revision-activity.component";
 import {CommentService} from "core-components/wp-activity/comment-service";
 import {WorkPackageCommentComponent} from "core-components/work-packages/work-package-comment/work-package-comment.component";
+import {OpCkeditorFormComponent} from "core-components/ckeditor/op-ckeditor-form.component";
+import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.directive";
+import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload.component";
 
 @NgModule({
   imports: [
@@ -242,7 +244,7 @@ import {WorkPackageCommentComponent} from "core-components/work-packages/work-pa
     WorkPackageNotificationService,
     WorkPackagesListChecksumService,
     WorkPackageRelationsHierarchyService,
-    upgradeService(wpFiltersServiceFactory, WorkPackageFiltersService),
+    WorkPackageFiltersService,
     ApiWorkPackagesService,
     // Table and query states services
     WorkPackageTableRelationColumnsService,
@@ -340,12 +342,12 @@ import {WorkPackageCommentComponent} from "core-components/work-packages/work-pa
     WorkPackageSingleViewComponent,
     WorkPackageStatusButtonComponent,
     WorkPackageReplacementLabelComponent,
-    Ng1WorkPackageAttachmentsUploadWrapper,
     WorkPackageAttachmentListComponent,
     WorkPackageAttachmentListItemComponent,
     UserLinkComponent,
     WorkPackageChildrenQueryComponent,
     WorkPackageFormAttributeGroupComponent,
+    WorkPackageUploadComponent,
 
     // Activity Tab
     NewestActivityOnOverviewComponent,
@@ -419,9 +421,12 @@ import {WorkPackageCommentComponent} from "core-components/work-packages/work-pa
     RenameQueryModal,
     WpDestroyModal,
 
-
     // External query configuration
     ExternalQueryConfigurationComponent,
+
+    // CkEditor
+    OpCkeditorFormComponent,
+    OpAutoCompleteDirective,
   ],
   entryComponents: [
     WorkPackagesListComponent,
@@ -485,7 +490,11 @@ import {WorkPackageCommentComponent} from "core-components/work-packages/work-pa
     ExternalQueryConfigurationComponent,
 
     // Main menu
-    MainMenuResizerDirective
+    MainMenuResizerDirective,
+
+    // CKEditor and textareas
+    OpCkeditorFormComponent,
+    OpAutoCompleteDirective,
   ]
 })
 export class OpenProjectModule {
@@ -549,14 +558,6 @@ export function statesFactory(i:any) {
 
 export function keepTabFactory(i:any) {
   return i.get('keepTab');
-}
-
-export function templateRendererFactory(i:any) {
-  return i.get('templateRenderer');
-}
-
-export function wpFiltersServiceFactory(i:any) {
-  return i.get('wpFiltersService');
 }
 
 export function currentProjectFactory(i:any) {

@@ -31,7 +31,6 @@ import {downgradeComponent} from '@angular/upgrade/static';
 import {HideSectionService} from 'core-app/modules/common/hide-section/hide-section.service';
 import {Observable, Subscription} from 'rxjs';
 import {distinctUntilChanged, map, take} from 'rxjs/operators';
-import {opUiComponentsModule} from '../../../angular-modules';
 
 @Component({
   selector: 'hide-section',
@@ -82,8 +81,3 @@ export class HideSectionComponent implements OnInit, OnDestroy {
     this.initializationSubscription.unsubscribe();
   }
 }
-
-opUiComponentsModule.directive(
-  'hideSection',
-  downgradeComponent({component: HideSectionComponent})
-);

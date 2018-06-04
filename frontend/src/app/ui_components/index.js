@@ -35,10 +35,5 @@ angular.module('openproject.uiComponents')
     require('./copy-to-clipboard-directive')
   ])
   .constant('ENTER_KEY', 13)
-  .service('I18n', [require('./i18n')])
-  .directive('persistentToggle', [
-    '$timeout',
-    require('./persistent-toggle-directive')]
-  )
   .directive('wikiToolbar', [require('./wiki-toolbar-directive')])
   .directive('highlightCol', [require('./highlight-col-directive')]);

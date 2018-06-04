@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpButtonsModule} from '../../../angular-modules';
 import {StateService} from '@uirouter/core';
-import {downgradeComponent} from '@angular/upgrade/static'
 import {Component, Inject, Input} from '@angular/core';
 import {$stateToken} from 'core-app/angular4-transition-utils';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -65,7 +63,3 @@ export class WorkPackageCreateButtonComponent {
     return !this.allowed || this.$state.includes('**.new');
   }
 }
-
-wpButtonsModule
-  .directive('wpCreateButton',
-    downgradeComponent({component: WorkPackageCreateButtonComponent}));

@@ -26,34 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {openprojectModule} from "../../angular-modules";
 import {CurrentProjectService} from '../projects/current-project.service';
 import {AutoCompleteHelperService} from "core-components/legacy-ng1/auto-complete-helper.service";
+import {Directive, ElementRef, Input, OnChanges, OnInit} from "@angular/core";
 
-function opAutoComplete(AutoCompleteHelper:AutoCompleteHelperService, currentProject: CurrentProjectService) {
-  return {
-    restrict: 'AC',
-    scope: false,
-    link: function(scope:any, element:ng.IAugmentedJQuery, attrs:any) {
-      let projectId:string|null = attrs['opAutoCompleteProjectId'] || currentProject.id;
+@Directive({
+  selector: '.op-auto-complete, [op-auto-complete]',
+})
+export class OpAutoCompleteDirective implements OnChanges {
+  @Input() public opAutoCompleteProjectId:string|null|undefined;
 
-      // Target both regular textareas and wysiwyg wrapper
-      const targets = element.add(element.find('.op-ckeditor-wrapper'));
+  constructor(readonly elementRef:ElementRef,
+              readonly AutoCompleteHelper:AutoCompleteHelperService,
+              readonly currentProject:CurrentProjectService) {
+  }
 
-      // Ensure the autocompleter gets enabled at least once.
-      AutoCompleteHelper.enableTextareaAutoCompletion(targets, projectId);
+  public ngOnChanges() {
+    this.opAutoCompleteProjectId = this.opAutoCompleteProjectId || this.currentProject.id;
 
-      // The project id might change at a later point in time. Then re-enable the autocompleter.
-      scope.$watch(
-        () => attrs['opAutoCompleteProjectId'] || currentProject.id,
-        (newVal:string, oldVal:string) => {
-          if (newVal !== oldVal) {
-            AutoCompleteHelper.enableTextareaAutoCompletion(targets, newVal);
-          }
-        }
-      );
-    }
-  };
+    // Target both regular textareas and wysiwyg wrapper
+    const element = jQuery(this.elementRef.nativeElement);
+    const targets = element.add(element.find('.op-ckeditor-wrapper'));
+
+    // Ensure the autocompleter gets enabled on project id changes.
+    this.AutoCompleteHelper.enableTextareaAutoCompletion(targets, this.opAutoCompleteProjectId);
+  }
 }
-
-openprojectModule.directive('opAutoComplete', opAutoComplete);

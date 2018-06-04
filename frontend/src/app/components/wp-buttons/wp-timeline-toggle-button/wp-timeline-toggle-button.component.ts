@@ -26,12 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
 import {AbstractWorkPackageButtonComponent, ButtonControllerText} from '../wp-buttons.module';
-import {Component, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 
 interface TimelineButtonText extends ButtonControllerText {
@@ -113,8 +111,3 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     return this.isAutoZoomEnabled() ? '-disabled' : '';
   }
 }
-
-wpButtonsModule.directive(
-  'wpTimelineToggleButton',
-  downgradeComponent({ component: WorkPackageTimelineButtonComponent })
-);

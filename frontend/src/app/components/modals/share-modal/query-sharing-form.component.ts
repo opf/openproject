@@ -1,9 +1,6 @@
-import {wpControllersModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
-import {Component, Inject, Input, OnInit, Output} from "@angular/core";
-
-import {EventEmitter} from "@angular/core";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export interface QuerySharingChange {

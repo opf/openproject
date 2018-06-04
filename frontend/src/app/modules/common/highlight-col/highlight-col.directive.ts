@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,23 +24,43 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {opApiModule} from '../../../angular-modules';
+import {Directive, ElementRef, OnInit, OnDestroy} from '@angular/core';
 
-/**
- * Return the app base path, which is defined in the 'app_base_path' meta tag.
- * Return an empty string, if that meta tag isn't present.
- *
- * @param $document
- */
-function appBasePathService($document:ng.IDocumentService) {
-  const basePathValue =
-    $document
-      .find('meta[name="app_base_path"]')
-      .attr('content');
+@Directive({
+  selector: '[highlight-col]'
+})
 
-  return basePathValue && basePathValue.replace(/\/$/, '') || '';
+export class HighlightColDirective implements OnInit, OnDestroy {
+  private $element:JQuery;
+  private thead:JQuery;
+
+  constructor(private elementRef:ElementRef) {
+  }
+
+  ngOnInit() {
+    this.$element = jQuery(this.elementRef.nativeElement);
+    this.thead = this.$element
+      .parent('colgroup')
+      .siblings('thead');
+
+    // Separate handling instead of toggle is necessary to avoid
+    // unwanted side effects when adding/removing columns via keyboard in the modal
+    this.thead.on('mouseenter', 'th', (evt:JQueryEventObject) => {
+      if (this.$element.index() === jQuery(evt.currentTarget).index()) {
+        this.$element.addClass('hover');
+      }
+    });
+
+    this.thead.on('mouseleave', 'th', (evt:JQueryEventObject) => {
+      if (this.$element.index() === jQuery(evt.currentTarget).index()) {
+        this.$element.removeClass('hover');
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.thead.off('mouseenter mouseleave');
+  }
 }
-
-opApiModule.factory('appBasePath', appBasePathService);

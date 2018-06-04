@@ -26,26 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import IAugmentedJQuery = angular.IAugmentedJQuery;
 import {ConfirmDialogService} from './../confirm-dialog/confirm-dialog.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {Directive, ElementRef, OnInit} from "@angular/core";
 
-export class ConfirmFormSubmitController {
+@Directive({
+  selector: '[confirm-form-submit], .confirm-form-submit'
+})
+export class ConfirmFormSubmitController implements OnInit {
 
   // Allow original form submission after dialog was closed
-  private confirmed = false;
-  private text:any;
+  public confirmed = false;
+  public text = {
+    title: this.I18n.t('js.modals.form_submit.title'),
+    text: this.I18n.t('js.modals.form_submit.text')
+  };
+  private $element:JQuery;
 
-  constructor(protected $element:IAugmentedJQuery,
-              protected confirmDialog:ConfirmDialogService,
-              protected I18n:I18nService) {
+  constructor(readonly element:ElementRef,
+              readonly confirmDialog:ConfirmDialogService,
+              readonly I18n:I18nService) {
+  }
 
-    this.text = {
-      title: I18n.t('js.modals.form_submit.title'),
-      text: I18n.t('js.modals.form_submit.text')
-    };
-
-    $element.on('submit', (evt) => {
+  ngOnInit() {
+    this.$element = jQuery(this.element.nativeElement);
+    this.$element.on('submit', (evt) => {
       if (!this.confirmed) {
         evt.preventDefault();
         this.openConfirmationDialog();
@@ -70,16 +75,3 @@ export class ConfirmFormSubmitController {
   }
 }
 
-function confirmFormSubmit():any {
-  return {
-    restrict: 'AC',
-    scope: {},
-    bindToController: true,
-    controller: ConfirmFormSubmitController,
-    controllerAs: '$ctrl',
-  };
-}
-
-angular
-  .module('openproject.uiComponents')
-  .directive('confirmFormSubmit', confirmFormSubmit);

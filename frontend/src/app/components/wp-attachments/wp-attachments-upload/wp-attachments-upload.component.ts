@@ -26,31 +26,43 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// This Angular directive will act as an interface to the "upgraded" AngularJS component
-import {
-  Directive, DoCheck, ElementRef, Inject, Injector, Input, OnChanges, OnDestroy,
-  OnInit, SimpleChanges
-} from '@angular/core';
-import {UpgradeComponent} from '@angular/upgrade/static';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {UploadFile} from '../../api/op-file-upload/op-file-upload.service';
+import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {Component, Input} from "@angular/core";
 
-@Directive({selector: 'ng1-wp-attachments-upload-wrapper'})
-export class Ng1WorkPackageAttachmentsUploadWrapper extends UpgradeComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
-  @Input('workPackage') workPackage:WorkPackageResource;
+@Component({
+  selector: 'wp-attachments-upload',
+  templateUrl: './wp-attachments-upload.html'
+})
+export class WorkPackageUploadComponent {
+  @Input() public workPackage:WorkPackageResource;
+  public text:any;
+  public maxFileSize:number;
 
-  constructor(@Inject(ElementRef) elementRef:ElementRef, @Inject(Injector) injector:Injector) {
-    // We must pass the name of the directive as used by AngularJS to the super
-    super('wpAttachmentsUpload', elementRef, injector);
+  constructor(readonly I18n:I18nService,
+              readonly ConfigurationService:ConfigurationService) {
+    this.text = {
+      uploadLabel: I18n.t('js.label_add_attachments'),
+      dropFiles: I18n.t('js.label_drop_files'),
+      dropFilesHint: I18n.t('js.label_drop_files_hint')
+    };
+    ConfigurationService.api().then((settings:any) => {
+      this.maxFileSize = settings.maximumAttachmentFileSize;
+    });
   }
 
-  // For this class to work when compiled with AoT, we must implement these lifecycle hooks
-  // because the AoT compiler will not realise that the super class implements them
-  ngOnInit() { super.ngOnInit(); }
+  public uploadFiles(files:UploadFile[]):void {
+    if (files === undefined || files.length === 0) {
+      return;
+    }
 
-  ngOnChanges(changes:SimpleChanges) { super.ngOnChanges(changes); }
+    if (this.workPackage.isNew) {
+      this.workPackage.pendingAttachments.push(...files);
+      return;
+    }
 
-  ngDoCheck() { super.ngDoCheck(); }
-
-  ngOnDestroy() { super.ngOnDestroy(); }
+    this.workPackage.uploadAttachments(files);
+  }
 }
-

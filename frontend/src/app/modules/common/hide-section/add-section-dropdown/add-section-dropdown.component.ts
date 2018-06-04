@@ -32,7 +32,6 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {HideSectionDefinition, HideSectionService} from 'core-app/modules/common/hide-section/hide-section.service';
 import {combineLatest} from 'rxjs';
 import {Subscription} from 'rxjs';
-import {opUiComponentsModule} from '../../../../angular-modules';
 
 @Component({
   selector: 'add-section-dropdown',
@@ -77,8 +76,3 @@ export class AddSectionDropdownComponent implements OnInit, OnDestroy {
     }
   }
 }
-
-opUiComponentsModule.directive(
-  'addSectionDropdown',
-  downgradeComponent({component: AddSectionDropdownComponent})
-);

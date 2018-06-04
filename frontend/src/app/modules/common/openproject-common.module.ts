@@ -63,6 +63,9 @@ import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section
 import {FocusDirective} from "core-app/modules/common/focus/focus.directive";
 import {Ng1AttributeHelpTextWrapper} from "core-app/modules/common/help-texts/attribute-help-text-ng1-wrapper";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
+import {PersistentToggleDirective} from "core-app/modules/common/persistent-toggle/persistent-toggle.directive";
+import {HighlightColDirective} from "core-app/modules/common/highlight-col/highlight-col.directive";
 
 @NgModule({
   imports: [
@@ -104,6 +107,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
     AddSectionDropdownComponent,
     ShowSectionDropdownComponent,
     AutocompleteSelectDecorationComponent,
+    CollapsibleSectionComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -133,12 +137,16 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
     // Entries for ng1 downgraded components
     AttributeHelpTextComponent,
 
+    // Table highlight
+    HighlightColDirective,
+
     // Add functionality to rails rendered templates
     HideSectionComponent,
     HideSectionLinkComponent,
     AddSectionDropdownComponent,
     ShowSectionDropdownComponent,
     AutocompleteSelectDecorationComponent,
+    PersistentToggleDirective,
   ],
   entryComponents: [
     OpDateTimeComponent,
@@ -147,6 +155,9 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
     HideSectionComponent,
     HideSectionLinkComponent,
     NotificationsContainerComponent,
+    CollapsibleSectionComponent,
+    PersistentToggleDirective,
+    HighlightColDirective,
   ],
   providers: [
     I18nService,

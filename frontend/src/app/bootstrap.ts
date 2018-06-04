@@ -1,7 +1,6 @@
 import {enableProdMode, NgModuleRef} from '@angular/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {setAngularJSGlobal, UpgradeModule} from '@angular/upgrade/static';
-import {openprojectModule} from 'core-app/angular-modules';
 import * as jQuery from 'jquery';
 import {AppModule} from './app.module';
 import {environment} from '../environments/environment';

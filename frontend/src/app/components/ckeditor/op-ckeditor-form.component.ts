@@ -26,7 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opUiComponentsModule} from '../../angular-modules';
+import {Component, ElementRef, OnInit} from "@angular/core";
+import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 
 export interface ICkeditorInstance {
   getData():string;
@@ -47,7 +48,11 @@ declare global {
 const ckEditorWrapperClass = 'op-ckeditor--wrapper';
 const ckEditorReplacementClass = '__op_ckeditor_replacement_container';
 
-export class OpCkeditorFormComponent {
+@Component({
+  selector: 'op-ckeditor-form',
+  template: `<div class="${ckEditorWrapperClass}"><div class="${ckEditorReplacementClass}"></div>`
+})
+export class OpCkeditorFormComponent implements OnInit {
   public textareaSelector:string;
 
   // Which template to include
@@ -62,17 +67,18 @@ export class OpCkeditorFormComponent {
   public text:any;
 
 
-  constructor(protected $element:ng.IAugmentedJQuery,
-              protected $timeout:ng.ITimeoutService,
-              protected ConfigurationService:any) {
+  constructor(protected elementRef:ElementRef,
+              protected ConfigurationService:ConfigurationService) {
 
   }
 
-  public $onInit() {
-    this.formElement = this.$element.closest('form');
+  public ngOnInit() {
+    const $element = jQuery(this.elementRef.nativeElement);
+
+    this.formElement = $element.closest('form');
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
     this.wrappedTextArea.hide();
-    const wrapper = this.$element.find(`.${ckEditorReplacementClass}`);
+    const wrapper = $element.find(`.${ckEditorReplacementClass}`);
     window.OPClassicEditor
       .create(wrapper[0])
       .then(this.setup.bind(this))
@@ -104,11 +110,3 @@ export class OpCkeditorFormComponent {
   }
 }
 
-opUiComponentsModule.component('opCkeditorForm', {
-  template: `<div class="${ckEditorWrapperClass}"><div class="${ckEditorReplacementClass}"></div>`,
-  controller: OpCkeditorFormComponent,
-  controllerAs: '$ctrl',
-  bindings: {
-    textareaSelector: '@'
-  }
-});

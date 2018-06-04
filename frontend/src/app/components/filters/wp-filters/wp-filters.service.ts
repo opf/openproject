@@ -26,8 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opServicesModule} from '../../../angular-modules';
+import {Injectable} from "@angular/core";
 
+@Injectable()
 export class WorkPackageFiltersService {
   public visible:boolean = false;
 
@@ -35,5 +36,3 @@ export class WorkPackageFiltersService {
     this.visible = !this.visible;
   }
 }
-
-opServicesModule.service('wpFiltersService', WorkPackageFiltersService);

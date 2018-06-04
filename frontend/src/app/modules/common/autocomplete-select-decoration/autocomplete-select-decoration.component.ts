@@ -27,7 +27,6 @@
 // ++
 
 import {Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
-import {opUiComponentsModule} from 'core-app/angular-modules';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
@@ -199,8 +198,3 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
     }
   }
 }
-
-opUiComponentsModule.directive(
-  'autocompleteSelectDecoration',
-  downgradeComponent({component: AutocompleteSelectDecorationComponent})
-);

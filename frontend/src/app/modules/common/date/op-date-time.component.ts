@@ -28,8 +28,6 @@
 
 import {Component, Input} from '@angular/core';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
-import {opUiComponentsModule} from 'core-app/angular-modules';
-import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
   selector: 'op-date-time',
@@ -56,6 +54,3 @@ export class OpDateTimeComponent {
     this.time = c[1];
   }
 }
-
-opUiComponentsModule.directive('opDateTime',
-  downgradeComponent({ component: OpDateTimeComponent}));

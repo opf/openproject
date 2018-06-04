@@ -27,14 +27,10 @@
 // ++
 
 import {downgradeComponent} from '@angular/upgrade/static';
-import {Component, Inject, OnDestroy} from '@angular/core';
-import {
-  INotification,
-  NotificationsService
-} from 'core-app/modules/common/notifications/notifications.service';
+import {Component, OnDestroy} from '@angular/core';
+import {INotification, NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {takeUntil} from 'rxjs/operators';
-import {opUiComponentsModule} from 'core-app/angular-modules';
 
 @Component({
   template: `
@@ -64,9 +60,3 @@ export class NotificationsContainerComponent implements OnDestroy {
     // Nothing to do, interface compliance only.
   }
 }
-
-opUiComponentsModule
-  .directive(
-    'notificationsContainer',
-     downgradeComponent({ component: NotificationsContainerComponent })
-  );

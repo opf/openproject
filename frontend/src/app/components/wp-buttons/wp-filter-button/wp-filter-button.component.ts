@@ -26,12 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {Component, Inject, OnDestroy} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
+import {Component, OnDestroy} from '@angular/core';
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
@@ -97,9 +95,3 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
     });
   }
 }
-
-wpButtonsModule.directive(
-  'wpFilterButton',
-  downgradeComponent({ component: WorkPackageFilterButtonComponent })
-);
-

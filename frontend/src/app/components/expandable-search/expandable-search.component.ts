@@ -26,10 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {openprojectModule} from '../../angular-modules';
 import {Component, ElementRef, HostListener, Inject, OnDestroy, Renderer2, ViewChild} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {ContainHelpers} from "core-app/modules/common/focus/contain-helpers";
 import {FocusHelperService} from "core-app/modules/common/focus/focus-helper";
 
@@ -115,8 +113,3 @@ export class ExpandableSearchComponent implements OnDestroy {
     this.input.nativeElement.value = val;
   }
 }
-
-
-openprojectModule.directive('expandableSearch',
-  downgradeComponent({component: ExpandableSearchComponent})
-);
