@@ -40,12 +40,11 @@
   .attributes-key-value--key
     @extend .form--label
     @include grid-size(4)
+    @include text-shortener
     margin-bottom: 0.1875rem
     padding: 0.375rem 0 !important
     font-weight: bold
     align-self: center
-    overflow: hidden
-    text-overflow: ellipsis
 
   .attributes-key-value--value-container
     @include grid-content(8)
