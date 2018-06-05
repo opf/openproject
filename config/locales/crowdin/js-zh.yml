@@ -301,6 +301,7 @@ zh:
         other: 您可以只选择 {{limit}} 个条目
         zero: You cannot select any items
     show_hide_project_menu: 展开/折叠项目菜单
+    project_menu_details: 详细信息
     sort:
       sorted_asc: '升序排列已应用， '
       sorted_dsc: '降序排列已应用， '

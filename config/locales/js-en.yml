@@ -348,6 +348,7 @@ en:
         zero: "You cannot select any items"
 
     show_hide_project_menu: "Expand/Collapse project menu"
+    project_menu_details: "Details"
 
     sort:
       sorted_asc: 'Ascending sort applied, '

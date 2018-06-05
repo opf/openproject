@@ -92,6 +92,8 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   }
 
   protected buildItems(permittedActions:WorkPackageAction[]) {
+    const configureFormLink = this.workPackage.configureForm;
+
     this.items = permittedActions.map((action:WorkPackageAction) => {
       const key = action.key;
       return {
@@ -109,5 +111,18 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         }
       };
     });
+
+    if (configureFormLink) {
+      this.items.push(
+        {
+          href:configureFormLink.href,
+          icon: 'icon-settings3',
+          linkText: configureFormLink.name,
+          onClick: () => false
+        }
+      );
+    }
+
+    return this.items;
   }
 }

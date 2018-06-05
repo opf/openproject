@@ -303,6 +303,7 @@ ja:
         other: "{{limit}}つ項目のみを選択できます。"
         zero: You cannot select any items
     show_hide_project_menu: プロジェクトメニューの展開/折りたたみ
+    project_menu_details: 詳細
     sort:
       sorted_asc: '昇順の並べ替えを適用しました。 '
       sorted_dsc: '降順の並べ替えを適用しました。 '

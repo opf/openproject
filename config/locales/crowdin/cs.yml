@@ -67,7 +67,7 @@ cs:
     plural: Vlastní akce
     new: Nová vlastní akce
     edit: Upravit vlastní akci %{name}
-    execute: Execute %{name}
+    execute: Spustit %{name}
     upsale:
       title: Vlastní akce pouze v Enterprise Edition
       description: Vlastní akce zjednodušuje každodenní práci tím, že kombinuje několik
@@ -142,8 +142,8 @@ cs:
       failed_to_reset_token: 'Nepodařilo se obnovit přístupový token: %{error}'
       notice_reset_token: 'Byl vygenerován nový %{type} token. Váš přístupový token
         je:'
-      token_value_warning: 'Note: This is the only time you will see this token, make
-        sure to copy it now.'
+      token_value_warning: 'Poznámka: Toto je jedinkrát, kdy uvidíte tento token,
+        ujistěte se, že jste si hozkopírovali.'
       no_results_title_text: V současné době nejsou k dispozici žádné přístupové tokeny.
   news:
     index:
@@ -171,9 +171,9 @@ cs:
       form_configuration: Form configuration
       projects: Projekty
       enabled_projects: Povolit projekty
-      add_group: Add attribute group
-      add_subelements: Add subelements group
-      edit_query: Edit embedded query
+      add_group: Přidat skupinu atributů
+      add_subelements: Přidat skupinu dílčích prvků
+      edit_query: Upravit vložený dotaz
       reset: Obnovit výchozí nastavení
   versions:
     overview:
@@ -396,7 +396,7 @@ cs:
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
-        children: Subelements
+        children: Dílčí prvky
         done_ratio: Průběh (%)
         end_insertion: End of the insertion
         end_deletion: End of the deletion
@@ -463,8 +463,8 @@ cs:
           empty: "(%{name}) hodnota nemůže být prázdná."
           inclusion: "(%{name}) hodnota není nastavena na jednu z povolených hodnot."
           not_an_integer: "(%{name}) není celé číslo."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          smaller_than_or_equal_to: "(%{name}) musí být menší než nebo rovno %{count}."
+          greater_than_or_equal_to: "(%{name}) musí být větší než nebo rovno %{count}."
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -480,7 +480,7 @@ cs:
         query:
           attributes:
             project:
-              error_not_found: not found
+              error_not_found: nenalezeno
             public:
               error_unauthorized: "- The user has no permission to create public queries."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
@@ -491,7 +491,7 @@ cs:
               invalid: The custom field is not valid in the given context.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: Vztah vytvoří cyklický vztah.
           attributes:
             to:
               error_not_found: work package in `to` position not found or not visible
@@ -522,8 +522,8 @@ cs:
             status_id:
               status_transition_invalid: is invalid because no valid transition exists
                 from old to new status for the current user's roles.
-              status_invalid_in_type: is invalid because the current status does not
-                exist in this type.
+              status_invalid_in_type: je neplatná, protože aktuální stav neexistuje
+                v tomto typu.
             priority_id:
               only_active_priorities_allowed: musí být aktivní.
             category:
@@ -564,7 +564,7 @@ cs:
             status:
               invalid_on_create: není platný stav pro nové uživatele.
             auth_source:
-              error_not_found: not found
+              error_not_found: nenalezeno
         member:
           principal_blank: Zvolte alespoň jednoho uživatele nebo skupinu.
           role_blank: Vyberte prosím alespoň jednu roli.
@@ -685,7 +685,7 @@ cs:
   button_create: Vytvořit
   button_create_and_continue: Vytvořit a pokračovat
   button_delete: Odstranit
-  button_decline: Decline
+  button_decline: Zamítnout
   button_delete_watcher: Odstranit sledujícího %{name}
   button_download: Stáhnout
   button_duplicate: Kopie
@@ -728,10 +728,10 @@ cs:
   button_configure_menu_entry: Konfigurace položky menu
   button_delete_menu_entry: Odstranit položku menu
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
+    checkbox_label: Zaznamenal(a) jsem a souhlasím s výše uvedeným.
+    failure_message: Souhlas se nezdařil, nelze pokračovat.
+    title: Souhlas uživatele
+    decline_warning_message: Odmítli jste souhlas a byli jste odhlášeni.
     user_has_consented: User has consented to your configured statement at the given
       time.
     not_yet_consented: User has not consented yet, will be requested upon next login.
@@ -772,7 +772,7 @@ cs:
     - Dub
     - Kvě
     - Čer
-    - Jul
+    - Červenec
     - Srp
     - Září
     - Říjen
@@ -816,28 +816,28 @@ cs:
         few: about %{count} hours
         many: about %{count} hours
       about_x_months:
-        one: about 1 month
+        one: přibližně 1 měsíc
         other: about %{count} months
         few: about %{count} months
         many: about %{count} months
       about_x_years:
-        one: about 1 year
+        one: přibližně 1 rok
         other: about %{count} years
         few: about %{count} years
         many: about %{count} years
       almost_x_years:
-        one: almost 1 year
+        one: téměř 1 rok
         other: almost %{count} years
         few: almost %{count} years
         many: almost %{count} years
       half_a_minute: půl minuty
       less_than_x_minutes:
-        one: less than a minute
+        one: méně než minutou
         other: less than %{count} minutes
         few: less than %{count} minutes
         many: less than %{count} minutes
       less_than_x_seconds:
-        one: less than 1 second
+        one: méně než 1 sekundou
         other: less than %{count} seconds
         few: less than %{count} seconds
         many: less than %{count} seconds
@@ -857,27 +857,27 @@ cs:
         few: "%{count} minutes"
         many: "%{count} minutes"
       x_months:
-        one: 1 month
+        one: 1 měsíc
         other: "%{count} months"
         few: "%{count} months"
         many: "%{count} months"
       x_seconds:
-        one: 1 second
+        one: 1 sekunda
         other: "%{count} seconds"
         few: "%{count} seconds"
         many: "%{count} seconds"
     units:
       hour:
-        one: hour
+        one: hodina
         other: hours
         few: hours
         many: hours
   default_activity_development: Vývoj
-  default_activity_management: Management
+  default_activity_management: Správa
   default_activity_other: Ostatní
-  default_activity_specification: Specification
+  default_activity_specification: Specifikace
   default_activity_support: Podpora
-  default_activity_testing: Testing
+  default_activity_testing: Testování
   default_color_black: Černá
   default_color_blue: Modrá
   default_color_blue_dark: Modrá (tmavá)
@@ -902,17 +902,17 @@ cs:
   default_status_new: Nové
   default_status_on_hold: Pozastaven
   default_status_rejected: Odmítnutý
-  default_status_scheduled: Scheduled
+  default_status_scheduled: Naplánováno
   default_status_specified: Specified
-  default_status_tested: Tested
-  default_status_test_failed: Test failed
-  default_status_to_be_scheduled: To be scheduled
+  default_status_tested: Testováno
+  default_status_test_failed: Test selhal
+  default_status_to_be_scheduled: Bude naplánováno
   default_priority_low: Nízká
   default_priority_normal: Normální
   default_priority_high: Vysoká
   default_priority_immediate: Okamžitá
-  default_project_type_scrum: Scrum team
-  default_project_type_standard: Standard project
+  default_project_type_scrum: Scrum tým
+  default_project_type_standard: Standardní projekt
   default_reported_project_status_green: Green
   default_reported_project_status_amber: Amber
   default_reported_project_status_red: Červená
@@ -1138,7 +1138,7 @@ cs:
   label_all: vše
   label_all_time: all time
   label_all_words: Všechna slova
-  label_all_open_wps: All open
+  label_all_open_wps: Všechny otevřené
   label_always_visible: Vždy zobrazovat
   label_announcement: Oznámení
   label_and_its_subprojects: "%{value} a její dílčí projekty"
@@ -1179,7 +1179,7 @@ cs:
   label_calendar: Kalendář
   label_calendar_show: Zobrazit kalendář
   label_category: Kategorie
-  label_consent_settings: User Consent
+  label_consent_settings: Souhlas uživatele
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Select new main menu item
   label_select_project: Zvolit projekt
@@ -1202,7 +1202,7 @@ cs:
   label_close_versions: Close completed versions
   label_closed_work_packages: closed
   label_collapse: Collapse
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: Sbaleno. Klepnutím rozbalíte
   label_configuration: konfigurace
   label_comment_add: Přidat komentář
   label_comment_added: Komentář byl přidán
@@ -1269,13 +1269,13 @@ cs:
   label_enumerations: Číselníky
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edice
-  label_entry_page: Entry page
+  label_entry_page: Vstupní stránka
   label_environment: Prostředí
   label_estimates_and_time: Odhady a čas
   label_equals: is
   label_example: Příklad
   label_export_to: 'Také k dispozici:'
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: Rozbaleno. Klepnutím sbalte
   label_f_hour: "%{value} hodina"
   label_f_hour_plural: "%{value} hodin"
   label_feed_plural: Informační kanály (feedy)
@@ -1305,7 +1305,7 @@ cs:
   label_here: zde
   label_hide: Skrýt
   label_history: Historie
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy_leaf: Úroveň hierarchie
   label_home: Domů
   label_in: v
   label_in_less_than: in less than
@@ -1319,7 +1319,7 @@ cs:
   label_information_plural: Informace
   label_integer: Celé číslo
   label_internal: Interní
-  label_introduction_video: Introduction video
+  label_introduction_video: Seznamovací video
   label_invite_user: Invite user
   label_show_hide: Show/hide
   label_show_all_registered_users: Zobrazit registrované uživatele
@@ -1407,7 +1407,7 @@ cs:
   label_open_menu: Open menu
   label_open_work_packages: open
   label_open_work_packages_plural: open
-  label_openproject_website: OpenProject website
+  label_openproject_website: Webové stránky OpenProject
   label_optional_description: Popis
   label_options: Options
   label_other: Ostatní
@@ -1482,8 +1482,8 @@ cs:
   label_repository: Repozitář
   label_repository_root: Repository root
   label_repository_plural: Repozitáře
-  label_required: required
-  label_requires: requires
+  label_required: vyžadováno
+  label_requires: vyžaduje
   label_responsible_for_work_packages: Pracovní balíčky, za které zodpovídám
   label_result_plural: Výsledky
   label_reverse_chronological_order: V obráceném chronologickém pořadí
@@ -1577,7 +1577,7 @@ cs:
   label_version_sharing_none: Není sdíleno
   label_version_sharing_system: Se všemi projekty
   label_version_sharing_tree: Se stromem projektu
-  label_videos: Videos
+  label_videos: Videa
   label_view_all_revisions: Zobrazit všechny revize
   label_view_diff: Zobrazit rozdíly
   label_view_revisions: Zobrazit revize
@@ -2101,8 +2101,9 @@ cs:
   setting_brute_force_block_minutes: Time the user is blocked for
   setting_cache_formatted_text: Ukládat formátovaný text do vyrovnávací paměti
   setting_use_wysiwyg: WYSIWYG editor
-  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
-    users by default. CKEditor has limited functionality for GFM Markdown.
+  setting_use_wysiwyg_description: Zaškrtnutím tohoto políčka povolíte CKEditor5 WYSIWYG
+    editor pro všechny uživatele ve výchozím nastavení. Aplikaci CKEditor má omezenou
+    funkčnost pro GFM Markdown.
   setting_column_options: Customize the appearance of the work package lists
   setting_commit_fix_keywords: Fixing keywords
   setting_commit_logs_encoding: Commit messages encoding
@@ -2207,9 +2208,9 @@ cs:
     session: Relace
     brute_force_prevention: Automated user blocking
   text_formatting:
-    textile: Textile
+    textile: Textil
     markdown: Markdown
-    plain: Plain text
+    plain: Obyčejný text
   status_active: active
   status_archived: archivováno
   status_invited: invited
@@ -2301,7 +2302,7 @@ cs:
   text_journal_aggregation_time_explanation: Combine journals for display if their
     age difference is less than the specified timespan. This will also delay mail
     notifications by the same amount of time.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} se změnil z %{old} </br><strong></strong> %{new}"
   text_journal_changed_no_detail: "%{label} aktualizován"
   text_journal_changed_with_diff: "%{label} změněn (%{link})"
   text_journal_deleted: "%{label} smazán (%{old})"

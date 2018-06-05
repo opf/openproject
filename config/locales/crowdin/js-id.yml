@@ -316,6 +316,7 @@ id:
         other: Anda hanya dapat memilih {{limit}} item
         zero: You cannot select any items
     show_hide_project_menu: Expand/Collapse project menu
+    project_menu_details: Detil
     sort:
       sorted_asc: 'Urutan menaik diterapkan, '
       sorted_dsc: 'Urutan menurun diterapkan, '

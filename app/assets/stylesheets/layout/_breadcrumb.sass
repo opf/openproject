@@ -100,8 +100,8 @@ ul.breadcrumb
     li
       line-height: 20px
       max-width: 420px
-      overflow: hidden
-      text-overflow: ellipsis
+      @include text-shortener
+
       &:first-child
         &:before
           display: none

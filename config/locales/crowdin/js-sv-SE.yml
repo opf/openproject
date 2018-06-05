@@ -312,6 +312,7 @@ sv-SE:
         other: Du kan bara välja {{limit}} saker
         zero: You cannot select any items
     show_hide_project_menu: Expandera/minimera projektmenyn
+    project_menu_details: Detaljer
     sort:
       sorted_asc: 'Stigande sortering används, '
       sorted_dsc: 'Fallande sortering används, '

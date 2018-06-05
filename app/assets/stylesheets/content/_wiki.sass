@@ -157,9 +157,8 @@ h1:hover, h2:hover, h3:hover
     font-size: $wiki-default-font-size
 
   .wiki-title
+    @include text-shortener
     max-width: 100%
-    overflow: hidden
-    text-overflow: ellipsis
 
 .wiki.wiki-content
   overflow-wrap: break-word

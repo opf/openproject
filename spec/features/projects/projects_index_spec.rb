@@ -44,22 +44,22 @@ describe 'Projects index page',
 
   let!(:project) do
     FactoryBot.create(:project,
-                       name: 'Plain project',
-                       identifier: 'plain-project')
+                      name: 'Plain project',
+                      identifier: 'plain-project')
   end
   let!(:public_project) do
     project = FactoryBot.create(:project,
-                                 name: 'Public project',
-                                 identifier: 'public-project',
-                                 is_public: true)
+                                name: 'Public project',
+                                identifier: 'public-project',
+                                is_public: true)
     project.custom_field_values = { invisible_custom_field.id => 'Secret CF' }
     project.save
     project
   end
   let!(:development_project) do
     FactoryBot.create(:project,
-                       name: 'Development project',
-                       identifier: 'development-project')
+                      name: 'Development project',
+                      identifier: 'development-project')
   end
   let(:news) { FactoryBot.create(:news, project: project) }
 
@@ -149,11 +149,11 @@ describe 'Projects index page',
     feature 'for project members' do
       let!(:user) do
         FactoryBot.create(:user,
-                           member_in_project: development_project,
-                           member_through_role: developer,
-                           login: 'nerd',
-                           firstname: 'Alan',
-                           lastname: 'Turing')
+                          member_in_project: development_project,
+                          member_through_role: developer,
+                          login: 'nerd',
+                          firstname: 'Alan',
+                          lastname: 'Turing')
       end
 
       before do
@@ -357,9 +357,9 @@ describe 'Projects index page',
     feature 'Active or archived' do
       let!(:archived_project) do
         FactoryBot.create(:project,
-                           name: 'Archived project',
-                           identifier: 'archived-project',
-                           status: Project::STATUS_ARCHIVED)
+                          name: 'Archived project',
+                          identifier: 'archived-project',
+                          status: Project::STATUS_ARCHIVED)
       end
 
       scenario 'filter on "status"' do
@@ -412,8 +412,8 @@ describe 'Projects index page',
 
       let!(:project_created_on_today) do
         project = FactoryBot.create(:project,
-                                     name: 'Created today project',
-                                     created_on: DateTime.now)
+                                    name: 'Created today project',
+                                    created_on: DateTime.now)
         project.custom_field_values = { list_custom_field.id => list_custom_field.possible_values[2],
                                         date_custom_field.id => '2011-11-11' }
         project.save!
@@ -421,24 +421,24 @@ describe 'Projects index page',
       end
       let!(:project_created_on_this_week) do
         FactoryBot.create(:project,
-                           name: 'Created on this week project',
-                           created_on: datetime_of_this_week)
+                          name: 'Created on this week project',
+                          created_on: datetime_of_this_week)
       end
       let!(:project_created_on_six_days_ago) do
         FactoryBot.create(:project,
-                           name: 'Created on six days ago project',
-                           created_on: DateTime.now - 6.days)
+                          name: 'Created on six days ago project',
+                          created_on: DateTime.now - 6.days)
       end
       let!(:project_created_on_fixed_date) do
         FactoryBot.create(:project,
-                           name: 'Created on fixed date project',
-                           created_on: fixed_datetime)
+                          name: 'Created on fixed date project',
+                          created_on: fixed_datetime)
       end
       let!(:todays_wp) do
         # This WP should trigger a change to the project's 'latest activity at' DateTime
         FactoryBot.create(:work_package,
-                           updated_at: DateTime.now,
-                           project: project_created_on_today)
+                          updated_at: DateTime.now,
+                          project: project_created_on_today)
       end
 
       before do
@@ -620,24 +620,24 @@ describe 'Projects index page',
 
     let!(:parent_project) do
       FactoryBot.create(:project,
-                         name: 'Parent project',
-                         identifier: 'parent-project')
+                        name: 'Parent project',
+                        identifier: 'parent-project')
     end
 
     let!(:can_copy_projects_manager) do
       FactoryBot.create(:user,
-                         member_in_project: parent_project,
-                         member_through_role: can_copy_projects_role)
+                        member_in_project: parent_project,
+                        member_through_role: can_copy_projects_role)
     end
     let!(:can_add_subprojects_manager) do
       FactoryBot.create(:user,
-                         member_in_project: parent_project,
-                         member_through_role: can_add_subprojects_role)
+                        member_in_project: parent_project,
+                        member_through_role: can_add_subprojects_role)
     end
     let!(:simple_member) do
       FactoryBot.create(:user,
-                         member_in_project: parent_project,
-                         member_through_role: developer)
+                        member_in_project: parent_project,
+                        member_through_role: developer)
     end
 
     before do
@@ -723,13 +723,13 @@ describe 'Projects index page',
     # first but then reorders in ruby
     let!(:child_project_z) do
       FactoryBot.create(:project,
-                         parent: project,
-                         name: "Z Child")
+                        parent: project,
+                        name: "Z Child")
     end
     let!(:child_project_a) do
       FactoryBot.create(:project,
-                         parent: project,
-                         name: "A Child")
+                        parent: project,
+                        name: "A Child")
     end
 
     before do

@@ -314,6 +314,7 @@ bg:
         other: Можете да изберете само {{limit}} елемента
         zero: You cannot select any items
     show_hide_project_menu: Разгъване/свиване на проектното меню
+    project_menu_details: Подробности
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

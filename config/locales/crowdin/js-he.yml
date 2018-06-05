@@ -318,6 +318,7 @@ he:
         two: באפשרותך לבחור רק {{limit}} פריטים
         many: באפשרותך לבחור רק {{limit}} פריטים
     show_hide_project_menu: Expand/Collapse project menu
+    project_menu_details: פרטים
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

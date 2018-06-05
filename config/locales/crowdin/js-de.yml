@@ -315,6 +315,7 @@ de:
         other: Sie dürfen nur {{limit}} Elemente auswählen
         zero: You cannot select any items
     show_hide_project_menu: Projektmenü einblenden / ausblenden
+    project_menu_details: Details
     sort:
       sorted_asc: 'Aufsteigende Sortierung angewendet, '
       sorted_dsc: 'Absteigende Sortierung angewendet, '

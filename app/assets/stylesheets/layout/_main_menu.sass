@@ -254,9 +254,6 @@ $arrow-left-width: 40px
   @include varprop(color, main-menu-sidebar-font-color)
   font-family: $body-font-family
   font-style: normal
-  overflow: hidden
-  text-overflow: ellipsis
-  overflow-wrap: initial
 
   h3
     display: block
@@ -283,6 +280,7 @@ $arrow-left-width: 40px
 
   label
     @include varprop(color, main-menu-sidebar-font-color)
+    @include text-shortener
     max-width: 80%
     vertical-align: top
 
