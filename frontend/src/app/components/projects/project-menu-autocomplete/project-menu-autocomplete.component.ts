@@ -35,7 +35,7 @@ import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {LinkHandling} from 'core-app/modules/common/link-handling/link-handling';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpClient} from "@angular/common/http";
-import {Component, ElementRef, OnInit} from "@angular/core";
+import {ChangeDetectorRef, Component, ElementRef, OnInit} from "@angular/core";
 
 interface IProjectMenuEntry {
   id:number;
@@ -71,6 +71,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
   constructor(protected PathHelper:PathHelperService,
               protected elementRef:ElementRef,
               protected http:HttpClient,
+              protected cdRef:ChangeDetectorRef,
               protected I18n:I18nService) {
     super('projectMenuAutocomplete');
 
@@ -107,6 +108,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
       this.addInputHandlers();
       this.addClickHandler();
       this.loaded = true;
+      this.cdRef.detectChanges();
     });
   }
 
@@ -172,8 +174,8 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
     return this.http
       .get(url)
       .toPromise()
-      .then((result:any) => {
-        return this.results = this.augmentWithParents(result.data.projects);
+      .then((result:{ projects:any }) => {
+        return this.results = this.augmentWithParents(result.projects);
       });
   }
 

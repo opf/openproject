@@ -186,7 +186,7 @@ export const OPENPROJECT_ROUTES = [
     onExit: () => jQuery('body').removeClass('action-details')
   },
   _.extend(panels.overview, {name: 'work-packages.list.details.overview'}),
-  _.extend(panels.activity, {name: 'work-packages.list.details.activitiy'}),
+  _.extend(panels.activity, {name: 'work-packages.list.details.activity'}),
   _.extend(panels.activityDetails, {name: 'work-packages.list.details.activity.details'}),
   _.extend(panels.relations, {name: 'work-packages.list.details.relations'}),
   _.extend(panels.watchers, {name: 'work-packages.list.details.watchers'})

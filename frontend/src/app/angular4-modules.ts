@@ -201,6 +201,7 @@ import {WorkPackageService} from "core-components/work-packages/work-package.ser
 import {OpenprojectPluginsModule} from "core-app/modules/plugins/openproject-plugins.module";
 import {ConfirmFormSubmitController} from "core-components/modals/confirm-form-submit/confirm-form-submit.directive";
 import {ProjectMenuAutocompleteComponent} from "core-components/projects/project-menu-autocomplete/project-menu-autocomplete.component";
+import {NotificationsContainerComponent} from "core-app/modules/common/notifications/notifications-container.component";
 
 @NgModule({
   imports: [
@@ -471,6 +472,9 @@ import {ProjectMenuAutocompleteComponent} from "core-components/projects/project
     // Searchbar
     ExpandableSearchComponent,
 
+    // Project Auto completer
+    ProjectMenuAutocompleteComponent,
+
     // WP new
     WorkPackageNewFullViewComponent,
     WorkPackageNewSplitViewComponent,
@@ -481,9 +485,6 @@ import {ProjectMenuAutocompleteComponent} from "core-components/projects/project
 
     OPContextMenuComponent,
     WorkPackageQuerySelectDropdownComponent,
-
-    // Project autocompleter
-    ProjectMenuAutocompleteComponent,
 
     // Embedded table
     WorkPackageEmbeddedTableComponent,
@@ -515,9 +516,6 @@ import {ProjectMenuAutocompleteComponent} from "core-components/projects/project
 
     // CKEditor and textareas
     OpCkeditorFormComponent,
-  ],
-  bootstrap: [
-    WorkPackagesBaseComponent
   ]
 })
 export class OpenProjectModule {
@@ -526,10 +524,22 @@ export class OpenProjectModule {
     // Already done in openproject-app.ts
     // this.upgrade.bootstrap(document.body, ['openproject'], {strictDi: false});
 
-    if (document.getElementsByTagName('main-menu-resizer').length > 0) {
-      appRef.bootstrap(MainMenuResizerDirective);
-    }
+    bootstrapOptional(
+      appRef,
+      { tagName: 'main-menu-resizer', cls: MainMenuResizerDirective  },
+      { tagName: 'work-packages-base', cls: WorkPackagesBaseComponent  },
+      { tagName: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent  },
+      { tagName: 'notifications-container', cls: NotificationsContainerComponent  },
+    );
   }
+}
+
+export function bootstrapOptional(appRef:ApplicationRef, ...elements:{ tagName:string, cls:any }[]) {
+  elements.forEach(el => {
+    if (document.getElementsByTagName(el.tagName).length > 0) {
+      appRef.bootstrap(el.cls);
+    }
+  });
 }
 
 
