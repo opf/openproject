@@ -42,6 +42,7 @@ ru:
       cost_type:
         one: "Тип затрат"
         few: "Cost types"
+        many: "Cost types"
         other: "Cost types"
       material_budget_item: "Единица"
       rate: "Тариф"

@@ -42,6 +42,7 @@ pl:
       cost_type:
         one: "Rodzaj kosztów"
         few: "Cost types"
+        many: "Cost types"
         other: "Rodzaje kosztów"
       material_budget_item: "Jednostka"
       rate: "Stawka"
