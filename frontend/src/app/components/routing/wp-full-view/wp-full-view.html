@@ -30,7 +30,7 @@
               stateName="work-packages.new">
             </wp-create-button>
           </li>
-          <li class="toolbar-item" ng-if="displayWatchButton">
+          <li class="toolbar-item" *ngIf="displayWatchButton">
             <wp-watcher-button [workPackage]="workPackage"
                                [showText]="false">
             </wp-watcher-button>

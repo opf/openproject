@@ -18,7 +18,7 @@
           <a href="" [textContent]="text.tabs.relations"></a>
           <wp-relations-count [wpId]="workPackage.id"></wp-relations-count>
         </li>
-        <li ng-if="canViewWorkPackageWatchers()"
+        <li *ngIf="canViewWorkPackageWatchers()"
             uiSref="work-packages.list.details.watchers"
             uiSrefActive="selected">
           <a href="" [textContent]="text.tabs.watchers"></a>

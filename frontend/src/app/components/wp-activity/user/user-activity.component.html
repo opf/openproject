@@ -26,8 +26,7 @@
                    [activityNo]="activityNo">
     </activity-link>
     <div class="comments-icons"
-         [hidden]="shouldHideIcons()"
-         ng-show="">
+         [hidden]="shouldHideIcons()">
       <accessible-by-keyboard *ngIf="userCanQuote"
                               (execute)="quoteComment()"
                               [linkTitle]="text.quote_comment">
