@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
@@ -92,16 +92,17 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   public timelineVisible:boolean;
 
-  constructor(private elementRef:ElementRef,
-              public injector:Injector,
-              private states:States,
+  constructor(readonly elementRef:ElementRef,
+              readonly  injector:Injector,
+              readonly states:States,
               readonly tableState:TableState,
               readonly opModalService:OpModalService,
-              private opContextMenu:OPContextMenuService,
+              readonly opContextMenu:OPContextMenuService,
               readonly I18n:I18nService,
-              private wpTableGroupBy:WorkPackageTableGroupByService,
-              private wpTableTimeline:WorkPackageTableTimelineService,
-              private wpTableColumns:WorkPackageTableColumnsService) {
+              readonly cdRef:ChangeDetectorRef,
+              readonly wpTableGroupBy:WorkPackageTableGroupByService,
+              readonly wpTableTimeline:WorkPackageTableTimelineService,
+              readonly wpTableColumns:WorkPackageTableColumnsService) {
   }
 
   ngOnInit():void {
@@ -178,6 +179,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
     new TableHandlerRegistry(this.injector).attachTo(this.workPackageTable);
+    this.cdRef.detectChanges();
 
     let t1 = performance.now();
     debugLog('Render took ', t1 - t0, ' milliseconds.');

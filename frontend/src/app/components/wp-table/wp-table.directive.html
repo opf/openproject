@@ -11,32 +11,32 @@
         <span>{{text.tableSummaryHints}}</span>
       </caption>
       <thead class="-sticky">
-      <tr>
-        <th *ngFor="let column of columns"
-            class="wp-table--table-header">
-          <sortHeader [headerColumn]="column"
-                      [locale]="column.custom_field && column.custom_field.name_locale || locale"
-                      [table]="workPackageTable"
+        <tr>
+          <th *ngFor="let column of columns"
+              class="wp-table--table-header">
+            <sortHeader [headerColumn]="column"
+                        [locale]="column.custom_field && column.custom_field.name_locale || locale"
+                        [table]="workPackageTable"
 
-                      opColumnsContextMenu
-                      [opColumnsContextMenu-column]="column"
-                      [opColumnsContextMenu-table]="workPackageTable">
-          </sortHeader>
-        </th>
-        <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th -short hide-when-print"
-            *ngIf="configuration.columnMenuEnabled || configuration.actionsColumnEnabled">
-          <div class="generic-table--sort-header-outer">
-            <accessible-by-keyboard
-                (execute)="openTableConfigurationModal()"
-                linkClass="wp-table--columns-selection"
-                [linkTitle]="text.addColumns"
-                [linkAriaLabel]="text.configureTable"
-                *ngIf="configuration.columnMenuEnabled">
-              <op-icon icon-classes="icon-button icon-small icon-settings"></op-icon>
-            </accessible-by-keyboard>
-          </div>
-        </th>
-      </tr>
+                        opColumnsContextMenu
+                        [opColumnsContextMenu-column]="column"
+                        [opColumnsContextMenu-table]="workPackageTable">
+            </sortHeader>
+          </th>
+          <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th -short hide-when-print"
+              *ngIf="configuration.columnMenuEnabled || configuration.actionsColumnEnabled">
+            <div class="generic-table--sort-header-outer">
+              <accessible-by-keyboard
+                  (execute)="openTableConfigurationModal()"
+                  linkClass="wp-table--columns-selection"
+                  [linkTitle]="text.addColumns"
+                  [linkAriaLabel]="text.configureTable"
+                  *ngIf="configuration.columnMenuEnabled">
+                <op-icon icon-classes="icon-button icon-small icon-settings"></op-icon>
+              </accessible-by-keyboard>
+            </div>
+          </th>
+        </tr>
       </thead>
       <tbody class="work-package--empty-tbody" *ngIf="query.hasError || rowcount === 0">
       <tr id="empty-row-notification">

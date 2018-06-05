@@ -139,7 +139,7 @@ import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-to
     HighlightColDirective,
 
     // Add functionality to rails rendered templates
-    HideSectionComponent,
+    CollapsibleSectionComponent,
     HideSectionLinkComponent,
     AddSectionDropdownComponent,
     ShowSectionDropdownComponent,
@@ -156,10 +156,6 @@ import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-to
     HideSectionLinkComponent,
     NotificationsContainerComponent,
     CollapsibleSectionComponent,
-    PersistentToggleDirective,
-    HighlightColDirective,
-    CopyToClipboardDirective,
-    WikiToolbarDirective,
   ],
   providers: [
     I18nService,

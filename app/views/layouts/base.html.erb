@@ -33,7 +33,9 @@ See docs/COPYRIGHT.rdoc for more details.
   <meta name="viewport" content="width=device-width">
   <%= output_title_and_meta_tags %>
 
-  <meta name="app_base_path" content="<%= OpenProject::Configuration['rails_relative_url_root'] || '' %>"/>
+  <% relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || '' %>
+  <meta name="app_base_path" content="<%= relative_url_root %>"/>
+  <base href="<%= relative_url_root %>/" />
   <% if @project %>
     <meta name="current_project"
           data-project-name="<%= h @project.name %>"
@@ -89,7 +91,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
   <%= crowdin_in_context_translation %>
 </head>
-<body class="<%= body_css_classes %>" data-relative_url_root="<%= root_path %>" ng-init="projectIdentifier = '<%= (@project.identifier rescue '') %>'">
+<body class="<%= body_css_classes %>" data-relative_url_root="<%= root_path %>">
 <noscript>
   <div class="top-shelf icon icon-warning">
     <h1><%= l(:noscript_heading) %></h1>

@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {OnDestroy, OnInit} from '@angular/core';
+import {Injectable, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -46,6 +46,7 @@ import {OpTitleService} from 'core-components/html/op-title.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 
+@Injectable()
 export class WorkPackageCreateController implements OnInit, OnDestroy {
   public successState:string;
   public newWorkPackage:WorkPackageResource;

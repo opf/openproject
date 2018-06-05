@@ -27,7 +27,7 @@
 // ++
 
 import {PortalModule} from '@angular/cdk/portal';
-import {APP_INITIALIZER, ApplicationRef, NgModule} from '@angular/core';
+import {APP_INITIALIZER, ApplicationRef, Injector, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
@@ -195,8 +195,6 @@ import {TextileService} from "core-app/modules/common/textile/textile-service";
 import {AutoCompleteHelperService} from "core-components/input/auto-complete-helper.service";
 import {UIRouterModule} from "@uirouter/angular";
 import {initializeUiRouterConfiguration, OPENPROJECT_ROUTES} from "core-components/routing/ui-router.config";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {TransitionService} from "@uirouter/core";
 import {WorkPackagesBaseComponent} from "core-components/routing/main/work-packages-base.component";
 import {ExpressionService} from "core-app/modules/common/xss/expression.service";
 import {WorkPackageService} from "core-components/work-packages/work-package.service";
@@ -223,21 +221,13 @@ import {WorkPackageService} from "core-components/work-packages/work-package.ser
     {
       provide: APP_INITIALIZER,
       useFactory: initializeUiRouterConfiguration,
-      deps: [
-        TransitionService,
-        NotificationsService,
-        CurrentProjectService,
-        FirstRouteService
-      ],
+      deps: [Injector],
       multi: true
     },
     {
       provide: APP_INITIALIZER,
       useFactory: initializeServices,
-      deps: [
-        ExpressionService,
-        ExternalQueryConfigurationService
-      ],
+      deps: [Injector],
       multi: true
     },
     TextileService,
@@ -302,6 +292,7 @@ import {WorkPackageService} from "core-components/work-packages/work-package.ser
     ExternalQueryConfigurationService,
   ],
   declarations: [
+    WorkPackagesBaseComponent,
     WorkPackagesListComponent,
     OpContextMenuTrigger,
     TablePaginationComponent,
@@ -512,7 +503,9 @@ import {WorkPackageService} from "core-components/work-packages/work-package.ser
 
     // CKEditor and textareas
     OpCkeditorFormComponent,
-    OpAutoCompleteDirective,
+  ],
+  bootstrap: [
+    WorkPackagesBaseComponent
   ]
 })
 export class OpenProjectModule {
@@ -528,15 +521,16 @@ export class OpenProjectModule {
 }
 
 
-export function initializeServices(ExpressionService:ExpressionService,
-                                   externalQueryConfiguration:ExternalQueryConfigurationService) {
+export function initializeServices(injector:Injector) {
   return () => {
+    const Expression:ExpressionService = injector.get(ExpressionService);
+    const ExternalQueryConfiguration:ExternalQueryConfigurationService = injector.get(ExternalQueryConfigurationService);
     const global = (window as any);
 
     // Set the escaping target of opening double curly braces
     // This is what returned by rails-angular-xss when it discoveres double open curly braces
     // See https://github.com/opf/rails-angular-xss for more information.
-    global.DOUBLE_LEFT_CURLY_BRACE = ExpressionService.UNESCAPED_EXPRESSION;
+    global.DOUBLE_LEFT_CURLY_BRACE = Expression.UNESCAPED_EXPRESSION;
 
     if (window.innerWidth < 680) {
       // On mobile sized screens navigation shall always be collapsed when
@@ -548,6 +542,6 @@ export function initializeServices(ExpressionService:ExpressionService,
     }
 
     // Setup query configuration listener
-    externalQueryConfiguration.setupListener();
+    ExternalQueryConfiguration.setupListener();
   };
 }

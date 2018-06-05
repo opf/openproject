@@ -29,8 +29,12 @@
 import {Component} from "@angular/core";
 
 @Component({
-  selector: 'wp-app-base',
-  template: `<div ui-view class="work-packages-page--ui-view"></div>`
+  selector: 'work-packages-base',
+  template: `
+    <div class="work-packages-page--ui-view">
+      <ui-view></ui-view>
+    </div>
+  `
 })
 export class WorkPackagesBaseComponent {
 }

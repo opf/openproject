@@ -41,6 +41,8 @@ import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-sp
 import {WorkPackageCopySplitViewComponent} from 'core-components/wp-copy/wp-copy-split-view.component';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {Injector} from "@angular/core";
+import {WorkPackagesBaseComponent} from "core-components/routing/main/work-packages-base.component";
 
 const panels = {
   get overview() {
@@ -87,10 +89,11 @@ const panels = {
 // For more information, see
 // https://github.com/angular/angular.js/issues/5519
 // https://github.com/opf/openproject/pull/5685
-const baseUrl = (window as any).appBasePath;
+const baseUrl = ''; // (window as any).appBasePath;
 export const OPENPROJECT_ROUTES = [
   {
     name: 'work-packages',
+    component: WorkPackagesBaseComponent,
     url: baseUrl + '/{projects}/{projectPath}/work_packages?query_id&query_props',
     abstract: true,
     params: {
@@ -189,11 +192,14 @@ export const OPENPROJECT_ROUTES = [
   _.extend(panels.watchers, {name: 'work-packages.list.details.watchers'})
 ];
 
-export function initializeUiRouterConfiguration($transitions:TransitionService,
-                                                notificationsService:NotificationsService,
-                                                currentProject:CurrentProjectService,
-                                                firstRoute:FirstRouteService) {
+export function initializeUiRouterConfiguration(injector:Injector) {
   return () => {
+    const $transitions:TransitionService = injector.get(TransitionService);
+    const notificationsService:NotificationsService = injector.get(NotificationsService);
+    const currentProject:CurrentProjectService = injector.get(CurrentProjectService);
+    const firstRoute:FirstRouteService = injector.get(FirstRouteService);
+
+
     // Our application is still a hybrid one, meaning most routes are still
     // handled by Rails. As such, we disable the default link-hijacking that
     // Angular's HTML5-mode turns on.

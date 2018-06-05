@@ -28,14 +28,12 @@
 
 /*jshint expr: true*/
 import {PersistentToggleDirective} from "core-app/modules/common/persistent-toggle/persistent-toggle.directive";
-
-require('core-app/angular4-test-setup');
-
-import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {async, TestBed} from '@angular/core/testing';
 import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
 import {By} from "@angular/platform-browser";
-import {AccessibleClickDirective} from "core-app/modules/a11y/accessible-click.directive";
 import {Component, DebugElement} from "@angular/core";
+
+require('core-app/angular4-test-setup');
 
 @Component({
   template: `
