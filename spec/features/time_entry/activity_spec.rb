@@ -26,17 +26,27 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Administering the enumerations
+require 'spec_helper'
 
-  Scenario: Creating an enumeration
-    Given I am already admin
+describe 'Time entry activity', type: :feature do
+  let(:admin) { FactoryBot.create(:admin) }
 
-    When I go to the enumerations page
-    And I create a new enumeration with the following:
-      | type | activity |
-      | name | New enumeration   |
+  before do
+    login_as(admin)
+  end
 
-    Then I should be on the enumerations page
-    And I should see the enumeration:
-      | type | activity          |
-      | name | New enumeration   |
+  it 'supports CRUD' do
+    visit enumerations_path
+
+    page.all('a.button', text: 'Enumeration value').first.click
+
+    fill_in 'Name', with: 'A new activity'
+    click_on('Create')
+
+    expect(page.current_path)
+      .to eql enumerations_path
+
+    expect(page)
+      .to have_content('A new activity')
+  end
+end

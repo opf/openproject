@@ -2561,10 +2561,6 @@ uk:
       months: Місяців
       quarters: Приміщенням
       years: Років
-    project_menu:
-      reportings: Status reportings
-      reports: Timeline reports
-      timelines: Timelines
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed

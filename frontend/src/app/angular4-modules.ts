@@ -111,7 +111,7 @@ import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/sta
 import {WorkPackageInlineCreateComponent} from 'core-components/wp-inline-create/wp-inline-create.component';
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {WpResizerDirective} from 'core-components/resizer/wp-resizer.component';
-import {MainMenuResizerDirective} from 'core-components/resizer/main-menu-resizer.component';
+import {MainMenuResizerComponent} from 'core-components/resizer/main-menu-resizer.component';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {WorkPackagesListInvalidQueryService} from 'core-components/wp-list/wp-list-invalid-query.service';
@@ -202,6 +202,8 @@ import {OpenprojectPluginsModule} from "core-app/modules/plugins/openproject-plu
 import {ConfirmFormSubmitController} from "core-components/modals/confirm-form-submit/confirm-form-submit.directive";
 import {ProjectMenuAutocompleteComponent} from "core-components/projects/project-menu-autocomplete/project-menu-autocomplete.component";
 import {NotificationsContainerComponent} from "core-app/modules/common/notifications/notifications-container.component";
+import {MainMenuToggleComponent} from "core-components/resizer/main-menu-toggle.component";
+import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
 
 @NgModule({
   imports: [
@@ -294,6 +296,9 @@ import {NotificationsContainerComponent} from "core-app/modules/common/notificat
     WpTableConfigurationService,
     ConfirmDialogService,
 
+    // Main Menu
+    MainMenuToggleService,
+
     // External query configuration
     ExternalQueryConfigurationService,
   ],
@@ -316,7 +321,7 @@ import {NotificationsContainerComponent} from "core-app/modules/common/notificat
     WorkPackageTimelineButtonComponent,
     WorkPackageZenModeButtonComponent,
     WpResizerDirective,
-    MainMenuResizerDirective,
+    MainMenuResizerComponent,
     WpCustomActionComponent,
     WpCustomActionsComponent,
     WorkPackageTableSumsRowController,
@@ -436,6 +441,10 @@ import {NotificationsContainerComponent} from "core-app/modules/common/notificat
     // External query configuration
     ExternalQueryConfigurationComponent,
 
+    // Main menu
+    MainMenuResizerComponent,
+    MainMenuToggleComponent,
+
     // Project autocompleter
     ProjectMenuAutocompleteComponent,
 
@@ -512,7 +521,8 @@ import {NotificationsContainerComponent} from "core-app/modules/common/notificat
     ExternalQueryConfigurationComponent,
 
     // Main menu
-    MainMenuResizerDirective,
+    MainMenuResizerComponent,
+    MainMenuToggleComponent,
 
     // CKEditor and textareas
     OpCkeditorFormComponent,
@@ -526,7 +536,8 @@ export class OpenProjectModule {
 
     bootstrapOptional(
       appRef,
-      { tagName: 'main-menu-resizer', cls: MainMenuResizerDirective  },
+      { tagName: 'main-menu-resizer', cls: MainMenuResizerComponent  },
+      { tagName: 'main-menu-toggle', cls: MainMenuToggleComponent  },
       { tagName: 'work-packages-base', cls: WorkPackagesBaseComponent  },
       { tagName: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent  },
       { tagName: 'notifications-container', cls: NotificationsContainerComponent  },

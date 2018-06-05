@@ -27,9 +27,8 @@
 // ++
 
 import {Component, ElementRef, Input, OnDestroy, OnInit} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {HideSectionService} from 'core-app/modules/common/hide-section/hide-section.service';
-import {Observable, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {distinctUntilChanged, map, take} from 'rxjs/operators';
 
 @Component({

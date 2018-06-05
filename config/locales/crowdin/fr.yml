@@ -2583,10 +2583,6 @@ fr:
       months: Mois
       quarters: Trimestres
       years: Années
-    project_menu:
-      reportings: Rapports d'état
-      reports: Lignes du temps
-      timelines: Chronologie
   title_remove_and_delete_user: Retirer du projet l'utilisateur invité et le supprimer.
   tooltip_user_default_timezone: 'Fuseau horaire par défaut des nouveaux utilisateurs.
     Il peut-être modifié dans les paramètres utilisateur.

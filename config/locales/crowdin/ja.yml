@@ -2315,10 +2315,6 @@ ja:
       months: 月
       quarters: 四半期ごと
       years: " 年"
-    project_menu:
-      reportings: 進捗レポート
-      reports: タイムラインレポート
-      timelines: タイムライン
   title_remove_and_delete_user: プロジェクトから招待済のユーザを削除し、彼/彼女を削除します。
   tooltip_user_default_timezone: '新しいユーザーのデフォルトのタイム ゾーン。ユーザーの設定で変更できます。
 
