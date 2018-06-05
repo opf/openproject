@@ -31,18 +31,10 @@
 import {AuthorisationService} from './model-auth.service';
 
 describe('authorisationService', function() {
-
-  var authorisationService:AuthorisationService, $rootScope:ng.IRootScopeService, query:any;
-
-  beforeEach(angular.mock.module('openproject.services'));
-
-  beforeEach(inject(function(_authorisationService_:AuthorisationService, _$rootScope_:ng.IRootScopeService){
-    authorisationService = _authorisationService_;
-    $rootScope = _$rootScope_;
-  }));
+  let authorisationService:AuthorisationService = new AuthorisationService();
 
   describe('model action authorisation', function () {
-    beforeEach(function(){
+    beforeEach(function() {
       authorisationService.initModelAuth('query', {
         create: '/queries'
       });

@@ -29,17 +29,11 @@
 /*jshint expr: true*/
 
 import {CurrentProjectService} from './current-project.service';
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 describe('currentProject service', function() {
     var element:ng.IAugmentedJQuery;
-    var currentProject:CurrentProjectService;
-
-    beforeEach(angular.mock.module('openproject.templates',
-                                   'openproject.services'));
-
-    beforeEach(angular.mock.inject((_currentProject_:CurrentProjectService) => {
-      currentProject = _currentProject_;
-    }));
+    var currentProject:CurrentProjectService = new CurrentProjectService(new PathHelperService());
 
     describe('with no meta present', () => {
       it('returns null values', () => {
@@ -57,12 +51,12 @@ describe('currentProject service', function() {
           <meta name="current_project" data-project-name="Foo 1234" data-project-id="1" data-project-identifier="foobar"/>
         `;
 
-        element = angular.element(html);
-        angular.element(document.body).append(element);
+        element = jQuery(html);
+        jQuery(document.body).append(element);
         currentProject.detect();
       });
 
-      afterEach(angular.mock.inject(() => {
+      afterEach((() => {
         element.remove();
       }));
 

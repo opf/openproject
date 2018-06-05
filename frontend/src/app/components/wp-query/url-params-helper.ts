@@ -46,11 +46,11 @@ export class UrlParamsHelperService {
     }
 
     var parts:string[] = [];
-    angular.forEach(params, function (value, key) {
+    _.each(params, (value, key) => {
       if (!value) return;
       if (!Array.isArray(value)) value = [value];
 
-      angular.forEach(value, function (v) {
+      _.each(value, (v) => {
         if (v !== null && typeof v === 'object') {
           v = JSON.stringify(v);
         }
@@ -159,7 +159,7 @@ export class UrlParamsHelperService {
           // the array check is only there for backwards compatibility reasons.
           // Nowadays, it will always be an array;
           var vs = Array.isArray(urlFilter.v) ? urlFilter.v : [urlFilter.v];
-          angular.extend(attributes, { values: vs });
+          _.extend(attributes, { values: vs });
         }
         const filterData:any = {};
         filterData[urlFilter.n] = attributes;
@@ -202,7 +202,7 @@ export class UrlParamsHelperService {
     // Sortation
     queryData.sortBy = this.buildV3GetSortByFromQuery(query);
 
-    return angular.extend(queryData, additionalParams);
+    return _.extend(queryData, additionalParams);
   }
 
   public queryFilterValueToParam(value:any) {

@@ -29,7 +29,6 @@
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {InputState, State} from 'reactivestates';
 import {mapTo, take, takeUntil} from 'rxjs/operators';
-import {scopedObservable} from '../../../helpers/angular-rx-utils';
 import {Observable} from 'rxjs';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
@@ -67,10 +66,6 @@ export abstract class WorkPackageTableBaseService<T> {
 
   public clear(reason:string) {
     this.state.clear(reason);
-  }
-
-  public observeOnScope(scope:ng.IScope) {
-    return scopedObservable(scope, this.state.values$());
   }
 
   public observeUntil(unsubscribe:Observable<any>) {

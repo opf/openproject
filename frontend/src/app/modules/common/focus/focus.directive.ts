@@ -46,7 +46,8 @@ export class FocusDirective implements AfterViewInit {
 
   private updateFocus() {
     if (this.condition) {
-      this.FocusHelper.focusElement(this.elementRef.nativeElement, this.priority);
+      const element = jQuery(this.elementRef.nativeElement);
+      this.FocusHelper.focusElement(element, this.priority);
     }
   }
 }

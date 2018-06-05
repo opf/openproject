@@ -51,7 +51,7 @@ type ProjectAutocompleteItem = IAutocompleteItem<IProjectMenuEntry>;
   templateUrl: './project-menu-autocomplete.template.html',
   selector: 'project-menu-autocomplete'
 })
-export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<IProjectMenuEntry> implements OnInit {
+export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<IProjectMenuEntry> implements OnInit {
   public text:any;
 
   // The project dropdown menu

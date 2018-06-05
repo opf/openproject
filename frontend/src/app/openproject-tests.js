@@ -27,12 +27,9 @@
 //++
 
 require('./init-angularjs');
-require('angular-mocks/ngMock');
 require('jquery-mockjax')(jQuery, window);
 
 var requireComponent;
-
-window.$injector = angular.injector(['ng', 'ngMock', 'openproject.uiComponents', 'openproject.services']);
 
 requireComponent = require.context('../tests/unit/tests/', true, /test\.(js|ts)$/);
 requireComponent.keys().forEach(requireComponent);

@@ -84,7 +84,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.$element = angular.element(this.elementRef.nativeElement);
+    this.$element = jQuery(this.elementRef.nativeElement);
     this.wpEditFieldGroup.register(this);
   }
 

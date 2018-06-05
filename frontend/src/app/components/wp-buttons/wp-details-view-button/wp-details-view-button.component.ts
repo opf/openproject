@@ -92,7 +92,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
       projectPath: this.projectIdentifier
     };
 
-    angular.extend(params, this.$state.params);
+    _.extend(params, this.$state.params);
     this.$state.go(this.listState, params);
   }
 
@@ -102,7 +102,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
       projectPath: this.projectIdentifier,
     };
 
-    angular.extend(params, this.$state.params);
+    _.extend(params, this.$state.params);
     this.$state.go(this.keepTab.currentDetailsState, params);
   }
 }

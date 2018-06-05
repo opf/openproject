@@ -43,7 +43,7 @@ export class WorkPackageReplacementLabelComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.$element = angular.element(this.elementRef.nativeElement);
+    this.$element = jQuery(this.elementRef.nativeElement);
   }
 
   public activate(evt:JQueryEventObject) {

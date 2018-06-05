@@ -16,7 +16,7 @@ jQuery(function() {
   platformBrowserDynamic()
     .bootstrapModule(OpenProjectModule)
     .then(platformRef => {
-      angular.element('body').addClass('__ng2-bootstrap-has-run');
+      jQuery('body').addClass('__ng2-bootstrap-has-run');
     });
 });
 

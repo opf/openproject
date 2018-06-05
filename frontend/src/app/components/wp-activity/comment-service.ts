@@ -38,7 +38,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 @Injectable()
 export class CommentService {
 
-  // Replacement for $scope.$emit on activty-entry to mark comments to be quoted.
+  // Replacement for ng1 $scope.$emit on activty-entry to mark comments to be quoted.
   // Should be generalized if needed for more than that.
   public quoteEvents = input<string>();
 

@@ -73,7 +73,7 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    this.eeShowBanners = angular.element('body').hasClass('ee-banners-visible');
+    this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
   }
 
   ngOnDestroy() {

@@ -91,8 +91,8 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit {
   private setupAutoCompletion(autocompleteValues:IAutocompleteItem[]) {
     this.defineJQueryQueryComplete();
 
-    let input = angular.element('#query-title-filter') as IQueryAutocompleteJQuery;
-    let noResults = angular.element('.query-select-dropdown--no-results');
+    let input = jQuery('#query-title-filter') as IQueryAutocompleteJQuery;
+    let noResults = jQuery('.query-select-dropdown--no-results');
 
     input.querycomplete({
       delay: 0,

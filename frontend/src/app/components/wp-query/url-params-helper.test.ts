@@ -153,7 +153,7 @@ describe('UrlParamsHelper', function() {
         pageSize: 100
       };
 
-      expect(angular.equals(decodedQueryParams, expected)).to.be.true;
+      expect(_.equals(decodedQueryParams, expected)).to.be.true;
     });
   });
 
@@ -234,7 +234,7 @@ describe('UrlParamsHelper', function() {
         pageSize: 100
       };
 
-      expect(angular.equals(v3Params, expected)).to.be.true;
+      expect(_.equals(v3Params, expected)).to.be.true;
     });
 
     it('decodes string object filters', function() {
@@ -286,7 +286,7 @@ describe('UrlParamsHelper', function() {
         sortBy: '[]'
       };
 
-      expect(angular.equals(v3Params, expected)).to.be.true;
+      expect(_.isEqual(v3Params, expected)).to.be.true;
     });
   });
 });

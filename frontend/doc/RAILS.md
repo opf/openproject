@@ -27,7 +27,7 @@ An example would be the use of the `AutoCompleteHelper` (see `./frontend/app/hel
 // the goal is to use the service for initializing atWho after a new piece of HTML has been inserted into the document
 
 // the body is always the angular application on every page
-var injector = angular.element('body').injector();
+var injector = jQuery('body').injector();
 
 // the injecotr can be used to apply our service in arbitrary scopes
 // NOTE: textareas is a collection of angular elements

@@ -29,7 +29,7 @@ export class WpTableConfigurationFiltersTab implements TabComponent {
   }
 
   ngOnInit() {
-    this.eeShowBanners = angular.element('body').hasClass('ee-banners-visible');
+    this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
     this.wpTableFilters
       .onReady()
       .then(() => this.filters = this.wpTableFilters.currentState.$copy());

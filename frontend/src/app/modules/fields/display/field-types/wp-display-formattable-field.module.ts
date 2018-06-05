@@ -33,8 +33,8 @@ export class FormattableDisplayField extends DisplayField {
   protected ExpressionService:ExpressionService = this.$injector.get(ExpressionService);
 
   public render(element:HTMLElement, displayText:string):void {
-    angular.element(element).addClass('-multiline');
-    angular.element(element).addClass('read-value--html');
+    jQuery(element).addClass('-multiline');
+    jQuery(element).addClass('read-value--html');
 
     let span = document.createElement('span');
     span.innerHTML = displayText;

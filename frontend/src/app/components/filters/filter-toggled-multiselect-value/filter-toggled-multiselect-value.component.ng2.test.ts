@@ -26,11 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {
-  $httpToken,
-  $qToken,
-} from 'core-app/angular4-transition-utils';
-import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {async, fakeAsync, TestBed} from '@angular/core/testing';
 import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
 import {FilterToggledMultiselectValueComponent} from './filter-toggled-multiselect-value.component';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
@@ -84,8 +80,6 @@ describe('FilterToggledMultiselectValueComponent', () => {
         { provide: I18nService, useValue: I18nStub },
         { provide: PathHelperService, useValue: {} },
         { provide: RootDmService, useValue: {} },
-        { provide: $qToken, useValue: {} },
-        { provide: $httpToken, useValue: {} },
         { provide: HalResourceService, useValue: {} },
         HalResourceSortingService
       ]

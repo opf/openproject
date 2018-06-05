@@ -111,7 +111,7 @@ export class WorkPackageRelationsComponent implements OnInit, OnDestroy {
   }
 
   protected buildRelationGroups() {
-    if (!angular.isDefined(this.currentRelations)) {
+    if (_.isNil(this.currentRelations)) {
       return;
     }
 

@@ -26,9 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import IQService = angular.IQService;
-import IPromise = angular.IPromise;
-
 export interface UploadFile extends File {
   description?:string;
   customName?:string;
@@ -40,8 +37,7 @@ export interface UploadResult {
 }
 
 export class OpenProjectFileUploadService {
-  constructor(protected $q:IQService,
-              protected Upload:any) {
+  constructor(protected Upload:any) {
   }
 
   /**
@@ -65,7 +61,7 @@ export class OpenProjectFileUploadService {
 
       return this.Upload.upload({data, url});
     });
-    const finished = this.$q.all(uploads);
+    const finished = Promise.all(uploads);
     return {uploads, finished} as any;
   }
 }

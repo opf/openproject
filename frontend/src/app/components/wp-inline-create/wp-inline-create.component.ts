@@ -110,7 +110,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
   }
 
   ngOnInit() {
-    this.$element = angular.element(this.elementRef.nativeElement);
+    this.$element = jQuery(this.elementRef.nativeElement);
   }
 
   ngOnChanges() {

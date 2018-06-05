@@ -81,7 +81,7 @@ export class CurrentProjectService {
    * Detect the current project from its meta tag.
    */
   public detect() {
-    const element = angular.element('meta[name=current_project]');
+    const element = jQuery('meta[name=current_project]');
     if (element.length) {
       this.current = {
         id: element.data('projectId'),

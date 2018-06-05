@@ -47,7 +47,7 @@ export class DatePicker {
     const firstDayOfWeek = this.ConfigurationService.startOfWeekPresent() ?
       this.ConfigurationService.startOfWeek() : (jQuery.datepicker as any)._defaults.firstDay;
 
-    var mergedOptions = angular.extend({}, options, {
+    var mergedOptions = _.extend({}, options, {
       firstDay: firstDayOfWeek,
       showWeeks: true,
       changeMonth: true,

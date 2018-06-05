@@ -140,7 +140,6 @@ export class WorkPackageChangeset {
 
   /**
    * Update the form resource from the API.
-   * @return {angular.IPromise<any>}
    */
   public updateForm():Promise<FormResource> {
     let payload = this.buildPayloadFromChanges();

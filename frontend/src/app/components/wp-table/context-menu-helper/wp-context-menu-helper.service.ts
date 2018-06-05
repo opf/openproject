@@ -29,8 +29,8 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
 import {Inject, Injectable} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {HookServiceToken} from "core-app/angular4-transition-utils";
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
+import {HookService} from "core-app/modules/plugins/hook-service";
 
 export type WorkPackageAction = {
   text:string;
@@ -71,7 +71,7 @@ export class WorkPackageContextMenuHelperService {
     }
   ];
 
-  constructor(@Inject(HookServiceToken) private HookService:any,
+  constructor(private HookService:HookService,
               private UrlParamsHelper:UrlParamsHelperService,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private PathHelper:PathHelperService) {
@@ -82,7 +82,7 @@ export class WorkPackageContextMenuHelperService {
 
     var allowedActions = this.getAllowedActions(workPackage, permittedActionConstants);
 
-    angular.forEach(allowedActions, function(allowedAction) {
+    _.each(allowedActions, (allowedAction) => {
       singularPermittedActions.push({
         key: allowedAction.key,
         text: allowedAction.text,
@@ -103,7 +103,7 @@ export class WorkPackageContextMenuHelperService {
       });
     });
 
-    angular.forEach(permittedActions, (permittedAction:any) => {
+    _.each(permittedActions, (permittedAction:any) => {
       bulkPermittedActions.push({
         key: permittedAction.key,
         text: permittedAction.text,
@@ -132,14 +132,14 @@ export class WorkPackageContextMenuHelperService {
   public getAllowedActions(workPackage:WorkPackageResource, actions:WorkPackageAction[]):WorkPackageAction[] {
     var allowedActions:WorkPackageAction[] = [];
 
-    angular.forEach(actions, (action) => {
+    _.each(actions, (action) => {
       if (workPackage.hasOwnProperty(action.link)) {
         action.text = action.text || I18n.t('js.button_' + action.key);
         allowedActions.push(action);
       }
     });
 
-    angular.forEach(this.HookService.call('workPackageTableContextMenu'), (action) => {
+    _.each(this.HookService.call('workPackageTableContextMenu'), (action) => {
       if (workPackage.hasOwnProperty(action.link)) {
         var index = action.indexBy ? action.indexBy(allowedActions) : allowedActions.length;
         allowedActions.splice(index, 0, action)

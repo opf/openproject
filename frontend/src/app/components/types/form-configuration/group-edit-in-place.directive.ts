@@ -68,7 +68,7 @@
 //         scope.editing = true;
 //         scope.nameBefore = scope.name;
 //         $timeout(function(){
-//           angular.element('input', element).trigger('focus');
+//           jQuery('input', element).trigger('focus');
 //         }, 100);
 //       };
 //
@@ -85,7 +85,7 @@
 //       };
 //
 //       scope.saveEdition = function() {
-//         let newValue: string = angular.element("input", element[0]).first().val();
+//         let newValue: string = jQuery("input", element[0]).first().val();
 //         scope.nameOriginal = scope.name;
 //         scope.name = newValue.trim();
 //         scope.leaveEditingMode();
@@ -104,7 +104,7 @@
 //         if ($event.keyCode == 13) {
 //           // ENTER
 //           // a blur event will trigger `saveEdition`
-//           angular.element('input', element[0]).blur();
+//           jQuery('input', element[0]).blur();
 //           // Do not submit the whole form:
 //           $event.preventDefault();
 //           $event.stopPropagation();

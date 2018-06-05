@@ -68,7 +68,7 @@ export class WpRelationParentComponent implements OnInit, OnDestroy {
 
     this.wpRelationsHierarchyService.changeParent(this.workPackage, newParentId)
       .then((updatedWp:WorkPackageResource) => {
-        setTimeout(() => angular.element('#hierarchy--parent').focus());
+        setTimeout(() => jQuery('#hierarchy--parent').focus());
       })
       .catch((err:any) => {
         this.wpNotificationsService.handleErrorResponse(err, this.workPackage);
@@ -86,7 +86,7 @@ export class WpRelationParentComponent implements OnInit, OnDestroy {
       .then(() => {
         this.wpNotificationsService.showSave(this.workPackage);
         setTimeout(() => {
-          angular.element('#hierarchy--add-parent').focus();
+          jQuery('#hierarchy--add-parent').focus();
         });
       });
   }

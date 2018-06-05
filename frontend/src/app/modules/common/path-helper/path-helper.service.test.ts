@@ -29,12 +29,7 @@
 import {PathHelperService} from './path-helper.service';
 
 describe('PathHelper', function() {
-  var PathHelper:PathHelperService;
-
-  beforeEach(angular.mock.module('openproject.helpers'));
-  beforeEach(inject(function(_PathHelper_:PathHelperService) {
-    PathHelper = _PathHelper_;
-  }));
+  var PathHelper:PathHelperService = new PathHelperService();
 
   context('apiV3', function() {
     var projectIdentifier = 'majora';

@@ -16,7 +16,7 @@ export class WorkPackageFilterValues {
   public applyDefaultsFromFilters() {
     return this.changeset.getForm().then((form) => {
       const promises:Promise<any>[] = [];
-      angular.forEach(this.filters, filter => {
+      _.each(this.filters, filter => {
         // Ignore any filters except =
         if (filter.operator.id !== '=') {
           return;

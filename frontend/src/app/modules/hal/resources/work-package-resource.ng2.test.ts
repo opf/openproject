@@ -112,7 +112,7 @@ describe('WorkPackage', () => {
   describe('when retrieving `canAddAttachment`', () => {
     beforeEach(createWorkPackage);
 
-    const expectValue = (value:any, prepare = () => angular.noop()) => {
+    const expectValue = (value:any, prepare = () => _.noop) => {
       value = value.toString();
 
       beforeEach(prepare);
@@ -140,7 +140,7 @@ describe('WorkPackage', () => {
 
     describe('when the work work package has an `addAttachment` link', () => {
       expectValue(true, () => {
-        workPackage.$links.addAttachment = <any> angular.noop;
+        workPackage.$links.addAttachment = <any> _.noop;
       });
     });
   });

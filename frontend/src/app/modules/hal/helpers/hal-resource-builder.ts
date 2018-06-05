@@ -132,7 +132,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
     const sourceName = '_' + name;
     const sourceObj = halResource.$source[sourceName];
 
-    if (angular.isObject(sourceObj)) {
+    if (_.isObject(sourceObj)) {
       Object.keys(sourceObj).forEach(propName => {
         OpenprojectHalModuleHelpers.lazy((halResource)[instanceName],
           propName,
@@ -160,7 +160,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
       }
 
       if (_.isObject(element)) {
-        angular.forEach(element, (child:any, name:string) => {
+        _.each(element, (child:any, name:string) => {
           if (child && (child._embedded || child._links)) {
             OpenprojectHalModuleHelpers.lazy(element,
               name,

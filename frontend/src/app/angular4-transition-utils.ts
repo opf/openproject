@@ -30,14 +30,8 @@ import {InjectionToken} from '@angular/core';
 import {StateService} from '@uirouter/core';
 import {IQService, IRootScopeService, ITimeoutService} from 'angular';
 
-export const $qToken = new InjectionToken<IQService>('$q');
-export const $localeToken = new InjectionToken<any>('$locale');
-
-export const TextileServiceToken = new InjectionToken<any>('TextileServiceToken');
-export const $httpToken = new InjectionToken<any>('$http');
 export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
-export const HookServiceToken = new InjectionToken<any>('HookService');
 
 export function upgradeService(factory:(i:any) => any, token:any) {
   return {

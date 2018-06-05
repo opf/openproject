@@ -189,7 +189,7 @@ export class QueryMenuService {
       return null;
     }
 
-    let previousElement = angular.element(allItems[allItems.length - 1]);
+    let previousElement = jQuery(allItems[allItems.length - 1]);
     let i = allItems.length - 2;
 
     for (i; i >= 0; i--) {
@@ -198,7 +198,7 @@ export class QueryMenuService {
         return previousElement;
       }
       else {
-        previousElement = angular.element(allItems[i]);
+        previousElement = jQuery(allItems[i]);
       }
     }
 

@@ -129,7 +129,7 @@ export class DisplayFieldRenderer {
 
     if (field.isFormattable && !field.isEmpty()) {
       try {
-        titleContent = _.escape(angular.element(`<div>${labelContent}</div>`).text());
+        titleContent = _.escape(jQuery(`<div>${labelContent}</div>`).text());
       } catch (e) {
         console.error("Failed to parse formattable labelContent");
         titleContent = "Label for " + field.displayName;

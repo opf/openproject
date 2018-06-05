@@ -66,6 +66,8 @@ import {PersistentToggleDirective} from "core-app/modules/common/persistent-togg
 import {HighlightColDirective} from "core-app/modules/common/highlight-col/highlight-col.directive";
 import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive";
 import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-toolbar.directive";
+import {RefreshOnFormChangesDirective} from "core-app/modules/common/remote/refresh-on-form-changes.directive";
+import {RemoteFieldUpdaterDirective} from "core-app/modules/common/remote/remote-field-updater.directive";
 
 @NgModule({
   imports: [
@@ -107,6 +109,8 @@ import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-to
     ShowSectionDropdownComponent,
     AutocompleteSelectDecorationComponent,
     CollapsibleSectionComponent,
+    RefreshOnFormChangesDirective,
+    RemoteFieldUpdaterDirective,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -147,6 +151,8 @@ import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-to
     PersistentToggleDirective,
     CopyToClipboardDirective,
     WikiToolbarDirective,
+    RefreshOnFormChangesDirective,
+    RemoteFieldUpdaterDirective,
   ],
   entryComponents: [
     OpDateTimeComponent,

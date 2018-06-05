@@ -62,7 +62,7 @@
 //
 //   dragulaService.options($scope, 'groups', {
 //     moves: function(el:any, container:any, handle:any) {
-//       const editing = angular.element(el).find('.group-edit-in-place--input').length > 0;
+//       const editing = jQuery(el).find('.group-edit-in-place--input').length > 0;
 //       return !editing && handle.classList.contains('group-handle');
 //     }
 //   });
@@ -82,7 +82,7 @@
 //           button_continue: I18n.t('js.label_reset')
 //         }
 //       }).then(() => {
-//       angular.element('input#type_attribute_groups').first().val(JSON.stringify([]));
+//       jQuery('input#type_attribute_groups').first().val(JSON.stringify([]));
 //
 //       // Disable our form handler that updates the attribute groups
 //       form.off('submit.typeformupdater');
@@ -95,16 +95,16 @@
 //   };
 //
 //   $scope.deactivateAttribute = ($event:any) => {
-//     angular.element($event.target)
+//     jQuery($event.target)
 //       .parents('.type-form-conf-attribute')
 //       .appendTo('#type-form-conf-inactive-group .attributes');
 //     $scope.updateHiddenFields();
 //   };
 //
 //   $scope.deleteGroup = ($event:any):void => {
-//     let group:JQuery = angular.element($event.target).parents('.type-form-conf-group');
-//     let attributes:JQuery = angular.element('.attributes', group).children();
-//     let inactiveAttributes:JQuery = angular.element('#type-form-conf-inactive-group .attributes');
+//     let group:JQuery = jQuery($event.target).parents('.type-form-conf-group');
+//     let attributes:JQuery = jQuery('.attributes', group).children();
+//     let inactiveAttributes:JQuery = jQuery('#type-form-conf-inactive-group .attributes');
 //
 //     inactiveAttributes.prepend(attributes);
 //
@@ -113,8 +113,8 @@
 //   };
 //
 //   $scope.addGroup = (event:any) => {
-//     let newGroup:JQuery = angular.element('#type-form-conf-group-template').clone();
-//     let draggableGroups:JQuery = angular.element('#draggable-groups');
+//     let newGroup:JQuery = jQuery('#type-form-conf-group-template').clone();
+//     let draggableGroups:JQuery = jQuery('#draggable-groups');
 //     let randomId:string = Math.ceil(Math.random() * 10000000).toString();
 //
 //     // Remove the id of the template:
@@ -122,16 +122,16 @@
 //     // Every group needs a key and an original-key:
 //     newGroup.attr('data-key', randomId);
 //     newGroup.attr('data-original-key', randomId);
-//     angular.element('group-edit-in-place', newGroup).attr('key', randomId);
+//     jQuery('group-edit-in-place', newGroup).attr('key', randomId);
 //
 //     draggableGroups.prepend(newGroup);
 //     $compile(newGroup)($scope);
 //   };
 //
 //   $scope.addQuery = (event:any) => {
-//     let newGroup:JQuery = angular.element('#type-form-conf-query-template').clone();
+//     let newGroup:JQuery = jQuery('#type-form-conf-query-template').clone();
 //
-//     let draggableGroups:JQuery = angular.element('#draggable-groups');
+//     let draggableGroups:JQuery = jQuery('#draggable-groups');
 //     let randomId:string = Math.ceil(Math.random() * 10000000).toString();
 //
 //     // Remove the id of the template:
@@ -139,7 +139,7 @@
 //     // Every group needs a key and an original-key:
 //     newGroup.attr('data-key', randomId);
 //     newGroup.attr('data-original-key', randomId);
-//     angular.element('group-edit-in-place', newGroup).attr('key', randomId);
+//     jQuery('group-edit-in-place', newGroup).attr('key', randomId);
 //
 //     draggableGroups.prepend(newGroup);
 //     $compile(newGroup)($scope);
@@ -169,7 +169,7 @@
 //   };
 //
 //   $scope.updateHiddenFields = ():boolean => {
-//     let groups:HTMLElement[] = angular.element('.type-form-conf-group').not('#type-form-conf-group-template').toArray();
+//     let groups:HTMLElement[] = jQuery('.type-form-conf-group').not('#type-form-conf-group-template').toArray();
 //     let seenGroupNames:{ [name:string]:boolean } = {};
 //     let newAttrGroups:Array<Array<(string | Array<string> | boolean)>> = [];
 //     let inputAttributeGroups:JQuery;
@@ -186,7 +186,7 @@
 //       let keyIsSymbol:boolean = JSON.parse(group.attr('data-key-is-symbol'));
 //       let attrKeys:string[] = [];
 //
-//       angular.element(group).removeClass('-error');
+//       jQuery(group).removeClass('-error');
 //       if (groupKey == null || groupKey.length === 0) {
 //         // Do not save groups without a name.
 //         return;
@@ -197,7 +197,7 @@
 //         NotificationsService.addError(
 //           I18n.t('js.types.attribute_groups.error_duplicate_group_name', {group: groupKey})
 //         );
-//         angular.element(group).addClass('-error');
+//         jQuery(group).addClass('-error');
 //         hasError = true;
 //         return;
 //       }
@@ -225,7 +225,7 @@
 //     });
 //
 //     // Finally update hidden input fields
-//     inputAttributeGroups = angular.element('input#type_attribute_groups').first();
+//     inputAttributeGroups = jQuery('input#type_attribute_groups').first();
 //
 //     inputAttributeGroups.val(JSON.stringify(newAttrGroups));
 //

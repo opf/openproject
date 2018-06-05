@@ -26,13 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-describe('lazy service', () => {
-  var lazy:any;
+import {OpenprojectHalModuleHelpers} from "core-app/modules/hal/helpers/lazy-accessor";
 
-  beforeEach(angular.mock.module('openproject.services'));
-  beforeEach(angular.mock.inject((_lazy_:any) => {
-    lazy = _lazy_;
-  }));
+describe('lazy service', () => {
+  var lazy = OpenprojectHalModuleHelpers.lazy;
+
 
   it('should exist', () => {
     expect(lazy).to.exist;
@@ -84,7 +82,7 @@ describe('lazy service', () => {
   });
 
   it('should do nothing if the target is not an object', () => {
-    let obj = null;
+    let obj:any = null;
     lazy(obj, 'prop', () => '');
     expect(obj).to.not.be.ok;
   });

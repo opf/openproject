@@ -248,7 +248,7 @@ export class WorkPackageResource extends HalResource {
   private performUpload(files:UploadFile[]):UploadResult {
     const href = this.attachments.$href!;
     // TODO upgrade
-    const opFileUpload:OpenProjectFileUploadService = angular.element('body').injector().get('opFileUpload');
+    const opFileUpload:OpenProjectFileUploadService = jQuery('body').injector().get('opFileUpload');
 
     return opFileUpload.upload(href, files);
   }

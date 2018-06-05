@@ -48,7 +48,7 @@ export class WpTableConfigurationColumnsTab implements TabComponent {
   }
 
   ngOnInit() {
-    this.eeShowBanners = angular.element('body').hasClass('ee-banners-visible');
+    this.eeShowBanners = jQuery('body').hasClass('ee-banners-visible');
     this.selectedColumns.forEach((column:QueryColumn) => {
       this.selectedColumnMap[column.id] = true;
     });

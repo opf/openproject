@@ -28,12 +28,7 @@
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 
-import * as angular from 'angular';
-import {$localeToken} from 'core-app/angular4-transition-utils';
-
 export class FloatDisplayField extends DisplayField {
-
-  private $locale:angular.ILocaleService = this.$injector.get($localeToken);
 
   public get valueString():string {
     if (this.value == null) {
@@ -41,7 +36,7 @@ export class FloatDisplayField extends DisplayField {
     }
 
     return this.value.toLocaleString(
-      this.$locale.id,
+      this.I18n.locale,
       { useGrouping: true, maximumFractionDigits: 20 }
     );
   }

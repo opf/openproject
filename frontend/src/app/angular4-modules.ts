@@ -198,6 +198,9 @@ import {initializeUiRouterConfiguration, OPENPROJECT_ROUTES} from "core-componen
 import {WorkPackagesBaseComponent} from "core-components/routing/main/work-packages-base.component";
 import {ExpressionService} from "core-app/modules/common/xss/expression.service";
 import {WorkPackageService} from "core-components/work-packages/work-package.service";
+import {OpenprojectPluginsModule} from "core-app/modules/plugins/openproject-plugins.module";
+import {ConfirmFormSubmitController} from "core-components/modals/confirm-form-submit/confirm-form-submit.directive";
+import {ProjectMenuAutocompleteComponent} from "core-components/projects/project-menu-autocomplete/project-menu-autocomplete.component";
 
 @NgModule({
   imports: [
@@ -215,7 +218,9 @@ import {WorkPackageService} from "core-components/work-packages/work-package.ser
     // Hal Module
     OpenprojectHalModule,
     // Display + Edit field functionality
-    OpenprojectFieldsModule
+    OpenprojectFieldsModule,
+    // Plugin hooks and modules
+    OpenprojectPluginsModule,
   ],
   providers: [
     {
@@ -292,6 +297,7 @@ import {WorkPackageService} from "core-components/work-packages/work-package.ser
     ExternalQueryConfigurationService,
   ],
   declarations: [
+    ConfirmFormSubmitController,
     WorkPackagesBaseComponent,
     WorkPackagesListComponent,
     OpContextMenuTrigger,
@@ -429,6 +435,9 @@ import {WorkPackageService} from "core-components/work-packages/work-package.ser
     // External query configuration
     ExternalQueryConfigurationComponent,
 
+    // Project autocompleter
+    ProjectMenuAutocompleteComponent,
+
     // Form configuration
     OpDragScrollDirective,
 
@@ -472,6 +481,9 @@ import {WorkPackageService} from "core-components/work-packages/work-package.ser
 
     OPContextMenuComponent,
     WorkPackageQuerySelectDropdownComponent,
+
+    // Project autocompleter
+    ProjectMenuAutocompleteComponent,
 
     // Embedded table
     WorkPackageEmbeddedTableComponent,

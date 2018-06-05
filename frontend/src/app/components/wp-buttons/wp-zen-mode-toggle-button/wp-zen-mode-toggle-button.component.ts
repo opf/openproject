@@ -83,7 +83,7 @@ export class WorkPackageZenModeButtonComponent extends AbstractWorkPackageButton
 
   private deactivateZenMode():void {
     WorkPackageZenModeButtonComponent.inZenMode = false;
-    angular.element('body').removeClass('zen-mode');
+    jQuery('body').removeClass('zen-mode');
     this.disabled = false;
     if (screenfull.enabled && screenfull.isFullscreen) {
       screenfull.exit();
@@ -92,7 +92,7 @@ export class WorkPackageZenModeButtonComponent extends AbstractWorkPackageButton
 
   private activateZenMode():void {
     WorkPackageZenModeButtonComponent.inZenMode = true;
-    angular.element('body').addClass('zen-mode');
+    jQuery('body').addClass('zen-mode');
     if (screenfull.enabled) {
       screenfull.request();
     }

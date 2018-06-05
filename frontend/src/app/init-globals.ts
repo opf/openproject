@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {getUIRouter} from '@uirouter/angular-hybrid';
-import {ExpressionService} from 'core-app/modules/common/xss/expression.service';
+import {whenDebugging} from 'core-app/helpers/debug_output';
+import {enableReactiveStatesLogging} from "reactivestates";
 
 // Run the browser detection
 require('expose-loader?bowser!bowser');
@@ -45,7 +45,7 @@ var requireGlobals = require.context('./globals/', true, /\.ts$/);
 requireGlobals.keys().forEach(requireGlobals);
 
 // load I18n, depending on the html element having a 'lang' attribute
-var documentLang = (angular.element('html').attr('lang') || 'en').toLowerCase();
+var documentLang = (jQuery('html').attr('lang') || 'en').toLowerCase();
 try {
   require('angular-i18n/angular-locale_' + documentLang + '.js');
 }
@@ -53,16 +53,11 @@ catch(e) {
   require('angular-i18n/angular-locale_en.js');
 }
 
-import {whenDebugging} from 'core-app/helpers/debug_output';
-import {enableReactiveStatesLogging} from "reactivestates";
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
 const meta = jQuery('meta[name=openproject_initializer]');
 I18n.locale = meta.data('defaultLocale');
 I18n.locale = meta.data('locale');
-
-require('./layout');
-
 
 var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|ts|html)$/);
 requireComponent.keys().forEach(requireComponent);

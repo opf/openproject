@@ -27,25 +27,31 @@
 // ++
 
 import {KeepTabService} from './keep-tab.service';
-import {StateService} from '@uirouter/core';
+import {StateService, Transition} from '@uirouter/core';
 
 var expect = chai.expect;
 
 describe('keepTab service', () => {
-  var $state:StateService;
-  var keepTab:KeepTabService;
+  var callback:(transition:any) => void;
+  var includes:any;
+
+  var $state:any = {
+    current: {
+      name: 'whatever',
+    },
+    includes: includes
+  };
+
+  var $transitions:any = {
+    onSuccess: (criteria:any, cb:(transition:any) => void) => callback = cb
+  };
+
+  var keepTab:KeepTabService = new KeepTabService($state, $transitions);
 
   var defaults = {
     showTab: 'work-packages.show.activity',
     detailsTab: 'work-packages.list.details.overview'
   };
-
-  beforeEach(angular.mock.module('openproject.wpButtons'));
-
-  beforeEach(angular.mock.inject((_$state_:any, _keepTab_:any) => {
-    $state = _$state_;
-    keepTab = _keepTab_;
-  }));
 
   describe('when initially invoked, or when an unsupported route is opened', () => {
     it('should have the correct default value for the currentShowTab', () => {
@@ -60,7 +66,6 @@ describe('keepTab service', () => {
   });
 
   describe('when opening a show route', () => {
-    var includes:any;
 
     beforeEach(() => {
       includes = sinon.stub($state, 'includes');

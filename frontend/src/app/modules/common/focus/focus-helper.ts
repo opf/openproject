@@ -79,8 +79,8 @@ export class FocusHelperService {
   }
 
   public focus(element:JQuery) {
-    var focusable = angular.element(this.getFocusableElement(element)),
-      $focusable = angular.element(focusable),
+    var focusable = jQuery(this.getFocusableElement(element)),
+      $focusable = jQuery(focusable),
       isDisabled = $focusable.is('[disabled]');
 
     if (isDisabled && !$focusable.attr('ng-disabled')) {

@@ -75,7 +75,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.$element = angular.element(this.elementRef.nativeElement);
+    this.$element = jQuery(this.elementRef.nativeElement);
 
     this.workPackageId = this.$transition.params('to').workPackageId;
     this.wpCacheService.loadWorkPackage(this.workPackageId)
