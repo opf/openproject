@@ -112,7 +112,7 @@ describe('WorkPackage', () => {
   describe('when retrieving `canAddAttachment`', () => {
     beforeEach(createWorkPackage);
 
-    const expectValue = (value:any, prepare = () => _.noop) => {
+    const expectValue = (value:any, prepare:any = () => undefined) => {
       value = value.toString();
 
       beforeEach(prepare);
@@ -176,7 +176,7 @@ describe('WorkPackage', () => {
 
     afterEach(() => {
       uploadAttachmentsStub.restore();
-    })
+    });
 
     it('should call the uploadAttachments method with the pendingAttachments', () => {
       expect(uploadAttachmentsStub.calledWith([{}, {}])).to.be.true;

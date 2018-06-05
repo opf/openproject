@@ -205,9 +205,20 @@ export function initializeUiRouterConfiguration(injector:Injector) {
     // Angular's HTML5-mode turns on.
     jQuery(document.body)
       .off('click')
-      // Prevent angular handling clicks on href="#" links from other libraries
+      // Prevent angular handling clicks on href="#..." links from other libraries
       // (especially jquery-ui and its datepicker) from routing to <base url>/#
-      .on('click', 'a[href="#"]', (evt) => evt.preventDefault());
+      .on('click', 'a[href^="#"]', (evt) => {
+        evt.preventDefault();
+
+        // Set the location to the hash if there is any
+        // Since with the base tag, links like href="#whatever" otherwise target to <base>/#whatever
+        const link = evt.target.getAttribute('href');
+        if (link && link !== '#') {
+          window.location.hash = link;
+        }
+
+        return false;
+      });
 
     $transitions.onStart({}, function(transition:Transition) {
       const $state = transition.router.stateService;

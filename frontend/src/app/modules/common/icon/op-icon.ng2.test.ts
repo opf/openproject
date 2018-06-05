@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {AccessibleByKeyboardComponent} from "core-app/modules/a11y/accessible-by-keyboard.component";
 import {async, TestBed} from "@angular/core/testing";
 import {OpIcon} from "core-app/modules/common/icon/op-icon";
 import {ComponentFixture} from "@angular/core/testing/src/component_fixture";
