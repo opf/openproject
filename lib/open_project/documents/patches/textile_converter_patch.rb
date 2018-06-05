@@ -32,7 +32,7 @@
 module OpenProject::Documents::Patches
   module TextileConverterPatch
     def models_to_convert
-      super + { ::Document => [:description] }
+      super.merge(::Document => [:description])
     end
   end
 end
