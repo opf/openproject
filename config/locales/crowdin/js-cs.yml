@@ -87,7 +87,7 @@ cs:
     label_ascending: Vzestupně
     label_author: 'Autor: %{user}'
     label_between: mezi
-    label_board_locked: Locked
+    label_board_locked: Uzamčeno
     label_board_sticky: Sticky
     label_create_work_package: Vytvořit nový pracovní balíček
     label_created_by: Vytvořil(a)
@@ -97,8 +97,8 @@ cs:
     label_descending: Sestupně
     label_description: Popis
     label_cancel_comment: Stornovat komentář
-    label_closed_work_packages: closed
-    label_collapse: Collapse
+    label_closed_work_packages: uzavřeno
+    label_collapse: Sbalit
     label_collapsed: sbalené
     label_collapse_all: Sbalit vše
     label_comment: Komentář
@@ -108,7 +108,7 @@ cs:
     label_created_on: vytvořeno
     label_edit_comment: Upravit komentář
     label_edit_status: Úprava stavu pracovního balíčku
-    label_equals: is
+    label_equals: je
     label_expand: Rozbalit
     label_expanded: expanded
     label_expand_all: Rozbalit vše
@@ -120,8 +120,8 @@ cs:
     label_hide_attributes: Zobrazit méně
     label_hide_column: Skrýt sloupec
     label_in: v
-    label_in_less_than: in less than
-    label_in_more_than: in more than
+    label_in_less_than: za méně než
+    label_in_more_than: za více než
     label_latest_activity: Poslední aktivita
     label_last_updated_on: Naposled aktualizováno
     label_less_or_equal: "<="
@@ -135,12 +135,12 @@ cs:
     label_no_data: No data to display
     label_no_due_date: žádné datum ukončení
     label_no_start_date: žádné datum začátku
-    label_none: none
-    label_not_contains: doesn't contain
-    label_not_equals: is not
+    label_none: žádný
+    label_not_contains: neobsahuje
+    label_not_equals: není
     label_on: 'on'
-    label_open_menu: Open menu
-    label_open_work_packages: open
+    label_open_menu: Otevřít nabídku
+    label_open_work_packages: otevřít
     label_password: Heslo
     label_previous: Předchozí
     label_per_page: 'Na stránku:'
@@ -444,7 +444,7 @@ cs:
       label_enable_multi_select: Povolit vícenásobný výběr
       label_disable_multi_select: Zakázat vícenásobný výběr
       label_filter_add: Přidat filtr
-      label_options: Options
+      label_options: Možnosti
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
         confirm selection with enter, delete with backspace'
       label_switch_to_single_select: Přepnout na jednoduchý výběr
