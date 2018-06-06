@@ -31,22 +31,28 @@ import {debugLog} from '../../helpers/debug_output';
 import {SchemaCacheService} from '../schemas/schema-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
-import {WorkPackageCreateService} from '../wp-new/wp-create.service';
-import {WorkPackageEditingService} from './work-package-editing-service';
 import {Injector} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {
+  IWorkPackageCreateService,
+  IWorkPackageCreateServiceToken
+} from "core-components/wp-new/wp-create.service.interface";
+import {
+  IWorkPackageEditingService,
+  IWorkPackageEditingServiceToken
+} from "core-components/wp-edit-form/work-package-editing.service.interface";
 
 export class WorkPackageChangeset {
   // Injections
   public wpNotificationsService:WorkPackageNotificationService = this.injector.get(WorkPackageNotificationService);
   public schemaCacheService:SchemaCacheService = this.injector.get(SchemaCacheService);
   public wpCacheService:WorkPackageCacheService = this.injector.get(WorkPackageCacheService);
-  public wpCreate:WorkPackageCreateService = this.injector.get(WorkPackageCreateService);
-  public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
+  public wpCreate:IWorkPackageCreateService = this.injector.get(IWorkPackageCreateServiceToken);
+  public wpEditing:IWorkPackageEditingService = this.injector.get(IWorkPackageEditingServiceToken);
   public wpActivity:WorkPackagesActivityService = this.injector.get(WorkPackagesActivityService);
   public halResourceService:HalResourceService = this.injector.get(HalResourceService);
 

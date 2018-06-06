@@ -1,10 +1,9 @@
-import {OpTableAction} from 'core-components/wp-table/table-actions/table-action';
-import {opIconElement} from 'core-app/helpers/op-icon-builder';
 import {
   contextColumnIcon,
-  contextMenuLinkClassName
-} from 'core-components/wp-fast-table/builders/table-action-renderer';
-
+  contextMenuLinkClassName,
+  OpTableAction
+} from 'core-components/wp-table/table-actions/table-action';
+import {opIconElement} from 'core-app/helpers/op-icon-builder';
 
 export class OpContextMenuTableAction extends OpTableAction {
 

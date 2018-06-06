@@ -6,9 +6,9 @@ import {WorkPackageTableRow} from '../../../wp-table.interfaces';
 import {SingleRowBuilder} from '../../rows/single-row-builder';
 import {PlainRenderPass} from '../plain/plain-render-pass';
 import {groupClassNameFor, GroupHeaderBuilder} from './group-header-builder';
-import {collapsedRowClass} from './grouped-rows-builder';
 import {groupByProperty, groupedRowClassName} from './grouped-rows-helpers';
 import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
+import {collapsedRowClass} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 
 export class GroupedRenderPass extends PlainRenderPass {
 

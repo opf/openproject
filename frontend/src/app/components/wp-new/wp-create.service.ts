@@ -34,9 +34,10 @@ import {Observable, Subject} from 'rxjs';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {IWorkPackageCreateService} from "core-components/wp-new/wp-create.service.interface";
 
 @Injectable()
-export class WorkPackageCreateService {
+export class WorkPackageCreateService implements IWorkPackageCreateService {
   protected form:Promise<HalResource>;
 
   // Allow callbacks to happen on newly created work packages

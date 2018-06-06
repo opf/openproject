@@ -3,6 +3,10 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
 export type OpTableActionFactory = (i:Injector, wp:WorkPackageResource) => OpTableAction;
+export const contextMenuTdClassName = 'wp-table--context-menu-td';
+export const contextMenuSpanClassName = 'wp-table--context-menu-span';
+export const contextMenuLinkClassName = 'wp-table-context-menu-link';
+export const contextColumnIcon = 'wp-table-context-menu-icon';
 
 export abstract class OpTableAction {
 

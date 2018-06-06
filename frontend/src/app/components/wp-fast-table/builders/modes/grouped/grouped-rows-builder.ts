@@ -10,9 +10,10 @@ import {GroupedRenderPass} from './grouped-render-pass';
 import {groupedRowClassName, groupIdentifier} from './grouped-rows-helpers';
 import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-
-export const rowGroupClassName = 'wp-table--group-header';
-export const collapsedRowClass = '-collapsed';
+import {
+  collapsedRowClass,
+  rowGroupClassName
+} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 
 export class GroupedRowsBuilder extends RowsBuilder {
 

@@ -2,12 +2,7 @@ import {Injector} from '@angular/core';
 import {wpCellTdClassName} from './cell-builder';
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-
-export const contextMenuTdClassName = 'wp-table--context-menu-td';
-export const contextMenuSpanClassName = 'wp-table--context-menu-span';
-export const contextMenuLinkClassName = 'wp-table-context-menu-link';
-export const contextColumnIcon = 'wp-table-context-menu-icon';
-
+import {contextMenuSpanClassName, contextMenuTdClassName} from "core-components/wp-table/table-actions/table-action";
 
 export class TableActionRenderer {
 

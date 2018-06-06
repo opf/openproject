@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageEditForm} from './work-package-edit-form';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageChangeset} from './work-package-changeset';
@@ -35,6 +34,7 @@ import {map} from 'rxjs/operators';
 import {StateCacheService} from '../states/state-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {Injectable, Injector} from '@angular/core';
+import {IWorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing.service.interface";
 
 class WPChangesetStates extends StatesGroup {
   name = 'WP-Changesets';
@@ -48,7 +48,7 @@ class WPChangesetStates extends StatesGroup {
 }
 
 @Injectable()
-export class WorkPackageEditingService extends StateCacheService<WorkPackageChangeset> {
+export class WorkPackageEditingService extends StateCacheService<WorkPackageChangeset> implements IWorkPackageEditingService {
 
   private stateGroup:WPChangesetStates;
 

@@ -1,10 +1,10 @@
 import {Injector} from '@angular/core';
 import {debugLog} from '../../../../helpers/debug_output';
-import {States} from '../../../states.service';
-import {GroupedRowsBuilder, rowGroupClassName} from '../../builders/modes/grouped/grouped-rows-builder';
+import {GroupedRowsBuilder} from '../../builders/modes/grouped/grouped-rows-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {TableEventHandler} from '../table-handler-registry';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {rowGroupClassName} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 
 export class GroupRowHandler implements TableEventHandler {
 

@@ -1,9 +1,9 @@
 import {
+  contextColumnIcon,
   OpTableAction,
   OpTableActionFactory,
 } from 'core-components/wp-table/table-actions/table-action';
 import {opIconElement} from 'core-app/helpers/op-icon-builder';
-import {contextColumnIcon} from 'core-components/wp-fast-table/builders/table-action-renderer';
 import {Injector} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 

@@ -204,6 +204,8 @@ import {ProjectMenuAutocompleteComponent} from "core-components/projects/project
 import {NotificationsContainerComponent} from "core-app/modules/common/notifications/notifications-container.component";
 import {MainMenuToggleComponent} from "core-components/resizer/main-menu-toggle.component";
 import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
+import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
+import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 
 @NgModule({
   imports: [
@@ -277,6 +279,10 @@ import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.se
     WorkPackageTableSelection,
 
     WorkPackageCreateService,
+    WorkPackageEditingService,
+    // Provide both serves with tokens to avoid tight dependency cycles
+    { provide: IWorkPackageCreateServiceToken, useClass: WorkPackageCreateService },
+    { provide: IWorkPackageEditingServiceToken, useClass: WorkPackageEditingService },
     OpTableActionsService,
     CurrentProjectService,
     FirstRouteService,

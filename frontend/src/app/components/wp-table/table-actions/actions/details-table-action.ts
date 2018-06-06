@@ -1,9 +1,8 @@
-import {OpTableAction} from 'core-components/wp-table/table-actions/table-action';
+import {contextColumnIcon, OpTableAction} from 'core-components/wp-table/table-actions/table-action';
 import {opIconElement} from 'core-app/helpers/op-icon-builder';
 
 import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import {UiStateLinkBuilder} from 'core-components/wp-fast-table/builders/ui-state-link-builder';
-import {contextColumnIcon} from 'core-components/wp-fast-table/builders/table-action-renderer';
 import {StateService} from "@uirouter/core";
 
 export const detailsLinkClassName = 'wp-table--details-link';
