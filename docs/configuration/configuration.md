@@ -64,6 +64,7 @@ storage config above like this:
 * [`blacklisted_routes`](#blacklisted-routes) (default: [])
 * [`global_basic_auth`](#global-basic-auth)
 * [`apiv3_enable_basic_auth`](#apiv3_enable_basic_auth)
+* [`enterprise_limits`](#enterprise-limits)
 
 ## Setting session options
 
@@ -338,3 +339,29 @@ default:
 ## Onboarding variables:
 
 * 'onboarding_video_url': An URL for the video displayed on the onboarding modal. This is only shown when the user logs in for the first time.
+
+### Enterprise Limits
+
+If using an Enterprise token there are certain limits that apply.
+You can configure how these limits are enforced.
+
+#### `fail_fast`
+
+*default: false*
+
+If you set `fail_fast` to true, new users cannot be invited or registered if the user limit has been reached.
+If it is false then you can still invite and register new users but their activation will fail until the
+user limit has been increased (or the number of active users decreased).
+
+Configured in the `configuration.yml` like this:
+
+```
+enterprise:
+  fail_fast: true
+```
+
+Or through the environment like this:
+
+```
+OPENPROJECT_ENTERPRISE_FAIL__FAST=true
+```

@@ -445,6 +445,30 @@ describe AccountController, type: :controller do
             expect(user.status).to eq(User::STATUSES[:active])
           end
         end
+
+        context "with user limit reached" do
+          before do
+            allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+          end
+
+          it "fails" do
+            post :register,
+                 params: {
+                   user: {
+                     login: 'register',
+                     password: 'adminADMIN!',
+                     password_confirmation: 'adminADMIN!',
+                     firstname: 'John',
+                     lastname: 'Doe',
+                     mail: 'register@example.com'
+                   }
+                 }
+
+            is_expected.to redirect_to(signin_path)
+
+            expect(flash[:error]).to match /user limit reached/
+          end
+        end
       end
 
       context 'with password login disabled' do
