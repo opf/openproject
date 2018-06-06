@@ -27,7 +27,7 @@
 // ++
 
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
-import {OpModalLocalsToken} from "core-app/angular4-transition-utils";
+import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {Component, ElementRef, Inject} from "@angular/core";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";

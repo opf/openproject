@@ -54,7 +54,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
   public allowedToView = false;
   public allowedToAdd = false;
   public allowedToRemove = false;
-  private $element:ng.IAugmentedJQuery;
+  private $element:JQuery;
 
   public watching:any[] = [];
   public text = {

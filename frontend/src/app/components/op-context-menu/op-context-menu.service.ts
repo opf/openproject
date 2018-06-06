@@ -1,11 +1,10 @@
 import {
-  ApplicationRef, ComponentFactoryResolver, Inject, Injectable,
+  ApplicationRef, ComponentFactoryResolver, Injectable, InjectionToken,
   Injector
 } from '@angular/core';
 import {ComponentPortal, DomPortalOutlet, PortalInjector} from "@angular/cdk/portal";
 import {TransitionService} from "@uirouter/core";
 import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-menu-handler";
-import {OpContextMenuLocalsToken} from "core-app/angular4-transition-utils";
 import {OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";
 import {OPContextMenuComponent} from "core-components/op-context-menu/op-context-menu.component";
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';

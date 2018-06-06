@@ -32,10 +32,7 @@ import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
 import {StateService} from '@uirouter/core';
 import {Component, Inject, OnInit} from "@angular/core";
-import {
-  OpContextMenuLocalsToken
-} from "core-app/angular4-transition-utils";
-import {OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";
+import {OpContextMenuLocalsMap, OpContextMenuLocalsToken} from "core-components/op-context-menu/op-context-menu.types";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";

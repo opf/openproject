@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {IAugmentedJQuery} from "angular";
-
 export const selectorTableSide = ".work-packages-tabletimeline--table-side";
 export const selectorTimelineSide = ".work-packages-tabletimeline--timeline-side";
 const jQueryScrollSyncEventNamespace = ".scroll-sync";
@@ -88,7 +86,7 @@ function syncWheelEvent(jev: JQueryEventObject, elementTable: JQuery, elementTim
  *
  * @param $element true if the timeline is visible, false otherwise.
  */
-export function createScrollSync($element: IAugmentedJQuery) {
+export function createScrollSync($element:JQuery) {
 
   var elTable = jQuery($element).find(selectorTableSide);
   var elTimeline = jQuery($element).find(selectorTimelineSide);

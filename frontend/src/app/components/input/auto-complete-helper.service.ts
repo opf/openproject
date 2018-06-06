@@ -78,7 +78,7 @@ export class AutoCompleteHelperService {
         }
       }
     };
-  };
+  }
 
   public getAtWhoParametersWPID(textarea:HTMLElement) {
     var url = this.PathHelper.workPackageJsonAutoCompletePath();
@@ -122,7 +122,7 @@ export class AutoCompleteHelperService {
     };
   }
 
-  public enableTextareaAutoCompletion(textareas:ng.IAugmentedJQuery, projectId:string|null) {
+  public enableTextareaAutoCompletion(textareas:JQuery, projectId:string|null) {
     textareas.each((i, textarea:HTMLElement) => {
 
       // only activate autocompleter for mentioniong users if the user is

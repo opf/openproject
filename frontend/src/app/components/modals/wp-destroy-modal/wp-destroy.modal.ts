@@ -32,7 +32,7 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {Component, ElementRef, Inject, OnInit} from "@angular/core";
-import {OpModalLocalsToken} from "core-app/angular4-transition-utils";
+import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';

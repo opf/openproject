@@ -120,10 +120,10 @@ describe('wp-query-menu', () => {
     });
 
     describe('when the query id matches the query id of the state params', function() {
-      beforeEach(inject(function() {
+      beforeEach(function() {
         transitionCallback(objectId);
         fixture.detectChanges();
-      }));
+      });
 
       it('marks the new item as selected', function() {
         expect(itemLink.hasClass('selected'), 'is selected').to.be.true;
@@ -154,20 +154,20 @@ describe('wp-query-menu', () => {
     describe('on a work_package page', function() {
 
       describe('for a null query_id', function() {
-        beforeEach(inject(function() {
+        beforeEach(function() {
           transitionCallback(null);
           fixture.detectChanges();
-        }));
+        });
 
         it('marks the item as selected', function() {
           expect(itemLink.hasClass('selected'), 'is not selected').to.be.false;
         });
       });
       describe('for a string query_id', function() {
-        beforeEach(inject(function() {
+        beforeEach(function() {
           transitionCallback('1');
           fixture.detectChanges();
-        }));
+        });
 
         it('does not mark the item as selected', function() {
           expect(itemLink.hasClass('selected'), 'is not selected').to.be.false;

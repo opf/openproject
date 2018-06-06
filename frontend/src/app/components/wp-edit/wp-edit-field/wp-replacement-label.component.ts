@@ -36,7 +36,7 @@ import {Component, ElementRef, Input, OnInit} from '@angular/core';
 })
 export class WorkPackageReplacementLabelComponent implements OnInit {
   @Input('fieldName') public fieldName:string;
-  private $element:ng.IAugmentedJQuery;
+  private $element:JQuery;
 
   constructor(protected wpEditFieldGroup:WorkPackageEditFieldGroupComponent,
               protected elementRef:ElementRef) {

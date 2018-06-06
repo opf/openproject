@@ -268,29 +268,6 @@ jQuery(document).ready(function($) {
     addClickEventToAllErrorMessages();
   });
 
-  // TODO remove after select2
-  $.extend($.fn.select2.defaults, {
-    formatNoMatches: function () {
-      return I18n.t("js.select2.no_matches");
-    },
-    formatInputTooShort: function (input, min) {
-      return I18n.t("js.select2.input_too_short", {count: min - input.length});
-    },
-    formatSelectionTooBig: function (limit) {
-      return I18n.t("js.select2.selection_too_big", {limit: limit});
-    },
-    formatLoadMore: function (pageNumber) {
-      return I18n.t("js.select2.load_more");
-    },
-    formatSearching: function () {
-      return I18n.t("js.select2.searching");
-    },
-    containerCssClass: 'form--select2',
-    adaptContainerCssClass: function(clazz) {
-      return null;
-    }
-  });
-
   // file table thumbnails
   jQuery("table a.has-thumb").hover(function() {
     jQuery(this).removeAttr("title").toggleClass("active");

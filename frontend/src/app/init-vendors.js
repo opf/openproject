@@ -45,14 +45,8 @@ require('jquery-ujs');
 require('expose-loader?mousetrap!mousetrap/mousetrap.min.js');
 
 // Angular dependencies
-require('expose-loader?angular!angular');
 require('expose-loader?dragula!dragula/dist/dragula.min.js');
-require('angular-animate/angular-animate.min.js');
-require('angular-aria/angular-aria.min.js');
-require('angular-dragula/dist/angular-dragula.min.js');
-require('angular-elastic');
-require('@uirouter/angular-hybrid');
-require('ng-file-upload/dist/ng-file-upload.min.js');
+require('@uirouter/angular');
 
 // Jquery UI
 require('jquery-ui/ui/core.js');
@@ -80,12 +74,7 @@ require('fuse.js');
 
 require('at.js/dist/js/jquery.atwho.js');
 
-
 require('moment-timezone/builds/moment-timezone-with-data.min.js');
-
-require('../../vendor/select2/select2.min.js');
-
-require('ui-select/dist/select.min.js');
 
 require('expose-loader?URI!URIjs');
 require('URIjs/src/URITemplate');

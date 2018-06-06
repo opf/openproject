@@ -1,8 +1,7 @@
 import {Component, Inject} from "@angular/core";
-import {OpContextMenuLocalsToken} from "core-app/angular4-transition-utils";
 import {
   OpContextMenuItem,
-  OpContextMenuLocalsMap
+  OpContextMenuLocalsMap, OpContextMenuLocalsToken
 } from "core-components/op-context-menu/op-context-menu.types";
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
 

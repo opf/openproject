@@ -66,7 +66,7 @@ export class WorkPackageEditFieldComponent implements OnInit {
   public fieldRenderer = new DisplayFieldRenderer(this.injector, 'single-view');
   public editFieldContainerClass = editFieldContainerClass;
   public active = false;
-  private $element:ng.IAugmentedJQuery;
+  private $element:JQuery;
 
   constructor(protected states:States,
               protected injector:Injector,

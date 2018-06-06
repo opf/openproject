@@ -29,13 +29,11 @@
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {States} from '../../states.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {Component, ElementRef, Inject, OnInit, ViewChild} from "@angular/core";
-import {OpModalLocalsToken} from "core-app/angular4-transition-utils";
+import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
-import {QuerySharingChange} from "core-components/modals/share-modal/query-sharing-form.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({

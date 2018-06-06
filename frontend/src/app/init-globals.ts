@@ -34,8 +34,6 @@ require('expose-loader?bowser!bowser');
 
 // Styles for global dependencies
 require('at.js/dist/css/jquery.atwho.min.css');
-require('../../vendor/select2/select2.css');
-require('ui-select/dist/select.min.css');
 require('jquery-ui/themes/base/core.css');
 require('jquery-ui/themes/base/datepicker.css');
 require('jquery-ui/themes/base/dialog.css');
@@ -43,15 +41,6 @@ require('jquery-ui/themes/base/dialog.css');
 // Global scripts previously part of the application.js
 var requireGlobals = require.context('./globals/', true, /\.ts$/);
 requireGlobals.keys().forEach(requireGlobals);
-
-// load I18n, depending on the html element having a 'lang' attribute
-var documentLang = (jQuery('html').attr('lang') || 'en').toLowerCase();
-try {
-  require('angular-i18n/angular-locale_' + documentLang + '.js');
-}
-catch(e) {
-  require('angular-i18n/angular-locale_en.js');
-}
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 

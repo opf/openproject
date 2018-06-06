@@ -182,7 +182,7 @@ export class QueryMenuService {
    * Params
    *  * title: The string used for comparing.
    */
-  public previousMenuItem(title:string):ng.IAugmentedJQuery|null {
+  public previousMenuItem(title:string):JQuery|null {
     const allItems = this.container.find('li');
 
     if (allItems.length === 0) {

@@ -9,7 +9,6 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {OpModalLocalsToken} from 'core-app/angular4-transition-utils';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
@@ -27,6 +26,7 @@ import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resou
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 
 @Component({
   templateUrl: './wp-table-configuration.modal.html'

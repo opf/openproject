@@ -40,7 +40,7 @@ class OPDatePickerController {
   private datePickerInstance:any;
   private input:JQuery;
 
-  public constructor(private $element:ng.IAugmentedJQuery,
+  public constructor(private $element:JQuery,
                      private ConfigurationService:any,
                      private timezoneService:TimezoneService) {
     'ngInject';

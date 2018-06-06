@@ -32,7 +32,7 @@ import {CurrentProjectService} from './current-project.service';
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 describe('currentProject service', function() {
-    var element:ng.IAugmentedJQuery;
+    var element:JQuery;
     var currentProject:CurrentProjectService = new CurrentProjectService(new PathHelperService());
 
     describe('with no meta present', () => {

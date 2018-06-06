@@ -56,7 +56,7 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
 
   private activeZoomLevel:TimelineZoomLevel;
 
-  private gridContainer:ng.IAugmentedJQuery;
+  private gridContainer:JQuery;
 
   constructor(private elementRef:ElementRef,
               public wpTimeline:WorkPackageTimelineTableController) {

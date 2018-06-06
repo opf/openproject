@@ -1,5 +1,4 @@
 import {Component, ElementRef, Inject, OnInit} from '@angular/core';
-import {OpModalLocalsToken} from 'core-app/angular4-transition-utils';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
@@ -8,6 +7,7 @@ import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 
 interface ExportLink extends HalLink {
   identifier:string;

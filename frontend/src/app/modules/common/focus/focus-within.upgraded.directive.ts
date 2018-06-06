@@ -39,7 +39,7 @@ import {auditTime, takeUntil} from 'rxjs/operators';
 export class FocusWithinDirective implements OnInit, OnDestroy {
   @Input('focusWithinSelector') selector:string;
 
-  private $element:ng.IAugmentedJQuery;
+  private $element:JQuery;
 
   constructor(private elementRef:ElementRef) {
 

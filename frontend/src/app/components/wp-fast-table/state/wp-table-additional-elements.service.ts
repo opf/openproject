@@ -26,20 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {States} from '../../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTableColumnsService} from './wp-table-columns.service';
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {IQService} from 'angular';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {
-  RelationsStateValue,
-  WorkPackageRelationsService
-} from '../../wp-relations/wp-relations.service';
+import {RelationsStateValue, WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
 import {WorkPackageTableHierarchiesService} from './wp-table-hierarchy.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 
 @Injectable()

@@ -45,7 +45,6 @@ export class WorkPackageZenModeButtonComponent extends AbstractWorkPackageButton
 
   private activateLabel:string;
   private deactivateLabel:string;
-  private scope:ng.IScope;
 
   constructor(readonly I18n:I18nService) {
     super(I18n);
