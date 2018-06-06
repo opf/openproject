@@ -21,9 +21,22 @@
                       [textContent]="sort.column.name"
                       [value]="sort.column.href"
                       selected></option>
+
+              <!--
+              TODO:
+              The option element below used this code:
+                [selected]="sort.column.href === null"
+
+              However, the Angular template compiler wrongly complains about the comparison.
+              https://github.com/angular/angular/issues/18754
+
+              Since the explicit null comparision is safer than `!sort.column.href` the code
+              should be reverted to the old version once the bug is fixed.
+              -->
               <option [textContent]="emptyColumn.name"
                       [value]="emptyColumn.href"
-                      [selected]="sort.column.href === null"></option>
+                      [selected]="!sort.column.href"></option>
+
               <option *ngFor="let column of availableColumns"
                       [textContent]="column.name"
                       [value]="column.href"></option>
