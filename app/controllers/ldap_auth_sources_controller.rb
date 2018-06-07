@@ -28,7 +28,7 @@
 #++
 
 class LdapAuthSourcesController < AuthSourcesController
-  menu_item :ldap_authentication, only: [:index]
+  menu_item :ldap_authentication
 
   protected
 

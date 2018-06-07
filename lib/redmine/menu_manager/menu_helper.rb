@@ -77,14 +77,13 @@ module Redmine::MenuManager::MenuHelper
 
   def render_menu(menu, project = nil)
     links = []
-    classes = ''
+
     menu_items = first_level_menu_items_for(menu, project) do |node|
       links << render_menu_node(node, project)
     end
-    if menu == :project_menu
-      first_level = any_item_selected?(select_leafs(menu_items)) || !current_menu_item_part_of_menu?(menu, project)
-      classes << (first_level ? 'open' : 'closed')
-    end
+
+    first_level = any_item_selected?(select_leafs(menu_items)) || !current_menu_item_part_of_menu?(menu, project)
+    classes = first_level ? 'open' : 'closed'
 
     links.empty? ? nil : content_tag('ul', safe_join(links, "\n"), class: 'menu_root ' + classes)
   end
