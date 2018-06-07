@@ -76,7 +76,7 @@ export class DateEditFieldComponent extends EditFieldComponent {
 }
 
 export class DateEditField extends EditField {
-  public component = EditFieldComponent;
+  public component = DateEditFieldComponent;
 
   /**
    * Return the default date for the datepicker instance.
