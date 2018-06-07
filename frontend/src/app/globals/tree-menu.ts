@@ -38,12 +38,17 @@
       }
     });
 
-    // set click handlers for expanding and collapsing tree nodes
-    $('.pages-hierarchy.-with-hierarchy .tree-menu--hierarchy-span').click(function (event) {
+    function toggle (event) {
+      // ignore the event if a key different from ENTER was pressed.
+      if (event.type === 'keypress' && event.which !== 13) { return false }
+
       var target = $(event.target);
-      var targetList = target.closest('.-with-hierarchy');
+      var targetList = target.closest('ul.-with-hierarchy > li');
       targetList.toggleClass('-hierarchy-collapsed -hierarchy-expanded');
       return false;
-    })
+    }
+
+    // set click handlers for expanding and collapsing tree nodes
+    $('.pages-hierarchy.-with-hierarchy .tree-menu--hierarchy-span').on('click keypress', toggle)
   });
 }(jQuery));

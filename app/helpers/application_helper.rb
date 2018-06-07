@@ -137,9 +137,9 @@ module ApplicationHelper
   def render_page_hierarchy(pages, node = nil, options = {})
     return '' unless pages[node]
 
-    content_tag :ul, class: "pages-hierarchy -with-hierarchy -hierarchy-expanded" do
+    content_tag :ul, class: "pages-hierarchy -with-hierarchy" do
       pages[node].map { |page|
-        content_tag :li do
+        content_tag :li, class: '-hierarchy-expanded' do
           is_parent = pages[page.id]
           concat render_hierarchy_item(page, is_parent, options)
           concat render_page_hierarchy(pages, page.id, options) if is_parent
