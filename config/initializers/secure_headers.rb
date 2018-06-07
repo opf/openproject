@@ -23,12 +23,12 @@ SecureHeaders::Configuration.default do |config|
   default_src = %w('self')
 
   # Allow requests to CLI in dev mode
-  connect_src =
-    if Rails.env.development?
-      default_src + %w[ws://localhost:4200 http://localhost:4200]
-    else
-      default_src
-    end
+  connect_src = default_src
+
+  if Rails.env.development?
+    connect_src += %w[ws://localhost:4200 http://localhost:4200]
+    assets_src += %w[ws://localhost:4200 http://localhost:4200]
+  end
 
   config.csp = {
     preserve_schemes: true,

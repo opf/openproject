@@ -53,20 +53,8 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= render 'common/favicons' %>
   <%= stylesheet_link_tag 'openproject', media: "all" %>
 
-  <%# Pass global proxied assets in development mode %>
-  <% if frontend_assets_proxied? %>
-    <script type="text/javascript" src="/vendor.js"></script>
-    <script type="text/javascript" src="/polyfills.js"></script>
-    <script type="text/javascript" src="/runtime.js"></script>
-    <script type="text/javascript" src="/styles.js"></script>
-    <script type="text/javascript" src="/main.js"></script>
-  <% else %>
-    <%= javascript_include_tag frontend_asset_path "vendor.js" %>
-    <%= javascript_include_tag frontend_asset_path "polyfills.js" %>
-    <%= javascript_include_tag frontend_asset_path "runtime.js" %>
-    <%= stylesheet_link_tag frontend_asset_path "styles.css" %>
-    <%= javascript_include_tag frontend_asset_path "main.js" %>
-  <% end %>
+  <%# Include CLI assets (development) or prod build assets %>
+  <%= include_frontend_assets %>
 
   <%= javascript_include_tag 'application' %>
   <%= javascript_include_tag "locales/#{I18n.locale}" %>
