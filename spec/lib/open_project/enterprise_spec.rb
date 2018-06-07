@@ -26,41 +26,54 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
-  module Enterprise
-    class << self
-      def token
-        EnterpriseToken.current.presence
+require 'spec_helper'
+require 'open_project/passwords'
+
+describe OpenProject::Enterprise do
+  describe "#user_limit_reached?" do
+    let(:user_limit) { 2 }
+
+    before do
+      allow(OpenProject::Enterprise).to receive(:user_limit).and_return(user_limit)
+    end
+
+    context "with fewer active users than the limit allows" do
+      before do
+        FactoryGirl.create :user
+
+        expect(User.active.count).to eq 1
       end
 
-      def upgrade_path
-        url_helpers.enterprise_path
+      it "is false" do
+        expect(subject).not_to be_user_limit_reached
+      end
+    end
+
+    context "with equal or more active users than the limit allows" do
+      shared_examples "user limit is reached" do
+        let(:num_active_users) { 0 }
+
+        before do
+          (1..num_active_users).each { |_i| FactoryGirl.create :user }
+
+          expect(User.active.count).to eq num_active_users
+        end
+
+        it "is true" do
+          expect(subject).to be_user_limit_reached
+        end
       end
 
-      def user_limit
-        Hash(token.restrictions)[:active_user_count]
+      context "(equal)" do
+        it_behaves_like "user limit is reached" do
+          let(:num_active_users) { user_limit }
+        end
       end
 
-      def active_user_count
-        User.active.count
-      end
-
-      ##
-      # Indicates if there are more active users than the support token allows for.
-      #
-      # @return [Boolean] True if and only if there is a support token the user limit of which is exceeded.
-      def user_limit_reached?
-        active_user_count >= user_limit if user_limit
-      end
-
-      def fail_fast?
-        Hash(OpenProject::Configuration["enterprise"])["fail_fast"]
-      end
-
-      private
-
-      def url_helpers
-        @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
+      context "(more)" do
+        it_behaves_like "user limit is reached" do
+          let(:num_active_users) { user_limit + 1 }
+        end
       end
     end
   end

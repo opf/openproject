@@ -49,6 +49,48 @@ describe UsersController, type: :controller do
   let(:admin) { FactoryGirl.create(:admin) }
   let(:anonymous) { FactoryGirl.create(:anonymous) }
 
+  describe 'GET new' do
+    context "with user limit reached" do
+      before do
+        allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+      end
+
+      context "with fail fast" do
+        before do
+          allow(OpenProject::Enterprise).to receive(:fail_fast?).and_return(true)
+
+          as_logged_in_user admin do
+            get :new
+          end
+        end
+
+        it "shows a user limit error" do
+          expect(flash[:error]).to match /user limit reached/i
+        end
+
+        it "redirects back to the user index" do
+          expect(response).to redirect_to users_path
+        end
+      end
+
+      context "without fail fast" do
+        before do
+          as_logged_in_user admin do
+            get :new
+          end
+        end
+
+        it "shows a user limit warning" do
+          expect(flash[:warning]).to match /user limit reached/i
+        end
+
+        it "shows the new user page" do
+          expect(response).to render_template("users/new")
+        end
+      end
+    end
+  end
+
   describe 'GET deletion_info' do
     describe "WHEN the current user is the requested user
               WHEN the setting users_deletable_by_self is set to true" do
@@ -364,7 +406,11 @@ describe UsersController, type: :controller do
                                   language: 'de')
       end
 
+      let(:user_limit_reached) { false }
+
       before do
+        allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(user_limit_reached)
+
         as_logged_in_user admin do
           post :change_status,
                params: {
@@ -386,6 +432,18 @@ describe UsersController, type: :controller do
         mail.parts.each do |part|
           assert part.body.encoded.include?(I18n.t(:notice_account_activated,
                                                    locale: 'de'))
+        end
+      end
+
+      context "with user limit reached" do
+        let(:user_limit_reached) { true }
+
+        it "shows the user limit reached error and recommends to upgrade" do
+          expect(flash[:error]).to match /user limit reached.*upgrade/i
+        end
+
+        it "does not activate the user" do
+          expect(registered_user.reload).not_to be_active
         end
       end
     end
