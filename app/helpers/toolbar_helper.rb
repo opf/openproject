@@ -31,7 +31,11 @@ module ToolbarHelper
     end
 
     content_tag :div, class: 'title-container' do
-      content_tag(:h2, title, class: String(title_class)) + (
+      opts = {}
+
+      opts[:class] = title_class if title_class.present?
+
+      content_tag(:h2, title, opts) + (
         title_extra.present? ? title_extra : ''
       )
     end
