@@ -29,6 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% form_attributes = form_configuration_groups(@type) %>
 
+
 <section class="form--section">
   <%= f.hidden_field :attribute_groups, value: attribute_groups_as_json(@type) %>
   <div id="types-form-configuration" op-drag-scroll ng-controller="TypesFormConfigurationCtrl" ng-init="upsaleLink = <%= '"' + OpenProject::Static::Links.links[:upsale][:href] +  "/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration" + '"' %>">

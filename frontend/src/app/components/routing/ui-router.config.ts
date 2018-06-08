@@ -27,7 +27,7 @@
 // ++
 
 import {FirstRouteService} from 'app/components/routing/first-route-service';
-import {Transition, TransitionService} from '@uirouter/core';
+import {StateDeclaration, StateRegistry, Transition, TransitionService, UrlService} from '@uirouter/core';
 import {WorkPackageSplitViewComponent} from 'core-components/routing/wp-split-view/wp-split-view.component';
 import {WorkPackagesListComponent} from 'core-components/routing/wp-list/wp-list.component';
 import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
@@ -90,7 +90,7 @@ const panels = {
 // https://github.com/angular/angular.js/issues/5519
 // https://github.com/opf/openproject/pull/5685
 const baseUrl = ''; // (window as any).appBasePath;
-export const OPENPROJECT_ROUTES = [
+export const OPENPROJECT_ROUTES:StateDeclaration[] = [
   {
     name: 'work-packages',
     component: WorkPackagesBaseComponent,
@@ -198,7 +198,16 @@ export function initializeUiRouterConfiguration(injector:Injector) {
     const notificationsService:NotificationsService = injector.get(NotificationsService);
     const currentProject:CurrentProjectService = injector.get(CurrentProjectService);
     const firstRoute:FirstRouteService = injector.get(FirstRouteService);
+    const stateRegistry:StateRegistry = injector.get(StateRegistry);
+    const urlService:UrlService = injector.get(UrlService);
 
+    // Register routes in this initializer instead forRoot({states: ...}) due to AOT
+    _.each(OPENPROJECT_ROUTES, route => {
+      stateRegistry.register(route);
+    });
+
+    // Synchronize now that routes are updated
+    urlService.sync();
 
     // Our application is still a hybrid one, meaning most routes are still
     // handled by Rails. As such, we disable the default link-hijacking that

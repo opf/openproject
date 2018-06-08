@@ -194,7 +194,7 @@ import {OpDragScrollDirective} from "core-app/modules/common/ui/op-drag-scroll.d
 import {TextileService} from "core-app/modules/common/textile/textile-service";
 import {AutoCompleteHelperService} from "core-components/input/auto-complete-helper.service";
 import {UIRouterModule} from "@uirouter/angular";
-import {initializeUiRouterConfiguration, OPENPROJECT_ROUTES} from "core-components/routing/ui-router.config";
+import {initializeUiRouterConfiguration} from "core-components/routing/ui-router.config";
 import {WorkPackagesBaseComponent} from "core-components/routing/main/work-packages-base.component";
 import {ExpressionService} from "core-app/modules/common/xss/expression.service";
 import {WorkPackageService} from "core-components/work-packages/work-package.service";
@@ -213,7 +213,7 @@ import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work
     UpgradeModule,
     FormsModule,
     // UI router routes configuration
-    UIRouterModule.forRoot({states: OPENPROJECT_ROUTES}),
+    UIRouterModule.forRoot(),
     // Angular CDK
     PortalModule,
     // Commons

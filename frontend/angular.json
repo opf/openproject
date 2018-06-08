@@ -24,7 +24,7 @@
           },
           "configurations": {
             "production": {
-              "optimization": false, // Name mangling breaks angularjs
+              "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,
