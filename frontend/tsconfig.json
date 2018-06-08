@@ -36,9 +36,5 @@
       "core-components/*": ["./app/components/*"]
     }
   },
-  "compileOnSave": false,
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": []
+  "compileOnSave": false
 }
