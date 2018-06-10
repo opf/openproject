@@ -2209,7 +2209,7 @@ cs:
     brute_force_prevention: Automated user blocking
   text_formatting:
     textile: Textil
-    markdown: Markdown
+    markdown: Zmenšení
     plain: Obyčejný text
   status_active: active
   status_archived: archivováno
