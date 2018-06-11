@@ -59,9 +59,7 @@ fi
 run "for i in {1..3}; do npm install && break || sleep 15; done"
 
 if [ $1 != 'specs' ] && [ $1 != 'spec_legacy' ]; then
-  # as assets are compiled, the angular cli proxy does not serve assets
-  run "export OPENPROJECT_CLI_PROXY=''"
-  run "bundle exec rake assets:precompile"
+  run "bundle exec rails assets:precompile"
 else
   # fake result of npm/asset run
   run "mkdir -p public/assets/frontend/"
