@@ -26,9 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {Component, EventEmitter, Inject, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 
 @Component({
   selector: 'filter-boolean-value',
@@ -42,12 +43,12 @@ export class FilterBooleanValueComponent {
     placeholder: this.I18n.t('js.placeholders.selection'),
     true: this.I18n.t('js.general_text_Yes'),
     false: this.I18n.t('js.general_text_No')
-  }
+  };
 
   constructor(readonly I18n:I18nService) {
   }
 
-  public get value() {
+  public get value():HalResource | string {
     return this.filter.values[0];
   }
 

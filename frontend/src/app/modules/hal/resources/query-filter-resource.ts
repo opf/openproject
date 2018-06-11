@@ -29,7 +29,7 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
 
-interface QueryFilterResourceEmbedded {
+export interface QueryFilterResourceEmbedded {
   schema:QueryFilterInstanceSchemaResource;
 }
 

@@ -31,7 +31,7 @@ import {CollectionResource} from 'core-app/modules/hal/resources/collection-reso
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
-interface WorkPackageCollectionResourceEmbedded {
+export interface WorkPackageCollectionResourceEmbedded {
   elements:WorkPackageResource[];
   groups:GroupObject[];
 }

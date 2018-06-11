@@ -137,6 +137,7 @@
     "pretest": "npm run webpack-with-test",
     "tslint_typechecks": "tslint -p . -c tslint_typechecks.json",
     "posttest": "npm run tslint_typechecks",
+    "generate-typings": "tsc -d -p src/tsconfig.app.json",
     "test": "npm run karma",
     "karma": "./scripts/karma-runner.js",
     "webpack": "./node_modules/.bin/webpack --colors",

@@ -34,7 +34,7 @@ import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 
-interface QueryResourceEmbedded {
+export interface QueryResourceEmbedded {
   results:WorkPackageCollectionResource;
   columns:QueryColumn[];
   groupBy:QueryGroupByResource|undefined;

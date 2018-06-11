@@ -29,7 +29,7 @@
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
-interface CustomActionResourceLinks {
+export interface CustomActionResourceLinks {
   self():Promise<CustomActionResource>;
   executeImmediately(payload:any):Promise<WorkPackageResource>;
 }

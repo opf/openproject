@@ -1,4 +1,5 @@
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {InputState} from 'reactivestates';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {WorkPackageTableHierarchies} from '../wp-table-hierarchies';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
@@ -10,7 +11,7 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
     super(tableState);
   }
 
-  public get state() {
+  public get state():InputState<WorkPackageTableHierarchies> {
     return this.tableState.hierarchies;
   }
 

@@ -47,7 +47,7 @@ import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 
-interface WorkPackageResourceEmbedded {
+export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
   ancestors:WorkPackageResource[];
   assignee:HalResource|any;
@@ -75,7 +75,7 @@ interface WorkPackageResourceEmbedded {
   relatedBy:RelationResource|null;
 }
 
-interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
+export interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
   addAttachment(attachment:HalResource):Promise<any>;
 
   addChild(child:HalResource):Promise<any>;
@@ -107,7 +107,7 @@ interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
   watch():Promise<any>;
 }
 
-interface WorkPackageLinksObject extends WorkPackageResourceLinks {
+export interface WorkPackageLinksObject extends WorkPackageResourceLinks {
   schema:HalResource;
 }
 

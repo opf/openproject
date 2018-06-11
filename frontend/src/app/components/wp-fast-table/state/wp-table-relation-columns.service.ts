@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {InputState} from 'reactivestates';
 import {WorkPackageTableRelationColumns} from '../wp-table-relation-columns';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageTableColumnsService} from './wp-table-columns.service';
@@ -59,7 +60,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
       super(tableState);
   }
 
-  public get state() {
+  public get state():InputState<WorkPackageTableRelationColumns> {
     return this.tableState.relationColumns;
   }
 

@@ -29,7 +29,7 @@
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageChangeset} from './work-package-changeset';
-import {combine, deriveRaw, multiInput, State, StatesGroup} from 'reactivestates';
+import {combine, deriveRaw, multiInput, MultiInputState, State, StatesGroup} from 'reactivestates';
 import {map} from 'rxjs/operators';
 import {StateCacheService} from '../states/state-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
@@ -127,7 +127,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
     return Promise.all(ids.map(id => this.load(id))) as any;
   }
 
-  protected get multiState() {
+  protected get multiState():MultiInputState<WorkPackageChangeset> {
     return this.stateGroup.changesets;
   }
 }

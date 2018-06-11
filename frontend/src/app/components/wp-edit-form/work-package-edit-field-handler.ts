@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageEditForm} from './work-package-edit-form';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
@@ -187,7 +188,7 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
   /**
    * Reference the form's work package
    */
-  public get workPackage() {
+  public get workPackage():WorkPackageResource {
     return this.form.workPackage;
   }
 

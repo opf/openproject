@@ -27,14 +27,15 @@
 //++
 
 import {Injectable} from '@angular/core';
-import {WorkPackageTableBaseService,} from './wp-table-base.service';
-import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource'
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageTablePagination} from '../wp-table-pagination';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {PaginationObject} from 'core-app/modules/hal/dm-services/query-dm.service';
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {InputState} from 'reactivestates';
+import {WorkPackageTablePagination} from '../wp-table-pagination';
+import {WorkPackageTableBaseService,} from './wp-table-base.service';
 
-interface PaginationUpdateObject {
+export interface PaginationUpdateObject {
   page?:number;
   perPage?:number;
   total?:number;
@@ -47,7 +48,7 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
     super(tableState);
   }
 
-  public get state() {
+  public get state():InputState<WorkPackageTablePagination> {
     return this.tableState.pagination;
   }
 
@@ -79,10 +80,12 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
   }
 
   public updateFromResults(results:WorkPackageCollectionResource) {
-    let update = { page: results.offset,
-                   perPage: results.pageSize,
-                   total: results.total,
-                   count: results.count };
+    let update = {
+      page: results.offset,
+      perPage: results.pageSize,
+      total: results.total,
+      count: results.count
+    };
 
     this.updateFromObject(update);
   }

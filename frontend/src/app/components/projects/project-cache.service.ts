@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {MultiInputState} from 'reactivestates';
 import {States} from '../states.service';
 import {StateCacheService} from '../states/state-cache.service';
 import {Injectable} from '@angular/core';
@@ -50,7 +51,7 @@ export class ProjectCacheService extends StateCacheService<ProjectResource> {
     return this.projectDmService.load(id);
   }
 
-  protected get multiState() {
+  protected get multiState():MultiInputState<ProjectResource> {
     return this.states.projects;
   }
 

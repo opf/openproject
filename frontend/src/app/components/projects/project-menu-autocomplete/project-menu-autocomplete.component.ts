@@ -37,7 +37,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HttpClient} from "@angular/common/http";
 import {ChangeDetectorRef, Component, ElementRef, OnInit} from "@angular/core";
 
-interface IProjectMenuEntry {
+export interface IProjectMenuEntry {
   id:number;
   name:string;
   identifier:string;
@@ -45,7 +45,7 @@ interface IProjectMenuEntry {
   level:number;
 }
 
-type ProjectAutocompleteItem = IAutocompleteItem<IProjectMenuEntry>;
+export type ProjectAutocompleteItem = IAutocompleteItem<IProjectMenuEntry>;
 
 @Component({
   templateUrl: './project-menu-autocomplete.template.html',

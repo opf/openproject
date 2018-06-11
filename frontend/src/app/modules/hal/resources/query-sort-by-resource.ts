@@ -32,7 +32,7 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 export const QUERY_SORT_BY_ASC = "urn:openproject-org:api:v3:queries:directions:asc"
 export const QUERY_SORT_BY_DESC = "urn:openproject-org:api:v3:queries:directions:desc"
 
-interface QuerySortByResourceEmbedded {
+export interface QuerySortByResourceEmbedded {
   column:QueryColumn;
   direction:QuerySortByDirection;
 }

@@ -1,5 +1,5 @@
-import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
+import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
+import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
 
 /**
  * Interface passed to CM service to open a particular context menu.
@@ -39,7 +39,7 @@ export abstract class OpContextMenuHandler {
   /**
    * Get the locals passed to the op-context-menu component
    */
-  public get locals() {
+  public get locals():{ showAnchorRight?:boolean, contextMenuId?:string, items:OpContextMenuItem[] } {
     return {
       items: this.items
     };

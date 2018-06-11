@@ -1,3 +1,4 @@
+import {Observable} from 'rxjs/Observable';
 import {States} from '../../states.service';
 import {InputState} from 'reactivestates';
 import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
@@ -50,7 +51,7 @@ export class WorkPackageTableFocusService {
     this.state.clear();
   }
 
-  public whenChanged() {
+  public whenChanged():Observable<string> {
     return this.state.values$()
       .pipe(
         map((val:WPFocusState) => val.workPackageId),

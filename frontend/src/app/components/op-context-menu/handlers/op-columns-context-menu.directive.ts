@@ -26,19 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {Directive, ElementRef, Inject, Input} from "@angular/core";
+import {Directive, ElementRef, Input} from '@angular/core';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
-import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
-import {QueryColumn} from "core-components/wp-query/query-column";
-import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
-import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
-import {WorkPackageTableGroupByService} from "core-components/wp-fast-table/state/wp-table-group-by.service";
-import {WorkPackageTableColumnsService} from "core-components/wp-fast-table/state/wp-table-columns.service";
-import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
-import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
+import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
+import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
+import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
+import {WorkPackageTable} from 'core-components/wp-fast-table/wp-fast-table';
+import {QueryColumn} from 'core-components/wp-query/query-column';
+import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 
 @Directive({
   selector: '[opColumnsContextMenu]'
@@ -170,7 +171,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         onClick: () => {
           this.opModalService.show<WpTableConfigurationModalComponent>(
             WpTableConfigurationModalComponent,
-            { initialTab: 'columns' }
+            {initialTab: 'columns'}
           );
           return true;
         }

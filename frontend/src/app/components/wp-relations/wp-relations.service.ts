@@ -2,17 +2,17 @@ import {RelationsDmService} from 'core-app/modules/hal/dm-services/relations-dm.
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {multiInput, StatesGroup} from 'reactivestates';
+import {multiInput, MultiInputState, StatesGroup} from 'reactivestates';
 import {StateCacheService} from '../states/state-cache.service';
 import {Injectable} from "@angular/core";
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
 
 export type RelationsStateValue = { [relationId:number]:RelationResource };
 
-class RelationStateGroup extends StatesGroup {
+export class RelationStateGroup extends StatesGroup {
   name = 'WP-Relations';
 
-  relations = multiInput<RelationsStateValue>();
+  relations:MultiInputState<RelationsStateValue> = multiInput<RelationsStateValue>();
 
   constructor() {
     super();

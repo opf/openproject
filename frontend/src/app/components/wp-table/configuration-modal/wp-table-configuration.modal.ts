@@ -16,7 +16,7 @@ import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {
   ActiveTabInterface,
-  TabComponent,
+  TabComponent, TabInterface,
   TabPortalOutlet
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
@@ -104,7 +104,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     this.tabPortalHost.dispose();
   }
 
-  public get availableTabs() {
+  public get availableTabs():TabInterface[] {
     return this.tabPortalHost.availableTabs;
   }
 

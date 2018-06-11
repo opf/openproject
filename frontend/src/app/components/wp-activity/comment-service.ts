@@ -26,54 +26,53 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
+import {Injectable} from '@angular/core';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {input} from 'reactivestates';
-import {Injectable} from "@angular/core";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {input, InputState} from 'reactivestates';
+import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
 
 @Injectable()
 export class CommentService {
 
   // Replacement for ng1 $scope.$emit on activty-entry to mark comments to be quoted.
   // Should be generalized if needed for more than that.
-  public quoteEvents = input<string>();
+  public quoteEvents:InputState<string> = input<string>();
 
   constructor(
     readonly I18n:I18nService,
     private wpNotificationsService:WorkPackageNotificationService,
     private NotificationsService:NotificationsService) {
-    }
+  }
 
   public createComment(workPackage:WorkPackageResource, comment:string) {
     return workPackage.addComment(
-      { comment: comment},
-      { 'Content-Type': 'application/json; charset=UTF-8' }
+      {comment: comment},
+      {'Content-Type': 'application/json; charset=UTF-8'}
     )
-    .catch((error:any) => this.errorAndReject(error, workPackage));
+      .catch((error:any) => this.errorAndReject(error, workPackage));
   }
 
   public updateComment(activity:HalResource, comment:string) {
     const options = {
       ajax: {
         method: 'PATCH',
-        data: JSON.stringify({ comment: comment }),
+        data: JSON.stringify({comment: comment}),
         contentType: 'application/json; charset=utf-8'
       }
     };
 
     return activity.update(
-      { comment: comment },
-      { 'Content-Type': 'application/json; charset=UTF-8' }
+      {comment: comment},
+      {'Content-Type': 'application/json; charset=UTF-8'}
     ).then((activity:HalResource) => {
-        this.NotificationsService.addSuccess(
-          this.I18n.t('js.work_packages.comment_updated')
-        );
+      this.NotificationsService.addSuccess(
+        this.I18n.t('js.work_packages.comment_updated')
+      );
 
-        return activity;
+      return activity;
     }).catch((error:any) => this.errorAndReject(error));
   }
 

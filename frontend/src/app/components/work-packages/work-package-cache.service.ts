@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {State} from 'reactivestates';
+import {MultiInputState, State} from 'reactivestates';
 import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
 import {States} from '../states.service';
 import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
@@ -150,7 +150,7 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     });
   }
 
-  protected get multiState() {
+  protected get multiState():MultiInputState<WorkPackageResource> {
     return this.states.workPackages;
   }
 

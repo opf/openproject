@@ -27,7 +27,7 @@
 // ++
 
 import {States} from 'core-components/states.service';
-import {combine} from 'reactivestates';
+import {combine, InputState} from 'reactivestates';
 import {mapTo} from 'rxjs/operators';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTableSortBy} from '../wp-table-sort-by';
@@ -52,7 +52,7 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService<W
   }
 
 
-  public get state() {
+  public get state():InputState<WorkPackageTableSortBy> {
     return this.tableState.sortBy;
   }
 

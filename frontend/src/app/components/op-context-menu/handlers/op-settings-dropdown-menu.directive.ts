@@ -31,6 +31,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
+import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
 import {States} from 'core-components/states.service';
 import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';

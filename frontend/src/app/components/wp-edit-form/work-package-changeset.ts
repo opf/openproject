@@ -26,7 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {input} from 'reactivestates';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {input, InputState} from 'reactivestates';
 import {debugLog} from '../../helpers/debug_output';
 import {SchemaCacheService} from '../schemas/schema-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
@@ -62,7 +63,7 @@ export class WorkPackageChangeset {
   public inFlight:boolean = false;
 
   // The current work package form
-  public wpForm = input<FormResource>();
+  public wpForm:InputState<FormResource> = input<FormResource>();
 
   // The current editing resource
   public resource:WorkPackageResource|null;
@@ -314,7 +315,7 @@ export class WorkPackageChangeset {
    * If loaded, return the form schema, which provides better information on writable status
    * and contains available values.
    */
-  public get schema() {
+  public get schema():HalResource {
     return this.wpForm.getValueOr(this.workPackage).schema;
   }
 

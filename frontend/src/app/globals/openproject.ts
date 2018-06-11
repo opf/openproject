@@ -26,15 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpenProjectPluginContext} from "core-app/modules/plugins/plugin-context";
-import {input} from "reactivestates";
-import {take} from "rxjs/operators";
+import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
+import {input, InputState} from 'reactivestates';
+import {take} from 'rxjs/operators';
 
 /**
-* OpenProject instance methods
-*/
+ * OpenProject instance methods
+ */
 export class OpenProject {
-  public pluginContext = input<OpenProjectPluginContext>();
+
+  public pluginContext:InputState<OpenProjectPluginContext> = input<OpenProjectPluginContext>();
 
   public getPluginContext():Promise<OpenProjectPluginContext> {
     return this.pluginContext
@@ -61,12 +62,12 @@ export class OpenProject {
    * @param {string} newValue
    * @returns {string | undefined}
    */
-  public guardedLocalStorage(key:string, newValue?:string):string|void {
+  public guardedLocalStorage(key:string, newValue?:string):string | void {
     try {
       if (newValue !== undefined) {
         window.localStorage.setItem(key, newValue);
       } else {
-        const value = window.localStorage.getItem(key)
+        const value = window.localStorage.getItem(key);
         return value === null ? undefined : value;
       }
     } catch (e) {

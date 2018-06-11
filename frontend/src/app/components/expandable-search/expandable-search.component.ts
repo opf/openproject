@@ -26,10 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, HostListener, Inject, OnDestroy, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnDestroy, Renderer2, ViewChild} from '@angular/core';
+import {ContainHelpers} from 'core-app/modules/common/focus/contain-helpers';
+import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {ContainHelpers} from "core-app/modules/common/focus/contain-helpers";
-import {FocusHelperService} from "core-app/modules/common/focus/focus-helper";
 
 @Component({
   selector: 'expandable-search',
@@ -43,7 +43,7 @@ export class ExpandableSearchComponent implements OnDestroy {
   public collapsed:boolean = true;
   public focused:boolean = false;
 
-  private unregisterGlobalListener:Function|undefined;
+  private unregisterGlobalListener:Function | undefined;
 
   constructor(readonly FocusHelper:FocusHelperService,
               readonly elementRef:ElementRef,
@@ -100,7 +100,7 @@ export class ExpandableSearchComponent implements OnDestroy {
   private submitNonEmptySearch() {
     if (this.searchValue !== '') {
       jQuery(this.input.nativeElement)
-        .closest("form")
+        .closest('form')
         .submit();
     }
   }
@@ -109,7 +109,7 @@ export class ExpandableSearchComponent implements OnDestroy {
     return this.input.nativeElement.value;
   }
 
-  private set searchValue(val:string)  {
+  private set searchValue(val:string) {
     this.input.nativeElement.value = val;
   }
 }

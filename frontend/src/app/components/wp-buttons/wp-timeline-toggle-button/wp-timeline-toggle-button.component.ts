@@ -32,7 +32,7 @@ import {Component} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 
-interface TimelineButtonText extends ButtonControllerText {
+export interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;
   zoomIn:string;
   zoomAuto:string;

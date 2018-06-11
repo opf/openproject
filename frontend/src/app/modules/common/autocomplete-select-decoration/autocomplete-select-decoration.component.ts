@@ -30,7 +30,7 @@ import {Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 
-interface AutocompleteSelectDecorationItem {
+export interface AutocompleteSelectDecorationItem {
   id:number;
   label:string;
   value:string;

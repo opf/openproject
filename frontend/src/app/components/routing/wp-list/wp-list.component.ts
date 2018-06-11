@@ -29,6 +29,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StateService, TransitionService} from '@uirouter/core';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
+import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {auditTime, distinctUntilChanged, filter, take, withLatestFrom} from 'rxjs/operators';
@@ -222,11 +223,11 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateResults() {
+  updateResults():Promise<WorkPackageCollectionResource> {
     return this.wpListService.reloadCurrentResultsList();
   }
 
-  updateToFirstResultsPage() {
+  updateToFirstResultsPage():Promise<WorkPackageCollectionResource> {
     return this.wpListService.loadCurrentResultsListFirstPage();
   }
 

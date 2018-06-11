@@ -29,7 +29,7 @@
 
 import {Injectable} from "@angular/core";
 
-type ModelLinks = {[action:string]:any};
+export type ModelLinks = {[action:string]:any};
 
 @Injectable()
 export class AuthorisationService {

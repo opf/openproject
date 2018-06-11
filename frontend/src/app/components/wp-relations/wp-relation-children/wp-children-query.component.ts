@@ -26,15 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {OpUnlinkTableAction} from 'core-components/wp-table/table-actions/actions/unlink-table-action';
-import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
-import {Component, Inject, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
+import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
+import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
+import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
+import {OpUnlinkTableAction} from 'core-components/wp-table/table-actions/actions/unlink-table-action';
+import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
 
 @Component({
   selector: 'wp-children-query',
@@ -51,7 +51,7 @@ export class WorkPackageChildrenQueryComponent implements OnInit {
 
   public childrenQueryProps:any;
 
-  public childrenTableActions = [
+  public childrenTableActions:OpTableActionFactory[] = [
     OpUnlinkTableAction.factoryFor(
       'remove-child-action',
       this.I18n.t('js.relation_buttons.remove_child'),
@@ -73,8 +73,8 @@ export class WorkPackageChildrenQueryComponent implements OnInit {
     this.canModifyHierarchy = !!this.workPackage.changeParent;
 
     if (this.query && this.query._type === 'Query') {
-    this.childrenQueryProps = this.queryUrlParamsHelper.buildV3GetQueryFromQueryResource(this.contextualizedQuery,
-                                                                                        {});
+      this.childrenQueryProps = this.queryUrlParamsHelper.buildV3GetQueryFromQueryResource(this.contextualizedQuery,
+        {});
     } else {
       this.childrenQueryProps = this.query;
     }

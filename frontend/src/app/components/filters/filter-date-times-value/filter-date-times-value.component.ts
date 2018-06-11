@@ -26,7 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {Moment} from 'moment';
 import {AbstractDateTimeValueController} from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller'
 import {Component, Inject, Input, OnDestroy, Output} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
@@ -55,7 +57,7 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
     // Nothing to do, added for interface compatibility
   }
 
-  public get begin() {
+  public get begin():HalResource|string {
     return this.filter.values[0];
   }
 
@@ -73,7 +75,7 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
     this.filterChanged.emit(this.filter);
   }
 
-  public get lowerBoundary() {
+  public get lowerBoundary():Moment|null {
     if (this.begin && this.timezoneService.isValidISODateTime(this.begin.toString())) {
       return this.timezoneService.parseDatetime(this.begin.toString());
     } else {
@@ -81,7 +83,7 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
     }
   }
 
-  public get upperBoundary() {
+  public get upperBoundary():Moment|null {
     if (this.end && this.timezoneService.isValidISODateTime(this.end.toString())) {
       return this.timezoneService.parseDatetime(this.end.toString());
     } else {

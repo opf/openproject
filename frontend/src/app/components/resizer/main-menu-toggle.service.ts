@@ -26,9 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class MainMenuToggleService {
@@ -43,7 +44,7 @@ export class MainMenuToggleService {
   hideElements = jQuery('.can-hide-navigation');
 
   private allData = new BehaviorSubject<string>('');
-  public allData$ = this.allData.asObservable();
+  public allData$:Observable<string> = this.allData.asObservable();
 
   constructor(protected I18n:I18nService) {
   }
@@ -60,12 +61,12 @@ export class MainMenuToggleService {
     // for desktop: save inital width in localStorage
     else {
       if (this.mainMenu.offsetWidth < 10) { // if mainMenu is collapsed, set width 0 in localStorage
-        this.saveWidth("openProject-mainMenuWidth", 0);
+        this.saveWidth('openProject-mainMenuWidth', 0);
         this.showNavigation = false;
       } else if (this.mainMenu.offsetWidth < 230 && this.mainMenu.offsetWidth > 10) { // set back to default width
-        this.saveWidth("openProject-mainMenuWidth", 230);
+        this.saveWidth('openProject-mainMenuWidth', 230);
       } else {  // Get initial width from mainMenu and save in storage
-        this.saveWidth("openProject-mainMenuWidth", this.mainMenu.offsetWidth);
+        this.saveWidth('openProject-mainMenuWidth', this.mainMenu.offsetWidth);
       }
     }
     this.addRemoveClassHidden();
@@ -78,23 +79,23 @@ export class MainMenuToggleService {
     event.preventDefault();
     // mobile version
     if (window.innerWidth < 680) {
-        if (this.localStorageValue === 0) { // if main menu collapsed -> menu shall expand
-          this.showNavigation = true;
-          this.saveWidth("openProject-mainMenuWidth", window.innerWidth);
-          // On mobile the main menu shall close whenever you click outside the menu.
-          this.setupAutocloseMainMenu();
-        } else {
-          this.closeMenu();
-        }
+      if (this.localStorageValue === 0) { // if main menu collapsed -> menu shall expand
+        this.showNavigation = true;
+        this.saveWidth('openProject-mainMenuWidth', window.innerWidth);
+        // On mobile the main menu shall close whenever you click outside the menu.
+        this.setupAutocloseMainMenu();
+      } else {
+        this.closeMenu();
+      }
     }
     // desktop version
     else {
       if (this.mainMenu.offsetWidth < 10) { // sidebar is hidden -> show menu
         this.showNavigation = true;
         if (this.oldStorageValue !== undefined && this.oldStorageValue > 230) {  // save storage value and apply to menu width
-          this.saveWidth("openProject-mainMenuWidth", this.oldStorageValue);
+          this.saveWidth('openProject-mainMenuWidth', this.oldStorageValue);
         } else { // if value of storage value < 230, set back to default size
-          this.saveWidth("openProject-mainMenuWidth", 230);
+          this.saveWidth('openProject-mainMenuWidth', 230);
         }
       } else { // sidebar is expanded -> close menu
         this.closeMenu();
@@ -113,7 +114,7 @@ export class MainMenuToggleService {
   private closeMenu() {
     this.showNavigation = false;
     this.oldStorageValue = this.localStorageValue;
-    this.saveWidth("openProject-mainMenuWidth", 0);
+    this.saveWidth('openProject-mainMenuWidth', 0);
     this.hideElements.addClass('hidden-navigation');
   }
 
@@ -144,23 +145,23 @@ export class MainMenuToggleService {
     let viewportWidth = document.documentElement.clientWidth;
     let newValue = width <= 10 ? 0 : width;
     newValue = newValue >= viewportWidth - 150 ? viewportWidth - 150 : newValue;
-    this.htmlNode.style.setProperty("--main-menu-width", newValue + 'px');
+    this.htmlNode.style.setProperty('--main-menu-width', newValue + 'px');
   }
 
   private setupAutocloseMainMenu() {
     let that = this;
-    jQuery('#main-menu').on('focusout.main_menu', function (event) {
+    jQuery('#main-menu').on('focusout.main_menu', function(event) {
       jQuery('#main-menu').off('focusout.main_menu');
       // Check that main menu is not closed and that the `focusout` event is not a click on an element
       // that tries to close the menu anyways.
-      if (!that.showNavigation || document.getElementById('main-menu-toggle') ===  event.relatedTarget) {
+      if (!that.showNavigation || document.getElementById('main-menu-toggle') === event.relatedTarget) {
         return;
       }
       else {
         // There might be a time gap between `focusout` and the focussing of the activeElement, thus we need a timeout.
         setTimeout(function() {
           if (!jQuery.contains(<Element>document.getElementById('main-menu'), document.activeElement) &&
-              (document.getElementById('main-menu-toggle') !== document.activeElement)) {
+            (document.getElementById('main-menu-toggle') !== document.activeElement)) {
             // activeElement is outside of main menu.
             that.closeMenu();
           }

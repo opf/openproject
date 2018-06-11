@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, InjectionToken, Injector} from "@angular/core";
-import {WorkPackageEditFieldHandler} from "core-components/wp-edit-form/work-package-edit-field-handler";
-import {EditField} from "core-app/modules/fields/edit/edit.field.module";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {Component, Inject, InjectionToken, Injector} from '@angular/core';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {EditField} from 'core-app/modules/fields/edit/edit.field.module';
+import {IEditFieldHandler} from 'core-app/modules/fields/edit/editing-portal/edit-field-handler.interface';
+import {IFieldSchema} from 'core-app/modules/fields/field.base';
+import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
 
 export const OpEditingPortalFieldToken = new InjectionToken('wp-editing-portal--field');
 export const OpEditingPortalHandlerToken = new InjectionToken('wp-editing-portal--handler');
@@ -66,7 +66,7 @@ export class EditFieldComponent {
     return this.field.schema;
   }
 
-  public get changeset() {
+  public get changeset():WorkPackageChangeset {
     return this.field.changeset;
   }
 }

@@ -1,3 +1,7 @@
+import {Injectable} from '@angular/core';
+import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -25,12 +29,8 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {State} from "reactivestates";
-import {States} from "../states.service";
-import {Injectable} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import {InputState, State} from 'reactivestates';
+import {States} from '../states.service';
 
 @Injectable()
 export class SchemaCacheService {
@@ -57,8 +57,8 @@ export class SchemaCacheService {
   /**
    * Get the associated schema state of the work package
    *  without initializing a new resource.
-  */
-  state(workPackage:WorkPackageResource) {
+   */
+  state(workPackage:WorkPackageResource):InputState<SchemaResource> {
     const schema = workPackage.$links.schema;
     return this.states.schemas.get(schema.href!);
   }

@@ -9,7 +9,7 @@ import {WorkPackageTableSortBy} from 'app/components/wp-fast-table/wp-table-sort
 import {WorkPackageTableSum} from 'app/components/wp-fast-table/wp-table-sum';
 import {WorkPackageTableTimelineState} from 'app/components/wp-fast-table/wp-table-timeline';
 import {WPTableRowSelectionState} from 'app/components/wp-fast-table/wp-table.interfaces';
-import {combine, derive, input, State, StatesGroup} from 'reactivestates';
+import {combine, derive, DerivedState, input, InputState, State, StatesGroup} from 'reactivestates';
 import {Subject} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {SwitchState} from 'core-components/states/switch-state';
@@ -31,7 +31,7 @@ export class TableState extends StatesGroup {
   name = 'TableStore';
 
   // The query that results in this table state
-  query = input<QueryResource>();
+  query:InputState<QueryResource> = input<QueryResource>();
 
   // the results associated with the table
   results = input<WorkPackageCollectionResource>();
@@ -105,7 +105,8 @@ export class TableRenderingStates {
     this.tableState.additionalRequiredWorkPackages
   );
 
-  onQueryUpdated = derive(this.combinedTableStates, ($,) => $.pipe(mapTo(null)));
+  onQueryUpdated:DerivedState<[WorkPackageResource[], WorkPackageTableColumns, WorkPackageTableSum, WorkPackageTableGroupBy, WorkPackageTableSortBy, null], [undefined], null, undefined> =
+    derive(this.combinedTableStates, ($,) => $.pipe(mapTo(null)));
 }
 
 export class UserUpdaterStates {

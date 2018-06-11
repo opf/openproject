@@ -50,7 +50,7 @@ const ckEditorReplacementClass = '__op_ckeditor_replacement_container';
 
 @Component({
   selector: 'op-ckeditor-form',
-  template: `<div class="${ckEditorWrapperClass}"><div class="${ckEditorReplacementClass}"></div>`
+  template: `<div class="${ckEditorWrapperClass}"><div class="${ckEditorReplacementClass}"></div></div>`
 })
 export class OpCkeditorFormComponent implements OnInit {
   public textareaSelector:string;

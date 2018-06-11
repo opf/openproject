@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {InputState} from 'reactivestates';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTableSum} from '../wp-table-sum';
@@ -40,7 +41,7 @@ export class WorkPackageTableSumService extends WorkPackageTableBaseService<Work
   }
 
 
-  public get state() {
+  public get state():InputState<WorkPackageTableSum> {
     return this.tableState.sum;
   }
 

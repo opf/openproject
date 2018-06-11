@@ -37,7 +37,7 @@ import {States} from '../../states.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
-import {input} from 'reactivestates';
+import {input, InputState} from 'reactivestates';
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
@@ -58,7 +58,7 @@ export interface GroupDescriptor {
   type:string;
 }
 
-interface ResourceContextChange {
+export interface ResourceContextChange {
   isNew:boolean;
   schema:string|null;
   project:string|null;
@@ -76,7 +76,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
 
   // State updated when structural changes to the single view may occur.
   // (e.g., when changing the type or project context).
-  public resourceContextChange = input<ResourceContextChange>();
+  public resourceContextChange:InputState<ResourceContextChange> = input<ResourceContextChange>();
 
   // Project context as an indicator
   // when editing the work package in a different project

@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
 import {WorkPackageCreateService} from '../../wp-new/wp-create.service';
 import {StateService} from '@uirouter/core';
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
@@ -72,7 +73,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
     });
   }
 
-  public get locals() {
+  public get locals():{ showAnchorRight?:boolean, contextMenuId?:string, items:OpContextMenuItem[] } {
     return {
       items: this.items,
       contextMenuId: 'types-context-menu'

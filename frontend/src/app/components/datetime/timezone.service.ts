@@ -26,10 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Inject, Injectable} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {Injectable} from '@angular/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {downgradeInjectable} from '@angular/upgrade/static';
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import * as moment from 'moment';
+import {Moment} from 'moment';
 
 @Injectable()
 export class TimezoneService {
@@ -46,7 +47,7 @@ export class TimezoneService {
    * Takes a utc date time string and turns it into
    * a local date time moment object.
    */
-  public parseDatetime(datetime:string, format?:string) {
+  public parseDatetime(datetime:string, format?:string):Moment {
     var d = moment.utc(datetime, format);
 
     if (this.ConfigurationService.isTimezoneSet()) {
@@ -128,7 +129,7 @@ export class TimezoneService {
   }
 
   public formattedDuration(durationString:string) {
-    return this.I18n.t('js.units.hour', { count: this.toHours(durationString) });
+    return this.I18n.t('js.units.hour', {count: this.toHours(durationString)});
   }
 
   public formattedISODate(date:any) {

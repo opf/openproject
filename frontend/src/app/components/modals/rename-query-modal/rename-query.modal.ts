@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {States} from '../../states.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
@@ -74,7 +75,7 @@ export class RenameQueryModal extends OpModalComponent implements OnInit {
     this.queryNameField.nativeElement.focus();
   }
 
-  public get currentQuery() {
+  public get currentQuery():QueryResource {
     return this.states.query.resource.value!;
   }
 

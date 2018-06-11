@@ -32,7 +32,7 @@ import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 
-interface QueryFormResourceEmbedded {
+export interface QueryFormResourceEmbedded {
   filtersSchemas:CollectionResource<QueryFilterInstanceSchemaResource>;
   schema:SchemaResource;
 }

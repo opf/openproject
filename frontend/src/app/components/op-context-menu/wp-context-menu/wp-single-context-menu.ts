@@ -1,17 +1,18 @@
-import {Directive, ElementRef, Inject, Input} from "@angular/core";
-import {WorkPackageAction} from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
-import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
-import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {PERMITTED_CONTEXT_MENU_ACTIONS} from "core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions";
-import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
-import {WorkPackageAuthorization} from "core-components/work-packages/work-package-authorization.service";
-import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
-import {StateService} from "@uirouter/core";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {HookService} from "core-app/modules/plugins/hook-service";
+import {Directive, ElementRef, Input} from '@angular/core';
+import {StateService} from '@uirouter/core';
+import {LinkHandling} from 'core-app/modules/common/link-handling/link-handling';
+import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {HookService} from 'core-app/modules/plugins/hook-service';
+import {WpDestroyModal} from 'core-components/modals/wp-destroy-modal/wp-destroy.modal';
+import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
+import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
+import {PERMITTED_CONTEXT_MENU_ACTIONS} from 'core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
+import {OpModalService} from 'core-components/op-modals/op-modal.service';
+import {WorkPackageAuthorization} from 'core-components/work-packages/work-package-authorization.service';
+import {WorkPackageAction} from 'core-components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 
 @Directive({
   selector: '[wpSingleContextMenu]'
@@ -88,7 +89,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     return authorization.permittedActionsWithLinks(actions);
   }
 
-  protected buildItems(permittedActions:WorkPackageAction[]) {
+  protected buildItems(permittedActions:WorkPackageAction[]):OpContextMenuItem[] {
     const configureFormLink = this.workPackage.configureForm;
 
     this.items = permittedActions.map((action:WorkPackageAction) => {
@@ -112,7 +113,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     if (configureFormLink) {
       this.items.push(
         {
-          href:configureFormLink.href,
+          href: configureFormLink.href,
           icon: 'icon-settings3',
           linkText: configureFormLink.name,
           onClick: () => false

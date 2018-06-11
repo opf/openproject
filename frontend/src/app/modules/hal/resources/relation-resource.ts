@@ -29,7 +29,7 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 
-interface RelationResourceLinks {
+export interface RelationResourceLinks {
   delete():Promise<any>;
 
   updateImmediately(payload:any):Promise<any>;

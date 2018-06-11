@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
 import {
   SchemaAttributeObject,
@@ -36,7 +37,7 @@ import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operat
 import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
-interface QueryFilterInstanceSchemaResourceLinks {
+export interface QueryFilterInstanceSchemaResourceLinks {
   filter:QueryFilterResource;
 }
 
@@ -53,7 +54,7 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
     return 'QueryFilterInstanceSchema';
   }
 
-  public get availableOperators() {
+  public get availableOperators():HalResource[] | CollectionResource {
     return this.operator.allowedValues;
   }
 

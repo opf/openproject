@@ -26,12 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import {Component, Input, OnDestroy, Output} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {Component, Inject, Input, OnDestroy, Output} from '@angular/core';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 
 @Component({
   selector: 'filter-date-value',
@@ -49,7 +50,7 @@ export class FilterDateValueComponent implements OnDestroy {
     // Nothing to do, added for interface compatibility
   }
 
-  public get value() {
+  public get value():HalResource | string {
     return this.filter.values[0];
   }
 

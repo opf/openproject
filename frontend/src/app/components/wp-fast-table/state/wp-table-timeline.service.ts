@@ -26,17 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Injectable} from '@angular/core';
+import {QueryResource, TimelineLabels, TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {TableState} from 'core-components/wp-table/table-state/table-state';
+import {InputState} from 'reactivestates';
 import {zoomLevelOrder} from '../../wp-table/timeline/wp-timeline';
 import {WorkPackageTableTimelineState} from './../wp-table-timeline';
 import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-table-base.service';
-import {TableState} from 'core-components/wp-table/table-state/table-state';
-import {
-  QueryResource,
-  TimelineLabels,
-  TimelineZoomLevel
-} from 'core-app/modules/hal/resources/query-resource';
-import {Injectable} from '@angular/core';
 
 @Injectable()
 export class WorkPackageTableTimelineService extends WorkPackageTableBaseService<WorkPackageTableTimelineState> implements WorkPackageQueryStateService {
@@ -46,13 +43,14 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   }
 
 
-  public get state() {
+  public get state():InputState<WorkPackageTableTimelineState> {
     return this.tableState.timelineVisible;
   }
 
   public valueFromQuery(query:QueryResource) {
     return new WorkPackageTableTimelineState(query);
   }
+
   public hasChanged(query:QueryResource) {
     const visibilityChanged = this.isVisible !== query.timelineVisible;
     const zoomLevelChanged = this.zoomLevel !== query.timelineZoomLevel;

@@ -9,13 +9,13 @@ import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state
 import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {take} from 'rxjs/operators';
 
-class SortModalObject {
+export class SortModalObject {
   constructor(public column:SortColumn,
               public direction:string) {
   }
 }
 
-interface SortColumn {
+export interface SortColumn {
   name:string;
   href:string | null;
 }
