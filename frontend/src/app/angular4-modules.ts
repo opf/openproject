@@ -564,15 +564,6 @@ export function initializeServices(injector:Injector) {
     const ExternalQueryConfiguration:ExternalQueryConfigurationService = injector.get(ExternalQueryConfigurationService);
     const global = (window as any);
 
-    if (window.innerWidth < 680) {
-      // On mobile sized screens navigation shall always be collapsed when
-      // window loads.
-      global.showNavigation = false;
-    } else {
-      global.showNavigation =
-        window.OpenProject.guardedLocalStorage('openproject:navigation-toggle') !== 'collapsed';
-    }
-
     // Setup query configuration listener
     ExternalQueryConfiguration.setupListener();
   };
