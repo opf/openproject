@@ -27,10 +27,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title t(:label_administration), t(:label_user_plural) -%>
-<% users_info = OpenProject::Enterprise.token && content_tag(:div) do %>
-  <% token = OpenProject::Enterprise.token %>
+<%
+  user_limit = begin
+    token = OpenProject::Enterprise.token
 
-  <%= t(:label_enterprise_active_users, current: User.active.count, limit: token.restrictions[:active_user_count]) %>
+    token && Hash(token.restrictions)[:active_user_count]
+  end
+%>
+<% users_info = user_limit && content_tag(:div) do %>
+  <%= t(:label_enterprise_active_users, current: User.active.count, limit: user_limit) %>
   &nbsp;
   <a href="<%= OpenProject::Enterprise.upgrade_path %>" class="display-inline button -tiny -highlight" title="<%= t(:title_enterprise_upgrade) %>"><%= t(:button_upgrade) %></a>
 <% end %>
