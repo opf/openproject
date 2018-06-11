@@ -234,6 +234,8 @@
 
     registerEventHandlers: function () {
       var self = this;
+      var toggler = $("#main-menu-toggle");
+
       this.menu_container.on("closeDropDown", function (event) {
         self.close($(event.target));
       }).on("openDropDown", function (event) {
@@ -243,6 +245,9 @@
       }).on("openMenu", function () {
         self.open(self.dropdowns().first());
         self.opening();
+      });
+      toggler.on("click", function() {  // click on hamburger icon is closing other menu
+        self.closing();
       });
     }
   });

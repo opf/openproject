@@ -29,18 +29,27 @@
 @include breakpoint(680px down)
 
   .main-menu
-    position: absolute !important
+    position: fixed !important
     min-height: 0
     z-index: 11
     border-bottom: 1px solid $main-menu-border-color
-    width: 100vw !important
+    width: calc(100% - 60px)
+    height: 100vh !important
     border: none
+    -webkit-box-shadow: 1px 0px 10px #aaaaaa
+    -moz-box-shadow: 1px 0px 10px #aaaaaa
+    box-shadow: 1px 0px 10px #aaaaaa
+    -webkit-transition: all 0.25s ease-in-out
+    -moz-transition: all 0.25s ease-in-out
+    -o-transition: all 0.25s ease-in-out
+    transition: all 0.25s ease-in-out
 
     %absolute-layout-mode &
       height: auto
 
   .hidden-navigation .main-menu
-    display: none
+    width: 0
+    min-width: 0
 
   .main-item-wrapper a
     width: 100%
