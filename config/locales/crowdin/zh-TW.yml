@@ -259,6 +259,7 @@ zh-TW:
         expires_at: 過期於
         subscriber: 訂閱者
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: 延時
         from: 工作項目
@@ -642,6 +643,7 @@ zh-TW:
   button_unlock: 解除鎖定
   button_unwatch: 取消監看
   button_update: 更新
+  button_upgrade: Upgrade
   button_upload: 上傳
   button_view: 檢視
   button_watch: 監看
@@ -889,6 +891,8 @@ zh-TW:
   error_custom_option_not_found: 選項不存在。
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: 刪除此項目失敗。
   error_invalid_group_by: 無法按照 %{value} 分組
   error_invalid_query_column: 無效的查詢欄：%{value}
@@ -1137,6 +1141,7 @@ zh-TW:
   label_enumerations: 條列項目
   label_enterprise: 企業
   label_enterprise_edition: 企業版
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: 環境
   label_estimates_and_time: 預估成本和時間
   label_equals: 是
@@ -2304,6 +2309,7 @@ zh-TW:
       quarters: 季
       years: 年
   title_remove_and_delete_user: 從專案移除已被邀請的使用者別且刪除他/她
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: '舊邀請電子郵件過期或用戶未收到之前的電子郵件時，再發送一封邀請電子郵件。也可由活躍用戶用於選擇新的身份驗證方法。活躍用戶使用時，狀態會更改為“已邀請”。
 
 '
@@ -2363,6 +2369,8 @@ zh-TW:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: 警告
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: 選單項目
   menu_item_setting: 可見度
   wiki_menu_item_for: Menu item for wikipage "%{title}"

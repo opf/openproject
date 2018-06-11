@@ -321,6 +321,7 @@ fil:
         expires_at: Matapos sa
         subscriber: Taga -subaybay
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Antala
         from: Work package
@@ -727,6 +728,7 @@ fil:
   button_unlock: I-unlock
   button_unwatch: I-unwatch
   button_update: I-update
+  button_upgrade: Upgrade
   button_upload: I-upload
   button_view: Tingnan
   button_watch: Tumingin
@@ -985,6 +987,8 @@ fil:
   error_custom_option_not_found: Ang opsyon ay hindi umiiral.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Nabigong burahin ang entry na ito.
   error_invalid_group_by: 'Hindi ma grupo sa pamamagitan ng: %{value}'
   error_invalid_query_column: Hindi balido ang hanay ng query:%{value}
@@ -1257,6 +1261,7 @@ fil:
   label_enumerations: Mga enumerasyon
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Kalikasan
   label_estimates_and_time: Mga pagtatantya at oras
   label_equals: ay
@@ -2600,6 +2605,7 @@ fil:
       years: Mga taon
   title_remove_and_delete_user: Alisin ang inimbitahan na user mula proyekto at tanggalin
     siya.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Magpadala ng ibang imbitasyong email kasama ang fresh
     token kung sakali walang bisa na ang lima o ang gumagamit ay hindi kumuha ng orihinak
     na email. Maari rin gamitin para sa aktibing gumagamit upang pumili ng bagong
@@ -2672,6 +2678,8 @@ fil:
     %{configuration}.
   warning: Babala
   warning_attachments_not_saved: "%{count} na(mga) file ay hindi mai-save."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: Pagpipilian sa mga aytem
   menu_item_setting: Nakikita
   wiki_menu_item_for: Aytem na pagpipilian sa wikipage na "%{title}"

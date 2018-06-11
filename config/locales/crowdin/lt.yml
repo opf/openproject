@@ -299,6 +299,7 @@ lt:
         expires_at: Nustoja galioti
         subscriber: Prenumeruotojas
         encoded_token: "„Enterprise“ paramos raktas"
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Vėlavimas
         from: Darbų paketas
@@ -705,6 +706,7 @@ lt:
   button_unlock: Atrakinti
   button_unwatch: Nestebėti
   button_update: Atnaujinti
+  button_upgrade: Upgrade
   button_upload: Įkelti
   button_view: Peržiūrėti
   button_watch: Stebėti
@@ -985,6 +987,8 @@ lt:
   error_custom_option_not_found: Galimybė neegzistuoja.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Šio įrašo nepavyko panaikinti.
   error_invalid_group_by: 'Negalima grupuoti naudojant: %{value}'
   error_invalid_query_column: 'Netinkamas užklausos stulpelis: %{value}'
@@ -1248,6 +1252,7 @@ lt:
   label_enumerations: Enumeratoriai
   label_enterprise: Enterprise
   label_enterprise_edition: "„Enterprise Edition“"
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Aplinka
   label_estimates_and_time: Sąmatos ir laikas
   label_equals: yra
@@ -2567,6 +2572,7 @@ lt:
       years: Metai(-ų)
   title_remove_and_delete_user: Pašalinti pakviestą vartotoją iš projekto ir ištrinti
     jį/ją.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Siunčia naują pakvietimo laišką su nauju atpažinimo
     ženklu su mintimi, kad seno ženklo atpažinimo laikas baigėsi arba vartotojas negavo
     originalaus laiško. Taip pat gali būti naudojamas aktyviems vartotojams, kad jie
@@ -2640,6 +2646,8 @@ lt:
   warning: Įspėjimas
   warning_attachments_not_saved: "%{count} failas (-ai, -ų) negali būti išsaugotas
     (-i)."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: Meniu punktas
   menu_item_setting: Matomumas
   wiki_menu_item_for: Meniu punktas wiki puslapiui „%{title}“

@@ -297,6 +297,7 @@ tr:
         expires_at: Süre sonu: 
         subscriber: Abone
         encoded_token: Kurumsal Destek anahtarı
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Gecikme
         from: İş paketi
@@ -697,6 +698,7 @@ tr:
   button_unlock: Kilidi kaldır
   button_unwatch: İzleme
   button_update: Güncelle
+  button_upgrade: Upgrade
   button_upload: Yükle
   button_view: Göster
   button_watch: İzle
@@ -953,6 +955,8 @@ tr:
   error_custom_option_not_found: Seçenek yok.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Girdi silinemedi.
   error_invalid_group_by: "%{value} ya göre guplandırılamadı"
   error_invalid_query_column: 'Geçersiz sorgu sütunu: %{value}'
@@ -1216,6 +1220,7 @@ tr:
   label_enumerations: Sayım Listesi
   label_enterprise: Kurumsal
   label_enterprise_edition: Kurumsal Sürüm
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Ortam
   label_estimates_and_time: Tahminler & zaman
   label_equals: şuysa
@@ -2496,6 +2501,7 @@ tr:
       quarters: Üç aylık
       years: Yıl
   title_remove_and_delete_user: Davet edilen kullanıcıyı projeden çıkarın ve onu silin.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Eskisi geçersiz olduysa ya da orjinal e-posta alınamadıysa
     yeni bir davet anahtarı gönderir. Aynı zamanda bu işlevi aktif kullanıcıların
     farkli bir kimlik doğrulama yöntemine geçişi için de kullanabilirsiniz. Aktif
@@ -2566,6 +2572,8 @@ tr:
     bırakıldı.
   warning: Uyarı
   warning_attachments_not_saved: "%{count} dosya (lar) kaydedilemedi."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: Menü seçeneği
   menu_item_setting: Görünürlük
   wiki_menu_item_for: Wikipage için menü öğesi " %{title} "

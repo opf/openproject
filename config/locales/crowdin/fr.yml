@@ -307,6 +307,7 @@ fr:
         expires_at: Expire le
         subscriber: Abonné
         encoded_token: Licence Entreprise
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Délai
         from: Lot de travaux
@@ -717,6 +718,7 @@ fr:
   button_unlock: Déverrouiller
   button_unwatch: Ne plus suivre
   button_update: Mettre à jour
+  button_upgrade: Upgrade
   button_upload: Charger
   button_view: Afficher
   button_watch: Suivre
@@ -974,6 +976,8 @@ fr:
   error_custom_option_not_found: L'option n'existe pas.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Échec lors de la suppression de cette entrée.
   error_invalid_group_by: 'Impossible de grouper par : %{value}'
   error_invalid_query_column: 'Colonne de requête invalide : %{value}'
@@ -1244,6 +1248,7 @@ fr:
   label_enumerations: Énumérations
   label_enterprise: Entreprise
   label_enterprise_edition: Version Entreprise
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Environement
   label_estimates_and_time: Estimations et temps
   label_equals: est
@@ -2568,6 +2573,7 @@ fr:
       quarters: Trimestres
       years: Années
   title_remove_and_delete_user: Retirer du projet l'utilisateur invité et le supprimer.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Envoie un nouveau courriel d''invitation avec un nouveau
     jeton, au cas où l''ancien jeton aurait expiré ou l''utilisateur n''aurait pas
     reçu le courriel original. Peut être également utilisé pour les utilisateurs actifs
@@ -2639,6 +2645,8 @@ fr:
     par %{configuration}.
   warning: Attention
   warning_attachments_not_saved: "%{count} fichier(s) n'ont pu être sauvegardés."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: Éléments de menu
   menu_item_setting: Visibilité
   wiki_menu_item_for: Élément de menu pour wikipage « %{title} »

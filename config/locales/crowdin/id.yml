@@ -297,6 +297,7 @@ id:
         expires_at: Berakhir masa berlaku pada
         subscriber: Pelanggan
         encoded_token: Token pendukung perusahaan
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Jeda
         from: Paket-Penugasan
@@ -697,6 +698,7 @@ id:
   button_unlock: Unlock
   button_unwatch: Unwatch
   button_update: Update
+  button_upgrade: Upgrade
   button_upload: Unggah
   button_view: Lihat
   button_watch: Pantau
@@ -951,6 +953,8 @@ id:
   error_custom_option_not_found: Pilihan tidak ada.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Gagal untuk menghapus isian ini.
   error_invalid_group_by: 'Tidak dapat dikelompokkan dengan: %{value}'
   error_invalid_query_column: 'Permintaan tidak valid kolom: %{value}'
@@ -1216,6 +1220,7 @@ id:
   label_enumerations: Enumerasi
   label_enterprise: Perusahaan
   label_enterprise_edition: Edisi Perusahaan
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Environment
   label_estimates_and_time: Perkiraan dan waktu
   label_equals: adalah
@@ -2491,6 +2496,7 @@ id:
       years: Tahun
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Kirim email undangan lain dengan token yang baru dalam
     hal yang lama kadaluwarsa atau pengguna tidak mendapat email yang asli. Dapat
     juga digunakan oleh pengguna aktif untuk memilih metode otentikasi baru. Ketika
@@ -2556,6 +2562,8 @@ id:
   note_password_login_disabled: Password login telah dinonaktifkan (by %{configuration}).
   warning: Warning
   warning_attachments_not_saved: "%{count} file tidak akan disimpan."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: Menu item
   menu_item_setting: Visibilitas
   wiki_menu_item_for: Menu untuk Halaman Wiki "%{title}"

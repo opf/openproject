@@ -261,6 +261,7 @@ ja:
         expires_at: 有効期限
         subscriber: 購入者
         encoded_token: エンタープライズ サポート トークン
+        active_user_count_restriction: Maximum active users
       relation:
         delay: 遅延
         from: 作業項目
@@ -644,6 +645,7 @@ ja:
   button_unlock: ロックを解除
   button_unwatch: ウォッチしない
   button_update: 更新
+  button_upgrade: Upgrade
   button_upload: アップロード
   button_view: 表示
   button_watch: ウォッチする
@@ -889,6 +891,8 @@ ja:
   error_custom_option_not_found: オプションが存在しません。
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: このエントリを削除できませんでした。
   error_invalid_group_by: 'グループ化できません: %{value}'
   error_invalid_query_column: '無効なクエリ列: %{value}'
@@ -1137,6 +1141,7 @@ ja:
   label_enumerations: 列挙型の一覧
   label_enterprise: エンタープライズ
   label_enterprise_edition: エンタープライズ版
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: 環境
   label_estimates_and_time: 見積もりと 時間
   label_equals: 等しい
@@ -2295,6 +2300,7 @@ ja:
       quarters: 四半期ごと
       years: " 年"
   title_remove_and_delete_user: プロジェクトから招待済のユーザを削除し、彼/彼女を削除します。
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: '古いメールの有効期限が切れた、またはユーザーが元のメールを受け取っていない場合に、新しいトークンで別の招待メールを送信します。アクティブなユーザーに新しい認証方法を選択するために使用することもできます。アクティブなユーザーに使用する場合、彼らの
     ステータスが ''招待'' に変更されます。
 
@@ -2351,6 +2357,8 @@ ja:
   note_password_login_disabled: パスワードを利用してログインは%{configuration}によって無効にされています。
   warning: 注意
   warning_attachments_not_saved: "%{count} 件のファイルを保存できませんでした。"
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: メニュー項目
   menu_item_setting: 可視性
   wiki_menu_item_for: Wikiページ"%{title}"のメニュー項目

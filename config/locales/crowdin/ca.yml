@@ -310,6 +310,7 @@ ca:
         expires_at: Expires at
         subscriber: Subscriber
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Retard
         from: Paquet de treball
@@ -708,6 +709,7 @@ ca:
   button_unlock: Desbloquejar
   button_unwatch: Deixa de Seguir
   button_update: Actualitza
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: Mostra
   button_watch: Observa
@@ -964,6 +966,8 @@ ca:
   error_custom_option_not_found: Option does not exist.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1232,6 +1236,7 @@ ca:
   label_enumerations: Enumeracions
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Entorn
   label_estimates_and_time: Estimates and time
   label_equals: és
@@ -2562,6 +2567,7 @@ ca:
       years: Anys
   title_remove_and_delete_user: Eliminar l'usuari convidat del projecte i suprimir
     l'usuari.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
     be used for active users to choose a new authentication method. When used with
@@ -2631,6 +2637,8 @@ ca:
     %{configuration}.
   warning: Alerta
   warning_attachments_not_saved: No s'han pogut desar %{count} fitxer(s).
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: Element de menú
   menu_item_setting: Visibilitat
   wiki_menu_item_for: Element de menú per a la pàgina wiki "%{title}"

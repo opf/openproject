@@ -272,6 +272,7 @@ ko:
         expires_at: 에서 만료됨
         subscriber: 구독자
         encoded_token: 엔터프라이즈 지원 토큰
+        active_user_count_restriction: Maximum active users
       relation:
         delay: 지연
         from: 작업 패키지
@@ -658,6 +659,7 @@ ko:
   button_unlock: 잠금 해제
   button_unwatch: 주시 안 함
   button_update: 업데이트
+  button_upgrade: Upgrade
   button_upload: 업로드하기
   button_view: 보기
   button_watch: 주시
@@ -929,6 +931,8 @@ ko:
   error_custom_option_not_found: 존재하지 않는 옵션입니다.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: 항목 삭제에 실패하였습니다.
   error_invalid_group_by: '그룹화할 수 없습니다: %{value}'
   error_invalid_query_column: '잘못 된 쿼리 열: %{value}'
@@ -1181,6 +1185,7 @@ ko:
   label_enumerations: 열거형
   label_enterprise: 엔터프라이즈
   label_enterprise_edition: Enterprise Edition
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: 환경
   label_estimates_and_time: 견적 및 시간
   label_equals: 일치함
@@ -2378,6 +2383,7 @@ ko:
       quarters: 분기
       years: 년
   title_remove_and_delete_user: 초대받은 사용자를 프로젝트에서 제거하고 해당 사용자를 삭제하세요.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: '이전의 토큰이 만료되거나 사용자가 기존 메일을 받지 않았을 수 있기 때문에 새로운 토큰으로 다른
     초대 메일을 보냅니다. 이것은 활성화된 사용자들이 새로운 인증 방식을 선택할 때 사용될 수도 있습니다. 활성화된 사용자들이 사용할 때 그들의
     상태는 ''초대됨''으로 변경됩니다.
@@ -2438,6 +2444,8 @@ ko:
   note_password_login_disabled: 암호 로그인이 %{configuration}에 의해 비활성화되었습니다.
   warning: 경고
   warning_attachments_not_saved: "%{count}개 파일을 저장할 수 없습니다."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: 메뉴 항목
   menu_item_setting: 표시 여부
   wiki_menu_item_for: 위키 페이지 "%{title}"에 대한 메뉴 항목

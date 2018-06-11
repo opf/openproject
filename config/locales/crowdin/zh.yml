@@ -259,6 +259,7 @@ zh:
         expires_at: 到期时间
         subscriber: 订阅者
         encoded_token: 企业版支持令牌
+        active_user_count_restriction: Maximum active users
       relation:
         delay: 延迟
         from: 工作包
@@ -642,6 +643,7 @@ zh:
   button_unlock: 解锁​​​​
   button_unwatch: 取消关注
   button_update: 更新
+  button_upgrade: Upgrade
   button_upload: 上传
   button_view: 查看
   button_watch: 关注
@@ -887,6 +889,8 @@ zh:
   error_custom_option_not_found: 选项不存在。
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: 无法删除此条目。
   error_invalid_group_by: 无法按照 %{value} 分组
   error_invalid_query_column: 无效的查询列：%{value}
@@ -1135,6 +1139,7 @@ zh:
   label_enumerations: 枚举
   label_enterprise: 企业
   label_enterprise_edition: 企业版
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: 环境
   label_estimates_and_time: 预估成本和时间
   label_equals: 是
@@ -2273,6 +2278,7 @@ zh:
       quarters: 季度
       years: 年
   title_remove_and_delete_user: 从项目中移除所邀请的用户并删除他/她。
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: '旧邀请电子邮件过期或用户未收到之前的电子邮件时，再发送一封邀请电子邮件。也可由活跃用户用于选择新的身份验证方法。活跃用户使用时，状态会更改为“已邀请”。
 
 '
@@ -2329,6 +2335,8 @@ zh:
   note_password_login_disabled: 密码登录已被 %{configuration} 禁用。
   warning: 警告
   warning_attachments_not_saved: "%{count} 文件不能被保存。"
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: 菜单项
   menu_item_setting: 可见性
   wiki_menu_item_for: wiki页面” %{title} “的菜单项

@@ -297,6 +297,7 @@ hu:
         expires_at: Lejárat ekkor
         subscriber: Előfizető
         encoded_token: Vállalati támogatás kulcs
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Késés
         from: Munkacsomag
@@ -697,6 +698,7 @@ hu:
   button_unlock: A zárolás feloldása
   button_unwatch: Megfigyelés leállítása
   button_update: Frissítés
+  button_upgrade: Upgrade
   button_upload: Feltöltés
   button_view: Nézet
   button_watch: Megfigyelés
@@ -953,6 +955,8 @@ hu:
   error_custom_option_not_found: A beállítás nem létezik.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Nem sikerült törölni ezt a bejegyzést.
   error_invalid_group_by: 'Nem csoportosítható e szerint: %{value}'
   error_invalid_query_column: 'Érvénytelen lekérdezési oszlop: %{value}'
@@ -1221,6 +1225,7 @@ hu:
   label_enumerations: Elnevezések
   label_enterprise: Vállalati
   label_enterprise_edition: Enterprise Edition
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Környezet
   label_estimates_and_time: Becslések & időpontok
   label_equals: van
@@ -2512,6 +2517,7 @@ hu:
       years: Évek
   title_remove_and_delete_user: Távolítsa el a meghívott felhasználót a projektből,
     és törölje őt.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Új meghívó e-mail küldése egy új tokennel. Ez abban
     az esetben hasznos, ha a felhasználó nem érvényesítette meghívóját időben (lejárt
     a tokenje) vagy nem kapta meg az meghívó e-mailt. Aktív felhasználóknak is küldhetsz
@@ -2584,6 +2590,8 @@ hu:
   note_password_login_disabled: Bejelentkezési jelszót a %{configuration} letiltotta.
   warning: Figyelem
   warning_attachments_not_saved: "%{count} fájl nem menthető."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: Menüpont
   menu_item_setting: Látható
   wiki_menu_item_for: Wikipage "%{title}" menüeleme

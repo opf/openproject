@@ -303,6 +303,7 @@ cs:
         expires_at: Vyprší za
         subscriber: Odběratel
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Zpoždění
         from: Pracovní balíček
@@ -710,6 +711,7 @@ cs:
   button_unlock: Odemknout
   button_unwatch: Přestat sledovat
   button_update: Aktualizovat
+  button_upgrade: Upgrade
   button_upload: Nahrát
   button_view: Zobrazit
   button_watch: Sledovat
@@ -985,6 +987,8 @@ cs:
   error_custom_option_not_found: Nastavení neexistuje.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Failed to delete this entry.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1249,6 +1253,7 @@ cs:
   label_enumerations: Číselníky
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edice
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Prostředí
   label_estimates_and_time: Odhady a čas
   label_equals: je
@@ -2544,6 +2549,7 @@ cs:
       years: Roky
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
     be used for active users to choose a new authentication method. When used with
@@ -2612,6 +2618,8 @@ cs:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Varování
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: Položka nabídky
   menu_item_setting: Viditelnost
   wiki_menu_item_for: Položka nabídky pro stránku wiki "%{title}"

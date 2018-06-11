@@ -314,6 +314,7 @@ es:
         expires_at: Caduca el
         subscriber: Suscriptor
         encoded_token: Token de apoyo de versión corporativa
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Retraso
         from: Paquete de trabajo
@@ -721,6 +722,7 @@ es:
   button_unlock: Desbloquear
   button_unwatch: No controlar más
   button_update: Actualizar
+  button_upgrade: Upgrade
   button_upload: Cargar
   button_view: Ver
   button_watch: Controlar
@@ -978,6 +980,8 @@ es:
   error_custom_option_not_found: Esta opción no existe.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: No se puede eliminar esta entrada.
   error_invalid_group_by: 'No se puede agrupar por: %{value}'
   error_invalid_query_column: 'Columna no válida en la solicitud: %{value}'
@@ -1248,6 +1252,7 @@ es:
   label_enumerations: Enumeraciones
   label_enterprise: Empresa
   label_enterprise_edition: Versión corporativa
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Entorno
   label_estimates_and_time: Valores estimados y tiempo
   label_equals: es
@@ -2575,6 +2580,7 @@ es:
       quarters: Cuatrimestres
       years: Años
   title_remove_and_delete_user: Eliminar al usurio invitado del proyecto y eliminarlo.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Envía otro correo electrónico de invitación con un token
     nuevo, en caso de que el antiguo esté caducado o el usuario no hubiera recibido
     el primer correo. También se puede usar para usuarios activos con el fin de seleccionar
@@ -2646,6 +2652,8 @@ es:
     por %{configuration}.
   warning: Alerta
   warning_attachments_not_saved: "%{count} archivo(s) no podrán ser salvados."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: Elemento de menú
   menu_item_setting: Visibilidad
   wiki_menu_item_for: Elemento de menú para wiki '%{title}'

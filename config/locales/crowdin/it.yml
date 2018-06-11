@@ -307,6 +307,7 @@ it:
         expires_at: Scade il
         subscriber: Iscritto
         encoded_token: Token di assistenza Enterprise
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Ritardo
         from: Macro-attività
@@ -713,6 +714,7 @@ it:
   button_unlock: Sblocca
   button_unwatch: Smetti di Osservare
   button_update: Aggiorna
+  button_upgrade: Upgrade
   button_upload: Carica
   button_view: Vedi
   button_watch: Osserva
@@ -970,6 +972,8 @@ it:
   error_custom_option_not_found: L'opzione non esiste.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Cancellazione voce non riuscita.
   error_invalid_group_by: 'Impossibile raggruppare per: %{value}'
   error_invalid_query_column: 'Colonna di query non valida: %{value}'
@@ -1241,6 +1245,7 @@ it:
   label_enumerations: Enumerazioni
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Ambiente
   label_estimates_and_time: Stime e tempi
   label_equals: è
@@ -2585,6 +2590,7 @@ it:
       quarters: Trimestri
       years: Anni
   title_remove_and_delete_user: Rimuovi l'utente invitato dal progetto ed eliminalo/a.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Invia un''altra email di invito con un token nuovo nel
     caso in cui quello vecchio sia scaduto o l''utente non abbia ricevuto la prima
     email. Può anche consentire agli utenti attivi di scegliere un nuovo metodo di
@@ -2654,6 +2660,8 @@ it:
     %{configuration}.
   warning: Attenzione
   warning_attachments_not_saved: "%{count} file non possono essere salvati."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: Voce di menu
   menu_item_setting: Visibilità
   wiki_menu_item_for: Voce di menù per la pagina wiki "%{title}"

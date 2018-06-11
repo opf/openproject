@@ -310,6 +310,7 @@ de:
         expires_at: Endet am
         subscriber: Abonnent
         encoded_token: Enterprise-Edition Support Token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Pufferzeit
         from: Arbeitspaket
@@ -716,6 +717,7 @@ de:
   button_unlock: Entsperren
   button_unwatch: Nicht beobachten
   button_update: Bearbeiten
+  button_upgrade: Upgrade
   button_upload: Hochladen
   button_view: Anzeigen
   button_watch: Beobachten
@@ -979,6 +981,8 @@ de:
   error_custom_option_not_found: Option ist nicht vorhanden.
   error_dependent_work_package: 'Fehler in abhängigem Arbeitspaket #%{related_id}
     %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
   error_invalid_group_by: 'Kann nicht gruppieren nach: %{value}'
   error_invalid_query_column: 'Ungültige Filter-Spalte: %{value}'
@@ -1249,6 +1253,7 @@ de:
   label_enumerations: Aufzählungen
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise-Edition
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Umgebung
   label_estimates_and_time: Schätzungen & Zeit
   label_equals: ist
@@ -2571,6 +2576,7 @@ de:
       years: Jahre
   title_remove_and_delete_user: Den eingeladenen Benutzer aus dem Projekt entfernen
     und löschen.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Sendet eine weitere Einladungs-Email mit einem neuen
     Token für den Fall, dass das alte Token abgelaufen ist oder der Benutzer nicht
     die ursprüngliche Email erhalten hat. Dies kann auch für aktive Nutzer genutzt
@@ -2642,6 +2648,8 @@ de:
   note_password_login_disabled: Der Passwort-Login wurde per %{configuration} deaktiviert.
   warning: Warnung
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: Menüpunkt
   menu_item_setting: Sichtbarkeit
   wiki_menu_item_for: Menüpunkt für die Wikiseite "%{title}"

@@ -308,6 +308,7 @@ nl:
         expires_at: Verloopt op
         subscriber: Abonnee
         encoded_token: Enterprise ondersteuningstoken
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Vertraging
         from: Werkpakket
@@ -709,6 +710,7 @@ nl:
   button_unlock: Ontgrendelen
   button_unwatch: Niet meer volgen
   button_update: Bijwerken
+  button_upgrade: Upgrade
   button_upload: Upload
   button_view: Toon
   button_watch: Volgen
@@ -966,6 +968,8 @@ nl:
   error_custom_option_not_found: Optie bestaat niet.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Fout bij het verwijderen van deze ingave.
   error_invalid_group_by: 'Kan niet groeperen op: %{value}'
   error_invalid_query_column: 'Ongeldige zoekopdracht kolom: %{value}'
@@ -1232,6 +1236,7 @@ nl:
   label_enumerations: Opsommingen
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Omgeving
   label_estimates_and_time: Schattingen en tijden
   label_equals: is
@@ -2544,6 +2549,7 @@ nl:
       years: Jaren
   title_remove_and_delete_user: De uitgenodigde gebruiker uit het project verwijderen
     en verwijder hem/haar.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Verzendt een andere uitnodiging e-mail met een nieuw
     token in geval het oude verlopen is of de gebruiker het oorspronkelijke e-mailbericht
     niet ontvangen heeft. Kan ook worden gebruikt voor actieve gebruikers om een nieuwe
@@ -2615,6 +2621,8 @@ nl:
   note_password_login_disabled: Wachtwoord is uitgeschakeld door %{configuration}.
   warning: Waarschuwing
   warning_attachments_not_saved: "%{count} bestanden kunnen niet worden opgeslagen."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: Menu-item
   menu_item_setting: Zichtbaarheid
   wiki_menu_item_for: Menu-item voor wiki pagina "%{title}"

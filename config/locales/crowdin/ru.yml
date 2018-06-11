@@ -300,6 +300,7 @@ ru:
         expires_at: Срок действия до
         subscriber: Подписчик
         encoded_token: Маркер поддержки корпоративной версии
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Задержка
         from: Пакет работ
@@ -710,6 +711,7 @@ ru:
   button_unlock: Разблокировать
   button_unwatch: Прекратить наблюдение
   button_update: Обновление
+  button_upgrade: Upgrade
   button_upload: Загрузить
   button_view: Вид
   button_watch: Просмотреть
@@ -987,6 +989,8 @@ ru:
   error_custom_option_not_found: Параметр не существует.
   error_dependent_work_package: 'Ошибка в зависимостях пакетов работ #%{related_id}
     %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Не удалось удалить эту запись.
   error_invalid_group_by: 'Невозможно группировать по: %{value}'
   error_invalid_query_column: 'Недопустимый столбец в запросе: %{value}'
@@ -1253,6 +1257,7 @@ ru:
   label_enumerations: Перечисления
   label_enterprise: Предприятие
   label_enterprise_edition: Корпоративная версия
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_environment: Переменные среды
   label_estimates_and_time: Оценки и время
   label_equals: "—"
@@ -2566,6 +2571,7 @@ ru:
       years: Годы
   title_remove_and_delete_user: Исключить из проекта приглашенного пользователя и
     удалить его.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_resend_invitation: 'Отправляет по электронной почте другое приглашение со
     свежим маркером в случае, если истек срок действия старого или пользователь не
     получил первоначального сообщения. Может использоваться для действующих пользователей
@@ -2637,6 +2643,8 @@ ru:
   note_password_login_disabled: Вход по паролю был отключен через параметры %{configuration}.
   warning: Предупреждение
   warning_attachments_not_saved: "%{count} файл(-ов) не может быть сохранен(-о)."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   menu_item: Пункт меню
   menu_item_setting: Видимость
   wiki_menu_item_for: Пункт меню для wiki-страницы  «%{title}»
