@@ -28,17 +28,17 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
+describe ::API::V3::WorkPackages::FormHelper do
   let(:project) { FactoryBot.create(:project, is_public: false) }
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_work_packages, :add_work_packages] }
+  let(:permissions) { %i[view_work_packages add_work_packages] }
   let(:env) { { 'api.request.body' => { 'subject' => 'foo' } } }
 
   let(:helper_class) {
     Class.new do
-      include ::API::V3::WorkPackages::WorkPackagesSharedHelpers
+      include ::API::V3::WorkPackages::FormHelper
 
       def initialize(user, env)
         @user = user
@@ -57,15 +57,14 @@ describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
         @user
       end
 
-      def status(_code)
-      end
+      def status(_code); end
     end
   }
   let(:helper) { helper_class.new(user, env) }
 
-  describe '#create_work_package_form' do
+  describe '#respond_with_work_package_form' do
     subject do
-      helper.create_work_package_form(
+      helper.respond_with_work_package_form(
         work_package,
         contract_class: ::WorkPackages::CreateContract,
         form_class: ::API::V3::WorkPackages::CreateProjectFormRepresenter

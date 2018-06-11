@@ -28,7 +28,6 @@
 #++
 
 require 'diff'
-require 'enumerator'
 
 class WikiPage < ActiveRecord::Base
   belongs_to :wiki, touch: true
@@ -73,8 +72,14 @@ class WikiPage < ActiveRecord::Base
       .joins("LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id")
   }
 
-  scope :main_pages, -> (wiki_id) {
+  scope :main_pages, ->(wiki_id) {
     where(wiki_id: wiki_id, parent_id: nil)
+  }
+
+  scope :visible, ->(user = User.current) {
+    includes(:project)
+      .references(:project)
+      .merge(Project.allowed_to(user, :view_wiki_pages))
   }
 
   # Wiki pages that are protected by default

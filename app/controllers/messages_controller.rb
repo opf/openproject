@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -52,9 +53,9 @@ class MessagesController < ApplicationController
     end
 
     @replies = @topic.children.includes(:author, :attachments, board: :project)
-               .order("#{Message.table_name}.created_on ASC")
-               .page(page)
-               .per_page(per_page_param)
+                     .order("#{Message.table_name}.created_on ASC")
+                     .page(page)
+                     .per_page(per_page_param)
 
     @reply = Message.new(subject: "RE: #{@message.subject}")
     render action: 'show', layout: !request.xhr?
@@ -76,11 +77,11 @@ class MessagesController < ApplicationController
     end
 
     @message.attributes = permitted_params.message(@message)
-
     @message.attach_files(permitted_params.attachments.to_h)
 
     if @message.save
-      call_hook(:controller_messages_new_after_save,  params: params, message: @message)
+      render_attachment_warning_if_needed(@message)
+      call_hook(:controller_messages_new_after_save, params: params, message: @message)
 
       redirect_to topic_path(@message)
     else
@@ -96,31 +97,31 @@ class MessagesController < ApplicationController
     @reply.author = User.current
     @reply.board = @board
     @reply.attributes = permitted_params.reply
+    @reply.attach_files(permitted_params.attachments.to_h)
 
     @topic.children << @reply
-    if !@reply.new_record?
-      call_hook(:controller_messages_reply_after_save,  params: params, message: @reply)
-      attachments = Attachment.attach_files(@reply, permitted_params.attachments)
+    unless @reply.new_record?
       render_attachment_warning_if_needed(@reply)
+      call_hook(:controller_messages_reply_after_save, params: params, message: @reply)
     end
     redirect_to topic_path(@topic, r: @reply)
   end
 
   # Edit a message
   def edit
-    (render_403; return false) unless @message.editable_by?(User.current)
+    return render_403 unless @message.editable_by?(User.current)
     @message.attributes = permitted_params.message(@message)
   end
 
   # Edit a message
   def update
-    (render_403; return false) unless @message.editable_by?(User.current)
+    return render_403 unless @message.editable_by?(User.current)
 
     @message.attributes = permitted_params.message(@message)
-
     @message.attach_files(permitted_params.attachments.to_h)
 
     if @message.save
+      render_attachment_warning_if_needed(@message)
       flash[:notice] = l(:notice_successful_update)
       @message.reload
       redirect_to topic_path(@message.root, r: (@message.parent_id && @message.id))
@@ -131,12 +132,16 @@ class MessagesController < ApplicationController
 
   # Delete a messages
   def destroy
-    (render_403; return false) unless @message.destroyable_by?(User.current)
+    return render_403 unless @message.destroyable_by?(User.current)
     @message.destroy
     flash[:notice] = l(:notice_successful_delete)
-    redirect_to @message.parent.nil? ?
-      { controller: '/boards', action: 'show', project_id: @project, id: @board } :
-      { action: 'show', id: @message.parent, r: @message }
+    redirect_target = if @message.parent.nil?
+                        { controller: '/boards', action: 'show', project_id: @project, id: @board }
+                      else
+                        { action: 'show', id: @message.parent, r: @message }
+                      end
+
+    redirect_to redirect_target
   end
 
   def quote

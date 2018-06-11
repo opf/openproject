@@ -74,22 +74,34 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/attachments/1'
   end
 
-  describe '#attachment_download without file name' do
-    subject { helper.attachment_download 1 }
+  describe '#attachments' do
+    subject { helper.attachments }
 
-    it_behaves_like 'path', '/attachments/1'
+    it_behaves_like 'api v3 path', '/attachments'
   end
 
-  describe '#attachment_download with file name' do
-    subject { helper.attachment_download 1, 'file.png' }
+  describe '#attachment_content' do
+    subject { helper.attachment_content 1 }
 
-    it_behaves_like 'path', '/attachments/1/file.png'
+    it_behaves_like 'api v3 path', '/attachments/1/content'
+  end
+
+  describe '#attachments_by_post' do
+    subject { helper.attachments_by_post 1 }
+
+    it_behaves_like 'api v3 path', '/posts/1/attachments'
   end
 
   describe '#attachments_by_work_package' do
     subject { helper.attachments_by_work_package 1 }
 
     it_behaves_like 'api v3 path', '/work_packages/1/attachments'
+  end
+
+  describe '#attachments_by_wiki_page' do
+    subject { helper.attachments_by_wiki_page 1 }
+
+    it_behaves_like 'api v3 path', '/wiki_pages/1/attachments'
   end
 
   describe '#available_assignees' do
@@ -208,6 +220,12 @@ describe ::API::V3::Utilities::PathHelper do
         it { is_expected.to eql('/api/v3/render/plain') }
       end
     end
+  end
+
+  describe '#post' do
+    subject { helper.post 1 }
+
+    it_behaves_like 'api v3 path', '/posts/1'
   end
 
   describe '#principals' do
@@ -558,6 +576,14 @@ describe ::API::V3::Utilities::PathHelper do
     subject { helper.work_packages_by_project 42 }
 
     it_behaves_like 'api v3 path', '/projects/42/work_packages'
+  end
+
+  describe 'wiki pages paths' do
+    describe '#wiki_page' do
+      subject { helper.wiki_page 1 }
+
+      it_behaves_like 'api v3 path', '/wiki_pages/1'
+    end
   end
 
   describe 'work packages paths' do

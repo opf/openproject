@@ -32,6 +32,8 @@ require 'model_contract'
 
 module WorkPackages
   class BaseContract < ::ModelContract
+    include ::Attachments::ValidateReplacements
+
     def self.model
       WorkPackage
     end

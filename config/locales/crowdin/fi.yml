@@ -1795,8 +1795,7 @@ fi:
     text_show_again: Voit käynnistää tämä videon uudelleen ohjeet-valikosta
     welcome: Tervetuloa OpenProjectiin
   permission_add_work_package_notes: Lisää muistiinpanoja
-  permission_add_work_packages: Add work packages (also allows to add attachments
-    to all work packages)
+  permission_add_work_packages: Add work packages
   permission_add_messages: Jätä viesti
   permission_add_project: Luo projekti
   permission_add_subprojects: Luoda aliprojekteja

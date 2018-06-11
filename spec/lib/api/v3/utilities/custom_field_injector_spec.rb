@@ -244,7 +244,9 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it 'on writing it sets on the represented' do
         expected = { custom_field.id => expected_setter }
-        expect(represented).to receive(:custom_field_values=).with(expected)
+        expect(represented)
+          .to receive(:"custom_field_#{custom_field.id}=")
+          .with(expected_setter)
         modified_class
           .new(represented, current_user: nil)
           .from_json({ cf_path => json_value }.to_json)

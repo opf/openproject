@@ -206,7 +206,7 @@ module OpenProject::TextFormatting::Formatters
             ext = $2
             alt = $3
             alttext = $4
-            attachments ||= (options[:attachments] || obj.attachments).sort_by(&:created_on).reverse
+            attachments ||= (options[:attachments] || obj.attachments).sort_by(&:created_at).reverse
             # search for the picture in attachments
             if found = attachments.detect { |att| att.filename.downcase == filename }
               image_url = url_for only_path: only_path, controller: '/attachments', action: 'download', id: found

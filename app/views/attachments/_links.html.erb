@@ -45,7 +45,7 @@ See docs/COPYRIGHT.rdoc for more details.
                             title: l(:button_delete) } %>
             <% end %>
             <% if options[:author] %>
-              <span class="author"><%= h(attachment.author) %>, <%= format_time(attachment.created_on) %></span>
+              <span class="author"><%= h(attachment.author) %>, <%= format_time(attachment.created_at) %></span>
             <% end %>
           </td>
         </tr>

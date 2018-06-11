@@ -31,6 +31,7 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 import {Component, Inject, Input} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {PathHelperService} from "core-components/common/path-helper/path-helper.service";
 
 @Component({
   template: require('!!raw-loader!./wp-attachment-list-item.html'),
@@ -43,10 +44,15 @@ export class WorkPackageAttachmentListItemComponent {
   public text = {
     destroyConfirmation: this.I18n.t('js.text_attachment_destroy_confirmation'),
     removeFile: (arg:any) => this.I18n.t('js.label_remove_file', arg)
-  }
+  };
 
   constructor(protected wpNotificationsService:WorkPackageNotificationService,
+              readonly pathHelper:PathHelperService,
               @Inject(I18nToken) readonly I18n:op.I18n) {
+  }
+
+  public get downloadPath() {
+    return this.pathHelper.attachmentDownloadPath(this.attachment.id, this.attachment.name);
   }
 
   public confirmRemoveAttachment($event:JQueryEventObject) {

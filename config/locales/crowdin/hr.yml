@@ -1836,8 +1836,7 @@ hr:
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: Dodaj bilješke
-  permission_add_work_packages: Dodaj radni paket (također omogućava dodavanje privitaka
-    svim radnim paketima)
+  permission_add_work_packages: Dodaj radni paket
   permission_add_messages: Pošalji poruke
   permission_add_project: Stvori projekt
   permission_add_subprojects: Kreiraj potprojekte

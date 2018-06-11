@@ -38,16 +38,17 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   let(:permissions) { all_permissions }
 
   let(:container) { FactoryBot.build_stubbed(:stubbed_work_package) }
+  let(:author) { current_user }
   let(:attachment) do
     FactoryBot.build_stubbed(:attachment,
-                              container: container,
-                              created_on: DateTime.now) do |attachment|
+                             container: container,
+                             author: author) do |attachment|
       allow(attachment)
-       .to receive(:filename)
-       .and_return('some_file_of_mine.txt')
+        .to receive(:filename)
+        .and_return('some_file_of_mine.txt')
     end
   end
-  
+
   let(:representer) do
     ::API::V3::Attachments::AttachmentRepresenter.new(attachment, current_user: current_user)
   end
@@ -79,7 +80,7 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   end
 
   it_behaves_like 'has UTC ISO 8601 date and time' do
-    let(:date) { attachment.created_on }
+    let(:date) { attachment.created_at }
     let(:json_path) { 'createdAt' }
   end
 
@@ -90,10 +91,58 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
       let(:title) { attachment.filename }
     end
 
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'container' }
-      let(:href) { api_v3_paths.work_package(attachment.container.id) }
-      let(:title) { attachment.container.subject }
+    context 'for a work package container' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'container' }
+        let(:href) { api_v3_paths.work_package(container.id) }
+        let(:title) { container.subject }
+      end
+    end
+
+    context 'for a wiki page container' do
+      let(:container) { FactoryBot.build_stubbed(:wiki_page) }
+
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'container' }
+        let(:href) { api_v3_paths.wiki_page(container.id) }
+        let(:title) { container.title }
+      end
+    end
+
+    context 'without a container' do
+      let(:container) { nil }
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'container' }
+        let(:href) { nil }
+      end
+    end
+
+    describe 'downloadLocation link' do
+      context 'for a local attachment' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'downloadLocation' }
+          let(:href) { api_v3_paths.attachment_content(attachment.id) }
+        end
+      end
+
+      context 'for a remote attachment' do
+        let(:remote_url) { 'https://some.bogus/download/xyz' }
+
+        before do
+          allow(attachment)
+            .to receive(:external_storage?)
+            .and_return(true)
+          allow(attachment)
+            .to receive(:remote_url)
+            .and_return(remote_url)
+        end
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'downloadLocation' }
+          let(:href) { remote_url }
+        end
+      end
     end
 
     it_behaves_like 'has a titled link' do
@@ -117,6 +166,25 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
 
         it_behaves_like 'has no link' do
           let(:link) { 'delete' }
+        end
+      end
+
+      context 'attachment has no container' do
+        let(:container) { nil }
+
+        context 'user is the author' do
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'delete' }
+            let(:href) { api_v3_paths.attachment(attachment.id) }
+          end
+        end
+
+        context 'user is not the author' do
+          let(:author) { FactoryBot.build_stubbed(:user) }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'delete' }
+          end
         end
       end
     end
@@ -148,9 +216,7 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
       end
 
       it 'changes when the attachment is changed (has no update)' do
-        allow(attachment)
-          .to receive(:cache_key)
-          .and_return('blubs')
+        attachment.updated_at = Time.now + 10.seconds
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key

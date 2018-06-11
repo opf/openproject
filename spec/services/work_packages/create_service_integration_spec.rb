@@ -31,12 +31,12 @@ require 'spec_helper'
 describe WorkPackages::CreateService, 'integration', type: :model do
   let(:user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:role) do
     FactoryBot.create(:role,
-                       permissions: permissions)
+                      permissions: permissions)
   end
 
   let(:permissions) do
@@ -45,7 +45,7 @@ describe WorkPackages::CreateService, 'integration', type: :model do
 
   let(:type) do
     FactoryBot.create(:type,
-                       custom_fields: [custom_field])
+                      custom_fields: [custom_field])
   end
   let(:default_type) do
     FactoryBot.create(:type_standard)
@@ -53,8 +53,8 @@ describe WorkPackages::CreateService, 'integration', type: :model do
   let(:project) { FactoryBot.create(:project, types: [type, default_type]) }
   let(:parent) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       type: type)
+                      project: project,
+                      type: type)
   end
   let(:instance) { described_class.new(user: user) }
   let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
@@ -127,6 +127,43 @@ describe WorkPackages::CreateService, 'integration', type: :model do
         .to eql attributes[:start_date]
       expect(parent.due_date)
         .to eql attributes[:due_date]
+    end
+
+    describe 'setting the attachments' do
+      let!(:other_users_attachment) do
+        FactoryBot.create(:attachment, container: nil, author: FactoryBot.create(:user))
+      end
+      let!(:users_attachment) do
+        FactoryBot.create(:attachment, container: nil, author: user)
+      end
+
+      it 'reports on invalid attachments and sets the new if everything is valid' do
+        result = instance.call(attributes: attributes.merge(attachment_ids: [other_users_attachment.id]))
+
+        expect(result)
+          .to be_failure
+
+        expect(result.errors.symbols_for(:attachments))
+          .to match_array [:does_not_exist]
+
+        # The parent work package
+        expect(WorkPackage.count)
+          .to eql 1
+
+        expect(other_users_attachment.reload.container)
+          .to be_nil
+
+        result = instance.call(attributes: attributes.merge(attachment_ids: [users_attachment.id]))
+
+        expect(result)
+          .to be_success
+
+        expect(result.result.attachments)
+          .to match_array [users_attachment]
+
+        expect(users_attachment.reload.container)
+          .to eql result.result
+      end
     end
   end
 end

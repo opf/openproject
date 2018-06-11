@@ -30,6 +30,11 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 
 export class AttachmentCollectionResource extends CollectionResource {
+  public $initialize(source:any) {
+    super.$initialize(source);
+
+    this.elements = this.elements || [];
+  }
 
 }
 

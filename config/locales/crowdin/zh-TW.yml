@@ -1685,7 +1685,7 @@ zh-TW:
     text_show_again: 您可以從 "説明" 功能表中重新開啟此影片
     welcome: 歡迎來到 OpenProject
   permission_add_work_package_notes: 增加註釋
-  permission_add_work_packages: 添加工作包 (也允許將附件添加到所有的工作包)
+  permission_add_work_packages: 添加工作包
   permission_add_messages: 張貼訊息
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案

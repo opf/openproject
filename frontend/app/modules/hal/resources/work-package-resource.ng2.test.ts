@@ -158,36 +158,6 @@ describe('WorkPackage', () => {
     });
   });
 
-  describe('when using uploadPendingAttachments', () => {
-    let uploadAttachmentsStub:sinon.SinonStub;
-
-    beforeEach(() => {
-      workPackage.pendingAttachments.push({} as any, {} as any);
-      uploadAttachmentsStub = sinon
-        .stub(workPackage, 'uploadAttachments')
-        .returns(Promise.resolve());
-    });
-
-    beforeEach(() => {
-      workPackage.$source.id = 1234;
-      workPackage.uploadPendingAttachments();
-    });
-
-    afterEach(() => {
-      uploadAttachmentsStub.restore();
-    })
-
-    it('should call the uploadAttachments method with the pendingAttachments', () => {
-      expect(uploadAttachmentsStub.calledWith([{}, {}])).to.be.true;
-    });
-
-    describe('when the upload succeeds', () => {
-      it('should reset the pending attachments', () => {
-        expect(workPackage.pendingAttachments).to.have.length(0);
-      });
-    });
-  });
-
   describe('when using removeAttachment', () => {
     let file:any;
     let attachment:any;
@@ -201,14 +171,6 @@ describe('WorkPackage', () => {
 
       createWorkPackage();
       workPackage.attachments.elements = [attachment];
-      workPackage.pendingAttachments.push(file);
-    });
-
-    describe('when the attachment is a regular file', () => {
-      it('should be removed from the pending attachments', () => {
-        workPackage.removeAttachment(file);
-        expect(workPackage.pendingAttachments).to.have.length(0);
-      });
     });
 
     describe('when the attachment is an attachment resource', () => {
