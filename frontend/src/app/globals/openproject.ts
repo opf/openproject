@@ -26,16 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {OpenProjectPluginContext} from "core-app/modules/plugins/plugin-context";
+import {input} from "reactivestates";
+import {take} from "rxjs/operators";
+
 /**
 * OpenProject instance methods
 */
 export class OpenProject {
+  public pluginContext = input<OpenProjectPluginContext>();
 
-  public get injector() {
-    return (window as any).ngInjector;
+  public getPluginContext():Promise<OpenProjectPluginContext> {
+    return this.pluginContext
+      .values$()
+      .pipe(take(1))
+      .toPromise();
   }
 
-  public get urlRoot(): string {
+  public get urlRoot():string {
     return jQuery('meta[name=app_base_path]').attr('content') || '';
   }
 

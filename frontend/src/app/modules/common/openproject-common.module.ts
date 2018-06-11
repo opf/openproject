@@ -53,7 +53,6 @@ import {NotificationsContainerComponent} from 'core-app/modules/common/notificat
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {UploadProgressComponent} from 'core-app/modules/common/notifications/upload-progress.component';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {ExpressionService} from 'core-app/modules/common/xss/expression.service';
 import {OpDatePickerComponent} from "core-app/modules/common/op-date-picker/op-date-picker.component";
 import {FocusWithinDirective} from "core-app/modules/common/focus/focus-within.upgraded.directive";
 import {FocusHelperService} from "core-app/modules/common/focus/focus-helper";
@@ -170,7 +169,6 @@ import {RemoteFieldUpdaterDirective} from "core-app/modules/common/remote/remote
     NotificationsService,
     FocusHelperService,
     LoadingIndicatorService,
-    ExpressionService,
     AuthorisationService,
     AttributeHelpTextsService,
     ConfigurationService,

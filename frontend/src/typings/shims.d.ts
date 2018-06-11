@@ -20,7 +20,7 @@
 /// <reference path="../../node_modules/@types/es6-shim/index.d.ts" />
 
 import {Injector} from '@angular/core';
-import * as TAngular from 'angular';
+
 import {OpenProject} from 'core-app/globals/openproject';
 import * as TLodash from 'lodash';
 import * as TMoment from 'moment';
@@ -29,7 +29,6 @@ import {GlobalI18n} from "core-app/modules/common/i18n/i18n.service";
 
 declare global {
   const _:typeof TLodash;
-  const angular:typeof TAngular;
   const sinon:typeof TSinon;
   const moment:typeof TMoment;
   const bowser:any;

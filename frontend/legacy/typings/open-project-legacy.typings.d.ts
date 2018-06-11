@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,28 +24,23 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {Injectable} from "@angular/core";
 
-@Injectable()
-export class ExpressionService {
 
-  // This is what returned by rails-angular-xss when it discovers double open curly braces
-  // See https://github.com/opf/rails-angular-xss for more information.
-  public get UNESCAPED_EXPRESSION() {
-    return '{{';
+/// <reference path="../../node_modules/@types/angular/index.d.ts" />
+
+import * as TLodash from 'lodash';
+import * as TMoment from 'moment';
+import * as TAngular from 'angular';
+import {State} from "reactivestates";
+
+declare global {
+  interface Window {
+    appBasePath:string;
+    OpenProject:{ environment:string, pluginContext:State<any> };
   }
-
-  public get ESCAPED_EXPRESSION() {
-    return '{{ \\$root\\.DOUBLE_LEFT_CURLY_BRACE }}';
-  }
-
-  public escape(input:string) {
-    return input.replace(new RegExp(this.UNESCAPED_EXPRESSION, 'g'), this.ESCAPED_EXPRESSION);
-  }
-
-  public unescape(input:string) {
-    return input.replace(new RegExp(this.ESCAPED_EXPRESSION, 'g'), this.UNESCAPED_EXPRESSION);
-  }
+  const _:typeof TLodash;
+  const moment:typeof TMoment;
+  const angular:typeof TAngular;
 }

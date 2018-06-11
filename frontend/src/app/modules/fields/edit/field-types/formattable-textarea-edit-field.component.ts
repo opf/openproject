@@ -27,8 +27,8 @@
 
 import {Component} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
-import {ExpressionService} from "core-app/modules/common/xss/expression.service";
 import {FormattableEditField} from "core-app/modules/fields/edit/field-types/formattable-edit-field";
+import {ExpressionService} from "../../../../../../common/expression.service";
 
 @Component({
   template: `
@@ -63,10 +63,9 @@ import {FormattableEditField} from "core-app/modules/fields/edit/field-types/for
   `
 })
 export class FormattableTextareaEditFieldComponent extends EditFieldComponent {
-  readonly expressionService:ExpressionService = this.injector.get(ExpressionService);
   public field:FormattableEditField;
 
   public get unEscapedPreviewHtml() {
-    return this.expressionService.unescape(this.field.previewHtml);
+    return ExpressionService.unescape(this.field.previewHtml);
   }
 }

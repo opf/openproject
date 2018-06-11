@@ -196,7 +196,6 @@ import {AutoCompleteHelperService} from "core-components/input/auto-complete-hel
 import {UIRouterModule} from "@uirouter/angular";
 import {initializeUiRouterConfiguration} from "core-components/routing/ui-router.config";
 import {WorkPackagesBaseComponent} from "core-components/routing/main/work-packages-base.component";
-import {ExpressionService} from "core-app/modules/common/xss/expression.service";
 import {WorkPackageService} from "core-components/work-packages/work-package.service";
 import {OpenprojectPluginsModule} from "core-app/modules/plugins/openproject-plugins.module";
 import {ConfirmFormSubmitController} from "core-components/modals/confirm-form-submit/confirm-form-submit.directive";
@@ -562,14 +561,8 @@ export function bootstrapOptional(appRef:ApplicationRef, ...elements:{ tagName:s
 
 export function initializeServices(injector:Injector) {
   return () => {
-    const Expression:ExpressionService = injector.get(ExpressionService);
     const ExternalQueryConfiguration:ExternalQueryConfigurationService = injector.get(ExternalQueryConfigurationService);
     const global = (window as any);
-
-    // Set the escaping target of opening double curly braces
-    // This is what returned by rails-angular-xss when it discoveres double open curly braces
-    // See https://github.com/opf/rails-angular-xss for more information.
-    global.DOUBLE_LEFT_CURLY_BRACE = Expression.UNESCAPED_EXPRESSION;
 
     if (window.innerWidth < 680) {
       // On mobile sized screens navigation shall always be collapsed when

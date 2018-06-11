@@ -27,10 +27,9 @@
 // ++
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {ExpressionService} from "core-app/modules/common/xss/expression.service";
+import {ExpressionService} from "../../../../../../common/expression.service";
 
 export class FormattableDisplayField extends DisplayField {
-  protected ExpressionService:ExpressionService = this.$injector.get(ExpressionService);
 
   public render(element:HTMLElement, displayText:string):void {
     jQuery(element).addClass('-multiline');
@@ -58,7 +57,7 @@ export class FormattableDisplayField extends DisplayField {
   // Since formattable fields are only binded to but never evaluated, we can safely remove these expressions.
   protected unescape(html:string) {
     if (html) {
-      return this.ExpressionService.unescape(html);
+      return ExpressionService.unescape(html);
     } else {
       return '';
     }
