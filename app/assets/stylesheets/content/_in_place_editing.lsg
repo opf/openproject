@@ -122,7 +122,7 @@
         </div>
 
         <div class="jstEditor">
-          <textarea wiki-toolbar="" class="focus-input inplace-edit--textarea "  preview-toggle="togglePreview()" name="value"   title="Description: Edit" aria-multiline="true" tabindex="0" aria-hidden="false" aria-disabled="false" aria-invalid="false" rows="5">
+          <textarea wiki-toolbar="" class="focus-input inplace-edit--textarea " name="value"   title="Description: Edit" aria-multiline="true" tabindex="0" aria-hidden="false" aria-disabled="false" aria-invalid="false" rows="5">
           </textarea>
         </div>
 

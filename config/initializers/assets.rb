@@ -28,5 +28,6 @@ OpenProject::Application.configure do
     types_checkboxes.js
     work_packages.js
     vendor/ckeditor/ckeditor.*js
+    bundles/openproject-*.js
   )
 end

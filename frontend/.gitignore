@@ -12,3 +12,5 @@
 /tests/openproject-test-bundle.js
 /tests/openproject-main.css
 /tests/openproject-tests.css
+
+/out-tsc
