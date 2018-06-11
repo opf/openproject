@@ -313,6 +313,7 @@ fi:
         other: Voit valita vain {{limit}} kohdetta
         zero: You cannot select any items
     show_hide_project_menu: Laajenna tai tiivistä projektivalikko
+    project_menu_details: Yksityiskohdat
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

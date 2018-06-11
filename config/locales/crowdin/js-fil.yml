@@ -319,6 +319,7 @@ fil:
         other: Maari ka lamang pumili ng mga {{limit}} aytem
         zero: You cannot select any items
     show_hide_project_menu: Palawakin/Pagbagsak na proyektong pagpipilian
+    project_menu_details: Mga detalye
     sort:
       sorted_asc: 'Pataas na paayos ang inilapat '
       sorted_dsc: 'Pababa na paayosi ang inilapat '

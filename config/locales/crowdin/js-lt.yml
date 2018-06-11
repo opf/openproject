@@ -318,6 +318,7 @@ lt:
         few: Jūs galite pasirinkti tik {{limit}} elementus (-ą, -ų)
         many: You can only select {{limit}} items
     show_hide_project_menu: Išplėsti/sutraukti projekto meniu
+    project_menu_details: Detali informacija
     sort:
       sorted_asc: 'Pritaikyta didėjimo tvarka, '
       sorted_dsc: 'Pritaikyta mažėjimo tvarka, '

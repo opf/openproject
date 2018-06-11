@@ -44,21 +44,45 @@ module API
                             v3_path: :user,
                             representer: ::API::V3::Users::UserRepresenter
 
-        # implementation is currently work_package specific
+        cached_representer key_parts: %i[author container]
+
+        def self.associated_container_getter
+          ->(*) do
+            next unless embed_links
+
+            container_representer
+              .new(represented.container, current_user: current_user)
+          end
+        end
+
+        def self.associated_container_link
+          ->(*) do
+            ::API::Decorators::LinkObject
+              .new(represented,
+                   path: v3_container_name,
+                   property_name: :container,
+                   title_attribute: container_title_attribute)
+              .to_hash
+          end
+        end
+
         associated_resource :container,
-                            v3_path: :work_package,
-                            representer: ::API::V3::WorkPackages::WorkPackageRepresenter,
-                            link_title_attribute: :subject
+                            getter: associated_container_getter,
+                            link: associated_container_link
 
         link :downloadLocation do
+          location = if represented.external_storage?
+                       represented.remote_url
+                     else
+                       api_v3_paths.attachment_content(represented.id)
+                     end
           {
-            href: api_v3_paths.attachment_download(represented.id, represented.filename)
+            href: location
           }
         end
 
-        # visibility of this link is also work_package specific!
         link :delete,
-             cache_if: -> { current_user_allowed_to(:edit_work_packages, context: represented.container.project) } do
+             cache_if: -> { represented.deletable?(current_user) } do
           {
             href: api_v3_paths.attachment(represented.id),
             method: :delete
@@ -81,13 +105,26 @@ module API
                    ::API::Decorators::Digest.new(digest, algorithm: 'md5')
                  },
                  render_nil: true
-        property :created_on,
-                 as: 'createdAt',
+        property :created_at,
                  exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_at) }
 
         def _type
           'Attachment'
+        end
+
+        def container_representer
+          name = v3_container_name.camelcase
+
+          "::API::V3::#{name.pluralize}::#{name}Representer".constantize
+        end
+
+        def v3_container_name
+          ::API::Utilities::PropertyNameConverter.from_ar_name(represented.container.class.name.underscore).underscore
+        end
+
+        def container_title_attribute
+          represented.container.respond_to?(:subject) ? :subject : :title
         end
       end
     end

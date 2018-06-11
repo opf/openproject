@@ -59,7 +59,10 @@ class WorkPackages::SetAttributesService
   end
 
   def set_attributes(attributes)
-    work_package.attributes = attributes
+    if attributes.key?(:attachment_ids)
+      work_package.attachments_replacements = Attachment.where(id: attributes[:attachment_ids])
+    end
+    work_package.attributes = attributes.except(:attachment_ids)
 
     set_default_attributes
     unify_dates

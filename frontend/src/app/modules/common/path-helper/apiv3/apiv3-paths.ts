@@ -41,6 +41,9 @@ export class ApiV3Paths {
   // Base path
   public readonly apiV3Base  = this.appBasePath + '/api/v3';
 
+  // /api/v3/attachments
+  public readonly attachments = new SimpleResource(this.apiV3Base, 'attachments');
+
   // /api/v3/configuration
   public readonly configuration = new SimpleResource(this.apiV3Base, 'configuration');
 

@@ -319,6 +319,7 @@ ro:
         zero: You cannot select any items
         few: Puteți selecta doar {{limit}} elemente
     show_hide_project_menu: Extindere/Restrângere meniu proiect
+    project_menu_details: Detalii
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

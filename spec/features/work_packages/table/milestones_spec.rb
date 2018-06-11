@@ -7,15 +7,15 @@ describe 'Inline editing milestones', js: true do
   let(:project) { FactoryBot.create(:project, types: [type]) }
   let!(:work_package) {
     FactoryBot.create(:work_package,
-                       project: project,
-                       type:    type,
-                       subject: 'Foobar')
+                      project: project,
+                      type:    type,
+                      subject: 'Foobar')
   }
 
   let!(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let!(:query) do
     query              = FactoryBot.build(:query, user: user, project: project)
-    query.column_names = ['subject', 'start_date', 'due_date']
+    query.column_names = %w(subject start_date due_date)
     query.filters.clear
     query.show_hierarchies = false
 

@@ -42,4 +42,3 @@ require 'test_prof/recipes/rspec/let_it_be'
 def shared_let(key, reload: false, refind: false, &block)
   let_it_be(key, reload: reload, refind: refind, &block)
 end
-

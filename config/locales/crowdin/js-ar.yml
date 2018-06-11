@@ -316,6 +316,7 @@ ar:
         few: تستطيع فقط اختيار {{limit}} عناصر
         many: تستطيع فقط اختيار {{limit}} عناصر
     show_hide_project_menu: توسيع/طي قائمة المشروع
+    project_menu_details: تفاصيل
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

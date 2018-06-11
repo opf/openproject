@@ -40,7 +40,7 @@ var HappyPack = require('happypack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 // var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-var CircularDependencyPlugin = require('circular-dependency-plugin');
+// var CircularDependencyPlugin = require('circular-dependency-plugin');
 
 var mode = (process.env['RAILS_ENV'] || 'production').toLowerCase();
 var production = (mode !== 'development');

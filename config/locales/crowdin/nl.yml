@@ -1827,8 +1827,7 @@ nl:
     text_show_again: U kunt deze video van het helpmenu opnieuw starten
     welcome: Welkom bij OpenProject
   permission_add_work_package_notes: Notities toevoegen
-  permission_add_work_packages: Werkpakketten toevoegen (staat ook toe bijlagen aan
-    alle werkpakketten toe te voegen)
+  permission_add_work_packages: Werkpakketten toevoegen
   permission_add_messages: Berichten posten
   permission_add_project: Project Aanmaken
   permission_add_subprojects: Subprojecten maken

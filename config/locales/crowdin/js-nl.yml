@@ -317,6 +317,7 @@ nl:
         other: Je kunt maar {{limit}} onderdelen selecteren
         zero: You cannot select any items
     show_hide_project_menu: Project menu uitvouwen/samenvouwen
+    project_menu_details: Details
     sort:
       sorted_asc: 'Oplopende sorteervolgorde toegepast, '
       sorted_dsc: 'Aflopende sorteervolgorde toegepast, '

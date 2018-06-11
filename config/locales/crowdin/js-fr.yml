@@ -320,6 +320,7 @@ fr:
         other: Vous ne pouvez sélectionner que {{limit}} éléments
         zero: You cannot select any items
     show_hide_project_menu: Déplier/Replier le menu du projet
+    project_menu_details: Détails
     sort:
       sorted_asc: 'Tri par ordre croissant appliqué, '
       sorted_dsc: 'Tri par ordre décroissant appliqué, '

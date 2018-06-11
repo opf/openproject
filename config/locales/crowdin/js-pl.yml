@@ -316,6 +316,7 @@ pl:
         few: Możesz wybrać tylko {{limit}} elementów
         many: You can only select {{limit}} items
     show_hide_project_menu: Rozwiń/zwiń menu projektu
+    project_menu_details: Szczegóły
     sort:
       sorted_asc: 'Zastosowano sortowanie rosnące, '
       sorted_dsc: 'Zastosowano sortowanie malejące, '

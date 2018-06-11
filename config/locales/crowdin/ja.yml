@@ -1683,7 +1683,7 @@ ja:
     text_show_again: ヘルプメニューからこのビデオを再度開始することができます。
     welcome: OpenProjectへようこそ
   permission_add_work_package_notes: 注記の追加
-  permission_add_work_packages: 作業項目を追加 (すべての作業項目に添付ファイルを追加することもできます)
+  permission_add_work_packages: 作業項目を追加
   permission_add_messages: メッセージの投稿
   permission_add_project: プロジェクトの作成
   permission_add_subprojects: 子プロジェクトの追加

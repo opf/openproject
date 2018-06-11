@@ -314,6 +314,7 @@ af:
         other: You can only select {{limit}} items
         zero: You cannot select any items
     show_hide_project_menu: Vergroot/verklein projek kieslys
+    project_menu_details: Besonderhede
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

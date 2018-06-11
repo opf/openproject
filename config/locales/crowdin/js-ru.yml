@@ -317,6 +317,7 @@ ru:
         few: Вы можете выбрать только {{limit}} элемента
         many: You can only select {{limit}} items
     show_hide_project_menu: Развернуть или свернуть меню проекта
+    project_menu_details: Детали
     sort:
       sorted_asc: 'Применяется сортировка по возрастанию, '
       sorted_dsc: 'Применяется сортировка по убыванию, '

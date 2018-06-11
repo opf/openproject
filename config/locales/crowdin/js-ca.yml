@@ -317,6 +317,7 @@ ca:
         other: Només podeu seleccionar {{limit}} elements
         zero: You cannot select any items
     show_hide_project_menu: Expandeix/contrau menú de projecte
+    project_menu_details: Detalls
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

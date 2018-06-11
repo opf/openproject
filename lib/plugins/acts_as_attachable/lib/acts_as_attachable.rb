@@ -33,21 +33,33 @@ module Redmine
         base.extend ClassMethods
       end
 
+      def self.attachables
+        @attachables ||= []
+      end
+
       module ClassMethods
         def acts_as_attachable(options = {})
+          Redmine::Acts::Attachable.attachables.push(self)
           cattr_accessor :attachable_options
-          self.attachable_options = {}
-          attachable_options[:view_permission] = options.delete(:view_permission) || "view_#{name.pluralize.underscore}".to_sym
-          attachable_options[:delete_permission] = options.delete(:delete_permission) || "edit_#{name.pluralize.underscore}".to_sym
+          set_acts_as_attachable_options(options)
 
-          attachments_order = options.delete(:order) || "#{Attachment.table_name}.created_on"
+          attachments_order = options.delete(:order) || "#{Attachment.table_name}.created_at"
           has_many :attachments, -> {
             order(attachments_order)
           }, options.reverse_merge!(as: :container, dependent: :destroy)
 
-          attr_accessor :unsaved_attachments
-          after_initialize :initialize_unsaved_attachments
+          attr_accessor :attachments_replacements
           send :include, Redmine::Acts::Attachable::InstanceMethods
+        end
+
+        private
+
+        def set_acts_as_attachable_options(options)
+          name_default = name.pluralize.underscore
+          self.attachable_options = {}
+          attachable_options[:view_permission] = options.delete(:view_permission) || "view_#{name_default}".to_sym
+          attachable_options[:delete_permission] = options.delete(:delete_permission) || "edit_#{name_default}".to_sym
+          attachable_options[:add_permission] = options.delete(:add_permission) || "edit_#{name_default}".to_sym
         end
       end
 
@@ -57,15 +69,15 @@ module Redmine
         end
 
         def attachments_visible?(user = User.current)
-          user.allowed_to?(self.class.attachable_options[:view_permission], project)
+          allowed_to_on_attachment?(user, self.class.attachable_options[:view_permission])
         end
 
         def attachments_deletable?(user = User.current)
-          user.allowed_to?(self.class.attachable_options[:delete_permission], project)
+          allowed_to_on_attachment?(user, self.class.attachable_options[:delete_permission])
         end
 
-        def initialize_unsaved_attachments
-          @unsaved_attachments ||= []
+        def attachments_addable?(user = User.current)
+          allowed_to_on_attachment?(user, self.class.attachable_options[:add_permission])
         end
 
         # Bulk attaches a set of files to an object
@@ -73,7 +85,7 @@ module Redmine
           if attachments && attachments.is_a?(Hash)
             attachments.each_value do |attachment|
               file = attachment['file']
-              next unless file && file.size > 0
+              next if !file || file.size.zero?
               self.attachments.build(file: file,
                                      container: self,
                                      description: attachment['description'].to_s.strip,
@@ -82,7 +94,20 @@ module Redmine
           end
         end
 
+        private
+
+        def allowed_to_on_attachment?(user, permissions)
+          Array(permissions).any? do |permission|
+            user.allowed_to?(permission, project)
+          end
+        end
+
         module ClassMethods
+          def attachments_addable?(user = User.current)
+            Array(attachable_options[:add_permission]).any? do |permission|
+              user.allowed_to_globally?(permission)
+            end
+          end
         end
       end
     end

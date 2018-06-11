@@ -320,6 +320,7 @@ uk:
         few: Ви можете вибрати тільки {{limit}} елементи
         many: You can only select {{limit}} items
     show_hide_project_menu: Expand/Collapse project menu
+    project_menu_details: Details
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '

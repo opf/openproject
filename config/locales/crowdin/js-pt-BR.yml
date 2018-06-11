@@ -316,6 +316,7 @@ pt-BR:
         other: Você pode selecionar {{limit}} itens
         zero: You cannot select any items
     show_hide_project_menu: Expandir/Recolher o menu do projeto
+    project_menu_details: Detalhes
     sort:
       sorted_asc: 'Classificação crescente aplicada, '
       sorted_dsc: 'Ordenação decrescente aplicada, '

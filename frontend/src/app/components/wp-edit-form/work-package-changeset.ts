@@ -36,15 +36,6 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {
-  IWorkPackageCreateService,
-  IWorkPackageCreateServiceToken
-} from "core-components/wp-new/wp-create.service.interface";
-import {
-  IWorkPackageEditingService,
-  IWorkPackageEditingServiceToken
-} from "core-components/wp-edit-form/work-package-editing.service.interface";
 
 export class WorkPackageChangeset {
   // Injections
@@ -191,7 +182,6 @@ export class WorkPackageChangeset {
 
                 if (wasNew) {
                   this.workPackage.overriddenSchema = undefined;
-                  this.workPackage.uploadAttachmentsAndReload();
                   this.wpCreate.newWorkPackageCreated(this.workPackage);
                 }
 
@@ -264,6 +254,11 @@ export class WorkPackageChangeset {
       } else {
         payload = this.workPackage.$source;
       }
+
+      // Add attachments to be assigned.
+      // They will already be created on the server but now
+      // we need to claim them for the newly created work package.
+      payload['_links']['attachments'] = this.workPackage.attachments.elements.map((a:HalResource) => { return { href: a.href }; });
     } else {
       // Otherwise, simply use the bare minimum, which is the lock version.
       payload = this.minimalPayload;

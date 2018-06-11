@@ -58,11 +58,6 @@ export class WorkPackageUploadComponent {
       return;
     }
 
-    if (this.workPackage.isNew) {
-      this.workPackage.pendingAttachments.push(...files);
-      return;
-    }
-
     this.workPackage.uploadAttachments(files);
   }
 }

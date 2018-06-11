@@ -1833,8 +1833,7 @@ ro:
     text_show_again: Poate reporni acest videoclip din meniul de ajutor
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: Adăugare note
-  permission_add_work_packages: Adăugare pachete de lucru (de asemenea, permite adăugarea
-    de atașamente la toate pachetele de lucru)
+  permission_add_work_packages: Adăugare pachete de lucru
   permission_add_messages: Publicare mesaje
   permission_add_project: Creare proiect
   permission_add_subprojects: Creare subproiecte

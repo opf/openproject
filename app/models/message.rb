@@ -35,7 +35,8 @@ class Message < ActiveRecord::Base
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   acts_as_tree counter_cache: :replies_count, order: "#{Message.table_name}.created_on ASC"
   acts_as_attachable after_add: :attachments_changed,
-                     after_remove: :attachments_changed
+                     after_remove: :attachments_changed,
+                     add_permission: %i[edit_messages add_messages]
   belongs_to :last_reply, class_name: 'Message', foreign_key: 'last_reply_id'
 
   acts_as_journalized
