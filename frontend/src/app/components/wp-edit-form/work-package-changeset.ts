@@ -44,6 +44,8 @@ import {
   IWorkPackageEditingService,
   IWorkPackageEditingServiceToken
 } from "core-components/wp-edit-form/work-package-editing.service.interface";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
 
 export class WorkPackageChangeset {
   // Injections
@@ -266,7 +268,10 @@ export class WorkPackageChangeset {
       // Add attachments to be assigned.
       // They will already be created on the server but now
       // we need to claim them for the newly created work package.
-      payload['_links']['attachments'] = this.workPackage.attachments.elements.map((a:HalResource) => { return { href: a.href }; });
+      payload['_links']['attachments'] = this.workPackage
+        .attachments
+        .elements
+        .map((a:HalResource) => { return { href: a.href }; });
     } else {
       // Otherwise, simply use the bare minimum, which is the lock version.
       payload = this.minimalPayload;
