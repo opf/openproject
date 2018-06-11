@@ -28,24 +28,33 @@
 #++
 
 module FrontendAssetHelper
+  CLI_DEFAULT_PROXY = 'http://localhost:4200'.freeze
+
+  def self.assets_proxied?
+    !Rails.env.production? && cli_proxy?
+  end
+
+  def self.cli_proxy
+    ENV.fetch('OPENPROJECT_CLI_PROXY', CLI_DEFAULT_PROXY)
+  end
+
+  def self.cli_proxy?
+    cli_proxy.present?
+  end
 
   ##
   # Include angular CLI frontend assets by either referencing a prod build,
   # or referencing the running CLI proxy that hosts the assets in memory.
   def include_frontend_assets
     capture do
-      if Rails.env.production? || !frontend_assets_proxied?
-        concat javascript_include_tag frontend_asset_path "vendor.js"
-        concat javascript_include_tag frontend_asset_path "polyfills.js"
-        concat javascript_include_tag frontend_asset_path "runtime.js"
-        concat javascript_include_tag frontend_asset_path "main.js"
-        concat stylesheet_link_tag frontend_asset_path "styles.css"
+      %w(vendor.js polyfills.js runtime.js main.js).each do |file|
+        concat javascript_include_tag variable_asset_path(file)
+      end
+
+      if FrontendAssetHelper.assets_proxied?
+        concat javascript_include_tag variable_asset_path("styles.js")
       else
-        concat javascript_include_tag angular_cli_asset "vendor.js"
-        concat javascript_include_tag angular_cli_asset "polyfills.js"
-        concat javascript_include_tag angular_cli_asset "runtime.js"
-        concat javascript_include_tag angular_cli_asset "main.js"
-        concat javascript_include_tag angular_cli_asset "styles.js"
+        concat stylesheet_link_tag variable_asset_path("styles.css")
       end
     end
   end
@@ -53,21 +62,20 @@ module FrontendAssetHelper
   private
 
   def angular_cli_asset(path)
-    base_url = ENV.fetch('OPENPROJECT_DEV_CLI_PROXY', 'http://localhost:4200')
-
-    URI.join(base_url, path)
-  end
-
-  def frontend_assets_proxied?
-    proxy_in_dev = Rails.env.development? && !ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_NO_CLI_PROXY'])
-    proxy_in_test = Rails.env.test? && ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_CLI_PROXY_IN_TEST'])
-
-    proxy_in_dev || proxy_in_test
+    URI.join(FrontendAssetHelper.cli_proxy, path)
   end
 
   def frontend_asset_path(unhashed, options = {})
     file_name = ::OpenProject::Assets.lookup_asset unhashed
 
     asset_path "assets/frontend/#{file_name}", options.merge(skip_pipeline: true)
+  end
+
+  def variable_asset_path(path)
+    if FrontendAssetHelper.assets_proxied?
+      angular_cli_asset(path)
+    else
+      frontend_asset_path(path)
+    end
   end
 end

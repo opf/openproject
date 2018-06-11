@@ -25,7 +25,7 @@ SecureHeaders::Configuration.default do |config|
   # Allow requests to CLI in dev mode
   connect_src = default_src
 
-  if Rails.env.development?
+  if FrontendAssetHelper.assets_proxied?
     connect_src += %w[ws://localhost:4200 http://localhost:4200]
     assets_src += %w[ws://localhost:4200 http://localhost:4200]
   end
