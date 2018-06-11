@@ -1829,8 +1829,7 @@ he:
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: הוסף הערות
-  permission_add_work_packages: הוסף חבילות עבודה (גם מאפשר הוספה קבצים מצורפים לכל
-    חבילות עבודה)
+  permission_add_work_packages: הוסף חבילות עבודה
   permission_add_messages: Post messages
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

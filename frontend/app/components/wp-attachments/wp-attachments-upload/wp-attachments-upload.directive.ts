@@ -32,9 +32,9 @@ import {UploadFile} from '../../api/op-file-upload/op-file-upload.service';
 import IDirective = angular.IDirective;
 
 export class WorkPackageUploadDirectiveController {
-  public workPackage: WorkPackageResource;
-  public text: any;
-  public maxFileSize: number;
+  public workPackage:WorkPackageResource;
+  public text:any;
+  public maxFileSize:number;
 
   constructor(protected $q:ng.IQService, ConfigurationService:any, protected I18n:op.I18n) {
     this.text = {
@@ -47,13 +47,8 @@ export class WorkPackageUploadDirectiveController {
     });
   }
 
-  public uploadFiles(files: UploadFile[]):void {
+  public uploadFiles(files:UploadFile[]):void {
     if (files === undefined || files.length === 0) {
-      return;
-    }
-
-    if (this.workPackage.isNew) {
-      this.workPackage.pendingAttachments.push(...files);
       return;
     }
 

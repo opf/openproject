@@ -1683,7 +1683,7 @@ zh:
     text_show_again: 您可以从帮助菜单重新启动此视频
     welcome: 欢迎来到 OpenProject
   permission_add_work_package_notes: 添加注释
-  permission_add_work_packages: 添加工作包 (也允许将附件添加到所有的工作包)
+  permission_add_work_packages: 添加工作包
   permission_add_messages: 发布消息
   permission_add_project: 创建项目
   permission_add_subprojects: 创建子项目

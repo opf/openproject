@@ -26,8 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/work_packages_shared_helpers'
-require 'create_work_package_service'
+require 'api/v3/work_packages/form_helper'
 require 'work_packages/create_contract'
 
 module API
@@ -35,17 +34,13 @@ module API
     module WorkPackages
       class CreateFormAPI < ::API::OpenProjectAPI
         resource :form do
-          helpers ::API::V3::WorkPackages::WorkPackagesSharedHelpers
+          helpers ::API::V3::WorkPackages::FormHelper
 
           post do
-            work_package = merge_hash_into_work_package!(request_body, WorkPackage.new)
-            work_package = WorkPackage.new(author: current_user,
-                                           project: work_package.project)
-
-            create_work_package_form(work_package,
-                                     contract_class: ::WorkPackages::CreateContract,
-                                     form_class: CreateFormRepresenter,
-                                     action: :create)
+            respond_with_work_package_form(WorkPackage.new(author: current_user),
+                                           contract_class: ::WorkPackages::CreateContract,
+                                           form_class: CreateFormRepresenter,
+                                           action: :create)
           end
         end
       end

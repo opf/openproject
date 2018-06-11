@@ -1793,8 +1793,7 @@ et:
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: Märkusi lisada
-  permission_add_work_packages: Add work packages (also allows to add attachments
-    to all work packages)
+  permission_add_work_packages: Add work packages
   permission_add_messages: Postitusi lisada
   permission_add_project: Projekte luua
   permission_add_subprojects: Alamprojekte luua

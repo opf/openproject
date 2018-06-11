@@ -33,6 +33,21 @@ module API
     module Attachments
       class AttachmentsAPI < ::API::OpenProjectAPI
         resources :attachments do
+          helpers API::V3::Attachments::AttachmentsByContainerAPI::Helpers
+
+          helpers do
+            def container
+              nil
+            end
+          end
+
+          post do
+            raise API::Errors::Unauthorized if Redmine::Acts::Attachable.attachables.none?(&:attachments_addable?)
+
+            ::API::V3::Attachments::AttachmentRepresenter.new(parse_and_create,
+                                                              current_user: current_user)
+          end
+
           params do
             requires :id, desc: 'Attachment id'
           end
@@ -40,20 +55,36 @@ module API
             before do
               @attachment = Attachment.find(params[:id])
 
-              # For now we only support work package attachments
-              raise ::API::Errors::NotFound.new unless @attachment.container_type == 'WorkPackage'
-              authorize(:view_work_packages, context: @attachment.container.project)
+              raise ::API::Errors::NotFound.new unless @attachment.visible?(current_user)
             end
 
             get do
-              AttachmentRepresenter.new(@attachment, current_user: current_user)
+              AttachmentRepresenter.new(@attachment, embed_links: true, current_user: current_user)
             end
 
             delete do
-              authorize(:edit_work_packages, context: @attachment.container.project)
+              raise API::Errors::Unauthorized unless @attachment.deletable?(current_user)
 
-              @attachment.container.attachments.delete(@attachment)
+              if @attachment.container
+                @attachment.container.attachments.delete(@attachment)
+              else
+                @attachment.destroy
+              end
+
               status 204
+            end
+
+            namespace :content do
+              get do
+                if @attachment.external_storage?
+                  redirect @attachment.external_url
+                else
+                  content_type @attachment.content_type
+                  header['Content-Disposition'] = "attachment; filename=#{@attachment.filename}"
+                  env['api.format'] = :binary
+                  @attachment.diskfile.read
+                end
+              end
             end
           end
         end

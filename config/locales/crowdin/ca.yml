@@ -1829,8 +1829,7 @@ ca:
     text_show_again: Pot reprendre aquest vídeo des del menú d'ajuda
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: Afegir notes
-  permission_add_work_packages: Afegir paquets de treball (també permet afegir fitxers
-    adjunts a tots els paquets de treball)
+  permission_add_work_packages: Afegir paquets de treball
   permission_add_messages: Publicar missatges
   permission_add_project: Crear un projecte
   permission_add_subprojects: Crear subprojectes

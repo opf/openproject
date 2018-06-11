@@ -42,26 +42,24 @@ require 'htmldiff'
 # * destroy - normal
 #
 # Other member and collection methods are also used
-#
-# TODO: still being worked on
 class WikiController < ApplicationController
   default_search_scope :wiki_pages
   before_action :find_wiki, :authorize
-  before_action :find_existing_page, only: [:edit_parent_page,
-                                            :update_parent_page,
-                                            :rename,
-                                            :protect,
-                                            :history,
-                                            :diff,
-                                            :annotate,
-                                            :add_attachment,
-                                            :list_attachments,
-                                            :destroy]
-  before_action :build_wiki_page_and_content, only: [:new, :create]
+  before_action :find_existing_page, only: %i[edit_parent_page
+                                              update_parent_page
+                                              rename
+                                              protect
+                                              history
+                                              diff
+                                              annotate
+                                              add_attachment
+                                              list_attachments
+                                              destroy]
+  before_action :build_wiki_page_and_content, only: %i[new create]
 
   verify method: :post, only: [:protect], redirect_to: { action: :show }
-  verify method: :get,  only: [:new, :new_child], render: { nothing: true, status: :method_not_allowed }
-  verify method: :post, only: :create,            render: { nothing: true, status: :method_not_allowed }
+  verify method: :get,  only: %i[new new_child], render: { nothing: true, status: :method_not_allowed }
+  verify method: :post, only: :create, render: { nothing: true, status: :method_not_allowed }
 
   include AttachmentsHelper
   include PaginationHelper
@@ -93,8 +91,7 @@ class WikiController < ApplicationController
     @pages_by_date = @pages.group_by { |p| p.updated_on.to_date }
   end
 
-  def new
-  end
+  def new; end
 
   def new_child
     find_existing_page
@@ -113,9 +110,9 @@ class WikiController < ApplicationController
 
     @content.attributes = permitted_params.wiki_content
     @content.author = User.current
+    @page.attach_files(permitted_params.attachments.to_h)
 
     if @page.save
-      attachments = Attachment.attach_files(@page, permitted_params.attachments.to_h)
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
       flash[:notice] = l(:notice_successful_create)
@@ -176,7 +173,6 @@ class WikiController < ApplicationController
     @content.lock_version = @page.content.lock_version
   end
 
-  verify method: :put, only: :update, render: { nothing: true, status: :method_not_allowed }
   # Creates a new page or updates an existing one
   def update
     @page = @wiki.find_or_new_page(wiki_page_title)
@@ -191,9 +187,9 @@ class WikiController < ApplicationController
     @content.text = initial_page_content(@page) if @content.text.blank?
     # don't keep previous comment
     @content.comments = nil
+    @page.attach_files(permitted_params.attachments.to_h)
 
     if !@page.new_record? && params[:content].present? && @content.text == params[:content][:text]
-      attachments = Attachment.attach_files(@page, permitted_params.attachments.to_h)
       render_attachment_warning_if_needed(@page)
       # don't save if text wasn't changed
       redirect_to_show
@@ -204,15 +200,13 @@ class WikiController < ApplicationController
     @content.add_journal User.current, params['content']['comments']
     # if page is new @page.save will also save content, but not if page isn't a new record
     if @page.new_record? ? @page.save : @content.save
-      attachments = Attachment.attach_files(@page, permitted_params.attachments.to_h)
       render_attachment_warning_if_needed(@page)
-      call_hook(:controller_wiki_edit_after_save,  params: params, page: @page)
+      call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
       flash[:notice] = l(:notice_successful_update)
       redirect_to_show
     else
       render action: 'edit'
     end
-
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
     flash.now[:error] = l(:notice_locking_conflict)
@@ -286,7 +280,10 @@ class WikiController < ApplicationController
   # show page history
   def history
     # don't load text
-    @versions = @page.content.versions.select('id, user_id, notes, created_at, version')
+    @versions = @page
+                .content
+                .versions
+                .select(:id, :user_id, :notes, :created_at, :version)
                 .order('version DESC')
                 .page(params[:page])
                 .per_page(per_page_param)
@@ -295,7 +292,7 @@ class WikiController < ApplicationController
   end
 
   def diff
-    if @diff = @page.diff(params[:version], params[:version_from])
+    if (@diff = @page.diff(params[:version], params[:version_from]))
       @html_diff = HTMLDiff::DiffBuilder.new(@diff.content_from.data.text, @diff.content_to.data.text).build
     else
       render_404
@@ -360,14 +357,14 @@ class WikiController < ApplicationController
 
   def add_attachment
     return render_403 unless editable?
-    attachments = Attachment.attach_files(@page, permitted_params.attachments.to_h)
-    render_attachment_warning_if_needed(@page)
+    @page.attach_files(permitted_params.attachments.to_h)
+    @page.save
     redirect_to action: 'show', id: @page, project_id: @project
   end
 
   def list_attachments
     respond_to do |format|
-      format.json do render 'common/list_attachments', locals: { attachments: @page.attachments } end
+      format.json { render 'common/list_attachments', locals: { attachments: @page.attachments } }
       format.html
     end
   end

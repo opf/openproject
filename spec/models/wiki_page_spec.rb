@@ -40,7 +40,6 @@ describe WikiPage, type: :model do
   end
 
   describe '#create' do
-
     context 'when another project with same title exists' do
       let(:project2) { FactoryBot.create(:project) }
       let(:wiki2) { project2.wiki }
@@ -81,7 +80,7 @@ describe WikiPage, type: :model do
 
     context 'when one of two wiki pages is destroyed' do
       before :each do
-        another_wiki_page = FactoryBot.create(:wiki_page, wiki: wiki)
+        FactoryBot.create(:wiki_page, wiki: wiki)
         wiki_page.destroy
       end
 
@@ -95,6 +94,23 @@ describe WikiPage, type: :model do
   describe '#project' do
     it 'is the same as the project on wiki' do
       expect(wiki_page.project).to eql(wiki.project)
+    end
+  end
+
+  describe '.visible' do
+    let(:other_project) { FactoryBot.create(:project).reload }
+    let(:other_wiki) { project.wiki }
+    let(:other_wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki, title: wiki.wiki_menu_items.first.title) }
+    let(:role) { FactoryBot.create(:role, permissions: [:view_wiki_pages]) }
+    let(:user) do
+      FactoryBot.create(:user,
+                        member_in_project: project,
+                        member_through_role: role)
+    end
+
+    it 'returns all pages for which the user has the \'view_wiki_pages\' permission' do
+      expect(WikiPage.visible(user))
+        .to match_array [wiki_page]
     end
   end
 end

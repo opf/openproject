@@ -110,9 +110,6 @@ export class WpAttachmentsFormattableController {
 
   protected uploadAndInsert(files:UploadFile[], model:EditorModel | WorkPackageFieldModel) {
     const wp = this.$scope.workPackage as WorkPackageResource;
-    if (wp.isNew) {
-      return this.insertDelayedAttachments(files, model, wp);
-    }
 
     wp
       .uploadAttachments(files)
@@ -158,19 +155,6 @@ export class WpAttachmentsFormattableController {
         InsertMode.ATTACHMENT,
         true);
     }
-  }
-
-  protected insertDelayedAttachments(files:UploadFile[], description:any, workPackage:WorkPackageResource):void {
-    for (var i = 0; i < files.length; i++) {
-      var currentFile = new SingleAttachmentModel(files[i]);
-      var insertMode = currentFile.isAnImage ? InsertMode.INLINE : InsertMode.ATTACHMENT;
-      const name = files[i].customName || files[i].name;
-
-      description.insertAttachmentLink(name.replace(/ /g, '_'), insertMode, true);
-      workPackage.pendingAttachments.push((files[i]));
-    }
-
-    description.save();
   }
 
   protected insertUrls(dropData:DropModel, description:any):void {

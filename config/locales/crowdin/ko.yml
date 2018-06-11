@@ -1748,7 +1748,7 @@ ko:
     text_show_again: 도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다.
     welcome: OpenProject에 오신 것을 환영합니다.
   permission_add_work_package_notes: 메모 추가
-  permission_add_work_packages: 작업 패키지 추가 (모든 작업 패키지에 파일 첨부 허가)
+  permission_add_work_packages: 작업 패키지 추가
   permission_add_messages: 메시지 게시
   permission_add_project: 프로젝트 만들기
   permission_add_subprojects: 하위 프로젝트 만들기

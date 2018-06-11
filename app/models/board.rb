@@ -59,7 +59,7 @@ class Board < ActiveRecord::Base
   # Updates topics_count, messages_count and last_message_id attributes for +board_id+
   def self.reset_counters!(board_id)
     board_id = board_id.to_i
-    where(['id = ?', board_id])
+    where(id: board_id)
       .update_all("topics_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=#{board_id} AND parent_id IS NULL)," +
                " messages_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=#{board_id})," +
                " last_message_id = (SELECT MAX(id) FROM #{Message.table_name} WHERE board_id=#{board_id})")

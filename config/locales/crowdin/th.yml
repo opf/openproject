@@ -1771,8 +1771,7 @@ th:
     text_show_again: คุณสามารถเริ่มเล่นวิดีโอนี้ใหม่ได้จากเมนูวิธีใช้
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: เพิ่มหมายเหตุ
-  permission_add_work_packages: Add work packages (also allows to add attachments
-    to all work packages)
+  permission_add_work_packages: Add work packages
   permission_add_messages: โพสต์ข้อความ
   permission_add_project: สร้างโครงการ
   permission_add_subprojects: สร้างโครงการย่อย

@@ -55,12 +55,24 @@ module API
             "#{root}/attachments/#{id}"
           end
 
-          def self.attachment_download(id, filename = nil)
-            download_attachment_path(id, filename)
+          def self.attachments
+            "#{root}/attachments"
+          end
+
+          def self.attachment_content(id)
+            "#{root}/attachments/#{id}/content"
+          end
+
+          def self.attachments_by_post(id)
+            "#{post(id)}/attachments"
           end
 
           def self.attachments_by_work_package(id)
             "#{work_package(id)}/attachments"
+          end
+
+          def self.attachments_by_wiki_page(id)
+            "#{wiki_page(id)}/attachments"
           end
 
           def self.available_assignees(project_id)
@@ -129,6 +141,10 @@ module API
 
           def self.my_preferences
             "#{root}/my_preferences"
+          end
+
+          def self.post(id)
+            "#{root}/posts/#{id}"
           end
 
           def self.principals
@@ -349,6 +365,10 @@ module API
 
           def self.watcher(id, work_package_id)
             "#{work_package_watchers(work_package_id)}/#{id}"
+          end
+
+          def self.wiki_page(id)
+            "#{root}/wiki_pages/#{id}"
           end
 
           def self.work_packages

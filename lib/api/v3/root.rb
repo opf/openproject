@@ -42,6 +42,7 @@ module API
       mount ::API::V3::CustomActions::CustomActionsAPI
       mount ::API::V3::CustomOptions::CustomOptionsAPI
       mount ::API::V3::HelpTexts::HelpTextsAPI
+      mount ::API::V3::Posts::PostsAPI
       mount ::API::V3::Principals::PrincipalsAPI
       mount ::API::V3::Priorities::PrioritiesAPI
       mount ::API::V3::Projects::ProjectsAPI
@@ -59,6 +60,7 @@ module API
       mount ::API::V3::Groups::GroupsAPI
       mount ::API::V3::Versions::VersionsAPI
       mount ::API::V3::WorkPackages::WorkPackagesAPI
+      mount ::API::V3::WikiPages::WikiPagesAPI
 
       get '/' do
         RootRepresenter.new({}, current_user: current_user)
