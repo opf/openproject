@@ -38,7 +38,6 @@ class DocumentsController < ApplicationController
   before_action :find_project_from_association, except: [:index, :new, :create]
   before_action :authorize
 
-
   def index
     @sort_by = %w(category date title author).include?(params[:sort_by]) ? params[:sort_by] : 'category'
     documents = @project.documents
@@ -56,7 +55,7 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    @attachments = @document.attachments.order('created_on DESC')
+    @attachments = @document.attachments.order('created_at DESC')
   end
 
   def new
@@ -67,10 +66,9 @@ class DocumentsController < ApplicationController
   def create
     @document = @project.documents.build
     @document.attributes = document_params
-    attachment_params = params[:attachments] ? params[:attachments].to_unsafe_h : {}
+    @document.attach_files(permitted_params.attachments.to_h)
 
     if @document.save
-      Attachment.attach_files(@document, attachment_params)
       render_attachment_warning_if_needed(@document)
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_documents_path(@project)
@@ -99,13 +97,17 @@ class DocumentsController < ApplicationController
   end
 
   def add_attachment
-    attachments = Attachment.attach_files(@document, params[:attachments].to_unsafe_h)
+    @document.attach_files(permitted_params.attachments.to_h)
+    attachments = @document.attachments.select(&:new_record?)
+
+    @document.save
     render_attachment_warning_if_needed(@document)
 
-    if attachments.present? && attachments[:files].present? && Setting.notified_events.include?('document_added')
-      users = attachments[:files].first.container.recipients
+    saved_attachments = attachments.select(&:persisted?)
+    if saved_attachments.present? && Setting.notified_events.include?('document_added')
+      users = saved_attachments.first.container.recipients
       users.each do |user|
-        UserMailer.attachments_added(user, attachments[:files]).deliver
+        UserMailer.attachments_added(user, saved_attachments).deliver
       end
     end
     redirect_to action: 'show', id: @document

@@ -29,7 +29,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-
 module OpenProject::Documents
   class Engine < ::Rails::Engine
     engine_name :openproject_documents
@@ -64,6 +63,18 @@ module OpenProject::Documents
     end
 
     patches [:CustomFieldsHelper, :Project]
+
+    add_api_path :document do |id|
+      "#{root}/documents/#{id}"
+    end
+
+    add_api_path :attachments_by_document do |id|
+      "#{document(id)}/attachments"
+    end
+
+    add_api_endpoint 'API::V3::Root' do
+      mount ::API::V3::Documents::DocumentsAPI
+    end
 
     assets %w(documents/documents.css)
 
