@@ -29,10 +29,10 @@
 
 
 /// <reference path="../../node_modules/@types/angular/index.d.ts" />
+/// <reference path="../../node_modules/@types/lodash/index.d.ts" />
 
-import * as TLodash from 'lodash';
-import * as TMoment from 'moment';
 import * as TAngular from 'angular';
+import * as TLodash from 'lodash';
 import {State} from "reactivestates";
 
 declare global {
@@ -40,7 +40,6 @@ declare global {
     appBasePath:string;
     OpenProject:{ environment:string, pluginContext:State<any> };
   }
-  const _:typeof TLodash;
-  const moment:typeof TMoment;
   const angular:typeof TAngular;
+  const _:typeof TLodash;
 }

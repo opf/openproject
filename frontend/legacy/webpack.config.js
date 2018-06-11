@@ -35,6 +35,7 @@ var pathConfig = require('./rails-plugins.conf');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 var mode = (process.env['RAILS_ENV'] || 'production').toLowerCase();
 var production = (mode !== 'development');
@@ -177,6 +178,8 @@ function getWebpackMainConfig() {
       // enforceExtension: true,
 
       alias: _.merge({
+        'angular': path.resolve(node_root, 'angular', 'angular.min.js'),
+        'angular-dragula': path.resolve(node_root, 'angular-dragula', 'dist', 'angular-dragula.min.js'),
         'core-app': path.resolve(__dirname, 'app'),
         'core-components': path.resolve(__dirname, 'app', 'components'),
       }, pluginAliases)
@@ -213,18 +216,13 @@ function getWebpackMainConfig() {
         exclude: ['openproject-vendors.js']
       }),
 
+      // new BundleAnalyzerPlugin(),
+
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
         filename: "openproject-[name].css",
         chunkFilename: "[id].css"
-      }),
-
-      // Global variables provided in all entries
-      // We should avoid this since it reduces webpack
-      // strengths to discover dependency use.
-      new webpack.ProvidePlugin({
-        '_': 'lodash'
       }),
     ]
   };

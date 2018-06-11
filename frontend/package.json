@@ -131,7 +131,7 @@
   },
   "scripts": {
     "serve": "ng serve --proxy-config cli_to_rails_proxy.js",
-    "__postinstall": "./node_modules/.bin/webpack --colors --progress  --debug --config webpack-vendors-config.js",
+    "postinstall": "./node_modules/.bin/webpack --colors -p --config legacy/webpack.config.js",
     "pretest": "npm run webpack-with-test",
     "tslint_typechecks": "tslint -p . -c tslint_typechecks.json",
     "posttest": "npm run tslint_typechecks",

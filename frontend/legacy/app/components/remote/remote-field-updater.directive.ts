@@ -28,7 +28,6 @@
 
 import {keyCodes} from "core-components/keyCodes.enum";
 import {openprojectLegacyModule} from "core-app/openproject-legacy-app";
-import {debounce} from 'lodash';
 
 function remoteFieldUpdater($http:ng.IHttpService) {
   return {
@@ -78,7 +77,7 @@ function remoteFieldUpdater($http:ng.IHttpService) {
         });
       }
 
-      input.on('keyup change', debounce(function(event:any) {
+      input.on('keyup change', _.debounce(function(event:any) {
           // This prevents an update of the result list when
           // tabbing to the result list (9),
           // pressing enter (13)

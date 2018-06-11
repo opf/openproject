@@ -31,6 +31,7 @@ import * as angular from 'angular';
 import {ExpressionService} from "../../common/expression.service";
 
 var angularDragula:any = require('angular-dragula');
+export const opTemplatesModule = angular.module('openproject.templates', []);
 export const openprojectLegacyModule = angular.module('OpenProjectLegacy', [
   angularDragula(angular)
 ]);
