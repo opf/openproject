@@ -65,7 +65,7 @@ $hamburger-width: 50px
     margin: 0
     padding: 0
     float: left
-    height: $header-height
+    height: 0
     border-top: 0
     position: relative
   li.drop-down,
@@ -333,6 +333,14 @@ input.top-menu-search--input
 
   .nosidebar &
     display: none
+
+#main-menu-toggle:not(.-collapsed)
+    @include varprop(background, header-item-bg-hover-color)
+    @include varprop(color, header-item-font-hover-color)
+
+#main-menu-toggle:hover
+    @include varprop(background, header-item-bg-hover-color)
+    @include varprop(color, header-item-font-hover-color)
 
 @media only screen and (max-width: 18.75rem)
   #logo

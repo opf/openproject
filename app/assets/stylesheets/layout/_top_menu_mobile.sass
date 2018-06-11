@@ -33,7 +33,8 @@
     background-color: transparent
 
   #top-menu
-    position: relative !important
+    position: sticky !important
+    top: 0px
     height: $header-height-mobile
 
     #nav-login-content
@@ -133,3 +134,10 @@
     .project-menu-autocomplete--results
       border-bottom: 2px solid $header-drop-down-border-color !important
 
+  #main-menu-toggle:hover
+    @include varprop(background, primary-color)
+    @include varprop(color, primary-color)
+
+  #main-menu-toggle:not(.-collapsed)
+      @include varprop(background, header-item-bg-hover-color)
+      @include varprop(color, header-item-font-hover-color)
