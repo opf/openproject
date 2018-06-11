@@ -44,6 +44,8 @@ import {AttachmentCollectionResource} from 'core-app/modules/hal/resources/attac
 import {SinonStub} from 'sinon';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {StateService} from "@uirouter/core";
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;

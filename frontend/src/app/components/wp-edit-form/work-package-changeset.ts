@@ -36,6 +36,14 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {FormResource} from 'core-app/modules/hal/resources/form-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import {
+  IWorkPackageCreateService,
+  IWorkPackageCreateServiceToken
+} from "core-components/wp-new/wp-create.service.interface";
+import {
+  IWorkPackageEditingService,
+  IWorkPackageEditingServiceToken
+} from "core-components/wp-edit-form/work-package-editing.service.interface";
 
 export class WorkPackageChangeset {
   // Injections

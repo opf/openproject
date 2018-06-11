@@ -46,7 +46,7 @@ export class WorkPackageAttachmentListItemComponent {
   };
 
   constructor(protected wpNotificationsService:WorkPackageNotificationService,
-              readonly I18n:I18nService) {
+              readonly I18n:I18nService,
               readonly pathHelper:PathHelperService) {
   }
 
