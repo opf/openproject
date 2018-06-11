@@ -2,11 +2,11 @@ module ToolbarHelper
   include ERB::Util
   include ActionView::Helpers::OutputSafetyHelper
 
-  def toolbar(title:, subtitle: '', link_to: nil, html: {})
+  def toolbar(title:, title_extra: nil, title_class: nil, subtitle: '', link_to: nil, html: {})
     classes = ['toolbar-container', html[:class]].compact.join(' ')
     content_tag :div, class: classes do
       toolbar = content_tag :div, class: 'toolbar' do
-        dom_title(title, link_to) + dom_toolbar {
+        dom_title(title, link_to, title_class: title_class, title_extra: title_extra) + dom_toolbar {
           yield if block_given?
         }
       end
@@ -21,7 +21,7 @@ module ToolbarHelper
 
   protected
 
-  def dom_title(raw_title, link_to = nil)
+  def dom_title(raw_title, link_to = nil, title_class: nil, title_extra: nil)
     title = ''.html_safe
     title << raw_title
 
@@ -31,7 +31,13 @@ module ToolbarHelper
     end
 
     content_tag :div, class: 'title-container' do
-      content_tag(:h2, title)
+      opts = {}
+
+      opts[:class] = title_class if title_class.present?
+
+      content_tag(:h2, title, opts) + (
+        title_extra.present? ? title_extra : ''
+      )
     end
   end
 

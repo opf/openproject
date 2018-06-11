@@ -26,8 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% html_title l(:label_administration), l(:label_user_plural) -%>
-<%= toolbar title: l(:label_user_plural) do %>
+<% html_title t(:label_administration), t(:label_user_plural) -%>
+<% users_info = OpenProject::Enterprise.token && content_tag(:div) do %>
+  <% token = OpenProject::Enterprise.token %>
+
+  <%= t(:label_enterprise_active_users, current: User.active.count, limit: token.restrictions[:active_user_count]) %>
+  &nbsp;
+  <a href="<%= OpenProject::Enterprise.upgrade_path %>" class="display-inline button -tiny -highlight" title="<%= t(:title_enterprise_upgrade) %>"><%= t(:button_upgrade) %></a>
+<% end %>
+<%= toolbar title: t(:label_user_plural), title_class: 'no-padding-bottom', title_extra: users_info do %>
   <li class="toolbar-item">
     <%= link_to new_user_path,
         { class: 'button -alt-highlight',

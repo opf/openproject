@@ -34,6 +34,7 @@ class AccountController < ApplicationController
   include Concerns::RedirectAfterLogin
   include Concerns::AuthenticationStages
   include Concerns::UserConsent
+  include Concerns::UserLimits
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required
@@ -171,6 +172,8 @@ class AccountController < ApplicationController
   end
 
   def activate_self_registered(token)
+    return if enforce_activation_user_limit
+
     user = token.user
 
     if not user.registered?
@@ -202,6 +205,8 @@ class AccountController < ApplicationController
 
       redirect_to home_url
     else
+      return if enforce_activation_user_limit
+
       activate_invited token
     end
   end
@@ -555,6 +560,12 @@ class AccountController < ApplicationController
   #
   # Pass a block for behavior when a user fails to save
   def register_automatically(user, opts = {})
+    if user_limit_reached?
+      show_user_limit_activation_error!
+
+      return redirect_back fallback_location: signin_path
+    end
+
     # Automatic activation
     user.activate
 

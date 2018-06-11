@@ -80,4 +80,11 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
   </div>
+  <% if OpenProject::Enterprise.user_limit_reached? %>
+    <div class="notification-box -warning icon-warning" id="member-user-limit-warning" style="display: none;">
+      <div class="notification-box--content">
+        <p><%= I18n.t(:warning_user_limit_reached, upgrade_url: OpenProject::Enterprise.upgrade_path).html_safe %></p>
+      </div>
+    </div>
+  <% end %>
 <% end %>

@@ -445,6 +445,30 @@ describe AccountController, type: :controller do
             expect(user.status).to eq(User::STATUSES[:active])
           end
         end
+
+        context "with user limit reached" do
+          before do
+            allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+          end
+
+          it "fails" do
+            post :register,
+                 params: {
+                   user: {
+                     login: 'register',
+                     password: 'adminADMIN!',
+                     password_confirmation: 'adminADMIN!',
+                     firstname: 'John',
+                     lastname: 'Doe',
+                     mail: 'register@example.com'
+                   }
+                 }
+
+            is_expected.to redirect_to(signin_path)
+
+            expect(flash[:error]).to match /user limit reached/
+          end
+        end
       end
 
       context 'with password login disabled' do
@@ -639,6 +663,42 @@ describe AccountController, type: :controller do
           it_behaves_like 'registration disabled'
         end
       end
+    end
+  end
+
+  context 'POST activate' do
+    let(:user) { FactoryGirl.create :user, status: status }
+    let(:status) { -1 }
+
+    let(:token) { Token::Invitation.create!(user_id: user.id) }
+
+    before do
+      allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+
+      post :activate, params: { token: token.value }
+    end
+
+    shared_examples "activation is blocked due to user limit" do
+      it "does not activate the user" do
+        expect(user.reload).not_to be_active
+      end
+
+      it "redirects back to the login page and shows the user limit error" do
+        expect(response).to redirect_to(signin_path)
+        expect(flash[:error]).to match /user limit reached.*contact.*admin/i
+      end
+    end
+
+    context 'registered user' do
+      let(:status) { User::STATUSES[:registered] }
+
+      it_behaves_like "activation is blocked due to user limit"
+    end
+
+    context 'invited user' do
+      let(:status) { User::STATUSES[:invited] }
+
+      it_behaves_like "activation is blocked due to user limit"
     end
   end
 
