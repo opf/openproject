@@ -451,6 +451,7 @@ he:
         before_or_equal_to: must be before or equal to %{date}.
         could_not_be_copied: could not be (fully) copied.
         regex_invalid: could not be validated with the associated regular expression.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -1829,7 +1830,7 @@ he:
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: הוסף הערות
-  permission_add_work_packages: הוסף חבילות עבודה
+  permission_add_work_packages: Add work packages
   permission_add_messages: Post messages
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

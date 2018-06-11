@@ -451,6 +451,7 @@ sv-SE:
         before_or_equal_to: måste vara före eller lika med %{date}.
         could_not_be_copied: kunde inte (fullständigt) kopieras.
         regex_invalid: could not be validated with the associated regular expression.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -1797,7 +1798,7 @@ sv-SE:
     text_show_again: Du kan starta om denna video från hjälpmenyn
     welcome: Välkommen till OpenProject
   permission_add_work_package_notes: Lägg till anteckningar
-  permission_add_work_packages: Lägga till arbetspaket
+  permission_add_work_packages: Lägg till arbetspaket
   permission_add_messages: Publicera meddelanden
   permission_add_project: Skapa projekt
   permission_add_subprojects: Skapa delprojekt

@@ -450,6 +450,7 @@ th:
         before_or_equal_to: must be before or equal to %{date}.
         could_not_be_copied: could not be (fully) copied.
         regex_invalid: could not be validated with the associated regular expression.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -1771,7 +1772,7 @@ th:
     text_show_again: คุณสามารถเริ่มเล่นวิดีโอนี้ใหม่ได้จากเมนูวิธีใช้
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: เพิ่มหมายเหตุ
-  permission_add_work_packages: Add work packages
+  permission_add_work_packages: เพิ่มลำดับภารกิจ
   permission_add_messages: โพสต์ข้อความ
   permission_add_project: สร้างโครงการ
   permission_add_subprojects: สร้างโครงการย่อย

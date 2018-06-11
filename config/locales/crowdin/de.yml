@@ -463,6 +463,7 @@ de:
         could_not_be_copied: konnten nicht (vollständig) kopiert werden.
         regex_invalid: konnte nicht mit dem zugehörigen regulären Ausdruck überprüft
           werden.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Mindestens ein Wert muss verfügbar sein.

@@ -454,6 +454,7 @@ fi:
         before_or_equal_to: on oltava %{date} tai sitä ennen.
         could_not_be_copied: kopioiminen ei onnistunut (täysimääräisesti).
         regex_invalid: could not be validated with the associated regular expression.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -1795,7 +1796,7 @@ fi:
     text_show_again: Voit käynnistää tämä videon uudelleen ohjeet-valikosta
     welcome: Tervetuloa OpenProjectiin
   permission_add_work_package_notes: Lisää muistiinpanoja
-  permission_add_work_packages: Add work packages
+  permission_add_work_packages: Lisää työpaketteja
   permission_add_messages: Jätä viesti
   permission_add_project: Luo projekti
   permission_add_subprojects: Luoda aliprojekteja
