@@ -80,7 +80,7 @@ OpenProject::Application.configure do
         # Respect the relative URL
         relative_url = Regexp.escape(OpenProject::Configuration['rails_relative_url_root'])
         # When we match SYS controller API, allow non-https access
-        request.path =~ /#{relative_url}\/sys\//
+        request.path =~ /#{relative_url}\/sys\// || request.path =~ /#{relative_url}\/health_checks/
       end
     },
     secure_cookies: true
