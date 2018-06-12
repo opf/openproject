@@ -453,7 +453,7 @@ ru:
         before_or_equal_to: должны быть до или ровно %{date}.
         could_not_be_copied: не может быть скопировано (полностью).
         regex_invalid: не может быть проверен связанным регулярным выражением.
-        unchangeable: cannot be changed.
+        unchangeable: изменить нельзя.
       models:
         custom_field:
           at_least_one_custom_option: По крайней мере один параметр должен быть доступен.
