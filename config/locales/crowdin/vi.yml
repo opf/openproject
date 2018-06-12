@@ -454,6 +454,7 @@ vi:
         could_not_be_copied: could not be (fully) copied.
         regex_invalid: có thể không được xác nhận với các biểu hiện thường xuyên liên
           kết.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Ít nhất một lựa chọn cần phải được cung cấp.
@@ -1802,7 +1803,7 @@ vi:
     text_show_again: Bạn có thể khởi động lại video này từ trình đơn trợ giúp
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: Add notes
-  permission_add_work_packages: Add work packages
+  permission_add_work_packages: Thêm mới Gói công việc
   permission_add_messages: Đăng tin nhắn
   permission_add_project: Tạo Dự án
   permission_add_subprojects: Tạo Dự án con

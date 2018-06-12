@@ -473,6 +473,7 @@ fil:
         before_or_equal_to: dapat ay bago o katumbas sa %{date}.
         could_not_be_copied: dapat hindi masyado kinopya ang lahat.
         regex_invalid: hindi pwedeng mapatunayan sa nauugnay na mga regular na ekspresyon.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Kahit isang opsyon lang ang kinakailangan na
@@ -1857,7 +1858,7 @@ fil:
     text_show_again: Maari mong i-restart amg video na ito mula sa tulong ng pagpipilian
     welcome: Maligayang pagdating sa OpenProject
   permission_add_work_package_notes: Magdagdag ng mga talaan
-  permission_add_work_packages: Magdagdag ng mga work packages
+  permission_add_work_packages: Magdagdag ng mga work package
   permission_add_messages: Mga post na mensahe
   permission_add_project: Lumikha ng proyekto
   permission_add_subprojects: Lumikha ng mga subproject

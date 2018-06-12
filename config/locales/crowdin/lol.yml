@@ -405,6 +405,7 @@ lol:
         before_or_equal_to: crwdns96635:0%{date}crwdne96635:0
         could_not_be_copied: crwdns96636:0crwdne96636:0
         regex_invalid: crwdns96637:0crwdne96637:0
+        unchangeable: crwdns98978:0crwdne98978:0
       models:
         custom_field:
           at_least_one_custom_option: crwdns96638:0crwdne96638:0
@@ -1667,7 +1668,7 @@ lol:
     text_show_again: crwdns97714:0crwdne97714:0
     welcome: crwdns97715:0crwdne97715:0
   permission_add_work_package_notes: crwdns97716:0crwdne97716:0
-  permission_add_work_packages: crwdns97717:0crwdne97717:0
+  permission_add_work_packages: crwdns98979:0crwdne98979:0
   permission_add_messages: crwdns97718:0crwdne97718:0
   permission_add_project: crwdns97719:0crwdne97719:0
   permission_add_subprojects: crwdns97720:0crwdne97720:0

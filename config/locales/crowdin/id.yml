@@ -450,6 +450,7 @@ id:
         before_or_equal_to: harus sebelum atau maksimal %{date}.
         could_not_be_copied: sebagian tidak dapat dicopy.
         regex_invalid: tidak dapat divalidasi dengan ekspresi reguler terkait.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Paling tidak, satu pilihan dibutuhkan untuk
@@ -1795,7 +1796,7 @@ id:
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: Tambahkan catatan
-  permission_add_work_packages: Add work packages
+  permission_add_work_packages: Tambah Paket-Penugasan
   permission_add_messages: Kirim pesan
   permission_add_project: Buat Project
   permission_add_subprojects: Buat Sub Project

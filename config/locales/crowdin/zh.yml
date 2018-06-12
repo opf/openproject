@@ -405,6 +405,7 @@ zh:
         before_or_equal_to: 必须在早于或等于 %{date}
         could_not_be_copied: 不能 (完全) 复制。
         regex_invalid: 无法与关联的正则表达式进行验证。
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: 至少有需要一个可用选项。

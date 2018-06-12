@@ -450,6 +450,7 @@ pt-BR:
         before_or_equal_to: deve ser antes ou igual a %{date}.
         could_not_be_copied: não pode ser copiado (totalmente).
         regex_invalid: não pode ser validado com a expressão regular associada.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.

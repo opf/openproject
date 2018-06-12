@@ -453,6 +453,7 @@ da:
         before_or_equal_to: skal være senest %{date}.
         could_not_be_copied: kunne ikke (fuldt ud) kopieres.
         regex_invalid: could not be validated with the associated regular expression.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -1799,7 +1800,7 @@ da:
     text_show_again: You can restart this video from the help menu
     welcome: Velkommen til OpenProject
   permission_add_work_package_notes: Tilføj noter
-  permission_add_work_packages: Add work packages
+  permission_add_work_packages: Tilføj arbejdspakker
   permission_add_messages: Send beskeder
   permission_add_project: Opret projekt
   permission_add_subprojects: Opret underprojekter

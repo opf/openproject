@@ -458,6 +458,7 @@ sk:
         before_or_equal_to: musí byť pred alebo rovné termínu %{date}.
         could_not_be_copied: Nepodarilo sa (úplne) skopírovať.
         regex_invalid: could not be validated with the associated regular expression.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -1858,7 +1859,7 @@ sk:
     text_show_again: Môžete spustiť toto video z ponuky Pomocník
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: Pridať poznámky
-  permission_add_work_packages: Add work packages
+  permission_add_work_packages: Pridať pracovné balíky
   permission_add_messages: Post messages
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

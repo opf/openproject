@@ -455,6 +455,7 @@ hr:
         before_or_equal_to: mora biti prije ili jednako %{date}.
         could_not_be_copied: ne može biti (u potpunosti) kopirano.
         regex_invalid: could not be validated with the associated regular expression.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -1836,7 +1837,7 @@ hr:
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: Dodaj bilješke
-  permission_add_work_packages: Dodaj radni paket
+  permission_add_work_packages: Dodaj radne pakete
   permission_add_messages: Pošalji poruke
   permission_add_project: Stvori projekt
   permission_add_subprojects: Kreiraj potprojekte
