@@ -121,9 +121,9 @@ class CostObjectsController < ApplicationController
     end
 
     @cost_object.attributes = permitted_params.cost_object
+    @cost_object.attach_files(permitted_params.attachments.to_h)
 
     if @cost_object.save
-      Attachment.attach_files(@cost_object, params[:attachments].to_unsafe_h)
       render_attachment_warning_if_needed(@cost_object)
 
       flash[:notice] = t(:notice_successful_create)
@@ -157,8 +157,9 @@ class CostObjectsController < ApplicationController
       @cost_object.existing_labor_budget_item_attributes=({})
     end
 
+    @cost_object.attach_files(permitted_params.attachments.to_h)
+
     if @cost_object.save
-      Attachment.attach_files(@cost_object, params[:attachments].to_unsafe_h)
       render_attachment_warning_if_needed(@cost_object)
 
       flash[:notice] = t(:notice_successful_update)
