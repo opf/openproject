@@ -141,16 +141,16 @@ module OpenProject::Backlogs
     extend_api_response(:v3, :work_packages, :work_package) do
       property :position,
                render_nil: true,
-               if: ->(*) { backlogs_enabled? && type && type.passes_attribute_constraint?(:position) }
+               skip_render: ->(*) { !(backlogs_enabled? && type && type.passes_attribute_constraint?(:position)) }
 
       property :story_points,
                render_nil: true,
-               if: ->(*) { backlogs_enabled? && type && type.passes_attribute_constraint?(:story_points) }
+               skip_render: ->(*) { !(backlogs_enabled? && type && type.passes_attribute_constraint?(:story_points)) }
 
       property :remaining_time,
                exec_context: :decorator,
                render_nil: true,
-               if: ->(represented:, **) { represented.backlogs_enabled? }
+               skip_render: ->(represented:, **) { !represented.backlogs_enabled? }
 
       # cannot use def here as it wouldn't define the method on the representer
       define_method :remaining_time do
