@@ -85,6 +85,7 @@ jQuery(function ($) {
   function install_menu_logic(menu) {
     menu.find(" > li.drop-down").click(function (event) {
       open_menu(menu);
+      event.preventDefault();
     });
   }
 
