@@ -407,6 +407,7 @@ ja:
         before_or_equal_to: は%{date}より以前にしてください。
         could_not_be_copied: "（完全に）コピーできませんでした。"
         regex_invalid: 関連付けられた正規表現を検証できませんでした。
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: 少なくとも 1 つオプションが有効である必要があります。
@@ -1683,7 +1684,7 @@ ja:
     text_show_again: ヘルプメニューからこのビデオを再度開始することができます。
     welcome: OpenProjectへようこそ
   permission_add_work_package_notes: 注記の追加
-  permission_add_work_packages: 作業項目を追加
+  permission_add_work_packages: 作業項目の追加
   permission_add_messages: メッセージの投稿
   permission_add_project: プロジェクトの作成
   permission_add_subprojects: 子プロジェクトの追加

@@ -459,6 +459,7 @@ nl:
         before_or_equal_to: moet voor of gelijk zijn aan %{date}.
         could_not_be_copied: kon niet (volledig) worden gekopieerd.
         regex_invalid: kon niet worden gevalideerd met de bijbehorende reguliere expressie.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Ten minste één optie moet beschikbaar zijn.

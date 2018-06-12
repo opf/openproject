@@ -451,6 +451,7 @@ lt:
         before_or_equal_to: turi eiti prieš arba būti lygu %{date}.
         could_not_be_copied: negalima (pilnai) nukopijuoti.
         regex_invalid: negalėjo būti patvirtintas su susieta reguliaria išraiška.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Turi būti prieinama bent viena savybė.

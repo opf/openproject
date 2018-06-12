@@ -449,6 +449,7 @@ hu:
         before_or_equal_to: korábbinak vagy egyenlőnek kell lennie, mint %{date}.
         could_not_be_copied: nem lehet (teljesen) másolni.
         regex_invalid: nem lehet a hozzárendelt reguláris kifejezéssel ellenőrizni.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Minimum egy opciónak elérhetőnek kell lennie.

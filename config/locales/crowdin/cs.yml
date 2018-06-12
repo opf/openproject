@@ -455,6 +455,7 @@ cs:
         before_or_equal_to: musí být před nebo rovno %{date}.
         could_not_be_copied: nelze (celé) zkopírovat.
         regex_invalid: could not be validated with the associated regular expression.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.

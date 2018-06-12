@@ -462,6 +462,7 @@ pt:
         before_or_equal_to: deve ser antes ou igual a %{date}.
         could_not_be_copied: não pode ser (totalmente) copiado.
         regex_invalid: não pode ser validado com a expressão regular associada.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.
@@ -1830,7 +1831,7 @@ pt:
     text_show_again: Pode reiniciar este vídeo através do menu de ajuda
     welcome: Bem-vindo ao OpenProject
   permission_add_work_package_notes: Adicionar notas
-  permission_add_work_packages: Adicionar pacotes de trabalho
+  permission_add_work_packages: Adicionar tarefas
   permission_add_messages: Publicar mensagens
   permission_add_project: Criar Projeto
   permission_add_subprojects: Criar subprojetos
