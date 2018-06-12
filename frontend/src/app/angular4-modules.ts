@@ -545,15 +545,16 @@ export class OpenProjectModule {
       { tagName: 'main-menu-toggle', cls: MainMenuToggleComponent  },
       { tagName: 'work-packages-base', cls: WorkPackagesBaseComponent  },
       { tagName: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent  },
-      { tagName: 'notifications-container', cls: NotificationsContainerComponent  },
+      { tagName: 'notifications-container', cls: NotificationsContainerComponent  }
     );
   }
 }
 
 export function bootstrapOptional(appRef:ApplicationRef, ...elements:{ tagName:string, cls:any }[]) {
   elements.forEach(el => {
-    if (document.getElementsByTagName(el.tagName).length > 0) {
-      appRef.bootstrap(el.cls);
+    var elements = document.getElementsByTagName(el.tagName)
+    for (var i = 0; i < elements.length; i++) {
+      appRef.bootstrap(el.cls, elements[i]);
     }
   });
 }
