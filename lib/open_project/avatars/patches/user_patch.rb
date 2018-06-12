@@ -40,7 +40,8 @@ module OpenProject::Avatars
 
         def local_avatar_attachment=(file)
           local_avatar_attachment.destroy if local_avatar_attachment
-          Attachment.attach_files(self, 'first' => { 'file' => file, 'description' => 'avatar' })
+          self.attach_files('first' => { 'file' => file, 'description' => 'avatar' })
+          self.save
         end
       end
     end
