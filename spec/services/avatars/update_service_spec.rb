@@ -4,7 +4,7 @@ describe ::Avatars::UpdateService do
   let(:user_without_avatar) { FactoryBot.build_stubbed :user }
   let(:user_with_avatar) do
     u = FactoryBot.create :user
-    u.attachments = [FactoryBot.create(:avatar_attachment, author: u)]
+    u.attachments = [FactoryBot.build(:avatar_attachment, author: u)]
     u
   end
 
