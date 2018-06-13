@@ -123,11 +123,10 @@ hr:
       no_results_content_text: Pridruži korisnika projektu
   my:
     access_token:
-      failed_to_reset_token: 'Failed to reset access token: %{error}'
-      notice_reset_token: 'A new %{type} token has been generated. Your access token
-        is:'
-      token_value_warning: 'Note: This is the only time you will see this token, make
-        sure to copy it now.'
+      failed_to_reset_token: 'Ne mogu postaviti pristupni token: %{error}'
+      notice_reset_token: 'Novi %{type} token je generiran. Pristupni token je:'
+      token_value_warning: 'Napomena: Ovo je jedini put da ćete vidjeti ovaj token,
+        zabilježite ga sada.'
       no_results_title_text: Nema dostupnih pristupnih tokena.
   news:
     index:
@@ -234,10 +233,10 @@ hr:
           U skladu s postavljenim dozvolama aplikacije korisnik/ica mogo ponovno izvršiti
           registraciju i pristupiti aplikaciji.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        other: Unesite korisničko ime %{name} da biste potvrdili brisanje. Nakon što
+          pošaljete, sustav će vas pitati da potvrdite svoju lozinku.
+        self: Unesite korisničko ime %{name} da biste potvrdili brisanje. Nakon što
+          pošaljete, sustav će vas pitati da potvrdite svoju lozinku.
     error_inactive_activation_by_mail: 'Vaš korisnički račun još nije aktiviran. Da
       bi ste aktivirali vaš korisnički račun, molimo vas da potvrdite poveznicu koja
       vam je poslana na email.
@@ -303,7 +302,7 @@ hr:
         expires_at: Ističe u
         subscriber: Pretplatnik
         encoded_token: Enterprise support token
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Najviše aktivnih korisnika
       relation:
         delay: Kašnjenje
         from: Radni paket
@@ -356,7 +355,7 @@ hr:
         mail_notification: Obavijesti e-mailom
         new_password: Nova lozinka
         password_confirmation: Potvrda
-        consented_at: Consented at
+        consented_at: Pristanak
       user_preference:
         comments_sorting: Prikaži komentare
         hide_mail: Sakriji moju e-mail adresu
@@ -432,8 +431,8 @@ hr:
           start date.
         inclusion: nije postavljeno na jednu od dozvoljenih vrijednosti.
         invalid: je nevažeće.
-        invalid_url: is not a valid URL.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: nije valjani URL.
+        invalid_url_scheme: 'nije podržani protokol (dozvoljeno: %{allowed_schemes}).'
         less_than_or_equal_to: mora biti manji od ili jednak %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -486,7 +485,7 @@ hr:
               invalid: The custom field is not valid in the given context.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: Odnos stvara krug odnosa.
           attributes:
             to:
               error_not_found: work package in `to` position not found or not visible
@@ -672,7 +671,7 @@ hr:
   button_create: Stvori
   button_create_and_continue: Stvori i nastavi
   button_delete: Obriši
-  button_decline: Decline
+  button_decline: Odbij
   button_delete_watcher: Obriši nadglednika %{name}
   button_download: Preuzmi
   button_duplicate: Dupliciraj
@@ -687,7 +686,7 @@ hr:
   button_login: Prijavi se
   button_move: Premjesti
   button_move_and_follow: Premjesti i slijedi
-  button_print: Print
+  button_print: Ispis
   button_quote: Citiraj
   button_remove: Ukloni
   button_remove_widget: Ukloni widget
@@ -707,7 +706,7 @@ hr:
   button_unlock: Otključaj
   button_unwatch: Ne nadgledaj više
   button_update: Ažuriraj
-  button_upgrade: Upgrade
+  button_upgrade: Ažuriraj
   button_upload: Upload
   button_view: Pregled
   button_watch: Nadgledaj
@@ -716,19 +715,19 @@ hr:
   button_configure_menu_entry: Konfiguriraj stavku izbornika
   button_delete_menu_entry: Obriši stavku izbornika
   consent:
-    checkbox_label: I have noted and do consent to the above.
-    failure_message: Consent failed, cannot proceed.
-    title: User Consent
-    decline_warning_message: You have declined to consent and have been logged out.
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
+    checkbox_label: Zabilježio sam i pristajem na prethodno.
+    failure_message: Suglasnost nije uspjela, ne može se nastaviti.
+    title: Pristanak korisnika
+    decline_warning_message: Odbili ste pristati i odjavljeni ste iz sustava.
+    user_has_consented: Korisnik je suglasan sa Vašom izjavom u danom trenutku.
+    not_yet_consented: Korisnik još nije suglasan, suglasnost će biti zahtijevana
+      prilikom slijedeće prijave u sustav.
+    contact_mail_instructions: Potrebno definirati mail adresu da korisnici mogu doći
+      do podataka za izvršavanje zahtjeva za promjenu ili uklanjanje podataka.
+    contact_your_administrator: Obratite se administratoru ako želite imati svoj račun
+      izbrisan.
+    contact_this_mail_address: Molimo vas da kontaktirate %{mail_address} ako želite
+      imati svoj račun izbrisan.
     text_update_consent_time: Check this box to force users to consent again. Enable
       when you have changed the legal aspect of the consent information above.
     update_consent_last_time: 'Last update of consent: %{update_time}'
@@ -1151,7 +1150,7 @@ hr:
   label_calendar: Kalendar
   label_calendar_show: Pokaži kalendar
   label_category: Kategorija
-  label_consent_settings: User Consent
+  label_consent_settings: Pristanak korisnika
   label_wiki_menu_item: Element Wiki izbornika
   label_select_main_menu_item: Odaberite novi element glavnog izbornika
   label_select_project: Select a project

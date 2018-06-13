@@ -2195,7 +2195,7 @@ fr:
     other: Autre
     passwords: Mots de passe
     session: Session
-    brute_force_prevention: Bloquage d'utilisateur automatique (pour èviter les pirates)
+    brute_force_prevention: Blocage d'utilisateur automatique (pour éviter les pirates)
   show_hide_project_menu: Déplier/Replier le menu du projet
   status_active: actif
   status_archived: archivé
