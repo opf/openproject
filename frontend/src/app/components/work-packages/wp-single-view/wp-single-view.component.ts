@@ -41,6 +41,7 @@ import {input} from 'reactivestates';
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 
 export interface FieldDescriptor {
   name:string;
@@ -113,7 +114,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected currentProject:CurrentProjectService,
               protected PathHelper:PathHelperService,
               protected states:States,
-              protected wpEditing:WorkPackageEditingService,
+              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected displayFieldService:DisplayFieldService,
               protected wpCacheService:WorkPackageCacheService) {
   }

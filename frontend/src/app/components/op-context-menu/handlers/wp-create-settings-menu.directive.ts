@@ -27,11 +27,12 @@
 //++
 
 import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {Directive, ElementRef} from "@angular/core";
+import {Directive, ElementRef, Inject} from "@angular/core";
 import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
 import {States} from "core-components/states.service";
 import {FormResource} from 'core-app/modules/hal/resources/form-resource';
+import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 
 @Directive({
   selector: '[wpCreateSettingsMenu]'
@@ -41,7 +42,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
               readonly states:States,
-              readonly wpEditing:WorkPackageEditingService) {
+              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService) {
 
     super(elementRef, opContextMenu);
   }

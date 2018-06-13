@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Inject, Injectable, Injector, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition} from '@uirouter/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -44,6 +44,9 @@ import {takeUntil} from 'rxjs/operators';
 import {RootDmService} from 'core-app/modules/hal/dm-services/root-dm.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {
+  IWorkPackageEditingServiceToken
+} from "../wp-edit-form/work-package-editing.service.interface";
 
 
 @Injectable()
@@ -52,6 +55,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   public newWorkPackage:WorkPackageResource;
   public parentWorkPackage:WorkPackageResource;
   public changeset:WorkPackageChangeset;
+  protected wpEditing:WorkPackageEditingService = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
 
   public stateParams = this.$transition.params('to');
   public text = {
@@ -62,10 +66,10 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               readonly $state:StateService,
               readonly I18n:I18nService,
               readonly titleService:OpTitleService,
+              readonly injector:Injector,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected states:States,
               protected wpCreate:WorkPackageCreateService,
-              protected wpEditing:WorkPackageEditingService,
               protected wpTableFilters:WorkPackageTableFiltersService,
               protected wpCacheService:WorkPackageCacheService,
               protected pathHelper:PathHelperService,

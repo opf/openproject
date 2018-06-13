@@ -41,6 +41,10 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {ProjectCacheService} from 'core-components/projects/project-cache.service';
 import {OpTitleService} from 'core-components/html/op-title.service';
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
+import {
+  IWorkPackageEditingService,
+  IWorkPackageEditingServiceToken
+} from "../../wp-edit-form/work-package-editing.service.interface";
 
 export class WorkPackageViewController implements OnDestroy {
 
@@ -50,7 +54,7 @@ export class WorkPackageViewController implements OnDestroy {
   public keepTab:KeepTabService = this.injector.get(KeepTabService);
   public PathHelper:PathHelperService = this.injector.get(PathHelperService);
   public wpTableRefresh:WorkPackageTableRefreshService = this.injector.get(WorkPackageTableRefreshService);
-  protected wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
+  protected wpEditing:IWorkPackageEditingService = this.injector.get(IWorkPackageEditingServiceToken);
   protected wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
   protected projectCacheService:ProjectCacheService = this.injector.get(ProjectCacheService);
   protected authorisationService:AuthorisationService = this.injector.get(AuthorisationService);

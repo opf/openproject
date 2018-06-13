@@ -27,11 +27,14 @@
 // ++
 
 import {Component} from "@angular/core";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {WorkPackageEditingService} from "../../../../components/wp-edit-form/work-package-editing-service";
+import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {takeUntil} from "rxjs/internal/operators";
+import {EditFieldComponent} from "../edit-field.component";
 
 export interface ValueOption {
   name:string;

@@ -30,6 +30,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
 import {Component, Inject, Input} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 
 @Component({
   selector: 'wp-status-button',
@@ -44,7 +45,7 @@ export class WorkPackageStatusButtonComponent {
   };
 
   constructor(readonly I18n:I18nService,
-              protected wpEditing:WorkPackageEditingService) {
+              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService) {
   }
 
   public isDisabled() {

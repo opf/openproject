@@ -8,6 +8,10 @@ import {WorkPackageTable} from '../wp-fast-table';
 import {RelationRenderInfo, RelationsRenderPass} from './relations/relations-render-pass';
 import {SingleRowBuilder} from './rows/single-row-builder';
 import {TimelineRenderPass} from './timeline/timeline-render-pass';
+import {
+  IWorkPackageEditingService,
+  IWorkPackageEditingServiceToken
+} from "../../wp-edit-form/work-package-editing.service.interface";
 
 export type RenderedRowType = 'primary' | 'relations';
 
@@ -33,7 +37,7 @@ export type RenderedRow = { classIdentifier:string, workPackageId:string | null,
 
 export abstract class PrimaryRenderPass {
 
-  public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
+  public wpEditing:WorkPackageEditingService = this.injector.get<WorkPackageEditingService>(IWorkPackageEditingServiceToken);
   public states:States = this.injector.get(States);
   public I18n:I18nService = this.injector.get(I18nService);
 

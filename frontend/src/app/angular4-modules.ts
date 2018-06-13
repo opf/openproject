@@ -246,7 +246,6 @@ import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/o
     WorkPackageRelationsService,
     UrlParamsHelperService,
     WorkPackageCacheService,
-    WorkPackageEditingService,
     SchemaCacheService,
     ProjectCacheService,
     UserCacheService,
@@ -279,7 +278,6 @@ import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/o
     WorkPackageTableSelection,
 
     WorkPackageCreateService,
-    WorkPackageEditingService,
     // Provide both serves with tokens to avoid tight dependency cycles
     { provide: IWorkPackageCreateServiceToken, useClass: WorkPackageCreateService },
     { provide: IWorkPackageEditingServiceToken, useClass: WorkPackageEditingService },

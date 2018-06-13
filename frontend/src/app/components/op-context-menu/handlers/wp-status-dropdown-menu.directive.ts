@@ -36,6 +36,7 @@ import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notific
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 
 @Directive({
   selector: '[wpStatusDropdown]'
@@ -46,8 +47,8 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
               readonly $state:StateService,
-              protected wpEditing:WorkPackageEditingService,
               protected wpNotificationsService:WorkPackageNotificationService,
+              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected wpTableRefresh:WorkPackageTableRefreshService) {
 
     super(elementRef, opContextMenu);

@@ -35,7 +35,6 @@ import {Injector} from '@angular/core';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
-import HTML = Mocha.reporters.HTML;
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 import {debugLog} from "core-app/helpers/debug_output";
 
