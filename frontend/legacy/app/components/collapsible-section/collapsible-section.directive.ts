@@ -26,21 +26,42 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Input} from "@angular/core";
+import {openprojectLegacyModule} from "core-app/openproject-legacy-app";
 
-@Component({
-  selector: 'collapsible-section',
-  templateUrl: './collapsible-section.component.html'
-})
-export class CollapsibleSectionComponent {
+export class CollapsibleSectionController {
   public text:any;
-  @Input('initially-expanded') public expanded:boolean;
-  @Input('section-title') public sectionTitle:string;
+  public expanded:boolean = false;
+  public sectionTitle:string;
 
-  constructor() {
+  constructor(public $scope:ng.IScope,
+              public $attrs:ng.IAttributes) {
+
+
+    if ($attrs['initiallyExpanded']) {
+      this.expanded = true;
+    }
   }
 
   public toggle() {
     this.expanded = !this.expanded;
   }
 }
+
+function CollapsibleSection():any {
+  return {
+    restrict: 'E',
+    replace: true,
+    transclude: true,
+    template: require('!!raw-loader!./collapsible-section.directive.html'),
+
+    scope: {
+      sectionTitle: '@'
+    },
+
+    bindToController: true,
+    controller: CollapsibleSectionController,
+    controllerAs: '$ctrl'
+  };
+}
+
+openprojectLegacyModule.directive('collapsibleSection', CollapsibleSection);

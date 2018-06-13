@@ -29,11 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% form_attributes = form_configuration_groups(@type) %>
 
-<%= content_for(:header_tags) do %>
-  <%= javascript_include_tag 'bundles/openproject-core-app' %>
-<% end %>
-
-<section ng-app="OpenProjectLegacy" class="form--section">
+<%= activate_angular_js :section, class: 'form--section' do %>
   <%= f.hidden_field :attribute_groups, value: attribute_groups_as_json(@type) %>
   <div id="types-form-configuration"
        ng-controller="TypesFormConfigurationCtrl"
@@ -184,7 +180,7 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
     </div>
   </div>
-</section>
+<% end %>
 
 <div class="grid-block">
   <div class="generic-table--action-buttons">
