@@ -29,6 +29,7 @@
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {input, State} from 'reactivestates';
 import {Injectable} from '@angular/core';
+import {UploadInProgress} from "core-components/api/op-file-upload/op-file-upload.service";
 
 export function removeSuccessFlashMessages() {
   jQuery('.flash.notice').remove();
@@ -102,7 +103,7 @@ export class NotificationsService {
     return this.add(this.createNotification(message, 'info'));
   }
 
-  public addWorkPackageUpload(message:INotification|string, uploads:any[]) {
+  public addWorkPackageUpload(message:INotification|string, uploads:UploadInProgress[]) {
     return this.add(this.createWorkPackageUploadNotification(message, uploads));
   }
 
@@ -127,7 +128,7 @@ export class NotificationsService {
     return message;
   }
 
-  private createWorkPackageUploadNotification(message:INotification|string, uploads:any[]) {
+  private createWorkPackageUploadNotification(message:INotification|string, uploads:UploadInProgress[]) {
     if (!uploads.length) {
       throw new Error('Cannot create an upload notification without uploads!');
     }

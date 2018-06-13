@@ -133,6 +133,7 @@ export class WorkPackageResource extends HalResource {
     WorkPackageNotificationService);
   readonly wpCreate:WorkPackageCreateService = this.injector.get(WorkPackageCreateService);
   readonly pathHelper:PathHelperService = this.injector.get(PathHelperService);
+  readonly opFileUpload:OpenProjectFileUploadService = this.injector.get(OpenProjectFileUploadService);
 
   public get id():string {
     return this.$source.id || this.idFromLink;
@@ -211,30 +212,23 @@ export class WorkPackageResource extends HalResource {
    * Upload the given attachments, update the resource and notify the user.
    * Return an updated AttachmentCollectionResource.
    */
-  public uploadAttachments(files:UploadFile[]):Promise<any> {
+  public uploadAttachments(files:UploadFile[]):Promise<{ response:HalResource, uploadUrl:string }[]> {
     const { uploads, finished } = this.performUpload(files);
 
     const message = I18n.t('js.label_upload_notification', this);
     const notification = this.NotificationsService.addWorkPackageUpload(message, uploads);
 
     return finished
-      .then((result:any[]) => {
+      .then((result:HalResource[]) => {
         setTimeout(() => this.NotificationsService.remove(notification), 700);
         if (!this.isNew) {
           this.updateAttachments();
         } else {
           result.forEach(r => {
-            let attachment = new HalResource(this.injector,
-                                             r.data,
-                                             false,
-                                             this.halInitializer,
-                                             'HalResource');
-
-
-            this.attachments.elements.push(attachment);
+            this.attachments.elements.push(r);
           });
         }
-        return result.map(el => { return { response: el.data, uploadUrl: el.data._links.downloadLocation.href }; });
+        return result.map((el:HalResource) => { return { response: el, uploadUrl: el.downloadLocation.href }; });
       })
       .catch((error:any) => {
         this.wpNotificationsService.handleRawError(error, this as any);
@@ -251,10 +245,7 @@ export class WorkPackageResource extends HalResource {
       href = this.attachments.$href!;
     }
 
-    // TODO upgrade
-    //const opFileUpload:OpenProjectFileUploadService = jQuery('body').injector().get('opFileUpload');
-    // return opFileUpload.upload(href, files);
-    return Promise.reject(undefined) as any;
+    return this.opFileUpload.upload(href, files);
   }
 
   public getSchemaName(name:string):string {

@@ -86,9 +86,10 @@ export class NotificationComponent implements OnInit {
     }
   }
 
-  public onUploadError() {
+  public onUploadError(message:string) {
     // Override the current type
     this.type = 'error';
+    this.notification.message = message;
   }
 
   public onUploadSuccess() {

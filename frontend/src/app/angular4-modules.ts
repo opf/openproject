@@ -205,6 +205,7 @@ import {MainMenuToggleComponent} from "core-components/resizer/main-menu-toggle.
 import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
+import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 
 @NgModule({
   imports: [
@@ -259,6 +260,7 @@ import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work
     WorkPackageFiltersService,
     WorkPackageService,
     ApiWorkPackagesService,
+    OpenProjectFileUploadService,
     // Table and query states services
     WorkPackageTableRelationColumnsService,
     WorkPackageTablePaginationService,

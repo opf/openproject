@@ -30,7 +30,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {UploadFile} from '../../api/op-file-upload/op-file-upload.service';
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Component, Input} from "@angular/core";
+import {Component, ElementRef, Input, ViewChild} from "@angular/core";
 
 @Component({
   selector: 'wp-attachments-upload',
@@ -38,6 +38,10 @@ import {Component, Input} from "@angular/core";
 })
 export class WorkPackageUploadComponent {
   @Input() public workPackage:WorkPackageResource;
+
+  @ViewChild('hiddenFileInput') public filePicker:ElementRef;
+
+  public draggingOver:boolean = false;
   public text:any;
   public maxFileSize:number;
 
@@ -53,7 +57,61 @@ export class WorkPackageUploadComponent {
     });
   }
 
-  public uploadFiles(files:UploadFile[]):void {
+  public triggerFileInput(event:MouseEvent) {
+    this.filePicker.nativeElement.click();
+
+    event.preventDefault();
+    event.stopPropagation();
+    return false;
+  }
+
+  public onDropFiles(event:DragEvent) {
+    event.dataTransfer.dropEffect = 'copy';
+    event.preventDefault();
+    event.stopPropagation();
+
+    let dfFiles = event.dataTransfer.files;
+    let length:number = dfFiles ? dfFiles.length : 0;
+
+    let files:UploadFile[] = [];
+    for (let i = 0; i < length; i++) {
+      files.push(dfFiles[i]);
+    }
+
+    this.uploadFiles(files);
+    this.draggingOver = false;
+  }
+
+  public onDragOver(event:DragEvent)  {
+    if (this.containsFiles(event.dataTransfer)) {
+      event.dataTransfer.dropEffect = 'copy';
+      this.draggingOver = true;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  public onDragLeave(event:DragEvent)  {
+    this.draggingOver = false;
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  public onFilePickerChanged() {
+    const files:UploadFile[] = Array.from(this.filePicker.nativeElement.files);
+    this.uploadFiles(files);
+  }
+
+  private containsFiles(dataTransfer:any) {
+    if (dataTransfer.types.contains) {
+      return dataTransfer.types.contains('Files')
+    } else {
+      return (dataTransfer as DataTransfer).types.indexOf('Files') >= 0;
+    }
+  }
+
+  private uploadFiles(files:UploadFile[]):void {
     if (files === undefined || files.length === 0) {
       return;
     }

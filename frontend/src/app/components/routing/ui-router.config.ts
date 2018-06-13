@@ -209,26 +209,6 @@ export function initializeUiRouterConfiguration(injector:Injector) {
     // Synchronize now that routes are updated
     urlService.sync();
 
-    // Our application is still a hybrid one, meaning most routes are still
-    // handled by Rails. As such, we disable the default link-hijacking that
-    // Angular's HTML5-mode turns on.
-    jQuery(document.body)
-      .off('click')
-      // Prevent angular handling clicks on href="#..." links from other libraries
-      // (especially jquery-ui and its datepicker) from routing to <base url>/#
-      .on('click', 'a[href^="#"]', (evt) => {
-        evt.preventDefault();
-
-        // Set the location to the hash if there is any
-        // Since with the base tag, links like href="#whatever" otherwise target to <base>/#whatever
-        const link = evt.target.getAttribute('href');
-        if (link && link !== '#') {
-          window.location.hash = link;
-        }
-
-        return false;
-      });
-
     $transitions.onStart({}, function(transition:Transition) {
       const $state = transition.router.stateService;
       const toParams = transition.params('to');
