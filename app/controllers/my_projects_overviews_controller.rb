@@ -20,25 +20,20 @@
 #++
 
 class MyProjectsOverviewsController < ApplicationController
-
   menu_item :overview
 
   before_action :find_project
   before_action :authorize
   before_action :jump_to_project_menu_item, only: :index
 
-  verify xhr: true, only: [:update_custom_element, :render_attachments, :add_block]
-
   def self.available_blocks
     @available_blocks ||= OpenProject::MyProjectPage.plugin_blocks
   end
 
-  def index
-  end
+  def index; end
 
   # User's page layout configuration
-  def page_layout
-  end
+  def page_layout; end
 
   def update_custom_element
     block_name = params["block_name"]
@@ -168,7 +163,7 @@ class MyProjectsOverviewsController < ApplicationController
       if MyProjectsOverviewsController.available_blocks.keys.include?(name)
         blocks << name
       else
-        custom = custom_elements.detect {|ary| ary.first == name }
+        custom = custom_elements.detect { |ary| ary.first == name }
         blocks << custom unless custom.nil?
       end
     end

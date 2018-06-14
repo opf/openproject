@@ -47,6 +47,8 @@ module OpenProject::MyProjectPage
       end
     end
 
+    patch_with_namespace :OpenProject, :TextFormatting, :Formatters, :Markdown, :TextileConverter
+
     assets %w(my_project_page/my_projects_overview.css)
   end
 end

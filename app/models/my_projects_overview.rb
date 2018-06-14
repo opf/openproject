@@ -20,7 +20,6 @@
 #++
 
 class MyProjectsOverview < ActiveRecord::Base
-
   after_initialize :initialize_default_values
 
   DEFAULTS = {
@@ -30,16 +29,16 @@ class MyProjectsOverview < ActiveRecord::Base
     "hidden" => []
   }
 
-  def initialize_default_values()
+  def initialize_default_values
     # attributes() creates a copy every time it is called, so better not use it in a loop
     # (this is also why we send the default-values instead of just setting it on attributes)
-    attr = attributes()
+    attr = attributes
 
     DEFAULTS.each_key do |attribute_name|
       # mysql and postgres handle serialized arrays differently: This check initializes the defaults for both cases -
       # this especially deals properly with the case where [] is written into the db and re-read ( which
       # is not properly handled by a .blank?- check !!!)
-      self.send("#{attribute_name}=",DEFAULTS[attribute_name]) if attr[attribute_name].nil? || attr[attribute_name] ==""
+      send("#{attribute_name}=", DEFAULTS[attribute_name]) if attr[attribute_name].nil? || attr[attribute_name] == ""
     end
   end
 
@@ -58,7 +57,7 @@ class MyProjectsOverview < ActiveRecord::Base
   end
 
   def save_custom_element(name, title, new_content)
-    el = custom_elements.detect {|x| x.first == name}
+    el = custom_elements.detect { |x| x.first == name}
     return false unless el
     return false unless title && new_content
 
@@ -77,6 +76,6 @@ class MyProjectsOverview < ActiveRecord::Base
   end
 
   def custom_elements
-    elements.select {|x| x.respond_to? :to_ary }
+    elements.select { |x| x.respond_to? :to_ary }
   end
 end
