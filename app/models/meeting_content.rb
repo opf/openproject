@@ -69,14 +69,6 @@ class MeetingContent < ActiveRecord::Base
     meeting.project
   end
 
-  # Provided for compatibility of the old pre-journalized migration
-  def self.create_versioned_table
-  end
-
-  # Provided for compatibility of the old pre-journalized migration
-  def self.drop_versioned_table
-  end
-
   private
 
   def comment_to_journal_notes
