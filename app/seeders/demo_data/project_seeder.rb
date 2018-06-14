@@ -30,27 +30,31 @@ module DemoData
     # Careful: The seeding recreates the seeded project before it runs, so any changes
     # on the seeded project will be lost.
     def seed_data!
-      # We are relying on the default_projects_modules setting to set the desired project modules
-      puts ' ↳ Creating demo project...'
+      ["demo-project", "scrum-project"].each do |key|
+        puts " ↳ Creating #{key} project..."
 
-      puts '   -Creating/Resetting Demo project'
-      project = reset_demo_project
+        puts '   -Creating/Resetting project'
+        project = reset_project key
 
-      puts '   -Setting members.'
-      set_members(project)
+        puts '   -Setting members.'
+        set_members(project)
 
-      puts '   -Creating timeline.'
-      seed_timeline(project)
+        puts '   -Creating news.'
+        seed_news(project, key)
 
-      puts '   -Creating versions.'
-      seed_versions(project)
+        puts '   -Assigning types.'
+        set_types(project, key)
 
-      puts '   -Creating board'
-      seed_board(project)
+        puts '   -Creating versions.'
+        seed_versions(project, key)
 
-      project_data_seeders(project).each do |seeder|
-        puts "   -#{seeder.class.name.demodulize}"
-        seeder.seed!
+        puts '   -Creating queries.'
+        seed_queries(project, key)
+
+        project_data_seeders(project, key).each do |seeder|
+          puts "   -#{seeder.class.name.demodulize}"
+          seeder.seed!
+        end
       end
     end
 
@@ -58,27 +62,27 @@ module DemoData
       Project.count.zero?
     end
 
-    def project_data_seeders(project)
+    def project_data_seeders(project, key)
       seeders = [
+        DemoData::WikiSeeder,
         DemoData::CustomFieldSeeder,
-        DemoData::WorkPackageSeeder,
-        DemoData::QuerySeeder
+        DemoData::WorkPackageSeeder
       ]
 
-      seeders.map { |seeder| seeder.new project }
+      seeders.map { |seeder| seeder.new project, key }
     end
 
-    def reset_demo_project
-      delete_demo_project
-      create_demo_project
+    def reset_project(key)
+      delete_project(key)
+      create_project(key)
     end
 
-    def create_demo_project
-      Project.create! project_data
+    def create_project(key)
+      Project.create! project_data(key)
     end
 
-    def delete_demo_project
-      if delete_me = find_demo_project
+    def delete_project(key)
+      if delete_me = find_project(key)
         delete_me.destroy
       end
     end
@@ -94,31 +98,90 @@ module DemoData
       )
     end
 
-    def seed_timeline(project)
-      query = Query.create! project: project,
-                            filters: [status_id: { operator: "o" }],
-                            name: 'Timeline',
-                            user_id: User.admin.first.id,
-                            is_public: true,
-                            show_hierarchies: true,
-                            timeline_visible: true,
-                            column_names: [:subject, :type, :status],
-                            sort_criteria: [['id', 'asc']],
-                            timeline_zoom_level: 'weeks'
-
-      MenuItems::QueryMenuItem.create! navigatable_id: query.id,
-                                       name: SecureRandom.uuid,
-                                       title: query.name
+    def set_types(project, key)
+      project.types.clear
+      Array(I18n.t("seeders.demo_data.projects.#{key}.types")).each do |type_name|
+        type = Type.find_by(name: I18n.t(type_name))
+        project.types << type
+      end
     end
 
-    def seed_versions(project)
-      version_data = I18n.t('seeders.demo_data.project.versions')
+    def seed_news(project, key)
+      Array(I18n.t("seeders.demo_data.projects.#{key}")[:news]).each do |news|
+        News.create! project: project, title: news[:title], description: news[:content]
+      end
+    end
+
+    def seed_queries(project, key)
+      Array(I18n.t("seeders.demo_data.projects.#{key}")[:queries]).each do |config|
+        attr = {
+          project: project,
+          name: config[:name],
+          user: User.admin.first,
+          is_public: true,
+          show_hierarchies: config[:hierarchy] == true,
+          timeline_visible: config[:timeline] == true
+        }
+
+        filters = {}
+
+        if status = String(config[:status])
+          filters[:status_id] = { operator: "o" } if status == "open"
+        end
+
+        if version = config[:version].presence
+          filters[:fixed_version_id] = { operator: "=", values: [Version.find_by(name: version).id] }
+        end
+
+        if sort_by = config[:sort_by]
+          attr[:sort_criteria] = [[sort_by, "asc"]]
+        end
+
+        if group_by = config[:group_by]
+          attr[:group_by] = group_by
+        end
+
+        types = Array(config[:type]).map do |name|
+          Type.find_by(name: I18n.t(name))
+        end
+
+        if !types.empty?
+          filters[:type_id] = { operator: "=", values: types.map(&:id).map(&:to_s) }
+        end
+
+        columns = Array(config[:columns])
+
+        attr[:column_names] = columns.map(&:to_s) unless columns.empty?
+
+        attr[:filters] = [filters] unless filters.empty?
+
+        query = Query.create! attr
+
+        MenuItems::QueryMenuItem.create! navigatable_id: query.id, name: SecureRandom.uuid, title: query.name
+      end
+    end
+
+    def seed_versions(project, key)
+      version_data = I18n.t("seeders.demo_data.projects.#{key}.versions")
+
+      return if version_data.is_a?(String) && version_data.start_with?("translation missing")
+
       version_data.each do |attributes|
-        project.versions << Version.create!(
+        version = Version.create!(
           name:    attributes[:name],
           status:  attributes[:status],
           sharing: attributes[:sharing]
         )
+
+        project.versions << version
+
+        if attributes[:wiki]
+          version.wiki_page_title = attributes[:wiki][:title]
+          page = WikiPage.create! wiki: version.project.wiki, title: version.wiki_page_title
+          content = WikiContent.create! page: page, author: User.admin.first, text: attributes[:wiki][:content]
+
+          version.save!
+        end
       end
     end
 
@@ -133,38 +196,38 @@ module DemoData
     module Data
       module_function
 
-      def project_data
+      def project_data(key)
         {
-          name:                 project_name,
-          identifier:           project_identifier,
-          description:          project_description,
-          enabled_module_names: project_modules,
+          name:                 project_name(key),
+          identifier:           project_identifier(key),
+          description:          project_description(key),
+          enabled_module_names: project_modules(key),
           types:                project_types
         }
       end
 
-      def project_name
-        I18n.t('seeders.demo_data.project.name')
+      def project_name(key)
+        I18n.t("seeders.demo_data.projects.#{key}.name")
       end
 
-      def project_identifier
-        I18n.t('seeders.demo_data.project.identifier')
+      def project_identifier(key)
+        I18n.t("seeders.demo_data.projects.#{key}.identifier")
       end
 
-      def project_description
-        I18n.t('seeders.demo_data.project.description')
+      def project_description(key)
+        I18n.t("seeders.demo_data.projects.#{key}.description")
       end
 
       def project_types
         Type.all
       end
 
-      def project_modules
-        Setting.default_projects_modules - %w(news wiki meetings calendar)
+      def project_modules(key)
+        I18n.t("seeders.demo_data.projects.#{key}.modules")
       end
 
-      def find_demo_project
-        Project.find_by(identifier: project_identifier)
+      def find_project(key)
+        Project.find_by(identifier: project_identifier(key))
       end
     end
 
