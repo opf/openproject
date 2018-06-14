@@ -35,7 +35,7 @@ import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
   selector: 'main-menu-toggle',
   template: `
     <div id="main-menu-toggle"
-        [ngClass]="{'-collapsed': !this.toggleService.showNavigation}"
+        [ngClass]="{'-collapsed': !this.toggleService.showNavigation()}"
         aria-haspopup="true"
         [attr.title]="toggleTitle"
         (accessibleClick)="toggleService.toggleNavigation($event)"
@@ -51,7 +51,6 @@ export class MainMenuToggleComponent implements OnInit, OnDestroy {
 
   localStorageKey:string = "openProject-mainMenuWidth";
   toggleTitle:string = "";
-  showNavigation:boolean;
 
   constructor(readonly toggleService:MainMenuToggleService,
               readonly cdRef:ChangeDetectorRef) {
