@@ -57,7 +57,8 @@ export class PasswordConfirmationModal extends ConfirmDialogModal implements OnI
     }
   }
 
-  public onOpen() {
+  public onOpen(modalElement:JQuery) {
+    super.onOpen(modalElement);
     this.passwordConfirmationField.nativeElement.focus();
   }
 

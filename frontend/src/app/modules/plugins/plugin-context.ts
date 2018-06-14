@@ -5,6 +5,8 @@ import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confir
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ExternalQueryConfigurationService} from "core-components/wp-table/external-configuration/external-query-configuration.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {PasswordConfirmationModal} from "../../components/modals/request-for-confirmation/password-confirmation.modal";
+import {OpModalService} from "../../components/op-modals/op-modal.service";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -19,12 +21,20 @@ export class OpenProjectPluginContext {
 
   // Common services referencable by index
   public readonly services = {
-    hooks: this.injector.get<HookService>(HookService),
-    notifications: this.injector.get<NotificationsService>(NotificationsService),
     confirmDialog: this.injector.get<ConfirmDialogService>(ConfirmDialogService),
     externalQueryConfiguration: this.injector.get<ExternalQueryConfigurationService>(ExternalQueryConfigurationService),
     halResource: this.injector.get<HalResourceService>(HalResourceService),
-    i18n: this.injector.get<I18nService>(I18nService)
+    hooks: this.injector.get<HookService>(HookService),
+    i18n: this.injector.get<I18nService>(I18nService),
+    notifications: this.injector.get<NotificationsService>(NotificationsService),
+    opModalService: this.injector.get<OpModalService>(OpModalService)
+  };
+
+  // Random collection of classes needed outside of angular
+  public readonly classes = {
+    modals: {
+      passwordConfirmation: PasswordConfirmationModal
+    }
   };
 
   // Hooks
