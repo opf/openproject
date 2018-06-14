@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, InjectionToken, Injector} from "@angular/core";
+import {Component, Inject, InjectionToken, Injector, OnInit} from "@angular/core";
 import {WorkPackageEditFieldHandler} from "core-components/wp-edit-form/work-package-edit-field-handler";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {IFieldSchema} from "core-app/modules/fields/field.base";
@@ -48,6 +48,7 @@ export class EditFieldComponent {
   }
 
   protected initialize() {
+    // Allow subclasses to create post-constructor initialization
   }
 
   public get value() {
