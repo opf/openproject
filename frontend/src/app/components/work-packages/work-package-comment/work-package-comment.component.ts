@@ -130,7 +130,7 @@ export class WorkPackageCommentComponent implements IEditFieldHandler, OnInit, O
   }
 
   public reset(withText?:string) {
-    this.field = new WorkPackageCommentField(this.workPackage);
+    this.field = this.field || new WorkPackageCommentField(this.workPackage);
     this.field.initializeFieldValue(withText);
   }
 
