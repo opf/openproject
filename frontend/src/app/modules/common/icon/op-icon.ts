@@ -30,6 +30,7 @@ import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'op-icon',
+  host: { 'class': 'op-icon--wrapper' },
   template: `
       <i [ngClass]="iconClasses" aria-hidden="true"></i>
       <span
