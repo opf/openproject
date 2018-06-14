@@ -55,6 +55,7 @@ es:
     description_subwork_package: 'Hijo del paquete de trabajo #%{id}'
     error:
       internal: Ha ocurrido un error interno.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Abrir este filtro con 'ALT' y las flechas de dirección.
@@ -150,6 +151,7 @@ es:
     label_not_equals: no es
     label_on: en
     label_open_menu: Abrir menú
+    label_open_context_menu: Open context menu
     label_open_work_packages: abrir
     label_password: Contraseña
     label_previous: Anterior
@@ -173,6 +175,7 @@ es:
     label_subject: Asunto
     label_this_week: esta semana
     label_today: hoy
+    label_up: Up
     label_activity_show_only_comments: Solo mostrar las actividades con comentarios
     label_activity_show_all: Mostrar todas las actividades
     label_total_progress: 'Progreso total: %{percent}%'
@@ -278,7 +281,8 @@ es:
       required: Requerido por
       relation_type: tipo de relación
     relations_hierarchy:
-      hierarchy_headline: jerarquía
+      parent_headline: Padre
+      children_headline: Subordinado
     relation_buttons:
       change_parent: Cambiar padre
       remove_parent: Eliminar padre
@@ -315,6 +319,8 @@ es:
         one: Solo puede seleccionar un objeto
         other: Solo puede seleccionar {{limit}} objetos
         zero: You cannot select any items
+    show_hide_project_menu: Expandir o Contraer Menú Proyecto
+    project_menu_details: Detalles
     sort:
       sorted_asc: 'Orden ascendiente aplicado '
       sorted_dsc: 'Orden descendiente aplicado '
@@ -332,6 +338,7 @@ es:
     timelines:
       gantt_chart: Diagrama de Gantt
       labels:
+        title: Label configuration
         bar: Etiquetas de barras
         left: Izquierda
         right: Derecha
@@ -369,7 +376,6 @@ es:
         grouping_other: Otros
         noneSelection: "(ninguno)"
       name: Nombre
-      new_work_package: Nuevo paquete de trabajo
       outline: Restablecer marco
       outlines:
         aggregation: Mostrar sólo las agregaciones
@@ -471,10 +477,13 @@ es:
       inline_create:
         title: Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista
       create:
+        title: Nuevo paquete de trabajo
         header: Nuevo %{type}
         header_no_type: Nuevo paquete de trabajo (tipo aún no establecido)
         header_with_parent: 'Nuevo %{type} (Hijo de %{parent_type} #%{id})'
         button: Crear
+      copy:
+        title: Copy work package
       hierarchy:
         show: Mostrar modo de jerarquía
         hide: Ocultar modo de jerarquía
@@ -534,7 +543,6 @@ es:
           está activo el modo de jerarquía.
         hierarchy_disabled_by_group_by: El modo de jerarquía está deshabilitado, puesto
           que los resultados se agrupan por %{column}.
-        hierarchy_mode: Modo de jerarquía
         sort_ascending: Ordenar ascendente
         sort_descending: Ordenar descendente
         move_column_left: Mover columna a la izquierda
@@ -549,6 +557,7 @@ es:
           not_found: La consulta no existe
         text_no_results: No se encontraron coincidencias.
       table:
+        configure_button: Configure work package table
         summary: Tabla con filas de paquetes de trabajo y columnas con sus atributos.
         text_inline_edit: Mayoría de las celdas de esta tabla son botones que activan
           la funcionalidad de edición de dicho atributo.
@@ -556,6 +565,23 @@ es:
           ordenar, agrupar, reordenar, quitar y añadir columnas de las tablas.
         text_select_hint: Los cuadros de selección deben ser abiertos con 'ALT' y
           las teclas de cursor.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Modo de jerarquía
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Resumen
         activity: Actividad

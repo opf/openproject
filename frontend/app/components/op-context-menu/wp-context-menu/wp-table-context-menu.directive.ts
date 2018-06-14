@@ -58,7 +58,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
   public triggerContextMenuAction(action:WorkPackageAction) {
     const link = action.link;
 
-    switch (action.icon) {
+    switch (action.key) {
       case 'delete':
         this.deleteSelectedWorkPackages();
         break;
@@ -138,7 +138,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
         disabled: false,
         linkText: action.text,
         href: action.href,
-        icon: action.icon ? `icon-${action.icon}` : undefined,
+        icon: action.icon != null ? action.icon : `icon-${action.key}`,
         onClick: ($event:JQueryEventObject) => {
           if (action.href && LinkHandling.isClickedWithModifier($event)) {
             return false;

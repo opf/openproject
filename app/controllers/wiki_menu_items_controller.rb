@@ -30,8 +30,28 @@
 class WikiMenuItemsController < ApplicationController
   attr_reader :wiki_menu_item
 
-  current_menu_item do |controller|
-    controller.wiki_menu_item.menu_identifier if controller.wiki_menu_item
+  include Redmine::MenuManager::WikiMenuHelper
+
+  current_menu_item :edit do |controller|
+    next controller.wiki_menu_item.menu_identifier if controller.wiki_menu_item.persisted?
+
+    project = controller.instance_variable_get(:@project)
+    if (page = WikiPage.find_by(wiki_id: project.wiki.id, slug: controller.params[:id]))
+      default_menu_item(controller, page)
+    end
+  end
+
+  current_menu_item :select_main_menu_item do |controller|
+    next controller.wiki_menu_item.menu_identifier if controller.wiki_menu_item.try(:persisted?)
+
+    if (page = WikiPage.find_by(id: controller.params[:id]))
+      default_menu_item(controller, page)
+    end
+  end
+
+  def self.default_menu_item(controller, page)
+    menu_item = controller.default_menu_item(page)
+    "no-menu-item-#{menu_item.menu_identifier}".to_sym
   end
 
   before_action :find_project_by_project_id
@@ -73,7 +93,7 @@ class WikiMenuItemsController < ApplicationController
       end
     end
 
-    if @wiki_menu_item.save || @wiki_menu_item.destroyed?
+    if @wiki_menu_item.destroyed? || @wiki_menu_item.save
       # we may have just destroyed a new record
       # e.g. there was no menu_item before, and there is none now
       if !@wiki_menu_item.new_record? && (@wiki_menu_item.changed? || @wiki_menu_item.destroyed?)
@@ -133,7 +153,7 @@ class WikiMenuItemsController < ApplicationController
     @selected_parent_menu_item_id = if @wiki_menu_item.parent
                                       @wiki_menu_item.parent.id
                                     else
-                                      @page.nearest_parent_menu_item(is_main_item: true).try :id
+                                      @page.nearest_main_item.try :id
     end
   end
 

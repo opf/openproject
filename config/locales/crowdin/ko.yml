@@ -157,7 +157,9 @@ ko:
       form_configuration: 양식 구성
       projects: 프로젝트
       enabled_projects: 활성화 된 프로젝트
-      add_group: 그룹 추가
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: 기본값으로 초기화
   versions:
     overview:
@@ -338,6 +340,7 @@ ko:
         mail_notification: 이메일 알림
         new_password: 새로운 비밀번호
         password_confirmation: 확인
+        consented_at: Consented at
       user_preference:
         comments_sorting: 코멘트 표시
         hide_mail: 이메일 주소 숨김
@@ -348,8 +351,6 @@ ko:
       version:
         effective_date: 기한
         sharing: 공유
-      wiki:
-        start_page: 시작 페이지
       wiki_content:
         text: 텍스트
       wiki_page:
@@ -362,6 +363,7 @@ ko:
       work_package:
         begin_insertion: 삽입 시작
         begin_deletion: 삭제 시작
+        children: Subelements
         done_ratio: 진행률 (%)
         end_insertion: 삽입 끝
         end_deletion: 삭제 끝
@@ -418,6 +420,7 @@ ko:
         before_or_equal_to: 은(는) %{date} 이전이어야 합니다.
         could_not_be_copied: 은(는) (완전히) 복제될 수 없습니다.
         regex_invalid: 관련 정규식으로 유효성을 확인할 수 없습니다.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: 하나 이상의 옵션을 사용할 수 있어야 합니다.
@@ -483,6 +486,8 @@ ko:
                 관계를 위반하지 않도록 하기 위해서입니다.
             status_id:
               status_transition_invalid: 현재 사용자 역할이 새 상태로 바르게 전환될 수 없으므로 유효 하지 않음
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: 활성화가 요구됨
             category:
@@ -624,11 +629,13 @@ ko:
   button_close: 닫기
   button_collapse_all: 모두 축소
   button_configure: 구성
+  button_continue: 계속
   button_copy: 복사
   button_copy_and_follow: 복사하고 따라가기
   button_create: 만들기
   button_create_and_continue: 만들고 계속하기
   button_delete: 삭제
+  button_decline: Decline
   button_delete_watcher: 주시자 %{name} 삭제
   button_download: 다운로드
   button_duplicate: 복제
@@ -670,6 +677,23 @@ ko:
   button_add_menu_entry: 메뉴 항목 추가
   button_configure_menu_entry: 메뉴 항목 구성
   button_delete_menu_entry: 메뉴 항목 삭제
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: 프로젝트 "%{source_project_name}"을(를) "%{target_project_name}"(으)로 복사하기 시작했습니다.
       "%{target_project_name}"이(가) 사용 가능하게 되면 메일로 알림이 전송됩니다.
@@ -915,6 +939,8 @@ ko:
   error_cookie_missing: OpenProject 쿠키가 없습니다. 이 응용 프로그램은 쿠키 없이 제대로 작동하지 않으므로, 쿠키를
     활성화해야 합니다.
   error_custom_option_not_found: 존재하지 않는 옵션입니다.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: 항목 삭제에 실패하였습니다.
   error_invalid_group_by: '그룹화할 수 없습니다: %{value}'
   error_invalid_query_column: '잘못 된 쿼리 열: %{value}'
@@ -1046,6 +1072,7 @@ ko:
   label_all: 모두
   label_all_time: 모든 시간
   label_all_words: 모든 단어
+  label_all_open_wps: All open
   label_always_visible: 항상 표시
   label_announcement: 공지 사항
   label_and_its_subprojects: "%{value} 및 하위 프로젝트"
@@ -1086,6 +1113,7 @@ ko:
   label_calendar: 달력
   label_calendar_show: 달력 표시
   label_category: 카테고리
+  label_consent_settings: User Consent
   label_wiki_menu_item: 위키 메뉴 항목
   label_select_main_menu_item: 새 기본 메뉴 항목 선택
   label_select_project: 프로젝트를 선택하세요
@@ -1108,6 +1136,7 @@ ko:
   label_close_versions: 완료된 버전 닫기
   label_closed_work_packages: 닫음
   label_collapse: 축소
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: 구성
   label_comment_add: 코멘트 추가
   label_comment_added: 코멘트 추가됨
@@ -1174,11 +1203,13 @@ ko:
   label_enumerations: 열거형
   label_enterprise: 엔터프라이즈
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Entry page
   label_environment: 환경
   label_estimates_and_time: 견적 및 시간
   label_equals: 일치함
   label_example: 예
   label_export_to: '다음에서도 사용 가능:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value}시간"
   label_f_hour_plural: "%{value}시간"
   label_feed_plural: 피드
@@ -1207,6 +1238,7 @@ ko:
   label_here: 여기
   label_hide: 숨기기
   label_history: 기록
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: 홈
   label_in: "-"
   label_in_less_than: 보다 작음
@@ -1220,6 +1252,7 @@ ko:
   label_information_plural: 정보
   label_integer: 정수
   label_internal: 내부
+  label_introduction_video: Introduction video
   label_invite_user: 사용자 초대
   label_show_hide: 표시/숨기기
   label_show_all_registered_users: 등록된 사용자 모두 표시
@@ -1282,6 +1315,7 @@ ko:
   label_my_page_block: 내 페이지 블록
   label_my_projects: 내 프로젝트
   label_my_queries: 내 사용자 지정 쿼리
+  label_never: 사용 안 함
   label_new: 새로 만들기
   label_new_statuses_allowed: 새 상태 허용됨
   label_news_added: 뉴스 추가됨
@@ -1306,6 +1340,7 @@ ko:
   label_open_menu: 메뉴 열기
   label_open_work_packages: 열기
   label_open_work_packages_plural: 열기
+  label_openproject_website: OpenProject website
   label_optional_description: 설명
   label_options: 옵션
   label_other: 기타
@@ -1474,7 +1509,7 @@ ko:
   label_version_sharing_none: 공유 안 됨
   label_version_sharing_system: 모든 프로젝트 포함
   label_version_sharing_tree: 프로젝트 트리 포함
-  label_video: 비디오
+  label_videos: Videos
   label_view_all_revisions: 모든 수정 보기
   label_view_diff: 차이점 보기
   label_view_revisions: 수정 보기
@@ -1495,6 +1530,7 @@ ko:
   label_wiki_show_menu_item: 프로젝트 탐색에서 메뉴 항목으로 표시
   label_wiki_show_new_page_link: 하위 메뉴 항목 '새 자식 페이지 만들기' 표시
   label_wiki_show_submenu_item: '다음의 하위 메뉴 항목으로 표시: '
+  label_wiki_start: 시작 페이지
   label_work_package: 작업 패키지
   label_work_package_added: 작업 패키지 추가됨
   label_work_package_attachments: 작업 패키지 첨부 파일
@@ -1713,7 +1749,7 @@ ko:
     text_show_again: 도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다.
     welcome: OpenProject에 오신 것을 환영합니다.
   permission_add_work_package_notes: 메모 추가
-  permission_add_work_packages: 작업 패키지 추가 (모든 작업 패키지에 파일 첨부 허가)
+  permission_add_work_packages: 작업 패키지 추가
   permission_add_messages: 메시지 게시
   permission_add_project: 프로젝트 만들기
   permission_add_subprojects: 하위 프로젝트 만들기
@@ -1947,12 +1983,19 @@ ko:
   setting_brute_force_block_after_failed_logins: 이 로그인 시도 실패 횟수를 넘으면 사용자 차단
   setting_brute_force_block_minutes: 사용자가 다음 시간 동안 차단되었습니다.
   setting_cache_formatted_text: 캐시 서식 있는 텍스트
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: 작업 패키지 목록의 모양 사용자 지정
   setting_commit_fix_keywords: 키워드 수정
   setting_commit_logs_encoding: 커밋 메시지 인코딩
   setting_commit_logtime_activity_id: 기록된 시간의 작업
   setting_commit_logtime_enabled: 시간 로깅 사용
   setting_commit_ref_keywords: 키워드 참조
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: 교차 프로젝트 작업 패키지 관계 허용
   setting_date_format: 날짜 형식
   setting_default_language: 기본 언어
@@ -2036,7 +2079,10 @@ ko:
     passwords: 암호
     session: 세션
     brute_force_prevention: 자동화된 사용자 차단
-  show_hide_project_menu: 프로젝트 메뉴 확장/축소
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: 활성
   status_archived: 보관됨
   status_invited: 초대됨
@@ -2187,10 +2233,6 @@ ko:
       colors: 색상
       project_type: 프로젝트 형식
       project_types: 프로젝트 유형
-    project_menu:
-      reportings: 상태 보고
-      reports: 타임라인 보고서
-      timelines: 타임라인
     associations: 종속성
     board_could_not_be_saved: 보드를 저장할 수 없습니다.
     button_delete_all: 모두 삭제

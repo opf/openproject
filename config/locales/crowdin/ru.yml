@@ -168,7 +168,9 @@ ru:
       form_configuration: Настройка форм
       projects: Проекты
       enabled_projects: Доступные проекты
-      add_group: Добавить группу
+      add_group: Добавить группу атрибутов
+      add_subelements: Добавить группа вложенных элементов
+      edit_query: Редактировать вложенный запрос
       reset: Восстановить значения по умолчанию
   versions:
     overview:
@@ -367,6 +369,7 @@ ru:
         mail_notification: Уведомления по электронной почте
         new_password: Новый пароль
         password_confirmation: Подтверждение
+        consented_at: Согласен с
       user_preference:
         comments_sorting: Показывать комментарии
         hide_mail: Скрывать мой адрес электронной почты
@@ -378,8 +381,6 @@ ru:
       version:
         effective_date: Дата завершения
         sharing: Совместное использование
-      wiki:
-        start_page: Начальная страница
       wiki_content:
         text: Текст
       wiki_page:
@@ -392,6 +393,7 @@ ru:
       work_package:
         begin_insertion: Начало вставки
         begin_deletion: Начало удаления
+        children: Вложенные элементы
         done_ratio: Прогресс (%)
         end_insertion: Завершение вставки
         end_deletion: Завершение удаления
@@ -451,6 +453,7 @@ ru:
         before_or_equal_to: должны быть до или ровно %{date}.
         could_not_be_copied: не может быть скопировано (полностью).
         regex_invalid: не может быть проверен связанным регулярным выражением.
+        unchangeable: изменить нельзя.
       models:
         custom_field:
           at_least_one_custom_option: По крайней мере один параметр должен быть доступен.
@@ -518,6 +521,8 @@ ru:
             status_id:
               status_transition_invalid: недопустимо, так как  для текущих ролей пользователя
                 нет правильного перехода от старого этапа к новому.
+              status_invalid_in_type: недопустимо, так как текущего статуса в этом
+                типе нет.
             priority_id:
               only_active_priorities_allowed: требуется быть активным.
             category:
@@ -676,11 +681,13 @@ ru:
   button_close: Закрыть
   button_collapse_all: Свернуть все
   button_configure: Настройка
+  button_continue: Далее
   button_copy: Копировать
   button_copy_and_follow: Скопировать и продолжить
   button_create: Создать
   button_create_and_continue: Создать и продолжить
   button_delete: Удалить
+  button_decline: Отклонить
   button_delete_watcher: Удаление наблюдателя %{name}
   button_download: Скачать
   button_duplicate: Дублировать
@@ -722,6 +729,23 @@ ru:
   button_add_menu_entry: Добавление пункта меню
   button_configure_menu_entry: Настройка пункта меню
   button_delete_menu_entry: Удаление пункта меню
+  consent:
+    checkbox_label: Принимаю к сведению и соглашаюсь с вышеизложенным.
+    failure_message: Согласие не получено, продолжение невозможно.
+    title: Согласие пользователя
+    decline_warning_message: Вы отказались согласиться и были занесены в журнал.
+    user_has_consented: На данный момент пользователь согласен с вашей формулировкой.
+    not_yet_consented: Согласие от пользователя пока не получено и будет у него запрошено
+      при следующем его входе в систему.
+    contact_mail_instructions: Укажите адрес электронной почты для контроля пользователями
+      выполнения запросов на изменение или удаление данных.
+    contact_your_administrator: Пожалуйста, обратитесь к администратору, если хотите,
+      чтобы ваша учетная запись была удалена.
+    contact_this_mail_address: Пожалуйста, свяжитесь по %{mail_address}, если хотите,
+      чтобы ваша учетная запись была удалена.
+    text_update_consent_time: Установите этот флажок для повторного запроса согласия
+      у пользователей. Включите, если вы изменили юридический аспект согласия с вышеизложенным.
+    update_consent_last_time: 'Последнее обновление согласования: %{update_time}'
   copy_project:
     started: Копирование проекта «%{source_project_name}» в «%{target_project_name}»
       началось. Вы будете проинформированы по электронной почте, как только «%{target_project_name}»
@@ -973,6 +997,8 @@ ru:
   error_cookie_missing: Отсутствуют cookie OpenProject. Пожалуйста, убедитесь, что
     Cookie разрешены. Без них приложение не будет функционировать должным образом.
   error_custom_option_not_found: Параметр не существует.
+  error_dependent_work_package: 'Ошибка в зависимостях пакетов работ #%{related_id}
+    %{related_subject}: %{error}'
   error_failed_to_delete_entry: Не удалось удалить эту запись.
   error_invalid_group_by: 'Невозможно группировать по: %{value}'
   error_invalid_query_column: 'Недопустимый столбец в запросе: %{value}'
@@ -1118,6 +1144,7 @@ ru:
   label_all: все
   label_all_time: все время
   label_all_words: Все слова
+  label_all_open_wps: Все открытые
   label_always_visible: Всегда отображается
   label_announcement: Объявление
   label_and_its_subprojects: "%{value} и его подпроекты"
@@ -1158,6 +1185,7 @@ ru:
   label_calendar: Календарь
   label_calendar_show: Показать календарь
   label_category: Категория
+  label_consent_settings: Согласие пользователя
   label_wiki_menu_item: Пункт меню wiki
   label_select_main_menu_item: Выберите новый пункт главного меню
   label_select_project: Выберите проект
@@ -1180,6 +1208,7 @@ ru:
   label_close_versions: Закрыть завершённые этапы
   label_closed_work_packages: закрыто
   label_collapse: Свернуть
+  label_collapsed_click_to_show: Свернуто. Кликните для показа
   label_configuration: Настройки
   label_comment_add: Добавить комментарий
   label_comment_added: Комментарий добавлен
@@ -1246,11 +1275,13 @@ ru:
   label_enumerations: Перечисления
   label_enterprise: Предприятие
   label_enterprise_edition: Корпоративная версия
+  label_entry_page: Страница входа
   label_environment: Переменные среды
   label_estimates_and_time: Оценки и время
   label_equals: "—"
   label_example: Пример
   label_export_to: 'Также доступна на:'
+  label_expanded_click_to_collapse: Развернуто. Кликните для сворачивания
   label_f_hour: "%{value} часов"
   label_f_hour_plural: "%{value} часов"
   label_feed_plural: Ленты
@@ -1280,6 +1311,7 @@ ru:
   label_here: здесь
   label_hide: Скрыть
   label_history: История
+  label_hierarchy_leaf: Уровень иерархии
   label_home: Главная
   label_in: в
   label_in_less_than: менее чем
@@ -1293,6 +1325,7 @@ ru:
   label_information_plural: Информация
   label_integer: Целое число
   label_internal: Внутренние
+  label_introduction_video: Вводное видео
   label_invite_user: Пригласить пользователя
   label_show_hide: Показать/скрыть
   label_show_all_registered_users: Показать всех зарегистрированных пользователей
@@ -1355,6 +1388,7 @@ ru:
   label_my_page_block: Блоки на моей странице
   label_my_projects: Мои проекты
   label_my_queries: Мои пользовательские запросы
+  label_never: Никогда
   label_new: Новое
   label_new_statuses_allowed: Новые статусы разрешены
   label_news_added: Новость добавлена
@@ -1379,6 +1413,7 @@ ru:
   label_open_menu: Открыть меню
   label_open_work_packages: открыто
   label_open_work_packages_plural: открыто
+  label_openproject_website: OpenProject веб-сайт
   label_optional_description: Описание
   label_options: Опции
   label_other: Другие
@@ -1552,7 +1587,7 @@ ru:
   label_version_sharing_none: Не используется другими
   label_version_sharing_system: Со всеми проектами
   label_version_sharing_tree: С деревом проектов
-  label_video: Bидeo
+  label_videos: Видео
   label_view_all_revisions: Посмотреть все версии
   label_view_diff: Посмотреть различия
   label_view_revisions: Просмотр версий
@@ -1573,6 +1608,7 @@ ru:
   label_wiki_show_menu_item: Показать как меню в навигации по проекту
   label_wiki_show_new_page_link: Показать пункт подменю «Создать новую дочернюю страницу»
   label_wiki_show_submenu_item: 'Показать как пункт подменю '
+  label_wiki_start: Начальная страница
   label_work_package: Пакет работ
   label_work_package_added: Пакет работ добавлен
   label_work_package_attachments: Вложения пакета работ
@@ -1820,8 +1856,7 @@ ru:
     text_show_again: Вы можете перезапустить это видео из меню «Справка»
     welcome: Добро пожаловать в OpenProject
   permission_add_work_package_notes: Добавить заметки
-  permission_add_work_packages: Добавление пакетов работ (включет добавление к ним
-    вложений)
+  permission_add_work_packages: Добавление пакетов работ
   permission_add_messages: Написать сообщения
   permission_add_project: Создать проект
   permission_add_subprojects: Создать подпроект
@@ -2079,12 +2114,20 @@ ru:
     количества неудачных попыток входа
   setting_brute_force_block_minutes: Время блокирования пользователя за
   setting_cache_formatted_text: Кэшировать форматированный текст
+  setting_use_wysiwyg: WYSIWYG редактор
+  setting_use_wysiwyg_description: Выберите включение CKEditor5 WYSIWYG редактора
+    для всех пользователей по умолчанию. CKEditor обладает ограниченной функциональностью
+    для GFM Markdown.
   setting_column_options: Настройка внешнего вида  списка пакетов работ
   setting_commit_fix_keywords: Корректирующие ключевые слова
   setting_commit_logs_encoding: Зафиксировать кодировку сообщений
   setting_commit_logtime_activity_id: Деятельности с учетом времени
   setting_commit_logtime_enabled: Включить учет времени
   setting_commit_ref_keywords: Ссылки на ключевые слова
+  setting_consent_time: Время соглашения
+  setting_consent_info: Текст соглашения
+  setting_consent_required: Требуется согласие
+  setting_consent_decline_mail: Контактный почтовый адрес для согласия
   setting_cross_project_work_package_relations: Разрешить перектестные связи пакетов
     работ проекта
   setting_date_format: Формат даты
@@ -2184,7 +2227,10 @@ ru:
     passwords: Пароли
     session: Сессия
     brute_force_prevention: Автоматическое блокирование пользователя
-  show_hide_project_menu: Развернуть или свернуть меню проекта
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Обычный текст
   status_active: Активно
   status_archived: в архиве
   status_invited: приглашено
@@ -2362,10 +2408,6 @@ ru:
       colors: Цвета
       project_type: Тип проекта
       project_types: Типы проекта
-    project_menu:
-      reportings: Отчетность
-      reports: Отчеты по графикам
-      timelines: Графики
     associations: Связи
     board_could_not_be_saved: Форум сохранён быть не может
     button_delete_all: Удалить всё

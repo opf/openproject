@@ -55,6 +55,7 @@ hu:
     description_subwork_package: 'Munkacsomag gyermeke #%{id}'
     error:
       internal: Belső hiba történt.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: A szűrő megnyitásához nyomja meg az "ALT" és a nyíl gombokat.
@@ -148,6 +149,7 @@ hu:
     label_not_equals: nem
     label_on: be
     label_open_menu: Menü megnyitása
+    label_open_context_menu: Open context menu
     label_open_work_packages: nyitott
     label_password: Jelszó
     label_previous: Korábbi
@@ -171,6 +173,7 @@ hu:
     label_subject: Tárgy
     label_this_week: ezen a héten
     label_today: Ma
+    label_up: Up
     label_activity_show_only_comments: Hozzászólással rendelkező tevékenységek mutatása
     label_activity_show_all: Minden tevékenység mutatása
     label_total_progress: "%{percent}% a teljes folyamatban"
@@ -272,7 +275,8 @@ hu:
       required: Által megkövetelt
       relation_type: kapcsolat típusa
     relations_hierarchy:
-      hierarchy_headline: hierarchia
+      parent_headline: Szülő
+      children_headline: Gyermekek
     relation_buttons:
       change_parent: Szülő módosítása
       remove_parent: Szülő eltávolítása
@@ -309,6 +313,8 @@ hu:
         one: Csak egy elem választható
         other: Csak {{limit}} elem választható
         zero: You cannot select any items
+    show_hide_project_menu: Kibontás/Összecsukás projekt menü
+    project_menu_details: Részletek
     sort:
       sorted_asc: 'Növekvő sorrend alkalmazása, '
       sorted_dsc: 'Csökkenő rendezés alkalmazva, '
@@ -323,6 +329,7 @@ hu:
     timelines:
       gantt_chart: Gantt-diagram
       labels:
+        title: Label configuration
         bar: Oszlop címkék
         left: Bal
         right: Jobb
@@ -360,7 +367,6 @@ hu:
         grouping_other: Egyéb
         noneSelection: "(nincs)"
       name: Név
-      new_work_package: Új munkacsomag
       outline: A vázlat alaphelyzetbe állitása
       outlines:
         aggregation: Csak az összesítések megjelenítése
@@ -461,10 +467,13 @@ hu:
       inline_create:
         title: Ide kattintva adhatsz új munkacsomagot a listához
       create:
+        title: Új munkacsomag
         header: Új %{type}
         header_no_type: Új munkacsomag (a típus még nem meghatározott)
         header_with_parent: 'Új %{type} (%{parent_type} #%{id} gyermek)'
         button: Létrehoz
+      copy:
+        title: Copy work package
       hierarchy:
         show: Hierarchikus mód megjelenítése
         hide: Hierarchikus mód elrejtése
@@ -525,7 +534,6 @@ hu:
           mód aktív.
         hierarchy_disabled_by_group_by: A hierarchia mód le van tiltva az eredmények
           csoportosítása e-szerint %{column}.
-        hierarchy_mode: Hierarchia mód
         sort_ascending: Növekvő sorrend
         sort_descending: Csökkenő sorrend
         move_column_left: Oszlop mozgatása balra
@@ -539,6 +547,7 @@ hu:
           not_found: Nincs ilyen lekérdezés
         text_no_results: Nem található egyező lekérdezés.
       table:
+        configure_button: Configure work package table
         summary: Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok.
         text_inline_edit: A legtöbb mezője ennek a táblázatnak olyan gomb, mely aktiválja
           a soron belüli szerkesztését az attribútumnak.
@@ -546,6 +555,23 @@ hu:
           csoportosíthat, átsorolhat, törölhet és hozzáadhat oszlopokat.
         text_select_hint: Válassza ki a megnyitni kíván mezőket és használja az "ALT"
           és nyílgombokat.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Hierarchia mód
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Áttekintő
         activity: Tevékenység

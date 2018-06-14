@@ -65,6 +65,10 @@ OpenProject::Application.routes.draw do
 
     get '/login/:stage/failure', action: 'stage_failure', as: 'stage_failure'
     get '/login/:stage/:secret', action: 'stage_success', as: 'stage_success'
+
+    get '/account/consent', action: 'consent', as: 'account_consent'
+    get '/account/decline_consent', action: 'decline_consent', as: 'account_decline_consent'
+    post '/account/confirm_consent', action: 'confirm_consent', as: 'account_confirm_consent'
   end
 
   # Because of https://github.com/intridea/grape/pull/853/files this has to be

@@ -55,6 +55,7 @@ lt:
     description_subwork_package: 'Darbų paketo vaikas #%{id}'
     error:
       internal: Įvyko vidinė klaida.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Atverkite šį filtrą su 'ALT' ir krypčių klavišais.
@@ -148,6 +149,7 @@ lt:
     label_not_equals: nėra
     label_on: įjungta
     label_open_menu: Atidaryti meniu
+    label_open_context_menu: Open context menu
     label_open_work_packages: atidarytas
     label_password: Slaptažodis
     label_previous: Ankstesnis
@@ -171,6 +173,7 @@ lt:
     label_subject: Tema
     label_this_week: ši savaitė
     label_today: šiandien
+    label_up: Up
     label_activity_show_only_comments: Rodyti veiklą tik su komentarais
     label_activity_show_all: Rodyti visus atributus
     label_total_progress: "%{percent} % įvykdyta"
@@ -272,7 +275,8 @@ lt:
       required: Reikalingas (pagal ką)
       relation_type: ryšio tipas
     relations_hierarchy:
-      hierarchy_headline: hierarchija
+      parent_headline: Tėvas
+      children_headline: Pasekėjai
     relation_buttons:
       change_parent: Keisti pirmtaką
       remove_parent: Pašalinti tėvą
@@ -313,6 +317,8 @@ lt:
         zero: You cannot select any items
         few: Jūs galite pasirinkti tik {{limit}} elementus (-ą, -ų)
         many: You can only select {{limit}} items
+    show_hide_project_menu: Išplėsti/sutraukti projekto meniu
+    project_menu_details: Detali informacija
     sort:
       sorted_asc: 'Pritaikyta didėjimo tvarka, '
       sorted_dsc: 'Pritaikyta mažėjimo tvarka, '
@@ -328,6 +334,7 @@ lt:
     timelines:
       gantt_chart: Ganto grafikas
       labels:
+        title: Label configuration
         bar: Juostelės etiketės
         left: Kairė
         right: Dešinė
@@ -365,7 +372,6 @@ lt:
         grouping_other: Kita
         noneSelection: "(nėra)"
       name: Vardas
-      new_work_package: Naujas darbų paketas
       outline: Atnaujinti planą
       outlines:
         aggregation: Rodyti tik masėmis
@@ -466,10 +472,13 @@ lt:
       inline_create:
         title: Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą
       create:
+        title: Naujas darbų paketas
         header: Naujas %{type}
         header_no_type: Naujas darbų paketas (tipas dar nenurodytas)
         header_with_parent: 'Naujas %{type} (%{parent_type} #%{id} tėvo vaikas)'
         button: Sukurti
+      copy:
+        title: Copy work package
       hierarchy:
         show: Rodyti hierarchijos režimą
         hide: Slėpti hierarchijos režimą
@@ -530,7 +539,6 @@ lt:
           režimo.
         hierarchy_disabled_by_group_by: Hierarchijos režimas išjungtas dėl rezultatų,
           kurie sugrupuoti pagal stulpelį, pavadinimu %{column}.
-        hierarchy_mode: Hierarchijos režimas
         sort_ascending: Rūšiuoti didėjimo tvarka
         sort_descending: Rūšiuoti mažėjančiai
         move_column_left: Perkelti stulpelį į kairę
@@ -544,6 +552,7 @@ lt:
           not_found: Nėra tokios užklausos
         text_no_results: Nerasta nieko, kas atitiktų užklausą.
       table:
+        configure_button: Configure work package table
         summary: Lentelė su eilutėmis, sudarytomis iš darbų paketų, ir stulpeliais,
           sudarytais iš darbų paketų atributų.
         text_inline_edit: Dauguma langelių šioje lentelėje yra mygtukai, kurie aktyvuoja
@@ -552,6 +561,23 @@ lt:
           perdėlioti, šalinti ir pridėti lentelės stulpelius.
         text_select_hint: Pažymėjimo langeliai turi būti atidaryti nuspaudus 'Alt'
           ir krypčių rodykles.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Hierarchijos režimas
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Peržiūra
         activity: Veikla

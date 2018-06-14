@@ -173,7 +173,9 @@ de:
       form_configuration: Formularkonfiguration
       projects: Projekte
       enabled_projects: Aktivierte Projekte
-      add_group: Gruppe hinzufügen
+      add_group: Attributgruppe hinzufügen
+      add_subelements: Kindelemente-Gruppe hinzufügen
+      edit_query: Eingebettete Abfrage bearbeiten
       reset: Auf Standardwerte zurücksetzen
   versions:
     overview:
@@ -377,6 +379,7 @@ de:
         mail_notification: Mailbenachrichtigung
         new_password: Neues Kennwort
         password_confirmation: Bestätigung
+        consented_at: Eingewilligt am
       user_preference:
         comments_sorting: Kommentare anzeigen
         hide_mail: E-Mail-Adresse nicht anzeigen
@@ -388,8 +391,6 @@ de:
       version:
         effective_date: Abgabedatum
         sharing: Gemeinsame Verwendung
-      wiki:
-        start_page: Hauptseite
       wiki_content:
         text: Text
       wiki_page:
@@ -402,6 +403,7 @@ de:
       work_package:
         begin_insertion: Beginn der Einfügung
         begin_deletion: Beginn des Löschvorgangs
+        children: Kindelemente
         done_ratio: Fortschritt (%)
         end_insertion: Ende der Einfügung
         end_deletion: Ende des Löschvorgangs
@@ -461,6 +463,7 @@ de:
         could_not_be_copied: konnten nicht (vollständig) kopiert werden.
         regex_invalid: konnte nicht mit dem zugehörigen regulären Ausdruck überprüft
           werden.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Mindestens ein Wert muss verfügbar sein.
@@ -537,6 +540,8 @@ de:
             status_id:
               status_transition_invalid: ist ungültig da kein valider Übergang vom
                 alten zum neuen Status für die aktuelle Rolle des Nutzers existiert.
+              status_invalid_in_type: ist ungültig, da der aktuelle Status nicht in
+                diesem Typ vorhanden ist.
             priority_id:
               only_active_priorities_allowed: muss aktiv sein.
             category:
@@ -683,11 +688,13 @@ de:
   button_close: Schließen
   button_collapse_all: Alle zuklappen
   button_configure: Konfigurieren
+  button_continue: Fortfahren
   button_copy: Kopieren
   button_copy_and_follow: Kopieren und Arbeitspaket anzeigen
   button_create: Anlegen
   button_create_and_continue: Anlegen und weiter
   button_delete: Löschen
+  button_decline: Ablehnen
   button_delete_watcher: Lösche Beobachter %{name}
   button_download: Download
   button_duplicate: Duplizieren
@@ -729,6 +736,28 @@ de:
   button_add_menu_entry: Menüpunkt hinzufügen
   button_configure_menu_entry: Menüpunkt verwalten
   button_delete_menu_entry: Menüpunkt entfernen
+  consent:
+    checkbox_label: Ich habe die obigen Angaben zur Kenntnis genommen und erkläre
+      mich einverstanden.
+    failure_message: Einwilligung fehlgeschlagen, kann nicht fortfahren.
+    title: Nutzer-Einwilligung
+    decline_warning_message: Sie haben die Einwilligung abgelehnt und wurden deshalb
+      abgelehnt.
+    user_has_consented: Der Benutzer hat seine Einwilligung zu dem Statement dieser
+      Instanz zu der angegebenen Zeit gegeben.
+    not_yet_consented: Der Benutzer hat seine Einwilligung noch nicht gegeben und
+      wird beim nächsten Login dazu befragt.
+    contact_mail_instructions: Definieren Sie die E-Mail-Adresse, über die Benutzer
+      einen Daten-Controller erreichen können, um Anfragen zu Datenänderung oder -löschung
+      einzureichen.
+    contact_your_administrator: Bitte kontaktieren Sie Ihren Administrator um bspw.
+      eine Löschung Ihres Accounts zu beantragen.
+    contact_this_mail_address: 'Bitte kontaktieren Sie für Datenänderungs- oder Löschanfragen
+      Ihren Administrator unter: %{mail_address}.'
+    text_update_consent_time: Aktivieren Sie dieses Häkchen, um Benutzer erneut zur
+      Einwilligung einer Datenschutz- oder Nutzungserklärung aufzufordern. Aktivieren
+      Sie es immer dann, wenn Sie rechtliche Aspekte der Zustimmung verändert haben.
+    update_consent_last_time: 'Letzte Änderung der Einwilligungsinformationen: %{update_time}'
   copy_project:
     started: Das Kopieren des Projekts "%{source_project_name}" nach "%{target_project_name}"
       wurde gestartet. Sie werden per Mail benachrichtigt, sobald "%{target_project_name}"
@@ -961,6 +990,8 @@ de:
     Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt
     funktioniert.
   error_custom_option_not_found: Option ist nicht vorhanden.
+  error_dependent_work_package: 'Fehler in abhängigem Arbeitspaket #%{related_id}
+    %{related_subject}: %{error}'
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
   error_invalid_group_by: 'Kann nicht gruppieren nach: %{value}'
   error_invalid_query_column: 'Ungültige Filter-Spalte: %{value}'
@@ -1109,6 +1140,7 @@ de:
   label_all: alle
   label_all_time: gesamter Zeitraum
   label_all_words: Alle Wörter
+  label_all_open_wps: Alle offenen
   label_always_visible: Immer angezeigt
   label_announcement: Ankündigung
   label_and_its_subprojects: "%{value} und dessen Unterprojekte"
@@ -1149,6 +1181,7 @@ de:
   label_calendar: Kalender
   label_calendar_show: Kalender anzeigen
   label_category: Kategorie
+  label_consent_settings: Nutzer-Einwilligung
   label_wiki_menu_item: Wiki Menüpunkt
   label_select_main_menu_item: Neuen Hauptmenüpunkt auwählen
   label_select_project: Projekt auswählen
@@ -1171,6 +1204,7 @@ de:
   label_close_versions: Abgeschlossene Versionen schließen
   label_closed_work_packages: geschlossen
   label_collapse: Zuklappen
+  label_collapsed_click_to_show: Ausgeblendet. Klicken Sie zum Anzeigen
   label_configuration: Konfiguration
   label_comment_add: Kommentar hinzufügen
   label_comment_added: Kommentar hinzugefügt
@@ -1223,7 +1257,7 @@ de:
   label_download_plural: "%{count} Downloads"
   label_downloads_abbr: D/L
   label_duplicated_by: Dupliziert durch
-  label_duplicate: Dublikat
+  label_duplicate: Duplikat
   label_duplicates: Duplikat von
   label_edit: Bearbeiten
   label_enable_multi_select: Mehrfachauswahl umschalten
@@ -1238,11 +1272,13 @@ de:
   label_enumerations: Aufzählungen
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise-Edition
+  label_entry_page: Einstiegsseite
   label_environment: Umgebung
   label_estimates_and_time: Schätzungen & Zeit
   label_equals: ist
   label_example: Beispiel
   label_export_to: 'Auch abrufbar als:'
+  label_expanded_click_to_collapse: Erweitert. Klicken Sie zum Ausblenden
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
   label_feed_plural: Feeds
@@ -1272,6 +1308,7 @@ de:
   label_here: hier
   label_hide: Verbergen
   label_history: Historie
+  label_hierarchy_leaf: Hierarchie-Blatt
   label_home: Hauptseite
   label_in: an
   label_in_less_than: in weniger als
@@ -1285,6 +1322,7 @@ de:
   label_information_plural: Informationen
   label_integer: Zahl
   label_internal: Intern
+  label_introduction_video: Einführungsvideo
   label_invite_user: Nutzer einladen
   label_show_hide: Einblenden / Ausblenden
   label_show_all_registered_users: Alle registrierten Benutzer anzeigen
@@ -1347,6 +1385,7 @@ de:
   label_my_page_block: Bereich "Meine Seite"
   label_my_projects: Meine Projekte
   label_my_queries: Meine Berichte
+  label_never: Nie
   label_new: Neu
   label_new_statuses_allowed: Neuer Status
   label_news_added: Neuigkeit hinzugefügt
@@ -1371,6 +1410,7 @@ de:
   label_open_menu: Menü öffnen
   label_open_work_packages: offen
   label_open_work_packages_plural: offen
+  label_openproject_website: OpenProject Webseite
   label_optional_description: Beschreibung
   label_options: Optionen
   label_other: Sonstiges
@@ -1542,7 +1582,7 @@ de:
   label_version_sharing_none: Nicht gemeinsam verwenden
   label_version_sharing_system: Mit allen Projekten
   label_version_sharing_tree: Mit Projektbaum
-  label_video: Video
+  label_videos: Videos
   label_view_all_revisions: Alle Revisionen anzeigen
   label_view_diff: Unterschiede anzeigen
   label_view_revisions: Revisionen anzeigen
@@ -1564,6 +1604,7 @@ de:
   label_wiki_show_new_page_link: "'Neue Unterseite anlegen' Link als Untermenüpunkt
     anzeigen"
   label_wiki_show_submenu_item: 'als Untermenüpunkt anzeigen von '
+  label_wiki_start: Hauptseite
   label_work_package: Arbeitspaket
   label_work_package_added: Arbeitspaket hinzugefügt
   label_work_package_attachments: Anhänge des Arbeitspakets
@@ -1806,8 +1847,7 @@ de:
     text_show_again: Sie können dieses Video über das Hilfe-Menü erneut starten
     welcome: Willkommen bei OpenProject
   permission_add_work_package_notes: Kommentare hinzufügen
-  permission_add_work_packages: Arbeitspakete hinzufügen (enthält Recht Anhänge zu
-    Arbeitspaketen hinzuzufügen)
+  permission_add_work_packages: Arbeitspakete hinzufügen
   permission_add_messages: Forenbeiträge hinzufügen
   permission_add_project: Projekt erstellen
   permission_add_subprojects: Unterprojekte erstellen
@@ -2075,12 +2115,20 @@ de:
     fehlgeschlagener Loginversuche
   setting_brute_force_block_minutes: Sperre Benutzer für Dauer von
   setting_cache_formatted_text: Formatierten Text im Cache speichern
+  setting_use_wysiwyg: WYSIWYG-Editor
+  setting_use_wysiwyg_description: Aktivieren, um den CKEditor5 WYSIWYG-Editor für
+    alle Nutzer zu aktivieren. CKEditor hat aktuell eingeschränkte Formatierungsfunktionen
+    für Markdown.
   setting_column_options: Anpassen der Darstellung der Arbeitspaketlisten
   setting_commit_fix_keywords: Schlüsselwörter (Status)
   setting_commit_logs_encoding: Codierung der Commit-Log-Meldungen
   setting_commit_logtime_activity_id: Aktivität für die Zeiterfassung
   setting_commit_logtime_enabled: Aktiviere Zeiterfassung
   setting_commit_ref_keywords: Schlüsselwörter (Beziehungen)
+  setting_consent_time: Zeitpunkt der Einwilligung
+  setting_consent_info: Informationen zur Einwilligung
+  setting_consent_required: Einwilligung erforderlich
+  setting_consent_decline_mail: Kontaktadresse bei Rückfragen zur Einwilligung
   setting_cross_project_work_package_relations: Arbeitspaket-Beziehungen zwischen
     Projekten erlauben
   setting_date_format: Datumsformat
@@ -2180,7 +2228,10 @@ de:
     passwords: Passwörter
     session: Sitzung
     brute_force_prevention: Automatisches Sperren von Benutzern
-  show_hide_project_menu: Projektmenü einblenden / ausblenden
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Reiner Text
   status_active: aktiv
   status_archived: archiviert
   status_invited: eingeladen
@@ -2275,7 +2326,7 @@ de:
   text_journal_aggregation_time_explanation: Fasst Änderungen bei der Anzeige zusammen,
     falls ihr Zeitunterschied weniger als die angegebene Zeitspanne beträgt. Der Versand
     von Benachrichtigungen wird um die gleiche Zeit verzögert.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} von %{old} </br><strong>in</strong> %{new} geändert"
   text_journal_changed_no_detail: "%{label} aktualisiert"
   text_journal_changed_with_diff: "%{label} geändert (%{link})"
   text_journal_deleted: "%{label} %{old} wurde gelöscht"
@@ -2357,10 +2408,6 @@ de:
       colors: Farben
       project_type: Projekttyp
       project_types: Projekt-Typen
-    project_menu:
-      reportings: Statusberichte
-      reports: Zeitplan-Reporte
-      timelines: Zeitpläne
     associations: Abhängigkeiten
     board_could_not_be_saved: Forum konnte nicht gespeichert werden
     button_delete_all: Alle löschen

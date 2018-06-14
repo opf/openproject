@@ -63,4 +63,12 @@ class MenuItems::WikiMenuItem < MenuItem
   def new_wiki_page=(value)
     options[:new_wiki_page] = value
   end
+
+  def as_entry_item_symbol
+    self.class.add_entry_item_prefix(menu_identifier)
+  end
+
+  def self.add_entry_item_prefix(identifier)
+    "entry-item-#{identifier}".to_sym
+  end
 end

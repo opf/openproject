@@ -7,7 +7,8 @@
            rel="prev start"
            [attr.aria-label]="text.label_previous"
            id= "pagination--prev-link"
-           role="link">&#60;</a>
+           role="link"
+           href>&#60;</a>
       </li>
 
       <ng-container *ngIf="prePageNumbers.length > 0">
@@ -16,7 +17,8 @@
           <a (accessibleClick)="showPage(pageNumber)"
              rel="next"
              role="link"
-             [textContent]="pageNumber"></a>
+             [textContent]="pageNumber"
+             href></a>
         </li>
         <li class="pagination--space">…</li>
       </ng-container>
@@ -30,7 +32,8 @@
             (accessibleClick)="showPage(pageNumber)"
             rel="next"
             role="link"
-            [textContent]="pageNumber"></a>
+            [textContent]="pageNumber"
+            href></a>
         </li>
 
         <li *ngIf="postPageNumbers.length" class="pagination--space">…</li>
@@ -41,7 +44,8 @@
           <a (accessibleClick)="showPage(pageNumber)"
              rel="next"
              role="link"
-             [textContent]="pageNumber"></a>
+             [textContent]="pageNumber"
+             href></a>
         </li>
       </ng-container>
 
@@ -52,7 +56,8 @@
            class="pagination--next-link"
            [attr.aria-label]="text.label_next"
            id="pagination--next-link"
-           role="link">&#62;</a>
+           role="link"
+           href>&#62;</a>
       </li>
 
       <li class="pagination--range">
@@ -77,7 +82,8 @@
        <span *ngIf="perPageOption != pagination.perPage">
          <a (accessibleClick)="selectPerPage(perPageOption)"
             role="link"
-            [textContent]="perPageOption"></a>
+            [textContent]="perPageOption"
+            href></a>
        </span>
 
        <span *ngIf="perPageOption == pagination.perPage">{{ perPageOption }}</span>

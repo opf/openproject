@@ -87,6 +87,17 @@ describe Status, type: :model do
     end
   end
 
+  describe 'default status' do
+    context 'when default exists' do
+      let!(:status) { FactoryBot.create(:default_status) }
+
+      it 'returns that one' do
+        expect(Status.default).to eq(status)
+        expect(Status.where_default.pluck(:id)).to eq([status.id])
+      end
+    end
+  end
+
   describe '#cache_key' do
     it 'updates when the updated_at field changes' do
       old_cache_key = stubbed_status.cache_key

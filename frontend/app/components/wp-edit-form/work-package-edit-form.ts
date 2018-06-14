@@ -179,12 +179,12 @@ export class WorkPackageEditForm {
    * @return {any}
    */
   public submit():Promise<WorkPackageResource> {
-    if (this.changeset.empty && !this.workPackage.isNew) {
+    const isInitial = this.workPackage.isNew;
+
+    if (this.changeset.empty && !isInitial) {
       this.closeEditFields();
       return Promise.resolve(this.workPackage);
     }
-
-    const isInitial = this.workPackage.isNew;
 
     // Reset old error notifcations
     this.errorsPerAttribute = {};

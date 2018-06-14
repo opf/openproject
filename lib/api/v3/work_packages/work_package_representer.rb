@@ -40,12 +40,7 @@ module API
                            disabled: false
 
         def initialize(model, current_user:, embed_links: false)
-          # Define all accessors on the customizable as they
-          # will be used afterwards anyway. Otherwise, we will have to
-          # go through method_missing which will take more time.
-          model.define_all_custom_field_accessors
-
-          model = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap_one(model, current_user)
+          model = load_complete_model(model)
 
           super
         end
@@ -181,8 +176,7 @@ module API
 
         link :addAttachment,
              cache_if: -> do
-               current_user_allowed_to(:edit_work_packages, context: represented.project) ||
-                 current_user_allowed_to(:add_work_packages, context: represented.project)
+               current_user_allowed_to(:edit_work_packages, context: represented.project)
              end do
           {
             href: api_v3_paths.attachments_by_work_package(represented.id),
@@ -360,8 +354,8 @@ module API
                    datetime_formatter.format_date(represented.start_date, allow_nil: true)
                  end,
                  render_nil: true,
-                 if: ->(_) {
-                   !represented.milestone?
+                 skip_render: ->(_) {
+                   represented.milestone?
                  }
 
         property :due_date,
@@ -370,8 +364,8 @@ module API
                    datetime_formatter.format_date(represented.due_date, allow_nil: true)
                  end,
                  render_nil: true,
-                 if: ->(_) {
-                   !represented.milestone?
+                 skip_render: ->(_) {
+                   represented.milestone?
                  }
 
         property :date,
@@ -380,8 +374,8 @@ module API
                    datetime_formatter.format_date(represented.due_date, allow_nil: true)
                  end,
                  render_nil: true,
-                 if: ->(*) {
-                   represented.milestone?
+                 skip_render: ->(*) {
+                   !represented.milestone?
                  }
 
         property :estimated_time,
@@ -532,6 +526,15 @@ module API
           'WorkPackage'
         end
 
+        def to_hash(*args)
+          # Define all accessors on the customizable as they
+          # will be used afterwards anyway. Otherwise, we will have to
+          # go through method_missing which will take more time.
+          represented.define_all_custom_field_accessors
+
+          super
+        end
+
         def watchers
           # TODO/LEGACY: why do we need to ensure a specific order here?
           watchers = represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
@@ -638,6 +641,10 @@ module API
 
         def view_time_entries_allowed?
           current_user_allowed_to(:view_time_entries, context: represented.project)
+        end
+
+        def load_complete_model(model)
+          ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap_one(model, current_user)
         end
       end
     end

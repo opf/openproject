@@ -30,6 +30,8 @@
 class UsersController < ApplicationController
   layout 'admin'
 
+  helper_method :gon
+
   before_action :disable_api
   before_action :require_admin, except: [:show, :deletion_info, :destroy]
   before_action :find_user, only: [:show,

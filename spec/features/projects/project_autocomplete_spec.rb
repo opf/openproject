@@ -133,13 +133,13 @@ describe 'Projects autocomplete page', type: :feature, js: true do
 
     # Keeps the current module
     visit project_work_packages_path(project2)
-    expect(page).to have_selector('.work-packages-menu-item.selected')
+    expect(page).to have_selector('.all-open-wps-menu-item.selected')
 
     top_menu.toggle
     top_menu.expect_open
     top_menu.search_and_select 'Plain project'
 
     expect(current_path).to eq(project_work_packages_path(project))
-    expect(page).to have_selector('.work-packages-menu-item.selected')
+    expect(page).to have_selector('.all-open-wps-menu-item.selected')
   end
 end

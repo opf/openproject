@@ -55,6 +55,7 @@ da:
     description_subwork_package: 'Child of work package #%{id}'
     error:
       internal: En intern fejl opstod.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Åbn dette filter med 'ALT' og pile tasterne.
@@ -148,6 +149,7 @@ da:
     label_not_equals: er ikke
     label_on: på
     label_open_menu: Åbn menuen
+    label_open_context_menu: Open context menu
     label_open_work_packages: åbn
     label_password: Adgangskode
     label_previous: Foregående
@@ -171,6 +173,7 @@ da:
     label_subject: Emne
     label_this_week: denne uge
     label_today: i dag
+    label_up: Up
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: 'Samlet fremskridt: %{percent}%'
@@ -271,7 +274,8 @@ da:
       required: Required by
       relation_type: relation type
     relations_hierarchy:
-      hierarchy_headline: hierarchy
+      parent_headline: Overordnet
+      children_headline: Underordnede
     relation_buttons:
       change_parent: Ændr overordnede
       remove_parent: Remove parent
@@ -308,6 +312,8 @@ da:
         one: Du kan kun vælge ét emne
         other: Du kan kun vælge {{limit}} emner
         zero: You cannot select any items
+    show_hide_project_menu: Expand/Collapse project menu
+    project_menu_details: Detaljer
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -323,6 +329,7 @@ da:
     timelines:
       gantt_chart: Gantt chart
       labels:
+        title: Label configuration
         bar: Bar labels
         left: Left
         right: Right
@@ -360,7 +367,6 @@ da:
         grouping_other: Andet
         noneSelection: "(ingen)"
       name: Navn
-      new_work_package: Ny arbejdspakke
       outline: Nulstil dispostionen
       outlines:
         aggregation: Vis kun sammensætninger
@@ -459,10 +465,13 @@ da:
       inline_create:
         title: Click here to add a new work package to this list
       create:
+        title: Ny arbejdspakke
         header: New %{type}
         header_no_type: New work package (Type not yet set)
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: Opret
+      copy:
+        title: Copy work package
       hierarchy:
         show: Show hierarchy mode
         hide: Hide hierarchy mode
@@ -523,7 +532,6 @@ da:
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
           being grouped by %{column}.
-        hierarchy_mode: Hierarchy mode
         sort_ascending: Sorter stigende
         sort_descending: Sorter faldende
         move_column_left: Flyt kolonne til venstre
@@ -537,12 +545,30 @@ da:
           not_found: There is no such query
         text_no_results: No matching queries were found.
       table:
+        configure_button: Configure work package table
         summary: Table with rows of work package and columns of work package attributes.
         text_inline_edit: Most cells of this table are buttons that activate inline-editing
           functionality of that attribute.
         text_sort_hint: Med linksne i tabeloverskrifterne kan du sortere, gruppere,
           omarrangere, fjerne og tilføje tabelkolonner.
         text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Hierarchy mode
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Overblik
         activity: Aktivitet

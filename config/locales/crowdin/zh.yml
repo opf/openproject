@@ -152,7 +152,9 @@ zh:
       form_configuration: 表格配置
       projects: 项目
       enabled_projects: 已启用的项目
-      add_group: 添加群组
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: 重置为默认值
   versions:
     overview:
@@ -324,6 +326,7 @@ zh:
         mail_notification: 电子邮件通知
         new_password: 新密码
         password_confirmation: 确认
+        consented_at: Consented at
       user_preference:
         comments_sorting: 显示评论
         hide_mail: 隐藏我的电子邮件地址
@@ -334,8 +337,6 @@ zh:
       version:
         effective_date: 截止日期
         sharing: 分享
-      wiki:
-        start_page: 起始页
       wiki_content:
         text: 文本
       wiki_page:
@@ -348,6 +349,7 @@ zh:
       work_package:
         begin_insertion: 开始插入
         begin_deletion: 开始删除
+        children: Subelements
         done_ratio: 进度 (%)
         end_insertion: 结束插入
         end_deletion: 结束删除
@@ -403,6 +405,7 @@ zh:
         before_or_equal_to: 必须在早于或等于 %{date}
         could_not_be_copied: 不能 (完全) 复制。
         regex_invalid: 无法与关联的正则表达式进行验证。
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: 至少有需要一个可用选项。
@@ -465,6 +468,8 @@ zh:
               violates_relationships: 仅可以设置为 %{soonest_start} 或之后，以免违反工作包的关系。
             status_id:
               status_transition_invalid: 是无效的，因为在当前用户的角色下，没有从旧到新的状态有效的过渡存在。
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: 需要被激活。
             category:
@@ -607,11 +612,13 @@ zh:
   button_close: 关闭
   button_collapse_all: 全部折叠
   button_configure: 配置
+  button_continue: 继续
   button_copy: 复制
   button_copy_and_follow: 复制和跟踪
   button_create: 创建
   button_create_and_continue: 创建并继续
   button_delete: 删除
+  button_decline: Decline
   button_delete_watcher: 删除关注者 %{name}
   button_download: 下载
   button_duplicate: 复制
@@ -653,6 +660,23 @@ zh:
   button_add_menu_entry: 添加菜单项
   button_configure_menu_entry: 配置菜单项
   button_delete_menu_entry: 删除菜单项
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: 开始将项目“%{source_project_name}”复制到“%{target_project_name}“。“%{target_project_name}”可用后您将会立即收到电子邮件通知。
     failed: 无法复制项目 %{source_project_name}
@@ -689,11 +713,11 @@ zh:
     day_names:
     - 星期日
     - 星期一
-    - 星期二
+    - '星期二 '
     - 星期三
     - 星期四
-    - 星期五
-    - 星期六
+    - '星期五 '
+    - '星期六 '
     formats:
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
@@ -872,6 +896,8 @@ zh:
   error_check_user_and_role: 请选择用户和角色。
   error_cookie_missing: OpenProject cookie 丢失。请确保已启用 cookie，因为如果不启用，此应用程序将无法正常运行。
   error_custom_option_not_found: 选项不存在。
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: 无法删除此条目。
   error_invalid_group_by: 无法按照 %{value} 分组
   error_invalid_query_column: 无效的查询列：%{value}
@@ -999,6 +1025,7 @@ zh:
   label_all: 所有
   label_all_time: 所有的时间
   label_all_words: 所有的词
+  label_all_open_wps: All open
   label_always_visible: 总是显示
   label_announcement: 公告
   label_and_its_subprojects: "%{value} 及其子项目"
@@ -1039,6 +1066,7 @@ zh:
   label_calendar: 日历
   label_calendar_show: 显示日历
   label_category: 类别
+  label_consent_settings: User Consent
   label_wiki_menu_item: Wiki 的菜单项
   label_select_main_menu_item: 选择新的主菜单项
   label_select_project: 选择项目
@@ -1061,6 +1089,7 @@ zh:
   label_close_versions: 关闭已完成版本
   label_closed_work_packages: 关闭
   label_collapse: 折叠
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: 配置
   label_comment_add: 添加评论
   label_comment_added: 添加备注
@@ -1127,11 +1156,13 @@ zh:
   label_enumerations: 枚举
   label_enterprise: 企业
   label_enterprise_edition: 企业版
+  label_entry_page: Entry page
   label_environment: 环境
   label_estimates_and_time: 预估成本和时间
   label_equals: 是
   label_example: 示例
   label_export_to: 在其中也可用：
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} 小时"
   label_f_hour_plural: "%{value} 小时"
   label_feed_plural: 订阅源
@@ -1160,6 +1191,7 @@ zh:
   label_here: 这里
   label_hide: 隐藏
   label_history: 历史
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: 首页
   label_in: 在
   label_in_less_than: 在小于
@@ -1173,6 +1205,7 @@ zh:
   label_information_plural: 信息
   label_integer: 整数
   label_internal: 内部
+  label_introduction_video: Introduction video
   label_invite_user: 邀请用户
   label_show_hide: 显示/隐藏
   label_show_all_registered_users: 显示所有注册用户
@@ -1235,6 +1268,7 @@ zh:
   label_my_page_block: 我的页块
   label_my_projects: 我的项目
   label_my_queries: 我的自定义查询
+  label_never: 永不
   label_new: 新增
   label_new_statuses_allowed: 允许的新状态
   label_news_added: 添加新闻
@@ -1259,6 +1293,7 @@ zh:
   label_open_menu: 打开菜单
   label_open_work_packages: 打开
   label_open_work_packages_plural: 打开
+  label_openproject_website: OpenProject website
   label_optional_description: 描述
   label_options: 选项
   label_other: 其他
@@ -1427,7 +1462,7 @@ zh:
   label_version_sharing_none: 不共享
   label_version_sharing_system: 与所有项目
   label_version_sharing_tree: 与项目树
-  label_video: 视频
+  label_videos: Videos
   label_view_all_revisions: 查看所有修订版本
   label_view_diff: 查看差异
   label_view_revisions: 查看修订版本
@@ -1448,6 +1483,7 @@ zh:
   label_wiki_show_menu_item: 显示为项目导航中的菜单项
   label_wiki_show_new_page_link: 显示‘创建新的子页面’子菜单项
   label_wiki_show_submenu_item: 显示为子菜单项
+  label_wiki_start: 起始页
   label_work_package: 工作包
   label_work_package_added: 添加工作包
   label_work_package_attachments: 工作包附件
@@ -1648,7 +1684,7 @@ zh:
     text_show_again: 您可以从帮助菜单重新启动此视频
     welcome: 欢迎来到 OpenProject
   permission_add_work_package_notes: 添加注释
-  permission_add_work_packages: 添加工作包 (也允许将附件添加到所有的工作包)
+  permission_add_work_packages: 添加工作包
   permission_add_messages: 发布消息
   permission_add_project: 创建项目
   permission_add_subprojects: 创建子项目
@@ -1865,12 +1901,19 @@ zh:
   setting_brute_force_block_after_failed_logins: 登录失败的尝试次数多于该数字将用户阻止
   setting_brute_force_block_minutes: 用户被阻止的时长
   setting_cache_formatted_text: 缓存带格式的文本
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: 自定义工作包列表的外观
   setting_commit_fix_keywords: 固定的关键字
   setting_commit_logs_encoding: 提交消息编码
   setting_commit_logtime_activity_id: 记录时间的活动
   setting_commit_logtime_enabled: 启用时间记录
   setting_commit_ref_keywords: 引用关键字
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: 允许跨项目工作包关系
   setting_date_format: 日期格式
   setting_default_language: 默认语言
@@ -1954,7 +1997,10 @@ zh:
     passwords: 密码
     session: 会话
     brute_force_prevention: 自动化的用户阻止
-  show_hide_project_menu: 展开/折叠项目菜单
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: 激活
   status_archived: 已存档
   status_invited: 已邀请
@@ -2085,10 +2131,6 @@ zh:
       colors: 颜色
       project_type: 项目类型
       project_types: 项目类型
-    project_menu:
-      reportings: 状态报告
-      reports: 时间线报表
-      timelines: 时间线
     associations: 依赖项
     board_could_not_be_saved: 面板不能被保存
     button_delete_all: 删除所有

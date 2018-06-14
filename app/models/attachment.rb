@@ -31,15 +31,16 @@
 require 'digest/md5'
 
 class Attachment < ActiveRecord::Base
-  ALLOWED_IMAGE_TYPES = %w[ image/gif image/jpeg image/png image/tiff image/bmp ]
+  ALLOWED_IMAGE_TYPES = %w[image/gif image/jpeg image/png image/tiff image/bmp].freeze
 
   belongs_to :container, polymorphic: true
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 
-  validates_presence_of :container, :author, :content_type, :filesize
+  validates_presence_of :author, :content_type, :filesize
   validates_length_of :description, maximum: 255
 
-  validate :filesize_below_allowed_maximum
+  validate :filesize_below_allowed_maximum,
+           :container_changed_more_than_once
 
   acts_as_journalized
   acts_as_event title: -> { file.name },
@@ -51,11 +52,8 @@ class Attachment < ActiveRecord::Base
 
   after_commit :extract_fulltext, on: :create
 
-  def filesize_below_allowed_maximum
-    if filesize > Setting.attachment_max_size.to_i.kilobytes
-      errors.add(:file, :file_too_large, count: Setting.attachment_max_size.to_i.kilobytes)
-    end
-  end
+  after_create :schedule_cleanup_uncontainered_job,
+               unless: :containered?
 
   ##
   # Returns an URL if the attachment is stored in an external (fog) attachment storage
@@ -86,11 +84,15 @@ class Attachment < ActiveRecord::Base
   end
 
   def visible?(user = User.current)
-    container.attachments_visible?(user)
+    allowed_or_author?(user) do
+      container.attachments_visible?(user)
+    end
   end
 
   def deletable?(user = User.current)
-    container.attachments_deletable?(user)
+    allowed_or_author?(user) do
+      container.attachments_deletable?(user)
+    end
   end
 
   # images are sent inline
@@ -122,35 +124,8 @@ class Attachment < ActiveRecord::Base
     file.readable?
   end
 
-  def cache_key
-    "#{super}-#{created_on.to_i}"
-  end
-
-  # Bulk attaches a set of files to an object
-  #
-  # Returns a Hash of the results:
-  # files: array of the attached files
-  # unsaved: array of the files that could not be attached
-  def self.attach_files(obj, attachments)
-    attached = []
-    if attachments
-      attachments.each_value do |attachment|
-        file = attachment['file']
-        next unless file && file.size > 0
-        a = Attachment.create(container: obj,
-                              file: file,
-                              description: attachment['description'].to_s.strip,
-                              author: User.current)
-
-        if a.new_record?
-          obj.unsaved_attachments ||= []
-          obj.unsaved_attachments << a
-        else
-          attached << a
-        end
-      end
-    end
-    { files: attached, unsaved: obj.unsaved_attachments }
+  def containered?
+    container.present?
   end
 
   def diskfile
@@ -208,5 +183,36 @@ class Attachment < ActiveRecord::Base
       job = ExtractFulltextJob.new(id)
       job.perform
     end
+  end
+
+  private
+
+  def schedule_cleanup_uncontainered_job
+    Delayed::Job::enqueue Attachments::CleanupUncontaineredJob.new
+  end
+
+  def filesize_below_allowed_maximum
+    if filesize > Setting.attachment_max_size.to_i.kilobytes
+      errors.add(:file, :file_too_large, count: Setting.attachment_max_size.to_i.kilobytes)
+    end
+  end
+
+  def container_changed_more_than_once
+    if container_id_changed_more_than_once? || container_type_changed_more_than_once?
+      errors.add(:container, :unchangeable)
+    end
+  end
+
+  def container_id_changed_more_than_once?
+    container_id_changed? && container_id_was.present? && container_id_was != container_id
+  end
+
+  def container_type_changed_more_than_once?
+    container_type_changed? && container_type_was.present? && container_type_was != container_type
+  end
+
+  def allowed_or_author?(user)
+    containered? && yield ||
+      !containered? && author_id == user.id
   end
 end

@@ -30,12 +30,13 @@ require 'spec_helper'
 
 feature 'user memberships through user page', type: :feature, js: true do
   let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
+  let!(:project2) { FactoryBot.create :project, name: 'Project 2', identifier: 'project2' }
   let(:admin) { FactoryBot.create :admin, firstname: 'Foobar', lastname: 'Blabla' }
 
   let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
   let!(:developer) { FactoryBot.create :role, name: 'Developer' }
 
-  let(:user_page)   { Pages::Admin::User.new(admin.id) }
+  let(:user_page) { Pages::Admin::User.new(admin.id) }
 
   before do
     login_as(admin)
@@ -54,16 +55,28 @@ feature 'user memberships through user page', type: :feature, js: true do
     user_page.expect_project(project.name)
     user_page.expect_roles(project.name, %w(Manager Developer))
 
+    user_page.expect_no_membership(project2.name)
+
     # Remove all roles
     user_page.expect_project(project.name)
     user_page.edit_roles!(member, %w())
 
     expect(page).to have_selector('.flash.error', text: 'Please choose at least one role.')
+
+    # Remove the user from the project
+    user_page.remove_from_project!(project.name)
+    user_page.expect_no_membership(project.name)
+
+    # Readd the user
+    user_page.add_to_project! project.name, as: %w(Manager Developer)
+
+    user_page.expect_project(project.name)
+    user_page.expect_roles(project.name, %w(Manager Developer))
   end
 
   context 'when user has an inherited role' do
-    let(:group)     { FactoryBot.create :group, lastname: 'A-Team' }
-    let(:group_page)   { Pages::Groups.new.group(group.id) }
+    let(:group) { FactoryBot.create :group, lastname: 'A-Team' }
+    let(:group_page) { Pages::Groups.new.group(group.id) }
 
     before do
       group.add_member! admin

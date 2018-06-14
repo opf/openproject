@@ -47,25 +47,26 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= page_fields.text_field :title, required: true, size: 120 %>
       <% end %>
     </div>
-    <% if @page.parent %>
-      <div class="form--field -required">
-        <%= f.fields_for :page, @page do |page_fields| %>
-          <%= page_fields.select :parent_id,
-                                 wiki_page_options_for_select(@wiki.pages),
-                                 { label: WikiPage.human_attribute_name(:parent_title),
-                                   include_blank: t('placeholders.default'),
-                                   required: true },
-                                 { class: "parent-select form--select" } %>
-        <% end%>
-      </div>
-    <% end %>
+    <div class="form--field -required">
+      <%= f.fields_for :page, @page do |page_fields| %>
+        <%= page_fields.select :parent_id,
+                               wiki_page_options_for_select(@wiki.pages),
+                               { label: WikiPage.human_attribute_name(:parent_title), include_blank: false },
+                               { class: "parent-select form--select" } %>
+      <% end%>
+    </div>
     <div class="attributes-group">
       <div class="attributes-group--header">
         <div class="attributes-group--header-container">
           <h3 class="attributes-group--header-text"><%= WikiPage.human_attribute_name(:text) %></h3>
          </div>
        </div>
-      <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit op-auto-complete', :accesskey => accesskey(:edit) %>
+      <%= f.text_area :text,
+                      cols: 100,
+                      rows: 25,
+                      class: 'wiki-edit op-auto-complete',
+                      accesskey: accesskey(:edit) %>
+      <%= wikitoolbar_for 'content_text' %>
     </div>
 
     <div class="form--field">
@@ -78,7 +79,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
   <%= preview_link preview_project_wiki_index_path(@project), 'wiki_form-preview' %>
 
-  <%= wikitoolbar_for 'content_text' %>
 <% end %>
 
 <div id="preview"></div>

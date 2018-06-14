@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -26,21 +28,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: General Timelines administration
-  As a ChiliProject Admin
-  I want to see useful information instead of an empty table
-  So that I can see the reason why I cannot see anything
+require 'model_contract'
 
-  Scenario: The admin gets 'There are currently no colors' when there are no colors defined
-    Given I am already admin
-     When I go to the admin page
-      And I follow "Colors"
-     Then I should see "There are currently no colors"
-      And I should see "New color"
+module Attachments
+  module ValidateReplacements
+    extend ActiveSupport::Concern
 
-  Scenario: The admin gets 'There are currently no project types' when there are no project types defined
-    Given I am already admin
-     When I go to the admin page
-      And I follow "Project types"
-     Then I should see "There are currently no project types"
-      And I should see "New project type"
+    included do
+      validate :validate_attachments_replacements
+    end
+
+    private
+
+    def validate_attachments_replacements
+      model.attachments_replacements and model.attachments_replacements.each do |attachment|
+        error_if_attachment_assigned(attachment)
+        error_if_other_user_attachment(attachment)
+      end
+    end
+
+    def error_if_attachment_assigned(attachment)
+      errors.add :attachments, :unchangeable if attachment.container && attachment.container != model
+    end
+
+    def error_if_other_user_attachment(attachment)
+      errors.add :attachments, :does_not_exist if !attachment.container && attachment.author != user
+    end
+  end
+end

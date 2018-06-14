@@ -33,18 +33,18 @@ require 'spec_helper'
 describe WorkPackages::UpdateService, 'integration tests', type: :model do
   let(:user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) do
     %i(view_work_packages edit_work_packages add_work_packages move_work_packages manage_subtasks)
   end
 
+  let(:status) { FactoryBot.create(:default_status) }
   let(:type) { FactoryBot.create(:type_standard) }
   let(:project_types) { [type] }
   let(:project) { FactoryBot.create(:project, types: project_types) }
-  let(:status) { FactoryBot.create(:status) }
   let(:priority) { FactoryBot.create(:priority) }
   let(:work_package_attributes) do
     { project_id: project.id,
@@ -55,18 +55,18 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
   end
   let(:work_package) do
     FactoryBot.create(:work_package,
-                       work_package_attributes)
+                      work_package_attributes)
   end
   let(:parent_work_package) do
     FactoryBot.create(:work_package,
-                       work_package_attributes).tap do |w|
+                      work_package_attributes).tap do |w|
       w.children << work_package
       work_package.reload
     end
   end
   let(:grandparent_work_package) do
     FactoryBot.create(:work_package,
-                       work_package_attributes).tap do |w|
+                      work_package_attributes).tap do |w|
       w.children << parent_work_package
     end
   end
@@ -78,25 +78,25 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
   end
   let(:sibling1_work_package) do
     FactoryBot.create(:work_package,
-                       sibling1_attributes)
+                      sibling1_attributes)
   end
   let(:sibling2_work_package) do
     FactoryBot.create(:work_package,
-                       sibling2_attributes)
+                      sibling2_attributes)
   end
   let(:child_attributes) do
     work_package_attributes.merge(parent: work_package)
   end
   let(:child_work_package) do
     FactoryBot.create(:work_package,
-                       child_attributes)
+                      child_attributes)
   end
   let(:grandchild_attributes) do
     work_package_attributes.merge(parent: child_work_package)
   end
   let(:grandchild_work_package) do
     FactoryBot.create(:work_package,
-                       grandchild_attributes)
+                      grandchild_attributes)
   end
   let(:instance) do
     described_class.new(user: user,
@@ -124,13 +124,13 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
     describe 'updating project' do
       let(:target_project) do
         p = FactoryBot.create(:project,
-                               types: target_types,
-                               parent: target_parent)
+                              types: target_types,
+                              parent: target_parent)
 
         FactoryBot.create(:member,
-                           user: user,
-                           project: p,
-                           roles: [FactoryBot.create(:role, permissions: target_permissions)])
+                          user: user,
+                          project: p,
+                          roles: [FactoryBot.create(:role, permissions: target_permissions)])
 
         p
       end
@@ -151,11 +151,11 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       describe 'time_entries' do
         let!(:time_entries) do
           [FactoryBot.create(:time_entry,
-                              project: project,
-                              work_package: work_package),
+                             project: project,
+                             work_package: work_package),
            FactoryBot.create(:time_entry,
-                              project: project,
-                              work_package: work_package)]
+                             project: project,
+                             work_package: work_package)]
         end
 
         it 'moves the time entries along' do
@@ -169,7 +169,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
         describe 'categories' do
           let(:category) do
             FactoryBot.create(:category,
-                               project: project)
+                              project: project)
           end
 
           before do
@@ -180,8 +180,8 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
           context 'with equally named category' do
             let!(:target_category) do
               FactoryBot.create(:category,
-                                 name: category.name,
-                                 project: target_project)
+                                name: category.name,
+                                project: target_project)
             end
 
             it 'replaces the current category by the equally named one' do
@@ -196,7 +196,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
           context 'w/o target category' do
             let!(:other_category) do
               FactoryBot.create(:category,
-                                 project: target_project)
+                                project: target_project)
             end
 
             it 'removes the category' do
@@ -213,14 +213,14 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
           let(:sharing) { 'none' }
           let(:version) do
             FactoryBot.create(:version,
-                               status: 'open',
-                               project: project,
-                               sharing: sharing)
+                              status: 'open',
+                              project: project,
+                              sharing: sharing)
           end
           let(:work_package) do
             FactoryBot.create(:work_package,
-                               fixed_version: version,
-                               project: project)
+                              fixed_version: version,
+                              project: project)
           end
 
           context 'unshared version' do
@@ -279,8 +279,12 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
           let(:other_type) { FactoryBot.create(:type) }
           let(:default_type) { type }
           let(:project_types) { [type, other_type] }
-          # otherwise ar error
-          let!(:default_status) { FactoryBot.create(:default_status) }
+          let!(:workflow_type) {
+            FactoryBot.create(:workflow, type: default_type, role: role, old_status_id: status.id)
+          }
+          let!(:workflow_other_type) {
+            FactoryBot.create(:workflow, type: other_type, role: role, old_status_id: status.id)
+          }
 
           context 'with the type existing in the target project' do
             it 'keeps the type' do
@@ -310,6 +314,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
             it 'uses the first type' do
               expect(subject)
                 .to be_success
+
 
               expect(subject.result.type)
                 .to eql other_type
@@ -504,17 +509,17 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
     describe 'closing duplicates on closing status' do
       let(:status_closed) do
         FactoryBot.create(:status,
-                           is_closed: true).tap do |status_closed|
+                          is_closed: true).tap do |status_closed|
           FactoryBot.create(:workflow,
-                             old_status: status,
-                             new_status: status_closed,
-                             type: type,
-                             role: role)
+                            old_status: status,
+                            new_status: status_closed,
+                            type: type,
+                            role: role)
         end
       end
       let(:duplicate_work_package) do
         FactoryBot.create(:work_package,
-                           work_package_attributes).tap do |wp|
+                          work_package_attributes).tap do |wp|
           wp.duplicated << work_package
         end
       end
@@ -564,7 +569,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       end
       let(:following_work_package) do
         FactoryBot.create(:work_package,
-                           following_attributes).tap do |wp|
+                          following_attributes).tap do |wp|
           wp.follows << work_package
         end
       end
@@ -575,7 +580,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       end
       let(:following_parent_work_package) do
         FactoryBot.create(:work_package,
-                           following_parent_attributes)
+                          following_parent_attributes)
       end
       let(:following2_attributes) do
         work_package_attributes.merge(parent: following2_parent_work_package,
@@ -585,7 +590,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       end
       let(:following2_work_package) do
         FactoryBot.create(:work_package,
-                           following2_attributes)
+                          following2_attributes)
       end
       let(:following2_parent_attributes) do
         work_package_attributes.merge(subject: 'following2_parent',
@@ -594,7 +599,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       end
       let(:following2_parent_work_package) do
         FactoryBot.create(:work_package,
-                           following2_parent_attributes).tap do |wp|
+                          following2_parent_attributes).tap do |wp|
           wp.follows << following_parent_work_package
         end
       end
@@ -606,7 +611,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       end
       let(:following3_work_package) do
         FactoryBot.create(:work_package,
-                           following3_attributes).tap do |wp|
+                          following3_attributes).tap do |wp|
           wp.follows << following2_work_package
         end
       end
@@ -617,7 +622,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       end
       let(:following3_parent_work_package) do
         FactoryBot.create(:work_package,
-                           following3_parent_attributes)
+                          following3_parent_attributes)
       end
       let(:following3_sibling_attributes) do
         work_package_attributes.merge(parent: following3_parent_work_package,
@@ -627,7 +632,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       end
       let(:following3_sibling_work_package) do
         FactoryBot.create(:work_package,
-                           following3_sibling_attributes)
+                          following3_sibling_attributes)
       end
 
       before do
@@ -738,7 +743,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       end
       let(:following_work_package) do
         FactoryBot.create(:work_package,
-                           following_attributes).tap do |wp|
+                          following_attributes).tap do |wp|
           wp.follows << work_package
         end
       end
@@ -749,7 +754,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       end
       let(:following_parent_work_package) do
         FactoryBot.create(:work_package,
-                           following_parent_attributes)
+                          following_parent_attributes)
       end
       let(:other_attributes) do
         work_package_attributes.merge(subject: 'other',
@@ -758,7 +763,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       end
       let(:other_work_package) do
         FactoryBot.create(:work_package,
-                           other_attributes)
+                          other_attributes)
       end
       let(:following2_attributes) do
         work_package_attributes.merge(parent: following2_parent_work_package,
@@ -768,7 +773,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       end
       let(:following2_work_package) do
         FactoryBot.create(:work_package,
-                           following2_attributes)
+                          following2_attributes)
       end
       let(:following2_parent_attributes) do
         work_package_attributes.merge(subject: 'following2_parent',
@@ -777,15 +782,15 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       end
       let(:following2_parent_work_package) do
         following2 = FactoryBot.create(:work_package,
-                                        following2_parent_attributes).tap do |wp|
+                                       following2_parent_attributes).tap do |wp|
           wp.follows << following_parent_work_package
         end
 
         FactoryBot.create(:relation,
-                           relation_type: Relation::TYPE_FOLLOWS,
-                           from: following2,
-                           to: other_work_package,
-                           delay: 3)
+                          relation_type: Relation::TYPE_FOLLOWS,
+                          from: following2,
+                          to: other_work_package,
+                          delay: 3)
 
         following2
       end
@@ -796,7 +801,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
       end
       let(:following3_work_package) do
         FactoryBot.create(:work_package,
-                           following3_attributes).tap do |wp|
+                          following3_attributes).tap do |wp|
           wp.follows << following2_work_package
         end
       end
@@ -1118,6 +1123,61 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
           .to eql sibling_attributes[:due_date]
       end
     end
+
+    describe 'replacing the attachments' do
+      let!(:old_attachment) do
+        FactoryBot.create(:attachment, container: work_package)
+      end
+      let!(:other_users_attachment) do
+        FactoryBot.create(:attachment, container: nil, author: FactoryBot.create(:user))
+      end
+      let!(:new_attachment) do
+        FactoryBot.create(:attachment, container: nil, author: user)
+      end
+
+      it 'reports on invalid attachments and replaces the existent with the new if everything is valid' do
+        work_package.attachments.reload
+
+        result = instance.call(attributes: { attachment_ids: [other_users_attachment.id] })
+
+        expect(result)
+          .to be_failure
+
+        expect(result.errors.symbols_for(:attachments))
+          .to match_array [:does_not_exist]
+
+        expect(work_package.attachments.reload)
+          .to match_array [old_attachment]
+
+        expect(other_users_attachment.reload.container)
+          .to be_nil
+
+        result = instance.call(attributes: { attachment_ids: [new_attachment.id] })
+
+        expect(result)
+          .to be_success
+
+        expect(work_package.attachments.reload)
+          .to match_array [new_attachment]
+
+        expect(new_attachment.reload.container)
+          .to eql work_package
+
+        expect(Attachment.find_by(id: old_attachment.id))
+          .to be_nil
+
+        result = instance.call(attributes: { attachment_ids: [] })
+
+        expect(result)
+          .to be_success
+
+        expect(work_package.attachments.reload)
+          .to be_empty
+
+        expect(Attachment.all)
+          .to match_array [other_users_attachment]
+      end
+    end
   end
 
   ##
@@ -1140,6 +1200,37 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
 
     it 'allows changing the parent' do
       expect(subject).to be_success
+    end
+  end
+
+  describe 'Changing type to one that does not have the current status (Regression #27780)' do
+    let(:type) { FactoryBot.create :type_with_workflow }
+    let(:new_type) { FactoryBot.create :type }
+    let(:project_types) { [type, new_type] }
+    let(:attributes) { { type: new_type } }
+
+    context 'work package does NOT have default status' do
+      let(:status) { FactoryBot.create(:status) }
+
+      it 'assigns the default status' do
+        expect(work_package).to receive(:status=).and_call_original
+        expect(subject).to be_success
+
+        expect(work_package.status).to eq(Status.default)
+      end
+    end
+
+    context 'work package does have default status' do
+      let(:status) { FactoryBot.create :default_status }
+      let!(:workflow_type) {
+        FactoryBot.create(:workflow, type: new_type, role: role, old_status_id: status.id)
+      }
+
+
+      it 'does not set the status' do
+        expect(work_package).not_to receive(:status=)
+        expect(subject).to be_success
+      end
     end
   end
 end

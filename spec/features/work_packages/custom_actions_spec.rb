@@ -35,35 +35,35 @@ describe 'Custom actions', type: :feature, js: true do
   let(:admin) { FactoryBot.create(:admin) }
   let(:user) do
     user = FactoryBot.create(:user,
-                              firstname: 'A',
-                              lastname: 'User')
+                             firstname: 'A',
+                             lastname: 'User')
 
     FactoryBot.create(:member,
-                       project: project,
-                       roles: [role],
-                       user: user)
+                      project: project,
+                      roles: [role],
+                      user: user)
 
     FactoryBot.create(:member,
-                       project: other_project,
-                       roles: [role],
-                       user: user)
+                      project: other_project,
+                      roles: [role],
+                      user: user)
     user
   end
   let!(:other_member_user) do
     FactoryBot.create(:user,
-                       firstname: 'Other member',
-                       lastname: 'User',
-                       member_in_project: project,
-                       member_through_role: role)
+                      firstname: 'Other member',
+                      lastname: 'User',
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:project) { FactoryBot.create(:project) }
   let(:other_project) { FactoryBot.create(:project) }
   let!(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       assigned_to: user,
-                       priority: default_priority,
-                       status: default_status)
+                      project: project,
+                      assigned_to: user,
+                      priority: default_priority,
+                      status: default_status)
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -72,8 +72,8 @@ describe 'Custom actions', type: :feature, js: true do
   end
   let!(:immediate_priority) do
     FactoryBot.create(:issue_priority,
-                       name: 'At once',
-                       position: IssuePriority.maximum(:position) + 1)
+                      name: 'At once',
+                      position: IssuePriority.maximum(:position) + 1)
   end
   let(:default_status) do
     FactoryBot.create(:default_status)
@@ -93,21 +93,21 @@ describe 'Custom actions', type: :feature, js: true do
   end
   let!(:workflows) do
     FactoryBot.create(:workflow,
-                       old_status: work_package.status,
-                       new_status: closed_status,
-                       role: role,
-                       type: work_package.type)
+                      old_status: work_package.status,
+                      new_status: closed_status,
+                      role: role,
+                      type: work_package.type)
 
     FactoryBot.create(:workflow,
-                       new_status: work_package.status,
-                       old_status: closed_status,
-                       role: role,
-                       type: work_package.type)
+                      new_status: work_package.status,
+                      old_status: closed_status,
+                      role: role,
+                      type: work_package.type)
     FactoryBot.create(:workflow,
-                       old_status: work_package.status,
-                       new_status: rejected_status,
-                       role: role,
-                       type: work_package.type)
+                      old_status: work_package.status,
+                      new_status: rejected_status,
+                      role: role,
+                      type: work_package.type)
   end
   let!(:list_custom_field) do
     cf = FactoryBot.create(:list_wp_custom_field, multi_value: true)
@@ -138,7 +138,7 @@ describe 'Custom actions', type: :feature, js: true do
     login_as(admin)
   end
 
-  scenario 'viewing workflow buttons' do
+  scenario 'viewing workflow buttons', retry: 3 do
     # create custom action 'Unassign'
     index_ca_page.visit!
 
@@ -245,16 +245,6 @@ describe 'Custom actions', type: :feature, js: true do
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 
-    ## Bump the lockVersion and by that force a conflict.
-    WorkPackage.where(id: work_package.id).update_all(lock_version: 10, updated_at: Time.now)
-
-    wp_page.click_custom_action('Escalate')
-
-    wp_page.expect_notification type: :error, message: I18n.t('api_v3.errors.code_409')
-
-    visit "/"
-    wp_page.visit!
-
     wp_page.click_custom_action('Escalate')
 
     wp_page.expect_attributes priority: immediate_priority.name,
@@ -353,10 +343,18 @@ describe 'Custom actions', type: :feature, js: true do
     # Move project
     wp_page.click_custom_action('Move project')
 
-    # TODO: check project
     wp_page.expect_attributes assignee: '-',
                               status: rejected_status.name,
                               type: other_type.name,
                               "customField#{date_custom_field.id}" => (Date.today + 5.days).strftime('%m/%d/%Y')
+    expect(page)
+      .to have_content(I18n.t('js.project.work_package_belongs_to', projectname: other_project.name))
+
+    ## Bump the lockVersion and by that force a conflict.
+    work_package.reload.touch
+
+    wp_page.click_custom_action('Escalate')
+
+    wp_page.expect_notification type: :error, message: I18n.t('api_v3.errors.code_409')
   end
 end

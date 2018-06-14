@@ -117,7 +117,6 @@ export class WorkPackageResource extends HalResource {
   public activities:CollectionResource;
   public attachments:AttachmentCollectionResource;
 
-  public pendingAttachments:UploadFile[] = [];
   public overriddenSchema?:SchemaResource;
 
   readonly I18n:op.I18n = this.injector.get(I18nToken);
@@ -190,7 +189,6 @@ export class WorkPackageResource extends HalResource {
    */
   public removeAttachment(attachment:any):Promise<any> {
     _.pull(this.attachments.elements, attachment);
-    _.pull(this.pendingAttachments, attachment);
 
     if (attachment.$isHal) {
       return attachment.delete()
@@ -206,20 +204,6 @@ export class WorkPackageResource extends HalResource {
   }
 
   /**
-   * Upload the pending attachments if the work package exists.
-   * Do nothing, if the work package is being created.
-   */
-  public uploadPendingAttachments():Promise<any>|void {
-    if (!this.pendingAttachments.length) {
-      return undefined;
-    }
-
-    const attachments = this.pendingAttachments;
-    this.pendingAttachments = [];
-    return this.uploadAttachments(attachments);
-  }
-
-  /**
    * Upload the given attachments, update the resource and notify the user.
    * Return an updated AttachmentCollectionResource.
    */
@@ -232,7 +216,20 @@ export class WorkPackageResource extends HalResource {
     return finished
       .then((result:any[]) => {
         setTimeout(() => this.NotificationsService.remove(notification), 700);
-        this.updateAttachments();
+        if (!this.isNew) {
+          this.updateAttachments();
+        } else {
+          result.forEach(r => {
+            let attachment = new HalResource(this.injector,
+                                             r.data,
+                                             false,
+                                             this.halInitializer,
+                                             'HalResource');
+
+
+            this.attachments.elements.push(attachment);
+          });
+        }
         return result.map(el => { return { response: el.data, uploadUrl: el.data._links.downloadLocation.href }; });
       })
       .catch((error:any) => {
@@ -241,27 +238,18 @@ export class WorkPackageResource extends HalResource {
   }
 
   private performUpload(files:UploadFile[]) {
-    const href = this.attachments.$href!;
+    let href = '';
+
+    if (this.isNew) {
+      href = this.pathHelper.api.v3.attachments.path;
+    } else {
+      href = this.attachments.$href!;
+    }
+
     // TODO upgrade
     const opFileUpload:OpenProjectFileUploadService = angular.element('body').injector().get('opFileUpload');
 
     return opFileUpload.upload(href, files);
-  }
-
-  /**
-   * Uploads the attachments and reloads the work package when done
-   * Reloading is skipped if no attachment is added
-   */
-  public uploadAttachmentsAndReload() {
-    const attachmentUpload = this.uploadPendingAttachments();
-
-    if (attachmentUpload) {
-      attachmentUpload.then((attachmentsResource) => {
-        if (attachmentsResource.count > 0) {
-          this.wpCacheService.loadWorkPackage(this.id, true);
-        }
-      });
-    }
   }
 
   public getSchemaName(name:string):string {
@@ -332,7 +320,7 @@ export class WorkPackageResource extends HalResource {
   public $initialize(source:any) {
     super.$initialize(source);
 
-    let attachments = this.attachments || { $source: {} };
+    let attachments = this.attachments || { $source: {}, elements: [] };
     this.attachments = new AttachmentCollectionResource(
       this.injector,
       attachments,

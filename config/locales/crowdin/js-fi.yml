@@ -55,6 +55,7 @@ fi:
     description_subwork_package: 'Alipaketti työpaketille #%{id}'
     error:
       internal: Tapahtui sisäinen virhe.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Avaa suodatin "Alt"-näppäintä ja nuolinäppäimiä käyttämällä.
@@ -147,6 +148,7 @@ fi:
     label_not_equals: eri kuin
     label_on: päälle
     label_open_menu: Avaa valikko
+    label_open_context_menu: Open context menu
     label_open_work_packages: avoinna
     label_password: Salasana
     label_previous: Edellinen
@@ -170,6 +172,7 @@ fi:
     label_subject: Aihe
     label_this_week: tällä viikolla
     label_today: tänään
+    label_up: Up
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent} % eteneminen"
@@ -271,7 +274,8 @@ fi:
       required: Edellyttämä
       relation_type: suhdetyyppi
     relations_hierarchy:
-      hierarchy_headline: hierarkia
+      parent_headline: Ylätaso
+      children_headline: Lapset
     relation_buttons:
       change_parent: Vaihda pääkohdetta
       remove_parent: Poista ylätaso
@@ -308,6 +312,8 @@ fi:
         one: Voit valita vain yhden kohteen
         other: Voit valita vain {{limit}} kohdetta
         zero: You cannot select any items
+    show_hide_project_menu: Laajenna tai tiivistä projektivalikko
+    project_menu_details: Yksityiskohdat
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -323,6 +329,7 @@ fi:
     timelines:
       gantt_chart: Gantt chart
       labels:
+        title: Label configuration
         bar: Bar labels
         left: Vasen
         right: Oikea
@@ -360,7 +367,6 @@ fi:
         grouping_other: Muut
         noneSelection: "(none)"
       name: Nimi
-      new_work_package: Uusi työpaketti
       outline: Nollaa hahmotelma
       outlines:
         aggregation: Näyttää koosteita vain
@@ -458,10 +464,13 @@ fi:
       inline_create:
         title: Napsauttamalla tätä voit lisätä luetteloon uuden työpaketin
       create:
+        title: Uusi työpaketti
         header: Uusi %{type}
         header_no_type: Uusi työpaketti (tarkempi tyyppi määrittämättä)
         header_with_parent: 'Uusi %{type} (Ylätaso %{parent_type} #%{id})'
         button: Luo
+      copy:
+        title: Copy work package
       hierarchy:
         show: Näytä hierarkia tila
         hide: Piilota hierarkia tila
@@ -521,7 +530,6 @@ fi:
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
           being grouped by %{column}.
-        hierarchy_mode: Hierarchy mode
         sort_ascending: Lajittele nousevasti
         sort_descending: Lajittele laskevasti
         move_column_left: Siirrä saraketta vasemmalle
@@ -535,12 +543,30 @@ fi:
           not_found: Kyselyä ei ole olemassa
         text_no_results: No matching queries were found.
       table:
+        configure_button: Configure work package table
         summary: Taulukko, jossa työpaketit ovat riveinä ja niiden ominaisuudet sarakkeina.
         text_inline_edit: Useimmat tämän taulukon soluista ovat nappeja jotka aktivoivat
           suoran syöttömahdollisuuden kentän arvoon.
         text_sort_hint: Taulukon otsikon linkkien avulla voit lajitella, ryhmitellä,
           järjestellä, poistaa ja lisätä taulukon sarakkeita.
         text_select_hint: Valintalaatikot tulisi avata "Alt" tai nuolinäppäimillä.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Hierarchy mode
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Yleiskatsaus
         activity: Aktiviteetti

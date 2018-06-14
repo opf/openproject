@@ -77,10 +77,19 @@ module Redmine::MenuManager::MenuHelper
 
   def render_menu(menu, project = nil)
     links = []
-    menu_items_for(menu, project) do |node|
+
+    menu_items = first_level_menu_items_for(menu, project) do |node|
       links << render_menu_node(node, project)
     end
-    links.empty? ? nil : content_tag('ul', links.join("\n").html_safe, class: 'menu_root')
+
+    first_level = any_item_selected?(select_leafs(menu_items)) || !current_menu_item_part_of_menu?(menu, project)
+    classes = first_level ? 'open' : 'closed'
+
+    links.empty? ? nil : content_tag('ul', safe_join(links, "\n"), class: 'menu_root ' + classes)
+  end
+
+  def select_leafs(items)
+    items.select { |item| item.children.empty? }
   end
 
   ##
@@ -131,7 +140,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def any_item_selected?(items)
-    items.any? { |item| item.name == current_menu_item }
+    items.any? { |item| item.name == current_menu_item || entry_page_selected?(item) }
   end
 
   def render_menu_node(node, project = nil)
@@ -140,15 +149,18 @@ module Redmine::MenuManager::MenuHelper
     if node.has_children? || !node.child_menus.nil?
       render_menu_node_with_children(node, project)
     else
-      caption, url, selected = extract_node_details(node, project)
-      content_tag('li', render_single_menu_node(node, caption, url, selected))
+      render_single_node_or_partial(node, project)
     end
   end
 
   def render_menu_node_with_children(node, project = nil)
     caption, url, selected = extract_node_details(node, project)
-
-    content_tag :li do
+    html_options = {}
+    if selected || any_item_selected?(node.children)
+      html_options[:class] = 'open'
+      selected = true
+    end
+    content_tag :li, html_options do
       # Standard children
       standard_children_list = node.children.map { |child|
         render_menu_node(child, project)
@@ -161,10 +173,14 @@ module Redmine::MenuManager::MenuHelper
       node = [render_single_menu_node(node, caption, url, selected)]
 
       # add children
-      node << content_tag(:ul, standard_children_list, class: 'menu-children') unless standard_children_list.empty?
-      node << content_tag(:ul, unattached_children_list, class: 'menu-children unattached') unless unattached_children_list.blank?
+      unless standard_children_list.empty?
+        node << content_tag(:ul, standard_children_list, class: 'main-menu--children')
+      end
+      unless unattached_children_list.blank?
+        node << content_tag(:ul, unattached_children_list, class: 'main-menu--children unattached')
+      end
 
-      node.join("\n").html_safe
+      safe_join(node, "\n")
     end
   end
 
@@ -192,7 +208,6 @@ module Redmine::MenuManager::MenuHelper
     link_text << content_tag(:span, caption, class: 'menu-item--title ellipsis', lang: menu_item_locale(item))
     html_options = item.html_options(selected: selected)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
-
     link_to link_text, url, html_options
   end
 
@@ -206,33 +221,52 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  def menu_items_for(menu, project = nil)
+  def current_menu_item_part_of_menu?(menu, project = nil)
+    return true if no_menu_item_wiki_prefix? || wiki_prefix?
+    all_menu_items_for(menu, project).each do |node|
+      return true if node.name == current_menu_item
+    end
+
+    false
+  end
+
+  def all_menu_items_for(menu, project = nil)
+    menu_items_for(Redmine::MenuManager.items(menu).root, menu, project)
+  end
+
+  def first_level_menu_items_for(menu, project = nil, &block)
+    menu_items_for(Redmine::MenuManager.items(menu).root.children, menu, project, &block)
+  end
+
+  def menu_items_for(iteratable, menu, project = nil)
     items = []
-    Redmine::MenuManager.items(menu).root.children.each do |node|
+    iteratable.each do |node|
+      next if node.name == :root
       if allowed_node?(node, User.current, project) && visible_node?(menu, node)
+        items << node
         if block_given?
           yield node
-        else
-          items << node  # TODO: not used?
         end
       end
     end
-    block_given? ? nil : items
+
+    items
   end
 
   def extract_node_details(node, project = nil)
     item = node
     url = case item.url
-    when Hash
-      project.nil? ? item.url : { item.param => project }.merge(item.url)
-    when Symbol
-      send(item.url)
-    else
-      item.url
-    end
+          when Hash
+            project.nil? ? item.url : { item.param => project }.merge(item.url)
+          when Symbol
+            send(item.url)
+          else
+            item.url
+          end
+
     caption = item.caption(project)
 
-    selected = current_menu_item == item.name
+    selected = node_selected?(item)
 
     [caption, url, selected]
   end
@@ -263,5 +297,39 @@ module Redmine::MenuManager::MenuHelper
     else
       true
     end
+  end
+
+  private
+
+  def render_single_node_or_partial(node, project)
+    if node.partial
+      content_tag('li', render(partial: node.partial), class: 'partial')
+    else
+      caption, url, selected = extract_node_details(node, project)
+      content_tag('li', render_single_menu_node(node, caption, url, selected))
+    end
+  end
+
+  def node_selected?(item)
+    current_menu_item == item.name ||
+      entry_page_selected?(item) ||
+      no_wiki_menu_item_selected?(item)
+  end
+
+  def entry_page_selected?(item)
+    item.name == MenuItems::WikiMenuItem.add_entry_item_prefix(current_menu_item)
+  end
+
+  def no_wiki_menu_item_selected?(item)
+    no_menu_item_wiki_prefix? &&
+      item.name == current_menu_item.to_s.gsub(/^no-menu-item-/, '').to_sym
+  end
+
+  def no_menu_item_wiki_prefix?
+    current_menu_item.to_s.match? /^no-menu-item-wiki-/
+  end
+
+  def wiki_prefix?
+    current_menu_item.to_s.match? /^wiki-/
   end
 end

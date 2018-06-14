@@ -172,7 +172,9 @@ pt:
       form_configuration: Configuração do formulário
       projects: Projetos
       enabled_projects: Projetos ativados
-      add_group: Adicionar grupo
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: Repor predefinições
   versions:
     overview:
@@ -378,6 +380,7 @@ pt:
         mail_notification: Notificações por e-mail
         new_password: Nova senha
         password_confirmation: Confirmação
+        consented_at: Consented at
       user_preference:
         comments_sorting: Exibir comentários
         hide_mail: Ocultar meu endereço de e-mail
@@ -389,8 +392,6 @@ pt:
       version:
         effective_date: Prazo
         sharing: Compartilhar
-      wiki:
-        start_page: Página inicial
       wiki_content:
         text: Conteúdo
       wiki_page:
@@ -403,6 +404,7 @@ pt:
       work_package:
         begin_insertion: Início da inserção
         begin_deletion: Início da exclusão
+        children: Subelements
         done_ratio: Progresso (%)
         end_insertion: Final da inserção
         end_deletion: Final da exclusão
@@ -460,6 +462,7 @@ pt:
         before_or_equal_to: deve ser antes ou igual a %{date}.
         could_not_be_copied: não pode ser (totalmente) copiado.
         regex_invalid: não pode ser validado com a expressão regular associada.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.
@@ -530,6 +533,8 @@ pt:
             status_id:
               status_transition_invalid: é inválido porque não existe transição válida
                 da antiga para a nova situação do utilizador actual.
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: tem que estar ativo.
             category:
@@ -677,11 +682,13 @@ pt:
   button_close: Fechar
   button_collapse_all: Ocultar tudo
   button_configure: Configurar
+  button_continue: Continuar
   button_copy: Copiar
   button_copy_and_follow: Copiar e seguir
   button_create: Criar
   button_create_and_continue: Criar e continuar
   button_delete: Eliminar
+  button_decline: Decline
   button_delete_watcher: Eliminar observador %{name}
   button_download: Transferir
   button_duplicate: Duplicar
@@ -723,6 +730,23 @@ pt:
   button_add_menu_entry: Adicionar item de menu
   button_configure_menu_entry: Configurar item de menu
   button_delete_menu_entry: Excluir o item de menu
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: Começou a copiar o projeto "%{source_project_name}" para "%{target_project_name}".
       Será informado por E-mail, assim que o projeto "%{target_project_name}" esteja
@@ -955,6 +979,8 @@ pt:
     de que os cookies estão habilitados, uma vez que esta aplicação não funcionará
     corretamente sem eles.
   error_custom_option_not_found: A opção não existe.
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: Falha ao apagar esta entrada.
   error_invalid_group_by: 'Não é possível agrupar por: %{value}'
   error_invalid_query_column: 'Coluna de consulta inválida: %{value}'
@@ -1101,6 +1127,7 @@ pt:
   label_all: todos
   label_all_time: sempre
   label_all_words: Todas as palavras
+  label_all_open_wps: All open
   label_always_visible: Sempre exibido
   label_announcement: Aviso
   label_and_its_subprojects: "%{value} e sub-projetos"
@@ -1142,6 +1169,7 @@ pt:
   label_calendar: Calendário
   label_calendar_show: Mostrar calendário
   label_category: Categoria
+  label_consent_settings: User Consent
   label_wiki_menu_item: Item do menu wiki
   label_select_main_menu_item: Seleccione novo item do menu principal
   label_select_project: Selecionar um projeto
@@ -1164,6 +1192,7 @@ pt:
   label_close_versions: Fechar versões concluídas
   label_closed_work_packages: fechado
   label_collapse: Colapso
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: configuração
   label_comment_add: Adicionar comentário
   label_comment_added: Comentário adicionado
@@ -1231,11 +1260,13 @@ pt:
   label_enumerations: Enumerações
   label_enterprise: Enterprise
   label_enterprise_edition: Versão Enterprise
+  label_entry_page: Entry page
   label_environment: Ambiente
   label_estimates_and_time: Valores estimados e tempo
   label_equals: é
   label_example: Exemplo
   label_export_to: 'Também disponível em:'
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
   label_feed_plural: Feeds
@@ -1265,6 +1296,7 @@ pt:
   label_here: aqui
   label_hide: Ocultar
   label_history: Histórico
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: Início
   label_in: em
   label_in_less_than: em menos de
@@ -1278,6 +1310,7 @@ pt:
   label_information_plural: Informação
   label_integer: Número Inteiro
   label_internal: Interno
+  label_introduction_video: Introduction video
   label_invite_user: Convidar utilziador
   label_show_hide: Mostrar/ocultar
   label_show_all_registered_users: Mostrar todos utilizadores registrados
@@ -1340,6 +1373,7 @@ pt:
   label_my_page_block: O meu bloco de página
   label_my_projects: Os meus projetos
   label_my_queries: As minhas consultas personalizadas
+  label_never: Nunca
   label_new: Novo
   label_new_statuses_allowed: Permitidos novos estados
   label_news_added: Notícia adicionada
@@ -1364,6 +1398,7 @@ pt:
   label_open_menu: Abrir menu
   label_open_work_packages: abrir
   label_open_work_packages_plural: abrir
+  label_openproject_website: OpenProject website
   label_optional_description: Descrição
   label_options: Opções
   label_other: Outro
@@ -1536,7 +1571,7 @@ pt:
   label_version_sharing_none: Não partilhado
   label_version_sharing_system: Com todos os projetos
   label_version_sharing_tree: Com a árvore de projeto
-  label_video: Vídeo
+  label_videos: Videos
   label_view_all_revisions: Ver os todas as revisões
   label_view_diff: Ver diferenças
   label_view_revisions: Ver revisões
@@ -1557,6 +1592,7 @@ pt:
   label_wiki_show_menu_item: Mostrar como item de menu de navegação do projecto
   label_wiki_show_new_page_link: Mostrar o item de sub-menu 'Criar nova página filha'
   label_wiki_show_submenu_item: 'Mostrar como item do sub-menu de '
+  label_wiki_start: Página inicial
   label_work_package: Pacote de trabalho
   label_work_package_added: Tarefa adicionada
   label_work_package_attachments: Anexos do pacote de trabalho
@@ -1795,8 +1831,7 @@ pt:
     text_show_again: Pode reiniciar este vídeo através do menu de ajuda
     welcome: Bem-vindo ao OpenProject
   permission_add_work_package_notes: Adicionar notas
-  permission_add_work_packages: Adicionar pacotes de trabalho (também permite adicionar
-    anexos para todos os pacotes de trabalho)
+  permission_add_work_packages: Adicionar tarefas
   permission_add_messages: Publicar mensagens
   permission_add_project: Criar Projeto
   permission_add_subprojects: Criar subprojetos
@@ -2061,12 +2096,19 @@ pt:
     de tentativas de início de sessão
   setting_brute_force_block_minutes: Tempo de bloqueio do utilizador
   setting_cache_formatted_text: Colocar formatação do texto na memória cache
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: Personalizar a aparência das listas de pacotes de trabalho
   setting_commit_fix_keywords: Palavras-chave fixas
   setting_commit_logs_encoding: Codificação das mensagens de confirmação
   setting_commit_logtime_activity_id: Atividade para tempo registado
   setting_commit_logtime_enabled: Ativar registo de tempo
   setting_commit_ref_keywords: Palavras-chave de referência
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Permitir relações entre projectos
     de pacotes de trabalho
   setting_date_format: Formato da data
@@ -2167,7 +2209,10 @@ pt:
     passwords: Senhas
     session: Sessão
     brute_force_prevention: Bloqueio de utilizador automatizado
-  show_hide_project_menu: Expandir/Recolher menu de projeto
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: ativo
   status_archived: arquivado
   status_invited: convidado
@@ -2345,10 +2390,6 @@ pt:
       colors: Cores
       project_type: Tipo do projeto
       project_types: Tipos de projeto
-    project_menu:
-      reportings: Relatórios de estado
-      reports: Relatório de linha temporal
-      timelines: Cronogramas
     associations: Dependências
     board_could_not_be_saved: Não foi possível guardar o quadro
     button_delete_all: Eliminar tudo

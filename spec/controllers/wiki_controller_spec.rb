@@ -291,7 +291,7 @@ describe WikiController, type: :controller do
           get 'show', params: { id: @unrelated_page.slug, project_id: @project.id }
 
           expect(response).to be_success
-          expect(response.body).to have_selector('#main-menu a.selected', count: 1)
+          expect(response.body).to have_selector('.main-menu--children a.selected', count: 1)
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item"
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected", false
@@ -301,7 +301,7 @@ describe WikiController, type: :controller do
           get 'show', params: { id: @other_wiki_menu_item.name, project_id: @project.id }
 
           expect(response).to be_success
-          expect(response.body).to have_selector('#main-menu a.selected', count: 1)
+          expect(response.body).to have_selector('.main-menu--children a.selected', count: 1)
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item"
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected", false
@@ -311,7 +311,7 @@ describe WikiController, type: :controller do
           get 'show', params: { id: @wiki_menu_item.name, project_id: @project.id }
 
           expect(response).to be_success
-          expect(response.body).to have_selector('#main-menu a.selected', count: 1)
+          expect(response.body).to have_selector('.main-menu--children a.selected', count: 1)
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
         end
@@ -323,7 +323,7 @@ describe WikiController, type: :controller do
           get 'new_child', params: { id: @wiki_menu_item.name, project_id: @project.identifier }
 
           expect(response).to be_success
-          expect(response.body).to have_selector('#main-menu a.selected', count: 1)
+          expect(response.body).to have_selector('.main-menu--children a.selected', count: 1)
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
         end
@@ -335,7 +335,7 @@ describe WikiController, type: :controller do
           assert_select '#content h2', text: 'Index by title'
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
 
-          expect(response.body).to have_selector('#main-menu a.selected', count: 1)
+          expect(response.body).to have_selector('.main-menu--children a.selected', count: 1)
         end
       end
 

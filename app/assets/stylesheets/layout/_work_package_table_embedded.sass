@@ -29,8 +29,12 @@
 // Disable CSS containment in the embedded container
 // unless we're setting an external height with overflow, containment will not work.
 .work-packages-embedded-view--container
-  .generic-table--sort-header-outer
-    padding: 0 12px 0 0px
+
+  // Align with section header
+  .wp-table--table-header:first-child .generic-table--sort-header-outer,
+  .wp-table--cell-td:first-child .wp-edit-field--display-field,
+  .wp-inline-create--add-link i:before
+    padding-left: 0
 
   .work-package-table--container
     contain: initial !important
@@ -44,6 +48,8 @@
   &.-compact-tables
     .wp-table--row
       border-bottom: none !important
+      &:hover
+        @include varprop(background-color, table-row-highlighting-color)
 
     .generic-table--sort-header-outer
       line-height: 28px

@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-#mobile-main-menu-toggle
-  display: none
+$hamburger-right: -3px
+$hamburger-width: 50px
 
 #logo
   width: 230px
   @include varprop(height, header-height)
   position: absolute
-  left: calc(50% - #{$main-menu-width} / 2)
+  left: calc(50% - 230px / 2)
 
   .home-link
     margin-top: 14px
@@ -100,7 +100,7 @@
         float: none
     > ul.drop-down--projects
       width: 400px
-      left: 0
+      left: -2px
       box-shadow: none
 
   li.drop-down
@@ -257,18 +257,23 @@ input.top-menu-search--input
 #account-nav-left
   .drop-down
     // Half viewport width minus half logo.
-    max-width: calc((100vW/2) - 115px)
-
+    max-width: calc((100vW/2) - 115px - #{$hamburger-width + $hamburger-right})
+    .nosidebar &
+      max-width: calc((100vW/2) - 115px)
   #projects-menu
-    padding-right: 34px
+    padding-right: 30px
     font-weight: bold
+    padding-left: 6px
+    .nosidebar &
+      padding-left: 15px
 
     .button--dropdown-text
+      @include text-shortener
       float: left
       // Half viewport width minus half logo minus margins.
-      max-width: calc((100vW/2) - 115px - 50px)
-      text-overflow: ellipsis
-      overflow: hidden
+      max-width: calc((100vW/2) - 115px - 50px - #{$hamburger-width + $hamburger-right})
+      .nosidebar &
+        max-width: calc((100vW/2) - 115px - 50px)
 
     &:after
       position: absolute
@@ -309,6 +314,25 @@ input.top-menu-search--input
   position: relative
   top: 0
   z-index: 10
+
+#main-menu-toggle
+  display: block
+  width: $hamburger-width
+  height: $header-height-mobile
+  float: left
+  text-align: center
+  margin-right: $hamburger-right
+  a
+    height: $header-height-mobile
+    line-height: $header-height-mobile
+    zoom: 1
+    @include varprop(color, header-item-font-color)
+    @include varprop(font-size, header-item-font-size)
+    text-decoration: none
+    padding: 0 15px
+
+  .nosidebar &
+    display: none
 
 @media only screen and (max-width: 18.75rem)
   #logo

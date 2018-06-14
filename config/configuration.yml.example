@@ -186,6 +186,10 @@ default:
   # attachments_storage_path: /var/openproject/files
   # attachments_storage_path:
 
+  # Grace period until uploaded but unassigned (i.e. to a container like work packages,
+  # wiki pages) attachments are deleted (in minutes)
+  # attachment_grace_period: 180
+
   # Configuration of the autologin cookie.
   # autologin_cookie_name: the name of the cookie (default: autologin)
   # autologin_cookie_path: the cookie path (default: /)

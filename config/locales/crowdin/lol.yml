@@ -152,7 +152,9 @@ lol:
       form_configuration: crwdns96452:0crwdne96452:0
       projects: crwdns96453:0crwdne96453:0
       enabled_projects: crwdns96454:0crwdne96454:0
-      add_group: crwdns96455:0crwdne96455:0
+      add_group: crwdns98887:0crwdne98887:0
+      add_subelements: crwdns98888:0crwdne98888:0
+      edit_query: crwdns98889:0crwdne98889:0
       reset: crwdns96456:0crwdne96456:0
   versions:
     overview:
@@ -324,6 +326,7 @@ lol:
         mail_notification: crwdns96566:0crwdne96566:0
         new_password: crwdns96567:0crwdne96567:0
         password_confirmation: crwdns96568:0crwdne96568:0
+        consented_at: crwdns98948:0crwdne98948:0
       user_preference:
         comments_sorting: crwdns96569:0crwdne96569:0
         hide_mail: crwdns96570:0crwdne96570:0
@@ -334,8 +337,6 @@ lol:
       version:
         effective_date: crwdns96575:0crwdne96575:0
         sharing: crwdns96576:0crwdne96576:0
-      wiki:
-        start_page: crwdns96577:0crwdne96577:0
       wiki_content:
         text: crwdns96578:0crwdne96578:0
       wiki_page:
@@ -348,6 +349,7 @@ lol:
       work_package:
         begin_insertion: crwdns96583:0crwdne96583:0
         begin_deletion: crwdns96584:0crwdne96584:0
+        children: crwdns98890:0crwdne98890:0
         done_ratio: crwdns96585:0crwdne96585:0
         end_insertion: crwdns96586:0crwdne96586:0
         end_deletion: crwdns96587:0crwdne96587:0
@@ -403,6 +405,7 @@ lol:
         before_or_equal_to: crwdns96635:0%{date}crwdne96635:0
         could_not_be_copied: crwdns96636:0crwdne96636:0
         regex_invalid: crwdns96637:0crwdne96637:0
+        unchangeable: crwdns98978:0crwdne98978:0
       models:
         custom_field:
           at_least_one_custom_option: crwdns96638:0crwdne96638:0
@@ -465,6 +468,7 @@ lol:
               violates_relationships: crwdns96664:0%{soonest_start}crwdne96664:0
             status_id:
               status_transition_invalid: crwdns96665:0crwdne96665:0
+              status_invalid_in_type: crwdns98891:0crwdne98891:0
             priority_id:
               only_active_priorities_allowed: crwdns96666:0crwdne96666:0
             category:
@@ -604,11 +608,13 @@ lol:
   button_close: crwdns96777:0crwdne96777:0
   button_collapse_all: crwdns96778:0crwdne96778:0
   button_configure: crwdns96779:0crwdne96779:0
+  button_continue: crwdns98949:0crwdne98949:0
   button_copy: crwdns96780:0crwdne96780:0
   button_copy_and_follow: crwdns96781:0crwdne96781:0
   button_create: crwdns96782:0crwdne96782:0
   button_create_and_continue: crwdns96783:0crwdne96783:0
   button_delete: crwdns96784:0crwdne96784:0
+  button_decline: crwdns98950:0crwdne98950:0
   button_delete_watcher: crwdns96785:0%{name}crwdne96785:0
   button_download: crwdns96786:0crwdne96786:0
   button_duplicate: crwdns96787:0crwdne96787:0
@@ -650,6 +656,18 @@ lol:
   button_add_menu_entry: crwdns96823:0crwdne96823:0
   button_configure_menu_entry: crwdns96824:0crwdne96824:0
   button_delete_menu_entry: crwdns96825:0crwdne96825:0
+  consent:
+    checkbox_label: crwdns98951:0crwdne98951:0
+    failure_message: crwdns98952:0crwdne98952:0
+    title: crwdns98953:0crwdne98953:0
+    decline_warning_message: crwdns98954:0crwdne98954:0
+    user_has_consented: crwdns98955:0crwdne98955:0
+    not_yet_consented: crwdns98956:0crwdne98956:0
+    contact_mail_instructions: crwdns98957:0crwdne98957:0
+    contact_your_administrator: crwdns98958:0crwdne98958:0
+    contact_this_mail_address: crwdns98959:0%{mail_address}crwdne98959:0
+    text_update_consent_time: crwdns98960:0crwdne98960:0
+    update_consent_last_time: crwdns98961:0%{update_time}crwdne98961:0
   copy_project:
     started: crwdns96826:0%{source_project_name}crwdnd96826:0%{target_project_name}crwdnd96826:0%{target_project_name}crwdne96826:0
     failed: crwdns96827:0%{source_project_name}crwdne96827:0
@@ -869,6 +887,7 @@ lol:
   error_check_user_and_role: crwdns96998:0crwdne96998:0
   error_cookie_missing: crwdns96999:0crwdne96999:0
   error_custom_option_not_found: crwdns97000:0crwdne97000:0
+  error_dependent_work_package: crwdns98962:0%{related_id}crwdnd98962:0%{related_subject}crwdnd98962:0%{error}crwdne98962:0
   error_failed_to_delete_entry: crwdns97001:0crwdne97001:0
   error_invalid_group_by: crwdns97002:0%{value}crwdne97002:0
   error_invalid_query_column: crwdns97003:0%{value}crwdne97003:0
@@ -995,6 +1014,7 @@ lol:
   label_all: crwdns97101:0crwdne97101:0
   label_all_time: crwdns97102:0crwdne97102:0
   label_all_words: crwdns97103:0crwdne97103:0
+  label_all_open_wps: crwdns98940:0crwdne98940:0
   label_always_visible: crwdns97104:0crwdne97104:0
   label_announcement: crwdns97105:0crwdne97105:0
   label_and_its_subprojects: crwdns97106:0%{value}crwdne97106:0
@@ -1035,6 +1055,7 @@ lol:
   label_calendar: crwdns97141:0crwdne97141:0
   label_calendar_show: crwdns97142:0crwdne97142:0
   label_category: crwdns97143:0crwdne97143:0
+  label_consent_settings: crwdns98963:0crwdne98963:0
   label_wiki_menu_item: crwdns97144:0crwdne97144:0
   label_select_main_menu_item: crwdns97145:0crwdne97145:0
   label_select_project: crwdns97146:0crwdne97146:0
@@ -1057,6 +1078,7 @@ lol:
   label_close_versions: crwdns97163:0crwdne97163:0
   label_closed_work_packages: crwdns97164:0crwdne97164:0
   label_collapse: crwdns97165:0crwdne97165:0
+  label_collapsed_click_to_show: crwdns98941:0crwdne98941:0
   label_configuration: crwdns97166:0crwdne97166:0
   label_comment_add: crwdns97167:0crwdne97167:0
   label_comment_added: crwdns97168:0crwdne97168:0
@@ -1123,11 +1145,13 @@ lol:
   label_enumerations: crwdns97229:0crwdne97229:0
   label_enterprise: crwdns97230:0crwdne97230:0
   label_enterprise_edition: crwdns97231:0crwdne97231:0
+  label_entry_page: crwdns98942:0crwdne98942:0
   label_environment: crwdns97232:0crwdne97232:0
   label_estimates_and_time: crwdns97233:0crwdne97233:0
   label_equals: crwdns97234:0crwdne97234:0
   label_example: crwdns97235:0crwdne97235:0
   label_export_to: crwdns97236:0crwdne97236:0
+  label_expanded_click_to_collapse: crwdns98943:0crwdne98943:0
   label_f_hour: crwdns97237:0%{value}crwdne97237:0
   label_f_hour_plural: crwdns97238:0%{value}crwdne97238:0
   label_feed_plural: crwdns97239:0crwdne97239:0
@@ -1156,6 +1180,7 @@ lol:
   label_here: crwdns97262:0crwdne97262:0
   label_hide: crwdns97263:0crwdne97263:0
   label_history: crwdns97264:0crwdne97264:0
+  label_hierarchy_leaf: crwdns98944:0crwdne98944:0
   label_home: crwdns97265:0crwdne97265:0
   label_in: crwdns97266:0crwdne97266:0
   label_in_less_than: crwdns97267:0crwdne97267:0
@@ -1169,6 +1194,7 @@ lol:
   label_information_plural: crwdns97275:0crwdne97275:0
   label_integer: crwdns97276:0crwdne97276:0
   label_internal: crwdns97277:0crwdne97277:0
+  label_introduction_video: crwdns98892:0crwdne98892:0
   label_invite_user: crwdns97278:0crwdne97278:0
   label_show_hide: crwdns97279:0crwdne97279:0
   label_show_all_registered_users: crwdns97280:0crwdne97280:0
@@ -1231,6 +1257,7 @@ lol:
   label_my_page_block: crwdns97337:0crwdne97337:0
   label_my_projects: crwdns97338:0crwdne97338:0
   label_my_queries: crwdns97339:0crwdne97339:0
+  label_never: crwdns98964:0crwdne98964:0
   label_new: crwdns97340:0crwdne97340:0
   label_new_statuses_allowed: crwdns97341:0crwdne97341:0
   label_news_added: crwdns97342:0crwdne97342:0
@@ -1255,6 +1282,7 @@ lol:
   label_open_menu: crwdns97361:0crwdne97361:0
   label_open_work_packages: crwdns97362:0crwdne97362:0
   label_open_work_packages_plural: crwdns97363:0crwdne97363:0
+  label_openproject_website: crwdns98893:0crwdne98893:0
   label_optional_description: crwdns97364:0crwdne97364:0
   label_options: crwdns97365:0crwdne97365:0
   label_other: crwdns97366:0crwdne97366:0
@@ -1423,7 +1451,7 @@ lol:
   label_version_sharing_none: crwdns97529:0crwdne97529:0
   label_version_sharing_system: crwdns97530:0crwdne97530:0
   label_version_sharing_tree: crwdns97531:0crwdne97531:0
-  label_video: crwdns97532:0crwdne97532:0
+  label_videos: crwdns98894:0crwdne98894:0
   label_view_all_revisions: crwdns97533:0crwdne97533:0
   label_view_diff: crwdns97534:0crwdne97534:0
   label_view_revisions: crwdns97535:0crwdne97535:0
@@ -1444,6 +1472,7 @@ lol:
   label_wiki_show_menu_item: crwdns97550:0crwdne97550:0
   label_wiki_show_new_page_link: crwdns97551:0crwdne97551:0
   label_wiki_show_submenu_item: crwdns97552:0crwdne97552:0
+  label_wiki_start: crwdns98945:0crwdne98945:0
   label_work_package: crwdns97553:0crwdne97553:0
   label_work_package_added: crwdns97554:0crwdne97554:0
   label_work_package_attachments: crwdns97555:0crwdne97555:0
@@ -1639,7 +1668,7 @@ lol:
     text_show_again: crwdns97714:0crwdne97714:0
     welcome: crwdns97715:0crwdne97715:0
   permission_add_work_package_notes: crwdns97716:0crwdne97716:0
-  permission_add_work_packages: crwdns97717:0crwdne97717:0
+  permission_add_work_packages: crwdns98979:0crwdne98979:0
   permission_add_messages: crwdns97718:0crwdne97718:0
   permission_add_project: crwdns97719:0crwdne97719:0
   permission_add_subprojects: crwdns97720:0crwdne97720:0
@@ -1854,12 +1883,18 @@ lol:
   setting_brute_force_block_after_failed_logins: crwdns97908:0crwdne97908:0
   setting_brute_force_block_minutes: crwdns97909:0crwdne97909:0
   setting_cache_formatted_text: crwdns97910:0crwdne97910:0
+  setting_use_wysiwyg: crwdns98895:0crwdne98895:0
+  setting_use_wysiwyg_description: crwdns98896:0crwdne98896:0
   setting_column_options: crwdns97911:0crwdne97911:0
   setting_commit_fix_keywords: crwdns97912:0crwdne97912:0
   setting_commit_logs_encoding: crwdns97913:0crwdne97913:0
   setting_commit_logtime_activity_id: crwdns97914:0crwdne97914:0
   setting_commit_logtime_enabled: crwdns97915:0crwdne97915:0
   setting_commit_ref_keywords: crwdns97916:0crwdne97916:0
+  setting_consent_time: crwdns98965:0crwdne98965:0
+  setting_consent_info: crwdns98966:0crwdne98966:0
+  setting_consent_required: crwdns98967:0crwdne98967:0
+  setting_consent_decline_mail: crwdns98968:0crwdne98968:0
   setting_cross_project_work_package_relations: crwdns97917:0crwdne97917:0
   setting_date_format: crwdns97918:0crwdne97918:0
   setting_default_language: crwdns97919:0crwdne97919:0
@@ -1942,7 +1977,10 @@ lol:
     passwords: crwdns97993:0crwdne97993:0
     session: crwdns97994:0crwdne97994:0
     brute_force_prevention: crwdns97995:0crwdne97995:0
-  show_hide_project_menu: crwdns97996:0crwdne97996:0
+  text_formatting:
+    textile: crwdns98897:0crwdne98897:0
+    markdown: crwdns98898:0crwdne98898:0
+    plain: crwdns98899:0crwdne98899:0
   status_active: crwdns97997:0crwdne97997:0
   status_archived: crwdns97998:0crwdne97998:0
   status_invited: crwdns97999:0crwdne97999:0
@@ -2072,10 +2110,6 @@ lol:
       colors: crwdns98103:0crwdne98103:0
       project_type: crwdns98104:0crwdne98104:0
       project_types: crwdns98105:0crwdne98105:0
-    project_menu:
-      reportings: crwdns98106:0crwdne98106:0
-      reports: crwdns98107:0crwdne98107:0
-      timelines: crwdns98108:0crwdne98108:0
     associations: crwdns98109:0crwdne98109:0
     board_could_not_be_saved: crwdns98110:0crwdne98110:0
     button_delete_all: crwdns98111:0crwdne98111:0

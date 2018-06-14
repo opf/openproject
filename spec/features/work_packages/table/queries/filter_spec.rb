@@ -252,11 +252,15 @@ describe 'filter work packages', js: true do
   end
 
   context 'by attachment content' do
-    let(:attachment_a) { FactoryBot.create(:attachment, filename: 'attachment-first.pdf') }
-    let(:attachment_b) { FactoryBot.create(:attachment, filename: 'attachment-second.pdf') }
-    let(:wp_with_attachment_a) { FactoryBot.create :work_package, subject: 'WP attachment A', project: project, attachments: [attachment_a] }
-    let(:wp_with_attachment_b) { FactoryBot.create :work_package, subject: 'WP attachment B', project: project, attachments: [attachment_b] }
-    let(:wp_without_attachment) { FactoryBot.create :work_package, subject: 'WP no attachment', project: project}
+    let(:attachment_a) { FactoryBot.build(:attachment, filename: 'attachment-first.pdf') }
+    let(:attachment_b) { FactoryBot.build(:attachment, filename: 'attachment-second.pdf') }
+    let(:wp_with_attachment_a) do
+      FactoryBot.create :work_package, subject: 'WP attachment A', project: project, attachments: [attachment_a]
+    end
+    let(:wp_with_attachment_b) do
+      FactoryBot.create :work_package, subject: 'WP attachment B', project: project, attachments: [attachment_b]
+    end
+    let(:wp_without_attachment) { FactoryBot.create :work_package, subject: 'WP no attachment', project: project }
     let(:wp_table) { ::Pages::WorkPackagesTable.new }
 
     before do

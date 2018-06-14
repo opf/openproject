@@ -152,7 +152,9 @@ ja:
       form_configuration: フォーム設定
       projects: プロジェクト
       enabled_projects: 有効なプロジェクト
-      add_group: グループを追加
+      add_group: Add attribute group
+      add_subelements: Add subelements group
+      edit_query: Edit embedded query
       reset: デフォルトに戻す
   versions:
     overview:
@@ -326,6 +328,7 @@ ja:
         mail_notification: 電子メールの通知
         new_password: 新しいパスワード
         password_confirmation: 確認のため再入力
+        consented_at: Consented at
       user_preference:
         comments_sorting: コメントの表示
         hide_mail: 電子メールアドレスを未公開
@@ -336,8 +339,6 @@ ja:
       version:
         effective_date: 期限
         sharing: 共有
-      wiki:
-        start_page: 開始ページ
       wiki_content:
         text: テキスト（本文）
       wiki_page:
@@ -350,6 +351,7 @@ ja:
       work_package:
         begin_insertion: 挿入の始まり
         begin_deletion: 削除の始まり
+        children: Subelements
         done_ratio: 進行状況 (%)
         end_insertion: 挿入の終わり
         end_deletion: 削除の終わり
@@ -405,6 +407,7 @@ ja:
         before_or_equal_to: は%{date}より以前にしてください。
         could_not_be_copied: "（完全に）コピーできませんでした。"
         regex_invalid: 関連付けられた正規表現を検証できませんでした。
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: 少なくとも 1 つオプションが有効である必要があります。
@@ -467,6 +470,8 @@ ja:
               violates_relationships: は、作業項目の関係に違反しないように %{soonest_start} またはそれ以降にのみ設定できます。
             status_id:
               status_transition_invalid: ユーザの現在のロールでは旧ステータスから新ステータスへの有効な遷移がないため無効
+              status_invalid_in_type: is invalid because the current status does not
+                exist in this type.
             priority_id:
               only_active_priorities_allowed: は有効である必要があります。
             category:
@@ -609,11 +614,13 @@ ja:
   button_close: 閉じる
   button_collapse_all: 全てを折りたたむ
   button_configure: 設定
+  button_continue: 続行
   button_copy: コピー
   button_copy_and_follow: コピー後表示
   button_create: 作成
   button_create_and_continue: 連続作成
   button_delete: 削除
+  button_decline: Decline
   button_delete_watcher: ウォッチャー「%{name}」を削除
   button_download: ダウンロード
   button_duplicate: 複製
@@ -655,6 +662,23 @@ ja:
   button_add_menu_entry: メニュー項目の追加
   button_configure_menu_entry: メニュー項目の設定
   button_delete_menu_entry: メニュー項目の削除
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: User Consent
+    decline_warning_message: You have declined to consent and have been logged out.
+    user_has_consented: User has consented to your configured statement at the given
+      time.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data
+      controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have
+      your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have
+      your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable
+      when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: 'Last update of consent: %{update_time}'
   copy_project:
     started: プロジェクト「%{source_project_name}」を「%{target_project_name}」にコピーを開始しました。「%{target_project_name}」が利用可能になり次第、メールで通知されます。
     failed: プロジェクト「%{source_project_name}」をコピーできません。
@@ -874,6 +898,8 @@ ja:
   error_check_user_and_role: ユーザとロールを選択してください。
   error_cookie_missing: OpenProject のcookieが見つかりません。cookieが有効であることを確認してください。そうしないとこのアプリケーションは正しく動作しません。
   error_custom_option_not_found: オプションが存在しません。
+  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
+    %{error}'
   error_failed_to_delete_entry: このエントリを削除できませんでした。
   error_invalid_group_by: 'グループ化できません: %{value}'
   error_invalid_query_column: '無効なクエリ列: %{value}'
@@ -1001,6 +1027,7 @@ ja:
   label_all: 全て
   label_all_time: 全期間
   label_all_words: 全ての単語
+  label_all_open_wps: All open
   label_always_visible: 常に表示
   label_announcement: お知らせ
   label_and_its_subprojects: "%{value}とその子プロジェクト"
@@ -1041,6 +1068,7 @@ ja:
   label_calendar: カレンダー
   label_calendar_show: カレンダーを表示
   label_category: カテゴリ
+  label_consent_settings: User Consent
   label_wiki_menu_item: Wikiのメニュー項目
   label_select_main_menu_item: 新しいメインメニュー項目を選択する
   label_select_project: プロジェクトの選択
@@ -1063,6 +1091,7 @@ ja:
   label_close_versions: 完了したバージョンを終了にする
   label_closed_work_packages: 完了
   label_collapse: 折りたたむ
+  label_collapsed_click_to_show: Collapsed. Click to show
   label_configuration: 設定
   label_comment_add: コメントを追加
   label_comment_added: コメントを追加された。
@@ -1129,11 +1158,13 @@ ja:
   label_enumerations: 列挙型の一覧
   label_enterprise: エンタープライズ
   label_enterprise_edition: エンタープライズ版
+  label_entry_page: Entry page
   label_environment: 環境
   label_estimates_and_time: 見積もりと 時間
   label_equals: 等しい
   label_example: 例
   label_export_to: こちらもアクセス可能：
+  label_expanded_click_to_collapse: Expanded. Click to collapse
   label_f_hour: "%{value}時間"
   label_f_hour_plural: "%{value}時間"
   label_feed_plural: フィード
@@ -1162,6 +1193,7 @@ ja:
   label_here: こちら
   label_hide: 非表示
   label_history: 履歴
+  label_hierarchy_leaf: Hierarchy leaf
   label_home: ホーム
   label_in: 今日から○日後
   label_in_less_than: 今日から○日後以前
@@ -1175,6 +1207,7 @@ ja:
   label_information_plural: 情報
   label_integer: 整数
   label_internal: 社内
+  label_introduction_video: Introduction video
   label_invite_user: ユーザを招待
   label_show_hide: 表示/非表示
   label_show_all_registered_users: すべての登録ユーザーを表示
@@ -1237,6 +1270,7 @@ ja:
   label_my_page_block: このページ上のブロック
   label_my_projects: 参加しているプロジェクト
   label_my_queries: 個人のクエリ
+  label_never: なし
   label_new: 新しく作成
   label_new_statuses_allowed: ステータスの移行先
   label_news_added: ニュースが追加されました。
@@ -1261,6 +1295,7 @@ ja:
   label_open_menu: メニューを開く
   label_open_work_packages: 未完了
   label_open_work_packages_plural: 未完了
+  label_openproject_website: OpenProject website
   label_optional_description: 説明
   label_options: オプション
   label_other: その他
@@ -1430,7 +1465,7 @@ ja:
   label_version_sharing_none: 共有しない
   label_version_sharing_system: 全プロジェクト
   label_version_sharing_tree: プロジェクトツリー単位
-  label_video: ビデオ
+  label_videos: Videos
   label_view_all_revisions: 全てのリビジョンを表示
   label_view_diff: 差分を表示
   label_view_revisions: リビジョンを表示
@@ -1451,6 +1486,7 @@ ja:
   label_wiki_show_menu_item: プロジェクトのメニューで項目として表示
   label_wiki_show_new_page_link: 下位のメニューで「子ページを新規作成」の項目を表示
   label_wiki_show_submenu_item: 上位のメニュー項目
+  label_wiki_start: 開始ページ
   label_work_package: 作業項目
   label_work_package_added: 作業項目が追加されました。
   label_work_package_attachments: ワークパッケージの添付ファイル
@@ -1648,7 +1684,7 @@ ja:
     text_show_again: ヘルプメニューからこのビデオを再度開始することができます。
     welcome: OpenProjectへようこそ
   permission_add_work_package_notes: 注記の追加
-  permission_add_work_packages: 作業項目を追加 (すべての作業項目に添付ファイルを追加することもできます)
+  permission_add_work_packages: 作業項目の追加
   permission_add_messages: メッセージの投稿
   permission_add_project: プロジェクトの作成
   permission_add_subprojects: 子プロジェクトの追加
@@ -1877,12 +1913,19 @@ ja:
   setting_brute_force_block_after_failed_logins: ユーザをロックさせるログイン失敗回数
   setting_brute_force_block_minutes: ユーザがロックされている期間
   setting_cache_formatted_text: 書式化されたテキストをキャッシュする
+  setting_use_wysiwyg: WYSIWYG editor
+  setting_use_wysiwyg_description: Select to enable CKEditor5 WYSIWYG editor for all
+    users by default. CKEditor has limited functionality for GFM Markdown.
   setting_column_options: 作業項目一覧の表示をカスタマイズする
   setting_commit_fix_keywords: 修正用キーワード
   setting_commit_logs_encoding: メッセージのエンコードをコミット
   setting_commit_logtime_activity_id: コミット時に作業時間を記録する
   setting_commit_logtime_enabled: 作業時間記録を有効にする
   setting_commit_ref_keywords: 参照用キーワード
+  setting_consent_time: Consent time
+  setting_consent_info: Consent information text
+  setting_consent_required: Consent required
+  setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: 他プロジェクト間に作業項目の関連付けを許可する
   setting_date_format: 日付の形式
   setting_default_language: デフォルトの言語
@@ -1966,7 +2009,10 @@ ja:
     passwords: パスワード
     session: セッション
     brute_force_prevention: 自動的にユーザをロック
-  show_hide_project_menu: プロジェクトメニューの展開/折りたたみ
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Plain text
   status_active: 有効
   status_archived: アーカイブ済
   status_invited: 招待済み
@@ -2109,10 +2155,6 @@ ja:
       colors: 色
       project_type: プロジェクトの種類
       project_types: プロジェクトの種類
-    project_menu:
-      reportings: 進捗レポート
-      reports: タイムラインレポート
-      timelines: タイムライン
     associations: 依存関係
     board_could_not_be_saved: ボードを保存できませんでした。
     button_delete_all: 全ての削除

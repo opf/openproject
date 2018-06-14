@@ -55,6 +55,7 @@ sv-SE:
     description_subwork_package: 'Barn till arbetspaket #%{id}'
     error:
       internal: Ett internt fel har inträffat.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Öppna det här filtret med 'ALT' och piltangenterna.
@@ -146,6 +147,7 @@ sv-SE:
     label_not_equals: är inte
     label_on: på
     label_open_menu: Öppna meny
+    label_open_context_menu: Open context menu
     label_open_work_packages: öppna
     label_password: Lösenord
     label_previous: Föregående
@@ -169,6 +171,7 @@ sv-SE:
     label_subject: Ämne
     label_this_week: denna vecka
     label_today: idag
+    label_up: Up
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Totalt klart"
@@ -270,7 +273,8 @@ sv-SE:
       required: Krävs av
       relation_type: relationstyp
     relations_hierarchy:
-      hierarchy_headline: hierarki
+      parent_headline: Överordnad
+      children_headline: Barn
     relation_buttons:
       change_parent: Ändra överordnad
       remove_parent: Ta bort förälder
@@ -307,6 +311,8 @@ sv-SE:
         one: Du kan bara välja en sak
         other: Du kan bara välja {{limit}} saker
         zero: You cannot select any items
+    show_hide_project_menu: Expandera/minimera projektmenyn
+    project_menu_details: Detaljer
     sort:
       sorted_asc: 'Stigande sortering används, '
       sorted_dsc: 'Fallande sortering används, '
@@ -323,6 +329,7 @@ sv-SE:
     timelines:
       gantt_chart: Gantt chart
       labels:
+        title: Label configuration
         bar: Bar labels
         left: Left
         right: Right
@@ -360,7 +367,6 @@ sv-SE:
         grouping_other: Andra
         noneSelection: "(ingen)"
       name: Namn
-      new_work_package: Nya arbetspaket
       outline: Återställa disposition
       outlines:
         aggregation: Visa endast aggregeringar
@@ -458,10 +464,13 @@ sv-SE:
       inline_create:
         title: Klicka här för att lägga till ett nytt arbetspaket till listan
       create:
+        title: Nya arbetspaket
         header: Ny %{type}
         header_no_type: Nytt arbetspaket (typ har inte angetts än)
         header_with_parent: 'Ny %{type} (barn till %{parent_type} #%{id})'
         button: Skapa
+      copy:
+        title: Copy work package
       hierarchy:
         show: Visa hierarkiläge
         hide: Dölj hierarkiläge
@@ -522,7 +531,6 @@ sv-SE:
           är aktivt.
         hierarchy_disabled_by_group_by: Hierarkiläget är inaktiverat då resultaten
           är grupperade efter %{column}.
-        hierarchy_mode: Hierarkiläge
         sort_ascending: Sortera stigande
         sort_descending: Sortera fallande
         move_column_left: Flytta kolumnen till vänster
@@ -536,12 +544,30 @@ sv-SE:
           not_found: Det finns ingen sådan fråga
         text_no_results: Inga matchande frågor hittades.
       table:
+        configure_button: Configure work package table
         summary: Tabell med ett arbetspaket för varje rad och kolumner för varje arbetspaketsattribut.
         text_inline_edit: Du kan klicka på de flesta celler i den här tabellen för
           att redigera attributens funktion.
         text_sort_hint: Med hjälp av länkarna i tabellrubrikerna kan du sortera, gruppera,
           ändra ordning, radera och lägga till kolumner.
         text_select_hint: Valda celler öppnas med 'ALT' och piltangenterna.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Hierarkiläge
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Översikt
         activity: Aktivitet

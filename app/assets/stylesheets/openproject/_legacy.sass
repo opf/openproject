@@ -193,9 +193,7 @@ div
     margin: 0
     text-align: left
     display: block
-    text-overflow: ellipsis
-    white-space: nowrap
-    overflow: hidden
+    @include text-shortener
 
     &.message-title
       padding-top: 12px
@@ -432,11 +430,7 @@ a.has-thumb
 
 .ellipsis,
 .form--field.ellipsis .form--label
-  white-space: nowrap
-  overflow: hidden
-  text-overflow: ellipsis
-  -o-text-overflow: ellipsis
-  -ms-text-overflow: ellipsis
+  @include text-shortener
 
 label
   margin-bottom: 0rem

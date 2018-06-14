@@ -54,10 +54,16 @@ describe WikiController, type: :controller do
     assert_select 'h1', content: /CookBook documentation/
 
     # child_pages macro
-    assert_select 'ul', attributes: { class: 'pages-hierarchy' },
-                    child: { tag: 'li',
-                             child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page_with_an_inline_image' },
-                                      content: 'Page with an inline image' } }
+    assert_select 'ul',
+                  attributes: { class: 'pages-hierarchy' },
+                  child: {
+                    tag: 'li',
+                    child: {
+                      tag: 'a',
+                      attributes: { href: '/projects/ecookbook/wiki/Page_with_an_inline_image' },
+                      content: 'Page with an inline image'
+                    }
+                  }
   end
 
   it 'should show page with name' do
@@ -272,13 +278,15 @@ describe WikiController, type: :controller do
     assert_response :success
     assert_template 'annotate'
     # Line 1
-    assert_select 'tr', child: { tag: 'th', attributes: { class: 'line-num' }, content: '1' },
-               child: { tag: 'td', attributes: { class: 'author' }, content: /John Smith/ },
-               child: { tag: 'td', content: /h1\. CookBook documentation/ }
+    assert_select 'tr',
+                  child: { tag: 'th', attributes: { class: 'line-num' }, content: '1' },
+                  child: { tag: 'td', attributes: { class: 'author' }, content: /John Smith/ },
+                  child: { tag: 'td', content: /h1\. CookBook documentation/ }
     # Line 2
-    assert_select 'tr', child: { tag: 'th', attributes: { class: 'line-num' }, content: '2' },
-               child: { tag: 'td', attributes: { class: 'author' }, content: /redMine Admin/ },
-               child: { tag: 'td', content: /Some updated \[\[documentation\]\] here/ }
+    assert_select 'tr',
+                  child: { tag: 'th', attributes: { class: 'line-num' }, content: '2' },
+                  child: { tag: 'td', attributes: { class: 'author' }, content: /redMine Admin/ },
+                  child: { tag: 'td', content: /Some updated \[\[documentation\]\] here/ }
   end
 
   it 'should get rename' do

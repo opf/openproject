@@ -84,7 +84,7 @@ export class QueryMenuService {
   }
 
   public initialize() {
-    this.container = jQuery('#main-menu-work-packages').parent().find('ul.menu-children');
+    this.container = jQuery('#main-menu-work-packages').parent().find('ul.main-menu--children');
     this.onQueryIdChanged(this.$state.params['query_id']);
   }
 
@@ -126,23 +126,20 @@ export class QueryMenuService {
   }
 
   private setSelectedState() {
-    // Set WP menu to selected if no current query id set
-    if (this.currentQueryId) {
-      jQuery('#main-menu-work-packages').removeClass('selected');
-    }
-
     // Update all queries children
     const queries = this.container.find('.query-menu-item');
     queries.toggleClass('selected', false);
 
     if (this.currentQueryId) {
+      // Unselect default query if a current query id is set
+      this.container.find('.all-open-wps-menu-item').removeClass('selected');
+      // Set active query to selected.
       let current = queries.filter(`#wp-query-menu-item-${this.currentQueryId}`)
       current.addClass('selected');
 
       // Set the page title
       this.titleService.setFirstPart(current.text());
     }
-
   }
 
   private buildItem(queryId:string, name:string) {

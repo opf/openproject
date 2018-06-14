@@ -126,7 +126,7 @@ openprojectModule
         $rootScope.DOUBLE_LEFT_CURLY_BRACE = ExpressionService.UNESCAPED_EXPRESSION;
 
         if ($window.innerWidth < 680) {
-          // On mobile sized screens navigation shall allways be callapsed when
+          // On mobile sized screens navigation shall always be collapsed when
           // window loads.
           $rootScope.showNavigation = false;
         } else {

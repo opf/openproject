@@ -292,7 +292,7 @@ module API
                     else
                       fragment
                     end
-            self.custom_field_values = { custom_field.id => value }
+            send(:"custom_field_#{custom_field.id}=", value)
           }
         end
 

@@ -55,6 +55,7 @@ ca:
     description_subwork_package: 'Fill del paquet de treball #%{id}'
     error:
       internal: S'ha produït un error intern.
+      query_saving: The query could not be saved.
     filter:
       description:
         text_open_filter: Obrir aquest filtre amb les tecles 'ALT' i cursors.
@@ -149,6 +150,7 @@ ca:
     label_not_equals: no és
     label_on: en
     label_open_menu: Obrir menú
+    label_open_context_menu: Open context menu
     label_open_work_packages: obrir
     label_password: Contrasenya
     label_previous: Anterior
@@ -172,6 +174,7 @@ ca:
     label_subject: Assumpte
     label_this_week: aquesta setmana
     label_today: avui
+    label_up: Up
     label_activity_show_only_comments: Show activities with comments only
     label_activity_show_all: Show all activities
     label_total_progress: "%{percent}% Progrés total"
@@ -275,7 +278,8 @@ ca:
       required: Required by
       relation_type: relation type
     relations_hierarchy:
-      hierarchy_headline: hierarchy
+      parent_headline: Pare
+      children_headline: Fills
     relation_buttons:
       change_parent: Canviar pare
       remove_parent: Remove parent
@@ -312,6 +316,8 @@ ca:
         one: Només podeu seleccionar un element
         other: Només podeu seleccionar {{limit}} elements
         zero: You cannot select any items
+    show_hide_project_menu: Expandeix/contrau menú de projecte
+    project_menu_details: Detalls
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -328,6 +334,7 @@ ca:
     timelines:
       gantt_chart: Gantt chart
       labels:
+        title: Label configuration
         bar: Bar labels
         left: Left
         right: Right
@@ -366,7 +373,6 @@ ca:
         grouping_other: Altres
         noneSelection: "(cap)"
       name: Nom
-      new_work_package: Paquet de treball nou
       outline: Restablir el marc
       outlines:
         aggregation: Mostrar només agregacions
@@ -467,10 +473,13 @@ ca:
       inline_create:
         title: Feu clic aquí per afegir un nou paquet de treball a aquesta llista
       create:
+        title: Paquet de treball nou
         header: New %{type}
         header_no_type: New work package (Type not yet set)
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: Crear
+      copy:
+        title: Copy work package
       hierarchy:
         show: Show hierarchy mode
         hide: Hide hierarchy mode
@@ -530,7 +539,6 @@ ca:
           mode being active.
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
           being grouped by %{column}.
-        hierarchy_mode: Hierarchy mode
         sort_ascending: Ordre ascendent
         sort_descending: Ordenació descendent
         move_column_left: Moure la columna a l'esquerra
@@ -544,6 +552,7 @@ ca:
           not_found: There is no such query
         text_no_results: No matching queries were found.
       table:
+        configure_button: Configure work package table
         summary: Taula amb fileres de paquets de treball i columnes amb els atributs
           dels paquets de treball.
         text_inline_edit: La majoria de les cel·les d'aquesta taula són botons que
@@ -551,6 +560,23 @@ ca:
         text_sort_hint: Amb els enllaços a les capçaleres de les taules es pot ordenar,
           agrupar, reordenar, treure i afegir columnes de la taula.
         text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+      table_configuration:
+        button: Configure this work package table
+        modal_title: Work package table configuration
+        embedded_tab_disabled: This configuration tab is not available for the embedded
+          query you're editing.
+        display_settings: Display settings
+        grouped_mode: Grouped mode
+        grouped_hint: Table results will be grouped by the given attribute.
+        default_mode: Default mode
+        hierarchy_mode: Hierarchy mode
+        hierarchy_hint: All filtered table results will be augmented with their ancestors.
+          Hierarchies can be expanded and collapsed.
+        display_sums_hint: Display sums of all summable attributes in a row below
+          the table results.
+        show_timeline_hint: Show an interactive gantt chart on the right side of the
+          table. You can change its width by dragging the divider between table and
+          gantt chart.
       tabs:
         overview: Visió general
         activity: Activitat

@@ -14,6 +14,7 @@ import {AuthorisationService} from "core-components/common/model-auth/model-auth
 import {StateService} from "@uirouter/core";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
+import {PathHelperService} from "core-components/common/path-helper/path-helper.service";
 
 @Directive({
   selector: '[wpSingleContextMenu]'
@@ -23,6 +24,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
   constructor(@Inject(HookServiceToken) readonly HookService:any,
               @Inject($stateToken) readonly $state:StateService,
+              readonly PathHelper:PathHelperService,
               readonly elementRef:ElementRef,
               readonly opModalService:OpModalService,
               readonly opContextMenuService:OPContextMenuService,
@@ -34,9 +36,8 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     this.workPackage.project.$load().then(() => {
       this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
-      var authorization = new WorkPackageAuthorization(this.workPackage);
-      const permittedActions = angular.extend(this.getPermittedActions(authorization),
-        this.getPermittedPluginActions(authorization));
+      var authorization = new WorkPackageAuthorization(this.workPackage, this.PathHelper, this.$state);
+      const permittedActions = this.getPermittedActions(authorization);
 
       this.buildItems(permittedActions);
       this.opContextMenu.show(this, evt);
@@ -74,26 +75,32 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   }
 
   private getPermittedActions(authorization:WorkPackageAuthorization) {
-    return authorization.permittedActionsWithLinks(PERMITTED_CONTEXT_MENU_ACTIONS);
+    let actions:WorkPackageAction[] = authorization.permittedActionsWithLinks(PERMITTED_CONTEXT_MENU_ACTIONS);
+
+    // Splice plugin actions onto the core actions
+    _.each(this.getPermittedPluginActions(authorization), (action:WorkPackageAction) => {
+      let index = action.indexBy ? action.indexBy(actions) : actions.length;
+      actions.splice(index, 0, action);
+    });
+
+    return actions;
   }
 
   private getPermittedPluginActions(authorization:WorkPackageAuthorization) {
-    var pluginActions:WorkPackageAction[] = [];
-    angular.forEach(this.HookService.call('workPackageDetailsMoreMenu'), function(action) {
-      pluginActions = pluginActions.concat(action);
-    });
-
-    return authorization.permittedActionsWithLinks(pluginActions);
+    let actions:WorkPackageAction[] = this.HookService.call('workPackageSingleContextMenu');
+    return authorization.permittedActionsWithLinks(actions);
   }
 
   protected buildItems(permittedActions:WorkPackageAction[]) {
+    const configureFormLink = this.workPackage.configureForm;
+
     this.items = permittedActions.map((action:WorkPackageAction) => {
-      const key = action.icon!;
+      const key = action.key;
       return {
         disabled: false,
         linkText: I18n.t('js.button_' + key),
         href: action.link,
-        icon: `icon-${key}`,
+        icon: action.icon || `icon-${key}`,
         onClick: ($event:JQueryEventObject) => {
           if (action.link && LinkHandling.isClickedWithModifier($event)) {
             return false;
@@ -104,5 +111,18 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         }
       };
     });
+
+    if (configureFormLink) {
+      this.items.push(
+        {
+          href:configureFormLink.href,
+          icon: 'icon-settings3',
+          linkText: configureFormLink.name,
+          onClick: () => false
+        }
+      );
+    }
+
+    return this.items;
   }
 }

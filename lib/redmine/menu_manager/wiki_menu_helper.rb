@@ -34,7 +34,7 @@ module Redmine::MenuManager::WikiMenuHelper
 
     MenuItems::WikiMenuItem.main_items(project_wiki).each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|
-        push_wiki_main_menu(menu, main_item)
+        push_wiki_main_menu(menu, main_item, project)
 
         main_item.children.each do |child|
           push_wiki_menu_subitem(menu, main_item, child)
@@ -43,7 +43,7 @@ module Redmine::MenuManager::WikiMenuHelper
     end
   end
 
-  def push_wiki_main_menu(menu, main_item)
+  def push_wiki_main_menu(menu, main_item, project)
     menu.push main_item.menu_identifier,
               { controller: '/wiki', action: 'show', id: main_item.slug },
               param: :project_id,
@@ -51,6 +51,12 @@ module Redmine::MenuManager::WikiMenuHelper
               after: :repository,
               icon: 'icon2 icon-wiki',
               html:    { class: 'wiki-menu--main-item' }
+
+    push_wiki_entry_page_item(main_item, menu)
+
+    if project.wiki.pages.any?
+      push_wiki_menu_partial(main_item, menu)
+    end
   rescue ArgumentError => e
     Rails.logger.error "Failed to add wiki item #{main_item.slug} to wiki menu: #{e}. Deleting it."
     main_item.destroy
@@ -66,5 +72,33 @@ module Redmine::MenuManager::WikiMenuHelper
   rescue ArgumentError => e
     Rails.logger.error "Failed to add wiki item #{child.slug} to wiki menu: #{e}. Deleting it."
     child.destroy
+  end
+
+  def default_menu_item(page)
+    if (main_item = page.nearest_main_item)
+      main_item
+    else
+      MenuItems::WikiMenuItem.main_items(page.wiki.id).first
+    end
+  end
+
+  private
+
+  def push_wiki_menu_partial(main_item, menu)
+    menu.push :wiki_menu_partial,
+              { controller: '/wiki', action: 'show' },
+              param: :project_id,
+              parent: main_item.menu_identifier,
+              partial: 'wiki/menu_pages_tree',
+              last: true
+  end
+
+  def push_wiki_entry_page_item(main_item, menu)
+    menu.push main_item.as_entry_item_symbol,
+              { controller: '/wiki', action: 'show', id: main_item.slug },
+              param: :project_id,
+              caption: t('label_entry_page'),
+              parent: main_item.menu_identifier,
+              first: true
   end
 end

@@ -35,6 +35,7 @@ describe 'users/edit', type: :view do
     # The url_for is missing the users id that is usually taken
     # from request parameters
     controller.request.path_parameters[:id] = user.id
+    view.extend(Gon::ControllerHelpers)
   end
 
   context 'authentication provider' do

@@ -136,6 +136,16 @@ describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter, c
           instance.to_json
         end
       end
+
+      it 'busts the cache on different form_embedded' do
+        embedded_instance = described_class.new(filter,
+                                                operator,
+                                                form_embedded: !form_embedded)
+        expect(embedded_instance)
+          .to receive(:to_hash)
+
+        embedded_instance.to_json
+      end
     end
   end
 end

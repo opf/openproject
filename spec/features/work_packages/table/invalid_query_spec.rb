@@ -10,9 +10,9 @@ describe 'Invalid query spec', js: true do
 
   let(:member) do
     FactoryBot.create(:member,
-                       user: user,
-                       project: project,
-                       roles: [FactoryBot.create(:role)])
+                      user: user,
+                      project: project,
+                      roles: [FactoryBot.create(:role)])
   end
   let(:status) do
     FactoryBot.create(:status)
@@ -23,8 +23,8 @@ describe 'Invalid query spec', js: true do
 
   let(:invalid_query) do
     query = FactoryBot.create(:query,
-                               project: project,
-                               user: user)
+                              project: project,
+                              user: user)
 
     query.add_filter('assigned_to_id', '=', [99999])
     query.columns << 'cf_0815'
@@ -37,15 +37,15 @@ describe 'Invalid query spec', js: true do
 
   let(:valid_query) do
     FactoryBot.create(:query,
-                       project: project,
-                       user: user)
+                      project: project,
+                      user: user)
   end
 
   let(:work_package_assigned) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       status: status2,
-                       assigned_to: user)
+                      project: project,
+                      status: status2,
+                      assigned_to: user)
   end
 
   before do

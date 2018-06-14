@@ -26,17 +26,41 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Administering the enumerations
+module API
+  module V3
+    module WorkPackages
+      class ParseParamsService
+        def initialize(user)
+          @current_user = user
+        end
 
-  Scenario: Creating an enumeration
-    Given I am already admin
+        def call(request_body)
+          return {} unless request_body
 
-    When I go to the enumerations page
-    And I create a new enumeration with the following:
-      | type | activity |
-      | name | New enumeration   |
+          parse_attributes(request_body)
+        end
 
-    Then I should be on the enumerations page
-    And I should see the enumeration:
-      | type | activity          |
-      | name | New enumeration   |
+        private
+
+        attr_accessor :current_user
+
+        def parse_attributes(request_body)
+          struct = ParsingStruct.new
+
+          ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
+            .create_class(struct)
+            .new(struct, current_user: current_user)
+            .from_hash(Hash(request_body))
+            .to_h
+            .reverse_merge(lock_version: nil)
+        end
+
+        class ParsingStruct < OpenStruct
+          def available_custom_fields
+            @available_custom_fields ||= WorkPackageCustomField.all.to_a
+          end
+        end
+      end
+    end
+  end
+end

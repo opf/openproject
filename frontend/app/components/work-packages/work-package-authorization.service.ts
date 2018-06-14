@@ -30,15 +30,15 @@
 import {opWorkPackagesModule} from '../../angular-modules';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {StateService} from '@uirouter/core';
-
-var $state:StateService;
-var PathHelper:any;
+import {PathHelperService} from "core-components/common/path-helper/path-helper.service";
 
 export class WorkPackageAuthorization {
 
   public project:any;
 
-  constructor(public workPackage:WorkPackageResource) {
+  constructor(public workPackage:WorkPackageResource,
+              readonly PathHelper:PathHelperService,
+              readonly $state:StateService) {
     this.project = workPackage.project;
   }
 
@@ -50,12 +50,11 @@ export class WorkPackageAuthorization {
   }
 
   public copyLink() {
-    const stateName = $state.current.name as string;
-    if (stateName.indexOf('work-packages.show') === 0) {
-      return PathHelper.workPackageCopyPath(this.workPackage.id);
-    }
-    else if (stateName.indexOf('work-packages.list.details') === 0) {
-      return PathHelper.workPackageDetailsCopyPath(this.project.identifier, this.workPackage.id);
+    const stateName = this.$state.current.name as string;
+    if (stateName.indexOf('work-packages.list.details') === 0) {
+      return this.PathHelper.workPackageDetailsCopyPath(this.project.identifier, this.workPackage.id);
+    } else {
+      return this.PathHelper.workPackageCopyPath(this.workPackage.id);
     }
   }
 
@@ -91,15 +90,3 @@ export class WorkPackageAuthorization {
     return allowed;
   }
 }
-
-function wpAuthorizationService(...args:any[]) {
-  [$state, PathHelper] = args;
-  return WorkPackageAuthorization;
-}
-
-wpAuthorizationService.$inject = [
-  '$state',
-  'PathHelper'
-];
-
-opWorkPackagesModule.factory('WorkPackageAuthorization', wpAuthorizationService);

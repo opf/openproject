@@ -46,4 +46,52 @@ describe ::Type, type: :model do
       expect(Type.enabled_in(project)).to match_array([type])
     end
   end
+
+  describe '.statuses' do
+    let(:subject) { type.statuses }
+
+    context 'when new' do
+      let(:type) { FactoryBot.build(:type) }
+
+      it 'returns an empty relation' do
+        expect(subject).to be_empty
+      end
+    end
+
+    context 'when existing but no statuses' do
+      let(:type) { FactoryBot.create(:type) }
+
+      it 'returns an empty relation' do
+        expect(subject).to be_empty
+      end
+    end
+
+    context 'when existing with workflow' do
+      let(:role) { FactoryBot.create(:role) }
+      let(:statuses) { (1..2).map { |_i| FactoryBot.create(:status) } }
+
+      let!(:type) { FactoryBot.create(:type) }
+      let!(:workflow_a) do
+        FactoryBot.create(:workflow, role_id: role.id,
+                          type_id: type.id,
+                          old_status_id: statuses[0].id,
+                          new_status_id: statuses[1].id,
+                          author: false,
+                          assignee: false)
+      end
+
+      it 'returns the statuses relation' do
+        expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
+      end
+
+      context 'with default status' do
+        let!(:default_status) { FactoryBot.create(:default_status) }
+        let(:subject) { type.statuses(include_default: true) }
+
+        it 'returns the workflow and the default status' do
+          expect(subject.pluck(:id)).to contain_exactly(default_status.id, statuses[0].id, statuses[1].id)
+        end
+      end
+    end
+  end
 end

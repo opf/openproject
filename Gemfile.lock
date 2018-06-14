@@ -40,7 +40,7 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 693fb174fc0c79c8df656840221c571443eddad7
+  revision: a2b97747f7334e159d177a8f1641a0d18a7e26b2
   branch: dev
   specs:
     openproject-translations (7.4.0)
@@ -252,7 +252,7 @@ GEM
       representable (>= 2.4.0, <= 3.1.0)
       uber (< 0.2.0)
     docile (1.3.0)
-    domain_name (0.5.20170404)
+    domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
     equivalent-xml (0.6.0)

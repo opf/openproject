@@ -67,7 +67,7 @@ pt-BR:
     plural: Ações personalizadas
     new: Nova ação personalizada
     edit: Editar ação personalizada %{name}
-    execute: Execute %{name}
+    execute: Executar %{name}
     upsale:
       title: Ações personalizadas são funcionalidades da versão Enterprise Edition
       description: As ações personalizadas simplificam o trabalho diário combinando
@@ -170,7 +170,9 @@ pt-BR:
       form_configuration: Configuração do formulário
       projects: Projetos
       enabled_projects: Projetos habilitados
-      add_group: Adicionar grupo
+      add_group: Adicionar grupo de atributo
+      add_subelements: Adicionar grupo de subelementos
+      edit_query: Editar consulta embutida
       reset: Redefinir para os padrões
   versions:
     overview:
@@ -272,8 +274,8 @@ pt-BR:
       announcements:
         show_until: Exibir até
       attachment:
-        attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_content: Conteúdo anexado
+        attachment_file_name: Nome do arquivo anexado
         downloads: Transferências
         file: Arquivo
         filename: Arquivo
@@ -367,6 +369,7 @@ pt-BR:
         mail_notification: Notificações por e-mail
         new_password: Nova senha
         password_confirmation: Confirmação
+        consented_at: Consentido em
       user_preference:
         comments_sorting: Exibir comentários
         hide_mail: Ocultar meu endereço de e-mail
@@ -378,8 +381,6 @@ pt-BR:
       version:
         effective_date: Prazo
         sharing: Compartilhamento
-      wiki:
-        start_page: Página inicial
       wiki_content:
         text: Texto
       wiki_page:
@@ -392,6 +393,7 @@ pt-BR:
       work_package:
         begin_insertion: Início da inserção
         begin_deletion: Início da exclusão
+        children: Subelementos
         done_ratio: Progresso (%)
         end_insertion: Final da inserção
         end_deletion: Final da exclusão
@@ -448,6 +450,7 @@ pt-BR:
         before_or_equal_to: deve ser antes ou igual a %{date}.
         could_not_be_copied: não pode ser copiado (totalmente).
         regex_invalid: não pode ser validado com a expressão regular associada.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.
@@ -456,8 +459,8 @@ pt-BR:
           empty: "(%{name}) valor não pode ser vazio."
           inclusion: "(%{name}) valor não está definido como um dos valores permitidos."
           not_an_integer: "(%{name}) não é um número inteiro."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          smaller_than_or_equal_to: "(%{name}) deve ser menor ou igual a %{count}."
+          greater_than_or_equal_to: "(%{name}) deve ser maior ou igual a %{count}."
         enterprise_token:
           unreadable: não pode ser lido. Tem certeza que é um token de suporte?
         parse_schema_filter_params_service:
@@ -518,6 +521,8 @@ pt-BR:
             status_id:
               status_transition_invalid: é inválido porque não existe transição válida
                 da antiga para a nova situação para o papel do usuário atual.
+              status_invalid_in_type: é inválido porque não existe a situação atual
+                neste tipo.
             priority_id:
               only_active_priorities_allowed: precisa ser ativo.
             category:
@@ -665,11 +670,13 @@ pt-BR:
   button_close: Fechar
   button_collapse_all: Recolher todos
   button_configure: Configurar
+  button_continue: Continuar
   button_copy: Copiar
   button_copy_and_follow: Copiar e seguir
   button_create: Criar
   button_create_and_continue: Criar e continuar
   button_delete: Excluir
+  button_decline: Recusar
   button_delete_watcher: Excluir observador %{name}
   button_download: Baixar
   button_duplicate: Duplicar
@@ -711,6 +718,23 @@ pt-BR:
   button_add_menu_entry: Adicionar item de menu
   button_configure_menu_entry: Configurar item de menu
   button_delete_menu_entry: Excluir item de menu
+  consent:
+    checkbox_label: Eu observei e concordo com o exposto acima.
+    failure_message: Consentimento falhou, não pode continuar.
+    title: Consentimento do usuário
+    decline_warning_message: Você se recusou a consentir e foi desconectado.
+    user_has_consented: Usuário consentiu no momento determinado.
+    not_yet_consented: Usuário ainda não consentiu, será solicitado no próximo login.
+    contact_mail_instructions: Defina o endereço de e-mail que os usuários devem utilizar
+      para solicitar alteração ou remoção de dados.
+    contact_your_administrator: Por favor, entre em contato com o administrador se
+      quiser ter sua conta excluída.
+    contact_this_mail_address: Por favor, entre em contato com %{mail_address} se
+      quiser ter sua conta excluída.
+    text_update_consent_time: Marque esta caixa para forçar os usuários a consentir
+      novamente. Ative quando você alterar o aspecto legal da informação de consentimento
+      acima.
+    update_consent_last_time: 'Última atualização do consentimento: %{update_time}'
   copy_project:
     started: A cópia de "%{source_project_name}" para "%{target_project_name}" foi
       iniciada. Você será informado por email tão logo "%{target_project_name}" estiver
@@ -941,6 +965,8 @@ pt-BR:
   error_cookie_missing: Está faltando o cookie do OpenProject. Por favor, certifique-se
     de que os cookies estão habilitados, sem os quais esta função não funcionará adequadamente.
   error_custom_option_not_found: A opção não existe.
+  error_dependent_work_package: 'Erro no pacote de trabalho dependente #%{related_id}
+    %{related_subject}: %{error}'
   error_failed_to_delete_entry: Falha ao excluir esta entrada.
   error_invalid_group_by: 'Não é possível agrupar por: %{value}'
   error_invalid_query_column: 'Coluna de consulta inválida: %{value}'
@@ -1001,12 +1027,12 @@ pt-BR:
       pdf_with_descriptions: PDF com descrições
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotext disponível (opcional)
+      unrtf: Unrtf disponível (opcional)
+      catdoc: Catdoc disponível (opcional)
+      xls2csv: Xls2csv disponível (opcional)
+      catppt: Catppt disponível (opcional)
+      tesseract: Tesseract disponível (opcional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1086,6 +1112,7 @@ pt-BR:
   label_all: todos
   label_all_time: todos os tempos
   label_all_words: Todas as palavras
+  label_all_open_wps: Tudo aberto
   label_always_visible: Sempre exibido
   label_announcement: Anúncio
   label_and_its_subprojects: "%{value} e seus subprojetos"
@@ -1127,6 +1154,7 @@ pt-BR:
   label_calendar: Calendário
   label_calendar_show: Mostrar Calendário
   label_category: Categoria
+  label_consent_settings: Consentimento do usuário
   label_wiki_menu_item: Item do menu wiki
   label_select_main_menu_item: Selecione novo item do menu principal
   label_select_project: Selecionar um projeto
@@ -1149,6 +1177,7 @@ pt-BR:
   label_close_versions: Fechar versões concluídas
   label_closed_work_packages: fechado
   label_collapse: Recolher
+  label_collapsed_click_to_show: Recolhido. Clique para expandir
   label_configuration: configuração
   label_comment_add: Adicionar um comentário
   label_comment_added: Comentário adicionado
@@ -1216,11 +1245,13 @@ pt-BR:
   label_enumerations: Enumerações
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
+  label_entry_page: Página de entrada
   label_environment: Ambiente
   label_estimates_and_time: Estimativas e tempo
   label_equals: é
   label_example: Exemplo
   label_export_to: 'Também disponível em:'
+  label_expanded_click_to_collapse: Expandido. Clique para recolher
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} horas"
   label_feed_plural: Feeds
@@ -1250,6 +1281,7 @@ pt-BR:
   label_here: aqui
   label_hide: Ocultar
   label_history: Histórico
+  label_hierarchy_leaf: Folha de hierarquia
   label_home: Início
   label_in: em
   label_in_less_than: em menos de
@@ -1263,6 +1295,7 @@ pt-BR:
   label_information_plural: Informação
   label_integer: Número inteiro
   label_internal: Interno
+  label_introduction_video: Vídeo de introdução
   label_invite_user: Convidar usuário
   label_show_hide: Exibir/ocultar
   label_show_all_registered_users: Mostrar todos usuários registrados
@@ -1325,6 +1358,7 @@ pt-BR:
   label_my_page_block: Meu bloco de página
   label_my_projects: Meus projetos
   label_my_queries: Minhas consultas personalizadas
+  label_never: Nunca
   label_new: Novo
   label_new_statuses_allowed: Novas situações permitidas
   label_news_added: Notícia adicionada
@@ -1349,6 +1383,7 @@ pt-BR:
   label_open_menu: Abrir menu
   label_open_work_packages: aberto
   label_open_work_packages_plural: aberto
+  label_openproject_website: Site do OpenProject
   label_optional_description: Descrição
   label_options: Opções
   label_other: Outro
@@ -1520,7 +1555,7 @@ pt-BR:
   label_version_sharing_none: Não compartilhado
   label_version_sharing_system: Com todos os projetos
   label_version_sharing_tree: Com a árvore de projetos
-  label_video: Vídeo
+  label_videos: Vídeos
   label_view_all_revisions: Ver todas as revisões
   label_view_diff: Ver diferenças
   label_view_revisions: Ver revisões
@@ -1541,6 +1576,7 @@ pt-BR:
   label_wiki_show_menu_item: Mostrar como item de menu de navegação do projeto
   label_wiki_show_new_page_link: Mostrar o item de submenu 'Criar nova página filho'
   label_wiki_show_submenu_item: 'Mostrar como item do submenu de '
+  label_wiki_start: Página inicial
   label_work_package: Pacote de trabalho
   label_work_package_added: Pacote de trabalho adicionado
   label_work_package_attachments: Anexos de pacote de trabalho
@@ -1780,8 +1816,7 @@ pt-BR:
     text_show_again: Você pode reiniciar este vídeo através do menu ajuda
     welcome: Bem-vindo ao OpenProject
   permission_add_work_package_notes: Adicionar anotações
-  permission_add_work_packages: Adicionar pacotes de trabalho (também permite adicionar
-    anexos para todos os pacotes de trabalho)
+  permission_add_work_packages: Adicionar pacotes de trabalho
   permission_add_messages: Postar mensagens
   permission_add_project: Criar Projeto
   permission_add_subprojects: Criar subprojetos
@@ -2042,12 +2077,19 @@ pt-BR:
     de tentativas de login
   setting_brute_force_block_minutes: Tempo que o usuário está bloqueado para
   setting_cache_formatted_text: Texto formatado em cache
+  setting_use_wysiwyg: Editor WYSIWYG
+  setting_use_wysiwyg_description: Selecione para habilitar o CKEditor5 para todos
+    os usuários por padrão. O CKEditor tem funcionalidades limitadas para o GFM Markdown.
   setting_column_options: Personalizar a aparência das listas de pacotes de trabalho
   setting_commit_fix_keywords: Corrigindo palavras chave
   setting_commit_logs_encoding: Codificação das mensagens de commit
   setting_commit_logtime_activity_id: Atividades durante o tempo conectado
   setting_commit_logtime_enabled: Habilitar registro do tempo
   setting_commit_ref_keywords: Palavras-chave de referência
+  setting_consent_time: Data de consentimento
+  setting_consent_info: Texto de informações de consentimento
+  setting_consent_required: Consentimento necessário
+  setting_consent_decline_mail: E-mail de contato do consentimento
   setting_cross_project_work_package_relations: Permitir relações de pacote de trabalho
     entre projetos
   setting_date_format: Formato da data
@@ -2132,7 +2174,7 @@ pt-BR:
   setting_accessibility_mode_for_anonymous: Ativar o modo de acessibilidade para usuários
     anônimos
   setting_user_format: Formato de exibição de usuários
-  setting_user_default_timezone: Users default time zone
+  setting_user_default_timezone: Fuso horário padrão
   setting_users_deletable_by_admins: Contas de usuário podem ser excluídas pelos administradores
   setting_users_deletable_by_self: Usuários podem excluir suas contas
   setting_welcome_text: Texto do bloco de boas-vindas
@@ -2148,7 +2190,10 @@ pt-BR:
     passwords: Senhas
     session: Sessão
     brute_force_prevention: Bloqueio de usuário automatizado
-  show_hide_project_menu: Expandir/Recolher o menu do projeto
+  text_formatting:
+    textile: Textile
+    markdown: Markdown
+    plain: Texto sem formatação
   status_active: ativo
   status_archived: arquivado
   status_invited: convidado
@@ -2206,7 +2251,7 @@ pt-BR:
     de fundo da imagem não é transparente caso contrário vai ficar ruim no iOS.
 
 '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: Banco de dados permite TSVector (opcional)
   text_default_administrator_account_changed: Conta do administrador padrão alterada
   text_default_encoding: 'Padrão: UTF-8'
   text_destroy: Excluir
@@ -2243,7 +2288,7 @@ pt-BR:
   text_journal_aggregation_time_explanation: Combine diários para exibir se a diferença
     de tempo for menor que o intervalo de tempo especificado. Isso também vai atrasar
     as notificações de email pela mesma quantidade de tempo.
-  text_journal_changed: "%{label} changed from %{old} </br><strong>to</strong> %{new}"
+  text_journal_changed: "%{label} alterado de %{old} </br><strong>para</strong> %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
   text_journal_changed_with_diff: "%{label} alterado %{link}"
   text_journal_deleted: "%{label} excluído %{old} "
@@ -2324,10 +2369,6 @@ pt-BR:
       colors: Cores
       project_type: Tipo de projeto
       project_types: Tipo de projeto
-    project_menu:
-      reportings: Relatórios de situação
-      reports: Relatórios de cronograma
-      timelines: Cronogramas
     associations: Dependências
     board_could_not_be_saved: Painel não pôde ser salvo
     button_delete_all: Apagar tudo
@@ -2509,8 +2550,8 @@ pt-BR:
       quarters: Trimestres
       years: Anos
   title_remove_and_delete_user: Remover o usuário convidado do projeto e excluí-lo.
-  tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
-    in a user''s settings.
+  tooltip_user_default_timezone: 'Fuso horário padrão para novos usuários. Pode ser
+    alterado nas configurações do usuário.
 
 '
   tooltip_resend_invitation: 'Envia outro e-mail de convite com um novo token, caso
