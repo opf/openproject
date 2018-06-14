@@ -19,7 +19,11 @@
             "polyfills": "src/polyfills.ts",
             "assets": [],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/at.js/dist/css/jquery.atwho.min.css",
+              "node_modules/jquery-ui/themes/base/core.css",
+              "node_modules/jquery-ui/themes/base/datepicker.css",
+              "node_modules/jquery-ui/themes/base/dialog.css"
             ],
             "scripts": []
           },

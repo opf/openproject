@@ -32,12 +32,6 @@ import {enableReactiveStatesLogging} from "reactivestates";
 // Run the browser detection
 require('expose-loader?bowser!bowser');
 
-// Styles for global dependencies
-require('at.js/dist/css/jquery.atwho.min.css');
-require('jquery-ui/themes/base/core.css');
-require('jquery-ui/themes/base/datepicker.css');
-require('jquery-ui/themes/base/dialog.css');
-
 // Global scripts previously part of the application.js
 var requireGlobals = require.context('./globals/', true, /\.ts$/);
 requireGlobals.keys().forEach(requireGlobals);
