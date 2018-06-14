@@ -42,6 +42,7 @@ import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {WorkPackageEditingService} from './work-package-editing-service';
 import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 
 export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
 export const activeFieldClassName = 'wp-inline-edit--field';
@@ -50,7 +51,7 @@ export class WorkPackageEditForm {
   // Injections
   public states:States = this.injector.get(States);
   public wpCacheService = this.injector.get(WorkPackageCacheService);
-  public wpEditing = this.injector.get(WorkPackageEditingService);
+  public wpEditing = this.injector.get(IWorkPackageEditingServiceToken);
   public wpEditField = this.injector.get(EditFieldService);
   public wpTableRefresh = this.injector.get(WorkPackageTableRefreshService);
   public wpNotificationsService = this.injector.get(WorkPackageNotificationService);
