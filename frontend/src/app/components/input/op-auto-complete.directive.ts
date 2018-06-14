@@ -31,7 +31,7 @@ import {Directive, ElementRef, Input, OnChanges} from "@angular/core";
 import {AutoCompleteHelperService} from "core-components/input/auto-complete-helper.service";
 
 @Directive({
-  selector: '.op-auto-complete, [op-auto-complete]',
+  selector: '[op-auto-complete]',
 })
 export class OpAutoCompleteDirective implements OnChanges {
   @Input() public opAutoCompleteProjectId:string|null|undefined;

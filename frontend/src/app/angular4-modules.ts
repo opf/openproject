@@ -187,7 +187,6 @@ import {RevisionActivityComponent} from "core-components/wp-activity/revision/re
 import {CommentService} from "core-components/wp-activity/comment-service";
 import {WorkPackageCommentComponent} from "core-components/work-packages/work-package-comment/work-package-comment.component";
 import {OpCkeditorFormComponent} from "core-components/ckeditor/op-ckeditor-form.component";
-import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.directive";
 import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload.component";
 import {FocusWithinDirective} from "core-app/modules/common/focus/focus-within.directive";
 import {OpDragScrollDirective} from "core-app/modules/common/ui/op-drag-scroll.directive";
@@ -460,7 +459,6 @@ import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/o
 
     // CkEditor
     OpCkeditorFormComponent,
-    OpAutoCompleteDirective,
   ],
   entryComponents: [
     WorkPackagesBaseComponent,

@@ -67,6 +67,7 @@ import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboar
 import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-toolbar.directive";
 import {RefreshOnFormChangesDirective} from "core-app/modules/common/remote/refresh-on-form-changes.directive";
 import {RemoteFieldUpdaterDirective} from "core-app/modules/common/remote/remote-field-updater.directive";
+import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.directive";
 
 @NgModule({
   imports: [
@@ -91,6 +92,7 @@ import {RemoteFieldUpdaterDirective} from "core-app/modules/common/remote/remote
     FocusDirective,
     AuthoringComponent,
     WorkPackageEditActionsBarComponent,
+    OpAutoCompleteDirective,
 
     // Notifications
     NotificationsContainerComponent,
@@ -110,6 +112,7 @@ import {RemoteFieldUpdaterDirective} from "core-app/modules/common/remote/remote
     CollapsibleSectionComponent,
     RefreshOnFormChangesDirective,
     RemoteFieldUpdaterDirective,
+    WikiToolbarDirective,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -128,6 +131,7 @@ import {RemoteFieldUpdaterDirective} from "core-app/modules/common/remote/remote
     FocusDirective,
     AuthoringComponent,
     WorkPackageEditActionsBarComponent,
+    OpAutoCompleteDirective,
 
     // Notifications
     NotificationsContainerComponent,

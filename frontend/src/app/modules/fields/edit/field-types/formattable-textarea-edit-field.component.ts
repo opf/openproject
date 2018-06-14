@@ -32,12 +32,17 @@ import {ExpressionService} from "../../../../../../common/expression.service";
 
 @Component({
   template: `
-    <div class="textarea-wrapper" ng-class="{'-preview': vm.field.isPreview}">
+    <div class="textarea-wrapper"
+         op-wiki-toolbar
+         (onPreviewToggle)="field.togglePreview()"
+         [ngClass]="{'-preview': field.isPreview}">
       <textarea
         style="min-height: 114px"
+        op-auto-complete
+        [opAutoCompleteProjectId]="handler.project.idFromLink"
         class="focus-input wp-inline-edit--field inplace-edit--textarea -animated"
         name="value"
-        *ngIf="!field.isPreview"
+        [hidden]="field.isPreview"
         [disabled]="field.isBusy || field.inFlight"
         [required]="field.required"
         [(ngModel)]="field.rawValue"
@@ -66,6 +71,6 @@ export class FormattableTextareaEditFieldComponent extends EditFieldComponent {
   public field:FormattableEditField;
 
   public get unEscapedPreviewHtml() {
-    return ExpressionService.unescape(this.field.previewHtml);
+    return ExpressionService.unescape(this.field.previewHtml || '');
   }
 }

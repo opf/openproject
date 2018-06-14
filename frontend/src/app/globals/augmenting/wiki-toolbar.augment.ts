@@ -26,34 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterViewInit, Directive, ElementRef, EventEmitter, OnDestroy, Output} from "@angular/core";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WikiToolbar} from "core-app/globals/augmenting/wiki-toolbar";
 
-@Directive({
-  selector: '[op-wiki-toolbar]'
-})
-export class WikiToolbarDirective implements AfterViewInit, OnDestroy {
-  @Output() onPreviewToggle = new EventEmitter<undefined>();
-  public instance:WikiToolbar;
+(function($:JQueryStatic) {
 
-  constructor(readonly I18n:I18nService,
-              readonly elementRef:ElementRef) {
+  // Identify all uses
+  $(function () {
 
-  }
-
-  ngAfterViewInit() {
-    this.instance = new WikiToolbar(
-      this.I18n,
-      this.elementRef.nativeElement,
-      () => {
-        this.onPreviewToggle.emit();
+    // Wrap all static wiki-toolbars (rendered from backend)
+    $('.wiki-toolbar')
+      .each((i:number, el:HTMLElement) => {
+        new WikiToolbar(I18n, el);
       });
-  }
-
-
-
-  ngOnDestroy() {
-    // nothing to do
-  }
-}
+  });
+}(jQuery));

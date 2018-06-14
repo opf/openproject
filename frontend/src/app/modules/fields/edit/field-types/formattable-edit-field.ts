@@ -50,7 +50,7 @@ export class FormattableEditField extends EditField {
   // Values used in template
   public isBusy:boolean = false;
   public isPreview:boolean = false;
-  public previewHtml:string;
+  public previewHtml:string = '';
   public text = {
     attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
     save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
@@ -163,9 +163,9 @@ export class FormattableEditField extends EditField {
         const link = form.previewMarkup.$link;
 
         this.textileService.render(link, this.rawValue)
-          .then((result:any) => {
+          .then((result:string) => {
             this.isBusy = false;
-            this.previewHtml = result.data;
+            this.previewHtml = result;
           })
           .catch(() => {
             this.isBusy = false;
