@@ -59,14 +59,6 @@ export class WorkPackageCommentField extends FormattableEditField {
     return true;
   }
 
-  public isEmpty():boolean {
-    if (this.ConfigurationService.textFormat() === 'markdown') {
-      return false;
-    } else {
-      return !this.rawValue;
-    }
-  }
-
   public initializeFieldValue(withText?:string):void {
     if (!withText) {
       this.rawValue = '';
