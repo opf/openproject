@@ -85,7 +85,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   }
 
   public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResource) {
-    this.fieldGroup.onSaved(isInitial, savedWorkPackage);
+    this.fieldGroup.stopEditingAndLeave(savedWorkPackage, isInitial);
   }
 
   public requireVisible(fieldName:string):Promise<void> {

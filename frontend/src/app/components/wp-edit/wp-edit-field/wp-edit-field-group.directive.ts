@@ -105,19 +105,6 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const context = new SingleViewEditContext(this.injector, this);
     this.form = WorkPackageEditForm.createInContext(this.injector, context, this.workPackage, this.inEditMode);
-
-    // Stop editing whenever a work package was saved
-    if (this.inEditMode && this.workPackage.isNew) {
-      this.wpCreate.onNewWorkPackage()
-        .pipe(
-          takeUntil(componentDestroyed(this))
-        )
-        .subscribe((wp:WorkPackageResource) => {
-          this.form.editMode = false;
-          this.stopEditingAndLeave(wp, true);
-        });
-    }
-
     this.states.workPackages.get(this.workPackage.id)
       .values$()
       .pipe(
@@ -176,22 +163,11 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     return this.form
       .submit()
       .then((savedWorkPackage) => {
-        this.onSaved(isInitial, savedWorkPackage);
+        this.stopEditingAndLeave(savedWorkPackage, isInitial);
       });
   }
 
-  /**
-   * Handle onSave from form and single view. Since we get a separate event
-   * for new work packages, ignore them and only stop editing on non-new WPs.
-   *
-   */
-  public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResource) {
-    if (!isInitial) {
-      this.stopEditingAndLeave(savedWorkPackage, false);
-    }
-  }
-
-  private stopEditingAndLeave(savedWorkPackage:WorkPackageResource, isInitial:boolean) {
+  public stopEditingAndLeave(savedWorkPackage:WorkPackageResource, isInitial:boolean) {
     this.wpEditing.stopEditing(this.workPackage.id);
 
     if (this.successState) {
