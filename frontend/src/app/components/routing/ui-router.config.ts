@@ -99,10 +99,10 @@ export const OPENPROJECT_ROUTES:StateDeclaration[] = [
     params: {
       // value: null makes the parameter optional
       // squash: true avoids duplicate slashes when the paramter is not provided
-      projectPath: {value: null, squash: true},
-      projects: {value: null, squash: true},
-      query_id: {dynamic: true},
-      query_props: {dynamic: true}
+      projectPath: {type: 'path', value: null, squash: true},
+      projects: {type: 'path', value: null, squash: true},
+      query_id: {type: 'query', dynamic: true},
+      query_props: {type: 'query', dynamic: true, raw: true }
     }
   },
   {
