@@ -50,7 +50,7 @@ export class QueryDmService {
               protected PayloadDm:PayloadDmService) {
   }
 
-  public find(queryData:Object, queryId?:string, projectIdentifier?:string):Promise<QueryResource> {
+  public find(queryData:Object, queryId?:number, projectIdentifier?:string):Promise<QueryResource> {
     let path:string;
 
     if (queryId) {

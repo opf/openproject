@@ -36,7 +36,7 @@ import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.servi
 import {WorkPackageStatesInitializationService} from './wp-states-initialization.service';
 import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
-import {StateService} from '@uirouter/core';
+import {StateParams, StateService} from '@uirouter/core';
 import {WorkPackagesListChecksumService} from 'core-components/wp-list/wp-list-checksum.service';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
@@ -70,19 +70,31 @@ export class WorkPackagesListService {
    * Load a query.
    * The query is either a persisted query, identified by the query_id parameter, or the default query. Both will be modified by the parameters in the query_props parameter.
    */
-  public fromQueryParams(queryParams:any, projectIdentifier ?:string):Promise<QueryResource> {
-    const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(queryParams.query_props);
+  public fromQueryParams(queryParams:{ query_id?:number, query_props?:string }, projectIdentifier ?:string):Promise<QueryResource> {
+    const decodedProps = this.getCurrentQueryProps(queryParams);
+    const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
     const wpListPromise = this.QueryDm.find(queryData, queryParams.query_id, projectIdentifier);
     const promise = this.updateStatesFromQueryOnPromise(wpListPromise);
 
     promise
       .catch((error) => {
-        const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(queryParams.query_props);
+        const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
 
         return this.handleQueryLoadingError(error, queryProps, queryParams.query_id, projectIdentifier);
       });
 
     return this.conditionallyLoadForm(promise);
+  }
+
+  /**
+   * Get the current decoded query props, if any
+   */
+  public getCurrentQueryProps(params:{ query_props?:string }):string|null {
+    if (!!params.query_props) {
+      return decodeURIComponent(params.query_props);
+    }
+
+    return null;
   }
 
   /**
@@ -150,7 +162,7 @@ export class WorkPackagesListService {
   public loadCurrentQueryFromParams(projectIdentifier?:string) {
     this.wpListChecksumService.clear();
     this.loadingIndicator.table.promise =
-      this.fromQueryParams(this.$state.params, projectIdentifier).then(() => {
+      this.fromQueryParams(this.$state.params as any, projectIdentifier).then(() => {
         return this.tableState.rendered.valuesPromise();
       });
   }
@@ -314,7 +326,7 @@ export class WorkPackagesListService {
     }
   }
 
-  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId:number, projectIdentifier?:string) {
+  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:number, projectIdentifier?:string) {
     this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {
