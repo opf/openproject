@@ -114,7 +114,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
 
     # Assignee is synced
     assignee_field = split_view_create.edit_field :assignee
-    assignee_field.expect_value "/api/v3/users/#{assignee.id}"
+    expect(assignee_field.input_element.text).to include('An assignee')
 
     within '.work-packages--edit-actions' do
       click_button 'Save'
