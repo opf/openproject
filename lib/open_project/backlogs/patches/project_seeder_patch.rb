@@ -39,10 +39,10 @@ module OpenProject::Backlogs::Patches::ProjectSeederPatch
   end
 
   module InstanceMethods
-    def seed_versions(project)
+    def seed_versions(project, key)
       super
 
-      versions = I18n.t('seeders.demo_data.project.versions')
+      versions = Array(I18n.t("seeders.demo_data.projects.#{key}")[:versions])
         .map { |data| Version.find_by(name: data[:name]) }
         .compact
 
@@ -58,6 +58,7 @@ module OpenProject::Backlogs::Patches::ProjectSeederPatch
       {
         'Sprint 1'        => VersionSetting::DISPLAY_LEFT,
         'Sprint 2'        => VersionSetting::DISPLAY_LEFT,
+        'Bug Backlog'     => VersionSetting::DISPLAY_RIGHT,
         'Product Backlog' => VersionSetting::DISPLAY_RIGHT,
         'Wish List'       => VersionSetting::DISPLAY_RIGHT
       }
