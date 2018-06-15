@@ -10,6 +10,7 @@ import {OpModalService} from "../../components/op-modals/op-modal.service";
 import {HelpTextDmService} from "../hal/dm-services/help-text-dm.service";
 import {AttributeHelpTextsService} from "../common/help-texts/attribute-help-text.service";
 import {AttributeHelpTextModal} from "../common/help-texts/attribute-help-text.modal";
+import {DynamicContentModal} from "../../components/modals/modal-wrapper/dynamic-content.modal";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -39,7 +40,8 @@ export class OpenProjectPluginContext {
   public readonly classes = {
     modals: {
       passwordConfirmation: PasswordConfirmationModal,
-      attributeHelpTexts: AttributeHelpTextModal
+      attributeHelpTexts: AttributeHelpTextModal,
+      dynamicContent: DynamicContentModal
     }
   };
 
