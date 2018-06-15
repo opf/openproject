@@ -102,8 +102,6 @@ export class FormattableEditField extends EditField {
           this.reset();
         }
 
-        this.AutoCompleteHelper.enableTextareaAutoCompletion(jQuery(element), this.resource.project.id);
-
         setTimeout(() => editor.editing.view.focus());
       })
       .catch((error:any) => {
