@@ -44,10 +44,8 @@ See docs/COPYRIGHT.rdoc for more details.
           <% elsif Setting.self_registration? %>
             <%# show here if autologin is disabled, otherwise below lost_password link %>
               <%= link_to t(:label_register),
-                '',
-                title: t(:label_register),
-                class: 'modal-wrapper--activation-link',
-                id: 'registration-modal--activation-link' %>
+                account_register_path,
+                title: t(:label_register) %>
           <% end %>
         </div>
       </div>
@@ -65,10 +63,8 @@ See docs/COPYRIGHT.rdoc for more details.
             <%# show here if autologin is enabled, otherwise below login field %>
             <%= '<br>'.html_safe if Setting.lost_password? %>
             <%= link_to t(:label_register),
-                  '',
-                  title: t(:label_register),
-                  class: 'modal-wrapper--activation-link',
-                  id: 'autologin-registration-modal--activation-link' %>
+                  account_register_path,
+                  title: t(:label_register) %>
           <% end %>
         </div>
       </div>
@@ -84,10 +80,4 @@ See docs/COPYRIGHT.rdoc for more details.
 
     <%= render partial: 'account/auth_providers' %>
   <% end %>
-
-  <modal-wrapper activation-link-id="'#registration-modal--activation-link, #autologin-registration-modal--activation-link'"
-                 modal-class-name="registration-modal modal-wrapper">
-    <% @user ||= User.new %>
-    <%= render partial: '/account/register' %>
-  </modal-wrapper>
 </div>
