@@ -35,10 +35,11 @@ import {WorkPackageEditingService} from "../../../../components/wp-edit-form/wor
 import {componentDestroyed} from "ng2-rx-componentdestroyed";
 import {takeUntil} from "rxjs/internal/operators";
 import {EditFieldComponent} from "../edit-field.component";
+import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
 export interface ValueOption {
   name:string;
-  href:string | null;
+  $href:string | null;
 }
 
 @Component({
@@ -51,6 +52,7 @@ export class SelectEditFieldComponent extends EditFieldComponent {
   public text:{ requiredPlaceholder:string, placeholder:string };
 
   public halSorting:HalResourceSortingService;
+  public compareByHref = AngularTrackingHelpers.compareByHref;
 
   protected initialize() {
     this.halSorting = this.injector.get(HalResourceSortingService);
@@ -72,17 +74,17 @@ export class SelectEditFieldComponent extends EditFieldComponent {
   }
 
   public get selectedOption() {
-    const href = this.field.value ? this.value.href : null;
-    return _.find(this.valueOptions, o => o.href === href)!;
+    const href = this.field.value ? this.value.$href : null;
+    return _.find(this.valueOptions, o => o.$href === href)!;
   }
 
   public set selectedOption(val:ValueOption) {
-    let option = _.find(this.options, o => o.href === val.href);
+    let option = _.find(this.options, o => o.$href === val.$href);
 
     // Special case 'null' value, which angular
     // only understands in ng-options as an empty string.
-    if (option && option.href === '') {
-      option.href = null;
+    if (option && option.$href === '') {
+      option.$href = null;
     }
 
     this.value = option;
@@ -92,13 +94,13 @@ export class SelectEditFieldComponent extends EditFieldComponent {
     this.options = this.halSorting.sort(availableValues);
     this.addEmptyOption();
     this.valueOptions = this.options.map(el => {
-      return {name: el.name, href: el.href};
+      return {name: el.name, $href: el.$href};
     });
   }
 
   public get currentValueInvalid():boolean {
     return !!(
-      (this.value && !_.some(this.options, (option:HalResource) => (option.href === this.value.href)))
+      (this.value && !_.some(this.options, (option:HalResource) => (option.$href === this.value.$href)))
       ||
       (!this.value && this.schema.required)
     );
@@ -116,7 +118,7 @@ export class SelectEditFieldComponent extends EditFieldComponent {
     if (emptyOption === undefined) {
       this.options.unshift({
         name: this.text.placeholder,
-        href: ''
+        $href: ''
       });
     }
   }

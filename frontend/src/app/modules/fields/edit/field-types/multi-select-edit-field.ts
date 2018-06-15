@@ -58,7 +58,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   ngOnInit() {
     this.isMultiselect = this.isValueMulti();
 
-    this.nullOption = { name: this.text.placeholder, href: null };
+    this.nullOption = { name: this.text.placeholder, $href: null };
 
     if (Array.isArray(this.schema.allowedValues)) {
       this.setValues(this.schema.allowedValues);
@@ -123,12 +123,12 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     this._selectedOption = val;
     let selected:any;
     let mapper = (val:ValueOption) => {
-      let option = _.find(this.options, o => o.href === val.href) || this.nullOption;
+      let option = _.find(this.options, o => o.$href === val.$href) || this.nullOption;
 
       // Special case 'null' value, which angular
       // only understands in ng-options as an empty string.
-      if (option && option.href === '') {
-        option.href = null;
+      if (option && option.$href === '') {
+        option.$href = null;
       }
 
       return option;
@@ -158,7 +158,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     let result;
 
     if (option) {
-      result = _.find(this.valueOptions, (valueOption) => valueOption.href === option.href)!;
+      result = _.find(this.valueOptions, (valueOption) => valueOption.$href === option.$href)!;
     }
 
     return result || this.nullOption;
@@ -176,7 +176,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     this.options = availableValues;
     this.addEmptyOption();
     this.valueOptions = this.options.map(el => {
-      return { name: el.name, href: el.href };
+      return { name: el.name, $href: el.$href };
     });
     this._selectedOption = this.buildSelectedOption();
     this.checkCurrentValueValidity();
@@ -189,10 +189,10 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
         // MultiSelect AND there is no value which href is not in the options hrefs OR
         // SingleSelect AND the given values href is not within the options hrefs
         (this.isMultiselect && !_.some(this.value, (value:HalResource) => {
-          return _.some(this.options, (option) => (option.href === value.href))
+          return _.some(this.options, (option) => (option.$href === value.$href))
         })) ||
         (!this.isMultiselect && !_.some(this.options,
-          (option) => (option.href === this.value.href)))
+          (option) => (option.$href === this.value.$href)))
       );
     }
     else {
