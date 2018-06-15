@@ -43,10 +43,11 @@ See docs/COPYRIGHT.rdoc for more details.
            value="<%= @instructions.checkout_url(true) %>"
            readonly>
     <% csp_onclick('this.focus(); this.select();', '#repository-checkout-url') %>
-    <button class="toolbar-input--affix toolbar-input-group--affix -append"
-            title="<%= l(:label_copy_to_clipboard) %>"
-            copy-to-clipboard
-            clipboard-target="#repository-checkout-url">
+    <copy-to-clipboard click-target=".repository-checkout-copy-button"
+                       clipboard-target="#repository-checkout-url">
+    </copy-to-clipboard>
+    <button class="repository-checkout-copy-button toolbar-input--affix toolbar-input-group--affix -append"
+            title="<%= l(:label_copy_to_clipboard) %>">
       <%= op_icon('icon-copy') %>
       <span class="hidden-for-sighted"><%= l(:label_copy_to_clipboard) %></span>
     </button>

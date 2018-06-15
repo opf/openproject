@@ -160,6 +160,7 @@ import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.di
     AddSectionDropdownComponent,
     HideSectionComponent,
     HideSectionLinkComponent,
+    CopyToClipboardDirective,
     NotificationsContainerComponent
   ],
   providers: [

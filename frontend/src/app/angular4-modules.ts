@@ -206,6 +206,7 @@ import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.s
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 import {AttributeHelpTextModal} from "./modules/common/help-texts/attribute-help-text.modal";
+import {CopyToClipboardDirective} from 'core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive';
 
 @NgModule({
   imports: [
@@ -547,7 +548,8 @@ export class OpenProjectModule {
       { tagName: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent  },
       { tagName: 'notifications-container', cls: NotificationsContainerComponent  },
       { tagName: 'wp-embedded-table', cls: WorkPackageEmbeddedTableComponent },
-      { tagName: 'op-ckeditor-form', cls: OpCkeditorFormComponent }
+      { tagName: 'op-ckeditor-form', cls: OpCkeditorFormComponent },
+      { tagName: 'copy-to-clipboard', cls: CopyToClipboardDirective },
     );
   }
 }
