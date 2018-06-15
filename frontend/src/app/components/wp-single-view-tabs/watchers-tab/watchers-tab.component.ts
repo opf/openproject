@@ -83,7 +83,7 @@ export class WorkPackageWatchersTabComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(componentDestroyed(this))
       )
-      .subscribe((wp) => {
+      .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
         this.loadCurrentWatchers();
       });
