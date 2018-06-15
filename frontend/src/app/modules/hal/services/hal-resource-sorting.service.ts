@@ -65,6 +65,10 @@ export class HalResourceSortingService {
     }
 
     const halType = type || elements[0]._type;
+    if (!halType) {
+      return elements;
+    }
+
     const property = this.sortingProperty(halType);
     if (property) {
       return _.sortBy<T>(elements, v => v[property].toLowerCase());

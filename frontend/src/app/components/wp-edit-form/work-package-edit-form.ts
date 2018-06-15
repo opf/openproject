@@ -67,7 +67,6 @@ export class WorkPackageEditForm {
 
   // Subscribe to changes to the temporary edit form
   protected wpSubscription:Subscription;
-  protected resourceSubscription:Subscription;
 
   public static createInContext(injector:Injector,
                                 editContext:WorkPackageEditContext,
@@ -88,15 +87,6 @@ export class WorkPackageEditForm {
       .values$()
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
-      });
-
-    this.resourceSubscription = this.wpEditing.temporaryEditResource(workPackage.id)
-      .values$()
-      .subscribe(() => {
-        if (!this.changeset.empty) {
-          debugLog('Refreshing active edit fields after form update.');
-          _.each(this.activeFields, (_handler, name) => this.refresh(name));
-        }
       });
   }
 
@@ -128,23 +118,6 @@ export class WorkPackageEditForm {
             .then(resolve)
             .catch(reject);
         });
-    });
-  }
-
-  /**
-   * Refreshes an active field
-   * @param {string} fieldName
-   * @return {Promise<any>}
-   */
-  public refresh(fieldName:string) {
-    const handler = this.activeFields[fieldName];
-    if (!handler) {
-      debugLog(`Trying to refresh ${fieldName}, but is not an active field.`);
-      return undefined;
-    }
-
-    return this.buildField(fieldName).then((field:EditField) => {
-      this.editContext.refreshField(field, handler);
     });
   }
 
@@ -222,7 +195,6 @@ export class WorkPackageEditForm {
    */
   public destroy() {
     // Unsubscribe changes
-    this.resourceSubscription.unsubscribe();
     this.wpSubscription.unsubscribe();
 
     // Kill all active fields

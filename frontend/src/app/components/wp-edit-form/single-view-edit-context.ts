@@ -74,10 +74,6 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     });
   }
 
-  public refreshField(field:EditField, handler:WorkPackageEditFieldHandler) {
-    handler.field = field;
-  }
-
   public async reset(workPackage:WorkPackageResource, fieldName:string, focus:boolean = false) {
     const ctrl = await this.fieldCtrl(fieldName);
     ctrl.reset(workPackage);

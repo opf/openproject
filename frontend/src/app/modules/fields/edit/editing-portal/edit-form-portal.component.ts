@@ -30,6 +30,9 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
   public editField:EditField;
   public fieldInjector:Injector;
 
+  public htmlId:string;
+  public label:string;
+
   constructor(readonly injector:Injector,
               readonly elementRef:ElementRef) {
   }

@@ -27,17 +27,18 @@
 // ++
 
 import {StateService} from '@uirouter/core';
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
 
 @Component({
   selector: 'wp-create-button',
   templateUrl: './wp-create-button.html'
 })
-export class WorkPackageCreateButtonComponent {
-  @Input('projectIdentifier') projectIdentifier:string;
+export class WorkPackageCreateButtonComponent implements OnInit {
   @Input('stateName') stateName:string;
   @Input('allowed') allowed:boolean;
+  public projectIdentifier:string|null;
   public types:any;
 
   public text = {
@@ -47,10 +48,12 @@ export class WorkPackageCreateButtonComponent {
   };
 
   constructor(readonly $state:StateService,
+              readonly currentProject:CurrentProjectService,
               readonly I18n:I18nService) {
   }
 
-  public $onInit() {
+  public ngOnInit() {
+    this.projectIdentifier = this.currentProject.identifier;
     // Created for interface compliance
   }
 

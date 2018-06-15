@@ -37,11 +37,6 @@ export interface WorkPackageEditContext {
   activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler>;
 
   /**
-   * Refresh an open field template, replacing its edit field.
-   */
-  refreshField(field:EditField, handler:WorkPackageEditFieldHandler):void;
-
-  /**
    * Show this required field. E.g., add the necessary column
    */
   requireVisible(fieldName:string):Promise<void>;

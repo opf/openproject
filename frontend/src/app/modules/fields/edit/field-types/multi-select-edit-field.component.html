@@ -15,13 +15,16 @@
     <option
         value=""
         [textContent]="text.requiredPlaceholder"
+        [attr.label]="text.requiredPlaceholder"
         *ngIf="currentValueInvalid || options.length == 0"
         [selected]="currentValueInvalid || options.length == 0"
+        [attr.selected]="currentValueInvalid || options.length == 0 || undefined"
         disabled>
     </option>
     <option
         *ngFor="let value of valueOptions"
         [ngValue]="value"
+        [attr.label]="value.name"
         [textContent]="value.name">
     </option>
   </select>
@@ -43,12 +46,14 @@
         value=""
         [textContent]="text.requiredPlaceholder"
         *ngIf="currentValueInvalid || options.length == 0"
+        [attr.label]="text.requiredPlaceholder"
         [selected]="currentValueInvalid || options.length == 0"
         disabled>
     </option>
     <option
         *ngFor="let value of valueOptions"
         [ngValue]="value"
+        [attr.label]="value.name"
         [textContent]="value.name">
     </option>
   </select>

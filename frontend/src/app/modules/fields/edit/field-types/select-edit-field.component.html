@@ -12,12 +12,14 @@
       [ngValue]="undefined"
       [textContent]="text.requiredPlaceholder"
       [attr.selected]="currentValueInvalid || undefined"
+      [attr.label]="text.requiredPlaceholder"
       *ngIf="currentValueInvalid"
       disabled>
   </option>
   <option
       *ngFor="let value of valueOptions"
       [attr.selected]="compareByHref(selectedOption, value) || undefined"
+      [attr.label]="value.name"
       [ngValue]="value"
       [textContent]="value.name">
   </option>
