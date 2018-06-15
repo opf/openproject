@@ -22,8 +22,7 @@
     <option
         *ngFor="let value of valueOptions"
         [ngValue]="value"
-        [textContent]="value.name"
-        disabled>
+        [textContent]="value.name">
     </option>
   </select>
 
@@ -36,7 +35,7 @@
       [disabled]="field.inFlight"
       [id]="handler.htmlId"
       (keydown)="handler.handleUserKeydown($event, true)"
-      (change)="handler.handleUserSubmit()"
+      (change)="submitOnSingleSelect()"
       multiple
       size=5
   >
@@ -50,13 +49,12 @@
     <option
         *ngFor="let value of valueOptions"
         [ngValue]="value"
-        [textContent]="value.name"
-        disabled>
+        [textContent]="value.name">
     </option>
   </select>
 
   <a href class="wp-inline-edit--toggle-multiselect form-label no-decoration-on-hover -transparent"
-     ng-click="vm.field.toggleMultiselect()">
+     (click)="toggleMultiselect()">
     <op-icon *ngIf="isMultiselect"
              icon-classes="icon-minus2 icon4"
              [icon-title]="text.switch_to_single_select"></op-icon>

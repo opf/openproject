@@ -29,7 +29,7 @@
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
@@ -37,7 +37,7 @@ import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 @Component({
   templateUrl: './multi-select-edit-field.component.html'
 })
-export class MultiSelectEditFieldComponent extends EditFieldComponent {
+export class MultiSelectEditFieldComponent extends EditFieldComponent implements OnInit {
   readonly I18n:I18nService = this.injector.get(I18nService);
   public options:any[];
   public valueOptions:ValueOption[];
@@ -55,7 +55,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent {
   private nullOption:ValueOption;
   private _selectedOption:ValueOption|ValueOption[];
 
-  protected initialize() {
+  ngOnInit() {
     this.isMultiselect = this.isValueMulti();
 
     this.nullOption = { name: this.text.placeholder, href: null };
@@ -146,6 +146,12 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent {
   public toggleMultiselect() {
     this.isMultiselect = !this.isMultiselect;
     this._selectedOption = this.buildSelectedOption();
+  }
+
+  public submitOnSingleSelect() {
+    if (!this.isMultiselect) {
+      this.handler.handleUserSubmit();
+    }
   }
 
   private findValueOption(option?:HalResource):ValueOption {
