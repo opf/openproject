@@ -106,11 +106,11 @@ describe 'custom field inplace editor', js: true do
                                 :"customField#{custom_field2.id}" => 'Y'
 
       field1.activate!
-      field1.expect_value("/api/v3/custom_options/#{custom_value('bar')}")
+      expect(field1.input_element.text).to include('bar')
       field1.cancel_by_escape
 
       field2.activate!
-      field2.expect_value("/api/v3/custom_options/#{custom_value('Y')}")
+      expect(field2.input_element.text).to include('Y')
       expect_update 'X',
                     message: I18n.t('js.notice_successful_update'),
                     field: field2
