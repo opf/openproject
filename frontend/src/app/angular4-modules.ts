@@ -544,7 +544,8 @@ export class OpenProjectModule {
       { tagName: 'work-packages-base', cls: WorkPackagesBaseComponent  },
       { tagName: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent  },
       { tagName: 'notifications-container', cls: NotificationsContainerComponent  },
-      { tagName: 'wp-embedded-table', cls: WorkPackageEmbeddedTableComponent }
+      { tagName: 'wp-embedded-table', cls: WorkPackageEmbeddedTableComponent },
+      { tagName: 'op-ckeditor-form', cls: OpCkeditorFormComponent }
     );
   }
 }

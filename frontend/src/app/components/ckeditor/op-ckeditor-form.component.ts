@@ -75,6 +75,9 @@ export class OpCkeditorFormComponent implements OnInit {
   public ngOnInit() {
     const $element = jQuery(this.elementRef.nativeElement);
 
+    // Parse the attribute explicitly since this is likely a bootstrapped element
+    this.textareaSelector = this.elementRef.nativeElement.getAttribute('textarea-selector');
+
     this.formElement = $element.closest('form');
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
     this.wrappedTextArea.hide();
