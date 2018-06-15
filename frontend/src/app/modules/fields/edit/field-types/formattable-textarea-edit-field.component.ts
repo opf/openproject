@@ -40,7 +40,7 @@ import {ExpressionService} from "../../../../../../common/expression.service";
         style="min-height: 114px"
         #textAreaField
         op-auto-complete
-        [opAutoCompleteProjectId]="handler.project.idFromLink"
+        [opAutoCompleteProjectId]="handler.project && handler.project.idFromLink"
         class="focus-input wp-inline-edit--field inplace-edit--textarea -animated"
         name="value"
         [hidden]="field.isPreview"
