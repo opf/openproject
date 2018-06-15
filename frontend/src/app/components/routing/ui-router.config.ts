@@ -201,6 +201,9 @@ export function initializeUiRouterConfiguration(injector:Injector) {
     const stateRegistry:StateRegistry = injector.get(StateRegistry);
     const urlService:UrlService = injector.get(UrlService);
 
+    // Allow optional trailing slashes
+    urlService.config.strictMode(false);
+
     // Register routes in this initializer instead forRoot({states: ...}) due to AOT
     _.each(OPENPROJECT_ROUTES, route => {
       stateRegistry.register(route);
