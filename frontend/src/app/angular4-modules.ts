@@ -543,7 +543,8 @@ export class OpenProjectModule {
       { tagName: 'main-menu-toggle', cls: MainMenuToggleComponent  },
       { tagName: 'work-packages-base', cls: WorkPackagesBaseComponent  },
       { tagName: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent  },
-      { tagName: 'notifications-container', cls: NotificationsContainerComponent  }
+      { tagName: 'notifications-container', cls: NotificationsContainerComponent  },
+      { tagName: 'wp-embedded-table', cls: WorkPackageEmbeddedTableComponent }
     );
   }
 }
