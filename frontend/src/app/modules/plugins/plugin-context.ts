@@ -7,6 +7,9 @@ import {ExternalQueryConfigurationService} from "core-components/wp-table/extern
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PasswordConfirmationModal} from "../../components/modals/request-for-confirmation/password-confirmation.modal";
 import {OpModalService} from "../../components/op-modals/op-modal.service";
+import {HelpTextDmService} from "../hal/dm-services/help-text-dm.service";
+import {AttributeHelpTextsService} from "../common/help-texts/attribute-help-text.service";
+import {AttributeHelpTextModal} from "../common/help-texts/attribute-help-text.modal";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -27,13 +30,16 @@ export class OpenProjectPluginContext {
     hooks: this.injector.get<HookService>(HookService),
     i18n: this.injector.get<I18nService>(I18nService),
     notifications: this.injector.get<NotificationsService>(NotificationsService),
-    opModalService: this.injector.get<OpModalService>(OpModalService)
+    opModalService: this.injector.get<OpModalService>(OpModalService),
+    helpTextDm: this.injector.get<HelpTextDmService>(HelpTextDmService),
+    attributeHelpTexts: this.injector.get<AttributeHelpTextsService>(AttributeHelpTextsService)
   };
 
   // Random collection of classes needed outside of angular
   public readonly classes = {
     modals: {
-      passwordConfirmation: PasswordConfirmationModal
+      passwordConfirmation: PasswordConfirmationModal,
+      attributeHelpTexts: AttributeHelpTextModal
     }
   };
 

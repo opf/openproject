@@ -58,7 +58,6 @@ export class RequestForConfirmationController {
   public openConfirmationDialog() {
     const confirmModal = this.opModalService.show(this.passwordConfirmationModal);
     confirmModal.openingEvent.subscribe((modal:any) => {
-      console.log('open event');
       setTimeout(() => {
         //HACK: need to trigger an angular digest in order to have the
         //modal template be evaluated. Without it, the onInit will not be run.

@@ -205,6 +205,7 @@ import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.se
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
+import {AttributeHelpTextModal} from "./modules/common/help-texts/attribute-help-text.modal";
 
 @NgModule({
   imports: [
@@ -519,6 +520,7 @@ import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/o
     SaveQueryModal,
     RenameQueryModal,
     WpDestroyModal,
+    AttributeHelpTextModal,
 
     // External query configuration
     ExternalQueryConfigurationComponent,
