@@ -30,6 +30,7 @@
 
 class WorkPackages::UpdateService
   include ::WorkPackages::Shared::UpdateAncestors
+  include ::WorkPackages::Shared::UpdateFollowers
   include ::Shared::ServiceContext
 
   attr_accessor :user,
@@ -61,6 +62,12 @@ class WorkPackages::UpdateService
     if save_if_valid(result)
       update_ancestors([work_package]).each do |ancestor_result|
         result.merge!(ancestor_result)
+      end
+    end
+
+    if result.success?
+      update_followers([work_package]).each do |follower_result|
+        result.merge!(follower_result)
       end
     end
 

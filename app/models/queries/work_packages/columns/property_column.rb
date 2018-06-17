@@ -141,6 +141,12 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     created_at: {
       sortable: "#{WorkPackage.table_name}.created_at",
       default_order: 'desc'
+    },
+    blocked_by_predecessors: {
+      association: 'blocked_by_predecessors',
+      sortable: "#{WorkPackage.table_name}.blocked_by_predecessors",
+      default_order: 'asc',
+      groupable: true
     }
   }
 

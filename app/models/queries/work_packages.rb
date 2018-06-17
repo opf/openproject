@@ -51,6 +51,7 @@ module Queries::WorkPackages
   register.filter Query, filters_module::RoleFilter
   register.filter Query, filters_module::StartDateFilter
   register.filter Query, filters_module::StatusFilter
+  register.filter Query, filters_module::BlockedByPredecessorsFilter
   register.filter Query, filters_module::SubjectFilter
   register.filter Query, filters_module::SubprojectFilter
   register.filter Query, filters_module::TypeFilter

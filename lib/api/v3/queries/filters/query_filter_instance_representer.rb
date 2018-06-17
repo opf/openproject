@@ -109,8 +109,7 @@ module API
                       end
                     },
                     getter: ->(*) {
-                      if represented.respond_to?(:custom_field) &&
-                         represented.custom_field.field_format == 'bool'
+                      if represented.type == :boolean
                         represented.values.map do |value|
                           value == OpenProject::Database::DB_VALUE_TRUE
                         end
@@ -140,8 +139,7 @@ module API
           end
 
           def set_property_values(vals)
-            represented.values = if represented.respond_to?(:custom_field) &&
-                                    represented.custom_field.field_format == 'bool'
+            represented.values = if represented.type == :boolean
                                    vals.map do |value|
                                      if value
                                        OpenProject::Database::DB_VALUE_TRUE

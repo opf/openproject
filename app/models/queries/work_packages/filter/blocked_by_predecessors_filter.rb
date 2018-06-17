@@ -28,52 +28,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackages::DestroyService
-  include ::WorkPackages::Shared::UpdateAncestors
-  include ::WorkPackages::Shared::UpdateFollowers
-  include ::Shared::ServiceContext
+class Queries::WorkPackages::Filter::BlockedByPredecessorsFilter <
+    Queries::WorkPackages::Filter::WorkPackageFilter
 
-  attr_accessor :user, :work_package
-
-  def initialize(user:, work_package:)
-    self.user = user
-    self.work_package = work_package
+  def allowed_values
+    [
+      [I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
+      [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]
+    ]
   end
 
-  def call
-    in_context(true) do
-      destroy
-    end
+  def type
+    :boolean
   end
 
-  private
-
-  def destroy
-    result = ServiceResult.new success: true,
-                               result: work_package
-
-    # TODO: special case for delete!
-    # BUG: There is a bug right now: when deleting a WP, the progress
-    #      of ancestors packages doesn't change
-
-    update_ancestors_all_attributes([work_package]).each do |ancestor_result|
-      result.merge!(ancestor_result)
-    end
-
-    update_followers_after_delete([work_package]).each do |followers_result|
-      result.merge!(followers_result)
-    end
-
-    descendants = work_package.precedes
-    result.success &&= work_package.destroy
-    destroy_descendants(descendants, result)
-
-    result
+  def order
+    2
   end
 
-  def destroy_descendants(descendants, result)
-    descendants.each do |descendant|
-      result.add_dependent!(ServiceResult.new(success: descendant.destroy, result: descendant))
-    end
+  def available?
+    true
+  end
+
+  def ar_object_filter?
+    false
+  end
+
+  def self.key
+    :blocked_by_predecessors
+  end
+
+  def type_strategy
+    @type_strategy ||= ::Queries::Filters::Strategies::BooleanList.new(self)
   end
 end

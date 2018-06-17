@@ -30,6 +30,7 @@
 
 class WorkPackages::CreateService
   include ::WorkPackages::Shared::UpdateAncestors
+  include ::WorkPackages::Shared::UpdateFollowers
   include ::Shared::ServiceContext
 
   attr_accessor :user,
@@ -67,6 +68,11 @@ class WorkPackages::CreateService
       update_ancestors_all_attributes(result.all_results).each do |ancestor_result|
         result.merge!(ancestor_result)
       end
+
+      update_followers_all_attributes(result.all_results).each do |followers_result|
+        result.merge!(followers_result)
+      end
+
     else
       result.success = false
     end

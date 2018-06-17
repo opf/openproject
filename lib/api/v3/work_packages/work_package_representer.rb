@@ -396,6 +396,8 @@ module API
                  },
                  uncacheable: true
 
+        property :blocked_by_predecessors
+
         property :done_ratio,
                  as: :percentageDone,
                  render_nil: true,

@@ -610,6 +610,7 @@ en:
     author: "Author"
     base: "General Error:"
     blocks_ids: "IDs of blocked work packages"
+    blocked_by_predecessors: "Blocked by predecessors"
     category: "Category"
     comment: "Comment"
     comments: "Comment"
@@ -2461,6 +2462,10 @@ en:
   work_package:
     updated_automatically_by_child_changes: |
         _Updated automatically by changing values within child work package %{child}_
+    blocked_by_predecessor_status_changes: |
+        _Blocked automatically by changing status of preceding work package %{predecessor}_
+    unblocked_by_predecessor_status_changes: |
+        _Unblocked automatically by changing status of preceding work package %{predecessor}_
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"

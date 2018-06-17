@@ -31,6 +31,7 @@ require 'api/v3/relations/relation_collection_representer'
 
 require 'relations/create_service'
 require 'relations/update_service'
+require 'relations/destroy_service'
 
 module API
   module V3
@@ -83,8 +84,15 @@ module API
 
               authorize :manage_work_package_relations, context: project
 
-              Relation.destroy params[:id]
-              status 204
+              relation = Relation.find params[:id]
+              service = ::Relations::DestroyService.new user: current_user
+              call = service.call relation, send_notifications: (params[:notify] != 'false')
+
+              if call.success?
+                status 204
+              else
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+              end
             end
           end
         end

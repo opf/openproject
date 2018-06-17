@@ -150,6 +150,12 @@ module API
                  show_if: ->(*) { Setting.work_package_done_ratio != 'disabled' },
                  required: false
 
+          schema :blocked_by_predecessors,
+                 type: 'Boolean',
+                 name_source: :blocked_by_predecessors,
+                 required: false,
+                 writable: false
+
           schema :created_at,
                  type: 'DateTime'
 

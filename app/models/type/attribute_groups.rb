@@ -48,7 +48,8 @@ module Type::AttributeGroups
         responsible: :people,
         estimated_time: :estimates_and_time,
         spent_time: :estimates_and_time,
-        priority: :details
+        priority: :details,
+        blocked_by_predecessors: :details
       }
     end
 

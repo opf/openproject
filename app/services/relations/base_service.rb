@@ -41,8 +41,11 @@ class Relations::BaseService
   private
 
   def update_relation(relation, attributes)
-    relation.attributes = relation.attributes.merge attributes
 
+    # NOTE: in the current implementation of frontend, the used cannot change
+    #       the type of the relation. So we do *not* handle that case here!
+
+    relation.attributes = relation.attributes.merge attributes
     success, errors = validate_and_save relation
 
     result = ServiceResult.new success: success, errors: errors, result: relation
@@ -50,6 +53,18 @@ class Relations::BaseService
     if success && relation.follows?
       reschedule_result = reschedule(relation)
       result.merge!(reschedule_result)
+    end
+
+    if success && relation.follows?
+      new_predecessor = WorkPackage.find(relation.to_id)
+
+      if !new_predecessor.closed?
+        new_follower = WorkPackage.find(relation.from_id)
+        new_follower.blocked_by_predecessors = true
+        success, errors = validate_and_save new_follower
+        follower_result = ServiceResult.new success: success, errors: errors, result: new_follower
+        result.merge!(follower_result)
+      end
     end
 
     result

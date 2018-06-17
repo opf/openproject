@@ -186,6 +186,20 @@ class WorkPackage < ActiveRecord::Base
       .exists?
   end
 
+  def has_open_predecessors?
+    follows
+      .with_status_open
+      .exists?
+  end
+
+  def blocked_by_predecessors
+    read_attribute :blocked_by_predecessors
+  end
+
+  def blocked_by_predecessors=(v)
+    write_attribute :blocked_by_predecessors, v
+  end
+
   def relations
     Relation.of_work_package(self)
   end

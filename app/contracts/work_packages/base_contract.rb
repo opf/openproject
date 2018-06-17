@@ -53,6 +53,9 @@ module WorkPackages
     attribute :lock_version
     attribute :project_id
 
+    attribute :blocked_by_predecessors,
+              writable: false
+
     attribute :done_ratio,
               writeable: ->(*) {
                 model.leaf? && Setting.work_package_done_ratio == 'field'

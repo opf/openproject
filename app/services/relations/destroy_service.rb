@@ -28,52 +28,39 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackages::DestroyService
-  include ::WorkPackages::Shared::UpdateAncestors
-  include ::WorkPackages::Shared::UpdateFollowers
-  include ::Shared::ServiceContext
+class Relations::DestroyService < Relations::BaseService
+  self.contract = Relations::UpdateContract # reuse udpate contract!
 
-  attr_accessor :user, :work_package
-
-  def initialize(user:, work_package:)
-    self.user = user
-    self.work_package = work_package
+  def initialize(user:)
+    @user = user
   end
 
-  def call
-    in_context(true) do
-      destroy
-    end
-  end
+  def call(relation, send_notifications: true)
+    initialize_contract! relation
 
-  private
+    in_context(send_notifications) do
+      predecessor = WorkPackage.find(relation.to_id)
 
-  def destroy
-    result = ServiceResult.new success: true,
-                               result: work_package
+      result = ServiceResult.new success: true,
+                                 result: relation
 
-    # TODO: special case for delete!
-    # BUG: There is a bug right now: when deleting a WP, the progress
-    #      of ancestors packages doesn't change
+      if !predecessor.closed?
+        follower = WorkPackage.find(relation.from_id)
 
-    update_ancestors_all_attributes([work_package]).each do |ancestor_result|
-      result.merge!(ancestor_result)
-    end
+        has_open_predecessors = follower.follows.includes(:status)
+          .where(statuses: { is_closed: false})
+          .where.not(id: predecessor.id).exists?
 
-    update_followers_after_delete([work_package]).each do |followers_result|
-      result.merge!(followers_result)
-    end
+        if follower.blocked_by_predecessors != has_open_predecessors
+          follower.blocked_by_predecessors = has_open_predecessors
+          success, errors = validate_and_save follower
+          follower_result = ServiceResult.new success: success, errors: errors, result: follower
+          result.merge!(follower_result)
+        end
+      end
 
-    descendants = work_package.precedes
-    result.success &&= work_package.destroy
-    destroy_descendants(descendants, result)
-
-    result
-  end
-
-  def destroy_descendants(descendants, result)
-    descendants.each do |descendant|
-      result.add_dependent!(ServiceResult.new(success: descendant.destroy, result: descendant))
+      relation.destroy
+      result
     end
   end
 end
