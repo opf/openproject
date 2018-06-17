@@ -52,7 +52,6 @@ class WorkPackages::DestroyService
     result = ServiceResult.new success: true,
                                result: work_package
 
-    # TODO: special case for delete!
     # BUG: There is a bug right now: when deleting a WP, the progress
     #      of ancestors packages doesn't change
 

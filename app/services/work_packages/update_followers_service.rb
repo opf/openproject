@@ -66,17 +66,14 @@ class WorkPackages::UpdateFollowersService
 
   def update_followers(work_package_closed)
     work_package.precedes.includes(:status).select do |follower|
-
       if !work_package_closed && !follower.blocked_by_predecessors
         follower.blocked_by_predecessors = true
       elsif work_package_closed && follower.blocked_by_predecessors
-
-        has_open_predecessors = follower.follows.includes(:status)
-          .where(statuses: { is_closed: false})
-          .where.not(id: work_package.id).exists?
-
+        has_open_predecessors =
+          follower.follows.includes(:status)
+                  .where(statuses: { is_closed: false })
+                  .where.not(id: work_package.id).exists?
         follower.blocked_by_predecessors = has_open_predecessors
-
       end
 
       follower.changed?

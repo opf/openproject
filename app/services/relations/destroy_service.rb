@@ -47,9 +47,10 @@ class Relations::DestroyService < Relations::BaseService
       if !predecessor.closed?
         follower = WorkPackage.find(relation.from_id)
 
-        has_open_predecessors = follower.follows.includes(:status)
-          .where(statuses: { is_closed: false})
-          .where.not(id: predecessor.id).exists?
+        has_open_predecessors =
+          follower.follows.includes(:status)
+                  .where(statuses: { is_closed: false })
+                  .where.not(id: predecessor.id).exists?
 
         if follower.blocked_by_predecessors != has_open_predecessors
           follower.blocked_by_predecessors = has_open_predecessors

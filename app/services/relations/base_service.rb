@@ -41,8 +41,7 @@ class Relations::BaseService
   private
 
   def update_relation(relation, attributes)
-
-    # NOTE: in the current implementation of frontend, the used cannot change
+    # NOTE: in the current implementation of frontend, the user cannot change
     #       the type of the relation. So we do *not* handle that case here!
 
     relation.attributes = relation.attributes.merge attributes

@@ -26,7 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 class AddBlockedByPredecessors < ActiveRecord::Migration[5.0]
   def change
     add_column :work_packages, :blocked_by_predecessors, :boolean
