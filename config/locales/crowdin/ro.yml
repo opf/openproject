@@ -62,14 +62,14 @@ ro:
   custom_actions:
     actions:
       name: Actions
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
-    edit: Edit custom action %{name}
-    execute: Execute %{name}
+      add: Adaugă acţiune
+    conditions: Condiții
+    plural: Acțiuni personalizate
+    new: Adaugă acțiune personalizată
+    edit: Editează acţiune personalizată %{name}
+    execute: Execută %{name}
     upsale:
-      title: Custom actions is an Enterprise Edition feature
+      title: Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise
       description: Custom actions streamline everyday work by combining a set of individual
         steps into one button.
   custom_fields:
