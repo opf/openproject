@@ -93,7 +93,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   }
 
   private render(columns:WorkPackageTableColumns, resource:WorkPackageCollectionResource, schema:SchemaResource) {
-    this.$element[0].classList.add('sum', 'group', 'all', 'issue', 'work_package');
+    this.elementRef.nativeElement.classList.add('sum', 'group', 'all', 'issue', 'work_package');
 
     // build
     columns.getColumns().forEach((column, i:number) => {
@@ -114,6 +114,13 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
 
   private renderContent(sums:any, name:string, fieldSchema:IFieldSchema) {
     const div = document.createElement('div');
+
+    // The field schema for this element may be undefined
+    // because it is not summable.
+    if (!fieldSchema) {
+      return div;
+    }
+
     const field = this.displayFieldService.getField(sums, name, fieldSchema);
 
     if (!field.isEmpty()) {
