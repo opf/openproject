@@ -62,6 +62,7 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {IWorkPackageEditingServiceToken} from "../wp-edit-form/work-package-editing.service.interface";
+import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -99,7 +100,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
               readonly tableState:TableState,
               readonly wpCacheService:WorkPackageCacheService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
-              readonly wpCreate:WorkPackageCreateService,
+              @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
               readonly wpTableColumns:WorkPackageTableColumnsService,
               readonly wpTableFilters:WorkPackageTableFiltersService,
               readonly wpTableFocus:WorkPackageTableFocusService,
