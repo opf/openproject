@@ -60,7 +60,6 @@ import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-
 import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
 import {FocusDirective} from "core-app/modules/common/focus/focus.directive";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {PersistentToggleDirective} from "core-app/modules/common/persistent-toggle/persistent-toggle.directive";
 import {HighlightColDirective} from "core-app/modules/common/highlight-col/highlight-col.directive";
 import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive";
 import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-toolbar.directive";
@@ -148,7 +147,6 @@ import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.di
     AddSectionDropdownComponent,
     ShowSectionDropdownComponent,
     AutocompleteSelectDecorationComponent,
-    PersistentToggleDirective,
     CopyToClipboardDirective,
     WikiToolbarDirective,
     RefreshOnFormChangesDirective,

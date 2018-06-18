@@ -85,7 +85,7 @@ export class WorkPackagesListChecksumService {
   }
 
   public executeIfOutdated(newId:number,
-                           newChecksum:string|null,
+                           newChecksum:string | null,
                            callback:Function) {
     if (this.isOutdated(newId, newChecksum)) {
       this.set(newId, newChecksum);
@@ -94,7 +94,7 @@ export class WorkPackagesListChecksumService {
     }
   }
 
-  private set(id:number | null, checksum:string) {
+  private set(id:number | null, checksum:string | null) {
     this.id = id;
     this.checksum = checksum;
   }

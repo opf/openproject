@@ -38,7 +38,11 @@ import {State} from "reactivestates";
 declare global {
   interface Window {
     appBasePath:string;
-    OpenProject:{ environment:string, pluginContext:State<any> };
+    OpenProject:{
+      guardedLocalStorage(key:string, newValue?:string):string|void,
+      environment:string,
+      pluginContext:State<any>
+    };
   }
   const angular:typeof TAngular;
   const _:typeof TLodash;

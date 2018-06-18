@@ -30,6 +30,8 @@ See docs/COPYRIGHT.rdoc for more details.
 <% content_for :header_tags do %>
   <%= javascript_include_tag 'repository_navigation' %>
 <% end %>
+
+<%= activate_angular_js do %>
 <persistent-toggle identifier="repository.checkout_instructions">
 <%= toolbar title: l('repositories.named_repository',
                      vendor_name: @repository.class.vendor_name) do %>
@@ -87,5 +89,6 @@ See docs/COPYRIGHT.rdoc for more details.
              locals: { repository: @repository, instructions: @instructions } %>
 <% end %>
 </persistent-toggle>
+<% end %>
 
 
