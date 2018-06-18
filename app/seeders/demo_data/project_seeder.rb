@@ -153,6 +153,9 @@ module DemoData
 
         attr[:column_names] = columns.map(&:to_s) unless columns.empty?
 
+        # don't seed backlogs versions if there is no backlogs plugin
+        return if !backlogs_present? && Array(attr[:column_names]).include?("story_points")
+
         attr[:filters] = [filters] unless filters.empty?
 
         query = Query.create! attr
@@ -183,6 +186,12 @@ module DemoData
           version.save!
         end
       end
+    end
+
+    def backlogs_present?
+      @backlogs_present = defined? OpenProject::Backlogs if @backlogs_present.nil?
+
+      @backlogs_present
     end
 
     def seed_board(project)
