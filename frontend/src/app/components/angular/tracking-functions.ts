@@ -5,6 +5,11 @@ export namespace AngularTrackingHelpers {
     return item.$href;
   }
 
+  export function compareByName<T extends HalResource>(a:T|undefined|null, b:T|undefined|null):boolean {
+    const bothNil = !a && !b;
+    return bothNil || (!!a && !!b && a.name === b.name);
+  }
+
   export function compareByHref<T extends HalResource>(a:T|undefined|null, b:T|undefined|null):boolean {
     const bothNil = !a && !b;
     return bothNil || (!!a && !!b && a.$href === b.$href);

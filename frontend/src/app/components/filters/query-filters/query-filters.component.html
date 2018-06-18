@@ -8,7 +8,7 @@
   </a>
 
   <ul class="advanced-filters--filters">
-    <ng-container *ngFor="let filter of filters.current; let index = index">
+    <ng-container *ngFor="let filter of filters.current; trackBy: compareByName ; let index = index">
       <li id="filter_{{filter.id}}"
           query-filter
           [filter]="filter"
