@@ -85,7 +85,12 @@ jQuery(function ($) {
   function install_menu_logic(menu) {
     menu.find(" > li.drop-down").click(function (event) {
       open_menu(menu);
-      event.preventDefault();
+      // and prevent default action (href) for that element
+      // but not for the menu items.
+      var target = $(event.target);
+      if (target.is('.drop-down') || target.closest('li, ul').is('.drop-down')) {
+        event.preventDefault();
+      }
     });
   }
 
