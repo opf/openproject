@@ -2,7 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {QueryConfigurationLocals} from 'core-components/wp-table/external-configuration/external-query-configuration.component';
-import {OpQueryConfigurationLocalsToken} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
+import {OpQueryConfigurationLocalsToken} from "core-components/wp-table/external-configuration/external-query-configuration.constants";
 
 @Injectable()
 export class RestrictedWpTableConfigurationService extends WpTableConfigurationService {

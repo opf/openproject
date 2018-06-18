@@ -2,10 +2,10 @@ import {AfterViewInit, Component, Inject, ViewChild} from '@angular/core';
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {RestrictedWpTableConfigurationService} from 'core-components/wp-table/external-configuration/restricted-wp-table-configuration.service';
-import {OpQueryConfigurationLocalsToken, ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
+import {OpQueryConfigurationLocalsToken} from "core-components/wp-table/external-configuration/external-query-configuration.constants";
 
 export interface QueryConfigurationLocals {
-  service:ExternalQueryConfigurationService;
+  service:any;
   currentQuery:any;
   disabledTabs:{ [key:string]:string };
   originator:JQuery;
@@ -39,7 +39,7 @@ export class ExternalQueryConfigurationComponent implements AfterViewInit {
     });
   }
 
-  public get service():ExternalQueryConfigurationService {
+  public get service():any {
     return this.locals.service;
   }
 }
