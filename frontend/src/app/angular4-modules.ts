@@ -207,6 +207,7 @@ import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work
 import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 import {AttributeHelpTextModal} from "./modules/common/help-texts/attribute-help-text.modal";
 import {CopyToClipboardDirective} from 'core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive';
+import {WorkPackageEmbeddedTableEntryComponent} from "core-components/wp-table/embedded/wp-embedded-table-entry.component";
 
 @NgModule({
   imports: [
@@ -427,6 +428,7 @@ import {CopyToClipboardDirective} from 'core-app/modules/common/copy-to-clipboar
 
     // Embedded table
     WorkPackageEmbeddedTableComponent,
+    WorkPackageEmbeddedTableEntryComponent,
     // Modals
     WpTableConfigurationModalComponent,
     WpTableConfigurationColumnsTab,
@@ -502,6 +504,7 @@ import {CopyToClipboardDirective} from 'core-app/modules/common/copy-to-clipboar
 
     // Embedded table
     WorkPackageEmbeddedTableComponent,
+    WorkPackageEmbeddedTableEntryComponent,
 
     // Relations tab (ng1 -> ng2)
     WorkPackageRelationsHierarchyComponent,
@@ -547,7 +550,7 @@ export class OpenProjectModule {
       { tagName: 'work-packages-base', cls: WorkPackagesBaseComponent  },
       { tagName: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent  },
       { tagName: 'notifications-container', cls: NotificationsContainerComponent  },
-      { tagName: 'wp-embedded-table', cls: WorkPackageEmbeddedTableComponent },
+      { tagName: 'wp-embedded-table-entry', cls: WorkPackageEmbeddedTableEntryComponent },
       { tagName: 'op-ckeditor-form', cls: OpCkeditorFormComponent },
       { tagName: 'copy-to-clipboard', cls: CopyToClipboardDirective },
     );
