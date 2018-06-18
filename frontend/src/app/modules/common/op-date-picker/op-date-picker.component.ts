@@ -109,6 +109,7 @@ export class OpDatePickerComponent implements OnInit {
       initialValue,
       options
     );
+
     this.datePickerInstance.show();
   }
 }

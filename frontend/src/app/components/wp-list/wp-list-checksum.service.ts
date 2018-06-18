@@ -30,7 +30,7 @@ import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageTablePagination} from '../wp-fast-table/wp-table-pagination';
 import {StateService} from '@uirouter/core';
 import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class WorkPackagesListChecksumService {
@@ -94,7 +94,7 @@ export class WorkPackagesListChecksumService {
     }
   }
 
-  private set(id:number | null, checksum:string|null) {
+  private set(id:number | null, checksum:string) {
     this.id = id;
     this.checksum = checksum;
   }
@@ -131,14 +131,8 @@ export class WorkPackagesListChecksumService {
       (
         // Query ID changed
         idChanged ||
-        // Query ID same
-        (!idChanged && checksumChanged &&
-          (
-            // + query props are now unset
-            (!otherChecksum && hasCurrentChecksum) ||
-            // + query props changed
-            (otherChecksum || this.visibleChecksum)
-          )) ||
+        // Query ID same + query props changed
+        (!idChanged && checksumChanged && (otherChecksum || this.visibleChecksum)) ||
         // No query ID set
         (!hasCurrentQueryID && visibleChecksumChanged)
       )
