@@ -280,7 +280,6 @@ import {WorkPackageEmbeddedTableEntryComponent} from "core-components/wp-table/e
     WorkPackageTableFocusService,
     WorkPackageTableSelection,
 
-    WorkPackageCreateService,
     // Provide both serves with tokens to avoid tight dependency cycles
     { provide: IWorkPackageCreateServiceToken, useClass: WorkPackageCreateService },
     { provide: IWorkPackageEditingServiceToken, useClass: WorkPackageEditingService },

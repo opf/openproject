@@ -46,6 +46,7 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
+import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 
 interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -131,7 +132,7 @@ export class WorkPackageResource extends HalResource {
   readonly NotificationsService:NotificationsService = this.injector.get(NotificationsService);
   readonly wpNotificationsService:WorkPackageNotificationService = this.injector.get(
     WorkPackageNotificationService);
-  readonly wpCreate:WorkPackageCreateService = this.injector.get(WorkPackageCreateService);
+  readonly wpCreate:WorkPackageCreateService = this.injector.get<WorkPackageCreateService>(IWorkPackageCreateServiceToken);
   readonly pathHelper:PathHelperService = this.injector.get(PathHelperService);
   readonly opFileUpload:OpenProjectFileUploadService = this.injector.get(OpenProjectFileUploadService);
 

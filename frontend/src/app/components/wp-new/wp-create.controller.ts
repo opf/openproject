@@ -47,6 +47,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {
   IWorkPackageEditingServiceToken
 } from "../wp-edit-form/work-package-editing.service.interface";
+import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 
 
 @Injectable()
@@ -69,7 +70,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
               readonly injector:Injector,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected states:States,
-              protected wpCreate:WorkPackageCreateService,
+              @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
               protected wpTableFilters:WorkPackageTableFiltersService,
               protected wpCacheService:WorkPackageCacheService,
               protected pathHelper:PathHelperService,

@@ -44,6 +44,7 @@ import {WorkPackageNotificationService} from '../wp-notification.service';
 import {WorkPackageCreateService} from './../../wp-new/wp-create.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
+import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 
 @Component({
   selector: 'wp-edit-field-group,[wp-edit-field-group]',
@@ -61,7 +62,7 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
 
   constructor(protected states:States,
               protected injector:Injector,
-              protected wpCreate:WorkPackageCreateService,
+              @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
               @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpTableSelection:WorkPackageTableSelection,
@@ -116,6 +117,18 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
 
     if (this.inEditMode) {
       this.start();
+    }
+
+    // Stop editing whenever a work package was saved
+    if (this.inEditMode && this.workPackage.isNew) {
+      this.wpCreate.onNewWorkPackage()
+        .pipe(
+          takeUntil(componentDestroyed(this))
+        )
+        .subscribe((wp:WorkPackageResource) => {
+          this.form.editMode = false;
+          this.stopEditingAndLeave(wp, true);
+        });
     }
   }
 
