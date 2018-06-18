@@ -19,6 +19,8 @@ export abstract class OpModalComponent implements OnInit, OnDestroy {
   /** Closing event called from the service when closing this modal */
   public closingEvent = new EventEmitter<this>();
 
+  public openingEvent = new EventEmitter<this>();
+
   constructor(public locals:OpModalLocalsMap, readonly elementRef:ElementRef) {
   }
 
@@ -28,6 +30,7 @@ export abstract class OpModalComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.closingEvent.complete();
+    this.openingEvent.complete();
   }
 
   /**
@@ -45,6 +48,7 @@ export abstract class OpModalComponent implements OnInit, OnDestroy {
   }
 
   public onOpen(modalElement:JQuery) {
+    this.openingEvent.emit();
   }
 
   protected get afterFocusOn():JQuery {

@@ -82,7 +82,7 @@ describe('NotificationsService', function () {
   });
 
   it('should be able to create upload messages with uploads', function () {
-    var notification = notificationsService.addWorkPackageUpload('uploading...', [0, 1, 2]);
+    var notification = notificationsService.addWorkPackageUpload('uploading...', [0, 1, 2] as any);
     expect(notification).to.eql({
       message: 'uploading...',
       type: 'upload',

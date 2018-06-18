@@ -51,10 +51,8 @@ export class AutoCompleteHelperService {
         remoteFilter: (query:string, callback:Function) => {
           const url:string = this.PathHelper.api.v3.principals(projectId, query);
           this.http.get(url)
-            .subscribe((response:any) => {
-              if (response && response.data) {
-                const data = response.data;
-
+            .subscribe((data:any) => {
+              if (data) {
                 // atjs needs the search key to be a string
                 const principals = data["_embedded"]["elements"];
                 for (let i = principals.length - 1; i >= 0; i--) {
@@ -95,9 +93,8 @@ export class AutoCompleteHelperService {
         remoteFilter: (query:string, callback:Function) => {
           if (query.length > 0) {
             this.http.get(url, { params: { q: query, scope: 'all' } })
-              .subscribe(function(response:any) {
-                if (response && response.data) {
-                  const data = response.data;
+              .subscribe(function(data:any) {
+                if (data) {
                   // atjs needs the search key to be a string
                   for (var i = data.length - 1; i >= 0; i--) {
                     data[i]['id_subject'] = data[i]['id'].toString() + ' ' + data[i]['subject'];

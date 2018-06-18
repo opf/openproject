@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AfterViewInit, Component, ElementRef, Inject, Input, OnDestroy} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {RelationQueryColumn, TypeRelationQueryColumn} from 'core-components/wp-query/query-column';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -89,7 +89,11 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
   ngOnDestroy():void {
   }
 
-  ngAfterViewInit():void {
+  ngAfterViewInit() {
+    setTimeout(() => this.initialize());
+  }
+
+  private initialize():void {
     this.element = jQuery(this.elementRef.nativeElement);
 
     this.wpTableSortBy.onReadyWithAvailable()

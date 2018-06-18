@@ -405,6 +405,7 @@ zh-TW:
         before_or_equal_to: 必須在 %{date} 以前
         could_not_be_copied: 無法 (完全) 複製
         regex_invalid: 不能被相關聯的正則運算式驗證。
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: 需要至少一個選項可用。
@@ -1685,7 +1686,7 @@ zh-TW:
     text_show_again: 您可以從 "説明" 功能表中重新開啟此影片
     welcome: 歡迎來到 OpenProject
   permission_add_work_package_notes: 增加註釋
-  permission_add_work_packages: 添加工作包
+  permission_add_work_packages: 新增工作項目
   permission_add_messages: 張貼訊息
   permission_add_project: 建立專案
   permission_add_subprojects: 建立子專案

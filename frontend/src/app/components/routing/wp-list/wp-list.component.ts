@@ -110,7 +110,7 @@ export class WorkPackagesListComponent implements OnInit, OnDestroy {
     this.$transitions.onSuccess({}, (transition) => {
 
       const params = transition.params('to');
-      let newChecksum = params.query_props;
+      let newChecksum = this.wpListService.getCurrentQueryProps(params);
       let newId = params.query_id && parseInt(params.query_id);
 
       this.wpListChecksumService

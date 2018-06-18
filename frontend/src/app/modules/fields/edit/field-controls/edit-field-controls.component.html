@@ -1,7 +1,7 @@
 <div class="inplace-edit--dashboard">
   <div class="inplace-edit--controls" *ngIf="fieldController.active">
     <accessible-by-keyboard (execute)="save()"
-                            [isDisabled]="field.required && field.isEmpty()"
+                            [attr.disabled]="(field.required && field.isEmpty()) || undefined"
                             [linkTitle]="saveTitle"
                             class="inplace-edit--control inplace-edit--control--save">
       <op-icon icon-classes="icon-checkmark" [icon-title]="saveTitle"></op-icon>

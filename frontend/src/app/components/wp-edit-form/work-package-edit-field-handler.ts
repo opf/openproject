@@ -32,13 +32,13 @@ import {WorkPackageEditContext} from './work-package-edit-context';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {Injector} from '@angular/core';
+import {ComponentRef, Injector} from '@angular/core';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
-import HTML = Mocha.reporters.HTML;
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 import {debugLog} from "core-app/helpers/debug_output";
+import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 
 export class WorkPackageEditFieldHandler implements IEditFieldHandler {
   // Injections
@@ -50,6 +50,8 @@ export class WorkPackageEditFieldHandler implements IEditFieldHandler {
   public editContext:WorkPackageEditContext;
   public schemaName:string;
 
+  // Reference to the active component, if any
+  public componentInstance:ComponentRef<EditFieldComponent>;
 
   // Current errors of the field
   public errors:string[];

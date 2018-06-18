@@ -52,7 +52,7 @@ import {OpModalService} from 'core-components/op-modals/op-modal.service';
   ]
 })
 export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input('queryId') public queryId?:string;
+  @Input('queryId') public queryId?:number;
   @Input('queryProps') public queryProps:any = {};
   @Input('configuration') private providedConfiguration:WorkPackageTableConfigurationObject;
   @Input() public uniqueEmbeddedTableName:string = `embedded-table-${Date.now()}`;
@@ -182,7 +182,7 @@ export class WorkPackageEmbeddedTableComponent implements OnInit, AfterViewInit,
     const promise = this.QueryDm
       .find(
         this.queryProps,
-        this.queryId || '',
+        this.queryId,
         this.projectIdentifier
       )
       .then((query:QueryResource) => this.initializeStates(query, query.results));

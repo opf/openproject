@@ -31,12 +31,15 @@ import {Directive, ElementRef, HostListener, Input, OnInit} from "@angular/core"
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {Component} from "@angular/core";
 
-@Directive({
+@Component({
+  template: '',
   selector: 'copy-to-clipboard'
 })
 export class CopyToClipboardDirective implements OnInit {
-  @Input('clipboard-target') clipboardTarget:string;
+  public clickTarget:string;
+  public clipboardTarget:string;
   private target:JQuery;
 
   constructor(readonly NotificationsService:NotificationsService,
@@ -47,6 +50,12 @@ export class CopyToClipboardDirective implements OnInit {
 
   ngOnInit() {
     const element = this.elementRef.nativeElement;
+    // Get inputs as attributes since this is a bootstrapped directive
+    this.clickTarget = element.getAttribute('click-target');
+    this.clipboardTarget = element.getAttribute('clipboard-target');
+
+    jQuery(this.clickTarget).click((evt) => this.onClick(evt));
+
     element.classList.add('copy-to-clipboard');
     this.target = jQuery(this.clipboardTarget ? this.clipboardTarget : element);
   }
@@ -61,7 +70,6 @@ export class CopyToClipboardDirective implements OnInit {
     }
   }
 
-  @HostListener('click', ['$event'])
   onClick($event:Event) {
     var supported = (document.queryCommandSupported && document.queryCommandSupported('copy'));
     $event.preventDefault();

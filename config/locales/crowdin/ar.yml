@@ -446,6 +446,7 @@ ar:
         before_or_equal_to: يجب أن يكون قبل أو يساوي %{date}.
         could_not_be_copied: لا يمكن أن ينسخ بشكل كامل.
         regex_invalid: could not be validated with the associated regular expression.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
@@ -1877,7 +1878,7 @@ ar:
     text_show_again: يمكنك إعادة تشغيل هذا الفيديو من قائمة المساعدة
     welcome: مرحبًا بكم في أوبِن بروجِكت
   permission_add_work_package_notes: إضافة ملاحظات
-  permission_add_work_packages: إضافة حزم العمل
+  permission_add_work_packages: إضافة مجموعات عمل
   permission_add_messages: نشر الرسائل
   permission_add_project: إنشاء مشروع
   permission_add_subprojects: إنشاء مشاريع فرعية

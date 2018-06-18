@@ -42,6 +42,7 @@ import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {WorkPackageEditingService} from './work-package-editing-service';
 import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
 
 export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
 export const activeFieldClassName = 'wp-inline-edit--field';
@@ -50,7 +51,7 @@ export class WorkPackageEditForm {
   // Injections
   public states:States = this.injector.get(States);
   public wpCacheService = this.injector.get(WorkPackageCacheService);
-  public wpEditing = this.injector.get(WorkPackageEditingService);
+  public wpEditing = this.injector.get(IWorkPackageEditingServiceToken);
   public wpEditField = this.injector.get(EditFieldService);
   public wpTableRefresh = this.injector.get(WorkPackageTableRefreshService);
   public wpNotificationsService = this.injector.get(WorkPackageNotificationService);
@@ -66,7 +67,6 @@ export class WorkPackageEditForm {
 
   // Subscribe to changes to the temporary edit form
   protected wpSubscription:Subscription;
-  protected resourceSubscription:Subscription;
 
   public static createInContext(injector:Injector,
                                 editContext:WorkPackageEditContext,
@@ -87,15 +87,6 @@ export class WorkPackageEditForm {
       .values$()
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
-      });
-
-    this.resourceSubscription = this.wpEditing.temporaryEditResource(workPackage.id)
-      .values$()
-      .subscribe(() => {
-        if (!this.changeset.empty) {
-          debugLog('Refreshing active edit fields after form update.');
-          _.each(this.activeFields, (_handler, name) => this.refresh(name));
-        }
       });
   }
 
@@ -127,23 +118,6 @@ export class WorkPackageEditForm {
             .then(resolve)
             .catch(reject);
         });
-    });
-  }
-
-  /**
-   * Refreshes an active field
-   * @param {string} fieldName
-   * @return {Promise<any>}
-   */
-  public refresh(fieldName:string) {
-    const handler = this.activeFields[fieldName];
-    if (!handler) {
-      debugLog(`Trying to refresh ${fieldName}, but is not an active field.`);
-      return undefined;
-    }
-
-    return this.buildField(fieldName).then((field:EditField) => {
-      this.editContext.refreshField(field, handler);
     });
   }
 
@@ -221,7 +195,6 @@ export class WorkPackageEditForm {
    */
   public destroy() {
     // Unsubscribe changes
-    this.resourceSubscription.unsubscribe();
     this.wpSubscription.unsubscribe();
 
     // Kill all active fields

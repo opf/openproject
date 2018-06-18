@@ -659,6 +659,7 @@ en:
 
     error_could_not_resolve_version_name: "Couldn't resolve version name"
     error_could_not_resolve_user_name: "Couldn't resolve user name"
+    error_attachment_upload: "File '%{name}' failed to upload: %{error}"
 
     units:
       workPackage:

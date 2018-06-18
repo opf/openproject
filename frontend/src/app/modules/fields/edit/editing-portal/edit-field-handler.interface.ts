@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+
 export interface IEditFieldHandler {
   /**
    * Whether the handler belongs to a larger edit mode form
@@ -50,6 +52,11 @@ export interface IEditFieldHandler {
    * Error messages on the field, if any.
    */
   errorMessageOnLabel?:string;
+
+  /**
+   * Project resource
+   */
+  project:ProjectResource;
 
   /**
    * Stop event propagation

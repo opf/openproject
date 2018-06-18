@@ -1,4 +1,14 @@
-import {AfterViewInit, EventEmitter, Component, ElementRef, Injector, Input, OnDestroy, OnInit} from "@angular/core";
+import {
+  AfterViewInit,
+  EventEmitter,
+  Component,
+  ElementRef,
+  Injector,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
+} from "@angular/core";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
 import {
@@ -14,12 +24,14 @@ import {createLocalInjector} from "core-app/modules/fields/edit/editing-portal/e
 export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() editFieldInput:EditField;
   @Input() editFieldHandler:IEditFieldHandler;
+  @Output() public onEditFieldReady = new EventEmitter<void>();
 
   public handler:IEditFieldHandler;
   public editField:EditField;
   public fieldInjector:Injector;
 
-  public onAfterViewInit = new EventEmitter<void>();
+  public htmlId:string;
+  public label:string;
 
   constructor(readonly injector:Injector,
               readonly elementRef:ElementRef) {
@@ -38,11 +50,15 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   ngOnDestroy() {
-    this.onAfterViewInit.complete();
+    this.onEditFieldReady.complete();
   }
 
   ngAfterViewInit() {
-    // Fire in a timeout to avoid same execution contextg in AfterViewInit
-    setTimeout(() => this.onAfterViewInit.emit());
+    // Fire in a timeout to avoid same execution context in AfterViewInit
+    setTimeout(() => {
+      // Call $onInit once the field is ready
+      this.editField.$onInit(this.elementRef.nativeElement);
+      this.onEditFieldReady.emit();
+    });
   }
 }

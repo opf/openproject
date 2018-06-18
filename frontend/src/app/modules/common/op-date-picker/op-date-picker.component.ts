@@ -77,12 +77,6 @@ export class OpDatePickerComponent implements OnInit {
     return this.input.val();
   }
 
-  private callbackIfSet(name:'onChange' | 'onClose') {
-    if (this[name]) {
-      this[name].emit(this.currentValue());
-    }
-  }
-
   private showDatePicker() {
     let options:any = {
       onSelect: (date:any) => {
@@ -95,10 +89,10 @@ export class OpDatePickerComponent implements OnInit {
         }
 
         this.input.val(val);
-        this.input.change();
-        this.callbackIfSet('onChange');
+        this.input.trigger('change');
+        this.onChange.emit(val);
       },
-      onClose: () => this.callbackIfSet('onClose')
+      onClose: () => this.onClose.emit()
     };
 
     let initialValue;
@@ -115,6 +109,7 @@ export class OpDatePickerComponent implements OnInit {
       initialValue,
       options
     );
+
     this.datePickerInstance.show();
   }
 }

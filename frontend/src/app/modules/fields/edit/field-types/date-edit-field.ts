@@ -36,11 +36,11 @@ import {EditField} from "core-app/modules/fields/edit/edit.field.module";
   template: `
     <op-date-picker
       tabindex="-1"
-      (onChange)="handler.handleUserSubmit()"
+      (onChange)="onValueSelected($event)"
       [initialDate]="field.defaultDate">
 
       <input [ngModel]="formatter(field.value)"
-             (ngModelChange)="field.value = parser($event)"
+             (ngModelChange)="field.value = parser($event);"
              type="text"
              class="wp-inline-edit--field"
              (keydown)="handler.handleUserKeydown($event)"
@@ -56,6 +56,11 @@ import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 export class DateEditFieldComponent extends EditFieldComponent {
   public field:DateEditField;
   readonly timezoneService = this.injector.get(TimezoneService);
+
+  public onValueSelected(data:string) {
+    this.field.value = this.parser(data);
+    this.handler.handleUserSubmit();
+  }
 
   public parser(data:any) {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {

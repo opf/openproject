@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {StateService, Transition, TransitionService} from '@uirouter/core';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageEditFieldComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field.component';
@@ -43,6 +43,8 @@ import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-sele
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {WorkPackageCreateService} from './../../wp-new/wp-create.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
+import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 
 @Component({
   selector: 'wp-edit-field-group,[wp-edit-field-group]',
@@ -60,8 +62,8 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
 
   constructor(protected states:States,
               protected injector:Injector,
-              protected wpCreate:WorkPackageCreateService,
-              protected wpEditing:WorkPackageEditingService,
+              @Inject(IWorkPackageCreateServiceToken) protected wpCreate:WorkPackageCreateService,
+              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpTableSelection:WorkPackageTableSelection,
               protected wpTableFocus:WorkPackageTableFocusService,
@@ -104,19 +106,6 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const context = new SingleViewEditContext(this.injector, this);
     this.form = WorkPackageEditForm.createInContext(this.injector, context, this.workPackage, this.inEditMode);
-
-    // Stop editing whenever a work package was saved
-    if (this.inEditMode && this.workPackage.isNew) {
-      this.wpCreate.onNewWorkPackage()
-        .pipe(
-          takeUntil(componentDestroyed(this))
-        )
-        .subscribe((wp:WorkPackageResource) => {
-          this.form.editMode = false;
-          this.stopEditingAndLeave(wp, true);
-        });
-    }
-
     this.states.workPackages.get(this.workPackage.id)
       .values$()
       .pipe(
@@ -128,6 +117,18 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
 
     if (this.inEditMode) {
       this.start();
+    }
+
+    // Stop editing whenever a work package was saved
+    if (this.inEditMode && this.workPackage.isNew) {
+      this.wpCreate.onNewWorkPackage()
+        .pipe(
+          takeUntil(componentDestroyed(this))
+        )
+        .subscribe((wp:WorkPackageResource) => {
+          this.form.editMode = false;
+          this.stopEditingAndLeave(wp, true);
+        });
     }
   }
 
@@ -175,22 +176,11 @@ export class WorkPackageEditFieldGroupComponent implements OnInit, OnDestroy {
     return this.form
       .submit()
       .then((savedWorkPackage) => {
-        this.onSaved(isInitial, savedWorkPackage);
+        this.stopEditingAndLeave(savedWorkPackage, isInitial);
       });
   }
 
-  /**
-   * Handle onSave from form and single view. Since we get a separate event
-   * for new work packages, ignore them and only stop editing on non-new WPs.
-   *
-   */
-  public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResource) {
-    if (!isInitial) {
-      this.stopEditingAndLeave(savedWorkPackage, false);
-    }
-  }
-
-  private stopEditingAndLeave(savedWorkPackage:WorkPackageResource, isInitial:boolean) {
+  public stopEditingAndLeave(savedWorkPackage:WorkPackageResource, isInitial:boolean) {
     this.wpEditing.stopEditing(this.workPackage.id);
 
     if (this.successState) {

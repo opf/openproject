@@ -26,49 +26,107 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  UploadFile,
+  UploadHttpEvent,
+  UploadInProgress
+} from "core-components/api/op-file-upload/op-file-upload.service";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
+import {HttpEventType, HttpProgressEvent} from "@angular/common/http";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {debugLog} from "core-app/helpers/debug_output";
+import {HttpErrorResponse} from "@angular/common/http/src/response";
 
 @Component({
   selector: 'notifications-upload-progress',
   template: `
-  <li>
-    <span class="filename" [textContent]="file"></span>
-    <progress [hidden]="completed" max="100" [value]="value">{{value}}%</progress>
-    <span class="upload-completed" *ngIf="completed || error">
+    <li>
+      <span class="filename" [textContent]="fileName"></span>
+      <progress [hidden]="completed" max="100" [value]="value">{{value}}%</progress>
+      <span class="upload-completed" *ngIf="completed || error">
       <op-icon icon-classes="icon-close" *ngIf="error"></op-icon>
       <op-icon icon-classes="icon-checkmark" *ngIf="completed"></op-icon>
     </span>
-  </li>
+    </li>
   `
 })
-export class UploadProgressComponent implements OnInit {
-  @Input() public upload:any;
-  @Output() public onError = new EventEmitter<any>();
-  @Output() public onSuccess = new EventEmitter<any>();
+export class UploadProgressComponent implements OnInit, OnDestroy {
+  @Input() public upload:UploadInProgress;
+  @Output() public onError = new EventEmitter<string>();
+  @Output() public onSuccess = new EventEmitter<undefined>();
 
-  public file:string = '';
+  public file:UploadFile;
   public value:number = 0;
   public error:boolean = false;
   public completed = false;
 
+  constructor(protected readonly I18n:I18nService) {
+  }
+
   ngOnInit() {
-    this.upload.progress((details:any) => {
-      var file = details.config.file || details.config.data.file;
-      this.file = _.get(file, 'name', '');
-      if (details.lengthComputable) {
-        this.value = Math.round(details.loaded / details.total * 100);
-      } else {
-        // dummy value if not computable
-        this.value = 10;
-      }
-    }).success(() => {
-      this.value = 100;
-      this.completed = true;
-      this.onSuccess.emit();
-    }).error(() => {
-      this.error = true;
-      this.onError.emit();
-    });
+    this.file = this.upload[0];
+    const observable = this.upload[1];
+
+    observable
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe(
+        (evt:UploadHttpEvent) => {
+          switch (evt.type) {
+            case HttpEventType.Sent:
+              this.value = 5;
+              return debugLog(`Uploading file "${this.file.name}" of size ${this.file.size}.`);
+
+            case HttpEventType.UploadProgress:
+              return this.updateProgress(evt);
+
+            case HttpEventType.Response:
+              debugLog(`File ${this.fileName} was fully uploaded.`);
+              this.value = 100;
+              this.completed = true;
+              return this.onSuccess.emit();
+
+            default:
+              // Sent or unknown event
+              return;
+          }
+        },
+        (error:HttpErrorResponse) => this.handleError(error, this.file)
+      );
+  }
+
+  ngOnDestroy() {
+    // Nothing to do.
+  }
+
+  public get fileName():string | undefined {
+    return this.file && this.file.name;
+  }
+
+  private updateProgress(evt:HttpProgressEvent) {
+    if (evt.total) {
+      this.value = Math.round(evt.loaded / evt.total * 100);
+    } else {
+      this.value = 10;
+    }
+  }
+
+  private handleError(error:HttpErrorResponse, file:UploadFile) {
+    let message:string;
+
+    debugLog(error);
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred.
+      message = this.I18n.t('js.error_attachment_upload', {name: file.name, error: error});
+    } else {
+      // The backend returned an unsuccessful response code.
+      message = error.error;
+    }
+
+    this.error = true;
+    this.onError.emit(message);
   }
 }
 

@@ -1,0 +1,11 @@
+<section class="collapsible-section" ng-class="{ '-expanded': $ctrl.expanded }">
+  <accessible-by-keyboard execute="$ctrl.toggle()"
+                          link-aria-label="{{ ::$ctrl.sectionTitle }}"
+                          link-class="collapsible-section--toggle-link"
+                          span-class="collapsible-section--legend">
+    <span ng-bind="::$ctrl.sectionTitle"></span>
+  </accessible-by-keyboard>
+  <div class="collapsible-section--body toggle-slide-animation" ng-show="$ctrl.expanded">
+    <ng-transclude></ng-transclude>
+  </div>
+</section>

@@ -58,7 +58,7 @@ describe 'new work package', js: true do
 
     project_field.set_value project
 
-    expect(page).to have_selector("#wp-new-inline-edit--field-type option[label=#{type}", wait: 10)
+    expect(page).to have_selector("#wp-new-inline-edit--field-type option[label=#{type}]", wait: 10)
     type_field.set_value type
     sleep 1
   end
@@ -96,7 +96,7 @@ describe 'new work package', js: true do
     it 'saves the work package with enter' do
       subject_field = wp_page.subject_field
       subject_field.set(subject)
-      subject_field.send_keys(:return)
+      subject_field.send_keys(:enter)
 
       # safegurards
       wp_page.dismiss_notification!
@@ -110,7 +110,13 @@ describe 'new work package', js: true do
     context 'with missing values' do
       it 'shows an error when subject is missing' do
         wp_page.description_field.set(description)
-        wp_page.subject_field.set('')
+
+        # Need to send keys to emulate change
+        subject_field = wp_page.subject_field
+        subject_field.set('')
+        subject_field.send_keys('a')
+        subject_field.send_keys(:backspace)
+
         save_work_package!(false)
         notification.expect_error("Subject can't be blank.")
       end
@@ -118,6 +124,7 @@ describe 'new work package', js: true do
 
     context 'with subject set' do
       it 'creates a basic work package' do
+
         wp_page.description_field.set(description)
 
         save_work_package!

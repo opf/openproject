@@ -29,7 +29,7 @@
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field";
 import {EditField} from "core-app/modules/fields/edit/edit.field.module";
@@ -37,7 +37,7 @@ import {EditField} from "core-app/modules/fields/edit/edit.field.module";
 @Component({
   templateUrl: './multi-select-edit-field.component.html'
 })
-export class MultiSelectEditFieldComponent extends EditFieldComponent {
+export class MultiSelectEditFieldComponent extends EditFieldComponent implements OnInit {
   readonly I18n:I18nService = this.injector.get(I18nService);
   public options:any[];
   public valueOptions:ValueOption[];
@@ -55,10 +55,10 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent {
   private nullOption:ValueOption;
   private _selectedOption:ValueOption|ValueOption[];
 
-  protected initialize() {
+  ngOnInit() {
     this.isMultiselect = this.isValueMulti();
 
-    this.nullOption = { name: this.text.placeholder, href: null };
+    this.nullOption = { name: this.text.placeholder, $href: null };
 
     if (Array.isArray(this.schema.allowedValues)) {
       this.setValues(this.schema.allowedValues);
@@ -123,12 +123,12 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent {
     this._selectedOption = val;
     let selected:any;
     let mapper = (val:ValueOption) => {
-      let option = _.find(this.options, o => o.href === val.href) || this.nullOption;
+      let option = _.find(this.options, o => o.$href === val.$href) || this.nullOption;
 
       // Special case 'null' value, which angular
       // only understands in ng-options as an empty string.
-      if (option && option.href === '') {
-        option.href = null;
+      if (option && option.$href === '') {
+        option.$href = null;
       }
 
       return option;
@@ -148,11 +148,17 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent {
     this._selectedOption = this.buildSelectedOption();
   }
 
+  public submitOnSingleSelect() {
+    if (!this.isMultiselect) {
+      this.handler.handleUserSubmit();
+    }
+  }
+
   private findValueOption(option?:HalResource):ValueOption {
     let result;
 
     if (option) {
-      result = _.find(this.valueOptions, (valueOption) => valueOption.href === option.href)!;
+      result = _.find(this.valueOptions, (valueOption) => valueOption.$href === option.$href)!;
     }
 
     return result || this.nullOption;
@@ -170,7 +176,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent {
     this.options = availableValues;
     this.addEmptyOption();
     this.valueOptions = this.options.map(el => {
-      return { name: el.name, href: el.href };
+      return { name: el.name, $href: el.$href };
     });
     this._selectedOption = this.buildSelectedOption();
     this.checkCurrentValueValidity();
@@ -183,10 +189,10 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent {
         // MultiSelect AND there is no value which href is not in the options hrefs OR
         // SingleSelect AND the given values href is not within the options hrefs
         (this.isMultiselect && !_.some(this.value, (value:HalResource) => {
-          return _.some(this.options, (option) => (option.href === value.href))
+          return _.some(this.options, (option) => (option.$href === value.$href))
         })) ||
         (!this.isMultiselect && !_.some(this.options,
-          (option) => (option.href === this.value.href)))
+          (option) => (option.$href === this.value.$href)))
       );
     }
     else {

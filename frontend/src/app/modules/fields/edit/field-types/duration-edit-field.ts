@@ -39,7 +39,7 @@ import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.compon
            class="wp-inline-edit--field"
            [attr.aria-required]="field.required"
            [ngModel]="formatter(field.value)"
-           (ngModelChange)="parser($event)"
+           (ngModelChange)="field.value = parser($event)"
            [attr.required]="field.required"
            (keydown)="handler.handleUserKeydown($event)"
            [disabled]="field.inFlight"

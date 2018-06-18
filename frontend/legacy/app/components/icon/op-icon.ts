@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,23 +24,23 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {Component, Input} from "@angular/core";
 
-@Component({
-  selector: 'collapsible-section',
-  templateUrl: './collapsible-section.component.html'
-})
-export class CollapsibleSectionComponent {
-  public text:any;
-  @Input('initially-expanded') public expanded:boolean;
-  @Input('section-title') public sectionTitle:string;
+import {openprojectLegacyModule} from "../../openproject-legacy-app";
 
-  constructor() {
-  }
-
-  public toggle() {
-    this.expanded = !this.expanded;
-  }
+function opIcon() {
+  return {
+    restrict: 'EA',
+    scope: { iconClasses: '@', title: '@iconTitle' },
+    link: (_scope:ng.IScope, element:ng.IAugmentedJQuery) => {
+        element.addClass('op-icon--wrapper');
+    },
+    template: `
+    <i class="{{iconClasses}}" aria-hidden="true"></i>
+    <span class="hidden-for-sighted" ng-bind="title" ng-if="title"></span>
+    `
+  };
 }
+
+openprojectLegacyModule.directive('opIcon', opIcon);

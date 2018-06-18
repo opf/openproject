@@ -34,4 +34,16 @@ module AngularHelper
     options[:class] = options.fetch(:class, '') + ' op-angular-component'
     tag(component, options)
   end
+
+  def activate_angular_js(type = :div, options = {}, &block)
+    content_for(:header_tags) do
+      javascript_include_tag 'bundles/openproject-core-app'
+    end
+
+    if block_given?
+      content_tag(type, options.merge('ng-app': 'OpenProjectLegacy'), &block)
+    else
+      'ng-app="OpenProjectLegacy"'.html_safe
+    end
+  end
 end

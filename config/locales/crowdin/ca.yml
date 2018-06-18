@@ -462,6 +462,7 @@ ca:
         before_or_equal_to: ha de ser igual o abans de %{date}.
         could_not_be_copied: no pot ser (completament) copiat.
         regex_invalid: could not be validated with the associated regular expression.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.

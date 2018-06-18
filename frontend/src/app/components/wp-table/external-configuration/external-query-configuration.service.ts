@@ -1,19 +1,14 @@
-import {
-  ApplicationRef,
-  ComponentFactoryResolver,
-  ComponentRef,
-  Injectable,
-  InjectionToken,
-  Injector
-} from '@angular/core';
-import {ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector} from '@angular/cdk/portal';
+import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector} from '@angular/core';
+import {ComponentPortal, DomPortalOutlet, PortalInjector} from '@angular/cdk/portal';
 import {TransitionService} from '@uirouter/core';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
+import {ExternalQueryConfigurationComponent} from "core-components/wp-table/external-configuration/external-query-configuration.component";
+import {
+  OpQueryConfigurationLocalsToken,
+  OpQueryConfigurationTriggerEvent,
+  OpQueryConfigurationUpdatedEvent
+} from "core-components/wp-table/external-configuration/external-query-configuration.constants";
 
-export const external_table_trigger_class = 'external-table-configuration--container';
-export const OpQueryConfigurationLocalsToken = new InjectionToken<any>('OpQueryConfigurationLocalsToken');
-export const OpQueryConfigurationTriggerEvent = 'op:queryconfiguration:trigger';
-export const OpQueryConfigurationUpdatedEvent = 'op:queryconfiguration:updated';
 
 @Injectable()
 export class ExternalQueryConfigurationService {
@@ -33,8 +28,8 @@ export class ExternalQueryConfigurationService {
     // Listen to keyups on window to close context menus
     jQuery(window)
       .on(OpQueryConfigurationTriggerEvent,
-        (event:JQueryEventObject, component:ComponentType<any>, originator:JQuery, currentQuery:any) => {
-      this.show(component, originator, currentQuery);
+        (event:JQueryEventObject, originator:JQuery, currentQuery:any) => {
+      this.show(originator, currentQuery);
       return false;
     });
   }
@@ -62,15 +57,14 @@ export class ExternalQueryConfigurationService {
   /**
    * Open a Modal reference and append it to the portal
    */
-  public show(component:ComponentType<any>,
-              originator:JQuery,
+  public show(originator:JQuery,
               currentQuery:any,
               disabledTabs:{[key:string]:string} = {}):void {
     this.detach();
 
     // Create a portal for the given component class and render it
     const portal = new ComponentPortal(
-      component,
+      ExternalQueryConfigurationComponent,
       null,
       this.injectorFor({ originator: originator, currentQuery: currentQuery, disabledTabs: disabledTabs }));
     this.bodyPortalHost.attach(portal);

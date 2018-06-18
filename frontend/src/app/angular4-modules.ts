@@ -187,7 +187,6 @@ import {RevisionActivityComponent} from "core-components/wp-activity/revision/re
 import {CommentService} from "core-components/wp-activity/comment-service";
 import {WorkPackageCommentComponent} from "core-components/work-packages/work-package-comment/work-package-comment.component";
 import {OpCkeditorFormComponent} from "core-components/ckeditor/op-ckeditor-form.component";
-import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.directive";
 import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload.component";
 import {FocusWithinDirective} from "core-app/modules/common/focus/focus-within.directive";
 import {OpDragScrollDirective} from "core-app/modules/common/ui/op-drag-scroll.directive";
@@ -205,6 +204,10 @@ import {MainMenuToggleComponent} from "core-components/resizer/main-menu-toggle.
 import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
 import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
 import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
+import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
+import {AttributeHelpTextModal} from "./modules/common/help-texts/attribute-help-text.modal";
+import {CopyToClipboardDirective} from 'core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive';
+import {WorkPackageEmbeddedTableEntryComponent} from "core-components/wp-table/embedded/wp-embedded-table-entry.component";
 
 @NgModule({
   imports: [
@@ -246,7 +249,6 @@ import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work
     WorkPackageRelationsService,
     UrlParamsHelperService,
     WorkPackageCacheService,
-    WorkPackageEditingService,
     SchemaCacheService,
     ProjectCacheService,
     UserCacheService,
@@ -259,6 +261,7 @@ import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work
     WorkPackageFiltersService,
     WorkPackageService,
     ApiWorkPackagesService,
+    OpenProjectFileUploadService,
     // Table and query states services
     WorkPackageTableRelationColumnsService,
     WorkPackageTablePaginationService,
@@ -277,8 +280,6 @@ import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work
     WorkPackageTableFocusService,
     WorkPackageTableSelection,
 
-    WorkPackageCreateService,
-    WorkPackageEditingService,
     // Provide both serves with tokens to avoid tight dependency cycles
     { provide: IWorkPackageCreateServiceToken, useClass: WorkPackageCreateService },
     { provide: IWorkPackageEditingServiceToken, useClass: WorkPackageEditingService },
@@ -426,6 +427,7 @@ import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work
 
     // Embedded table
     WorkPackageEmbeddedTableComponent,
+    WorkPackageEmbeddedTableEntryComponent,
     // Modals
     WpTableConfigurationModalComponent,
     WpTableConfigurationColumnsTab,
@@ -458,7 +460,6 @@ import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work
 
     // CkEditor
     OpCkeditorFormComponent,
-    OpAutoCompleteDirective,
   ],
   entryComponents: [
     WorkPackagesBaseComponent,
@@ -502,6 +503,7 @@ import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work
 
     // Embedded table
     WorkPackageEmbeddedTableComponent,
+    WorkPackageEmbeddedTableEntryComponent,
 
     // Relations tab (ng1 -> ng2)
     WorkPackageRelationsHierarchyComponent,
@@ -521,6 +523,7 @@ import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work
     SaveQueryModal,
     RenameQueryModal,
     WpDestroyModal,
+    AttributeHelpTextModal,
 
     // External query configuration
     ExternalQueryConfigurationComponent,
@@ -546,14 +549,18 @@ export class OpenProjectModule {
       { tagName: 'work-packages-base', cls: WorkPackagesBaseComponent  },
       { tagName: 'project-menu-autocomplete', cls: ProjectMenuAutocompleteComponent  },
       { tagName: 'notifications-container', cls: NotificationsContainerComponent  },
+      { tagName: 'wp-embedded-table-entry', cls: WorkPackageEmbeddedTableEntryComponent },
+      { tagName: 'op-ckeditor-form', cls: OpCkeditorFormComponent },
+      { tagName: 'copy-to-clipboard', cls: CopyToClipboardDirective },
     );
   }
 }
 
 export function bootstrapOptional(appRef:ApplicationRef, ...elements:{ tagName:string, cls:any }[]) {
   elements.forEach(el => {
-    if (document.getElementsByTagName(el.tagName).length > 0) {
-      appRef.bootstrap(el.cls);
+    var elements = document.getElementsByTagName(el.tagName)
+    for (var i = 0; i < elements.length; i++) {
+      appRef.bootstrap(el.cls, elements[i]);
     }
   });
 }
@@ -563,15 +570,6 @@ export function initializeServices(injector:Injector) {
   return () => {
     const ExternalQueryConfiguration:ExternalQueryConfigurationService = injector.get(ExternalQueryConfigurationService);
     const global = (window as any);
-
-    if (window.innerWidth < 680) {
-      // On mobile sized screens navigation shall always be collapsed when
-      // window loads.
-      global.showNavigation = false;
-    } else {
-      global.showNavigation =
-        window.OpenProject.guardedLocalStorage('openproject:navigation-toggle') !== 'collapsed';
-    }
 
     // Setup query configuration listener
     ExternalQueryConfiguration.setupListener();

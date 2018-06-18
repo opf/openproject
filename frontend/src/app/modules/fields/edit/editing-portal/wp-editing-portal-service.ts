@@ -54,7 +54,7 @@ export class WorkPackageEditingPortalService {
     // Wait until the content is initialized
     return ref
       .instance
-      .onAfterViewInit
+      .onEditFieldReady
       .pipe(
         take(1)
       )

@@ -25,19 +25,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component} from "@angular/core";
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
 import {FormattableEditField} from "core-app/modules/fields/edit/field-types/formattable-edit-field";
 import {ExpressionService} from "../../../../../../common/expression.service";
 
 @Component({
   template: `
-    <div class="textarea-wrapper" ng-class="{'-preview': vm.field.isPreview}">
+    <div class="textarea-wrapper"
+         op-wiki-toolbar
+         (onPreviewToggle)="field.togglePreview()"
+         [ngClass]="{'-preview': field.isPreview}">
       <textarea
         style="min-height: 114px"
+        #textAreaField
+        op-auto-complete
+        [opAutoCompleteProjectId]="handler.project && handler.project.idFromLink"
         class="focus-input wp-inline-edit--field inplace-edit--textarea -animated"
         name="value"
-        *ngIf="!field.isPreview"
+        [hidden]="field.isPreview"
         [disabled]="field.isBusy || field.inFlight"
         [required]="field.required"
         [(ngModel)]="field.rawValue"
@@ -62,10 +68,15 @@ import {ExpressionService} from "../../../../../../common/expression.service";
 
   `
 })
-export class FormattableTextareaEditFieldComponent extends EditFieldComponent {
+export class FormattableTextareaEditFieldComponent extends EditFieldComponent implements AfterViewInit {
   public field:FormattableEditField;
+  @ViewChild('textAreaField') public textAreaField:ElementRef;
+
+  ngAfterViewInit() {
+    this.textAreaField.nativeElement.focus();
+  }
 
   public get unEscapedPreviewHtml() {
-    return ExpressionService.unescape(this.field.previewHtml);
+    return ExpressionService.unescape(this.field.previewHtml || '');
   }
 }

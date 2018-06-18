@@ -449,6 +449,7 @@ pl:
         before_or_equal_to: musi być przed lub równe %{date}.
         could_not_be_copied: nie można skopiować (w całości).
         regex_invalid: nie może być zastosowany z zastosowanym wyrażeniem regularnym.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: Przynajmniej jedna opcja musi być dostępna.
@@ -1852,7 +1853,7 @@ pl:
     text_show_again: Możesz zresetować to wideo w menu pomocy
     welcome: Witamy w OpenProject
   permission_add_work_package_notes: Dodawanie notatek
-  permission_add_work_packages: Dodaj Zadania
+  permission_add_work_packages: Dodawanie pakietów roboczych
   permission_add_messages: Wysyłanie wiadomości
   permission_add_project: Tworzenie projektu
   permission_add_subprojects: Tworzenie podprojektów

@@ -1,20 +1,27 @@
 <div
   class="wp-attachment-upload hide-when-print"
   *ngIf="workPackage.canAddAttachments"
-  ngf-drop
-  ngf-select
-  ngf-change="uploadFiles($files)"
-  ngf-multiple="true"
-  ngf-validate="{ size: {max: maxFileSize} }"
-  tabindex="0"
+  (drop)="onDropFiles($event)"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
   [attr.aria-label]="text.uploadLabel">
-  <div class="work-package--attachments--drop-box">
+  <input #hiddenFileInput
+         type="file"
+         id="attachment_files"
+         name="attachment_files"
+         (change)="onFilePickerChanged($event)"
+         hidden
+         multiple />
+  <div class="work-package--attachments--drop-box"
+       tabindex="0"
+       (accessibleClick)="triggerFileInput($event)"
+       [ngClass]="{ '-dragging': draggingOver }">
     <div class="work-package--attachments--label">
       <op-icon icon-classes="icon-attachment"></op-icon>
-      <p>
+      <label for="attachment_files">
         {{ text.dropFiles }} <br>
         {{ text.dropFilesHint }}
-      </p>
+      </label>
     </div>
   </div>
 </div>

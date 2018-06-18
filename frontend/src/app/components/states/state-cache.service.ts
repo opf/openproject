@@ -77,10 +77,11 @@ export abstract class StateCacheService<T> {
 
     // Refresh when stale or being forced
     if (this.stale(state) || force) {
-      return this.load(id);
+      state.clear();
+      state.putFromPromiseIfPristine(() => this.load(id));
     }
 
-    return Promise.resolve(state.value as T);
+    return state.valuesPromise() as Promise<T>;
   }
 
   /**

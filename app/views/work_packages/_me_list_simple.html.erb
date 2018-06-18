@@ -33,8 +33,14 @@ See docs/COPYRIGHT.rdoc for more details.
       filters:
           JSON.dump([{ user_filter => { operator: '=', values: ['me'] } }, { status: { operator: 'o', values: []}}]).to_s
   }
+
+  configuration = {
+      actionsColumnEnabled: false,
+      columnMenuEnabled: false,
+      contextMenuEnabled: false
+  }
 %>
 
-<wp-embedded-table [query-props]="<%= query_properties.to_json %>"
-                   [configuration]="{ actionsColumnEnabled: false, columnMenuEnabled: false, contextMenuEnabled: false }">
-</wp-embedded-table>
+<wp-embedded-table-entry query-props="<%= query_properties.to_json %>"
+                   configuration="<%= configuration.to_json %>">
+</wp-embedded-table-entry>

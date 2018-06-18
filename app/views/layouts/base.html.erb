@@ -175,23 +175,26 @@ See docs/COPYRIGHT.rdoc for more details.
 <%# Properly decides main menu expanded state and width before its drawn. Fixes flickering side menu
         where menu is first expanded, then being collapsed in angular. %>
 <%= nonced_javascript_tag do %>
+  // execute these lines to prevent flickering when page loads:
+
   (function($) {
-  var wrapper = $('#wrapper');
-  if (window.sessionStorage.getItem('openproject:navigation-toggle') === 'collapsed' || window.innerWidth < 680) {
-  $('.can-hide-navigation').addClass('hidden-navigation');
-  }
+    var wrapper = $('#wrapper');
+    var savedMainMenuWidth = window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth");
 
-  var savedMainMenuWidth = window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth");
-  if (savedMainMenuWidth) {
-  document.documentElement.style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
-  }
+    if (window.innerWidth < 680) {
+      // force hide on load for mobile
+      $('.can-hide-navigation').addClass('hidden-navigation');
+    }
 
-  wrapper.show();
+    if (savedMainMenuWidth) {
+      document.documentElement.style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
+    }
 
+    wrapper.show();
 
-  // Wrapper for page-specific JS from deprecated inline functions
-  // no longer available with CSP.
-  <%= content_for :additional_js_dom_ready %>
+    // Wrapper for page-specific JS from deprecated inline functions
+    // no longer available with CSP.
+    <%= content_for :additional_js_dom_ready %>
   }(jQuery));
 <% end %>
 <%= call_hook :view_layouts_base_body_bottom %>

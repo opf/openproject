@@ -209,6 +209,10 @@ export class UserActivityComponent implements IEditFieldHandler, OnInit, AfterVi
     return `user_activity_edit_field_${this.activityNo}`;
   }
 
+  public get project() {
+    return this.workPackage.project;
+  }
+
   deactivate(focus:boolean):void {
     this.inEdit = false;
 

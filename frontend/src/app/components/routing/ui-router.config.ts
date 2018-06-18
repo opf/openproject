@@ -99,10 +99,10 @@ export const OPENPROJECT_ROUTES:StateDeclaration[] = [
     params: {
       // value: null makes the parameter optional
       // squash: true avoids duplicate slashes when the paramter is not provided
-      projectPath: {value: null, squash: true},
-      projects: {value: null, squash: true},
-      query_id: {dynamic: true},
-      query_props: {dynamic: true}
+      projectPath: {type: 'path', value: null, squash: true},
+      projects: {type: 'path', value: null, squash: true},
+      query_id: {type: 'query', dynamic: true},
+      query_props: {type: 'query', dynamic: true, raw: true }
     }
   },
   {
@@ -201,6 +201,9 @@ export function initializeUiRouterConfiguration(injector:Injector) {
     const stateRegistry:StateRegistry = injector.get(StateRegistry);
     const urlService:UrlService = injector.get(UrlService);
 
+    // Allow optional trailing slashes
+    urlService.config.strictMode(false);
+
     // Register routes in this initializer instead forRoot({states: ...}) due to AOT
     _.each(OPENPROJECT_ROUTES, route => {
       stateRegistry.register(route);
@@ -208,26 +211,6 @@ export function initializeUiRouterConfiguration(injector:Injector) {
 
     // Synchronize now that routes are updated
     urlService.sync();
-
-    // Our application is still a hybrid one, meaning most routes are still
-    // handled by Rails. As such, we disable the default link-hijacking that
-    // Angular's HTML5-mode turns on.
-    jQuery(document.body)
-      .off('click')
-      // Prevent angular handling clicks on href="#..." links from other libraries
-      // (especially jquery-ui and its datepicker) from routing to <base url>/#
-      .on('click', 'a[href^="#"]', (evt) => {
-        evt.preventDefault();
-
-        // Set the location to the hash if there is any
-        // Since with the base tag, links like href="#whatever" otherwise target to <base>/#whatever
-        const link = evt.target.getAttribute('href');
-        if (link && link !== '#') {
-          window.location.hash = link;
-        }
-
-        return false;
-      });
 
     $transitions.onStart({}, function(transition:Transition) {
       const $state = transition.router.stateService;

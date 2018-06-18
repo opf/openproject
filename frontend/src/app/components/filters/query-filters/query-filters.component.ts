@@ -35,6 +35,7 @@ import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {WorkPackageTableFilters} from 'core-components/wp-fast-table/wp-table-filters';
 import {QueryFilterResource} from  'core-app/modules/hal/resources/query-filter-resource';
 import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
+import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 
 const ADD_FILTER_SELECT_INDEX = -1;
 
@@ -54,6 +55,7 @@ export class QueryFiltersComponent implements OnInit, OnChanges, OnDestroy {
   public remainingFilters:any[] = [];
   public eeShowBanners:boolean = false;
   public focusElementIndex:number = 0;
+  public compareByName = AngularTrackingHelpers.compareByName;
 
   public text = {
     open_filter: this.I18n.t('js.filter.description.text_open_filter'),

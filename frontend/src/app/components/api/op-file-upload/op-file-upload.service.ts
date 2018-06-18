@@ -26,18 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {Injectable} from "@angular/core";
+import {HttpClient, HttpEvent, HttpEventType, HttpResponse} from "@angular/common/http";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {Observable} from "rxjs/Observable";
+import {filter, map, share} from "rxjs/operators";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+
 export interface UploadFile extends File {
   description?:string;
   customName?:string;
 }
 
+export type UploadHttpEvent = HttpEvent<HalResource>;
+export type UploadInProgress = [UploadFile, Observable<UploadHttpEvent>];
+
 export interface UploadResult {
-  uploads:Promise<any>[];
-  finished:Promise<any>;
+  uploads:UploadInProgress[];
+  finished:Promise<HalResource[]>;
 }
 
+@Injectable()
 export class OpenProjectFileUploadService {
-  constructor(protected Upload:any) {
+  constructor(protected http:HttpClient,
+              protected halResource:HalResourceService) {
   }
 
   /**
@@ -46,22 +58,60 @@ export class OpenProjectFileUploadService {
    */
   public upload(url:string, files:UploadFile[]):UploadResult {
     files = _.filter(files, (file:UploadFile) => file.type !== 'directory');
-    const uploads = _.map(files, (file:UploadFile) => {
+    const uploads:UploadInProgress[] = _.map(files, (file:UploadFile) => {
+      const formData = new FormData();
       const metadata = {
         description: file.description,
         fileName: file.customName || file.name
       };
 
-      // need to wrap the metadata into a JSON ourselves as ngFileUpload
-      // will otherwise break up the metadata into individual parts
-      const data =  {
-        metadata: JSON.stringify(metadata),
-        file
-      };
+      // add the metadata object
+      formData.append(
+        'metadata',
+        JSON.stringify(metadata),
+      );
 
-      return this.Upload.upload({data, url});
+      // Add the file
+      formData.append('file', file);
+
+      const observable = this
+        .http
+        .post<HalResource>(
+          url,
+          formData,
+          {
+            // Observe the response, not the body
+            observe: 'response',
+            // Subscribe to progress events. subscribe() will fire multiple times!
+            reportProgress: true
+          }
+        )
+        .pipe(
+          share()
+        )
+
+      return [file, observable] as UploadInProgress;
     });
-    const finished = Promise.all(uploads);
+
+    const finished = this.whenFinished(uploads);
     return {uploads, finished} as any;
+  }
+
+  /**
+   * Create a promise for all uploaded responses when all uploads are fully uploaded.
+   *
+   * @param {UploadInProgress[]} uploads
+   */
+  private whenFinished(uploads:UploadInProgress[]):Promise<HalResource[]> {
+    const promises = uploads.map(([_, observable]) => {
+      return observable
+        .pipe(
+          filter((evt) => evt.type === HttpEventType.Response),
+          map((evt:HttpResponse<HalResource>) => this.halResource.createHalResource(evt.body))
+        )
+        .toPromise();
+    });
+
+    return Promise.all(promises);
   }
 }

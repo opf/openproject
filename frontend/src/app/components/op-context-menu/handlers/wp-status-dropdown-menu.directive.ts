@@ -26,17 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Directive, ElementRef, Input} from '@angular/core';
 import {StateService} from '@uirouter/core';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
+import {Directive, ElementRef, Inject, Input} from "@angular/core";
+import {OpContextMenuTrigger} from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
+import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+import {WorkPackageTableRefreshService} from "core-components/wp-table/wp-table-refresh-request.service";
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
-import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
-import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
-import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {IWorkPackageEditingServiceToken} from "../../wp-edit-form/work-package-editing.service.interface";
 
 @Directive({
   selector: '[wpStatusDropdown]'
@@ -47,8 +47,8 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
               readonly $state:StateService,
-              protected wpEditing:WorkPackageEditingService,
               protected wpNotificationsService:WorkPackageNotificationService,
+              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               protected wpTableRefresh:WorkPackageTableRefreshService) {
 
     super(elementRef, opContextMenu);
@@ -64,7 +64,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     });
   }
 
-  public get locals():{ showAnchorRight?:boolean, contextMenuId?:string, items:OpContextMenuItem[] } {
+  public get locals() {
     return {
       items: this.items,
       contextMenuId: 'wp-status-context-menu'
@@ -88,7 +88,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     const changeset = this.wpEditing.changesetFor(this.workPackage);
     changeset.setValue('status', status);
 
-    if (!this.workPackage.isNew) {
+    if(!this.workPackage.isNew) {
       changeset.save().then(() => {
         this.wpNotificationsService.showSave(this.workPackage);
         this.wpTableRefresh.request('Altered work package status via button');

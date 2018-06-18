@@ -60,13 +60,12 @@ import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-
 import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
 import {FocusDirective} from "core-app/modules/common/focus/focus.directive";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
-import {PersistentToggleDirective} from "core-app/modules/common/persistent-toggle/persistent-toggle.directive";
 import {HighlightColDirective} from "core-app/modules/common/highlight-col/highlight-col.directive";
 import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive";
 import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-toolbar.directive";
 import {RefreshOnFormChangesDirective} from "core-app/modules/common/remote/refresh-on-form-changes.directive";
 import {RemoteFieldUpdaterDirective} from "core-app/modules/common/remote/remote-field-updater.directive";
+import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.directive";
 
 @NgModule({
   imports: [
@@ -91,6 +90,7 @@ import {RemoteFieldUpdaterDirective} from "core-app/modules/common/remote/remote
     FocusDirective,
     AuthoringComponent,
     WorkPackageEditActionsBarComponent,
+    OpAutoCompleteDirective,
 
     // Notifications
     NotificationsContainerComponent,
@@ -107,9 +107,9 @@ import {RemoteFieldUpdaterDirective} from "core-app/modules/common/remote/remote
     AddSectionDropdownComponent,
     ShowSectionDropdownComponent,
     AutocompleteSelectDecorationComponent,
-    CollapsibleSectionComponent,
     RefreshOnFormChangesDirective,
     RemoteFieldUpdaterDirective,
+    WikiToolbarDirective,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -128,6 +128,7 @@ import {RemoteFieldUpdaterDirective} from "core-app/modules/common/remote/remote
     FocusDirective,
     AuthoringComponent,
     WorkPackageEditActionsBarComponent,
+    OpAutoCompleteDirective,
 
     // Notifications
     NotificationsContainerComponent,
@@ -142,12 +143,10 @@ import {RemoteFieldUpdaterDirective} from "core-app/modules/common/remote/remote
     HighlightColDirective,
 
     // Add functionality to rails rendered templates
-    CollapsibleSectionComponent,
     HideSectionLinkComponent,
     AddSectionDropdownComponent,
     ShowSectionDropdownComponent,
     AutocompleteSelectDecorationComponent,
-    PersistentToggleDirective,
     CopyToClipboardDirective,
     WikiToolbarDirective,
     RefreshOnFormChangesDirective,
@@ -159,8 +158,8 @@ import {RemoteFieldUpdaterDirective} from "core-app/modules/common/remote/remote
     AddSectionDropdownComponent,
     HideSectionComponent,
     HideSectionLinkComponent,
-    NotificationsContainerComponent,
-    CollapsibleSectionComponent,
+    CopyToClipboardDirective,
+    NotificationsContainerComponent
   ],
   providers: [
     I18nService,

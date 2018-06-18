@@ -420,6 +420,7 @@ ko:
         before_or_equal_to: 은(는) %{date} 이전이어야 합니다.
         could_not_be_copied: 은(는) (완전히) 복제될 수 없습니다.
         regex_invalid: 관련 정규식으로 유효성을 확인할 수 없습니다.
+        unchangeable: cannot be changed.
       models:
         custom_field:
           at_least_one_custom_option: 하나 이상의 옵션을 사용할 수 있어야 합니다.

@@ -55,8 +55,6 @@ export class MainMenuResizerComponent implements OnInit, OnDestroy {
   private elementWidth:number;
   private oldPosition:number;
   private mouseMoveHandler:any;
-  private element:HTMLElement;
-  private htmlNode:HTMLElement;
   private mainMenu = jQuery('#main-menu')[0];
 
   public moving:boolean = false;
@@ -134,8 +132,7 @@ export class MainMenuResizerComponent implements OnInit, OnDestroy {
     this.moving = false;
 
     // save new width in service
-    this.toggleService.saveWidth(this.localStorageKey, this.elementWidth);
-    console.log("Saved element width: ", this.elementWidth);
+    this.toggleService.saveWidth();
 
     // Send a event that we resized this element
     const event = new Event(this.resizeEvent);
@@ -152,20 +149,7 @@ export class MainMenuResizerComponent implements OnInit, OnDestroy {
     this.oldPosition = e.clientX;
     this.elementWidth = this.elementWidth + delta;
 
-    let collapsedState = sessionStorage.getItem('openproject:navigation-toggle');
-    if (collapsedState === 'collapsed') {
-      if (this.elementWidth > 10) {
-        jQuery('#main-menu-toggle').click();
-        this.toggleService.setWidth(element, this.elementWidth);
-      } else {
-        this.toggleService.setWidth(this.mainMenu, 0);
-      }
-    } else if (this.elementWidth <= 10) {
-      jQuery('#main-menu-toggle').click();
-      this.toggleService.setWidth(this.mainMenu, 0);
-    } else {
-      this.toggleService.setWidth(element, this.elementWidth);
-    }
+    this.toggleService.setWidth(this.elementWidth);
   }
 }
 

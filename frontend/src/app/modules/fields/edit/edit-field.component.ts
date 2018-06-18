@@ -26,12 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, InjectionToken, Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {EditField} from 'core-app/modules/fields/edit/edit.field.module';
-import {IEditFieldHandler} from 'core-app/modules/fields/edit/editing-portal/edit-field-handler.interface';
-import {IFieldSchema} from 'core-app/modules/fields/field.base';
-import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
+import {ChangeDetectorRef, Component, Inject, InjectionToken, Injector, OnDestroy, OnInit} from "@angular/core";
+import {WorkPackageEditFieldHandler} from "core-components/wp-edit-form/work-package-edit-field-handler";
+import {EditField} from "core-app/modules/fields/edit/edit.field.module";
+import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {IEditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler.interface";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {IWorkPackageEditingServiceToken} from "core-components/wp-edit-form/work-package-editing.service.interface";
+import {WorkPackageEditingService} from "core-components/wp-edit-form/work-package-editing-service";
+import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 
 export const OpEditingPortalFieldToken = new InjectionToken('wp-editing-portal--field');
 export const OpEditingPortalHandlerToken = new InjectionToken('wp-editing-portal--handler');
@@ -39,15 +42,36 @@ export const OpEditingPortalHandlerToken = new InjectionToken('wp-editing-portal
 @Component({
   template: ''
 })
-export class EditFieldComponent {
+export class EditFieldComponent implements OnDestroy {
   constructor(readonly I18n:I18nService,
+              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
               @Inject(OpEditingPortalFieldToken) readonly field:EditField,
               @Inject(OpEditingPortalHandlerToken) readonly handler:IEditFieldHandler,
+              readonly cdRef:ChangeDetectorRef,
               readonly injector:Injector) {
     this.initialize();
+
+    this.wpEditing.state(this.field.resource.id)
+      .values$()
+      .pipe(
+        untilComponentDestroyed(this)
+      )
+      .subscribe((changeset) => {
+        if (!this.changeset.empty && this.changeset.wpForm.hasValue()) {
+          this.field.schema = changeset.wpForm.value!.schema[this.field.name];
+          this.field.resource = changeset.resource;
+          this.initialize();
+          this.cdRef.markForCheck();
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    // Nothing to do
   }
 
   protected initialize() {
+    // Allow subclasses to create post-constructor initialization
   }
 
   public get value() {
@@ -66,7 +90,7 @@ export class EditFieldComponent {
     return this.field.schema;
   }
 
-  public get changeset():WorkPackageChangeset {
+  public get changeset() {
     return this.field.changeset;
   }
 }
