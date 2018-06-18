@@ -47,12 +47,14 @@ const accessibleListSelector = 'table.keyboard-accessible-list';
 const accessibleRowSelector = 'table.keyboard-accessible-list tbody tr';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class KeyboardShortcutService {
 
   // maybe move it to a .constant
   private shortcuts:any = {
-    '?': this.showHelpModal(),
+    '?': () => this.showHelpModal(),
     'g m': this.globalAction('myPagePath'),
     'g o': this.projectScoped('projectPath'),
     'g w p': this.projectScoped('projectWorkPackagesPath'),
@@ -69,14 +71,20 @@ export class KeyboardShortcutService {
     'm': this.accessKey('moreMenu'),
     'p': this.accessKey('projectSearch'),
     's': this.accessKey('quickSearch'),
-    'k': this.focusPrevItem(),
-    'j': this.focusNextItem()
+    'k': () => this.focusPrevItem(),
+    'j': () => this.focusNextItem()
   };
 
 
   constructor(private readonly PathHelper:PathHelperService,
               private readonly FocusHelper:FocusHelperService,
               private readonly currentProject:CurrentProjectService) {
+  }
+
+  /**
+   * Register the keyboard shortcuts.
+   */
+  public register() {
     _.each(this.shortcuts, (action:() => void, key:string) => Mousetrap.bind(key, action));
   }
 
@@ -97,8 +105,10 @@ export class KeyboardShortcutService {
   }
 
   public globalAction(action:keyof PathHelperService) {
-    var url = (this.PathHelper[action] as any)();
-    window.location.href = url;
+    return () => {
+      var url = (this.PathHelper[action] as any)();
+      window.location.href = url;
+    };
   }
 
   public projectScoped(action:keyof PathHelperService) {
@@ -173,4 +183,8 @@ export class KeyboardShortcutService {
   focusPrevItem() {
     this.focusItemOffset(-1);
   }
+}
+
+export function initializeKeyboardShortcuts(KeyboardShortcuts:KeyboardShortcutService) {
+  return () => KeyboardShortcuts.register();
 }

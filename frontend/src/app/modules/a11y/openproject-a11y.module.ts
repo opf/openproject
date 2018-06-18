@@ -29,10 +29,11 @@
 
 import {FormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
+import {APP_INITIALIZER, Injector, NgModule} from "@angular/core";
 import {AccessibleClickDirective} from "core-app/modules/a11y/accessible-click.directive";
 import {AccessibleByKeyboardComponent} from "core-app/modules/a11y/accessible-by-keyboard.component";
-import {KeyboardShortcutService} from "core-app/modules/a11y/keyboard-shortcut-service";
+import {initializeKeyboardShortcuts, KeyboardShortcutService} from "core-app/modules/a11y/keyboard-shortcut-service";
+import {initializeUiRouterConfiguration} from "core-components/routing/ui-router.config";
 
 @NgModule({
   imports: [
@@ -44,7 +45,13 @@ import {KeyboardShortcutService} from "core-app/modules/a11y/keyboard-shortcut-s
     AccessibleByKeyboardComponent,
   ],
   providers: [
-    KeyboardShortcutService
+    KeyboardShortcutService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeyboardShortcuts,
+      deps: [KeyboardShortcutService],
+      multi: true
+    }
   ],
   declarations: [
     AccessibleClickDirective,
