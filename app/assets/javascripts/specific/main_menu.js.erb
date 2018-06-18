@@ -95,7 +95,8 @@ jQuery(document).ready(function($) {
     var header = $('<div class="main-menu--children-menu-header"></div>');
     var upLink = $('<a class="main-menu--arrow-left-to-project" href="#"><i class="icon-arrow-left1" aria-hidden="true"></i></a>');
     upLink.attr('title', I18n.t('js.label_up'));
-    upLink.click(function() {
+    upLink.click(function(event) {
+      event.preventDefault();
       var target = $(this);
       $(target).parents('li').first().removeClass('open');
       $(".menu_root").removeClass('closed').addClass('open');
