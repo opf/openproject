@@ -99,8 +99,9 @@ export class WorkPackageEditFieldComponent implements OnInit {
     this.editContainer.nativeElement.innerHTML = '';
     this.editContainer.nativeElement.hidden = true;
     this.active = false;
+
     if (focus) {
-      this.$element.find(`.${displayClassName}`).focus();
+      setTimeout(() => this.$element.find(`.${displayClassName}`).focus(), 20);
     }
   }
 
