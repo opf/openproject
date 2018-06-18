@@ -131,8 +131,14 @@ export class WorkPackagesListChecksumService {
       (
         // Query ID changed
         idChanged ||
-        // Query ID same + query props changed
-        (!idChanged && checksumChanged && (otherChecksum || this.visibleChecksum)) ||
+        // Query ID same
+        (!idChanged && checksumChanged &&
+          (
+            // + query props are now unset
+            (!otherChecksum && hasCurrentChecksum) ||
+            // + query props changed
+            (otherChecksum || this.visibleChecksum)
+          )) ||
         // No query ID set
         (!hasCurrentQueryID && visibleChecksumChanged)
       )
