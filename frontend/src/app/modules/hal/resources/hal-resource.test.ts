@@ -755,7 +755,7 @@ describe('HalResource', () => {
           it('should return itself in a promise if already loaded', () => {
             resource.$loaded = true;
 
-            expect(resource.$load()).to.eventually.be.fulfilled.then(result => {
+            expect(resource.$load()).to.eventually.be.fulfilled.then((result:HalResource) => {
               expect(result).to.equal(result);
             });
           });

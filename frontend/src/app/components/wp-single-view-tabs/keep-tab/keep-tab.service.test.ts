@@ -29,8 +29,6 @@
 import {KeepTabService} from './keep-tab.service';
 import {StateService, Transition} from '@uirouter/core';
 
-var expect = chai.expect;
-
 describe('keepTab service', () => {
   var callback:(transition:any) => void;
   var includes:any;

@@ -31,11 +31,11 @@ import {PathHelperService} from './path-helper.service';
 describe('PathHelper', function() {
   var PathHelper:PathHelperService = new PathHelperService();
 
-  context('apiV3', function() {
+  describe('apiV3', function() {
     var projectIdentifier = 'majora';
 
     it('should provide the project\'s path', function() {
-      expect(PathHelper.api.v3.projects.id(projectIdentifier).path).to.equal('/api/v3/projects/majora');
+      expect(PathHelper.api.v3.projects.id(projectIdentifier).path).toEqual('/api/v3/projects/majora');
     });
 
     it('should provide a path to the project\'s mentionable principals', function() {
@@ -44,7 +44,7 @@ describe('PathHelper', function() {
 
       expect(
         PathHelper.api.v3.principals(projectId, term)
-      ).to.equal('/api/v3/principals?filters=' +  encodeURI('[{"status":{"operator":"!","values":["0","3"]}},{"member":{"operator":"=","values":["1"]}},{"type":{"operator":"=","values":["User","Group"]}},{"id":{"operator":"!","values":["me"]}},{"name":{"operator":"~","values":["Maria"]}}]&sortBy=[["name","asc"]]&offset=1&pageSize=10'));
+      ).toEqual('/api/v3/principals?filters=' +  encodeURI('[{"status":{"operator":"!","values":["0","3"]}},{"member":{"operator":"=","values":["1"]}},{"type":{"operator":"=","values":["User","Group"]}},{"id":{"operator":"!","values":["me"]}},{"name":{"operator":"~","values":["Maria"]}}]&sortBy=[["name","asc"]]&offset=1&pageSize=10'));
     });
   });
 });
