@@ -1,0 +1,9 @@
+zh-TW:
+  error_can_not_be_assigned: 無法將角色指派給此使用者
+  global_roles: 全域角色
+  label_role_type: 類型
+  label_member_role: 專案角色
+  label_global_role: 全域角色
+  label_not_changeable: (不可更改)
+  label_no_assignable_role: 沒有可用於分配的全域角色
+  label_global: 全域設定
