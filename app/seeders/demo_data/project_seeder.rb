@@ -114,53 +114,7 @@ module DemoData
 
     def seed_queries(project, key)
       Array(I18n.t("seeders.demo_data.projects.#{key}")[:queries]).each do |config|
-        attr = {
-          project: project,
-          name: config[:name],
-          user: User.admin.first,
-          is_public: true,
-          show_hierarchies: config[:hierarchy] == true,
-          timeline_visible: config[:timeline] == true
-        }
-
-        filters = {}
-
-        if status = String(config[:status])
-          filters[:status_id] = { operator: "o" } if status == "open"
-        end
-
-        if version = config[:version].presence
-          filters[:fixed_version_id] = { operator: "=", values: [Version.find_by(name: version).id] }
-        end
-
-        if sort_by = config[:sort_by]
-          attr[:sort_criteria] = [[sort_by, "asc"]]
-        end
-
-        if group_by = config[:group_by]
-          attr[:group_by] = group_by
-        end
-
-        types = Array(config[:type]).map do |name|
-          Type.find_by(name: I18n.t(name))
-        end
-
-        if !types.empty?
-          filters[:type_id] = { operator: "=", values: types.map(&:id).map(&:to_s) }
-        end
-
-        columns = Array(config[:columns])
-
-        attr[:column_names] = columns.map(&:to_s) unless columns.empty?
-
-        # don't seed backlogs versions if there is no backlogs plugin
-        return if !backlogs_present? && Array(attr[:column_names]).include?("story_points")
-
-        attr[:filters] = [filters] unless filters.empty?
-
-        query = Query.create! attr
-
-        MenuItems::QueryMenuItem.create! navigatable_id: query.id, name: SecureRandom.uuid, title: query.name
+        QueryBuilder.new(config, project).create!
       end
     end
 
@@ -170,28 +124,8 @@ module DemoData
       return if version_data.is_a?(String) && version_data.start_with?("translation missing")
 
       version_data.each do |attributes|
-        version = Version.create!(
-          name:    attributes[:name],
-          status:  attributes[:status],
-          sharing: attributes[:sharing]
-        )
-
-        project.versions << version
-
-        if attributes[:wiki]
-          version.wiki_page_title = attributes[:wiki][:title]
-          page = WikiPage.create! wiki: version.project.wiki, title: version.wiki_page_title
-          content = WikiContent.create! page: page, author: User.admin.first, text: attributes[:wiki][:content]
-
-          version.save!
-        end
+        VersionBuilder.new(attributes, project).create!
       end
-    end
-
-    def backlogs_present?
-      @backlogs_present = defined? OpenProject::Backlogs if @backlogs_present.nil?
-
-      @backlogs_present
     end
 
     def seed_board(project)

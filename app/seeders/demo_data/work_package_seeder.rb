@@ -110,7 +110,7 @@ module DemoData
 
       wp_attr[:start_date] = start_date
       wp_attr[:due_date] = calculate_due_date(start_date, attributes[:duration]) if start_date && attributes[:duration]
-      wp_attr[:done_ratio] =  attributes[:done_ratio].to_i if attributes[:done_ratio]
+      wp_attr[:done_ratio] = attributes[:done_ratio].to_i if attributes[:done_ratio]
       wp_attr[:estimated_hours] = attributes[:estimated_hours].to_i if attributes[:estimated_hours]
     end
 
@@ -135,23 +135,21 @@ module DemoData
       work_packages_data = I18n.t("seeders.demo_data.projects.#{key}.work_packages")
 
       work_packages_data.each do |attributes|
-        Array(attributes[:relations]).each do |relation|
-          create_relation(
-            to:   WorkPackage.find_by!(subject: relation[:to]),
-            from: WorkPackage.find_by!(subject: attributes[:subject]),
-            type: relation[:type]
-          )
-        end
+        create_relations attributes
+      end
+    end
 
-        Array(attributes[:children]).each do |child_attributes|
-        Array(child_attributes[:relations]).each do |relation|
-            create_relation(
-              to:   WorkPackage.find_by!(subject: relation[:to]),
-              from: WorkPackage.find_by!(subject: child_attributes[:subject]),
-              type: relation[:type]
-            )
-          end
-        end
+    def create_relations(attributes)
+      Array(attributes[:relations]).each do |relation|
+        create_relation(
+          to:   WorkPackage.find_by!(subject: relation[:to]),
+          from: WorkPackage.find_by!(subject: attributes[:subject]),
+          type: relation[:type]
+        )
+      end
+
+      Array(attributes[:children]).each do |child_attributes|
+        create_relations child_attributes
       end
     end
 
