@@ -4,9 +4,7 @@
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
     "module": "es2015",
-    "types": [],
-    "declaration": false,
-    "declarationDir": "../generated_typings"
+    "types": []
   },
   "exclude": [
     "test.ts",
