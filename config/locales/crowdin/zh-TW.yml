@@ -26,5 +26,5 @@ zh-TW:
   validation_failure_integer: "不是一個有效的整數"
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_columns: "選擇列"
+      selected_rows: "選定行"
