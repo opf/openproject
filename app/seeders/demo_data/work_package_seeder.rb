@@ -63,6 +63,7 @@ module DemoData
     def create_work_package(attributes)
       wp_attr = base_work_package_attributes attributes
 
+      set_version! wp_attr, attributes
       set_time_tracking_attributes! wp_attr, attributes
       set_backlogs_attributes! wp_attr, attributes
 
@@ -85,24 +86,34 @@ module DemoData
     end
 
     def base_work_package_attributes(attributes)
-      priority = IssuePriority.find_by(name: I18n.t(attributes[:priority]))
-
-      wp_attr = {
+      {
         project:       project,
         author:        user,
         assigned_to:   user,
         subject:       attributes[:subject],
         description:   attributes[:description],
-        status:        Status.find_by!(name: I18n.t(attributes[:status])),
-        type:          Type.find_by!(name: I18n.t(attributes[:type])),
-        priority:      priority || IssuePriority.default,
+        status:        find_status(attributes),
+        type:          find_type(attributes),
+        priority:      find_priority(attributes) || IssuePriority.default
       }
+    end
 
+    def find_priority(attributes)
+      IssuePriority.find_by(name: I18n.t(attributes[:priority]))
+    end
+
+    def find_status(attributes)
+      Status.find_by!(name: I18n.t(attributes[:status]))
+    end
+
+    def find_type(attributes)
+      Type.find_by!(name: I18n.t(attributes[:type]))
+    end
+
+    def set_version!(wp_attr, attributes)
       if attributes[:version]
         wp_attr[:fixed_version] = Version.find_by!(name: attributes[:version])
       end
-
-      wp_attr
     end
 
     def set_time_tracking_attributes!(wp_attr, attributes)
@@ -167,7 +178,7 @@ module DemoData
     end
 
     def calculate_due_date(date, duration)
-      (duration && duration > 1) ? date + duration : date
+      duration && duration > 1 ? date + duration : date
     end
   end
 end
