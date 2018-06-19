@@ -31,7 +31,7 @@ import {StateService, Transition} from '@uirouter/core';
 
 describe('keepTab service', () => {
   var callback:(transition:any) => void;
-  var includes:any;
+  var includes = (path:string) => false;
 
   var $state:any = {
     current: {
@@ -53,37 +53,38 @@ describe('keepTab service', () => {
 
   describe('when initially invoked, or when an unsupported route is opened', () => {
     it('should have the correct default value for the currentShowTab', () => {
-      expect(keepTab.currentShowState).to.eq(defaults.showTab);
-      expect(keepTab.currentShowTab).to.eq('activity');
+      expect(keepTab.currentShowState).toEqual(defaults.showTab);
+      expect(keepTab.currentShowTab).toEqual('activity');
     });
 
     it('should have the correct default value for the currentDetailsTab', () => {
-      expect(keepTab.currentDetailsState).to.eq(defaults.detailsTab);
-      expect(keepTab.currentDetailsTab).to.eq('overview');
+      expect(keepTab.currentDetailsState).toEqual(defaults.detailsTab);
+      expect(keepTab.currentDetailsTab).toEqual('overview');
     });
   });
 
   describe('when opening a show route', () => {
+    var currentPathPrefix = 'work-packages.show.*';
 
     beforeEach(() => {
-      includes = sinon.stub($state, 'includes');
-      includes.withArgs('work-packages.show.*').returns(true);
-      includes.withArgs('work-packages.list.details.*').returns(false);
+      spyOn($state, 'includes').and.callFake((path:string) => {
+        return path === currentPathPrefix;
+      });
 
       $state.current.name = 'work-packages.show.relations';
       keepTab.updateTabs();
     });
 
     it('should update the currentShowTab value', () => {
-      expect(keepTab.currentShowState).to.eq('work-packages.show.relations');
+      expect(keepTab.currentShowState).toEqual('work-packages.show.relations');
     });
 
     it('should also update the value of currentDetailsTab', () => {
-      expect(keepTab.currentDetailsState).to.eq('work-packages.list.details.relations');
+      expect(keepTab.currentDetailsState).toEqual('work-packages.list.details.relations');
     });
 
     it('should propagate the previous change', () => {
-      var cb = sinon.spy();
+      var cb = jasmine.createSpy();
 
       var expected = {
         active: 'relations',
@@ -92,61 +93,59 @@ describe('keepTab service', () => {
       }
 
       keepTab.observable.subscribe(cb);
-      expect(cb).to.have.been.calledWith(expected);
+      expect(cb).toHaveBeenCalledWith(expected);
     });
 
     it('should correctly change when switching back', () => {
-      includes.withArgs('work-packages.show.*').returns(false);
-      includes.withArgs('work-packages.list.details.*').returns(true);
+      currentPathPrefix = 'work-packages.list.details.*';
 
       $state.current.name = 'work-packages.list.details.overview';
       keepTab.updateTabs();
 
-
-      expect(keepTab.currentShowState).to.eq('work-packages.show.activity');
-      expect(keepTab.currentShowTab).to.eq('activity');
-      expect(keepTab.currentDetailsState).to.eq('work-packages.list.details.overview');
-      expect(keepTab.currentDetailsTab).to.eq('overview');
+      expect(keepTab.currentShowState).toEqual('work-packages.show.activity');
+      expect(keepTab.currentShowTab).toEqual('activity');
+      expect(keepTab.currentDetailsState).toEqual('work-packages.list.details.overview');
+      expect(keepTab.currentDetailsTab).toEqual('overview');
     });
   });
 
   describe('when opening show#activity', () => {
     beforeEach(() => {
-      var includes = sinon.stub($state, 'includes');
-      includes.withArgs('work-packages.show.*').returns(true);
-      includes.withArgs('work-packages.list.details.*').returns(false);
+      spyOn($state, 'includes').and.callFake((path:string) => {
+        return path === 'work-packages.show.*';
+      });
 
       $state.current.name = 'work-packages.show.activity';
       keepTab.updateTabs('work-packages.show.activity');
     });
 
     it('should set the tab to overview', () => {
-      expect(keepTab.currentDetailsState).to.eq('work-packages.list.details.overview');
+      expect(keepTab.currentDetailsState).toEqual('work-packages.list.details.overview');
     });
   });
 
   describe('when opening a details route', () => {
     beforeEach(() => {
-      var includes = sinon.stub($state, 'includes');
-      includes.withArgs('work-packages.list.details.*').returns(true);
-      includes.withArgs('work-packages.show.*').returns(false);
+      spyOn($state, 'includes').and.callFake((path:string) => {
+        return path === 'work-packages.list.details.*';
+      });
 
       $state.current.name = 'work-packages.list.details.activity';
       keepTab.updateTabs();
     });
 
     it('should update the currentShowTab value', () => {
-      expect(keepTab.currentDetailsState).to.eq('work-packages.list.details.activity');
-      expect(keepTab.currentDetailsTab).to.eq('activity');
+      expect(keepTab.currentDetailsState).toEqual('work-packages.list.details.activity');
+      expect(keepTab.currentDetailsTab).toEqual('activity');
     });
 
     it('should also update the value of currentDetailsTab', () => {
-      expect(keepTab.currentShowState).to.eq('work-packages.show.activity');
-      expect(keepTab.currentShowTab).to.eq('activity');
+      expect(keepTab.currentShowState).toEqual('work-packages.show.activity');
+      expect(keepTab.currentShowTab).toEqual('activity');
     });
 
     it('should propagate the previous and next change', () => {
-      var cb = sinon.spy();
+      var cb = jasmine.createSpy();
 
       var expected = {
         active: 'activity',
@@ -155,11 +154,11 @@ describe('keepTab service', () => {
       };
 
       keepTab.observable.subscribe(cb);
-      expect(cb).to.have.been.calledWith(expected);
+      expect(cb).toHaveBeenCalledWith(expected);
 
       keepTab.updateTabs();
 
-      expect(cb).to.have.been.calledTwice;
+      expect(cb.calls.count()).toEqual(2);
     });
 
   });
