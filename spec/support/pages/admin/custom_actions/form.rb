@@ -41,7 +41,7 @@ module Pages
         end
 
         def add_action(name, value)
-          select name, from: 'Add'
+          select name, from: 'Add action'
 
           set_action_value(name, value)
         end

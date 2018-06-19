@@ -84,8 +84,8 @@ function remoteFieldUpdater($http:ng.IHttpService) {
           // tabbing back with shift (16) and
           // special cases where the tab code is not correctly recognized (undefined).
           // Thus the focus is kept on the first element of the result list.
-          let keyCodesArray = [keyCodes.TAB, keyCodes.ENTER, keyCodes.SHIFT]
-          if (keyCodesArray.indexOf(event.keyCode) === -1 && event.keyCode != null) {
+          let keyCodesArray = [keyCodes.TAB, keyCodes.ENTER, keyCodes.SHIFT];
+          if (keyCodesArray.indexOf(event.keyCode) === -1 && event.keyCode !== null) {
             updater();
           }
         }, 200)

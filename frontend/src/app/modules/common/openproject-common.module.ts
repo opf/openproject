@@ -33,18 +33,12 @@ import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
 
 import {AuthoringComponent} from 'core-app/modules/common/authoring/authoring.component';
-import {AutocompleteSelectDecorationComponent} from 'core-app/modules/common/autocomplete-select-decoration/autocomplete-select-decoration.component';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {OpDateTimeComponent} from 'core-app/modules/common/date/op-date-time.component';
 import {WorkPackageEditActionsBarComponent} from 'core-app/modules/common/edit-actions-bar/wp-edit-actions-bar.component';
-import {GonRef} from 'core-app/modules/common/gon-ref/gon-ref';
 import {AttributeHelpTextComponent} from 'core-app/modules/common/help-texts/attribute-help-text.component';
 import {AttributeHelpTextModal} from 'core-app/modules/common/help-texts/attribute-help-text.modal';
 import {AttributeHelpTextsService} from 'core-app/modules/common/help-texts/attribute-help-text.service';
-import {AddSectionDropdownComponent} from 'core-app/modules/common/hide-section/add-section-dropdown/add-section-dropdown.component';
-import {HideSectionLinkComponent} from 'core-app/modules/common/hide-section/hide-section-link/hide-section-link.component';
-import {HideSectionComponent} from 'core-app/modules/common/hide-section/hide-section.component';
-import {HideSectionService} from 'core-app/modules/common/hide-section/hide-section.service';
 import {OpIcon} from 'core-app/modules/common/icon/op-icon';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
@@ -54,10 +48,9 @@ import {NotificationsService} from 'core-app/modules/common/notifications/notifi
 import {UploadProgressComponent} from 'core-app/modules/common/notifications/upload-progress.component';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {OpDatePickerComponent} from "core-app/modules/common/op-date-picker/op-date-picker.component";
-import {FocusWithinDirective} from "core-app/modules/common/focus/focus-within.upgraded.directive";
+import {FocusWithinDirective} from "core-app/modules/common/focus/focus-within.directive";
 import {FocusHelperService} from "core-app/modules/common/focus/focus-helper";
 import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
-import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
 import {FocusDirective} from "core-app/modules/common/focus/focus.directive";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HighlightColDirective} from "core-app/modules/common/highlight-col/highlight-col.directive";
@@ -78,12 +71,6 @@ import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.di
     OpDateTimeComponent,
     OpIcon,
 
-    // Add functionality to rails rendered templates
-    HideSectionComponent,
-    HideSectionLinkComponent,
-    AddSectionDropdownComponent,
-    AutocompleteSelectDecorationComponent,
-
     AttributeHelpTextComponent,
     AttributeHelpTextModal,
     FocusWithinDirective,
@@ -102,11 +89,6 @@ import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.di
     AttributeHelpTextComponent,
 
     // Add functionality to rails rendered templates
-    HideSectionComponent,
-    HideSectionLinkComponent,
-    AddSectionDropdownComponent,
-    ShowSectionDropdownComponent,
-    AutocompleteSelectDecorationComponent,
     RefreshOnFormChangesDirective,
     RemoteFieldUpdaterDirective,
     WikiToolbarDirective,
@@ -115,12 +97,6 @@ import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.di
     OpDatePickerComponent,
     OpDateTimeComponent,
     OpIcon,
-
-    // Add functionality to rails rendered templates
-    HideSectionComponent,
-    HideSectionLinkComponent,
-    AddSectionDropdownComponent,
-    AutocompleteSelectDecorationComponent,
 
     AttributeHelpTextComponent,
     AttributeHelpTextModal,
@@ -143,10 +119,6 @@ import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.di
     HighlightColDirective,
 
     // Add functionality to rails rendered templates
-    HideSectionLinkComponent,
-    AddSectionDropdownComponent,
-    ShowSectionDropdownComponent,
-    AutocompleteSelectDecorationComponent,
     CopyToClipboardDirective,
     WikiToolbarDirective,
     RefreshOnFormChangesDirective,
@@ -154,17 +126,11 @@ import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.di
   ],
   entryComponents: [
     OpDateTimeComponent,
-    ShowSectionDropdownComponent,
-    AddSectionDropdownComponent,
-    HideSectionComponent,
-    HideSectionLinkComponent,
     CopyToClipboardDirective,
     NotificationsContainerComponent
   ],
   providers: [
     I18nService,
-    GonRef,
-    HideSectionService,
     NotificationsService,
     FocusHelperService,
     LoadingIndicatorService,

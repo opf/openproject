@@ -26,53 +26,68 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {HideSectionDefinition, HideSectionService} from 'core-app/modules/common/hide-section/hide-section.service';
 import {combineLatest} from 'rxjs';
 import {Subscription} from 'rxjs';
+import {HideSectionDefinition, HideSectionService} from "../hide-section.service";
+import {openprojectLegacyModule} from "../../../openproject-legacy-app";
 
-@Component({
-  selector: 'add-section-dropdown',
-  templateUrl: './add-section-dropdown.component.html'
-})
-export class AddSectionDropdownComponent implements OnInit, OnDestroy {
+export class AddSectionDropdownComponent {
   selectable:HideSectionDefinition[] = [];
-  turnedActive:HideSectionDefinition | null = null;
+  turnedActive:HideSectionDefinition;
 
-  public texts = {
-    placeholder: this.I18n.t('js.placeholders.selection')
-  };
-
-  @Input()
-  htmlId:string;
+  public htmlId:string;
+  public i18n:any;
 
   private allSubscription:Subscription;
 
-  constructor(protected hideSections:HideSectionService,
-              readonly I18n:I18nService) {
+  constructor(protected HideSectionService:HideSectionService,
+              protected $scope:ng.IScope) {
+    window.OpenProject.pluginContext.valuesPromise().then((context) => {
+      this.i18n = context.services.i18n;
+
+      this.turnedActive = this.placeholder();
+
+      this.subscribe();
+    });
   }
 
-  ngOnInit() {
-    this.allSubscription = combineLatest(this.hideSections.all$, this.hideSections.displayed$)
+  subscribe() {
+    this.allSubscription = combineLatest(this.HideSectionService.all$, this.HideSectionService.displayed$)
       .subscribe(([all, displayed]) => {
         this.selectable = _.filter(all, all_candidate =>
           !_.some(displayed, displayed_candidate => all_candidate.key === displayed_candidate.key)
-        ).sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()));
+        ).sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()))
+
+        this.selectable.unshift(this.placeholder());
+
+        // HACK to get the values to be displayed right away
+        setTimeout(() => this.$scope.$apply());
       });
   }
 
-  ngOnDestroy() {
+  $onDestroy() {
     this.allSubscription.unsubscribe();
   }
 
   show() {
     if (this.turnedActive) {
-      this.hideSections.show(this.turnedActive);
+      this.HideSectionService.show(this.turnedActive);
       setTimeout(() => {
-        this.turnedActive = null;
+        this.turnedActive = this.placeholder();
+        this.$scope.$apply();
       });
     }
   }
+
+  placeholder() {
+    return { key: '', label: this.i18n.t('js.placeholders.selection') };
+  }
 }
+
+openprojectLegacyModule.component('addSectionDropdown', {
+  controller: AddSectionDropdownComponent,
+  template: require('!!raw-loader!./add-section-dropdown.component.html'),
+  bindings: {
+    htmlId: '<'
+  }
+});

@@ -26,32 +26,36 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, OnInit, ElementRef, Input} from '@angular/core';
-import {HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
+import {openprojectLegacyModule} from "../../openproject-legacy-app";
+import {HideSectionService} from "./hide-section.service";
 
-@Component({
-  selector: 'show-section-dropdown',
-  template: '<ng-content></ng-content>'
-})
+export class ShowSectionDropdownComponent {
+  public optValue:string;           // value of option for which hide-section should be visible
+  public hideSecWithName:string;    // section-name of hide-section
 
-export class ShowSectionDropdownComponent implements OnInit {
-  @Input() optValue:string;           // value of option for which hide-section should be visible
-  @Input() hideSecWithName:string;    // section-name of hide-section
-
-  constructor(protected hideSections:HideSectionService,
-              private elementRef:ElementRef) {
+  constructor(protected HideSectionService:HideSectionService,
+              private $element:ng.IAugmentedJQuery) {
   }
 
-  ngOnInit() {
-    jQuery(this.elementRef.nativeElement).change(event => {
+  $onInit() {
+    this.$element.change(event => {
       let selectedOption = jQuery("option:selected", event.target);
 
       if (selectedOption.val() !== this.optValue) {
-        this.hideSections.hide(this.hideSecWithName);
+        this.HideSectionService.hide(this.hideSecWithName);
       }
       else {
-        this.hideSections.show({key: this.hideSecWithName, label: ""});
+        this.HideSectionService.show({key: this.hideSecWithName, label: ""});
       }
     });
   }
 }
+
+openprojectLegacyModule.component('showSectionDropdown', {
+  template: '<ng-transclude></ng-transclude>',
+  controller: ShowSectionDropdownComponent,
+  bindings: {
+    optValue: "<",
+    hideSecWithName: "<"
+  }
+});

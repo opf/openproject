@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import { Injectable } from '@angular/core';
+import {openprojectLegacyModule} from "../../openproject-legacy-app";
 
 interface GonWindow extends Window {
   gon:{};
@@ -36,9 +36,10 @@ function _gon():any {
   return (<GonWindow> window).gon;
 }
 
-@Injectable()
 export class GonRef {
   get(name:string):any {
     return _gon()[name];
   }
 }
+
+openprojectLegacyModule.service('GonRef', GonRef);

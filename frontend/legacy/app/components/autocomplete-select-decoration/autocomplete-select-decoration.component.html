@@ -1,0 +1,31 @@
+<ng-transclude style="display:none"></ng-transclude>
+
+<ul class="form--selected-value--list">
+  <li
+      ng-repeat="item in $ctrl.selectedItems"
+      class="form--selected-value--container"
+      focus-within="accessible-by-keyboard"
+      tabindex="0"
+      aria-label="{{::$ctrl.ariaLabelText(item)}}"
+      ng-click="$ctrl.editUnlessMulti()" >
+    <span class="form--selected-value">
+      {{item.value}}
+    </span>
+    <accessible-by-keyboard
+        ng-if="$ctrl.isMulti"
+        execute="$ctrl.remove(item)"
+        link-aria-label="{{$ctrl.removeItemText(item)}}"
+        link-title="$ctrl.removeItemText(item)"
+        link-class="{{'form--selected-value--remover'}}">
+      <op-icon icon-classes="icon-remove icon-small"
+               icon-title="{{$ctrl.removeItemText(item)}}"></op-icon>
+    </accessible-by-keyboard>
+  </li>
+</ul>
+
+<input
+    ng-show="$ctrl.isInputDisplayed"
+    type="text"
+    class="form--input -autocomplete"
+    placeholder="{{::$ctrl.placeholderText}}">
+

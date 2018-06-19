@@ -36,7 +36,7 @@ function persistentToggleDirective($timeout:ITimeoutService) {
       var clickHandler = element.find('.persistent-toggle--click-handler'),
         targetNotification = element.find('.persistent-toggle--notification');
 
-      scope.isHidden = window.OpenProject.guardedLocalStorage(attributes.identifier) == 'true';
+      scope.isHidden = window.OpenProject.guardedLocalStorage(attributes.identifier) === 'true';
 
       function toggle(isNowHidden:boolean) {
         window.OpenProject.guardedLocalStorage(attributes.identifier, (!!isNowHidden).toString());

@@ -26,32 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, Input, OnDestroy, OnInit} from '@angular/core';
-import {HideSectionService} from 'core-app/modules/common/hide-section/hide-section.service';
 import {Subscription} from 'rxjs';
 import {distinctUntilChanged, map, take} from 'rxjs/operators';
+import {openprojectLegacyModule} from "../../openproject-legacy-app";
+import {HideSectionService} from "./hide-section.service";
 
-@Component({
-  selector: 'hide-section',
-  template: '<span *ngIf="displayed"><ng-content></ng-content></span>'
-})
-export class HideSectionComponent implements OnInit, OnDestroy {
-  displayed:boolean = false;
+export class HideSectionComponent {
+  public displayed:boolean = false;
 
   private displayedSubscription:Subscription;
   private initializationSubscription:Subscription;
 
-  @Input() sectionName:string;
-  @Input() onDisplayed:Function;
+  public sectionName:string;
+  public onDisplayed:Function;
 
-  constructor(protected hideSection:HideSectionService,
-              private elementRef:ElementRef) {
+  public innerHtml:any;
+
+  constructor(protected HideSectionService:HideSectionService,
+              private $element:ng.IAugmentedJQuery) {
+
   }
 
-  ngOnInit() {
-    let mappedDisplayed = this.hideSection.displayed$
+  $onInit() {
+    let mappedDisplayed = this.HideSectionService.displayed$
       .pipe(
-        map(all_displayed => _.some(all_displayed, candidate => candidate.key === this.sectionName))
+        map(all_displayed => _.some(all_displayed, candidate => {
+          return candidate.key === this.sectionName;
+        }))
       );
 
     this.initializationSubscription = mappedDisplayed
@@ -59,7 +60,7 @@ export class HideSectionComponent implements OnInit, OnDestroy {
         take(1)
       )
       .subscribe(show => {
-        jQuery(this.elementRef.nativeElement).addClass('-initialized');
+        this.$element.addClass('-initialized');
       });
 
     this.displayedSubscription = mappedDisplayed
@@ -75,8 +76,18 @@ export class HideSectionComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
+  $onDestroy() {
     this.displayedSubscription.unsubscribe();
     this.initializationSubscription.unsubscribe();
   }
 }
+
+openprojectLegacyModule.component('hideSection', {
+  template: '<span ng-if="$ctrl.displayed"><ng-transclude></ng-transclude></span>',
+  controller: HideSectionComponent,
+  bindings: {
+    onDisplayed: "@",
+    sectionName: "="
+  },
+  transclude: true
+});

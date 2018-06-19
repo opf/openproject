@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, Inject, Input, OnInit} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {openprojectLegacyModule} from "../../openproject-legacy-app";
 
 export interface AutocompleteSelectDecorationItem {
   id:number;
@@ -36,42 +34,41 @@ export interface AutocompleteSelectDecorationItem {
   value:string;
 }
 
-@Component({
-  templateUrl: './autocomplete-select-decoration.component.html',
-  selector: 'autocomplete-select-decoration',
-})
-
-export class AutocompleteSelectDecorationComponent implements OnInit {
+export class AutocompleteSelectDecorationComponent {
 
   public selectedItems:AutocompleteSelectDecorationItem[] = [];
   public isMulti:boolean = true;
+  public isInputDisplayed:boolean = false;
   private allItems:AutocompleteSelectDecorationItem[] = [];
-  private $select:any = null;
-  private $input:any = null;
+  private $select:ng.IAugmentedJQuery|null = null;
+  private $input:ng.IAugmentedJQuery|null = null;
   private label:string;
+  private i18n:any;
+  private placeholderText:string;
 
-  @Input('label') labelOverride:string|null = null;
+  public labelOverride:string|null = null;
 
-  constructor(private elementRef:ElementRef,
-              readonly I18n:I18nService) {
+  constructor(private $element:ng.IAugmentedJQuery,
+              private $scope:ng.IScope) {
+    window.OpenProject.pluginContext.valuesPromise().then((context) => {
+      this.i18n = context.services.i18n;
+
+      this.setDomElements();
+
+      this.switchIds();
+      this.getItems();
+      this.setPlaceholderText();
+      this.setupAutocompleter();
+      this.setInitialized();
+    });
   }
 
   public remove(item:AutocompleteSelectDecorationItem) {
     _.remove(this.selectedItems, (selected) => selected.id === item.id);
 
-    let val = this.$select.val();
+    let val = this.$select!.val();
     _.remove(val, (id) => id === item.id);
-    this.$select.val(val);
-  }
-
-  public ngOnInit() {
-    this.setDomElements();
-
-    this.switchIds();
-    this.getItems();
-    this.setupAutocompleter();
-
-    this.setInitialized();
+    this.$select!.val(val);
   }
 
   public editUnlessMulti() {
@@ -81,10 +78,10 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
 
     this.setValue(null);
 
-    setTimeout(() => { this.$input.focus(); });
+    setTimeout(() => { this.$input!.focus(); });
   }
 
-  public get placeholderText() {
+  private setPlaceholderText() {
     let key:string;
 
     if (this.isMulti) {
@@ -93,20 +90,24 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
       key = 'js.autocomplete_select.placeholder.single';
     }
 
-    return I18n.t(key, { name: this.label });
+    this.placeholderText = this.i18n.t(key, { name: this.label });
   }
 
   public removeItemText(item:AutocompleteSelectDecorationItem) {
-    return I18n.t('js.autocomplete_select.remove', { name: item.value });
+    return this.i18n.t('js.autocomplete_select.remove', { name: item.value });
+  }
+
+  private setInputDisplayed() {
+    this.isInputDisplayed = this.isMulti || !this.selectedItems.length ;
   }
 
   public ariaLabelText(item:AutocompleteSelectDecorationItem) {
-    return I18n.t('js.autocomplete_select.active', { label: this.label, name: item.value });
+    return this.i18n.t('js.autocomplete_select.active', { label: this.label, name: item.value });
   }
 
   private getItems() {
-    _.each(this.$select.find('option'), option => {
-      let $option = jQuery(option);
+    _.each(this.$select!.find('option'), option => {
+      let $option = angular.element(option);
       let text = $option.text();
 
       let item = {
@@ -142,42 +143,40 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
       select: (evt:JQueryEventObject, ui:any) => {
         this.setValue(ui.item);
 
-        this.$input.val('');
+        this.$input!.val('');
+
+        setTimeout(() => { this.$scope.$apply(); });
+
         return false;
       }
     } as any;
 
-    this.$input.autocomplete(autocompleteOptions);
+    this.$input!.autocomplete(autocompleteOptions);
 
     // Disable handling all dashes as dividers
     // https://github.com/jquery/jquery-ui/blob/master/ui/widgets/menu.js#L347
     // as we use them as placeholders.
-    (this.$input.autocomplete('instance')).menu._isDivider = () => false;
+    (<any>this.$input!.autocomplete('instance')).menu._isDivider = () => false;
   }
 
   private switchIds() {
-    let id = this.$select.prop('id');
-    this.$input.prop('id', id);
-    this.$select.prop('id', '');
+    let id = this.$select!.prop('id');
+    this.$input!.prop('id', id);
+    this.$select!.prop('id', '');
   }
 
   private setDomElements() {
-    const $element = this.thisElement;
-
-    this.$input = $element.find('.form--input.-autocomplete');
-    this.$select = $element.find('select');
-    this.label = this.labelOverride || jQuery("label[for='" + this.$select.prop('id') + "']").text();
-    this.isMulti = this.$select.prop('multiple');
+    this.$input = this.$element.find('.form--input.-autocomplete');
+    this.$select = this.$element.find('select');
+    this.label = this.labelOverride || angular.element("label[for='" + this.$select!.prop('id') + "']").text();
+    this.isMulti = this.$select!.prop('multiple');
   }
 
   private setInitialized() {
-    this.$select.hide();
+    this.$select!.hide();
 
-    this.thisElement.addClass('-initialized');
-  }
-
-  private get thisElement() {
-    return jQuery(this.elementRef.nativeElement);
+    this.setInputDisplayed();
+    this.$element.addClass('-initialized');
   }
 
   private setValue(item:AutocompleteSelectDecorationItem|null) {
@@ -189,12 +188,23 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
       this.selectedItems = [item];
     }
 
-    let ids = _.map(this.selectedItems, (item) => item.id);
+    let ids = _.map(this.selectedItems, (item) => item.id.toString());
 
     if (this.isMulti) {
-      this.$select.val(ids);
+      this.$select!.val(ids);
     } else {
-      this.$select.val(ids[0]);
+      this.$select!.val(ids[0]);
     }
+
+    this.setInputDisplayed();
   }
 }
+
+openprojectLegacyModule.component('autocompleteSelectDecoration', {
+  template: require('!!raw-loader!./autocomplete-select-decoration.component.html'),
+  controller: AutocompleteSelectDecorationComponent,
+  bindings: {
+    labelOverride: '<?'
+  },
+  transclude: true
+});

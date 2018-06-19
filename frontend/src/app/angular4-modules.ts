@@ -188,7 +188,6 @@ import {CommentService} from "core-components/wp-activity/comment-service";
 import {WorkPackageCommentComponent} from "core-components/work-packages/work-package-comment/work-package-comment.component";
 import {OpCkeditorFormComponent} from "core-components/ckeditor/op-ckeditor-form.component";
 import {WorkPackageUploadComponent} from "core-components/wp-attachments/wp-attachments-upload/wp-attachments-upload.component";
-import {FocusWithinDirective} from "core-app/modules/common/focus/focus-within.directive";
 import {OpDragScrollDirective} from "core-app/modules/common/ui/op-drag-scroll.directive";
 import {TextileService} from "core-app/modules/common/textile/textile-service";
 import {AutoCompleteHelperService} from "core-components/input/auto-complete-helper.service";
@@ -370,7 +369,6 @@ import {WorkPackageEmbeddedTableEntryComponent} from "core-components/wp-table/e
     WorkPackageChildrenQueryComponent,
     WorkPackageFormAttributeGroupComponent,
     WorkPackageUploadComponent,
-    FocusWithinDirective,
 
     // Activity Tab
     NewestActivityOnOverviewComponent,
