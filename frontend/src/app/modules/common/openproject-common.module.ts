@@ -56,8 +56,6 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HighlightColDirective} from "core-app/modules/common/highlight-col/highlight-col.directive";
 import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive";
 import {WikiToolbarDirective} from "core-app/modules/common/wiki-toolbar/wiki-toolbar.directive";
-import {RefreshOnFormChangesDirective} from "core-app/modules/common/remote/refresh-on-form-changes.directive";
-import {RemoteFieldUpdaterDirective} from "core-app/modules/common/remote/remote-field-updater.directive";
 import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.directive";
 
 @NgModule({
@@ -89,8 +87,6 @@ import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.di
     AttributeHelpTextComponent,
 
     // Add functionality to rails rendered templates
-    RefreshOnFormChangesDirective,
-    RemoteFieldUpdaterDirective,
     WikiToolbarDirective,
   ],
   declarations: [
@@ -120,9 +116,7 @@ import {OpAutoCompleteDirective} from "core-components/input/op-auto-complete.di
 
     // Add functionality to rails rendered templates
     CopyToClipboardDirective,
-    WikiToolbarDirective,
-    RefreshOnFormChangesDirective,
-    RemoteFieldUpdaterDirective,
+    WikiToolbarDirective
   ],
   entryComponents: [
     OpDateTimeComponent,
