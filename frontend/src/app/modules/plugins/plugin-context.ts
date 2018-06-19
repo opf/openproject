@@ -54,9 +54,9 @@ export class OpenProjectPluginContext {
       passwordConfirmation: PasswordConfirmationModal,
       attributeHelpTexts: AttributeHelpTextModal,
       dynamicContent: DynamicContentModal,
-      DisplayField: DisplayField,
-      HalResource: HalResource
-    }
+    },
+    HalResource: HalResource,
+    DisplayField: DisplayField
   };
 
   // Hooks

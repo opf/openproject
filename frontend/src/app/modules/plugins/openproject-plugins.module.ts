@@ -29,14 +29,12 @@
 
 import {APP_INITIALIZER, Injector, NgModule} from "@angular/core";
 import {HookService} from "core-app/modules/plugins/hook-service";
-import {initializeCoreEditFields} from "core-app/modules/fields/edit/edit-field.initializer";
-import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service";
-import {initializePluginContext} from "core-app/modules/plugins/plugin-initializer";
+import {initializePlugins} from "core-app/modules/plugins/plugin-initializer";
 
 @NgModule({
   providers: [
     HookService,
-    { provide: APP_INITIALIZER, useFactory: initializePluginContext, deps: [Injector], multi: true },
+    { provide: APP_INITIALIZER, useFactory: initializePlugins, deps: [Injector], multi: true },
   ],
 })
 export class OpenprojectPluginsModule { }
