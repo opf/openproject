@@ -65,8 +65,12 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     }
     this.resizingElement.style.flexBasis = this.elementFlex + 'px';
 
-    // Apply two column layout
-    this.resizingElement.classList.toggle('-columns-2', this.elementFlex > 700);
+    // Wait until dom content is loaded and initialize column layout
+    // Otherwise function will be executed with empty list
+    var that = this;
+    jQuery(document).ready(function () {
+      that.applyColumnLayout(that.resizingElement, that.elementFlex);
+    });
 
     // Add event listener
     this.element = this.elementRef.nativeElement;
@@ -149,9 +153,21 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     window.OpenProject.guardedLocalStorage(this.localStorageKey, String(newValue));
 
     // Apply two column layout
-    element.classList.toggle('-columns-2', newValue > 700);
+    this.applyColumnLayout(element, newValue);
 
     // Set new width
     element.style.flexBasis = newValue + 'px';
+  }
+
+  private applyColumnLayout(element:HTMLElement, newWidth:number) {
+    // Apply two column layout in fullscreen view of a workpackage
+    if (element === jQuery('.work-packages-full-view--split-right')[0]) {
+      let widthLeftCol = jQuery('.work-packages-full-view--split-left')[0].offsetWidth;
+      jQuery('.can-have-columns').toggleClass('-columns-2', widthLeftCol > 750);
+    }
+    // Apply two column layout when details view of wp is open
+    else {
+      element.classList.toggle('-columns-2', newWidth > 700);
+    }
   }
 }
