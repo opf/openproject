@@ -69,11 +69,11 @@ describe('HalResource', () => {
 
   it('should be instantiable using a default object', () => {
     let resource = halResourceService.createHalResource({}, true);
-    expect(resource.$href).to.equal(null);
+    expect(resource.$href).toEqual(null);
   });
 
   describe('when updating a loaded resource using `$update()`', () => {
-    let getStub:any;
+    let getStub:jasmine.Spy;
 
     beforeEach(() => {
       source = {
@@ -84,20 +84,20 @@ describe('HalResource', () => {
         }
       };
 
-      getStub = sinon.stub(halResourceService, 'request');
-      getStub
-        .withArgs('get', '/api/hello')
-        .returns(of(halResourceService.createHalResource(source)));
-    });
-
-    afterEach(() => {
-      getStub.restore();
+      getStub = spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
+        if (verb === 'get' && path === '/api/hello') {
+          return of(halResourceService.createHalResource(source));
+        }
+        else {
+          return false;
+        }
+      });
     });
 
     it('should perform a request', () => {
       resource = halResourceService.createHalResource(source, true);
       resource.$update();
-      expect(getStub).to.have.been.called;
+      expect(getStub).toHaveBeenCalled();
     });
   });
 
@@ -109,7 +109,7 @@ describe('HalResource', () => {
       });
 
       it('should be an instance of HalResource', () => {
-        expect(resource).to.be.an.instanceOf(HalResource);
+        expect(resource).toEqual(jasmine.any(HalResource));
       });
     });
 
@@ -132,22 +132,22 @@ describe('HalResource', () => {
       });
 
       it('should be an instance of that type', () => {
-        expect(resource).to.be.an.instanceOf(OtherResource);
+        expect(resource).toEqual(jasmine.any(OtherResource));
       });
 
       it('should have an attribute that is of the configured instance', () => {
-        expect(resource.someResource).to.be.an.instanceOf(OtherResource);
+        expect(resource.someResource).toEqual(jasmine.any(OtherResource));
       });
 
       it('should not be loaded', () => {
-        expect(resource.someResource.$loaded).to.be.false;
+        expect(resource.someResource.$loaded).toBeFalsy();
       });
     });
   });
 
   describe('when after generating the lazy object', () => {
-    var linkFn = sinon.spy();
-    var embeddedFn = sinon.spy();
+    var linkFn = jasmine.createSpy();
+    var embeddedFn = jasmine.createSpy();
 
     beforeEach(() => {
       resource = halResourceService.createHalResource({
@@ -167,23 +167,23 @@ describe('HalResource', () => {
     });
 
     it('should not have touched the source links initially', () => {
-      expect(linkFn.called).to.be.false;
+      expect(linkFn.calls.count()).toEqual(0);
     });
 
     it('should not have touched the embedded elements of the source initially', () => {
-      expect(embeddedFn.called).to.be.false;
+      expect(embeddedFn.calls.count()).toEqual(0);
     });
 
     it('should use the source link only once when called', () => {
       resource.link;
       resource.link;
-      expect(linkFn.calledOnce).to.be.true;
+      expect(linkFn.calls.count()).toEqual(1);
     });
 
     it('should use the source embedded only once when called', () => {
       resource.resource;
       resource.resource;
-      expect(embeddedFn.calledOnce).to.be.true;
+      expect(embeddedFn.calls.count()).toEqual(1);
     });
   });
 
@@ -201,25 +201,25 @@ describe('HalResource', () => {
     });
 
     it('should have the same properties', () => {
-      expect(resource.property).to.exist;
-      expect(resource.obj).to.exist;
+      expect(resource.property).toBeDefined();
+      expect(resource.obj).toBeDefined();
     });
 
     it('should have properties with equal values', () => {
-      expect(resource.property).to.eq(source.property);
-      expect(resource.obj).to.eql(source.obj);
+      expect(resource.property).toEqual(source.property);
+      expect(resource.obj).toEqual(source.obj);
     });
 
     it('should not have the _links property', () => {
-      expect(resource._links).to.not.exist;
+      expect(resource._links).toBeUndefined;
     });
 
     it('should not have the _embedded property', () => {
-      expect(resource._embedded).to.not.exist;
+      expect(resource._embedded).toBeUndefined;
     });
 
     it('should have enumerable properties', () => {
-      expect(resource.propertyIsEnumerable('property')).to.be.true;
+      expect(resource.propertyIsEnumerable('property')).toBeTruthy;
     });
 
     describe('when a property is changed', () => {
@@ -228,7 +228,7 @@ describe('HalResource', () => {
       });
 
       it('should change the property of the source', () => {
-        expect(resource.$source.property).to.eq('carrot');
+        expect(resource.$source.property).toEqual('carrot');
       });
     });
   });
@@ -247,24 +247,24 @@ describe('HalResource', () => {
     });
 
     it('should have a name attribute that is equal to the title of the self link', () => {
-      expect(resource.name).to.eq('some title');
+      expect(resource.name).toEqual('some title');
     });
 
     it('should have a writable name attribute', () => {
       resource.name = 'some name';
-      expect(resource.name).to.eq('some name');
+      expect(resource.name).toEqual('some name');
     });
 
     it('should have a href property that is the same as the self href', () => {
-      expect(resource.href).to.eq(resource.$links.self.$link.href);
+      expect(resource.href).toEqual(resource.$links.self.$link.href);
     });
 
     it('should have a href property that is equal to the source href', () => {
-      expect(resource.href).to.eq(source._links.self.href);
+      expect(resource.href).toEqual(source._links.self.href);
     });
 
     it('should not have a self property', () => {
-      expect(resource.self).not.to.exist;
+      expect(resource.self).toBeUndefined();
     });
   });
 
@@ -283,11 +283,11 @@ describe('HalResource', () => {
     });
 
     it('should be null', () => {
-      expect(resource.resource).to.be.null;
+      expect(resource.resource).toBeNull();
     });
 
     it('should set the respective link href to null', () => {
-      expect(resource.$source._links.resource.href).to.be.null;
+      expect(resource.$source._links.resource.href).toBeNull();
     });
   });
 
@@ -304,7 +304,7 @@ describe('HalResource', () => {
     });
 
     it('should be null', () => {
-      expect(resource.property).to.be.null;
+      expect(resource.property).toBeNull();
     });
   });
 
@@ -320,11 +320,11 @@ describe('HalResource', () => {
     });
 
     it('should return an object that is equal to the source', () => {
-      expect(plain).to.eql(source);
+      expect(plain).toEqual(source);
     });
 
     it('should not be the exact same object', () => {
-      expect(plain).not.to.equal(source);
+      expect(plain === source).toBeFalsy();
     });
   });
 
@@ -334,11 +334,11 @@ describe('HalResource', () => {
     });
 
     it('should return null for the href if it has no self link', () => {
-      expect(resource.href).to.equal(null);
+      expect(resource.href).toEqual(null);
     });
 
     it('should have a $link object with null href', () => {
-      expect(resource.$link.href).to.equal(null);
+      expect(resource.$link.href).toEqual(null);
     });
   });
 
@@ -358,47 +358,52 @@ describe('HalResource', () => {
     });
 
     it('should have no "self" property', () => {
-      expect(resource.self).to.not.exist;
+      expect(resource.self).toBeUndefined();
     });
 
     it('should have a beaver', () => {
-      expect(resource.beaver).to.exist;
+      expect(resource.beaver).toBeDefined();
     });
 
     it('should have no "_links" property', () => {
-      expect(resource._links).to.not.exist;
+      expect(resource._links).toBeUndefined;
     });
 
     it('should leave the source accessible', () => {
-      expect(resource.$source).to.eql(source);
+      expect(resource.$source).toEqual(source);
     });
 
     it('should have a callable self link', () => {
-      let stub = sinon.stub(halResourceService, 'request');
-      stub
-        .withArgs('get', 'unicorn/69')
-        .returns(of(halResourceService.createHalResource({})));
+      spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
+        if (verb === 'get' && path === 'unicorn/69') {
+          return of(halResourceService.createHalResource({}));
+        } else {
+          return null;
+        }
+      });
 
-      expect(() => resource.$links.self()).to.not.throw(Error);
-      stub.restore();
+      expect(() => resource.$links.self()).not.toThrow(Error);
     });
 
     it('should have a callable beaver', () => {
-      let stub = sinon.stub(halResourceService, 'request');
-      stub
-        .withArgs('get', 'justin/420')
-        .returns(of(halResourceService.createHalResource({})));
+      spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
+        if (verb === 'get' && path === 'justin/420') {
+          return of(halResourceService.createHalResource({}));
+        } else {
+          return null;
+        }
+      });
 
-      expect(() => resource.$links.beaver()).to.not.throw(Error);
-
-      stub.restore();
+      expect(() => resource.$links.beaver()).not.toThrow(Error);
     });
 
     it('should have a $links property with the keys of its source _links', () => {
       const transformedLinks = Object.keys(resource.$links);
       const plainLinks = Object.keys(source._links);
 
-      expect(transformedLinks).to.have.members(plainLinks);
+      plainLinks.forEach((link:string) => {
+        expect(resource.$links[link]).toBeDefined();
+      });
     });
   });
 
@@ -414,19 +419,19 @@ describe('HalResource', () => {
     });
 
     it('should not have the original _embedded property', () => {
-      expect(resource._embedded).to.not.be.ok;
+      expect(resource._embedded).toBeUndefined();
     });
 
     it('should have a property, that is a loaded resource', () => {
-      expect(resource.resource.$loaded).to.be.true;
+      expect(resource.resource.$loaded).toBeTruthy;
     });
 
     it('should have an embedded resource, that is loaded', () => {
-      expect(resource.$embedded.resource.$loaded).to.be.true;
+      expect(resource.$embedded.resource.$loaded).toBeTruthy();
     });
 
     it('should have a property that is the resource', () => {
-      expect(resource.resource).to.equal(resource.$embedded.resource);
+      expect(resource.resource).toEqual(resource.$embedded.resource);
     });
 
     describe('when overriding the property with a resource', () => {
@@ -441,7 +446,7 @@ describe('HalResource', () => {
       });
 
       it('should set the property to that resource', () => {
-        expect(resource.resource.href).to.equal(link.href);
+        expect(resource.resource.href).toEqual(link.href);
       });
     });
 
@@ -467,12 +472,12 @@ describe('HalResource', () => {
       });
 
       it('should crate all nested resources recursively', () => {
-        expect(deep.$isHal).to.be.true;
+        expect(deep.$isHal).toBeTruthy;
       });
 
       it('should transfer the properties of the nested resources correctly', () => {
-        expect(first.property).to.eq('another value');
-        expect(deep.property).to.eq('yet another value');
+        expect(first.property).toEqual('another value');
+        expect(deep.property).toEqual('yet another value');
       });
     });
   });
@@ -480,15 +485,15 @@ describe('HalResource', () => {
   describe('when creating a resource from a source with a linked array property', () => {
     var expectLengthsToBe = (length:any, update = 'update') => {
       it(`should ${update} the values of the resource`, () => {
-        expect(resource.values).to.have.lengthOf(length);
+        expect(resource.values.length).toEqual(length);
       });
 
       it(`should ${update} the source`, () => {
-        expect(source._links.values).to.have.lengthOf(length);
+        expect(source._links.values.length).toEqual(length);
       });
 
       it(`should ${update} the $source property`, () => {
-        expect(resource.$source._links.values).to.have.lengthOf(length);
+        expect(resource.$source._links.values.length).toEqual(length);
       });
     };
 
@@ -508,10 +513,6 @@ describe('HalResource', () => {
         }
       };
       resource = halResourceService.createHalResource(source);
-    });
-
-    it('should be an array that is a property of the resource', () => {
-      expect(resource).to.have.property('values').that.is.an('array');
     });
 
     expectLengthsToBe(2);
@@ -544,19 +545,19 @@ describe('HalResource', () => {
       });
 
       it('should have made each link a resource', () => {
-        expect(resource.$isHal).to.be.true;
+        expect(resource.$isHal).toBeTruthy;
       });
 
       it('should be resources generated from the links', () => {
-        expect(resource.href).to.eq(source.href);
+        expect(resource.href).toEqual(source.href);
       });
 
       it('should have a name attribute equal to the title of its link', () => {
-        expect(resource.name).to.eq(source.title);
+        expect(resource.name).toEqual(source.title);
       });
 
       it('should not be loaded', () => {
-        expect(resource.$loaded).to.be.false;
+        expect(resource.$loaded).toBeFalsey;
       });
     });
   });
@@ -573,12 +574,12 @@ describe('HalResource', () => {
     });
 
     it('should not have the original _embedded property', () => {
-      expect(resource._embedded).to.not.be.ok;
+      expect(resource._embedded).toBeUndefined;
     });
 
     it('should transform the list elements', () => {
-      expect(resource.$embedded.elements[0].$isHal).to.be.true;
-      expect(resource.$embedded.elements[1].$isHal).to.be.true;
+      expect(resource.$embedded.elements[0].$isHal).toBeTruthy;
+      expect(resource.$embedded.elements[1].$isHal).toBeTruthy;
     });
   });
 
@@ -624,7 +625,7 @@ describe('HalResource', () => {
     });
 
     it('should be loaded', () => {
-      expect(resource.$loaded).to.be.true;
+      expect(resource.$loaded).toBeTruthy;
     });
 
     it('should not be possible to override a link', () => {
@@ -634,7 +635,7 @@ describe('HalResource', () => {
         /**/
       }
 
-      expect(resource.$links.action).to.not.eq('foo');
+      expect(resource.$links.action).not.toEqual('foo');
     });
 
     it('should not be possible to override an embedded resource', () => {
@@ -644,23 +645,23 @@ describe('HalResource', () => {
         /**/
       }
 
-      expect(resource.$embedded.embedded).to.not.eq('foo');
+      expect(resource.$embedded.embedded).not.toEqual('foo');
     });
 
     it('should have linked resources as properties', () => {
-      expect(resource.property).to.exist;
+      expect(resource.property).toBeDefined();
     });
 
     it('should have linked actions as properties', () => {
-      expect(resource.action).to.exist;
+      expect(resource.action).toBeDefined();
     });
 
     it('should have embedded resources as properties', () => {
-      expect(resource.embedded).to.exist;
+      expect(resource.embedded).toBeDefined();
     });
 
     it('should have embedded, but not linked resources as properties', () => {
-      expect(resource.notLinked).to.exist;
+      expect(resource.notLinked).toBeDefined();
     });
 
     describe('when a resource that is linked and embedded is updated', () => {
@@ -677,40 +678,41 @@ describe('HalResource', () => {
       });
 
       it('should update the source', () => {
-        expect(resource.$source._links.embedded.href).to.eq('newHref');
+        expect(resource.$source._links.embedded.href).toEqual('newHref');
       });
     });
 
     describe('when after generating the properties from the links, each property', () => {
       it('should be a function, if the link method is not "get"', () => {
-        expect(resource).to.respondTo('action');
+        expect(typeof resource.action).toBe('function');
       });
 
       it('should be a resource, if the link method is "get"', () => {
-        expect(resource.property.$isHal).to.be.true;
+        expect(resource.property.$isHal).toBeTruthy;
       });
 
       describe('when a property is a resource', () => {
         it('should not be callable', () => {
-          expect(resource).to.not.to.respondTo('property');
+          expect(typeof resource.property).not.toEqual('function');
         });
 
         it('should not be loaded initially', () => {
-          expect(resource.property.$loaded).to.be.false;
-          expect(resource.notLinked.$loaded).to.be.true;
+          expect(resource.property.$loaded).toBeFalsy;
+          expect(resource.notLinked.$loaded).toBeTruthy;
         });
 
         it('should be loaded, if the resource is embedded', () => {
-          expect(resource.embedded.$loaded).to.be.true;
+          expect(resource.embedded.$loaded).toBeTruthy;
         });
 
         it('should update the source when set', () => {
           resource.property = resource;
-          expect(resource.$source._links.property.href).to.eql('/api/self');
+          expect(resource.$source._links.property.href).toEqual('/api/self');
         });
 
         describe('when loading it', () => {
-          let getStub:any;
+          let getStub:jasmine.Spy;
+          let newResult:any;
 
           beforeEach(() => {
             let result = halResourceService.createHalResource({
@@ -719,43 +721,44 @@ describe('HalResource', () => {
               foo: 'bar'
             });
 
-            getStub = sinon.stub(halResourceService, 'request');
-
-            getStub
-              .withArgs('get', '/api/property')
-              .returns(of(result));
+            getStub = spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
+              if (verb === 'get' && path === '/api/property') {
+                return of(result);
+              }
+              else {
+                return false;
+              }
+            });
 
             resource = resource.property;
-            resource.$load();
+            resource.$load().then((result:HalResource) => {
+              newResult = result;
+            });
 
-            expect(getStub).to.have.been.called;
-          });
-
-          afterEach(() => {
-            getStub.restore();
+            expect(getStub).toHaveBeenCalled();
           });
 
           it('should be loaded', () => {
-            expect(resource.$loaded).to.be.true;
+            expect(resource.$loaded).toBeTruthy;
           });
 
           it('should be updated', () => {
-            expect(resource.name).to.eq('name');
+            expect(newResult.name).toEqual('name');
           });
 
           it('should have properties that have a getter', () => {
-            expect((Object as any).getOwnPropertyDescriptor(resource, 'foo').get).to.exist;
+            expect((Object as any).getOwnPropertyDescriptor(newResult, 'foo').get).toBeDefined();
           });
 
-          it('should have properties that have a setter', () => {
-            expect((Object as any).getOwnPropertyDescriptor(resource, 'foo').set).to.exist;
+         it('should have properties that have a setter', () => {
+            expect((Object as any).getOwnPropertyDescriptor(newResult, 'foo').set).toBeDefined();
           });
 
           it('should return itself in a promise if already loaded', () => {
             resource.$loaded = true;
 
-            expect(resource.$load()).to.eventually.be.fulfilled.then((result:HalResource) => {
-              expect(result).to.equal(result);
+            resource.$load().then((result:HalResource) => {
+              expect(result).toEqual(resource);
             });
           });
         });
