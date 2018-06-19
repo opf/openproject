@@ -41,6 +41,8 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
 import {take} from 'rxjs/operators';
+import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
+import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 
 // require('core-app/angular4-test-setup');
 
@@ -65,9 +67,10 @@ describe('WorkPackageCacheService', () => {
         {provide: PathHelperService, useValue: {}},
         {provide: I18nService, useValue: {t: (...args:any[]) => 'translation'}},
         {provide: WorkPackageResource, useValue: {}},
-        {provide: WorkPackageCreateService, useValue: {}},
+        {provide: IWorkPackageCreateServiceToken, useValue: {}},
         {provide: NotificationsService, useValue: {}},
-        {provide: WorkPackageNotificationService, useValue: {}}
+        {provide: WorkPackageNotificationService, useValue: {}},
+        {provide: OpenProjectFileUploadService, useValue: {}}
       ]
     });
 
