@@ -8,10 +8,10 @@ zh-TW:
         participants_attended: "出席人員"
         participants_invited: "受邀人員"
         start_time: "時間"
-        start_time_hour: "Starting time"
+        start_time_hour: "開始時間"
     errors:
       messages:
-        invalid_time_format: "is not a valid time. Required format: HH:MM"
+        invalid_time_format: "不是有效時間。所需格式: HH:MM"
     models:
       meeting_agenda: "會議大綱"
       meeting_minutes: "會議記錄"
@@ -37,7 +37,7 @@ zh-TW:
   label_meeting_date_time: "日期 / 時間"
   label_meeting_diff: "比較"
   label_notify: "送出審閱"
-  label_icalendar: "Send iCalendar"
+  label_icalendar: "發送 iCalendar"
   label_version: "版本"
   label_time_zone: "時區"
   label_start_date: "開始日期"
@@ -53,12 +53,12 @@ zh-TW:
   permission_create_meeting_minutes: "管理會議記錄"
   permission_send_meeting_minutes_notification: "傳送會議記錄審閱通知"
   project_module_meetings: "會議"
-  text_duration_in_hours: "Duration in hours"
+  text_duration_in_hours: "持續時間 (小時)"
   text_in_hours: "在一小時內"
   text_meeting_agenda_for_meeting: '%{meeting} 的會議大綱'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_closing_are_you_sure: "確實要關閉會議嗎？"
   text_meeting_agenda_open_are_you_sure: "會議記錄中未儲存的內容會遺失！確定要繼續嗎？"
   text_meeting_minutes_for_meeting: '%{meeting} 的會議記錄'
   text_review_meeting_agenda: "%{author} 已經放上 %{link} 來審閱"
   text_review_meeting_minutes: "%{author} 已經放上 %{link} 來審閱"
-  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
+  text_notificiation_invited: "此郵件包含以下會議的 ics 條目:"
