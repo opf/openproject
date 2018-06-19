@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {input, InputState} from 'reactivestates';
 import {debugLog} from '../../helpers/debug_output';
 import {SchemaCacheService} from '../schemas/schema-cache.service';

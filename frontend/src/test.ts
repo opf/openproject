@@ -8,7 +8,7 @@ import {
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
 
-declare const require: any;
+declare const require:any;
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
@@ -17,13 +17,12 @@ getTestBed().initTestEnvironment(
 );
 
 // import 'angular-mocks';
-import './app/init-vendors';
-import './app/init-globals';
-import './app/globals/browser-specific-flags';
-import './app/globals/top-shelf';
-import './app/globals/unsupported-browsers';
+// import './app/init-vendors';
+// import './app/init-globals';
+// import './app/globals/browser-specific-flags';
+// import './app/globals/top-shelf';
+// import './app/globals/unsupported-browsers';
 
-import 'chai';
 
 // require('expose-loader?sinon/lib/sinon.js');
 // require('expose-loader?sinon-chai/lib/sinon-chai.js');

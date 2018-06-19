@@ -5,12 +5,8 @@
 // Active issue
 // https://github.com/Microsoft/TypeScript/issues/10178
 
-/// <reference path="../../node_modules/@types/mocha/index.d.ts" />
 /// <reference path="../../node_modules/@types/angular-mocks/index.d.ts" />
-/// <reference path="../../node_modules/@types/chai/index.d.ts" />
-/// <reference path="../../node_modules/@types/chai-as-promised/index.d.ts" />
-/// <reference path="../../node_modules/@types/sinon/index.d.ts" />
-/// <reference path="../../node_modules/@types/sinon-chai/index.d.ts" />
+/// <reference path="../../node_modules/@types/jasmine/index.d.ts" />
 /// <reference path="../../node_modules/@types/jquery/index.d.ts" />
 /// <reference path="../../node_modules/@types/jqueryui/index.d.ts" />
 /// <reference path="../../node_modules/@types/mousetrap/index.d.ts" />

@@ -35,14 +35,13 @@ import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module'
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {ApiWorkPackagesService} from 'core-components/api/api-work-packages/api-work-packages.service';
+import {OpenProjectFileUploadService} from 'core-components/api/op-file-upload/op-file-upload.service';
 import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {States} from 'core-components/states.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
-import {WorkPackageCreateService} from 'core-components/wp-new/wp-create.service';
-import {take} from 'rxjs/operators';
-import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
-import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
+import {IWorkPackageCreateServiceToken} from 'core-components/wp-new/wp-create.service.interface';
+import {take, takeWhile} from 'rxjs/operators';
 
 // require('core-app/angular4-test-setup');
 
@@ -80,10 +79,10 @@ describe('WorkPackageCacheService', () => {
     apiWorkPackagesService = TestBed.get(ApiWorkPackagesService);
 
     // sinon.stub(apiWorkPackagesService, 'loadWorkPackageById').returns(Promise.resolve(true));
-    spyOn(apiWorkPackagesService, "loadWorkPackageById").and.returnValue(Promise.resolve(true));
+    spyOn(apiWorkPackagesService, 'loadWorkPackageById').and.returnValue(Promise.resolve(true));
 
     // sinon.stub(schemaCacheService, 'ensureLoaded').returns(Promise.resolve(true));
-    spyOn(schemaCacheService, "ensureLoaded").and.returnValue(Promise.resolve(true));
+    spyOn(schemaCacheService, 'ensureLoaded').and.returnValue(Promise.resolve(true));
 
 
     const workPackage1 = new WorkPackageResource(
@@ -108,32 +107,32 @@ describe('WorkPackageCacheService', () => {
         take(1)
       )
       .subscribe((wp:WorkPackageResource) => {
-        expect(wp.id).to.eq('1');
+        expect(wp.id).toEqual('1');
         done();
       });
 
     wpCacheService.updateWorkPackageList(dummyWorkPackages);
   });
 
-  // it('should return/stream a work package every time it gets updated', (done:any) => {
-  //   let count = 0;
-  //
-  //   wpCacheService.loadWorkPackage('1').values$()
-  //     .pipe(
-  //       takeWhile((wp) => count < 2)
-  //     )
-  //     .subscribe((wp:WorkPackageResource) => {
-  //       expect(wp.id).to.eq('1');
-  //
-  //       count += 1;
-  //       if (count === 2) {
-  //         done();
-  //       }
-  //     });
-  //
-  //   wpCacheService.updateWorkPackageList([dummyWorkPackages[0]]);
-  //   wpCacheService.updateWorkPackageList([dummyWorkPackages[0]]);
-  //   wpCacheService.updateWorkPackageList([dummyWorkPackages[0]]);
-  // });
+  it('should return/stream a work package every time it gets updated', (done:any) => {
+    let count = 0;
+
+    wpCacheService.loadWorkPackage('1').values$()
+      .pipe(
+        takeWhile((wp) => count < 2)
+      )
+      .subscribe((wp:WorkPackageResource) => {
+        expect(wp.id).toEqual('1');
+
+        count += 1;
+        if (count === 2) {
+          done();
+        }
+      });
+
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]]);
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]]);
+    wpCacheService.updateWorkPackageList([dummyWorkPackages[0]]);
+  });
 
 });
