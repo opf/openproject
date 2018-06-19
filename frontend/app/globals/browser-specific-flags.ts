@@ -28,7 +28,11 @@
 
 jQuery(function() {
   if (bowser.chrome && bowser.version >= '58' || bowser.firefox && bowser.version >= '59') {
-    document.documentElement.classList.add('-browser-chrome', '-supports-sticky-headers');
+    document.documentElement.classList.add('-supports-sticky-headers');
+  }
+
+  if (bowser.chrome) {
+    document.documentElement.classList.add('-browser-chrome');
   }
 
   if (bowser.safari) {
