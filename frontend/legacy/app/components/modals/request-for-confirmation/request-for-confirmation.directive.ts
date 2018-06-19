@@ -40,7 +40,7 @@ export class RequestForConfirmationController {
               readonly $timeout:ng.ITimeoutService,
               readonly $scope:ng.IScope) {
 
-    window.OpenProject.pluginContext.valuesPromise().then((context) => {
+    window.OpenProject.getPluginContext().then((context) => {
       this.opModalService = context.services.opModalService;
       this.passwordConfirmationModal = context.classes.modals.passwordConfirmation;
     });

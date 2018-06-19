@@ -56,45 +56,54 @@ export class OpenProjectFileUploadService {
    * Upload multiple files using `ngFileUpload` and return a single promise.
    * Ignore directories.
    */
-  public upload(url:string, files:UploadFile[]):UploadResult {
+  public upload(url:string, files:UploadFile[], method:string = 'post'):UploadResult {
     files = _.filter(files, (file:UploadFile) => file.type !== 'directory');
-    const uploads:UploadInProgress[] = _.map(files, (file:UploadFile) => {
-      const formData = new FormData();
-      const metadata = {
-        description: file.description,
-        fileName: file.customName || file.name
-      };
-
-      // add the metadata object
-      formData.append(
-        'metadata',
-        JSON.stringify(metadata),
-      );
-
-      // Add the file
-      formData.append('file', file);
-
-      const observable = this
-        .http
-        .post<HalResource>(
-          url,
-          formData,
-          {
-            // Observe the response, not the body
-            observe: 'response',
-            // Subscribe to progress events. subscribe() will fire multiple times!
-            reportProgress: true
-          }
-        )
-        .pipe(
-          share()
-        )
-
-      return [file, observable] as UploadInProgress;
-    });
+    const uploads:UploadInProgress[] = _.map(files, (file:UploadFile) => this.uploadSingle(url, file, method));
 
     const finished = this.whenFinished(uploads);
     return {uploads, finished} as any;
+  }
+
+  /**
+   * Upload a single file, get an UploadResult observable
+   * @param {string} url
+   * @param {UploadFile} file
+   * @param {string} method
+   */
+  public uploadSingle(url:string, file:UploadFile, method:string = 'post') {
+    const formData = new FormData();
+    const metadata = {
+      description: file.description,
+      fileName: file.customName || file.name
+    };
+
+    // add the metadata object
+    formData.append(
+      'metadata',
+      JSON.stringify(metadata),
+    );
+
+    // Add the file
+    formData.append('file', file);
+
+    const observable = this
+      .http
+      .request<HalResource>(
+        method,
+        url,
+        {
+          body: formData,
+          // Observe the response, not the body
+          observe: 'response',
+          // Subscribe to progress events. subscribe() will fire multiple times!
+          reportProgress: true
+        }
+      )
+      .pipe(
+        share()
+      )
+
+    return [file, observable] as UploadInProgress;
   }
 
   /**

@@ -41,7 +41,7 @@ export class ModalWrapperController {
   constructor(protected $element:ng.IAugmentedJQuery,
               protected $attrs:ng.IAttributes) {
 
-    window.OpenProject.pluginContext.valuesPromise().then((context) => {
+    window.OpenProject.getPluginContext().then((context) => {
       this.opModalService = context.services.opModalService;
       this.dynamicContentModal = context.classes.modals.dynamicContent;
 

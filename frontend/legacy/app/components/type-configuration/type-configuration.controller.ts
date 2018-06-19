@@ -42,7 +42,7 @@ function typesFormConfigurationCtrl(
   let externalQueryConfiguration:any;
   let I18n:any;
 
-  window.OpenProject.pluginContext.valuesPromise().then((context) => {
+  window.OpenProject.getPluginContext().then((context) => {
     confirmDialog = context.services.confirmDialog;
     NotificationsService = context.services.notifications;
     externalQueryConfiguration = context.services.externalQueryConfiguration;
