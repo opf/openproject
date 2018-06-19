@@ -24,7 +24,7 @@ zh-TW:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+              task_version_must_be_the_same_as_story_version: "必須與\"父\"直屬故事的版本相同。"
             parent_id:
               parent_child_relationship_across_projects: "是不正確的，因為這個工作項目 '%{work_package_name}' 是一個待辦任務，它不可以擁有一個在目前的專案以外的上層項目"
   backlogs:
@@ -81,8 +81,8 @@ zh-TW:
   backlogs_velocity_missing: "專案沒有進度完成速度可以計算"
   backlogs_velocity_varies: "完成速度在不同進度中差異很大"
   backlogs_wiki_template: "進度的 Wiki 頁面樣板"
-  backlogs_empty_title: "No versions are defined to be used in backlogs"
-  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
+  backlogs_empty_title: "未定義要在積壓事項中使用的版本"
+  backlogs_empty_action_text: "要開始積壓事項, 請創建一個新版本並將其分配給積壓事項列。"
   button_edit_wiki: "編輯 Wiki 頁面"
   error_intro_plural: "發生以下的錯誤:"
   error_intro_singular: "發生以下的錯誤:"
