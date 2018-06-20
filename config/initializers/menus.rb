@@ -47,7 +47,11 @@ Redmine::MenuManager.map :top_menu do |menu|
               action: 'index',
               query_props: OpenProject::DefaultWpQueries::GANTT },
             param: :project_id,
-            caption: :label_gantt
+            caption: :label_gantt,
+            if: Proc.new {
+              (User.current.logged? || !Setting.login_required?) &&
+                User.current.allowed_to?(:view_work_packages, nil, global: true)
+            }
 
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
