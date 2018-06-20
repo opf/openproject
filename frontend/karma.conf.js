@@ -9,6 +9,7 @@ module.exports = function (config) {
       // which is unavailable for unit tests.
       // For testing, shim its functionality
       'tests/unit/lib/i18n-js.shim.js',
+      'node_modules/jquery/dist/jquery.js',
       // 'node_modules/angular-mocks/angular-mocks.js'
     ],
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
