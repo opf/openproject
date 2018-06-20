@@ -8,7 +8,6 @@ export class SwitchState<StateName> {
 
   public transition(context:StateName) {
     if (this.validTransition(context)) {
-      debugLog(`Switching table context to ${context}`);
       this.contextSwitch$.putValue(context);
     }
   }
@@ -22,7 +21,6 @@ export class SwitchState<StateName> {
   }
 
   public reset(reason?:string) {
-    debugLog('Resetting table context.');
     this.contextSwitch$.clear(reason);
   }
 
