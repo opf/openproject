@@ -41,13 +41,13 @@ describe('authorisationService', function() {
     });
 
     it('should allow action', function() {
-      expect(authorisationService.can('query', 'create')).to.be.true;
-      expect(authorisationService.cannot('query', 'create')).to.be.false;
+      expect(authorisationService.can('query', 'create')).toBeTruthy();
+      expect(authorisationService.cannot('query', 'create')).toBeFalsy();
     });
 
     it('should not allow action', function() {
-      expect(authorisationService.can('query', 'delete')).to.be.false;
-      expect(authorisationService.cannot('query', 'delete')).to.be.true;
+      expect(authorisationService.can('query', 'delete')).toBeFalsy();
+      expect(authorisationService.cannot('query', 'delete')).toBeTruthy();
     });
   });
 });
