@@ -26,19 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {States} from 'core-components/states.service';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
-import {TypeDmService} from 'core-app/modules/hal/dm-services/type-dm.service';
 import {async, TestBed} from '@angular/core/testing';
-import {Injector} from '@angular/core';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 
 describe('NotificationsService', function () {
-  var notificationsService:NotificationsService,
-    $rootScope:any;
+  var notificationsService:NotificationsService;
 
   beforeEach(async(() => {
     // noinspection JSIgnoredPromiseFromCall
@@ -60,12 +54,12 @@ describe('NotificationsService', function () {
   it('should be able to create warnings', function () {
     var notification = notificationsService.addWarning('warning!');
 
-    expect(notification).to.eql({message: 'warning!', type: 'warning'});
+    expect(notification).toEqual({message: 'warning!', type: 'warning'});
   });
 
   it('should be able to create error messages with errors', function () {
     var notification = notificationsService.addError('a super cereal error', ['fooo', 'baarr']);
-    expect(notification).to.eql({
+    expect(notification).toEqual({
       message: 'a super cereal error',
       data: ['fooo', 'baarr'],
       type: 'error'
@@ -74,7 +68,7 @@ describe('NotificationsService', function () {
 
   it('should be able to create error messages with only a message', function () {
     var notification = notificationsService.addError('a super cereal error');
-    expect(notification).to.eql({
+    expect(notification).toEqual({
       message: 'a super cereal error',
       data: [],
       type: 'error'
@@ -83,7 +77,7 @@ describe('NotificationsService', function () {
 
   it('should be able to create upload messages with uploads', function () {
     var notification = notificationsService.addWorkPackageUpload('uploading...', [0, 1, 2] as any);
-    expect(notification).to.eql({
+    expect(notification).toEqual({
       message: 'uploading...',
       type: 'upload',
       data: [0, 1, 2]
@@ -93,22 +87,22 @@ describe('NotificationsService', function () {
   it('should throw an Error if trying to create an upload with uploads = null', function () {
     expect(function () {
       notificationsService.addWorkPackageUpload('themUploads', null as any);
-    }).to.throw(Error);
+    }).toThrow();
   });
 
   it('should throw an Error if trying to create an upload without uploads', function () {
     expect(function () {
       notificationsService.addWorkPackageUpload('themUploads', []);
-    }).to.throw(Error);
+    }).toThrow();
   });
 
   it('sends a broadcast to remove the first notification upon adding a second success notification',
     function () {
       var firstNotification = notificationsService.addSuccess('blubs');
-      expect(notificationsService.current.value!.length).to.eql(1);
+      expect(notificationsService.current.value!.length).toEqual(1);
 
       notificationsService.addSuccess('blubs2');
-      expect(notificationsService.current.value!.length).to.eql(1);
+      expect(notificationsService.current.value!.length).toEqual(1);
     });
 
   it('sends a broadcast to remove the first notification upon adding a second error notification',
@@ -116,6 +110,6 @@ describe('NotificationsService', function () {
       var firstNotification = notificationsService.addSuccess('blubs');
       notificationsService.addError('blubs2');
 
-      expect(notificationsService.current.value!.length).to.eql(1);
+      expect(notificationsService.current.value!.length).toEqual(1);
     });
 });
