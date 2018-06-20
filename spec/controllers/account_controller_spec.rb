@@ -667,7 +667,7 @@ describe AccountController, type: :controller do
   end
 
   context 'POST activate' do
-    let(:user) { FactoryGirl.create :user, status: status }
+    let(:user) { FactoryBot.create :user, status: status }
     let(:status) { -1 }
 
     let(:token) { Token::Invitation.create!(user_id: user.id) }

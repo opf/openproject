@@ -38,7 +38,6 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
   let!(:status) { FactoryBot.create(:default_status) }
   let!(:priority) { FactoryBot.create :priority, is_default: true }
 
-
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:split_view_create) { ::Pages::SplitWorkPackageCreate.new(project: project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
@@ -53,7 +52,6 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
     end
   end
 
-
   before do
     login_as(user)
     wp_table.visit_query query
@@ -65,15 +63,15 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
   end
 
   context 'with a multi-value custom field' do
-    let(:type_task) { FactoryGirl.create(:type_task, custom_fields: [custom_field]) }
-    let!(:project) {
-      FactoryGirl.create :project,
-                         types: [type_task],
-                         work_package_custom_fields: [custom_field]
-    }
+    let(:type_task) { FactoryBot.create(:type_task, custom_fields: [custom_field]) }
+    let!(:project) do
+      FactoryBot.create :project,
+                        types: [type_task],
+                        work_package_custom_fields: [custom_field]
+    end
 
     let!(:custom_field) do
-      FactoryGirl.create(
+      FactoryBot.create(
         :list_wp_custom_field,
         multi_value: true,
         is_filter: true,
@@ -109,13 +107,12 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
 
   context 'with assignee filter' do
     let!(:assignee) do
-      FactoryGirl.create(:user,
-                         firstname: 'An',
-                         lastname: 'assignee',
-                         member_in_project: project,
-                         member_through_role: role)
+      FactoryBot.create(:user,
+                        firstname: 'An',
+                        lastname: 'assignee',
+                        member_in_project: project,
+                        member_through_role: role)
     end
-
 
     before do
       filters.add_filter_by('Assignee', 'is', assignee.name)

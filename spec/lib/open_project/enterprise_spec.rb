@@ -39,7 +39,7 @@ describe OpenProject::Enterprise do
 
     context "with fewer active users than the limit allows" do
       before do
-        FactoryGirl.create :user
+        FactoryBot.create :user
 
         expect(User.active.count).to eq 1
       end
@@ -54,7 +54,7 @@ describe OpenProject::Enterprise do
         let(:num_active_users) { 0 }
 
         before do
-          (1..num_active_users).each { |_i| FactoryGirl.create :user }
+          FactoryBot.create_list :user, num_active_users
 
           expect(User.active.count).to eq num_active_users
         end

@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'users/index', type: :view do
-  let!(:admin) { FactoryGirl.create :admin }
-  let!(:user) { FactoryGirl.create :user, firstname: "Scarlet", lastname: "Scallywag" }
+  let!(:admin) { FactoryBot.create :admin }
+  let!(:user) { FactoryBot.create :user, firstname: "Scarlet", lastname: "Scallywag" }
 
   before do
     assign(:users, [admin, user])
@@ -43,11 +43,13 @@ describe 'users/index', type: :view do
     allow_any_instance_of(TableCell).to receive(:action_name).and_return("index")
   end
 
+  subject { rendered.squish }
+
   it 'renders the user table' do
     render
 
-    expect(rendered).to have_text(admin.name)
-    expect(rendered).to have_text("Scarlet Scallywag")
+    is_expected.to have_text("#{admin.firstname}   #{admin.lastname}")
+    is_expected.to have_text("Scarlet   Scallywag")
   end
 
   context "with an Enterprise token" do
@@ -59,7 +61,7 @@ describe 'users/index', type: :view do
       render
 
       # expected active users: admin and user from above
-      expect(rendered).to have_text("2/5 booked active users")
+      is_expected.to have_text("2/5 booked active users")
     end
   end
 
@@ -67,7 +69,7 @@ describe 'users/index', type: :view do
     it "does not show the current number of active and allowed users" do
       render
 
-      expect(rendered).not_to have_text("booked active users")
+      is_expected.not_to have_text("booked active users")
     end
   end
 end
