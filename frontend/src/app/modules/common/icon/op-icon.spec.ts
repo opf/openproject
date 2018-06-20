@@ -32,8 +32,6 @@ import {ComponentFixture} from "@angular/core/testing/src/component_fixture";
 import {By} from "@angular/platform-browser";
 import {DebugElement} from "@angular/core";
 
-require('core-app/angular4-test-setup');
-
 describe('opIcon Directive', function() {
   let app:OpIcon;
   let fixture:ComponentFixture<OpIcon>;
@@ -61,11 +59,11 @@ describe('opIcon Directive', function() {
     it('should render an icon', function () {
       const i = element.query(By.css('i'));
 
-      expect(i.nativeElement.tagName.toLowerCase()).to.equal('i');
-      expect(i.classes['icon-foobar']).to.be.true;
-      expect(i.classes['icon-context']).to.be.true;
+      expect(i.nativeElement.tagName.toLowerCase()).toEqual('i');
+      expect(i.classes['icon-foobar']).toBeTruthy();
+      expect(i.classes['icon-context']).toBeTruthy();
 
-      expect(element.query(By.css('span'))).to.not.be.ok;
+      expect(element.query(By.css('span'))).toBeNull();
     });
   });
 
@@ -79,12 +77,12 @@ describe('opIcon Directive', function() {
       const i = element.query(By.css('i'));
       const span = element.query(By.css('span'));
 
-      expect(i.nativeElement.tagName.toLowerCase()).to.equal('i');
-      expect(i.classes['icon-foobar']).to.be.true;
-      expect(i.classes['icon-context']).to.be.true;
+      expect(i.nativeElement.tagName.toLowerCase()).toEqual('i');
+      expect(i.classes['icon-foobar']).toBeTruthy();
+      expect(i.classes['icon-context']).toBeTruthy();
 
-      expect(span.nativeElement.tagName.toLowerCase()).to.equal('span');
-      expect(span.nativeElement.textContent).to.equal('blabla');
+      expect(span.nativeElement.tagName.toLowerCase()).toEqual('span');
+      expect(span.nativeElement.textContent).toEqual('blabla');
     });
   });
 });
