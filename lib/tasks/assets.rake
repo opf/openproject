@@ -51,14 +51,14 @@ namespace :assets do
     puts "Building angular frontend"
     Dir.chdir Rails.root.join('frontend') do
       sh '$(npm bin)/ng build --prod' do |ok, res|
-        raise "Failed to compile angular frontend: #{res.exitcode}" if !ok
+        raise "Failed to compile angular frontend: #{res.exitstatus}" if !ok
       end
     end
 
     puts "Building legacy frontend"
     Dir.chdir Rails.root.join('frontend') do
       sh 'npm run legacy-webpack' do |ok, res|
-        raise "Failed to compile angular frontend: #{res.exitcode}" if !ok
+        raise "Failed to compile angular frontend: #{res.exitstatus}" if !ok
       end
     end
 

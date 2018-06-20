@@ -37,8 +37,13 @@ var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 // var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-var mode = (process.env['RAILS_ENV'] || 'production').toLowerCase();
-var production = (mode !== 'development');
+var mode = 'production';
+var production = true;
+if (process.env['RAILS_ENV'] == 'development') {
+  mode = 'development';
+  production = false;
+}
+
 var debug_output = (!production || !!process.env['OP_FRONTEND_DEBUG_OUTPUT']);
 
 var node_root = path.resolve(__dirname, '..', 'node_modules');
