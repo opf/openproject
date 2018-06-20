@@ -56,11 +56,11 @@
           <wp-single-view [workPackage]="workPackage"></wp-single-view>
         </div>
       </div>
-      <div class="work-packages-full-view--resizer hidden-for-mobile hide-when-print">
-        <wp-resizer [elementClass]="'work-packages-full-view--split-right'"
-                  [localStorageKey]="'openProject-fullViewFlexBasis'"></wp-resizer>
-      </div>
       <div class="work-packages-full-view--split-right">
+        <div class="work-packages-full-view--resizer hidden-for-mobile hide-when-print">
+          <wp-resizer [elementClass]="'work-packages-full-view--split-right'"
+                    [localStorageKey]="'openProject-fullViewFlexBasis'"></wp-resizer>
+        </div>
         <div class="work-packages--panel-inner">
           <span class="hidden-for-sighted" tabindex="-1" focus [textContent]="focusAnchorLabel"></span>
           <div id="tabs">
