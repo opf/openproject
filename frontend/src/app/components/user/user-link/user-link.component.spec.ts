@@ -28,8 +28,6 @@
 
 import {UserLinkComponent} from './user-link.component';
 
-require('core-app/angular4-test-setup');
-
 import {async, TestBed} from '@angular/core/testing';
 import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
@@ -38,9 +36,11 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 
 describe('UserLinkComponent component test', () => {
   const PathHelperStub = {
-    userPath: sinon.stub()
-      .withArgs('1')
-      .returns('/users/1')
+    userPath: (id:string) => `/users/${id}`
+  };
+
+  const I18nStub = {
+    t: (key:string, args:any) => `Author: ${args.user}`
   };
 
   beforeEach(async(() => {
@@ -51,7 +51,7 @@ describe('UserLinkComponent component test', () => {
         UserLinkComponent
       ],
       providers: [
-        I18nService,
+        { provide: I18nService, useValue: I18nStub },
         { provide: PathHelperService, useValue: PathHelperStub },
       ]
     }).compileComponents();
@@ -60,7 +60,7 @@ describe('UserLinkComponent component test', () => {
   describe('inner element', function() {
     let app:UserLinkComponent;
     let fixture:ComponentFixture<UserLinkComponent>
-    let element:JQuery;
+    let element:HTMLElement;
 
     let user = {
       name: 'First Last',
@@ -71,16 +71,16 @@ describe('UserLinkComponent component test', () => {
     it('should render an inner link with specified classes', function() {
       fixture = TestBed.createComponent(UserLinkComponent);
       app = fixture.debugElement.componentInstance;
-      element = jQuery(fixture.elementRef.nativeElement);
+      element = fixture.elementRef.nativeElement;
 
       app.user = user;
       fixture.detectChanges();
 
-      const link = element.find('a');
+      const link = element.querySelector('a')!;
 
-      expect(link.text()).to.equal('First Last');
-      expect(link.attr('title')).to.equal('Author: First Last');
-      expect(link.attr('href')).to.equal('/users/1');
+      expect(link.textContent).toEqual('First Last');
+      expect(link.getAttribute('title')).toEqual('Author: First Last');
+      expect(link.getAttribute('href')).toEqual('/users/1');
     });
   });
 });

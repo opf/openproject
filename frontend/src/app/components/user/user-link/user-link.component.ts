@@ -54,6 +54,6 @@ export class UserLinkComponent {
   ngOnInit() {
     this.href = this.pathHelper.userPath(this.user.idFromLink);
     this.name = this.user.name;
-    this.label = this.I18n.t('js.label_author', { author: this.name });
+    this.label = this.I18n.t('js.label_author', { user: this.name });
   }
 }
