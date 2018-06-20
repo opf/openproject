@@ -31,20 +31,24 @@
 import {HookService} from "core-app/modules/plugins/hook-service";
 
 describe('HookService', function() {
-  let service = new HookService();
+  let service:HookService = new HookService();
 
   var callback:any, invalidCallback:any;
   var validId = 'myValidCallbacks';
 
+  beforeEach(() => {
+    service = new HookService();
+  });
+
   var shouldBehaveLikeEmptyResult = function(id:string) {
     it('returns empty results', function() {
-      expect(service.call(id)).to.be.empty;
+      expect(service.call(id).length).toEqual(0);
     });
   };
 
   var shouldBehaveLikeResultWithElements = function(id:string, count:number) {
     it('returns #count results', function() {
-      expect(service.call(id).length).to.eq(count);
+      expect(service.call(id).length).toEqual(count);
     });
   };
 
@@ -54,7 +58,7 @@ describe('HookService', function() {
     });
 
     it('is called', function() {
-      expect(callback.called).to.be.true;
+      expect(callback).toHaveBeenCalled();
     });
   };
 
@@ -64,7 +68,7 @@ describe('HookService', function() {
     });
 
     it('is not called', function() {
-      expect(invalidCallback.called).to.be.false;
+      expect(invalidCallback.called).toBeFalsy();
     });
   };
 
@@ -77,7 +81,7 @@ describe('HookService', function() {
 
     describe('valid function callback registered', function() {
       beforeEach(function() {
-        callback = sinon.spy();
+        callback = jasmine.createSpy('hook');
         service.register('myValidCallbacks', callback);
       });
 
@@ -90,7 +94,7 @@ describe('HookService', function() {
   describe('call', function() {
     describe('function that returns undefined', function() {
       beforeEach(function() {
-        callback = sinon.spy();
+        callback = jasmine.createSpy('hook');
         service.register('myValidCallbacks', callback);
       });
 
@@ -101,8 +105,7 @@ describe('HookService', function() {
 
     describe('function that returns something that is not undefined', function() {
       beforeEach(function() {
-        callback = sinon.stub();
-        callback.returns({});
+        callback = jasmine.createSpy('hook').and.returnValue({});
 
         service.register('myValidCallbacks', callback);
       });
@@ -114,8 +117,7 @@ describe('HookService', function() {
 
     describe('function that returns something that is not undefined', function() {
       beforeEach(function() {
-        callback = sinon.stub();
-        callback.returns({});
+        callback = jasmine.createSpy('hook').and.returnValue({});
 
         service.register('myValidCallbacks', callback);
       });
@@ -127,8 +129,8 @@ describe('HookService', function() {
 
     describe('function that returns something that is not undefined', function() {
       beforeEach(function() {
-        callback = sinon.spy();
-        invalidCallback = sinon.spy();
+        callback = jasmine.createSpy('hook');
+        invalidCallback = jasmine.createSpy('invalidHook');
 
         service.register('myValidCallbacks', callback);
 
@@ -144,10 +146,8 @@ describe('HookService', function() {
       var callback1, callback2;
 
       beforeEach(function() {
-        callback1 = sinon.stub();
-        callback1.returns({});
-        callback2 = sinon.stub();
-        callback2.returns({});
+        callback1 = jasmine.createSpy('hook1').and.returnValue({});
+        callback2 = jasmine.createSpy('hook1').and.returnValue({});
 
         service.register('myValidCallbacks', callback1);
         service.register('myValidCallbacks', callback2);

@@ -64,7 +64,7 @@ describe('currentProject service', function() {
         expect(currentProject.inProjectContext).toBeTruthy();
         expect(currentProject.id).toEqual('1');
         expect(currentProject.name).toEqual('Foo 1234');
-        expect(currentProject.identifier).toEqual('foobar')
+        expect(currentProject.identifier).toEqual('foobar');
         expect(currentProject.apiv3Path).toEqual('/api/v3/projects/1');
       });
     });
