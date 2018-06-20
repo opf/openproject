@@ -28,15 +28,12 @@
 
 import {AccessibleByKeyboardComponent} from "core-app/modules/a11y/accessible-by-keyboard.component";
 
-require('core-app/angular4-test-setup');
-
-import {async, TestBed} from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
 
 
 describe('accessibleByKeyboard component', () => {
-
-  beforeEach(async(() => {
+  beforeEach((() => {
 
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
@@ -49,19 +46,21 @@ describe('accessibleByKeyboard component', () => {
   describe('inner element', function() {
     let app:AccessibleByKeyboardComponent;
     let fixture:ComponentFixture<AccessibleByKeyboardComponent>;
-    let element:JQuery;
+    let element:HTMLElement;
 
     it('should render an inner link with specified classes', function() {
       fixture = TestBed.createComponent(AccessibleByKeyboardComponent);
       app = fixture.debugElement.componentInstance;
-      element = jQuery(fixture.elementRef.nativeElement);
+      element = fixture.elementRef.nativeElement;
 
       app.linkClass = 'a-link-class';
       app.spanClass = 'a-span-class';
       fixture.detectChanges();
 
-      expect(element.find('a').hasClass('a-link-class')).to.be.true;
-      expect(element.find('a > span').hasClass('a-span-class')).to.be.true;
+      const link = element.querySelector('a')!;
+      const span = element.querySelector('a > span')!;
+      expect(link.classList.contains('a-link-class')).toBeTruthy();
+      expect(span.classList.contains('a-span-class')).toBeTruthy();
     });
   });
 });
