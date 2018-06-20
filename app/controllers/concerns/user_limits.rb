@@ -45,15 +45,22 @@ module Concerns::UserLimits
     end
   end
 
-  def enforce_activation_user_limit(redirect_to: signin_path)
+  def enforce_activation_user_limit(user: nil, redirect_to: signin_path)
     if user_limit_reached?
       show_user_limit_activation_error!
+      send_activation_limit_notifcation_about user if user
 
       redirect_back fallback_location: redirect_to
 
       true
     else
       false
+    end
+  end
+
+  def send_activation_limit_notifcation_about(user)
+    User.active.admin.each do |admin|
+      UserMailer.activation_limit_reached(user.mail, admin).deliver_later
     end
   end
 

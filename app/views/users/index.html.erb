@@ -30,8 +30,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <%
   user_limit = begin
     token = OpenProject::Enterprise.token
+    limit = token && Hash(token.restrictions)[:active_user_count]
 
-    token && Hash(token.restrictions)[:active_user_count]
+    limit if limit && limit > 0
   end
 %>
 <% users_info = user_limit && content_tag(:div) do %>

@@ -33,6 +33,10 @@ module OpenProject
         EnterpriseToken.current.presence
       end
 
+      def upgrade_url
+        "#{Setting.protocol}://#{Setting.host_name}#{upgrade_path}"
+      end
+
       def upgrade_path
         url_helpers.enterprise_path
       end
