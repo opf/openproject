@@ -33,7 +33,7 @@ describe('lazy service', () => {
 
 
   it('should exist', () => {
-    expect(lazy).to.exist;
+    expect(lazy).toBeDefined();
   });
 
   it('should add a property with the given name to the object', () => {
@@ -41,7 +41,7 @@ describe('lazy service', () => {
       prop: void 0
     };
     lazy(obj, 'prop', () => '');
-    expect(obj.prop).to.exist;
+    expect(obj.prop).toBeDefined();
   });
 
   it('should add an enumerable property', () => {
@@ -49,7 +49,7 @@ describe('lazy service', () => {
       prop: void 0
     };
     lazy(obj, 'prop', () => '');
-    expect(obj.propertyIsEnumerable('prop')).to.be.true;
+    expect(obj.propertyIsEnumerable('prop')).toBeTruthy();
   });
 
   it('should add a configurable property', () => {
@@ -57,7 +57,7 @@ describe('lazy service', () => {
       prop: void 0
     };
     lazy(obj, 'prop', () => '');
-    expect((Object as any).getOwnPropertyDescriptor(obj, 'prop').configurable).to.be.true;
+    expect((Object as any).getOwnPropertyDescriptor(obj, 'prop').configurable).toBeTruthy();
   });
 
   it('should set the value of the property provided by the setter', () => {
@@ -66,7 +66,7 @@ describe('lazy service', () => {
     };
     lazy(obj, 'prop', () => '', (val:any) => val);
     obj.prop = 'hello';
-    expect(obj.prop).to.eq('hello');
+    expect(obj.prop).toEqual('hello');
   });
 
   it('should not be settable, if no setter is provided', () => {
@@ -78,12 +78,12 @@ describe('lazy service', () => {
       obj.prop = 'hello';
     }
     catch (Error) {}
-    expect(obj.prop).to.not.eq('hello');
+    expect(obj.prop).not.toEqual('hello');
   });
 
   it('should do nothing if the target is not an object', () => {
     let obj:any = null;
     lazy(obj, 'prop', () => '');
-    expect(obj).to.not.be.ok;
+    expect(obj).toBeNull();
   });
 });
