@@ -37,11 +37,11 @@ describe('currentProject service', function() {
 
     describe('with no meta present', () => {
       it('returns null values', () => {
-        expect(currentProject.id).to.be.null;
-        expect(currentProject.identifier).to.be.null;
-        expect(currentProject.name).to.be.null;
-        expect(currentProject.apiv3Path).to.be.null;
-        expect(currentProject.inProjectContext).to.be.false;
+        expect(currentProject.id).toBeNull();
+        expect(currentProject.identifier).toBeNull();
+        expect(currentProject.name).toBeNull();
+        expect(currentProject.apiv3Path).toBeNull();
+        expect(currentProject.inProjectContext).toBeFalsy();
       });
     });
 
@@ -61,11 +61,11 @@ describe('currentProject service', function() {
       }));
 
       it('returns correct values', () => {
-        expect(currentProject.inProjectContext).to.be.true;
-        expect(currentProject.id).to.eq('1');
-        expect(currentProject.name).to.eq('Foo 1234');
-        expect(currentProject.identifier).to.eq('foobar')
-        expect(currentProject.apiv3Path).to.eq('/api/v3/projects/1');
+        expect(currentProject.inProjectContext).toBeTruthy();
+        expect(currentProject.id).toEqual('1');
+        expect(currentProject.name).toEqual('Foo 1234');
+        expect(currentProject.identifier).toEqual('foobar')
+        expect(currentProject.apiv3Path).toEqual('/api/v3/projects/1');
       });
     });
 });
