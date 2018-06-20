@@ -36,7 +36,6 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {States} from 'core-components/states.service';
 import {of} from 'rxjs';
-import {SinonStub} from 'sinon';
 
 describe('HalResource', () => {
   let halResourceService:HalResourceService;
@@ -74,7 +73,7 @@ describe('HalResource', () => {
   });
 
   describe('when updating a loaded resource using `$update()`', () => {
-    let getStub:SinonStub;
+    let getStub:any;
 
     beforeEach(() => {
       source = {
@@ -711,7 +710,7 @@ describe('HalResource', () => {
         });
 
         describe('when loading it', () => {
-          let getStub:SinonStub;
+          let getStub:any;
 
           beforeEach(() => {
             let result = halResourceService.createHalResource({

@@ -28,8 +28,6 @@
 
 import {HttpClientModule} from '@angular/common/http';
 
-require('core-app/angular4-test-setup');
-
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
 import {async, inject, TestBed} from '@angular/core/testing';
@@ -41,9 +39,10 @@ import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/tabl
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {OpenProject} from "core-app/globals/openproject";
 
 function setupMocks(paginationService:PaginationService) {
-  sinon.stub(paginationService, 'loadPaginationOptions', () => {
+  spyOn(paginationService, 'loadPaginationOptions').and.callFake(() => {
     const options:IPaginationOptions = {
       perPage: 0,
       perPageOptions: [10, 100, 500, 1000],
@@ -61,6 +60,8 @@ function pageString(element:JQuery) {
 describe('wpTablePagination Directive', () => {
 
   beforeEach(async(() => {
+    window.OpenProject = new OpenProject();
+    (window as any).gon = { settings: { pagination: { per_page_options: [20, 50] } } };
 
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
@@ -95,12 +96,12 @@ describe('wpTablePagination Directive', () => {
         app.pagination = new PaginationInstance(1, 0, 10);
         app.update();
         fixture.detectChanges();
-        expect(pageString(element)).to.equal('');
+        expect(pageString(element)).toEqual('');
 
         app.pagination = new PaginationInstance(1, 11, 10);
         app.update();
         fixture.detectChanges();
-        expect(pageString(element)).to.equal('(1 - 10/11)');
+        expect(pageString(element)).toEqual('(1 - 10/11)');
 
       }));
 
@@ -118,7 +119,7 @@ describe('wpTablePagination Directive', () => {
 
           const liWithNextLink = element.find('.pagination--next-link').parent('li');
           const attrHidden = liWithNextLink.attr('hidden');
-          expect(attrHidden).not.to.be.undefined;
+          expect(attrHidden).toBeDefined();
         }));
     });
 
@@ -136,21 +137,19 @@ describe('wpTablePagination Directive', () => {
         app.pagination = new PaginationInstance(1, 1, 10);
         app.update();
         fixture.detectChanges();
-        expect(numberOfPageNumberLinks()).to.eq(1);
+        expect(numberOfPageNumberLinks()).toEqual(1);
 
         app.pagination = new PaginationInstance(1, 11, 10);
         app.update();
         fixture.detectChanges();
-        expect(numberOfPageNumberLinks()).to.eq(2);
+        expect(numberOfPageNumberLinks()).toEqual(2);
 
         app.pagination = new PaginationInstance(1, 59, 10);
         app.update();
         fixture.detectChanges();
-        expect(numberOfPageNumberLinks()).to.eq(6);
+        expect(numberOfPageNumberLinks()).toEqual(6);
       }));
-
   });
-
 });
 
 
