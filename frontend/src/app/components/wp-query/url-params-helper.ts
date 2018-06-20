@@ -191,9 +191,9 @@ export class UrlParamsHelperService {
 
     queryData["columns[]"] = this.buildV3GetColumnsFromQueryResource(query);
     queryData.showSums = query.sums;
-    queryData.timelineVisible = query.timelineVisible;
+    queryData.timelineVisible = !!query.timelineVisible;
     queryData.timelineZoomLevel = query.timelineZoomLevel;
-    queryData.showHierarchies = query.showHierarchies;
+    queryData.showHierarchies = !!query.showHierarchies;
     queryData.groupBy = _.get(query.groupBy, 'id', '');
 
     // Filters
@@ -202,7 +202,7 @@ export class UrlParamsHelperService {
     // Sortation
     queryData.sortBy = this.buildV3GetSortByFromQuery(query);
 
-    return _.extend(queryData, additionalParams);
+    return _.extend(additionalParams, queryData);
   }
 
   public queryFilterValueToParam(value:any) {

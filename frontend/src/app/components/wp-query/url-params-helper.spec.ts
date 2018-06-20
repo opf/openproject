@@ -32,8 +32,7 @@ import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper
 
 describe('UrlParamsHelper', function() {
   const paginationStub = {
-    getPerPage: sinon.stub()
-      .returns(20)
+    getPerPage: () => 20
   } as any;
 
   let UrlParamsHelper = new UrlParamsHelperService(paginationStub);
@@ -51,11 +50,11 @@ describe('UrlParamsHelper', function() {
     });
 
     it('concatenates propertys with \'&\'', function() {
-      expect(queryString.split('&')).to.have.length(4);
+      expect(queryString.split('&').length).toEqual(4);
     });
 
     it('escapes special characters', function() {
-      expect(queryString).not.to.include('@');
+      expect(queryString.indexOf('@') === -1).toBeTruthy();
     });
   });
 
@@ -112,8 +111,9 @@ describe('UrlParamsHelper', function() {
 
     it('should encode query to params JSON', function() {
       let encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query, additional);
-      let expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
-      expect(encodedJSON).to.eq(expectedJSON);
+      let expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße\",\"o\":\"=\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"<t-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
+
+      expect(encodedJSON).toEqual(expectedJSON);
     });
   });
 
@@ -121,7 +121,7 @@ describe('UrlParamsHelper', function() {
     let params:string;
 
     beforeEach(function() {
-      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc,status:asc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
+      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc,status:asc\",\"f\":[{\"n\":\"soße\",\"o\":\"=\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"<t-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
     });
 
     it('should decode query params to object', function() {
@@ -153,7 +153,7 @@ describe('UrlParamsHelper', function() {
         pageSize: 100
       };
 
-      expect(_.isEqual(decodedQueryParams, expected)).to.be.true;
+      expect(_.isEqual(decodedQueryParams, expected)).toBeTruthy();
     });
   });
 
@@ -188,6 +188,7 @@ describe('UrlParamsHelper', function() {
       query = {
         id: 1,
         name: 'knoblauch soße',
+        timelineZoomLevel: 0,
         sums: true,
         columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
         groupBy: {
@@ -230,11 +231,14 @@ describe('UrlParamsHelper', function() {
           }
         ]),
         sortBy: JSON.stringify([['type', 'desc'], ['status', 'asc']]),
+        timelineZoomLevel: 0,
+        timelineVisible: false,
+        showHierarchies: false,
         offset: 10,
         pageSize: 100
       };
 
-      expect(_.isEqual(v3Params, expected)).to.be.true;
+      expect(_.isEqual(v3Params, expected)).toBeTruthy();
     });
 
     it('decodes string object filters', function() {
@@ -264,6 +268,7 @@ describe('UrlParamsHelper', function() {
         sortBy: [],
         columns: [],
         groupBy: '',
+        timelineZoomLevel: 0,
         sums: false
       };
 
@@ -283,10 +288,14 @@ describe('UrlParamsHelper', function() {
         ]),
         groupBy: '',
         showSums: false,
+        timelineZoomLevel: 0,
+        timelineVisible: false,
+        showHierarchies: false,
+
         sortBy: '[]'
       };
 
-      expect(_.isEqual(v3Params, expected)).to.be.true;
+      expect(_.isEqual(v3Params, expected)).toBeTruthy();
     });
   });
 });
