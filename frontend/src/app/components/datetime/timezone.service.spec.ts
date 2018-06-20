@@ -43,8 +43,8 @@ describe('TimezoneService', function () {
 
   let compile = (timezone?:string) => {
     let ConfigurationServiceStub = {
-      isTimezoneSet: sinon.stub().returns(!!timezone),
-      timezone: sinon.stub().returns(timezone)
+      isTimezoneSet: () => !!timezone,
+      timezone: () => timezone
     };
 
     TestBed.configureTestingModule({
@@ -70,13 +70,13 @@ describe('TimezoneService', function () {
     describe('#parseDatetime', function () {
       it('is UTC', function () {
         var time = timezoneService.parseDatetime(TIME);
-        expect(time.utcOffset()).to.equal(0);
-        expect(time.format('HH:mm')).to.eq('09:30');
+        expect(time.utcOffset()).toEqual(0);
+        expect(time.format('HH:mm')).toEqual('09:30');
       });
 
       it('has no time information', function () {
         var time = timezoneService.parseDate(DATE);
-        expect(time.format('HH:mm')).to.eq('00:00');
+        expect(time.format('HH:mm')).toEqual('00:00');
       });
     });
   });
@@ -90,11 +90,11 @@ describe('TimezoneService', function () {
 
       it('is in the given timezone' , function () {
         let date = timezoneService.parseDatetime(TIME);
-        expect(date.format('HH:mm')).to.eq('01:30');
+        expect(date.format('HH:mm')).toEqual('01:30');
       });
 
       it('has local time zone', function () {
-        expect(timezoneService.ConfigurationService.timezone()).to.equal('America/Vancouver');
+        expect(timezoneService.ConfigurationService.timezone()).toEqual('America/Vancouver');
       });
     });
   });
