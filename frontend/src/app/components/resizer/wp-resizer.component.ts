@@ -67,13 +67,20 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
     // Wait until dom content is loaded and initialize column layout
     // Otherwise function will be executed with empty list
-    var that = this;
-    jQuery(document).ready(function () {
-      that.applyColumnLayout(that.resizingElement, that.elementFlex);
+    jQuery(document).ready(() => {
+      this.applyColumnLayout(this.resizingElement, this.elementFlex);
     });
 
     // Add event listener
     this.element = this.elementRef.nativeElement;
+
+    // Add event listener on hamburger menu and toggle column layout, if necessary
+    // The timeout is currently needed, because the sidebar is sliding in
+    jQuery('#main-menu-toggle')[0].addEventListener('click', () => {
+      setTimeout(function(){
+        jQuery('.can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left')[0].offsetWidth > 750);
+      }, 150);
+    });
   }
 
   ngOnDestroy() {
