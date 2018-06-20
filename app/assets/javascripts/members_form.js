@@ -48,6 +48,16 @@ function showAddMemberForm() {
   jQuery('#filter-member-button').removeClass('-active');
   window.OpenProject.guardedLocalStorage("showFilter", 'false');
   jQuery('#add-member-button').prop('disabled', true);
+
+  jQuery("input#member_user_ids").on("change", function() {
+    var values = jQuery("input#member_user_ids").val();
+
+    if (values.indexOf("@") != -1) {
+      jQuery("#member-user-limit-warning").css("display", "block");
+    } else {
+      jQuery("#member-user-limit-warning").css("display", "none");
+    }
+  });
 }
 
 function hideAddMemberForm() {

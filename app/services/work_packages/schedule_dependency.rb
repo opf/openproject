@@ -58,7 +58,9 @@ class WorkPackages::ScheduleDependency
 
   attr_accessor :work_packages,
                 :dependencies,
-                :known_work_packages
+                :known_work_packages,
+                :known_work_packages_by_id,
+                :known_work_packages_by_parent_id
 
   private
 
@@ -69,8 +71,13 @@ class WorkPackages::ScheduleDependency
   def load_all_following(work_packages)
     following = load_following(work_packages)
 
+    # Those variables are pure optimizations.
+    # We want to reuse the already loaded work packages as much as possible
+    # and we want to have them readily available as hashes.
     self.known_work_packages += following
     known_work_packages.uniq!
+    self.known_work_packages_by_id = known_work_packages.group_by(&:id)
+    self.known_work_packages_by_parent_id = known_work_packages.group_by(&:parent_id)
 
     new_dependencies = add_dependencies(following)
 
@@ -184,23 +191,23 @@ class WorkPackages::ScheduleDependency
 
     def ancestors_from_preloaded(work_package)
       if work_package.parent_id
-        parent = known_work_packages.detect { |c| work_package.parent_id == c.id }
+        parent = known_work_packages_by_id[work_package.parent_id]
 
         if parent
-          [parent] + ancestors_from_preloaded(parent)
+          parent + ancestors_from_preloaded(parent.first)
         end
       end || []
     end
 
     def descendants_from_preloaded(work_package)
-      children = known_work_packages.select { |c| c.parent_id == work_package.id }
+      children = known_work_packages_by_parent_id[work_package.id] || []
 
       children + children.map { |child| descendants_from_preloaded(child) }.flatten
     end
 
-    def known_work_packages
-      schedule_dependency.known_work_packages
-    end
+    delegate :known_work_packages,
+             :known_work_packages_by_id,
+             :known_work_packages_by_parent_id, to: :schedule_dependency
 
     def scheduled_work_packages
       schedule_dependency.work_packages + schedule_dependency.dependencies.keys

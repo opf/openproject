@@ -30,10 +30,6 @@
   @include grid-block
   @include grid-layout(2)
   @include grid-visible-overflow
-  // Overriding position: relative defined by grid-block
-  // which seems to collide (chrome 66) with the column-count
-  // defined conditionally on the element as well.
-  position: static
   font-size: 0.875rem
   line-height: 1.6
 

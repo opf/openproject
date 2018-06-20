@@ -141,7 +141,7 @@ export class WorkPackageChangeset {
     if (this.wpForm.hasValue()) {
       return Promise.resolve(this.wpForm.value!);
     } else {
-      return new Promise<FormResource>((resolve) => this.wpForm.valuesPromise().then(resolve));
+      return new Promise<FormResource>((resolve,) => this.wpForm.valuesPromise().then(resolve));
     }
   }
 
@@ -288,9 +288,22 @@ export class WorkPackageChangeset {
    * Extract the link(s) in the given changed value
    */
   private getLinkedValue(val:any, fieldSchema:IFieldSchema) {
-    var isArray = (fieldSchema.type || '').startsWith('[]');
+    // Links should always be nullified as { href: null }, but
+    // this wasn't always the case, so ensure null values are returned as such.
+    if (_.isNil(val)) {
+      return {href: null};
+    }
 
-    if (isArray) {
+    // Test if we either have a CollectionResource or a HAL array,
+    // or a single hal value.
+    let isArrayType = (fieldSchema.type || '').startsWith('[]');
+    let isArray = false;
+
+    if (val.forEach || val.elements) {
+      isArray = true;
+    }
+
+    if (isArray && isArrayType) {
       var links:{ href:string }[] = [];
 
       if (val) {
