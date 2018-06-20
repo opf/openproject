@@ -112,11 +112,11 @@ describe('wp-query-menu', () => {
     });
 
     it ('adds a query menu item', function() {
-      expect(menuItem).to.have.length(1);
+      expect(menuItem.length).toEqual(1);
     });
 
     it('assigns the item type as class', function() {
-      expect(itemLink.hasClass('query-menu-item')).to.be.true;
+      expect(itemLink.hasClass('query-menu-item')).toBeTruthy();
     });
 
     describe('when the query id matches the query id of the state params', function() {
@@ -126,13 +126,13 @@ describe('wp-query-menu', () => {
       });
 
       it('marks the new item as selected', function() {
-        expect(itemLink.hasClass('selected'), 'is selected').to.be.true;
+        expect(itemLink.hasClass('selected'), 'is selected').toBeTruthy();
       });
 
       it('toggles the selected state on state change', function() {
         transitionCallback(null);
         fixture.detectChanges();
-        expect(itemLink.hasClass('selected'), 'is selected').to.be.false;
+        expect(itemLink.hasClass('selected'), 'is selected').toBeFalsy();
       });
     });
   });
@@ -160,7 +160,7 @@ describe('wp-query-menu', () => {
         });
 
         it('marks the item as selected', function() {
-          expect(itemLink.hasClass('selected'), 'is not selected').to.be.false;
+          expect(itemLink.hasClass('selected'), 'is not selected').toBeFalsy();
         });
       });
       describe('for a string query_id', function() {
@@ -170,7 +170,7 @@ describe('wp-query-menu', () => {
         });
 
         it('does not mark the item as selected', function() {
-          expect(itemLink.hasClass('selected'), 'is not selected').to.be.false;
+          expect(itemLink.hasClass('selected'), 'is not selected').toBeFalsy();
         });
       });
     });
