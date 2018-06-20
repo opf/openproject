@@ -275,6 +275,7 @@ zh-TW:
         expires_at: 過期於
         subscriber: 訂閱者
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: 延時
         from: 工作項目
@@ -653,6 +654,7 @@ zh-TW:
   button_unlock: 解除鎖定
   button_unwatch: 取消監看
   button_update: 更新
+  button_upgrade: Upgrade
   button_upload: 上傳
   button_view: 檢視
   button_watch: 監看
@@ -900,6 +902,8 @@ zh-TW:
   error_custom_option_not_found: 選項不存在。
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: 刪除此項目失敗。
   error_invalid_group_by: 無法按照 %{value} 分組
   error_invalid_query_column: 無效的查詢欄：%{value}
@@ -1157,6 +1161,7 @@ zh-TW:
   label_enumeration_value: 列舉值
   label_enumerations: 條列項目
   label_enterprise: 企業
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: 企業版
   label_entry_page: Entry page
   label_environment: 環境
@@ -2322,6 +2327,7 @@ zh-TW:
       quarters: 季
       years: 年
   title_remove_and_delete_user: 從專案移除已被邀請的使用者別且刪除他/她
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: '新使用者預設時區，可以在使用者設定中修改。
 
 '
@@ -2384,6 +2390,8 @@ zh-TW:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: 警告
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   warning_registration_token_expired: |
     帳號啟用 email 已經逾期。我們已經寄了一封新的 email 至您的 %{email}。
     請點擊 email 內的連結來啟用您的帳號。

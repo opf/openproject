@@ -331,6 +331,7 @@ es:
         expires_at: Caduca el
         subscriber: Suscriptor
         encoded_token: Token de apoyo de versión corporativa
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Retraso
         from: Paquete de trabajo
@@ -733,6 +734,7 @@ es:
   button_unlock: Desbloquear
   button_unwatch: No controlar más
   button_update: Actualizar
+  button_upgrade: Upgrade
   button_upload: Cargar
   button_view: Ver
   button_watch: Controlar
@@ -990,6 +992,8 @@ es:
   error_custom_option_not_found: Esta opción no existe.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: No se puede eliminar esta entrada.
   error_invalid_group_by: 'No se puede agrupar por: %{value}'
   error_invalid_query_column: 'Columna no válida en la solicitud: %{value}'
@@ -1269,6 +1273,7 @@ es:
   label_enumeration_value: Valor de enumeración
   label_enumerations: Enumeraciones
   label_enterprise: Empresa
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Versión corporativa
   label_entry_page: Entry page
   label_environment: Entorno
@@ -2595,6 +2600,7 @@ es:
       quarters: Cuatrimestres
       years: Años
   title_remove_and_delete_user: Eliminar al usurio invitado del proyecto y eliminarlo.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'La zona horaria por defecto para los nuevos usuarios.
     Puede ser modificada en la configuración del usuario.
 
@@ -2670,6 +2676,8 @@ es:
     por %{configuration}.
   warning: Alerta
   warning_attachments_not_saved: "%{count} archivo(s) no podrán ser salvados."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   warning_registration_token_expired: 'El e-mail de activación ha expirado. Le enviaremos
     uno nuevo a %{email}. Por favor haga click en el enlace incluido en el mismo para
     activar su cuenta.
