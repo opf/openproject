@@ -28,9 +28,7 @@
 
 import {Component, DebugElement} from "@angular/core";
 
-require('core-app/angular4-test-setup');
-
-import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {ComponentFixture} from '@angular/core/testing/src/component_fixture';
 import {By} from "@angular/platform-browser";
 import {AccessibleClickDirective} from "core-app/modules/a11y/accessible-click.directive";
@@ -45,7 +43,7 @@ class TestAccessibleClickDirective {
 
 describe('accessibleByKeyboard component', () => {
 
-  beforeEach(async(() => {
+  beforeEach((() => {
 
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
@@ -66,7 +64,7 @@ describe('accessibleByKeyboard component', () => {
       app = fixture.debugElement.componentInstance;
       element = fixture.debugElement.query(By.css('div'));
 
-      const spy = sinon.spy(app, 'onClick');
+      const spy = spyOn(app, 'onClick');
       fixture.detectChanges();
 
       // Trigger click
@@ -77,7 +75,7 @@ describe('accessibleByKeyboard component', () => {
 
       tick();
       fixture.detectChanges();
-      expect(spy).to.have.been.calledThrice;
+      expect(spy).toHaveBeenCalledTimes(3);
     }));
   });
 });
