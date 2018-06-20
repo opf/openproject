@@ -41,11 +41,12 @@ import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {AttachmentCollectionResource} from 'core-app/modules/hal/resources/attachment-collection-resource';
-import {SinonStub} from 'sinon';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {StateService} from "@uirouter/core";
+import {IWorkPackageCreateServiceToken} from "core-components/wp-new/wp-create.service.interface";
+import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
@@ -76,11 +77,12 @@ describe('WorkPackage', () => {
         NotificationsService,
         ConfigurationService,
         WorkPackageNotificationService,
+        OpenProjectFileUploadService,
         LoadingIndicatorService,
         PathHelperService,
         I18nService,
         { provide: ApiWorkPackagesService, useValue: {} },
-        { provide: WorkPackageCreateService, useValue: {} },
+        { provide: IWorkPackageCreateServiceToken, useValue: {} },
         { provide: StateService, useValue: {} },
         { provide: SchemaCacheService, useValue: {} },
       ]
@@ -101,11 +103,11 @@ describe('WorkPackage', () => {
     beforeEach(createWorkPackage);
 
     it('should have an attachments property of type `AttachmentCollectionResource`', () => {
-      expect(workPackage.attachments).to.be.instanceOf(AttachmentCollectionResource);
+      expect(workPackage.attachments).toEqual(jasmine.any(AttachmentCollectionResource));
     });
 
     it('should return true for `isNew`', () => {
-      expect(workPackage.isNew).to.be.true;
+      expect(workPackage.isNew).toBeTruthy();
     });
   });
 
@@ -113,11 +115,9 @@ describe('WorkPackage', () => {
     beforeEach(createWorkPackage);
 
     const expectValue = (value:any, prepare:any = () => undefined) => {
-      value = value.toString();
-
       beforeEach(prepare);
       it('should be ' + value, () => {
-        (expect(workPackage.canAddAttachments).to.be as any)[value];
+        expect(workPackage.canAddAttachments).toEqual(value);
       });
     };
 
@@ -162,12 +162,13 @@ describe('WorkPackage', () => {
   describe('when using removeAttachment', () => {
     let file:any;
     let attachment:any;
+    let result:any;
 
     beforeEach(() => {
       file = {};
       attachment = {
         $isHal: true,
-        'delete': sinon.stub()
+        'delete': () => undefined
       };
 
       createWorkPackage();
@@ -175,16 +176,14 @@ describe('WorkPackage', () => {
     });
 
     describe('when the attachment is an attachment resource', () => {
-      let result = Promise.resolve();
-
       beforeEach(() => {
-        attachment.delete.returns(result);
-        sinon.stub(workPackage, 'updateAttachments');
+        attachment.delete = jasmine.createSpy('delete').and.returnValue(Promise.resolve())
+        spyOn(workPackage, 'updateAttachments');
       });
 
       it('should call its delete method', (done) => {
         workPackage.removeAttachment(attachment).then(() => {
-          expect(attachment.delete.calledOnce).to.be.true;
+          expect(attachment.delete).toHaveBeenCalled();
           done();
         });
       });
@@ -192,36 +191,32 @@ describe('WorkPackage', () => {
       describe('when the deletion gets resolved', () => {
         it('should call updateAttachments()', (done) => {
           workPackage.removeAttachment(attachment).then(() => {
-            expect((workPackage.updateAttachments as SinonStub).calledOnce).to.be.true;
+            expect(workPackage.updateAttachments).toHaveBeenCalled();
             done();
           });
         });
       });
 
       describe('when an error occurs', () => {
-        var error:any;
-        let errorStub:SinonStub;
+        let errorStub:jasmine.Spy;
 
         beforeEach(() => {
-          error = { foo: 'bar' };
-          attachment.delete.returns(Promise.reject(error));
-          errorStub = sinon.stub(wpNotificationsService, 'handleErrorResponse');
-        });
+          attachment.delete = jasmine.createSpy('delete')
+            .and.returnValue(Promise.reject({ foo: 'bar'}));
 
-        afterEach(() => {
-          errorStub.restore();
+          errorStub = spyOn(wpNotificationsService, 'handleErrorResponse');
         });
 
         it('should call the handleErrorResponse notification', (done) => {
           workPackage.removeAttachment(attachment).then(() => {
-            expect(errorStub, 'Calls handleErrorResponse').to.have.been.called;
+            expect(errorStub).toHaveBeenCalled();
             done();
           });
         });
 
         it('should not remove the attachment from the elements array', (done) => {
           workPackage.removeAttachment(attachment).then(() => {
-            expect(workPackage.attachments.elements).to.have.length(1);
+            expect(workPackage.attachments.elements.length).toEqual(1);
             done();
           });
         });
