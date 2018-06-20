@@ -36,7 +36,7 @@ module.exports = function (config) {
     failOnEmptyTestSuite: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     singleRun: false
   });
 };
