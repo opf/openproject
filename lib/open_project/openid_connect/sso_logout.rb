@@ -14,7 +14,7 @@ module OpenProject
       # If not call super which will reset the session, set
       # the new user, and redirect to some page the script the
       # reauthentication doesn't care about.
-      def successful_authentication(user)
+      def successful_authentication(user, reset_stages: true)
         if reauthentication?
           finish_reauthentication!
         else
