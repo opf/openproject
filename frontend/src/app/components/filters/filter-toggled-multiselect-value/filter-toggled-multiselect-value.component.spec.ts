@@ -40,18 +40,14 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
-require('core-app/angular4-test-setup');
-
 describe('FilterToggledMultiselectValueComponent', () => {
   const I18nStub = {
-    t: sinon.stub()
-      .withArgs('js.placeholders.selection')
-      .returns('PLACEHOLDER')
+    t: () => 'PLACEHOLDER'
   };
 
   let app:FilterToggledMultiselectValueComponent;
   let fixture:ComponentFixture<FilterToggledMultiselectValueComponent>
-  let element:JQuery;
+  let element:HTMLElement;
   let debugElement:DebugElement;
 
   const allowedValues = [
@@ -89,7 +85,7 @@ describe('FilterToggledMultiselectValueComponent', () => {
         fixture = TestBed.createComponent(FilterToggledMultiselectValueComponent);
         app = fixture.debugElement.componentInstance;
         debugElement = fixture.debugElement;
-        element = jQuery(debugElement.nativeElement);
+        element = debugElement.nativeElement;
       });
   }));
 
@@ -111,55 +107,57 @@ describe('FilterToggledMultiselectValueComponent', () => {
 
     describe('app.isValueMulti()', function () {
       it('is true', () => {
-        expect(app.isValueMulti()).to.be.true;
+        expect(app.isValueMulti()).toBeTruthy();
       });
     });
 
     describe('app.value', function () {
       it('is no array', function () {
-        expect(Array.isArray(app.value)).to.be.true;
+        expect(Array.isArray(app.value)).toBeTruthy();
       });
 
       it('is the filter value', function () {
         let value = app.value as HalResource[];
 
-        expect(value.length).to.eq(2);
-        expect(value[0]).to.eq(allowedValues[0]);
-        expect(value[1]).to.eq(allowedValues[1]);
+        expect(value.length).toEqual(2);
+        expect(value[0]).toEqual(allowedValues[0]);
+        expect(value[1]).toEqual(allowedValues[1]);
       });
     });
 
     describe('element', function () {
       it('should render a div', function () {
-        expect(element.prop('tagName')).to.equal('DIV');
+        expect(element.tagName).toEqual('DIV');
       });
 
       it('should render only one select', function () {
-        expect(element.find('select').length).to.equal(1);
-        expect(element.find('select.ng-hide').length).to.equal(0);
+        expect(element.querySelectorAll('select').length).toEqual(1);
       });
 
       it('should render two OPTIONs SELECT', function () {
-        var select = element.find('select:not(.ng-hide)').first();
-        var options = select.find('option').toArray() as HTMLOptionElement[];
+        var select = element.querySelector('select')!;
+        var options = select.querySelectorAll('option');
 
-        expect(options.length).to.equal(2);
+        expect(options.length).toEqual(2);
 
-        expect(options[0].textContent).to.equal(allowedValues[0].name);
-        expect(options[1].textContent).to.equal(allowedValues[1].name);
+        expect(options[0].textContent).toEqual(allowedValues[0].name);
+        expect(options[1].textContent).toEqual(allowedValues[1].name);
       });
 
       it('should render a link that toggles multi-select', fakeAsync(function () {
-        expect(app.isMultiselect, 'Component is multiselect').to.be.true;
+        expect(app.isMultiselect).toBeTruthy();
         var a = debugElement.query(By.css('.filter-toggled-multiselect--toggler'));
-        expect(element.find('select').length, 'has select').to.equal(1);
-        expect(element.find('select[multiple]').length, 'has multiple select').to.equal(1);
+
+        expect(element.querySelectorAll('select').length).toEqual(1);
+        expect(element.querySelectorAll('select[multiple]').length).toEqual(1);
+
         a.triggerEventHandler('click', null);
         fixture.detectChanges();
 
-        expect(app.isMultiselect, 'Component is no longer multiselect').to.be.false;
-        expect(element.find('select').length, 'has select').to.equal(1);
-        expect(element.find('select[multiple]').length, 'has no multiple select').to.equal(0);
+        expect(app.isMultiselect).toBeFalsy();
+
+        expect(element.querySelectorAll('select').length).toEqual(1);
+        expect(element.querySelectorAll('select[multiple]').length).toEqual(0);
       }));
     });
   });
@@ -181,17 +179,17 @@ describe('FilterToggledMultiselectValueComponent', () => {
 
     describe('app.isValueMulti()', function () {
       it('is false', () => {
-        expect(app.isValueMulti()).to.be.false;
+        expect(app.isValueMulti()).toBeFalsy();
       });
     });
 
     describe('app.value', function () {
       it('is no array', function () {
-        expect(Array.isArray(app.value)).to.be.false;
+        expect(Array.isArray(app.value)).toBeFalsy();
       });
 
       it('is null', function () {
-        expect(app.value).to.be.null;
+        expect(app.value).toBeNull();
       });
     });
   });
@@ -213,30 +211,30 @@ describe('FilterToggledMultiselectValueComponent', () => {
 
     describe('app.isValueMulti()', function () {
       it('is false', () => {
-        expect(app.isValueMulti()).to.be.false;
+        expect(app.isValueMulti()).toBeFalsy();
       });
     });
 
     describe('app.value', function () {
       it('is no array', function () {
-        expect(Array.isArray(app.value)).to.be.false;
+        expect(Array.isArray(app.value)).toBeFalsy();
       });
 
       it('is null', function () {
-        expect(app.value).to.be.null;
+        expect(app.value).toBeNull();
       });
     });
 
     describe('element', function () {
       it('should render two OPTIONs SELECT + Placeholder', function () {
-        var select = element.find('select:not(.ng-hide)').first();
-        var options = select.find('option').toArray() as HTMLOptionElement[];
+        var select = element.querySelector('select')!;
+        var options = select.querySelectorAll('option');
 
-        expect(options.length).to.equal(3);
-        expect(options[0].textContent).to.equal('PLACEHOLDER');
+        expect(options.length).toEqual(3);
+        expect(options[0].textContent).toEqual('PLACEHOLDER');
 
-        expect(options[1].textContent).to.equal(allowedValues[0].name);
-        expect(options[2].textContent).to.equal(allowedValues[1].name);
+        expect(options[1].textContent).toEqual(allowedValues[0].name);
+        expect(options[2].textContent).toEqual(allowedValues[1].name);
       });
     });
   });
