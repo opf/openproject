@@ -37,7 +37,7 @@ module AngularHelper
 
   def activate_angular_js(type = :div, options = {}, &block)
     content_for(:header_tags) do
-      javascript_include_tag 'bundles/openproject-core-app'
+      javascript_include_tag 'legacy-application'
     end
 
     if block_given?

@@ -44,7 +44,6 @@ module ::OpenProject::Plugins
         FileUtils.remove_dir(target_dir, force: true)
         FileUtils.mkdir_p(target_dir)
 
-
         plugins.each do |name, path|
           source = File.join(path, 'frontend', 'module')
           target = File.join(target_dir, name)
