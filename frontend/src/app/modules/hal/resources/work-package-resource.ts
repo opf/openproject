@@ -233,7 +233,7 @@ export class WorkPackageResource extends HalResource {
       })
       .catch((error:any) => {
         this.wpNotificationsService.handleRawError(error, this as any);
-        return undefined;
+        return;
       });
   }
 
