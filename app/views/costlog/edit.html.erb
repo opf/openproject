@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
             :post :
             :put %>
 
+<%= activate_angular_js do %>
 <remote-field-updater url="<%= url_for(controller: :cost_objects, action: :update_material_budget_item, project_id: @cost_entry.project) %>"
                       method="POST">
 <%= labelled_tabular_form_for @cost_entry, url: url, html: { method: method } do |f| %>
@@ -127,3 +128,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
 <% end %>
 </remote-field-updater>
+<% end %>

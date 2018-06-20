@@ -42,10 +42,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <td>
       <label class="hidden-for-sighted" for="<%= "#{id_prefix}_valid_from" %>"><%= Rate.human_attribute_name(:valid_from) %></label>
       <%= rate_form.text_field :valid_from,
-                               class: 'date',
+                               class: 'date costs-date-picker',
                                index: id_or_index,
                                required: true %>
-      <%= calendar_for("#{id_prefix}_valid_from") %>
+      <%= calendar_for("#{id_prefix}_valid_from") unless templated %>
     </td>
     <td class="currency">
       <span class="inline-label">
@@ -61,7 +61,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       </span>
     </td>
     <td class="buttons">
-      <a href="#" class="delete-row-button no-decoration-on-hover"><%= icon_wrapper('icon-context icon-delete', I18n.t(:button_delete)) %></a>
+      <a href="#" class="delete-row-button no-decoration-on-hover">
+        <%= icon_wrapper('icon-context icon-delete', I18n.t(:button_delete)) %>
+      </a>
     </td>
   </tr>
 <% end %>

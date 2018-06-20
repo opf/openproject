@@ -25,7 +25,8 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+
+import {PluginContextService} from "core-app/services/plugin-context.service";
 
 /*eslint no-eval: "error"*/
 export class CostBudgetSubformController {
@@ -47,26 +48,31 @@ export class CostBudgetSubformController {
 
   constructor(public $element:ng.IAugmentedJQuery,
               public $http:ng.IHttpService,
-              public wpNotificationsService:WorkPackageNotificationService,
+              public pluginContext:PluginContextService,
               private $scope:ng.IScope,
               private $compile:any) {
-    this.container = $element.find('.budget-item-container');
-    this.rowIndex = parseInt(this.itemCount);
 
-    // Refresh row on changes
+    this.container = $element.find('.budget-item-container');
+    this.rowIndex = parseInt(this.$element.attr('item-count'));
+
+      // Refresh row on changes
     $element.on('change', '.budget-item-value', (evt) => {
       var row = angular.element(evt.target).closest('.cost_entry');
       this.refreshRow(row.attr('id'));
     });
 
     $element.on('click', '.delete-budget-item', (evt) => {
+      evt.preventDefault();
       var row = angular.element(evt.target).closest('.cost_entry');
       row.remove();
+      return false;
     });
 
     // Add new row handler
-    $element.find('.budget-add-row').click(() => {
+    $element.find('.budget-add-row').click((evt) => {
+      evt.preventDefault();
       this.addBudgetItem();
+      return false;
     });
   }
 
@@ -85,7 +91,7 @@ export class CostBudgetSubformController {
     }).then((response:any) => {
       eval(response.data);
     }).catch(response => {
-      this.wpNotificationsService.handleErrorResponse(response);
+      this.pluginContext.context!.services.wpNotifications.handleErrorResponse(response);
     });
   }
 
@@ -99,7 +105,7 @@ export class CostBudgetSubformController {
   }
 
   /**
-   * Return the next possible new row from rowTemplate,
+   * Return the next possible new row from rowTemplate,wpNotifications
    * with the index set to the current last value.
    */
   private get indexedTemplate() {
@@ -116,7 +122,7 @@ export class CostBudgetSubformController {
     };
 
     // Augment common values with specific values for this type
-    row.find('.budget-item-value').each((_i:number, el:HTMLElement) => {
+    row.find('.budget-item-value').each((_i:number, el:any) => {
       var field = angular.element(el);
       request[field.data('requestKey')] = field.val() || '0';
     });
@@ -146,4 +152,4 @@ function costsBudgetSubform():any {
   };
 }
 
-angular.module('openproject').directive('costsBudgetSubform', costsBudgetSubform);
+angular.module('OpenProjectLegacy').directive('costsBudgetSubform', costsBudgetSubform);

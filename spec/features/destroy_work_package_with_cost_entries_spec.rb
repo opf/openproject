@@ -29,7 +29,6 @@ describe 'Only see your own rates', type: :feature, js: true do
                                                        :edit_cost_entries,
                                                        :view_cost_entries] }
   let(:work_package) {FactoryBot.create :work_package }
-  let(:other_work_package) {FactoryBot.create :work_package, project: project }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
   let(:cost_type) {
     type = FactoryBot.create :cost_type, name: 'Translations'
@@ -37,6 +36,10 @@ describe 'Only see your own rates', type: :feature, js: true do
                                    rate: 7.00
     type
   }
+  let(:budget) do
+    FactoryBot.create(:cost_object, project: project)
+  end
+  let(:other_work_package) {FactoryBot.create :work_package, project: project, cost_object: budget }
   let(:cost_entry) { FactoryBot.create :cost_entry, work_package: work_package,
                                                      project: project,
                                                      units: 2.00,
@@ -60,6 +63,8 @@ describe 'Only see your own rates', type: :feature, js: true do
     destroy_modal.expect_listed(work_package)
     destroy_modal.confirm_deletion
 
+    choose 'to_do_action_reassign'
+    sleep 1
     fill_in 'to_do_reassign_to_id', :with => other_work_package.id
 
     click_button(I18n.t('button_delete'))

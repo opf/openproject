@@ -42,16 +42,19 @@ export class CostSubformController {
 
   constructor(public $element:ng.IAugmentedJQuery) {
     this.container = $element.find('.subform-container');
-    this.rowIndex = parseInt(this.itemCount);
+    this.rowIndex = parseInt(this.$element.attr('item-count'));
 
-    $element.on('click', '.delete-row-button', (evt:JQueryEventObject) => {
+    $element.on('click', '.delete-row-button,.delete-budget-item', (evt:JQueryEventObject) => {
       var row = angular.element(evt.target).closest('.subform-row');
       row.remove();
+      return false;
     });
 
     // Add new row handler
-    $element.find('.add-row-button').click(() => {
+    $element.find('.add-row-button,.wp-inline-create--add-link').click((evt) => {
+      evt.preventDefault();
       this.addRow();
+      return false;
     });
   }
 
@@ -62,6 +65,7 @@ export class CostSubformController {
     this.container.append(this.indexedTemplate);
     this.rowIndex += 1;
 
+    this.container.find('.costs-date-picker').datepicker();
     this.container.find('.subform-row:last-child input:first').focus();
   }
 
@@ -92,4 +96,4 @@ function costsSubform():any {
   };
 }
 
-angular.module('openproject').directive('costsSubform', costsSubform);
+angular.module('OpenProjectLegacy').directive('costsSubform', costsSubform);
