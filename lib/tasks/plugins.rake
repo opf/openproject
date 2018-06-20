@@ -26,8 +26,10 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require 'bundler'
+require 'json'
 
-namespace :redmine do
+namespace :openproject do
   namespace :plugins do
     namespace :test do
       desc 'Runs the plugins unit tests.'
@@ -50,6 +52,11 @@ namespace :redmine do
         t.verbose = true
         t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"]
       end
+    end
+
+    desc 'Register plugins from the :opf_plugins bundle group to the frontend'
+    task :register_frontend do
+      ::OpenProject::Plugins::FrontendLinking.register_from_bundle
     end
   end
 end

@@ -15,3 +15,4 @@
 
 /out-tsc
 /generated_typings
+/src/app/modules/plugins/linked/
