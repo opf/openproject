@@ -70,7 +70,7 @@ export class OpenProjectFileUploadService {
    * @param {UploadFile} file
    * @param {string} method
    */
-  public uploadSingle(url:string, file:UploadFile, method:string = 'post') {
+  public uploadSingle(url:string, file:UploadFile, method:string = 'post', responseType:'text'|'json' = 'json') {
     const formData = new FormData();
     const metadata = {
       description: file.description,
@@ -96,6 +96,7 @@ export class OpenProjectFileUploadService {
           // Observe the response, not the body
           observe: 'response',
           withCredentials: true,
+          responseType: responseType as any,
           // Subscribe to progress events. subscribe() will fire multiple times!
           reportProgress: true
         }
