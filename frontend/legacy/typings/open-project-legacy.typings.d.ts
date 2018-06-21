@@ -34,6 +34,7 @@
 import * as TAngular from 'angular';
 import * as TLodash from 'lodash';
 import {State} from "reactivestates";
+import {GlobalI18n} from "../../src/app/modules/common/i18n/i18n.service";
 
 export interface IPluginContext {
   classes:any;
@@ -52,4 +53,5 @@ declare global {
   }
   const angular:typeof TAngular;
   const _:typeof TLodash;
+  const I18n:GlobalI18n;
 }

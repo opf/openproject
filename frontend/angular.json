@@ -13,6 +13,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "preserveSymlinks": true,
+            "aot": true,
             "outputPath": "../public/assets/frontend/",
             "index": "src/index2.html",
             "main": "src/main.ts",
