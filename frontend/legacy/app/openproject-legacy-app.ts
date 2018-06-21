@@ -97,3 +97,7 @@ requireComponent.keys().forEach(requireComponent);
 
 var requireServices = require.context('./services/', true, /^((?!\.(test|spec)).)*\.(js|ts|html)$/);
 requireServices.keys().forEach(requireServices);
+
+// Load all dynamically linked plugins
+var requirePlugins = require.context('./plugins/', true, /^((?!\.(test|spec)).)*\.(js|ts|html)$/);
+requirePlugins.keys().forEach(requirePlugins);

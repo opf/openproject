@@ -30,11 +30,12 @@
 // rake openproject:plugins:register_frontend
 
 import {NgModule} from "@angular/core";
-import OpenprojectCosts from './linked/openproject-costs/main';
 
 @NgModule({
     imports: [
-        OpenprojectCosts,
     ],
 })
 export class LinkedPluginsModule { }
+
+
+

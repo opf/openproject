@@ -26,85 +26,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'bundler'
-require 'fileutils'
-
 module ::OpenProject::Plugins
   module FrontendLinking
 
     ##
     # Register plugins with an Angular frontend to the CLI build.
     # For that, search all gems with the group :opf_plugins
-    def self.register_from_bundle
-      openproject_frontend_plugins.tap do |plugins|
-        target_dir = Rails.root.join('frontend', 'src', 'app', 'modules', 'plugins', 'linked')
-        puts "Cleaning linked target directory #{target_dir}"
-
-        # Removing the current linked directory and recreate
-        FileUtils.remove_dir(target_dir, force: true)
-        FileUtils.mkdir_p(target_dir)
-
-        plugins.each do |name, path|
-          source = File.join(path, 'frontend', 'module')
-          target = File.join(target_dir, name)
-
-          puts "Linking frontend of OpenProject plugin #{name} to #{target}."
-          FileUtils.ln_sf(source, target)
-        end
-
-        generate_plugin_module(plugins)
-      end
-    end
-
-    ##
-    # Regenerate the frontend plugin module orchestrating the linked frontends
-    def self.generate_plugin_module(plugins)
-      file_register = Rails.root.join('frontend', 'src', 'app', 'modules', 'plugins', 'linked-plugins.module.ts')
-      template_file = File.read(File.expand_path('../frontend_linking/linked-plugins.module.ts.erb', __FILE__))
-      template = ::ERB.new template_file,
-                           nil,
-                           '-'
-
-      puts "Regenerating frontend plugin registry #{file_register}."
-      context = ::OpenProject::Plugins::FrontendLinking::ErbContext.new plugins
-      result = template.result(context.get_binding)
-      File.open(file_register, 'w') { |file| file.write(result) }
-    end
-
-    def self.openproject_frontend_plugins
-      all_opf_plugin_paths.select do |name, path|
-        frontend_entry = File.join(path, 'frontend', 'module', 'main.ts')
-        File.readable? frontend_entry
-      end
-    end
-
-    ##
-    # Print all gemspecs of registered OP plugins
-    # from the :opf_plugins group.
-    def self.known_opf_plugins
-      bundler_groups = %i[opf_plugins]
-      gemfile_path = Rails.root.join('Gemfile')
-
-      gems = Bundler::Dsl.evaluate(gemfile_path, '_temp_lockfile', true)
-
-      gems.dependencies
-        .each_with_object({}) do |dep, l|
-          l[dep.name] = dep if (bundler_groups & dep.groups).any?
-        end
-        .compact
-    end
-
-    ##
-    # Get a mapping of all plugin specs and paths
-    def self.all_opf_plugin_paths
-      op_dep = known_opf_plugins
-
-      Bundler.load.specs.each_with_object({}) do |spec, h|
-        if op_dep.include?(spec.name)
-          options = spec.source.options
-          h[spec.name] = spec.full_gem_path
-        end
-      end
+    def self.regenerate!
+      Generator.new.regenerate!
     end
   end
 end

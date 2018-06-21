@@ -33,7 +33,7 @@ require 'open_project/assets'
 # Otherwise Sprockets cannot find the files that webpack produces.
 Rake::Task['assets:precompile']
   .clear_prerequisites
-  .enhance(['assets:compile_environment', 'assets:prepare_op'])
+  .enhance(%w[openproject:plugins:register_frontend assets:compile_environment assets:prepare_op])
 
 namespace :assets do
   # In this task, set prerequisites for the assets:precompile task
