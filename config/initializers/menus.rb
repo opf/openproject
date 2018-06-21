@@ -279,6 +279,13 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_workflow_summary,
             parent: :work_packages
 
+  menu.push :work_packages_query_select,
+            { controller: '/work_packages', action: 'index' },
+            param: :project_id,
+            parent: :work_packages,
+            partial: 'work_packages/menu_query_select',
+            last: true
+
   menu.push :calendar,
             { controller: '/work_packages/calendars', action: 'index' },
             param: :project_id,

@@ -550,6 +550,7 @@ export class OpenProjectModule {
       { tagName: 'wp-embedded-table-entry', cls: WorkPackageEmbeddedTableEntryComponent },
       { tagName: 'op-ckeditor-form', cls: OpCkeditorFormComponent },
       { tagName: 'copy-to-clipboard', cls: CopyToClipboardDirective },
+      { tagName: 'wp-query-select', cls: WorkPackageQuerySelectDropdownComponent }
     );
   }
 }

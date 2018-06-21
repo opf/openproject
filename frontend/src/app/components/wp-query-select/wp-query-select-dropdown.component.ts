@@ -32,7 +32,7 @@ import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
 import {StateService} from '@uirouter/core';
 import {Component, Inject, OnInit} from "@angular/core";
-import {OpContextMenuLocalsMap, OpContextMenuLocalsToken} from "core-components/op-context-menu/op-context-menu.types";
+//import {OpContextMenuLocalsMap, OpContextMenuLocalsToken} from "core-components/op-context-menu/op-context-menu.types";
 import {QueryDmService} from 'core-app/modules/hal/dm-services/query-dm.service';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -47,6 +47,7 @@ interface IQueryAutocompleteJQuery extends JQuery {
 }
 
 @Component({
+  selector: 'wp-query-select',
   templateUrl: './wp-query-select.template.html'
 })
 export class WorkPackageQuerySelectDropdownComponent implements OnInit {
@@ -62,7 +63,6 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit {
   constructor(readonly QueryDm:QueryDmService,
               readonly $state:StateService,
               readonly I18n:I18nService,
-              @Inject(OpContextMenuLocalsToken) public locals:OpContextMenuLocalsMap,
               readonly states:States,
               readonly wpListService:WorkPackagesListService,
               readonly wpListChecksumService:WorkPackagesListChecksumService,
@@ -89,6 +89,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit {
     this.defineJQueryQueryComplete();
 
     let input = jQuery('#query-title-filter') as IQueryAutocompleteJQuery;
+    console.log("Input: ",  input);
     let noResults = jQuery('.query-select-dropdown--no-results');
 
     input.querycomplete({
@@ -144,7 +145,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit {
   private loadQuery(query:QueryResource) {
     this.wpListChecksumService.clear();
     this.loadingIndicator.table.promise = this.wpListService.reloadQuery(query);
-    this.locals.service.close();
+    //this.locals.service.close();
   }
 
   private setLoaded() {
