@@ -8,8 +8,8 @@ provide any official support for them.
 
 ### Hardware
 
-* __Memory:__ 2048 MB (4096 recommended)
-* __Free disc space:__ 300 MB (4096 recommended)
+* __Memory:__ 4096 MB
+* __Free disc space:__ 2 GB
 
 ### Operating system
 
@@ -18,15 +18,14 @@ provide any official support for them.
 | CentOS/RHEL 7.x                 | centos-7     | systemd     |
 | Debian 8 Jessie                 | debian-8     | systemd     |
 | Debian 9 Stretch                | debian-9     | systemd     |
-| Suse Linux Enterprise Server 11 | sles-11      | sysvinit    |
 | Suse Linux Enterprise Server 12 | sles-12      | sysvinit    |
-| Ubuntu 14.04 Trusty Tahr        | ubuntu-14.04 | upstart     |
 | Ubuntu 16.04 Xenial Xerus       | ubuntu-16.04 | upstart     |
+| Ubuntu 18.04 Bionic Beaver      | ubuntu-18.04 | systemd     |
 
 
 ### Dependencies
 
-* __Runtime:__ [Ruby](https://www.ruby-lang.org/en/) Version = 2.5.1
+* __Runtime:__ [Ruby](https://www.ruby-lang.org/en/) Version = 2.5.x
 * __Webserver:__ [Apache](http://httpd.apache.org/)
   or [nginx](http://nginx.org/en/docs/)
 * __Application server:__ [Phusion Passenger](https://www.phusionpassenger.com/)

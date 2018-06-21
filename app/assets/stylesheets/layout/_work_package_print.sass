@@ -98,6 +98,14 @@
                       // As this print is worthless, we remove it for FF
                       display: none !important
 
+
+  html.-browser-firefox,
+  html.-browser-edge
+    body.controller-work_packages.action-show,
+      .work-packages--show-view,
+      .work-packages-full-view--split-container
+        display: block
+
   // ------------------Only WP full scren view ------------------
   body.controller-work_packages.action-show
     // Since there is no toolbar and WP-back button the header can span 100%
