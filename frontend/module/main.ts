@@ -29,7 +29,7 @@ import {OpenProjectPluginContext} from "core-app/modules/plugins/plugin-context"
 import {CostsByTypeDisplayField} from './wp-display/wp-display-costs-by-type-field.module';
 import {CurrencyDisplayField} from './wp-display/wp-display-currency-field.module';
 
-function initializeCostsPlugin() {
+export function initializeCostsPlugin() {
     return () => {
         window.OpenProject.getPluginContext().then((pluginContext:OpenProjectPluginContext) => {
             pluginContext.services.editField.extendFieldType('select', ['Budget']);
@@ -74,7 +74,8 @@ function initializeCostsPlugin() {
         { provide: APP_INITIALIZER, useFactory: initializeCostsPlugin, deps: [Injector], multi: true },
     ],
 })
-export default class OpenProjectCostsModule { }
+export class PluginModule {
+}
 
 
 
