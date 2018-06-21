@@ -45,7 +45,7 @@ module ::Avatars
       service = ::Avatars::UpdateService.new @user
 
       if type == :update
-        service.replace params[:avatar]
+        service.replace params[:file]
       elsif type == :destroy
         service.destroy
       end
