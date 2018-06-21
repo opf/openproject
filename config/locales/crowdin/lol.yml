@@ -275,6 +275,7 @@ lol:
         expires_at: crwdns96526:0crwdne96526:0
         subscriber: crwdns96527:0crwdne96527:0
         encoded_token: crwdns96528:0crwdne96528:0
+        active_user_count_restriction: Maximum active users
       relation:
         delay: crwdns96529:0crwdne96529:0
         from: crwdns96530:0crwdne96530:0
@@ -649,6 +650,7 @@ lol:
   button_unlock: crwdns96816:0crwdne96816:0
   button_unwatch: crwdns96817:0crwdne96817:0
   button_update: crwdns96818:0crwdne96818:0
+  button_upgrade: Upgrade
   button_upload: crwdns96819:0crwdne96819:0
   button_view: crwdns96820:0crwdne96820:0
   button_watch: crwdns96821:0crwdne96821:0
@@ -888,6 +890,8 @@ lol:
   error_cookie_missing: crwdns96999:0crwdne96999:0
   error_custom_option_not_found: crwdns97000:0crwdne97000:0
   error_dependent_work_package: crwdns98962:0%{related_id}crwdnd98962:0%{related_subject}crwdnd98962:0%{error}crwdne98962:0
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: crwdns97001:0crwdne97001:0
   error_invalid_group_by: crwdns97002:0%{value}crwdne97002:0
   error_invalid_query_column: crwdns97003:0%{value}crwdne97003:0
@@ -1144,6 +1148,7 @@ lol:
   label_enumeration_value: crwdns97228:0crwdne97228:0
   label_enumerations: crwdns97229:0crwdne97229:0
   label_enterprise: crwdns97230:0crwdne97230:0
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: crwdns97231:0crwdne97231:0
   label_entry_page: crwdns98942:0crwdne98942:0
   label_environment: crwdns97232:0crwdne97232:0
@@ -2271,6 +2276,7 @@ lol:
       quarters: crwdns98246:0crwdne98246:0
       years: crwdns98247:0crwdne98247:0
   title_remove_and_delete_user: crwdns98248:0crwdne98248:0
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'crwdns98867:0crwdne98867:0
 
 '
@@ -2329,6 +2335,8 @@ lol:
   note_password_login_disabled: crwdns98288:0%{configuration}crwdne98288:0
   warning: crwdns98289:0crwdne98289:0
   warning_attachments_not_saved: crwdns98290:0%{count}crwdne98290:0
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   warning_registration_token_expired: 'crwdns98856:0%{email}crwdne98856:0
 
 '

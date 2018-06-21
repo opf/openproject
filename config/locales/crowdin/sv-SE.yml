@@ -317,6 +317,7 @@ sv-SE:
         expires_at: Förfaller den
         subscriber: Prenumerant
         encoded_token: Enterprise support-nyckel
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Fördröjning
         from: Arbetspaket
@@ -711,6 +712,7 @@ sv-SE:
   button_unlock: Lås upp
   button_unwatch: Sluta bevaka
   button_update: Uppdatera
+  button_upgrade: Upgrade
   button_upload: Ladda upp
   button_view: Vy
   button_watch: Bevaka
@@ -962,6 +964,8 @@ sv-SE:
   error_custom_option_not_found: Alternativet finns inte.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Det gick inte ta bort denna post.
   error_invalid_group_by: 'Kan inte gruppera efter: %{value}'
   error_invalid_query_column: 'Ogiltig frågekolumn: %{value}'
@@ -1236,6 +1240,7 @@ sv-SE:
   label_enumeration_value: Uppräkningsvärde
   label_enumerations: Textvärden
   label_enterprise: Företag
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
   label_entry_page: Entry page
   label_environment: Miljö
@@ -2509,6 +2514,7 @@ sv-SE:
       years: År
   title_remove_and_delete_user: Ta bort den inbjudna medlemmen från projektet och
     radera honom/henne.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2580,6 +2586,8 @@ sv-SE:
   note_password_login_disabled: Inloggning med lösenord har inaktiverats av %{configuration}.
   warning: Varning
   warning_attachments_not_saved: "%{count} fil(er) kunde inte sparas."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.

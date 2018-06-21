@@ -289,6 +289,7 @@ ko:
         expires_at: 에서 만료됨
         subscriber: 구독자
         encoded_token: 엔터프라이즈 지원 토큰
+        active_user_count_restriction: Maximum active users
       relation:
         delay: 지연
         from: 작업 패키지
@@ -670,6 +671,7 @@ ko:
   button_unlock: 잠금 해제
   button_unwatch: 주시 안 함
   button_update: 업데이트
+  button_upgrade: Upgrade
   button_upload: 업로드하기
   button_view: 보기
   button_watch: 주시
@@ -941,6 +943,8 @@ ko:
   error_custom_option_not_found: 존재하지 않는 옵션입니다.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: 항목 삭제에 실패하였습니다.
   error_invalid_group_by: '그룹화할 수 없습니다: %{value}'
   error_invalid_query_column: '잘못 된 쿼리 열: %{value}'
@@ -1202,6 +1206,7 @@ ko:
   label_enumeration_value: 열거형 값
   label_enumerations: 열거형
   label_enterprise: 엔터프라이즈
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Enterprise Edition
   label_entry_page: Entry page
   label_environment: 환경
@@ -2398,6 +2403,7 @@ ko:
       quarters: 분기
       years: 년
   title_remove_and_delete_user: 초대받은 사용자를 프로젝트에서 제거하고 해당 사용자를 삭제하세요.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2462,6 +2468,8 @@ ko:
   note_password_login_disabled: 암호 로그인이 %{configuration}에 의해 비활성화되었습니다.
   warning: 경고
   warning_attachments_not_saved: "%{count}개 파일을 저장할 수 없습니다."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.

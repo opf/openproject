@@ -52,6 +52,9 @@ class UsersController < ApplicationController
   include Concerns::PasswordConfirmation
   before_action :check_password_confirmation, only: [:destroy]
 
+  include Concerns::UserLimits
+  before_action :enforce_user_limit, only: [:new, :create]
+
   accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper
@@ -161,7 +164,13 @@ class UsersController < ApplicationController
 
         if @user.invited?
           # setting a password for an invited user activates them implicitly
-          @user.activate!
+          if OpenProject::Enterprise.user_limit_reached?
+            @user.register!
+            show_user_limit_warning!
+          else
+            @user.activate!
+          end
+
           send_information = true
         end
 
@@ -204,6 +213,13 @@ class UsersController < ApplicationController
       redirect_back_or_default(action: 'edit', id: @user)
       return
     end
+
+    if (params[:unlock] || params[:activate]) && user_limit_reached?
+      show_user_limit_error!
+
+      return redirect_back_or_default(action: 'edit', id: @user)
+    end
+
     if params[:unlock]
       @user.failed_login_count = 0
       @user.activate

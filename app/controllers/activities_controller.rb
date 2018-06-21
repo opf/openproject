@@ -36,10 +36,10 @@ class ActivitiesController < ApplicationController
     @days = Setting.activity_days_default.to_i
 
     if params[:from]
-      begin; @date_to = params[:from].to_date + 1; rescue; end
+      begin; @date_to = params[:from].to_date + 1.day; rescue; end
     end
 
-    @date_to ||= User.current.today + 1
+    @date_to ||= User.current.today + 1.day
     @date_from = @date_to - @days
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects] == '1')
     @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))

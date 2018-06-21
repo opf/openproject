@@ -318,6 +318,7 @@ fi:
         expires_at: Vanhenee
         subscriber: Tilaaja
         encoded_token: Enterprise support token
+        active_user_count_restriction: Maximum active users
       relation:
         delay: Viive
         from: Työpaketti
@@ -710,6 +711,7 @@ fi:
   button_unlock: Vapauta
   button_unwatch: Älä seuraa
   button_update: Päivitä
+  button_upgrade: Upgrade
   button_upload: Lähetä
   button_view: Näytä
   button_watch: Seuraa
@@ -961,6 +963,8 @@ fi:
   error_custom_option_not_found: Vaihtoehtoa ei ole olemassa.
   error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
     %{error}'
+  error_enterprise_activation_user_limit: Your account could not be activated (user
+    limit reached). Please contact your administrator to gain access.
   error_failed_to_delete_entry: Tämän merkinnän poisto ei onnistunut.
   error_invalid_group_by: 'Can''t group by: %{value}'
   error_invalid_query_column: 'Invalid query column: %{value}'
@@ -1235,6 +1239,7 @@ fi:
   label_enumeration_value: Luettelointiarvo
   label_enumerations: Lista
   label_enterprise: Yritys
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: Yritysversio
   label_entry_page: Entry page
   label_environment: Ympäristö
@@ -2505,6 +2510,7 @@ fi:
       years: Years
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
+  title_enterprise_upgrade: Upgrade to unlock more users.
   tooltip_user_default_timezone: 'The default time zone for new users. Can be changed
     in a user''s settings.
 
@@ -2576,6 +2582,8 @@ fi:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Warning
   warning_attachments_not_saved: "%{count} tiedostoa ei voitu tallentaa."
+  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
+    to allow for additional users.
   warning_registration_token_expired: |
     The activation email has expired. We sent you a new one to %{email}.
     Please click the link inside of it to activate your account.
