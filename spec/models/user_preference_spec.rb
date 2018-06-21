@@ -45,8 +45,16 @@ describe UserPreference do
       expect(subject.others[:no_self_notified]).to be_truthy
     end
 
-    it 'disables auto hide popups' do
-      expect(subject.auto_hide_popups).to eql(false)
+    context 'with default setting auto_hide_popups to false', with_settings: { default_auto_hide_popups: false } do
+      it 'disables auto hide popups' do
+        expect(subject.auto_hide_popups).to be_falsey
+      end
+    end
+
+    context 'with default setting auto_hide_popups to true', with_settings: { default_auto_hide_popups: true } do
+      it 'disables auto hide popups' do
+        expect(subject.auto_hide_popups).to be_truthy
+      end
     end
   end
 
