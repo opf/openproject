@@ -38,6 +38,13 @@ export interface UploadFile extends File {
   customName?:string;
 }
 
+
+export interface UploadBlob extends Blob {
+  description?:string;
+  customName?:string;
+  name?:string;
+}
+
 export type UploadHttpEvent = HttpEvent<HalResource>;
 export type UploadInProgress = [UploadFile, Observable<UploadHttpEvent>];
 
@@ -70,7 +77,7 @@ export class OpenProjectFileUploadService {
    * @param {UploadFile} file
    * @param {string} method
    */
-  public uploadSingle(url:string, file:UploadFile, method:string = 'post', responseType:'text'|'json' = 'json') {
+  public uploadSingle(url:string, file:UploadFile|UploadBlob, method:string = 'post', responseType:'text'|'json' = 'json') {
     const formData = new FormData();
     const metadata = {
       description: file.description,
@@ -84,7 +91,7 @@ export class OpenProjectFileUploadService {
     );
 
     // Add the file
-    formData.append('file', file);
+    formData.append('file', file, metadata.fileName);
 
     const observable = this
       .http

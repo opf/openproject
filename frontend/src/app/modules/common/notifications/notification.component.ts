@@ -70,9 +70,7 @@ export class NotificationComponent implements OnInit {
   }
 
   public remove() {
-    if (this.removable()) {
-      this.notificationsService.remove(this.notification);
-    }
+    this.notificationsService.remove(this.notification);
   }
 
   /**
@@ -87,9 +85,7 @@ export class NotificationComponent implements OnInit {
   }
 
   public onUploadError(message:string) {
-    // Override the current type
-    this.type = 'error';
-    this.notification.message = message;
+    this.remove();
   }
 
   public onUploadSuccess() {
