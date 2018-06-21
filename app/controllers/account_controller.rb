@@ -320,6 +320,8 @@ class AccountController < ApplicationController
   end
 
   def self_registration!
+    return if enforce_activation_user_limit
+
     if @user.nil?
       @user = User.new
       @user.admin = false
