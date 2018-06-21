@@ -2426,6 +2426,9 @@ en:
   warning: Warning
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
   warning_user_limit_reached: "User limit reached. Please <a href=\"%{upgrade_url}\">upgrade</a> to allow for additional users."
+  warning_user_limit_reached_instructions: >
+    You reached your user limit (%{current}/%{max} active users).
+    Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
 
   menu_item: "Menu item"
   menu_item_setting: "Visibility"
