@@ -140,8 +140,7 @@ module Redmine
           end
 
           def join_with_projects_table(query, project_ref_table)
-            query = query.join(projects_table).on(projects_table[:id].eq(project_ref_table['project_id']))
-            query
+            query.join(projects_table).on(projects_table[:id].eq(project_ref_table['project_id']))
           end
 
           def restrict_projects_by_selection(options, query)
@@ -177,7 +176,6 @@ module Redmine
             stmt = nil
             perm = Redmine::AccessControl.permission(options[:permission])
             is_member = options[:member]
-            original_query = query.dup
 
             if user.logged?
               allowed_projects = []
