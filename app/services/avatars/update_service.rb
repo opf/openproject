@@ -9,7 +9,6 @@ module ::Avatars
     end
 
     def replace(avatar)
-      binding.pry
       if avatar.nil?
         return ServiceResult.new(success: false).tap do |_result|
           return error_result(I18n.t(:empty_file_error))

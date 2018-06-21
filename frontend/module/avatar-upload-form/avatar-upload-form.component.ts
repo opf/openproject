@@ -27,9 +27,10 @@
 // ++
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
+import {OpenProjectFileUploadService, UploadBlob} from "core-components/api/op-file-upload/op-file-upload.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {UploadFile} from "core-components/api/op-file-upload/op-file-upload.service";
+import {ImageHelpers} from "core-app/helpers/images/resizer";
 
 @Component({
   selector: 'avatar-upload-form',
@@ -73,12 +74,16 @@ export class AvatarUploadFormComponent implements OnInit {
 
   public onFilePickerChanged() {
     const files:UploadFile[] = Array.from(this.avatarFilePicker.nativeElement.files);
-    if (files.length > 0) {
-      this.avatarFile = files[0];
-      var reader = new FileReader();
-      reader.onload = (event:any) => this.avatarPreviewUrl = event.target.result;
-      reader.readAsDataURL(this.avatarFile);
+    if (files.length === 0) {
+      return;
     }
+
+    ImageHelpers.resizeFile(128, files[0]).then(([dataURL, blob]) => {
+      // Create resized file
+      blob.name = files[0].name;
+      this.avatarFile = blob;
+      this.avatarPreviewUrl = dataURL;
+    });
   }
 
   public uploadAvatar(evt:Event) {
