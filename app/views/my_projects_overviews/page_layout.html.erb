@@ -24,6 +24,7 @@ See doc/COPYRIGHT.md for more details.
   <%= stylesheet_link_tag "my_project_page/my_projects_overview", media: 'all' %>
 <% end %>
 
+<%= activate_angular_js do %>
 <overview-page-layout>
 <%= toolbar title: l(:label_overview) do %>
   <li class="toolbar-item">
@@ -78,3 +79,4 @@ See doc/COPYRIGHT.md for more details.
   </div>
 </div>
 </overview-page-layout>
+<% end %>

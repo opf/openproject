@@ -41,9 +41,12 @@ export class OverviewBlockController {
   /**
    * Remove this block
    */
-  public remove() {
+  public remove(evt:Event) {
+    evt.preventDefault();
+
     this.$element.remove();
     this.layoutCtrl.updateAvailableBlocks();
+    return false;
   }
 
 }

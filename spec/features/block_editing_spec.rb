@@ -154,9 +154,7 @@ describe 'My project page editing', type: :feature, js: true do
     find('#a-form-submit').click
 
     # expect changes to be saved
-    mypage.expect_notification(message: I18n.t('js.notice_successful_update'))
-    mypage.dismiss_notification!
-    loading_indicator_saveguard
+    expect(page).to have_selector('.widget-box--header', text: 'My title')
 
     custom_block = find_block(hidden, :a)
 

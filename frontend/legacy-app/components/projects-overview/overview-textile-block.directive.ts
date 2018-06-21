@@ -49,7 +49,6 @@ export class OverviewTextileBlockController {
               public $timeout:ng.ITimeoutService,
               public $window:ng.IWindowService,
               public $q:ng.IQService,
-              public I18n:any,
               public pluginContext:PluginContextService) {
   }
 
@@ -69,15 +68,20 @@ export class OverviewTextileBlockController {
     }
 
     this.formVisible = state;
+    return false;
   }
 
   /**
    * Remove this block
    */
-  public remove() {
-    if (this.$window.confirm(this.I18n.t('js.text_are_you_sure'))) {
+  public remove(evt:Event) {
+    evt.preventDefault();
+
+    if (this.$window.confirm(I18n.t('js.text_are_you_sure'))) {
       this.$element.remove();
     }
+
+    return false;
   }
 
   /**
@@ -100,16 +104,14 @@ export class OverviewTextileBlockController {
       processData: false
     }).done((response) => {
       deferred.resolve();
-      this.$timeout(() => {
-        this.pluginContext.context!.services.notifications.addSuccess(this.I18n.t('js.notice_successful_update'));
-      });
+      this.pluginContext.context!.services.notifications.addSuccess(I18n.t('js.notice_successful_update'));
       this.layoutCtrl.updateBlock(this.blockName, response);
       this.layoutCtrl.updateAttachments();
     }).fail((error) => {
       deferred.reject();
       this.$timeout(() => {
         this.pluginContext.context!.services.addError(
-          this.I18n.t('js.notification_update_block_failed') + ' ' + error.responseText
+          I18n.t('js.notification_update_block_failed') + ' ' + error.responseText
         );
       });
     });

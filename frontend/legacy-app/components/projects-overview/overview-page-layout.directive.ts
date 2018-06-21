@@ -118,6 +118,10 @@ export class ProjectsOverviewController {
   }
 
   public handleBlockSelection() {
+    if (!this.selectedBlock) {
+      return;
+    }
+
     this.$http({
       url: this.addForm.attr('action'),
       method: 'POST',
