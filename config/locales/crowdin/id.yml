@@ -245,10 +245,10 @@ id:
         other: Akun akan dihapus dari sistem. User tidak akan bisa Login kembali.
         self: Akun Anda akan dihapus dari sistem. Anda tidak akan bisa Login kembali.
       login_verification:
-        other: Masuk ke login %{name} untuk memeriksa penghapusan. Begitu dikirim,
-          Anda akan diminta untuk mengkonfirmasi password Anda.
-        self: Masuk ke login Anda %{name} untuk memeriksa penghapusan. Begitu dikirim,
-          Anda akan diminta untuk mengkonfirmasi password Anda.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Akun anda belum diaktifkan. Untuk mengaktifkan,
       klik pada link yang ada di email anda.
 

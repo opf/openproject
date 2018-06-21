@@ -243,10 +243,10 @@ tr:
           oturum açmanız mümkün olmaz. Eğer bu uygulamaya tekrar üye olmak isterseniz.
           uygulamanın izin verdiği yollarla bunu gerçekleştirebilirsiniz.
       login_verification:
-        other: Silme işlemini doğrulamak için %{name} giriniz. Gönderildikten sonra,
-          şifrenizi onaylamanız istenecektir.
-        self: Silme işlemini doğrulamak için %{name} giriniz. Gönderildikten sonra,
-          şifrenizi onaylamanız istenecektir.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Hesabınız henüz etkinleştirilmedi. Hesabınızı
       etkinleştirmek için size gönderilen e-posta bağlantısını tıklatın.
 

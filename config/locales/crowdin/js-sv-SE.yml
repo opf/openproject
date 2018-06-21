@@ -119,6 +119,7 @@ sv-SE:
     label_expand: Expandera
     label_expanded: expanderade
     label_expand_all: Expandera alla
+    label_expand_project_menu: Expand project menu
     label_export: Exportera
     label_filename: Fil
     label_filesize: Filstorlek
@@ -126,6 +127,7 @@ sv-SE:
     label_group_by: Gruppera efter
     label_hide_attributes: Visa mindre
     label_hide_column: Dölj kolumn
+    label_hide_project_menu: Collapse project menu
     label_in: i
     label_in_less_than: i mindre än
     label_in_more_than: i mer än
@@ -311,7 +313,6 @@ sv-SE:
         one: Du kan bara välja en sak
         other: Du kan bara välja {{limit}} saker
         zero: You cannot select any items
-    show_hide_project_menu: Expandera/minimera projektmenyn
     project_menu_details: Detaljer
     sort:
       sorted_asc: 'Stigande sortering används, '
@@ -641,6 +642,7 @@ sv-SE:
         messages_on_field: 'Fältet är ogiltigt: %{messages}'
     error_could_not_resolve_version_name: Kunde inte fastställa versionsnamn
     error_could_not_resolve_user_name: Kunde inte fastställa användarnamn
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: work package

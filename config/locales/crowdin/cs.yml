@@ -251,10 +251,10 @@ cs:
           become a user of this application again, you can do so by using the means
           this application grants.
       login_verification:
-        other: Zadejte přihlašovací jméno %{name} k potvrzení odstranění. Poté budete
-          požádáni o potvrzení Vaším heslem.
-        self: Zadejte Vaše přihlašovací jméno %{name} k potvrzení odstranění. Poté
-          budete požádáni o potvrzení Vaším heslem.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Váš účet nebyl dosud aktivován. Chcete-li
       aktivovat váš účet, klepněte na odkaz, který vám byl zaslán e-mailem.
 

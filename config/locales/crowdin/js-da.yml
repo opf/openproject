@@ -121,6 +121,7 @@ da:
     label_expand: Udvid
     label_expanded: udfoldet
     label_expand_all: Fold alle ud
+    label_expand_project_menu: Expand project menu
     label_export: Eksportér
     label_filename: Fil
     label_filesize: Størrelse
@@ -128,6 +129,7 @@ da:
     label_group_by: Gruppér efter
     label_hide_attributes: Vis mindre
     label_hide_column: Gem kolonne
+    label_hide_project_menu: Collapse project menu
     label_in: i
     label_in_less_than: på mindre end
     label_in_more_than: på mere end
@@ -312,7 +314,6 @@ da:
         one: Du kan kun vælge ét emne
         other: Du kan kun vælge {{limit}} emner
         zero: You cannot select any items
-    show_hide_project_menu: Expand/Collapse project menu
     project_menu_details: Detaljer
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -642,6 +643,7 @@ da:
         messages_on_field: 'Dette felt er ugyldigt: %{messages}'
     error_could_not_resolve_version_name: Kunne ikke fastslå versionsnavn
     error_could_not_resolve_user_name: Kunne ikke finde brugernavnet
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: work package

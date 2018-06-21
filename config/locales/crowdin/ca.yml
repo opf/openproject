@@ -258,9 +258,9 @@ ca:
           que l'aplicació proporciona.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'El teu compte encara no ha estat activat.
       Per activar el compte, feu clic a l''enllaç que se us va enviar per e-mail.
 

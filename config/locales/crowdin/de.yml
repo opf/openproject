@@ -256,10 +256,10 @@ de:
           Sofern Sie es wünschen, können Sie sich über die von der Anwendung zur Verfügung
           gestellten Mechanismen einen neuen Account zulegen.
       login_verification:
-        other: Geben Sie den Login %{name} ein, um den Löschvorgang zu bestätigen.
-          Sie müssen zusätzlich nach dem Absenden des Formulars Ihr Password bestätigen.
-        self: Geben Sie Ihren Login %{name} ein, um den Löschvorgang zu bestätigen.
-          Sie müssen zusätzlich nach dem Absenden des Formulars Ihr Password bestätigen.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Ihr Konto wurde noch nicht aktiviert. Zur
       Aktivierung folgen Sie bitte dem Link, der Ihnen bei der Registrierung per E-Mail
       zugeschickt wurde.
@@ -327,7 +327,7 @@ de:
         expires_at: Endet am
         subscriber: Abonnent
         encoded_token: Enterprise-Edition Support Token
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Maximale aktive Nutzer
       relation:
         delay: Pufferzeit
         from: Arbeitspaket
@@ -730,7 +730,7 @@ de:
   button_unlock: Entsperren
   button_unwatch: Nicht beobachten
   button_update: Bearbeiten
-  button_upgrade: Upgrade
+  button_upgrade: Upgraden
   button_upload: Hochladen
   button_view: Anzeigen
   button_watch: Beobachten
@@ -994,8 +994,9 @@ de:
   error_custom_option_not_found: Option ist nicht vorhanden.
   error_dependent_work_package: 'Fehler in abhängigem Arbeitspaket #%{related_id}
     %{related_subject}: %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_enterprise_activation_user_limit: Ihr Konto konnte nicht aktiviert werden
+    (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff
+    zu erhalten.
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
   error_invalid_group_by: 'Kann nicht gruppieren nach: %{value}'
   error_invalid_query_column: 'Ungültige Filter-Spalte: %{value}'
@@ -1275,7 +1276,7 @@ de:
   label_enumeration_value: Aufzählungswert
   label_enumerations: Aufzählungen
   label_enterprise: Enterprise
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
   label_enterprise_edition: Enterprise-Edition
   label_entry_page: Einstiegsseite
   label_environment: Umgebung
@@ -2594,7 +2595,7 @@ de:
       years: Jahre
   title_remove_and_delete_user: Den eingeladenen Benutzer aus dem Projekt entfernen
     und löschen.
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: Upgraden um weitere Nutzer freizuschalten.
   tooltip_user_default_timezone: 'Die Standardzeitzone für neue Benutzer. Kann in
     den Einstellungen jedes Benutzers geändert werden.
 
@@ -2670,8 +2671,8 @@ de:
   note_password_login_disabled: Der Passwort-Login wurde per %{configuration} deaktiviert.
   warning: Warnung
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
-  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
-    to allow for additional users.
+  warning_user_limit_reached: Nutzerlimit erreicht. Bitte <a href="%{upgrade_url}">upgraden</a>
+    Sie um weitere Nutzer hinzuzufügen.
   warning_registration_token_expired: 'E-Mail mit dem Aktivierungslink ist abgelaufen.
     Wir haben Ihnen ein neues zu %{email} geschickt. Bitte aktivieren Sie Ihr Konto
     über den Link in dieser E-Mail.
