@@ -206,6 +206,7 @@ module Redmine::MenuManager::MenuHelper
     link_text << op_icon(item.icon) if item.icon.present?
     link_text << you_are_here_info(selected)
     link_text << content_tag(:span, caption, class: 'menu-item--title ellipsis', lang: menu_item_locale(item))
+    link_text << ' '.html_safe + op_icon(item.icon_after) if item.icon_after.present?
     html_options = item.html_options(selected: selected)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
     link_to link_text, url, html_options
