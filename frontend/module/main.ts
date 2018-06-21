@@ -55,7 +55,7 @@ export function initializeAvatarsPlugin(injector:Injector) {
         AvatarUploadFormComponent
     ]
 })
-export default class OpenProjectAvatarsModule {
+export class PluginModule {
 }
 
 

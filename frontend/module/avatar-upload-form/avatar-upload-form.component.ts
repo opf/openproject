@@ -46,6 +46,7 @@ export class AvatarUploadFormComponent implements OnInit {
   public avatarFile:any;
   public avatarPreviewUrl:any;
   public busy:boolean = false;
+  public fileInvalid = false;
 
   @ViewChild('avatarFilePicker') public avatarFilePicker:ElementRef;
 
@@ -72,15 +73,21 @@ export class AvatarUploadFormComponent implements OnInit {
     this.method = element.getAttribute('method');
   }
 
-  public onFilePickerChanged() {
+  public onFilePickerChanged(_evt:Event) {
     const files:UploadFile[] = Array.from(this.avatarFilePicker.nativeElement.files);
     if (files.length === 0) {
       return;
     }
 
-    ImageHelpers.resizeFile(128, files[0]).then(([dataURL, blob]) => {
+    const file = files[0];
+    if (['image/jpeg', 'image/png', 'image/gif'].indexOf(file.type) === -1) {
+      this.fileInvalid = true;
+      return;
+    }
+
+    ImageHelpers.resizeFile(128, file).then(([dataURL, blob]) => {
       // Create resized file
-      blob.name = files[0].name;
+      blob.name = file.name;
       this.avatarFile = blob;
       this.avatarPreviewUrl = dataURL;
     });
