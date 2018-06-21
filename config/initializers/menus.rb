@@ -47,7 +47,7 @@ Redmine::MenuManager.map :top_menu do |menu|
               action: 'index',
               query_props: OpenProject::DefaultWpQueries::GANTT },
             param: :project_id,
-            caption: :label_gantt,
+            caption: :label_gantt_chart,
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_work_packages, nil, global: true)
@@ -269,7 +269,8 @@ Redmine::MenuManager.map :project_menu do |menu|
               action: 'index',
               query_props: OpenProject::DefaultWpQueries::GANTT },
             param: :project_id,
-            caption: :label_gantt,
+            caption: :label_gantt_chart,
+            icon_after: 'icon2 icon-view-timeline',
             parent: :work_packages
 
   menu.push :summary_field,
