@@ -58,7 +58,7 @@ module Concerns::UserLimits
     end
   end
 
-  def send_activation_limit_notifcation_about(user)
+  def send_activation_limit_notification_about(user)
     User.active.admin.each do |admin|
       UserMailer.activation_limit_reached(user.mail, admin).deliver_later
     end

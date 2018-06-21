@@ -29,8 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p>
     <% mail_link = "<a href=\"mailto:#{@email}\">#{@email}</a>" %>
-    <% host = Setting.protocol + "://" + Setting.host_name %>
-    <% host_link = "<a href=\"#{host}\">#{Setting.host_name}</a>" %>
+    <% host = OpenProject::Application.root_url %>
+    <% host_link = "<a href=\"#{host}\">#{Setting.app_title}</a>" %>
     <%= t("mail_user_activation_limit_reached.message", email: mail_link, host: host_link).html_safe %>
 </p>
 
@@ -38,12 +38,12 @@ See doc/COPYRIGHT.rdoc for more details.
     <span><%= t("mail_user_activation_limit_reached.steps.label") %></span>
     <ul>
         <li>
-            <%= t("mail_user_activation_limit_reached.steps.a") %>
-            <a href="<%= OpenProject::Enterprise.upgrade_url %>">here</a>
+            <% a = "<a href=\"<%= OpenProject::Enterprise.upgrade_url %>\">here</a>" %>
+            <%= t("mail_user_activation_limit_reached.steps.a", here: a).html_safe %>
         </li>
         <li>
-            <%= t("mail_user_activation_limit_reached.steps.b") %>
-            <a href="<%= users_url %>">here</a>
+            <% b = "<a href=\"<%= users_url %>\">here</a>" %>
+            <%= t("mail_user_activation_limit_reached.steps.b", here: b).html_safe %>
         </li>
     </ul>
 </p>

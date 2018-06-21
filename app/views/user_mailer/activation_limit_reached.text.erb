@@ -27,8 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= t("mail_user_activation_limit_reached.message", email: @email, host: Setting.protocol + "://" + Setting.host_name) %>
+<%= t("mail_user_activation_limit_reached.message", email: @email, host: OpenProject::Application.root_url) %>
 
 <%= t("mail_user_activation_limit_reached.steps.label") %>
-  - <%= t("mail_user_activation_limit_reached.steps.a") %> (<%= OpenProject::Enterprise.upgrade_url %>)
-  - <%= t("mail_user_activation_limit_reached.steps.b") %> (<%= users_url %>)
+  - <%= t("mail_user_activation_limit_reached.steps.a", here: OpenProject::Enterprise.upgrade_url) %>
+  - <%= t("mail_user_activation_limit_reached.steps.b", here: users_url) %>

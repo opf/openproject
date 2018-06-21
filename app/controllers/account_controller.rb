@@ -564,7 +564,7 @@ class AccountController < ApplicationController
   def register_automatically(user, opts = {})
     if user_limit_reached?
       show_user_limit_activation_error!
-      send_activation_limit_notifcation_about user
+      send_activation_limit_notification_about user
 
       return redirect_back fallback_location: signin_path
     end
