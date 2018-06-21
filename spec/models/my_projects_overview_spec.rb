@@ -18,7 +18,7 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe MyProjectsOverview, type: :model do
   let(:enabled_modules) { %w[activity work_package_tracking news wiki] }

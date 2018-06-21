@@ -18,7 +18,7 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-require File.dirname(__FILE__) + '/../../spec_helper'
+require 'spec_helper'
 
 describe Redmine::AccessControl do
   let(:view_project_permission) { Redmine::AccessControl.permission(:view_project) }

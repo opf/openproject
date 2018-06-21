@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe 'My project page editing', type: :feature, js: true do
   let(:project) { FactoryBot.create :project }

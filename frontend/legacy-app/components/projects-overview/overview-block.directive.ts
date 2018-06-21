@@ -1,6 +1,6 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -24,8 +24,52 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-// main app
-var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|ts)$/);
-requireComponent.keys().forEach(requireComponent);
+import {ProjectsOverviewController} from './overview-page-layout.directive';
+export class OverviewBlockController {
+
+  public layoutCtrl:ProjectsOverviewController;
+
+  constructor(public $element:ng.IAugmentedJQuery) {
+  }
+
+  public get editing() {
+    return !!this.layoutCtrl;
+  }
+
+  /**
+   * Remove this block
+   */
+  public remove() {
+    this.$element.remove();
+  }
+
+}
+
+function overviewBlock():any {
+  return {
+    restrict: 'EA',
+    scope: {},
+    transclude: true,
+    compile: function() {
+      return function(
+        scope:any,
+        element:ng.IAugmentedJQuery,
+        attrs:ng.IAttributes,
+        ctrl:any,
+        transclude:any) {
+        scope.$ctrl.layoutCtrl = ctrl;
+        transclude(scope, (clone:any) => {
+          element.append(clone);
+        });
+      };
+    },
+    require: '?^overviewPageLayout',
+    controller: OverviewBlockController,
+    bindToController: true,
+    controllerAs: '$ctrl'
+  };
+}
+
+angular.module('OpenProjectLegacy').directive('overviewBlock', overviewBlock);
