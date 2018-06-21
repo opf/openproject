@@ -253,7 +253,10 @@ class User < Principal
       user = new(attrs.except(:login))
       user.login = login
       user.language = Setting.default_language
-      if user.save
+
+      if OpenProject::Enterprise.user_limit_reached?
+        user.errors.add :base, I18n.t(:error_enterprise_activation_user_limit)
+      elsif user.save
         user.reload
         logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger && user.auth_source
       end

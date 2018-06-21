@@ -270,6 +270,49 @@ describe AccountController, type: :controller do
         expect(response.status).to eq 404
       end
     end
+
+    context 'with an auth source' do
+      let(:auth_source_id) { 42 }
+
+      let(:user_attributes) do
+        {
+          login: 's.scallywag',
+          firstname: 'Scarlet',
+          lastname: 'Scallywag',
+          mail: 's.scallywag@openproject.com',
+          auth_source_id: auth_source_id
+        }
+      end
+
+      let(:authenticate) { true }
+
+      before do
+        allow(Setting).to receive(:self_registration).and_return('0')
+        allow(Setting).to receive(:self_registration?).and_return(false)
+        allow(AuthSource).to receive(:authenticate).and_return(authenticate ? user_attributes : nil)
+        
+        # required so that the register view can be rendered
+        allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
+      end
+
+      context 'with user limit reached' do
+        render_views
+
+        before do
+          allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+
+          post :login, params: { username: 'foo', password: 'bar' }
+        end
+
+        it 'shows the user limit error' do
+          expect(response.body).to have_text "user limit reached"
+        end
+
+        it 'renders the register form' do
+          expect(response.body).to include "/account/register"
+        end
+      end
+    end
   end
 
   describe '#login with omniauth_direct_login enabled',
