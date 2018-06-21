@@ -1,7 +1,7 @@
 {
     "rules": {
         "await-promise": [true, "IPromise"],
-        "no-unnecessary-type-assertion": true,
+        "no-unnecessary-type-assertion": false,
         "promise-function-async": false,
         "no-for-in-array": true,
         "no-unbound-method": [true, "ignore-static"],

@@ -116,9 +116,6 @@ gem 'secure_headers', '~> 5.0.5'
 # Providing health checks
 gem 'okcomputer', '~> 1.16.0'
 
-# Patch Rails HTML whitelisting for Angular curly braces
-gem 'rails-angular-xss', git: 'https://github.com/opf/rails-angular-xss', ref: '00b588b8b8b18c0f53fcb5232be1a2c34dbd1fac'
-
 gem 'gon', '~> 6.2.0'
 
 # catch exceptions and send them to any airbrake compatible backend

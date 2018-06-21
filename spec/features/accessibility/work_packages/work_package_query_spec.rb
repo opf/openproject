@@ -201,8 +201,13 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
     context 'help' do
       it 'opens help popup with \'?\'' do
         expect_angular_frontend_initialized
-        find('body').native.send_keys('?')
-        expect(page).to have_selector('.ui-dialog', wait: 20)
+
+        new_window = window_opened_by { find('body').native.send_keys('?') }
+        within_window new_window do
+          expect(page).to have_selector('h1', text: 'Available Keyboard Shortcuts')
+        end
+
+        new_window.close
       end
     end
   end

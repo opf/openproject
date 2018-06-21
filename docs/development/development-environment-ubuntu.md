@@ -254,7 +254,7 @@ This will start the development server on port `3000` by default.
 ```
 
 This will watch for any changes within the `frontend/` and compile the application javascript bundle on demand. You will need to watch this tab for the compilation output,
-should you be working on the TypeScript / angular.js frontend part.
+should you be working on the TypeScript / Angular frontend part.
 
 
 ## Start Coding

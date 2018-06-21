@@ -173,6 +173,7 @@ jQuery(function($) {
   }
 
   function removeFilter(e) {
+    e.preventDefault();
     let $filter = $(this).parents('.advanced-filters--filter');
     let filterName = $filter.attr('filter-name');
 
