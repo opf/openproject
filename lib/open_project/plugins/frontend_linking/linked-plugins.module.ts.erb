@@ -31,7 +31,7 @@
 
 import {NgModule} from "@angular/core";
 <%- frontend_plugins.each do |actual_name, module_name|-%>
-import <%= module_name %> from './linked/<%= actual_name %>/main';
+import {PluginModule as <%= module_name %>} from './linked/<%= actual_name %>/main';
 <%- end -%>
 
 @NgModule({

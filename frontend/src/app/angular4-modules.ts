@@ -30,7 +30,6 @@ import {PortalModule} from '@angular/cdk/portal';
 import {APP_INITIALIZER, ApplicationRef, Injector, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
-import {UpgradeModule} from '@angular/upgrade/static';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
 import {QueryFormDmService} from 'core-app/modules/hal/dm-services/query-form-dm.service';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
@@ -540,9 +539,6 @@ import {HookService} from "core-app/modules/plugins/hook-service";
 export class OpenProjectModule {
   // noinspection JSUnusedGlobalSymbols
   ngDoBootstrap(appRef:ApplicationRef, injector:Injector) {
-    // Already done in openproject-app.ts
-    // this.upgrade.bootstrap(document.body, ['openproject'], {strictDi: false});
-
     bootstrapOptional(
       appRef,
       { tagName: 'main-menu-resizer', cls: MainMenuResizerComponent  },
