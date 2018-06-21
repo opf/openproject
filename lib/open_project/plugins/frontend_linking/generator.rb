@@ -100,8 +100,6 @@ module ::OpenProject::Plugins
             puts "Linking legacy frontend of OpenProject plugin #{name} to #{target}."
             FileUtils.ln_sf(source, target)
           end
-
-          generate_plugin_module(plugins)
         end
       end
 

@@ -132,11 +132,11 @@ function getLegacyWebpackConfig() {
     },
 
     resolve: {
-      // Resolve symlinks from dynamically linked plugins
-      symlinks: true,
+      // Don't map symlinks from dynamically linked plugins to their real paths
+      symlinks: false,
 
       modules: [
-        'node_modules',
+        path.resolve(__dirname, '..', 'node_modules')
       ],
 
       extensions: ['.ts', '.tsx', '.js'],

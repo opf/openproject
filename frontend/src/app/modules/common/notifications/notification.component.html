@@ -26,7 +26,7 @@
                 *ngFor="let upload of data"
                 [upload]="upload"
                 (onSuccess)="onUploadSuccess()"
-                (onError)="onUploadError()">
+                (onError)="onUploadError($event)">
             </notifications-upload-progress>
           </ul>
         </div>

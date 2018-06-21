@@ -95,6 +95,7 @@ export class OpenProjectFileUploadService {
           body: formData,
           // Observe the response, not the body
           observe: 'response',
+          withCredentials: true,
           // Subscribe to progress events. subscribe() will fire multiple times!
           reportProgress: true
         }

@@ -208,11 +208,11 @@ import {AttributeHelpTextModal} from "./modules/common/help-texts/attribute-help
 import {CopyToClipboardDirective} from 'core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive';
 import {WorkPackageEmbeddedTableEntryComponent} from "core-components/wp-table/embedded/wp-embedded-table-entry.component";
 import {LinkedPluginsModule} from "core-app/modules/plugins/linked-plugins.module";
+import {HookService} from "core-app/modules/plugins/hook-service";
 
 @NgModule({
   imports: [
     BrowserModule,
-    UpgradeModule,
     FormsModule,
     // UI router routes configuration
     UIRouterModule.forRoot(),
@@ -539,7 +539,7 @@ import {LinkedPluginsModule} from "core-app/modules/plugins/linked-plugins.modul
 })
 export class OpenProjectModule {
   // noinspection JSUnusedGlobalSymbols
-  ngDoBootstrap(appRef:ApplicationRef) {
+  ngDoBootstrap(appRef:ApplicationRef, injector:Injector) {
     // Already done in openproject-app.ts
     // this.upgrade.bootstrap(document.body, ['openproject'], {strictDi: false});
 
@@ -554,6 +554,15 @@ export class OpenProjectModule {
       { tagName: 'op-ckeditor-form', cls: OpCkeditorFormComponent },
       { tagName: 'copy-to-clipboard', cls: CopyToClipboardDirective },
     );
+
+    // Call hook service to allow modules to bootstrap additional elements.
+    // We can't use ngDoBootstrap in nested modules since they are not called.
+    const hookService = (appRef as any)._injector.get(HookService);
+    hookService
+      .call('openProjectAngularBootstrap')
+      .forEach((results:{tagName:string, cls:any}[]) => {
+        bootstrapOptional(appRef, ...results);
+      });
   }
 }
 
