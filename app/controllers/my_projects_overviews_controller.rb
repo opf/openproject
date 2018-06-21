@@ -20,25 +20,20 @@
 #++
 
 class MyProjectsOverviewsController < ApplicationController
-
   menu_item :overview
 
   before_action :find_project
   before_action :authorize
   before_action :jump_to_project_menu_item, only: :index
 
-  verify xhr: true, only: [:update_custom_element, :render_attachments, :add_block]
-
   def self.available_blocks
     @available_blocks ||= OpenProject::MyProjectPage.plugin_blocks
   end
 
-  def index
-  end
+  def index; end
 
   # User's page layout configuration
-  def page_layout
-  end
+  def page_layout; end
 
   def update_custom_element
     block_name = params["block_name"]
@@ -47,18 +42,21 @@ class MyProjectsOverviewsController < ApplicationController
 
     if params["attachments"]
       # Attach files and save them
-      attachments = Attachment.attach_files(overview, params["attachments"].to_unsafe_h)
-      unless attachments[:unsaved].blank?
-        render text: t(:warning_attachments_not_saved, attachments[:unsaved].size), status: 500
+      overview.attach_files(permitted_params.attachments.to_h)
+
+      unsaved = overview.attachments.select(&:new_record?)
+
+      if unsaved.any?
+        render text: t(:warning_attachments_not_saved, unsaved.size), status: 500
       end
     end
 
     if overview.save_custom_element(block_name, block_title, textile)
       render(partial: "block_textilizable",
-            locals: { project: project,
-                      block_title: block_title,
-                      block_name: block_name,
-                      textile: textile })
+             locals: { project: project,
+                       block_title: block_title,
+                       block_name: block_name,
+                       textile: textile })
    else
      render plain: t(:error_textile_not_saved), status: 400
    end
@@ -165,7 +163,7 @@ class MyProjectsOverviewsController < ApplicationController
       if MyProjectsOverviewsController.available_blocks.keys.include?(name)
         blocks << name
       else
-        custom = custom_elements.detect {|ary| ary.first == name }
+        custom = custom_elements.detect { |ary| ary.first == name }
         blocks << custom unless custom.nil?
       end
     end

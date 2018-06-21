@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.5
   Exclude:
     - db/schema.rb
 
@@ -154,7 +154,7 @@ NumericLiterals:
 OneLineConditional:
   Enabled: false
 
-OpMethod:
+BinaryOperatorParameterName:
   Enabled: false
 
 ParameterLists:
@@ -246,9 +246,6 @@ ElseLayout:
   Enabled: false
 
 HandleExceptions:
-  Enabled: false
-
-InvalidCharacterLiteral:
   Enabled: false
 
 LiteralInCondition:
