@@ -52,9 +52,9 @@ RSpec.configure do |config|
                                  [k, "#{k}?".to_sym]
                                end
 
-        raise "#{k} is not a valid setting" unless Setting.available_settings[bare.to_s]
+        raise "#{k} is not a valid setting" unless Setting.respond_to?(bare)
 
-        if Setting.available_settings[bare.to_s]['format'] == 'boolean'
+        if Setting.available_settings[bare.to_s] && Setting.available_settings[bare.to_s]['format'] == 'boolean'
           allow(Setting).to receive(bare).and_return(v)
           allow(Setting).to receive(questionmarked).and_return(v)
         else
