@@ -2337,6 +2337,11 @@ zh:
   warning_attachments_not_saved: "%{count} 文件不能被保存。"
   warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
     to allow for additional users.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: 菜单项
   menu_item_setting: 可见性
   wiki_menu_item_for: wiki页面” %{title} “的菜单项

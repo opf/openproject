@@ -656,18 +656,13 @@ zh-TW:
     failure_message: 同意失敗, 無法繼續。
     title: 使用者同意
     decline_warning_message: 您已拒絕同意並已登出。
-    user_has_consented: User has consented to your configured statement at the given
-      time.
-    not_yet_consented: User has not consented yet, will be requested upon next login.
-    contact_mail_instructions: Define the mail address that users can reach a data
-      controller to perform data change or removal requests.
-    contact_your_administrator: Please contact your administrator if you want to have
-      your account deleted.
-    contact_this_mail_address: Please contact %{mail_address} if you want to have
-      your account deleted.
-    text_update_consent_time: Check this box to force users to consent again. Enable
-      when you have changed the legal aspect of the consent information above.
-    update_consent_last_time: 'Last update of consent: %{update_time}'
+    user_has_consented: 使用者已同意您在給定時間配置的語句。
+    not_yet_consented: 使用者尚未同意, 將在下次登錄時請求。
+    contact_mail_instructions: 定義使用者可以訪問資料控制器以執行資料更改或刪除請求的郵寄地址。
+    contact_your_administrator: 如果您想刪除您的帳戶, 請與您的管理員聯繫。
+    contact_this_mail_address: 如果要刪除帳戶, 請聯繫 %{mail_address}。
+    text_update_consent_time: 選中此框可強制使用者再次同意。在更改上述同意資訊的法律方面時啟用。
+    update_consent_last_time: '同意的最後更新: %{update_time}'
   copy_project:
     started: 開始複製專案從「%{source_project_name}」到 「%{target_project_name}」。當「%{target_project_name}」
       可以使用以後，我們會盡快用郵件通知您。
@@ -889,10 +884,8 @@ zh-TW:
   error_check_user_and_role: 請選擇一個使用者與一個角色。
   error_cookie_missing: OpenProject的Cookie遺失了。請確保瀏覽器的Cookie已經啟用，否則本應用程式將無法正常做用。
   error_custom_option_not_found: 選項不存在。
-  error_dependent_work_package: 'Error in dependent work package #%{related_id} %{related_subject}:
-    %{error}'
-  error_enterprise_activation_user_limit: Your account could not be activated (user
-    limit reached). Please contact your administrator to gain access.
+  error_dependent_work_package: '相關工作包中的錯誤%{related_id} %{related_subject}: %{error}'
+  error_enterprise_activation_user_limit: 無法啟動您的帳戶 (已達到使用者限制)。請與管理員聯繫以獲取存取權限。
   error_failed_to_delete_entry: 刪除此項目失敗。
   error_invalid_group_by: 無法按照 %{value} 分組
   error_invalid_query_column: 無效的查詢欄：%{value}
@@ -1141,7 +1134,7 @@ zh-TW:
   label_enumerations: 條列項目
   label_enterprise: 企業
   label_enterprise_edition: 企業版
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} 已預訂的活動使用者"
   label_environment: 環境
   label_estimates_and_time: 預估成本和時間
   label_equals: 是
@@ -1899,10 +1892,10 @@ zh-TW:
   setting_commit_logtime_activity_id: 紀錄時間的動作
   setting_commit_logtime_enabled: 啟用時間日誌
   setting_commit_ref_keywords: 參照關鍵字
-  setting_consent_time: Consent time
-  setting_consent_info: Consent information text
-  setting_consent_required: Consent required
-  setting_consent_decline_mail: Consent contact mail address
+  setting_consent_time: 同意時間
+  setting_consent_info: 同意資訊文本
+  setting_consent_required: 需要同意
+  setting_consent_decline_mail: 同意連絡人郵寄地址
   setting_cross_project_work_package_relations: 允許跨專案的工作項目關聯
   setting_date_format: 日期格式
   setting_default_language: 預設語言
@@ -2153,25 +2146,19 @@ zh-TW:
     end: 结束
     errors:
       not_implemented: 不會呈現時間軸，因為它使用了一種尚未實現的功能。
-      report_comparison: The timeline could not render the configured comparisons.
-        Please check the appropriate section in the configuration, resetting it can
-        help solve this problem.
-      report_epicfail: The timeline could not be loaded due to an unexpected error.
-      report_timeout: The timeline could not be loaded in a reasonable amount of time.
+      report_comparison: 時間表無法呈現配置的比較。請檢查配置中的相應部分, 重置它可以協助解決此問題。
+      report_epicfail: 由於出現意外錯誤, 無法載入時間表。
+      report_timeout: 無法在合理的時間內載入時間表。
     filter:
       errors:
         timeframe_start: '開始時間 '
         timeframe_end: '結束時間 '
-        compare_to_relative: 'The value of the relative comparison '
-        compare_to_absolute: 'The value of the absolute comparison '
-        planning_element_time_relative_one: 'The start for work packages in a certain
-          timeframe '
-        planning_element_time_relative_two: 'The end for work packages in a certain
-          timeframe '
-        planning_element_time_absolute_one: 'The start for work packages in a certain
-          timeframe  '
-        planning_element_time_absolute_two: 'The end for work packages in a certain
-          timeframe  '
+        compare_to_relative: '相對比較的值 '
+        compare_to_absolute: '絕對比較的值 '
+        planning_element_time_relative_one: '在特定時間段內工作包的開始時間 '
+        planning_element_time_relative_two: '在特定時間段內工作包的結束時間 '
+        planning_element_time_absolute_one: '在特定時間段內工作包的開始時間  '
+        planning_element_time_absolute_two: '在特定時間段內工作包的結束時間  '
       sort:
         sortation: 排序方式
         alphabet: 字母
@@ -2195,37 +2182,36 @@ zh-TW:
         relative: 相對
         compare_relative_prefix: 比較當前計劃至
         compare_relative_suffix: 之前
-        compare_absolute: Compare current planning to %{date}
+        compare_absolute: 比較當前計劃至 %{date}
       time_relative:
         days: 天
         weeks: 週
         months: 月
-      exclude_own_work_packages: Hide work packages from this project
+      exclude_own_work_packages: 於專案中隱藏此工作包
       exclude_reporters: 隱藏其他專案
       exclude_empty: 隱藏空的專案
       grouping: 分組
       grouping_hide_group: 隱藏群組 "%{group}"
-      grouping_one: First grouping criterion
+      grouping_one: 第一個組合條件
       grouping_one_phrase: 是一個子專案屬於
       grouping_other: 其他
       hide_chart: 隱藏圖表
       noneElement: "（無）"
       noneSelection: "（無）"
-      outline: Initial outline expansion
+      outline: 初始大綱擴展
       parent: 顯示子專案屬於
       work_package_filters: 篩選的工作項目
       work_package_responsible: 顯示帶有責任歸屬者的工作項目
       work_package_assignee: 顯示帶有負責執行者的工作項目
       types: 顯示類型
       status: 顯示狀態
-      project_time_filter: Projects with a work package of a certain type in a certain
-        timeframe
+      project_time_filter: 在特定時間段內具有某種類型的工作包的專案
       project_time_filter_timeframe: 時間範圍
       project_time_filter_historical_from: 從
       project_time_filter_historical_to: 到
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
-      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
-        %{end_label} %{endspan}%{endspanunit} from now"
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} 之前,
+        %{end_label} %{endspan}%{endspanunit} 從現在起"
       project_filters: 篩選專案
       project_responsible: 顯示帶有責任歸屬者的專案
       project_status: 顯示專案狀態
@@ -2242,12 +2228,10 @@ zh-TW:
     new_project_type: 新增專案類型
     new_reporting: 新增報表
     new_timeline: 新增時間軸報表
-    no_projects_for_reporting_available: There are no projects to which a reporting
-      association can be created.
-    no_right_to_view_timeline: You do not have the necessary permission to view the
-      linked timeline.
+    no_projects_for_reporting_available: 沒有可以創建報告關聯的專案。
+    no_right_to_view_timeline: 您沒有查看該連結時間表的許可權。
     no_timeline_for_id: 沒有 ID 為 %{id} 的時間軸
-    notice_successful_deleted_all_elements: Successfully deleted all elements
+    notice_successful_deleted_all_elements: 已成功刪除所有元素
     outline: 重置大綱
     outlines:
       aggregation: 僅顯示聚合
@@ -2258,36 +2242,34 @@ zh-TW:
       level5: 展開第5層
       all: 顯示全部
     reporting_for_project:
-      show: 'Status reported to project: %{title}'
-      edit_delete: 'status report for project: %{title}'
-      history: 'History for status for project: %{title}'
+      show: '報告給專案的狀態: %{title}'
+      edit_delete: '報告給專案的狀態: %{title}'
+      history: '專案狀態的歷史記錄: %{title}'
     reporting:
       delete: 刪除狀態： %{comment}
       edit: 編輯狀態： %{comment}
       show: 狀態： %{comment}
     planning_element_update: 更新：%{title}
-    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
+    work_packages_are_displayed_in_aggregations: 工作包匯集顯示
     project_association_new: 添加專案的相依
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
-      “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
+    project_association_new_for_with: 將 "%{project_a}" 的依賴項設置為
+    project_association_with_other: '"%{project_a}" 和 "%{project_b}" 之間的專案依賴關係'
+    project_association_of_type: 對 "%{type}" 類型的專案的依賴性
     project_type_could_not_be_saved: 專案類型無法保存
     type_could_not_be_saved: 類型無法保存
-    reporting_could_not_be_saved: Reporting could not be saved
+    reporting_could_not_be_saved: 無法儲存報告
     properties: 屬性
     really_delete_color: '確定要刪除這個顏色? 使用這個類型的顏色不會被刪除。
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
+    really_delete_project_association_between_project_a_and_project_b: '是否確實要刪除 "%{project_a}"
+      和 "%{project_b}" 之間的相關性？
 
 '
     really_delete_project_type: '確定要刪除這個專案類型嗎?用到這個類型的專案不會被刪除。
 
 '
-    really_delete_timeline: 'Are you sure, you want to delete the following timeline
-      report? Work packages shown in this timeline report will not be deleted.
+    really_delete_timeline: '是否確實要刪除以下時間表報告？此時間表報告中顯示的工作包不會被刪除。
 
 '
     really_delete_reporting: '您確定要刪除以下報告嗎？以前報告狀態也將被刪除。
@@ -2299,7 +2281,7 @@ zh-TW:
     settings: 時間軸
     vertical_work_package: 垂直工作項目
     without_project_type: 沒有專案類型
-    you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
+    you_are_viewing_the_selected_timeline: 您正在查看所選時間表報告
     zoom:
       in: 放大
       out: 縮小
@@ -2309,7 +2291,7 @@ zh-TW:
       quarters: 季
       years: 年
   title_remove_and_delete_user: 從專案移除已被邀請的使用者別且刪除他/她
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: 升級以增加更多使用者。
   tooltip_resend_invitation: '舊邀請電子郵件過期或用戶未收到之前的電子郵件時，再發送一封邀請電子郵件。也可由活躍用戶用於選擇新的身份驗證方法。活躍用戶使用時，狀態會更改為“已邀請”。
 
 '
@@ -2318,7 +2300,7 @@ zh-TW:
 
 '
   queries:
-    apply_filter: Apply preconfigured filter
+    apply_filter: 應用預配置的篩選器
   top_menu:
     additional_resources: 其他資源
     getting_started: 開始
@@ -2330,9 +2312,8 @@ zh-TW:
     activate: 啟用
     activate_and_reset_failed_logins: 啟用並重置失敗的登錄
     authentication_provider: 驗證提供者
-    authentication_settings_disabled_due_to_external_authentication: 'This user authenticates
-      via an external authentication provider, so there is no password in OpenProject
-      to be changed.
+    authentication_settings_disabled_due_to_external_authentication: '此使用者通過外部身份檢查器提供者進行身份驗證,
+      因此 OpenProject 中沒有要更改的密碼。
 
 '
     authorization_rejected: 你不被允許登入。
@@ -2340,18 +2321,16 @@ zh-TW:
     blocked: 暫時鎖定
     blocked_num_failed_logins:
       one: locked temporarily (one failed login attempt)
-      other: locked temporarily (%{count} failed login attempts)
+      other: 臨時鎖定 (%{count} 登錄嘗試失敗)
     confirm_status_change: 您將更改 "%{name}" 的狀態。是否確實要繼續？
     deleted: 刪除使用者
-    error_status_change_failed: 'Changing the user status failed due to the following
-      errors: %{errors}'
+    error_status_change_failed: '由於以下錯誤, 更改使用者狀態失敗: %{errors}'
     invite: 透過電子郵件邀請使用者
     invited: 已邀請
     lock: 永久鎖定
     locked: 永久鎖定
-    no_login: This user authenticates through login by password. Since it is disabled,
-      they cannot log in.
-    password_change_unsupported: Change of password is not supported.
+    no_login: 此使用者通過登錄密碼進行身份驗證。由於已禁用, 因此無法登錄。
+    password_change_unsupported: 不支援更改密碼。
     registered: 已註冊
     reset_failed_logins: 重置失敗的登錄
     settings:
@@ -2361,31 +2340,32 @@ zh-TW:
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: 狀態變更
     unlock: 解除鎖定
-    unlock_and_reset_failed_logins: Unlock and reset failed logins
+    unlock_and_reset_failed_logins: 解除鎖定並重置失敗的登錄
   version_status_closed: 已關閉
   version_status_locked: 鎖定
   version_status_open: 打開
   note: 注意
-  note_password_login_disabled: Password login has been disabled by %{configuration}.
+  note_password_login_disabled: 密碼登錄已被 %{configuration} 禁用。
   warning: 警告
-  warning_attachments_not_saved: "%{count} file(s) could not be saved."
-  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
-    to allow for additional users.
-  menu_item: 選單項目
-  menu_item_setting: 可見度
-  wiki_menu_item_for: Menu item for wikipage "%{title}"
-  wiki_menu_item_setting: 可見度
-  wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
-    item. You now have to choose a wiki page for which a new main item will be generated.
-    To delete the wiki the wiki module can be deactivated by project administrators.
+  warning_attachments_not_saved: 無法儲存 %{count} 檔。
+  warning_user_limit_reached: 已達到使用者限制。請 <a href="%{upgrade_url}">升級</a> 以允許其他使用者使用。
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
 
 '
-  wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot
-    be deleted.
-  query_menu_item_for: Menu item for query "%{title}"
+  menu_item: 選單項目
+  menu_item_setting: 可見度
+  wiki_menu_item_for: Wikipage "%{title}" 的功能表項目
+  wiki_menu_item_setting: 可見度
+  wiki_menu_item_new_main_item_explanation: '您正在刪除 wiki 唯一的主功能表項目。現在, 您必須選擇一個 wiki
+    頁面, 該網頁將生成一個新的主專案。要刪除 wiki, 可以由專案管理員停用 wiki 模組。
+
+'
+  wiki_menu_item_delete_not_permitted: 無法刪除 wiki 頁面的唯一 wiki 功能表項目。
+  query_menu_item_for: 查詢 "%{title}" 的功能表項目
   work_package:
-    updated_automatically_by_child_changes: '_Updated automatically by changing values
-      within child work package %{child}_
+    updated_automatically_by_child_changes: '通過更改子工作包中的值自動 _更新 %{child}_
 
 '
     destroy:
@@ -2399,11 +2379,11 @@ zh-TW:
       code_401: |-
         You need to be authenticated to access this resource.
         您必須取得授權才能使用這個資源。
-      code_401_wrong_credentials: You did not provide the correct credentials.
+      code_401_wrong_credentials: 您沒有提供正確的憑據。
       code_403: |-
         You are not authorized to access this resource.
         您未被授權使用這個資源。
-      code_404: The requested resource could not be found.
+      code_404: 找不到請求的資源。
       code_409: |-
         Couldn't update the resource because of conflicting modifications.
         因為修改的衝突，所以無法更新這個資源。
@@ -2414,28 +2394,28 @@ zh-TW:
       invalid_content_type: Expected CONTENT-TYPE to be '%{content_type}' but got
         '%{actual}'.
       invalid_format: "「%{property}」屬性的格式無效 ︰ 預期格式像 「%{expected_format}」，但 「%{actual}」。"
-      invalid_json: The request could not be parsed as JSON.
+      invalid_json: 無法將請求解析為 JSON。
       invalid_relation: 關聯是無效的。
-      invalid_resource: For property '%{property}' a link like '%{expected}' is expected,
-        but got '%{actual}'.
+      invalid_resource: 對於屬性 "%{property}", 希望有一個類似 "%{expected}" 的連結, 但得到了 "%{actual}"。
       invalid_user_status_transition: 當前的使用者帳戶狀態不允許此操作。
       missing_content_type: 未指定
       missing_request_body: 沒有請求正文。
       missing_or_malformed_parameter: 查詢參數 "%{parameter}" 遺失或不正確。
       multipart_body_error: 請求正文不包含預期的多段部分。
-      multiple_errors: Multiple field constraints have been violated.
+      multiple_errors: 已違反多個欄位約束。
       unable_to_create_attachment: 無法創建附件
       render:
-        context_not_parsable: The context provided is not a link to a resource.
-        unsupported_context: The resource given is not supported as context.
-        context_object_not_found: Cannot find the resource given as the context.
+        context_not_parsable: 提供的對應文不是指向資源的連結。
+        unsupported_context: 所提供的資源不受相對應支援。
+        context_object_not_found: |-
+          Cannot find the resource given with the context.
+          無法找到本文對應的資源。
       validation:
-        done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
-          by status or when it is disabled.
-        due_date: Due date cannot be set on parent work packages.
-        estimated_hours: Estimated hours cannot be set on parent work packages.
+        done_ratio: 在所屬工作包中, 當按狀態或禁用時, 無法設置完成比率。
+        due_date: 無法在所屬工作包上設置截止日期。
+        estimated_hours: 無法在所屬工作包上設置估計小時數。
         invalid_user_assigned_to_work_package: 所指定的使用者不允許成為工作項目的 '%{property}' 。
-        start_date: Start date cannot be set on parent work packages.
+        start_date: 無法在所屬工作包上設置開始日期。
       writing_read_only_attributes: |-
         You must not write a read-only attribute.
         您不可寫入唯讀的屬性。

@@ -2645,6 +2645,11 @@ ru:
   warning_attachments_not_saved: "%{count} файл(-ов) не может быть сохранен(-о)."
   warning_user_limit_reached: Достигнут предел пользователя. Обновите <a href="%{upgrade_url}"></a>
     для дополнительных пользователей.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Пункт меню
   menu_item_setting: Видимость
   wiki_menu_item_for: Пункт меню для wiki-страницы  «%{title}»

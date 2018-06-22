@@ -2592,6 +2592,11 @@ hu:
   warning_attachments_not_saved: "%{count} fájl nem menthető."
   warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
     to allow for additional users.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menüpont
   menu_item_setting: Látható
   wiki_menu_item_for: Wikipage "%{title}" menüeleme

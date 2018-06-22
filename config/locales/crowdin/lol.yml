@@ -2314,6 +2314,9 @@ lol:
   warning: crwdns94243:0crwdne94243:0
   warning_attachments_not_saved: crwdns94244:0%{count}crwdne94244:0
   warning_user_limit_reached: crwdns98977:0%{upgrade_url}crwdne98977:0
+  warning_user_limit_reached_instructions: 'crwdns98991:0%{current}crwdnd98991:0%{max}crwdne98991:0
+
+'
   menu_item: crwdns94245:0crwdne94245:0
   menu_item_setting: crwdns94246:0crwdne94246:0
   wiki_menu_item_for: crwdns94247:0%{title}crwdne94247:0

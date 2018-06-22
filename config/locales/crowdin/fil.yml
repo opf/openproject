@@ -2680,6 +2680,11 @@ fil:
   warning_attachments_not_saved: "%{count} na(mga) file ay hindi mai-save."
   warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
     to allow for additional users.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Pagpipilian sa mga aytem
   menu_item_setting: Nakikita
   wiki_menu_item_for: Aytem na pagpipilian sa wikipage na "%{title}"

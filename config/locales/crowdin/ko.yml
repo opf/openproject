@@ -2446,6 +2446,11 @@ ko:
   warning_attachments_not_saved: "%{count}개 파일을 저장할 수 없습니다."
   warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
     to allow for additional users.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: 메뉴 항목
   menu_item_setting: 표시 여부
   wiki_menu_item_for: 위키 페이지 "%{title}"에 대한 메뉴 항목

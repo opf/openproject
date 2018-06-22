@@ -2515,6 +2515,11 @@ th:
   warning_attachments_not_saved: มี %{count} ไฟล์ที่ไม่สามารถบันทึกได้
   warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
     to allow for additional users.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: เมนู
   menu_item_setting: การมองเห็น
   wiki_menu_item_for: เมนูสำหรับหน้าวิกิ "%{title}"

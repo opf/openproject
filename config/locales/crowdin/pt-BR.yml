@@ -2608,6 +2608,11 @@ pt-BR:
   warning_attachments_not_saved: "%{count} arquivo(s) não pôde(m) ser salvo(s)."
   warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
     to allow for additional users.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Item de menu
   menu_item_setting: Visibilidade
   wiki_menu_item_for: Item de menu para página wiki "%{title}"

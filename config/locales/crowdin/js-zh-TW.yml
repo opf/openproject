@@ -319,12 +319,9 @@ zh-TW:
       error: 發生錯誤。
       errors:
         not_implemented: 不會呈現時間軸，因為它使用了一種尚未實現的功能。
-        report_comparison: The timeline could not render the configured comparisons.
-          Please check the appropriate section in the configuration, resetting it
-          can help solve this problem.
-        report_epicfail: The timeline could not be loaded due to an unexpected error.
-        report_timeout: The timeline could not be loaded in a reasonable amount of
-          time.
+        report_comparison: 時間表無法呈現配置的比較。請檢查配置中的相應部分, 重置它可以協助解決此問題。
+        report_epicfail: 由於出現意外錯誤, 無法載入時間表。
+        report_timeout: 無法在合理的時間內載入時間表。
       filter:
         column:
           assigned_to: 負責執行者

@@ -2639,6 +2639,11 @@ ca:
   warning_attachments_not_saved: No s'han pogut desar %{count} fitxer(s).
   warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
     to allow for additional users.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Element de menú
   menu_item_setting: Visibilitat
   wiki_menu_item_for: Element de menú per a la pàgina wiki "%{title}"

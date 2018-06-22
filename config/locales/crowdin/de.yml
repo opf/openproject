@@ -2651,6 +2651,11 @@ de:
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
   warning_user_limit_reached: Nutzerlimit erreicht. Bitte <a href="%{upgrade_url}">upgraden</a>
     Sie um weitere Nutzer hinzuzufügen.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menüpunkt
   menu_item_setting: Sichtbarkeit
   wiki_menu_item_for: Menüpunkt für die Wikiseite "%{title}"

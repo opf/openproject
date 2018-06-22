@@ -2359,6 +2359,11 @@ ja:
   warning_attachments_not_saved: "%{count} 件のファイルを保存できませんでした。"
   warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
     to allow for additional users.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: メニュー項目
   menu_item_setting: 可視性
   wiki_menu_item_for: Wikiページ"%{title}"のメニュー項目

@@ -2562,6 +2562,11 @@ et:
   warning_attachments_not_saved: "%{count} faili ei saa salvestada."
   warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
     to allow for additional users.
+  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
+    active users). Please contact sales@openproject.com to upgrade your Enterprise
+    Edition plan and add additional users.
+
+'
   menu_item: Menüüvalik
   menu_item_setting: Nähtavus
   wiki_menu_item_for: Menüüvalik vikilehele "%{title}"
