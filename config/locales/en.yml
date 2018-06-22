@@ -1619,8 +1619,8 @@ en:
       The user cannot activate their account since the user limit has been reached.
     steps:
       label: "To allow the user to sign in you can either: "
-      a: "Upgrade your payment plan (%{here})"
-      b: "Lock or delete an existing user (%{here})"
+      a: "Upgrade your payment plan ([here](upgrade_url))" # here turned into a link
+      b: "Lock or delete an existing user ([here](users_url))" # here turned into a link
 
   more_actions: "More functions"
 
