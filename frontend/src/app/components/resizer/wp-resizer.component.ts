@@ -28,7 +28,6 @@
 
 import {ChangeDetectorRef, Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {distinctUntilChanged} from 'rxjs/operators';
-import {Subscription} from 'rxjs/Subscription';
 import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
 
@@ -49,8 +48,6 @@ export class WpResizerDirective implements OnInit, OnDestroy {
   private element:HTMLElement;
 
   public moving:boolean = false;
-
-  private subscription:Subscription;
 
   constructor(readonly toggleService:MainMenuToggleService,
               private elementRef:ElementRef) {
@@ -88,17 +85,16 @@ export class WpResizerDirective implements OnInit, OnDestroy {
         untilComponentDestroyed(this)
       )
       .subscribe( changeData => {
-        jQuery('.can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left')[0].offsetWidth > 750);
+        jQuery('.can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width() > 750);
       });
     jQuery(window).resize(function() {
-      jQuery('.can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left')[0].offsetWidth > 750);
+      jQuery('.can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width() > 750);
     });
   }
 
   ngOnDestroy() {
     // Reset the style when killing this directive, otherwise the style remains
     this.resizingElement.style.flexBasis = null;
-    this.subscription.unsubscribe();
   }
 
   @HostListener('mousedown', ['$event'])
@@ -182,8 +178,7 @@ export class WpResizerDirective implements OnInit, OnDestroy {
   private applyColumnLayout(element:HTMLElement, newWidth:number) {
     // Apply two column layout in fullscreen view of a workpackage
     if (element === jQuery('.work-packages-full-view--split-right')[0]) {
-      let widthLeftCol = jQuery('.work-packages-full-view--split-left')[0].offsetWidth;
-      jQuery('.can-have-columns').toggleClass('-columns-2', widthLeftCol > 750);
+      jQuery('.can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left').width() > 750);
     }
     // Apply two column layout when details view of wp is open
     else {
