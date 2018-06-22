@@ -33,7 +33,7 @@ require 'open_project/assets'
 # Otherwise Sprockets cannot find the files that webpack produces.
 Rake::Task['assets:precompile']
   .clear_prerequisites
-  .enhance(%w[openproject:plugins:register_frontend assets:compile_environment assets:prepare_op])
+  .enhance(%w[ assets:compile_environment assets:prepare_op])
 
 namespace :assets do
   # In this task, set prerequisites for the assets:precompile task
@@ -42,7 +42,7 @@ namespace :assets do
   end
 
   desc 'Prepare locales and angular assets'
-  task prepare_op: [:angular, :export_locales]
+  task prepare_op: [:angular, 'openproject:plugins:register_frontend', :export_locales]
 
   desc 'Compile assets with webpack'
   task :angular do
