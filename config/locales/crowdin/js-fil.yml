@@ -120,6 +120,7 @@ fil:
     label_expand: Palawakin
     label_expanded: pinalawak
     label_expand_all: Malakihin lahat
+    label_expand_project_menu: Expand project menu
     label_export: I-export
     label_filename: File
     label_filesize: Sukat
@@ -127,6 +128,7 @@ fil:
     label_group_by: Pangkat sa
     label_hide_attributes: Magpakita ng mas kaunti
     label_hide_column: Itago ang mga hanay
+    label_hide_project_menu: Collapse project menu
     label_in: sa
     label_in_less_than: mas mababa kaysa
     label_in_more_than: mahigit sa
@@ -318,7 +320,6 @@ fil:
         one: Maari ka lamang oumili ng isang aytem
         other: Maari ka lamang pumili ng mga {{limit}} aytem
         zero: You cannot select any items
-    show_hide_project_menu: Palawakin/Pagbagsak na proyektong pagpipilian
     project_menu_details: Mga detalye
     sort:
       sorted_asc: 'Pataas na paayos ang inilapat '
@@ -663,6 +664,7 @@ fil:
         messages_on_field: 'Ito patlang ay hindi balido: %{messages}'
     error_could_not_resolve_version_name: Hindi ma resolba ang bersyon na pangalan
     error_could_not_resolve_user_name: Hindi mairesolba ang pangalan ng gumagamit
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: work package

@@ -245,9 +245,9 @@ ar:
           التي يمنحها هذا التطبيق.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'حسابك لم يُفعّل حتى الآن. لتفعيل حسابك، اضغط
       على الرابط الذي تم إرساله بالبريد الالكتروني إليك.
 

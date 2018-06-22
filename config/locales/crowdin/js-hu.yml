@@ -121,6 +121,7 @@ hu:
     label_expand: Kibont
     label_expanded: kibontott
     label_expand_all: Az összes kibontása
+    label_expand_project_menu: Expand project menu
     label_export: Exportálás
     label_filename: Fájl
     label_filesize: Méret
@@ -128,6 +129,7 @@ hu:
     label_group_by: Csoportosítás a következők szerint
     label_hide_attributes: Kevesebb mutatása
     label_hide_column: Oszlop elrejtése
+    label_hide_project_menu: Collapse project menu
     label_in: in
     label_in_less_than: kevesebb, mint
     label_in_more_than: több mint
@@ -313,7 +315,6 @@ hu:
         one: Csak egy elem választható
         other: Csak {{limit}} elem választható
         zero: You cannot select any items
-    show_hide_project_menu: Kibontás/Összecsukás projekt menü
     project_menu_details: Részletek
     sort:
       sorted_asc: 'Növekvő sorrend alkalmazása, '
@@ -645,6 +646,7 @@ hu:
         messages_on_field: 'Ez a mező érvénytelen: %{messages}'
     error_could_not_resolve_version_name: Nem sikerült a verziószám visszafejtése
     error_could_not_resolve_user_name: Nem sikerült a felhasználó visszafejtése
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: munkacsomag

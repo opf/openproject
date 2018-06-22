@@ -122,6 +122,7 @@ ca:
     label_expand: Expandir
     label_expanded: expandit
     label_expand_all: Expandeix tot
+    label_expand_project_menu: Expand project menu
     label_export: Exportar
     label_filename: Fitxer
     label_filesize: Mida
@@ -129,6 +130,7 @@ ca:
     label_group_by: Agrupa per
     label_hide_attributes: Mostrar menys
     label_hide_column: Amagar columna
+    label_hide_project_menu: Collapse project menu
     label_in: en
     label_in_less_than: en menys de
     label_in_more_than: en més de
@@ -316,7 +318,6 @@ ca:
         one: Només podeu seleccionar un element
         other: Només podeu seleccionar {{limit}} elements
         zero: You cannot select any items
-    show_hide_project_menu: Expandeix/contrau menú de projecte
     project_menu_details: Detalls
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -650,6 +651,7 @@ ca:
         messages_on_field: 'Aquest camp no és vàlid: %{messages}'
     error_could_not_resolve_version_name: No es pot determinar el nom de versió
     error_could_not_resolve_user_name: No es pot determinar el nom d'usuari
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: work package

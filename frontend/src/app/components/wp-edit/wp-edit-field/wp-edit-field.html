@@ -1,0 +1,16 @@
+<div [ngClass]="[
+      editFieldContainerClass,
+      fieldName,
+      active && '-active' || '',
+      wrapperClasses || '-small'
+     ]">
+
+  <div #editContainer
+       hidden>
+  </div>
+
+  <div (accessibleClick)="activateIfEditable($event)"
+       [hidden]="active"
+       tabindex="-1"
+       #displayContainer></div>
+</div>

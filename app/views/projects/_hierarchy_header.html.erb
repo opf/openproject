@@ -4,7 +4,7 @@
       <a title="<%= t(:label_sort_by, value: "\"#{t(:label_project_hierarchy)}\"") %>"
          <%= href_only_when_not_sort_lft %>
          class="<%= deactivate_class_on_lft_sort %>">
-        <op-icon icon-classes="icon-hierarchy"></op-icon>
+        <%= op_icon("icon-hierarchy") %>
       </a>
     </div>
   </div>

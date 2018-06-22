@@ -28,13 +28,21 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% html_title @copy ? l(:button_copy) : l(:button_move), l('activerecord.models.work_package') %>
+
+<%= content_for(:header_tags) do %>
+  <%= javascript_include_tag 'bundles/openproject-core-app' %>
+<% end %>
+
 <h2><%= @copy ? l(:button_copy) : l(:button_move) %></h2>
 <ul>
   <% @work_packages.each do |work_package| -%>
     <li><%= link_to_work_package work_package %></li>
   <% end -%>
 </ul>
-<%= styled_form_tag({action: 'create'}, id: 'move_form', class: '-wide-labels') do %>
+<%= styled_form_tag({action: 'create'},
+                    id: 'move_form',
+                    class: '-wide-labels',
+                    'ng-app': 'OpenProjectLegacy') do %>
   <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
   <%= back_url_hidden_field_tag %>
   <refresh-on-form-changes

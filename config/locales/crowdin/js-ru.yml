@@ -121,6 +121,7 @@ ru:
     label_expand: Развернуть
     label_expanded: развернуто
     label_expand_all: Развернуть все
+    label_expand_project_menu: Expand project menu
     label_export: Экспорт
     label_filename: Файл
     label_filesize: Размер
@@ -128,6 +129,7 @@ ru:
     label_group_by: Группировать по
     label_hide_attributes: Показывать меньше
     label_hide_column: Скрыть столбец
+    label_hide_project_menu: Collapse project menu
     label_in: в
     label_in_less_than: менее чем
     label_in_more_than: более чем
@@ -316,7 +318,6 @@ ru:
         zero: You cannot select any items
         few: Вы можете выбрать только {{limit}} элемента
         many: You can only select {{limit}} items
-    show_hide_project_menu: Развернуть или свернуть меню проекта
     project_menu_details: Детали
     sort:
       sorted_asc: 'Применяется сортировка по возрастанию, '
@@ -649,6 +650,7 @@ ru:
         messages_on_field: 'Это поле является недопустимым: %{messages}'
     error_could_not_resolve_version_name: Не удалось определить название этапа
     error_could_not_resolve_user_name: Не удалось найти такое имя пользователя
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: пакет работ

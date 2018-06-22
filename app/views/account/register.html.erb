@@ -27,7 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<modal-wrapper initialize="true" modal-class-name="registration-modal modal-wrapper -highlight">
-  <% @user ||= User.new %>
-  <%= render partial: '/account/register' %>
-</modal-wrapper>
+<%= activate_angular_js do %>
+  <modal-wrapper initialize="true" modal-class-name="registration-modal modal-wrapper -highlight">
+    <% @user ||= User.new %>
+    <%= render partial: '/account/register' %>
+  </modal-wrapper>
+<% end %>

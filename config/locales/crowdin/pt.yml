@@ -258,10 +258,10 @@ pt:
           entrar com as suas credenciais atuais. Poderá escolher ser utilizador desta
           aplicação outra vez nos termos permitidos pela aplicação.
       login_verification:
-        other: Introduza o login %{name} para verificar a eliminação. Depois de enviar
-          irá receber uma solicitação de confirmação da sua palavra passe.
-        self: Introduza o seu login %{name} para verificar a eliminação. Depois de
-          enviar irá receber uma solicitação de confirmação da sua palavra passe.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'A sua conta ainda não foi activada. Para activar
       sua conta, clique no link que foi enviado por e-mail.
 

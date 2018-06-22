@@ -40,26 +40,30 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:split_view_create) { ::Pages::SplitWorkPackageCreate.new(project: project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
 
   let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
 
   let!(:query) do
     FactoryBot.build(:query, project: project, user: user).tap do |query|
       query.filters.clear
+
+      filters.each do |filter|
+        query.add_filter(*filter)
+      end
+
       query.column_names = ['id', 'subject', 'type', 'assigned_to']
       query.save!
     end
+  end
+
+  let(:filters) do
+    [['type_id', '=', [type_task.id]]]
   end
 
   before do
     login_as(user)
     wp_table.visit_query query
     wp_table.expect_no_work_package_listed
-
-    filters.expect_filter_count 0
-    filters.open
-    filters.add_filter_by('Type', 'is', type_task.name)
   end
 
   context 'with a multi-value custom field' do
@@ -82,8 +86,9 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
       )
     end
 
-    before do
-      filters.add_filter_by('Gate', 'is', 'A', "customField#{custom_field.id}")
+    let(:filters) do
+      [['type_id', '=', [type_task.id]],
+       ["cf_#{custom_field.id}", '=', [custom_field.custom_options.detect { |o| o.value == 'A' }.id]]]
     end
 
     it 'allows to save with a single value (Regression test #27833)' do
@@ -114,8 +119,9 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
                         member_through_role: role)
     end
 
-    before do
-      filters.add_filter_by('Assignee', 'is', assignee.name)
+    let(:filters) do
+      [['type_id', '=', [type_task.id]],
+       ['assigned_to_id', '=', [assignee.id]]]
     end
 
     it 'uses the assignee filter in inline-create and split view' do
@@ -160,7 +166,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
 
       # Assignee is synced
       assignee_field = split_view_create.edit_field :assignee
-      assignee_field.expect_value "/api/v3/users/#{assignee.id}"
+      expect(assignee_field.input_element.find('option[selected]').text).to eql('An assignee')
 
       within '.work-packages--edit-actions' do
         click_button 'Save'

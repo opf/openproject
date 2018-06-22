@@ -29,9 +29,11 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% form_attributes = form_configuration_groups(@type) %>
 
-<section class="form--section">
+<%= activate_angular_js :section, class: 'form--section' do %>
   <%= f.hidden_field :attribute_groups, value: attribute_groups_as_json(@type) %>
-  <div id="types-form-configuration" op-drag-scroll ng-controller="TypesFormConfigurationCtrl" ng-init="upsaleLink = <%= '"' + OpenProject::Static::Links.links[:upsale][:href] +  "/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration" + '"' %>">
+  <div id="types-form-configuration"
+       ng-controller="TypesFormConfigurationCtrl"
+       ng-init="upsaleLink = <%= '"' + OpenProject::Static::Links.links[:upsale][:href] +  "/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration" + '"' %>">
     <div class="grid-block -visible-overflow wrap">
       <div class="grid-content -visible-overflow small-12 large-10">
       <div class="notification-box -info">
@@ -178,7 +180,7 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
     </div>
   </div>
-</section>
+<% end %>
 
 <div class="grid-block">
   <div class="generic-table--action-buttons">

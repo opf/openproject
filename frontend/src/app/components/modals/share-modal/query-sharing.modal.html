@@ -1,0 +1,36 @@
+<div class="op-modal--portal ">
+  <div class="op-modal--modal-container wp-table--configuration-modal loading-indicator--location"
+       data-indicator-name="modal"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button">
+        <i
+            class="icon-close"
+            (click)="closeMe($event)"
+            [attr.title]="text.close_popup">
+        </i>
+      </a>
+    </div>
+
+    <h3 [textContent]="text.label_visibility_settings"></h3>
+
+    <query-sharing-form
+        [isSave]="false"
+        (onChange)="setValues($event)"
+        [isStarred]="isStarred"
+        [isPublic]="isPublic">
+    </query-sharing-form>
+
+    <div class="form--space">
+      <button class="button -highlight -with-icon icon-checkmark"
+              (click)="saveQuery($event)"
+              [textContent]="text.button_save">
+      </button>
+      <button class="button"
+              [textContent]="text.button_cancel"
+              [disabled]="isBusy"
+              (click)="closeMe($event)">
+      </button>
+    </div>
+  </div>
+</div>

@@ -248,10 +248,10 @@ hr:
           U skladu s postavljenim dozvolama aplikacije korisnik/ica mogo ponovno izvršiti
           registraciju i pristupiti aplikaciji.
       login_verification:
-        other: Unesite korisničko ime %{name} da biste potvrdili brisanje. Nakon što
-          pošaljete, sustav će vas pitati da potvrdite svoju lozinku.
-        self: Unesite korisničko ime %{name} da biste potvrdili brisanje. Nakon što
-          pošaljete, sustav će vas pitati da potvrdite svoju lozinku.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Vaš korisnički račun još nije aktiviran. Da
       bi ste aktivirali vaš korisnički račun, molimo vas da potvrdite poveznicu koja
       vam je poslana na email.
@@ -319,7 +319,7 @@ hr:
         expires_at: Ističe u
         subscriber: Pretplatnik
         encoded_token: Enterprise support token
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Najviše aktivnih korisnika
       relation:
         delay: Kašnjenje
         from: Radni paket
@@ -717,7 +717,7 @@ hr:
   button_unlock: Otključaj
   button_unwatch: Ne nadgledaj više
   button_update: Ažuriraj
-  button_upgrade: Upgrade
+  button_upgrade: Ažuriraj
   button_upload: Upload
   button_view: Pregled
   button_watch: Nadgledaj

@@ -255,9 +255,9 @@ sk:
           môžte tak urobiť prostredníctvom tohto formulára.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
-        self: Zadajte váš login %{name} na overenie odstránenia. Po jeho odoslaní
-          bude potrebné potvrdiť svoje heslo.
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Váš účet ešte nebol aktivovaný. Ak ho chcete
       aktivovať, kliknite na odkaz, ktorý bol doručený na Vašu e-mailovú adresu.
 

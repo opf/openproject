@@ -117,6 +117,7 @@ lol:
     label_expand: crwdns98429:0crwdne98429:0
     label_expanded: crwdns98430:0crwdne98430:0
     label_expand_all: crwdns98431:0crwdne98431:0
+    label_expand_project_menu: crwdns98988:0crwdne98988:0
     label_export: crwdns98432:0crwdne98432:0
     label_filename: crwdns98433:0crwdne98433:0
     label_filesize: crwdns98434:0crwdne98434:0
@@ -124,6 +125,7 @@ lol:
     label_group_by: crwdns98436:0crwdne98436:0
     label_hide_attributes: crwdns98437:0crwdne98437:0
     label_hide_column: crwdns98438:0crwdne98438:0
+    label_hide_project_menu: crwdns98989:0crwdne98989:0
     label_in: crwdns98439:0crwdne98439:0
     label_in_less_than: crwdns98440:0crwdne98440:0
     label_in_more_than: crwdns98441:0crwdne98441:0
@@ -300,7 +302,6 @@ lol:
         one: crwdns98587:1crwdne98587:1
         other: crwdns98587:5{{limit}}crwdne98587:5
         zero: You cannot select any items
-    show_hide_project_menu: crwdns98947:0crwdne98947:0
     project_menu_details: crwdns98971:0crwdne98971:0
     sort:
       sorted_asc: crwdns98588:0crwdne98588:0
@@ -604,6 +605,7 @@ lol:
         messages_on_field: crwdns98832:0%{messages}crwdne98832:0
     error_could_not_resolve_version_name: crwdns98833:0crwdne98833:0
     error_could_not_resolve_user_name: crwdns98834:0crwdne98834:0
+    error_attachment_upload: crwdns98990:0%{name}crwdnd98990:0%{error}crwdne98990:0
     units:
       workPackage:
         one: crwdns98835:1crwdne98835:1

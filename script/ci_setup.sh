@@ -56,24 +56,23 @@ if [ $1 != 'npm' ]; then
   run "bundle exec rake db:migrate"
 fi
 
-# We need npm 4.0 for a bugfix in cross-platform shrinkwrap
-# https://github.com/npm/npm/issues/14042
-run "npm install npm@4.0"
-
 run "for i in {1..3}; do npm install && break || sleep 15; done"
 
 if [ $1 != 'specs' ] && [ $1 != 'spec_legacy' ]; then
-  run "bundle exec rake assets:precompile"
+  run "bundle exec rails assets:precompile"
 else
   # fake result of npm/asset run
+  run "mkdir -p public/assets/frontend/"
+  run "touch public/assets/frontend/runtime.js"
+  run "touch public/assets/frontend/vendor.js"
+  run "touch public/assets/frontend/main.js"
+  run "touch public/assets/frontend/styles.js"
+  run "touch public/assets/frontend/styles.css"
+
   run "mkdir -p app/assets/javascripts/bundles"
   run "touch app/assets/javascripts/bundles/openproject-core-app.js"
-  run "touch app/assets/javascripts/bundles/openproject-common.js"
-  run "touch app/assets/javascripts/bundles/openproject-vendors.js"
+
   run "mkdir -p app/assets/javascripts/locales"
   run "touch app/assets/javascripts/locales/en.js"
-
-  run "mkdir -p app/assets/stylesheets/bundles"
-  run "touch app/assets/javascripts/bundles/openproject-core-app.css"
 fi
 

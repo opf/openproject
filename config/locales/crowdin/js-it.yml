@@ -122,6 +122,7 @@ it:
     label_expand: Espandi
     label_expanded: espanso
     label_expand_all: Espandi tutto
+    label_expand_project_menu: Expand project menu
     label_export: Esporta
     label_filename: File
     label_filesize: Dimensione
@@ -129,6 +130,7 @@ it:
     label_group_by: Raggruppa per
     label_hide_attributes: Meno suggerimenti
     label_hide_column: Nascondi la colonna
+    label_hide_project_menu: Collapse project menu
     label_in: in
     label_in_less_than: in meno di
     label_in_more_than: in più di
@@ -316,7 +318,6 @@ it:
         one: Puoi selezionare solo un elemento
         other: Puoi selezionare solo {{limit}} elementi
         zero: You cannot select any items
-    show_hide_project_menu: Espandi/Comprimi il menù di progetto
     project_menu_details: Dettagli
     sort:
       sorted_asc: 'Ordinamento crescente applicato, '
@@ -653,6 +654,7 @@ it:
         messages_on_field: 'Questo campo non è valido: %{messages}'
     error_could_not_resolve_version_name: Impossibile determinare il nome della versione
     error_could_not_resolve_user_name: Impossibile determinare il nome utente
+    error_attachment_upload: 'File ''%{name}'' failed to upload: %{error}'
     units:
       workPackage:
         one: macro-attività

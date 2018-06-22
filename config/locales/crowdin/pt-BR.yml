@@ -248,10 +248,10 @@ pt-BR:
           de entrar com suas credenciais atuais. Se quiser, poderá cadastrar-se novamente
           pelos meios que este aplicativo permite.
       login_verification:
-        other: Digite o nome de usuário %{name} para verificar a exclusão. Depois
-          de enviado, você receberá uma solicitação de confirmação da sua senha.
-        self: Digite seu nome de usuário %{name} para verificar a exclusão. Depois
-          de enviado, você receberá uma solicitação de confirmação da sua senha.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Sua conta ainda não foi ativada. Para ativar
       sua conta, clique no link que foi enviado por e-mail à você.
 

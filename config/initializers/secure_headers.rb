@@ -19,11 +19,22 @@ SecureHeaders::Configuration.default do |config|
   # Valid for iframes
   frame_src = %w['self' https://player.vimeo.com]
 
+  # Default src
+  default_src = %w('self')
+
+  # Allow requests to CLI in dev mode
+  connect_src = default_src
+
+  if FrontendAssetHelper.assets_proxied?
+    connect_src += %w[ws://localhost:4200 http://localhost:4200]
+    assets_src += %w[ws://localhost:4200 http://localhost:4200]
+  end
+
   config.csp = {
     preserve_schemes: true,
 
     # Fallback when no value is defined
-    default_src: %w('self'),
+    default_src: default_src,
     # Allowed uri in <base> tag
     base_uri: %w('self'),
 
@@ -41,5 +52,8 @@ SecureHeaders::Configuration.default do |config|
     script_src: assets_src + %w('unsafe-eval'),
     # Allow unsafe-inline styles
     style_src: assets_src + %w('unsafe-inline'),
+
+    # Connect sources for CLI in dev mode
+    connect_src: connect_src
   }
 end

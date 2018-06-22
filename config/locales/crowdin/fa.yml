@@ -248,10 +248,10 @@ fa:
           با اعتبار فعلی خود نخواهد بود. شما می توانید دوباره به وسیله امکاناتی که
           نرم ازار در اختیار او قرار می دهد به عضویت این نرم افزار در آیید.
       login_verification:
-        other: نام کاربری '%{name}' را جهت تایید حذف وارد کنید، در مرحله بعد باید
-          رمز عبور خود را وارد کنید.
-        self: نام کاربری '%{name}' را جهت تایید حذف وارد کنید، در مرحله بعد باید رمز
-          عبور خود را وارد کنید.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'حساب شما هنوز فعال نشده است. برای فعال سازی
       حساب خود ، بر روی لینکی که به شما ایمیل شده کلیک کنید.
 

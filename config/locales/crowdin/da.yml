@@ -249,9 +249,9 @@ da:
           af denne app igen med en ny registrering.
       login_verification:
         other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+          will be asked to confirm your password.
     error_inactive_activation_by_mail: 'Din konto er endnu ikke blevet aktiveret.
       For at aktivere din konto, klik på det link, der blev sendt til dig.
 
