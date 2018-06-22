@@ -211,15 +211,15 @@ describe('HalResource', () => {
     });
 
     it('should not have the _links property', () => {
-      expect(resource._links).toBeUndefined;
+      expect(resource._links).toBeUndefined();
     });
 
     it('should not have the _embedded property', () => {
-      expect(resource._embedded).toBeUndefined;
+      expect(resource._embedded).toBeUndefined();
     });
 
     it('should have enumerable properties', () => {
-      expect(resource.propertyIsEnumerable('property')).toBeTruthy;
+      expect(resource.propertyIsEnumerable('property')).toBeTruthy();
     });
 
     describe('when a property is changed', () => {
@@ -366,7 +366,7 @@ describe('HalResource', () => {
     });
 
     it('should have no "_links" property', () => {
-      expect(resource._links).toBeUndefined;
+      expect(resource._links).toBeUndefined();
     });
 
     it('should leave the source accessible', () => {
@@ -423,7 +423,7 @@ describe('HalResource', () => {
     });
 
     it('should have a property, that is a loaded resource', () => {
-      expect(resource.resource.$loaded).toBeTruthy;
+      expect(resource.resource.$loaded).toBeTruthy();
     });
 
     it('should have an embedded resource, that is loaded', () => {
@@ -472,7 +472,7 @@ describe('HalResource', () => {
       });
 
       it('should crate all nested resources recursively', () => {
-        expect(deep.$isHal).toBeTruthy;
+        expect(deep.$isHal).toBeTruthy();
       });
 
       it('should transfer the properties of the nested resources correctly', () => {
@@ -545,7 +545,7 @@ describe('HalResource', () => {
       });
 
       it('should have made each link a resource', () => {
-        expect(resource.$isHal).toBeTruthy;
+        expect(resource.$isHal).toBeTruthy();
       });
 
       it('should be resources generated from the links', () => {
@@ -574,12 +574,12 @@ describe('HalResource', () => {
     });
 
     it('should not have the original _embedded property', () => {
-      expect(resource._embedded).toBeUndefined;
+      expect(resource._embedded).toBeUndefined();
     });
 
     it('should transform the list elements', () => {
-      expect(resource.$embedded.elements[0].$isHal).toBeTruthy;
-      expect(resource.$embedded.elements[1].$isHal).toBeTruthy;
+      expect(resource.$embedded.elements[0].$isHal).toBeTruthy();
+      expect(resource.$embedded.elements[1].$isHal).toBeTruthy();
     });
   });
 
@@ -625,7 +625,7 @@ describe('HalResource', () => {
     });
 
     it('should be loaded', () => {
-      expect(resource.$loaded).toBeTruthy;
+      expect(resource.$loaded).toBeTruthy();
     });
 
     it('should not be possible to override a link', () => {
@@ -688,7 +688,7 @@ describe('HalResource', () => {
       });
 
       it('should be a resource, if the link method is "get"', () => {
-        expect(resource.property.$isHal).toBeTruthy;
+        expect(resource.property.$isHal).toBeTruthy();
       });
 
       describe('when a property is a resource', () => {
@@ -697,12 +697,12 @@ describe('HalResource', () => {
         });
 
         it('should not be loaded initially', () => {
-          expect(resource.property.$loaded).toBeFalsy;
-          expect(resource.notLinked.$loaded).toBeTruthy;
+          expect(resource.property.$loaded).toBeFalsy();
+          expect(resource.notLinked.$loaded).toBeTruthy();
         });
 
         it('should be loaded, if the resource is embedded', () => {
-          expect(resource.embedded.$loaded).toBeTruthy;
+          expect(resource.embedded.$loaded).toBeTruthy();
         });
 
         it('should update the source when set', () => {
@@ -713,6 +713,7 @@ describe('HalResource', () => {
         describe('when loading it', () => {
           let getStub:jasmine.Spy;
           let newResult:any;
+          let promise:Promise<any>;
 
           beforeEach(() => {
             let result = halResourceService.createHalResource({
@@ -731,15 +732,18 @@ describe('HalResource', () => {
             });
 
             resource = resource.property;
-            resource.$load().then((result:HalResource) => {
+            promise = resource.$load().then((result:HalResource) => {
               newResult = result;
             });
 
             expect(getStub).toHaveBeenCalled();
           });
 
-          it('should be loaded', () => {
-            expect(resource.$loaded).toBeTruthy;
+          it('should be loaded', (done) => {
+            promise.then(() => {
+              expect(resource.$loaded).toBeTruthy();
+              done();
+            });
           });
 
           it('should be updated', () => {
@@ -750,7 +754,7 @@ describe('HalResource', () => {
             expect((Object as any).getOwnPropertyDescriptor(newResult, 'foo').get).toBeDefined();
           });
 
-         it('should have properties that have a setter', () => {
+          it('should have properties that have a setter', () => {
             expect((Object as any).getOwnPropertyDescriptor(newResult, 'foo').set).toBeDefined();
           });
 
