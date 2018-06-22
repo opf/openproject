@@ -61,6 +61,15 @@ module OpenProject
         Hash(OpenProject::Configuration["enterprise"])["fail_fast"]
       end
 
+      ##
+      # Informs active admins about a user who could not be activated due to
+      # the user limit having been reached.
+      def send_activation_limit_notification_about(user)
+        User.active.admin.each do |admin|
+          UserMailer.activation_limit_reached(user.mail, admin).deliver_later
+        end
+      end
+
       private
 
       def url_helpers

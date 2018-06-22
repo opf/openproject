@@ -59,9 +59,7 @@ module Concerns::UserLimits
   end
 
   def send_activation_limit_notification_about(user)
-    User.active.admin.each do |admin|
-      UserMailer.activation_limit_reached(user.mail, admin).deliver_later
-    end
+    OpenProject::Enterprise.send_activation_limit_notification_about user
   end
 
   def show_user_limit_activation_error!

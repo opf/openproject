@@ -119,7 +119,9 @@ module Concerns::OmniauthLogin
       omni_auth_hash: auth_hash
     }
 
-    return if enforce_activation_user_limit
+    # only enforce here so user has email filled in for the admin notification
+    # about who couldn't register/activate
+    return if enforce_activation_user_limit(user: user)
 
     # Create on the fly
     register_user_according_to_setting(user, opts) do
