@@ -320,13 +320,13 @@ class AccountController < ApplicationController
   end
 
   def self_registration!
-    return if enforce_activation_user_limit(user: @user)
-
     if @user.nil?
       @user = User.new
       @user.admin = false
       @user.register
     end
+
+    return if enforce_activation_user_limit(user: user_with_email(@user))
 
     # Set consent if received from registration form
     if consent_param?

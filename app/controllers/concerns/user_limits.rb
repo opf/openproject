@@ -58,6 +58,14 @@ module Concerns::UserLimits
     end
   end
 
+  ##
+  # Ensures that the given user object has an email set.
+  # If it hasn't it takes the value from the params.
+  def user_with_email(user)
+    user.mail = Hash(params["user"])["mail"] if user.mail.blank?
+    user
+  end
+
   def send_activation_limit_notification_about(user)
     OpenProject::Enterprise.send_activation_limit_notification_about user
   end
