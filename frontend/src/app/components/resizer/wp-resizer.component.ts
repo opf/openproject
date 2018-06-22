@@ -90,6 +90,9 @@ export class WpResizerDirective implements OnInit, OnDestroy {
       .subscribe( changeData => {
         jQuery('.can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left')[0].offsetWidth > 750);
       });
+    jQuery(window).resize(function() {
+      jQuery('.can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left')[0].offsetWidth > 750);
+    });
   }
 
   ngOnDestroy() {

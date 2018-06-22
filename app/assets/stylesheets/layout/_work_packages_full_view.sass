@@ -147,7 +147,7 @@ body.controller-work_packages.full-create
     width: 18px
     left: 0
     &::before
-      left: 0
+      left: -2px
 
 .nosidebar
   ul.subject-header
@@ -162,6 +162,8 @@ body.controller-work_packages.full-create
     @at-root
       .detailsViewMenuItem
         display: block
+  .work-packages-full-view--resizer
+    display: none
 
 @media only screen and (max-width: 78rem)
   .work-packages--show-view
