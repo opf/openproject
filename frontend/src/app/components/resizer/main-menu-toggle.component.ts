@@ -65,7 +65,7 @@ export class MainMenuToggleComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.toggleService.initializeMenu();
 
-    this.toggleService.allData$
+    this.toggleService.titleData$
       .pipe(
         distinctUntilChanged(),
         untilComponentDestroyed(this)

@@ -26,7 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, HostListener, Injector, Input, OnDestroy, OnInit} from '@angular/core';
+import {distinctUntilChanged} from 'rxjs/operators';
+import {Subscription} from 'rxjs/Subscription';
+import {untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
+import {MainMenuToggleService} from "core-components/resizer/main-menu-toggle.service";
 
 @Component({
   selector: 'wp-resizer',
@@ -46,7 +50,10 @@ export class WpResizerDirective implements OnInit, OnDestroy {
 
   public moving:boolean = false;
 
-  constructor(private elementRef:ElementRef) {
+  private subscription:Subscription;
+
+  constructor(readonly toggleService:MainMenuToggleService,
+              private elementRef:ElementRef) {
   }
 
   ngOnInit() {
@@ -74,18 +81,21 @@ export class WpResizerDirective implements OnInit, OnDestroy {
     // Add event listener
     this.element = this.elementRef.nativeElement;
 
-    // Add event listener on hamburger menu and toggle column layout, if necessary
-    // The timeout is currently needed, because the sidebar is sliding in
-    jQuery('#main-menu-toggle')[0].addEventListener('click', () => {
-      setTimeout(function(){
+    // Listen on sidebar changes and toggle column layout, if necessary
+    this.toggleService.changeData$
+      .pipe(
+        distinctUntilChanged(),
+        untilComponentDestroyed(this)
+      )
+      .subscribe( changeData => {
         jQuery('.can-have-columns').toggleClass('-columns-2', jQuery('.work-packages-full-view--split-left')[0].offsetWidth > 750);
-      }, 150);
-    });
+      });
   }
 
   ngOnDestroy() {
     // Reset the style when killing this directive, otherwise the style remains
     this.resizingElement.style.flexBasis = null;
+    this.subscription.unsubscribe();
   }
 
   @HostListener('mousedown', ['$event'])

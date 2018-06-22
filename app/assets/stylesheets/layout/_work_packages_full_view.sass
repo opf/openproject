@@ -104,12 +104,7 @@ body.controller-work_packages.full-create
   border-right: 1px solid #ccc
   overflow-y: auto
   overflow-x: auto
-  //width: calc(100vw - 480px)
   flex: 2
-  flex-grow: 2
-  flex-shrink: 1
-  flex-basis: 0%
-  display: flex
   position: relative
   min-width: 360px
 
@@ -127,14 +122,12 @@ body.controller-work_packages.full-create
 
         h3.attributes-group--header-text
           line-height: $work-package-details--tab-height - 10px
-  
+
 .work-packages-full-view--split-right
-  //min-width: 420px
-  min-width: 60px
+  min-width: 480px
   overflow-y: auto
   overflow-x: auto
   position: relative
-  //width: calc(40% + 15px)
 
   .work-packages--panel-inner
     padding: 15px 15px 0px 15px
@@ -148,6 +141,13 @@ body.controller-work_packages.full-create
   .button.icon-edit.ng-hide
     display: block !important
     visibility: hidden
+
+.work-packages-full-view--resizer
+  .work-packages--resizer
+    width: 18px
+    left: 0
+    &::before
+      left: 0
 
 .nosidebar
   ul.subject-header
