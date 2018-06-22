@@ -40,18 +40,6 @@ You can run all frontend tests with the standard npm command:
 
     npm test
 
-### Running unit tests with Karma
-
-If you want a single test run, you can use `npm run`:
-
-    npm run karma
-
-By default tests will be run with a headless Chrome. To start a server or
-for more options, such as another browser, invoke the karma executable directly:
-
-    ./node_modules/karma/bin/karma start
-    ./node_modules/karma/bin/karma start --browsers Chrome,Firefox
-
 ## Rails backend and integration tests
 
 ### RSpec
