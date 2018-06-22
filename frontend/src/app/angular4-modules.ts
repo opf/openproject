@@ -207,6 +207,7 @@ import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/o
 import {AttributeHelpTextModal} from "./modules/common/help-texts/attribute-help-text.modal";
 import {CopyToClipboardDirective} from 'core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive';
 import {WorkPackageEmbeddedTableEntryComponent} from "core-components/wp-table/embedded/wp-embedded-table-entry.component";
+import {ModalWrapperAugmentService} from "core-app/globals/augmenting/modal-wrapper.augment.service";
 
 @NgModule({
   imports: [
@@ -306,6 +307,10 @@ import {WorkPackageEmbeddedTableEntryComponent} from "core-components/wp-table/e
 
     // External query configuration
     ExternalQueryConfigurationService,
+
+    // Augmenting Rails
+    ModalWrapperAugmentService,
+
   ],
   declarations: [
     ConfirmFormSubmitController,
@@ -566,8 +571,11 @@ export function bootstrapOptional(appRef:ApplicationRef, ...elements:{ tagName:s
 
 export function initializeServices(injector:Injector) {
   return () => {
-    const ExternalQueryConfiguration:ExternalQueryConfigurationService = injector.get(ExternalQueryConfigurationService);
-    const global = (window as any);
+    const ExternalQueryConfiguration = injector.get(ExternalQueryConfigurationService);
+    const ModalWrapper = injector.get(ModalWrapperAugmentService);
+
+    // Setup modal wrapping
+    ModalWrapper.setupListener();
 
     // Setup query configuration listener
     ExternalQueryConfiguration.setupListener();
