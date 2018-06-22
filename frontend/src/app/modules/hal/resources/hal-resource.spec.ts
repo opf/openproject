@@ -557,7 +557,7 @@ describe('HalResource', () => {
       });
 
       it('should not be loaded', () => {
-        expect(resource.$loaded).toBeFalsey;
+        expect(resource.$loaded).toBeFalsy();
       });
     });
   });
