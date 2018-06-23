@@ -50,6 +50,23 @@ describe 'Query menu item', js: true do
       wp_table.visit!
     end
 
+    it 'allows to save query as name with sharing options (Regression #27915)' do
+      # Publish query
+      wp_table.click_setting_item 'Save as'
+
+      fill_in 'save-query-name', with: 'Some query name'
+      find('#show-in-menu').set true
+      find('#show-public').set true
+
+      find('.button', text: 'Save').click
+
+      wp_table.expect_notification message: 'Successful creation.'
+      expect(page).to have_selector('.query-menu-item', text: 'Some query name')
+
+      last_query = Query.last
+      expect(last_query.is_public).to be_truthy
+    end
+
     it 'allows filtering, saving, retrieving and altering the saved filter (Regression #25372)' do
       filters.open
       filters.add_filter_by('Version', 'is', version.name)
