@@ -248,10 +248,10 @@ pt-BR:
           de entrar com suas credenciais atuais. Se quiser, poderá cadastrar-se novamente
           pelos meios que este aplicativo permite.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: Introduza o login %{name} para verificar a eliminação. Depois de enviar
+          irá receber uma solicitação de confirmação da sua palavra passe.
+        self: Introduza o seu login %{name} para verificar a eliminação. Depois de
+          enviar irá receber uma solicitação de confirmação da sua palavra passe.
     error_inactive_activation_by_mail: 'Sua conta ainda não foi ativada. Para ativar
       sua conta, clique no link que foi enviado por e-mail à você.
 
@@ -451,7 +451,7 @@ pt-BR:
         before_or_equal_to: deve ser antes ou igual a %{date}.
         could_not_be_copied: não pode ser copiado (totalmente).
         regex_invalid: não pode ser validado com a expressão regular associada.
-        unchangeable: cannot be changed.
+        unchangeable: não pode ser alterado.
       models:
         custom_field:
           at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.

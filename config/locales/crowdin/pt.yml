@@ -62,10 +62,10 @@ pt:
   custom_actions:
     actions:
       name: Ações
-      add: Add action
-    conditions: Conditions
-    plural: Custom actions
-    new: New custom action
+      add: Adicionar ação
+    conditions: Condições
+    plural: Ações personalizadas
+    new: Nova ação personalizada
     edit: Edit custom action %{name}
     execute: Execute %{name}
     upsale:
@@ -172,7 +172,7 @@ pt:
       form_configuration: Configuração do formulário
       projects: Projetos
       enabled_projects: Projetos ativados
-      add_group: Add attribute group
+      add_group: Adicionar grupo de atributos
       add_subelements: Add subelements group
       edit_query: Edit embedded query
       reset: Repor predefinições
@@ -258,10 +258,10 @@ pt:
           entrar com as suas credenciais atuais. Poderá escolher ser utilizador desta
           aplicação outra vez nos termos permitidos pela aplicação.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be asked to confirm your password.
+        other: Introduza o login %{name} para verificar a eliminação. Depois de enviar
+          irá receber uma solicitação de confirmação da sua palavra passe.
+        self: Introduza o seu login %{name} para verificar a eliminação. Depois de
+          enviar irá receber uma solicitação de confirmação da sua palavra passe.
     error_inactive_activation_by_mail: 'A sua conta ainda não foi activada. Para activar
       sua conta, clique no link que foi enviado por e-mail.
 
@@ -286,7 +286,7 @@ pt:
         show_until: Exibir até
       attachment:
         attachment_content: Attachment content
-        attachment_file_name: Attachment file name
+        attachment_file_name: Tipos de ficheiro anexo
         downloads: Transferências
         file: Ficheiro
         filename: Ficheiro
@@ -463,7 +463,7 @@ pt:
         before_or_equal_to: deve ser antes ou igual a %{date}.
         could_not_be_copied: não pode ser (totalmente) copiado.
         regex_invalid: não pode ser validado com a expressão regular associada.
-        unchangeable: cannot be changed.
+        unchangeable: não pode ser alterado.
       models:
         custom_field:
           at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.
@@ -472,8 +472,8 @@ pt:
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
           not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          smaller_than_or_equal_to: "(%{name}) deve ser menor ou igual a %{count}."
+          greater_than_or_equal_to: "(%{name}) deve ser maior ou igual a %{count}."
         enterprise_token:
           unreadable: não foi possível ler. Tem a certeza que é um token de suporte?
         parse_schema_filter_params_service:
@@ -586,7 +586,7 @@ pt:
       attribute_help_text: Texto de ajuda do atributo
       board: Fórum
       comment: Comentario
-      custom_action: Custom action
+      custom_action: Ação personalizada
       custom_field: Campo personalizado
       group: Grupo
       category: Categoria
@@ -1045,12 +1045,12 @@ pt:
       pdf_with_descriptions: PDF com descrições
   extraction:
     available:
-      pdftotext: Pdftotext available (optional)
-      unrtf: Unrtf available (optional)
-      catdoc: Catdoc available (optional)
-      xls2csv: Xls2csv available (optional)
-      catppt: Catppt available (optional)
-      tesseract: Tesseract available (optional)
+      pdftotext: Pdftotext disponível (opcional)
+      unrtf: Unrtf disponível (opcional)
+      catdoc: Catdoc disponível (opcional)
+      xls2csv: Xls2csv disponível (opcional)
+      catppt: Catppt disponível (opcional)
+      tesseract: Tesseract disponível (opcional)
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -1576,7 +1576,7 @@ pt:
   label_version_sharing_none: Não partilhado
   label_version_sharing_system: Com todos os projetos
   label_version_sharing_tree: Com a árvore de projeto
-  label_videos: Videos
+  label_videos: Vídeos
   label_view_all_revisions: Ver os todas as revisões
   label_view_diff: Ver diferenças
   label_view_revisions: Ver revisões
@@ -2217,7 +2217,7 @@ pt:
   text_formatting:
     textile: Textile
     markdown: Markdown
-    plain: Plain text
+    plain: Texto Simples
   status_active: ativo
   status_archived: arquivado
   status_invited: convidado

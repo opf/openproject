@@ -8,7 +8,7 @@ pt:
       placeholder:
         multi: Add "%{name}"
         single: Select "%{name}"
-      remove: Remove %{name}
+      remove: Remover %{name}
       active: Active %{label} %{name}
     close_popup_title: Fechar janela
     close_filter_title: Fechar filtro
