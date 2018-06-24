@@ -42,7 +42,7 @@ it:
         assistenza Enterprise Edition attivo.
       enterprise_link: Per ulteriori informazioni, clicca qui.
   announcements:
-    show_until: Visualizza fino a
+    show_until: Mostra fino a
     is_active: attualmente visualizzato
     is_inactive: attualmente non visualizzato
   attribute_help_texts:
@@ -530,7 +530,7 @@ it:
               not_a_valid_parent: non è valido.
             start_date:
               violates_relationships: può essere impostata solo su %{soonest_start}
-                o successiva per non violare le relazioni del pacchetto di lavori.
+                o successiva per non violare le relazioni dei pacchetti di lavoro.
             status_id:
               status_transition_invalid: non è valido perché non esiste alcuna transizione
                 valida dal vecchio al nuovo status sulla base del ruolo dell'utente
@@ -1071,7 +1071,7 @@ it:
       projects: Progetti visibili più recenti in questa istanza.
       users: Utenti registrati più recenti in questa istanza.
     blocks:
-      community: Comunità OpenProject
+      community: Comunità di OpenProject
       upsale:
         become_hero: Diventa un eroe!
         title: Aggiorna ad Enterprise Edition
@@ -1089,7 +1089,7 @@ it:
       glossary: Glossario
       shortcuts: Tasti di scelta rapida
       forums: Forum
-      blog: Blog OpenProject
+      blog: Blog di OpenProject
       boards: Forum della Comunità
       newsletter: Avvisi di sicurezza / Notizie
   links:
@@ -1136,7 +1136,7 @@ it:
   label_all_time: tutto il tempo
   label_all_words: Tutte le parole
   label_all_open_wps: All open
-  label_always_visible: Visualizzato sempre
+  label_always_visible: Sempre visibile
   label_announcement: Annuncio
   label_and_its_subprojects: "%{value} e i suoi sotto-progetti"
   label_api_access_key: Chiave di accesso API
