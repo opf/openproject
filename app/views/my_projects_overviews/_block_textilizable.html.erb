@@ -72,8 +72,8 @@ See doc/COPYRIGHT.md for more details.
                title="<%= l(:button_edit) %>"></a>
           <% end %>
           <% if User.current.allowed_to?(:edit_project, project) %>
-            <a href="#"
-               ng-click="$ctrl.remove()"
+            <a href
+               ng-click="$ctrl.remove($event)"
                class="icon icon-close remove-block"
                title="<%= t(:button_delete) %>"></a>
           <% end %>

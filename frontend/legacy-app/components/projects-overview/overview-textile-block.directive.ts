@@ -27,6 +27,8 @@
 // ++
 
 import {ProjectsOverviewController} from './overview-page-layout.directive';
+import {PluginContextService} from "core-app/services/plugin-context.service";
+
 export class OverviewTextileBlockController {
 
   public layoutCtrl:ProjectsOverviewController;
@@ -47,8 +49,7 @@ export class OverviewTextileBlockController {
               public $timeout:ng.ITimeoutService,
               public $window:ng.IWindowService,
               public $q:ng.IQService,
-              public I18n:op.I18n,
-              public NotificationsService:any) {
+              public pluginContext:PluginContextService) {
   }
 
   public initialize() {
@@ -67,15 +68,20 @@ export class OverviewTextileBlockController {
     }
 
     this.formVisible = state;
+    return false;
   }
 
   /**
    * Remove this block
    */
-  public remove() {
-    if (this.$window.confirm(this.I18n.t('js.text_are_you_sure'))) {
+  public remove(evt:Event) {
+    evt.preventDefault();
+
+    if (this.$window.confirm(I18n.t('js.text_are_you_sure'))) {
       this.$element.remove();
     }
+
+    return false;
   }
 
   /**
@@ -98,16 +104,14 @@ export class OverviewTextileBlockController {
       processData: false
     }).done((response) => {
       deferred.resolve();
-      this.$timeout(() => {
-        this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
-      });
+      this.pluginContext.context!.services.notifications.addSuccess(I18n.t('js.notice_successful_update'));
       this.layoutCtrl.updateBlock(this.blockName, response);
       this.layoutCtrl.updateAttachments();
     }).fail((error) => {
       deferred.reject();
       this.$timeout(() => {
-        this.NotificationsService.addError(
-          this.I18n.t('js.notification_update_block_failed') + ' ' + error.responseText
+        this.pluginContext.context!.services.addError(
+          I18n.t('js.notification_update_block_failed') + ' ' + error.responseText
         );
       });
     });
@@ -146,4 +150,4 @@ function overviewTextileBlock():any {
   };
 }
 
-angular.module('openproject').directive('overviewTextileBlock', overviewTextileBlock);
+angular.module('OpenProjectLegacy').directive('overviewTextileBlock', overviewTextileBlock);

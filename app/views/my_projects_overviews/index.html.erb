@@ -37,6 +37,7 @@ See doc/COPYRIGHT.md for more details.
   <% end %>
 <% end %>
 
+<%= activate_angular_js do %>
 <div id="invisible-grid" class="widget-boxes project-overview">
   <% top_fields.each do |f| %>
     <%= rendered_field f %>
@@ -47,3 +48,4 @@ See doc/COPYRIGHT.md for more details.
     <% end %>
   </div>
 </div>
+<% end %>

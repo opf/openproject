@@ -25,7 +25,7 @@ See doc/COPYRIGHT.md for more details.
     <div class="box-actions">
       <% if User.current.allowed_to?(:edit_project, project) %>
       <a href="#"
-         ng-click="$ctrl.remove()"
+         ng-click="$ctrl.remove($event)"
          ng-show="$ctrl.editing"
          class="icon icon-close remove-block"
          title="<%= t(:button_delete) %>"></a>

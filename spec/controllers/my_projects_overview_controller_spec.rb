@@ -18,7 +18,7 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe MyProjectsOverviewsController, type: :controller do
   let(:admin) { FactoryBot.build_stubbed(:admin) }

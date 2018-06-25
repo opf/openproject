@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {PluginContextService} from "core-app/services/plugin-context.service";
 
 export class ProjectsOverviewController {
 
@@ -36,7 +36,7 @@ export class ProjectsOverviewController {
               public $scope:ng.IScope,
               public $http:ng.IHttpService,
               public $compile:ng.ICompileService,
-              public wpNotificationsService:WorkPackageNotificationService) {
+              public pluginContext:PluginContextService) {
   }
 
   public initialize() {
@@ -63,7 +63,7 @@ export class ProjectsOverviewController {
       container = this.$element;
     }
 
-    return container.find('.widget-box').map((i:number, el:HTMLElement) => {
+    return container.find('.widget-box').map((i:number, el:any) => {
       return this.blockNameFromId(el.id);
     }).toArray();
   }
@@ -118,6 +118,10 @@ export class ProjectsOverviewController {
   }
 
   public handleBlockSelection() {
+    if (!this.selectedBlock) {
+      return;
+    }
+
     this.$http({
       url: this.addForm.attr('action'),
       method: 'POST',
@@ -128,7 +132,7 @@ export class ProjectsOverviewController {
       this.addBlock(blockName, response.data);
       this.updateAvailableBlocks();
     }).catch(error => {
-      this.wpNotificationsService.handleErrorResponse(error);
+      this.pluginContext.context!.services.wpNotifications.handleErrorResponse(error);
     }).finally(() => {
       this.selectedBlock = null;
     });
@@ -156,7 +160,7 @@ export class ProjectsOverviewController {
     }).then((response:any) => {
       attachments.html(response.data);
     }).catch(error => {
-      this.wpNotificationsService.handleErrorResponse(error);
+     this.pluginContext.context!.services.wpNotifications.handleErrorResponse(error);
     });
    }
 
@@ -202,4 +206,4 @@ function overviewPageLayout():any {
   };
 }
 
-angular.module('openproject').directive('overviewPageLayout', overviewPageLayout);
+angular.module('OpenProjectLegacy').directive('overviewPageLayout', overviewPageLayout);
