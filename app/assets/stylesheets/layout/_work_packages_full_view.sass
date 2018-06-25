@@ -130,7 +130,10 @@ body.controller-work_packages.full-create
   position: relative
 
   .work-packages--panel-inner
-    padding: 15px 15px 0px 15px
+    position: absolute
+    display: inline-block
+    padding: 15px 15px 0px 0px
+    width: calc(100% - 18px)
 
   .work-package-details-activities-activity-contents ul
     padding-left: 2em
@@ -143,15 +146,17 @@ body.controller-work_packages.full-create
     visibility: hidden
 
 .work-packages-full-view--resizer
-  position: fixed
+  position: sticky
+  top: 0
+  bottom: 0
+  height: 100%
+  width: 18px
+  display: inline-block
   .work-packages--resizer
-    height: 100vh
-    width: 18px
     left: -2px
+    width: 18px
     &::before
       left: 0
-      // 130px is the size of header (55px) and toolbar with padding (75px)
-      top: calc((100vh - 130px)/2)
 
 .nosidebar
   ul.subject-header
