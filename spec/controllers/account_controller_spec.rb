@@ -490,26 +490,39 @@ describe AccountController, type: :controller do
         end
 
         context "with user limit reached" do
+          let!(:admin) { FactoryGirl.create :admin }
+
+          let(:params) do
+            {
+              user: {
+                login: 'register',
+                password: 'adminADMIN!',
+                password_confirmation: 'adminADMIN!',
+                firstname: 'John',
+                lastname: 'Doe',
+                mail: 'register@example.com'
+              }
+            }
+          end
+
           before do
             allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+
+            post :register, params
           end
 
           it "fails" do
-            post :register,
-                 params: {
-                   user: {
-                     login: 'register',
-                     password: 'adminADMIN!',
-                     password_confirmation: 'adminADMIN!',
-                     firstname: 'John',
-                     lastname: 'Doe',
-                     mail: 'register@example.com'
-                   }
-                 }
-
             is_expected.to redirect_to(signin_path)
 
             expect(flash[:error]).to match /user limit reached/
+          end
+
+          it "notifies the admins about the issue" do
+            mail = ActionMailer::Base.deliveries.last
+
+            expect(mail.subject).to match /limit reached/
+            expect(mail.to.first).to eq admin.mail
+            expect(mail.body.parts.first.to_s).to match /new user \(#{params[:user][:mail]}\)/
           end
         end
       end
@@ -710,6 +723,7 @@ describe AccountController, type: :controller do
   end
 
   context 'POST activate' do
+    let!(:admin) { FactoryGirl.create :admin }
     let(:user) { FactoryGirl.create :user, status: status }
     let(:status) { -1 }
 
@@ -729,6 +743,13 @@ describe AccountController, type: :controller do
       it "redirects back to the login page and shows the user limit error" do
         expect(response).to redirect_to(signin_path)
         expect(flash[:error]).to match /user limit reached.*contact.*admin/i
+      end
+
+      it "notifies the admins about the issue" do
+        mail = ActionMailer::Base.deliveries.last
+
+        expect(mail.subject).to match /limit reached/
+        expect(mail.to.first).to eq admin.mail
       end
     end
 

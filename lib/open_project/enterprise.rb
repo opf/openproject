@@ -33,6 +33,10 @@ module OpenProject
         EnterpriseToken.current.presence
       end
 
+      def upgrade_url
+        "#{Setting.protocol}://#{Setting.host_name}#{upgrade_path}"
+      end
+
       def upgrade_path
         url_helpers.enterprise_path
       end
@@ -55,6 +59,15 @@ module OpenProject
 
       def fail_fast?
         Hash(OpenProject::Configuration["enterprise"])["fail_fast"]
+      end
+
+      ##
+      # Informs active admins about a user who could not be activated due to
+      # the user limit having been reached.
+      def send_activation_limit_notification_about(user)
+        User.active.admin.each do |admin|
+          UserMailer.activation_limit_reached(user.mail, admin).deliver_later
+        end
       end
 
       private

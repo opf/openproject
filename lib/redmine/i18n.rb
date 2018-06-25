@@ -94,7 +94,7 @@ module Redmine
     #
     # Which would then be used like this:
     #
-    #     link_translate(:logged_out, login: login_url)
+    #     link_translate(:logged_out, links: { login: login_url })
     #
     # @param i18n_key [String] The I18n key to translate.
     # @param links [Hash] Link names mapped to URLs.

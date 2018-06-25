@@ -255,6 +255,8 @@ class User < Principal
       user.language = Setting.default_language
 
       if OpenProject::Enterprise.user_limit_reached?
+        OpenProject::Enterprise.send_activation_limit_notification_about user
+
         user.errors.add :base, I18n.t(:error_enterprise_activation_user_limit)
       elsif user.save
         user.reload

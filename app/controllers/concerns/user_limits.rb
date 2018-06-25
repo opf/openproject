@@ -45,9 +45,10 @@ module Concerns::UserLimits
     end
   end
 
-  def enforce_activation_user_limit(redirect_to: signin_path)
+  def enforce_activation_user_limit(user: nil, redirect_to: signin_path)
     if user_limit_reached?
       show_user_limit_activation_error!
+      send_activation_limit_notification_about user if user
 
       redirect_back fallback_location: redirect_to
 
@@ -55,6 +56,18 @@ module Concerns::UserLimits
     else
       false
     end
+  end
+
+  ##
+  # Ensures that the given user object has an email set.
+  # If it hasn't it takes the value from the params.
+  def user_with_email(user)
+    user.mail = Hash(params["user"])["mail"] if user.mail.blank?
+    user
+  end
+
+  def send_activation_limit_notification_about(user)
+    OpenProject::Enterprise.send_activation_limit_notification_about user
   end
 
   def show_user_limit_activation_error!
