@@ -17,7 +17,7 @@ module OpenProject
 
         def default_gravatar_options
           [
-            [I18n.t(:label_none), ''],
+            [I18n.t(:label_none), '404'],
             ["Mystery Man", 'mm'],
             ["Wavatars", 'wavatar'],
             ["Identicons", 'identicon'],

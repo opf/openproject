@@ -39,7 +39,8 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
   def gravatar_expected_image_tag(digest, options = {})
     tag_options = options.reverse_merge(title: user.name,
                                         alt: 'Gravatar',
-                                        class: 'avatar').delete_if { |key, value| value.nil? || key == :ssl }
+                                        :'data-avatar-fallback-icon' => "icon icon-user",
+                                        class: 'avatar avatar--gravatar-image').delete_if { |key, value| value.nil? || key == :ssl }
 
     image_tag gravatar_expected_url(digest, options), tag_options
   end
