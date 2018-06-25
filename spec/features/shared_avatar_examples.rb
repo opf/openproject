@@ -47,7 +47,7 @@ shared_examples 'avatar management' do
       expect(page).to have_no_selector('.form--fieldset-legend', text: 'GRAVATAR')
 
       # Attach a new invalid image
-      find('#avatar_file_input').set File.join(image_base_path, 'invalid.jpg')
+      find('#avatar_file_input').set File.join(image_base_path, 'invalid.txt')
 
       # Expect error
       expect(page).to have_selector('.form--label.-error')
