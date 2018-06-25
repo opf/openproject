@@ -41,9 +41,10 @@ module AngularHelper
     end
 
     if block_given?
-      content_tag(type, options.merge('ng-app': 'OpenProjectLegacy'), &block)
+      merged_options = options.merge('ng-app': 'OpenProjectLegacy', 'ng-csp': '')
+      content_tag(type, merged_options, &block)
     else
-      'ng-app="OpenProjectLegacy"'.html_safe
+      'ng-app="OpenProjectLegacy" ng-csp'.html_safe
     end
   end
 end

@@ -47,11 +47,12 @@ SecureHeaders::Configuration.default do |config|
     frame_ancestors: %w('self'),
     # Allow images from anywhere
     img_src: %w(* data:),
-    # Allow scripts from self (not inline, but)
-    # for now require unsafe-eval for Angular JIT
-    script_src: assets_src + %w('unsafe-eval'),
+    # Allow scripts from self
+    script_src: assets_src,
     # Allow unsafe-inline styles
     style_src: assets_src + %w('unsafe-inline'),
+    # disallow all object-src
+    object_src: %w('none'),
 
     # Connect sources for CLI in dev mode
     connect_src: connect_src
