@@ -82,6 +82,7 @@ export class CostUnitSubformController {
     var that = this;
     jQuery('#'+obj[0].id+'_cancel').on('click', function() {
       that.cleanUp(obj)
+      return false;
     });
   }
 
@@ -104,4 +105,4 @@ function costUnitSubform():any {
   };
 }
 
-angular.module('openproject').directive('costUnitSubform', costUnitSubform);
+angular.module('OpenProjectLegacy').directive('costUnitSubform', costUnitSubform);

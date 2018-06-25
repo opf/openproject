@@ -26,12 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {DisplayField} from 'core-components/wp-display/wp-display-field/wp-display-field.module';
+import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 
 export class CurrencyDisplayField extends DisplayField {
 
-  public isEmpty(): boolean {
-    return !this.value ||
-      !parseFloat(this.value.split(" ")[0]);
-  }
+    public isEmpty():boolean {
+        return !this.value ||
+            !parseFloat(this.value.split(" ")[0]);
+    }
 }
+

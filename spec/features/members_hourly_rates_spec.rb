@@ -48,6 +48,8 @@ describe 'hourly rates on a member', type: :feature, js: true do
       fill_in 'Valid from', with: date.strftime('%Y-%m-%d') if date
       fill_in 'Rate', with: rate
     end
+
+    find('.ui-datepicker-close').click rescue nil
   end
 
   def change_rate_date(from:, to:)
