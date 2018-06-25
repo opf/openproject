@@ -126,13 +126,13 @@ describe('wp-query-menu', () => {
       });
 
       it('marks the new item as selected', function() {
-        expect(itemLink.hasClass('selected'), 'is selected').toBeTruthy();
+        expect(itemLink.hasClass('selected')).toBeTruthy();
       });
 
       it('toggles the selected state on state change', function() {
         transitionCallback(null);
         fixture.detectChanges();
-        expect(itemLink.hasClass('selected'), 'is selected').toBeFalsy();
+        expect(itemLink.hasClass('selected')).toBeFalsy();
       });
     });
   });
@@ -160,7 +160,7 @@ describe('wp-query-menu', () => {
         });
 
         it('marks the item as selected', function() {
-          expect(itemLink.hasClass('selected'), 'is not selected').toBeFalsy();
+          expect(itemLink.hasClass('selected')).toBeFalsy();
         });
       });
       describe('for a string query_id', function() {
@@ -170,7 +170,7 @@ describe('wp-query-menu', () => {
         });
 
         it('does not mark the item as selected', function() {
-          expect(itemLink.hasClass('selected'), 'is not selected').toBeFalsy();
+          expect(itemLink.hasClass('selected')).toBeFalsy();
         });
       });
     });

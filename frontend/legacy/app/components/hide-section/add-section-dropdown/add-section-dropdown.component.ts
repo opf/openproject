@@ -42,7 +42,7 @@ export class AddSectionDropdownComponent {
 
   constructor(protected HideSectionService:HideSectionService,
               protected $scope:ng.IScope) {
-    window.OpenProject.pluginContext.valuesPromise().then((context) => {
+    window.OpenProject.getPluginContext().then((context) => {
       this.i18n = context.services.i18n;
 
       this.turnedActive = this.placeholder();

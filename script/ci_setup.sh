@@ -70,7 +70,7 @@ else
   run "touch public/assets/frontend/styles.css"
 
   run "mkdir -p app/assets/javascripts/bundles"
-  run "touch app/assets/javascripts/bundles/openproject-core-app.js"
+  run "touch app/assets/javascripts/bundles/openproject-legacy-app.js"
 
   run "mkdir -p app/assets/javascripts/locales"
   run "touch app/assets/javascripts/locales/en.js"

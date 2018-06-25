@@ -12,6 +12,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "preserveSymlinks": true,
+            "aot": true,
             "outputPath": "../public/assets/frontend/",
             "aot": true,
             "index": "src/index2.html",
@@ -30,6 +32,7 @@
           },
           "configurations": {
             "production": {
+              "preserveSymlinks": true,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,

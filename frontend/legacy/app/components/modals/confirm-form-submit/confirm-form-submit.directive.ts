@@ -41,7 +41,7 @@ export class ConfirmFormSubmitController {
   private I18n:any;
 
   constructor(protected $element:IAugmentedJQuery) {
-    window.OpenProject.pluginContext.valuesPromise().then((context) => {
+    window.OpenProject.getPluginContext().then((context) => {
       this.confirmDialog = context.services.confirmDialog;
       this.I18n = context.services.i18n;
 

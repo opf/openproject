@@ -1997,14 +1997,6 @@
         "tslib": "^1.9.0"
       }
     },
-    "@angular/upgrade": {
-      "version": "6.0.0",
-      "resolved": "https://registry.npmjs.org/@angular/upgrade/-/upgrade-6.0.0.tgz",
-      "integrity": "sha512-YpRqxcYzJ14Z98jNaAFzLCIxid3yZdmQFQw6i/E+Jkd9nj77A1/5GqnCWkKCs2C5BbbIe8uqDvVsGWDII61XRQ==",
-      "requires": {
-        "tslib": "^1.9.0"
-      }
-    },
     "@mrmlnc/readdir-enhanced": {
       "version": "2.2.1",
       "resolved": "https://registry.npmjs.org/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz",
@@ -9858,7 +9850,7 @@
     "jquery-mockjax": {
       "version": "2.2.2",
       "resolved": "https://registry.npmjs.org/jquery-mockjax/-/jquery-mockjax-2.2.2.tgz",
-      "integrity": "sha1-nH0rEDpEz2HJnMeKnueHhQS2CQc=",
+      "integrity": "sha512-stVgUln5bo7g14KjeU45c31nAYlBHAUVBo4JbdoDYIJ3i6Nzlu8mkjKcAviwad9AU1dBEHHpuzA7R6mKcWgvZA==",
       "dev": true,
       "requires": {
         "jquery": ">=1.5.2"

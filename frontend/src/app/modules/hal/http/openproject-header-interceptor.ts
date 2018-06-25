@@ -15,11 +15,12 @@ export class OpenProjectHeaderInterceptor implements HttpInterceptor {
       .set('X-Requested-With', 'XMLHttpRequest');
 
     if (csrf_token) {
-      newHeaders.set('X-CSRF-TOKEN',  csrf_token);
+      newHeaders = newHeaders.set('X-CSRF-TOKEN',  csrf_token);
     }
 
     // Clone the request to add the new header
     const clonedRequest = req.clone({
+      withCredentials: true,
       headers: newHeaders
     });
 

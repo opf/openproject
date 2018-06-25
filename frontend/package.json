@@ -41,7 +41,6 @@
     "@angular/platform-browser": "6.0.0",
     "@angular/platform-browser-dynamic": "6.0.0",
     "@angular/router": "6.0.0",
-    "@angular/upgrade": "6.0.0",
     "@types/angular": "^1.6.45",
     "@types/assertion-error": "^1.0.30",
     "@types/es6-shim": "^0.31.32",

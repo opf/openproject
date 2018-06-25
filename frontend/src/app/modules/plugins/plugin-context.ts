@@ -11,6 +11,13 @@ import {HelpTextDmService} from "../hal/dm-services/help-text-dm.service";
 import {AttributeHelpTextsService} from "../common/help-texts/attribute-help-text.service";
 import {AttributeHelpTextModal} from "../common/help-texts/attribute-help-text.modal";
 import {DynamicContentModal} from "../../components/modals/modal-wrapper/dynamic-content.modal";
+import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
+import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service";
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -31,9 +38,14 @@ export class OpenProjectPluginContext {
     hooks: this.injector.get<HookService>(HookService),
     i18n: this.injector.get<I18nService>(I18nService),
     notifications: this.injector.get<NotificationsService>(NotificationsService),
+    wpNotifications: this.injector.get<WorkPackageNotificationService>(WorkPackageNotificationService),
     opModalService: this.injector.get<OpModalService>(OpModalService),
+    opFileUpload: this.injector.get<OpenProjectFileUploadService>(OpenProjectFileUploadService),
     helpTextDm: this.injector.get<HelpTextDmService>(HelpTextDmService),
-    attributeHelpTexts: this.injector.get<AttributeHelpTextsService>(AttributeHelpTextsService)
+    attributeHelpTexts: this.injector.get<AttributeHelpTextsService>(AttributeHelpTextsService),
+    displayField: this.injector.get<DisplayFieldService>(DisplayFieldService),
+    editField: this.injector.get<EditFieldService>(EditFieldService),
+    wpCache: this.injector.get<WorkPackageCacheService>(WorkPackageCacheService),
   };
 
   // Random collection of classes needed outside of angular
@@ -41,8 +53,10 @@ export class OpenProjectPluginContext {
     modals: {
       passwordConfirmation: PasswordConfirmationModal,
       attributeHelpTexts: AttributeHelpTextModal,
-      dynamicContent: DynamicContentModal
-    }
+      dynamicContent: DynamicContentModal,
+    },
+    HalResource: HalResource,
+    DisplayField: DisplayField
   };
 
   // Hooks
