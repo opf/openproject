@@ -1,4 +1,4 @@
-<modal-wrapper>
+<section data-augmented-model-wrapper>
   <a class="modal-wrapper--activation-link" title="<%= log_entry.class.human_attribute_name('response_body') %>">
     <%= op_icon('icon-info1') %>
     <%= t(:button_show) %>
@@ -18,12 +18,11 @@
           </pre>
         </div>
         <div class="modal--footer">
-          <button class="button"
-                  ng-click="closeThisDialog()"
+          <button class="button dynamic-content-modal--close-button button"
                   title="<%= t(:button_close) %>">
             <%= t(:button_close)%>
           </button>
         </div>
       </div>
   </div>
-</modal-wrapper>
+</section>
