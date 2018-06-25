@@ -67,7 +67,7 @@ export class MainMenuResizerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscription = this.toggleService.allData$
+    this.subscription = this.toggleService.titleData$
       .pipe(
         distinctUntilChanged(),
         untilComponentDestroyed(this)
@@ -152,4 +152,3 @@ export class MainMenuResizerComponent implements OnInit, OnDestroy {
     this.toggleService.setWidth(this.elementWidth);
   }
 }
-
