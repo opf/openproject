@@ -45,7 +45,6 @@ RUN cp docker/Procfile .
 RUN sed -i "s|Rails.groups(:opf_plugins)|Rails.groups(:opf_plugins, :docker)|" config/application.rb
 
 # Run the npm postinstall manually after it was copied
-RUN cd frontend && npm run postinstall
 RUN DATABASE_URL=sqlite3:///tmp/db.sqlite3 SECRET_TOKEN=foobar RAILS_ENV=production bundle exec rake assets:precompile
 
 CMD ["./docker/web"]
