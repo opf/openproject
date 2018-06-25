@@ -1637,6 +1637,15 @@ th:
   mail_subject_reminder: มี %{count} ชุดภารกิจกำลังจะครบกำหนดในอีก %{days} วัน
   mail_subject_wiki_content_added: มีการเพิ่มหน้าวิกิ '%{id}' แล้ว
   mail_subject_wiki_content_updated: มีการปรับปรุงหน้าวิกิ '%{id}' แล้ว
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: ฟังก์ชันเพิ่มเติม
   noscript_description: คุณจำเป็นต้องเปิดใช้ JavaSript เพื่อใช้งาน OpenProject ก่อน!
   noscript_heading: ไม่ได้เปิดใช้ JavaScript

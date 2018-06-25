@@ -1656,6 +1656,15 @@ id:
   mail_subject_reminder: "%{count} Paket-Penugasan akan berakhir %{days} hari lagi"
   mail_subject_wiki_content_added: Halaman Wiki '%{id}' telah ditambahkan
   mail_subject_wiki_content_updated: Halaman Wiki '%{id}' telah diupdate
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Fungsi lainnya
   noscript_description: Aktifkan JavaScript di browser Anda untuk menjalankan Software
     ini!

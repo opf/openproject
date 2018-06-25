@@ -303,7 +303,7 @@ cs:
         expires_at: Vyprší za
         subscriber: Odběratel
         encoded_token: Enterprise support token
-        active_user_count_restriction: Maximum active users
+        active_user_count_restriction: Maximální počet aktivních uživatelů
       relation:
         delay: Zpoždění
         from: Pracovní balíček
@@ -356,7 +356,7 @@ cs:
         mail_notification: E-mailová upozornění
         new_password: Nové heslo
         password_confirmation: Potvrzení
-        consented_at: Consented at
+        consented_at: Souhlas udělen
       user_preference:
         comments_sorting: Zobrazit komentáře
         hide_mail: Skrýt svou e-mailovou adresu
@@ -711,7 +711,7 @@ cs:
   button_unlock: Odemknout
   button_unwatch: Přestat sledovat
   button_update: Aktualizovat
-  button_upgrade: Upgrade
+  button_upgrade: Upgradovat
   button_upload: Nahrát
   button_view: Zobrazit
   button_watch: Sledovat
@@ -1700,6 +1700,15 @@ cs:
   mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Další funkce
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: Javascript zakázán
@@ -2088,9 +2097,9 @@ cs:
   setting_commit_logtime_activity_id: Aktivita pro odpracovaný čas
   setting_commit_logtime_enabled: Povolit zaznamenávání času
   setting_commit_ref_keywords: Referencing keywords
-  setting_consent_time: Consent time
+  setting_consent_time: Čas souhlasu
   setting_consent_info: Consent information text
-  setting_consent_required: Consent required
+  setting_consent_required: Souhlas vyžadován
   setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Allow cross-project work package relations
   setting_date_format: Formát data
@@ -2549,7 +2558,7 @@ cs:
       years: Roky
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
-  title_enterprise_upgrade: Upgrade to unlock more users.
+  title_enterprise_upgrade: Upgradujte pro odemčení více uživatelů.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
     be used for active users to choose a new authentication method. When used with
@@ -2618,11 +2627,11 @@ cs:
   note_password_login_disabled: Password login has been disabled by %{configuration}.
   warning: Varování
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
-  warning_user_limit_reached: User limit reached. Please <a href="%{upgrade_url}">upgrade</a>
-    to allow for additional users.
-  warning_user_limit_reached_instructions: 'You reached your user limit (%{current}/%{max}
-    active users). Please contact sales@openproject.com to upgrade your Enterprise
-    Edition plan and add additional users.
+  warning_user_limit_reached: Dosažel limit počtu uživatelů. Prosím <a href="%{upgrade_url}">upgradujte</a>
+    pro přidání více uživatelů.
+  warning_user_limit_reached_instructions: 'Limit počtu uživatelů (%{current}/%{max}
+    aktivních uživatelů) dosažen. Prosím kontaktujte sales@openproject.com a upgradujte
+    vaši Enterprise Edition a přidejte další uživatele.
 
 '
   menu_item: Položka nabídky

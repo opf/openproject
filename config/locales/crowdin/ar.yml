@@ -1734,6 +1734,15 @@ ar:
   mail_subject_reminder: الحزمة (الحزم) %{count} العمل الواجب في الأيام القادمة %{days}
   mail_subject_wiki_content_added: تم إضافة صفحة wiki '%{id}'
   mail_subject_wiki_content_updated: تم تحديث صفحة wiki '%{id}'
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: المزيد من الوظائف
   noscript_description: تحتاج إلى تفعيل جافا سكريبت لاستخدام open project!
   noscript_heading: جافا سكريبت

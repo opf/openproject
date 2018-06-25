@@ -1554,6 +1554,15 @@ lol:
   mail_subject_reminder: crwdns93577:0%{count}crwdnd93577:0%{days}crwdne93577:0
   mail_subject_wiki_content_added: crwdns93578:0%{id}crwdne93578:0
   mail_subject_wiki_content_updated: crwdns93579:0%{id}crwdne93579:0
+  mail_user_activation_limit_reached:
+    subject: crwdns98992:0crwdne98992:0
+    message: 'crwdns98993:0%{email}crwdnd98993:0%{host}crwdne98993:0
+
+'
+    steps:
+      label: crwdns98994:0crwdne98994:0
+      a: crwdns98995:0[here]crwdne98995:0
+      b: crwdns98996:0[here]crwdne98996:0
   more_actions: crwdns93580:0crwdne93580:0
   noscript_description: crwdns93581:0crwdne93581:0
   noscript_heading: crwdns93582:0crwdne93582:0

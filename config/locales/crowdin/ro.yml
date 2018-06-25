@@ -1692,6 +1692,15 @@ ro:
     %{days} zile"
   mail_subject_wiki_content_added: Pagina de wiki '%{id}' a fost adăugată
   mail_subject_wiki_content_updated: Pagina wiki '%{id}' a fost actualizată
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Mai multe acțiuni
   noscript_description: Trebuie să activaţi JavaScript pentru a utiliza OpenProject!
   noscript_heading: JavaScript dezactivat

@@ -42,7 +42,7 @@ it:
         assistenza Enterprise Edition attivo.
       enterprise_link: Per ulteriori informazioni, clicca qui.
   announcements:
-    show_until: Visualizza fino a
+    show_until: Mostra fino a
     is_active: attualmente visualizzato
     is_inactive: attualmente non visualizzato
   attribute_help_texts:
@@ -521,7 +521,7 @@ it:
               not_a_valid_parent: non è valido.
             start_date:
               violates_relationships: può essere impostata solo su %{soonest_start}
-                o successiva per non violare le relazioni del pacchetto di lavori.
+                o successiva per non violare le relazioni dei pacchetti di lavoro.
             status_id:
               status_transition_invalid: non è valido perché non esiste alcuna transizione
                 valida dal vecchio al nuovo status sulla base del ruolo dell'utente
@@ -1051,7 +1051,7 @@ it:
       projects: Progetti visibili più recenti in questa istanza.
       users: Utenti registrati più recenti in questa istanza.
     blocks:
-      community: Comunità OpenProject
+      community: Comunità di OpenProject
       upsale:
         become_hero: Diventa un eroe!
         title: Aggiorna ad Enterprise Edition
@@ -1069,7 +1069,7 @@ it:
       glossary: Glossario
       shortcuts: Tasti di scelta rapida
       forums: Forum
-      blog: Blog OpenProject
+      blog: Blog di OpenProject
       boards: Forum della Comunità
       newsletter: Avvisi di sicurezza / Notizie
   links:
@@ -1115,7 +1115,7 @@ it:
   label_all: tutti
   label_all_time: tutto il tempo
   label_all_words: Tutte le parole
-  label_always_visible: Visualizzato sempre
+  label_always_visible: Sempre visibile
   label_announcement: Annuncio
   label_and_its_subprojects: "%{value} e i suoi sotto-progetti"
   label_api_access_key: Chiave di accesso API
@@ -1695,6 +1695,15 @@ it:
     %{days} giorni"
   mail_subject_wiki_content_added: La pagina wiki '%{id}' è stata aggiunta
   mail_subject_wiki_content_updated: La pagina wiki '%{id}' è stata aggiornata
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: 'To allow the user to sign in you can either: '
+      a: Upgrade your payment plan ([here](upgrade_url))
+      b: Lock or delete an existing user ([here](users_url))
   more_actions: Altre funzioni
   noscript_description: È necessario attivare JavaScript per poter usare OpenProject!
   noscript_heading: JavaScript disabilitato
